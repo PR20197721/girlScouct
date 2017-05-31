@@ -1,4 +1,8 @@
-var resizeWindow = function(e) {
+/*global $, console, vtk_accordion, adjust_pdf_links*/
+/*jslint eqeq:true */
+
+var resizeWindow = function (e) {
+    "use strict";
     //make sure fixVertical is defined.
     //if(typeof fixVerticalSizing != 'undefined' && fixVerticalSizing === true) {
     //get height of the actual page
@@ -20,6 +24,7 @@ var resizeWindow = function(e) {
 };
 //need to add class for small screens only on the footer links.
 function addClassGrid() {
+    "use strict";
     if ($(window).width() < 640) {
         $('.footer-navigation > div:nth-of-type(1) ul').addClass('small-block-grid-2');
         $('.footer-navigation > div:nth-of-type(2) ul').css('text-align', 'center');
@@ -31,24 +36,26 @@ function addClassGrid() {
 }
 
 function link_bg_square() {
-
-    $(".meeting").each(function() {
+    "use strict";
+    $(".meeting").each(function () {
         var test = $(this).find('.subtitle a').attr('href');
 
-        $(this).find('.bg-square').on('click', function() {
+        $(this).find('.bg-square').on('click', function () {
             location.href = test;
-        })
+        });
     });
 }
 
 function attendance_popup_width() {
-    var modal = $(".modal-attendance").parent();
+    "use strict";
+    var modal = $(".modal-attendance").parent(),
+        wd_wdth = $(window).width(),
+        middle;
     modal.addClass('small');
-    var wd_wdth = $(window).width();
     modal.width("40%");
     if ($(window).width() > 641) {
         if (modal.width() < wd_wdth) {
-            var middle = modal.width() / 2;
+            middle = modal.width() / 2;
             modal.css('margin-left', "-" + middle + 'px');
         }
     } else {
@@ -58,12 +65,13 @@ function attendance_popup_width() {
 }
 
 function anchorCheck() {
-    $('.accordion dt > :first-child').each(function(i, value) {
-        var parsysID = $(value).parent().data('target');
-        var target = $(this).parent().next().find('.content');
-        var toggle = $(this);
-        var parsysID = $(this).parent().data('target');
-        var anchor = $(this).parent().attr('id');
+    "use strict";
+    $('.accordion dt > :first-child').each(function (i, value) {
+        var //parsysID = $(value).parent().data('target'),
+            target = $(this).parent().next().find('.content'),
+            toggle = $(this),
+            parsysID = $(this).parent().data('target'),
+            anchor = $(this).parent().attr('id');
         if (anchor != "" && window.location.hash.replace("#", "") == anchor) {
             toggle.addClass('on');
             target.slideDown();
@@ -72,42 +80,14 @@ function anchorCheck() {
     });
 }
 
-
-
-$(document).ready(function() {
-    resizeWindow();
-    addClassGrid();
-    vtk_accordion();
-    attendance_popup_width();
-    adjust_pdf_links();
-});
-
-
-$(window).load(function() {
-    var currentMainHeight = $('.inner-wrap').height();
-    //get the height of the window
-    var windowHeight = $(window).height();
-    var targetMainHeight = (windowHeight - currentMainHeight);
-    if (targetMainHeight != 0) {
-        resizeWindow();
-        addClassGrid();
-        attendance_popup_width();
-    }
-    anchorCheck();
-});
-
-
 function vtk_accordion_main() {
-    $('.accordion dt > :first-child').on('click', function(e) {
-
+    "use strict";
+    $('.accordion dt > :first-child').on('click', function (e) {
         e.stopPropagation();
 
-        var target = $(this).parent().data('target');
-
-        var toggle = $(this);
-
+        var target = $(this).parent().data('target'),
+            toggle = $(this);
         $('#' + target).slideToggle('slow');
-
         $(toggle).toggleClass('on');
 
         //For Web Component. See main.js:toggleParsys
@@ -120,50 +100,100 @@ function vtk_accordion_main() {
 }
 
 function web_accordion_main() {
+    "use strict";
+    /*$('.accordion dt > :first-child').on('click', function (e) {
+        //close and remove classes first
+        $('.accordion dd .content').slideUp('slow');
+        $('.accordion dt > :first-child').removeClass('on');
+        $('.accordion dt').removeClass('on');
 
-    $('.accordion dt > :first-child').on('click', function(e) {
-            //close and remove classes first
-            $('.accordion dd .content').slideUp('slow');
-            $('.accordion dt > :first-child').removeClass('on');
-            $('.accordion dt').removeClass('on');
-
-            $('.accordion dt > :first-child').each(function(i, value) {
-                var parsysID = $(value).parent().data('target');
-                //Necessary for authoring mode. See main.js:toggleParsys
-                if (window[parsysID] != null && window[parsysID].hideParsys != undefined) {
-                    window[parsysID].hideParsys();
-                }
-            });
-
-            var target = $(this).parent().next().find('.content');
-            var toggle = $(this);
-            var parsysID = $(this).parent().data('target');
-
-            if (target.is(':visible')) {
-                toggle.removeClass('on');
-                target.slideUp();
-                $(this).parent().removeClass('on');
-
-                if (window[parsysID] != null && window[parsysID].hideParsys != undefined) {
-                    window[parsysID].hideParsys();
-                }
-
-            } else {
-
-                toggle.addClass('on');
-                target.slideDown();
-                $(this).parent().addClass('on');
-
-                if (window[parsysID] != null && window[parsysID].showParsys != undefined) {
-                    window[parsysID].showParsys();
-                }
+        $('.accordion dt > :first-child').each(function (i, value) {
+            var parsysID = $(value).parent().data('target');
+            //Necessary for authoring mode. See main.js:toggleParsys
+            if (window[parsysID] != null && window[parsysID].hideParsys != undefined) {
+                window[parsysID].hideParsys();
             }
-
-            return false;
         });
 
+        var target = $(this).parent().next().find('.content'),
+            toggle = $(this),
+            parsysID = $(this).parent().data('target');
 
-        anchorCheck();
+        if (target.is(':visible')) {
+            toggle.removeClass('on');
+            target.slideUp();
+            $(this).parent().removeClass('on');
+
+            if (window[parsysID] != null && window[parsysID].hideParsys != undefined) {
+                window[parsysID].hideParsys();
+            }
+
+        } else {
+            toggle.addClass('on');
+            target.slideDown();
+            $(this).parent().addClass('on');
+
+            if (window[parsysID] != null && window[parsysID].showParsys != undefined) {
+                window[parsysID].showParsys();
+            }
+        }
+
+        return false;
+    });*/
+
+    var openClass = "on";
+
+    function toggleTab(panel) {
+        // Necessary for authoring mode. See main.js:toggleParsys
+        if (window[panel.parsysID] && window[panel.parsysID].toggle) {
+            window[panel.parsysID].toggle();
+        }
+        panel.tab.toggleClass(openClass);
+        panel.header.toggleClass(openClass);
+        panel.body.animate({
+            "height": panel.targetHeight()
+        }, {
+            duration: "slow", // 600ms
+            queue: false,
+            complete: function () { // Allow for responsive content height
+                panel.body.css("height", panel.fixHeight);
+            }
+        });
+    }
+
+    $(".accordion dt").on("click", function () {
+        var oldPanelTab = $(".accordion > dt." + openClass),
+            oldPanel = {
+                tab: oldPanelTab,
+                header: oldPanelTab.find("> :first-child"),
+                body: oldPanelTab.next(),
+                targetHeight: function () {
+                    return 0;
+                },
+                fixHeight: 0,
+                parsysID: oldPanelTab.attr("data-target")
+            },
+            newPanelTab = $(this),
+            newPanel = {
+                tab: newPanelTab,
+                header: newPanelTab.find("> :first-child"),
+                body: newPanelTab.next(),
+                targetHeight: function () { // Calculate height after parsys is shown
+                    return this.body.children().outerHeight(true);
+                },
+                fixHeight: "auto",
+                parsysID: newPanelTab.attr("data-target")
+            };
+
+        if (oldPanel.tab.is(newPanel.tab)) {
+            toggleTab(oldPanel); // Close current tab
+        } else {
+            toggleTab(oldPanel); // Close old tab
+            toggleTab(newPanel); // Open new tab
+        }
+    });
+
+    //anchorCheck();
 
 }
 
@@ -177,36 +207,57 @@ SUPPORT 5526-10047044 Accordion Module Issue
 ============================================== */
 
 function vtk_accordion() {
-        if ($('.accordion').length) { //Check if there is any accordion in the page
-            if ($('body').has('.vtk').length) { //check if the user is in VTK
-                vtk_accordion_main();
-            } else {
-                web_accordion_main();
-            }
+    "use strict";
+    if ($('.accordion').length) { //Check if there is any accordion in the page
+        if ($('body').has('.vtk').length) { //check if the user is in VTK
+            vtk_accordion_main();
+        } else {
+            web_accordion_main();
         }
     }
+}
 
 function adjust_pdf_links() {
-    $('a').each(function(index, link){
-        var href = $(link).attr('href');
+    "use strict";
+    $('a').each(function (index, link) {
+        var href = $(link).attr('href'),
+            SUFFIX = '.pdf?download=true',
+            suffixIndex = href.indexOf(SUFFIX),
+            newHref = href.substring(0, href.length - SUFFIX.length + 4); // 4 = lengthOf('.pdf')
+
         if (!href) {
             return;
         }
-        var SUFFIX = '.pdf?download=true';
-        var suffixIndex = href.indexOf(SUFFIX);
+
         if (suffixIndex != -1 && suffixIndex == href.length - SUFFIX.length) {
-            var newHref = href.substring(0, href.length - SUFFIX.length + 4); // 4 = lengthOf('.pdf')
             $(link).attr('href', newHref);
             $(link).attr('download', '');
         }
     });
 }
 
+$(window).load(function () {
+    "use strict";
+    var currentMainHeight = $('.inner-wrap').height(),
+        windowHeight = $(window).height(), //get the height of the window
+        targetMainHeight = (windowHeight - currentMainHeight);
+    if (targetMainHeight != 0) {
+        resizeWindow();
+        addClassGrid();
+        attendance_popup_width();
+    }
+    anchorCheck();
+});
 
+$(document).ready(function () {
+    "use strict";
+    resizeWindow();
+    addClassGrid();
+    vtk_accordion();
+    attendance_popup_width();
+    adjust_pdf_links();
 
-
-$(function(){
-    $(window).on('hashchange', function(){
+    $(window).on('hashchange', function () {
         $(location.hash).children('h6').trigger('click');
     });
 });

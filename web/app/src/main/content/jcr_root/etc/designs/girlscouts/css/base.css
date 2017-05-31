@@ -1546,6 +1546,15 @@ padding: 40px 0px 40px 0;
     font-size: 14px;
 }
 
+.accordion .accordion-navigation {
+    overflow: hidden;
+    height: 0;
+}
+
+.accordion .content {
+    display: block;
+}
+
 #main .side-nav li.active li.active > div > a, #main .side-nav li.active.current > div > a {
 	max-width: 170px;
 }
