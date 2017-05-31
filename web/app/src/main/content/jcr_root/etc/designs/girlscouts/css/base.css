@@ -1454,7 +1454,11 @@ form .form_captcha_img {
 }
 form .form_captcha_input {
   height: 40px;
-
+}
+form .form_field_text,
+form .form_field_select,
+form .form_field_textarea {
+  max-width: 100%;
 }
 /*styles for updates list pages */
 .update-list .more-link:after {
