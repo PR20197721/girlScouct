@@ -1009,7 +1009,7 @@ function printYearPlans(reloginSelect) {
 }
 
 function replaceMeetingHref(mPath, mDate) {
-alert(11);
+
     var replaceMeeting = document.getElementById("replaceMeeting");
     var replaceMeetingSmall = document.getElementById("replaceMeetingSmall");
     if (replaceMeeting != null) {
