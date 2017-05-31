@@ -112,19 +112,10 @@
 
 %>
 
-
-
-
-<style>
-.readmore-js-toggle{
-	padding-bottom:20px;
-}
-</style>
-
 <script>
 $(".searchResultsList article").readmore({
 	speed: 75,
-	maxHeight: 117,
+	maxHeight: 114, // 19px line-height * 6 visible lines
 	heightMargin: 16,
 	moreLink: '<a href="#">Read more</a>',
 	lessLink: '<a href="#">Close</a>',
