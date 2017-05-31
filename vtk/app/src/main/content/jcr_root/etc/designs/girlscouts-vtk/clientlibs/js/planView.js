@@ -355,9 +355,8 @@ function rmMeetingWithConf(mPath, mDate, ageGroup, meetingName){
 }
 
 
-
 function rmMeetingSingle(rmDate, mid) {
-alert("rmMeetingSingle...");
+
     $.ajax({
         url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
         type: 'POST',
