@@ -301,8 +301,7 @@
 						user.getCurrentYear(),
 						request.getParameterMap());
 				return;
-			case RmMeeting:
-System.err.println("RmMeeting "+ request.getParameter("mid") );				
+			case RmMeeting:			
 				meetingUtil.rmMeeting( user, troop, request.getParameter("mid") );
 				//meetingUtil.rmSchedDate(user, troop,Long.parseLong(request.getParameter("rmDate")));
 				return;
