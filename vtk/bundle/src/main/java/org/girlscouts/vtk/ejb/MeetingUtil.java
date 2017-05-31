@@ -1128,7 +1128,8 @@ public class MeetingUtil {
 		boolean isRmDt = false;
 		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		
-		meetings = VtkUtil.schedMeetings( meetings, troop.getYearPlan().getSchedule().getDates() );
+		if( troop.getYearPlan().getSchedule() !=null )
+			meetings = VtkUtil.schedMeetings( meetings, troop.getYearPlan().getSchedule().getDates() );
 
 		for (int i = 0; i < meetings.size(); i++) {
 			
