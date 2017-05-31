@@ -146,14 +146,14 @@
 			            <catTags2
 			                jcr:primaryType="cq:Widget"
 			                allowBlank="{Boolean}true"
-			                fieldLabel="Creativity And The Arts"
+			                fieldLabel="Creativity and the Arts"
 			                name="./creativityAndTheArts"
 			                xtype="selection"
 			                type="checkbox"
 			                itemId="tagsField2">
 			                <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Creativity_And_The_Arts,'); } else { catTagsField.setValue(curVal.replace(/Creativity_And_The_Arts,/g,'')); } }"/>
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Creativity_and_the_Arts,'); } else { catTagsField.setValue(curVal.replace(/Creativity_and_the_Arts,/g,'')); } }"/>
 			            	</catTags2>
 			            <catTags3
 			                jcr:primaryType="cq:Widget"
@@ -257,7 +257,7 @@
 				                 itemId="tagsField9" >
 				                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Its_Your_Planet_-_Love_It,'); } else { catTagsField.setValue(curVal.replace(/Its_Your_Planet_-_Love_It,/g,'')); } }"/>
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_Planet_-_Love_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_Planet_-_Love_It,/g,'')); } }"/>
 				             </catTags9>
 				             <catTags10
 				                 jcr:primaryType="cq:Widget"
@@ -269,7 +269,7 @@
 				                 itemId="tagsField10" >
 				                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Its_Your_Story_-_Tell_It,'); } else { catTagsField.setValue(curVal.replace(/Its_Your_Story_-_Tell_It,/g,'')); } }"/>
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_Story_-_Tell_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_Story_-_Tell_It,/g,'')); } }"/>
 				              </catTags10>
 				              <catTags11
 				                 jcr:primaryType="cq:Widget"
@@ -1111,7 +1111,7 @@
                 
                  <meetingPlanTypeAlt
                     jcr:primaryType="cq:Widget"
-                    fieldLabel="Add and ADDITIONAL Meeting Plan Type to this meeting"
+                    fieldLabel="Add an ADDITIONAL Meeting Plan Type to this meeting"
                     name="./meetingPlanTypeAlt"
                     type="radio"
                     xtype="selection">
@@ -1170,7 +1170,7 @@
 				                 itemId="tagsField9x" >
 				                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Its_Your_Planet_-_Love_It,'); } else { catTagsField.setValue(curVal.replace(/Its_Your_Planet_-_Love_It,/g,'')); } }"/>
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_Planet_-_Love_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_Planet_-_Love_It,/g,'')); } }"/>
 				             </catTags9>
 				             <catTags10
 				                 jcr:primaryType="cq:Widget"
@@ -1182,7 +1182,7 @@
 				                 itemId="tagsField10x" >
 				                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Its_Your_Story_-_Tell_It,'); } else { catTagsField.setValue(curVal.replace(/Its_Your_Story_-_Tell_It,/g,'')); } }"/>
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_Story_-_Tell_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_Story_-_Tell_It,/g,'')); } }"/>
 				              </catTags10>
 				              
 				               <catTags11
