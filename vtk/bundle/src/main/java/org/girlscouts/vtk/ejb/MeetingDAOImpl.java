@@ -2808,7 +2808,6 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 		
 		
 		
-		
 String xmlDescriptor = 
 
 
@@ -2825,6 +2824,8 @@ String xmlDescriptor =
 "<field-descriptor fieldName=\"blurb\" jcrName=\"blurb\"/>"+
 "<field-descriptor fieldName=\"cat\" jcrName=\"cat\"/>"+
 "<field-descriptor fieldName=\"catTags\" jcrName=\"catTags\"/>"+
+"<field-descriptor fieldName=\"catTagsAlt\" jcrName=\"catTagsAlt\"/>"+
+"<field-descriptor fieldName=\"meetingPlanTypeAlt\" jcrName=\"meetingPlanTypeAlt\"/>"+
 "<field-descriptor fieldName=\"meetingPlanType\" jcrName=\"meetingPlanType\"/>"+
 
 
@@ -2832,8 +2833,7 @@ String xmlDescriptor =
 InputStream[] in = new InputStream[1];
 in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 		 
-		 
-		 
+
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session, in);//(session,mapper);
 		QueryManager queryManager = ocm.getQueryManager();
 		Field field = new Meeting().getClass().getDeclaredField("activities");
@@ -2846,6 +2846,7 @@ in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 		if (meetings != null)
 			Collections.sort(meetings, comp);
 	
+
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
@@ -2856,6 +2857,7 @@ in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 			ex.printStackTrace();
 		}
 	}
+
 	return meetings;
 	
 
