@@ -56,7 +56,7 @@ function bindSubmitHash(form) {
         }
 
         // Redirect to the results page while maintaining query
-        window.location.href = form.redirectUrl + ".html" + window.location.search + "#" + hash;
+        window.location = form.redirectUrl + ".html" + window.location.search + "#" + hash;
         if (form.currentUrl == form.redirectUrl) {
             window.location.reload();
         }
