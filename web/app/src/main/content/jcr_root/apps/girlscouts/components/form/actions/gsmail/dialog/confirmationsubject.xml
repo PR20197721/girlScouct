@@ -3,4 +3,7 @@
     jcr:primaryType="cq:Widget"
     fieldLabel="Confirmation Subject"
     name="./confirmationSubject"
-    xtype="textfield"/>
+    xtype="textfield"
+    evaluateValidatorsFirst="true"
+    vtype="mailFormConfSubjectFieldValidator"
+    vtypeText="Confirmation Subject field is required when sending confirmation email."/>

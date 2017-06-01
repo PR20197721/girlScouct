@@ -3,4 +3,10 @@
     jcr:primaryType="cq:Widget"
     fieldLabel="BCC"
     name="./bcc"
-    xtype="multifield"/>
+    xtype="multifield">
+	<fieldConfig jcr:primaryType="nt:unstructured" 
+    	xtype="textfield"
+    	evaluateValidatorsFirst="true"
+    	vtype="mailFormEmailFieldValidator" 
+    	vtypeText="This field should be an e-mail address in the format 'user@example.com'"/>
+</jcr:root>

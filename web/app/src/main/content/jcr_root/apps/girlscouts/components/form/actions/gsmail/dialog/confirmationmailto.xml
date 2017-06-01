@@ -4,4 +4,10 @@
     fieldLabel="Confirmation BCC"
     fieldDescription="The recipient of the confirmation email will not see email addresses entered here"
     name="./confirmationmailto"
-    xtype="multifield"/>
+    xtype="multifield" >
+    <fieldConfig jcr:primaryType="nt:unstructured" 
+    	xtype="textfield"
+    	evaluateValidatorsFirst="true" 
+    	vtype="mailFormEmailFieldValidator" 
+    	vtypeText="This field should be an e-mail address in the format 'user@example.com'"/>
+</jcr:root>
