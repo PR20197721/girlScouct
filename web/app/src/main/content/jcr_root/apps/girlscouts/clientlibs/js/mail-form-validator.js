@@ -25,11 +25,16 @@ CQ.Ext.apply(CQ.Ext.form.VTypes, {
 });
 
 function validateMailtoMultiField(field){
-	if((field.items.getCount()-1) < 1){
-		field.markInvalid();
-		return false;
+	var textfields = field.findByType("textfield");
+	if(textfields == null || textfields.length < 1){
+		field.addItem();
+		textfields = field.findByType("textfield");
+		for(i=0; i<textfields.length; i++){
+			if(!textfields[i].isValid()){
+				return false;
+			}
+		}
 	}
-	field.clearInvalid();
 	return true;
 }
 

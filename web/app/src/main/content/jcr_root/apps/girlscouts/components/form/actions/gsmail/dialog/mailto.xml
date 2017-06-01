@@ -6,7 +6,7 @@
     xtype="multifield"
     validate="function(){
         	return validateMailtoMultiField(this);
-        }" >>
+        }" >
     <fieldConfig jcr:primaryType="nt:unstructured" 
     	xtype="textfield"
     	evaluateValidatorsFirst="true"
