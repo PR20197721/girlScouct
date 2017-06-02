@@ -420,7 +420,8 @@ class BadgeComparator implements Comparator<Resource>{
             group,
             activeFilters = {},
             hideClass = "hide",
-            groupClass = "group-";
+            groupClass = "group-",
+            submenu = $(".submenu");
 
         $.fn.show = function () {
             return this.removeClass(hideClass);
@@ -441,23 +442,35 @@ class BadgeComparator implements Comparator<Resource>{
         $(".submenu label").each(function () {
             filter = $(this).html();
             id = $(this).attr("for");
-            try{
-            	group = Number(id.split("-")[1]);
-	            filterSets[filter] = {
-	                badges: $(".badge-block[filter~='" + filter.replace(/\s+/g, '').toLowerCase() + "']"), // Remove all spaces, ~ is for whitespace separated selector
-	                tag: $(".tags label[for='" + id + "']"),
-	                dropdown: $("#dropdown-" + group),
-	                group: group
-	            };
-            }catch(err){}
+            group = Number(id.split("-")[1]);
+            filterSets[filter] = {
+                badges: $(".badge-block[filter~='" + filter.replace(/\s+/g, '').toLowerCase() + "']"), // Remove all spaces, ~ is for whitespace separated selector
+                tag: $(".tags label[for='" + id + "']"),
+                dropdown: $("#dropdown-" + group),
+                group: group
+            };
         });
-        //console.log(filterSets);
 
-        $(".submenu label").on("click", function () {
+        /*$(".submenu label").on("click", function () {
             filter = $(this).html();
-            try{
-            	filterSets[filter].dropdown.click(); // Close dropdown
-            }catch(err){}
+            filterSets[filter].dropdown.click(); // Close dropdown
+        });
+        
+        $(document).on("click", function(event) {
+            var target = $(event.target),
+                dropdown = target.closest(".dropdown > li");
+            if (!dropdown.length) {
+                $(".dropdown > li > input[type='checkbox']").prop("checked", false);
+            }
+        });*/
+        
+        // Close dropdown if open on click
+        $(document).on("click", function() {
+            submenu.each(function () {
+                if ($(this).height() > 1) {
+                    $(this).siblings("input[type='checkbox']").prop("checked", false);
+                }
+            });
         });
 
         $(".submenu input[type='checkbox']").on("change", function () {
