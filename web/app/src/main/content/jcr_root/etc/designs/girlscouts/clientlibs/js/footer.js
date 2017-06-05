@@ -101,49 +101,18 @@ function vtk_accordion_main() {
 
 function web_accordion_main() {
     "use strict";
-    /*$('.accordion dt > :first-child').on('click', function (e) {
-        //close and remove classes first
-        $('.accordion dd .content').slideUp('slow');
-        $('.accordion dt > :first-child').removeClass('on');
-        $('.accordion dt').removeClass('on');
-
-        $('.accordion dt > :first-child').each(function (i, value) {
-            var parsysID = $(value).parent().data('target');
-            //Necessary for authoring mode. See main.js:toggleParsys
-            if (window[parsysID] != null && window[parsysID].hideParsys != undefined) {
-                window[parsysID].hideParsys();
-            }
-        });
-
-        var target = $(this).parent().next().find('.content'),
-            toggle = $(this),
-            parsysID = $(this).parent().data('target');
-
-        if (target.is(':visible')) {
-            toggle.removeClass('on');
-            target.slideUp();
-            $(this).parent().removeClass('on');
-
-            if (window[parsysID] != null && window[parsysID].hideParsys != undefined) {
-                window[parsysID].hideParsys();
-            }
-
-        } else {
-            toggle.addClass('on');
-            target.slideDown();
-            $(this).parent().addClass('on');
-
-            if (window[parsysID] != null && window[parsysID].showParsys != undefined) {
-                window[parsysID].showParsys();
-            }
-        }
-
-        return false;
-    });*/
-
     var openClass = "on";
 
     function toggleTab(panel) {
+        panel = {
+            tab: panel.tab,
+            header: panel.header || panel.tab.find("> :first-child"),
+            body: panel.body || panel.tab.next(),
+            targetHeight: panel.targetHeight,
+            fixHeight: panel.fixHeight,
+            parsysID: panel.parsysID || panel.tab.attr("data-target")
+        };
+
         // Necessary for authoring mode. See main.js:toggleParsys
         if (window[panel.parsysID] && window[panel.parsysID].toggle) {
             window[panel.parsysID].toggle();
@@ -155,34 +124,26 @@ function web_accordion_main() {
         }, {
             duration: "slow", // 600ms
             queue: false,
-            complete: function () { // Allow for responsive content height
+            complete: function () { // Allow for responsive content height when expanded
                 panel.body.css("height", panel.fixHeight);
             }
         });
     }
 
     $(".accordion dt").on("click", function () {
-        var oldPanelTab = $(".accordion > dt." + openClass),
-            oldPanel = {
-                tab: oldPanelTab,
-                header: oldPanelTab.find("> :first-child"),
-                body: oldPanelTab.next(),
+        var oldPanel = {
+                tab: $(".accordion > dt." + openClass),
                 targetHeight: function () {
                     return 0;
                 },
-                fixHeight: 0,
-                parsysID: oldPanelTab.attr("data-target")
+                fixHeight: 0
             },
-            newPanelTab = $(this),
             newPanel = {
-                tab: newPanelTab,
-                header: newPanelTab.find("> :first-child"),
-                body: newPanelTab.next(),
+                tab: $(this),
                 targetHeight: function () { // Calculate height after parsys is shown
                     return this.body.children().outerHeight(true);
                 },
-                fixHeight: "auto",
-                parsysID: newPanelTab.attr("data-target")
+                fixHeight: "auto"
             };
 
         if (oldPanel.tab.is(newPanel.tab)) {
@@ -222,12 +183,14 @@ function adjust_pdf_links() {
     $('a').each(function (index, link) {
         var href = $(link).attr('href'),
             SUFFIX = '.pdf?download=true',
-            suffixIndex = href.indexOf(SUFFIX),
-            newHref = href.substring(0, href.length - SUFFIX.length + 4); // 4 = lengthOf('.pdf')
+            suffixIndex,
+            newHref;
 
         if (!href) {
             return;
         }
+        suffixIndex = href.indexOf(SUFFIX);
+        newHref = href.substring(0, href.length - SUFFIX.length + 4); // 4 = lengthOf('.pdf')
 
         if (suffixIndex != -1 && suffixIndex == href.length - SUFFIX.length) {
             $(link).attr('href', newHref);
