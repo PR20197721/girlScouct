@@ -280,7 +280,7 @@ var yesPlan = (function () {
     function _block() {
                document.getElementById('yearPlanMeetings').style.display = 'block';
         document.getElementById('yearPlanSelection_').style.display = 'none';
-        document.getElementById('showHideReveal').innerHTML = 'SEE YEAR PLAN LIBRARY';
+        document.getElementById('showHideReveal').innerHTML = 'EXPLORE THE YEAR PLAN LIBRARY';
         // document.getElementById('arrowDirection').innerHTML='&#9660;';
         $('#showHideReveal').toggleClass('open').addClass('close');
         $("#empty-yp-directions").show();
@@ -288,10 +288,11 @@ var yesPlan = (function () {
     function _none() {
        document.getElementById('yearPlanMeetings').style.display = 'none';
         document.getElementById('yearPlanSelection_').style.display = 'block';
-        document.getElementById('showHideReveal').innerHTML = 'YEAR PLAN LIBRARY';
+        document.getElementById('showHideReveal').innerHTML = 'EXPLORE THE YEAR PLAN LIBRARY';
         // document.getElementById('arrowDirection').innerHTML='&#9650;';
         $('#showHideReveal').removeClass('close').addClass('open');
         $("#empty-yp-directions").hide();
+        
     }
     function click() {
         _auto = false;
