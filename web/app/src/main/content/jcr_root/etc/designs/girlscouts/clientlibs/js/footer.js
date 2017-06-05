@@ -1,4 +1,4 @@
-/*global $, console, vtk_accordion, adjust_pdf_links*/
+/*global $, console */
 /*jslint eqeq:true */
 
 var resizeWindow = function (e) {
@@ -64,36 +64,77 @@ function attendance_popup_width() {
     }
 }
 
-function anchorCheck() {
+var openClass = "on";
+
+function toggleTab(panel) {
     "use strict";
-    $('.accordion dt > :first-child').each(function (i, value) {
-        var //parsysID = $(value).parent().data('target'),
-            target = $(this).parent().next().find('.content'),
-            toggle = $(this),
-            parsysID = $(this).parent().data('target'),
-            anchor = $(this).parent().attr('id');
-        if (anchor != "" && window.location.hash.replace("#", "") == anchor) {
-            toggle.addClass('on');
-            target.slideDown();
-            $(this).parent().addClass('on');
+
+    if (!panel.tab.length) {
+        return;
+    }
+
+    var targetHeight,
+        fixHeight;
+    if (panel.action == "collapse") {
+        targetHeight = function () {
+            return 0;
+        };
+        fixHeight = 0;
+    } else if (panel.action == "expand") {
+        targetHeight = function () { // Calculate height after parsys is shown
+            return this.body.children().outerHeight(true);
+        };
+        fixHeight = "auto";
+    }
+
+    // Set custom values or use defaults
+    panel = {
+        tab: panel.tab,
+        header: panel.header || panel.tab.find("> :first-child"),
+        body: panel.body || panel.tab.next(),
+        targetHeight: panel.targetHeight || targetHeight,
+        fixHeight: panel.fixHeight || fixHeight,
+        parsysID: panel.parsysID || panel.tab.attr("data-target")
+    };
+
+    // Necessary for authoring mode. See main.js:toggleParsys
+    if (window[panel.parsysID] && window[panel.parsysID].toggle) {
+        window[panel.parsysID].toggle();
+    }
+
+    // Toggle classes and animate
+    panel.tab.toggleClass(openClass);
+    panel.header.toggleClass(openClass);
+    panel.body.animate({
+        "height": panel.targetHeight()
+    }, {
+        duration: "slow", // 600ms
+        queue: false,
+        complete: function () { // Allow for responsive content height when expanded
+            panel.body.css("height", panel.fixHeight);
         }
     });
 }
 
+function anchorCheck() {
+    "use strict";
+    if (window.location.hash) {
+        toggleTab({
+            tab: $(".accordion dt[id=" + window.location.hash.replace("#", "") + "]"),
+            action: "expand"
+        });
+    }
+}
+
 function vtk_accordion_main() {
     "use strict";
-    $('.accordion dt > :first-child').on('click', function (e) {
+    $(".accordion dt").on("click", function (e) {
         e.stopPropagation();
 
-        var target = $(this).parent().data('target'),
-            toggle = $(this);
-        $('#' + target).slideToggle('slow');
-        $(toggle).toggleClass('on');
-
-        //For Web Component. See main.js:toggleParsys
-        if (window[target] !== null && window[target].hasOwnProperty('toggle')) {
-            window[target].toggle();
-        }
+        toggleTab({
+            tab: $(this),
+            action: $(this).hasClass(openClass) ? "collapse" : "expand"
+        });
 
         return false;
     });
@@ -101,49 +142,14 @@ function vtk_accordion_main() {
 
 function web_accordion_main() {
     "use strict";
-    var openClass = "on";
-
-    function toggleTab(panel) {
-        panel = {
-            tab: panel.tab,
-            header: panel.header || panel.tab.find("> :first-child"),
-            body: panel.body || panel.tab.next(),
-            targetHeight: panel.targetHeight,
-            fixHeight: panel.fixHeight,
-            parsysID: panel.parsysID || panel.tab.attr("data-target")
-        };
-
-        // Necessary for authoring mode. See main.js:toggleParsys
-        if (window[panel.parsysID] && window[panel.parsysID].toggle) {
-            window[panel.parsysID].toggle();
-        }
-        panel.tab.toggleClass(openClass);
-        panel.header.toggleClass(openClass);
-        panel.body.animate({
-            "height": panel.targetHeight()
-        }, {
-            duration: "slow", // 600ms
-            queue: false,
-            complete: function () { // Allow for responsive content height when expanded
-                panel.body.css("height", panel.fixHeight);
-            }
-        });
-    }
-
     $(".accordion dt").on("click", function () {
         var oldPanel = {
-                tab: $(".accordion > dt." + openClass),
-                targetHeight: function () {
-                    return 0;
-                },
-                fixHeight: 0
+                tab: $(".accordion dt." + openClass),
+                action: "collapse"
             },
             newPanel = {
                 tab: $(this),
-                targetHeight: function () { // Calculate height after parsys is shown
-                    return this.body.children().outerHeight(true);
-                },
-                fixHeight: "auto"
+                action: "expand"
             };
 
         if (oldPanel.tab.is(newPanel.tab)) {
@@ -153,14 +159,11 @@ function web_accordion_main() {
             toggleTab(newPanel); // Open new tab
         }
     });
-
-    //anchorCheck();
-
 }
 
 /* ============
 
-Girl Scouts: Web PlatformGSWP-542
+Girl Scouts: Web Platform GSWP-542
 SUPPORT 5526-10047044 Accordion Module Issue
 
 ==============================================
