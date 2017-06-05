@@ -159,21 +159,18 @@
                 		jcr:primaryType="cq:Widget"
                 		fieldLabel="Council ID"
                 		fieldDescription="3 digit Council ID"
-                		allowBlank="false"
                 		name="./cid"
                 		xtype="textfield"/>
                 	<dataextensionname
                 		jcr:primaryType="cq:Widget"
                 		fieldLabel="Data Extension Name"
                 		fieldDescription=""
-                		allowBlank="false"
                 		name="./dataextensionname"
                 		xtype="textfield"/>
                 	<dataextensionkey
                 		jcr:primaryType="cq:Widget"
                 		fieldLabel="Data Extension Key"
                 		fieldDescription=""
-                		allowBlank="false"
                 		name="./dataextensionkey"
                 		xtype="textfield"/>      
                 </items>
