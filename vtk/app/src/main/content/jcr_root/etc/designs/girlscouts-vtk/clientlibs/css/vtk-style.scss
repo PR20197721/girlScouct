@@ -908,6 +908,8 @@
         }
       }
       dd {
+        overflow: visible;
+        height: auto;
         .name {
           font-weight: 600;
           vertical-align: middle;

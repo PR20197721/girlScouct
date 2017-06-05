@@ -1542,12 +1542,17 @@ padding: 40px 0px 40px 0;
 }
 .accordion.section dd {
     background: #f8f8f8 none repeat scroll 0 0;
+    overflow: hidden;
+    height: 0;
 }
 .accordion.section .content {
 //    padding: 25px 15px 0;
 }
 .accordion.section dd p, .accordion.section dd ol, .accordion.section dd ul, .accordion.section dd li {
     font-size: 14px;
+}
+.accordion .content {
+    display: block;
 }
 
 #main .side-nav li.active li.active > div > a, #main .side-nav li.active.current > div > a {
