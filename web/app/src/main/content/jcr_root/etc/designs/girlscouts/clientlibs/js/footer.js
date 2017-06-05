@@ -126,20 +126,6 @@ function anchorCheck() {
     }
 }
 
-function vtk_accordion_main() {
-    "use strict";
-    $(".accordion dt").on("click", function (e) {
-        e.stopPropagation();
-
-        toggleTab({
-            tab: $(this),
-            action: $(this).hasClass(openClass) ? "collapse" : "expand"
-        });
-
-        return false;
-    });
-}
-
 function web_accordion_main() {
     "use strict";
     $(".accordion dt").on("click", function () {
@@ -158,6 +144,43 @@ function web_accordion_main() {
             toggleTab(oldPanel); // Close old tab
             toggleTab(newPanel); // Open new tab
         }
+    });
+}
+
+/*function vtk_accordion_main() {
+    "use strict";
+    toggleTab({
+        tab: $(".accordion dt"),
+        action: "expand"
+    });
+    $(".accordion dt").on("click", function (e) {
+        e.stopPropagation();
+
+        toggleTab({
+            tab: $(this),
+            action: $(this).hasClass(openClass) ? "collapse" : "expand"
+        });
+
+        return false;
+    });
+}*/
+
+function vtk_accordion_main() {
+    "use strict";
+    $('.accordion dt > :first-child').on('click', function (e) {
+        e.stopPropagation();
+
+        var target = $(this).parent().data('target'),
+            toggle = $(this);
+        $('#' + target).slideToggle('slow');
+        $(toggle).toggleClass('on');
+
+        //For Web Component. See main.js:toggleParsys
+        if (window[target] !== null && window[target].hasOwnProperty('toggle')) {
+            window[target].toggle();
+        }
+
+        return false;
     });
 }
 
@@ -212,7 +235,6 @@ $(window).load(function () {
         addClassGrid();
         attendance_popup_width();
     }
-    anchorCheck();
 });
 
 $(document).ready(function () {
@@ -220,6 +242,7 @@ $(document).ready(function () {
     resizeWindow();
     addClassGrid();
     vtk_accordion();
+    anchorCheck();
     attendance_popup_width();
     adjust_pdf_links();
 
