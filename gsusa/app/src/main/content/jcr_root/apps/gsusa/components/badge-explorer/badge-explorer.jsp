@@ -14,10 +14,10 @@ class BadgeComparator implements Comparator<Resource>{
 	public int compare(Resource badge1, Resource badge2){
 		try{
 			if(badge1 != null && badge2 != null){
-				ValueMap b1ValMap = badge1.getChild("jcr:content").getValueMap();
-				ValueMap b2ValMap = badge2.getChild("jcr:content").getValueMap();
-				String b1Name = b1ValMap.get("cq:name", String.class);
-				String b2Name = b2ValMap.get("cq:name", String.class);
+				ValueMap b1ValMap = badge1.getChild("jcr:content/metadata").getValueMap();
+				ValueMap b2ValMap = badge2.getChild("jcr:content/metadata").getValueMap();
+				String b1Name = b1ValMap.get("dc:title", String.class);
+				String b2Name = b2ValMap.get("dc:title", String.class);
 				return b1Name.compareTo(b2Name);
 			}	
 		}catch (Exception e){
