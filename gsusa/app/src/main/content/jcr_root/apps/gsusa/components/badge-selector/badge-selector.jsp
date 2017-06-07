@@ -195,25 +195,29 @@ if (tagPaths != null && tagPaths.length > 0) {
                 %><li>
                     <input id="dropdown-<%=dropDwnCnt%>" type="checkbox" name="menu" autocomplete="off" /> 
                     <label for="dropdown-<%=dropDwnCnt%>"><%=dropdownTag.getTitle()%></label><%
-                    Iterator<Tag> subTags = dropdownTag.listChildren();
-                    if (subTags.hasNext()) {
-                        %><div class="submenu">
-                            <ul><%
-                                int subTagCnt = 0;
-                                while (subTags.hasNext()) {
-                                    Tag subTag = subTags.next();
-                                    subTagCnt++;
-                                    if (subTag.getName().startsWith("--")) {
-                                        %><li><div class="divider"></div></li><%
-                                    } else {
-                                        %><li>
-                                            <input id="select-<%=dropDwnCnt%>-<%=subTagCnt%>" type="checkbox" name="menu" autocomplete="off" /> 
-                                            <label for="select-<%=dropDwnCnt%>-<%=subTagCnt%>"><%=subTag.getTitle()%></label>
-                                        </li><%
-                                        sb.append("<label class=\"hide\" for=\"select-" + dropDwnCnt + "-" + subTagCnt + "\">" + subTag.getTitle() + "</label>");
-                                    }
-                                }
-                            %></ul>
+                    int subTagGroupsCnt = 0;
+                    int subTagCnt = 0;
+                    Iterator<Tag> subTagGroups = dropdownTag.listChildren();
+                    if (subTagGroups.hasNext()) {
+                    	%><div class="submenu">
+	                        <ul><%
+	                        while (subTagGroups.hasNext()){
+		                    	if(subTagGroupsCnt > 0){%><li><div class="divider"></div></li><%}
+		                    	subTagGroupsCnt++;
+		                    	Iterator<Tag> subTags = subTagGroups.next().listChildren();
+			                    if (subTags.hasNext()) {                       
+			                        while (subTags.hasNext()) {
+			                            Tag subTag = subTags.next();
+			                            subTagCnt++;
+			                            %><li>
+		                                   <input id="select-<%=dropDwnCnt%>-<%=subTagCnt%>" type="checkbox" name="menu" autocomplete="off" /> 
+		                                   <label for="select-<%=dropDwnCnt%>-<%=subTagCnt%>"><%=subTag.getTitle()%></label>
+		                               </li><%
+		                               sb.append("<label class=\"hide\" for=\"select-" + dropDwnCnt + "-" + subTagCnt + "\">" + subTag.getTitle() + "</label>");
+			                        }
+			                    }
+	                        }
+		                    %></ul>
                         </div><%
                     }
                 %></li><%
