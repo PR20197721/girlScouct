@@ -115,7 +115,7 @@ class BadgeComparator implements Comparator<Resource>{
         min-height: 400px;
         height: 1px; /* For Firefox */
         z-index: 103;
-        padding: 10px 14px;
+        padding: 10px;
     }
     
     @media only screen and (max-width: 767px) {
@@ -151,7 +151,7 @@ class BadgeComparator implements Comparator<Resource>{
     }
     
     .modal-body * {
-        font-size: 12px;
+        font-size: 13px;
         line-height: normal;
     }
 
@@ -159,10 +159,12 @@ class BadgeComparator implements Comparator<Resource>{
     .modal-body ol,
     .modal-body ul {
         margin-bottom: 12px; /* Match font size */
+        color: black;
     }
     
     .modal .title {
         font-weight: 500;
+        font-size: 14px;
     }
 
     .modal .badge-image {
@@ -246,15 +248,15 @@ class BadgeComparator implements Comparator<Resource>{
     .badge-block:before {
         content: '';
         display: block;
-        padding-top: 91.46%; /* 150px height / 164px width aspect ratio */
+        padding-top: 100%; /* 150px height / 164px width aspect ratio */
     }
 
     .badge-inner {
         position: absolute;
-        top: 9px;
-        bottom: 9px;
-        left: 13px;
-        right: 13px;
+        top: 10px;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
         background-color: #f8f8f8;
         text-align: center;
     }
@@ -266,25 +268,27 @@ class BadgeComparator implements Comparator<Resource>{
 
     .badge-image {
         height: 100%;
-        padding: 10px 10px 36px 10px;
+        padding: 17px 10px 47px 10px;
     }
     
     .badge-title-wrapper {
         display: table-cell;
         vertical-align: middle;
         width: 100%;
-        min-height: 27px;
+        min-height: 28px;
         position: absolute;
         left: 0;
         bottom: 0;
         cursor: pointer;
         background-color: white;
+        border-top: 2px solid #dbdcde;
     }
 
     .badge-title {
         font-size: 12px;
         font-weight: 500;
         display: inline-block;
+        color: black;
     }
     
     /* 3 Column - Tablet */
