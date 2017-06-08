@@ -36,7 +36,12 @@ java.util.List<org.girlscouts.vtk.models.Contact> contacts =
    	Contact _contact = contacts.get(contact);
    	if( ! "Girl".equals( _contact.getRole() ) ) continue;
    	
-   	Contact caregiver = VtkUtil.getSubContact( _contact, 1);
+     Contact caregiver = VtkUtil.getSubContact( _contact, 1);
+     	
+   	//check permission again:must be TL
+   	if(!(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
+              user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId() ) ) ){ continue; }
+   
       
       
     %>
