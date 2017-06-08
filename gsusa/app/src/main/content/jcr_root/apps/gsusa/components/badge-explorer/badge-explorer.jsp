@@ -272,10 +272,9 @@ class BadgeComparator implements Comparator<Resource>{
     }
     
     .badge-title-wrapper {
-        display: table-cell;
-        vertical-align: middle;
+        display: table;
         width: 100%;
-        min-height: 28px;
+        min-height: 30px;
         position: absolute;
         left: 0;
         bottom: 0;
@@ -283,11 +282,17 @@ class BadgeComparator implements Comparator<Resource>{
         background-color: white;
         border-top: 2px solid #dbdcde;
     }
+    
+    .badge-title-body {
+        display: table-cell;
+        vertical-align: middle;
+        width: 100%;
+    }
 
     .badge-title {
         font-size: 12px;
         font-weight: 500;
-        display: inline-block;
+        display: block;
         color: black;
     }
     
@@ -372,10 +377,12 @@ class BadgeComparator implements Comparator<Resource>{
 							sb.append("<div class=\"badge-block\" "+filterClassBuilder.toString()+">");
 								sb.append("<div class=\"badge-inner\">");
                                     sb.append("<label class=\"badge-image-wrapper\" for=\""+modalId+"\">");
-									   sb.append("<img class=\"badge-image\" alt=\""+title+"\" src=\"" + regImageSrc + "\" />");
+								        sb.append("<img class=\"badge-image\" alt=\""+title+"\" src=\"" + regImageSrc + "\" />");
                                     sb.append("</label>");
                                     sb.append("<div class=\"badge-title-wrapper\">");
-									   sb.append("<label class=\"badge-title\" for=\""+modalId+"\">"+title+"</label>");
+                                        sb.append("<div class=\"badge-title-body\">");
+                                            sb.append("<label class=\"badge-title\" for=\""+modalId+"\">"+title+"</label>");
+                                        sb.append("</div>");
                                     sb.append("</div>");
 								sb.append("</div>");
 								sb.append("<div class=\"modal\">");
