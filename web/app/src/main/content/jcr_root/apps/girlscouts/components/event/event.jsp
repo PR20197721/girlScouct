@@ -325,7 +325,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 				</div>
 	<% } %>
 
-<% if(regOpenDate != null ) {%>
+<% if(regOpenDate != null && regCloseDate != null) {%>
 	<div class="row">
 	<div class="small-10 medium-10 large-10 columns">
     	<b>Registration:</b>
