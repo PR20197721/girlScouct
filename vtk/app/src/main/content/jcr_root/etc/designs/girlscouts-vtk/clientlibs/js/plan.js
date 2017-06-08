@@ -167,6 +167,13 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
     // });
 }
 
+function execIfIsFirefox() { 
+    var top__ = parseInt($(document).scrollTop());
+    if (! !~ navigator.userAgent.toLowerCase().indexOf('firefox')) {
+            $(document).scrollTop(0);
+    }
+}
+
 function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 
     var wWidth = $(window).width();
@@ -192,14 +199,11 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
             open: function() {
 
                 $('.scroll').css('max-height', ($(window).height() - 75) + 'px');
+
+
                 
-
-
                 $("body").css({ overflow: 'hidden' });
-                // $(".modalWrap").css({
-                //  'max-height': $(window).height() + 'px !important',
-                //  'height': $(window).height() + 'px !important'
-                //  });
+               
                 if (!showTitle) {
                     $(".ui-dialog-titlebar").hide();
                 } else {
@@ -212,6 +216,8 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
                         placeholder_IE9();
                     }
                 }
+
+                execIfIsFirefox();
             },
             close: function() {
                 $("body").css({ overflow: 'inherit' });
@@ -237,6 +243,8 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
                 }
                 $("body").css({ overflow: 'hidden' });
                 placeholder_IE9();
+
+                execIfIsFirefox();
             },
             close: function() {
                 $("body").css({ overflow: 'inherit' });
@@ -305,7 +313,6 @@ var yesPlan = (function () {
         }    
     }
     function _logic() {
-        debugger;
         if (document.getElementById('yearPlanMeetings').style.display == 'none') {
             _block();
         } else {
