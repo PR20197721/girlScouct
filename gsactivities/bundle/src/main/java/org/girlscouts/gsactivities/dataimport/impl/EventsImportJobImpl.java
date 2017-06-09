@@ -24,6 +24,7 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.query.Query;
+import javax.jcr.Value;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ftp.FTP;
@@ -284,10 +285,36 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					String jsonString = IOUtils.toString(inputStream, "UTF-8").trim();
 					log.info("JSON Length " + jsonString.length());
 					JSONArray jsonArray = new JSONArray(jsonString);
+					
+					Resource etcRes = rr.resolve("/etc");
+					Node etcNode = etcRes.adaptTo(Node.class);
+			        Resource gsPagesRes = rr.resolve("/etc/gs-delayed-activations");
+			        Node gsPagesNode = null;
+			        if(gsPagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+						gsPagesNode = etcNode.addNode("gs-delayed-activations");
+			        }else{
+				        gsPagesNode = gsPagesRes.adaptTo(Node.class);
+			        }
+			        ArrayList<String> toActivate = new ArrayList<String>();
+        	    	String [] pagesProp;
+        	    	
+        	    	if(!gsPagesNode.hasProperty("pages")){
+        	    		pagesProp = toActivate.toArray(new String[0]);
+        	    	}else{
+        	    		Value[] propValues = gsPagesNode.getProperty("pages").getValues();
+        	    		for(int i=0; i<propValues.length; i++){
+        	    			toActivate.add(propValues[i].getString());
+        	    		}
+        	    	}
+        	    	pagesProp = toActivate.toArray(new String[0]);
+        	    	gsPagesNode.setProperty("pages", pagesProp);
+        	    	Session session = rr.adaptTo(Session.class);
+        			session.save();
+					
 					for (int i = 0; i < jsonArray.length(); i++) {
 						try {
 							final JSONObject jsonObject = jsonArray.getJSONObject(i);
-							parseJson(jsonObject);
+							parseJson(jsonObject, toActivate);
 						} catch(Exception e) {//catch inside loop, continue to next file
 							log.error(e.getMessage());
 							errors.get(zipName).put("entry"+i, e);
@@ -311,7 +338,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}
 	}
 
-	private void parseJson(JSONObject jsonObject) throws JSONException, GirlScoutsException {
+	private void parseJson(JSONObject jsonObject, ArrayList<String> toActivate) throws JSONException, GirlScoutsException {
 		String action =jsonObject.getString("action");
 		JSONObject payload = jsonObject.getJSONObject("payload");
 		if (action.equalsIgnoreCase("PUT")) {
@@ -327,7 +354,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			}
 			//Then we replicate the node here
 			try {
-				replicateNode(newPath);
+				replicateNode(newPath, toActivate);
 			} catch (Exception e) {
 				throw new GirlScoutsException(e, "Fail to ACTIVIATE the Node from author with path: " + newPath);
 			}
@@ -343,8 +370,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}
 	}
 	
-	private void replicateNode(String newPath) throws GirlScoutsException {
-		Session session = rr.adaptTo(Session.class);
+	private void replicateNode(String newPath, ArrayList<String> toActivate) throws GirlScoutsException {
+		/* Session session = rr.adaptTo(Session.class);
 		try {
 			replicator.replicate(session, ReplicationActionType.ACTIVATE, newPath);
 		} catch (NullPointerException npe) {
@@ -353,8 +380,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		} catch (Exception e) {
 			//e.printStackTrace();
 			throw new GirlScoutsException(e, "Fail to Activates the path: " + newPath + ". " + e.getMessage());
-		}
-		log.info("<---------EVENT ACTIVIATED: " + newPath + " -------->");
+		} */
+		toActivate.add(newPath);
+		log.info("<---------EVENT SET TO ACTIVIATE: " + newPath + " -------->");
 	}
 	
 	private String put(JSONObject payload) throws GirlScoutsException {
