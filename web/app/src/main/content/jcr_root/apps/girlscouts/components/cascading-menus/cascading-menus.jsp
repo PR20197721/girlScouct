@@ -146,6 +146,6 @@
  <%=menuBuilder %>
 <script>
 	$(document).ready(function() {
-		$('#main .side-nav li.active.current').parent().parent().find(">div>a").css({"font-weight":"bold", "color":"#414141"});
+		$('#main .side-nav li.active.current').parent().parent().find(">div>a").css({"font-weight":"600", "color":"#414141"});
 	});
 </script>
