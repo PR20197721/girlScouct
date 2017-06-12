@@ -12,6 +12,6 @@ CLEANUP_DAYS=7
 cd $DIR
 curl -u "$USER:$PASS" -X POST http://localhost:$PORT/crx/packmgr/service/.json/etc/packages/my_packages/$PACKAGE.zip?cmd=build
 sleep 3
-wget --user "$USER" --password "$PASS" http://localhost:$PORT/etc/packages/my_packages/$PACKAGE.zip
-mv $PACKAGE.zip $PACKAGE-`date +"%m%d%Y"`.zip
+curl -u "$USER:$PASS" http://localhost:$PORT/etc/packages/my_packages/$PACKAGE.zip > tmp.zip
+mv tmp.zip $PACKAGE-`date +"%m%d%Y"`.zip
 find . -name "$PACKAGE-*.zip" -type f -mtime +$CLEANUP_DAYS -exec rm {} \;
