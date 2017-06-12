@@ -1,11 +1,22 @@
-<%@ page import="java.io.StringReader,com.itextpdf.text.html.simpleparser.HTMLWorker,com.itextpdf.text.DocumentException,com.itextpdf.text.pdf.PdfWriter,java.io.ByteArrayOutputStream,java.util.Set,java.util.HashSet,com.itextpdf.text.pdf.PdfWriter,com.itextpdf.text.Document,java.util.List, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.io.StringReader,
+	com.itextpdf.text.html.simpleparser.HTMLWorker,
+	com.itextpdf.text.DocumentException,
+	com.itextpdf.text.pdf.PdfWriter,
+	java.io.ByteArrayOutputStream,
+	java.util.Set,
+	java.util.HashSet,
+	com.itextpdf.text.pdf.PdfWriter,
+	com.itextpdf.text.Document,
+	java.util.List,
+	org.girlscouts.vtk.models.*,
+	org.girlscouts.vtk.dao.*,
+	org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="session.jsp"%>
 <%
     SimpleDateFormat FORMAT_MMM_dd_yyyy = new SimpleDateFormat("MMM dd, yyyy");
     response.setContentType("application/pdf");
-	List<Contact> contacts =
-	contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
+	List<Contact> contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
 	Document document = new Document(); 
 	
 	StringBuffer pdfData= new StringBuffer("<div class=\"row\">");
