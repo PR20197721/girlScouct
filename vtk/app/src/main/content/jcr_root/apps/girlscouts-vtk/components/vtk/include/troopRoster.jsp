@@ -10,7 +10,7 @@
 <cq:defineObjects/>
 <%@include file="session.jsp"%>
 <%
-      response.setContentType("application/pdf");
+response.setContentType("application/pdf");
 java.util.List<org.girlscouts.vtk.models.Contact> contacts =
 	contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
 	Document document = new Document(); 
@@ -42,13 +42,11 @@ StringBuffer pdfData= new StringBuffer("<div class=\"row\"> "+
    	Contact _contact = contacts.get(contact);
    	if( ! "Girl".equals( _contact.getRole() ) ) continue;
    	
-     Contact caregiver = VtkUtil.getSubContact( _contact, 1);
+    Contact caregiver = VtkUtil.getSubContact( _contact, 1);
      	
    	//check permission again:must be TL
    	if(!(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
               user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId() ) ) ){ continue; }
-   
-      System.err.println("**: "+ _contact.getFirstName());
 
 
 	pdfData.append("<div class=\"row\">"+
