@@ -1,12 +1,11 @@
 <%@ page import="java.io.StringReader,
 	com.itextpdf.text.html.simpleparser.HTMLWorker,
+	com.itextpdf.text.Document,
 	com.itextpdf.text.DocumentException,
 	com.itextpdf.text.pdf.PdfWriter,
 	java.io.ByteArrayOutputStream,
 	java.util.Set,
 	java.util.HashSet,
-	com.itextpdf.text.pdf.PdfWriter,
-	com.itextpdf.text.Document,
 	java.util.List,
 	org.girlscouts.vtk.models.*,
 	org.girlscouts.vtk.dao.*,
@@ -14,8 +13,8 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="session.jsp"%>
 <%
-    SimpleDateFormat FORMAT_MMM_dd_yyyy = new SimpleDateFormat("MMM dd, yyyy");
-    response.setContentType("application/pdf");
+	SimpleDateFormat FORMAT_MMM_dd_yyyy = new SimpleDateFormat("MMM dd, yyyy");
+	response.setContentType("application/pdf");
 	List<Contact> contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
 	Document document = new Document(); 
 	
@@ -39,10 +38,10 @@
 	pdfData.append("<div class=\"small-3 large-3 columns\">PARENT PHONE</div>");
 	pdfData.append("</div>");
 
-    if( contacts!=null)
-	    for (Contact gsContact : contacts) {
-		   	if( ! "Girl".equals( gsContact.getRole() ) ) continue;
-		     Contact caregiver = VtkUtil.getSubContact( gsContact, 1);
+	if (contacts!=null) {
+		for (Contact gsContact : contacts) {
+			if( ! "Girl".equals( gsContact.getRole() ) ) continue;
+		 	Contact caregiver = VtkUtil.getSubContact( gsContact, 1);
 		     	
 		   	//check permission again:must be TL
 		   	if(!(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
@@ -54,18 +53,18 @@
 			pdfData.append("<div class=\"small-3 large-3 columns\">"+ gsContact.getEmail() +"</div>");
 			pdfData.append("<div class=\"small-3 large-3 columns\">"+ (gsContact.getPhone() ==null ? "" : gsContact.getPhone())+"</div>");
 			pdfData.append("</div>");
+		}
        }
 
 	try{
-	   ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-			PdfWriter.getInstance(document, response.getOutputStream());
-			document.open();
-			HTMLWorker htmlWorker = new HTMLWorker(
-					document);
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		PdfWriter.getInstance(document, response.getOutputStream());
+		document.open();
+		HTMLWorker htmlWorker = new HTMLWorker(document);
 	        htmlWorker.parse(new StringReader(pdfData.toString()));
-			document.close();
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		}
+		document.close();
+	} catch (DocumentException e) {
+		log.error("There was a Document exception", e);
+	}
 
-	%>
+%>
