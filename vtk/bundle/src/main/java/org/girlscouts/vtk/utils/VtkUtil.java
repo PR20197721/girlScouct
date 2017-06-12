@@ -81,7 +81,7 @@ public class VtkUtil  implements ConfigListener{
 	public static final SimpleDateFormat FORMAT_Md = new SimpleDateFormat("M/d");
 	public static final SimpleDateFormat FORMAT_yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
 	public static final SimpleDateFormat FORMAT_YYYYMMdd = new SimpleDateFormat("yyyyMMdd");
-	
+
 	public static boolean isLocation(java.util.List<Location> locations,
 			String locationName) {
 		if (locations != null && locationName != null) {
