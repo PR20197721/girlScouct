@@ -1,6 +1,8 @@
 #!/bin/bash
 # This script backs up a package, download, rename it and cleanup obsolete packages.
 # Original written to backup NASA data on stage pub.
+# Example crontab:
+# 0 1 * * * /home/mzhou/NASA-bk/backupNASA.sh
 
 DIR=/home/mzhou/NASA-bk
 PORT=4503
