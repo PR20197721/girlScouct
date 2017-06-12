@@ -11,7 +11,7 @@
     	response.setContentType("application/pdf");
 	Document document = new Document(); 
     try {
-			URL oracle = new URL("http://localhost:4503/content/girlscouts-vtk/en/vtk.include.troopRoster.html");
+			URL oracle = new URL("http://localhost:4503/content/girlscouts-vtk/controllers/vtk.include.troopRoster.html");
 	        BufferedReader in = new BufferedReader(
 	        new InputStreamReader(oracle.openStream()));
 	
@@ -27,6 +27,7 @@
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		PdfWriter.getInstance(document, response.getOutputStream());
 		document.open();
+		
 		com.itextpdf.text.html.simpleparser.HTMLWorker htmlWorker = new com.itextpdf.text.html.simpleparser.HTMLWorker(
 				document);
         htmlWorker.parse(new java.io.StringReader(binputLine.toString()));
