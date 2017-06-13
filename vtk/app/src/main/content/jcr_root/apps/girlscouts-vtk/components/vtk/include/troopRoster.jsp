@@ -18,6 +18,7 @@ com.itextpdf.text.pdf.PdfWriter,
  com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext,
  java.nio.charset.Charset,
  java.io.File,
+com.itextpdf.text.pdf.PdfPTable,
  com.itextpdf.tool.xml.pipeline.end.ElementHandlerPipeline,
  java.io.FileInputStream,
  java.io.FileOutputStream,
@@ -37,26 +38,22 @@ com.itextpdf.text.pdf.PdfWriter,
     
         StringBuffer pdfData= new StringBuffer();
     
-        pdfData.append("<div class=\"row\">");
-        pdfData.append("<div class=\"small-12 large-12 columns\">"+ (troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-") +1) )+"  "+troop.getSfTroopName() +"</div>");
-        pdfData.append("</div>");
+		pdfData.append("<table >");
+		pdfData.append("<tr><td>"+ (troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-") +1) )+"  "+troop.getSfTroopName() +"</td></tr>");
+
     
-        pdfData.append("<div class=\"row\">");
-        pdfData.append("<div class=\"small-12 large-12 columns\">"+FORMAT_MMM_dd_yyyy.format( new java.util.Date() )+"</div> ");
-        pdfData.append("</div>");
-        
-        pdfData.append("<div class=\"row\">");
-        pdfData.append("<div class=\"small-3 large-3 columns\">"+ (contacts==null ? "" : contacts.size() )+" GIRLS</div>");
-        pdfData.append("<div class=\"small-9 large-9 columns\"></div>");
-        pdfData.append("</div>");
-        
-        pdfData.append("<div class=\"row\">");
-        pdfData.append("<div class=\"small-3 large-3 columns\">GIRL SCOUT</div>");
-        pdfData.append("<div class=\"small-3 large-3 columns\">PARENT GUARDIAN</div>");
-        pdfData.append("<div class=\"small-3 large-3 columns\">PARENT EMAIL</div>");
-        pdfData.append("<div class=\"small-3 large-3 columns\">PARENT PHONE</div>");
-        pdfData.append("</div>");
-    
+
+        pdfData.append("<tr><td>"+FORMAT_MMM_dd_yyyy.format( new java.util.Date() )+"</td></tr> ");
+
+        pdfData.append("<tr><td>"+ (contacts==null ? "" : contacts.size() )+" GIRLS</td></tr>");
+
+        pdfData.append("<tr><td><table>");
+        pdfData.append("<tr><th>GIRL SCOUT</th>");
+        pdfData.append("<th>PARENT GUARDIAN</th>");
+        pdfData.append("<th>PARENT EMAIL</th>");
+        pdfData.append("<th>PARENT PHONE</th>");
+        pdfData.append("</tr>");
+
         if( contacts!=null)
             for (Contact gsContact : contacts) {
     
@@ -67,16 +64,18 @@ com.itextpdf.text.pdf.PdfWriter,
             if(!(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
                      user.getApiConfig()==null || user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId() ) ) ){ continue; }
     
-            pdfData.append("<div class=\"row\">");
-            pdfData.append("<div class=\"small-3 large-3 columns\">"+( gsContact.getFirstName() +" "+ gsContact.getRole()) +"</div>");
-            pdfData.append("<div class=\"small-3 large-3 columns\">"+ (caregiver==null ? "" : (caregiver.getFirstName()==null ? "" : caregiver.getFirstName())) +" "+ ((caregiver.getLastName() ==null ? "" :caregiver.getLastName()  ))+"</div>");
-            pdfData.append("<div class=\"small-3 large-3 columns\">"+ gsContact.getEmail() +"</div>");
-            pdfData.append("<div class=\"small-3 large-3 columns\">"+ (gsContact.getPhone() ==null ? "" : gsContact.getPhone())+"</div>");
-            pdfData.append("</div>");
+
+            pdfData.append("<tr><td>"+( gsContact.getFirstName() +" "+ gsContact.getRole()) +"</td>");
+            pdfData.append("<td>"+ (caregiver==null ? "" : (caregiver.getFirstName()==null ? "" : caregiver.getFirstName())) +" "+ ((caregiver.getLastName() ==null ? "" :caregiver.getLastName()  ))+"</td>");
+            pdfData.append("<td>"+ gsContact.getEmail() +"</td>");
+            pdfData.append("<td>"+ (gsContact.getPhone() ==null ? "" : gsContact.getPhone())+"</td></tr>");
+
        }
-    
+
+ 		pdfData.append("</table></td></tr></table>");
+
        Document document = new Document();
-       String CSS = "tr { text-align: center; } th { background-color: lightgreen; padding: 3px; } td {background-color: lightblue;  padding: 3px; }";
+String CSS = "tr { text-align: center; } th { background-color: lightgreen; padding: 3px; } td {font-size:10px; background-color: lightblue;  padding: 3px; }";
     
 
 
@@ -103,7 +102,7 @@ com.itextpdf.text.pdf.PdfWriter,
         document.open();
 
         for(int i=0;i<elements.size();i++){
-            document.add( (PdfDiv)elements.get(i) );
+            document.add( (PdfPTable)elements.get(i) );
         }
         document.close();
 
