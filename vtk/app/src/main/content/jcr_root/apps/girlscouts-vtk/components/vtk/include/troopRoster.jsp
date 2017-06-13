@@ -56,7 +56,7 @@ com.itextpdf.text.pdf.PdfPTable,
 
         if( contacts!=null)
             for (Contact gsContact : contacts) {
-    
+
             if( ! "Girl".equals( gsContact.getRole() ) ) continue;
              Contact caregiver = VtkUtil.getSubContact( gsContact, 1);
     
@@ -75,7 +75,7 @@ com.itextpdf.text.pdf.PdfPTable,
  		pdfData.append("</table></td></tr></table>");
 
        Document document = new Document();
-String CSS = "tr { text-align: center; } th { background-color: lightgreen; padding: 3px; } td {font-size:10px; background-color: lightblue;  padding: 3px; }";
+String CSS = "tr { text-align: center; } th { background-color: #efefef; padding: 3px; } td {text-align:left; font-size:10px; background-color: #FFFFFF;  padding: 3px; }";
     
 
 
