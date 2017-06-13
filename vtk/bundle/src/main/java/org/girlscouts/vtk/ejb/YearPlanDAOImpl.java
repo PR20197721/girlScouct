@@ -29,6 +29,7 @@ import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
@@ -208,6 +209,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             	 Iterable<Resource> meetings = myResource.getChildren();
             	 for (Resource meeting : meetings) {
             		 String refId = meeting.getValueMap().get("refId").toString();
+            		 int position = Integer.parseInt( meeting.getValueMap().get("id").toString() );
             		 Resource meetingResource = resourceResolver.getResource( refId );
             		 if( meetingResource==null ) continue;
             		 ValueMap valueMap = meetingResource.getValueMap();
@@ -215,7 +217,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             		 Meeting meetingInfo = new Meeting();
             		 meetingInfo.setName( valueMap.get("name").toString());
             		 meetingInfo.setBlurb(valueMap.get("blurb").toString());
-            		 //meetingInfo.setPosition( Integer.parseInt( valueMap.get("position").toString() ) );
+            		 meetingInfo.setPosition( position );
             		 meetingInfo.setId(valueMap.get("id").toString());
             		 meetingInfo.setCat(valueMap.get("cat").toString());
             		 
@@ -240,12 +242,17 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             	 }
              }
              
-             /*
-           //sort meetings by position
-     		Comparator<Meeting> comp = new BeanComparator("position");
-     		if (meetingInfos != null)
-     			Collections.sort(meetingInfos, comp);
-     		*/
+             Comparator<MeetingE> comp = new Comparator<MeetingE>() {
+     			public int compare(MeetingE m1, MeetingE m2) {
+     					return m1.getMeetingInfo().getPosition().compareTo(m2.getMeetingInfo().getPosition());
+     				}
+     		 };
+     		 Collections.sort(meetingInfos, comp);
+           
+     		 for(int i=0;i<meetingInfos.size();i++){
+     			 System.err.println("test sort: "+ meetingInfos.get(i).getMeetingInfo().getPosition());
+     		 }
+     		 
              yearPlan.setMeetingEvents(meetingInfos);
 		} catch (Exception e) {
 			e.printStackTrace();
