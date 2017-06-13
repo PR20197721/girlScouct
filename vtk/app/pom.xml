@@ -64,7 +64,7 @@
         <artifactId>commons-beanutils</artifactId>
         <version>1.8.3</version>
     </dependency>
-        <dependency>
+    <dependency>
         <groupId>com.itextpdf.tool</groupId>
         <artifactId>xmlworker</artifactId>
         <version>5.4.1</version>
@@ -155,7 +155,7 @@
               <target>/apps/girlscouts-vtk/install</target>
             </embedded>
             <embedded>
-              <groupId>com.itextpdf</groupId>
+              <groupId>com.itextpdf.tool</groupId>
               <artifactId>xmlworker</artifactId>
               <target>/apps/girlscouts-vtk/install</target>
             </embedded>
