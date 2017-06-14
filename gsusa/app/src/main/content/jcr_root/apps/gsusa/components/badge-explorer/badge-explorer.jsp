@@ -243,32 +243,49 @@ class BadgeComparator implements Comparator<Resource>{
         width: 164px;
         background-color: #dbdcde;
         vertical-align: middle; /* To remove inline-block bottom spacing */
-    }
-    
-    .badge-block:before {
-        content: '';
-        display: block;
-        padding-top: 100%; /* 150px height / 164px width aspect ratio */
+        padding: 10px;
     }
 
-    .badge-inner {
-        position: absolute;
-        top: 10px;
-        bottom: 10px;
-        left: 10px;
-        right: 10px;
+    .badge-content {
+        width: 100%;
         background-color: #f8f8f8;
         text-align: center;
     }
     
+    .badge-body {
+        width: 100%;
+        position: relative;
+    }
+    
+    .badge-body:before {
+        content: '';
+        display: block;
+        padding-top: 100%; /* 1:1 aspect ratio */
+    }
+    
     .badge-image-wrapper {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    
+    .badge-image-body {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .badge-image-inner {
+        display: table-cell;
+        vertical-align: middle;
         width: 100%;
         height: 100%;
     }
 
     .badge-image {
-        height: 100%;
-        padding: 5px 10px 43px 10px; /* 43px = image 5px + title 38px */
+        padding: 15px;
     }
     
     .badge-title-wrapper {
@@ -276,9 +293,6 @@ class BadgeComparator implements Comparator<Resource>{
         width: 100%;
         min-height: 38px;
         height: 1px; /* For Firefox */
-        position: absolute;
-        left: 0;
-        bottom: 0;
         cursor: pointer;
         background-color: white;
         border-top: 2px solid #dbdcde;
@@ -377,10 +391,16 @@ class BadgeComparator implements Comparator<Resource>{
 								filterClassBuilder.append("\"");
 							}
 							sb.append("<div class=\"badge-block\" "+filterClassBuilder.toString()+">");
-								sb.append("<div class=\"badge-inner\">");
-                                    sb.append("<label class=\"badge-image-wrapper\" for=\""+modalId+"\">");
-								        sb.append("<img class=\"badge-image\" alt=\""+title+"\" src=\"" + regImageSrc + "\" />");
-                                    sb.append("</label>");
+								sb.append("<div class=\"badge-content\">");
+                                    sb.append("<div class=\"badge-body\">");
+                                        sb.append("<label class=\"badge-image-wrapper\" for=\""+modalId+"\">");
+                                            sb.append("<div class=\"badge-image-body\">");
+                                                sb.append("<div class=\"badge-image-inner\">");
+                                                    sb.append("<img class=\"badge-image\" alt=\""+title+"\" src=\"" + regImageSrc + "\" />");
+                                                sb.append("</div>");
+                                            sb.append("</div>");
+                                        sb.append("</label>");
+                                    sb.append("</div>");
                                     sb.append("<div class=\"badge-title-wrapper\">");
                                         sb.append("<div class=\"badge-title-body\">");
                                             sb.append("<label class=\"badge-title\" for=\""+modalId+"\">"+title+"</label>");
