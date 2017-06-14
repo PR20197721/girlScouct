@@ -64,7 +64,6 @@
     <module>replication-bundle</module>
     <module>scaffolding-bundle</module>
     <module>ical4j-wrapper</module>
-    <module>itextpdf-wrapper</module>
     <module>beanutils-wrapper</module>
     <module>google-collections-wrapper</module>
     <module>googleinject-wrapper</module>
