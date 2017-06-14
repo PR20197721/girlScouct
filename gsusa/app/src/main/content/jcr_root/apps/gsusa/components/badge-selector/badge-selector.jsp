@@ -23,7 +23,7 @@
         /* 190+25+190 */
         width: 100%;
         padding: 0;
-        color: black;
+        color: #222;
         margin-bottom: 12px;
     }
 
@@ -64,7 +64,7 @@
         line-height: 28px;
         transition: background 0.3s;
         cursor: pointer;
-        color: black;
+        color: #222;
         text-decoration: none;
         white-space: nowrap;
     }

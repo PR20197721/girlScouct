@@ -147,24 +147,24 @@ class BadgeComparator implements Comparator<Resource>{
         background-color: #f7f8f9;
         width: 100%;
         height: 100%;
-        padding: 28px 23px 45px 23px; /* 45px = wrapper 25px + btn-get 20px */
+        padding: 28px 23px 50px 23px; /* 50px = wrapper 30px + btn-get 20px */
     }
     
     .modal-body * {
-        font-size: 13px;
+        font-size: 14px;
         line-height: normal;
     }
 
     .modal-body p,
     .modal-body ol,
     .modal-body ul {
-        margin-bottom: 12px; /* Match font size */
-        color: black;
+        margin-bottom: 14px; /* Match font size */
+        color: #222;
     }
     
     .modal .title {
         font-weight: 500;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .modal .badge-image {
@@ -178,7 +178,7 @@ class BadgeComparator implements Comparator<Resource>{
     @media only screen and (max-width: 767px) {
         .modal-body {
             display: table;
-            padding-bottom: 60px; /* 60px = wrapper 25px + btn-get 20px + 15px margin */
+            padding-bottom: 65px; /* 65px = wrapper 30px + btn-get 20px + margin 15px */
         }
         
         .modal .header {
@@ -215,11 +215,11 @@ class BadgeComparator implements Comparator<Resource>{
 
     .modal .btn-get {
         display: block;
-        width: 104px;
-        line-height: 25px;
+        width: 125px;
+        line-height: 30px;
         text-align: center;
         margin: 0 auto;
-        background-color: #60af79;
+        background-color: #00AE58;
         color: #fefefe;
         text-decoration: none;
     }
@@ -268,13 +268,14 @@ class BadgeComparator implements Comparator<Resource>{
 
     .badge-image {
         height: 100%;
-        padding: 17px 10px 47px 10px;
+        padding: 5px 10px 43px 10px; /* 43px = image 5px + title 38px */
     }
     
     .badge-title-wrapper {
         display: table;
         width: 100%;
-        min-height: 30px;
+        min-height: 38px;
+        height: 1px; /* For Firefox */
         position: absolute;
         left: 0;
         bottom: 0;
@@ -287,13 +288,14 @@ class BadgeComparator implements Comparator<Resource>{
         display: table-cell;
         vertical-align: middle;
         width: 100%;
+        padding: 0 5px;
     }
 
     .badge-title {
         font-size: 12px;
-        font-weight: 500;
+        font-weight: 600;
         display: block;
-        color: black;
+        color: #222;
     }
     
     /* 3 Column - Tablet */
@@ -401,7 +403,7 @@ class BadgeComparator implements Comparator<Resource>{
                                                 sb.append("</div>");
 												sb.append("<div class=\"btn-get-wrapper\">");
 												if(description != null && description.trim().length() > 0){
-													sb.append("<a class=\"btn-get\" href=\""+description+"\" target=\"_blank\">Get This Badge</a>");
+													sb.append("<a class=\"btn-get\" href=\""+description+"\" target=\"_blank\">GET THIS BADGE</a>");
 												}
 												sb.append("</div>");
 											sb.append("</div>");
