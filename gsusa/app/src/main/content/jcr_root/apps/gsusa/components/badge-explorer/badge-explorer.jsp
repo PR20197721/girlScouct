@@ -400,7 +400,9 @@ class BadgeComparator implements Comparator<Resource>{
 												    sb.append("<div class=\"description\">"+restrictions+"</div>");
                                                 sb.append("</div>");
 												sb.append("<div class=\"btn-get-wrapper\">");
+												if(description != null && description.trim().length() > 0){
 													sb.append("<a class=\"btn-get\" href=\""+description+"\" target=\"_blank\">Get This Badge</a>");
+												}
 												sb.append("</div>");
 											sb.append("</div>");
 										sb.append("</div>");
