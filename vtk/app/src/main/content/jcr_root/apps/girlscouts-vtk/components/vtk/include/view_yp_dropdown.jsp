@@ -7,10 +7,7 @@
   </div>
 
   <div id="yearPlanSelection_" <%= (troop.getYearPlan()!=null) ? "style=\"display: none\"":" " %> >
-    <!--<div class="row">
-      <p class="large-20 medium-20 large-centered medium-centered columns">To start planning your year, select a Year Plan.</p>
-    </div> 
-    <div id="cngYearPlan"></div>-->
+
     <div id="vtk-yp-main"></div>
 
   </div>
@@ -24,9 +21,31 @@
   var ________isYearPlan________ = <%=troop.getYearPlan()!=null ? true: false %>;
   var ________troopName________ = "<%=troop.getSfTroopName() %>";  
 
-  window.onload = function () {
-    startYPApp();
+  function IE(v) {
+    return RegExp('msie' + (!isNaN(v)?('\\s'+v):''), 'i').test(navigator.userAgent);
   }
+
+
+  window.onload = function () {
+    
+    if(IE(10)||IE(11)){
+      gsDialog({
+		content: 'You are attempting to access the Volunteer Toolkit with an internet browser that is unsupported. Please use Chrome as the preferred Volunteer Toolkit browser for the best experience. Thank you!',
+		headerText: '--- Atention ---',
+		buttons : [	{
+					text: "OK",
+					click: function () {
+						$(this).dialog("close");
+					}
+		}]
+	})
+    }else{
+       startYPApp();
+    }
+   
+ 
+
+ }
 
 </script>
 
