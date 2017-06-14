@@ -572,6 +572,21 @@ function rmMeetingSingle(rmDate, mid) {
     });
 }
 
+function rmMeetingWithConfBlocked(mPath, mDate, ageGroup, meetingName) {
+	
+	gsDialog({
+		content: 'AT THE PRESENT TIME, YOU CANT delete the ' + ageGroup + ' meeting, "' + meetingName + '" from your Year Plan. REMOVE ATTENDANCE/ACH',
+		headerText: 'Delete Meeting',
+		buttons : [	{
+					text: "CANCEL",
+					click: function () {
+						$(this).dialog("close");
+					}
+	
+			}],
+		width:600
+	})
+}
 
 var getDataIfModified;
 (function() {

@@ -260,7 +260,7 @@
 										Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
 										if( (attendance!=null && attendance.getUsers()!=null && !attendance.getUsers().trim().equals("") )||
 												( achievement!=null && achievement.getUsers()!=null && !achievement.getUsers().trim().equals("") ) ){	
-											  %><a href="#" onclick="rmMeetingWithConf( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">NO delete meeting</a><%
+											  %><a href="#" onclick="rmMeetingWithConfBlocked( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a><%
 										}else{
 											  %><a href="#" onclick="rmMeetingWithConf( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a><%
 									    }
