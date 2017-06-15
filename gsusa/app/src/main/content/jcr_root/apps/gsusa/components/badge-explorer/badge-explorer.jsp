@@ -310,6 +310,7 @@ class BadgeComparator implements Comparator<Resource>{
         font-weight: 600;
         display: block;
         color: #222;
+        line-height: 1.2em;
     }
     
     /* 3 Column - Tablet */
