@@ -572,6 +572,21 @@ function rmMeetingSingle(rmDate, mid) {
     });
 }
 
+function rmMeetingWithConfBlocked(mPath, mDate, ageGroup, meetingName) {
+	
+	gsDialog({
+		content: '<p>The ' + ageGroup + ' meeting, "' + meetingName + '" cannot be deleted. Attendance and/or achievement details for this meeting are recorded for the girls in your troop.</p><p>If you still wish to delete it, you must first uncheck these details in the meeting; however, doing so will result in a permanent loss of this data.</p>',
+		headerText: 'Delete Meeting',
+		buttons : [	{
+					text: "OK",
+					click: function () {
+						$(this).dialog("close");
+					}
+	
+			}],
+		width:600
+	})
+}
 
 var getDataIfModified;
 (function() {
