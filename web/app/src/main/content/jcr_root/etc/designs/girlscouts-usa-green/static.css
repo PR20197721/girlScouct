@@ -69,7 +69,7 @@ Font : Open Sans
   font-family: 'Trefoil Sans Web';
   src: url("../girlscouts/fonts/trefoilsans-regularit.eot");
   src: local("Trefoil Sans Web Regular It"), local("TrefoilSansWeb-RegularIt"), url("../girlscouts/fonts/trefoilsans-regularit.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-regularit.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-regularit.woff") format("woff");
-  font-weight: 400;
+  font-weight: 600;
   font-style: italic;
 }
 @font-face {
@@ -368,7 +368,7 @@ a:hover.menuHighlight {
 #header span {
   color: #FAA61A;
   font-size: 1.0em;
-  font-weight: bold;
+  font-weight: 600;
   line-height: 1;
 }
 #header a {
@@ -435,7 +435,7 @@ a:hover.menuHighlight {
   /* background-color:#063;*/
 }
 #headerBar .global-navigation {
-  padding-left: 52px;
+  padding-left: 42px;
   font-family: "Trefoil Sans Web Nav";
 }
 #headerBar .global-navigation ul.inline-list {
