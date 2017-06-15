@@ -42,7 +42,7 @@
 <%@include file="session.jsp"%>
 
 <% 
-response.setHeader("Content-Disposition", "inline; filename=\"TroopRoster.pdf\"");
+	response.setHeader("Content-Disposition", "inline; filename=\"TroopRoster.pdf\"");
 
         SimpleDateFormat FORMAT_MMM_dd_yyyy = new SimpleDateFormat("MMM dd, yyyy");
         response.setContentType("application/pdf");
