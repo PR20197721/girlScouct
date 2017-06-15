@@ -431,7 +431,7 @@
 					
 						<% if("myTroop".equals(activeTab) &&  VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID) ) { %>
 						   <li><a
-							title="print" href="/content/girlscouts-vtk/controllers/vtk.include.troopRoster.html" target="_blank"><i class="icon-printer"></i></a></li>
+							title="print" href="/content/girlscouts-vtk/controllers/vtk.include.troopRoster.pdf" target="_blank"><i class="icon-printer"></i></a></li>
                         <%}%>
 					
 						<%if(activeTab!=null  && ( "plan".equals(activeTab) || (  pageContext.getAttribute("YearPlanComponent")!=null && ((String)pageContext.getAttribute("YearPlanComponent")).equals("MEETING")  &&  "planView".equals(activeTab) )) ){ %>
