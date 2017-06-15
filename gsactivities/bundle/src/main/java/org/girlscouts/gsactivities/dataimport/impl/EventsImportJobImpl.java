@@ -177,7 +177,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		this.salesforcePath= OsgiUtil.toString(configs.get(SALESFORCEPATH), null);
 		this.errorRecipients = OsgiUtil.toStringArray(configs.get(ERROR_RECIPIENTS));
 //		log.info("Configure: ftp server="+server+"; username="+user+"; password="+password+"; directory="+directory);	
-		log.info("Configure: ftp server="+server+"; username="+user+"; directory="+directory+"salesforcePath=" + salesforcePath);	
+		log.info("GSActivities:: Configure: ftp server="+server+"; username="+user+"; directory="+directory+"salesforcePath=" + salesforcePath);	
 		ftp = new FTPSClient(false);
 		ftp.setDefaultTimeout(TIME_OUT_IN_MS);
 		try {
@@ -202,11 +202,10 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			if (props.containsKey(LAST_UPD)) {
 				Date date = props.get(LAST_UPD, Date.class);
 				lastUpdated = date==null ? lastUpdated : date;
-				log.info("Last import time stamp=" + ZIP_DATE_FORMAT.format(lastUpdated));	
+				log.info("GSActivities:: Last import time stamp=" + ZIP_DATE_FORMAT.format(lastUpdated));	
 			}
 		} catch (Exception e) {
-			errorString.append("Failed to read: " + CONFIG_PATH + ".   ");
-			errorString.append('\n');
+			errorString.append("<p>Failed to read: " + CONFIG_PATH + "</p>");
 			log.error("GSActivities:: Failed to read " + CONFIG_PATH);
 		}
 	}
@@ -220,9 +219,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			session.save();
 			log.info("GSActivities:: The last updated timestamp has been set as " + ZIP_DATE_FORMAT.format(lastUpdated)+"written to "+CONFIG_PATH);
 		} catch (Exception e) {
-			errorString.append("Failed to store the timestamp.   ");
-			errorString.append('\n');
-			errorString.append('\n');
+			errorString.append("<p>Failed to store the timestamp.</p>");
 			log.error("GSActivities:: Failed to store the timeStamp.");
 			e.printStackTrace();
 		}
@@ -259,10 +256,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 							}
 							
 						} 
-						newFiles.add(zipName);
+						
 					}catch(ParseException e){
-						errorString.append("Invalid format for date in zipfile title: " + zipName + ".   ");
-						errorString.append('\n');
+						errorString.append("<p>Invalid format for date in zipfile title: " + zipName + ".</p>");
 						log.error("GSActivities:: Invalid format for date in zipfile title: "+zipName, e);
 						processInterrupted = true;
 						throw new GirlScoutsException(e,"Invalid file name format supplied. Unable to proceeed without comporromising data integrity.");
@@ -291,8 +287,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			if(lastIndex < newFiles.size() - 1){
 				lastIndex++;
 				String failedZipName = newFiles.get(lastIndex);
-				errorString.append("Failed to download the file " + failedZipName + " from the server.   ");
-				errorString.append('\n');
+				errorString.append("<p>Failed to download the file " + failedZipName + " from the server.</p>");
 				processInterrupted = true;
 				log.error("GSActivities:: Failed to download the file " + failedZipName + " from the server.");
 			}
@@ -302,8 +297,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			writeTimeStamp();
 			
 		}else{
-			errorString.append("Unable to find the event file directory " + directory + " on the server.   ");
-			errorString.append('\n');
+			errorString.append("<p>Unable to find the event file directory " + directory + " on the server.</p>");
 			processInterrupted = true;
 			log.error("GSActivities:: Not able to find the directory /"+directory+" on the server");
 		}
@@ -317,6 +311,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		int lastIndex = 0;
 		
 		for (String zip : newFiles) {
+			log.info("GSActivities:: Loading file " + zip);
 			try{
 				List<JSONObject> output = this.parseFtpInput(ftp, zip);
 				ZipData data = new ZipData(zip, output);
@@ -326,8 +321,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				
 				log.error("GSActivities:: Exception thrown when loading file "+ zip + "into the processing queue: ", e);
 				
-				errorString.append("Exception thrown when loading file "+ zip + "into the processing queue: with message: " + e.getMessage() + ".   ");
-				errorString.append('\n');
+				errorString.append("<p>Exception thrown when loading file "+ zip + "into the processing queue: with message: " + e.getMessage() + ".</p>");
 				
 				this.processInterrupted = true;
 				
@@ -351,28 +345,23 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				} catch (ValueFormatException e) {
 					log.error("GSActivities:: Encountered exception while parsing JSON for file "+ data.getZipName(), e);
 					
-					errorString.append("Encountered exception while parsing JSON for file "+ data.getZipName() + "with message: " + e.getMessage() + ".   ");
-					errorString.append('\n');
+					errorString.append("<p>Encountered exception while parsing JSON for file "+ data.getZipName() + "with message: " + e.getMessage() + ".</p>");
 				} catch (PathNotFoundException e) {
 					log.error("GSActivities:: Unable to find path for node while updating activities "+ data.getZipName(), e);
 					
-					errorString.append("Unable to find path for node while updating activities "+ data.getZipName() + "with message: " + e.getMessage() + ".   ");
-					errorString.append('\n');	
+					errorString.append("<p>Unable to find path for node while updating activities "+ data.getZipName() + "with message: " + e.getMessage() + ".</p>");
 				} catch (IllegalStateException e) {
 					log.error("GSActivities:: Encountered exception while accessing the repository for file "+ data.getZipName(), e);
 						
-					errorString.append("Encountered exception while accessing the repository "+ data.getZipName() + "with message: " + e.getMessage() + ".   ");
-					errorString.append('\n');
+					errorString.append("<p>Encountered exception while accessing the repository "+ data.getZipName() + "with message: " + e.getMessage() + ".</p>");
 				} catch (RepositoryException e) {
 					log.error("GSActivities:: Encountered exception while accessing the repository for file "+ data.getZipName(), e);
 					
-					errorString.append("Encountered exception while accessing the repository "+ data.getZipName() + "with message: " + e.getMessage() + ".   ");
-					errorString.append('\n');
+					errorString.append("<p>Encountered exception while accessing the repository "+ data.getZipName() + "with message: " + e.getMessage() + ".</p>");
 				} catch (JSONException e) {
 					log.error("GSActivities:: Encountered exception while parsing JSON for file "+ data.getZipName(), e);
 					
-					errorString.append("Encountered exception while parsing JSON for file "+ data.getZipName() + "with message: " + e.getMessage() + ".   ");
-					errorString.append('\n');
+					errorString.append("<p>Encountered exception while parsing JSON for file "+ data.getZipName() + "with message: " + e.getMessage() + ".</p>");
 				} 
 			}
 			
@@ -481,8 +470,6 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				//This is where we create the node.
 				newPath = put(payload);
 			} catch (Exception e) {
-				errorString.append("Failed to PUT payload " + payloadId + " due to error: " + e.getMessage() + ".   ");
-				errorString.append('\n');
 				log.error("GSActivities:: Failed to PUT payload " + payloadId, e);
 				return;
 				
@@ -494,15 +481,12 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			try {
 				delete(payload);
 			} catch (Exception e) {
-				errorString.append("Failed to DELETE payload " + payloadId + " due to error: " + e.getMessage() + ".   ");
-				errorString.append('\n');
-				log.error("Failed to PUT Payload " + payloadId + " " + e.getMessage());
+				log.error("GSActivities:: Failed to DELETE Payload " + payloadId + " " + e.getMessage());
 				
 			}
 		} else {
-			errorString.append("GSActivities:: No Valid action was avilable for payload " + payloadId);
-			errorString.append('\n');
-			log.error("No Valid action was avilable for payload " + payloadId);
+			errorString.append("<p>No Valid action was avilable for payload " + payloadId + "</p>");
+			log.error("GSActivities:: No Valid action was available for payload " + payloadId);
 		}
 	}
 	
@@ -527,8 +511,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		try {
 			startDate = NO_TIMEZONE_FORMAT.parse(start);
 		} catch (ParseException e) {
-			errorString.append("Failed to parse date: " + start);
-			errorString.append('\n');
+			errorString.append("<p>Failed to parse date: " + start + "</p>");
 			e.printStackTrace();
 			throw new GirlScoutsException(e,"start date format error: " + start);
 		} 
@@ -546,8 +529,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			//need session.save() to persist
 			JcrUtil.createPath(parentPath, "cq:Page", session);
 		} catch (RepositoryException e) {
-			errorString.append("Failed when retrieving or creating parent path:  " + parentPath + " on the server due to error: " + e.getMessage());
-			errorString.append('\n');
+			errorString.append("<p>Failed when retrieving or creating parent path:  " + parentPath + " on the server due to error: " + e.getMessage() + "</p>");
 			e.printStackTrace();
 			throw new GirlScoutsException(e, "Fail to get/create parent path: " + parentPath);
 		}
@@ -582,10 +564,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					jcrNode.setProperty("cq:tags", tags);
 				} 
 			} catch(JSONException e) {
-				errorString.append("No tags found for payload due to error: " + e.getMessage() + ".   ");
-				errorString.append('\n');
-				errorString.append('\n');
-				log.info("no tags found for the payload");
+				
+				log.info("GSActivities:: No tags found for the payload with council code: " + councilCode);
 			}
 			//add data node
 			Node dataNode = JcrUtil.createPath(jcrNode, "data", false, null, "nt:unstructured", session, false);
@@ -593,13 +573,11 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			session.save();
 		} catch (WCMException e) {
 			e.printStackTrace();
-			errorString.append("Failed to create event page under "+parentPath+ " due to error: "+ e.getMessage());
-			errorString.append('\n');
+			errorString.append("<p>Failed to create event page under "+parentPath+ " due to error: "+ e.getMessage()+ "</p>");
 			throw new GirlScoutsException(e,"Fail to create event page under "+parentPath);
 
 		} catch (RepositoryException e){
-			errorString.append("Exception throw when adding data to"+eventPage.getPath()+"/jcr:content with error: " + e.getMessage());
-			errorString.append('\n');
+			errorString.append("<p>Exception throw when adding data to"+eventPage.getPath()+"/jcr:content with error: " + e.getMessage() + "</p>");
 			e.printStackTrace();
 			throw new GirlScoutsException(e, "Exception throw when adding data to"+eventPage.getPath()+"/jcr:content");
 		}
@@ -685,7 +663,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		replicator.replicate(session, ReplicationActionType.DEACTIVATE, pageToDelete.getPath());
 		rr.adaptTo(PageManager.class).delete(pageToDelete, false);
 
-		log.info("<---------EVENT DELETED: Event page [id=" + id + ",path=" + pageToDelete.getPath() + "] deleted successfully.--------->");
+		log.info("GSActivities:: EVENT DELETED: Event page [id=" + id + ",path=" + pageToDelete.getPath() + "] deleted successfully.");
 
 
 	}
@@ -700,8 +678,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				return it.next().getParent().getParent().adaptTo(Page.class);	
 			}
 		} catch (Exception e) {
-			errorString.append("Exception thrown when getting event at: " +path+ " with error: " + e.getMessage());
-			errorString.append('\n');
+			errorString.append("<p>Exception thrown when getting event at: " +path+ " with error: " + e.getMessage() + "</p>");
 			e.printStackTrace();
 		} 
 		return null;
@@ -715,8 +692,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		// success.
 		int reply = ftp.getReplyCode();
 		if (!FTPReply.isPositiveCompletion(reply)) {
-			errorString.append("CRITICAL ERROR: FTP Server refused connection.    ");
-			errorString.append("\n");
+			errorString.append("<p>CRITICAL ERROR: FTP Server refused connection.</p>");
 			log.error("GSActivities:: FTP server refused connection.");
 			processInterrupted = true;
 			return false;
@@ -731,8 +707,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 
 		if (!ftp.login(user, password)) {
 			log.error("GSActivities:: Unable FTP server.");
-			errorString.append("CRITICAL ERROR: Unable to login into FTP server.    ");
-			errorString.append("\n");
+			errorString.append("<p>CRITICAL ERROR: Unable to login into FTP server.</p>");
 			processInterrupted = true;
 			return false;
 		}
@@ -753,22 +728,18 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				getFiles();
 				
 			} else {
-				errorString.append("Unable to login to FTP"); 
-				errorString.append('\n');
-				errorString.append('\n');
+				errorString.append("<p>Unable to login to FTP</p>"); 
 				processInterrupted = true;
 				throw new GirlScoutsException(null, "ftpLogin() return false. Failed to login."); 
 			}
 		} catch(IOException e) {
-			errorString.append("Unable to process FTP files to IO error: " + e.getMessage() + ".    ");
-			errorString.append('\n');
+			errorString.append("<p>Unable to process FTP files to IO error: " + e.getMessage() + ".</p>");
 			
 			processInterrupted = true;
 			e.printStackTrace();
 			log.error("GSActivities:: IOException caught during access to FTP server",e);
 		} catch(Exception e) {
-			errorString.append("Unable to process FTP files due to general error: " + e.getMessage() + " " + e.getClass().getName() + ".   ");
-			errorString.append('\n');
+			errorString.append("<p>Unable to process FTP files due to general error: " + e.getMessage() + " " + e.getClass().getName() + ".</p>");
 			processInterrupted = true;
 			log.error("GSActivities:: General Exception caught during access to FTP server",e);
 		} finally {
@@ -778,20 +749,19 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
 					HtmlEmail email = new HtmlEmail();
 					ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-					email.setSubject("Actvity Syncing Failed Due To Error");
+					email.setSubject("GSActivities Syncing Process Failed Due to Unresolved Errors");
 					for(int i = 0; i < this.errorRecipients.length; i++){
 						try {
 							String recipient = errorRecipients[i];
 							emailRecipients
 									.add(new InternetAddress(recipient));
 						} catch (AddressException e) {
-							log.error("Initiator email incorrectly formatted");
-							log.error(e.getMessage());
+							log.error("GSActivities: Initiator email incorrectly formatted", e);
 						}
 					}
 					email.setTo(emailRecipients);
-					email.setHtmlMsg("The following errors were encountered while events were being imported.   " 
-							+ "\n" + "----------------" + errorString.toString());
+					email.setHtmlMsg("<p>The following errors were encountered while events were being imported.</p>" 
+							+ "<p>----------------</p><br>" + errorString.toString());
 					messageGateway.send(email);
 				} else {
 					if(messageGatewayService == null){
