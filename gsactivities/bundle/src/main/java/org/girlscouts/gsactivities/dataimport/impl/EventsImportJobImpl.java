@@ -604,9 +604,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			throw new GirlScoutsException(e, "Exception throw when adding data to"+eventPage.getPath()+"/jcr:content");
 		}
 		if (isAdd) {
-			log.info("<---------EVENT ADDED: Event page [path="+eventPage.getPath()+"; eid="+id+"] created successfully.-------->");	
+			log.info("GSActivities:: Event ADDED: Event page [path="+eventPage.getPath()+"; eid="+id+"] created successfully.");	
 		} else {
-			log.info("<---------EVENT UPDATED: Event page [path="+eventPage.getPath()+"; eid="+id+"] updated successfully.-------->");	
+			log.info("GSActivities:: Event UPDATED: Event page [path="+eventPage.getPath()+"; eid="+id+"] updated successfully.");	
 		}
 		return eventPage.getPath();
 	}
