@@ -24,6 +24,23 @@
                     </multi>
                 </items>
             </custom>
+            <override
+            	jcr:primaryType="cq:Widget"
+            	title="Override"
+            	xtype="panel">
+            	<items jcr:primaryType="cq:WidgetCollection">
+            		<multi
+            			jcr:primaryType="cq:Widget"
+            			fieldLabel="Links"
+            			hideLabel="{Boolean}true"
+            			name="./overrides"
+            			xtype="multifield">
+            			<fieldConfig
+            				jcr:primaryType="nt:unstructured"
+            				xtype="pathfield"/>
+            		</multi>		
+            	</items>
+            </override>
         </items>
     </items>
 </jcr:root>
