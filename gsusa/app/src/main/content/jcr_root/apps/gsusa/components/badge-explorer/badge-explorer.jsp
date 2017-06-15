@@ -382,8 +382,8 @@ class BadgeComparator implements Comparator<Resource>{
 								filterClassBuilder.append(" filter=\"");
 								for(String tagString : tags){
 									String[] tagsArr = tagString.toLowerCase().split("/");
-									if(tagsArr.length>2){
-										for(int i=2;i < tagsArr.length;i++){
+									if(tagsArr.length>3){
+										for(int i=3;i < tagsArr.length;i++){
 											filterClassBuilder.append(tagsArr[i].replace(" ",""));
 											filterClassBuilder.append(" ");
 										}
