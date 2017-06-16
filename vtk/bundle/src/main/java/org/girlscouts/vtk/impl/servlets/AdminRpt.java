@@ -24,6 +24,7 @@ import org.girlscouts.vtk.ejb.YearPlanUtil;
 @Properties({
 	@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
 	@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "csv"),
+	@Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "adminreport"),
 	@Property(name="label", value="Girl Scouts VTK Admin Report"),
 	@Property(name="description", value="Girl Scouts VTK Admin Report Download"),
 	@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET")

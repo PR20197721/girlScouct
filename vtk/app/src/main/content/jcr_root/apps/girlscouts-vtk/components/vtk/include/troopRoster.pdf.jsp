@@ -42,12 +42,11 @@
 <%@include file="session.jsp"%>
 
 <% 
-	response.setHeader("Content-Disposition", "inline; filename=\"TroopRoster.pdf\"");
+	    response.setHeader("Content-Disposition", "inline; filename=\"TroopRoster.pdf\"");
 
         SimpleDateFormat FORMAT_MMM_dd_yyyy = new SimpleDateFormat("MMM dd, yyyy");
         response.setContentType("application/pdf");
-        List<Contact> contacts =
-        contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
+        List<Contact> contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
         StringBuffer pdfData= new StringBuffer();
     
         pdfData.append("<table cellspacing=\"0\" cellpadding=\"2\">");
