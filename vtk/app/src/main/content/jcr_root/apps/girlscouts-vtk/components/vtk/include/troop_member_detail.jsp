@@ -28,11 +28,11 @@
       <dl class="accordion-inner clearfix" data-accordion>
         <dt data-target="panel<%=i+1%>b" class="clearfix">
           <span class="name column large-6"><%=contact.getFirstName() %> <%=contact.getRole() %> </span>
-          <span class="name column large-4"><%= caregiver==null ? "" : ((caregiver.getFirstName()==null ? "" : caregiver.getFirstName()) +" "+ (caregiver.getLastName() ==null ? "" :caregiver.getLastName()  ))%></span>
+          <span class="name column large-4" style="word-wrap:break-word;"><%= caregiver==null ? "" : ((caregiver.getFirstName()==null ? "" : caregiver.getFirstName()) +" "+ (caregiver.getLastName() ==null ? "" :caregiver.getLastName()  ))%></span>
 	      <%if(contact.getEmail() != null && VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
 	      
             <a class="column large-10 email" href="mailto:<%=_email%>">
-              <i class="icon-mail"></i><%=contact.getEmail() %>
+              <i class="icon-mail"  style="word-wrap:break-word;"></i><%=contact.getEmail() %>
             </a>
           <% } %>
           <span class="column large-4"><%=contact.getPhone() ==null ? "" : contact.getPhone()%></span>
