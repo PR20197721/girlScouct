@@ -94,13 +94,13 @@
 	void processOverridePaths(String[] list) {
 		if (list != null) {
 			for (int i = 0; i < list.length; i++) {
-				String[] values = list[i].split("\\|\\|\\|");
-				String label = values[0];
-				String path = values.length > 1 ? values[1] : ""; 
-				String page = values.length > 2 ? values[2] : "";
-				String subdir = values.length > 3 ? values [3] : "";
-				
-				overrides.add(path.trim());
+				//String[] values = list[i].split("\\|\\|\\|");
+				//String label = values[0];
+				//String path = values.length > 1 ? values[1] : ""; 
+				//String page = values.length > 2 ? values[2] : "";
+				//String subdir = values.length > 3 ? values [3] : "";
+								
+				overrides.add(list[i].trim());
 			}
 		}
 	}
@@ -419,10 +419,6 @@
 	// If overrides are set, add override paths
 	overridePages();
 	
-	
-	
-	
-	
 		
 	after = System.currentTimeMillis();
 %>
@@ -497,11 +493,6 @@
 	<% } %><br>
 	</div> 
 	<br>
-	<div>
-	<% for(String str: overrides) { %>
-		<br><%= str %> 
-	<% } %> <br>
-	</div>
 	
 	
 	

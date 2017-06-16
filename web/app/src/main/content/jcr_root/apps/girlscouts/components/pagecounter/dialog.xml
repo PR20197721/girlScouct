@@ -16,6 +16,7 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Links"
                         hideLabel="{Boolean}true"
+                        orderable="{Boolean}false"
                         name="./paths"
                         xtype="multifield">
                         <fieldConfig
@@ -33,6 +34,7 @@
             			jcr:primaryType="cq:Widget"
             			fieldLabel="Links"
             			hideLabel="{Boolean}true"
+            			orderable="{Boolean}false"
             			name="./overrides"
             			xtype="multifield">
             			<fieldConfig
