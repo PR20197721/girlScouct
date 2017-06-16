@@ -22,6 +22,7 @@
 	csvWriter.writeInit(writer);
 
 	List<Contact> contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
+    java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras= contactUtil.getContactsExtras( user,  troop, contacts);
 	java.util.List <MeetingE> meetingEvents= troop.getYearPlan().getMeetingEvents();
 
 	// doc title
@@ -41,10 +42,10 @@
 	csvWriter.writeRow( row.toString() );
 
 	//Girl info
-	row = new StringBuffer();
+
     if( contacts!=null)
             for (Contact gsContact : contacts) {
-
+				row = new StringBuffer();
                 if( ! "Girl".equals( gsContact.getRole() ) ) continue;
                  Contact caregiver = VtkUtil.getSubContact( gsContact, 1);
         
@@ -96,8 +97,36 @@
                 }
 
 
-    }
-	csvWriter.writeRow( row.toString() );
+		        // meetings/ girl
+                if(meetingEvents!=null){
+			     java.util.List<ContactExtras> infos = contactsExtras.get( gsContact );
+                 for( MeetingE meetingEvent: meetingEvents ){
+
+
+                    boolean isAttended= false, isAch= false;
+					for(int y=0;y<infos.size();y++) {
+
+                          //attendance
+               			  if(infos.get(y).isAttended()) {
+                              isAttended= true; //VtkUtil.formatDate(VtkUtil.FORMAT_Md,(java.util.Date)sched_bm_inverse.get( infos.get(y).getYearPlanComponent()))
+                          }
+
+                          //acvm 
+                          if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
+                            isAch= true;
+                          }
+                    }
+                    row.append(isAttended ? "ATD," : ","); //attended
+                    row.append(isAch ? "ACV," : ","); //achvm
+                 }
+    		}	
+
+            csvWriter.writeRow( row.toString() );
+
+
+       }//edn contacts
+
+
 	csvWriter.close();
 
 	writer.close();
