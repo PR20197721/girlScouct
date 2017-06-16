@@ -462,8 +462,9 @@
 						   <li><a
 							title="print" href="/content/girlscouts-vtk/controllers/vtk.include.troopRoster.pdf" target="_blank"><i class="icon-printer"></i></a></li>
 							
-							 <li><a
-								title="download" href="/content/girlscouts-vtk/controllers/vtk.include.troopRosterCsvRpt.html" target="_blank">DOWNLOAD</a></li>
+							<li style="margin-right:15px"><a
+							title="download" href="/content/girlscouts-vtk/controllers/vtk.include.troopRosterCsvRpt.html" target="_blank"><i class="icon-download"></i></a></li>
+
                         <%}%>
 					
 						<%if(activeTab!=null  && ( "plan".equals(activeTab) || (  pageContext.getAttribute("YearPlanComponent")!=null && ((String)pageContext.getAttribute("YearPlanComponent")).equals("MEETING")  &&  "planView".equals(activeTab) )) ){ %>
