@@ -1,10 +1,7 @@
-<%@ page import="
-    com.day.text.csv.Csv,
- 	org.girlscouts.vtk.ejb.*,
+<%@ page import="org.girlscouts.vtk.ejb.*,
     java.util.*,
 	org.girlscouts.vtk.models.*,
-	org.girlscouts.vtk.dao.*,
-	java.io.StringWriter"
+	org.girlscouts.vtk.dao.*"
 %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="session.jsp"%>
@@ -82,7 +79,6 @@
                  	   if( VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ 
                          csv.append( contactSub.getEmail() +",");
                 	   } 
-                       //csv.append( ( contactSub.getPhone()==null ? "" : contactSub.getPhone() ) +"," );
                   }
                 }
 
@@ -95,6 +91,7 @@
 
                     boolean isAttended= false, isAch= false;
 					for(int y=0;y<infos.size();y++) {
+						  if( !meetingEvent.getUid().equals(infos.get(y).getYearPlanComponent().getUid()) ) continue;
 
                           //attendance
                			  if(infos.get(y).isAttended()) {
