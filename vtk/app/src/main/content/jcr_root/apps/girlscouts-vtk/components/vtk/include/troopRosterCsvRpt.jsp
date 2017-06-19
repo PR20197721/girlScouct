@@ -1,3 +1,5 @@
+import org.girlscouts.vtk.models.Meeting;
+
 <%@ page import="org.girlscouts.vtk.ejb.*,
     java.util.*,
 	org.girlscouts.vtk.models.*,
@@ -15,7 +17,7 @@
 	List<Contact> contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras= contactUtil.getContactsExtras( user,  troop, contacts);
 	java.util.List <MeetingE> meetingEvents= troop.getYearPlan().getMeetingEvents();
-
+    
 	// doc title
 	csv.append(
 			FORMAT_MMM_dd_yyyy.format( new java.util.Date() ) +" "+
@@ -26,7 +28,12 @@
 	csv.append("\nGirl Scout, Parent Guardian, Parent Email, Parent Phone, DOB, Age, Address, Secondary Info Name, Secondary Info Email,");
 	if(meetingEvents!=null)
 		for( MeetingE meetingEvent: meetingEvents ){
-			csv.append(meetingEvent.getMeetingInfo().getName() +",");
+			if(meetingEvent.getMeetingInfo()==null ){
+				Meeting meetingInfo = yearPlanUtil.getMeeting(user, troop, meetingEvent.getRefId());
+				csv.append(meetingInfo.getName() +",");
+			}else{
+				csv.append(meetingEvent.getMeetingInfo().getName() +",");
+			}
 	    }
 
 	//Girl info
