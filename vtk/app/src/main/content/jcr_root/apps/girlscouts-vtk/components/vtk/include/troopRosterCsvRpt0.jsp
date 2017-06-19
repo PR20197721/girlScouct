@@ -11,45 +11,52 @@
 <%
 	SimpleDateFormat FORMAT_MMM_dd_yyyy = new SimpleDateFormat("MMM dd yyyy");
     response.setHeader("Content-Encoding", "UTF-8");
+    //response.setContentType("text/csv; charset=UTF-8");
     response.setContentType("application/vnd.ms-excel");
     response.setHeader("Content-Disposition","attachment; filename=TroopRoster.csv");
-    
-    StringBuilder csv= new StringBuilder();
+
+
+	StringWriter writer = new StringWriter();
+	Csv csvWriter = new Csv();
+	csvWriter.writeInit(writer);
+
 	List<Contact> contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras= contactUtil.getContactsExtras( user,  troop, contacts);
 	java.util.List <MeetingE> meetingEvents= troop.getYearPlan().getMeetingEvents();
 
 	// doc title
-	csv.append(
-			FORMAT_MMM_dd_yyyy.format( new java.util.Date() ) +" "+
-			(troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-") +1) )+"  "+troop.getSfTroopName()
+	csvWriter.writeRow( (troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-") +1) )+"  "+troop.getSfTroopName() +
+        " "+(FORMAT_MMM_dd_yyyy.format( new java.util.Date() ) )  +
+        " "+(contacts==null ? "" : contacts.size() ) + " Girls"
      );
 
+	StringBuffer row= new StringBuffer();
+
 	//doc header
-	csv.append("\nGirl Scout, Parent Guardian, Parent Email, Parent Phone, DOB, Age, Address, Secondary Info Name, Secondary Info Email,");
+	row.append("Girl Scout, Parent Guardian, Parent Phone, DOB, Age, Email, Address, Secondary Info Name, Secondary Info Email, Phone,");
 	if(meetingEvents!=null)
 		for( MeetingE meetingEvent: meetingEvents ){
-			csv.append(meetingEvent.getMeetingInfo().getName() +",");
+			row.append(meetingEvent.getMeetingInfo().getName() +",");
 	    }
+	csvWriter.writeRow( row.toString() );
 
 	//Girl info
+
     if( contacts!=null)
             for (Contact gsContact : contacts) {
-            	
+				row = new StringBuffer();
                 if( ! "Girl".equals( gsContact.getRole() ) ) continue;
                  Contact caregiver = VtkUtil.getSubContact( gsContact, 1);
         
                 //check permission again:must be TL
                 if(!(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
                          user.getApiConfig()==null || user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId() ) ) ){ continue; }
-                
-                csv.append("\n");
-                
+
                 //age
                 String age = ""+ gsContact.getAge() ;
                 age = (age ==null || age.equals("null")) ? "" : age;
                 
-                //dob
+              //dob
         		String dob="";
                 if( gsContact.getDob() != null ){
                 	try{
@@ -57,32 +64,40 @@
                     }catch(Exception e){e.printStackTrace();}         
                 }
                 
-                csv.append( ( gsContact.getFirstName() +" "+ gsContact.getRole()) +","+
+                row.append( ( gsContact.getFirstName() +" "+ gsContact.getRole()) +","+
                     ( caregiver==null ? "" : (caregiver.getFirstName()==null ? "" : caregiver.getFirstName()) ) 
                     	+" "+ ((caregiver.getLastName() ==null ? "" :caregiver.getLastName()  ) )+","+
-                    	gsContact.getEmail()+","+
+                    
                     (gsContact.getPhone() ==null ? "" : gsContact.getPhone())+","+
                     dob +","+
-					age +","
-					
+					age +","+
+					gsContact.getEmail()+","
                 );
+
+
+        		
+				
+
+        		
+
         		//address
          		String address = ( gsContact.getAddress()==null ? "" : gsContact.getAddress() )+ " "+
                     	( gsContact.getCity()==null ? "" : gsContact.getCity() ) + " "+
                         ( gsContact.getState()==null ? "" : (", "+gsContact.getState()) )+ " "+
                     	( gsContact.getZip()==null ? "" : gsContact.getZip() );
-         		csv.append(address.replace(",","") +",");
+         		row.append(address.replace(",","") +",");
 
         		// secondary contact
         		if( gsContact.getContacts()!=null )
       			  for(Contact contactSub: gsContact.getContacts()){ 
                    if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID ) ){
-                       csv.append( contactSub.getFirstName() +" ");
-                       csv.append( contactSub.getLastName() +",");
+                       row.append( contactSub.getFirstName() +" ");
+                       row.append( contactSub.getLastName() +",");
                  	   if( VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ 
-                         csv.append( contactSub.getEmail() +",");
+                         row.append( contactSub.getEmail() +",");
+                         //row.append( contactSub.getEmail() +",");
                 	   } 
-                       //csv.append( ( contactSub.getPhone()==null ? "" : contactSub.getPhone() ) +"," );
+                       row.append( ( contactSub.getPhone()==null ? "" : contactSub.getPhone() ) +"," );
                   }
                 }
 
@@ -106,11 +121,25 @@
                             isAch= true;
                           }
                     }
-                    csv.append(isAttended ? "X" : ""); //attended
-                    csv.append(isAch ? "A" : ""); //achvm
-                    csv.append(","); 
+                    row.append(isAttended ? "A" : ""); //attended
+                    row.append(isAch ? "Y" : ""); //achvm
+                    row.append(","); 
                  }
     		}	
+
+            csvWriter.writeRow( row.toString() );
+
+
        }//edn contacts
-       out.println(csv.toString().trim());
+       
+
+	csvWriter.close();
+
+	writer.close();
+	String csvContents = writer.toString();
+    out.println(csvContents);
+
+
+
+
 %>
