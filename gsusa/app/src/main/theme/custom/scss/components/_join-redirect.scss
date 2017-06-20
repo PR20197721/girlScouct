@@ -11,51 +11,55 @@
       width: 100%;
     }
   }
-  .cookie-header {
+  .join-redirect-header {
+  	position: absolute;
+  	top: 50%;
     width: 32.1875%;
-    position: absolute;
-    top: 50%;
     margin-top: rem-calc(-111);
-    padding: 0;
-    margin-bottom: 0;
-    margin-left: rem-calc(55);
+    margin-left: rem-calc(47);
     z-index: 2;
     .wrapper {
       background: rgba(0,0,0,.5);
-      margin: 0;
+      padding: 5%;
       .wrapper-inner {
-        padding-left: 5%;
-        padding-right: 5%;
-        &::before {
-          content: "";
-          background: url("../images/cookie-header.png") no-repeat 0% 0% transparent;
-          height: rem-calc(71);
-          width: rem-calc(71);
-          left: 50%;
-          position: relative;
-          margin-left: rem-calc(-36);
-          margin-bottom: 0;
-          margin-top: rem-calc(20);
-          background-size: contain;
-        }
         form {
-          float: none;
           width: 100%;
-          padding: 0;
-        }
-        label {
-          float: none;
-          width: 100%;
-          display: block;
-          margin-bottom: rem-calc(20);
-          text-align: center;
-        }
-        .form-wrapper {
-          float: none;
-          width: 100%;
-        }
+          img {
+            display: block;
+            margin: 0 auto;
+          }
+          label {
+          	display: block;
+            width: 100%;
+            margin-bottom: rem-calc(16);
+            text-align: center;
+            color: $white;
+            font-size: rem-calc(33);
+            font-weight: 300;
+          }
+          .form-wrapper {
+            position: relative;
+            width: 100%;
+            input[type="text"] {
+              float: left;
+              width: 100%;
+              padding-left: rem-calc(10);
+              font-size: rem-calc(20);
+              height: rem-calc(47);
+            }
+            .link-arrow {
+              position: absolute;
+              right: 0;
+              border: none;
+              background-color: $primary-color;
+              line-height: rem-calc(37);
+              padding: 5px 4%;
+              font-size: rem-calc(18);
+              color: $white;
+            }
+          }
+        }        
       }
     }
   }
-
 }

@@ -12,11 +12,11 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <text
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Text"
-                        fieldDescription="Call To Action"
                         defaultValue="JOIN!"
+                        fieldDescription="Call To Action"
+                        fieldLabel="Text"
                         name="./text"
-                        xtype="textfield"/> 
+                        xtype="textfield"/>
                     <images
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Images for the slider"
@@ -33,37 +33,37 @@
             <mobile
                 jcr:primaryType="cq:Panel"
                 title="Join Redirect Mobile">
-                <items jcr:primaryType="cq:WidgetCollection">         
+                <items jcr:primaryType="cq:WidgetCollection">
                     <backgroundcolor
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Background Color"
-                    	fieldDescription="Background color in HEX ex FFFFFF"
-                    	name="./backgroundcolor"
-                    	xtype="textfield" />               
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Background color in HEX ex FFFFFF"
+                        fieldLabel="Background Color"
+                        name="./backgroundcolor"
+                        xtype="textfield"/>
                     <boximagemobile
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Alternative to GIRL logo"
-                    	fieldDescription="Background color for mobile"
-                    	name="./logomobile"
-                    	xtype="textfield" />
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Background color for mobile"
+                        fieldLabel="Alternative to GIRL logo"
+                        name="./logomobile"
+                        xtype="textfield"/>
                 </items>
             </mobile>
             <image
                 jcr:primaryType="cq:Widget"
-                cropParameter="./thumbnail/imageCrop"
+                cropParameter="./logo/imageCrop"
                 ddGroups="media"
-                fileNameParameter="./thumbnail/fileName"
-                fileReferenceParameter="./thumbnail/fileReference"
-                mapParameter="./thumbnail/imageMap"
+                fileNameParameter="./logo/fileName"
+                fileReferenceParameter="./logo/fileReference"
+                mapParameter="./logo/imageMap"
                 name="./logo"
-                requestSuffix="/thumbnail.img.png"
-                rotateParameter="./thumbnail/imageRotate"
+                requestSuffix="/logo.img.png"
+                rotateParameter="./logo/imageRotate"
                 title="Image"
                 xtype="html5smartimage">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <resource-type
                         jcr:primaryType="cq:Widget"
-                        name="./thumbnail/sling:resourceType"
+                        name="./logo/sling:resourceType"
                         value="foundation/components/image"
                         xtype="hidden"/>
                 </items>
