@@ -23,6 +23,7 @@ moment.min.js
 moment-timezone.js
 #JSXTransformer-0.12.1.js
 jquery.validate.js
+promise.js
 jquery-print.js
 vtk-global.js
 jquery.imgareaselect.js
