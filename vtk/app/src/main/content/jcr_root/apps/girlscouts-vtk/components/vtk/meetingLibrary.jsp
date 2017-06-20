@@ -833,14 +833,16 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		<div class="vtk-float-submit">
 		<input class="button tiny" type="button" value="CANCEL" onclick="closeModal()"/>
 
-		<input class="button tiny" type="button" value="CLEAR" onclick="clearList()" />
 
+     <%if(request.getParameter("isReplaceMeeting")==null){%>
+      <input class="button tiny" type="button" value="CLEAR" onclick="clearList()" />
 	  <%if( request.getParameter("newCustYr")!=null){ %>
 		   <input class="button tiny inactive-button add-to-year-plan" type="button" value="ADD TO YEAR PLAN"  onclick="createCustPlan(null)"/>
 	  <%}else{ %>
 		   <input class="button tiny inactive-button add-to-year-plan" type="submit"  value="ADD TO YEAR PLAN" />
 	  <%}//end else %> 
-	</div>  
+     <%}%>
+     </div>  
 	</div>
 
 		  <%
@@ -926,10 +928,11 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 				<% if( request.getParameter("newCustYr")!=null || !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
 
 						 	<div class="middle-checkbox" style="text-align:center;">
-							<input type="checkbox" name="addMeetingMulti" id="<%=meeting.getPath()%>" 
-							value="<%=meeting.getPath()%>"/>
+                            <%if(request.getParameter("isReplaceMeeting")==null ){%>
+                            	<input type="checkbox" name="addMeetingMulti" id="<%=meeting.getPath()%>" 
+									value="<%=meeting.getPath()%>"/>
+                            <%}//edn if%>
 							<label for="<%=meeting.getPath()%>"><span></span>
-
 							<%if( request.getParameter("newCustYr")!=null){ %>
 								   <p onclick="createCustPlan('<%=meeting.getPath()%>')">Select Meeting</p>
 							  <%}else{ %>
