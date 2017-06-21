@@ -14,12 +14,12 @@
     
     StringBuilder csv= new StringBuilder();
 	List<Contact> contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
-    java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras= contactUtil.getContactsExtras( user,  troop, contacts);
-	java.util.List <MeetingE> meetingEvents= troop.getYearPlan().getMeetingEvents();
+    Map<Contact, java.util.List<ContactExtras>> contactsExtras= contactUtil.getContactsExtras( user,  troop, contacts);
+	List <MeetingE> meetingEvents= troop.getYearPlan().getMeetingEvents();
     
 	// doc title
 	csv.append(
-			FORMAT_MMM_dd_yyyy.format( new java.util.Date() ) +" "+
+			FORMAT_MMM_dd_yyyy.format( new Date() ) +" "+
 			(troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-") +1) )+"  "+troop.getSfTroopName()
      );
 
@@ -90,7 +90,7 @@
 
 		        // meetings/ girl
                 if(meetingEvents!=null){
-			     java.util.List<ContactExtras> infos = contactsExtras.get( gsContact );
+			     List<ContactExtras> infos = contactsExtras.get( gsContact );
                  for( MeetingE meetingEvent: meetingEvents ){
 
 
