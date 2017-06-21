@@ -17,6 +17,13 @@
                         fieldLabel="Text"
                         name="./text"
                         xtype="textfield"/>
+                    <textcolor
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="#FFFFFF"
+                        fieldDescription="Background color in HEX ex. #FFFFFF"
+                        fieldLabel="Text Color"
+                        name="./textcolor"
+                        xtype="textfield"/>
                     <images
                         jcr:primaryType="cq:Widget"                        
                         fieldLabel="Slider Images"
@@ -72,7 +79,7 @@
                         xtype="textfield"/>
                     <backgroundcolor
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Background color in HEX ex #FFFFFF"
+                        fieldDescription="Background color in HEX ex. #FFFFFF"
                         fieldLabel="Background Color"
                         name="./backgroundcolor"
                         xtype="textfield"/>

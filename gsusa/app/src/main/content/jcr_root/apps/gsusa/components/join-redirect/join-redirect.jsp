@@ -2,7 +2,8 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <%
-String text = properties.get("text", "");
+String text = properties.get("text", "JOIN!");
+String textColor = properties.get("textcolor", "#FFFFFF");
 String[] images = properties.get("images", String[].class);
 
 Resource logo = resource.getChild("logo");
@@ -12,7 +13,7 @@ if (logo != null) {
 }
 
 // Mobile
-String textMobile = properties.get("textmobile", "");
+String textMobile = properties.get("textmobile", "JOIN!");
 String backgroundColor = properties.get("backgroundcolor", "FFFFFF");
 
 Resource logoMobile = resource.getChild("logomobile");
@@ -43,7 +44,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
           <div class="wrapper-inner clearfix">
             <form class="find-cookies" name="find-cookies">
               <img src="<%= logoPath %>" />
-              <label for="zip-code"><%= text %></label>
+              <label for="zip-code" style="color:<%= textColor %>"><%= text %></label>
               <div class="form-wrapper">       
                 <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="zip-code">
                 <input type="submit" class="link-arrow" value="Go >"/>
