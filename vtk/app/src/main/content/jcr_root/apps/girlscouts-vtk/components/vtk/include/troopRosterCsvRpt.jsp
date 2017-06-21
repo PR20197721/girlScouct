@@ -61,7 +61,7 @@
 				}
 
 				csv.append( fmtValue(( gsContact.getFirstName() +" "+ gsContact.getRole())) +",");
-				csv.append( fmtValue(   ( caregiver==null ? "" : (caregiver.getFirstName()==null ? "" : caregiver.getFirstName()))  +" "+ 
+				csv.append( fmtValue(( caregiver==null ? "" : (caregiver.getFirstName()==null ? "" : caregiver.getFirstName()))  +" "+ 
 						((caregiver.getLastName() ==null ? "" : caregiver.getLastName() ) ) )+",");
 				csv.append( fmtValue(gsContact.getEmail() )+","+
 					(gsContact.getPhone() ==null ? "" : fmtValue(gsContact.getPhone()))+","+
@@ -91,22 +91,22 @@
 				if(meetingEvents!=null){
 					List<ContactExtras> infos = contactsExtras.get( gsContact );
 					for( MeetingE meetingEvent: meetingEvents ){
-						boolean isAttended= false, isAch= false;
-						for(int y=0;y<infos.size();y++) {
-							if( !meetingEvent.getUid().equals(infos.get(y).getYearPlanComponent().getUid()) ) continue;
+						boolean isAttended= false, isAchievement= false;
+						for( ContactExtras info: infos ){
+							if( !meetingEvent.getUid().equals(info.getYearPlanComponent().getUid()) ) continue;
 
 							//attendance
-							if(infos.get(y).isAttended()) {
+							if(info.isAttended()) {
 								isAttended= true; 
 							}
 
 							//acvm 
-							if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
-								isAch= true;
+							if(info.isAchievement() && info.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
+								isAchievement= true;
 							}
 						}
 						csv.append(isAttended ? "X" : ""); //attended
-						csv.append(isAch ? "A" : ""); //achvm
+						csv.append(isAchievement ? "A" : ""); //achvm
 						csv.append(","); 
 					}
 				}	
@@ -115,7 +115,7 @@
 %>
 
 <%!
-	public String fmtValue(String value){
+	private String fmtValue(String value){
 		return value ==null ? "" : StringEscapeUtils.escapeCsv(value);
 	}
 %>
