@@ -1,16 +1,16 @@
-import org.girlscouts.vtk.models.Meeting;
-
 <%@ page import="org.girlscouts.vtk.ejb.*,
     java.util.*,
 	org.girlscouts.vtk.models.*,
-	org.girlscouts.vtk.dao.*"
+	org.girlscouts.vtk.dao.*,
+	org.apache.commons.lang3.StringEscapeUtils"
 %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="session.jsp"%>
 <%
 	SimpleDateFormat FORMAT_MMM_dd_yyyy = new SimpleDateFormat("MMM dd yyyy");
     response.setHeader("Content-Encoding", "UTF-8");
-    response.setContentType("application/vnd.ms-excel");
+    //response.setContentType("application/vnd.ms-excel");
+    response.setContentType("text/csv; charset=UTF-8");
     response.setHeader("Content-Disposition","attachment; filename=TroopRoster.csv");
     
     StringBuilder csv= new StringBuilder();
@@ -75,7 +75,7 @@ import org.girlscouts.vtk.models.Meeting;
                     	( gsContact.getCity()==null ? "" : gsContact.getCity() ) + " "+
                         ( gsContact.getState()==null ? "" : (", "+gsContact.getState()) )+ " "+
                     	( gsContact.getZip()==null ? "" : gsContact.getZip() );
-         		csv.append( address.replace(",","") +",");
+         		csv.append( fmtValue(address) +",");
 
         		// secondary contact
         		if( gsContact.getContacts()!=null )
@@ -120,6 +120,6 @@ import org.girlscouts.vtk.models.Meeting;
 
 <%!
 	public String fmtValue(String value){
-		return value ==null ? "" : ("\"" + value.replace("\"","") +"\"");
+		return value ==null ? "" : StringEscapeUtils.escapeCsv(value);
 }
 %>
