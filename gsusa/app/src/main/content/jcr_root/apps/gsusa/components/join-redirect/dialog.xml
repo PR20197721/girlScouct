@@ -34,21 +34,22 @@
                 jcr:primaryType="cq:Panel"
                 title="Join Redirect Mobile">
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <textmobile
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="JOIN!"
+                        fieldDescription="Call to Action"
+                        fieldLabel="Mobile Text"
+                        name="./textmobile"
+                        xtype="textfield"/>
                     <backgroundcolor
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Background color in HEX ex FFFFFF"
+                        fieldDescription="Background color in HEX ex #FFFFFF"
                         fieldLabel="Background Color"
                         name="./backgroundcolor"
                         xtype="textfield"/>
-                    <boximagemobile
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription="Background color for mobile"
-                        fieldLabel="Alternative to GIRL logo"
-                        name="./logomobile"
-                        xtype="textfield"/>
                 </items>
             </mobile>
-            <image
+            <logo
                 jcr:primaryType="cq:Widget"
                 cropParameter="./logo/imageCrop"
                 ddGroups="media"
@@ -58,7 +59,7 @@
                 name="./logo"
                 requestSuffix="/logo.img.png"
                 rotateParameter="./logo/imageRotate"
-                title="Image"
+                title="Logo"
                 xtype="html5smartimage">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <resource-type
@@ -67,27 +68,27 @@
                         value="foundation/components/image"
                         xtype="hidden"/>
                 </items>
-            </image>
-            <mobileimage
+            </logo>
+            <logomobile
                 jcr:primaryType="cq:Widget"
-                cropParameter="./mobileimage/imageCrop"
+                cropParameter="./logomobile/imageCrop"
                 ddGroups="media"
-                fileNameParameter="./mobileimage/fileName"
-                fileReferenceParameter="./mobileimage/fileReference"
-                mapParameter="./mobileimage/imageMap"
+                fileNameParameter="./logomobile/fileName"
+                fileReferenceParameter="./logomobile/fileReference"
+                mapParameter="./logomobile/imageMap"
                 name="./logomobile"
-                requestSuffix="/mobileimage.img.png"
-                rotateParameter="./mobileimage/imageRotate"
-                title="Mobile Image"
+                requestSuffix="/logomobile.img.png"
+                rotateParameter="./logomobile/imageRotate"
+                title="Mobile Logo"
                 xtype="html5smartimage">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <resource-type
                         jcr:primaryType="cq:Widget"
-                        name="./mobileimage/sling:resourceType"
+                        name="./logomobile/sling:resourceType"
                         value="foundation/components/image"
                         xtype="hidden"/>
                 </items>
-            </mobileimage>
+            </logomobile>
         </items>
     </items>
 </jcr:root>

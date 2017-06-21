@@ -1,7 +1,11 @@
 .join-redirect-hero {
   position: relative;
-  margin-top: rem-calc(12);
-  margin-bottom: rem-calc(12);
+  @media #{$medium-up} {
+  	margin: rem-calc(12) 0;
+  }
+  @media #{$small-only} {
+  
+  }  
   .welcome-video-slider {
     max-height: rem-calc(334);
     overflow: hidden;
@@ -10,17 +14,29 @@
     img {
       width: 100%;
     }
+    @media #{$small-only} {
+      display: none;
+    }
   }
   .join-redirect-header {
   	position: absolute;
   	top: 50%;
+  	transform: translate(0, -50%);
     width: 32.1875%;
-    margin-top: rem-calc(-111);
     margin-left: rem-calc(47);
-    z-index: 2;
+    z-index: 2;    
+    @media #{$small-only} {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      transform: none;
+    }
     .wrapper {
       background: rgba(0,0,0,.5);
       padding: 5%;
+      @media #{$small-only} {
+        padding: rem-calc(16) 0 rem-calc(35) 0;
+      }
       .wrapper-inner {
         form {
           width: 100%;
@@ -31,21 +47,34 @@
           label {
           	display: block;
             width: 100%;
+            margin-top: rem-calc(2);
             margin-bottom: rem-calc(16);
             text-align: center;
             color: $white;
             font-size: rem-calc(33);
             font-weight: 300;
+            @media #{$small-only} {
+              margin-top: rem-calc(8);
+              margin-bottom: rem-calc(6);
+            }
           }
           .form-wrapper {
             position: relative;
             width: 100%;
+            @media #{$small-only} {
+              width: rem-calc(214);
+              margin: 0 auto;
+            }
             input[type="text"] {
               float: left;
               width: 100%;
               padding-left: rem-calc(10);
               font-size: rem-calc(20);
               height: rem-calc(47);
+              @media #{$small-only} {
+                font-size: rem-calc(18);
+                height: rem-calc(37);
+              }
             }
             .link-arrow {
               position: absolute;
@@ -56,6 +85,10 @@
               padding: 5px 4%;
               font-size: rem-calc(18);
               color: $white;
+              @media #{$small-only} {
+                padding: 0px 4%;
+                font-size: 12px;
+              }
             }
           }
         }        
