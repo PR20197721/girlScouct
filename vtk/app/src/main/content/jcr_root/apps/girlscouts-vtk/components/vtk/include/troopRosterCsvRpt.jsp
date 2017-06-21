@@ -19,8 +19,8 @@
 	
 	// doc title
 	csv.append(
-			FORMAT_MMM_dd_yyyy.format( new Date() ) +" "+
-			(troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-") +1) )+"  "+troop.getSfTroopName()
+		FORMAT_MMM_dd_yyyy.format( new Date() ) +" "+
+		(troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-") +1) )+"  "+troop.getSfTroopName()
 	);
 
 	//doc header
@@ -62,18 +62,18 @@
 
 				csv.append( fmtValue(( gsContact.getFirstName() +" "+ gsContact.getRole())) +",");
 				csv.append( fmtValue(   ( caregiver==null ? "" : (caregiver.getFirstName()==null ? "" : caregiver.getFirstName()))  +" "+ 
-							((caregiver.getLastName() ==null ? "" : caregiver.getLastName() ) ) )+",");
+						((caregiver.getLastName() ==null ? "" : caregiver.getLastName() ) ) )+",");
 				csv.append( fmtValue(gsContact.getEmail() )+","+
-						(gsContact.getPhone() ==null ? "" : fmtValue(gsContact.getPhone()))+","+
-						fmtValue(dob) +","+
-						fmtValue(age) +","
+					(gsContact.getPhone() ==null ? "" : fmtValue(gsContact.getPhone()))+","+
+					fmtValue(dob) +","+
+					fmtValue(age) +","
 
 				);
 				//address
 				String address = ( gsContact.getAddress()==null ? "" : gsContact.getAddress() )+ " "+
-						( gsContact.getCity()==null ? "" : gsContact.getCity() ) + " "+
-						( gsContact.getState()==null ? "" : (", "+gsContact.getState()) )+ " "+
-						( gsContact.getZip()==null ? "" : gsContact.getZip() );
+					( gsContact.getCity()==null ? "" : gsContact.getCity() ) + " "+
+					( gsContact.getState()==null ? "" : (", "+gsContact.getState()) )+ " "+
+					( gsContact.getZip()==null ? "" : gsContact.getZip() );
 				csv.append( fmtValue(address) +",");
 
 				// secondary contact
@@ -87,13 +87,10 @@
 						}
 					}
 
-
 				// meetings/ girl
 				if(meetingEvents!=null){
 					List<ContactExtras> infos = contactsExtras.get( gsContact );
 					for( MeetingE meetingEvent: meetingEvents ){
-
-
 						boolean isAttended= false, isAch= false;
 						for(int y=0;y<infos.size();y++) {
 							if( !meetingEvent.getUid().equals(infos.get(y).getYearPlanComponent().getUid()) ) continue;
@@ -120,5 +117,5 @@
 <%!
 	public String fmtValue(String value){
 		return value ==null ? "" : StringEscapeUtils.escapeCsv(value);
-}
+	}
 %>
