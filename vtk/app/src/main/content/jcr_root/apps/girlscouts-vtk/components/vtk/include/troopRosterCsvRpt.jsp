@@ -9,7 +9,6 @@
 <%
 	SimpleDateFormat FORMAT_MMM_dd_yyyy = new SimpleDateFormat("MMM dd yyyy");
     response.setHeader("Content-Encoding", "UTF-8");
-    //response.setContentType("application/vnd.ms-excel");
     response.setContentType("text/csv; charset=UTF-8");
     response.setHeader("Content-Disposition","attachment; filename=TroopRoster.csv");
     
