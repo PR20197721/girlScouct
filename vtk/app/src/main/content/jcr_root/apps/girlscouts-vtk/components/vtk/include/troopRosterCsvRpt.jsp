@@ -52,7 +52,7 @@
 				String age = ""+ gsContact.getAge() ;
 				age = (age ==null || age.equals("null")) ? "" : fmtValue(age);
 
-				/dob
+				//dob
 				String dob="";
 				if( gsContact.getDob() != null ){
 					try{
