@@ -929,10 +929,10 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 						 	<div class="middle-checkbox" style="text-align:center;">
                             <%if(request.getParameter("isReplaceMeeting")==null ){%>
-                            	<input type="checkbox" name="addMeetingMulti" id="<%=meeting.getPath()%>" 
+                            	<input type="checkbox" name="addMeetingMulti" id="<%=meeting.getPath()%>_<%=i%>" 
 									value="<%=meeting.getPath()%>"/>
                             <%}//edn if%>
-							<label for="<%=meeting.getPath()%>"><span></span>
+							<label for="<%=meeting.getPath()%>_<%=i%>"><span></span>
 							<%if( request.getParameter("newCustYr")!=null){ %>
 								   <p onclick="createCustPlan('<%=meeting.getPath()%>')">Select Meeting</p>
 							  <%}else{ %>
