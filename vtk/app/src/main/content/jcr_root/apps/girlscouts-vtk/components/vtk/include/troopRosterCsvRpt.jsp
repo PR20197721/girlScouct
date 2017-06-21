@@ -30,9 +30,9 @@ import org.girlscouts.vtk.models.Meeting;
 		for( MeetingE meetingEvent: meetingEvents ){
 			if(meetingEvent.getMeetingInfo()==null ){
 				Meeting meetingInfo = yearPlanUtil.getMeeting(user, troop, meetingEvent.getRefId());
-				csv.append(meetingInfo.getName() +",");
+				csv.append( fmtValue(meetingInfo.getName()) +",");
 			}else{
-				csv.append(meetingEvent.getMeetingInfo().getName() +",");
+				csv.append( fmtValue( meetingEvent.getMeetingInfo().getName()) +",");
 			}
 	    }
 
@@ -51,7 +51,7 @@ import org.girlscouts.vtk.models.Meeting;
                 
                 //age
                 String age = ""+ gsContact.getAge() ;
-                age = (age ==null || age.equals("null")) ? "" : age;
+                age = (age ==null || age.equals("null")) ? "" : fmtValue(age);
                 
                 //dob
         		String dob="";
@@ -61,13 +61,13 @@ import org.girlscouts.vtk.models.Meeting;
                     }catch(Exception e){e.printStackTrace();}         
                 }
                 
-                csv.append( ( gsContact.getFirstName() +" "+ gsContact.getRole()) +","+
-                    ( caregiver==null ? "" : (caregiver.getFirstName()==null ? "" : caregiver.getFirstName()) ) 
-                    	+" "+ ((caregiver.getLastName() ==null ? "" :caregiver.getLastName()  ) )+","+
-                    	gsContact.getEmail()+","+
-                    (gsContact.getPhone() ==null ? "" : gsContact.getPhone())+","+
-                    dob +","+
-					age +","
+                csv.append( fmtValue(( gsContact.getFirstName() +" "+ gsContact.getRole())) +",");
+                csv.append( fmtValue(   ( caregiver==null ? "" : (caregiver.getFirstName()==null ? "" : caregiver.getFirstName()))  +" "+ 
+                    			((caregiver.getLastName() ==null ? "" : caregiver.getLastName() ) ) )+",");
+                csv.append( fmtValue(gsContact.getEmail() )+","+
+                    (gsContact.getPhone() ==null ? "" : fmtValue(gsContact.getPhone()))+","+
+                    fmtValue(dob) +","+
+                    fmtValue(age) +","
 					
                 );
         		//address
@@ -75,16 +75,15 @@ import org.girlscouts.vtk.models.Meeting;
                     	( gsContact.getCity()==null ? "" : gsContact.getCity() ) + " "+
                         ( gsContact.getState()==null ? "" : (", "+gsContact.getState()) )+ " "+
                     	( gsContact.getZip()==null ? "" : gsContact.getZip() );
-         		csv.append(address.replace(",","") +",");
+         		csv.append( address.replace(",","") +",");
 
         		// secondary contact
         		if( gsContact.getContacts()!=null )
       			  for(Contact contactSub: gsContact.getContacts()){ 
                    if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID ) ){
-                       csv.append( contactSub.getFirstName() +" ");
-                       csv.append( contactSub.getLastName() +",");
+                       csv.append( fmtValue(contactSub.getFirstName() + " " + contactSub.getLastName()) +",");
                  	   if( VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ 
-                         csv.append( contactSub.getEmail() +",");
+                         csv.append( fmtValue(contactSub.getEmail()) +",");
                 	   } 
                   }
                 }
@@ -117,4 +116,10 @@ import org.girlscouts.vtk.models.Meeting;
     		}	
        }//edn contacts
        out.println(csv.toString().trim());
+%>
+
+<%!
+	public String fmtValue(String value){
+		return value ==null ? "" : ("\"" + value.replace("\"","") +"\"");
+}
 %>
