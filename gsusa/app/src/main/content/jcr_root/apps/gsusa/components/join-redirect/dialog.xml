@@ -18,9 +18,9 @@
                         name="./text"
                         xtype="textfield"/>
                     <images
-                        jcr:primaryType="cq:Widget"
+                        jcr:primaryType="cq:Widget"                        
+                        fieldLabel="Slider Images"
                         fieldDescription="Images for the slider"
-                        fieldLabel="Images"
                         name="./images"
                         xtype="multifield">
                         <fieldConfig
@@ -28,6 +28,35 @@
                             rootPath="/content/dam"
                             xtype="pathfield"/>
                     </images>
+                    <autoplayspeed
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Speed of the slider (in ms)"
+                        name="./autoplayspeed"
+                        allowNegative="{Boolean}false"
+                        allowDecimals="{Boolean}false"
+                        maxValue="10000"
+                        minValue="20"
+                        defaultValue="2000"
+                        fieldDescription="Default: 1000, Min: 20, Max: 10000"
+                        xtype="numberfield">
+                    </autoplayspeed>
+                    <speed
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Transition Time of the slider (in ms)"
+                        name="./speed"
+                        allowNegative="{Boolean}false"
+                        allowDecimals="{Boolean}false"
+                        maxValue="10000"
+                        minValue="20"
+                        defaultValue="500"
+                        fieldDescription="Default: 2000, Min: 20, Max: 10000"
+                        xtype="numberfield">
+                    </speed>
+                    <url
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Redirect URL"
+                    	name="./url"
+                    	xtype="textfield" />                    	
                 </items>
             </main>
             <mobile

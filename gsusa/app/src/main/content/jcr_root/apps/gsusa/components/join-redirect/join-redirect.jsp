@@ -21,14 +21,16 @@ if (logoMobile != null) {
 	logoMobilePath = ((ValueMap)logoMobile.adaptTo(ValueMap.class)).get("fileReference", "");
 }
 
-
+String redirectURL = properties.get("url", "");
+String autoplayspeed = properties.get("autoplayspeed", "");		//slider speed
+String speed = properties.get("speed", "");						//slider transition speed
 
 if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.length == 0)) {
     %>GIRL Join Redirect Component. Double click here to edit.<%
 } else {
 %>
     <div class="join-redirect-hero hide-for-small">
-      <div class="welcome-video-slider">
+      <div class="join-redirect-slider">
 <%	    for (String image : images) {
 			int lastDotPos = image.lastIndexOf(".");
 			String img2x = image.substring(0, lastDotPos) + "@2x" + image.substring(lastDotPos);
@@ -69,6 +71,14 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
         </div>
       </div>
     </div>
+<script>
+
+joinRedirectSpeed = <%= speed %>;
+joinRedirectAutoplaySpeed = <%= autoplayspeed %>;
+
+</script>
+    
+    
     
 <%
     }
