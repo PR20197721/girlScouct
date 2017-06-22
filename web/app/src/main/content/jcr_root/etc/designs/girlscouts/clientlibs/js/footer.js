@@ -130,7 +130,7 @@ function web_accordion_main() {
     "use strict";
     $(".accordion dt").on("click", function () {
         var oldPanel = {
-                tab: $(".accordion dt." + openClass),
+                tab: $(this).parent().find("dt." + openClass), // Select siblings and all chilren, change to "> dt." to only select siblings
                 action: "collapse"
             },
             newPanel = {
