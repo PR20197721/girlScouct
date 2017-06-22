@@ -42,11 +42,11 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
       <div class="join-redirect-header">
         <div class="wrapper">
           <div class="wrapper-inner clearfix">
-            <form class="find-cookies" name="find-cookies">
+            <form class="formJoin" name="formJoin">
               <img src="<%= logoPath %>" />
               <label for="zip-code" style="color:<%= textColor %>"><%= text %></label>
               <div class="form-wrapper">       
-                <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="zip-code">
+                <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="ZipJoin">
                 <input type="submit" class="link-arrow" value="Go >"/>
               </div>
             </form>
@@ -60,11 +60,11 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
       <div class="join-redirect-header">
         <div class="wrapper" style="background-color:<%= backgroundColor %>">
           <div class="wrapper-inner clearfix">
-            <form class="find-cookies" name="find-cookies">
+            <form class="formJoin" name="formJoin">
               <img src="<%= logoMobilePath %>" />
               <label for="zip-code"><%= text %></label>
               <div class="form-wrapper">       
-                <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="zip-code">
+                <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="ZipJoin">
                 <input type="submit" class="link-arrow" value="Go >"/>
               </div>
             </form>

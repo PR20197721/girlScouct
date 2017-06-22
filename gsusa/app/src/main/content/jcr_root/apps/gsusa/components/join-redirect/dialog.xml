@@ -25,9 +25,9 @@
                         name="./textcolor"
                         xtype="textfield"/>
                     <images
-                        jcr:primaryType="cq:Widget"                        
-                        fieldLabel="Slider Images"
+                        jcr:primaryType="cq:Widget"
                         fieldDescription="Images for the slider"
+                        fieldLabel="Slider Images"
                         name="./images"
                         xtype="multifield">
                         <fieldConfig
@@ -37,33 +37,31 @@
                     </images>
                     <autoplayspeed
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Speed of the slider (in ms)"
-                        name="./autoplayspeed"
-                        allowNegative="{Boolean}false"
                         allowDecimals="{Boolean}false"
-                        maxValue="10000"
-                        minValue="20"
+                        allowNegative="{Boolean}false"
                         defaultValue="2000"
                         fieldDescription="Default: 1000, Min: 20, Max: 10000"
-                        xtype="numberfield">
-                    </autoplayspeed>
-                    <speed
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Transition Time of the slider (in ms)"
-                        name="./speed"
-                        allowNegative="{Boolean}false"
-                        allowDecimals="{Boolean}false"
+                        fieldLabel="Speed of the slider (in ms)"
                         maxValue="10000"
                         minValue="20"
+                        name="./autoplayspeed"
+                        xtype="numberfield"/>
+                    <speed
+                        jcr:primaryType="cq:Widget"
+                        allowDecimals="{Boolean}false"
+                        allowNegative="{Boolean}false"
                         defaultValue="500"
                         fieldDescription="Default: 2000, Min: 20, Max: 10000"
-                        xtype="numberfield">
-                    </speed>
+                        fieldLabel="Transition Time of the slider (in ms)"
+                        maxValue="10000"
+                        minValue="20"
+                        name="./speed"
+                        xtype="numberfield"/>
                     <url
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Redirect URL"
-                    	name="./url"
-                    	xtype="textfield" />                    	
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Redirect URL"
+                        name="./url"
+                        xtype="textfield"/>
                 </items>
             </main>
             <mobile
