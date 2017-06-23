@@ -1171,6 +1171,7 @@ try{
              newTroopCloned.setPermissionTokens( permis );
              troop.setTroop(newTroopCloned);
              if( !troopDAO.isArchivedYearPlan(user, troop,  ""+VtkUtil.getCurrentGSYear()) ){troop.setYearPlan(null);}
+             troop.setPath( "/vtk"+VtkUtil.getCurrentGSYear()+"/"+troop.getSfCouncil() +"/troops/"+ troop.getSfTroopId() );
              session.putValue("VTK_troop", troop);
         }else if( request.getParameter("addNote") != null ){
             Note note = null;
