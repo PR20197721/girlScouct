@@ -1171,6 +1171,9 @@ try{
              newTroopCloned.setPermissionTokens( permis );
              troop.setTroop(newTroopCloned);
              if( !troopDAO.isArchivedYearPlan(user, troop,  ""+VtkUtil.getCurrentGSYear()) ){troop.setYearPlan(null);}
+            
+             //Cloned Troop object from archived year plan references archived year plan path ex: "/vtk2014/999/". It is necessary to change Troop path to current year ex: ""/vtk2015/999/"".
+             troop.setPath( "/vtk"+VtkUtil.getCurrentGSYear()+"/"+troop.getSfCouncil() +"/troops/"+ troop.getSfTroopId() );
              session.putValue("VTK_troop", troop);
         }else if( request.getParameter("addNote") != null ){
             Note note = null;
