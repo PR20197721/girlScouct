@@ -16,6 +16,141 @@ Font : Open Sans
 
 */
 /* Embedded Fonts */
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("trefoilsans-thin.eot");
+  src: local("Trefoil Sans Web Thin"), local("TrefoilSansWeb-Thin"), url("../girlscouts/fonts/trefoilsans-thin.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-thin.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-thin.woff") format("woff");
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-thinit.eot");
+  src: local("Trefoil Sans Web Thin It"), local("TrefoilSansWeb-ThinIt"), url("../girlscouts/fonts/trefoilsans-thinit.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-thinit.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-thinit.woff") format("woff");
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-xlight.eot");
+  src: local("Trefoil Sans Web XLight"), local("TrefoilSansWeb-XLight"), url("../girlscouts/fonts/trefoilsans-xlight.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-xlight.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-xlight.woff") format("woff");
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-xlightit.eot");
+  src: local("Trefoil Sans Web XLight It"), local("TrefoilSansWeb-XLightIt"), url("../girlscouts/fonts/trefoilsans-xlightit.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-xlightit.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-xlightit.woff") format("woff");
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-light.eot");
+  src: local("Trefoil Sans Web Light"), local("TrefoilSansWeb-Light"), url("../girlscouts/fonts/trefoilsans-light.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-light.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-lightit.eot");
+  src: local("Trefoil Sans Web Light It"), local("TrefoilSansWeb-LightIt"), url("../girlscouts/fonts/trefoilsans-lightit.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-lightit.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-lightit.woff") format("woff");
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-regular.eot");
+  src: local("Trefoil Sans Web Regular"), local("TrefoilSansWeb-Regular"), url("../girlscouts/fonts/trefoilsans-regular.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-regular.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-regularit.eot");
+  src: local("Trefoil Sans Web Regular It"), local("TrefoilSansWeb-RegularIt"), url("../girlscouts/fonts/trefoilsans-regularit.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-regularit.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-regularit.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-medium.eot");
+  src: local("Trefoil Sans Web Medium"), local("TrefoilSansWeb-Medium"), url("../girlscouts/fonts/trefoilsans-medium.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-medium.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-mediumit.eot");
+  src: local("Trefoil Sans Web Medium It"), local("TrefoilSansWeb-MediumIt"), url("../girlscouts/fonts/trefoilsans-mediumit.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-mediumit.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-mediumit.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-semibold.eot");
+  src: local("Trefoil Sans Web Semibold"), local("TrefoilSansWeb-Semibold"), url("../girlscouts/fonts/trefoilsans-semibold.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-semibold.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-semiboldit.eot");
+  src: local("Trefoil Sans Web Semibold It"), local("TrefoilSansWeb-SemiboldIt"), url("../girlscouts/fonts/trefoilsans-semiboldit.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-semiboldit.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-semiboldit.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-bold.eot");
+  src: local("Trefoil Sans Web Bold"), local("TrefoilSansWeb-Bold"), url("../girlscouts/fonts/trefoilsans-bold.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-bold.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-boldit.eot");
+  src: local("Trefoil Sans Web Bold It"), local("TrefoilSansWeb-BoldIt"), url("../girlscouts/fonts/trefoilsans-boldit.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-boldit.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-boldit.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-black.eot");
+  src: local("Trefoil Sans Web Black"), local("TrefoilSansWeb-Black"), url("../girlscouts/fonts/trefoilsans-black.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-black.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-black.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-blackit.eot");
+  src: local("Trefoil Sans Web Black It"), local("TrefoilSansWeb-BlackIt"), url("../girlscouts/fonts/trefoilsans-blackit.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-blackit.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-blackit.woff") format("woff");
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-ultra.eot");
+  src: local("Trefoil Sans Web Ultra"), local("TrefoilSansWeb-Ultra"), url("../girlscouts/fonts/trefoilsans-ultrara.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-ultrara.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-ultrara.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../girlscouts/fonts/trefoilsans-ultrait.eot");
+  src: local("Trefoil Sans Web Ultra It"), local("TrefoilSansWeb-UltraIt"), url("../girlscouts/fonts/trefoilsans-ultrait.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-ultrait.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-ultrait.woff") format("woff");
+  font-weight: 900;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web Nav';
+  src: url("../girlscouts/fonts/trefoilsans-nav.eot");
+  src: local("Trefoil Sans Web Nav"), local("TrefoilSansWebNav"), url("../girlscouts/fonts/trefoilsans-nav.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-nav.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-nav.woff") format("woff");
+  font-weight: 900;
+  font-style: italic;
+}
+
+
 
 @font-face {
   font-family: 'Open Sans';
@@ -49,11 +184,11 @@ Font : Open Sans
 }
 
 html {
-  font-size: 16px;
+  font-size: 1em;
 }
 body {
   background-color: #6b6b6b;
-  font-family: "Open Sans", Arial, sans-serif;
+  font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
 }
 #mainContent h1 {
   margin: 0.2em 0 0.4em 0;
@@ -67,7 +202,7 @@ h1, h2, h3, h4, h5, h6 {
   color: red;
 }
 .bold {
-  font-weight: bold;
+  font-weight: 600;
 }
 a {
   color: #00ae58;
@@ -75,6 +210,11 @@ a {
 a:hover {
   color: green;
 }
+
+.eventsList .rightCol h6 a {
+  font-size: 1rem;
+}
+
 @media only screen and (min-width:500px and max-width: 620px) {
   .home-section .columns.large-1 {
     margin:0;
@@ -228,7 +368,7 @@ a:hover.menuHighlight {
 #header span {
   color: #FAA61A;
   font-size: 1.0em;
-  font-weight: bold;
+  font-weight: 600;
   line-height: 1;
 }
 #header a {
@@ -295,7 +435,11 @@ a:hover.menuHighlight {
   /* background-color:#063;*/
 }
 #headerBar .global-navigation {
-  padding-left: 52px;
+  padding-left: 42px;
+  font-family: "Trefoil Sans Web Nav";
+}
+#headerBar .global-navigation ul.inline-list {
+  font-size: 1.125rem;
 }
 #headerBar ul.inline-list li {
   line-height: 31px;
@@ -360,7 +504,7 @@ a:hover.menuHighlight {
   padding: 0px;
 }
 #footer a {
-  font-size: 0.875em;
+  font-size: 0.9375rem; 
   font-weight: normal;
   margin: 0px 10px 0px 0px;
   color:#C1EAD4;
@@ -479,6 +623,7 @@ a:hover.menuHighlight {
 
 #mainContent {
   text-align: left;
+  font-size: 1.0625rem;
 }
 /* RIGHT CONTENT */
 
@@ -572,7 +717,7 @@ a:hover.menuHighlight {
   padding-left: 50px;
 }
 #main .side-nav > li > div > a {
-  font-weight: bold;
+  font-weight: 600;
 }
 #main .side-nav li.active li.active > div {
   background-color: #B0B0B0;
@@ -588,7 +733,7 @@ a:hover.menuHighlight {
 }
 #main .side-nav li.active.current > div > a {
   color: #ffffff;
-  font-weight: bold;
+  font-weight: 600;
 }
 /*.home-section {
     padding: 15px 0px;
@@ -628,7 +773,7 @@ a:hover.menuHighlight {
     border: 1px solid green;
 }*/
 .home-section h2 {
-  font-size: 1.63em;
+  font-size: 1.8125rem;
   text-transform: uppercase;
 }
 .home-section h2 a {
@@ -729,7 +874,7 @@ input.form-btn, a.form-btn {
   border: 0 none;
   box-shadow: 1px 1px 1px rgba(208, 208, 208, 0.376);
   color: #FFFFFF;
-  font-size: 14px;
+  font-size: 0.9375rem;
   letter-spacing: 1px;
   /*line-height: 34px;*/
 
@@ -904,7 +1049,7 @@ td.fc-header-left {
 }*/
 
 .eyebrow-fontsize>li a {
-  font-size: 0.875rem;
+    font-size: 0.9375rem;
 }
 #header .searchBar input {
     height: 21px;
@@ -930,7 +1075,7 @@ td.fc-header-left {
 #header a.link-login {
   color: #FFF;
   font-size: 0.875rem;
-  font-weight: bold;
+  font-weight: 600;
   margin: 0 0 0 10px;
   position:relative;
 }
@@ -1088,10 +1233,10 @@ div.textimage.nowrap div.text p {
   height: 14px;
 }
 .breadcrumbCurrent {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
 }
 input.searchField {
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   padding: 0.1rem;
 }
 .noLeftPadding {
@@ -1184,13 +1329,13 @@ div.wrapper .row:nth-child(2) {
   }
 }
 #form .event-activity input[type=text] {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   height: 25px;
   padding: 0.4rem;
 }
 #form .title {
   padding: 4px 0px 7px 0px;
-  font-size: 15px;
+  font-size: 1rem;
   color: gray;
 }
 .white-arrow-down {
@@ -1312,8 +1457,8 @@ form#contact-us textarea {
   line-height: 1em;
 }
 .eventsList h6 {
-  line-height: 0.9em;
-  font-size: 0.9rem;
+  line-height: 1rem;
+  font-size: 1.125rem;
 }
 .eventsList.eventSection .leftCol {
   margin-bottom: 2em;
@@ -1356,7 +1501,7 @@ div#eventListWrapper {
   border: medium none;
   height: 23px;
   padding: 5px 0 5px 5px;
-  font-size: 0.7em;
+  font-size: 0.75rem;
   color: #989898;
   background-color: #ffffff;
 }
@@ -1395,7 +1540,7 @@ ul.searchResultsList li h2 a {
   font-size: 1.2rem;
 }
 ul.searchResultsList article p {
-  line-height: 1.2em;
+  line-height: 1.12em;
 }
 .news-data p {
   margin-bottom: 0;
@@ -1403,6 +1548,7 @@ ul.searchResultsList article p {
 .eventListDetail {
   padding: 0;
   line-height: 1.5em;
+  font-size: 1.0625rem;
 }
 .eventDetailsRegisterLink {
   text-align: left;
@@ -1451,7 +1597,7 @@ ul.searchResultsList article p {
   float: right;
 }
 .fc-header-title h2 {
-  font-size: 1.5rem;
+  font-size: 1.625rem;
 }
 .fc-header td {
   vertical-align: text-top;

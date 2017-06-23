@@ -5,7 +5,7 @@
   margin: 0px;
 }
 #main .side-nav > li > div > a {
-  font-weight: bold;
+  font-weight: 600;
 }
 #main .side-nav li div {
 	margin-left:10px;

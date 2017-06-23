@@ -18,6 +18,20 @@
     		value="true"
     		defaultValue="true"
     		type="checkbox"
+    		xtype="selection">
+    		<listeners
+        		jcr:primaryType="nt:unstructured"
+        		selectionchanged="function(field, value, isChecked) { var panel = field.findParentByType('panel'); var crawl = panel.getComponent('crawl'); isChecked ? crawl.hide() : crawl.show(); }"/>
+    	</delayActivation>
+    	<crawl
+    		jcr:primaryType="cq:Widget"
+    		fieldLabel="Crawl Site to Rebuild Cache"
+    		name="./crawl"
+    		value="true"
+    		defaultValue="true"
+    		type="checkbox"
+    		hidden="{Boolean}true"
+    		itemId="crawl"
     		xtype="selection"/>
         <councils
             jcr:primaryType="cq:Widget"

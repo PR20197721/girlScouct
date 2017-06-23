@@ -55,7 +55,7 @@
                     		for(String tagVal : tagValues){
                     			String tagTitle = tagVal.trim();
                     			 try{
-                    				String tagID = createId(tagTitle, r.getPath(), "forms_documents");
+                    				String tagID = createId(tagTitle, r.getPath(), "forms_documents","_");
                     				if(tagID != null){
 		                    			if(null == tm.resolve(tagID)){
 		                    				if(tm.canCreateTag(tagID)){
@@ -101,7 +101,14 @@
                     		for(String tagVal : tagValues){
                     			String tagTitle = tagVal.trim();
                     			 try{
-                    				String tagID = createId(tagTitle, r.getPath(), tagFolder);
+                        			String tagID = "";
+                        			if(tagFolder.equals("categories")){
+                        				String tagID = createID(tagTitle, r.getPath(), tagFolder,"");
+                        			}else if(tagFolder.equalsIgnoreCase("program-level")){
+                        				String tagID = createID(tagTitle, r.getPath(), tagFolder,"-");
+                        			}else{
+                        				String tagID = createID(tagTitle, r.getPath(), tagFolder,"_");
+                        			}
                     				if(tagID != null){
 		                    			if(null == tm.resolve(tagID)){
 		                    				if(tm.canCreateTag(tagID)){
@@ -302,7 +309,7 @@
 %>
 
 <%!
-String createId(String tag, String path, String folder){
+String createId(String tag, String path, String folder, String divider){
 	HashMap<String,String> specialCouncils = new HashMap<String,String>();
 	specialCouncils.put("southern-appalachian","girlscoutcsa");
 	specialCouncils.put("NE_Texas","NE_Texas");
@@ -312,7 +319,7 @@ String createId(String tag, String path, String folder){
 	specialCouncils.put("dxp","girlscouts-dxp");
 	
 	String councilRoot = "";
-	String tagName = tag.trim().toLowerCase().replaceAll(" ","_").replaceAll("[^a-z0-9_]","_");
+	String tagName  = tag.trim().toLowerCase().replaceAll(" ",divider).replaceAll("[^a-z0-9_]",divider);
 	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/*.*$");
 	Matcher mDam = pDam.matcher(path);
 	Pattern pContent = Pattern.compile("^/content/([^/]{1,})/*.*$");

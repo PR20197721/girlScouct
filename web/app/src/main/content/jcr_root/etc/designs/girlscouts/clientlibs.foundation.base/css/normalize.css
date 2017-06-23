@@ -112,7 +112,7 @@ abbr[title] {
 
 b,
 strong {
-  font-weight: bold;
+  font-weight: 600;
 }
 
 /**
@@ -129,7 +129,7 @@ dfn {
  */
 
 h1 {
-  font-size: 2em;
+  font-size: 2.5rem;
   margin: 0.67em 0;
 }
 
@@ -147,7 +147,7 @@ mark {
  */
 
 small {
-  font-size: 80%;
+  font-size: 85%;
 }
 
 /**
