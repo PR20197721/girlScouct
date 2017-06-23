@@ -5,6 +5,7 @@
 String type = properties.get("type", "join");
 String formName = type.equals("join") ? "formJoin" : "formVol";
 String formZipName = type.equals("join") ? "ZipJoin" : "ZipVolunteer";
+String source = properties.get("source", "");
 String text = properties.get("text", "JOIN!");
 String textColor = properties.get("textcolor", "#FFFFFF");
 String[] images = properties.get("images", String[].class);
@@ -50,6 +51,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
               <label for="zip-code" style="color:<%= textColor %>"><%= text %></label>
               <div class="form-wrapper">       
                 <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="<%= formZipName %>">
+                <input type="hidden" name="source" value="<%= source %>">
                 <input type="submit" class="link-arrow" value="Go >"/>
               </div>
             </form>
@@ -68,6 +70,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
               <label for="zip-code"><%= textMobile %></label>
               <div class="form-wrapper">       
                 <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="<%= formZipName %>">
+                <input type="hidden" name="source" value="<%= source %>">
                 <input type="submit" class="link-arrow" value="Go >"/>
               </div>
             </form>

@@ -29,6 +29,13 @@
                 				value="volunteer" />
                 		</options>
                 	</type>
+                	<source
+                		jcr:primaryType="cq:Widget"
+                		defaultValue="GIRLRedirect"
+                		fieldLabel="Source"
+                		fieldDescription="Idenfiable name to describe where redirect came from"
+                		name="./source"
+                		xtype="textfield" />
                     <text
                         jcr:primaryType="cq:Widget"
                         defaultValue="JOIN!"
