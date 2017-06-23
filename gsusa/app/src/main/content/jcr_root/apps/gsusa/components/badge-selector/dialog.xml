@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}600"
+    title="Badge Explorer"
+    width="{Long}1200"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab0
+                jcr:primaryType="cq:Panel"
+                title="Badge Selector">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title 
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Component Title"
+                        name="./componentTitle"
+                        xtype="textfield"/>
+                    <badgePath xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+					    jcr:primaryType="cq:Widget"
+					    fieldDescription="Badge Selectors"
+                        fieldLabel="Please select tags for badge dropdown."
+					    name="./badgeTagPaths"
+					    xtype="multifield">
+						<fieldConfig
+	                        jcr:primaryType="nt:unstructured"
+	                        fieldDescription="Badge Tag"
+	                        rootPath="/etc/tags/gsusa"
+	                        xtype="pathfield"/>
+					</badgePath>
+                </items>
+            </tab0>
+        </items>
+    </items>
+</jcr:root>
