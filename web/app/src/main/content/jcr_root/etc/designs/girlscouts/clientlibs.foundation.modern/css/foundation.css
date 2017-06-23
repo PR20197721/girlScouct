@@ -2693,7 +2693,7 @@ button.disabled.alert:hover, button.disabled.alert:focus, button[disabled].alert
 @media only screen and (min-width: 40.063em) {
   button, .button {
     display: inline-block;
-    font-size: 1.0625rem; 
+    font-size: 1.125rem; 
   }
 }
 .button-group {
@@ -3998,7 +3998,7 @@ p {
   font-family: inherit;
   font-weight: normal;
   font-size: 1.0625rem;
-  line-height: 1.6;
+  line-height: 1.4;
   margin-bottom: 1.25rem;
   text-rendering: optimizeLegibility;
 }
@@ -5798,7 +5798,7 @@ table tr th, table tr td {
   color: #222222;
 }
 table tr th p, table tr td p {
-  font-size: 0.9375rem;
+  font-size: 1.0625rem;
 }
 table tr.even, table tr.alt, table tr:nth-of-type(even) {
   background: #f9f9f9;
