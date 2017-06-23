@@ -353,7 +353,6 @@
   <modules>
     <module>web</module>
     <module>gsusa</module>
-    <module>vtk</module>
     <module>gsactivities</module>
   </modules>
 </project>
