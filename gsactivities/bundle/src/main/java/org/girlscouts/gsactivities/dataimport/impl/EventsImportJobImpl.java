@@ -1,24 +1,21 @@
 package org.girlscouts.gsactivities.dataimport.impl;
 
-import org.girlscouts.gsactivities.dataimport.EventsImport;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import java.util.Set;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -27,9 +24,9 @@ import javax.jcr.query.Query;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
+import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
@@ -47,6 +44,9 @@ import org.apache.sling.commons.json.JSONException;
 import org.apache.sling.commons.json.JSONObject;
 import org.apache.sling.commons.osgi.OsgiUtil;
 import org.apache.sling.settings.SlingSettingsService;
+import org.girlscouts.gsactivities.dataimport.EventsImport;
+import org.girlscouts.vtk.helpers.CouncilMapper;
+import org.girlscouts.web.exception.GirlScoutsException;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,9 +59,6 @@ import com.day.cq.tagging.TagManager;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
-
-import org.girlscouts.vtk.helpers.CouncilMapper;
-import org.girlscouts.web.exception.GirlScoutsException;
 
 @Component(
 		metatype = true, 
@@ -462,6 +459,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		dataNode.setProperty("memberOnly", getString(payload, _member_only));
 		dataNode.setProperty("timezone", getString(payload, _timezone));
 		String registerVal = getString(payload,_register);
+		if (registerVal != null)
+			registerVal = registerVal.trim();
 		//they stated that it's always Field NA in Salesforce, we may not need an if case at all
 		//We will keep it for now
 		if (!"Field NA in Salesforce".equals(registerVal)) {
