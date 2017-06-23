@@ -118,19 +118,12 @@
 						<a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
 					</dd>
 				<% }  %>
-
-				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+				<% if(  !user.getApiConfig().isDemoUser() ){ %>
 					<dd
 						<%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
 						<a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
 					</dd>
 
-				<% }else if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
-					<dd
-						<%= ("financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
-						<a title="Edit Finance Fields"
-							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
-					</dd>
 				<% } %>
 		  <%}%>
 			</dl>
@@ -252,16 +245,30 @@
 	                  }
 	              	case MEETING:
 	                	try {
-					            if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
+					      if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
 	
 	                		Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
-	                       if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID))
-	                    	  if (meetingPath != null && meetingPath != ""  ) {
-	                          %>
-							<li id="replaceMeetingSmall"></li>
-							<%
+	                        if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) && meetingPath != null && meetingPath != ""  ) {
+			                        %>
+									<li id="replaceMeetingSmall"></li>
+									<li id="rmMeetingSmall">
+									 <% if( new java.util.Date().getTime() <  new java.util.Date( planView.getSearchDate().getTime() ).getTime()  ){ %>
+										<a href="#" onclick="rmMeetingWithConf( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
+									<% }else{ 
+										String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+planView.getMeeting().getUid();
+										Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
+										Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
+										if( (attendance!=null && attendance.getUsers()!=null && !attendance.getUsers().trim().equals("") )||
+												( achievement!=null && achievement.getUsers()!=null && !achievement.getUsers().trim().equals("") ) ){	
+											  %><a href="#" onclick="rmMeetingWithConfBlocked( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a><%
+										}else{
+											  %><a href="#" onclick="rmMeetingWithConf( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a><%
+									    }
+									  }%>	
+									</li>
+									<%
 	                        }
-				               }
+				          }
 	                    } catch (Exception te) {
 	                      te.printStackTrace();
 	                    }
@@ -295,35 +302,11 @@
 					<% } %>
 
 
-					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ) { %>
-					<li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
+					<% if( !user.getApiConfig().isDemoUser() ) { %>
+					  <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
 						href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
-						<ul>
-							<% if("finances".equals(activeTab)) {
-
-               if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
-							<!-- li><a title="Edit Finance Fields"
-								href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">edit
-									finance fields</a></li -->
-							<%
-		            }
-                }else if("financesadmin".equals(activeTab)){
-
-              	 if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
-							<li><a title="enter finance"
-								href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">enter
-									finance</a></li>
-							<%
-                	 }
-                 }
-		            %>
-						</ul></li>
-					<% }else if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
-					<li
-						<%= ("financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
-						<a title="Edit Finance Fields"
-						href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
-					</li>
+						</li>
+					
 					<% } %>
 				<%}%>	
 				</ul>
@@ -399,8 +382,25 @@
               try { Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
                       if (meetingPath != null && meetingPath != "") {
                       %>
-						<li id="replaceMeeting"></li>
-						<%
+                      
+                      <li id="replaceMeeting"></li>
+						<li id="rmMeeting">
+						 <% if( new java.util.Date().getTime() <  new java.util.Date( planView.getSearchDate().getTime() ).getTime()  ){ %>
+							<a href="#" onclick="rmMeetingWithConf( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
+						<% }else{ 
+							String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+planView.getMeeting().getUid();
+							Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
+							Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
+							if( (attendance!=null && attendance.getUsers()!=null && !attendance.getUsers().trim().equals("") ) ||
+									( achievement!=null && achievement.getUsers()!=null && !achievement.getUsers().trim().equals("") ) ){	
+								  %><a href="#" onclick="rmMeetingWithConfBlocked( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a><%
+							}else{
+								  %><a href="#" onclick="rmMeetingWithConf( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a><%
+						    }
+						  }%>	
+						</li>
+                      
+					  <%
                       }
                   } catch (Exception te) {
                     te.printStackTrace();
@@ -417,27 +417,7 @@
 						<li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove
 								troop photo</a></li>
 						<% } %>
-						<!-- if finance page -->
-						<% if("finances".equals(activeTab) || "financesadmin".equals(activeTab)) {
-
-                     if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
-						<li>
-							<% if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) { %>
-								<p>edit finance fields</p> 
-							<% } else if("financesadmin".equals(activeTab)){ %>
-							<a title="Finance"
-							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">enter
-								finance</a> 
-								<% } else if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
-							<!-- a title="Edit Finance Fields"
-							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">edit
-								finance fields</a --> 
-								<% } %>
-						</li>
-						<%
-                    }
-                }
-            %>
+						
 
 
 
@@ -478,7 +458,14 @@
 					<ul class="inline-list" id="util-links">
 					
 					
+						<% if("myTroop".equals(activeTab) &&  VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID) ) { %>
+						   <li><a
+							title="print" href="/content/girlscouts-vtk/controllers/vtk.include.troopRoster.pdf" target="_blank"><i class="icon-printer"></i></a></li>
+							
+							<li style="margin-right:15px"><a
+							title="download" href="/content/girlscouts-vtk/controllers/vtk.include.troopRosterCsvRpt.html" target="_blank"><i class="icon-download"></i></a></li>
 
+                        <%}%>
 					
 						<%if(activeTab!=null  && ( "plan".equals(activeTab) || (  pageContext.getAttribute("YearPlanComponent")!=null && ((String)pageContext.getAttribute("YearPlanComponent")).equals("MEETING")  &&  "planView".equals(activeTab) )) ){ %>
 						
@@ -526,4 +513,3 @@
 </div>
 
  
-

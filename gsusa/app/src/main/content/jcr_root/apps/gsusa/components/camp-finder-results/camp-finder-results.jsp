@@ -311,7 +311,9 @@ function getCampResults() {
 	})();
 
 	if (zip == undefined) {
-		// TODO: error: zip not found.
+		var templateDOMId = 'template-invalidzip';
+		var html = Handlebars.compile($('#' + templateDOMId).html())();
+		$('#camp-finder-result').html(html);
 	} else {
 		var radius = $('select[name="radius"]').val();
 		var duration = $('select[name="duration"]').val();

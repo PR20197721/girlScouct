@@ -16,3 +16,4 @@ meet-the-cookies-multifield-widget.js
 toggleparsys.js
 title-and-pathfield.js
 link-widget.js
+rss-feed.js

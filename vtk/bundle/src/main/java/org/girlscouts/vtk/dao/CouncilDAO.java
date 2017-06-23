@@ -28,6 +28,8 @@ public interface CouncilDAO {
 
 	public void GSMonthlyDetailedRpt();
 	
+	public void GSRptCouncilPublishFinance();
+	
 	
 
 }

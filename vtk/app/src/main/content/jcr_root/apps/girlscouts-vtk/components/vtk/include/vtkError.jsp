@@ -26,9 +26,11 @@ if( errors!=null ) {
 	 }
 %>
              <li id="_vtkErrMsgId_<%=err.getId()%>">
-                <p><strong><%= err.getName()%></strong></p>
-                <p><%= err.getUserFormattedMsg()%></p>
-                <a href="javascript:void(0)" onclick="rmVtkErrMsg('<%=err.getId()%>')">dismiss</a>
+                <div style="display:none;">
+	                <p><strong><%= err.getName()%></strong></p>
+	                <p><%= err.getUserFormattedMsg()%></p>
+	                <a href="javascript:void(0)" onclick="rmVtkErrMsg('<%=err.getId()%>')">dismiss</a>
+				</div>
                 <!--
                 ---- description ----
                 <p><%= err.getDescription()%></p>

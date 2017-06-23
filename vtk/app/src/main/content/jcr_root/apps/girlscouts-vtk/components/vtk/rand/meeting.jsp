@@ -16,11 +16,7 @@
 <html>
  
   <title>Hello </title>
-  <!-- script src="http://fb.me/react-0.12.1.js"></script -->
-  <!-- script src="http://fb.me/JSXTransformer-0.12.1.js"></script -->
-  <!-- script src="http://code.jquery.com/jquery-1.10.0.min.js"></script -->
-  <!-- script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script -->
- 
+
   
     
     
@@ -224,7 +220,7 @@ cache: false,
 
 
 
-React.render(
+ReactDOM.render(
 <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={20000} />,
   document.getElementById('content')
 );

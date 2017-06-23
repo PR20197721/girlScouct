@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    width="{Long}600"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Widget"
+                title="Configuration"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+					<feedTitle
+						jcr:primaryType="nt:unstructured"
+						attribute="adhocevars"
+						fieldDescription=""
+						fieldLabel="Feed Title"
+						name="./feedTitle"
+						xtype="textfield"/>
+					<feedLandingPage
+						jcr:primaryType="nt:unstructured"
+						attribute="adhocevars"
+						fieldDescription="(e.g. http://www.girlscouts.org/en/raising-girls.html)"
+						fieldLabel="Feed Landing Page"
+						name="./feedLandingPage"
+						xtype="textfield"/>
+					<feedDesc
+						jcr:primaryType="nt:unstructured"
+						attribute="adhocevars"
+						fieldDescription=""
+						fieldLabel="Feed Desc"
+						name="./feedDesc"
+						xtype="textfield"/>
+					<feedScaffoldingType
+						jcr:primaryType="nt:unstructured"
+						attribute="adhocevars"
+						allowBlank="false"
+						fieldDescription="(e.g. /etc/scaffolding/gsusa/article)"
+						fieldLabel="Scaffolding Type"
+						name="./feedScaffoldingType"
+						xtype="textfield"/>
+					<feedMaxItems
+						jcr:primaryType="nt:unstructured"
+						attribute="adhocevars"
+						fieldDescription="Empty value will pull 9,999 articles."
+						fieldLabel="Max Items"
+						name="./feedMaxItems"
+						xtype="numberfield"/>
+                    <feedPaths
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Feed Paths"
+                        hideLabel="{Boolean}False"
+                        name="./feedPaths"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="nt:unstructured"
+                            xtype="rssfeed"/>
+                    </feedPaths>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

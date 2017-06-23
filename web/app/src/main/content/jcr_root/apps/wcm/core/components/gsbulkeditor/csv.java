@@ -253,9 +253,10 @@ public class csv extends SlingAllMethodsServlet {
 					}
 				}
 			}
-            
-            iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString, primaryTypeString, includePath, importType, rr);
-
+			
+			if(null != rr.getResource(path)){
+				iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString, primaryTypeString, includePath, importType, rr);
+			}
         } catch (Exception e) {
             throw new ServletException(e);
         }
