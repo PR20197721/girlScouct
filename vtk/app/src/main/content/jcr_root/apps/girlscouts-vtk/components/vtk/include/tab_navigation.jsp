@@ -383,8 +383,8 @@
                       if (meetingPath != null && meetingPath != "") {
                       %>
                       
-                      <li id="replaceMeetingSmall"></li>
-						<li id="rmMeetingSmall">
+                      <li id="replaceMeeting"></li>
+						<li id="rmMeeting">
 						 <% if( new java.util.Date().getTime() <  new java.util.Date( planView.getSearchDate().getTime() ).getTime()  ){ %>
 							<a href="#" onclick="rmMeetingWithConf( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
 						<% }else{ 
