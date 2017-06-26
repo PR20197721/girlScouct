@@ -149,6 +149,26 @@
                         xtype="hidden"/>
                 </items>
             </logomobile>
+            <bannermobile
+                jcr:primaryType="cq:Widget"
+                cropParameter="./bannermobile/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./bannermobile/fileName"
+                fileReferenceParameter="./bannermobile/fileReference"
+                mapParameter="./bannermobile/imageMap"
+                name="./bannermobile"
+                requestSuffix="/bannermobile.img.png"
+                rotateParameter="./bannermobile/imageRotate"
+                title="Mobile Banner"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./bannermobile/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </bannermobile>
         </items>
     </items>
 </jcr:root>

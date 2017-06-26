@@ -10,6 +10,7 @@ String text = properties.get("text", "JOIN!");
 String textColor = properties.get("textcolor", "#FFFFFF");
 String[] images = properties.get("images", String[].class);
 
+
 Resource logo = resource.getChild("logo");
 String logoPath = "";
 if (logo != null) {
@@ -25,6 +26,13 @@ String logoMobilePath = "";
 if (logoMobile != null) {
 	logoMobilePath = ((ValueMap)logoMobile.adaptTo(ValueMap.class)).get("fileReference", "");
 }
+
+Resource bannerMobile = resource.getChild("bannermobile");
+String bannerMobilePath = "";
+if (bannerMobile != null) {
+	bannerMobilePath = ((ValueMap)bannerMobile.adaptTo(ValueMap.class)).get("fileReference", "");
+}
+
 
 String redirectURL = properties.get("url", "");
 String autoplayspeed = properties.get("autoplayspeed", "");		//slider speed
@@ -76,6 +84,9 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
             </form>
           </div>
         </div>
+      </div>
+      <div class="join-redirect-banner">
+      	<img src="<%= bannerMobilePath %>" />
       </div>
     </div>
 <script>
