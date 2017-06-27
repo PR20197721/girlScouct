@@ -461,9 +461,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		dataNode.setProperty("srchdisp", getString(payload, _description));
 		dataNode.setProperty("memberOnly", getString(payload, _member_only));
 		dataNode.setProperty("timezone", getString(payload, _timezone));
-		String registerVal = getString(payload, _register);
-		if (registerVal != null)
-			registerVal = registerVal.trim();
+		String registerVal = getString(payload,_register);
 		//they stated that it's always Field NA in Salesforce, we may not need an if case at all
 		//We will keep it for now
 		if (!"Field NA in Salesforce".equals(registerVal)) {
