@@ -440,7 +440,7 @@
                                     </div>
                                     <div class="text parbase section">
                                         <p>
-                                            The Volunteer Toolkit is down for annual maintenance starting July 1. Please check back by Friday, July 7 to start planning your next Girl Scout year! And, don’t forget about the exciting new program content coming to the Volunteer Toolkit the week of July 17!
+                                            The Volunteer Toolkit is currently undergoing maintenance. Please check back in a few hours.
                                         </p>
                                     </div>
                                     <p>
