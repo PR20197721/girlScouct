@@ -228,19 +228,19 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 
 	private void getFiles() throws IOException, GirlScoutsException {
 		readTimeStamp();
-		log.info("checking files after "+ZIP_DATE_FORMAT.format(lastUpdated));
+		log.info("GSActivities:: Checking files after "+ZIP_DATE_FORMAT.format(lastUpdated));
 		//control connection being idle can cause disconnecting from server during data transfer
 		//this is to send NOOP every TIME_OUT secs.
 		ftp.setControlKeepAliveTimeout(TIME_OUT_IN_SEC); 
 
 		if (ftp.changeWorkingDirectory(directory)) {
-			log.info("Successfully switch to directory " + ftp.printWorkingDirectory());
+			log.info("GSActivities:: Successfully switched to directory " + ftp.printWorkingDirectory());
 			//tracking the latest timeStamp for this update
 			ftp.setFileType(FTP.BINARY_FILE_TYPE, FTP.NON_PRINT_TEXT_FORMAT);
 			
 			Date latest = lastUpdated;
 			FTPFile[] files = ftp.listFiles();
-			log.info(ftp.getReplyString());
+			log.info("GSActivities:: Retrieving list of files");
 			
 			List<String> newFiles = new ArrayList<String>();
 			for (FTPFile file:files) {
@@ -266,35 +266,40 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				}
 			}
 			
-			
-			//Sort to make sure the older files are read first
-			Collections.sort(newFiles);
-			
-			int lastIndex = processFtpFiles(newFiles);
-			String zipName = newFiles.get(lastIndex);
-			
-			if(zipName != null){
-				try {
-					latest = ZIP_DATE_FORMAT.parse(zipName.substring(9, zipName.indexOf(".zip")));
-				} catch (ParseException e) {
-					//This is a theoretically unreachable place in the code
-					log.error("GSActivities:: unable to parse the date of the latest file name.");
-				}
-			}
-			
+			if(!newFiles.isEmpty()){
+				//Sort to make sure the older files are read first
+				Collections.sort(newFiles);
 				
-			//Check that all the files were processed
-			if(lastIndex < newFiles.size() - 1){
-				lastIndex++;
-				String failedZipName = newFiles.get(lastIndex);
-				errorString.append("<p>Failed to download the file " + failedZipName + " from the server.</p>");
-				processInterrupted = true;
-				log.error("GSActivities:: Failed to download the file " + failedZipName + " from the server.");
+				int lastIndex = processFtpFiles(newFiles);
+				String zipName = newFiles.get(lastIndex);
+				
+				if(zipName != null){
+					try {
+						latest = ZIP_DATE_FORMAT.parse(zipName.substring(9, zipName.indexOf(".zip")));
+					} catch (ParseException e) {
+						//This is a theoretically unreachable place in the code
+						log.error("GSActivities:: unable to parse the date of the latest file name.");
+					}
+				}
+				
+				
+					
+				//Check that all the files were processed
+				if(lastIndex < newFiles.size() - 1){
+					lastIndex++;
+					String failedZipName = newFiles.get(lastIndex);
+					errorString.append("<p>Failed to download the file " + failedZipName + " from the server.</p>");
+					processInterrupted = true;
+					log.error("GSActivities:: Failed to download the file " + failedZipName + " from the server.");
+				}
+				lastUpdated=latest;
+				writeTimeStamp();
+			} else{
+				log.error("GSActivities:");
 			}
 			
 			
-			lastUpdated=latest;
-			writeTimeStamp();
+			
 			
 		}else{
 			errorString.append("<p>Unable to find the event file directory " + directory + " on the server.</p>");
@@ -308,7 +313,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		
 		//Gather all the up to date activity instruction files in a FIFO queue
 		Queue<ZipData> zipQueue = new LinkedBlockingQueue<ZipData>();
-		int lastIndex = 0;
+		int lastIndex = -1;
 		
 		for (String zip : newFiles) {
 			log.info("GSActivities:: Loading file " + zip);
@@ -672,7 +677,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 //				+ path + "') AND [eid]='"+id+"'";
 		String sql = "SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(s, '"
 				+ path + "') AND [eid]='" + id + "'";
-		log.info("SQL " + sql);
+		//Can be turned on for debugging
+		//log.info("SQL " + sql);
 		try {
 			for (Iterator<Resource> it = rr.findResources(sql, Query.JCR_SQL2); it.hasNext();) {
 				return it.next().getParent().getParent().adaptTo(Page.class);	
