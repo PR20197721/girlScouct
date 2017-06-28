@@ -1,3 +1,5 @@
+
+
 <%@ page import="org.apache.commons.lang3.StringEscapeUtils,java.util.stream.Collectors,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@ page import="com.day.cq.wcm.foundation.Search,
 org.girlscouts.web.search.DocHit,java.io.*,
@@ -13,18 +15,18 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 <%@include file="include/session.jsp"%>
 <%
         response.setContentType("application/csv");
-		response.setHeader("Content-Disposition","attachment; filename=MeetingCountReport.csv");
+		response.setHeader("Content-Disposition","attachment; filename=AchievementReport.csv");
         javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
-        String sql="select refId from nt:unstructured where jcr:path like '"+ VtkUtil.getYearPlanBase(null,null) +"%' and ocm_classname ='org.girlscouts.vtk.models.MeetingE' order by [jcr:score]";
+        String sql="select parent.refId  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ VtkUtil.getYearPlanBase(null,null) +"])) and child.ocm_classname='org.girlscouts.vtk.models.Achievement'";
         javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
-        javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+        javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
         javax.jcr.query.QueryResult result = q.execute();
 		java.util.List<String> container = new java.util.ArrayList();
 		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
             javax.jcr.query.Row r = it.nextRow();
             try{
-				container.add(r.getValue("refId").getString());
-            }catch(Exception e){}          
+				container.add(r.getValue("parent.refId").getString());
+            }catch(Exception e){e.printStackTrace();}          
         }
 		Map<String, Long> counts =VtkUtil.countUniq(container);
         java.util.Iterator itr= counts.keySet().iterator();
