@@ -1,4 +1,4 @@
-<%@ page import="java.util.stream.Collectors,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils,java.util.stream.Collectors,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@ page import="com.day.cq.wcm.foundation.Search,
 org.girlscouts.web.search.DocHit,java.io.*,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
@@ -30,8 +30,12 @@ java.util.Map,java.util.HashMap,java.util.List" %>
         java.util.Iterator itr= counts.keySet().iterator();
         while( itr.hasNext() ){
             String meetingRef = (String) itr.next();
-            Node node = s.getNode(meetingRef);
+            Node node = null; try{ node= s.getNode(meetingRef);}catch(Exception e){e.printStackTrace();}
             long count= counts.get(meetingRef);
-            out.println( "\n"+node.getProperty("name").getString() +","+ count );
+            String meetingName = (node ==null ? meetingRef : node.getProperty("name").getString() );
+            String ageGroup = (node ==null ? "" : node.getProperty("level").getString() );
+            out.println( "\n"+ StringEscapeUtils.escapeCsv(meetingName) + ","+
+								StringEscapeUtils.escapeCsv(ageGroup) + ","+
+                        		","+ count +","+meetingRef);
         }
     %>
