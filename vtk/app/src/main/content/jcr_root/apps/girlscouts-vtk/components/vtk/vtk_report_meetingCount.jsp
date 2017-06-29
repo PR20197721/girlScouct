@@ -2,7 +2,7 @@
 <%@ page import="com.day.cq.wcm.foundation.Search,
 org.girlscouts.web.search.DocHit,java.io.*,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
-com.day.cq.tagging.TagManager,
+com.day.cq.tagging.TagManager,com.google.common.collect.*,
 java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
 java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
 com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
@@ -15,27 +15,42 @@ java.util.Map,java.util.HashMap,java.util.List" %>
         response.setContentType("application/csv");
 		response.setHeader("Content-Disposition","attachment; filename=MeetingCountReport.csv");
         javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
-        String sql="select refId from nt:unstructured where jcr:path like '"+ VtkUtil.getYearPlanBase(null,null) +"%' and ocm_classname ='org.girlscouts.vtk.models.MeetingE' order by [jcr:score]";
-        javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
+        
+		String sql="select id,name, level from nt:unstructured where jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+user.getCurrentYear()+"/%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
+		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
         javax.jcr.query.QueryResult result = q.execute();
-		java.util.List<String> container = new java.util.ArrayList();
+		java.util.Map<String, String[]> meetingInfos = new java.util.TreeMap();
+		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
+            javax.jcr.query.Row r = it.nextRow();
+            try{ 
+				String name= r.getValue("name").getString();
+                String id= r.getValue("id").getString();
+                String level= r.getValue("level").getString();
+                String meetingInfo[] = {name, level};
+                meetingInfos.put( id, meetingInfo);         
+            }catch(Exception e){e.printStackTrace();}          
+		}
+        
+        sql="select refId from nt:unstructured where jcr:path like '"+ VtkUtil.getYearPlanBase(null,null) +"%' and ocm_classname ='org.girlscouts.vtk.models.MeetingE'";
+        q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+        result = q.execute();
+		Multimap<String, String> container = ArrayListMultimap.create();
 		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
             javax.jcr.query.Row r = it.nextRow();
             try{
-				container.add(r.getValue("refId").getString());
+                String refId= r.getValue("refId").getString();
+                String meetingId= refId.substring( refId.lastIndexOf("/")+1);
+                meetingId= meetingId.contains("_") ? meetingId.substring(0,meetingId.indexOf("_")) : meetingId;
+                container.put( meetingId, refId);
             }catch(Exception e){}          
         }
-		Map<String, Long> counts =VtkUtil.countUniq(container);
-        java.util.Iterator itr= counts.keySet().iterator();
+
+		java.util.Iterator itr= container.keySet().iterator();
         while( itr.hasNext() ){
-            String meetingRef = (String) itr.next();
-            Node node = null; try{ node= s.getNode(meetingRef);}catch(Exception e){e.printStackTrace();}
-            long count= counts.get(meetingRef);
-            String meetingName = (node ==null ? meetingRef : node.getProperty("name").getString() );
-            String ageGroup = (node ==null ? "" : node.getProperty("level").getString() );
-            out.println( "\n"+ StringEscapeUtils.escapeCsv(meetingName) + ","+
-								StringEscapeUtils.escapeCsv(ageGroup) + ","+
-                        		","+ count +","+meetingRef);
+            String meetingId = (String) itr.next();
+            java.util.Collection paths = container.get(meetingId);
+            String meetingInfo[] = meetingInfos.get( meetingId );
+            out.println("\n"+ meetingId +","+ paths.size() + "," + StringEscapeUtils.escapeCsv( meetingInfo[0]) +","+ StringEscapeUtils.escapeCsv( meetingInfo[1]));
         }
-    %>
+  %>

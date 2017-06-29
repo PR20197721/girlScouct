@@ -17,7 +17,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
         response.setContentType("application/csv");
 		response.setHeader("Content-Disposition","attachment; filename=AchievementReport.csv");
         javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
-        String sql="select parent.refId  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ VtkUtil.getYearPlanBase(null,null) +"])) and child.ocm_classname='org.girlscouts.vtk.models.Achievement'";
+        String sql="select parent.refId  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ VtkUtil.getYearPlanBase(null,null) +"])) and child.ocm_classname='org.girlscouts.vtk.models.Achievement' and child.users <> ''";
         javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
         javax.jcr.query.QueryResult result = q.execute();
