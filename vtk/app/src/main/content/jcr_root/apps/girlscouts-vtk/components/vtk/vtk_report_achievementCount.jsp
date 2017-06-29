@@ -36,8 +36,10 @@ java.util.Map,java.util.HashMap,java.util.List" %>
             long count= counts.get(meetingRef);
             String meetingName = (node ==null ? meetingRef : node.getProperty("name").getString() );
             String ageGroup = (node ==null ? "" : node.getProperty("level").getString() );
-            out.println( "\n"+ StringEscapeUtils.escapeCsv(meetingName) + ","+
-								StringEscapeUtils.escapeCsv(ageGroup) + ","+
-                        		","+ count +","+meetingRef);
+            out.println( "\n"+ node.getProperty("id").getString() +","+ count+","+
+                        StringEscapeUtils.escapeCsv(meetingName) + ","+
+								StringEscapeUtils.escapeCsv(ageGroup)  
+
+                        		 );
         }
     %>
