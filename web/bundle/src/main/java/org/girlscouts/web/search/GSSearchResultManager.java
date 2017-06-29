@@ -33,25 +33,29 @@ public final class GSSearchResultManager {
     }
 
 	public void add(QueryResult result) {
-		try {
-			RowIterator rowIter = result.getRows();
-			while (rowIter.hasNext()) {
-				Row row = rowIter.nextRow();
-				add(new GSSearchResult(row));
+		if (result != null) {
+			try {
+				RowIterator rowIter = result.getRows();
+				while (rowIter.hasNext()) {
+					Row row = rowIter.nextRow();
+					add(new GSSearchResult(row));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
 	public void add(GSSearchResult result) {
-		if (this.searchResults.containsKey(result.getPath())) {
-			GSSearchResult existingResult = this.searchResults.get(result.getPath());
-			if (result.getScore().compareTo(existingResult.getScore()) > 0) {
-				this.searchResults.replace(result.getPath(), result);
+		if (result != null) {
+			if (this.searchResults.containsKey(result.getPath())) {
+				GSSearchResult existingResult = this.searchResults.get(result.getPath());
+				if (result.getScore().compareTo(existingResult.getScore()) > 0) {
+					this.searchResults.replace(result.getPath(), result);
+				}
+			} else {
+				this.searchResults.put(result.getPath(), result);
 			}
-		} else {
-			this.searchResults.put(result.getPath(), result);
 		}
 	}
 

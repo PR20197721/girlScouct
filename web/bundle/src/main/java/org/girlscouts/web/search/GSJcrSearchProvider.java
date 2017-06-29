@@ -22,6 +22,7 @@ public class GSJcrSearchProvider {
 		QueryResult result = null;
 		try {
 			String decodedSearchText = URLDecoder.decode(searchText, "UTF-8");
+			decodedSearchText = decodedSearchText.replaceAll("'", "''");
 			String query = String.format(EXPRESSION, type, path, decodedSearchText);
 			QueryManager queryManager = session.getWorkspace().getQueryManager();
 			Query sql2Query = queryManager.createQuery(query, QUERY_LANGUAGE);

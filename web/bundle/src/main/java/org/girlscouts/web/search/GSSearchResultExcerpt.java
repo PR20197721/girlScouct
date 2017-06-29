@@ -34,7 +34,7 @@ public class GSSearchResultExcerpt {
 		this(text, false);
 	}
 
-	public static GSSearchResultExcerpt create(final GSSearchResult result, final Set excerptPropNames,
+	public static GSSearchResultExcerpt create(final GSSearchResult result, final Set<String> excerptPropNames,
 			final int maxLength)
 			throws RepositoryException {
 		Node node = (Node) result.getResultNode();

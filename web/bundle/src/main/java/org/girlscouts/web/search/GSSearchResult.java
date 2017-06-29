@@ -3,7 +3,6 @@ package org.girlscouts.web.search;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -84,7 +83,6 @@ public final class GSSearchResult implements GSSearchResultConstants {
 					return seoTitle;
 				}
 			} catch (Exception e) {
-
 			}
 
 			String primaryType = this.resultNode.getPrimaryNodeType().getName();
@@ -100,10 +98,10 @@ public final class GSSearchResult implements GSSearchResultConstants {
 				title = this.resultNode.getProperty(PROPERTY_DC_TITLE).getString();
 			}
 			if (StringUtils.isEmpty(title)) {
+				log.info("Cannot get the title. Use node name instead.");
 				title = this.resultNode.getName();
 			}
 		} catch (Exception e) {
-			log.info("Cannot get the title. Use node name instead.");
 		}
 		return title;
 	}
