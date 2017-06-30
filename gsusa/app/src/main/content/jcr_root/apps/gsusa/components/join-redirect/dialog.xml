@@ -83,11 +83,6 @@
                         minValue="20"
                         name="./speed"
                         xtype="numberfield"/>
-                    <url
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Redirect URL"
-                        name="./url"
-                        xtype="textfield"/>
                 </items>
             </main>
             <mobile

@@ -34,7 +34,6 @@ if (bannerMobile != null) {
 }
 
 
-String redirectURL = properties.get("url", "");
 String autoplayspeed = properties.get("autoplayspeed", "");		//slider speed
 String speed = properties.get("speed", "");						//slider transition speed
 
