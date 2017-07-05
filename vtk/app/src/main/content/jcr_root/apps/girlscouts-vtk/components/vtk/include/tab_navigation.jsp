@@ -166,8 +166,7 @@
 						<ul class="dropdown">
 							<% if("plan".equals(activeTab)  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
 
-								<% if(troop!=null && troop.getSfTroopAge()!=null && !troop.getSfTroopAge().toLowerCase().trim().contains("cadette") &&
-	                            !troop.getSfTroopAge().toLowerCase().trim().contains("ambassador") && !troop.getSfTroopAge().toLowerCase().trim().contains("senior")){ %>
+								<% if(troop!=null && troop.getSfTroopAge()!=null ){ %>
 								<li><a onclick="newLocCal()">Specify Meeting Dates and
 										Locations</a></li>
 								<li><a
@@ -335,8 +334,7 @@
 						<!-- if on YP page this menu shows -->
 						<%
                 if ("plan".equals(activeTab) && troop.getYearPlan() != null  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
-						<% if(troop!=null && troop.getSfTroopAge()!=null && !troop.getSfTroopAge().toLowerCase().trim().contains("cadette") &&
-                            !troop.getSfTroopAge().toLowerCase().trim().contains("ambassador") && !troop.getSfTroopAge().toLowerCase().trim().contains("senior")){ %>
+						<% if(troop!=null && troop.getSfTroopAge()!=null){ %>
 						<li><a href="#" onclick="newLocCal()"
 							title="Meeting Dates and Location">Specify Dates and
 								Locations</a></li>
