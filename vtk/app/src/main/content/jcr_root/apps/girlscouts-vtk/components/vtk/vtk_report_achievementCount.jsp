@@ -29,8 +29,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
                 String id= r.getValue("id").getString();
                 String level= r.getValue("level").getString();
                 String meetingInfo[] = {name, level};
-                meetingInfos.put( id, meetingInfo);   
-                System.err.println( "caca111: "+id) ;              
+                meetingInfos.put( id, meetingInfo);
             }catch(Exception e){e.printStackTrace();}          
 		}
 		
