@@ -120,11 +120,10 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 		out.println("Your session has timed out.  Please login.");
 		return;
 	}
-	if(true){
-		/*
+	
 	if((apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
-			|| (apiConfig.getTroops().get(0).getType() == 1)) ){	*/	
+			|| (apiConfig.getTroops().get(0).getType() == 1)) ){	
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
 			<div class="columns large-20 large-centered">
