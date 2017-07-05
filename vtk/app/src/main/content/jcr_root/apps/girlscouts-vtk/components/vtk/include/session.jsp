@@ -120,22 +120,25 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 		out.println("Your session has timed out.  Please login.");
 		return;
 	}
-	
-		
+	if(true){
+		/*
 	if((apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
-			|| (apiConfig.getTroops().get(0).getType() == 1)) ){		
+			|| (apiConfig.getTroops().get(0).getType() == 1)) ){	*/	
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
 			<div class="columns large-20 large-centered">
 			    <%@include file="vtkError.jsp" %>
 			    
-			    <p>We're sorry you're having trouble logging into the VTK! </p>
+			    <p>We're sorry you're having trouble logging into the VTK. We're here to help!</p>
 			    <p>
-			       The Volunteer Toolkit is a digital planning tool currently available for active Troop Leaders and Co-Leaders. If you're having trouble logging please ensure that you have an active 2017 membership. If you're a Parent of a girl in an active troop, please make sure your girl has an active 2017 membership record as well. 
+			    	The Volunteer Toolkit is a digital planning tool currently available for active Troop Leaders and Co-Leaders. To access the VTK, please ensure you have an active 2018 membership. If you're a parent, please make sure your daughter has an active 2018 membership record as well and that she's part of an active troop.
 			    </p>
 			    <p>
-			        Please, click Contact Us at the top of the page for more help! 
+			    	Need help? click Contact Us at the top of the page to connect with the customer service team and we'll get it sorted out.
+			    </p>
+			    <p>
+			    	Thank you!
 			    </p>
 			    </div>
 			</div>
