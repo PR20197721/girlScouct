@@ -1,41 +1,24 @@
-<%@page import="java.net.URLEncoder"%>
-<%@page	import="java.text.SimpleDateFormat,
-                org.apache.commons.lang3.time.FastDateFormat,
-                org.girlscouts.vtk.models.Troop,
-                org.girlscouts.vtk.auth.permission.*,
-                org.girlscouts.vtk.utils.VtkUtil,
-                org.apache.commons.lang3.time.FastDateFormat,
-                org.apache.sling.runmode.RunMode"%>
-<%!
+<%@page import="java.net.URLEncoder,
+	java.text.SimpleDateFormat,
+	org.apache.commons.lang3.time.FastDateFormat,
+	org.girlscouts.vtk.models.Troop,
+	org.girlscouts.vtk.auth.permission.*,
+	org.girlscouts.vtk.utils.VtkUtil,
+	org.apache.commons.lang3.time.FastDateFormat,
+	org.apache.sling.runmode.RunMode"%><%!
     // put all static in util classes
 	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
     java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat( "#,##0.00");
-    
 	boolean isCachableContacts=false;
-	/*
-	public boolean hasPermission(Troop troop, int permissionId) {
-		java.util.Set<Integer> myPermissionTokens = troop.getTroop().getPermissionTokens();
-		if (myPermissionTokens != null && myPermissionTokens.contains(permissionId)) {
-			return true;
-		}
-		return false;
-	}
-*/
+
 	// Feature set toggles
 	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
 	String SHOW_VALID_SF_USER_FEATURE = "showValidSfUser";
 
 	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
 	String[] ENABLED_FEATURES = new String[] {SHOW_VALID_SF_USER_FEATURE};
-%>
-
-
-
-<% 
-
-String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
-
-
+%><% 
+	String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
 	boolean isMultiUserFullBlock = true;
 // Why so heavy?  Do we need to load all services here or maybe on demand is better?
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
@@ -97,8 +80,6 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 		    	 </div>
 		    	</div><%
 		    }else{
-		    
-		    
 				    %>
 				    <div id="panelWrapper" class="row meeting-detail content">
 		             <div class="columns large-20 large-centered">
@@ -139,7 +120,6 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 			    </p>
 			    </div>
 			</div>
-			
 			<%
 
 				return;
@@ -173,18 +153,7 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
         session.setAttribute("showGamma", null);
 	}
-	/*
-	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
-	if(  troop != null && !troop.isRefresh() && !userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid() ) &&
-			session.getAttribute("isReloadedWindow")!=null ){
-			troop.setRefresh(true);
-	}
-	session.removeAttribute( "isReloadedWindow"); //rm after pull
-	
-	if(request.getParameter("reload")!=null){
-		troop.setRefresh(true);
-	}
-*/
+
     //if (troop == null || troop.isRefresh() || troopUtil.isUpdated(troop)) {
 	if (troop == null || troop.isRefresh() ) {
 		if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals("")) {
@@ -236,8 +205,7 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 
 		   }
 		} catch (org.girlscouts.vtk.utils.VtkException ec ){
-%>
-            <div id="panelWrapper" class="row meeting-detail content">
+%>  <div id="panelWrapper" class="row meeting-detail content">
               <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
                  <%=ec.getMessage() %> 
                  <br/>Please notify Girlscouts VTK support
@@ -257,8 +225,7 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 	        
 	            troop = troopUtil.createTroop(user,  "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
             }catch(org.girlscouts.vtk.utils.VtkException e){
-%>
-			  <div id="panelWrapper" class="row meeting-detail content">
+%><div id="panelWrapper" class="row meeting-detail content">
 			    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
 			       <%=e.getMessage() %> 
 			       <br/>Please notify Girlscouts VTK support
@@ -300,10 +267,4 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true; showSelectedDemoTroop('"+troop.getSfTroopAge()+"')</script>";
 	    request.setAttribute("footerScript", footerScript);
 	}
-
-
-            
-%>                
-                   
-           
-                
+%>                  
