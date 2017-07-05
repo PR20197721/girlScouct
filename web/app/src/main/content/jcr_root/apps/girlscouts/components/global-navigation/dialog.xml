@@ -38,6 +38,20 @@
                         xtype="textfield"/>
                 </items>
             </styles>
+            <page-title
+                jcr:primaryType="cq:Widget"
+                title="Page Banner"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <display-page-title
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Will create a transparent banner area so a title can be added. Will be displayed between navigation and content."
+                        fieldLabel="Display Transparent Page Banner"
+                        name="./displayPageBanner"
+                        type = "checkbox"
+                        xtype="selection"/>
+                </items>
+            </page-title>
         </items>
     </items>
 </jcr:root>

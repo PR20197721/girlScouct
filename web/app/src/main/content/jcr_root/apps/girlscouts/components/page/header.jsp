@@ -82,3 +82,21 @@
 	String cookiePlaceholderPath = currentPage.getContentResource().getPath();
 %>
 <cq:include path="<%= cookiePlaceholderPath %>" resourceType="girlscouts/components/cookie-header" />
+<%
+try {
+   ValueMap globalNavProps = resourceResolver.getResource(headerPath + "/global-nav").adaptTo(ValueMap.class);
+   if(globalNavProps != null){
+	   Boolean displayPageBanner = globalNavProps.get("./displayPageBanner", Boolean.class);
+	   if(displayPageBanner){
+		   String pageBannerPath = currentPage.getContentResource().getPath() + "/page-banner/par";
+		   %>
+		   	<div class="row">
+				<div class="page-banner-title">
+			   		<cq:include path="<%=pageBannerPath %>" resourceType="girlscouts/components/title" />
+			   	</div>
+		   	</div>
+		   <%
+		}
+	}
+}catch(Exception e){}
+%>
