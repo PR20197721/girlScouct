@@ -3,9 +3,7 @@
 	org.girlscouts.vtk.models.*,
 	org.girlscouts.vtk.dao.*,
 	org.apache.commons.lang3.StringEscapeUtils"
-%>
-<%@include file="/libs/foundation/global.jsp" %>
-<%@include file="session.jsp"%>
+%><%@include file="/libs/foundation/global.jsp" %><%@include file="session.jsp"%>
 <%
 	SimpleDateFormat FORMAT_MMM_dd_yyyy = new SimpleDateFormat("MMM dd yyyy");
 	response.setHeader("Content-Encoding", "UTF-8");
@@ -18,8 +16,7 @@
 	List <MeetingE> meetingEvents= troop.getYearPlan().getMeetingEvents();
 	
 	// doc title
-	csv.append(
-		FORMAT_MMM_dd_yyyy.format( new Date() ) +" "+
+	csv.append(FORMAT_MMM_dd_yyyy.format( new Date() ) +" "+
 		(troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-") +1) )+"  "+troop.getSfTroopName()
 	);
 
