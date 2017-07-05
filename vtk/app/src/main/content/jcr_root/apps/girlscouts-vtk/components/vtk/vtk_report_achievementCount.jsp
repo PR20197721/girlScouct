@@ -1,6 +1,4 @@
-
-
-<%@ page import="org.apache.commons.lang3.StringEscapeUtils,java.util.stream.Collectors,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="com.google.common.collect.*,org.apache.commons.lang3.StringEscapeUtils,java.util.stream.Collectors,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@ page import="com.day.cq.wcm.foundation.Search,
 org.girlscouts.web.search.DocHit,java.io.*,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
@@ -16,30 +14,54 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 <%
         response.setContentType("application/csv");
 		response.setHeader("Content-Disposition","attachment; filename=AchievementReport.csv");
+		response.setContentType("application/csv");
+		response.setHeader("Content-Disposition","attachment; filename=MeetingCountReport.csv");
         javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
-        String sql="select parent.refId  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ VtkUtil.getYearPlanBase(null,null) +"])) and child.ocm_classname='org.girlscouts.vtk.models.Achievement' and child.users <> ''";
-        javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
-        javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
+		String sql="select id,name, level from nt:unstructured where jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+user.getCurrentYear()+"/%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
+		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
+        javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
         javax.jcr.query.QueryResult result = q.execute();
-		java.util.List<String> container = new java.util.ArrayList();
+		java.util.Map<String, String[]> meetingInfos = new java.util.TreeMap();
+		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
+            javax.jcr.query.Row r = it.nextRow();
+            try{ 
+				String name= r.getValue("name").getString();
+                String id= r.getValue("id").getString();
+                String level= r.getValue("level").getString();
+                String meetingInfo[] = {name, level};
+                meetingInfos.put( id, meetingInfo);   
+                System.err.println( "caca111: "+id) ;              
+            }catch(Exception e){e.printStackTrace();}          
+		}
+		
+        sql="select parent.refId, child.users from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ VtkUtil.getYearPlanBase(null,null) +"])) and child.ocm_classname='org.girlscouts.vtk.models.Achievement' and child.users <> ''";
+        q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
+        result = q.execute();
+        Multimap<String, String> container = ArrayListMultimap.create();
 		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
             javax.jcr.query.Row r = it.nextRow();
             try{
-				container.add(r.getValue("parent.refId").getString());
+  				String refId= r.getValue("parent.refId").getString();
+                String meetingId= refId.substring( refId.lastIndexOf("/")+1);
+                meetingId= meetingId.contains("_") ? meetingId.substring(0,meetingId.indexOf("_")) : meetingId;
+                container.put( meetingId, r.getValue("child.users").getString());
             }catch(Exception e){e.printStackTrace();}          
         }
-		Map<String, Long> counts =VtkUtil.countUniq(container);
-        java.util.Iterator itr= counts.keySet().iterator();
+		
+		java.util.Iterator itr= container.keySet().iterator();
         while( itr.hasNext() ){
-            String meetingRef = (String) itr.next();
-            Node node = null; try{ node= s.getNode(meetingRef);}catch(Exception e){e.printStackTrace();}
-            long count= counts.get(meetingRef);
-            String meetingName = (node ==null ? meetingRef : node.getProperty("name").getString() );
-            String ageGroup = (node ==null ? "" : node.getProperty("level").getString() );
-            out.println( "\n"+ node.getProperty("id").getString() +","+ count+","+
-                        StringEscapeUtils.escapeCsv(meetingName) + ","+
-								StringEscapeUtils.escapeCsv(ageGroup)  
-
+            String meetingId= (String) itr.next();
+            java.util.Collection achv = container.get(meetingId);
+            int countAchv = 0;
+            java.util.Iterator _itr = achv.iterator();
+            while( _itr.hasNext() ){
+                String girls = (String)_itr.next();
+                StringTokenizer t = new StringTokenizer( girls, ",");
+                countAchv += t.countTokens();
+            }
+            String meetingInfo[] = meetingInfos.get( meetingId );
+			out.println( "\n"+ meetingId +","+ achv.size()+","+countAchv+","+
+                        StringEscapeUtils.escapeCsv( meetingInfo==null ? "" : meetingInfo[0]) +","+ StringEscapeUtils.escapeCsv( meetingInfo==null ? "" : meetingInfo[1]) 
                         		 );
         }
     %>
