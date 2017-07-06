@@ -670,7 +670,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 					orden.push($(el).find('input').val());
 					
 				}
-				
+
 			})
 		}else{
 			listNodes = $(origin).children();
@@ -1032,7 +1032,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		if( clickSrc==2) {
 			var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
             typeSelected= typeSelected.replace('/',' ').replace('_',' ');
-            document.getElementById("cat_selected").innerHTML = typeSelected.replace('Badges Petals','Badge');
+			document.getElementById("cat_selected").innerHTML = typeSelected;
         }
 		
 		if( clickSrc==1 ){clearFilterTypes(); clearFilterCats();}
@@ -1077,13 +1077,27 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		 
 		 if( isShowLevel && isShowType && isShowCats ){
 			 x.style.display = "inline";
-			 
+
 			 
 			
 
 			document.getElementById("levelNav_"+ x.id.split(';')[3]).style.display = "inline";
 		 }
 	   }
+
+       if( clickSrc==2) {
+            var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
+            typeSelected= typeSelected.replace('/',' ').replace('_',' ');
+
+            var levelSelected = document.querySelector('[name="_tag_m"]:checked').value;
+
+            if( levelSelected!=null && levelSelected=='Daisy' && typeSelected != null && typeSelected == 'Journey' ){
+            	showHideCustCat(true);
+             }else{
+            	showHideCustCat(false);
+             }
+         
+        }
 	}
 
 
@@ -1217,6 +1231,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			if( document.getElementById("<%= id%>").checked ){
 			  if(typeof <%=tp%> != 'undefined'){
 				for(var y = 0; y < <%=tp%>.length; y++){
+
 					document.getElementById(<%=tp%>[y]).style.display ='inline';
 					document.getElementById(<%=tp%>[y]).parentElement.style.display = 'inline';
 
@@ -1230,9 +1245,10 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
                             document.getElementById("vtkCatItem_"+document.getElementById(<%=tp%>[y]).id).style.display ='inline';
                         }
-
 				}//end for
+
 			   }//end if
+
 			}//edn if
 			<%
 		}//edn while
@@ -1304,7 +1320,21 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		}
 	}
 
-	
+    function showHideCustCat(isShow){
+
+
+        var custLevelCheckboxes= document.querySelectorAll("input[type='checkbox'][value='It\\'s_Your_World_-_Change_It']");
+        var custLevelCheckbox= custLevelCheckboxes[0];
+        if( custLevelCheckbox==null ) return;
+        if( isShow ){
+        	custLevelCheckbox.parentElement.style.display='inline';
+        	custLevelCheckbox.style.display = 'inline';
+        }else{
+        	custLevelCheckbox.parentElement.style.display='none';
+        	custLevelCheckbox.style.display = 'none';
+        }
+
+    }
 	
 	initMeetings();
 
