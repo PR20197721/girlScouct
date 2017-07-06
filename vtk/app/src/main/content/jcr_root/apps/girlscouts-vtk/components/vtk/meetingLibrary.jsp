@@ -1086,7 +1086,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 	   }
 
        if( clickSrc==2) {
-			var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
+            var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
             typeSelected= typeSelected.replace('/',' ').replace('_',' ');
 
             var levelSelected = document.querySelector('[name="_tag_m"]:checked').value;
@@ -1096,7 +1096,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
              }else{
             	showHideCustCat(false);
              }
-             debugger;
+         
         }
 	}
 
