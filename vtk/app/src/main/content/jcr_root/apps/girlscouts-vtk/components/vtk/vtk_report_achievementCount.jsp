@@ -14,8 +14,6 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 <%
 		response.setContentType("application/csv");
 		response.setHeader("Content-Disposition","attachment; filename=AchievementReport.csv");
-		response.setContentType("application/csv");
-		response.setHeader("Content-Disposition","attachment; filename=MeetingCountReport.csv");
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
 		String sql="select id,name, level from nt:unstructured where jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+user.getCurrentYear()+"/%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
 		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
@@ -49,16 +47,16 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		
 		java.util.Iterator itr= meetingIds.keySet().iterator();
 		while( itr.hasNext() ){
-            String meetingId= (String) itr.next();
-            java.util.Collection achv = meetingIds.get(meetingId);
-            int countAchv = 0;
-            java.util.Iterator _itr = achv.iterator();
-            while( _itr.hasNext() ){
-                String girls = (String)_itr.next();
-                StringTokenizer t = new StringTokenizer( girls, ",");
-                countAchv += t.countTokens();
-            }
-            String meetingInfo[] = meetingInfos.get( meetingId );
+			String meetingId= (String) itr.next();
+			java.util.Collection achv = meetingIds.get(meetingId);
+			int countAchv = 0;
+			java.util.Iterator _itr = achv.iterator();
+			while( _itr.hasNext() ){
+				String girls = (String)_itr.next();
+				StringTokenizer t = new StringTokenizer( girls, ",");
+				countAchv += t.countTokens();
+			}
+			String meetingInfo[] = meetingInfos.get( meetingId );
 			out.println( "\n"+ meetingId +","+ achv.size()+","+countAchv+","+
 					StringEscapeUtils.escapeCsv( meetingInfo==null ? "" : meetingInfo[0]) +","+ StringEscapeUtils.escapeCsv( meetingInfo==null ? "" : meetingInfo[1]) 
 					);

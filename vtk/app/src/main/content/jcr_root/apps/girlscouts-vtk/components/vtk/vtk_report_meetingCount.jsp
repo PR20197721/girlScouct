@@ -37,8 +37,8 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		result = q.execute();
 		Multimap<String, String> meetingIds = ArrayListMultimap.create();
 		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
-		    javax.jcr.query.Row r = it.nextRow();
-		    try{
+			javax.jcr.query.Row r = it.nextRow();
+			try{
 				String refId= r.getValue("refId").getString();
 				String meetingId= refId.substring( refId.lastIndexOf("/")+1);
 				meetingId= meetingId.contains("_") ? meetingId.substring(0,meetingId.indexOf("_")) : meetingId;
@@ -48,9 +48,9 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 
 		java.util.Iterator itr= meetingIds.keySet().iterator();
 		while( itr.hasNext() ){
-		    String meetingId = (String) itr.next();
-		    java.util.Collection paths = meetingIds.get(meetingId);
-		    String meetingInfo[] = meetingInfos.get( meetingId );
-		    out.println("\n"+ meetingId +","+ paths.size() + "," + StringEscapeUtils.escapeCsv( meetingInfo[0]) +","+ StringEscapeUtils.escapeCsv( meetingInfo[1]));
+			String meetingId = (String) itr.next();
+			java.util.Collection paths = meetingIds.get(meetingId);
+			String meetingInfo[] = meetingInfos.get( meetingId );
+			out.println("\n"+ meetingId +","+ paths.size() + "," + StringEscapeUtils.escapeCsv( meetingInfo[0]) +","+ StringEscapeUtils.escapeCsv( meetingInfo[1]));
 		}
   %>
