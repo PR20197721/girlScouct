@@ -35,21 +35,21 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		sql="select refId from nt:unstructured where jcr:path like '"+ VtkUtil.getYearPlanBase(null,null) +"%' and ocm_classname ='org.girlscouts.vtk.models.MeetingE'";
 		q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		result = q.execute();
-		Multimap<String, String> container = ArrayListMultimap.create();
+		Multimap<String, String> meetingIds = ArrayListMultimap.create();
 		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
 		    javax.jcr.query.Row r = it.nextRow();
 		    try{
 				String refId= r.getValue("refId").getString();
 				String meetingId= refId.substring( refId.lastIndexOf("/")+1);
 				meetingId= meetingId.contains("_") ? meetingId.substring(0,meetingId.indexOf("_")) : meetingId;
-				container.put( meetingId, refId);
+				meetingIds.put( meetingId, refId);
 		    }catch(Exception e){}		  
 		}
 
-		java.util.Iterator itr= container.keySet().iterator();
+		java.util.Iterator itr= meetingIds.keySet().iterator();
 		while( itr.hasNext() ){
 		    String meetingId = (String) itr.next();
-		    java.util.Collection paths = container.get(meetingId);
+		    java.util.Collection paths = meetingIds.get(meetingId);
 		    String meetingInfo[] = meetingInfos.get( meetingId );
 		    out.println("\n"+ meetingId +","+ paths.size() + "," + StringEscapeUtils.escapeCsv( meetingInfo[0]) +","+ StringEscapeUtils.escapeCsv( meetingInfo[1]));
 		}
