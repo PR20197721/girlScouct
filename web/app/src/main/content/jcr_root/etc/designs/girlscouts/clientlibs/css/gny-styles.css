@@ -1,11 +1,10 @@
-.page-banner-title {
+.page-banner-title .title h1 {
     color: #ffffff;
     font: 60px omnesmedium, arial, helvetica, sans-serif;
     text-align: center;
     text-transform: lowercase;
-    padding-top: 10px;
     margin-bottom: 40px;
-
+}
 /* GNY background */
 .main-bg {
     width: 100%;
