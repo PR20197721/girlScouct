@@ -18,7 +18,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		String sql="select id,name, level from nt:unstructured where jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+user.getCurrentYear()+"/%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
 		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-		avax.jcr.query.QueryResult result = q.execute();
+		javax.jcr.query.QueryResult result = q.execute();
 		java.util.Map<String, String[]> meetingInfos = new java.util.TreeMap();
 		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
 			javax.jcr.query.Row r = it.nextRow();
