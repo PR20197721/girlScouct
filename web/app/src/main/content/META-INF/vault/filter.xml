@@ -82,4 +82,5 @@
     <filter root="/apps/cq/gui/components/siteadmin/admin/pagecard"/>
     <filter root="/apps/cq/tagging"/>
     <filter root="/etc/importers/gsbulkeditor"/>
+    <filter root="/etc/clientlibs/foundation/abacus/source/abacus.js"/>
 </workspaceFilter>
