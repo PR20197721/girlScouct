@@ -38,6 +38,20 @@
                         xtype="textfield"/>
                 </items>
             </styles>
+            <options
+                jcr:primaryType="cq:Widget"
+                title="Options"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <display-page-title
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Will create a secondary navigation flyout when user hovers over top nav link."
+                        fieldLabel="Display Secondary Navigation Flyout"
+                        name="./displaySecondaryNavFlyOut"
+                        type = "checkbox"
+                        xtype="selection"/>
+                </items>
+            </options>
         </items>
     </items>
 </jcr:root>

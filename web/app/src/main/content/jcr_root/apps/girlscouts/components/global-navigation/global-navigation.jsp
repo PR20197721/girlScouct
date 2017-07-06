@@ -9,6 +9,46 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
+<%!
+public String buildFlyOutMenu(Page parent) throws RepositoryException {
+	try{
+		Iterator<Page> children = parent.listChildren();
+		if (children.hasNext()) {
+			StringBuilder menuBuilder = new StringBuilder();
+			menuBuilder.append("<ul class=\"fly-down\">");
+			while (children.hasNext()) {
+				Page page = children.next();
+				if (!page.isHideInNav()) {
+					Iterator<Page> grandChildren = page.listChildren();
+					if (grandChildren.hasNext()) {
+						menuBuilder.append("<li class=\"has-children\">");
+						menuBuilder.append(createHref(page));
+					}else{
+						menuBuilder.append("<li>");
+						menuBuilder.append(createHref(page));
+					}
+					if (grandChildren.hasNext()) {
+						menuBuilder.append("<ul class=\"fly-horizontal\">");
+						while (grandChildren.hasNext()) {
+							Page p = grandChildren.next();
+							if (!p.isHideInNav()) {
+								menuBuilder.append("<li>");
+								menuBuilder.append(createHref(p));
+								menuBuilder.append("</li>");
+							}					
+						}
+						menuBuilder.append("</ul>");
+					}
+					menuBuilder.append("</li>");
+				}
+			}
+			menuBuilder.append("</ul>");
+			return menuBuilder.toString();
+		}
+	}catch(Exception e){}
+    return "";
+}
+%>
 <%
 final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
 //Force currentPage from request
@@ -17,7 +57,7 @@ if (newCurrentPage != null) {
  currentPage = newCurrentPage;
 }
 
-
+Boolean displaySecondaryNavFlyOut = properties.get("displaySecondaryNavFlyOut", Boolean.FALSE);
 String[] links = properties.get("links", String[].class);
 
 if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
@@ -91,10 +131,20 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
             }
         	else{
                 %>
-
+					
                     <li class="<%= activeStatus %>">
                         <a class="show-for-large-up menu <%= clazz %>" href="<%= path %>"><%= label %></a>
                         <a class="show-for-medium-only menu <%= clazz %>" href="<%= path %>"><%= mLabel %></a>
+                        <% if(displaySecondaryNavFlyOut && menuPath != null && menuPath.startsWith("/content")){
+                        		try{
+                        			Resource linkResource = resourceResolver.getResource(menuPath);
+                        			System.err.println(linkResource.getResourceType());
+	                        		if("cq:Page".equals(linkResource.getResourceType())){
+	                        			out.print(buildFlyOutMenu(linkResource.adaptTo(Page.class)));
+	                        		}
+                        		}catch (Exception e){}
+                        		
+                         }%>
                     </li>
 
                 <%
