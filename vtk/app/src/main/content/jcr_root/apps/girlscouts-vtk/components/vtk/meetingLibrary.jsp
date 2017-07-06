@@ -1092,9 +1092,9 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
             var levelSelected = document.querySelector('[name="_tag_m"]:checked').value;
 
             if( levelSelected!=null && levelSelected=='Daisy' && typeSelected != null && typeSelected == 'Journey' ){
-           debugger;    showHideCustCat(true);
+            	showHideCustCat(true);
              }else{
-            debugger;   showHideCustCat(false);
+            	showHideCustCat(false);
              }
              debugger;
         }
@@ -1323,15 +1323,15 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
     function showHideCustCat(isShow){
 
 
-        var x= document.querySelectorAll("input[type='checkbox'][value='It\\'s_Your_World_-_Change_It']");
-        var y= x[0];
-        if( y==null ) return;
+        var custLevelCheckboxes= document.querySelectorAll("input[type='checkbox'][value='It\\'s_Your_World_-_Change_It']");
+        var custLevelCheckbox= custLevelCheckboxes[0];
+        if( custLevelCheckbox==null ) return;
         if( isShow ){
-            y.parentElement.style.display='inline';
-           y.style.display = 'inline';
+        	custLevelCheckbox.parentElement.style.display='inline';
+        	custLevelCheckbox.style.display = 'inline';
         }else{
-           y.parentElement.style.display='none';
-           y.style.display = 'none';
+        	custLevelCheckbox.parentElement.style.display='none';
+        	custLevelCheckbox.style.display = 'none';
         }
 
     }
