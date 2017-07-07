@@ -560,11 +560,11 @@ React.createElement(ActivityPlan),
 
   React.createElement("ul", {className: "large-block-grid-2 medium-block-grid-2 small-block-grid-2"},
 
-        React.createElement(EmailMeetingReminder),
-
-
-
-        React.createElement(AttendanceAchievement,{data:this.props.thisMeeting})
+        React.createElement(EmailMeetingReminder)
+        <%if( !user.getApiConfig().isDemoUser()  ){%>
+	        ,
+	        React.createElement(AttendanceAchievement,{data:this.props.thisMeeting})
+	    <%}%>
 
 
 
