@@ -1,40 +1,49 @@
 .standalone-donate {
-  position: relative;
-  margin-bottom: 1.25rem;
-  .button-wrap {
-    position: absolute;
-    bottom: 0.625rem;
-    width: 100%;
-    padding: rem-calc(0 12);
-    //toggle button
-    a.button {
-      white-space: nowrap;
-      z-index: 2;
-      margin: 0;
-      width: 100%;
-      background: $white;
-      color: $primary-color;
-      &.hide {
-        display: none;
-      }
+    position: relative;
+    margin-bottom: rem-calc(20);
+    .button-wrap {
+        position: absolute;
+        bottom: rem-calc(10);
+        width: 100%;
+        padding: rem-calc(0 12);
+        //toggle button
+        a.button {
+            white-space: nowrap;
+            z-index: 2;
+            margin: 0;
+            width: 100%;
+            background: $white;
+            color: $primary-color;
+            &.hide {
+                display: none;
+            }
+        }
+        //show hide form
+        form.formDonate {
+            background: #FFFFFF;
+            padding: rem-calc(5);
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            white-space: normal;
+            > div {
+                display: table-cell;
+                vertical-align: middle;
+                width: 100%;
+                * {
+                    height: rem-calc(37);
+                }
+            }
+            [type="text"] {
+                padding-left: rem-calc(5);
+                width: 100%;
+            }
+            [type="submit"] {
+                padding: 0 rem-calc(5);
+                margin-bottom: 0;
+                width: 100%;
+            }
+        }
     }
-    //show hide form
-    form.formDonate {
-      position: absolute;
-      bottom: 0;
-      background: #FFFFFF;
-      width: 90%;
-      z-index: 3;
-      padding: rem-calc(5);
-      input[type="text"] {
-        width: 80%;
-        float: left;
-      }
-      button {
-        padding: 0.5rem 0.3125rem 0.4375rem 0.3125rem;
-        margin-bottom: 0;
-        float: right;
-      }
-    }
-  }
 }

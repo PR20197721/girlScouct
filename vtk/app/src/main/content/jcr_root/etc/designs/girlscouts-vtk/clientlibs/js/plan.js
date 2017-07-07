@@ -5,7 +5,10 @@ function loadMeetings() {
 
 function x(planId, planPath, confirmMsg, planName, isMeetingLib) {
 
-    if (confirmMsg != null && confirmMsg != '') {
+	 x1_1(planPath, planName,isMeetingLib);
+	 
+		/*
+	 if (confirmMsg != null && confirmMsg != '') {
 
         if (!confirm(confirmMsg)) {
             return;
@@ -32,17 +35,9 @@ function x(planId, planPath, confirmMsg, planName, isMeetingLib) {
         });
 
     }
-    /*
-    check_charcount.log(4);
-
-    $.ajax({
-        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
-        cache: false
-    }).done(function( html ) {
-        //loadMeetings();
-        location.reload();
-    });
     */
+	 
+  
 }
 
 function x1_1(planPath, planName, isMeetingLib) {
@@ -172,6 +167,13 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
     // });
 }
 
+function execIfIsFirefox() { 
+    var top__ = parseInt($(document).scrollTop());
+    if (! !~ navigator.userAgent.toLowerCase().indexOf('firefox')) {
+            $(document).scrollTop(0);
+    }
+}
+
 function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 
     var wWidth = $(window).width();
@@ -197,14 +199,11 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
             open: function() {
 
                 $('.scroll').css('max-height', ($(window).height() - 75) + 'px');
+
+
                 
-
-
                 $("body").css({ overflow: 'hidden' });
-                // $(".modalWrap").css({
-                //  'max-height': $(window).height() + 'px !important',
-                //  'height': $(window).height() + 'px !important'
-                //  });
+               
                 if (!showTitle) {
                     $(".ui-dialog-titlebar").hide();
                 } else {
@@ -217,6 +216,8 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
                         placeholder_IE9();
                     }
                 }
+
+                execIfIsFirefox();
             },
             close: function() {
                 $("body").css({ overflow: 'inherit' });
@@ -242,6 +243,8 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
                 }
                 $("body").css({ overflow: 'hidden' });
                 placeholder_IE9();
+
+                execIfIsFirefox();
             },
             close: function() {
                 $("body").css({ overflow: 'inherit' });
@@ -278,23 +281,45 @@ function placeholder_IE9() {
     }
 }
 
-function yesPlan() {
-    if (document.getElementById('yearPlanMeetings').style.display == 'none') {
-        document.getElementById('yearPlanMeetings').style.display = 'block';
-        document.getElementById('yearPlanSelection').style.display = 'none';
-        document.getElementById('showHideReveal').innerHTML = 'SEE YEAR PLAN LIBRARY';
-        // document.getElementById('arrowDirection').innerHTML='&#9660;';
+var yesPlan = (function () {
+ 
+    var _auto = true;
+
+    function _block() {
+               document.getElementById('yearPlanMeetings').style.display = 'block';
+        document.getElementById('yearPlanSelection_').style.display = 'none';
+
         $('#showHideReveal').toggleClass('open').addClass('close');
         $("#empty-yp-directions").show();
-    } else {
-        document.getElementById('yearPlanMeetings').style.display = 'none';
-        document.getElementById('yearPlanSelection').style.display = 'block';
-        document.getElementById('showHideReveal').innerHTML = 'YEAR PLAN LIBRARY';
-        // document.getElementById('arrowDirection').innerHTML='&#9650;';
+    }
+    function _none() {
+       document.getElementById('yearPlanMeetings').style.display = 'none';
+        document.getElementById('yearPlanSelection_').style.display = 'block';
         $('#showHideReveal').removeClass('close').addClass('open');
         $("#empty-yp-directions").hide();
+        
     }
-}
+    function click() {
+        _auto = false;
+        _logic()
+    }
+    function auto() {
+
+        if (_auto){
+            _logic()
+            _auto = false;
+        }    
+    }
+    function _logic() {
+        if (document.getElementById('yearPlanMeetings').style.display == 'none') {
+            _block();
+        } else {
+            _none();
+        }
+    }
+    return {click: click, auto: auto}
+})();
+
 
 function addLocation() {
 
@@ -993,10 +1018,10 @@ function replaceMeetingHref(mPath, mDate) {
     var replaceMeeting = document.getElementById("replaceMeeting");
     var replaceMeetingSmall = document.getElementById("replaceMeetingSmall");
     if (replaceMeeting != null) {
-        replaceMeeting.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "', false, null, true)\">replace this meeting</a>";
+        replaceMeeting.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "&isReplaceMeeting=true', false, null, true)\">replace this meeting</a>";
     }
     if (replaceMeetingSmall != null) {
-        replaceMeetingSmall.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "', false, null, true)\">replace this meeting</a>";
+        replaceMeetingSmall.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "&isReplaceMeeting=true', false, null, true)\">replace this meeting</a>";
     }
 
 }
@@ -2133,8 +2158,7 @@ var initNotes = (function(global, ModalVtk, $) {
 
     }
 
-   
-    
+
     $(function() {
         var editormain = Object.create(editor);
         var countermain = Object.create(counter);

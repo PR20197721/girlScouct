@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/apps/girlscouts-vtk"/>
+    <filter root="/apps/girlscouts-vtk">
+        <exclude pattern="/apps/girlscouts-vtk/components/vtk/financeAdmin.jsp"/>
+        <exclude pattern="/apps/girlscouts-vtk/components/vtk/finances.jsp"/>
+    </filter>
     <filter root="/content/girlscouts-vtk/controllers"/>
     <filter root="/content/girlscouts-vtk/en"/>
-    <filter root="/etc/designs/girlscouts-vtk"/>
+    <filter root="/etc/designs/girlscouts-vtk">
+        <exclude pattern="/etc/designs/girlscouts-vtk/clientlibs.juno"/>
+    </filter>
     <filter root="/etc/scaffolding/girlscouts-vtk"/>
     <!-- Mike Z. Don't deploy the vtk-publish once it is setup. -->
     <!-- <filter root="/etc/replication/agents.publish/vtk-publish"/> -->

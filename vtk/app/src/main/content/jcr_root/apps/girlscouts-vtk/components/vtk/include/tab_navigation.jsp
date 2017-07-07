@@ -166,8 +166,7 @@
 						<ul class="dropdown">
 							<% if("plan".equals(activeTab)  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
 
-								<% if(troop!=null && troop.getSfTroopAge()!=null && !troop.getSfTroopAge().toLowerCase().trim().contains("cadette") &&
-	                            !troop.getSfTroopAge().toLowerCase().trim().contains("ambassador") && !troop.getSfTroopAge().toLowerCase().trim().contains("senior")){ %>
+								<% if(troop!=null && troop.getSfTroopAge()!=null ){ %>
 								<li><a onclick="newLocCal()">Specify Meeting Dates and
 										Locations</a></li>
 								<li><a
@@ -245,16 +244,30 @@
 	                  }
 	              	case MEETING:
 	                	try {
-					            if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
+					      if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
 	
 	                		Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
-	                       if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID))
-	                    	  if (meetingPath != null && meetingPath != ""  ) {
-	                          %>
-							<li id="replaceMeetingSmall"></li>
-							<%
+	                        if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) && meetingPath != null && meetingPath != ""  ) {
+			                        %>
+									<li id="replaceMeetingSmall"></li>
+									<li id="rmMeetingSmall">
+									 <% if( new java.util.Date().getTime() <  new java.util.Date( planView.getSearchDate().getTime() ).getTime()  ){ %>
+										<a href="#" onclick="rmMeetingWithConf( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
+									<% }else{ 
+										String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+planView.getMeeting().getUid();
+										Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
+										Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
+										if( (attendance!=null && attendance.getUsers()!=null && !attendance.getUsers().trim().equals("") )||
+												( achievement!=null && achievement.getUsers()!=null && !achievement.getUsers().trim().equals("") ) ){	
+											  %><a href="#" onclick="rmMeetingWithConfBlocked( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a><%
+										}else{
+											  %><a href="#" onclick="rmMeetingWithConf( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a><%
+									    }
+									  }%>	
+									</li>
+									<%
 	                        }
-				               }
+				          }
 	                    } catch (Exception te) {
 	                      te.printStackTrace();
 	                    }
@@ -321,8 +334,7 @@
 						<!-- if on YP page this menu shows -->
 						<%
                 if ("plan".equals(activeTab) && troop.getYearPlan() != null  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
-						<% if(troop!=null && troop.getSfTroopAge()!=null && !troop.getSfTroopAge().toLowerCase().trim().contains("cadette") &&
-                            !troop.getSfTroopAge().toLowerCase().trim().contains("ambassador") && !troop.getSfTroopAge().toLowerCase().trim().contains("senior")){ %>
+						<% if(troop!=null && troop.getSfTroopAge()!=null){ %>
 						<li><a href="#" onclick="newLocCal()"
 							title="Meeting Dates and Location">Specify Dates and
 								Locations</a></li>
@@ -368,8 +380,25 @@
               try { Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
                       if (meetingPath != null && meetingPath != "") {
                       %>
-						<li id="replaceMeeting"></li>
-						<%
+                      
+                      <li id="replaceMeeting"></li>
+						<li id="rmMeeting">
+						 <% if( new java.util.Date().getTime() <  new java.util.Date( planView.getSearchDate().getTime() ).getTime()  ){ %>
+							<a href="#" onclick="rmMeetingWithConf( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
+						<% }else{ 
+							String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+planView.getMeeting().getUid();
+							Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
+							Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
+							if( (attendance!=null && attendance.getUsers()!=null && !attendance.getUsers().trim().equals("") ) ||
+									( achievement!=null && achievement.getUsers()!=null && !achievement.getUsers().trim().equals("") ) ){	
+								  %><a href="#" onclick="rmMeetingWithConfBlocked( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a><%
+							}else{
+								  %><a href="#" onclick="rmMeetingWithConf( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a><%
+						    }
+						  }%>	
+						</li>
+                      
+					  <%
                       }
                   } catch (Exception te) {
                     te.printStackTrace();
@@ -427,7 +456,14 @@
 					<ul class="inline-list" id="util-links">
 					
 					
+						<% if("myTroop".equals(activeTab) &&  VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID) ) { %>
+						   <li><a
+							title="print" href="/content/girlscouts-vtk/controllers/vtk.include.troopRoster.pdf" target="_blank"><i class="icon-printer"></i></a></li>
+							
+							<li style="margin-right:15px"><a
+							title="download" href="/content/girlscouts-vtk/controllers/vtk.include.troopRosterCsvRpt.html" target="_blank"><i class="icon-download"></i></a></li>
 
+                        <%}%>
 					
 						<%if(activeTab!=null  && ( "plan".equals(activeTab) || (  pageContext.getAttribute("YearPlanComponent")!=null && ((String)pageContext.getAttribute("YearPlanComponent")).equals("MEETING")  &&  "planView".equals(activeTab) )) ){ %>
 						

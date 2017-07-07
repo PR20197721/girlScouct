@@ -64,9 +64,7 @@ public class MaintenanceFilter implements javax.servlet.Filter {
         
         String uri = req.getRequestURI();
         if (uri.startsWith("/content/girlscouts-vtk") &&
-            !uri.startsWith("/content/girlscouts-vtk/controllers/auth.sfauth.html") &&
-            !uri.startsWith("/content/girlscouts-vtk/controllers/hello.hello.js") &&
-            !uri.startsWith("/content/girlscouts-vtk/en/vtk.home")) {
+            !uri.startsWith("/content/girlscouts-vtk/controllers/hello.hello.js")) {
             SlingHttpServletResponse res = (SlingHttpServletResponse) response;
             res.sendRedirect("/content/vtk-maintenance.html");
         } else {

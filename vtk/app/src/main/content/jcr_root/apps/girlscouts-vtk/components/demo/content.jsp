@@ -202,6 +202,7 @@ function xyz(slc){
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Victoria&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Laura&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+ <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Deb&prefGradeLevel=7-Multi">MULTI-LEVEL <span>MULTI-LEVEL</span></li>
 
                                           </ul>
                                       </div>
@@ -238,6 +239,7 @@ function xyz(slc){
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Luisa&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Jennifer&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Felicia&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+ <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Ramona&prefGradeLevel=7-Multi-level">MULTI-LEVEL<span>MULTI-LEVEL</span></li>
 
                                           </ul>
                                       </div>

@@ -213,6 +213,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
+   	  
         return { show: false };
       },
       toggle: function() {
@@ -941,18 +942,15 @@ React.createElement(ActivityPlan),
           this.dataWorker.getData(true);
       },
       getInitialState: function() {
-
         return {data: []};
       },
       componentDidMount: function() {
-
         this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
 
 
             this.setState({
                 data: data.yearPlan
             });
-
             // console.log(data.yearPlan.meetingEvents[0].notes);
 
             // thisMeetingNotes = data.yearPlan.meetingEvents[0].notes;
@@ -960,17 +958,13 @@ React.createElement(ActivityPlan),
            // appVTK.data.set(data.yearPlan.meetingEvents[0].notes);
 
         }, 10000);
-
         this.dataWorker.start();
-
       },
       checkLocalUpdate: function(){
-
           if( (isActivNew == 1) || (isActivNew == 2) )
               { this.loadCommentsFromServer() ; }
       },
       render: function() {
-
           var x;
           var sched;
 
@@ -1088,8 +1082,8 @@ React.createElement(ActivityPlan),
           return React.createElement("div", null, React.createElement("img", {src: "/etc/designs/girlscouts-vtk/images/loading.gif"}))
         }
       },
-      componentDidMount: function() {
-       try{
+      componentDidMount: function() {     
+    	  try{
            if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1){
                 replaceMeetingHref(thisMeetingPath, moment(thisMeetingDate).valueOf());
            }
@@ -1100,7 +1094,7 @@ React.createElement(ActivityPlan),
             scrollTarget = ".touchscroll";
           }
 
-        var dom = $(this.getDOMNode());
+        var dom = $(ReactDOM.findDOMNode(this));
         var onReorder = this.props.onReorder;
         dom.sortable({
             items: "li:not(.ui-state-disabled)",
@@ -1121,7 +1115,7 @@ React.createElement(ActivityPlan),
         });
       },
       componentWillUpdate: function() {
-        var dom = $(this.getDOMNode());
+        var dom = $(ReactDOM.findDOMNode(this));
         if (Modernizr.touch) {
             scrollTarget = ".touchscroll";
           }
@@ -1164,7 +1158,7 @@ React.createElement(ActivityPlan),
     });
  }
 
-    React.render(
+    ReactDOM.render(
              <%
                 String elem = request.getParameter("elem");
                 if (elem != null) {

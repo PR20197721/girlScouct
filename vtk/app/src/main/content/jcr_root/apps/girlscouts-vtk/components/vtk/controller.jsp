@@ -301,8 +301,7 @@
 						user.getCurrentYear(),
 						request.getParameterMap());
 				return;
-			case RmMeeting:
-				
+			case RmMeeting:			
 				meetingUtil.rmMeeting( user, troop, request.getParameter("mid") );
 				//meetingUtil.rmSchedDate(user, troop,Long.parseLong(request.getParameter("rmDate")));
 				return;
@@ -1180,6 +1179,9 @@ try{
              newTroopCloned.setPermissionTokens( permis );
              troop.setTroop(newTroopCloned);
              if( !troopDAO.isArchivedYearPlan(user, troop,  ""+VtkUtil.getCurrentGSYear()) ){troop.setYearPlan(null);}
+            
+             //Cloned Troop object from archived year plan references archived year plan path ex: "/vtk2014/999/". It is necessary to change Troop path to current year ex: ""/vtk2015/999/"".
+             troop.setPath( "/vtk"+VtkUtil.getCurrentGSYear()+"/"+troop.getSfCouncil() +"/troops/"+ troop.getSfTroopId() );
              session.putValue("VTK_troop", troop);
         }else if( request.getParameter("addNote") != null ){
             Note note = null;
@@ -1213,6 +1215,8 @@ try{
             session.setAttribute("isHideVtkBanner", "true");
         }else if( request.getParameter("alex658Xf409Re49v") !=null){
         	try{ yearPlanUtil.GSMonthlyDetailedRpt(); }catch(Exception e){e.printStackTrace();}
+        }else if( request.getParameter("alex344") !=null){
+        	try{ yearPlanUtil.GSRptCouncilPublishFinance(); }catch(Exception e){e.printStackTrace();}
         
         } else {
 			//TODO throw ERROR CODE

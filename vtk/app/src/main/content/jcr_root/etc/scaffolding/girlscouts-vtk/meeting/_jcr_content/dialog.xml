@@ -53,8 +53,8 @@
                             value="Junior"/>
 						<multilevel
 							                            jcr:primaryType="nt:unstructured"
-							                            text="Multilevel"
-							                            value="Multilevel"/>
+							                            text="Multi-level"
+							                            value="Multi-level"/>
                     </options>
                 </level>
                 <name
@@ -76,7 +76,7 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Meeting Plan Type"
                     name="./meetingPlanType"
-                    type="radiogroup"
+                    type="radio"
                     xtype="selection">
                     <options jcr:primaryType="cq:WidgetCollection">
                         <badges_petals
@@ -116,7 +116,7 @@
                 <fieldset1
                 	jcr:primaryType="cq:Widget"
                 	xtype="dialogfieldset"
-                	fieldLabel="Catgetory (Badges/Petal)"
+                	fieldLabel="Category (Badges/Petal)"
                 	itemId="fieldset1">
                 	<items jcr:primaryType="cq:WidgetCollection">
 		                <catTags0
@@ -153,7 +153,7 @@
 			                itemId="tagsField2">
 			                <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Creativity_And_The_Arts,'); } else { catTagsField.setValue(curVal.replace(/Creativity_And_The_Arts,/g,'')); } }"/>
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Creativity_and_the_Arts,'); } else { catTagsField.setValue(curVal.replace(/Creativity_and_the_Arts,/g,'')); } }"/>
 			            	</catTags2>
 			            <catTags3
 			                jcr:primaryType="cq:Widget"
@@ -237,14 +237,14 @@
 			                 itemId="tagsField9">
 			                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2017_-_2018,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2017_-_2018,/g,'')); } }"/>			             
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2017-2018,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2017-2018,/g,'')); } }"/>			             
 			                </catTags9>
 			             </items>
 			         </fieldset1>
 			         <fieldset2
 	                	jcr:primaryType="cq:Widget"
 	                	xtype="dialogfieldset"
-	                	fieldLabel="Catgetory (Journey)"
+	                	fieldLabel="Category (Journey)"
 	                	itemId="fieldset2">
                 		<items jcr:primaryType="cq:WidgetCollection">
 				             <catTags9
@@ -257,7 +257,7 @@
 				                 itemId="tagsField9" >
 				                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Its_Your_Planet_-_Love_It,'); } else { catTagsField.setValue(curVal.replace(/Its_Your_Planet_-_Love_It,/g,'')); } }"/>
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_Planet_-_Love_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_Planet_-_Love_It,/g,'')); } }"/>
 				             </catTags9>
 				             <catTags10
 				                 jcr:primaryType="cq:Widget"
@@ -269,7 +269,7 @@
 				                 itemId="tagsField10" >
 				                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Its_Your_Story_-_Tell_It,'); } else { catTagsField.setValue(curVal.replace(/Its_Your_Story_-_Tell_It,/g,'')); } }"/>
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_Story_-_Tell_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_Story_-_Tell_It,/g,'')); } }"/>
 				              </catTags10>
 				              <catTags11
 				                 jcr:primaryType="cq:Widget"
@@ -281,7 +281,7 @@
 				                 itemId="tagsField11" >
 				                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Its_Your_World_-_Change_It,'); } else { catTagsField.setValue(curVal.replace(/Its_Your_World_-_Change_It,/g,'')); } }"/>
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_World_-_Change_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_World_-_Change_It,/g,'')); } }"/>
 				             </catTags11>
 				             <catTags12
 				                 jcr:primaryType="cq:Widget"
@@ -1107,6 +1107,130 @@
                         jcr:primaryType="nt:unstructured"
                         xtype="vtk-agenda"/>
                 </agenda>
+                
+                
+                 <meetingPlanTypeAlt
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Add an ADDITIONAL Meeting Plan Type to this meeting"
+                    name="./meetingPlanTypeAlt"
+                    type="radio"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <none
+                            jcr:primaryType="nt:unstructured"
+                            text="N/A"
+                            value=""/>
+                        
+                        <journey
+                            jcr:primaryType="nt:unstructured"
+                            text="Journey"
+                            value="Journey"/>
+                        <award_earning
+                            jcr:primaryType="nt:unstructured"
+                            text="Award Earning"
+                            value="Award_Earning"/>
+                        <intro
+                            jcr:primaryType="nt:unstructured"
+                            text="Intro"
+                            value="Intro"/>
+                        <closing
+                            jcr:primaryType="nt:unstructured"
+                            text="Closing"
+                            value="Closing"/>
+                        <bridging
+                            jcr:primaryType="nt:unstructured"
+                            text="Bridging"
+                            value="Bridging"/>
+                      </options>
+                      <listeners
+                        jcr:primaryType="nt:unstructured"
+                        selectionchanged="function(me, val, isChecked) {var panel = me.findParentByType('panel');
+                        var tagsField3 = panel.getComponent('fieldset3');
+                        if (val == 'Journey') {tagsField3.show();tagsField3.enable();} else { 
+                        for(var i =9;i &lt; 14;i++) 
+                        {tagsField3.getComponent('tagsField' + i +'x').setValue(false);}tagsField3.disable();
+                         }}"/>
+             
+                    
+                 </meetingPlanTypeAlt>
+                 
+               <fieldset3
+	                	jcr:primaryType="cq:Widget"
+	                	xtype="dialogfieldset"
+	                	fieldLabel="Alt Category (Journey)"
+	                	itemId="fieldset3">
+                		<items jcr:primaryType="cq:WidgetCollection">
+				             <catTags9
+				                 jcr:primaryType="cq:Widget"
+				                 allowBlank="{Boolean}true"
+				                 fieldLabel="It's Your Planet - Love It!"
+				                 name="./yourPlanetx"
+				                 xtype="selection"
+			                	 type="checkbox"
+				                 itemId="tagsField9x" >
+				                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_Planet_-_Love_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_Planet_-_Love_It,/g,'')); } }"/>
+				             </catTags9>
+				             <catTags10
+				                 jcr:primaryType="cq:Widget"
+				                 allowBlank="{Boolean}true"
+				                 fieldLabel="It's Your Story - Tell It!"
+				                 name="./yourStoryx"
+				                 xtype="selection"
+			                	 type="checkbox"
+				                 itemId="tagsField10x" >
+				                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_Story_-_Tell_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_Story_-_Tell_It,/g,'')); } }"/>
+				              </catTags10>
+				              
+				               <catTags11
+				                 jcr:primaryType="cq:Widget"
+				                 allowBlank="{Boolean}true"
+				                 fieldLabel="It's Your World - Change It!"
+				                name="./yourWorldx"
+				                 xtype="selection"
+			                	 type="checkbox"
+				                 itemId="tagsField11x" >
+				                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_World_-_Change_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_World_-_Change_It,/g,'')); } }"/>
+				             </catTags11>
+				             <catTags12
+				                 jcr:primaryType="cq:Widget"
+				                 allowBlank="{Boolean}true"
+				                 fieldLabel="Outdoor"
+				                 name="./Outdoorx"
+				                 xtype="selection"
+			                	 type="checkbox"
+				                 itemId="tagsField12x" >
+				                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Outdoor,'); } else { catTagsField.setValue(curVal.replace(/Outdoor,/g,'')); } }"/>
+				             </catTags12>
+				             <catTags13
+				                 jcr:primaryType="cq:Widget"
+				                 allowBlank="{Boolean}true"
+				                 fieldLabel="STEM"
+				                 name="./STEMx"
+				                 xtype="selection"
+			                	 type="checkbox"
+				                 itemId="tagsField13x" >
+				                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'STEM,'); } else { catTagsField.setValue(curVal.replace(/STEM,/g,'')); } }"/>
+				             </catTags13>
+			            </items>
+	               </fieldset3>
+	               
+	               
+                   <catTagsAlt
+	                    jcr:primaryType="cq:Widget"
+	                    xtype="hidden"
+	                    itemId="catTagsAlt"
+	                    name="./catTagsAlt"/>
+                
             </items>
         </tab1>
     </items>
