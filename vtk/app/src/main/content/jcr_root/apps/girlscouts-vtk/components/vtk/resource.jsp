@@ -166,10 +166,13 @@
 		         while( itr.hasNext()){
 		        	  bean_resource bresource = itr.next();
 		        	  if( !bresource.getCategoryDisplay().equals( category ) ) continue;
-		        	  if( bresource.getTitle().equals("Meeting Aids") && bresource.getItemCount()==0)
-		        		  bresource.setItemCount(meetingAidCount ) ;
-		        	  else if(bresource.getTitle().equals("Meeting Overviews") && bresource.getItemCount()==0 )
-		        		  bresource.setItemCount(meeting_overviews);
+                     if( bresource.getTitle().equals("Meeting Aids") )// && bresource.getItemCount()==0)
+                          bresource.setItemCount(18);//meetingAidCount ) ;
+                     else if(bresource.getTitle().equals("Meeting Overviews") )// && bresource.getItemCount()==0 )
+                          bresource.setItemCount(85);//meeting_overviews);
+
+                      if( "VTK Tutorial Videos".equals( bresource.getTitle() )){bresource.setItemCount(5);}
+                      if( "vtkvideos".equals( bresource.getTitle() ) ){continue;}
 		         %>
 			         <div>
 			            
