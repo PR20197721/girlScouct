@@ -1032,7 +1032,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		if( clickSrc==2) {
 			var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
             typeSelected= typeSelected.replace('/',' ').replace('_',' ');
-			document.getElementById("cat_selected").innerHTML = typeSelected;
+			document.getElementById("cat_selected").innerHTML = typeSelected.replace('Badges Petals','Badge');
         }
 		
 		if( clickSrc==1 ){clearFilterTypes(); clearFilterCats();}
