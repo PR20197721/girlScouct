@@ -90,10 +90,8 @@ try {
 	   if(displayPageBanner){
 		   String pageBannerPath = currentPage.getContentResource().getPath() + "/page-banner/par";
 		   %>
-		   	<div class="row">
-				<div class="page-banner-title">
-			   		<cq:include path="<%=pageBannerPath %>" resourceType="girlscouts/components/title" />
-			   	</div>
+			<div class="page-banner-title">
+		   		<cq:include path="<%=pageBannerPath %>" resourceType="girlscouts/components/title" />
 		   	</div>
 		   <%
 		}
