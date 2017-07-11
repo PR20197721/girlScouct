@@ -183,7 +183,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		try {
 			rr= resolverFactory.getAdministrativeResourceResolver(null);
 		} catch (LoginException e) {
-			e.printStackTrace();
+			log.error("GSActivities:: Encountered login error", e);
 		}
 		processInterrupted = false;
 		errorString = new StringBuilder();
@@ -220,8 +220,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			log.info("GSActivities:: The last updated timestamp has been set as " + ZIP_DATE_FORMAT.format(lastUpdated)+"written to "+CONFIG_PATH);
 		} catch (Exception e) {
 			errorString.append("<p>Failed to store the timestamp.</p>");
-			log.error("GSActivities:: Failed to store the timeStamp.");
-			e.printStackTrace();
+			log.error("GSActivities:: Failed to store the timeStamp.", e);
+			
 		}
 
 	}
@@ -454,7 +454,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					if(inputStream != null)
 						inputStream.close();
 				}catch(Exception e){
-					e.printStackTrace();
+					log.error("GSActivities:: Error encountered while closing input stream", e);
 				}
 				input.close();
 			}
@@ -693,7 +693,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	private boolean ftpLogin() throws SocketException, IOException{
 		if (ftp == null) return false;
 		if (server == null || server.isEmpty()) return false;
-		ftp.connect(server); //TODO: need port number!
+		ftp.connect(server, 21); //TODO: need port number!
 		// After connection attempt, check the reply code to verify
 		// success.
 		int reply = ftp.getReplyCode();
@@ -729,6 +729,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			return;
 		}
 		log.info("Running SF Events Importer..." );
+		log.info("GSActivities:: Refreshing FTPS Client");
+		ftp = new FTPSClient(false);
+		ftp.setDefaultTimeout(TIME_OUT_IN_MS);
 		try{
 			if (ftpLogin()) {
 				getFiles();
@@ -739,10 +742,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				throw new GirlScoutsException(null, "ftpLogin() return false. Failed to login."); 
 			}
 		} catch(IOException e) {
-			errorString.append("<p>Unable to process FTP files to IO error: " + e.getMessage() + ".</p>");
-			
+			errorString.append("<p>Unable to process FTP files due to IO error: " + e.getMessage() + ".</p>");
 			processInterrupted = true;
-			e.printStackTrace();
 			log.error("GSActivities:: IOException caught during access to FTP server",e);
 		} catch(Exception e) {
 			errorString.append("<p>Unable to process FTP files due to general error: " + e.getMessage() + " " + e.getClass().getName() + ".</p>");
