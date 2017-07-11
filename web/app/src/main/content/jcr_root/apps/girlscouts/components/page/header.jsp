@@ -17,12 +17,19 @@
   int depth = currentPage.getDepth();
   request.setAttribute("headerPath", headerPath);
   String headerImagePath = currentSite.get("headerImagePath", "");
+  Boolean displayPageBanner = Boolean.FALSE;
+  try {
+	   ValueMap globalNavProps = resourceResolver.getResource(headerPath + "/global-nav").adaptTo(ValueMap.class);
+	   if(globalNavProps != null){
+		   displayPageBanner = globalNavProps.get("./displayPageBanner", Boolean.FALSE);
+		}
+	}catch(Exception e){}
 %>
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
 <!--PAGE STRUCTURE: HEADER-->
-<div class="header-wrapper row collapse hide-for-print" <% if(!headerImagePath.equals("") && headerImagePath != null){ %> style="background-image: url('<%= headerImagePath%>')" <%}%> >
+<div class="header-wrapper row collapse hide-for-print<%if(displayPageBanner){%> round_corner_bottom<%}%>" <% if(!headerImagePath.equals("") && headerImagePath != null){ %> style="background-image: url('<%= headerImagePath%>')" <%}%> >
 <div class='columns'>
   <div id="header" class="row">
     <div class="large-6 medium-9 columns">
@@ -65,7 +72,7 @@
     </div>
   </div>
   <!--PAGE STRUCTURE: HEADER BAR-->
-  <div id="headerBar" class="row collapse hide-for-small">
+  <div id="headerBar" class="row collapse hide-for-small<%if(displayPageBanner){%> round_corner_bottom<%}%>">
     <% setCssClasses("medium-23 small-24 columns", request); %>
     <cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
     <div class="small-search-hamburger show-for-medium medium-1 columns">
@@ -84,17 +91,13 @@
 <cq:include path="<%= cookiePlaceholderPath %>" resourceType="girlscouts/components/cookie-header" />
 <%
 try {
-   ValueMap globalNavProps = resourceResolver.getResource(headerPath + "/global-nav").adaptTo(ValueMap.class);
-   if(globalNavProps != null){
-	   Boolean displayPageBanner = globalNavProps.get("./displayPageBanner", Boolean.class);
-	   if(displayPageBanner){
-		   String pageBannerPath = currentPage.getContentResource().getPath() + "/page-banner/par";
-		   %>
-			<div class="page-banner-title">
-		   		<cq:include path="<%=pageBannerPath %>" resourceType="girlscouts/components/title" />
-		   	</div>
-		   <%
-		}
+	if(displayPageBanner){
+	   String pageBannerPath = currentPage.getContentResource().getPath() + "/page-banner/par";
+	   %>
+		<div class="page-banner-title">
+	   		<cq:include path="<%=pageBannerPath %>" resourceType="girlscouts/components/page-banner" />
+	   	</div>
+	   <%
 	}
 }catch(Exception e){}
 %>
