@@ -114,7 +114,7 @@ totalPage = Math.ceil((double)gsResultManager.size()/pageSize);
             <span class="icon type_<%=extension%>"><img src="/etc/designs/default/0.gif" alt="*"></span>
         <%}%>
             <a href="<%=path%>"><%=result.getTitle()%></a>
-            <div><strong>score:</strong>&nbsp;&nbsp;<%=result.getScore()%></div>
+            <!--   <div><strong>score:</strong>&nbsp;&nbsp;<%=result.getScore()%></div>-->
         <%
         if(description!=null &&  !description.isEmpty()) {
         %>  
