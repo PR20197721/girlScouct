@@ -57,7 +57,7 @@
     content: '';
     position: absolute;
     bottom: -1px;
-    border-bottom: 4px solid #01a850;
+    //border-bottom: 4px solid #01a850;
     display: block;
     height: 4px;
     width: 100%;
@@ -67,6 +67,10 @@
 .flyout-nav>li>a:hover,
 .flyout-nav>li.active>a {
     //color: #01a850;
+}
+
+.flyout-nav>li.has-children:hover {
+    background-image: none !important;
 }
 
 .flyout-nav>li>a:hover:before,
@@ -97,11 +101,6 @@
 
 /* Nav Level 2 - Fly down */
 
-.flyout-nav>li.has-children:hover .fly-down {
-    top: 27px;
-    opacity: 1;
-}
-
 .flyout-nav .fly-down {
     -webkit-transition: opacity .3s;
     -moz-transition: opacity .3s;
@@ -116,6 +115,22 @@
     z-index: 999;
     width: 250px;
     border-top: 5px solid #159d4b;
+}
+
+.flyout-nav>li.has-children:hover .fly-down {
+    top: 27px;
+    opacity: 1;
+}
+
+@media only screen and (max-width: 768px) {
+    /* Disable flyout on mobile */
+    .flyout-nav>li.has-children:hover .fly-down {
+        top: -999999px;
+        opacity: 0;
+    }
+    .flyout-nav>li.has-children:hover>a:after {
+        display: none;
+    }
 }
 
 .flyout-nav .fly-down.right {
@@ -151,11 +166,6 @@
 
 /* Nav Level 3 - Fly left */
 
-.flyout-nav .fly-down>li.has-children:hover .fly-horizontal {
-    top: 0;
-    opacity: 1;
-}
-
 .flyout-nav .fly-down .fly-horizontal {
     position: absolute;
     right: 100%;
@@ -168,6 +178,11 @@
     border-left: 1px solid #e5e3e6;
     opacity: 0;
     box-shadow: 0 -5px 0 #159d4b;
+}
+
+.flyout-nav .fly-down>li.has-children:hover .fly-horizontal {
+    top: 0;
+    opacity: 1;
 }
 
 .flyout-nav .fly-down.right .fly-horizontal {
