@@ -12,7 +12,9 @@
     text-align: left;
 }
 
+.flyout-nav ul,
 .flyout-nav li {
+    margin: 0;
     list-style: none;
 }
 
@@ -73,7 +75,7 @@
 
 .flyout-nav>li>a:hover,
 .flyout-nav>li.active>a {
-    color: #01a850;
+    //color: #01a850;
 }
 
 .flyout-nav>li>a:hover:before,
@@ -92,7 +94,7 @@
     -webkit-transform: rotate(360deg);
     position: absolute;
     left: 50%;
-    bottom: -7px;
+    bottom: -6px;
     margin-left: -6px;
     display: none;
 }
@@ -105,7 +107,7 @@
 /* Nav Level 2 - Fly down */
 
 .flyout-nav>li.has-children:hover .fly-down {
-    top: 22px;
+    top: 27px;
     opacity: 1;
 }
 
