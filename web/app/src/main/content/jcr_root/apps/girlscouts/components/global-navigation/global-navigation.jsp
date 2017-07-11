@@ -119,8 +119,7 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
                       <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
                        <%if( configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")){ %>
                          <li style="opacity:0.5;"><a href="#" onclick="javascript:void(0)" disabled="true">Member Profile</a></li>
-                         <li><a href="/content/girlscouts-demo/en.html">Demo</a></li>
-                         
+                         <li><a href="/content/girlscouts-demo/en.html">Demo</a></li>                         
                       <%}else{ %>
                          <li><a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a></li>
                          <li><a href="<%= path %>">Volunteer Toolkit</a></li>
@@ -131,26 +130,34 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
             }
         	else{
                Boolean displayFlyout = displaySecondaryNavFlyOut && menuPath != null && menuPath.startsWith("/content");
-               String hasChildren = (displayFlyout && true) ? "has-children" : ""; // Replace 'true' with conditional check for children
-                %>
-					
-                    <li class="<%=hasChildren%> <%=activeStatus%>">
-                        <a class="show-for-large-up menu <%= clazz %>" href="<%= path %>"><%= label %></a>
-                        <a class="show-for-medium-only menu <%= clazz %>" href="<%= path %>"><%= mLabel %></a>
-                        <% if (displayFlyout) {
-                        		try{
-                        			Resource linkResource = resourceResolver.getResource(menuPath);
-                        			System.err.println(linkResource.getResourceType());
-	                        		if("cq:Page".equals(linkResource.getResourceType())){
-                                        Page flyPage = linkResource.adaptTo(Page.class);
-                                        String flyRight = (i < links.length/2) ? " right" : "";
-	                        			out.print(buildFlyOutMenu(flyPage, flyRight));
-	                        		}
-                        		}catch (Exception e){}
-                        		
-                         }%>
-                    </li>
-
+               Resource linkResource = null;
+               Page flyPage = null;
+               String hasChildren = "";
+               if(displayFlyout){
+	               try{
+	            	   linkResource = resourceResolver.getResource(menuPath);
+	            	   if(linkResource != null && "cq:Page".equals(linkResource.getResourceType())){
+	                       flyPage = linkResource.adaptTo(Page.class);
+	                       Iterator<Page> children = flyPage.listChildren();
+	                       if(children!= null && children.hasNext()) {
+								hasChildren = "has-children ";
+							}
+	            	   }
+	               }catch (Exception e){}
+               }
+                %>					
+                <li class="<%=hasChildren%><%=activeStatus%>">
+                    <a class="show-for-large-up menu <%= clazz %>" href="<%= path %>"><%= label %></a>
+                    <a class="show-for-medium-only menu <%= clazz %>" href="<%= path %>"><%= mLabel %></a>
+                    <%
+                	try{
+                 		if(flyPage != null){
+                            String flyRight = (i < links.length/2) ? " right" : "";
+                 			out.print(buildFlyOutMenu(flyPage, flyRight));
+                 		}
+                	}catch (Exception e){}
+                     %>
+                </li>
                 <%
         	}
         } %>
