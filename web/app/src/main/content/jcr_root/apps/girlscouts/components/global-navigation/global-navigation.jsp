@@ -10,23 +10,22 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
 <%!
-public String buildFlyOutMenu(Page parent) throws RepositoryException {
+public String buildFlyOutMenu(Page parent, String flyRight) throws RepositoryException {
 	try{
 		Iterator<Page> children = parent.listChildren();
 		if (children.hasNext()) {
 			StringBuilder menuBuilder = new StringBuilder();
-			menuBuilder.append("<ul class=\"fly-down\">");
+			menuBuilder.append("<ul class=\"fly-down" + flyRight + "\">");
 			while (children.hasNext()) {
 				Page page = children.next();
 				if (!page.isHideInNav()) {
 					Iterator<Page> grandChildren = page.listChildren();
 					if (grandChildren.hasNext()) {
 						menuBuilder.append("<li class=\"has-children\">");
-						menuBuilder.append(createHref(page));
-					}else{
+					} else {
 						menuBuilder.append("<li>");
-						menuBuilder.append(createHref(page));
 					}
+                    menuBuilder.append(createHref(page));
 					if (grandChildren.hasNext()) {
 						menuBuilder.append("<ul class=\"fly-horizontal\">");
 						while (grandChildren.hasNext()) {
@@ -58,6 +57,7 @@ if (newCurrentPage != null) {
 }
 
 Boolean displaySecondaryNavFlyOut = properties.get("displaySecondaryNavFlyOut", Boolean.FALSE);
+String flyoutClass = displaySecondaryNavFlyOut ? "flyout-nav" : "";
 String[] links = properties.get("links", String[].class);
 
 if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
@@ -69,7 +69,7 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 
       
 
-    <ul class="inline-list">
+    <ul class="<%=flyoutClass%> inline-list">
         <%
         String currPath = currentPage.getPath();
         String rootPath = currentPage.getAbsoluteParent(2).getPath();
@@ -130,17 +130,21 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
             <%
             }
         	else{
+               Boolean displayFlyout = displaySecondaryNavFlyOut && menuPath != null && menuPath.startsWith("/content");
+               String hasChildren = (displayFlyout && true) ? "has-children" : ""; // Replace 'true' with conditional check for children
                 %>
 					
-                    <li class="<%= activeStatus %>">
+                    <li class="<%=hasChildren%> <%=activeStatus%>">
                         <a class="show-for-large-up menu <%= clazz %>" href="<%= path %>"><%= label %></a>
                         <a class="show-for-medium-only menu <%= clazz %>" href="<%= path %>"><%= mLabel %></a>
-                        <% if(displaySecondaryNavFlyOut && menuPath != null && menuPath.startsWith("/content")){
+                        <% if (displayFlyout) {
                         		try{
                         			Resource linkResource = resourceResolver.getResource(menuPath);
                         			System.err.println(linkResource.getResourceType());
 	                        		if("cq:Page".equals(linkResource.getResourceType())){
-	                        			out.print(buildFlyOutMenu(linkResource.adaptTo(Page.class)));
+                                        Page flyPage = linkResource.adaptTo(Page.class);
+                                        String flyRight = (i < links.length/2) ? " right" : "";
+	                        			out.print(buildFlyOutMenu(flyPage, flyRight));
 	                        		}
                         		}catch (Exception e){}
                         		
