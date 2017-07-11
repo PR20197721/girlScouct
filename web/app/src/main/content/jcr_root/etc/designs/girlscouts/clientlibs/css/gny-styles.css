@@ -6,7 +6,8 @@
 }
 .page-banner-title h1{
 	color: #ffffff;
-	font: 60px omnesmedium, arial, helvetica, sans-serif;
+	font-size:  60px;
+	font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
 	text-align: center;
 	text-transform: lowercase;
 	margin-bottom: 40px;
