@@ -6,7 +6,7 @@
     min-height: 10px;
 }
 
-.page-banner-title * {
+.page-banner-title .page-banner * {
     color: #ffffff;
     font-size: 60px;
     font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
@@ -234,7 +234,8 @@
     border-right: 1px solid #e5e3e6;
 }
 
-div.round_corners div.header-wrapper {
+div.round_corners div.header-wrapper,
+div.round_corners div#footer {
     border-radius: 0 0 6px 6px;
     overflow-x: hidden;
 }
