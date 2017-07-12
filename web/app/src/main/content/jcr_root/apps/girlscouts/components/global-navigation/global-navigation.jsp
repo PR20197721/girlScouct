@@ -59,15 +59,10 @@ if (newCurrentPage != null) {
 Boolean displaySecondaryNavFlyOut = properties.get("displaySecondaryNavFlyOut", Boolean.FALSE);
 String flyoutClass = displaySecondaryNavFlyOut ? "flyout-nav" : "";
 String[] links = properties.get("links", String[].class);
-
 if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>##### Global Navigation #####<%
 } else if (links != null){
 %>
-
-
-
-      
 
     <ul class="<%=flyoutClass%> inline-list">
         <%

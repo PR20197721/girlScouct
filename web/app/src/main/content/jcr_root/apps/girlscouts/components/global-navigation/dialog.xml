@@ -50,6 +50,15 @@
                         name="./displaySecondaryNavFlyOut"
                         type = "checkbox"
                         xtype="selection"/>
+                    <mobile-cta
+			            jcr:primaryType="cq:Widget"
+			            fieldLabel="Mobile Calls to Action"
+			            name="./mobileCtas"
+			            xtype="multifield">
+			            <fieldConfig
+			                jcr:primaryType="nt:unstructured"
+			                xtype="customlink"/>
+			        </mobile-cta>
                 </items>
             </options>
         </items>

@@ -42,6 +42,7 @@
       <%} %>
       </div>
     </div>
+    <cq:include script="mobile-cta.jsp"/>
     <div class="show-for-small small-24 columns topMessage alt">
       <div class="row vtk-login collapse">
         <% setCssClasses("small-19 columns", request); %>
