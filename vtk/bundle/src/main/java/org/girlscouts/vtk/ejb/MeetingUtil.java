@@ -30,6 +30,7 @@ import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Note;
 import org.girlscouts.vtk.models.PlanView;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -68,6 +69,9 @@ public class MeetingUtil {
 
 	@Reference
 	private ConnectionFactory connectionFactory;
+	
+	//@Reference
+	//CalendarUtil calendarUtil;
 
 	java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat(
 			"MM/dd/yyyy");
@@ -257,6 +261,7 @@ public class MeetingUtil {
 			if (plan.getSchedule() != null) {
 
 				String calMeeting = plan.getSchedule().getDates();
+				
 				StringTokenizer t = new StringTokenizer(calMeeting, ",");
 				int count = 0;
 				while (t.hasMoreElements()) {
@@ -271,7 +276,8 @@ public class MeetingUtil {
 							if (maxLook > 100)
 								break;
 						}
-						sched.put(dt, meetingEs.get(count));
+						if( meetingEs.size()> count)
+							sched.put(dt, meetingEs.get(count));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -482,6 +488,7 @@ public class MeetingUtil {
 		// create custom meeting
 		MeetingE meetingE = getMeeting(troop.getYearPlan().getMeetingEvents(),
 				meetingPath);
+		/*
 		if (meetingE.getRefId().contains("_"))
 			meetingDAO.updateCustomMeeting(user, troop, meetingE, meetingInfo);
 		else
@@ -489,6 +496,8 @@ public class MeetingUtil {
 
 		troop.getYearPlan().setAltered("true");
 		troopUtil.updateTroop(user, troop);
+		*/
+		createOrUpdateCustomMeeting( user, troop, meetingE, meetingInfo );
 	}
 
 	public MeetingE getMeeting(java.util.List<MeetingE> meetings,
@@ -676,9 +685,10 @@ public class MeetingUtil {
 				asset.setType(AssetComponentType.AID.toString());
 				asset.setTitle(assetName);
 				asset.setDocType(docType);
-				if (dbAsset != null)
+				if (dbAsset != null) {
 					asset.setDescription(dbAsset.getDescription());
-
+					asset.setIsOutdoorRelated(dbAsset.getIsOutdoorRelated());
+				}
 				java.util.List<Asset> assets = meeting.getAssets();
 				assets = assets == null ? new java.util.ArrayList() : assets;
 
@@ -860,21 +870,22 @@ public class MeetingUtil {
 	public PlanView planView(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) throws Exception {
 		return planView(user, troop, request, false);
+		
 	}
 	
 	public PlanView planView(User user, Troop troop,
-			javax.servlet.http.HttpServletRequest request, boolean isUpdateAssetInDb) throws Exception {
-System.err.println("tatattx meetingUtil planView START....");	
+			javax.servlet.http.HttpServletRequest request, boolean isUpdateAssetInDb) throws Exception {	
 		PlanView planView = planView1(user, troop, request);
+		
 		if (planView == null) {
 			return null;
 		}
-
+	
 		YearPlanComponent _comp = planView.getYearPlanComponent();
 		if (_comp == null) {
 			return null;
 		}
-
+	
 		MeetingE meeting = null;
 		List<Asset> _aidTags = null;
 		Meeting meetingInfo = null;
@@ -888,6 +899,7 @@ System.err.println("tatattx meetingUtil planView START....");
 			else if (_comp.getType() == YearPlanComponentType.MEETINGCANCELED)
 				meetingCount = troop.getYearPlan().getMeetingCanceled()
 						.indexOf(_comp) + 1;
+			
 			meetingInfo = yearPlanUtil.getMeeting(user, troop, meeting.getRefId());	
 			meeting.setMeetingInfo(meetingInfo);
 			java.util.List<Activity> _activities = null;
@@ -908,51 +920,72 @@ System.err.println("tatattx meetingUtil planView START....");
 				isCanceled = true;
 			}
 			_aidTags = meeting.getAssets();
+		
+			//start
 			
 			
-		if( isUpdateAssetInDb ) {
-			
-			java.util.Date sysAssetLastLoad = dataImportTimestamper
-					.getTimestamp();
-			if (meeting.getLastAssetUpdate() == null
-					|| meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
-			
-				_aidTags = _aidTags == null ? new java.util.ArrayList()
-						: _aidTags;
+		if( _aidTags==null )
+			_aidTags= new java.util.ArrayList<Asset>();
+		
+		// query aids cachables
+		java.util.List <Asset>__aidTags = yearPlanUtil.getAids(user, troop, 
+				meetingInfo.getAidTags(), meetingInfo.getId(),
+				meeting.getUid(), meetingInfo.getPath());
 
-				// rm cachables
-				java.util.List aidToRm = new java.util.ArrayList();
-				for (int i = 0; i < _aidTags.size(); i++) {
-					if (_aidTags.get(i).getIsCachable())
-						aidToRm.add(_aidTags.get(i));
-				}
 
-				for (int i = 0; i < aidToRm.size(); i++)
-					_aidTags.remove(aidToRm.get(i));
+		java.util.List <Asset>__resources = yearPlanUtil.getResources(user, troop, 
+				meetingInfo.getAidTags(), meetingInfo.getId(),
+				meeting.getUid(), meetingInfo.getPath());
+		
+		
 
-				// query aids cachables
-				java.util.List __aidTags = yearPlanUtil.getAids(user, troop, 
-						meetingInfo.getAidTags(), meetingInfo.getId(),
-						meeting.getUid(), meetingInfo.getPath());
+		if( _aidTags ==null ) _aidTags= new java.util.ArrayList();
+		if( __aidTags!=null ){ //add aid tags
+		
+			aa:for(int y=0;y<__aidTags.size();y++){
 
-				// merge lists aids
-				_aidTags.addAll(__aidTags);
-
-				// query resources cachables
-				java.util.List __resources = yearPlanUtil.getResources(user, troop, 
-						meetingInfo.getResources(), meetingInfo.getId(),
-						meeting.getUid(), meetingInfo.getPath());
-
-				// merge lists resources
-				_aidTags.addAll(__resources);
+				for(int x=0;x< _aidTags.size();x++){
+	
+					if( _aidTags.get(x).getRefId().equals(__aidTags.get(y).getRefId())){
+	
+						continue aa;
+					}//edn if
+				}//end x
 				
-				meeting.setLastAssetUpdate(new java.util.Date());
-
-				meeting.setAssets(_aidTags);					
-				 troopUtil.updateTroop(user, troop);
+				_aidTags.add(__aidTags.get(y));
+			}//edn y
 				
-			}
+			
 		}
+		
+		
+
+		if(__resources!=null) //add resources
+			aad:for(int y=0;y<__resources.size();y++){
+					for(int x=0;x< _aidTags.size();x++){
+						if( _aidTags.get(x).getRefId().equals(__resources.get(y).getRefId()))
+							continue aad;
+					}
+				_aidTags.add(__resources.get(y));
+
+			}
+				
+				
+			
+		
+		
+		
+		meeting.setLastAssetUpdate(new java.util.Date());
+		meeting.setAssets(_aidTags);	
+		
+		
+		
+		
+		
+		
+			//end
+			
+			
 			int meetingLength = 0;
 			for (Activity _agenda : _activities) {
 				meetingLength += _agenda.getDuration();
@@ -966,8 +999,7 @@ System.err.println("tatattx meetingUtil planView START....");
 		if (meeting != null)
 			meeting.setMeetingInfo(meetingInfo);
 		planView.setMeeting(meeting);
-		planView.setAidTags(_aidTags);
-System.err.println("tata meetingUtil planView end....");		
+		planView.setAidTags(_aidTags);		
 		return planView;
 	}
 
@@ -983,7 +1015,7 @@ System.err.println("tata meetingUtil planView end....");
 			sched = getYearPlanSched(user, troop, troop.getYearPlan(), false, false);
 
 		if (sched == null || (sched.size() == 0)) {
-			System.err.println("You must first select a year plan.");
+			
 			return null;
 		}
 		java.util.List<java.util.Date> dates = new java.util.ArrayList<java.util.Date>(
@@ -1072,6 +1104,7 @@ System.err.println("tata meetingUtil planView end....");
 			dates = dates.substring(0, dates.length() - 1);
 		troop.getYearPlan().getSchedule().setDates(dates);
 
+		/*
 		String exclDates = troop.getYearPlan().getCalExclWeeksOf();
 		exclDates = exclDates == null ? "" : exclDates;
 		if (exclDates.endsWith(",") || exclDates.equals(""))
@@ -1082,23 +1115,43 @@ System.err.println("tata meetingUtil planView end....");
 					+ FORMAT_MMddYYYY.format(new java.util.Date(dateToRm))
 					+ ",";
 		troop.getYearPlan().setCalExclWeeksOf(exclDates);
+		*/
 		troopUtil.updateTroop(user, troop);
 		isRemoved = true;
 		return isRemoved;
 	}
 
-	public boolean rmMeeting(User user, Troop troop, String meetingRefId)
+	public boolean rmMeeting(User user, Troop troop, String meetingUid)
 			throws IllegalAccessException {
 		boolean isRemoved = false;
-		java.util.List<MeetingE> meetings = troop.getYearPlan()
-				.getMeetingEvents();
+
+		boolean isRmDt = false;
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+		
+		if( troop.getYearPlan().getSchedule() !=null )
+			meetings = VtkUtil.schedMeetings( meetings, troop.getYearPlan().getSchedule().getDates() );
+
 		for (int i = 0; i < meetings.size(); i++) {
-			if (meetings.get(i).getRefId().equals(meetingRefId)) {
-				troopDAO.removeMeeting(user, troop, meetings.get(i));
-				meetings.remove(i);
+			
+			if (meetings.get(i).getUid().equals(meetingUid)) {
+
+				try{
+					if( meetings.get(i).getDate()==null )//more meetings than dates.Ex: scheduling from start
+						isRmDt=true;
+					else
+						isRmDt= rmSchedDate( user,  troop, meetings.get(i).getDate().getTime() );
+				}catch(Exception e){e.printStackTrace();}
+			
+				 if( isRmDt ){
+					troopDAO.removeMeeting(user, troop, meetings.get(i));
+					meetings.remove(i);
+				
+				}
 			}
 		}
-		isRemoved = true;
+
+		if( isRmDt )isRemoved = true;
+	
 		return isRemoved;
 	}
 
@@ -1292,22 +1345,22 @@ System.err.println("tata meetingUtil planView end....");
 
 	public void saveEmail(User user, Troop troop, String meetingId) {
 
-		java.util.List<MeetingE> meetings = troop.getYearPlan()
-				.getMeetingEvents();
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++) {
 			MeetingE meeting = meetings.get(i);
+		
 			if (meeting.getUid().equals(meetingId)) {
 				try {
 					SentEmail email = new SentEmail(troop.getSendingEmail());
 					java.util.List<SentEmail> emails = meeting.getSentEmails();
-					emails = emails == null ? new java.util.ArrayList<SentEmail>()
-							: emails;
+				
+					emails = emails == null ? new java.util.ArrayList<SentEmail>() : emails;
 					emails.add(email);
 
 					meeting.setSentEmails(emails);
+					
 					if (meeting.getEmlTemplate() == null) {
-						meeting.setEmlTemplate(troop.getSendingEmail()
-								.getTemplate());
+						meeting.setEmlTemplate(troop.getSendingEmail().getTemplate());
 					}
 					meetingDAO.updateMeetingEvent(user, troop, meeting);
 					return;
@@ -1371,19 +1424,23 @@ System.err.println("tata meetingUtil planView end....");
 
 	public void rmExtraMeetingsNotOnSched(User user, Troop troop) 
 			throws IllegalAccessException {
+	
 		String dates = troop.getYearPlan().getSchedule().getDates();
+
 		StringTokenizer t = new StringTokenizer(dates, ",");
 		int meetingDatesCount = t.countTokens();
-		while (meetingDatesCount < troop.getYearPlan().getMeetingEvents()
-				.size()) {
-			rmMeeting(
-					user,
-					troop,
-					troop.getYearPlan()
-							.getMeetingEvents()
-							.get(troop.getYearPlan().getMeetingEvents().size() - 1)
-							.getRefId());
+	
+		while (meetingDatesCount < troop.getYearPlan().getMeetingEvents().size()) {
+			
+			
+		rmMeeting(
+		user,
+		troop,
+		troop.getYearPlan()
+				.getMeetingEvents()
+				.get(troop.getYearPlan().getMeetingEvents().size() - 1).getUid());
 		}
+
 	}
 
 	public MeetingE getMeetingE( User user, Troop troop, String meetingEpath) throws IllegalAccessException, VtkException{
@@ -1395,4 +1452,116 @@ System.err.println("tata meetingUtil planView end....");
 
 		return meetingDAO.getMeetingE(user, troop, meetingEpath);
 	}
+	
+	
+	
+	public java.util.List<Note> getNotes(User user, Troop troop, String path)
+			throws IllegalAccessException, VtkException{
+		return meetingDAO.getNotes( user, troop, path);
+	}
+	
+	public java.util.List<Note> getNotesByMid(User user, Troop troop, String mid)
+			throws IllegalAccessException, VtkException{
+		MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
+		return meetingDAO.getNotes( user, troop, meeting.getUid() );//meeting.getPath() );
+	}
+	
+	
+	 
+	public boolean updateNote(User user, Troop troop,Note  note) throws IllegalAccessException{
+		
+		return meetingDAO.updateNote( user, troop, note);
+	}
+	
+	public Note getNote(User user, Troop troop, String noteId)
+			throws IllegalAccessException, VtkException{
+		return meetingDAO.getNote( user, troop, noteId);
+	}
+	public boolean rmNote(User user, Troop troop,String  noteId) throws IllegalAccessException, VtkException{
+		System.err.println("inRmNote MeetingUtil: " +noteId ); 
+		return meetingDAO.rmNote(user, troop, noteId);
+	}
+	
+	
+	public void createOrUpdateCustomMeeting(User user, Troop troop, MeetingE meetingE ) throws IllegalAccessException, VtkException{
+		createOrUpdateCustomMeeting( user, troop, meetingE, meetingE.getMeetingInfo());
+	}
+	
+	public void createOrUpdateCustomMeeting(User user, Troop troop, MeetingE meetingE , Meeting meetingInfo) throws IllegalAccessException, VtkException{
+				
+				
+				if (meetingE.getRefId().contains("_"))
+					meetingDAO.updateCustomMeeting(user, troop, meetingE, meetingInfo);
+				else
+					meetingDAO.createCustomMeeting(user, troop, meetingE, meetingInfo);
+
+				troop.getYearPlan().setAltered("true");
+				troopUtil.updateTroop(user, troop);
+	}
+	
+	public boolean updateActivityOutdoorStatus(User user, Troop troop, String mid, String aid, boolean isOutdoor) throws IllegalAccessException, VtkException{
+	
+		MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
+        Activity activity = VtkUtil.findActivityByPath( meeting.getMeetingInfo().getActivities(), aid );
+        return updateActivityOutdoorStatus( user, troop, meeting, activity, isOutdoor );
+        
+    }
+
+	public boolean updateActivityOutdoorStatus(User user, Troop troop, MeetingE meetingE, Activity activity, boolean isOutdoor) throws IllegalAccessException, VtkException{
+		boolean isUpdated= false;
+		for(int i=0;i<meetingE.getMeetingInfo().getActivities().size();i++){
+			if( activity.getUid().equals( meetingE.getMeetingInfo().getActivities().get(i).getUid()) ){
+				meetingE.getMeetingInfo().getActivities().get(i).setIsOutdoor(isOutdoor);
+				createOrUpdateCustomMeeting(user, troop, meetingE );
+				isUpdated=true;
+			}
+		}	
+		return isUpdated;
+	}
+	
+	public Note addNote(User user, Troop troop, String mid, String message) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
+		if (mid == null || message == null || message.trim().equals("")) {
+			return null;
+		}
+		MeetingE meeting = VtkUtil.findMeetingById(troop.getYearPlan().getMeetingEvents(), mid);
+
+		java.util.List<Note> notes = meeting.getNotes();
+		if (notes == null)
+			notes = new java.util.ArrayList<Note>();
+		Note note = new Note();
+		note.setMessage(message);
+		note.setCreatedByUserId(user.getApiConfig().getUser().getSfUserId());
+		note.setCreatedByUserName(user.getApiConfig().getUser().getName());
+		note.setCreateTime(new java.util.Date().getTime());
+		note.setRefId(meeting.getUid());
+		note.setPath(meeting.getPath() + "/notes/" + note.getUid());
+		notes.add(note);
+
+		meeting.setNotes(notes);
+
+		troopUtil.updateTroop(user, troop);
+		return note;
+
+	}
+	
+	public boolean editNote(User user, Troop troop, String noteId, String msg)throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
+		 boolean isEdit= false;
+        
+         Note note= getNote(user, troop, noteId);
+         if( note!=null && msg!=null && !msg.equals("") ){
+                  note.setMessage( msg );
+                  isEdit= updateNote(user, troop, note);
+         }//edn if
+
+         return isEdit;
+	}
+	
+	public void addMeetings(User user, Troop troop, String meetings[]) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
+        for(int i=0;i<meetings.length;i++){
+            addMeetings(user, troop, meetings[i] );
+        }
+	}
+	
+	
+	
 }// edn class

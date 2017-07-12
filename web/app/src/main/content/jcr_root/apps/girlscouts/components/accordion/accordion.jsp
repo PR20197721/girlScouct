@@ -5,12 +5,30 @@
   Generates an HTML accordion object
 
 --%>
+<%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@page import="java.util.Date,
 				com.day.cq.wcm.api.WCMMode" %>
 <%
-	String[] children = properties.get("children", String[].class);
+    if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	   %><cq:includeClientLib categories="apps.girlscouts.authoring" /><%
+	}
+	String[] namesAndAnchors = properties.get("children", String[].class);
+	String[] children = null;
+	String[] anchors = null;
+	String[] accIds = null;
+	if(namesAndAnchors != null && namesAndAnchors.length > 0){
+		children = new String[namesAndAnchors.length];
+		anchors = new String[namesAndAnchors.length];
+		accIds = new String[namesAndAnchors.length];
+		for(int i =0; i < namesAndAnchors.length; i++){
+			String[] split = namesAndAnchors[i].split("\\|\\|\\|");
+			children[i] = split.length >= 1 ? split[0] : "";
+            anchors[i] = split.length >= 2 ? split[1] : "";
+            accIds[i] = split.length >= 3 ? split[2] : "" + i;
+		}
+	}
 	if(children == null){
         %><p>**Edit this component to add accordions**</p><%
 	}
@@ -19,9 +37,9 @@
         %>
             <dl class="accordion" data-accordion><%
             for (int i=0; i<children.length; i++){
-            	String parsys = resource.getName() + "_parsys_" + i;
+            	String parsys = resource.getName() + "_parsys_" + accIds[i];
             	ids[i] = parsys;
-            	%><dt data-target="<%=parsys%>"><h6><%=children[i]%></dt>
+            	%><dt style="clear:both" id="<%=anchors[i]%>" data-target="<%=parsys%>"><h6><%=children[i]%></dt>
             	<dd class="accordion-navigation">
             		<div class="content" id="<%=parsys%>">
             			<cq:include path="<%=parsys%>" resourceType="foundation/components/parsys" />
@@ -38,8 +56,8 @@
         	<%
         		for(int i=0; i<ids.length; i++){
         	%>
-        			window.<%= ids[i] %> = new toggleParsys("<%= resource.getPath() + "/" + ids[i] %>");
-        			window.<%= ids[i] %>.hideParsys();
+    			window.<%= ids[i] %> = new toggleParsys("<%= resource.getPath() + "/" + ids[i] %>");
+    			window.<%= ids[i] %>.hideParsys();
         	<%
 				}
 			%>

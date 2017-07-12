@@ -29,10 +29,5 @@
         <orderChildren
             jcr:primaryType="cq:LiveSyncAction"
             enabled="true"/>
-        <gsNotification
-            jcr:primaryType="cq:LiveSyncAction"
-            emlTemplate="&lt;p>Dear Council,&amp;nbsp;&lt;/p>&#xa;&lt;p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b>discarding&lt;/b> your own changes (custom content) that have been made to this page and will &lt;b>immediately&lt;/b> receive the new national content.&lt;/p>&#xa;"
-            enabled="true"
-            testEmail=""/>
     </jcr:content>
 </jcr:root>

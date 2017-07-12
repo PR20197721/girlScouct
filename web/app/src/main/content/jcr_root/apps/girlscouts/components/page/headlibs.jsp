@@ -1,6 +1,5 @@
 <%@ page session="false" %>
-<%@page import="com.day.cq.wcm.api.WCMMode,
-				org.girlscouts.vtk.helpers.ConfigManager"%>
+<%@page import="com.day.cq.wcm.api.WCMMode, org.girlscouts.vtk.helpers.*"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/headlibs.jsp -->
@@ -19,13 +18,20 @@
 <!--<![endif]-->
 <% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
 	<cq:includeClientLib categories="apps.girlscouts.authoring" />
-<% } %>
-<% currentDesign.writeCssIncludes(pageContext); %>
+<% } 
+
+Design newCurrentDesign= (Design)request.getAttribute("newCurrentDesign");
+if (newCurrentDesign != null) {
+  %><link rel="stylesheet" href="<%= newCurrentDesign.getPath() + ".css" %>" type="text/css"/><%
+}else{
+  currentDesign.writeCssIncludes(pageContext);
+}
+%>
 <!-- End: Include Girl Scout clientlibs -->
 
 <!-- Begin: login logic -->
 <%
-	ConfigManager configManager = sling.getService(ConfigManager.class);
+org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
 
 	String helloUrl = configManager.getConfig("helloUrl");
 	String callbackUrl = configManager.getConfig("callbackUrl");

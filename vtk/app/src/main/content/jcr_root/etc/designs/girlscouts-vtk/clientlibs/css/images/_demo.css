@@ -1,0 +1,145 @@
+/* line 1, _vtk-demo.scss */
+.vtk-table-container {
+  text-align: center;
+}
+
+/* line 7, _vtk-demo.scss */
+.table-action-button a {
+  color: red !important;
+}
+
+/* line 12, _vtk-demo.scss */
+.vtk-empty-bar {
+  width: 100%;
+  height: 25px;
+}
+
+/* line 17, _vtk-demo.scss */
+.vtk-toolkit-title {
+  float: left;
+}
+/* line 19, _vtk-demo.scss */
+.vtk-toolkit-title h4 {
+  color: white !important;
+  font-weight: 100;
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 1px;
+}
+
+/* line 30, _vtk-demo.scss */
+.vtk-demo-info-footer, .vtk-demo-reference-footer {
+  margin: 25px 0;
+}
+
+/* line 35, _vtk-demo.scss */
+.vtk-demo-info-footer h4 {
+  font-size: 18px;
+  font-weight: 100;
+  color: white;
+  margin: 0;
+}
+
+/* line 45, _vtk-demo.scss */
+.vtk-demo-reference-footer a {
+  float: right;
+  font-weight: 100;
+  font-size: 15px !important;
+  text-decoration: underline;
+}
+
+/* line 53, _vtk-demo.scss */
+.vtk-demo-wrap-top {
+  padding: 36px 0;
+}
+
+/* line 57, _vtk-demo.scss */
+.vtk-header-box {
+  background-color: #009447;
+  color: white;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  width: 100%;
+  display: table;
+}
+/* line 66, _vtk-demo.scss */
+.vtk-header-box a {
+  display: table-cell;
+  width: 100%;
+  height: inherit;
+  vertical-align: center;
+  padding: 15px;
+  color: white;
+}
+/* line 73, _vtk-demo.scss */
+.vtk-header-box a:hover {
+  color: white;
+}
+
+/* line 79, _vtk-demo.scss */
+.vtk-demo-card {
+  margin-bottom: 15px;
+}
+/* line 81, _vtk-demo.scss */
+.vtk-demo-card p {
+  padding: 0 15px;
+  font-size: 13px;
+}
+/* line 86, _vtk-demo.scss */
+.vtk-demo-card ul {
+  list-style-type: circle !important;
+  font-size: 13px;
+  padding-left: 15px;
+}
+
+/* line 94, _vtk-demo.scss */
+.vtk-demo-select select {
+  width: auto;
+  float: right;
+  background-color: green;
+  color: white;
+  margin: 10px 10px 0 0;
+}
+
+/* line 103, _vtk-demo.scss */
+.vtk-demo-select_ {
+  text-align: center;
+  background-color: #FFFFE0;
+  padding: 10px;
+  color: green;
+  margin-bottom: 40px;
+}
+
+/* line 112, _vtk-demo.scss */
+.vtk-demo-restart {
+  position: relative;
+}
+/* line 114, _vtk-demo.scss */
+.vtk-demo-restart a {
+  float: right;
+  margin: 5px 10px 5px 0;
+  color: white;
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+/* line 123, _vtk-demo.scss */
+.float-right {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+}
+
+/* line 129, _vtk-demo.scss */
+.vtk-demo-logo-img {
+  position: absolute;
+  z-index: 1000;
+}
+
+
+
+#header .login {
+  display: inline-block;
+  margin-right: 4px;
+}

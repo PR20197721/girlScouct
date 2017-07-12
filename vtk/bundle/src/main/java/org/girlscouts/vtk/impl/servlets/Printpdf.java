@@ -10,10 +10,12 @@ import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.*;
 import java.io.File;
@@ -42,31 +44,39 @@ import com.day.cq.commons.jcr.JcrUtil;
 
 
 
-@Component(label = "vtk upload tet", description = "vtk upload test", metatype = true, immediate = true)
+@Component(metatype = true, immediate = true)
 @Service
 @Properties({
-		@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-		@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "pdf"),
-		@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET") })
+	@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
+	@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "pdf"),
+	@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET"),
+        @Property(name="label", value="Girl Scouts VTK Print PDF Servlet"),
+        @Property(name="description", value="Girl Scouts VTK Print PDF Servlet")
+})
 public class Printpdf extends SlingSafeMethodsServlet {
 
 	@Reference
 	private ResourceResolverFactory resolverFactory;
 
-
-
 	@Override
 	protected void doGet(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) throws ServerException,
 			IOException {
-			
-			response.setHeader("Content-Disposition", "attachment;filename=\"print.pdf\"");
-			response.setContentType("application/pdf");
-
-			try {			
-				ServletOutputStream fout = response.getOutputStream();
-				fout.print("test123");
-				fout.flush();
+		
+			try {
+				String reqURI = request.getRequestURI();
+				if(reqURI.startsWith("/content/girlscouts-vtk")){
+					response.setHeader("Content-Disposition", "attachment;filename=\"print.pdf\"");
+					response.setContentType("application/pdf");
+					ServletOutputStream fout = response.getOutputStream();
+					fout.print("test123");
+					fout.flush();
+				}
+				
+				else{
+					response.setStatus(404);
+					response.setHeader("Connection", "close");
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

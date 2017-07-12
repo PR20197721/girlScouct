@@ -1,0 +1,153 @@
+.resize-container {
+  position: relative;
+  display: inline-block;
+  cursor: move;
+  margin: 0 auto;
+}
+
+.resize-container img {
+  display: block;
+}
+
+#cropping-tool img {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.resize-container:hover img,
+.resize-container:active img {
+  /*outline: 2px dashed rgb(50, 125, 60);*/
+}
+
+.resize-handle-ne,
+.resize-handle-se,
+.resize-handle-nw,
+.resize-handle-sw {
+  position: absolute;
+  display: block;
+  width: 10px;
+  height: 10px;
+  background: #327d3c;
+  z-index: 1000;
+}
+
+.resize-handle-nw {
+  top: -5px;
+  left: -5px;
+  cursor: nw-resize;
+}
+
+.resize-handle-sw {
+  bottom: -5px;
+  left: -5px;
+  cursor: sw-resize;
+}
+
+.resize-handle-ne {
+  top: -5px;
+  right: -5px;
+  cursor: ne-resize;
+}
+
+.resize-handle-se {
+  bottom: -5px;
+  right: -5px;
+  cursor: se-resize;
+}
+
+.overlay {
+  position: absolute;
+  	/*left: 50%;
+      top: 50%;*/
+  z-index: 999;
+  width: 960px;
+  height: 340px;
+  border: solid 2px #8c41d7;
+  box-sizing: content-box;
+  /*pointer-events: none;*/
+}
+
+.overlay:after,
+.overlay:before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 964px;
+  height: 40px;
+  border-left: dashed 2px #8c41d7;
+  border-right: dashed 2px #8c41d7;
+}
+
+.overlay:before {
+  top: 0;
+  margin-left: -2px;
+  margin-top: -40px;
+}
+
+.overlay:after {
+  bottom: 0;
+  margin-left: -2px;
+  margin-bottom: -40px;
+}
+
+.overlay-inner:after,
+.overlay-inner:before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 40px;
+  height: 344px;
+  border-top: dashed 2px #8c41d7;
+  border-bottom: dashed 2px #8c41d7;
+}
+
+.overlay-inner:before {
+  left: 0;
+  margin-left: -40px;
+  margin-top: -2px;
+}
+
+.overlay-inner:after {
+  right: 0;
+  margin-right: -40px;
+  margin-top: -2px;
+}
+
+.cancel {
+  background-color: #c33c3c;
+}
+
+#crop-buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.btn-wrap {
+  margin-bottom: 20px;
+}
+
+#upload-tool {
+  margin: 0 auto;
+  max-width: 960px;
+}
+
+#upload-buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#upload-buttons .btn,
+#upload-buttons button {
+  float: left;
+  margin-right: 5px;
+}
+#upload-buttons .btn:last-child,
+#upload-buttons button:last-child {
+  margin: 0;
+}
+
+@media only screen and (min-width: 60.063em) {
+  #modal_upload_image {
+    margin-left: -40%;
+    width: 80%;
+  }
+}

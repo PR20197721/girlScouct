@@ -7,10 +7,7 @@ import javax.jcr.Value;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -33,8 +30,12 @@ import org.girlscouts.vtk.models.SentEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component
+@Component(metatype = true, immediate = true)
 @Service(value = ActivityDAO.class)
+@Properties ({
+        @Property(name="label", value="Girl Scouts VTK Activity DAO"),
+        @Property(name="description", value="Girl Scouts VTK Activity DAO")
+})
 public class ActivityDAOImpl implements ActivityDAO {
 	private final Logger log = LoggerFactory.getLogger("vtk");
 	@Reference
@@ -51,7 +52,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 			throws IllegalStateException, IllegalAccessException {
 		Session session = null;
 		try {
-
+			
 			if (troop != null
 				&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_ADD_ACTIVITY_ID))
@@ -220,9 +221,9 @@ public class ActivityDAOImpl implements ActivityDAO {
 		Session session = null;
 		try {
 
-			String sql = "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ['"
+			String sql = "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["
 					+ path
-					+ "'])) and child.start is not null and parent.[jcr:title] is not null ";
+					+ "])) and child.start is not null and parent.[jcr:title] is not null ";
 
 			log.debug(sql);
 			session = sessionFactory.getSession();

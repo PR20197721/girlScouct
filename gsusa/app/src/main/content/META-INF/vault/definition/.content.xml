@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:vlt="http://www.day.com/jcr/vault/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:description="Girl Scouts USA Pacakge"
+    jcr:primaryType="vlt:PackageDefinition"
+    sling:resourceType="cq/packaging/components/pack/definition"
+    buildCount="1"
+    cqVersion="5.6.1"
+    group="org.girlscouts.web.gsusa"
+    name="gsusa-content"
+    path="/etc/packages/org.girlscouts.web.gsusa/gsusa-content-1.0-SNAPSHOT"
+    version="2.0-SNAPSHOT">
+    <filter jcr:primaryType="nt:unstructured">
+        <f0
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/apps/gsusa"
+            rules="[]"/>
+        <f1
+            jcr:primaryType="nt:folder"
+            mode="replace"
+            root="/etc/designs/gsusa/fonts"
+            rules="[]"/>
+        <f2
+            jcr:primaryType="cq:ClientLibraryFolder"
+            mode="replace"
+            root="/etc/designs/gsusa/clientlibs"
+            rules="[]"/>
+        <f3
+            jcr:primaryType="nt:folder"
+            mode="replace"
+            root="/etc/workflow/scripts/gsusa"
+            rules="[]"/>
+        <f4
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/dam/update_asset"
+            rules="[]"/>
+        <f5
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/dam/video/hq"
+            rules="[]"/>
+        <f6
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/scaffolding/gsusa"
+            rules="[]"/>
+        <f7
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/designs/gsusa/jcr:content/page/video"
+            rules="[]"/>
+    </filter>
+</jcr:root>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+    jcr:mixinTypes="[rep:AccessControllable]"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/girlscouts-usa-green"
+        cq:doctype="html_5"
+        cq:lastModified="{Date}2014-04-27T12:21:12.743-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2015-01-15T16:33:06.366-05:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts USA"
+        jcr:uuid="13656d93-83cb-4acc-94dc-9005adb66735"
+        sling:resourceType="foundation/components/page"
+        currentYear="2014">
+        <image jcr:primaryType="nt:unstructured">
+            <file/>
+        </image>
+    </jcr:content>
+    <en/>
+    <es/>
+</jcr:root>

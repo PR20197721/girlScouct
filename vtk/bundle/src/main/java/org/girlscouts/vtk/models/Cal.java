@@ -1,6 +1,7 @@
 package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
+import java.util.StringTokenizer;
 import java.util.List;
 
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -17,15 +18,20 @@ public class Cal implements Serializable {
 	
 	public String getDates() {
 
-		return dates;
+		
+String toRet= fmtDates();
+
+		return toRet;//fmtDates(); //dates;
 	}
 
 	public void setDates(String dates) {
+
+		dates = fmtDates(dates);
 		
 		if( dates!=null && this.dates!=null && !this.dates.equals(dates))
 			isDbUpdate =true;
-		this.dates = dates;
 		
+		this.dates = dates;
 	}
 
 	public String getPath() {
@@ -62,5 +68,47 @@ public class Cal implements Serializable {
 
 	public void setDbUpdate(boolean isDbUpdate) {
 		this.isDbUpdate = isDbUpdate;
+	}
+	
+	public String fmtDates(){ return fmtDates(this.dates); }
+	public String fmtDates( String dates ){
+	
+
+
+		if( dates ==null || dates.indexOf(",") ==-1 )
+			return dates;
+		
+		java.util.List<Long> fmtList = new java.util.ArrayList <Long>();
+		try{
+			StringTokenizer t= new StringTokenizer(dates,",");
+			while( t.hasMoreElements()){
+				
+				long _date= Long.parseLong( t.nextToken() );
+				gt:for(int i=0;i<35;i++){
+					if( fmtList.contains(_date) ){
+						System.err.println("Found duplicate date in YP schedule "+ _date +".. Adding 1.");
+						_date += 1;
+						break gt;
+					}
+				}
+				
+				fmtList.add( _date );
+			}
+			
+			java.util.Collections.sort( fmtList );
+
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			dates=null;
+		}
+		
+		String toRet= "";
+		if( dates !=null ){
+			for(int i=0;i< fmtList.size();i++)
+				toRet += Long.toString( fmtList.get(i) )+",";
+			return toRet;
+		}
+		return null;
 	}
 }

@@ -1,6 +1,7 @@
 package org.girlscouts.vtk.ejb;
 
 import java.text.ParseException;
+import  org.girlscouts.vtk.models.Milestone;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -297,6 +298,7 @@ public class TroopUtil {
 				troop.getYearPlan().getActivities().remove(activityToRm.get(i));
 		}// end if
 
+	
 		troop.getYearPlan().setAltered("false");
 		troop.getYearPlan().setName(planName);
 		troopDAO.removeMeetings(user, troop);
@@ -323,7 +325,8 @@ public class TroopUtil {
 			}
 			troop.getYearPlan().getSchedule().setDbUpdate(true);
 		}
-		troopDAO.updateTroop(user, troop);
+		
+		troopDAO.updateTroop(user, troop);		
 	}
 
 	public boolean updateTroop(User user, Troop troop)
@@ -364,8 +367,7 @@ public class TroopUtil {
 
 	}
 
-	public void reLogin(User user, Troop troop, String troopId,
-			HttpSession session) throws IllegalAccessException, VtkException {
+	public void reLogin(User user, Troop troop, String troopId, HttpSession session) throws IllegalAccessException, VtkException {
 
 		if (troopId == null || troopId.trim().equals("")) {
 			log.error("loginAs invalid.abort");
@@ -377,27 +379,51 @@ public class TroopUtil {
 		session.setAttribute("USER_TROOP_LIST", troops);
 
 		org.girlscouts.vtk.salesforce.Troop newTroop = null;
-		for (int i = 0; i < troops.size(); i++) {
-			if (troops.get(i).getTroopId().equals(troopId)) {
+	
+		alex:for (int i = 0; i < troops.size(); i++) {
+			if ( troops.get(i).getTroopId().equals(troopId) || 
+					troops.get(i).getGradeLevel().equals(troopId) ) {
 				newTroop = troops.get(i);
+				troopId= troops.get(i).getTroopId(); // in demo env
+				break alex;
 			}
 		}
 
-		Troop new_troop = getTroop(user, newTroop.getCouncilCode() + "",
-				troopId);
+if( newTroop ==null ) return;
+
+
+	   Troop new_troop = getTroop(user, newTroop.getCouncilCode() + "", troopId);
 
 		if (new_troop == null) {
 			new_troop = createTroop(user, "" + newTroop.getCouncilCode(),
 					troopId);
 
 		}
-		new_troop.setTroop(newTroop);
+		
+		
+		
+		//archive
+		if( !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+			 java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);	      
+			 org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(newTroop));
+			 newTroopCloned.setPermissionTokens( permis );
+			 new_troop.setTroop(newTroopCloned);
+		}else{
+			new_troop.setTroop(newTroop);
+		}
+		//end archive
+		
+		
 		new_troop.setSfTroopId(new_troop.getTroop().getTroopId());
 		new_troop.setSfUserId(user.getApiConfig().getUserId());
 		new_troop.setSfTroopName(new_troop.getTroop().getTroopName());
 		new_troop.setSfTroopAge(new_troop.getTroop().getGradeLevel());
 		new_troop.setSfCouncil(new_troop.getTroop().getCouncilCode() + "");
 
+		
+		 
+		
+		
 		// logout multi troop
 		logout(user, troop);
 		session.setAttribute("VTK_troop", new_troop);
@@ -649,6 +675,7 @@ public class TroopUtil {
 		String orgSchedDates = "";
 		if (oldPlan != null && oldPlan.getSchedule() != null)
 			orgSchedDates = oldPlan.getSchedule().getDates();
+	
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);
 		if (oldPlan != null) {
 			if (oldPlan.getName().equals(planName)) {// reset current yearplan
@@ -670,11 +697,15 @@ public class TroopUtil {
 		if (yearPlanPath != null && !yearPlanPath.equals("")) {
 			troop.getYearPlan().setMeetingEvents(
 					selectYearPlan_newMeetingPlan(user, troop, newYearPlan));
+			
 		} else {
+			
 			java.util.List<MeetingE> futureMeetings = getFutureMeetings(user,
 					troop, orgSchedDates);
+			
 			java.util.List<MeetingE> pastMeetings = rmFutureMeetings(user,
 					troop, futureMeetings);
+			
 			troop.getYearPlan().setMeetingEvents(
 					VtkUtil.setToDbUpdate(pastMeetings));
 		}
@@ -686,7 +717,7 @@ public class TroopUtil {
 					troopDAO.removeActivity(user, troop, troop.getYearPlan()
 							.getActivities().get(i));
 		}
-
+		
 		if (yearPlanPath == null || yearPlanPath.trim().equals("")) // custom
 																	// year plan
 			troop.getYearPlan().setAltered("true");
@@ -695,8 +726,11 @@ public class TroopUtil {
 		troop.getYearPlan().setName(planName);
 		troop.getYearPlan().setRefId(yearPlanPath);
 		troop.getYearPlan().setDbUpdate(true);
+		
 		troopDAO.removeMeetings(user, troop);
+		
 		troopDAO.updateTroop(user, troop);
+		
 	}
 
 	private java.util.List<MeetingE> rmFutureMeetings(User user, Troop troop,
@@ -742,6 +776,31 @@ public class TroopUtil {
 		}
 
 		return futureMeetings;
+	}
+	
+	public boolean removeMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request)throws java.lang.IllegalAccessException,org.girlscouts.vtk.utils.VtkException{
+		java.util.List<Milestone> milestones = troop.getYearPlan().getMilestones();
+		for (int i = 0; i < milestones.size(); i++) {
+
+			Milestone m = milestones.get(i);
+			if (m.getUid()
+					.equals(request
+							.getParameter("removeCouncilMilestones"))) {
+				milestones.remove(m);
+
+				boolean isUsrUpd = updateTroop(user,
+						troop);
+				/*
+				if (!isUsrUpd)
+					vtkErr += vtkErr
+							.concat("Warning: You last change was not saved.");
+
+				//response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+				*/
+				return false;
+			}
+		}
+		return true;
 	}
 }// end class
 

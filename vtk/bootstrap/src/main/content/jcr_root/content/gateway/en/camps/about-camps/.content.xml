@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-08-31T11:09:05.097-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:tags="[gateway:categories/camp,gateway:forms_documents/camping]"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:lockable,mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="About Camps "
+        jcr:uuid="120b1bc6-49f4-4c3f-a6ca-65e0766efbdb"
+        sling:redirect="true"
+        sling:resourceType="girlscouts/components/three-column-page"
+        sling:vanityPath="http://www.girlscouts-gateway.org:80/content/gateway/camp"
+        seoTitle="About Camps | Girl Scouts of Gateway Council">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <image
+                        jcr:created="{Date}2014-06-24T13:50:04.125-04:00"
+                        jcr:createdBy="ctruett"
+                        jcr:lastModified="{Date}2014-07-25T12:19:23.717-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Girls Around Camp Fire"
+                        sling:resourceType="girlscouts/components/image"
+                        alt="girls around camp fire "
+                        fileReference="/content/dam/gateway/pageheroes/gwcamp.jpg"
+                        imageRotate="0"/>
+                    <title
+                        jcr:created="{Date}2014-06-06T16:47:34.964-04:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2014-06-10T12:30:49.158-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="About Camps"
+                        sling:resourceType="girlscouts/components/title"/>
+                    <text
+                        jcr:created="{Date}2014-06-06T16:47:38.394-04:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2015-08-31T11:09:05.095-04:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>At camp, our Girl Scouts experience activities such as horseback riding, swimming, activities, hiking, and so much more thana just s'mores!&lt;/p>&#xa;&lt;p>&lt;b>Resident Camp&lt;br>&#xa; &lt;/b>Resident camp is an overnight camping&amp;nbsp;experience where ALL GIRLS can explore the out-of-doors with trained camp counselors. Resident camp sessions typically last about one week and are held in June and July each year at Girl Scouts Camp Kateri.&amp;nbsp;&lt;/p>&#xa;&lt;p>Stay tuned for information on 2016 camp dates!&lt;/p>&#xa;&lt;p>&lt;b>Smile Camp&lt;br>&#xa; &lt;/b>Girl Scouts SMILE Camp has been putting smiles on the faces of First Coast children with disabilities for over 35 years! Girl Scout Seniors (grades 9-10) and Ambassadors (grades 11-12) may submit an&amp;nbsp;application&amp;nbsp;and&amp;nbsp;references&amp;nbsp;in the spring to be considered for the position of SMILE Camp Counselor. Once accepted, girls receive hands-on, intensive training to plan and lead a one-week summer day camp for elementary-school age campers (5-11 years old) living with cerebral palsy, TMH, EMH (trainable mental handicaps and educable mental handicaps), hearing and/or visual impairments. Counselors provide physical assistance, gentle encouragement and one-on-one attention to the campers. Campers attend the week for a minimal fee, which includes lunch, snacks, and transportation to and from camp.&lt;/p>&#xa;&lt;p>Stay tuned for dates for 2016!&lt;/p>&#xa;&lt;p>&lt;b>Aquatics&lt;br>&#xa; &lt;/b>Girl Scouts in grades 4-12 learn skills in archery, canoeing, kayaking or sailing during a weekend campout at Camp Kateri. Girls can attend more than one weekend to master one specific aquatic activity and earn participation patches.&lt;/p>&#xa;&lt;p>&lt;b>Troop Camping&lt;/b>&lt;br>&#xa;Plan a small group excursion to explore the outdoors with your troop leader and the other girls in&amp;nbsp;your troop.&lt;/p>&#xa;&lt;p>Camping reservations for September 1- May 31, 2016 will open &lt;b>August 24th&lt;/b> for reservations!&lt;/p>&#xa;&lt;p>Camp Kateri &lt;a href=&quot;http://girlscouts-gateway.doubleknot.com/facilitycalendar/3141&quot; adhocenable=&quot;false&quot;>Reservations&lt;/a>&lt;br>&#xa;&amp;nbsp;&lt;br>&#xa;North Fork &lt;a href=&quot;http://girlscouts-gateway.doubleknot.com/facilitycalendar/3164&quot; adhocenable=&quot;false&quot;>Reservations&lt;/a>&lt;br>&#xa;&amp;nbsp;&lt;br>&#xa;Fernandina Beach Little House &lt;a href=&quot;http://girlscouts-gateway.doubleknot.com/facilitycalendar/3204&quot; adhocenable=&quot;false&quot;>Reservations&lt;/a>&lt;br>&#xa;&amp;nbsp;&lt;br>&#xa;Beaches Little House &lt;a href=&quot;http://girlscouts-gateway.doubleknot.com/facilitycalendar/3163&quot; adhocenable=&quot;false&quot;>Reservations&lt;/a>&lt;br>&#xa;&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            jcr:lastModified="{Date}2015-08-28T15:39:16.980-04:00"
+            jcr:lastModifiedBy="dlubin"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

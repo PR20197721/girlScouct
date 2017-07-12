@@ -16,20 +16,109 @@
 %>
   <%@include file="include/bodyTop.jsp" %>
   <%@include file="include/modals/modal_help.jsp"%>
+       
+  <div 
+    id="vtk_banner2234" 
+    data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"
+    class="column small-24 medium-20 small-centered" 
+    style="display:none;"
+  >
+  </div>
+
+
+
+    <script>
+
+
+
+  $(function(){
+   
+  })
+
+
+
+    $(function(){
+
+
+
+      $.ajax({
+        url: '/content/vtkcontent/en/vtk-banner.simple.html',
+        type: 'GET',
+        dataType:'html',
+        data: {
+            a: Date.now()
+        },
+        success: function(result) {
+            // document.getElementById("vtk_banner2234").innerHTML=result;
+            $("#vtk_banner2234").html(result);
+
+            $(function(){
+              // if($("#vtk_banner2234").data('cached') === 'no'){
+              //   $("#vtk_banner2234").show();
+              // }
+
+
+
+              $('.vtk-banner-button').click(function(){
+
+                 $.ajax({
+                   url:'/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
+                   dataType:'html',
+                 }).done(function(){
+                  $('.vtk-banner-image').slideUp();
+
+                   
+       
+                  })
+
+
+              });
+            });
+
+
+            // get if the there is a vtk cached
+            if($("#vtk_banner2234").data('cached') === 'no'){
+              $("#vtk_banner2234").show();
+            }
+       
+
+        }
+      });
+
+
+
+     });
+
+
+   
+
+
+    </script>
+
+
+
    <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
 
-  <div id="yearPlanMeetings">
+
+
+  <div id="yearPlanMeetings" class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan" : "vtk-pastYear-plan" %>">
+
+
     <div id="thePlan">
+
       <script type="text/javascript">
 
- var isActivNew;
+      var isActivNew;
       var isFirst=1;
       var meetingPassed=true;
       var scrollTarget = "";
 
+
+
       var CommentBox = React.createClass({displayName: "CommentBox",
+
        loadCommentsFromServer: function( isFirst ) {
          if (isFirst) {
              $.ajax({
@@ -42,7 +131,9 @@
                      this.isReordering = false;
                  }.bind(this),
              });
-         } else {
+         } else if(  <%=user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"" ) %> ){
+
+
              getDataIfModified("year-plan.json", this, function(data, textStatus, req){
                 // Skip if is 304.
                 // Skip if is reordering.
@@ -51,6 +142,7 @@
                 }
 
              });
+
          }
        },
         getInitialState: function() {
@@ -61,6 +153,9 @@
         isReordering: false,
         componentDidMount: function() {
             loadNav('plan');
+
+
+     
 
           // Need to skip dispatcher cache for the first time load.
           this.loadCommentsFromServer(true);
@@ -94,7 +189,7 @@
                 return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "Hello! Your girl's Troop Leader has not yet set up the troop's Year Plan. Please contact the Troop Leader for more info on their use of the Volunteer Toolkit.");
 
             }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>  ){
-                yesPlan();
+                yesPlan.auto();
                 return React.createElement("h3",null);
             }else{
 
@@ -103,10 +198,7 @@
 
         }
       });
-
-
-
-       var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
+      var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
         onReorder: function (order) {
             // Reordering
             var parent = this.props.parentComponent;
@@ -133,6 +225,35 @@
         } //end of render
       });
 
+      var outdoorIcon = React.createClass({
+    	   displayName:"outdoorIcon",
+
+    	   render:function(){
+
+
+    		   var isOutdoorAvailable = this.props.isOutdoorAvailable,imgName;
+
+               if (this.props.isOutdoor) {
+                 imgName =  "outdoor.png";
+              } else {
+                  imgName = "indoor.png";
+              }
+
+               var options = {
+                 className: 'outdoor-icon',
+                 src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/'+imgName,
+                 style:{
+                    width:'45px'
+                 }
+               }
+
+    		   if (isOutdoorAvailable) {
+    				   return (React.createElement("img", options));
+    		   }
+			   return null;
+    	   }
+    	})
+
 
        var MeetingComponent = React.createClass({displayName: "MeetingComponent",
         render: function() {
@@ -146,12 +267,12 @@
 
                                      return (
 
-
              React.createElement("li", {className: 'row meeting ui-state-default ui-state-disabled'},
                      React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                      React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
                      React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
-                         React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {dateRaw:comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
+                        /* React.createElement(outdoorIcon, {isOutdoorAvailable: obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor: obj[comment].anyOutdoorActivityInMeeting}), */
+                         React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {isOutdoor:  obj[comment].anyOutdoorActivityInMeeting, dateRaw:comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
                          React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
                          React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
 
@@ -161,7 +282,6 @@
                      )
                      )
                  )
-
 
 
                                      );
@@ -175,7 +295,8 @@
                         React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
                         React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
                         React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
-                            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
+                            React.createElement(outdoorIcon, {isOutdoorAvailable: obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor: obj[comment].anyOutdoorActivityInMeeting}),
+                            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {isOutdoorAvailable:  obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor:  obj[comment].anyOutdoorActivityInMeeting, dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
                             React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
                             React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
                         ),
@@ -236,11 +357,11 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         },
       onReorder: function(order) {
         isActivNew=1;
-        alert(1);
+
       },
       componentDidMount: function() {
         resizeWindow();
-        link_bg_square();
+        //--link_bg_square();
         //loadNav('plan');
 
        if (Modernizr.touch) {
@@ -250,7 +371,12 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
        }
 
-          var dom = $(this.getDOMNode());
+
+
+       
+
+
+          var dom = $(ReactDOM.findDOMNode(this));
           var onReorder = this.props.onReorder;
 
           dom.sortable({
@@ -281,7 +407,8 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
          scrollTarget = ".touchscroll";
        }
 
-        var dom = $(this.getDOMNode());
+
+        var dom = $(ReactDOM.findDOMNode(this));
         var onReorder = this.props.onReorder;
         dom.sortable({
         items: "li:not(.ui-state-disabled)",
@@ -325,9 +452,12 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
           if (date.toString() == 'NaN') {
               date = new Date(this.props.date).getTime();
           }
-            var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
+            var src = "<%=relayUrl %>/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
+
+              //React.createElement("a", {href: src}, this.props.name +":Outdoor available? "+this.props.isOutdoorAvailable+" Outdoor selected? : "+ this.props.isOutdoor)
               React.createElement("a", {href: src}, this.props.name)
+
           );
         }
       });
@@ -347,7 +477,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         });
     }
 
-      React.render(
+      ReactDOM.render(
         React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?yearPlanSched=X", pollInterval: 10000}),
           document.getElementById('thePlan')
         );
@@ -390,16 +520,21 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
             var obj = this.props.obj;
             var comment= this.props.comment;
+var src="javascript:newLocCal()";
 
       return (
-        React.createElement("div", {className: bgcolor(obj, comment, 1)},
-        React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1),
-        React.createElement("div", {className: "date"},
-          React.createElement("p", {className: "month"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "meeting" : moment.tz(comment,"America/New_York").format('MMM')),
-          React.createElement("p", {className: "day"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? (obj[comment].id)+1 : moment.tz(comment,"America/New_York").format('DD')),
-          React.createElement("p", {className: "hour"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "" : moment.tz(comment,"America/New_York").format('hh:mm a'))
-        )
+    		  React.createElement("a", {href: src},
+
+			        React.createElement("div", {className: bgcolor(obj, comment, 1)},
+			        React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1),
+			        React.createElement("div", {className: "date"},
+			          React.createElement("p", {className: "month"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "meeting" : moment.tz(comment,"America/New_York").format('MMM')),
+			          React.createElement("p", {className: "day"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? (obj[comment].id)+1 : moment.tz(comment,"America/New_York").format('DD')),
+			          React.createElement("p", {className: "hour"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "" : moment.tz(comment,"America/New_York").format('hh:mm a'))
+			        )
+			      )
       )
+
            );
         }
       });

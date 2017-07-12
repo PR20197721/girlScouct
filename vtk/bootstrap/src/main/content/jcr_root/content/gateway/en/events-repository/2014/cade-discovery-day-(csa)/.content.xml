@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-07-30T01:49:39.176-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:program-level/ags,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Cade Discovery Day (CSA)"
+        jcr:uuid="d5139e2a-c318-45ce-a56e-391eb9bf7059"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="904 S Main St, Gainesville, FL, US, 32601"
+            details="Discover, Invent, Explore! Learn about amazing women who made a huge impact on the world around us with their incredible inventions. Participate in hands-on experiments to find out how these awesome inventions came to be and what makes them work. Things might even get a little messy or explode! You never know what to expect when exploring inventions! This event costs $12 per girl."
+            end="{Date}2014-04-18T15:00:00.000-04:00"
+            locationLabel="Cade Museum for Creativity + Invention"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=515495018"
+            srchdisp="Discover, Invent, Explore! Learn about amazing women who made a huge impact on the world around us with their incredible inventions. "
+            start="{Date}2014-04-18T13:00:00.000-04:00"/>
+    </jcr:content>
+</jcr:root>

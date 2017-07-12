@@ -3,4 +3,5 @@
     cq:actions="[text:Embedded HTML,-,edit,delete]"
     cq:disableTargeting="{Boolean}true"
     cq:layout="editbar"
+    cq:dialogMode="floating"
     jcr:primaryType="cq:EditConfig"/>

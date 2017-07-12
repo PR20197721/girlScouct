@@ -25,6 +25,11 @@ public class PermissionConstants {
 	public static final int PERMISSION_VIEW_FINANCE_ID = 400;
 	public static final int PERMISSION_EDIT_FINANCE_ID = 401;
 	public static final int PERMISSION_EDIT_FINANCE_FORM_ID = 402;
+	
+	public static final int PERMISSION_CREATE_FINANCE = 403;
+	public static final int PERMISSION_UPDATE_FINANCE = 404;
+	public static final int PERMISSION_DELETE_FINANCE = 405;
+	
 	public static final int PERMISSION_EDIT_YEARPLAN_MEETING_ID = 510;
     public static final int PERMISSION_ADD_YEARPLAN_MEETING_ID = 511;
     public static final int PERMISSION_RM_YEARPLAN_MEETING_ID = 512;
@@ -33,7 +38,8 @@ public class PermissionConstants {
 	public static final int PERMISSION_VIEW_MILESTONE_ID=611;
 	public static final int PERMISSION_EDIT_ATTENDANCE_ID=621;
 	public static final int PERMISSION_SEND_EMAIL_MT_ID=631;	
-	public static final int PERMISSION_SEND_EMAIL_ACT_ID=641;	
+	public static final int PERMISSION_SEND_EMAIL_ACT_ID=641;
+	public static final int PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID=642; //on troop page send all parents email;used by DP
 	public static final int PERMISSION_VIEW_ACTIVITY_PLAN_ID=651; //in meeting meterials
 	public static final int PERMISSION_EDIT_MILESTONE_ID=701;
 	public static final int GROUP_ROOT = 0;
@@ -69,7 +75,8 @@ public class PermissionConstants {
 			PERMISSION_EDIT_ATTENDANCE_ID,
 			PERMISSION_REMOVE_MEETING_ID,PERMISSION_EDIT_TROOP_IMG_ID,
 			PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID
-			,PERMISSION_VIEW_FINANCE_ID, PERMISSION_EDIT_FINANCE_ID
+			,PERMISSION_VIEW_FINANCE_ID, PERMISSION_EDIT_FINANCE_ID,
+			PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID
 	};
 
 	public static final int GROUP_MEMBER_2G = 12;
@@ -95,6 +102,7 @@ public class PermissionConstants {
 	public static final int GROUP_MEMBER_COUNCIL = 16;
 	public static final String GROUP_MEMBER_COUNCIL_DISPLAY = "COUNCIL";
 
-	public static final int[] GROUP_MEMBER_COUNCIL_PERMISSIONS = ArrayUtils.addAll( GROUP_LEADER_PERMISSIONS, new int[] { PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID, PERMISSION_EDIT_FINANCE_ID, PERMISSION_VIEW_REPORT_ID, PERMISSION_EDIT_MILESTONE_ID, PERMISSION_EDIT_FINANCE_FORM_ID });
+	public static final int[] GROUP_MEMBER_COUNCIL_PERMISSIONS = ArrayUtils.addAll( GROUP_LEADER_PERMISSIONS, new int[] { PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID, PERMISSION_EDIT_FINANCE_ID, PERMISSION_VIEW_REPORT_ID, PERMISSION_EDIT_MILESTONE_ID, PERMISSION_EDIT_FINANCE_FORM_ID ,
+			PERMISSION_DELETE_FINANCE });
 
 }

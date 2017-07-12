@@ -18,8 +18,7 @@ function importFile(mid){
 		url: "/content/girlscouts-vtk/controllers/vtk.admin.importMeeting.html?mid="+mid,
 		cache: false
 	}).done(function( html ) {
-		//location.reload();
-		alert("Import file: "+ mid);
+	
 	});
 }
 </script>

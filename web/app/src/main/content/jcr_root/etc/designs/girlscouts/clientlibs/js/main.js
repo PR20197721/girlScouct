@@ -35,7 +35,7 @@ function retrieveEvents(){
         var eventIds = "";
         var navList = "<div id=\"event-cart\"><dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class=\"on\">My Activities</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
         for(var i=0; i < $eventsCookie.events.length; i++){
-            var nameEscaped = $eventsCookie.events[i][1].replace("'","\\'");
+            var nameEscaped = $eventsCookie.events[i][1].replace(new RegExp("'", 'g'), "\\'").replace(new RegExp("\"",'g'),"&quot");
             if(i>0){
                 eventIds = eventIds + ",";
             }
@@ -73,7 +73,7 @@ function addToCart(name, eventID, href){
     var $eventsCookie;
     var hrefParsed = href.endsWith(".html") ? href : href + ".html";
     var nameTrimmed = name.trim();
-    var nameEscaped = nameTrimmed.replace("'","\\'");
+    var nameEscaped = nameTrimmed.replace(new RegExp("'", 'g'), "\\'").replace(new RegExp("\"",'g'),"&quot");
     if($.cookie("event-cart") != undefined){
         $eventsCookie = JSON.parse($.cookie("event-cart"));
     }else{
@@ -106,7 +106,7 @@ function addToCart(name, eventID, href){
     console.log("Event added to cart");
     var navList = "<div id=\"event-cart\"><dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class=\"on\">My Activities</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
     for(var i=0; i < $eventsCookie.events.length; i++){
-        var nameEscaped2 = $eventsCookie.events[i][1].replace("'","\\'");
+        var nameEscaped2 = $eventsCookie.events[i][1].replace(new RegExp("'", 'g'), "\\'").replace(new RegExp("\"",'g'),"&quot");
         if(i>0){
             eventIds = eventIds + ",";
         }
@@ -137,7 +137,7 @@ function deleteEvent(eventID, name){
             if($eventsCookie.events != undefined && $eventsCookie.events.length > 0){
                 var navList = "<div id=\"event-cart\"><dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class=\"on\">My Activities</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
                 for(var i=0; i < $eventsCookie.events.length; i++){
-                    var nameEscaped = $eventsCookie.events[i][1].replace("'","\\'");
+                    var nameEscaped = $eventsCookie.events[i][1].replace(new RegExp("'", 'g'), "\\'").replace(new RegExp("\"",'g'),"&quot");
                     if(i>0){
                         eventIds = eventIds + ",";
                     }

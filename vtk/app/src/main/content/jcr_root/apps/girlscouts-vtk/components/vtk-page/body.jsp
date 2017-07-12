@@ -71,9 +71,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					if (newCurrentDesign != null) {
 						request.setAttribute("newCurrentDesign", newCurrentDesign);
 					}
+					if( apiConfig.isDemoUser() ){
 				%>
-				<cq:include script="header.jsp"/>
+					<cq:include script="headerDemo.jsp"/>
+				<% 
+					}
+					else{ 
+				%>
+					<cq:include script="header.jsp"/>
 				<%
+					}
 					if (newCurrentPage != null) {
 					    request.removeAttribute("newCurrentPage");
 					}
@@ -102,6 +109,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			</div>
 		</div>
 		 <div id="gsModal"></div>
+
+		 <div id="gsDialog"></div>
 		 
 		 <!--  script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script -->
 		 <!--  script src="http://fb.me/react-0.12.1.js"></script -->

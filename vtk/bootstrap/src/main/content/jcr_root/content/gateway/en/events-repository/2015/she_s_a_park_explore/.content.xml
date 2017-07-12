@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-09-12T19:46:16.810-04:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2014-09-12T19:46:28.698-04:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:program-level,gateway:program-level/ags]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="She's a Park Explorer (CSA)"
+        jcr:uuid="3b51a768-3547-491d-9684-27968bab2594"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="US N Highway 41, White Springs, FL, US, 32096"
+            details="&lt;p>Explore, Discover, Make a Difference! Learn about amazing women in the state parks around us who have incredible skills and important jobs protecting the environment and historical sites. Participate in hands-on activities to discover what it takes to safeguard beaches for sea turtles and shorebirds, keep water and forests healthy, and take care of cool places that showcase the history of Florida. Things might even get a little adventurous. It’s always exciting when exploring state parks!” This event is $10 per person. Limited to 40 people per session.&lt;/p>&#xa;"
+            end="{Date}2015-01-31T15:00:00.000-05:00"
+            locationLabel="Stephen Foster State Park"
+            srchdisp="Explore, Discover, Make a Difference! Learn about amazing women in the state parks around us who have incredible skills and important jobs protecting the environment and historical sites. Participate in hands-on activities to discover what it takes to safeguard beaches for sea turtles and shorebirds, keep water and forests healthy, and take care of cool places that showcase the history of Florida. Things might even get a little adventurous. It’s always exciting when exploring state parks!”"
+            start="{Date}2015-01-31T13:00:00.000-05:00">
+            <image
+                jcr:lastModified="{Date}2014-09-12T19:46:16.802-04:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+    <_x0032_015/>
+</jcr:root>

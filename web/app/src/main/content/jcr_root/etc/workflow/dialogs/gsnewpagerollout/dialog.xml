@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="GS New Page Rollout - Council Selection Dialog"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+    	<activate
+    		jcr:primaryType="cq:Widget"
+    		fieldLabel="Don't Activate Pages"
+    		fieldDescription="If checked, the pages will not activate automatically when they are rolled out."
+    		name="./dontActivate"
+    		type="checkbox"
+    		xtype="selection"/>
+    	<delayActivation
+    		jcr:primaryType="cq:Widget"
+    		fieldLabel="Delay Activation to Midnight"
+    		name="./delayActivation"
+    		value="true"
+    		defaultValue="true"
+    		type="checkbox"
+    		xtype="selection">
+    		<listeners
+        		jcr:primaryType="nt:unstructured"
+        		selectionchanged="function(field, value, isChecked) { var panel = field.findParentByType('panel'); var crawl = panel.getComponent('crawl'); isChecked ? crawl.hide() : crawl.show(); }"/>
+    	</delayActivation>
+    	<crawl
+    		jcr:primaryType="cq:Widget"
+    		fieldLabel="Crawl Site to Rebuild Cache"
+    		name="./crawl"
+    		value="true"
+    		defaultValue="true"
+    		type="checkbox"
+    		hidden="{Boolean}true"
+    		itemId="crawl"
+    		xtype="selection"/>
+        <councils
+            jcr:primaryType="cq:Widget"
+            fieldLabel="Councils"
+            name="./councils"
+            options="/etc/council-report/council-list.json"
+            type="checkbox"
+            xtype="selection">
+            <listeners
+            	jcr:primaryType="nt:unstructured"
+            	beforerender="function(){  
+            		var chkboxes = this;
+            		var chkboxlist = chkboxes.items.items;
+            		this.insert(0, new CQ.Ext.Button({
+	                'text':'Select/Deselect All',
+                	handler : function(){
+                		var selecting = false;
+                    	CQ.Ext.each(chkboxlist, function(c){
+							if(c.getXType() == 'checkbox'){
+								if(c.getValue() == false){
+									selecting = true;
+								}
+							}
+						});
+						CQ.Ext.each(chkboxlist, function(c){
+							if (c.setValue) { 
+								if(selecting){
+									c.setValue('true'); 
+								}else{
+									c.setValue('false');
+								}
+							} 
+						return true; } );
+                	}
+            	}));
+            }"/>
+        </councils>
+        <donotsend
+        	jcr:primaryType="cq:Widget"
+        	fieldLabel="Do Not Send Any Emails"
+        	name="./dontsend"
+        	type="checkbox"
+        	xtype="selection"/>
+       	<subject
+       		jcr:primaryType="cq:Widget"
+       		fieldLabel="Email Subject"
+       		name="./subject"
+       		defaultValue="GSUSA Rollout Notification"
+       		value="GSUSA Rollout Notification"
+       		xtype="textfield"/>
+        <message
+            jcr:primaryType="cq:Widget"
+            fieldLabel="Custom Message"
+            height="{Long}300"
+            name="./message"
+            defaultValue="&lt;p&gt;Dear Council, &lt;/p&gt;&#xA;&lt;p&gt;It has been detected that a new national content page has been created by GSUSA. Please review and make any updates to content.&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;National page URL:&lt;/b&gt; &lt;%template-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;Your page URL:&lt;/b&gt; &lt;%council-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;Click &lt;%a href='&lt;%council-author-page%&gt;'&gt;here&lt;%/a&gt; to edit your page.&lt;/p&gt;&lt;p&gt;Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p&gt;"
+        	value="&lt;p&gt;Dear Council, &lt;/p&gt;&#xA;&lt;p&gt;It has been detected that a new national content page has been created by GSUSA. Please review and make any updates to content.&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;National page URL:&lt;/b&gt; &lt;%template-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;Your page URL:&lt;/b&gt; &lt;%council-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;Click &lt;%a href='&lt;%council-author-page%&gt;'&gt;here&lt;%/a&gt; to edit your page.&lt;/p&gt;&lt;p&gt;Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p&gt;"
+            xtype="richtext">
+            <rtePlugins jcr:primaryType="nt:unstructured">
+                <links jcr:primaryType="nt:unstructured">
+                    <linkDialogConfig
+                        jcr:primaryType="nt:unstructured"
+                        height="{Long}316">
+                        <linkAttributes jcr:primaryType="cq:WidgetCollection">
+                            <linkAdvanced
+                                jcr:primaryType="cq:Widget"
+                                collapsed="{Boolean}true"
+                                collapsible="{Boolean}true"
+                                inputValue="advanced"
+                                name="./linkdialog/cq:adhocLinkTrackingTab"
+                                title="Link tracking"
+                                xtype="dialogfieldset">
+                                <items jcr:primaryType="cq:WidgetCollection">
+                                    <enable
+                                        jcr:primaryType="nt:unstructured"
+                                        attribute="enabletracking"
+                                        fieldDescription="override analytics framework settings"
+                                        fieldLabel="Custom link tracking"
+                                        name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+                                        xtype="checkbox">
+                                        <listeners
+                                            jcr:primaryType="nt:unstructured"
+                                            check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+                                    </enable>
+                                    <events
+                                        jcr:primaryType="nt:unstructured"
+                                        attribute="adhocevents"
+                                        fieldDescription="e.g.: event2, event7"
+                                        fieldLabel="Include SiteCatalyst events"
+                                        name="./linkdialog/cq:adhocLinkTrackingEvents"
+                                        xtype="textfield"/>
+                                    <evars
+                                        jcr:primaryType="nt:unstructured"
+                                        attribute="adhocevars"
+                                        fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+                                        fieldLabel="Include SiteCatalyst variables"
+                                        name="./linkdialog/cq:adhocLinkTrackingEvars"
+                                        xtype="textfield"/>
+                                </items>
+                            </linkAdvanced>
+                        </linkAttributes>
+                    </linkDialogConfig>
+                </links>
+                <misctools
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+                <edit
+                    jcr:primaryType="nt:unstructured"
+                    features="[paste-plaintext,paste-wordhtml]"/>
+                <findreplace
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+                <format
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+                <image
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+                <keys
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+                <justify
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+                <lists
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+                <paraformat
+                    jcr:primaryType="nt:unstructured"
+                    features="*">
+                    <formats jcr:primaryType="cq:WidgetCollection">
+                        <p
+                            jcr:primaryType="nt:unstructured"
+                            description="Paragraph"
+                            tag="p"/>
+                        <h1
+                            jcr:primaryType="nt:unstructured"
+                            description="Header 1"
+                            tag="h1"/>
+                        <h2
+                            jcr:primaryType="nt:unstructured"
+                            description="Header 2"
+                            tag="h2"/>
+                        <h3
+                            jcr:primaryType="nt:unstructured"
+                            description="Header 3"
+                            tag="h3"/>
+                        <h4
+                            jcr:primaryType="nt:unstructured"
+                            description="Header 4"
+                            tag="h4"/>
+                        <h5
+                            jcr:primaryType="nt:unstructured"
+                            description="Header 5"
+                            tag="h5"/>
+                        <h6
+                            jcr:primaryType="nt:unstructured"
+                            description="Header 6"
+                            tag="h6"/>
+                    </formats>
+                </paraformat>
+                <spellcheck
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+                <styles
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+                <subsuperscript
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+                <table
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+                <undo
+                    jcr:primaryType="nt:unstructured"
+                    features="*"/>
+            </rtePlugins>
+            <specialCharsConfig jcr:primaryType="nt:unstructured">
+                <chars jcr:primaryType="nt:unstructured">
+                    <em-dash
+                        jcr:primaryType="nt:unstructured"
+                        entity="&amp;#8212;"/>
+                    <copyright
+                        jcr:primaryType="nt:unstructured"
+                        entity="&amp;#169;"/>
+                    <registered
+                        jcr:primaryType="nt:unstructured"
+                        entity="&amp;#174;"/>
+                    <trademark
+                        jcr:primaryType="nt:unstructured"
+                        entity="&amp;#8482;"/>
+                    <horizontal-rule
+                        jcr:primaryType="nt:unstructured"
+                        displayEntity="HR"
+                        entity="&lt;hr>"/>
+                </chars>
+            </specialCharsConfig>
+        </message>
+       	<usetemplate
+       		jcr:primaryType="cq:Widget"
+       		fieldLabel="Use Email Template (Message AND Subject)"
+       		name="./useTemplate"
+       		type="checkbox"
+       		xtype="selection"/>
+       	<template
+       		jcr:primaryType="cq:Widget"
+       		fieldLabel="Email Template"
+       		name="./template"
+       		xtype="pathfield"/>
+    </items>
+</jcr:root>

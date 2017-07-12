@@ -194,15 +194,13 @@ post.addParameter("assertion",xml);
 							new InputStreamReader(
 									post.getResponseBodyAsStream())));
 				} catch (JSONException e) {
-					System.err.println("JSON Parse exception: " + e.toString());
+					
 				}
 			} else {
-				System.err.println("Return status not OK: " + post.getStatusCode() + " "
-						+ post.getResponseBodyAsString());
+				
 			}
 		} catch (Exception e) {
-			System.err.println("Error executing HTTP POST when authenticating: "
-					+ e.toString());
+			
 		} finally {
 			post.releaseConnection();
 		}
@@ -234,14 +232,13 @@ token="00DZ000000Mia06c0gsKMhJTdErLikqTUnNcUjPTczM0UvOzwUA";
 					JSONObject response = new JSONObject(
 							new JSONTokener(new InputStreamReader(
 									get.getResponseBodyAsStream())));
-					System.err.println("Query response: " + response.toString(2));
+					
 				} catch (Exception e) {
-					System.err.println("JSON Parse exception: " + e.toString());
+					
 				}
 			}
 		} catch (Exception e) {
-			System.err.println("Error executing HTTP GET when getting the user: "
-					+ e.toString());
+			
 		} finally {
 			get.releaseConnection();
 		}

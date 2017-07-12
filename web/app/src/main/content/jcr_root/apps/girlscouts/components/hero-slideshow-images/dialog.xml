@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     activeTab="{Long}0"
     helpPath="en/cq/current/wcm/default_components.html#Image"
@@ -79,9 +79,56 @@
             title="Advanced"
             xtype="panel">
             <items jcr:primaryType="cq:WidgetCollection">
+                <sort-order
+                    jcr:primaryType="cq:Widget"
+                    defaultValue=""
+                    fieldDescription="(Select sort order of this banner)"
+                    fieldLabel="Sort Order"
+                    name="./sortOrder"
+                    type="select"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <zero
+                            jcr:primaryType="nt:unstructured"
+                            text="Not Assigned"
+                            value=""/>
+                        <one
+                            jcr:primaryType="nt:unstructured"
+                            text="1"
+                            value="1"/>
+                        <two
+                            jcr:primaryType="nt:unstructured"
+                            text="2"
+                            value="2"/>
+                        <three
+                            jcr:primaryType="nt:unstructured"
+                            text="3"
+                            value="3"/>
+                        <four
+                            jcr:primaryType="nt:unstructured"
+                            text="4"
+                            value="4"/>
+                        <five
+                            jcr:primaryType="nt:unstructured"
+                            text="5"
+                            value="5"/>
+                        <six
+                            jcr:primaryType="nt:unstructured"
+                            text="6"
+                            value="6"/>
+                        <seven
+                            jcr:primaryType="nt:unstructured"
+                            text="7"
+                            value="7"/>
+                        <eight
+                            jcr:primaryType="nt:unstructured"
+                            text="8"
+                            value="8"/>
+                    </options>
+                </sort-order>
                 <alt
                     jcr:primaryType="cq:Widget"
-                    fieldDescription="(leave empty to use the title defined above)"
+                    fieldDescription="(Leave empty to use the title defined above)"
                     fieldLabel="Alt Text"
                     name="./alt"
                     xtype="textfield"/>
@@ -109,6 +156,12 @@
                     heightParameter="./medium/height"
                     widthParameter="./medium/width"
                     xtype="sizefield"/>
+                <newWindow
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Open In New Window"
+                    name="./newWindow"
+                    type="checkbox"
+                    xtype="selection"/>
             </items>
         </advanced>
     </items>

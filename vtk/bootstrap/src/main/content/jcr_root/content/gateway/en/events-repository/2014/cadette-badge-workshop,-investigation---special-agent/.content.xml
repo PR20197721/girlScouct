@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-07-30T01:49:40.349-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:program-level/cadettes,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Cadette Badge Workshop, Investigation - Special Agent"
+        jcr:uuid="7e90e2f3-eb5b-49dd-a2e0-29b8d99fbb44"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="1025 Museum Cir, Jacksonville, FL 32207"
+            details="Special agent time! Scouts will put their detection skills to the test. In this workshop our special agents will look for clues, investigate and watch body language. They will take out their magnifying glass and look under microscopes to find answers. This event costs $12 per girl."
+            end="{Date}2014-05-02T11:00:00.000-04:00"
+            locationLabel="MOSH"
+            register="http://www.themosh.org/"
+            srchdisp="Special agent time! Scouts will put their detection skills to the test. In this workshop our special agents will look for clues, investigate and watch body language. They will take out their magnifying glass and look under microscopes to find answers. "
+            start="{Date}2014-05-02T09:00:00.000-04:00"/>
+    </jcr:content>
+</jcr:root>

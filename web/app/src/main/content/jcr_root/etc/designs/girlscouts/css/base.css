@@ -23,31 +23,31 @@ Font : Open Sans
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 300;
-  src: local('Open Sans Light'), local('OpenSans-Light'), url('./girlscouts/open-sans-light.woff') format('woff');
+  src: local('Open Sans Light'), local('OpenSans-Light'), url('../designs/girlscouts/open-sans-light.woff') format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url('./girlscouts/open-sans.woff') format('woff');
+  src: local('Open Sans'), local('OpenSans'), url('../designs/girlscouts/open-sans.woff') format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 600;
-  src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'), url('../girlscouts/open-sans-semibold.woff') format('woff');
+  src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'), url('../designs/girlscouts/open-sans-semibold.woff') format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: italic;
   font-weight: 600;
-  src: local('Open Sans SemiBold'), local('OpenSans-SemiBoldIt'), url('../girlscouts/open-sans-semibolditalic.woff') format('woff');
+  src: local('Open Sans SemiBold'), local('OpenSans-SemiBoldIt'), url('../designs/girlscouts/open-sans-semiboldItalic.woff') format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('Open Sans Bold'), local('OpenSans-Bold'), url('./girlscouts/open-sans-bold.woff') format('woff');
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../designs/girlscouts/open-sans-bold.woff') format('woff');
 }
 
 
@@ -55,7 +55,7 @@ html {
   font-size: 1em; /* or can be 100% since it's browser's default size 16px*/
 }
 body {
-  background-color: #6b6b6b;
+  background-color: #EEEEEF;
   font-family: "Open Sans", Arial, sans-serif;
 }
 #mainContent h1 {
@@ -189,6 +189,9 @@ a:hover {
     visibility: hidden !important;
     display: none !important;
   }
+  .medium-23 {
+  	width: none;
+  }
 }
 a.menu {
   color: #C1EAD4;
@@ -270,6 +273,8 @@ a:hover.menuHighlight {
 #headerBar ul.inline-list {
   margin: 0 auto;
   overflow: visible;
+  display: flex;
+  justify-content: center;
 }
 #headerBar .inline-list > li {
   margin: 0 20px 0 0;
@@ -284,7 +289,7 @@ a:hover.menuHighlight {
   /* background-color:#063;*/
 }
 #headerBar .global-navigation {
-  padding-left: 20px;
+  padding-left: 52px;
 }
 #headerBar ul.inline-list li {
   line-height: 31px;
@@ -668,26 +673,50 @@ input.form-btn, a.form-btn {
   /*box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);*/
 }
 .fcr-text-arrow {
+/* using UTF-8 Geometric Shape Pointer instead of 3D CSS arrow since it doesn't work in iOS/Safari
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
   border-left: 12px solid #00A850;
   height: 0;
   width: 0;
-  font-size: 0;
+  font-size: 1px;
+*/  
+  color: #00A850;
+  display:inline-block;
+  font-size: 18px;
+  transform : scale(1,1.8);
+}
+.fcr-text-arrow::after { 
+  content:"\25BA"; 
 }
 .fcl-text-arrow {
+/* using UTF-8 Geometric Shape Pointer instead of 3D CSS arrow since it doesn't work in iOS/Safari
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
   border-right: 12px solid #00A850;
   height: 0;
   font-size: 0;
   width: 0;
+*/  
+  color: #00A850;
+  display:inline-block;
+  font-size: 18px;
+  transform : scale(1,1.8);
+}
+.fcl-text-arrow::before { 
+  content:"\25C4"; 
 }
 .fcr-text-arrow:hover {
+/*
   border-left: 12px solid #008000;
+*/
+  color: #008000;
 }
 .fcl-text-arrow:hover {
+/*
   border-right: 12px solid #008000;
+*/  
+  color: #008000;
 }
 td.fc-header-right {
   padding-top: 12px;
@@ -1155,7 +1184,7 @@ form#contact-us textarea {
   line-height: 1em;
 }
 .eventsList h6 {
-  line-height: 0.9em;
+  line-height: 1.2em;
   font-size: 0.9rem;
 }
 .eventsList.eventSection .leftCol {
@@ -1164,14 +1193,17 @@ form#contact-us textarea {
 .eventsList .leftCol {
   float: left;
   background: #ffffff;
-  width: 140px;
+  width: 160px;
 }
 .eventsList .rightCol {
   width: 100%;
-  padding-left: 140px;
+  padding-left: 160px;
 }
 .horizontalRule {
   background: url('/etc/designs/girlscouts/images/horizontal-stripe.png') repeat-x center center;
+}
+.eventsList img {
+	max-width: 140px;
 }
 .checkbox-grid span {
   display: block;
@@ -1463,40 +1495,56 @@ padding: 40px 0px 40px 0;
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
 /*accordion*/
 .accordion.section dt {
-  background:#f6f6f6;
-  padding:0;
-  position: relative;
+    background: #e3e3e3 none repeat scroll 0 0;
+    margin-bottom: 3px;
+    padding: 0;
+    position: relative;
+}
+.accordion.section dt.on {
+    background: #00ae58 none repeat scroll 0 0;
 }
 .accordion.section dt h6 {
-  background:none;
-  padding: 0;
-  margin-left: 30px;
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #000;
-  display: inline;
-  cursor: pointer;
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    color: #000;
+    cursor: pointer;
+    display: block;
+    font-size: 1.13rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0.63rem;
 }
-.accordion.section dt h6:before {
-  border-style: solid;
-  content: "";
-  display: block;
-  position: absolute;
-  top: 50%;
-  border-color: #000 transparent transparent;
-  margin-left: 5px;
-  border-width: 5px;
-  margin-top: -2px;
+.accordion.section dt h6.on {
+    color: #fff;
 }
-.accordion.section dt h6.on:before {
-  border-color: transparent transparent transparent #000;
-  margin-top: -5px;
+.accordion.section dt h6::before {
+    border-color: #00ae58 transparent transparent;
+    border-style: solid;
+    border-width: 0.63rem;
+    content: "";
+    display: block;
+    left: auto;
+    margin-left: 0.31rem;
+    margin-top: -0.31rem;
+    position: absolute;
+    right: 0.63rem;
+    top: 50%;
 }
-
-
+.accordion.section dt h6.on::before {
+    border-color: transparent transparent #fff;
+    margin-top: -0.94rem;
+}
+.accordion.section dd {
+    background: #f8f8f8 none repeat scroll 0 0;
+}
+.accordion.section .content {
+//    padding: 25px 15px 0;
+}
+.accordion.section dd p, .accordion.section dd ol, .accordion.section dd ul, .accordion.section dd li {
+    font-size: 14px;
+}
 
 #main .side-nav li.active li.active > div > a, #main .side-nav li.active.current > div > a {
 	max-width: 170px;
@@ -1519,4 +1567,52 @@ div.textimage div.image {
 #drop-down-cart > form > a > input.button{
 	width:100%;
 	margin-bottom:-5%;
+}
+
+.breaking-news .inner-wrapper {
+    background: #ec008b none repeat scroll 0 0;
+    padding: 0.520833%;
+    text-align: center;
+    color: white;
+    line-height: 1.5em;
+}
+
+.breaking-news .inner-wrapper a {
+    color: white;
+}
+
+.search-page {
+    list-style: outside none none;
+    margin-left: 0;
+    text-align: center;
+}
+.search-page li {
+    display: inline-block;
+    padding: 0.375rem;
+    vertical-align: -20%;
+}
+.search-page .currentPageNo {
+    color: #00ae58;
+    font-size: 1.5625rem;
+    font-weight: bold;
+}
+@media only screen and (max-width: 48em) {
+	.search-page li {
+	    padding: 0.0625rem;
+	}
+}
+.eyebrow-nav .side-nav .no-hamburger{
+	display:none;
+}
+.videoWrapper {
+	position: relative;
+	padding-bottom: 44%; /* 16:9 */
+	height: 0;
+}
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }

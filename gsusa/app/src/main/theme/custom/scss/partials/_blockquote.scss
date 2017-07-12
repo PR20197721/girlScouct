@@ -1,0 +1,88 @@
+blockquote {
+  border: none;
+  position: relative;
+  padding: 0;
+  color:#ffffff;
+  .wrapper {
+    padding: rem-calc(20 50 0);
+  }
+  @include clearfix;
+  & * {
+    font-size: rem-calc(33);
+  }
+  p {
+    position: relative;
+    line-height:1.35em;
+    padding: rem-calc(0 25);
+    word-wrap:break-word;
+    max-width:100%;
+    margin: 0;
+    color:#ffffff;
+    &:before,
+    &:after {
+      font-size: rem-calc(48);
+      position: absolute;
+      line-height: .8;
+      font-style: italic;
+      width: 100%;
+    }
+  }
+  &.quotes{
+    p:first-child:before {
+      content: open-quote;
+      top: rem-calc(9);
+      left: 0;
+    }
+    p:nth-last-child(3):after {
+      content: close-quote;
+      bottom: 0;
+    }
+  }
+  p.quotee {
+  	text-align:right;
+  }
+  &.fuchsia {
+    background: $fuchsia;
+    border: solid rem-calc(12) scale-color($fuchsia, $lightness: -11%);
+  }
+  &.lightorange {
+    background: $lightorange;
+    border: solid rem-calc(12) scale-color($lightorange, $lightness: -11%);
+  }
+  &.darkorange {
+    background: $darkorange;
+    border: solid rem-calc(12) scale-color($darkorange, $lightness: -11%);
+  }
+  &.purple {
+    background: $purple;
+    border: solid rem-calc(12) scale-color($purple, $lightness: -11%);
+  }
+  &.cyan {
+    background: $cyan;
+    border: solid rem-calc(12) scale-color($cyan, $lightness: -11%);
+  }
+  &.lightgreen {
+    background: $lightgreen;
+    border: solid rem-calc(12) scale-color($lightgreen, $lightness: -11%);
+  }
+  &.bg-image {
+    color: $black;
+    p {
+    	color: $black;
+    }
+    &:before,
+    &:after {
+      content: "";
+      background-image: url("/etc/designs/gsusa/clientlibs/images/blockquote_bg.png");
+      height: rem-calc(9);
+      width: 100%;
+    }
+    &:before {
+      margin-bottom: rem-calc(20);
+    }
+  }
+  .social-icons {
+    float: right;
+    margin-right: rem-calc(18);
+  }
+}

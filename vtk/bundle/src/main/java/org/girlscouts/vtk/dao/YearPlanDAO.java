@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.dao;
 
+import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
@@ -13,5 +14,6 @@ public interface YearPlanDAO {
 	public java.util.Date getLastModif(Troop troop);
 
 	public java.util.Date getLastModifByOthers(Troop troop, String sessionId);
+	public YearPlan getYearPlanJson( String yearPlanPath );
 
 }

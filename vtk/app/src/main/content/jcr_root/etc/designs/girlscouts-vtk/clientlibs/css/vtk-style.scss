@@ -1,3 +1,6 @@
+@import 'vtk_colors';
+@import 'vtk-icons';
+
 .row .row {
   margin-left: -5px;
   margin-right: -5px;
@@ -5,6 +8,9 @@
 .column, .columns {
   padding-left: 5px;
   padding-right: 5px;
+}
+.vtk {
+  font-family: "Open Sans", Arial, sans-serif;
 }
 .vtk-body {
   a,
@@ -36,6 +42,7 @@
     padding: 12px 20px;
     font-size:14px;
     line-height:1rem;
+    font-family: "Open Sans", Arial, sans-serif;
   }
   button.disabled,
   button[disabled],
@@ -141,7 +148,7 @@
         border-radius: 50%;
         margin: 0 0.5em;
         position: absolute;
-        background: #00ae58;
+        background: $green_light;
         width: 2.19rem;
         height: 2.19rem;
         top: 5px;
@@ -369,6 +376,7 @@
       text-transform:uppercase;
       margin-top: 10px;
       margin-bottom: 10px;
+      float: left;
       > li {
         border-right: solid 1px;
         margin-right: 5px;
@@ -411,40 +419,56 @@
     > div.column {
       background-color:#f6f6f6;
     }
+
+    .vkt-book-icon{
+      height: 46px;
+      width: 79px;
+      background-color: $green_light;
+      display: table-cell;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-image: $book_icon_40;
+    }
+
     #showHideReveal {
       position: relative;
-      padding-left: 45px;
+      padding-left: 15px;
       line-height: 46px;
-      color: #484848;
+      color: $green_light;
       cursor:pointer;
       margin-bottom: 5px;
-      &:before {
-        position: absolute;
+      display: table-cell;
+      vertical-align: middle;
+      &:after {
+        position: relative;
         content: "";
         width: 0;
         height: 0;
-        display: block;
+        display: inline-block;
         border-style: solid;
-        border-color: transparent transparent transparent #929292;
-        top: 50%;
-        left: 15px;
-        border-width: 12px;
-        margin-top: -12px;
+        border-color: transparent transparent transparent $green_light;
+        top: 2px;
+        left: 8px;
+        border-width: 7px;
+
       }
       &.open {
-        &:before {
-          border-color: #929292 transparent transparent transparent;
-          margin-top: -3px;
-          left: 6px;
+        &:after {
+          border-color: $green_light transparent transparent transparent;
+          top: 5px;
+          left: 8px;
         }
       }
     }
   }
+
+
+
   //meeting tab page
   #main .meeting-detail {
     color:#393939;
     .meeting-navigation {
-      background: #00ae58;
+      background: $green_light;
       margin-bottom: 5%;
       * {
         color:#fff;
@@ -661,6 +685,7 @@
   }
   //modals per Foundation
   .reveal-modal {
+    font-family: "Open Sans", Arial, sans-serif;
     padding:0;
     // height:auto;
     // min-height:113px;
@@ -888,6 +913,8 @@
         }
       }
       dd {
+        overflow: visible;
+        height: auto;
         .name {
           font-weight: 600;
           vertical-align: middle;
@@ -1009,7 +1036,7 @@
           position: absolute;
           margin-top: -5px;
           top: 50%;
-          border-color: transparent transparent transparent #00ae58;
+          border-color: transparent transparent transparent $green_light;
           right:0;
         }
       }
@@ -1176,9 +1203,9 @@
     .button {
       margin-bottom: 0;
     }
-    #frmCalElem {
+    #frmCalElem, #frmCalElem2 {
       margin-bottom:0;
-      #datepicker {
+      #datepicker, #datepicker2 {
         .ui-widget {
           width: 100%;
           border:none;
@@ -1196,7 +1223,7 @@
                 border-width: 13px;
                 margin-top: -13px;
                 top: 50%;
-                border-color: transparent transparent transparent #00ae58;
+                border-color: transparent transparent transparent $green_light;
                 margin-left: 5px;
                 width:13px;
                 height:13px;
@@ -1214,7 +1241,7 @@
               }
             }
             &.ui-datepicker-prev span {
-              border-color: transparent  #00ae58 transparent transparent;
+              border-color: transparent  $green_light transparent transparent;
               &:hover {
                 border-color: transparent #039d50 transparent transparent;
               }
@@ -1312,7 +1339,7 @@
       border-radius: 50%;
       margin: 0 0.5em;
       position: absolute;
-      background: #00ae58;
+      background: $green_light;
       width: 2.19rem;
       height: 2.19rem;
       top: 5px;
@@ -1332,7 +1359,7 @@
         margin-bottom:20px;
       }
       select {
-        height: 40px;
+        // height: 40px;
       }
     }
   }
@@ -1578,7 +1605,7 @@
       }
     }
     > dt {
-      background: #00ae58;
+      background: $green_light;
       position: relative;
       padding: 13px 0 11px 25px;
       margin: 0;
@@ -1586,7 +1613,36 @@
         color:#fff;
         font-size: 14px;
         vertical-align: middle;
+        display: inline;
       }
+      label {
+      	font-size: 10px;
+        vertical-align: middle;
+        margin-left: 10px;
+      	input {
+      		display: none;
+      	}
+      }
+      label.checked::before {
+        content: "\e6d7";
+        font-family: "JollyFont";
+        color: green;
+      }
+      label::before {
+      	border: solid 1px #ccc;
+      	content: "";
+      	height: 14px;
+      	width: 14px;
+      	text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+      	font-size: 10px;
+      	text-align: center;
+      	display: inline-block;
+      	background-color: white;
+        vertical-align: middle;
+        margin-left: 10px;
+        margin-right: 3px
+      }
+
       h3,
       h6 {
         display: inline;
@@ -1621,7 +1677,7 @@
       line-height:.5;
       }
       .accordion-inner {
-        & * { background: #f7f7f6 !important; }
+         background: #f7f7f6 !important;
         dt {
           position: relative;
           padding: 10px 10px 10px 15px;
@@ -1640,13 +1696,13 @@
               position: absolute;
               margin-top: -10px;
               top: 50%;
-              border-color: transparent transparent transparent #00ae58;
+              border-color: transparent transparent transparent $green_light;
               left:5px;
             }
             &.on {
               font-weight:700;
               &:before {
-                border-color:#00ae58 transparent transparent;
+                border-color:$green_light transparent transparent;
                 margin-top: -4px;
               }
             }
@@ -1681,9 +1737,15 @@
     //paragraph after the address
     dd ul li {
       margin-bottom: 20px;
+      background-color: #f7f7f6 !important;
+
+      div.row{
+        background-color: #f7f7f6 !important;
+      }
+
       p {
         margin-bottom: 0;
-      }
+              }
     }
   }
   //Financial page
@@ -1978,6 +2040,22 @@
     margin: 40px 0;
     text-align: center;
   }
+
+  #mainContent .error {
+    ul {
+      list-style: none;
+      margin: 0;
+      li {
+        border: solid 1px red;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      li p:first-child {
+        margin-bottom: 8px;
+      }
+    }
+  }
+
 } //end of vtk-body
 
 //overwrite of global
@@ -2022,6 +2100,17 @@
         margin-top:-3px;
       }
     }
+    a.collapse {
+
+
+      &:after {
+
+        border-color: transparent transparent #000 transparent;
+        content: "";
+
+        margin-top:-10px;
+      }
+    }
   }
   #vtk-main-menu li {
     padding-bottom: 5px;
@@ -2063,10 +2152,10 @@
 .ui-widget-content .tabs-content,
 .ui-state-default  {
   a {
-    color:#00ae58;
+    color:$green_light;
     &:link,
     &:visited {
-      color:#00ae58;
+      color:$green_light;
     }
   }
 }
@@ -2282,5 +2371,18 @@ input[type="file"] {
       display:none !important;
       }
     }
+
 }
 
+
+@import 'vtk-button';
+@import 'vtk-archive';
+@import 'vtk-notes';
+@import 'vtk-modal';
+@import 'vtk-meeting-filter';
+@import 'vtk-component-dropdown-checkbox';
+@import 'vtk-meeting-calendar';
+@import 'vtk-meetings';
+@import 'vtk-banner';
+@import 'vtk-react';
+@import 'vtk-troop-tab';

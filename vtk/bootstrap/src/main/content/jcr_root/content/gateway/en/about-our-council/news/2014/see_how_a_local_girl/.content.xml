@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-09-12T13:50:27.860-04:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2014-09-12T13:50:38.257-04:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="See How a Local Girl Scout is Teaching Old Dogs New Tricks"
+        jcr:uuid="36c3d7d9-05bb-46ba-9e9f-83bcafce1b4b"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2014-09-07T14:24:00.000-04:00">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:lastModified="{Date}2014-09-12T13:50:27.858-04:00"
+                    jcr:lastModifiedBy="bmoore"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/text"
+                    text="&lt;p>&amp;nbsp;&lt;/p>&#xa;&lt;p>&lt;b>GAINESVILLE&lt;/b> - Some say, you can't teach an old dog new tricks. But one local student is giving dogs at the pound a chance to learn.&lt;/p>&#xa;&lt;p>The Alachua County Animal Services received new agility gear for the dogs to play and exercise with. It’s all part of one eastside high school student’s goal to do something for her community while working towards the Girls Scout gold award.&lt;/p>&#xa;&lt;p>Jennifer Banks worked on this project for more than 80 hours. She helped fundraise the money to buy the materials by selling girls scout cookies and actually built five different obstacles-- like a dog walk, hut and weave poles among other things.&lt;/p>&#xa;&lt;p>“The animals didn’t have much to interact with and the volunteers really wanted something that they could use to help socialize the dogs and interact with them. To help build confidence in animals that stayed there,” Banks said.&lt;/p>&#xa;&lt;p>Banks has been part of Girls Scouts for 13 years now, and hopes to one day become a girls scout leader.&lt;/p>&#xa;&lt;p>&lt;b>&lt;a adhocenable=&quot;false&quot; href=&quot;http://www.wcjb.com/local-news/2014/09/animal-shelter-gets-agility-equipment-through-student-project&quot; target=&quot;_blank&quot;>Check out this video interview of Jennifer Banks.&lt;/a>&lt;/b>&lt;br>&#xa;&lt;/p>&#xa;&lt;p>&lt;i>source - WCJB-TV20&lt;/i>&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2014-09-12T13:49:20.721-04:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        fileReference="/content/dam/gateway/pageheroes/GSpound2014.jpg"
+                        imageRotate="0">
+                        <file.sftmp/>
+                    </image>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+    <_x0032_014/>
+</jcr:root>

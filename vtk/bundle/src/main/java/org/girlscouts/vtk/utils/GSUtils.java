@@ -29,6 +29,7 @@ public class GSUtils {
 		return docTypeImage;
 	}
 	public static String getDocExtensionFromString(String str) {
+		if( str==null || str.trim().equals("")){System.err.println("GSUtils.getDocExtensionFromString Error: found Asset extension blank.."); return "";}
 		String regexStr = "\\.([a-z]*)$";
 		Pattern pattern = Pattern.compile(regexStr, Pattern.CASE_INSENSITIVE);
 		Matcher matcher = pattern.matcher(str);

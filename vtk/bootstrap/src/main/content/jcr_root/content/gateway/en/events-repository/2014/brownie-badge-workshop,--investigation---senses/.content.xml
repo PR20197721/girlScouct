@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-07-30T01:49:38.026-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:program-level/brownie,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Brownie Badge Workshop,  Investigation - Senses"
+        jcr:uuid="6c496b59-13aa-4a6b-b386-24d010b99cb7"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="1025 Museum Cir, Jacksonville, FL 32207"
+            details="Scouts will come to their senses in this multi-disciplinary workshop that teaches the biology of the five senses through hands-on science experiments. This workshop will help the scouts understand the difference between their five senses. This event costs $12 per girl."
+            end="{Date}2014-03-07T11:00:00.000-05:00"
+            locationLabel="MOSH"
+            register="http://www.themosh.org/"
+            srchdisp="Scouts will come to their senses in this multi-disciplinary workshop that teaches the biology of the five senses through hands-on science experiments. This workshop will help the scouts understand the difference between their five senses."
+            start="{Date}2014-03-07T09:00:00.000-05:00"/>
+    </jcr:content>
+</jcr:root>

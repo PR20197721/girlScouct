@@ -7,12 +7,13 @@
 %>
 	<script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
 <%
-	final String MEETING_BASE = "/content/girlscouts-vtk/meetings/myyearplan2015";
-	final String YEAR_PLAN_BASE = "/content/girlscouts-vtk/yearPlanTemplates/yearplan2015";
+	final String MEETING_BASE = "/content/girlscouts-vtk/meetings/myyearplan2017";
+	final String YEAR_PLAN_BASE = "/content/girlscouts-vtk/yearPlanTemplates/yearplan2017";
 	final String MEETING_SCAFFOLDING = "/etc/scaffolding/girlscouts-vtk/meeting.html";
 	final String YEAR_PLAN_SCAFFOLDING = "/etc/scaffolding/girlscouts-vtk/year-plan.html";
 	final Session session = resourceResolver.adaptTo(Session.class);
 %>	
+    <p><h1>Girl Scout VTk 2017 - 2018 Year Plan</h1></p>
 	<p><h1>New</h1></p>
 		<p>
 			<input type="button" value="New Year Plan" onclick="window.location.href='<%= YEAR_PLAN_SCAFFOLDING %>'"></input>

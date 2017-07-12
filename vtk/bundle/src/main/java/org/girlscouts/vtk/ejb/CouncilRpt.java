@@ -1,21 +1,42 @@
 package org.girlscouts.vtk.ejb;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.jcr.Node;
+import javax.jcr.Session;
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
+import org.apache.commons.mail.ByteArrayDataSource;
+import org.apache.commons.mail.EmailAttachment;
+import org.apache.commons.mail.HtmlEmail;
+import org.apache.commons.mail.MultiPartEmail;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.resource.Resource;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.CouncilRptBean;
 import org.girlscouts.vtk.utils.VtkUtil;
+import com.day.cq.mailer.MessageGateway;
+import com.day.cq.mailer.MessageGatewayService;
+import org.apache.sling.settings.SlingSettingsService;
 
 @Component
 @Service(value = CouncilRpt.class)
@@ -24,6 +45,15 @@ public class CouncilRpt {
 	@Reference
 	private SessionFactory sessionFactory;
 
+	@Reference
+	private MessageGatewayService messageGatewayService;
+	
+	@Reference
+	ConfigManager configManager;
+	
+	@Reference
+	private SlingSettingsService slingSettings;
+	
 	@Activate
 	void activate() {
 	}
@@ -49,6 +79,9 @@ public class CouncilRpt {
 			for (javax.jcr.query.RowIterator it = result.getRows(); it
 					.hasNext();) {
 				javax.jcr.query.Row r = it.nextRow();
+				
+				
+				
 				String path = r.getValue("jcr:path").getString();
 				if (path.indexOf("/yearPlan") != -1) {
 					String yp = path
@@ -140,7 +173,8 @@ public class CouncilRpt {
 					ageGroup = "cadette";
 				else if (libPath.contains("ambassador"))
 					ageGroup = "ambassador";
-
+				else if (libPath.contains("multi-level"))
+					ageGroup = "multi-level";
 				CouncilRptBean crb = new CouncilRptBean();
 				crb.setYearPlanName(yearPlanName);
 				crb.setAltered(isAltered);
@@ -232,10 +266,10 @@ public class CouncilRpt {
 		java.util.Map<String, String> container = new java.util.TreeMap<String, String>();
 		javax.jcr.Session s = null;
 		String sql = "select parent.sfTroopId, parent.sfTroopName from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) "
-				+ " where (isdescendantnode (parent, ['"
+				+ " where (isdescendantnode (parent, ["
 				+ VtkUtil.getYearPlanBase(null, null)
 				+ councilId
-				+ "/troops/']))  and "
+				+ "/troops/]))  and "
 				+ " parent.ocm_classname='org.girlscouts.vtk.models.Troop' and child.refId like '"
 				+ yearPlanPath + "%'";
 		javax.jcr.query.QueryResult result = null;
@@ -338,4 +372,67 @@ public class CouncilRpt {
 		}
 		return container;
 	}
+	
+	public String saveRpt( StringBuffer sb ){
+		
+		String rptId= "RPT"+new java.util.Date().getTime();
+		int currYear= VtkUtil.getCurrentGSYear();
+		javax.jcr.Node node = null;
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			
+			Node rootNode  = session.getNode("/vtk"+ currYear);
+			Node rptNode= null;
+			if( !rootNode.hasNode("rpt") )
+				 rptNode = rootNode.addNode("rpt", "nt:unstructured");
+			else
+				 rptNode= session.getNode("/vtk"+ currYear +"/rpt/");
+
+			Node thisRpt = rptNode.addNode(rptId, "nt:unstructured");
+            thisRpt.setProperty("rpt", sb.toString() );
+            thisRpt.setProperty("id", rptId);
+            session.save();
+			
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return rptId;
+	}
+	
+	public void emailRpt(String msg, String subject){
+		try {
+			
+			
+			MessageGateway<MultiPartEmail> messageGateway = messageGatewayService.getGateway(MultiPartEmail.class);
+			
+			// create the mail
+			MultiPartEmail email = new MultiPartEmail();
+			
+			email.addTo("Dimitry.Nemirovsky@ey.com", "BOSS");
+			email.setFrom("alex.yakobovich@ey.com", "VTK");
+			
+			email.setSubject(subject +" (ENV:"+slingSettings.getRunModes()+")");
+			email.setMsg("Please find attached GS Report attached as of "+ new java.util.Date());
+
+			DataSource source = new ByteArrayDataSource(msg, "application/text");  
+
+			// add the attachment
+			email.attach(source, "rpt.csv", "rpt");
+
+			messageGateway.send(email);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

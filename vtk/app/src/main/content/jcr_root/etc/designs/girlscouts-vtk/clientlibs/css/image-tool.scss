@@ -6,7 +6,12 @@
 }
 
 .resize-container img {
-    display: block
+    display: block;
+}
+
+#cropping-tool img {
+    -webkit-user-select: none; 
+    -webkit-touch-callout:none; 
 }
 
 .resize-container:hover img,

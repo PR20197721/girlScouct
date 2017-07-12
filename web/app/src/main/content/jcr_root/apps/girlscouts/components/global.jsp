@@ -13,7 +13,10 @@
 	com.day.cq.wcm.api.components.IncludeOptions,
 	java.util.Calendar,
 	java.util.Date,
-	java.text.DateFormat" %>
+	java.text.DateFormat,
+	org.girlscouts.web.events.search.GSDateTime,
+	org.girlscouts.web.events.search.GSDateTimeFormatter,
+	org.girlscouts.web.events.search.GSLocalDateTime" %>
 <%
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);
@@ -69,6 +72,35 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 
     return displayRendition(rr,imagePath,renditionStr,additionalCss,imageWidth,alt,title);
 }
+public String getImageRenditionSrc(ResourceResolver rr, String imagePath, String renditionStr) {
+	if (renditionStr == null) return imagePath;
+	StringBuffer returnImage = new StringBuffer("");
+	try {
+		Resource imgResource = rr.resolve(imagePath);
+		ValueMap properties = imgResource.adaptTo(ValueMap.class);
+		
+		String fileReference = properties.get("fileReference", "");
+		Asset asset;
+		if (!fileReference.isEmpty()) {
+			asset = rr.resolve(fileReference).adaptTo(Asset.class);
+		} else {
+			asset = imgResource.adaptTo(Asset.class);
+		}
+
+		boolean isOriginal = false;
+		Rendition rendition = asset.getRendition(new PrefixRenditionPicker(renditionStr));
+		if (rendition == null) {
+			isOriginal = true;
+			rendition = asset.getOriginal();
+		}
+		
+		returnImage.append(rendition.getPath());
+	} catch (Exception e) {
+		log.error("Cannot include an image rendition: " + imagePath + "|" + renditionStr);
+		return "";
+	}
+	return returnImage.toString();
+}
 %>
 <%!
 public String displayRendition(ResourceResolver rr, String imagePath, String renditionStr, String additionalCss, int imageWidth,String altString,String titleString) {
@@ -77,6 +109,7 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 	try {
 		Resource imgResource = rr.resolve(imagePath);
 		ValueMap properties = imgResource.adaptTo(ValueMap.class);
+		if(properties == null) return "";
 		
 		String fileReference = properties.get("fileReference", "");
 		Asset asset;
@@ -88,7 +121,7 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 		    // fileRefence empty. Assuming this resource is a DAM asset.
 		    asset = imgResource.adaptTo(Asset.class);
 		}
-		
+		if(asset == null) return "";
 		boolean isOriginal = false;
 		Rendition rendition = asset.getRendition(new PrefixRenditionPicker(renditionStr));
 		if (rendition == null) {
@@ -163,6 +196,40 @@ public static String getDateTime(Date startDate, Date endDate,DateFormat dateFor
 
  		}
 	return dateStr;
+}
+
+public static String getDateTime(GSDateTime startDate, GSDateTime endDate, GSDateTimeFormatter dateFormat, GSDateTimeFormatter timeFormat,String dateStr,String timeZoneShortLabel){
+    boolean sameDay = startDate.year() == endDate.year() &&
+                      startDate.dayOfYear() == endDate.dayOfYear();
+    String endDateStr = dateFormat.print(endDate);
+    String endTimeStr = timeFormat.print(endDate);
+    if (!sameDay) {
+	      dateStr += " - " + endDateStr +", " + endTimeStr;
+	   }else
+	   {
+		   dateStr += " - " + endTimeStr;
+
+		}
+	return dateStr + " " + timeZoneShortLabel;
+}
+
+public static String getDateTime(GSLocalDateTime startDate, GSLocalDateTime endDate, GSDateTimeFormatter dateFormat, GSDateTimeFormatter timeFormat,String dateStr,String timeZoneShortLabel){
+    boolean sameDay = startDate.year() == endDate.year() &&
+                      startDate.dayOfYear() == endDate.dayOfYear();
+    String endDateStr = dateFormat.print(endDate);
+    String endTimeStr = timeFormat.print(endDate);
+    if (!sameDay) {
+	      dateStr += " - " + endDateStr +", " + endTimeStr;
+	   }else
+	   {
+		   dateStr += " - " + endTimeStr;
+
+		}
+	return dateStr + " " + timeZoneShortLabel;
+}
+
+public static boolean isSameDate(GSDateTime d1, GSDateTime d2) {
+	return (d1.getYear() == d2.getYear() && d1.monthOfYear() == d2.monthOfYear() && d1.dayOfMonth() == d2.dayOfMonth());
 }
 
 

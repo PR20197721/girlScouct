@@ -14,6 +14,12 @@
                     jcr:primaryType="nt:unstructured"
                     path="/libs/foundation/components/form/defaults/items.infinity.json"
                     xtype="cqinclude"/>
+				<confirmationemail
+                	jcr:primaryType="cq:Widget"
+                	fieldLabel="Send Confirmation Email"
+                	name="./confirmationemail"
+                	type="checkbox"
+                	xtype="selection"/>
                 <multivalue
                     jcr:primaryType="cq:Widget"
                     boxLabel="Property is multi value"
@@ -75,6 +81,19 @@
                     fieldLabel="Constraint Message"
                     name="./constraintMessage"
                     xtype="textarea"/>
+                <maxLength
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Maximum Length"
+                    inputValue="true"
+                    name="./maxlength"
+                    xtype="numberfield"/>
+                <showCharCount
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Show Char Count"
+                    inputValue="false"
+                    name="./showcharcount"
+                    type="checkbox"
+                    xtype="selection"/>
             </items>
         </fourth>
         <five

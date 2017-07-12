@@ -11,6 +11,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -129,24 +130,50 @@ public class CalendarUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String sched = cal.getDates();
+		//String sched = cal.getDates();
+		String sched = VtkUtil.sortDates(cal.getDates());
 		if ((sched == null || sched.contains(newDate.getTime() + ""))
 				&& !(("" + currDate).equals(newDate.getTime() + ""))) {
 			log.error("CalendarUtil.updateSched error: DUP DATE: date already exist in cal");
 			return false;
 		}
-		sched = sched.replace("" + currDate, newDate.getTime() + "");
-		cal.setDates(sched);
-		java.util.List<MeetingE> meetings = troop.getYearPlan()
-				.getMeetingEvents();
-		for (int i = 0; i < meetings.size(); i++) {
-			MeetingE meeting = meetings.get(i);
-			if (meeting.getPath().equals(meetingPath)) {
-				meeting.setCancelled(isCancelledMeeting);
-				troop.getYearPlan().setAltered("true");
+			
+		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
+
+		
+		
+		for(int i=0;i<100;i++){
+			if ((sched == null || sched.contains(newDate.getTime() +""))) {
+				java.util.Calendar c = Calendar.getInstance();
+				c.setTimeInMillis(newDate.getTime());
+				c.add(java.util.Calendar.SECOND, 1);
+				newDate= c.getTime();
 			}
 		}
+			
+		sched = sched.replace("" + currDate, newDate.getTime() + "");
+		
+		
+		updateSchedMeetings( meetings, currDate, newDate.getTime() );
+	
+		
+		//sort meetings by Date
+		Comparator<MeetingE> comp = new BeanComparator("date");
+		if (meetings != null)
+			Collections.sort(meetings, comp);
+		
+		
+		for(int i=0;i<meetings.size();i++){
+			if( meetings.get(i).getId() != (i) ){
+				meetings.get(i).setId((i));
+				meetings.get(i).setDbUpdate(true);
+			}
+		}
+		
+		cal.setDates(sched);
+		cal.setDbUpdate(true);
 		troopUtil.updateTroop(user, troop);
+
 		return true;
 	}
 
@@ -172,6 +199,8 @@ public class CalendarUtil {
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 
+
+
 		// org Dates
 		String dates = "";
 		if (troop.getYearPlan().getSchedule() == null) {
@@ -184,8 +213,12 @@ public class CalendarUtil {
 					dates = dates + (cal.getTimeInMillis()) + ",";
 					cal.add(java.util.Calendar.DATE, 1);
 				}
-		} else
+		} else{
+			
 			dates = troop.getYearPlan().getSchedule().getDates();
+
+		}//end else
+		
 		if (!dates.startsWith(","))
 			dates = "," + dates;
 		if (!dates.endsWith(","))
@@ -239,6 +272,7 @@ public class CalendarUtil {
 			dates = dates.substring(1);
 		if (dates.endsWith(","))
 			dates = dates.substring(0, dates.length() - 1);
+		
 		return dates;
 	}
 
@@ -255,6 +289,7 @@ public class CalendarUtil {
 			plan.setCalStartDate(Long.parseLong(dates.substring(0,
 					dates.indexOf(","))));
 		plan.setCalExclWeeksOf(exclDate);
+		
 		Cal calendar = plan.getSchedule();
 		if (calendar == null)
 			calendar = new Cal();
@@ -274,12 +309,16 @@ public class CalendarUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-		YearPlan plan = getSched(user, troop, freq, newStartDate, exclDate,
-				oldFromDate);
+		
+	
+		YearPlan plan = getSched(user, troop, freq, newStartDate, exclDate, oldFromDate);
 		troop.setYearPlan(plan);
+		
 		// if sched dates > meetings = rm last N meetings
 		meetingUtil.rmExtraMeetingsNotOnSched(user, troop);
+	
 		troopUtil.updateTroop(user, troop);
+	
 	}
 
 	private java.util.List<String> getExclDates(String exclDate) {
@@ -445,5 +484,99 @@ public class CalendarUtil {
 		return isPast;
 
 	}
+	
+	public boolean updateDate(User user, Troop troop, long currDate, long newDate) throws java.lang.IllegalAccessException,
+			VtkException {
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_EDIT_MEETING_ID))
+			throw new IllegalAccessException();
 
+		java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat(
+				"MM/dd/yyyy hh:mm a");
+		YearPlan plan = troop.getYearPlan();
+		Cal cal = plan.getSchedule();		
+		String sched = VtkUtil.sortDates(cal.getDates());
+
+StringTokenizer t1 = new StringTokenizer(sched, ",");
+while( t1.hasMoreElements()){
+	String tt= t1.nextToken();
+	
 }
+
+		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
+		
+		for(int i=0;i<100;i++){
+			if ((sched == null || sched.contains(newDate +""))) {
+				java.util.Calendar c = Calendar.getInstance();
+				c.setTimeInMillis(newDate);
+				c.add(java.util.Calendar.SECOND, 1);
+				newDate= c.getTimeInMillis();
+			}
+		}
+		sched = sched.replace("" + currDate, newDate + "");
+		
+		
+		updateSchedMeetings( meetings, currDate, newDate );
+		
+		
+		
+		//sort meetings by Date
+		Comparator<MeetingE> comp = new BeanComparator("date");
+		if (meetings != null)
+			Collections.sort(meetings, comp);
+		
+		
+		
+		
+		for(int i=0;i<meetings.size();i++){
+			if( meetings.get(i).getId() != i ){
+				meetings.get(i).setId(i);
+				meetings.get(i).setDbUpdate(true);
+			}
+		}
+		
+		
+		cal.setDates(sched);
+
+		
+StringTokenizer t = new StringTokenizer(sched, ",");
+while( t.hasMoreElements()){
+	String tt= t.nextToken();
+	
+}
+
+		cal.setDbUpdate(true);
+troop.getYearPlan().setSchedule(cal);		
+		troopUtil.updateTroop(user, troop);
+		return true;
+	}
+	
+	
+private java.util.List<MeetingE> updateSchedMeetings( java.util.List<MeetingE> meetings, long currDate, long newDate ){
+	for(int i=0;i<meetings.size();i++){
+	
+		if(  meetings.get(i).getDate().getTime()== currDate )
+			meetings.get(i).setDate( new java.util.Date( newDate) );
+	}
+	return meetings;
+}
+
+
+public  java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings, String sched){
+
+	
+	return VtkUtil.schedMeetings(meetings, sched);
+}
+
+
+public void combineMeeting(User user, Troop troop, String currDates, String _dt) throws java.lang.IllegalAccessException, java.text.ParseException, org.girlscouts.vtk.utils.VtkException{
+	
+	java.util.StringTokenizer t= new java.util.StringTokenizer( currDates, ",");
+	while( t.hasMoreElements()){
+		   long currDate = Long.parseLong(t.nextToken());
+		   java.util.Date dt = VtkUtil.parseDate( VtkUtil.FORMAT_FULL, _dt );
+		   updateDate( user,  troop,  currDate,  dt.getTime() );
+	}
+}
+}//edn class

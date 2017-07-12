@@ -1,10 +1,9 @@
 <%@page
-	import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
+	import="java.util.Comparator, org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO,
-                org.girlscouts.vtk.helpers.TroopHashGenerator"%>
+                org.girlscouts.vtk.helpers.TroopHashGenerator, org.girlscouts.vtk.models.JcrCollectionHoldString, org.girlscouts.vtk.ejb.CouncilRpt"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 <%
@@ -50,7 +49,7 @@
 				}
 
 				meetingUtil.changeMeetingPositions(user, troop, x);
-				//meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );
+
 				return;
 			case CreateActivity:
 				yearPlanUtil
@@ -115,11 +114,13 @@
 				return;
 			case SelectYearPlan:
 				try {
+
 					troopUtil.selectYearPlan(user, troop,
 							request.getParameter("addYearPlanUser"),
 							request.getParameter("addYearPlanName"));
+
 				} catch (VtkYearPlanChangeException e) {
-					System.err.println(e.getMessage());
+					
 					e.printStackTrace();
 					out.println(e.getMessage());
 				}
@@ -203,7 +204,7 @@
 						request.getParameter("mid"));
 				return;
 			case EditAgendaDuration:
-				//request.getParameter("aid") +" : "+request.getParameter("mid"));
+
 				meetingUtil.editAgendaDuration(user, troop, Integer
 						.parseInt(request
 								.getParameter("editAgendaDuration")),
@@ -215,17 +216,24 @@
 						request.getParameter("mid"));
 				return;
 			case ReLogin:
+
+  			    VtkUtil.cngYear(request,  user,  troop);
+
+
+
 				troopUtil.reLogin(user, troop,
 						request.getParameter("loginAs"), session);
 				// Generator the new troopDataToken so the client can fetch data from the dispatcher.
 				Troop newTroop = (Troop)session.getAttribute("VTK_troop");
 				String troopId = newTroop.getTroop().getTroopId();
-				System.out.println("New Troop Id = " + troopId);
-				TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
-				String token = generator.hash(troopId);
-				Cookie cookie = new Cookie("troopDataToken", token);
-				cookie.setPath("/");
-				response.addCookie(cookie);
+				
+
+    				TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
+    				String token = generator.hash(troopId);
+    				Cookie cookie = new Cookie("troopDataToken", token);
+    				cookie.setPath("/");
+    				response.addCookie(cookie);
+
 				return;
 			case AddAid:
 				if (request.getParameter("assetType").equals("AID")) {
@@ -293,14 +301,9 @@
 						user.getCurrentYear(),
 						request.getParameterMap());
 				return;
-			case RmMeeting:
-				meetingUtil.createMeetingCanceled(user, troop,
-						request.getParameter("mid"),
-						Long.parseLong(request.getParameter("rmDate")));
-				meetingUtil.rmMeeting(user, troop,
-						request.getParameter("mid"));
-				meetingUtil.rmSchedDate(user, troop,
-						Long.parseLong(request.getParameter("rmDate")));
+			case RmMeeting:			
+				meetingUtil.rmMeeting( user, troop, request.getParameter("mid") );
+				//meetingUtil.rmSchedDate(user, troop,Long.parseLong(request.getParameter("rmDate")));
 				return;
 			case UpdAttendance:
 				meetingUtil.updateAttendance(user, troop, request);
@@ -310,6 +313,12 @@
 
 				meetingUtil.createCustomYearPlan(user, troop,
 						request.getParameter("mids"));
+				return;
+			case RemoveVtkErrorMsg:
+				String vtkErrMsgId= request.getParameter("vtkErrMsgId");
+			    if( vtkErrMsgId!=null && !vtkErrMsgId.equals("")){
+			             VtkUtil.rmVtkError(request,vtkErrMsgId );
+			    }
 				return;
 			default:
 				break;
@@ -323,25 +332,9 @@
 					session.putValue("VTK_ADMIN", u);
 			}
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.home.html");
-/*
-		} else if (request.getParameter("sendMeetingReminderEmail_SF") != null) { //view SalesForce
-			String email_to_gp = request.getParameter("email_to_gp");
-			String email_to_sf = request.getParameter("email_to_sf");
-			String email_to_tv = request.getParameter("email_to_tv");
-			String cc = request.getParameter("email_to_cc");
-			String subj = request.getParameter("email_subj");
-			String html = request.getParameter("email_htm");
 
-			EmailMeetingReminder emr = new EmailMeetingReminder(null,
-					null, cc, subj, html);
-			emr.setEmailToGirlParent(email_to_gp);
-			emr.setEmailToSelf(email_to_sf);
-			emr.setEmailToTroopVolunteer(email_to_tv);
-			emailUtil.sendMeetingReminder(troop, emr);
-			*/
 		} else if (request.getParameter("previewMeetingReminderEmail") != null) {
 			String email_to_gp = request.getParameter("email_to_gp");
-			//String email_to_sf = request.getParameter("email_to_sf");
 			String email_to_tv = request.getParameter("email_to_tv");
 			String bcc = request.getParameter("email_cc");
 			String subj = request.getParameter("email_subj");
@@ -362,10 +355,10 @@
 
 			emr.setMeetingId(meetingId);
 			emr.setTemplate(template);
-			//if (email_to_sf.equals("true")) {
+
 			emr.setEmailToSelf("true");
 			emr.setTo(user.getApiConfig().getUser().getEmail());
-			//}
+
 			if (email_to_gp.equals("true")) {
 				java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 						troopDAO, connectionFactory).getContacts(
@@ -379,30 +372,30 @@
 						emails += ";" + contactEmail;
 				}
 				emr.addTo(emails);
-				//emr.setEmailToGirlParent(emails);
+
 				emr.setEmailToGirlParent("true");
 
 			}
 
 			if (email_to_tv.equals("true")) {
-				//emr.setEmailToTroopVolunteer(email_to_tv);
+
 				emr.setEmailToTroopVolunteer("true");
-				/*Troop Volunteers data needed */
+
 			}
 
 			troop.setSendingEmail(emr);
 
-		} else if (request.getParameter("sendMeetingReminderEmail") != null) { //view smpt
-			// /gscontroller/vtk/action/sendMeetingReminderEmail parameters  
+		} else if (request.getParameter("sendMeetingReminderEmail") != null) {
+
+	
 			EmailMeetingReminder emr = null;
 			if (troop.getSendingEmail() != null) {
 				emr = troop.getSendingEmail();
 			} else {
-				System.out.println("emr does not exit!");
+				
 			}
 
-			org.girlscouts.vtk.ejb.Emailer emailer = sling
-					.getService(org.girlscouts.vtk.ejb.Emailer.class);
+			org.girlscouts.vtk.ejb.Emailer emailer = sling.getService(org.girlscouts.vtk.ejb.Emailer.class);
 			emailer.send(user, troop, emr);
 			try {
 				meetingUtil.saveEmail(user, troop, emr.getMeetingId());
@@ -410,20 +403,6 @@
 				e.printStackTrace();
 			}
 			troop.setSendingEmail(null);
-
-		} else if (request.getParameter("testAB") != null) {
-
-			
-			boolean isUsrUpd = false;
-			try {
-				troop.setRetrieveTime(new java.util.Date());
-				isUsrUpd = troopUtil.updateTroop(user, troop);
-			} catch (IllegalAccessException iae) {
-				iae.printStackTrace();
-			}
-			if (!isUsrUpd)
-				vtkErr += vtkErr
-						.concat("Warning: You last change was not saved.");
 
 		} else if (request.getParameter("id") != null) {
 
@@ -486,167 +465,37 @@
 				}
 			}
 
-		
-		
+
+
 
 		} else if (request.getParameter("updateCouncilMilestones") != null) {
-
-			String councilId = request.getParameter("cid");
-
-			java.util.List<Milestone> milestones = yearPlanUtil
-					.getCouncilMilestones(user,councilId);
-			for (int i = 0; i < milestones.size(); i++) {
-
-				Milestone m = milestones.get(i);
-				String blurb = request.getParameter("blurb" + i);
-				String date = request.getParameter("date" + i);
-
-				m.setBlurb(blurb);
-				m.setDate(new java.util.Date(date));
-
-			}
-
-			//yearPlanUtil.saveCouncilMilestones(milestones);
+			yearPlanUtil.updateMilestones( user,  troop,  request );
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
-
 		} else if (request.getParameter("saveCouncilMilestones") != null) {
-
-			String councilId = request.getParameter("cid");
-			java.util.List<Milestone> milestones = new ArrayList<Milestone>();
-			String[] blurbs = request.getParameterValues("ms_blurb[]");
-			String[] dates = request.getParameterValues("ms_date[]");
-			//String[] shows2 = request.getParameterValues("show_ch[]");
-			String[] shows = request.getParameterValues("ms_show[]");
-			if (blurbs != null) {
-				for (int i = 0; i < blurbs.length; i++) {
-					String blurb = blurbs[i];
-					if (blurb == null || blurb.trim().isEmpty()) {
-						break;
-					}
-					boolean show = shows[i].equals("true");
-					Date date = null;
-					if (!dates[i].isEmpty()) {
-						date = VtkUtil.parseDate(
-								VtkUtil.FORMAT_MMddYYYY, dates[i]);
-					}
-
-					Milestone m = new Milestone(blurb, show, date);
-					milestones.add(m);
-				}
-			}
-
-			try{
-				yearPlanUtil.saveCouncilMilestones(user, milestones,councilId);
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-
+			yearPlanUtil.saveMilestones(user, troop, request);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
-
 		} else if (request.getParameter("createCouncilMilestones") != null) {
-
-			String councilId = request.getParameter("cid");
-			java.util.List<Milestone> milestones = yearPlanUtil
-					.getCouncilMilestones(user,councilId);
-
-			Milestone m = new Milestone();
-			m.setBlurb(request.getParameter("blurb"));
-			m.setDate(new java.util.Date(request.getParameter("date")));
-			milestones.add(m);
-
+			yearPlanUtil.createMilestones(user, troop, request);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
-
 		} else if (request.getParameter("removeCouncilMilestones") != null) {
-
-			java.util.List<Milestone> milestones = troop.getYearPlan()
-					.getMilestones();
-			for (int i = 0; i < milestones.size(); i++) {
-
-				Milestone m = milestones.get(i);
-				if (m.getUid()
-						.equals(request
-								.getParameter("removeCouncilMilestones"))) {
-					milestones.remove(m);
-
-					boolean isUsrUpd = troopUtil.updateTroop(user,
-							troop);
-					if (!isUsrUpd)
-						vtkErr += vtkErr
-								.concat("Warning: You last change was not saved.");
-
-					response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
-					return;
-				}
-			}
-
+			boolean isRm = troopUtil.removeMilestones(user, troop, request);
+		    if( isRm )
+		    	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+		    else
+		    	vtkErr += vtkErr.concat("Warning: You last change was not saved.");
 		} else if (request.getParameter("resetCal") != null) {
-
 			calendarUtil.resetCal(user, troop);
 			out.println("Cal reset");
-
 		} else if (request.getParameter("chngPermis") != null) {
-
-			switch (Integer
-					.parseInt(request.getParameter("chngPermis"))) {
-			case 2:
-				troop.getTroop()
-						.setPermissionTokens(
-								Permission
-										.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
-				break;
-			case 11:
-
-				troop.getTroop()
-						.setPermissionTokens(
-								Permission
-										.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
-				break;
-			case 12:
-
-				troop.getTroop()
-						.setPermissionTokens(
-								Permission
-										.getPermissionTokens(Permission.GROUP_MEMBER_2G_PERMISSIONS));
-				break;
-			case 13:
-				troop.getTroop()
-						.setPermissionTokens(
-								Permission
-										.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
-				break;
-
-			case 14:
-				troop.getTroop()
-						.setPermissionTokens(
-								Permission
-										.getPermissionTokens(Permission.GROUP_MEMBER_NO_TROOP_PERMISSIONS));
-				break;
-
-			case 15:
-				troop.getTroop()
-						.setPermissionTokens(
-								Permission
-										.getPermissionTokens(Permission.GROUP_MEMBER_TROOP_PERMISSIONS));
-				break;
-
-			default:
-				troop.getTroop()
-						.setPermissionTokens(
-								Permission
-										.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
-
-				break;
-			}
-
+			VtkUtil.changePermission(user, troop, Integer.parseInt(request.getParameter("chngPermis")));
 		} else if (request.getParameter("Impersonate4S") != null) {
-
 			troopUtil.impersonate(user, troop,
 					request.getParameter("councilCode"),
 					request.getParameter("troopId"), session);
 			Troop x = (Troop) session.getAttribute("VTK_troop");
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.html");
-		} else if (request.getParameter("addAsset") != null) { //not in switch?? not used?
-			//org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
+		} else if (request.getParameter("addAsset") != null) {
+
 			troopUtil.addAsset(
 					user,
 					troop,
@@ -654,7 +503,7 @@
 					new org.girlscouts.vtk.models.Asset(request
 							.getParameter("addAsset")));
 		} else if (request.getParameter("reactjs") != null || request.getAttribute("reactjs") != null) {
-
+         try{
 			boolean isFirst = false;
 			if ((request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1")) ||
 			    (request.getAttribute("isFirst") != null && request.getAttribute("isFirst").equals("1"))) {
@@ -688,7 +537,25 @@
 				}
 
 				troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-				troop.setTroop(prefTroop);
+
+				
+java.util.List <MeetingE> tt= troop.getYearPlan().getMeetingEvents();
+
+				
+				//archive
+                VtkUtil.cngYear(request,  user,  troop);
+
+                if( !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+                     java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);
+                     org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(prefTroop));
+                     newTroopCloned.setPermissionTokens( permis );
+                     troop.setTroop(newTroopCloned);
+                }else{
+                    troop.setTroop(prefTroop);
+                }
+                //end archive
+
+				//troop.setTroop(prefTroop);
                 troop.setSfTroopId(troop.getTroop().getTroopId());
                 troop.setSfUserId(user.getApiConfig().getUserId());
                 troop.setSfTroopName(troop.getTroop().getTroopName());
@@ -696,21 +563,21 @@
                 troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 				PlanView planView = meetingUtil.planView(user, troop, request);
 
-				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
+				java.util.List<MeetingE> TMP_meetings = (java.util.List<MeetingE> )VtkUtil.deepClone(troop.getYearPlan().getMeetingEvents());
 
-				MeetingE _meeting = (MeetingE)planView.getYearPlanComponent(); // meetings.get(i);
+				MeetingE _meeting = (MeetingE) planView.getYearPlanComponent();
 				java.util.List<MeetingE> meetings = new java.util.ArrayList();
 				meetings.add(_meeting);
 				troop.getYearPlan().setMeetingEvents(meetings);
 				Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
 				Achievement achievement = meetingUtil.getAchievement( user,  troop,  _meeting.getPath()+"/achievement");
 				int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
-				
+
 				if( attendance !=null && attendance.getUsers()!=null ){
 				    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
 				    attendanceTotal= attendance.getTotal();
 				}
-				
+
 				if( achievement !=null && achievement.getUsers()!=null ){
 				    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
 				}
@@ -737,7 +604,17 @@
 																.getMeetingInfo() // fixme - refactor
 																.get("meeting short description")
 																.getStr())));
-
+java.util.List<SentEmail> emails = _meeting.getSentEmails();
+					
+						//_meeting.setSentEmails(null); //GSVTK-1324
+						java.util.List<SentEmail> sendEmails = _meeting.getSentEmails();
+						if( sendEmails!=null && sendEmails.size()>0 ){
+							  for(int se=0;se< sendEmails.size();se++){
+								  SentEmail sEmail = sendEmails.get(se);
+								  sEmail.setHtmlDiff("tessss123");
+							  }
+						}
+						
 						java.util.Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator(
 								"activityNumber");
 						Collections.sort(_activities, comp);
@@ -775,25 +652,30 @@
 
                     ObjectMapper mapper = new ObjectMapper();
                     try {
+
+
                     out.println(mapper.writeValueAsString(troop)
                             .replaceAll("mailto:", "")
                             .replaceAll("</a>\"</a>", "</a>")
                             .replaceAll("\"</a>\"", ""));
+
                     } catch (Exception ee) {
                         // error message in logs
+                        ee.printStackTrace();
                     }
-                    
+
                     troop.getYearPlan().setMeetingEvents(TMP_meetings);
                     session.putValue("VTK_troop", troop);
 
 				} else {
 					// error message in logs
 				}
-				
-			}
 
+			}
+}catch(Exception e){e.printStackTrace();}
 		} else if (request.getAttribute("yearPlanSched") != null || request.getParameter("yearPlanSched") != null) {
 
+try{
 			if (troop.getYearPlan() == null){
 				ObjectMapper mapper = new ObjectMapper();
                 out.println("{\"yearPlan\":\"NYP\"}");
@@ -801,8 +683,7 @@
 			}
 
 			boolean isFirst = false;
-			if ((request.getAttribute("isFirst") != null
-					&& ((String)request.getAttribute("isFirst")).equals("1")) || (request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1"))) {
+			  if((request.getAttribute("isFirst") != null && ((String)request.getAttribute("isFirst")).equals("1")) || (request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1"))) {
 				isFirst = true;
 			}
 
@@ -814,7 +695,7 @@
 						"X" + session.getId(), troop.getYearPlan()
 								.getPath());
 			}
-
+			System.err.println("tata xx");
 			if (isFirst || isCng) {
 				org.girlscouts.vtk.salesforce.Troop prefTroop = null;
 				if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
@@ -828,10 +709,28 @@
 					}
 				}
 
-				troop = troopUtil.getTroop(user,
-						"" + prefTroop.getCouncilCode(),
-						prefTroop.getTroopId());
-				troop.setTroop(prefTroop);
+
+
+
+
+        troop = troopUtil.getTroop(user,
+                        "" + prefTroop.getCouncilCode(),
+                        prefTroop.getTroopId());
+        //archive
+        VtkUtil.cngYear(request,  user,  troop);
+
+        if( !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+             java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);
+             org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(prefTroop));
+             newTroopCloned.setPermissionTokens( permis );
+             troop.setTroop(newTroopCloned);
+        }else{
+            troop.setTroop(prefTroop);
+        }
+        //end archive
+
+
+				//troop.setTroop(prefTroop);
                 troop.setSfTroopId(troop.getTroop().getTroopId());
                 troop.setSfUserId(user.getApiConfig().getUserId());
                 troop.setSfTroopName(troop.getTroop()
@@ -840,10 +739,10 @@
                         .getGradeLevel());
                 troop.setSfCouncil(troop.getTroop()
                         .getCouncilCode() + "");
-                  
+
 				java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
 						.getYearPlanSched(user, troop, troop.getYearPlan(), true, true);
-				  
+
 				//start milestone
 				try {
 					if (troop.getYearPlan() != null) {
@@ -853,27 +752,35 @@
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				  
+
 				if (troop.getYearPlan().getMilestones() == null)
 					troop.getYearPlan().setMilestones(
 							new java.util.ArrayList());
 
 				for (int i = 0; i < troop.getYearPlan().getMilestones().size(); i++){
-						if (troop.getYearPlan().getMilestones().get(i).getDate() != null && 
+						if (troop.getYearPlan().getMilestones().get(i).getDate() != null &&
 								troop.getYearPlan().getMilestones().get(i).getShow())
 									sched.put(troop.getYearPlan().getMilestones().get(i).getDate(),
 											troop.getYearPlan().getMilestones().get(i));
 				}
-				 
+
 
 				//edn milestone
-							
+
 				session.putValue("VTK_troop", troop);
-					   
+
 	Object tmp[] = sched.values().toArray();
 	for(int i=0;i<tmp.length;i++){
-		try{
-							((MeetingE) tmp[i]).getMeetingInfo()
+		try{ 
+		
+			   if( ! ( tmp[i] instanceof   MeetingE)  ) continue;
+			   
+			   boolean isAnyOutdoorActivitiesInMeeting = VtkUtil.isAnyOutdoorActivitiesInMeeting( ((MeetingE) tmp[i]).getMeetingInfo() );
+			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
+			   boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( ((MeetingE) tmp[i]).getMeetingInfo() );
+			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
+
+			   ((MeetingE) tmp[i]).getMeetingInfo()
 									.setActivities(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setMeetingInfo(null);
@@ -881,10 +788,13 @@
 									.setResources(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setAgenda(null);
-						} catch (Exception e) {
+							
+							((MeetingE) tmp[i]).setSentEmails(null); //GSVTK-1324
+							
+						} catch (Exception e) {e.printStackTrace();
 	}
 					}
- 
+
 				ObjectMapper mapper = new ObjectMapper();
 				out.println("{\"yearPlan\":\""
 						+ troop.getYearPlan().getName()
@@ -892,9 +802,9 @@
 					out.println(mapper.writeValueAsString(sched)
 							.replaceAll("mailto:", ""));
 				out.println("}");
-				   
-			}
 
+			}
+}catch(Exception e){e.printStackTrace();}
 		} else if (request.getParameter("reactActivity") != null) {
 
             boolean isFirst = false;
@@ -906,14 +816,14 @@
             boolean isCng = false;
 
             if (!isFirst && troop.getYearPlan()!=null) {
-            
-           	
+
+
                 ModifiedChecker modifiedChecker = sling
                         .getService(ModifiedChecker.class);
                 isCng = modifiedChecker.isModified(
                         "X" + session.getId(), troop.getYearPlan().getPath());
 
-                
+
             }
 
             if (isFirst || isCng) {
@@ -946,9 +856,9 @@
                 }
 
                 YearPlan yearPlan = new YearPlan();
-                
-                
-            
+
+
+
                 if( troop!=null && troop.getYearPlan()!=null){
                     Helper helper = troop.getYearPlan().getHelper();
                     if( helper==null ) helper= new Helper();
@@ -957,22 +867,22 @@
                     helper.setCurrentDate(planView.getSearchDate().getTime());
                     helper.setSfTroopAge( troop.getSfTroopAge());
                     java.util.ArrayList <String> permissions= new java.util.ArrayList<String>();
-                    
+
                     if (troop != null && VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID))
                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_ACT_ID));
-                   
+
                     helper.setPermissions(permissions);
-                    
+
                     yearPlan.setHelper(helper);
                 }
-                
-                
+
+
                 java.util.List<Activity> _activities= new java.util.ArrayList();
                 _activities.add( currentActivity );
                 yearPlan.setActivities( _activities);
                 ObjectMapper mapper = new ObjectMapper();
                 out.println(mapper.writeValueAsString(yearPlan));
-                //orgi out.println(mapper.writeValueAsString(currentActivity));
+
 
             }
 
@@ -1005,7 +915,7 @@
 				String troopId = (String) itr.next();
 				String troopName = (String) container.get(troopId);
 					%>$("#<%=troopId%>").html("<%=troopName%>");<%
-	}
+					   }
 		} else if (request.getParameter("getEventImg") != null) {
 
 
@@ -1029,12 +939,12 @@
 			}
 		} else if(request.getParameter("imageData") != null){
 			try{
-				
+
 				int x1 = -1, x2 = -1, y1 = -1, y2 = -1, width = -1, height = -1;
                 double maxW = 960;
 
 				int[] coords = new int[0];
-				
+
 				if(request.getParameter("coords") != null){
 					String coordString = request.getParameter("coords").toString();
 					String[] nums = coordString.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
@@ -1047,7 +957,7 @@
 					    } catch (NumberFormatException nfe) {};
 					}
 				}
-				
+
 				if(coords.length == 7){
 					x1 = coords[0];
 					y1 = coords[1];
@@ -1065,10 +975,10 @@
                 if(x1 >= 0 && x2 >= 0 && y1 >= 0 && y2 >= 0 && width >= 0 && height >= 0){
                 	ByteArrayInputStream bais = new ByteArrayInputStream(decoded);
                 	BufferedImage inputImage = ImageIO.read(bais);
-                	
+
 					String formatName = "PNG";
-                	
-                	Layer layer = new Layer(inputImage);             	
+
+                	Layer layer = new Layer(inputImage);
                 	int smallerX = Math.min(x1, x2);
                 	int smallerY = Math.min(y1, y2);
 			double ratio = 1;
@@ -1112,9 +1022,6 @@
                 jcrNode.setProperty("jcr:mimeType","image/png");
 
 				__session.save();
-				
-				//sling.getService(org.girlscouts.vtk.replication.VTKDataCacheInvalidator.class).addPath("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png", true);
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1145,23 +1052,19 @@
 					.getStrCommDelToArrayDates(dates);
 			out.println(_dates.size());
 		} else if (request.getParameter("printTroopReloginids") != null) {
-			 %><select id="reloginid" onchange="relogin()"><% 
-			for (int i = 0; i < troops.size(); i++) { 
-			 
+			 %><select id="reloginid" onchange="relogin()"><%
+			 for (int i = 0; i < troops.size(); i++) {
 			  %><option value="<%=troops.get(i).getTroopId()%>"
 	            <%=troop.getTroop().getTroopId()
 	              .equals(troops.get(i).getTroopId()) ? "SELECTED"
 	              : ""%>><%=troops.get(i).getTroopName()%>
 	              :  <%=troops.get(i).getGradeLevel()%></option><%
 	        }
-		
-		   %></select><% 
-		   
-		   
+		   %></select><%
 		}else if (request.getParameter("printCngYearPlans") != null) {
-		
-		
-	
+
+
+
 	      String ageLevel=  troop.getTroop().getGradeLevel();
 	      ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
 	      ageLevel=ageLevel.toLowerCase().trim();
@@ -1170,67 +1073,155 @@
 	      if( troop.getYearPlan()!=null ){
 	        if( troop.getYearPlan().getAltered()!=null && troop.getYearPlan().getAltered().equals("true") ){
 	            confMsg ="Are You Sure? You will lose customizations that you have made";
-	        } 
+	        }
 	      }
-	     
-	     
+
+
 	      java.util.Iterator<YearPlan> yearPlans = yearPlanUtil.getAllYearPlans(user, ageLevel).listIterator();
 	        while (yearPlans.hasNext()) {
 	          YearPlan yearPlan = yearPlans.next();
-	         
+
 	      %>
 	      <div class="row">
 	        <div class="columns large-push-2 medium-2 medium-push-2 small-2">
-	       <input type="radio" <%=( troop.getYearPlan()!=null && (yearPlan.getName().equals(troop.getYearPlan().getName()))) ? " checked " : "" %> 
-	           id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>' )" />
+	       <input type="radio" <%=( troop.getYearPlan()!=null && (yearPlan.getName().equals(troop.getYearPlan().getName()))) ? " checked " : "" %>
+	           id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>', false)" />
 	            <label for="r_<%=yearPlan.getId()%>"></label>
-	            
+
 	        </div>
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-	            <a href="#" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%></a>
+	            <a href="#" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>', false)"><%=yearPlan.getName()%></a>
 	            <p><%=yearPlan.getDesc()%></p>
 	        </div>
 	      </div><!--/row-->
-	      
-	      <% }%>  
-	      
-	      
+
+	      <% }%>
+
+
 	        <div class="row">
-	        <div class="columns large-push-2 medium-2 medium-push-2 small-2">
-	           <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getName()%>')" />
-	            <label for="r_0"></label>
-	        </div>
-	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
-	            
+
+	        	<!-- <div class="small-20 small-centered columns"> -->
+
+	        	<!-- <div class="row"> -->
+
+	        	<% Boolean condition = troop!=null  && troop.getSfTroopAge()!=null &&
+                         !troop.getSfTroopAge().toLowerCase().contains("multilevel");  
+	     
+	        	
+	     			boolean isMeetingLib= true;
+	      			if( troop!=null  && troop.getSfTroopAge()!=null &&
+		            		   (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") ) )
+		            		   {isMeetingLib=false;}
+	     		%>
+	     		
+	            <%if(condition){ %>   
+
+                    <div class="columns large-push-2 medium-2 medium-push-2 small-2">
+
+		            <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>', <%= isMeetingLib %> )" />
+		            <label for="r_0"></label> </div>
+	            <%} %>
+	       
+
+	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2" style="<%= condition ? "padding-left:16px" : ""  %>"  >
+	        	<div style="margin-left:-10px;margin-right: -10px;">
+	            <a onclick="return chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>', <%= isMeetingLib %> )">
+	
 	            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
                            (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
-                        Customize Your Troop Year   
+                        Customize Your Troop Year
+                 <%}else if(troop!=null  && troop.getSfTroopAge()!=null &&
+                         troop.getSfTroopAge().toLowerCase().contains("multi-level")){ %>
+                      <h4 style="color:#18aa51;margin-bottom:15px !important;"> Create Your Multi-Level Troop Year Plan </h4>
                  <%}else{ %>
                        Create Your Own Year Plan
                  <%} %>
 	            </a>
+	            
+	            
 	            <p>
 		            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
 		            		   (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
 		                Select this option to create activities or add council activities to your calendar.
+		            
+		            <%}else  if( troop!=null  && troop.getSfTroopAge()!=null &&
+                            troop.getSfTroopAge().toLowerCase().contains("multi-level")){ %>
+
+                            <p style="margin-bottom:15px !important;">
+                             All Girls Scouts plan have been organized so you can easily filter through the set to select the right ones for your multi-level troop.. Once your meeting selections are made you'll be able to arrange and finalize the dates in the Year Plan view.
+                            </p>
+
+                            <p style="margin-bottom:15px !important;">
+                            	You will begin by selecting the Girl Scout Levels and types of meetings you want to see.
+                            </p>
+                           
+                            
+                            <br/><input type="button" class="button" value="Create Your Year Plan" onclick="return chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan', <%=isMeetingLib%>"/>
 		            <%}else{ %>
-	    	            Choose this option to create your own year plan using meetings from  our meeting library     
+	    	            Choose this option to create your own year plan using meetings from  our meeting library
 		           <%} %>
 	            </p>
+	            </div>
 	        </div>
+
+	        <!-- </div> -->
+	        <!-- </div> -->
 	      </div><!--/row-->
-	      
-	      <% 
-	      
-		
 
-		} else {
+	      <%
+
+		}else if( request.getParameter("cngYear") != null ){
+		      VtkUtil.cngYear(request, user, troop);
+        }else if( request.getParameter("cngYearToCurrent") != null ){
+             user.setCurrentYear( VtkUtil.getCurrentGSYear()+"" );
+             java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_LEADER_PERMISSIONS);
+             org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(troop.getTroop()));
+             newTroopCloned.setPermissionTokens( permis );
+             troop.setTroop(newTroopCloned);
+             if( !troopDAO.isArchivedYearPlan(user, troop,  ""+VtkUtil.getCurrentGSYear()) ){troop.setYearPlan(null);}
+            
+             //Cloned Troop object from archived year plan references archived year plan path ex: "/vtk2014/999/". It is necessary to change Troop path to current year ex: ""/vtk2015/999/"".
+             troop.setPath( "/vtk"+VtkUtil.getCurrentGSYear()+"/"+troop.getSfCouncil() +"/troops/"+ troop.getSfTroopId() );
+             session.putValue("VTK_troop", troop);
+        }else if( request.getParameter("addNote") != null ){
+            Note note = null;
+            try{ note = meetingUtil.addNote(user, troop, request.getParameter("mid"), request.getParameter("message")); }catch(Exception e){e.printStackTrace();}
+            if( note==null) return;
+            ObjectMapper mapper = new ObjectMapper();
+            out.println(mapper.writeValueAsString(note));
+        }else if( request.getParameter("rmNote") != null ){         
+             out.println("{vtkresp:"+ meetingUtil.rmNote(user, troop, request.getParameter("nid"))+"}");
+        }else if( request.getParameter("editNote") != null ){  
+            out.println("{vtkresp:"+ meetingUtil.editNote(user, troop,request.getParameter("nid"), request.getParameter("msg") )+"}");
+        }else if( request.getParameter("getNotes") != null ){
+                java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") ); 
+                out.println( new ObjectMapper().writeValueAsString(notes));
+        }else if(request.getParameter("addMeetings") != null){
+            meetingUtil.addMeetings(user, troop, request.getParameterValues("addMeetingMulti"));
+            %><script>self.location='/content/girlscouts-vtk/en/vtk.html';</script><% 
+        }else if(request.getParameter("cngOutdoor") != null){
+        	String mid= request.getParameter("mid");
+        	String aid= request.getParameter("aid");
+        	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
+      
+
+            MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
+        	Activity activity = VtkUtil.findActivityByPath( meeting.getMeetingInfo().getActivities(), aid );
+        	meetingUtil.updateActivityOutdoorStatus(user, troop, meeting, activity, isOutdoor);
+
+        }else if(request.getParameter("act") != null && "combineCal".equals(request.getParameter("act")) ){
+        	calendarUtil.combineMeeting(user, troop, request.getParameter("mids"), request.getParameter("dt"));	   
+        }else if(request.getParameter("act") != null && "hideVtkBanner".equals(request.getParameter("act")) ){       
+            session.setAttribute("isHideVtkBanner", "true");
+        }else if( request.getParameter("alex658Xf409Re49v") !=null){
+        	try{ yearPlanUtil.GSMonthlyDetailedRpt(); }catch(Exception e){e.printStackTrace();}
+        }else if( request.getParameter("alex344") !=null){
+        	try{ yearPlanUtil.GSRptCouncilPublishFinance(); }catch(Exception e){e.printStackTrace();}
+        
+        } else {
 			//TODO throw ERROR CODE
-			
 		}
-
-	} catch (java.lang.IllegalAccessException e) {
+	} catch (Exception e) {
 		e.printStackTrace();
 	}
 %>

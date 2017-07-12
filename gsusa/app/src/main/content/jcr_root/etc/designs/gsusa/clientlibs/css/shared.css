@@ -1,0 +1,186 @@
+/*The Following CSS is Shared with Councils */
+
+/*advertisement*/
+div#rightContent div.advertisement a {
+    display: inline-block;
+}
+
+/*grid-system*/
+/* no padding or margin for grid system */
+.grid-system.nopadding li, .grid-system.nopadding div.image {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+/*row*/
+.emptyrow {
+    height: 20px;
+}
+
+/*contacts-list*/
+#contactsList h2 {
+  font-size: 1.2em;
+}
+#contactsList th {
+  color: #ffffff;
+}
+#contactsList tr:first-child {
+  /*background-color: #00ae58;*/
+}
+table, tr:first-child {
+  border-collapse: collapse;
+  /*border: 1px solid black;*/
+}
+#contactsList table {
+  width: 100%;
+}
+div#contactsList {
+  padding-top: 10px;
+}
+.contact-list td.name {
+  width: 30%;
+  padding-left: 0px;
+}
+.contact-list td.title {
+  width: 40%;
+}
+.contact-list td.phone {
+  width: 25%;
+}
+.contact-list td.email {
+  width: 5%;
+}
+.contact-list table tr:nth-of-type(even) {
+  background: white;
+}
+.contact-list table {
+  background: white;
+  margin-bottom: 1.25rem;
+  border: none;
+}
+div.wrapper .row:nth-child(2) {
+  /* background-color: red; */
+
+  padding: 5px 0;
+}
+.categoriesList li {
+  padding-bottom: 0px;
+  padding-right: 0px;
+}
+.emailicon {
+  background: url('/etc/designs/girlscouts/images/envelope.png') no-repeat;
+  width: 20px;
+  height: 14px;
+}
+
+/*accordion*/
+.accordion.section dt {
+  padding: 0;
+  position: relative;
+  background: #e3e3e3;
+  margin-bottom: 3px;
+}
+.accordion.section dt.on {
+  background: #00ae58;
+}
+.accordion.section dt h6 {
+  background:none;
+  padding: 0;
+  font-weight: 500;
+  cursor: pointer;
+  color: #000;
+  display: block;
+  padding: 0.63rem;
+  font-size: 18px;
+  margin: 0;
+  line-height: 1.4em;  
+}
+.accordion.section dt h6.on {
+  color: #fff;
+}
+.accordion.section dt h6:before {
+  border-style: solid;
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  border-color: #00ae58 transparent transparent;
+  border-width: 0.63rem;
+  margin-left: 0.31rem;
+  left: auto;
+  right: 0.63rem;
+  margin-top: -0.31rem;
+}
+.accordion.section dt h6.on:before {
+  border-color: transparent transparent #fff;
+  margin-top: -0.94rem;
+}
+.accordion.section dd {
+  background: #f8f8f8;
+}
+.accordion.section .content {
+    padding: 25px 15px 0 15px;
+}
+.accordion.section dd p, .accordion.section dd ol, .accordion.section dd li, .accordion.section dd ul {
+  font-size: 16px;
+}
+/*form group*/
+#form .title {
+  padding: 4px 0px 7px 0px;
+  font-size: 15px;
+  color: gray;
+}
+.white-arrow-down {
+  background: url('/etc/designs/girlscouts/images/white-down-arrow.png') no-repeat;
+  width: 20px;
+  height: 20px;
+  background-position: center bottom;
+}
+.white-arrow-up {
+  background: url('/etc/designs/girlscouts/images/white-up-arrow.png') no-repeat;
+  width: 20px;
+  height: 20px;
+  background-position: center bottom;
+}
+form#contact-us textarea {
+  width: 100%;
+}
+.forms-documents-search label {
+  font-size: 0.8em;
+}
+.forms-documents-search #title {
+  padding-bottom: 10px;
+  font-size: 0.9em;
+}
+.forms-documents-search input.searchField {
+  text-indent: 8px;
+}
+form .form_captcha_refresh {
+  color: white;
+  padding-top: 5px;
+  float: none;
+}
+.form_captcha_refresh .form_button {
+  background-color: #00a850;
+  border: 0 none;
+  font-size: 0.8em;
+  padding: 5px;
+  text-transform: uppercase;
+}
+
+.form_captcha_refresh .form_button:hover, .form_captcha_refresh .form_button:focus {
+  background-color: #008000;
+  box-shadow: none;
+  cursor: pointer;
+}
+form .form_captcha_img {
+  padding: 0px 5px 5px 5px;
+}
+form .form_captcha_input {
+  height: 40px;
+
+}
+/*styles for updates list pages */
+.update-list .more-link:after {
+  content:">";
+}

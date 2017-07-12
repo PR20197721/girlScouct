@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-01-20T15:55:21.305-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-01-20T15:55:38.219-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Legislative Days"
+        jcr:uuid="cf85045d-6770-4c8b-bc73-a2c085f25d46"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="Tallahassee, FL"
+            details="&lt;p>Do you have the gift of gab or just like to be heard? Do you like to stand up for the rights of others? If you answered yes to either of these, then you don’t want to miss Legislative Days! This experience is a great way for a girl to learn about advocacy, how a bill gets passed into law and how you can make a difference! Tour the Capitol, meet girls from around Florida and share with local Senators and Legislators what makes Girl Scouting so great. Cost includes 3 days and 2 nights, hotel, most meals and transportation. Spaces are limited and reservations are on a first come basis so don’t wait, sign up today!&lt;/p>&#xa;&lt;p>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/2015_legislative_days_flier.pdf&quot; target=&quot;_blank&quot;>&lt;b>Click here for the flyer.&lt;/b>&lt;/a>&lt;/p>&#xa;"
+            end="{Date}2015-03-16T17:00:00.000-04:00"
+            locationLabel="Florida State Capital"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=1356296214"
+            start="{Date}2015-03-14T08:00:00.227-04:00">
+            <image
+                jcr:lastModified="{Date}2015-01-20T15:55:21.302-05:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

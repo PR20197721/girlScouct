@@ -70,9 +70,10 @@ var $ = jQuery.noConflict();
 		   var $input =  $this.find('input[type="file"]').val();
 		 if($input == '') {
 		   alert ("you must choose a image");
-		   return false;
+		  
 		   e.preventDefault();
-		  }
+		   return false; 
+		 }
 		});
 	}
 	//used if using select instead of tabs for small, screens was removed.
@@ -179,7 +180,6 @@ var VTKDataWorker;
     	this.that = that;
     	this.success = success;
     	this.interval = interval;
-    	
     	this.url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;
     	this.shouldSkipFirst = _checkShouldSkipFirst();
     	this.eTag = null;
@@ -198,7 +198,7 @@ var VTKDataWorker;
         $.ajax({
             url: url,
             dataType: 'json',
-            success: function(data, textStatus, jqXHR){
+            success: function(data, textStatus, jqXHR){      	
                 var eTag = jqXHR.getResponseHeader("ETag");
                 if (eTag) {
                 	this.eTag = eTag;

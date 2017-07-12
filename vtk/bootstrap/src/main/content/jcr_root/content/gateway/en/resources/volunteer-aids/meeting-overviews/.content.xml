@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-09-25T11:11:46.394-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-09-25T11:11:46.460-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:lastRolledout="{Date}2014-09-25T11:11:46.395-04:00"
+        cq:lastRolledoutBy="admin"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[cq:LiveRelationship,mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Meeting Overviews"
+        jcr:uuid="033878de-f000-4b49-85b6-87a2b4278249"
+        sling:resourceType="girlscouts/components/three-column-page"
+        hideInNav="true"
+        type="meeting-overviews">
+        <image
+            cq:lastRolledout="{Date}2014-09-25T11:11:46.394-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:lastModified="{Date}2014-09-25T11:11:46.394-04:00"
+            jcr:lastModifiedBy="mgarg"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

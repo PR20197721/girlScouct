@@ -25,6 +25,7 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     labelField: null,
 	pathField: null,
     classField: null,
+    newtabField: null,
     
     constructor: function(config) {
         config = config || { };
@@ -46,7 +47,7 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         });
         this.add(this.hiddenField);
 
-        this.add(new CQ.Ext.form.Label({text: "Large Label"}));
+        this.add(new CQ.Ext.form.Label({text: "Label"}));
         this.labelField = new CQ.Ext.form.TextField({
             listeners: {
                 change: {
@@ -56,30 +57,8 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             }
         });
         this.add(this.labelField);
-        
-        this.add(new CQ.Ext.form.Label({text: "Medium Label"}));
-        this.mediumLabel = new CQ.Ext.form.TextField({
-            listeners: {
-                change: {
-                    scope:this,
-                    fn:this.updateHidden
-                }
-            }
-        });
-        this.add(this.mediumLabel);
-        
-        this.add(new CQ.Ext.form.Label({text: "Small Label"}));
-        this.smallLabel = new CQ.Ext.form.TextField({
-            listeners: {
-                change: {
-                    scope:this,
-                    fn:this.updateHidden
-                }
-            }
-        });
-        this.add(this.smallLabel);
 
-        this.add(new CQ.Ext.form.Label({text: "Path"}));
+        this.add(new CQ.Ext.form.Label({text: "Parent Directory"}));
         this.pathField = new CQ.form.PathField({
             listeners: {
                 change: {
@@ -104,6 +83,17 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             }
         });
         this.add(this.classField);
+        
+        this.add(new CQ.Ext.form.Label({text: "Open in new tab"}));
+        this.newtabField = new CQ.Ext.form.Checkbox({
+        	listeners: {
+        		change: {
+        			scope:this,
+        			fn:this.updateHidden
+        		}
+        	}
+        });
+        this.add(this.newtabField);
 
     },
 
@@ -113,8 +103,7 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         this.labelField.setValue(parts[0]);
         this.pathField.setValue(parts[1]);
 		this.classField.setValue(parts[2]);
-		this.mediumLabel.setValue(parts[3]);
-		this.smallLabel.setValue(parts[4]); 
+		this.newtabField.setValue(parts[3]);
         this.hiddenField.setValue(value);
     },
 
@@ -128,8 +117,7 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         return this.labelField.getValue() + "|||" 
         	+ this.pathField.getValue() + "|||"
             + this.classField.getValue() + "|||"
-            + this.mediumLabel.getValue() + "|||"
-            + this.smallLabel.getValue();
+            + this.newtabField.getValue();
     },
 
     // private

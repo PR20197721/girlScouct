@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-05T11:10:47.376-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:tags="[gateway:categories/shop]"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scout Store"
+        jcr:uuid="1c839c3b-ce32-4e81-8c00-7ed99f610ef0"
+        sling:resourceType="girlscouts/components/three-column-page"
+        seoTitle="Girl Scout Store | Girl Scouts of Gateway Council">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <image
+                        jcr:created="{Date}2014-07-29T13:31:12.479-04:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2014-07-29T13:31:51.786-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/image"
+                        fileReference="/content/dam/gateway/gateway_councilshop.jpg"
+                        imageCrop="0,254,1280,793"
+                        imageRotate="0"/>
+                    <textimage
+                        jcr:created="{Date}2015-11-04T08:52:18.847-05:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-11-04T08:52:59.350-05:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/textimage"
+                        text="&lt;p>&lt;b>Girl Scout Store&lt;/b>&lt;/p>&#xa;"
+                        textIsRich="true">
+                        <image
+                            jcr:lastModified="{Date}2015-11-04T08:52:59.350-05:00"
+                            jcr:lastModifiedBy="dpage"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="foundation/components/image"
+                            fileReference="/content/dam/girlscouts-shared/images/Icons/modified-icons/Shop_Icon_64x64.jpg"
+                            imageRotate="0"/>
+                    </textimage>
+                    <text
+                        jcr:created="{Date}2014-07-14T13:39:17.963-04:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2016-01-05T11:10:47.373-05:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;h5>&lt;b style=&quot;font-size: 12px;&quot;>Shopping with us is fun, fast and convenient.&lt;/b>&lt;/h5>&#xa;&lt;p>We are experts in Girl Scout merchandise! Ask us anything: Where does that pin go? What is a great gift for a wonderful volunteer? What Fun Patch activities would be good for my Troop? Purchases from the Girl Scout Store help support Gateway Council girls and volunteers with program activities and training.&amp;nbsp;Shop in person, online, by phone or email. We accept Visa and MasterCard.&lt;/p>&#xa;&lt;p style=&quot;text-align: center;&quot;>&lt;img src=&quot;/content/dam/girlscouts-shared/images/Icons/jolly-icons-64/shopping-bag_64.png&quot;>&lt;/p>&#xa;&lt;p>&lt;b>Shop in person at:&lt;/b>&lt;br>&#xa;Girl Scouts of Gateway Council&lt;br>&#xa;Jacksonville Service Center&lt;br>&#xa;1000 Shearer Avenue&lt;br>&#xa;Jacksonville, Florida 32205&lt;/p>&#xa;&lt;p>&lt;b>Girl Scout Store hours:&lt;/b>&lt;br>&#xa;Monday-Friday 9:00 a.m. to 5:00 p.m.&lt;br>&#xa;Closed Saturday and Sunday&lt;br>&#xa;&lt;br>&#xa;&lt;/p>&#xa;&lt;p>Shop at our &lt;a target=&quot;_blank&quot; href=&quot;http://www.girlscoutshop.com/GATEWAY-COUNCIL&quot; adhocenable=&quot;false&quot;>NEW ONLINE store!&lt;/a>&lt;/p>&#xa;&lt;p style=&quot;text-align: center;&quot;>&lt;img src=&quot;/content/dam/girlscouts-shared/images/Icons/jolly-icons-64/giftbox_64.png&quot;>&lt;/p>&#xa;&lt;p>&lt;b>Shop by phone:&lt;br>&#xa; &lt;/b>904-421-3497&lt;/p>&#xa;&lt;p>&lt;b>Shop by email:&lt;/b>&lt;br>&#xa;&lt;a target=&quot;_blank&quot; href=&quot;mailto:councilshop@girlscouts-gateway.org&quot; adhocenable=&quot;false&quot;>councilshop@girlscouts-gateway.org&lt;/a>&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <embedded
+                        jcr:created="{Date}2014-08-18T16:59:26.410-04:00"
+                        jcr:createdBy="bmoore"
+                        jcr:lastModified="{Date}2014-08-18T16:59:26.410-04:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/embedded"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            jcr:lastModified="{Date}2015-11-04T08:51:27.125-05:00"
+            jcr:lastModifiedBy="dpage"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

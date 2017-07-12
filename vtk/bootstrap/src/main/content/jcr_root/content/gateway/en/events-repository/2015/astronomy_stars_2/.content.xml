@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-11-05T15:33:09.568-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Astronomy Stars- JCSA"
+        jcr:uuid="b38ec9c6-e479-4c5e-96b2-536b5a8d5229"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>Ever wonder how the sky moves through the night and the seasons? What is out in the dark sky to view with a telescope? How about how to predict what will be overhead when you are out camping or other outings? We’ll learn all this and more at this event! Are you a PA? This event is for you,too! Come increase your astronomical knowledge and have some fun helping younger Girl Scouts discover the mysteries of the sky above! It might get windy, so bundle up! We’ll see you out there!&lt;/p>&#xa;&lt;p>$7/Girl Scout, $7/adult, no fee for PA's&lt;/p>&#xa;&lt;p>**This event is for PA’s and Girl Scouts. Please select which level you are during registration.&lt;/p>&#xa;&lt;p>*A fun patch is provided with this program.&lt;/p>&#xa;&lt;p>*Telescopic viewing of the planets and interesting deep space objects (DSOs) are weather permitting.&lt;/p>&#xa;&lt;p>** All attendees must be registered Girl Scouts for the 2016 Membership Year.&amp;nbsp; All adults must be registered and approved volunteers.&lt;/p>&#xa;&lt;p>** Chaperones must stay on property during the&amp;nbsp;event and are encouraged to participate.&amp;nbsp; Please see Safety Activity checkpoints for ratios&lt;/p>&#xa;"
+            end="{Date}2015-11-13T22:30:00.000-05:00"
+            locationLabel="North Fork"
+            register="http://girlscouts-gateway.doubleknot.com/OpenRosters/ViewActivitySpaceAvailable.aspx?classificationID=38071&amp;sf=F&amp;orgkey=2736%20"
+            start="{Date}2015-11-13T20:00:00.010-05:00">
+            <image
+                jcr:lastModified="{Date}2015-11-05T15:33:09.563-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/images/AstronomyStarspatch.jpeg"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

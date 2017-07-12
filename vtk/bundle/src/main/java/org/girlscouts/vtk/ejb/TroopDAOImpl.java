@@ -21,8 +21,13 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.ValueFactory;
+import javax.jcr.query.QueryResult;
+import javax.jcr.query.Row;
+import javax.jcr.query.RowIterator;
+import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -34,6 +39,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.digester.DigesterMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
+import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.girlscouts.vtk.auth.permission.Permission;
@@ -41,6 +47,7 @@ import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.helpers.ConfigManager;
 
 import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
@@ -57,6 +64,8 @@ import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.MeetingE1;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Note;
+import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
@@ -68,7 +77,11 @@ import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.traversal.NodeIterator;
 import org.apache.jackrabbit.util.Text;
+
+import com.day.cq.mailer.MessageGateway;
+import com.day.cq.mailer.MessageGatewayService;
 
 @Component
 @Service(value = TroopDAO.class)
@@ -91,6 +104,12 @@ public class TroopDAOImpl implements TroopDAO {
 	@Reference
 	private MeetingDAO meetingDAO;
 
+	@Reference
+	private MessageGatewayService messageGatewayService;
+
+	@Reference
+	ConfigManager configManager;
+	
 	@Activate
 	void activate() {
 	}
@@ -106,7 +125,7 @@ public class TroopDAOImpl implements TroopDAO {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(MeetingCanceled.class);
 			classes.add(Activity.class);
 			classes.add(Location.class);
@@ -128,7 +147,43 @@ public class TroopDAOImpl implements TroopDAO {
 			if (troop != null)
 				troop.setRetrieveTime(new java.util.Date());
 
+try{
+	if( user.getApiConfig().isDemoUser() && user.getApiConfig().getTroops().get(0).getRole().equals("PA")){
+		
+		String DATES="";
+		
+		java.util.Calendar startDate = java.util.Calendar.getInstance();
+		startDate.setTime( new java.util.Date("4/1/2016") );
+		
+		Cal cal = troop.getYearPlan().getSchedule();
+		if( cal ==null ) cal= new org.girlscouts.vtk.models.Cal();
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+	
+		for(int i=0;i<meetings.size();i++){
+			startDate.add( java.util.Calendar.DATE, 7);
+			DATES += startDate.getTime().getTime() + ",";
+		}
+		
+		cal.setDates(DATES);
+		
+		YearPlan yPlan= troop.getYearPlan();
+		yPlan.setSchedule(cal);
+		/*
+		try{
+   		 if( yPlan!=null && yPlan.getMeetingEvents()!=null){
+			Comparator<MeetingE> comp = new BeanComparator("id");
+			Collections.sort(yPlan.getMeetingEvents(), comp);
+		 }
+		}catch(Exception e){e.printStackTrace();}
+		*/
+		troop.setYearPlan(yPlan);
+	}
+}catch(Exception e){e.printStackTrace();}
+			
+
+
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
+			ec.printStackTrace();
 			throw new VtkException(
 					"Could not complete intended action due to a server error. Code: "
 							+ new java.util.Date().getTime());
@@ -159,7 +214,7 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
 
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Activity.class);
 			classes.add(Location.class);
 			classes.add(Asset.class);
@@ -219,7 +274,7 @@ public class TroopDAOImpl implements TroopDAO {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Cal.class);
 			classes.add(Milestone.class);
 
@@ -261,7 +316,7 @@ public class TroopDAOImpl implements TroopDAO {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
@@ -273,8 +328,11 @@ public class TroopDAOImpl implements TroopDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
-			ocm.remove(troop);
-			ocm.save();
+			
+			if (troop!=null && mySession.itemExists(troop.getPath())) {
+				ocm.remove(troop);
+				ocm.save();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -647,14 +705,17 @@ public class TroopDAOImpl implements TroopDAO {
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException, VtkException {
-System.err.println("tata updateTroop.....");
-		modifyTroop(user, troop);
 
+		modifyTroop(user, troop);
+		
 		if (troop.getYearPlan().getPath() == null
 				|| !troop.getYearPlan().getPath().startsWith(troop.getPath()))
 			troop.getYearPlan().setPath(troop.getPath() + "/yearPlan");
+		
 		modifyYearPlan(user, troop);
+		
 		modifySchedule(user, troop);
+		
 
 		java.util.List<Location> locations = troop.getYearPlan().getLocations();
 		if (locations != null)
@@ -665,11 +726,12 @@ System.err.println("tata updateTroop.....");
 							+ "/locations/" + location.getUid());
 				modifyLocation(user, troop, locations.get(i));
 			}
+		
 		if (troop.getYearPlan().getActivities() != null)
 			for (int i = 0; i < troop.getYearPlan().getActivities().size(); i++)
 				modifyActivity(user, troop, troop.getYearPlan().getActivities()
 						.get(i));
-
+		
 		if (troop.getYearPlan().getMeetingEvents() != null)
 			for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
 				MeetingE meeting = troop.getYearPlan().getMeetingEvents()
@@ -680,7 +742,10 @@ System.err.println("tata updateTroop.....");
 								troop.getYearPlan().getPath()))
 					meeting.setPath(troop.getYearPlan().getPath()
 							+ "/meetingEvents/" + meeting.getUid());
+				
 				modifyMeeting(user, troop, meeting);
+				modifyNotes( user,  troop,  meeting.getNotes() );
+				
 				java.util.List<Asset> assets = meeting.getAssets();
 				if (assets != null)
 					for (int y = 0; y < assets.size(); y++) {
@@ -688,10 +753,12 @@ System.err.println("tata updateTroop.....");
 						if (asset.getPath() == null)
 							asset.setPath(meeting.getPath() + "/assets/"
 									+ asset.getUid());
+						
 						modifyAsset(user, troop, asset);
+						
 					}
 			}
-
+		
 		// canceled meeting
 		if (troop.getYearPlan().getMeetingCanceled() != null)
 			for (int i = 0; i < troop.getYearPlan().getMeetingCanceled().size(); i++) {
@@ -714,6 +781,7 @@ System.err.println("tata updateTroop.....");
 						modifyAsset(user, troop, asset);
 					}
 			}
+		
 
 		// modif
 		try {
@@ -722,6 +790,7 @@ System.err.println("tata updateTroop.....");
 		} catch (Exception em) {
 			em.printStackTrace();
 		}
+		
 		return false;
 	}
 
@@ -814,50 +883,37 @@ System.err.println("tata updateTroop.....");
 			
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class );
+			classes.add(Note.class );
 			classes.add(Asset.class);
 			classes.add(SentEmail.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,	mapper);
 			
-			
-			
-			/*
-			String[] files = {
-				      "/Users/akobovich/allGit/girlscouts/vtk/alex.xml"
-				  };
-			//ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, files);
-			Mapper mapper=new DigesterMapperImpl(files);  
-			ObjectContentManager ocm=new ObjectContentManagerImpl(mySession,mapper);  
-			*/
-			
-			
-			
-			
-			
 			if (meeting.getPath() == null
 					|| !ocm.objectExists(troop.getPath()
 							+ "/yearPlan/meetingEvents")) {
 				// check council
+			
 				if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
 					throw new VtkException(
 							"Found no council when creating troop# "
 									+ troop.getTroopPath());
 				}
-
+				
 				// check troop
 				if (getTroop(user, troop.getSfCouncil(), troop.getSfTroopId()) == null) {
 					throw new VtkException(
 							"Found no troop when creating sched# "
 									+ troop.getTroopPath());
 				}
-
+				
 				if (mySession.itemExists(troop.getPath() + "/yearPlan")) {
 					JcrUtils.getOrCreateByPath(troop.getPath()
 							+ "/yearPlan/meetingEvents", "nt:unstructured",
 							mySession);
 
 				}
-
+				
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingEvents/" + meeting.getUid());
 			}
@@ -865,57 +921,22 @@ System.err.println("tata updateTroop.....");
 			
 			
 			
-			/*
-			//meeting.getClass().getPackage().getName()
-			
-			System.err.println(" testerx: "+ meeting.getClass().getDeclaredFields()[0].getName());
-			for(int y=0;y<meeting.getClass().getDeclaredFields().length;y++){
-				System.err.println(" testerx: "+ meeting.getClass().getDeclaredFields()[y].getName());
-				if("assets".equals(meeting.getClass().getDeclaredFields()[y].getName())){
-					try{ 
-						
-						
-						System.err.println(" testerxx: "+meeting.getClass().getDeclaredFields()[y].getAnnotations()[0]);
-						org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection collection = (org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection)meeting.getClass().getDeclaredFields()[y].getAnnotations()[0];
-						System.err.println( collection.collectionConverter() );
-					}catch(Exception e){e.printStackTrace();}
-				}
-			}
-			*/
 			
 			
-			System.err.println("YESSSS........"+ (ocm==null) +" : "+ meeting.getPath() +" : "+ meeting.getId() +" : "+ meeting.getUid());
 			
 			
-		
-	
 			if (!ocm.objectExists(meeting.getPath())) {
-	System.err.println("inserting...");		
-	
 				
 				ocm.insert(meeting);
+				
 			} else {
-	System.err.println("Updating...");			
-/*
-	classes = new ArrayList<Class>();
-	classes.add(MeetingE1.class );
-	mapper = new AnnotationMapperImpl(classes);
-	ocm = new ObjectContentManagerImpl(mySession,	mapper);
-	
-    MeetingE1 asd= new MeetingE1(meeting);
-	ocm.update(asd);
-	
-	
-	*/
-	ocm.update(meeting);
+				
+				ocm.update(meeting);
+				
 			}
-	System.err.println("Saving...");		
+			
 			ocm.save();
-System.err.println("Saved!");
-	
-
-
-
+			
 			isUpdated = true;
 		} catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
 			// org.apache.jackrabbit.ocm.exception.ObjectContentManagerException:
@@ -938,7 +959,7 @@ System.err.println("Saved!");
 				es.printStackTrace();
 			}
 		}
-
+		
 		return isUpdated;
 	}
 
@@ -1157,6 +1178,8 @@ System.err.println("Saved!");
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
+			JcrUtils.getOrCreateByPath(troop.getYearPlan().getPath() , "nt:unstructured", mySession);
+			
 			ocm.update(yearPlan);
 			ocm.save();
 			isUpdated = true;
@@ -1196,7 +1219,7 @@ System.err.println("Saved!");
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
@@ -1260,6 +1283,7 @@ System.err.println("Saved!");
 			}
 
 		} catch (VtkException ex) {
+			ex.printStackTrace();
 			throw new VtkException(
 					"Could not complete intended action due to a server error. Code: "
 							+ new java.util.Date().getTime());
@@ -1318,7 +1342,7 @@ System.err.println("Saved!");
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
@@ -1451,5 +1475,235 @@ System.err.println("Saved!");
 
 		return isUpdated;
 	}
+	
+	
+	
+	public void removeDemoTroops() {
+
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			
+			String sql = "select * from nt:unstructured where jcr:path like '"+VtkUtil.getYearPlanBase(null, null)+"%' and sfTroopId like 'SHARED_%' and ocm_classname='org.girlscouts.vtk.models.Troop'";
+			javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+			javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
+			QueryResult result = q.execute();
+			
+			
+			//??? result.getNodes().remove();
+			
+			java.util.List<Node> nodes2Rm = new java.util.ArrayList();
+			javax.jcr.NodeIterator itr =  result.getNodes();
+		    while (itr.hasNext()) {
+		      Node node = itr.nextNode();
+		      nodes2Rm.add(node);		    
+		     }
+		    
+		    for(int i=0;i<nodes2Rm.size();i++)
+		    	nodes2Rm.get(i).remove();
+			session.save();
+			
+			emailCronRpt(null);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			emailCronRpt(e.toString());
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	public void emailCronRpt(String msg){
+		try {
+		
+			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
+					.getGateway(HtmlEmail.class);
+
+			String DEMO_CRON_EMAIL = (String) configManager.getConfig("DEMO_CRON_EMAIL");
+			
+			HtmlEmail email = new HtmlEmail();
+			java.util.List<InternetAddress> toAddresses = new java.util.ArrayList();
+			toAddresses.add( new InternetAddress(DEMO_CRON_EMAIL) );
+			toAddresses.add( new InternetAddress("alex.yakobovich@ey.com") );
+			email.setTo(toAddresses);
+			if (msg != null) {
+				email.setSubject("GirlScouts VTK Demo Site Cron ERROR");		
+				email.setTextMsg("Error removing test nodes from database on "+  new java.util.Date() + ":" + msg);
+			} else {
+				email.setSubject("GirlScouts VTK Demo Site Cron");
+				//email.setSubject("Hello at "+ new java.util.Date());
+				
+				email.setTextMsg("Successfully removed all test nodes from database on "+  new java.util.Date() + ".");
+			}
+			messageGateway.send(email);
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public boolean isArchivedYearPlan( User user , Troop troop){
+		
+		
+		if( user==null || troop==null ) return false;
+		
+		boolean isArchived= true;
+		Session mySession = null;
+	
+		try {
+			mySession = sessionFactory.getSession();
+			String yearPlanPath ="";
+			
+			if( troop.getYearPlan()==null ){
+				yearPlanPath= VtkUtil.getYearPlanBase_previous( user, null) +""+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan";
+				
+			}else{
+				String yearPlanPath_curr = VtkUtil.getYearPlanBase( user, null);
+				String yearPlanPath_prev = VtkUtil.getYearPlanBase_previous( user, null);
+			    yearPlanPath = troop.getYearPlan().getPath().replace(yearPlanPath_curr , yearPlanPath_prev  );
+			}
+	
+			if (!mySession.itemExists(yearPlanPath)) {
+				isArchived=false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		return isArchived;
+		
+	}
+	
+	
+	
+public java.util.Map getArchivedYearPlans( User user , Troop troop){
+		
+	java.util.Map container= new java.util.TreeMap();
+	int currentGSYear  = VtkUtil.getCurrentGSYear();
+	for(int i = (currentGSYear-1); i> (currentGSYear-6);i-- ){
+
+		if( i==2014){
+			if( isArchivedYearPlan(user, troop, "") ){
+			
+				container.put( i, "/vtk/" );
+			}
+			//-return container;
+		}else{
+			if( isArchivedYearPlan(user, troop, i+"") ){
+	
+				container.put(i, "/vtk"+ currentGSYear +"/");
+			}
+		}
+	}
+	return container;
+}
+
+public boolean isArchivedYearPlan( User user , Troop troop, String year){
+		if( user==null || troop==null ) return false;
+		boolean isArchived= false;
+		Session mySession = null;
+	
+		try {
+			mySession = sessionFactory.getSession();
+			
+			if (mySession.itemExists( "/vtk"+year+"/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan")) {
+				isArchived=true;
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		return isArchived;
+		
+	}
+
+
+public boolean modifyNote(User user, Troop troop, Note note)
+		throws java.lang.IllegalAccessException {
+
+	if (note ==null || !note.isDbUpdate())
+		return true;
+
+	Session mySession = null;
+	boolean isUpdated = false;
+	try {
+		mySession = sessionFactory.getSession();
+		
+		
+		List<Class> classes = new ArrayList<Class>();
+		classes.add(MeetingE.class );
+		classes.add(Note.class );
+		
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,	mapper);
+		
+		
+		
+		if (!mySession.itemExists( note.getPath().substring(0, note.getPath().lastIndexOf("/") ) ) ){
+			JcrUtils.getOrCreateByPath(note.getPath().substring(0, note.getPath().lastIndexOf("/") ) , "nt:unstructured",
+					mySession);
+		}
+	
+		
+		if (!ocm.objectExists(note.getPath())) {
+			
+			ocm.insert(note);
+			
+		} else {
+			
+			ocm.update(note);
+			
+		}
+		
+		ocm.save();
+		
+		isUpdated = true;
+	} catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
+	iise.printStackTrace();
+		log.error(">>>> Skipping stale update for note " + note.getPath());
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (mySession != null)
+				sessionFactory.closeSession(mySession);
+		} catch (Exception es) {
+			es.printStackTrace();
+		}
+	}
+	
+	return isUpdated;
+}
+
+
+
+public void modifyNotes(User user, Troop troop, java.util.List<Note> notes)
+		throws java.lang.IllegalAccessException {
+	
+	if( notes!=null)
+	 for(int i=0;i<notes.size();i++){
+		modifyNote(user, troop ,  notes.get(i) );
+	 }
+}
 }// ednclass
 

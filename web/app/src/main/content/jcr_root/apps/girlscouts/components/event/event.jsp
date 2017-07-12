@@ -2,22 +2,18 @@
 	import="java.text.Format,
 	java.text.ParseException,
 	java.lang.Exception,
-	java.text.SimpleDateFormat,
-	java.text.DateFormat,
-	java.util.Date,
-	java.util.Calendar,
 	java.util.Map,
 	java.util.HashMap,
 	java.util.List,
 	java.util.ArrayList,
 	java.util.Iterator,
-	java.util.TimeZone,
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
 	com.day.cq.dam.api.Asset,
 	org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
-	javax.servlet.http.HttpSession
+	javax.servlet.http.HttpSession,
+	org.girlscouts.web.events.search.*
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -41,63 +37,93 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
     //String locale =  currentSite.get("locale", "America/Chicago");
 	//TimeZone tZone = TimeZone.getTimeZone(locale);
 	
-	// date and time
-    DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
-	DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-	DateFormat utcFormat =new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//2015-05-31T12:00
-	DateFormat formatWTZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-	utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
-	//timeFormat.setTimeZone(tZone);
-    DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
-	//Date startDate = properties.get("start", Date.class);
+	GSDateTime today = new GSDateTime();
+	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+	GSDateTimeFormatter dtfOutDate = GSDateTimeFormat.forPattern("EEE MMM dd");
+	GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("h:mm aa");
+	GSDateTimeFormatter dtfOutMY = GSDateTimeFormat.forPattern("MMMM yyyy");
+	GSDateTimeFormatter dtfOutMYCal = GSDateTimeFormat.forPattern("MM'-'yyyy");
+	GSDateTimeFormatter dtUTF = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
 	
 	String visibleDate = properties.get("visibleDate","");
-	Date vis;
+	GSDateTime vis = null;
 	if(!visibleDate.isEmpty()){
 		try{
-			vis = formatWTZone.parse(visibleDate);
+			vis = GSDateTime.parse(visibleDate,dtfIn);
+			if(vis.isAfter(today)){
+				%> 
+					<script type="text/javascript">
+		   			window.location = "/404.html";
+					</script>
+			 	<%
+			}
 		}catch(Exception e){
-			formatWTZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-			vis = formatWTZone.parse(visibleDate);
-		}
-		
-		long visLong = vis.getTime();
-		long currentTime = Calendar.getInstance().getTime().getTime();
-		if(visLong > currentTime){
-			%> 
-				<script type="text/javascript">
-	   			window.location = "/404.html";
-				</script>
-		 	<%
+			e.printStackTrace();
 		}
 	} 
 
-	Calendar startDateCl = properties.get("start", Calendar.class);
+	String stringStartDate = properties.get("start","");
+	String stringRegOpenDate = properties.get("regOpen","");
+	GSDateTime startDate = GSDateTime.parse(stringStartDate,dtfIn);
+	GSDateTime regOpenDate = null;
+	try{
+		regOpenDate = GSDateTime.parse(stringRegOpenDate,dtfIn);
+	}catch(Exception e){}
+	GSLocalDateTime localStartDate = null;
+	GSLocalDateTime localRegOpenDate = null;
+	
+    //Add time zone label to date string if event has one
+    String timeZoneLabel = properties.get("timezone","");
+    String timeZoneShortLabel = "";
+    GSDateTimeZone dtz = null;
+    String startDateStr = "";
+    String startTimeStr = "";
+    String regOpenDateStr = "";
+    String regOpenTimeStr = "";
+    Boolean useRaw = timeZoneLabel.length() < 4;
+    
+	if(!timeZoneLabel.isEmpty() && !useRaw){
+		int openParen1 = timeZoneLabel.indexOf("(");
+		int openParen2 = timeZoneLabel.indexOf("(",openParen1+1);
+		int closeParen = timeZoneLabel.indexOf(")",openParen2);
+		if(closeParen != -1 && openParen2 != -1 && timeZoneLabel.length() > openParen2){
+			timeZoneLabel = timeZoneLabel.substring(openParen2+1,closeParen);
+		}
+		try{
+			dtz = GSDateTimeZone.forID(timeZoneLabel);
+			startDate = startDate.withZone(dtz);
+			timeZoneShortLabel = dtz.getShortName(startDate.getMillis());
+			startDateStr = dtfOutDate.print(startDate);
+			startTimeStr = dtfOutTime.print(startDate);
+			if(regOpenDate != null){
+				regOpenDate = regOpenDate.withZone(dtz);
+				regOpenDateStr = dtfOutDate.print(regOpenDate);
+				regOpenTimeStr = dtfOutTime.print(regOpenDate);
+			}
+		}catch(Exception e){
+			useRaw = true;
+			e.printStackTrace();
+		}
+		//startDate = new GSDateTime(startDate.getMillis());
+	}
+	if(timeZoneLabel.isEmpty() || useRaw){
+		timeZoneShortLabel = timeZoneLabel;
+		localStartDate = GSLocalDateTime.parse(stringStartDate,dtfIn);
+		startDateStr = dtfOutDate.print(localStartDate);
+		startTimeStr = dtfOutTime.print(localStartDate);
+		if(stringRegOpenDate != null && !"".equals(stringRegOpenDate)){
+			localRegOpenDate = GSLocalDateTime.parse(stringRegOpenDate,dtfIn);
+			regOpenDateStr = dtfOutDate.print(localRegOpenDate);
+			regOpenTimeStr = dtfOutTime.print(localRegOpenDate);
+		}
+	}
 
-	String edtTime = properties.get("start", "");
-    Date basedOnTimeZone = dateFormat1.parse(edtTime);
-    Calendar cale =  Calendar.getInstance();
-    cale.setTime(basedOnTimeZone);
-	Date startDate = cale.getTime();
+	String formatedStartDateStr = startDateStr + ", " +startTimeStr;
+	String formattedRegOpenDateStr = "";
+	if(!"".equals(regOpenDateStr) && !"".equals(regOpenTimeStr)){
+		formattedRegOpenDateStr = regOpenDateStr + ", " + regOpenTimeStr;
+	}
 
-	String startDateStr = dateFormat.format(cale.getTime());
-	String startTimeStr = timeFormat.format(cale.getTime());
-
-
-	//Calendar Date and Month
-
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(cale.getTime());
-    int month = calendar.get(Calendar.MONTH)+1;
-    int year = calendar.get(Calendar.YEAR);
-    String combineMonthYear = month+"-"+year;
-    String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear;
-
-    String time = startTimeStr;
-
-    String endDateSt = properties.get("end", "");
-	String timeZoneLabel = properties.get("timezone", "");
 	// Member type true means it's members only. False means it's public. This was done because salesforce is currently sending us boolean data,
 	// but there's a possibility that more member types will be added in the future, and using strings means less of a transition when that happens
 	String membersOnly = properties.get("memberOnly","false");
@@ -110,35 +136,58 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		register = properties.get("register", String.class);
 	}
 
-	//Start Time : startTimeStr var called time
-
-	//String dateStr = startDateStr + ", " +startTimeStr;
-    String formatedStartDateStr= startDateStr + ", " +startTimeStr;
-
-    String formatedEndDateStr="";
-    Date endDate=null;
-	if (endDateSt != null && !endDateSt.isEmpty()) {
-	    Calendar cal1 = Calendar.getInstance();
-	    Calendar cal2 = Calendar.getInstance();
-	    endDate = dateFormat1.parse(endDateSt);
-	    cal2.setTime(endDate);
-	    cal1.setTime(startDate);
-	    boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-	                      cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
-		String endDateStr = dateFormat.format(endDate);
-		String endTimeStr = timeFormat.format(endDate);
-		if (!sameDay) {
-			formatedEndDateStr =  endDateStr +", " + endTimeStr;
-
-		}else{
-			formatedEndDateStr =  endTimeStr;
-
+	String formatedEndDateStr="";
+	String formattedRegCloseDateStr="";
+	GSDateTime endDate =null;
+	GSDateTime regCloseDate = null;
+	String endDateStr = "";
+	String endTimeStr = "";
+	String regCloseDateStr = "";
+	String regCloseTimeStr = "";
+	GSLocalDateTime localEndDate = null;
+	GSLocalDateTime localRegCloseDate = null;
+	if(!"".equals(properties.get("end",""))){
+		endDate = GSDateTime.parse(properties.get("end",""),dtfIn);
+		if(dtz != null){
+			endDate = endDate.withZone(dtz);
+			endDateStr = dtfOutDate.print(endDate);
+			endTimeStr = dtfOutTime.print(endDate);
+		} else{
+			localEndDate = GSLocalDateTime.parse(properties.get("end",""),dtfIn);
+			endDateStr = dtfOutDate.print(localEndDate);
+			endTimeStr = dtfOutTime.print(localEndDate);
 		}
-
+		boolean sameDay = startDate.year() == endDate.year() && startDate.dayOfYear() == endDate.dayOfYear();
+		if (!sameDay) {
+			//dateStr += " - " + endDateStr +", " + endTimeStr;
+			formatedEndDateStr= " - " + endDateStr +", " + endTimeStr;
+		}else {
+			//dateStr += " - " + endTimeStr;
+			formatedEndDateStr= " - " + endTimeStr;
+		}
 	}
-	if(!timeZoneLabel.isEmpty()){
-		formatedEndDateStr += " " + timeZoneLabel;
+	
+	if(!"".equals(properties.get("regClose","")) && null != regOpenDate){
+		regCloseDate = GSDateTime.parse(properties.get("regClose",""),dtfIn);
+		if(dtz != null){
+			regCloseDate = regCloseDate.withZone(dtz);
+			regCloseDateStr = dtfOutDate.print(regCloseDate);
+			regCloseTimeStr = dtfOutTime.print(regCloseDate);
+		}else{
+			localRegCloseDate = GSLocalDateTime.parse(properties.get("regClose",""),dtfIn);
+			regCloseDateStr = dtfOutDate.print(localRegCloseDate);
+			regCloseTimeStr = dtfOutTime.print(localRegCloseDate);
+		}
+		boolean regSameDay = regOpenDate.year() == regCloseDate.year() && regOpenDate.dayOfYear() == regCloseDate.dayOfYear();
+		if(!regSameDay){
+			formattedRegCloseDateStr = " - " + regCloseDateStr + ", " + regCloseTimeStr;
+		}else{
+			formattedRegCloseDateStr = " - " + regCloseTimeStr;
+		}
 	}
+	
+	formatedEndDateStr = formatedEndDateStr + " " + timeZoneShortLabel;
+	formattedRegCloseDateStr = formattedRegCloseDateStr + " " + timeZoneShortLabel;
 
 
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
@@ -168,15 +217,23 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
     String title = currentPage.getTitle();
     String details = properties.get("details", " ");
 
-   // address
-   String address = properties.get("address", "");
-   address = address.replaceAll("[\\n\\r]", " ");
-
+    // address
+    String address = properties.get("address", "");
+    address = address.replaceAll("[\\n\\r]", " ");
+	if(address.indexOf("'",0) > 0) {
+    	if(address.indexOf("\\'",0) <= 0) {
+	   		address = address.replace("'","\\'");
+    	}
+    }
+    
     //Region
     String region = properties.get("region", "");
 
     //Location Label
     String locationLabel = properties.get("locationLabel","");
+    
+    String monthYr = dtfOutMYCal.print(startDate);
+    String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+monthYr;
 
 %>
 
@@ -199,22 +256,26 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 </div>
 <%
 	try {
-		String imgPath = properties.get("image","");
+		String imgPath = properties.get("imagePath","");
 		if(!imgPath.isEmpty()){
 			%> <img src="<%= imgPath %>" /> <%
+		}else{
+			imgPath = properties.get("image","");
+			if(!imgPath.isEmpty()){
+				%> <img src="<%= imgPath %>" /> <%
+			}else{
+			    imgPath = resource.getPath() + "/image";
+			    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
+		
+			    if( imgNode.hasProperty("fileReference")){
+			%>   <div>
+					<p>
+					<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
+					</p>
+				</div>
+			<%}
+			}
 		}
-		else{
-	    imgPath = resource.getPath() + "/image";
-	    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
-
-	    if( imgNode.hasProperty("fileReference")){
-	%>   <div>
-			<p>
-			<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
-			</p>
-		</div>
-<%}
-		    }
 	} catch (Exception e) {}
 	%>
 
@@ -222,29 +283,36 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	<div class="small-24 medium-12 large-12 columns">
 		<div class="row">
 			<div class="small-8 medium-8 large-8 columns">
-             <b>Date:</b>
+            	<b>Date:</b>
 			</div>
-                        <div class="small-16 medium-16 large-16 columns">
-           <b>
-           <%try{%>
-                        <span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=utcFormat.format(startDate)%>"><%=formatedStartDateStr%></span>
+            <div class="small-16 medium-16 large-16 columns">
+			<b>
+				<%try{%>
+						<span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=dtUTF.withZone(GSDateTimeZone.UTC).print(startDate)%>"><%=formatedStartDateStr%></span>
                         <% if(formatedEndDateStr!=null && !formatedEndDateStr.equals("")){ %>
-                            - <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(endDate==null ? "" : utcFormat.format(endDate))%>"><%=formatedEndDateStr %></span>
+                            <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(endDate==null ? "" : dtUTF.withZone(GSDateTimeZone.UTC).print(endDate))%>"><%=formatedEndDateStr %></span>
                         <%
                         }
-                     }catch(Exception eDateStr){eDateStr.printStackTrace();}
+					}catch(Exception eDateStr){eDateStr.printStackTrace();}
                     %>
-           </b>
-                        </div>
+			</b>
+			</div>
 		</div>
-                <div class="row">
-                        <div class="small-8 medium-8 large-8 columns">
-             <b>Location:</b>
-                        </div>
-                        <div class="small-16 medium-16 large-16 columns" itemprop="location" itemscope itemtype="http://schema.org/Place">
-           <b><%= locationLabel %></b> <%if(address!=null && !address.isEmpty()){%><a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a><%} %>
-                        </div>
-                </div>
+		<div class="row">
+			<div class="small-8 medium-8 large-8 columns">
+				<b>Location:</b>
+			</div>
+			<div class="small-16 medium-16 large-16 columns" itemprop="location" itemscope itemtype="http://schema.org/Place">
+				<b><%= locationLabel %></b> <%--if(address!=null && !address.isEmpty()){--%>
+				<%-- Not all addresses are valid addresses. We use Google Maps API to validate and show "maps" link on event list
+    				but however there's a quota of 2500/day. If there are two commas, it's likely a valid address and check
+    				otherwise do not show "map" link --%>
+					<% if ((address.indexOf(",") != -1) && (address.indexOf(",") != address.lastIndexOf(","))) {%>
+						<a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a>
+					<%} %>
+			</div>
+		</div>
+		
 <%String priceRange = properties.get("priceRange","");
 	if (!"".equals(priceRange)) {%>                
                 <div class="row">
@@ -256,6 +324,51 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
                 	</div>
 				</div>
 	<% } %>
+
+<% if(regOpenDate != null && regCloseDate != null) {%>
+	<div class="row">
+	<div class="small-10 medium-10 large-10 columns">
+    	<b>Registration:</b>
+	</div>
+    <div class="small-14 medium-14 large-14 columns">
+	<b>
+		<%try{%>
+			<% if(formattedRegCloseDateStr!=null && !formattedRegCloseDateStr.equals("")){ %>
+				<span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=dtUTF.withZone(GSDateTimeZone.UTC).print(regOpenDate)%>"><%=formattedRegOpenDateStr%></span>
+                <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(regCloseDate==null ? "" : dtUTF.withZone(GSDateTimeZone.UTC).print(regCloseDate))%>"><%=formattedRegCloseDateStr %></span>
+                <%
+                }
+			}catch(Exception eDateStr){eDateStr.printStackTrace();}
+            %>
+	</b>
+	</div>
+	</div>
+	<% } %>
+	
+	<% String programType = properties.get("progType","");
+		if(!"".equals(programType)){%>
+		        <div class="row">
+                	<div class="small-10 medium-10 large-10 columns">
+                		<b>Program Type:</b>
+                	</div>
+                	<div class="small-14 medium-14 large-14 columns">
+                		<b><%= programType %></b>
+                	</div>
+				</div>
+	<% } %>
+	
+	<% String grades = properties.get("grades","");
+		if(!"".equals(grades)){%>
+	        <div class="row">
+               	<div class="small-10 medium-10 large-10 columns">
+               		<b>Grades:</b>
+               	</div>
+               	<div class="small-14 medium-14 large-14 columns">
+               		<b><%= grades %></b>
+               	</div>
+			</div>
+	<% } %>
+	
 	</div>
         <div class="small-24 medium-12 large-12 columns">
                 <div class="row">
@@ -291,13 +404,61 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 							<b><%=region %></b>
                      </div>
                 </div>
+                
+                <% String girlFee = properties.get("girlFee","");
+					if(!"".equals(girlFee)){%>
+				        <div class="row">
+		                	<div class="small-8 medium-8 large-8 columns">
+		                		<b>Girl Fee:</b>
+		                	</div>
+		                	<div class="small-16 medium-16 large-16 columns">
+		                		<b><%= girlFee %></b>
+		                	</div>
+						</div>
+				<% } %>
+				
+				<% String adultFee = properties.get("adultFee","");
+					if(!"".equals(adultFee)){%>
+				        <div class="row">
+		                	<div class="small-8 medium-8 large-8 columns">
+		                		<b>Adult Fee:</b>
+		                	</div>
+		                	<div class="small-16 medium-16 large-16 columns">
+		                		<b><%= adultFee %></b>
+		                	</div>
+						</div>
+				<% } %>
+				
+				<% String minAttend = properties.get("minAttend","");
+					if(!"".equals(minAttend)){%>
+				        <div class="row">
+		                	<div class="small-18 medium-18 large-18 columns">
+		                		<b>Minimum Attendance:</b>
+		                	</div>
+		                	<div class="small-6 medium-6 large-6 columns">
+		                		<b><%= minAttend %></b>
+		                	</div>
+						</div>
+				<% } %>
+				
+				<% String maxAttend = properties.get("maxAttend","");
+					if(!"".equals(maxAttend)){%>
+				        <div class="row">
+		                	<div class="small-18 medium-18 large-18 columns">
+		                		<b>Maximum Attendance:</b>
+		                	</div>
+		                	<div class="small-6 medium-6 large-6 columns">
+		                		<b><%= maxAttend %></b>
+		                	</div>
+						</div>
+				<% } %>
         </div>
 </div>
      <%if(register!=null && !register.isEmpty()){%>
         <div class="eventDetailsRegisterLink">
     	 	<a class="button" href="<%=genLink(resourceResolver, register)%>">REGISTER NOW</a>
     	 	<% if(includeCart && !eventID.equals("-1")){ %>
-    	 	<a class="button" onclick="addToCart('<%= title.replace("'","\\'") %>', '<%= eventID %>', '<%= currentPage.getPath() %>'); return false;">Add to MyActivities</a>
+    	 	<a class="button" onclick="addToCart('<%= title.replaceAll("'","\\\\'").replaceAll("\"","&quot") %>', '<%= eventID %>', '<%= currentPage.getPath() %>'); return false;">Add to MyActivities</a>
     		<%}
     		%>
 
@@ -318,6 +479,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 
 <script>
 function showMap(address){
-	window.open('/en/map.html?address='+address);
+	//window.open('/en/map.html?address='+address);
+	window.open('http://www.google.com/maps/search/' + address);
 }
 </script>

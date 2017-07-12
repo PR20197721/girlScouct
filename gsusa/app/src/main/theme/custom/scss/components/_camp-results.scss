@@ -1,0 +1,109 @@
+.camp-results {
+    form {
+        div.clearfix {
+            section {
+                float: left;
+                margin-right: 3%;
+                &:last-child {
+                    margin-right: 0;
+                }
+                @media #{$small-only} {
+                    width: 31% !important;
+                    &.grade {
+                        margin: 0;
+                    }
+                    &:nth-last-child(-n+3) {
+                        margin-top: rem-calc(20);
+                    }
+                }
+                &.radius {
+                    width: 12%;
+                }
+                &.date {
+                    width: 14%;
+                }
+                &.sort {
+                    width: 12%;
+                }
+                &.duration {
+                    width: 20%;
+                }
+                &.grade {
+                    width: 13%;
+                }
+                select,
+                input[type="text"] {
+                    margin: 0;
+                }
+                label {
+                    margin-bottom: rem-calc(5);
+                    font-size: rem-calc(15);
+                }
+                select {
+                    padding: rem-calc(0 0 0 8);
+                    font-size: rem-calc(15);
+                }
+                input[type="text"] {
+                    text-indent: rem-calc(11);
+                    font-size: rem-calc(15);
+                }
+            }
+        }
+    }
+    div.no-results {
+        margin-top: 2.5rem;
+    }
+    .result {
+        h5 {
+            color: $primary-color;
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+        p {
+            margin: 0;
+            font-size: rem-calc(17);
+        }
+        i {
+            font-size: rem-calc(17);
+            color: #666;
+            margin-bottom: rem-calc(10);
+        }
+        .more-section {
+            margin-top: rem-calc(25);
+            section {
+                margin-bottom: rem-calc(25);
+            }
+        }
+        border-bottom: solid 1px #e1e1e1;
+        margin-top: rem-calc(40);
+        padding-bottom: rem-calc(10);
+    }
+    .read-more {
+        display: inline-block;
+        position: relative;
+        font-size: rem-calc(17);
+        &:after {
+            border-style: solid;
+            content: "";
+            display: block;
+            position: absolute;
+            top: 50%;
+            border-color: $primary-color transparent transparent;
+            border-width: rem-calc(8);
+            margin-top: rem-calc(-4);
+            right: rem-calc(-20);
+        }
+        &.on:after {
+            border-color: transparent transparent $primary-color;
+            margin-top: rem-calc(-10);
+            right: rem-calc(-26);
+        }
+    }
+    .show-more {
+        text-align: center;
+        margin: rem-calc(20 0);
+        a {
+            display: inline-block;
+        }
+    }
+}

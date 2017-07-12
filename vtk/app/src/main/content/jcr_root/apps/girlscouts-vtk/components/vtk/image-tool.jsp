@@ -50,7 +50,13 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
-var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png" %>";
+<%
+    String _troopId= troop.getTroop().getTroopId();
+    if( _troopId!=null && _troopId.indexOf("_")!=-1 ){
+        _troopId= _troopId.substring( _troopId.lastIndexOf("_")+1);
+    }
+%>
+var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + _troopId + "/imgLib/troop_pic.png" %>";
 
 var displayCurrent = function(isUploaded){
 	
@@ -76,12 +82,7 @@ var displayCurrent = function(isUploaded){
     	$('.icon-photo-camera').css("display","auto"); 
     	$('#current-picture').css("width", "100%");
     }
-    if(isUploaded==true){
-    	currentPic.src = imgPath + "?pid=" + Date.now();
-    }
-    else{
-    	currentPic.src = imgPath;
-    }
+   	currentPic.src = imgPath + "?pid=" + Date.now();
     currentPic.style.float = "left";
 
     var clearBoth = document.createElement("div");
@@ -118,7 +119,6 @@ var displayCurrent = function(isUploaded){
 	    imageLoader.id = "imageLoader";
 	    imageLoader.type = "file";
 	    imageLoader.accept = "image/*";
-	    imageLoader.setAttribute("capture","camera");
 	
 		var video = document.createElement("video");
 	    video.autoplay = true;
@@ -193,7 +193,7 @@ var displayCurrent = function(isUploaded){
 	    uploadButtons.appendChild(retakeShot);
 	    uploadButtons.appendChild(submitShot);      
 	    
-	    instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. \nWhen you are ready to upload your image, please select \"Crop this picture\".";
+	    instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. \nWhen you are ready to upload your image, please select \"Crop this picture\".\nMobile users: Please swipe to scroll the screen, press and hold down on the image to start cropping. Please be patient. High-resolution images take time to process.";
 	
 	    function handleImage(){
 	    	var file = this.files[0];
@@ -365,7 +365,7 @@ var displayCurrent = function(isUploaded){
 	
 		//website requests permission to use your webcam
 	       	if (navigator.getUserMedia) {
-	       		instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. You can also take a photo from your webcam. \nWhen you are ready to upload your image, please select \"Crop this picture\".";
+	       		instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. You can also take a photo from your webcam. \nWhen you are ready to upload your image, please select \"Crop this picture\".\nMobile users: Please swipe to scroll the screen, press and hold down on the image to start cropping. Please be patient. High-resolution images take time to process.";
 				videoLoader.style.display = "block";
 	    	}else {
 	            console.log("getUserMedia not supported");
@@ -525,7 +525,7 @@ var displayCurrent = function(isUploaded){
 	    var x1, x2, y1, y2, width, height;
 	
 	    storeCoords = function(img, selection){
-	    	//console.log(x1 + "," + y1 + " -> " + x2 + "," + y2);
+	    	
 	    	x1 = selection.x1;
 	    	x2 = selection.x2;
 	    	y1 = selection.y1;
@@ -552,7 +552,10 @@ var displayCurrent = function(isUploaded){
 	        	submitCrop.disabled = true;
 	        	
 		        if(localMediaStream != null && localMediaStream != undefined){
-					localMediaStream.stop();
+
+		        	try{
+		        		   localMediaStream.stop();
+		        	}catch(err){ cleanUp(); }
 		        }
 				$('#upload-tool').remove();
 		
@@ -668,5 +671,14 @@ var dataURL = image_target.src;
 	if( <%=isImgExists%>){displayCurrent(false);}
 	}<%
 }%>
+
+
+function cleanUp(){
+
+	if (localMediaStream.active) {
+	    var track = localMediaStream.getTracks()[0];
+        track.stop();
+	}
+}
 
 </script>

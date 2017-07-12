@@ -1,0 +1,19 @@
+.breaking-news .inner-wrapper{
+  @include clearfix;
+  background: $bg_breaking_news;
+  padding: 0.52083333%;
+  text-align: center;
+  font-size: rem-calc(17);
+  line-height: 1.1em;
+  & * {color: $white;}
+  p {
+    // @media #{$medium-up} {
+    //   position: relative;
+    //   top: rem-calc(15);
+    // }
+    margin: 0;
+  }
+  .thumbnail {
+    float:left
+  }
+}

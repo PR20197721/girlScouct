@@ -353,8 +353,9 @@ function findEXIFinJPEG(oFile) {
 
 		if (iMarker == 22400) {
 			if (bDebug) console.log("Found 0xFFE1 marker");
-			return readEXIFData(oFile, iOffset + 4, oFile.getShortAt(iOffset+2, true)-2);
 			iOffset += 2 + oFile.getShortAt(iOffset+2, true);
+			return readEXIFData(oFile, iOffset + 4, oFile.getShortAt(iOffset+2, true)-2);
+			
 
 		} else if (iMarker == 225) {
 			// 0xE1 = Application-specific 1 (for EXIF)
