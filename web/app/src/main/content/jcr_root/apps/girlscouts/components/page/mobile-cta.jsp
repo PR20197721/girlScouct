@@ -14,7 +14,7 @@
 public String buildMobileCTAMenu(String[] mobileCtas) {
 	StringBuilder menuBuilder = new StringBuilder();
 	if(mobileCtas != null && mobileCtas.length > 0){
-		menuBuilder.append("<div class=\"buttons\">");
+		menuBuilder.append("<div class=\"mobile-cta show-for-small small-24 columns\">");
 		for(String cta:mobileCtas){
 			String[] values = cta.split("\\|\\|\\|");
             String label = values[0];
@@ -26,7 +26,7 @@ public String buildMobileCTAMenu(String[] mobileCtas) {
             }else{
             	newWindow = "_self";
             }
-            menuBuilder.append("<a class=\"donate-btn circle-btn"+css+"\" target=\""+newWindow+"\" href=\""+path+"\">"+label+"</a>");
+            menuBuilder.append("<a class=\"circle-btn"+css+"\" target=\""+newWindow+"\" href=\""+path+"\">"+label+"</a>");
 		}
 		
 		menuBuilder.append("</div>");
