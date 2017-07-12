@@ -53,6 +53,7 @@
                     <mobile-cta
 			            jcr:primaryType="cq:Widget"
 			            fieldLabel="Mobile Calls to Action"
+			            fieldDescription="Class field will control button color. Available CSS classes: &lt;strong&gt;default(blank)&lt;/strong&gt; = #009447, &lt;strong&gt;orange-btn&lt;/strong&gt; = #faa61a, &lt;strong&gt;yellow-btn&lt;/strong&gt; = #f0c022"
 			            name="./mobileCtas"
 			            xtype="multifield">
 			            <fieldConfig
