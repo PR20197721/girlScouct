@@ -12,21 +12,17 @@
 <%!
 public String buildFlyOutMenu(Page parent, String flyRight) throws RepositoryException {
 	try{
-		Iterator<Page> children = parent.listChildren();
-		if (children.hasNext()) {
+		if(hasVisibleChildren(parent)){
+			Iterator<Page> children = parent.listChildren();
 			StringBuilder menuBuilder = new StringBuilder();
 			menuBuilder.append("<ul class=\"fly-down" + flyRight + "\">");
 			while (children.hasNext()) {
 				Page page = children.next();
 				if (!page.isHideInNav()) {
-					Iterator<Page> grandChildren = page.listChildren();
-					if (grandChildren.hasNext()) {
+					if(hasVisibleChildren(page)){
 						menuBuilder.append("<li class=\"has-children\">");
-					} else {
-						menuBuilder.append("<li>");
-					}
-                    menuBuilder.append(createHref(page));
-					if (grandChildren.hasNext()) {
+						menuBuilder.append(createHref(page));
+						Iterator<Page> grandChildren = page.listChildren();
 						menuBuilder.append("<ul class=\"fly-horizontal\">");
 						while (grandChildren.hasNext()) {
 							Page p = grandChildren.next();
@@ -37,6 +33,9 @@ public String buildFlyOutMenu(Page parent, String flyRight) throws RepositoryExc
 							}					
 						}
 						menuBuilder.append("</ul>");
+					}else{
+						menuBuilder.append("<li>");
+						menuBuilder.append(createHref(page));
 					}
 					menuBuilder.append("</li>");
 				}
@@ -46,6 +45,19 @@ public String buildFlyOutMenu(Page parent, String flyRight) throws RepositoryExc
 		}
 	}catch(Exception e){}
     return "";
+}
+
+public boolean hasVisibleChildren(Page page){
+	try{
+		Iterator<Page> children = page.listChildren();
+		while (children.hasNext()) {
+			Page child = children.next();
+			if (!child.isHideInNav()) {
+				return true;
+			}
+		}
+	}catch(Exception e){}
+	return false;
 }
 %>
 <%
@@ -132,9 +144,8 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 	               try{
 	            	   linkResource = resourceResolver.getResource(menuPath);
 	            	   if(linkResource != null && "cq:Page".equals(linkResource.getResourceType())){
-	                       flyPage = linkResource.adaptTo(Page.class);
-	                       Iterator<Page> children = flyPage.listChildren();
-	                       if(children!= null && children.hasNext()) {
+	                       	flyPage = linkResource.adaptTo(Page.class);
+	                       	if(hasVisibleChildren(flyPage)) {
 								hasChildren = "has-children ";
 							}
 	            	   }
