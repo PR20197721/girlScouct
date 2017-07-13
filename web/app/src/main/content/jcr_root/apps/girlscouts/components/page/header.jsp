@@ -89,7 +89,7 @@ try {
    	if(globalNavProps != null){
    		Boolean displayPageBanner = globalNavProps.get("./displayPageBanner", Boolean.FALSE);
 	   	if(displayPageBanner){
-		   String pageBannerPath = currentPage.getContentResource().getPath() + "/page-banner/par";
+		   String pageBannerPath = currentPage.getContentResource().getPath() + "/page-banner";
 		   %>
 			<div class="page-banner-title">
 		   		<cq:include path="<%=pageBannerPath %>" resourceType="girlscouts/components/page-banner" />
