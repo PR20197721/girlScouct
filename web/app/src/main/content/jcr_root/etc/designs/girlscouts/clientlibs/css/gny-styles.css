@@ -282,3 +282,14 @@
     animation-fill-mode: forwards;
     animation-duration: .6s;
 }
+
+div.round_corners div.header-wrapper,
+div.round_corners div#footer {
+    border-radius: 0 0 6px 6px;
+    overflow-x: hidden;
+}
+
+div.round_corners div#main {
+    border-radius: 6px 6px 0 0;
+    overflow-x: hidden;
+}
