@@ -25,6 +25,9 @@
 						bg.className += " show"; 
 		         	});
 		         bg.src = images[rand];
+		         if (images.length > 0) {
+		        	 document.body.style.background = "#000000";
+		         }
 		     }());
 		</script>
 <%	}%>
