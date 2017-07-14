@@ -609,7 +609,7 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		String mappingPath, homepagePath;
 		Set<String> runmodes = settingsService.getRunModes();
 		if(runmodes.contains("prod")){
-			mappingPath = "/etc/map.publish.prod/httpd";
+			mappingPath = "/etc/map.publish.prod/http";
 		}else if(runmodes.contains("uat")){
 			mappingPath = "/etc/map.publish.uat/http";
 		}else if(runmodes.contains("stage")){
