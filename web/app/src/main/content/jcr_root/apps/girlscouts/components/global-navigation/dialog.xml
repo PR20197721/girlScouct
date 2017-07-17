@@ -38,20 +38,38 @@
                         xtype="textfield"/>
                 </items>
             </styles>
-            <page-title
+            <!-- 
+            <options
                 jcr:primaryType="cq:Widget"
-                title="Page Banner"
+                title="Options"
                 xtype="panel">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <display-page-title
+                    <display-page-banner
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Will create a transparent banner area so a title can be added. Will be displayed between navigation and content."
                         fieldLabel="Display Transparent Page Banner"
                         name="./displayPageBanner"
                         type = "checkbox"
                         xtype="selection"/>
+					<display-nav-fly-out
+                        fieldDescription="Will create a secondary navigation flyout when user hovers over top nav link."
+                        fieldLabel="Display Secondary Navigation Flyout"
+                        name="./displaySecondaryNavFlyOut"
+                        type = "checkbox"
+                        xtype="selection"/>
+                    <mobile-cta
+			            jcr:primaryType="cq:Widget"
+			            fieldLabel="Mobile Calls to Action"
+			            fieldDescription="Class field will control button color. Available CSS classes: &lt;strong&gt;default(blank)&lt;/strong&gt; = #009447, &lt;strong&gt;orange-btn&lt;/strong&gt; = #faa61a, &lt;strong&gt;yellow-btn&lt;/strong&gt; = #f0c022"
+			            name="./mobileCtas"
+			            xtype="multifield">
+			            <fieldConfig
+			                jcr:primaryType="nt:unstructured"
+			                xtype="customlink"/>
+			        </mobile-cta>
                 </items>
-            </page-title>
+            </options>
+             -->
         </items>
     </items>
 </jcr:root>
