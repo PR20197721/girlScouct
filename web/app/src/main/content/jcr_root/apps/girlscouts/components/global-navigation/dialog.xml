@@ -38,6 +38,7 @@
                         xtype="textfield"/>
                 </items>
             </styles>
+            <!-- 
             <options
                 jcr:primaryType="cq:Widget"
                 title="Options"
@@ -68,6 +69,7 @@
 			        </mobile-cta>
                 </items>
             </options>
+             -->
         </items>
     </items>
 </jcr:root>
