@@ -13,61 +13,58 @@
  * Dissemination of this information or reproduction of this material
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe Systems Incorporated.
---%><%@page session="false"
-            contentType="text/html; charset=UTF-8"
-            import="com.day.cq.wcm.api.WCMMode,
-                    com.day.cq.wcm.foundation.forms.FormsHelper,
-                    org.apache.commons.lang3.StringEscapeUtils,
-                    java.util.Iterator,
-                    java.util.Map"
-%><%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0"
-%><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0"
-%><sling:defineObjects/><%
-    /* resource is the form start, so we need to get to the par to locate all fields */
-    Map<String, String> showHideExpressions = FormsHelper.getShowHideExpressions(resource.getParent());
+--%>
+<%@page session="false" contentType="text/html; charset=UTF-8" import="com.day.cq.wcm.api.WCMMode,
+    com.day.cq.wcm.foundation.forms.FormsHelper,
+    org.apache.commons.lang3.StringEscapeUtils,
+    java.util.Iterator,
+    java.util.Map"%>
+<%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0"%>
+<%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0"%>
+<sling:defineObjects/>
 
-    switch (WCMMode.fromRequest(request)) {
-        case EDIT:
-        case DESIGN:
-            // CQ5.5 deploys abacus only when show/hide expressions are in use.  Future versions may want
-            // to support calculations, etc., and if so, will need to change this logic.
-            if (!showHideExpressions.isEmpty()) {
-                out.write("<script type='text/javascript'>\n");
-                out.write("  cq5forms_reloadForPreview = true;\n");
-                out.write("</script>\n");
-            }
-            break;
-
-        default:
-            // CQ5.5 deploys abacus only when show/hide expressions are in use.  Future versions may want
-            // to support calculations, etc., and if so, will need to change this logic.
-
-            if (!showHideExpressions.isEmpty()) {
-
-                %><cq:includeClientLib categories="cq.abacus"/>
 <%
-                out.write("<script type='text/javascript'>\n");
+/* resource is the form start, so we need to get to the par to locate all fields */
+Map<String, String> showHideExpressions = FormsHelper.getShowHideExpressions(resource.getParent());
+
+switch (WCMMode.fromRequest(request)) {
+    case EDIT:
+    case DESIGN:
+        // CQ5.5 deploys abacus only when show/hide expressions are in use.  Future versions may want
+        // to support calculations, etc., and if so, will need to change this logic.
+        if (!showHideExpressions.isEmpty()) {
+            %><script type='text/javascript'>
+                cq5forms_reloadForPreview = true;
+            </script><%
+        }
+        break;
+
+    default:
+        // CQ5.5 deploys abacus only when show/hide expressions are in use.  Future versions may want
+        // to support calculations, etc., and if so, will need to change this logic.
+        if (!showHideExpressions.isEmpty()) {
+            %><cq:includeClientLib categories="cq.abacus" />
+            <script type='text/javascript'><%
                 if (WCMMode.fromRequest(request) != WCMMode.DISABLED) {
                     // A page written in one mode can be switched to another mode without a refresh, so
                     // make sure we still have our flag.  On the other hand, if WCMMode is disabled
                     // entirely (ie: on a publish instance), then we can't switch and don't want the flag.
-                    out.write("  cq5forms_reloadForPreview = true;\n");
+                    %>cq5forms_reloadForPreview = true;<%
                 }
-                out.write("  jQuery(document).ready(function() {\n");
-
-                out.write("    var showHideExpressions = {\n");
-                for (Iterator<String> iterator = showHideExpressions.keySet().iterator(); iterator.hasNext(); ) {
-                    String key = iterator.next();
-                    String expression = showHideExpressions.get(key) + ";";
-                    out.write("      " + key + ": \"" + StringEscapeUtils.escapeEcmaScript(expression) + "\""
-                                + (iterator.hasNext() ? ",\n" : "\n"));
-                }
-                out.write("    };\n");
-
-                out.write("    abacus.initializeAbacus(showHideExpressions);\n");
-                out.write("  });\n");
-
-                out.write("</script>\n");
-            }
-    }
+                %>jQuery(document).ready(function () {
+                    var showHideExpressions = {
+                        <%
+                        for (Iterator<String> iterator = showHideExpressions.keySet().iterator(); iterator.hasNext();) {
+                            String key = iterator.next();
+                            String expression = showHideExpressions.get(key) + ";";
+                            String comma = iterator.hasNext() ? "," : "";
+                            %>"<%=key%>": "<%=StringEscapeUtils.escapeEcmaScript(expression)%>"<%=comma%><%
+                        }
+                        %>
+                    };
+                    abacus.initializeAbacus(showHideExpressions);
+                });
+            </script><%
+        }
+}
 %>

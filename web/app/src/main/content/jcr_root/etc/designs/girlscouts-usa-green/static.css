@@ -420,6 +420,7 @@ a:hover.menuHighlight {
   overflow: visible;
   display: flex;
   justify-content: center;
+  font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif; 
 }
 
 #headerBar .inline-list > li {
@@ -436,7 +437,7 @@ a:hover.menuHighlight {
 }
 #headerBar .global-navigation {
   padding-left: 42px;
-  font-family: "Trefoil Sans Web Nav";
+  font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
 }
 #headerBar .global-navigation ul.inline-list {
   font-size: 1.125rem;

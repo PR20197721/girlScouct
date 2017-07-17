@@ -102,6 +102,7 @@ a:hover.menuHighlight {
 #headerBar ul.inline-list {
     margin: 0px;
     padding: 0px;
+    font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
 }
 #headerBar li {
     margin: 0px;

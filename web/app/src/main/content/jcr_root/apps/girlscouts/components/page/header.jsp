@@ -42,6 +42,7 @@
       <%} %>
       </div>
     </div>
+    <cq:include script="mobile-cta.jsp"/>
     <div class="show-for-small small-24 columns topMessage alt">
       <div class="row vtk-login collapse">
         <% setCssClasses("small-19 columns", request); %>
@@ -82,3 +83,19 @@
 	String cookiePlaceholderPath = currentPage.getContentResource().getPath();
 %>
 <cq:include path="<%= cookiePlaceholderPath %>" resourceType="girlscouts/components/cookie-header" />
+<%
+try {
+   	ValueMap globalNavProps = resourceResolver.getResource(headerPath + "/global-nav").adaptTo(ValueMap.class);
+   	if(globalNavProps != null){
+   		Boolean displayPageBanner = globalNavProps.get("./displayPageBanner", Boolean.FALSE);
+	   	if(displayPageBanner){
+		   String pageBannerPath = currentPage.getContentResource().getPath() + "/page-banner";
+		   %>
+			<div class="page-banner-title">
+		   		<cq:include path="<%=pageBannerPath %>" resourceType="girlscouts/components/page-banner" />
+		   	</div>
+		   <%
+		}
+	}
+}catch(Exception e){}
+%>
