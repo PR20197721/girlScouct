@@ -14,7 +14,7 @@
 	List<Contact> contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
 	Map<Contact, List<ContactExtras>> contactsExtras= contactUtil.getContactsExtras( user,  troop, contacts);
 	List <MeetingE> meetingEvents= troop.getYearPlan().getMeetingEvents();
-	
+	csv.append("Legend:  X = attendance; A = achievement\n");
 	// doc title
 	csv.append(FORMAT_MMM_dd_yyyy.format( new Date() ) +" "+
 		(troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-") +1) )+"  "+troop.getSfTroopName()
