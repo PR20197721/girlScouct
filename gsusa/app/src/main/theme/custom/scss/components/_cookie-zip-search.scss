@@ -1,320 +1,332 @@
 .standalone-cookie-header,
 .cookie-header {
-  @media #{$small-only} {
-  	&:not(.mobile-cookie-header) {
-	    #main &, .main-content & {
-	      display: none;
-	    }
-	}
-  }
-  .help-msg{
-  	text-align:left;
-  	font-size:rem-calc(12);
-  }
-  .row {
-    font-size: rem-calc(20);
-    font-weight: 300;
-    @media #{$medium-up} {
-      margin-top: 3%;
-    }
-    margin-bottom: 4%;
-    color: $white;
-    margin-right: 0;
-    margin-left: 0;
-  }
-  .wrapper-inner {
-    position: relative;
-    z-index: 1;
-    padding: rem-calc(13 0);
-    &:before {
-      @media #{$medium-up} {
-        content: "";
-        //This now done in the jsp. Please check cookie-header.jsp for more details
-        //background: url("../images/zip-cookie-bg1.png") no-repeat 0% 0% transparent;
-        height: rem-calc(105);
-        width: rem-calc(235);
-        position: absolute;
-        z-index: 2;
-        top: rem-calc(-13);
-      }
-      @media #{$small-only} {
-        content: "";
-        //This now done in the jsp. Please check cookie-header.jsp for more details
-        //background: url("../images/cookie-header.png") no-repeat 0% 0% transparent;
-        height: rem-calc(71);
-        width: rem-calc(71);
-        left: 50%;
-        position: relative;
-        margin-left: rem-calc(-36);
-        margin-bottom: rem-calc(20);
-        margin-top: rem-calc(20);
-      }
-    }
-  }
-  .share {
-  //This now done in the jsp. Please check cookie-header.jsp for more details
-    //#main & {
-    //  display: none;
-    //}
     @media #{$small-only} {
-      text-align: center;
-      clear:both;
-      a {
-        font-size: rem-calc(16);
-        padding-left: rem-calc(10);
-      }
+        &:not(.mobile-cookie-header) {
+            #main &,
+            .main-content & {
+                display: none;
+            }
+        }
     }
-    i {
-      color: white;
-      font-size: rem-calc(43);
+    .help-msg {
+        text-align: left;
+        font-size: rem-calc(12);
     }
-    a {
-      color: white;
-      vertical-align: middle;
-      line-height: 1.5rem;
-      &:hover {
+    .row {
+        font-size: rem-calc(20);
+        font-weight: 300;
+        @media #{$medium-up} {
+            margin-top: 3%;
+        }
+        margin-bottom: 4%;
         color: $white;
-      }
-    }
-  }
-  .find-cookies,
-  .find-camp {
-   	@media #{$medium-up} {
-    	margin-left: 0;
-    }
-  }
-  form {
-    label {
-      color: $white;
-      font-size: rem-calc(33);
-      font-weight: 300;
-      * {
-      	color: $white;
-      }
-      @media #{$small-only} {
-        margin-bottom: rem-calc(15);
-        text-align: center;
-      }
-    }
-    @media #{$small-only} {
-      // margin: rem-calc(20 0);
-      padding: 0 20%;
-    }
-    @media #{$medium-up} {
-      width: 50%;
-      margin-left: rem-calc(265); //width of the image + 30px
-      .main-content & {
-        padding: 0 20px 0 0;
-      }
-      .three-cols .middle-col &  {
-        width: 54%;
-        margin-left: 15.4rem;
-        label {
-          font-size: rem-calc(22);
-        }
-         input[type="text"] {
-          font-size: rem-calc(18);
-          padding-left: rem-calc(3);
-         }
-      }
-      .two-cols .middle-col & {
-        width: 66%;
-      }
-      .hero-section & {
-        width: 66%;
-      }
-      .form-wrapper {
-        width: 47%;
-        float: left;
-        margin:0;
-      }
-      label {
-        float: left;
-        line-height: rem-calc(47);
-        display: inline;
-        width: 51%;
-        margin-right: 1%;
-      }
-    }
-    input[type="text"] {
-      float: left;
-      width: 100%;
-      padding-left: rem-calc(10);
-      height: rem-calc(47);
-      font-size: rem-calc(20);
-    }
-    .link-arrow {
-      border: none;
-      background-color: $primary-color;
-      float: left;
-      line-height: rem-calc(37);
-      padding: 5px 4%;
-      position: absolute;
-      right: 0;
-      color: $white;
-      font-size: rem-calc(18);
-      font-weight: 300;
-    }
-    .form-wrapper {
-      position: relative;
-      @media #{$small-only} {
-        margin-top: rem-calc(10);
-      }
-    }
-  }
-
-  .row.homepage {
-    .wrapper-inner {
-      @media #{$small-only} {
-        padding: 1.25rem 0;
-        &:before {
-          height: 0;
-          width: 0;
-          left: 0;
-          position: relative;
-          margin-left: 0;
-          margin-bottom: 0;
-          margin-top: 0;
-        }
-      }
-    }
-    form label {
-      @media #{$small-only} {
-        // margin-bottom: rem-calc(15);
-        text-align: center;
-        line-height: 1;
-        white-space: nowrap;
-        font-size: rem-calc(23);
-        &:before {
-          content: "";
-          //This now done in the jsp. Please check cookie-header.jsp for more details
-          //background: url("../images/cookie-header.png") no-repeat 0% 0% transparent;
-          height: rem-calc(35);
-          width: rem-calc(35);
-          display: inline-block;
-          margin-right: rem-calc(15);
-          vertical-align: bottom;
-        }
-      }
-    }
-  }
-  @media #{$medium-up} {
-    .share {
-      @include grid-column(5, $float:right);
-      line-height: rem-calc(37);
-      width: 22%;
-      * {
-        color: $white;
-      }
-      i {
-        position: absolute;
-        right: 14px;
-        top: 20%;
-      }
-      a {
-        span {
-          display: inline-block;
-        }
-      }
-    }
-  }
-}
-.find-camp {
-  span {
-    font-size: 70%;
-    font-style: italic;
-    display: block;
-    color: $white;
-  }
-}
-.standalone-camp-finder {
-  margin: rem-calc(15 0 15 0);
-  @media #{$small-only} {
-    &:not(.mobile-camp-finder) {
-      #main &,
-      .main-content & {
-        display: none;
-      }
-    }
-  }
-  .three-cols .middle-col & {
-    margin: rem-calc(0 0 15 0);
-  }
-  .row {
-    margin-right: 0;
-    margin-left: 0;
-  }
-  form {
-    margin: 0 auto;
-    width: 70%;
-    height: 100%;
-    padding: rem-calc(17 0);
-    label {
-      float: left;
-      margin-bottom: 0;
-      text-align: center;
-      color: $white;
-      font-size: rem-calc(30);
-      font-weight: 500;
-    }
-    .form-wrapper {
-      width: 34.22619%;
-      float: right;
-      margin-bottom: 0;
-      margin-top: 1.5%;
-    }
-    @media #{$small-only} {
-      label {
-        float: none;
         margin-right: 0;
-        font-size: rem-calc(22);
-        margin-bottom: rem-calc(15);
-      }
-      .form-wrapper {
-        width: 70%;
-        float: none;
-        margin: 0 auto rem-calc(15);
-      }
+        margin-left: 0;
     }
-    @media #{$medium-up} {
-      .three-cols .middle-col &  {
-        label {
-          float: none;
-          margin-right: 0;
-          font-size: rem-calc(20);
-          margin-bottom: rem-calc(15);
+    .wrapper-inner {
+        position: relative;
+        z-index: 1;
+        padding: rem-calc(13 0);
+        line-height: 0;
+        &:before {
+            @media #{$medium-up} {
+                content: "";
+                //This now done in the jsp. Please check cookie-header.jsp for more details
+                //background: url("../images/zip-cookie-bg1.png") no-repeat 0% 0% transparent;
+                height: rem-calc(105);
+                width: rem-calc(235);
+                position: absolute;
+                z-index: 2;
+                top: rem-calc(-13);
+            }
+            @media #{$small-only} {
+                content: "";
+                //This now done in the jsp. Please check cookie-header.jsp for more details
+                //background: url("../images/cookie-header.png") no-repeat 0% 0% transparent;
+                height: rem-calc(71);
+                width: rem-calc(71);
+                left: 50%;
+                position: relative;
+                margin-left: rem-calc(-36);
+                margin-bottom: rem-calc(20);
+                margin-top: rem-calc(20);
+            }
+        }
+    }
+    .share {
+        //This now done in the jsp. Please check cookie-header.jsp for more details
+        //#main & {
+        //  display: none;
+        //}
+        @media #{$small-only} {
+            text-align: center;
+            clear: both;
+            a {
+                font-size: rem-calc(16);
+                padding-left: rem-calc(10);
+            }
+        }
+        i {
+            color: white;
+            font-size: rem-calc(43);
+        }
+        a {
+            color: white;
+            vertical-align: middle;
+            line-height: 1.5rem;
+            &:hover {
+                color: $white;
+            }
+        }
+    }
+    .find-cookies {
+        @media #{$medium-up} {
+            margin-left: 0;
+        }
+    }
+    form {
+        $img-width: 235 + 30; //width of the image + 30px
+        display: inline-table;
+        width: 100%;
+        padding: rem-calc(0 10 0 $img-width);
+        > div {
+            display: table-cell;
+            vertical-align: middle;
+        }
+        .caption {
+            width: 52%;
+            label {
+                font-size: rem-calc(33);
+                font-weight: 300;
+                color: $white;
+                line-height: rem-calc(47);
+            }
+            @media #{$small-only} {
+                display: table-row;
+                text-align: center;
+                label {
+                    margin-bottom: rem-calc(15);
+                }
+            }
         }
         .form-wrapper {
-          width: 70%;
-          float: none;
-          margin: 0 auto rem-calc(15);
+            width: 100%;
+            margin: 0;
+            @media #{$small-only} {
+                margin-top: rem-calc(10);
+            }
+            > div {
+                display: table-cell;
+                vertical-align: middle;
+                width: 100%;
+                * {
+                    height: rem-calc(47);
+                }
+            }
+            [type="text"],
+            [type="submit"] {
+                width: 100%;
+                margin: 0;
+            }
+            [type="text"] {
+                padding-left: rem-calc(10);
+                font-size: rem-calc(20);
+            }
+            [type="submit"] {
+                padding: 0 rem-calc(11);
+                border: none;
+                background-color: $primary-color;
+                color: $white;
+                font-size: rem-calc(18);
+                font-weight: 300;
+            }
         }
-      }
-     .three-cols .middle-col &.small {
-        width: 65%;
-        margin-left: auto;
-  	  }
+        @media #{$small-only} {
+            padding: 0 20%;
+        }
+        @media #{$medium-up} {
+            .three-cols .middle-col & {
+                padding-left: rem-calc($img-width - 19);
+                label {
+                    font-size: rem-calc(22);
+                }
+                [type="text"] {
+                    font-size: rem-calc(18);
+                    padding-left: rem-calc(3);
+                }
+                [type="submit"] {
+                    padding: 0 rem-calc(5);
+                }
+            }
+            &.find-cookies-share {
+                padding: 0;
+                margin-left: rem-calc($img-width);
+                width: 47.5%;
+            }
+        }
     }
-    input[type="text"] {
-      float: left;
-      padding-left: rem-calc(10);
-      height: rem-calc(30);
-      font-size: rem-calc(18);
+    .row.homepage {
+        .wrapper-inner {
+            @media #{$small-only} {
+                padding: 1.25rem 0;
+                &:before {
+                    height: 0;
+                    width: 0;
+                    left: 0;
+                    position: relative;
+                    margin-left: 0;
+                    margin-bottom: 0;
+                    margin-top: 0;
+                }
+            }
+        }
+        form label {
+            @media #{$small-only} {
+                // margin-bottom: rem-calc(15);
+                text-align: center;
+                line-height: 1;
+                white-space: nowrap;
+                &:before {
+                    content: "";
+                    //This now done in the jsp. Please check cookie-header.jsp for more details
+                    //background: url("../images/cookie-header.png") no-repeat 0% 0% transparent;
+                    height: rem-calc(35);
+                    width: rem-calc(35);
+                    display: inline-block;
+                    margin-right: rem-calc(15);
+                    vertical-align: bottom;
+                }
+            }
+        }
     }
-    .link-arrow {
-      border: none;
-      background-color: $primary-color;
-      float: left;
-      line-height: rem-calc(30);
-      padding: 0 4%;
-      position: absolute;
-      right: 0;
-      color: $white;
-      font-size: rem-calc(18);
-      font-weight: 300;
+    @media #{$medium-up} {
+        .share {
+            @include grid-column(5, $float: right);
+            line-height: rem-calc(37);
+            width: 22%;
+            * {
+                color: $white;
+            }
+            i {
+                position: absolute;
+                right: 14px;
+                top: 20%;
+            }
+            a {
+                span {
+                    display: inline-block;
+                }
+            }
+        }
     }
-    .form-wrapper {
-      position: relative;
+}
+
+.find-camp {
+    @media #{$medium-up} {
+        margin-left: 0;
     }
-  }
+    span {
+        font-size: 70%;
+        font-style: italic;
+        display: block;
+        color: $white;
+    }
+}
+
+.standalone-camp-finder {
+    margin: rem-calc(15 0);
+    @media #{$small-only} {
+        &:not(.mobile-camp-finder) {
+            #main &,
+            .main-content & {
+                display: none;
+            }
+        }
+    }
+    .three-cols .middle-col & {
+        margin: rem-calc(0 0 15 0);
+    }
+    .row {
+        margin: auto 0;
+    }
+    form {
+        margin: 0 auto;
+        width: 70%;
+        height: 100%;
+        padding: rem-calc(17 0);
+        display: table;
+        > div {
+            display: table-cell;
+            vertical-align: middle;
+        }
+        label {
+            margin-bottom: 0;
+            text-align: left;
+            color: $white;
+            font-size: rem-calc(30);
+            font-weight: 500;
+        }
+        .form-wrapper {
+            position: relative;
+            width: 34.22619%;
+            margin-bottom: 0;
+            > div {
+                display: table-cell;
+                vertical-align: middle;
+                width: 100%;
+                * {
+                    height: rem-calc(30);
+                }
+            }
+            [type="text"],
+            [type="submit"] {
+                width: 100%;
+                margin: 0;
+            }
+            [type="text"] {
+                padding-left: rem-calc(10);
+                font-size: rem-calc(18);
+            }
+            [type="submit"] {
+                padding: 0 rem-calc(7);
+                border: none;
+                background-color: $primary-color;
+                color: $white;
+                font-size: rem-calc(18);
+                font-weight: 300;
+            }
+        }
+        @media #{$small-only} {
+            .caption {
+                display: table-row;
+                label {
+                    text-align: center;
+                    margin-right: 0;
+                    font-size: rem-calc(22);
+                    margin-bottom: rem-calc(15);
+                }
+            }
+            .form-wrapper {
+                width: 100%;
+                padding: 0 15% rem-calc(15) 15%;
+            }
+        }
+        @media #{$medium-up} {
+            .three-cols .middle-col & {
+                label {
+                    margin-right: 0;
+                    font-size: rem-calc(20);
+                    margin-bottom: rem-calc(15);
+                }
+                .form-wrapper {
+                    width: 70%;
+                    margin: 0 auto rem-calc(15);
+                }
+            }
+            .three-cols .middle-col &.small {
+                width: 65%;
+                margin-left: auto;
+            }
+        }
+    }
 }

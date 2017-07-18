@@ -9,6 +9,22 @@
 
 <%
 try{
+
+	  java.util.List newItems = new java.util.ArrayList(); 
+	  newItems.add("Badges for 2017-2018");
+	  newItems.add("Badges_Petals|Badges_for_2017-2018");
+
+	  newItems.add("Journey|It's_Your_World_-_Change_It");
+      newItems.add("It's Your World - Change It");
+
+	  newItems.add("Journey|STEM");
+      newItems.add("STEM");
+
+	  newItems.add("Journey|Outdoor");
+      newItems.add("Outdoor");
+
+
+
   boolean showVtkNav = true;
   String activeTab = "resource";
   String meetingPath = request.getParameter("mpath");
@@ -23,6 +39,22 @@ try{
   String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);//, ageLevel);
+
+	
+java.util.List<Meeting> extraInfoMeetings= new java.util.ArrayList();
+for( int i=0;i<meetings.size();i++){
+	if( meetings.get(i).getMeetingPlanTypeAlt()!=null && !"".equals( meetings.get(i).getMeetingPlanTypeAlt() ) ){
+		Meeting _alteredMeeting = (Meeting) VtkUtil.deepClone(meetings.get(i) );
+		_alteredMeeting.setMeetingPlanType(meetings.get(i).getMeetingPlanTypeAlt());
+		_alteredMeeting.setCatTags(meetings.get(i).getCatTagsAlt());
+		extraInfoMeetings.add( _alteredMeeting );
+	}
+}
+meetings.addAll(extraInfoMeetings);
+
+
+
+
 	
 	String find="";
 %>
@@ -89,9 +121,7 @@ try{
 
 		if(myMeetings!=null) {
 		  for(int i=0;i< myMeetings.size();i++){
-			// ADD CANCELED MEETINGS if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;
-			//if( request.getParameter("isReenter")!=null && meetingPath.equals( myMeetings.get(i).getPath() ) ) continue;
-
+		
 			String meetingId = myMeetings.get(i).getRefId();
 			meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
 		
@@ -143,6 +173,9 @@ try{
   if( meetings!=null)
    for(int i=0;i<meetings.size();i++){
 	  Meeting meeting = meetings.get(i);
+meeting.setLevel( meeting.getLevel().replace("-","_"));
+
+
 
 if( meeting!=null && meeting.getCatTags()!=null)
 	meeting.setCatTags( meeting.getCatTags().replaceAll(" ","_") );
@@ -155,15 +188,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 	  }
 	  String cats = meeting.getCatTags();
 	  if( cats!=null){
-	  /*
-	  List<Tag> catList= meeting.getCatTags();
-	  if( catList!=null ){
-		  ListIterator<Tag> li = catList.listIterator();
-		  while (li.hasNext()) {
-			  Tag temp = li.next();
-			  cats += temp.getName() + ",";
-		  }
-		  */
+	 
 	   StringTokenizer t = new StringTokenizer(cats, ",");
 
 		  while( t.hasMoreElements() ){
@@ -172,8 +197,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 
 			  mCats.put(theCat,  "MC_"+new java.util.Date().getTime() +"_"+ Math.random());
 
-			  if( meeting.getMeetingPlanType()!=null && meeting.getCatTags()!=null){// && !mCatsPerType.get(meeting.getMeetingPlanType()).contains(theCat) ){
-
+			  if( meeting.getMeetingPlanType()!=null && meeting.getCatTags()!=null){
 				  java.util.Set _x = mCatsPerType.get(meeting.getMeetingPlanType());
 
 				  if( _x==null ){
@@ -288,8 +312,8 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			<span class="container" style="clear:both;">
 			<span class="terminal" data-price="<%if(level.contains("Daisy"))out.println("1");else if(level.contains("Brownie"))out.println("2");else if(level.contains("Junior"))out.println("3");else out.println(100);%>">
 			<div class="small-24 medium-12 column">
-			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  <%=troop.getTroop().getGradeLevel().contains(level) ? "CHECKED" : "" %> onclick="doFilter(1)"/>
-			   <label for="<%= id%>"><span></span><p><%=level %> </p></label>
+			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  <%=(troop.getTroop().getGradeLevel().contains(level) || troop.getTroop().getGradeLevel().contains(level.replace("_","-")) ) ? "CHECKED" : "" %> onclick="doFilter(1)"/>
+			   <label for="<%= id%>"><span></span><p><%=level.replace("_","-")  %> </p></label>
 			</div>
 			</span>
 			</span>
@@ -334,7 +358,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 		<div class="list-of-categories column small-22 small-centered" style="display:none;padding-left:0;">
 			<div class="row">
 				<div class="column small-24">
-					<div class="vtk-meeting-filter_title"><span>3.</span> Select your badge categories</div>
+					<div class="vtk-meeting-filter_title"><span>3.</span> Select your  <span id="cat_selected" style="font-size:14px !important;"></span>  categories</div>
 					<div id="vtk-meeting-group-categories"  class="row  wrap-vtk-meeting-group-categories">
 
 	  <!--  end carlos 3  -->
@@ -345,6 +369,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 
 		while( itrCats.hasNext()){
 			String cat =  (String)itrCats.next();
+			String cat_fmted = cat.replaceAll("_", " ");
 			String id= (String) mCats.get(cat);
 			%>
 				
@@ -352,10 +377,16 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 
 				<div class="small-24 medium-12 large-6 column <%= !itrCats.hasNext() ? "end" : "" %>"  style="min-height:70px">
 					<input type="checkbox" name="_tag_c" id="<%= id%>" value="<%=cat %>"  onclick="doFilter(3)"/>
-					<label for="<%= id%>"><span></span><p> <%=cat.replaceAll("_", " ")  %></p></label>
+
+					
+					<label for="<%= id%>"><span></span>
+ 					<p> 
+ 						<%= cat_fmted %> 
+                        <span style="font-size:10px;color:#F9A61A;font-weight:bold;display:none;background:none;" id="vtkCatItem_<%= id%>">
+ 							<%= newItems.contains(cat_fmted) ? " NEW" : ""  %>
+ 						</span>
+ 					</p></label>
 				</div>
-
-
 			
 		
 			<%  } %>
@@ -632,7 +663,14 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			listNodes =[];
 
 			$.each($(origin).children(), function(indx,el){
-				listNodes[orden.indexOf($(el).find('input').val())] = el;
+				if(orden.indexOf($(el).find('input').val())>=0){
+					listNodes[orden.indexOf($(el).find('input').val())] = el;
+				}else{
+					listNodes[orden.length + 1] = el;
+					orden.push($(el).find('input').val());
+					
+				}
+
 			})
 		}else{
 			listNodes = $(origin).children();
@@ -795,14 +833,16 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		<div class="vtk-float-submit">
 		<input class="button tiny" type="button" value="CANCEL" onclick="closeModal()"/>
 
-		<input class="button tiny" type="button" value="CLEAR" onclick="clearList()" />
 
+     <%if(request.getParameter("isReplaceMeeting")==null){%>
+      <input class="button tiny" type="button" value="CLEAR" onclick="clearList()" />
 	  <%if( request.getParameter("newCustYr")!=null){ %>
 		   <input class="button tiny inactive-button add-to-year-plan" type="button" value="ADD TO YEAR PLAN"  onclick="createCustPlan(null)"/>
 	  <%}else{ %>
 		   <input class="button tiny inactive-button add-to-year-plan" type="submit"  value="ADD TO YEAR PLAN" />
 	  <%}//end else %> 
-	</div>  
+     <%}%>
+     </div>  
 	</div>
 
 		  <%
@@ -810,48 +850,8 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		  //sort meetings by this specific order: dAisy > bRownie > jUnior
 		  if (meetings != null) {
 			  
-		  /*
-			  Collections.sort(meetings, new Comparator<Meeting>() {
-				  public int compare(Meeting o1, Meeting o2) {
-					  //return o1.getLevel().compareTo(o2.getLevel());
-					  return Character.compare(o1.getLevel().charAt(1), o2.getLevel().charAt(1)); 
-				  }
-			  });
-		  */
 		  
-		  /*
-			  Collections.sort(meetings, new Comparator() {
-
-			        public int compare(Object o1, Object o2) {
-
-			            String x1 = ((Meeting) o1).getLevel().charAt(1) +"";
-			            String x2 = ((Meeting) o2).getLevel().charAt(1) +"";
-			            int sComp = x1.compareTo(x2);
-
-			            if (sComp != 0) {
-			               return sComp;
-			            } else {
-			               String x3 = ((Meeting) o1).getName();
-			               String x4 = ((Meeting) o2).getName();
-			               return x3.compareTo(x4);
-			            }
-			    }});
-		  
-		  */
-		  
-		  /*
-			  Collections.sort(meetings,
-					  java.util.Comparator.comparing(p1 -> ((Meeting)p1).getLevel().charAt(1))
-		                     .thenComparing(p1 -> ((Meeting)p1).getName()) );
-		                     //.thenComparing(p1 -> p1.getArtist()));
-		  */
-		  
-		  
-		    /*
-              Collections.sort(meetings,
-                      java.util.Comparator.comparing(Meeting::getLevel)
-                             .thenComparing(Meeting::getName) );
-                          */
+		 
              
              meetings = VtkUtil.sortMeetings( meetings );
           
@@ -865,9 +865,10 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			Meeting meeting = meetings.get(i);
 			if(!meeting.getLevel().equals(currentLevel)){
 				currentLevel=meeting.getLevel();
+				
 				%>
 				<div style="display:none;" class="meeting-age-separator column small-24 levelNav_<%= currentLevel %>" id="levelNav_<%= currentLevel %>">
-                    <%= currentLevel %>
+                    <%= currentLevel.replace("_","-") %>
                 </div>
 
 				<% 
@@ -898,7 +899,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 					   <div style="display:table-cell;height:inherit;vertical-align:middle;">
-						  <p class="title"><%=meeting.getName()%></p>
+						  <p class="title"><%=meeting.getName()%>  </p>
 						 
 						<p class="blurb"><%=meeting.getBlurb() %></p>
 						<p class="tags"> 
@@ -927,10 +928,11 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 				<% if( request.getParameter("newCustYr")!=null || !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
 
 						 	<div class="middle-checkbox" style="text-align:center;">
-							<input type="checkbox" name="addMeetingMulti" id="<%=meeting.getPath()%>" 
-							value="<%=meeting.getPath()%>"/>
-							<label for="<%=meeting.getPath()%>"><span></span>
-
+                            <%if(request.getParameter("isReplaceMeeting")==null ){%>
+                            	<input type="checkbox" name="addMeetingMulti" id="<%=meeting.getPath()%>_<%=i%>" 
+									value="<%=meeting.getPath()%>"/>
+                            <%}//edn if%>
+							<label for="<%=meeting.getPath()%>_<%=i%>"><span></span>
 							<%if( request.getParameter("newCustYr")!=null){ %>
 								   <p onclick="createCustPlan('<%=meeting.getPath()%>')">Select Meeting</p>
 							  <%}else{ %>
@@ -1027,6 +1029,11 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 		$(this).attr('checked', true);
 
+		if( clickSrc==2) {
+			var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
+            typeSelected= typeSelected.replace('/',' ').replace('_',' ');
+			document.getElementById("cat_selected").innerHTML = typeSelected.replace('Badges Petals','Badge');
+        }
 		
 		if( clickSrc==1 ){clearFilterTypes(); clearFilterCats();}
 		if( clickSrc==2 ){ clearFilterCats();}
@@ -1070,13 +1077,27 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		 
 		 if( isShowLevel && isShowType && isShowCats ){
 			 x.style.display = "inline";
-			 
+
 			 
 			
 
 			document.getElementById("levelNav_"+ x.id.split(';')[3]).style.display = "inline";
 		 }
 	   }
+
+       if( clickSrc==2) {
+            var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
+            typeSelected= typeSelected.replace('/',' ').replace('_',' ');
+
+            var levelSelected = document.querySelector('[name="_tag_m"]:checked').value;
+
+            if( levelSelected!=null && levelSelected=='Daisy' && typeSelected != null && typeSelected == 'Journey' ){
+            	showHideCustCat(true);
+             }else{
+            	showHideCustCat(false);
+             }
+         
+        }
 	}
 
 
@@ -1171,7 +1192,9 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			document.getElementById("<%= id%>").style.display='none';
 			document.getElementById("<%= id%>").parentElement.style.display = 'none';
 			//document.getElementById("<%= id%>").removeAttribute('data-v');
-
+            if( document.getElementById("vtkCatItem_<%= id%>")!=null ){
+                document.getElementById("vtkCatItem_<%= id%>").style.display = 'none';
+            }
 
 			<%
 		}
@@ -1208,11 +1231,24 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			if( document.getElementById("<%= id%>").checked ){
 			  if(typeof <%=tp%> != 'undefined'){
 				for(var y = 0; y < <%=tp%>.length; y++){
+
 					document.getElementById(<%=tp%>[y]).style.display ='inline';
 					document.getElementById(<%=tp%>[y]).parentElement.style.display = 'inline';
 
+                    <%
+                	String searchNewItem="";
+                	for(int i=0;i<newItems.size();i++){
+                		searchNewItem += newItems.get(i) +", ";
+            		}
+            		%>     
+                        if( !!~ "<%=searchNewItem%>".indexOf( "<%=tp%>|"+ document.getElementById(<%=tp%>[y]).value)  ){
+
+                            document.getElementById("vtkCatItem_"+document.getElementById(<%=tp%>[y]).id).style.display ='inline';
+                        }
 				}//end for
+
 			   }//end if
+
 			}//edn if
 			<%
 		}//edn while
@@ -1265,7 +1301,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		
 	}
 	
-	
+
 	function checkIfOnWasClickedX(configObject){
 
 		var  _arrayList = [], v, _hasOne;
@@ -1284,7 +1320,21 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		}
 	}
 
-	
+    function showHideCustCat(isShow){
+
+
+        var custLevelCheckboxes= document.querySelectorAll("input[type='checkbox'][value='It\\'s_Your_World_-_Change_It']");
+        var custLevelCheckbox= custLevelCheckboxes[0];
+        if( custLevelCheckbox==null ) return;
+        if( isShow ){
+        	custLevelCheckbox.parentElement.style.display='inline';
+        	custLevelCheckbox.style.display = 'inline';
+        }else{
+        	custLevelCheckbox.parentElement.style.display='none';
+        	custLevelCheckbox.style.display = 'none';
+        }
+
+    }
 	
 	initMeetings();
 

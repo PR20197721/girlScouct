@@ -17,6 +17,7 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -719,4 +720,7 @@ public static java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> me
 	return meetings;
 }
 
+	public static Map<String, Long> countUniq(java.util.List<String> container){
+		return container.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+	}
 }//end class

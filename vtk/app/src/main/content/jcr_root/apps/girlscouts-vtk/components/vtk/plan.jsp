@@ -189,7 +189,7 @@
                 return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "Hello! Your girl's Troop Leader has not yet set up the troop's Year Plan. Please contact the Troop Leader for more info on their use of the Volunteer Toolkit.");
 
             }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>  ){
-                yesPlan();
+                yesPlan.auto();
                 return React.createElement("h3",null);
             }else{
 
@@ -376,7 +376,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
        
 
 
-          var dom = $(this.getDOMNode());
+          var dom = $(ReactDOM.findDOMNode(this));
           var onReorder = this.props.onReorder;
 
           dom.sortable({
@@ -407,7 +407,8 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
          scrollTarget = ".touchscroll";
        }
 
-        var dom = $(this.getDOMNode());
+
+        var dom = $(ReactDOM.findDOMNode(this));
         var onReorder = this.props.onReorder;
         dom.sortable({
         items: "li:not(.ui-state-disabled)",
@@ -476,7 +477,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         });
     }
 
-      React.render(
+      ReactDOM.render(
         React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?yearPlanSched=X", pollInterval: 10000}),
           document.getElementById('thePlan')
         );

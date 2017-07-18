@@ -207,7 +207,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
             }
         }
       });
-      React.render(
+      ReactDOM.render(
               React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?reactActivity=x"+getElem(), pollInterval: 10000}),
                 document.getElementById('theActivity')
               );
