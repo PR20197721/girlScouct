@@ -27,9 +27,11 @@ import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+import org.apache.sling.auth.core.AuthUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.wcm.foundation.forms.FormsConstants;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 @Component(metatype = false)
@@ -118,9 +120,19 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 		
 		method = callHttpClient(url);
 		
-		//redirect to referrer
-		FormsHelper.redirectToReferrer(request, response,
-			Collections.singletonMap("stats", new String[]{String.valueOf(status)}));
+		//check for redirect
+		String redirectTo = request.getParameter(FormsConstants.REQUEST_PROPERTY_REDIRECT);
+		if (redirectTo != null && !redirectTo.trim().isEmpty()) {
+			if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
+				int pos = redirectTo.indexOf('?');
+				redirectTo = redirectTo + (pos == -1 ? '?' : '&') + "status=" + status;
+				response.sendRedirect(redirectTo);
+			} else {
+				logger.error("Invalid redirect specified: {}", new Object[]{redirectTo});
+				response.sendError(403);
+			}
+			return;
+		}
 
 	}
 	

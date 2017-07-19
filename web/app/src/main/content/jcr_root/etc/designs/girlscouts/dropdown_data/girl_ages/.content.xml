@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="sling:Folder"
-    ages="[ 5,6,7,8,9,10,11,12,13,14,15,16,17,18 ]"/>
+    ages="[ ,5,6,7,8,9,10,11,12,13,14,15,16,17,18 ]"/>
