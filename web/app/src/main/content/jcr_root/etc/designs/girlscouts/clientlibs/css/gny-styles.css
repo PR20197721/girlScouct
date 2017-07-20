@@ -1,20 +1,21 @@
 /* Mobile header buttons */
 
-.mobile-cta {
+#header .mobile-cta {
     margin: 20px 0 -15px 0;
     text-align: center;
     padding: 5px;
 }
 
-.circle-btn {
+#header .circle-btn {
     margin: 0 10px;
     font-size: 100%;
     vertical-align: baseline;
     text-decoration: none;
-    font: 15px omnesbold, arial, helvetica, sans-serif;
-    background: #009447;
+    font-size: 15px;
+    font-weight: 800;
+    background: #01a850;
     border-radius: 14px;
-    color: #fff;
+    color: #ffffff;
     text-transform: uppercase;
     padding: 6px 25px;
     line-height: 1;
@@ -26,23 +27,21 @@
     transition: background .3s;
 }
 
-
-/*
-.circle-btn:hover {
+#header .circle-btn:hover {
     background: #00823d;
+    color: #ffffff;
     outline: 0;
 }
-*/
 
-.circle-btn:link {
+#header .circle-btn:link {
     -webkit-tap-highlight-color: #478FB2;
 }
 
-.yellow-btn {
+#header .yellow-btn {
     background: #f0c022;
 }
 
-.orange-btn {
+#header .orange-btn {
     background: #faa61a;
 }
 
@@ -91,6 +90,7 @@
     float: left;
     position: relative;
     text-transform: uppercase;
+    background-image: none !important;
 }
 
 .flyout-nav>li>a {
@@ -99,34 +99,19 @@
     z-index: 1000;
 }
 
-.flyout-nav>li>a:before {
-    -webkit-transition: opacity .3s;
-    -moz-transition: opacity .3s;
-    -ms-transition: opacity .3s;
-    transition: opacity .3s;
-    opacity: 0;
+.flyout-nav>li.active:after {
     content: '';
     position: absolute;
-    bottom: -1px;
-    //border-bottom: 4px solid #01a850;
-    display: block;
-    height: 4px;
-    width: 100%;
     left: 0;
+    bottom: 0;
+    border-top: 3px solid #ffffff;
+    display: block;
+    width: 100%;
 }
 
 .flyout-nav>li>a:hover,
 .flyout-nav>li.active>a {
     //color: #01a850;
-}
-
-.flyout-nav>li.has-children:hover {
-    background-image: none !important;
-}
-
-.flyout-nav>li>a:hover:before,
-.flyout-nav>li.active>a:before {
-    opacity: 1;
 }
 
 .flyout-nav>li.has-children>a:after {
@@ -135,13 +120,14 @@
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 6px 6px 0 6px;
+    border-width: 8px 8px 0 8px;
     border-color: #01a850 transparent transparent transparent;
     -webkit-transform: rotate(360deg);
     position: absolute;
     left: 50%;
-    bottom: -6px;
-    margin-left: -6px;
+    bottom: -13px;
+    /* 8px top + 5px border */
+    margin-left: -8px;
     display: none;
 }
 
@@ -165,11 +151,13 @@
     padding: 5px 0;
     z-index: 999;
     width: 250px;
-    border-top: 5px solid #159d4b;
+    border-top: 5px solid #01a850;
+    /*#159d4b;*/
 }
 
 .flyout-nav>li.has-children:hover .fly-down {
-    top: 26px;
+    top: 31px;
+    /* 26px top + 5px border */
     opacity: 1;
 }
 
