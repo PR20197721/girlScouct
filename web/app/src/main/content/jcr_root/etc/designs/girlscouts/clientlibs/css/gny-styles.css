@@ -259,19 +259,29 @@ div.round_corners div#footer {
 
 div.round_corners div#main {
     border-radius: 6px 6px 0 0;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 
 /* Full-screen background */
 
 .main-bg {
-    width: 100%;
+    width: 200%;
+    min-height: 325px;
+    padding-top: 72.11%; /* 1298px / 1800px */
     position: fixed;
-    left: 0;
+    left: -50%;
     top: 0;
     z-index: -100;
     opacity: 0;
+}
+
+.main-bg img {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    height: 100%;
 }
 
 @keyframes fadeIn {
