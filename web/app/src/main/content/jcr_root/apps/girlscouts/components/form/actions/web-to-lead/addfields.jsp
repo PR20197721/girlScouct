@@ -65,6 +65,7 @@
 <!--<input type=hidden name="oid" value="00DG0000000leqU"> -->
 <input type=hidden name="oid" value="00D630000009G0r"> 
 <!-- CAMPAIGN ID -->
+<input type=hidden name="00N63000001SuaL" value="<%=campaignID%>" />
 <input type=hidden name="Campaign_ID" value="<%=campaignID%>" />
 <%  } 
     String debugEmail = props.get("debug", "");
