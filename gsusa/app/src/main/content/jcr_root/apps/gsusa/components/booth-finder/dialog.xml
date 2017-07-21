@@ -947,6 +947,12 @@
                         name="./mapFBImgPath"
                         rootPath="/content/dam"
                         xtype="pathfield"/>
+                    <mapGoogleAPI 
+                    	jcr:primaryType="cq:Widget"
+                    	fieldDescription="Google Maps API key to show map"
+                    	fieldLabel="Google Maps API"
+                    	name="./mapAPI"
+                    	xtype="textfield" />
             	</items>
             </mapModal>
             <not-found

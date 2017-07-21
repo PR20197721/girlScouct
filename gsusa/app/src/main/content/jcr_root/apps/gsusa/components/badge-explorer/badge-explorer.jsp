@@ -476,8 +476,9 @@ class BadgeComparator implements Comparator<Resource>{
         }
 
         $(".submenu label").each(function () {
-            filter = $(this).html();
+            //filter = $(this).html();
             id = $(this).attr("for");
+            filter = id.split("-")[3];
             group = Number(id.split("-")[1]);
             filterSets[filter] = {
                 badges: $(".badge-block[filter~='" + filter.replace(/\s+/g, '').toLowerCase() + "']"), // Remove all spaces, ~ is for whitespace separated selector
@@ -510,7 +511,8 @@ class BadgeComparator implements Comparator<Resource>{
         });
 
         $(".submenu input[type='checkbox']").on("change", function () {
-            var filter = $(this).siblings("label").html(),
+        	var id = $(this).siblings("label").attr("for");
+            var filter = id.split("-")[3],
                 active = this.checked, // Check current active state of filter
                 f,
                 g,

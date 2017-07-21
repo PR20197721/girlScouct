@@ -210,10 +210,10 @@ if (tagPaths != null && tagPaths.length > 0) {
 			                            Tag subTag = subTags.next();
 			                            subTagCnt++;
 			                            %><li>
-		                                   <input id="select-<%=dropDwnCnt%>-<%=subTagCnt%>" type="checkbox" name="menu" autocomplete="off" /> 
-		                                   <label for="select-<%=dropDwnCnt%>-<%=subTagCnt%>"><%=subTag.getTitle()%></label>
+		                                   <input id="select-<%=dropDwnCnt%>-<%=subTagCnt%>-<%=subTag.getName()%>" type="checkbox" name="menu" autocomplete="off" /> 
+		                                   <label for="select-<%=dropDwnCnt%>-<%=subTagCnt%>-<%=subTag.getName()%>"><%=subTag.getTitle()%></label>
 		                               </li><%
-		                               sb.append("<label class=\"hide\" for=\"select-" + dropDwnCnt + "-" + subTagCnt + "\">" + subTag.getTitle() + "</label>");
+		                               sb.append("<label class=\"hide\" for=\"select-" + dropDwnCnt + "-" + subTagCnt + "-" + subTag.getName() + "\">" + subTag.getTitle() + "</label>");
 			                        }
 			                    }
 	                        }
