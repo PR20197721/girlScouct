@@ -90,9 +90,12 @@ try {
    		Boolean displayPageBanner = globalNavProps.get("./displayPageBanner", Boolean.FALSE);
 	   	if(displayPageBanner){
 		   String pageBannerPath = currentPage.getContentResource().getPath() + "/page-banner";
+		   boolean isHomePage = currentPage.getAbsoluteParent(2).getPath().equals(currentPage.getPath());
 		   %>
 			<div class="page-banner-title">
+				<%if(!isHomePage){ %>
 		   		<cq:include path="<%=pageBannerPath %>" resourceType="girlscouts/components/page-banner" />
+		   		<%} %>
 		   	</div>
 		   <%
 		}
