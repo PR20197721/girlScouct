@@ -253,6 +253,7 @@
 
 div.round_corners div.header-wrapper,
 div.round_corners div#headerBar,
+div.round_corners div.show-for-small.topMessage,
 div.round_corners div#footer {
     border-radius: 0 0 6px 6px;
 }

@@ -25,11 +25,31 @@ if(backgroundPath != null && backgroundPath.trim().length() > 0){
                     // Set random full-page background image
                     // Select from an array to allow for custom image names
                     var images = [
-                        <%=sb.substring(0, sb.length()-1)%>
-                    ],
+                            <%=sb.substring(0, sb.length()-1)%>
+                        ],
                         rand = Math.floor(Math.random() * images.length), // Returns 0 through length-1
                         bg = $(".main-bg"),
-                        bgImage = $(".main-bg > img");
+                        bgImage = $(".main-bg > img"),
+                        header = {
+                            wrapper: undefined,
+                            banner: undefined,
+                            wrapperHeight: 0,
+                            bannerHeight: 0
+                        };
+                        
+                    function fixWhitespace() {
+                        var wrapperHeight = header.wrapper.outerHeight(true),
+                            bannerHeight = header.banner.outerHeight(true);
+                        
+                        // Check to see if height needs to be changed before calling expensive CSS function
+                        if (header.wrapperHeight !== wrapperHeight || header.bannerHeight !== bannerHeight) {
+                            bg.css({
+                                "min-height": wrapperHeight + bannerHeight + 6 // 6px extra for #main border-radius
+                            });
+                            header.wrapperHeight = wrapperHeight;
+                            header.bannerHeight = bannerHeight;
+                        }
+                    }
 
                     if (images.length > 0) {
                         // Change background color
@@ -43,11 +63,14 @@ if(backgroundPath != null && backgroundPath.trim().length() > 0){
                         // Load image
                         bgImage[0].src = images[rand];
 
-                        $(function () {
-                            // Adjust min-height for mobile to prevent whitespace
-                            bg.css({
-                                "min-height": $(".header-wrapper").outerHeight(true) + $(".page-banner-title h1").outerHeight(true) + 5 // 5px extra for #main border-radius
-                            });
+                        // Adjust min-height for mobile to prevent whitespace
+                        $(function () { // Call once on document ready
+                            header.wrapper = $(".header-wrapper");
+                            header.banner = $(".page-banner-title h1");
+                            fixWhitespace();
+                        });
+                        $(window).resize(function () { // Call again whenever the window is resized
+                            fixWhitespace();
                         });
                     }
                 }());
