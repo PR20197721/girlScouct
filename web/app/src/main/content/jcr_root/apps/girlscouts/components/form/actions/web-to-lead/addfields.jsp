@@ -59,14 +59,17 @@
 		//get cw or rw
     final ValueMap props = ResourceUtil.getValueMap(resource);
 	String campaignID = props.get("campaignID", "");
-    if(!campaignID.isEmpty()){
+	String organizationID = props.get("organizationID", "");
+	String campaignIDFieldName1 = props.get("campaignIDFieldName1", "");
+	String campaignIDFieldName2 = props.get("campaignIDFieldName2", "");
+    if(!campaignID.isEmpty() && !organizationID.isEmpty() && !campaignIDFieldName1.isEmpty() && !campaignIDFieldName1.isEmpty()){
 %>
 <!-- ORGANIZATION ID -->
-<!--<input type=hidden name="oid" value="00DG0000000leqU"> -->
-<input type=hidden name="oid" value="00D630000009G0r"> 
+<input type=hidden name="oid" value="<%=organizationID%>"> 
 <!-- CAMPAIGN ID -->
-<input type=hidden name="00N63000001SuaL" value="<%=campaignID%>" />
-<input type=hidden name="Campaign_ID" value="<%=campaignID%>" />
+<input type=hidden name="<%=campaignIDFieldName1%>" value="<%=campaignID%>" />
+<input type=hidden name="<%=campaignIDFieldName2%>" value="<%=campaignID%>" />
+
 <%  } 
     String debugEmail = props.get("debug", "");
     if(!debugEmail.isEmpty()){

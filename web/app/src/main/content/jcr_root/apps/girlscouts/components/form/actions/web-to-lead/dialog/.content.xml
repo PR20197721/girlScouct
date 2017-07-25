@@ -3,4 +3,7 @@
     jcr:primaryType="cq:WidgetCollection">
     <url/>
     <campaignID/>
+    <organizationID/>
+    <campaignIDFieldName1/>
+    <campaignIDFieldName2/>
 </jcr:root>
