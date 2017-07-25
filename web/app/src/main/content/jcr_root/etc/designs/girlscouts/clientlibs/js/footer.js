@@ -100,6 +100,9 @@ function toggleTab(panel) {
     // Necessary for authoring mode. See main.js:toggleParsys
     if (window[panel.parsysID] && window[panel.parsysID].toggle) {
         window[panel.parsysID].toggle();
+        panel.body.find(".accordion dt").each(function () { // Hide child parsys
+            window[this.getAttribute("data-target")].hideParsys();
+        });
     }
 
     // Toggle classes and animate
