@@ -25,55 +25,25 @@
                    java.util.HashMap,
                    com.day.cq.wcm.foundation.forms.FormsConstants,
                    com.day.cq.wcm.foundation.forms.FormResourceEdit,
-                   org.girlscouts.vtk.helpers.ConfigManager"%><%
+                   org.girlscouts.web.webtolead.config.WebToLeadConfig"%><%
 %><%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
-    //get councilmapping in vtk system
-		String councilCode = "";
-		ConfigManager configs=sling.getService(ConfigManager.class);
-		String[] mappings = configs.getCouncilMapping();
-		HashMap<String,String> councilMap = new HashMap<String, String>();
-		 if (mappings != null) {
-		  for (int i = 0; i < mappings.length; i++) {
-		    String[] configRecord = mappings[i].split("::");
-		    if (configRecord.length >= 2) {
-		      councilMap.put(configRecord[1], configRecord[0]);
-		    } else {
-		      log.error("Malformatted council mapping record: "
-		          + mappings[i]);
-		    }
-		  }
-		} 
-		//get branch name
-		String branch = "";
-		final String pagePath = currentPage.getPath();
-		// /content/gsctx/en/formpage -> gsctx
-		int pos = pagePath.indexOf('/', 1);
-    branch = pagePath.substring(pos + 1);
-    pos = branch.indexOf('/');
-    branch = branch.substring(0, pos);
-		//get council code        
-		if(councilMap.get(branch)!=null){
-			  councilCode = councilMap.get(branch);
-		}  
-		//get cw or rw
+    
+	WebToLeadConfig webToLeadConfig = sling.getService(WebToLeadConfig.class);	
     final ValueMap props = ResourceUtil.getValueMap(resource);
 	String campaignID = props.get("campaignID", "");
-	String organizationID = props.get("organizationID", "");
-	String campaignIDFieldName1 = props.get("campaignIDFieldName1", "");
-	String campaignIDFieldName2 = props.get("campaignIDFieldName2", "");
-    if(!campaignID.isEmpty() && !organizationID.isEmpty() && !campaignIDFieldName1.isEmpty() && !campaignIDFieldName1.isEmpty()){
+	String organizationID = webToLeadConfig.getOID();
+	String campaignIDFieldName1 = webToLeadConfig.getCampaignIDPrimaryName();
+	String campaignIDFieldName2 = webToLeadConfig.getCampaignIDSecondaryName();
+	String apiURL = webToLeadConfig.getAPIURL();
+    if(!campaignID.isEmpty()){
 %>
 <!-- ORGANIZATION ID -->
 <input type=hidden name="oid" value="<%=organizationID%>"> 
 <!-- CAMPAIGN ID -->
 <input type=hidden name="<%=campaignIDFieldName1%>" value="<%=campaignID%>" />
 <input type=hidden name="<%=campaignIDFieldName2%>" value="<%=campaignID%>" />
+<!-- API URL -->
+<input type=hidden name="apiUrl" value="<%=apiURL%>" />
 
-<%  } 
-    String debugEmail = props.get("debug", "");
-    if(!debugEmail.isEmpty()){
-%>
-<input type="hidden" name="debug" value=1>
-<input type="hidden" name="debugEmail" value="<%=debugEmail%>">
 <%  } %>

@@ -45,7 +45,7 @@ import com.day.cq.wcm.foundation.forms.FormsHelper;
 public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingServlet {
 
 	protected static final String EXTENSION = "html";
-	protected static final String URL_PROPERTY = "requestURL";
+	protected static final String URL_PROPERTY = "apiUrl";
 	//Prod settings
 	protected static final String SALESFORCE_URL="https://www.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8";
 	protected static final String OID = "oid";
@@ -101,8 +101,7 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 			return;
 		}
 		
-		final ValueMap props = ResourceUtil.getValueMap(request.getResource());
-		String url = props.get(URL_PROPERTY, String.class);
+		String url = request.getRequestParameter(URL_PROPERTY).getString();
 		if(url.isEmpty()){
 			url = SALESFORCE_URL;
 		}
