@@ -686,7 +686,18 @@ function fixSlickSlideActive() {
             }
         }]
     });
-
+    
+    $('.join-redirect-slider').slick({
+        dots: false,
+        autoplay: true,
+        autoplayspeed: (typeof joinRedirectAutoplaySpeed != 'undefined') ? joinRedirectAutoplaySpeed : 2000,
+        speed: (typeof joinRedirectSpeed != 'undefined') ? joinRedirectSpeed : 500,        
+        arrows: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        fade: true
+    });
+    
     function shop_rotator() {
         /*
         $('.rotator .button.arrow').on("click", function (event) {

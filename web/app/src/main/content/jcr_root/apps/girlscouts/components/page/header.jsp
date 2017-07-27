@@ -42,6 +42,7 @@
       <%} %>
       </div>
     </div>
+    <cq:include script="mobile-cta.jsp"/>
     <div class="show-for-small small-24 columns topMessage alt">
       <div class="row vtk-login collapse">
         <% setCssClasses("small-19 columns", request); %>
@@ -84,16 +85,17 @@
 <cq:include path="<%= cookiePlaceholderPath %>" resourceType="girlscouts/components/cookie-header" />
 <%
 try {
-   ValueMap globalNavProps = resourceResolver.getResource(headerPath + "/global-nav").adaptTo(ValueMap.class);
-   if(globalNavProps != null){
-	   Boolean displayPageBanner = globalNavProps.get("./displayPageBanner", Boolean.class);
-	   if(displayPageBanner){
-		   String pageBannerPath = currentPage.getContentResource().getPath() + "/page-banner/par";
+   	ValueMap globalNavProps = resourceResolver.getResource(headerPath + "/global-nav").adaptTo(ValueMap.class);
+   	if(globalNavProps != null){
+   		Boolean displayPageBanner = globalNavProps.get("./displayPageBanner", Boolean.FALSE);
+	   	if(displayPageBanner){
+		   String pageBannerPath = currentPage.getContentResource().getPath() + "/page-banner";
+		   boolean isHomePage = currentPage.getAbsoluteParent(2).getPath().equals(currentPage.getPath());
 		   %>
-		   	<div class="row">
-				<div class="page-banner-title">
-			   		<cq:include path="<%=pageBannerPath %>" resourceType="girlscouts/components/title" />
-			   	</div>
+			<div class="page-banner-title">
+				<%if(!isHomePage){ %>
+		   		<cq:include path="<%=pageBannerPath %>" resourceType="girlscouts/components/page-banner" />
+		   		<%} %>
 		   	</div>
 		   <%
 		}

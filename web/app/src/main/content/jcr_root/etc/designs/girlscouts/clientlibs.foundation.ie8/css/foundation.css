@@ -3703,8 +3703,7 @@ td {
 a {
   color: #00a850;
   text-decoration: none;
-  line-height: inherit; 
-  font-size: 1.0625rem;}
+  line-height: inherit; }
   a:hover, a:focus {
     color: #009045; }
   a img {
