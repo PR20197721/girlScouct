@@ -55,7 +55,9 @@
     String forceMrChangeHandler = multiRes ? "cq5forms_multiResourceChange(event, '" + xssAPI.encodeForJSString(mrName) + "', true);" : "";
 
     %><div class="form_row">
+    	<%if(confirmationEmail!=null){ %>
     	<input type="hidden" id="confirmation_email_<%=id%>" value="<%=confirmationEmail%>"/>
+    	<%} %>
         <% LayoutHelper.printTitle(id, title, required, hideTitle, out); %>
         <div class="form_rightcol" id="<%= xssAPI.encodeForHTMLAttr(name) %>_rightcol"><%
             int i = 0;
