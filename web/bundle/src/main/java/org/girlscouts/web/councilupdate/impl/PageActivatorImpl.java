@@ -675,5 +675,11 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 	private void deactivate(ComponentContext componentContext) {
 		log.info("GS Page Activation Service Deactivated.");
 	}
+
+	@Override
+	public void run(String path) {
+		log.error("********************ACTIVATING " + path);
+
+	}
 	
 }

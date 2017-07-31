@@ -15,4 +15,5 @@ public interface PageActivator{
 	long getLastBatchTime();
 	TreeSet<String> getUnmapped();
 	ArrayList<Node> getReportNodes();
+	void run(String path);
 }
