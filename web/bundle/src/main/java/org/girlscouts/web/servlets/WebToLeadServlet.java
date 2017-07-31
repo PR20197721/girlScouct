@@ -47,13 +47,14 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 	protected static final String EXTENSION = "html";
 	protected static final String URL_PROPERTY = "apiUrl";
 	//Prod settings
+	/*
 	protected static final String SALESFORCE_URL="https://www.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8";
 	protected static final String OID = "oid";
 	protected static final String CAMPAIGN_ID = "00NZ0000001vvQA";
 	protected static final String GIRL_AGE = "00NZ0000001vvKq";
 	protected static final String GIRL_GRADE = "00NZ0000001vvKl";
 	protected static final String GIRL_FIRST_NAME = "00NZ0000001vvKg";
-	protected static final String GIRL_LAST_NAME = "00NZ0000001vvKb";
+	protected static final String GIRL_LAST_NAME = "00NZ0000001vvKb"; */
 	
 	//UAT settings
 	/*
@@ -66,10 +67,11 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 	protected static final String GIRL_LAST_NAME = "00NZ0000001vvKb";*/
 	
 	//General Settings
+	/*
 	protected static final String FIRST_NAME = "first_name";
 	protected static final String LAST_NAME = "last_name";
 	protected static final String ZIP = "zip";
-	protected static final String EMAIL = "email";
+	protected static final String EMAIL = "email"; */
 	
 	private List<NameValuePair> data = new LinkedList<NameValuePair>();
 	private PostMethod method = null;
@@ -102,10 +104,6 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 		}
 		
 		String url = request.getRequestParameter(URL_PROPERTY).getString();
-		if(url.isEmpty()){
-			url = SALESFORCE_URL;
-		}
-		int status = 200;
 		
 		for(Iterator<String> itr=FormsHelper.getContentRequestParameterNames(request); itr.hasNext();){
 			final String paraName=itr.next();
@@ -124,7 +122,7 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 		if (redirectTo != null && !redirectTo.trim().isEmpty()) {
 			if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
 				int pos = redirectTo.indexOf('?');
-				redirectTo = redirectTo + (pos == -1 ? '?' : '&') + "status=" + status;
+				redirectTo = redirectTo + (pos == -1 ? '?' : '&') + "status=" + "200";
 				response.sendRedirect(redirectTo);
 			} else {
 				logger.error("Invalid redirect specified: {}", new Object[]{redirectTo});
