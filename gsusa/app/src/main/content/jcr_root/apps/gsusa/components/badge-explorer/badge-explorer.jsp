@@ -285,6 +285,7 @@ class BadgeComparator implements Comparator<Resource>{
     }
 
     .badge-image {
+        width: 100%;
         padding: 5px;
     }
     
