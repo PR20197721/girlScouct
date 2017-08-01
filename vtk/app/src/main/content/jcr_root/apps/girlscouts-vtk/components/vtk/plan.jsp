@@ -219,7 +219,7 @@
                               React.createElement("p", {className: "hide-for-print <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
                           )
                       ),
-                        React.createElement(MeetingComponent, {key: this.props.data, data: this.props.data, onReorder: this.onReorder})
+                        React.createElement(MeetingComponent, {key: this.props.data.yearPlanName+(new Date()).getTime(), data: this.props.data, onReorder: this.onReorder})
                 )
            );
         } //end of render
@@ -312,7 +312,7 @@
                                   }else if( obj[comment].type == 'ACTIVITY' ){
 
                                         return (
-React.createElement("li", {draggable: false, className: "row meeting activity ui-state-default ui-state-disabled", key: obj[comment].id},
+React.createElement("li", {draggable: false, className: "row meeting activity ui-state-default ui-state-disabled", key: obj[comment].uid},
   React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
     React.createElement("div", {},
     React.createElement("div", {className: bgcolor(obj, comment, 0)},
