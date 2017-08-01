@@ -277,10 +277,10 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 			}
 		} else {
 
-			if (activationsNode.hasNode(IMMEDIATE_NODE)) {
-				activationTypeNode = activationsNode.getNode(IMMEDIATE_NODE);
+			if (activationsNode.hasNode(INSTANT_NODE)) {
+				activationTypeNode = activationsNode.getNode(INSTANT_NODE);
 			} else {
-				activationTypeNode = activationsNode.addNode(IMMEDIATE_NODE);
+				activationTypeNode = activationsNode.addNode(INSTANT_NODE);
 				session.save();
 			}
 		}
