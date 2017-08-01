@@ -1,16 +1,21 @@
 package org.girlscouts.web.constants;
 
-public interface PageRolloutConstants {
+public interface PageActivationConstants {
 
 	public static final String STATUS_CREATED = "created";
-	public static final String STATUS_PROCESSED = "processed";
+	public static final String STATUS_QUEUED = "queued";
+	public static final String STATUS_PROCESSING = "processing";
 	public static final String STATUS_COMPLETED = "completed";
 	public static final String STATUS_FAILED = "failed";
 
-	public static final String DATE_NODE_FMT = "yyyy-MM-dd-HH-mm-ss";
+	public static final String DATE_NODE_FMT = "yyyy-MM-dd'T'HHmmss";
 
-	public static final String DELAYED_NODE = "gs-delayed-activations";
-	public static final String IMMEDIATE_NODE = "gs-immediate-activations";
+	public static final String ETC_NODE = "/etc";
+	public static final String ACTIVATIONS_NODE = "gs-activations";
+	public static final String GS_ACTIVATIONS_PATH = "/etc/gs-activations";
+	public static final String DELAYED_NODE = "delayed";
+	public static final String IMMEDIATE_NODE = "immediate";
+	public static final String PROCESSED_NODE = "processed";
 
 	public static final String PARAM_COUNCILS = "councils";
 	public static final String PARAM_DELAY = "delayActivation";
@@ -25,6 +30,20 @@ public interface PageRolloutConstants {
 	public static final String PARAM_STATUS = "status";
 	public static final String PARAM_SOURCE_PATH = "srcpath";
 	public static final String PARAM_PAGES = "pages";
+	public static final String PARAM_PROCESSED_PAGES = "processedPages";
+	public static final String PARAM_UNMAPPED_PAGES = "unmappedPages";
+	public static final String PARAM_REPORT_EMAILS = "emails";
+	public static final String PARAM_DISPATCHER_IPS = "ips";
+
+	public static final String CONFIG_PAGEPATH = "pagespath";
+	public static final String CONFIG_GROUP_SIZE = "groupsize";
+	public static final String CONFIG_MINUTES = "minutes";
+	public static final String CONFIG_CRAWL_DEPTH = "crawldepth";
+
+	public static final int DEFAULT_CONFIG_GROUP_SIZE = 1;
+	public static final int DEFAULT_CONFIG_MINUTES = 5;
+	public static final int DEFAULT_CONFIG_CRAWL_DEPTH = -1;
+	public static final int DEFAULT_CRAWL_WAIT_TIME = 5000;
 
 	public interface Email {
 		public static final String DEFAULT_REPORT_SUBJECT = "GSUSA Rollout (Production) Report";

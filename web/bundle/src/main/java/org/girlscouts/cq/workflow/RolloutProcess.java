@@ -22,7 +22,8 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
-import org.girlscouts.web.constants.PageRolloutConstants;
+import org.girlscouts.web.components.PageActivationUtil;
+import org.girlscouts.web.constants.PageActivationConstants;
 import org.girlscouts.web.councilrollout.GirlScoutsRolloutReporter;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
@@ -48,7 +49,7 @@ import org.girlscouts.web.councilupdate.PageActivator;
 
 @Component
 @Service
-public class RolloutProcess implements WorkflowProcess, PageRolloutConstants {
+public class RolloutProcess implements WorkflowProcess, PageActivationConstants {
 	@Property(value = "Roll out a page if it is the source page of a live copy, and then activate target pages.")
 	static final String DESCRIPTION = Constants.SERVICE_DESCRIPTION;
 	@Property(value = "Girl Scouts")
@@ -141,6 +142,12 @@ public class RolloutProcess implements WorkflowProcess, PageRolloutConstants {
 							}
 							Node dateRolloutNode = getDateRolloutNode(session, resourceResolver, delay);
 							includePagesForActivation(session, dateRolloutNode, pagesToActivate);
+							String[] emails = PageActivationUtil.getEmails(resourceResolver);
+							dateRolloutNode.setProperty(PARAM_REPORT_EMAILS, emails);
+							String[] ips1 = PageActivationUtil.getIps(resourceResolver, 1);
+							String[] ips2 = PageActivationUtil.getIps(resourceResolver, 2);
+							dateRolloutNode.setProperty(PARAM_DISPATCHER_IPS + "1", ips1);
+							dateRolloutNode.setProperty(PARAM_DISPATCHER_IPS + "2", ips2);
 							dateRolloutNode.setProperty(PARAM_CRAWL, crawl);
 							dateRolloutNode.setProperty(PARAM_DELAY, delay);
 							dateRolloutNode.setProperty(PARAM_DONT_ACTIVATE, dontActivate);
@@ -153,7 +160,7 @@ public class RolloutProcess implements WorkflowProcess, PageRolloutConstants {
 							dateRolloutNode.setProperty(PARAM_STATUS, STATUS_CREATED);
 							session.save();
 							if (!delay) {
-								pa.run(dateRolloutNode.getPath());
+								pa.process(dateRolloutNode.getPath(), session);
 							}
 						}
 					} else {
@@ -253,28 +260,34 @@ public class RolloutProcess implements WorkflowProcess, PageRolloutConstants {
 		Node dateRolloutNode = null;
 		Resource etcRes = resourceResolver.resolve("/etc");
 		Node etcNode = etcRes.adaptTo(Node.class);
-		Node gsPagesNode = null;
+		Node activationsNode = null;
+		Node activationTypeNode = null;
 		String date = getDateRes();
+		if (etcNode.hasNode(ACTIVATIONS_NODE)) {
+			activationsNode = etcNode.getNode(ACTIVATIONS_NODE);
+		} else {
+			activationsNode = etcNode.addNode(ACTIVATIONS_NODE);
+		}
 		if (delay) {
-			if (etcNode.hasNode(DELAYED_NODE)) {
-				gsPagesNode = etcNode.getNode(DELAYED_NODE);
+			if (activationsNode.hasNode(DELAYED_NODE)) {
+				activationTypeNode = activationsNode.getNode(DELAYED_NODE);
 			} else {
-				gsPagesNode = etcNode.addNode(DELAYED_NODE);
+				activationTypeNode = activationsNode.addNode(DELAYED_NODE);
 				session.save();
 			}
 		} else {
 
-			if (etcNode.hasNode(IMMEDIATE_NODE)) {
-				gsPagesNode = etcNode.getNode(IMMEDIATE_NODE);
+			if (activationsNode.hasNode(IMMEDIATE_NODE)) {
+				activationTypeNode = activationsNode.getNode(IMMEDIATE_NODE);
 			} else {
-				gsPagesNode = etcNode.addNode(IMMEDIATE_NODE);
+				activationTypeNode = activationsNode.addNode(IMMEDIATE_NODE);
 				session.save();
 			}
 		}
-		if (gsPagesNode.hasNode(date)) {
-			dateRolloutNode = gsPagesNode.getNode(date);
+		if (activationTypeNode.hasNode(date)) {
+			dateRolloutNode = activationTypeNode.getNode(date);
 		} else {
-			dateRolloutNode = gsPagesNode.addNode(date);
+			dateRolloutNode = activationTypeNode.addNode(date);
 			session.save();
 		}
 		return dateRolloutNode;

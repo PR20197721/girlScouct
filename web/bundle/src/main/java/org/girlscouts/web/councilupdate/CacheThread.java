@@ -19,30 +19,33 @@ import org.jsoup.select.Elements;
 import org.apache.commons.io.IOUtils;
 
 public class CacheThread implements Runnable {
-	String initialPath;
-	String initialDomain;
-	String initialIp;
-	String initialReferer;
-	TreeSet<String> visitedPages;
-	ArrayList<String> statusList;
-	String dispTitle;
+	private String initialPath;
+	private String initialDomain;
+	private String initialIp;
+	private String initialReferer;
+	private TreeSet<String> visitedPages;
+	private ArrayList<String> statusList;
+	private String dispTitle;
+	private int depth;
 	
-	public CacheThread(String path, String domain, String ip, String referer, ArrayList<String> statusList, String dispTitle){
-		initialPath = path;
-		initialDomain = domain;
-		initialIp = ip;
-		initialReferer=referer;
+	public CacheThread(String path, String domain, String ip, String referer, ArrayList<String> statusList,
+			String dispTitle, int depth) {
+		this.initialPath = path;
+		this.initialDomain = domain;
+		this.initialIp = ip;
+		this.initialReferer = referer;
 		this.statusList = statusList;
 		this.dispTitle = dispTitle;
+		this.depth = depth;
 	}
 	public void run(){
 		visitedPages = new TreeSet<String>();
 		visitedPages.add(initialPath);
-		buildCache(initialPath, initialDomain, initialIp, initialReferer);
+		buildCache(initialPath, initialDomain, initialIp, initialReferer, 1);
 		return;
 	}
 	
-	private void buildCache(String path, String domain, String ip, String referer){
+	private void buildCache(String path, String domain, String ip, String referer, int level) {
 		try{
 			URL url = new URL("http://" + domain + path);
 			HttpURLConnection.setFollowRedirects(true);
@@ -104,9 +107,9 @@ public class CacheThread implements Runnable {
 					}
 				}
 			}
-			if(pathsToRequest.size() > 0){
+			if (pathsToRequest.size() > 0 && (depth == -1 || depth > level)) {
 				for(String pathToRequest : pathsToRequest){
-					buildCache(pathToRequest, domain, ip, "http://" + domain + path);
+					buildCache(pathToRequest, domain, ip, "http://" + domain + path, ++level);
 				}
 			}
 		}catch(Exception e){
