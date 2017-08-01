@@ -110,14 +110,10 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		if (isPublisher()) {
 			return;
 		}
-		Session session = rr.adaptTo(Session.class);
-		process(path, session);
+		process(path, rr.adaptTo(Session.class));
 	}
 
 	private void process(String path, Session session) {
-		if (isPublisher()) {
-			return;
-		}
 		long begin = System.currentTimeMillis();
 		Resource dateRolloutRes = rr.resolve(path);
 		Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
