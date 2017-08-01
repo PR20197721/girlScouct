@@ -1,7 +1,6 @@
 package org.girlscouts.web.councilupdate.impl;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +41,6 @@ import com.day.cq.wcm.api.Page;
 import org.apache.sling.settings.SlingSettingsService;
 
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.commons.osgi.PropertiesUtil;
 
 /*
  * Girl Scouts Page Activator - DL
@@ -79,10 +77,6 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 	
 	private ResourceResolver rr;
 	//configuration fields
-
-	
-	public volatile ArrayList<String> dispatcher1StatusList = new ArrayList<String>();
-	public volatile ArrayList<String> dispatcher2StatusList = new ArrayList<String>();
 	
 	@Activate
 	private void activate(ComponentContext context) {
@@ -92,7 +86,8 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 			e.printStackTrace();
 		}
 	}
-	
+
+	@Override
 	public void run() {
 		if (isPublisher()) {
 			return;
@@ -109,9 +104,17 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 			}
 		}
 	}
-	
+
 	@Override
-	public void process(String path, Session session) {
+	public void run(String path) {
+		if (isPublisher()) {
+			return;
+		}
+		Session session = rr.adaptTo(Session.class);
+		process(path, session);
+	}
+
+	private void process(String path, Session session) {
 		if (isPublisher()) {
 			return;
 		}
@@ -120,8 +123,8 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
 		try {
 			if (dateRolloutNode.hasProperty(PARAM_STATUS)
-					&& (STATUS_CREATED.equals(dateRolloutNode.getProperty(PARAM_STATUS))
-							|| STATUS_QUEUED.equals(dateRolloutNode.getProperty(PARAM_STATUS)))) {
+					&& (STATUS_CREATED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())
+							|| STATUS_QUEUED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString()))) {
 				dateRolloutNode.setProperty(PARAM_STATUS, STATUS_PROCESSING);
 				session.save();
 			} else {
@@ -177,38 +180,41 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 			reporter.report("Failed to get initial page count");
 			log.error("GS Page Activator - failed to get initial page count");
 			e.printStackTrace();
+			markRolloutFailed(session, dateRolloutNode);
 			return;
 		}
 		if (pages.length == 0) {
 			reporter.report("No pages found in page queue. Will not proceed");
 			return;
 		}
-		TreeSet<String> builtPages = new TreeSet<String>();
-		TreeSet<String> unmapped = new TreeSet<String>();
-		HashMap<String, TreeSet<String>> builtCouncils, toBuild;
-		toBuild = new HashMap<String, TreeSet<String>>();
-		builtCouncils = new HashMap<String, TreeSet<String>>();
-		while (pages.length > 0) {
-			reporter.report("Arranging pages by council");
-			try {
-				toBuild = arrangeCouncils(pages, rr, unmapped);
-			} catch (Exception e) {
-				reporter.report("Failed to sort pages by council");
-				log.error("GS Page Activator - failed to arrange councils");
-			}
-			if (unmapped.size() > 0) {
-				for (String u : unmapped) {
+		TreeSet<String> activatedPages = new TreeSet<String>();
+		TreeSet<String> unmappedPages = new TreeSet<String>();
+		HashMap<String, TreeSet<String>> toActivate = new HashMap<String, TreeSet<String>>();
+		// while (pages.length > 0) {
+		reporter.report("Arranging pages by council");
+		try {
+			toActivate = groupByCouncil(pages, rr, unmappedPages);
+		} catch (Exception e) {
+			reporter.report("Failed to sort pages by council");
+			log.error("GS Page Activator - failed to arrange councils");
+			markRolloutFailed(session, dateRolloutNode);
+		}
+		for (int i = 0; i <= 100; i++) {
+			if (unmappedPages.size() > 0) {
+				for (String u : unmappedPages) {
 					reporter.report("Page " + u + " could not be mapped to an external url");
 				}
 			}
-			buildCache(toBuild, builtCouncils, session, dateRolloutNode, crawl, reporter);
 		}
+		if (toActivate.size() > 0 && !dontActivate) {
+			activateAndBuildCache(toActivate, activatedPages, session, dateRolloutNode, crawl, reporter);
+		}
+		// }
 
 		long end = System.currentTimeMillis();
 		reporter.report("Sending notification emails");
-
 		try {
-			reporter.sendReportEmail(begin, end, delay, crawl, builtPages, dateRolloutNode, session);
+			reporter.sendReportEmail(begin, end, delay, crawl, activatedPages, dateRolloutNode, session);
 			reporter.report("Notification emails delivered");
 		} catch (Exception e) {
 			reporter.report("Unable to send report email");
@@ -217,13 +223,42 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		}
 
 		try {
-			dateRolloutNode.setProperty(PARAM_PROCESSED_PAGES, builtPages.toArray(new String[builtPages.size()]));
-			dateRolloutNode.setProperty(PARAM_UNMAPPED_PAGES, unmapped.toArray(new String[unmapped.size()]));
+			dateRolloutNode.setProperty(PARAM_PROCESSED_PAGES, activatedPages.toArray(new String[activatedPages.size()]));
+			dateRolloutNode.setProperty(PARAM_UNMAPPED_PAGES, unmappedPages.toArray(new String[unmappedPages.size()]));
 			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETED);
 			session.save();
+			reporter.report("Moving " + dateRolloutNode.getName() + " from " + dateRolloutNode.getPath() + " to "
+					+ dateRolloutNode.getParent().getPath() + "/" + COMPLETED_NODE + "/" + dateRolloutNode.getName());
+			archive(dateRolloutNode, session);
 			log.info("GS Page Activator - Process completed");
+			reporter.report("GS Page Activator - Process completed");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void archive(Node dateRolloutNode, Session session) {
+		try {
+			Node parent = dateRolloutNode.getParent();
+			if (!parent.hasNode(COMPLETED_NODE)) {
+				parent.addNode(COMPLETED_NODE);
+			}
+			session.move(dateRolloutNode.getPath(),
+					parent.getPath() + "/" + COMPLETED_NODE + "/" + dateRolloutNode.getName());
+			session.save();
+		} catch (RepositoryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void markRolloutFailed(Session session, Node dateRolloutNode) {
+		try {
+			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_FAILED);
+			session.save();
+		} catch (RepositoryException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 
@@ -247,7 +282,7 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 						Resource dateRolloutRes = activationJobs.next();
 						Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
 						if (dateRolloutNode.hasProperty(PARAM_STATUS)
-								&& STATUS_CREATED.equals(dateRolloutNode.getProperty(PARAM_STATUS))) {
+								&& STATUS_CREATED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())) {
 							dateRolloutNode.setProperty(PARAM_STATUS, STATUS_QUEUED);
 							session.save();
 							activations.add(dateRolloutNode);
@@ -276,24 +311,9 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		}
 	}
 	
-	private void buildCache(HashMap<String, TreeSet<String>> toBuild, HashMap<String, TreeSet<String>> builtCouncils,
+	private void activateAndBuildCache(HashMap<String, TreeSet<String>> toBuild, TreeSet<String> activatedPages,
 			Session session, Node dateNode, Boolean crawl, PageActivationReporter reporter) {
 		Set<String> councilDomainsSet = new TreeSet<String>(toBuild.keySet());
-		String[] ipsGroupOne = null;
-		String[] ipsGroupTwo = null;
-		reporter.report("Obtaining IP addresses for crawling");
-		try {
-			ipsGroupOne = PageActivationUtil.getIps(rr, 1);
-		} catch (Exception e) {
-			log.error("GS Page Activator - failed to retrieve dispatcher 1 ips");
-			reporter.report("Failed to retrieve any dispatcher 1 ips");
-		}
-		try {
-			ipsGroupTwo = PageActivationUtil.getIps(rr, 2);
-		} catch (Exception e) {
-			log.error("GS Page Activator - failed to retrieve dispatcher 2 ips");
-			reporter.report("Failed to retrieve any dispatcher 2 ips");
-		}
 		if(!crawl){
 			reporter.report("Activating all pages immediately");
 			for(String domain : councilDomainsSet){
@@ -305,6 +325,7 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 					}catch(Exception e){
 						reporter.report("Failed to activate " + pageToActivate);
 					}
+					activatedPages.add(pageToActivate);
 				} 
 			}
 			return;
@@ -313,6 +334,21 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 			int sleepTime = PageActivationUtil.getMinutes(rr) * 60 * 1000;
 			int depth = PageActivationUtil.getCrawlDepth(rr);
 			int counter = 0;
+			String[] ipsGroupOne = null;
+			String[] ipsGroupTwo = null;
+			reporter.report("Obtaining IP addresses for crawling");
+			try {
+				ipsGroupOne = PageActivationUtil.getIps(rr, 1);
+			} catch (Exception e) {
+				log.error("GS Page Activator - failed to retrieve dispatcher 1 ips");
+				reporter.report("Failed to retrieve any dispatcher 1 ips");
+			}
+			try {
+				ipsGroupTwo = PageActivationUtil.getIps(rr, 2);
+			} catch (Exception e) {
+				log.error("GS Page Activator - failed to retrieve dispatcher 2 ips");
+				reporter.report("Failed to retrieve any dispatcher 2 ips");
+			}
 			for(String domain:councilDomainsSet){
 				counter++;
 				if ((counter > batchSize) && (counter % batchSize == 0)) {
@@ -329,6 +365,7 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 					for (String pageToActivate : pagesToActivate) {
 						reporter.report("Activating " + pageToActivate);
 						replicator.replicate(session, ReplicationActionType.ACTIVATE, pageToActivate);
+						activatedPages.add(pageToActivate);
 					}
 					reporter.report("Waiting 5 sec for stat file to update before cache build");
 					try {
@@ -343,14 +380,14 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 					for (int l = 0; l < ipsGroupOne.length; l++) {
 						Thread dispatcherIPOneThread = null;
 						Thread dispatcherIPTwoThread = null;
-						dispatcher1StatusList = new ArrayList<String>();
+						ArrayList<String> dispatcher1StatusList = new ArrayList<String>();
 						if (ipsGroupOne[l] != null) {
 							Runnable dispatcherIPOneRunnable = new CacheThread("/", domain, ipsGroupOne[l], "",
 									dispatcher1StatusList, "Dispatcher 1 #" + l + 1, depth);
 							dispatcherIPOneThread = new Thread(dispatcherIPOneRunnable, "dispatcherGroupOneThread" + l);
 							dispatcherIPOneThread.start();
 						}
-						dispatcher2StatusList = new ArrayList<String>();
+						ArrayList<String> dispatcher2StatusList = new ArrayList<String>();
 						if (ipsGroupTwo != null && ipsGroupTwo.length >= l + 1 && ipsGroupTwo[l] != null) {
 							Runnable dispatcherIPTwoRunnable = new CacheThread("/", domain, ipsGroupTwo[l], "",
 									dispatcher2StatusList, "Dispatcher 2 #" + l + 1, depth);
@@ -370,7 +407,6 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 							}
 						}
 					}
-					builtCouncils.put(domain, pagesToActivate);
 					toBuild.remove(domain);
 				} catch (Exception e) {
 					log.error("An error occurred while processing: " + domain);
@@ -388,7 +424,7 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		}
 	}
 	
-	private HashMap<String, TreeSet<String>> arrangeCouncils(String[] pages, ResourceResolver rr,
+	private HashMap<String, TreeSet<String>> groupByCouncil(String[] pages, ResourceResolver rr,
 			TreeSet<String> unmapped) {
 		HashMap<String, TreeSet<String>> map = new HashMap <String, TreeSet<String>>();
 		for(String page : pages){

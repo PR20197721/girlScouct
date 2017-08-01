@@ -31,10 +31,10 @@ public class PageActivationReporter {
 	public PageActivationReporter(Node dateRolloutNode, Session session, MessageGatewayService messageGatewayService) {
 		this.dateRolloutNode = dateRolloutNode;
 		this.session = session;
-		this.reportIndex = 0;
+		this.reportIndex = 1;
 		this.reportNodes = new ArrayList<Node>();
 		this.currentReportNode = null;
-		this.reportNodeIndex = 0;
+		this.reportNodeIndex = 1;
 		this.statusList = new ArrayList<String>();
 		this.messageGatewayService = messageGatewayService;
 	}
@@ -42,13 +42,14 @@ public class PageActivationReporter {
 	public void report(String status) {
 		statusList.add(status);
 		try {
-			if (currentReportNode == null || reportIndex >= 50) {
-				currentReportNode = dateRolloutNode.addNode("report" + reportNodeIndex, "nt:unstructured");
+			if (currentReportNode == null || reportIndex > 50) {
+				currentReportNode = dateRolloutNode.addNode("report" + reportNodeIndex,
+						"nt:unstructured");
 				reportNodes.add(currentReportNode);
 				reportNodeIndex++;
-				reportIndex = 0;
+				reportIndex = 1;
 			}
-			currentReportNode.setProperty("status" + reportIndex, status);
+			currentReportNode.setProperty("status" + formatedIndex(reportIndex), status);
 			session.save();
 			reportIndex++;
 		} catch (Exception e) {
@@ -110,5 +111,12 @@ public class PageActivationReporter {
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
 			messageGateway.send(email);
 		}
+	}
+
+	public String formatedIndex(int num) {
+		if (num < 10) {
+			return "0" + String.valueOf(num);
+		}
+		return String.valueOf(num);
 	}
 }

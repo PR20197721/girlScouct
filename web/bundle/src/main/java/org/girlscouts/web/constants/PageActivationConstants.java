@@ -12,10 +12,10 @@ public interface PageActivationConstants {
 
 	public static final String ETC_NODE = "/etc";
 	public static final String ACTIVATIONS_NODE = "gs-activations";
-	public static final String GS_ACTIVATIONS_PATH = "/etc/gs-activations";
+	public static final String GS_ACTIVATIONS_PATH = ETC_NODE + "/" + ACTIVATIONS_NODE;
 	public static final String DELAYED_NODE = "delayed";
 	public static final String IMMEDIATE_NODE = "immediate";
-	public static final String PROCESSED_NODE = "processed";
+	public static final String COMPLETED_NODE = "completed";
 
 	public static final String PARAM_COUNCILS = "councils";
 	public static final String PARAM_DELAY = "delayActivation";
@@ -34,15 +34,13 @@ public interface PageActivationConstants {
 	public static final String PARAM_UNMAPPED_PAGES = "unmappedPages";
 	public static final String PARAM_REPORT_EMAILS = "emails";
 	public static final String PARAM_DISPATCHER_IPS = "ips";
+	public static final String PARAM_GROUP_SIZE = "groupsize";
+	public static final String PARAM_MINUTES = "minutes";
+	public static final String PARAM_CRAWL_DEPTH = "crawldepth";
 
-	public static final String CONFIG_PAGEPATH = "pagespath";
-	public static final String CONFIG_GROUP_SIZE = "groupsize";
-	public static final String CONFIG_MINUTES = "minutes";
-	public static final String CONFIG_CRAWL_DEPTH = "crawldepth";
-
-	public static final int DEFAULT_CONFIG_GROUP_SIZE = 1;
-	public static final int DEFAULT_CONFIG_MINUTES = 5;
-	public static final int DEFAULT_CONFIG_CRAWL_DEPTH = -1;
+	public static final int DEFAULT_PARAM_GROUP_SIZE = 1;
+	public static final int DEFAULT_PARAM_MINUTES = 5;
+	public static final int DEFAULT_PARAM_CRAWL_DEPTH = -1;
 	public static final int DEFAULT_CRAWL_WAIT_TIME = 5000;
 
 	public interface Email {

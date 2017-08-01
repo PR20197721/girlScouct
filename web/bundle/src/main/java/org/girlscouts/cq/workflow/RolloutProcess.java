@@ -160,7 +160,7 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 							dateRolloutNode.setProperty(PARAM_STATUS, STATUS_CREATED);
 							session.save();
 							if (!delay) {
-								pa.process(dateRolloutNode.getPath(), session);
+								pa.run(dateRolloutNode.getPath());
 							}
 						}
 					} else {

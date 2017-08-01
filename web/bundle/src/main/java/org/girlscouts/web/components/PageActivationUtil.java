@@ -37,11 +37,11 @@ public class PageActivationUtil implements PageActivationConstants {
 			Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
 			if (!gsActivationRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				Node gsActivationsNode = gsActivationRes.adaptTo(Node.class);
-				if (gsActivationsNode.hasProperty(CONFIG_GROUP_SIZE)) {
-					Value value = gsActivationsNode.getProperty(CONFIG_GROUP_SIZE).getValue();
+				if (gsActivationsNode.hasProperty(PARAM_GROUP_SIZE)) {
+					String value = gsActivationsNode.getProperty(PARAM_GROUP_SIZE).getString();
 					if (value != null) {
 						try {
-							return Integer.parseInt(value.getString());
+							return Integer.parseInt(value);
 						} catch (Exception e) {
 
 						}
@@ -51,7 +51,7 @@ public class PageActivationUtil implements PageActivationConstants {
 		} catch (RepositoryException e) {
 
 		}
-		return DEFAULT_CONFIG_GROUP_SIZE;
+		return DEFAULT_PARAM_GROUP_SIZE;
 	}
 
 	public static int getMinutes(ResourceResolver rr) {
@@ -60,11 +60,11 @@ public class PageActivationUtil implements PageActivationConstants {
 			Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
 			if (!gsActivationRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				Node gsActivationsNode = gsActivationRes.adaptTo(Node.class);
-				if (gsActivationsNode.hasProperty(CONFIG_MINUTES)) {
-					Value value = gsActivationsNode.getProperty(CONFIG_MINUTES).getValue();
+				if (gsActivationsNode.hasProperty(PARAM_MINUTES)) {
+					String value = gsActivationsNode.getProperty(PARAM_MINUTES).getString();
 					if (value != null) {
 						try {
-							return Integer.parseInt(value.getString());
+							return Integer.parseInt(value);
 						} catch (Exception e) {
 
 						}
@@ -74,7 +74,7 @@ public class PageActivationUtil implements PageActivationConstants {
 		} catch (RepositoryException e) {
 
 		}
-		return DEFAULT_CONFIG_MINUTES;
+		return DEFAULT_PARAM_MINUTES;
 	}
 
 	public static int getCrawlDepth(ResourceResolver rr) {
@@ -83,11 +83,11 @@ public class PageActivationUtil implements PageActivationConstants {
 			Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
 			if (!gsActivationRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				Node gsActivationsNode = gsActivationRes.adaptTo(Node.class);
-				if (gsActivationsNode.hasProperty(CONFIG_CRAWL_DEPTH)) {
-					Value value = gsActivationsNode.getProperty(CONFIG_CRAWL_DEPTH).getValue();
+				if (gsActivationsNode.hasProperty(PARAM_CRAWL_DEPTH)) {
+					String value = gsActivationsNode.getProperty(PARAM_CRAWL_DEPTH).getString();
 					if (value != null) {
 						try {
-							return Integer.parseInt(value.getString());
+							return Integer.parseInt(value);
 						} catch (Exception e) {
 
 						}
@@ -97,7 +97,7 @@ public class PageActivationUtil implements PageActivationConstants {
 		} catch (RepositoryException e) {
 
 		}
-		return DEFAULT_CONFIG_CRAWL_DEPTH;
+		return DEFAULT_PARAM_CRAWL_DEPTH;
 	}
 
 	public static String[] getEmails(ResourceResolver rr) throws Exception {
