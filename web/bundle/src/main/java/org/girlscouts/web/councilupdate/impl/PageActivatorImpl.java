@@ -195,11 +195,9 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 			log.error("GS Page Activator - failed to arrange councils");
 			markRolloutFailed(session, dateRolloutNode);
 		}
-		for (int i = 0; i <= 100; i++) {
-			if (unmappedPages.size() > 0) {
-				for (String u : unmappedPages) {
-					reporter.report("Page " + u + " could not be mapped to an external url");
-				}
+		if (unmappedPages.size() > 0) {
+			for (String u : unmappedPages) {
+				reporter.report("Page " + u + " could not be mapped to an external url");
 			}
 		}
 		if (toActivate.size() > 0 && !dontActivate) {

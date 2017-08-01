@@ -14,7 +14,7 @@ public interface PageActivationConstants {
 	public static final String ACTIVATIONS_NODE = "gs-activations";
 	public static final String GS_ACTIVATIONS_PATH = ETC_NODE + "/" + ACTIVATIONS_NODE;
 	public static final String DELAYED_NODE = "delayed";
-	public static final String IMMEDIATE_NODE = "immediate";
+	public static final String IMMEDIATE_NODE = "instant";
 	public static final String COMPLETED_NODE = "completed";
 
 	public static final String PARAM_COUNCILS = "councils";
