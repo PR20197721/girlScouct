@@ -6,9 +6,11 @@
     <items jcr:primaryType="cq:WidgetCollection">
     	<activate
     		jcr:primaryType="cq:Widget"
-    		fieldLabel="Don't Activate Pages"
-    		fieldDescription="If checked, the pages will not activate automatically when they are rolled out."
-    		name="./dontActivate"
+    		fieldLabel="Activate Pages"
+    		fieldDescription="If unchecked, the pages will not activate automatically when they are rolled out."
+    		name="./activate"
+    		value="true"
+    		defaultValue="true"
     		type="checkbox"
     		xtype="selection"/>
     	<delayActivation
@@ -71,8 +73,10 @@
         </councils>
         <donotsend
         	jcr:primaryType="cq:Widget"
-        	fieldLabel="Do Not Send Any Emails"
-        	name="./dontsend"
+        	fieldLabel="Notify Councils"
+        	name="./notify"
+        	value="true"
+    		defaultValue="true"
         	type="checkbox"
         	xtype="selection"/>
        	<subject
@@ -234,6 +238,8 @@
        		jcr:primaryType="cq:Widget"
        		fieldLabel="Use Email Template (Message AND Subject)"
        		name="./useTemplate"
+       		value="false"
+    		defaultValue="false"
        		type="checkbox"
        		xtype="selection"/>
        	<template

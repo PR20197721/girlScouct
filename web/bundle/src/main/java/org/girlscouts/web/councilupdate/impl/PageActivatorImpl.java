@@ -1,7 +1,9 @@
 package org.girlscouts.web.councilupdate.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -15,14 +17,19 @@ import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.RowIterator;
+import javax.mail.MessagingException;
+import org.girlscouts.web.components.GSEmailAttachment;
 import org.girlscouts.web.components.PageActivationReporter;
 import org.girlscouts.web.components.PageActivationUtil;
 import org.girlscouts.web.constants.PageActivationConstants;
+import org.girlscouts.web.councilrollout.GirlScoutsNotificationAction;
 import org.girlscouts.web.councilupdate.CacheThread;
 import org.girlscouts.web.councilupdate.PageActivator;
+import org.girlscouts.web.service.email.GSEmailService;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.mail.EmailException;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
@@ -33,10 +40,11 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import com.day.cq.mailer.MessageGatewayService;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.msm.api.LiveRelationshipManager;
+import com.day.cq.wcm.msm.api.RolloutManager;
 
 import org.apache.sling.settings.SlingSettingsService;
 
@@ -63,17 +71,24 @@ import org.apache.sling.api.resource.ResourceResolver;
 		@Property(name = "scheduler.runOn", value = "SINGLE", propertyPrivate = true)
 })
 
-public class PageActivatorImpl implements Runnable, PageActivator, PageActivationConstants {
+public class PageActivatorImpl
+		implements Runnable, PageActivator, PageActivationConstants, PageActivationConstants.Email {
 	
 	private static Logger log = LoggerFactory.getLogger(PageActivatorImpl.class);
 	@Reference
 	private ResourceResolverFactory resolverFactory;
+	@Reference
+	private RolloutManager rolloutManager;
 	@Reference 
 	private Replicator replicator;
 	@Reference
     private SlingSettingsService settingsService;
 	@Reference
-	public MessageGatewayService messageGatewayService;
+	public GSEmailService gsEmailService;
+	@Reference
+	private GirlScoutsNotificationAction notificationAction;
+	@Reference
+	private LiveRelationshipManager relationManager;
 	
 	private ResourceResolver rr;
 	//configuration fields
@@ -92,12 +107,12 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		if (isPublisher()) {
 			return;
 		}
-		Session session = rr.adaptTo(Session.class);
-		List<Node> queuedActivations = queueDelayedActivations(rr, session);
+
+		List<Node> queuedActivations = queueDelayedActivations();
 		if (queuedActivations != null) {
 			for (Node dateRolloutNode : queuedActivations) {
 				try {
-					process(dateRolloutNode.getPath(), session);
+					processActivationNode(dateRolloutNode);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -106,17 +121,9 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 	}
 
 	@Override
-	public void run(String path) {
-		if (isPublisher()) {
-			return;
-		}
-		process(path, rr.adaptTo(Session.class));
-	}
-
-	private void process(String path, Session session) {
+	public void processActivationNode(Node dateRolloutNode) {
 		long begin = System.currentTimeMillis();
-		Resource dateRolloutRes = rr.resolve(path);
-		Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
+		Session session = rr.adaptTo(Session.class);
 		try {
 			if (dateRolloutNode.hasProperty(PARAM_STATUS)
 					&& (STATUS_CREATED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())
@@ -131,8 +138,7 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 			log.error("GS Page Activator - Failed to check if process in progress already");
 			return;
 		}
-		String subject = "", message = "", templatePath = "";
-		Boolean dontSend = false, delay = false, crawl = false, dontActivate = true, useTemplate = false;
+		Boolean delay = false, crawl = false, activate = true;
 		try {
 			delay = dateRolloutNode.getProperty(PARAM_DELAY).getBoolean();
 		} catch (Exception e) {
@@ -142,73 +148,51 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		} catch (Exception e) {
 		}
 		try {
-			dontActivate = dateRolloutNode.getProperty(PARAM_DONT_ACTIVATE).getBoolean();
-		} catch (Exception e) {
-		}
-		try {
-			useTemplate = dateRolloutNode.getProperty(PARAM_USE_TEMPLATE).getBoolean();
-		} catch (Exception e) {
-		}
-		try {
-			dontSend = dateRolloutNode.getProperty(PARAM_DONT_SEND_EMAIL).getBoolean();
-		} catch (Exception e) {
-		}
-		try {
-			subject = dateRolloutNode.getProperty(PARAM_EMAIL_SUBJECT).getString();
-		} catch (Exception e) {
-		}
-		try {
-			message = dateRolloutNode.getProperty(PARAM_EMAIL_MESSAGE).getString();
-		} catch (Exception e) {
-		}
-		try {
-			templatePath = dateRolloutNode.getProperty(PARAM_TEMPLATE_PATH).getString();
+			activate = dateRolloutNode.getProperty(PARAM_ACTIVATE).getBoolean();
 		} catch (Exception e) {
 		}
 
-		PageActivationReporter reporter = new PageActivationReporter(dateRolloutNode, session, messageGatewayService);
+		PageActivationReporter reporter = new PageActivationReporter(dateRolloutNode, session);
 		reporter.report("Initializing process");
-		String[] pages = new String[0];
+		Set<String> pages = null;
 		reporter.report("Retrieving page queue");
 		try {
-			pages = getPages(dateRolloutNode, session);
+			pages = PageActivationUtil.getPages(dateRolloutNode);
 		} catch (Exception e) {
 			reporter.report("Failed to get initial page count");
 			log.error("GS Page Activator - failed to get initial page count");
 			e.printStackTrace();
-			markRolloutFailed(session, dateRolloutNode);
+			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
 			return;
 		}
-		if (pages.length == 0) {
+		if (pages.isEmpty()) {
 			reporter.report("No pages found in page queue. Will not proceed");
+			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
 			return;
 		}
 		TreeSet<String> activatedPages = new TreeSet<String>();
 		TreeSet<String> unmappedPages = new TreeSet<String>();
 		HashMap<String, TreeSet<String>> toActivate = new HashMap<String, TreeSet<String>>();
-		// while (pages.length > 0) {
-		reporter.report("Arranging pages by council");
+		reporter.report("Arranging " + pages.size() + " pages by council");
 		try {
 			toActivate = groupByCouncil(pages, rr, unmappedPages);
 		} catch (Exception e) {
 			reporter.report("Failed to sort pages by council");
 			log.error("GS Page Activator - failed to arrange councils");
-			markRolloutFailed(session, dateRolloutNode);
+			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
 		}
 		if (unmappedPages.size() > 0) {
 			for (String u : unmappedPages) {
 				reporter.report("Page " + u + " could not be mapped to an external url");
 			}
 		}
-		if (toActivate.size() > 0 && !dontActivate) {
+		if (toActivate.size() > 0 && activate) {
 			activateAndBuildCache(toActivate, activatedPages, session, dateRolloutNode, crawl, reporter);
 		}
-		// }
-
 		long end = System.currentTimeMillis();
 		reporter.report("Sending notification emails");
 		try {
-			reporter.sendReportEmail(begin, end, delay, crawl, activatedPages, dateRolloutNode, session);
+			sendReportEmail(begin, end, delay, crawl, activatedPages, dateRolloutNode, session, reporter);
 			reporter.report("Notification emails delivered");
 		} catch (Exception e) {
 			reporter.report("Unable to send report email");
@@ -217,42 +201,18 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		}
 
 		try {
-			dateRolloutNode.setProperty(PARAM_PROCESSED_PAGES, activatedPages.toArray(new String[activatedPages.size()]));
+			dateRolloutNode.setProperty(PARAM_PROCESSED_PAGES,
+					activatedPages.toArray(new String[activatedPages.size()]));
 			dateRolloutNode.setProperty(PARAM_UNMAPPED_PAGES, unmappedPages.toArray(new String[unmappedPages.size()]));
 			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETED);
 			session.save();
-			reporter.report("Moving " + dateRolloutNode.getName() + " from " + dateRolloutNode.getPath() + " to "
-					+ dateRolloutNode.getParent().getPath() + "/" + COMPLETED_NODE + "/" + dateRolloutNode.getName());
-			archive(dateRolloutNode, session);
+			reporter.report("Moving " + dateRolloutNode.getPath() + " to " + dateRolloutNode.getParent().getPath() + "/"
+					+ COMPLETED_NODE + "/" + dateRolloutNode.getName());
+			PageActivationUtil.archive(dateRolloutNode, session);
 			log.info("GS Page Activator - Process completed");
-			reporter.report("GS Page Activator - Process completed");
+			reporter.report("Process completed");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-
-	private void archive(Node dateRolloutNode, Session session) {
-		try {
-			Node parent = dateRolloutNode.getParent();
-			if (!parent.hasNode(COMPLETED_NODE)) {
-				parent.addNode(COMPLETED_NODE);
-			}
-			session.move(dateRolloutNode.getPath(),
-					parent.getPath() + "/" + COMPLETED_NODE + "/" + dateRolloutNode.getName());
-			session.save();
-		} catch (RepositoryException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private void markRolloutFailed(Session session, Node dateRolloutNode) {
-		try {
-			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_FAILED);
-			session.save();
-		} catch (RepositoryException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
 	}
 
@@ -263,8 +223,9 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		return false;
 	}
 
-	private List<Node> queueDelayedActivations(ResourceResolver rr, Session session) {
+	private List<Node> queueDelayedActivations() {
 		List<Node> activations = null;
+		Session session = rr.adaptTo(Session.class);
 		Resource gsDelayedRes = rr.resolve(GS_ACTIVATIONS_PATH + "/" + DELAYED_NODE);
 		if (!gsDelayedRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			Iterable<Resource> gsDelayedJobs = gsDelayedRes.getChildren();
@@ -288,21 +249,6 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 			}
 		}
 		return activations;
-	}
-
-	private String[] getPages(Node n, Session session) throws RepositoryException {
-		if (n.hasProperty("pages")) {
-			Value[] values = n.getProperty("pages").getValues();
-			String[] pages = new String[values.length];
-			for (int i = 0; i < values.length; i++) {
-				pages[i] = values[i].getString();
-			}
-			n.setProperty("pages", new String[0]);
-			session.save();
-			return pages;
-		} else {
-			return new String[0];
-		}
 	}
 	
 	private void activateAndBuildCache(HashMap<String, TreeSet<String>> toBuild, TreeSet<String> activatedPages,
@@ -418,7 +364,7 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		}
 	}
 	
-	private HashMap<String, TreeSet<String>> groupByCouncil(String[] pages, ResourceResolver rr,
+	private HashMap<String, TreeSet<String>> groupByCouncil(Set<String> pages, ResourceResolver rr,
 			TreeSet<String> unmapped) {
 		HashMap<String, TreeSet<String>> map = new HashMap <String, TreeSet<String>>();
 		for(String page : pages){
@@ -455,7 +401,7 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		}else if(runmodes.contains("local")){
 			mappingPath = "/etc/map.publish.local/http";
 		}else{
-			mappingPath = "/etc/map.publish/httpd";
+			mappingPath = "/etc/map.publish/http";
 		}
 		
 		Resource pageRes = resolver.resolve(path);
@@ -482,4 +428,61 @@ public class PageActivatorImpl implements Runnable, PageActivator, PageActivatio
 		log.info("GS Page Activation Service Deactivated.");
 	}
 	
+	public void sendReportEmail(long startTime, long endTime, Boolean delay, Boolean crawl, TreeSet<String> builtPages,
+			Node dateNode, Session session, PageActivationReporter reporter) throws RepositoryException {
+		ArrayList<String> emails = new ArrayList<String>();
+		if (builtPages.size() > 0) {
+			reporter.report("Retrieving email addresses for report");
+			if (dateNode.hasProperty("emails")) {
+				Value[] values = dateNode.getProperty("emails").getValues();
+				for (Value v : values) {
+					emails.add(v.toString());
+				}
+			} else {
+				reporter.report("No email address property found. Can't send any emails");
+				return;
+			}
+			if (emails.size() < 1) {
+				reporter.report("No email addresses found in email address property. Can't send any emails.");
+				return;
+			}
+			StringBuffer html = new StringBuffer();
+			html.append(DEFAULT_COMPLETION_REPORT_HEAD);
+			html.append("<body><p>The Girl Scouts Activation Process has just finished running.</p>");
+			if (delay) {
+				html.append("<p>It was of type - Scheduled Activation</p>");
+			} else {
+				if (crawl) {
+					html.append("<p>It was of type - Immediate Activation with Crawl</p>");
+				} else {
+					html.append("<p>It was of type - Immediate Activation without Crawl</p>");
+					;
+				}
+			}
+			html.append("<p>Pages Activated:</p><ul>");
+			for (String page : builtPages) {
+				html.append("<li>" + page + "</li>");
+			}
+			html.append("</ul>");
+			long timeDiff = (endTime - startTime) / 60000;
+			html.append("<p>The entire process took approximately " + timeDiff + " minutes to complete</p>");
+			html.append("</body></html>");
+
+			StringBuffer logData = new StringBuffer();
+			logData.append("The following is the process log for the activation process so far:\n\n");
+			for (String s : reporter.getStatusList()) {
+				logData.append(s + "/n");
+			}
+			try {
+				Set<GSEmailAttachment> attachments = new HashSet<GSEmailAttachment>();
+				String fileName = DEFAULT_COMPLETION_REPORT_ATTACHMENT + "_" + dateNode.getName();
+				GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(),
+						GSEmailAttachment.MimeType.TEXT_PLAIN);
+				attachments.add(attachment);
+				gsEmailService.sendEmail(DEFAULT_COMPLETION_REPORT_SUBJECT, emails, html.toString(), attachments);
+			} catch (EmailException | MessagingException | IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
