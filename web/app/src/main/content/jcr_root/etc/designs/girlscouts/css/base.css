@@ -1695,6 +1695,7 @@ padding: 40px 0px 40px 0;
     font-weight: 500;
     margin: 0;
     padding: 0.63rem;
+    width: 93%;
 }
 .accordion.section dt h6.on {
     color: #fff;
