@@ -50,7 +50,7 @@ import com.day.cq.mailer.MessageGatewayService;
     @Property(name = "service.pid", value = "org.girlscouts.web.councilrollout.girlscoutsnotificationaction", propertyPrivate = false),
     @Property(name = "service.description", value = "Girl Scouts Content Rollout Notification Service", propertyPrivate = false),
     @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate = false) })
-public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationAction {
+public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationAction{
 	
 	@Reference
 	public MessageGatewayService messageGatewayService;
@@ -102,28 +102,26 @@ public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationA
 	}
 	
 	private final Pattern BRANCH_PATTERN = Pattern.compile("^(/content/[^/]+)/?");
-
-	private String getBranch(String path) throws WCMException {
-		Matcher matcher = BRANCH_PATTERN.matcher(path);
-		if (matcher.find()) {
-			return matcher.group();
-		} else {
-			throw new WCMException("Cannot get branch: " + path);
-		}
-	}
-
-	// send email using cq email service
+    private String getBranch(String path) throws WCMException {
+        Matcher matcher = BRANCH_PATTERN.matcher(path);
+        if (matcher.find()) {
+            return matcher.group();
+        } else {
+            throw new WCMException("Cannot get branch: " + path);
+        }
+    }
+    //send email using cq email service
 	public void send(String nationalPage, String councilPage,String email1, String email2, ValueMap vm, String subject, String message, ResourceResolver rr) 
 			throws WCMException{
 		try {
 
 			HtmlEmail email = new HtmlEmail();
 			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-
-			if (email1 != null && !email1.isEmpty()) {// primary addr
+			
+			if(email1!=null && !email1.isEmpty()){//primary addr
 				emailRecipients.add(new InternetAddress(email1));
 			}
-			if (email2 != null && !email2.isEmpty())
+			if(email2!=null && !email2.isEmpty())
 				emailRecipients.add(new InternetAddress(email2));
 
 			email.setSubject(subject);
@@ -135,11 +133,11 @@ public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationA
 			html = html.replaceAll("&lt;","<").replaceAll("&gt;", ">");
 			html = parseHtml(html, email, rr);
 			email.setHtmlMsg(html);
-			if (!emailRecipients.isEmpty()) {
+			if(!emailRecipients.isEmpty()){
 				email.setTo(emailRecipients);
 				MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
 				messageGateway.send(email);
-			} else {
+			}else{
 				log.error("No email address found for council :" + getBranch(councilPage));
 			}
 
@@ -169,60 +167,59 @@ public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationA
 		}
 		return (path+".html").replaceFirst("/content/([^/]+)","https://www.$1.org");
 	}
-
-	public String parseHtml(String html, HtmlEmail email, ResourceResolver rr) {
-
-		// Find images and replace them with embeds, embed the image file in the
-		// email
-		final Pattern imgPattern = Pattern.compile("<img src=\"(.*?)\"");
-		final Matcher imgMatcher = imgPattern.matcher(html);
-		final StringBuffer imgSb = new StringBuffer();
-		while (imgMatcher.find()) {
-			byte[] result = null;
-			try {
-				String renditionPath = getRenditionPath(imgMatcher.group(1));
-				Resource imgRes = rr.resolve(renditionPath);
-				if (ResourceUtil.isNonExistingResource(imgRes)) {
-					imgRes = rr.resolve(renditionPath.replaceAll("%20", " "));
-					if (ResourceUtil.isNonExistingResource(imgRes)) {
-						throw (new Exception("Cannot find resource: " + renditionPath));
-					}
-				}
-				Node ntFileNode = imgRes.adaptTo(Node.class);
-				Node ntResourceNode = ntFileNode.getNode("jcr:content");
-				InputStream is = ntResourceNode.getProperty("jcr:data").getBinary().getStream();
-				BufferedInputStream bin = new BufferedInputStream(is);
-				result = IOUtils.toByteArray(bin);
-				bin.close();
-				is.close();
+ 
+    public String parseHtml(String html, HtmlEmail email, ResourceResolver rr){
+    	
+    	//Find images and replace them with embeds, embed the image file in the email
+    	final Pattern imgPattern = Pattern.compile("<img src=\"(.*?)\"");
+    	final Matcher imgMatcher = imgPattern.matcher(html);
+    	final StringBuffer imgSb = new StringBuffer();
+    	while(imgMatcher.find()){
+    		byte[] result = null;
+    		try {
+    			String renditionPath = getRenditionPath(imgMatcher.group(1));
+        		Resource imgRes = rr.resolve(renditionPath);
+        		if(ResourceUtil.isNonExistingResource(imgRes)) {
+        			imgRes = rr.resolve(renditionPath.replaceAll("%20"," "));
+        			if(ResourceUtil.isNonExistingResource(imgRes)){
+        				throw(new Exception("Cannot find resource: " + renditionPath));
+        			}
+        		}
+        		Node ntFileNode = imgRes.adaptTo(Node.class);
+        		Node ntResourceNode = ntFileNode.getNode("jcr:content");
+        		InputStream is = ntResourceNode.getProperty("jcr:data").getBinary().getStream();
+        		BufferedInputStream bin = new BufferedInputStream(is);
+        		result = IOUtils.toByteArray(bin);
+        		bin.close();
+        		is.close();
 			} catch (Exception e) {
 				log.error("Input Stream Failed");
 				System.out.println("Input Stream Failed");
 				e.printStackTrace();
 			}
-			try {
-				String fileName = imgMatcher.group(1).substring(imgMatcher.group(1).lastIndexOf('/') + 1);
-				File imgFile = new File(fileName);
-				FileUtils.writeByteArrayToFile(imgFile, result);
-				imgMatcher.appendReplacement(imgSb, "<img src=cid:" + (email.embed(imgFile, fileName)));
-				imgMatcher.appendTail(imgSb);
-				html = imgSb.toString();
+    		try {
+    			String fileName = imgMatcher.group(1).substring(imgMatcher.group(1).lastIndexOf('/') + 1);
+    			File imgFile = new File(fileName);
+    			FileUtils.writeByteArrayToFile(imgFile,result);
+				imgMatcher.appendReplacement(imgSb, "<img src=cid:" + (email.embed(imgFile,fileName)));
+		    	imgMatcher.appendTail(imgSb);
+		    	html = imgSb.toString();
 			} catch (Exception e) {
 				log.error("Failed to embed image");
 				e.printStackTrace();
 			}
-		}
-
-		return html;
-	}
-
-	public String getRenditionPath(String imgPath) {
-		final Pattern pattern = Pattern.compile("/jcr:content/renditions/");
-		final Matcher matcher = pattern.matcher(imgPath);
-		if (matcher.find()) {
-			return imgPath;
-		} else {
-			return imgPath + "/jcr:content/renditions/original";
-		}
-	}
+    	}
+    	
+    	return html;
+    }
+    
+    public String getRenditionPath(String imgPath){
+    	final Pattern pattern = Pattern.compile("/jcr:content/renditions/");
+    	final Matcher matcher = pattern.matcher(imgPath);
+    	if(matcher.find()){
+    		return imgPath;
+    	}else{
+    		return imgPath + "/jcr:content/renditions/original";
+    	}
+    }
 }
