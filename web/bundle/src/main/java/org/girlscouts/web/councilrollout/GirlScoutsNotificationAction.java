@@ -9,10 +9,6 @@ import com.day.cq.wcm.msm.api.LiveRelationship;
 
 public interface GirlScoutsNotificationAction {
 
-	public void notifyCouncils(String path);
-
-	public void notifyGSUSA(String path);
-
 	public void execute(Resource source, Resource target, String subject, String message, LiveRelationship relation, ResourceResolver rr)
 			throws WCMException;
 	

@@ -1,11 +1,12 @@
 package org.girlscouts.web.councilupdate;
 
 import javax.jcr.Node;
+import javax.jcr.RepositoryException;
 
 public interface PageActivator{
 
 	public void run();
 
-	public void processActivationNode(Node dateRolloutNode);
+	public void processActivationNode(Node dateRolloutNode) throws RepositoryException;
 
 }

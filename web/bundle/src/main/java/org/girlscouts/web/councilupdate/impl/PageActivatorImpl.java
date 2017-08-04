@@ -104,7 +104,7 @@ public class PageActivatorImpl
 
 	@Override
 	public void run() {
-		if (isPublisher()) {
+		if (!isPublisher()) {
 			return;
 		}
 
@@ -121,18 +121,14 @@ public class PageActivatorImpl
 	}
 
 	@Override
-	public void processActivationNode(Node dateRolloutNode) {
+	public void processActivationNode(Node dateRolloutNode) throws RepositoryException {
 		long begin = System.currentTimeMillis();
-		Session session = rr.adaptTo(Session.class);
+		Session session = dateRolloutNode.getSession();
 		try {
 			if (dateRolloutNode.hasProperty(PARAM_STATUS)
-					&& (STATUS_CREATED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())
-							|| STATUS_QUEUED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString()))) {
+					&& !STATUS_PROCESSING.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())) {
 				dateRolloutNode.setProperty(PARAM_STATUS, STATUS_PROCESSING);
 				session.save();
-			} else {
-				log.info("GS page Activator - Process already running or completed");
-				return;
 			}
 		} catch (Exception e) {
 			log.error("GS Page Activator - Failed to check if process in progress already");
@@ -190,10 +186,10 @@ public class PageActivatorImpl
 			activateAndBuildCache(toActivate, activatedPages, session, dateRolloutNode, crawl, reporter);
 		}
 		long end = System.currentTimeMillis();
-		reporter.report("Sending notification emails");
+		reporter.report("Sending report email");
 		try {
 			sendReportEmail(begin, end, delay, crawl, activatedPages, dateRolloutNode, session, reporter);
-			reporter.report("Notification emails delivered");
+			reporter.report("Report email delivered");
 		} catch (Exception e) {
 			reporter.report("Unable to send report email");
 			log.error("Girl Scouts Page Activator - Unable to send report email");
@@ -201,10 +197,10 @@ public class PageActivatorImpl
 		}
 
 		try {
-			dateRolloutNode.setProperty(PARAM_PROCESSED_PAGES,
+			dateRolloutNode.setProperty(PARAM_ACTIVATED_PAGES,
 					activatedPages.toArray(new String[activatedPages.size()]));
 			dateRolloutNode.setProperty(PARAM_UNMAPPED_PAGES, unmappedPages.toArray(new String[unmappedPages.size()]));
-			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETED);
+			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETE);
 			session.save();
 			reporter.report("Moving " + dateRolloutNode.getPath() + " to " + dateRolloutNode.getParent().getPath() + "/"
 					+ COMPLETED_NODE + "/" + dateRolloutNode.getName());
@@ -428,7 +424,7 @@ public class PageActivatorImpl
 		log.info("GS Page Activation Service Deactivated.");
 	}
 	
-	public void sendReportEmail(long startTime, long endTime, Boolean delay, Boolean crawl, TreeSet<String> builtPages,
+	private void sendReportEmail(long startTime, long endTime, Boolean delay, Boolean crawl, TreeSet<String> builtPages,
 			Node dateNode, Session session, PageActivationReporter reporter) throws RepositoryException {
 		ArrayList<String> emails = new ArrayList<String>();
 		if (builtPages.size() > 0) {

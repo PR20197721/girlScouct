@@ -80,7 +80,9 @@ public class GSEmailServiceImpl implements GSEmailService {
 	public void sendEmail(String subject, List<String> toAddresses, String body)
 			throws AddressException, EmailException {
 		HtmlEmail email = new HtmlEmail();
-		email.setSubject(subject);
+		if (subject != null) {
+			email.setSubject(subject);
+		}
 		setRecipients(toAddresses, email);
 		body = parseHtml(body, email, rr);
 		email.setHtmlMsg(body);
@@ -103,7 +105,9 @@ public class GSEmailServiceImpl implements GSEmailService {
 	public void sendEmail(String subject, List<String> toAddresses, String body, Set<GSEmailAttachment> attachments)
 			throws EmailException, MessagingException {
 		HtmlEmail email = new HtmlEmail();
-		email.setSubject(subject);
+		if (subject != null) {
+			email.setSubject(subject);
+		}
 		setRecipients(toAddresses, email);
 		setBody(body, attachments, email);
 		MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
@@ -139,11 +143,15 @@ public class GSEmailServiceImpl implements GSEmailService {
 	}
 
 	private void setRecipients(List<String> toAddresses, HtmlEmail email) throws AddressException, EmailException {
-		ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-		for (String address : toAddresses) {
-			emailRecipients.add(new InternetAddress(address));
+		if (toAddresses != null) {
+			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+			for (String address : toAddresses) {
+				if (address != null) {
+					emailRecipients.add(new InternetAddress(address));
+				}
+			}
+			email.setTo(emailRecipients);
 		}
-		email.setTo(emailRecipients);
 	}
 
 	private String parseHtml(String html, HtmlEmail email, ResourceResolver rr) {

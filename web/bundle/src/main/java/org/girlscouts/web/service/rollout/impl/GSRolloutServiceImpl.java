@@ -1,13 +1,15 @@
 package org.girlscouts.web.service.rollout.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import javax.jcr.Node;
 import javax.jcr.RangeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.Value;
 import javax.jcr.query.Query;
 import org.girlscouts.web.components.PageActivationUtil;
 import org.girlscouts.web.constants.PageActivationConstants;
@@ -96,8 +98,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			return;
 		}
 		try {
-			// 30 second remorse wait time in case instant activation needs to
-			// be stopped.
+			// 30 second remorse wait time in case workflow needs to be stopped.
 			Thread.sleep(DEFAULT_REMORSE_WAIT_TIME);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -107,10 +108,11 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		if (!dateRolloutRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
 			String srcPath = "", templatePath = "";
-			;
 			Boolean notify = false, activate = true, delay = false, useTemplate = false;
 			Set<String> councils = null;
 			try {
+				dateRolloutNode.setProperty(PARAM_STATUS, STATUS_PROCESSING);
+				session.save();
 				try {
 					srcPath = dateRolloutNode.getProperty(PARAM_SOURCE_PATH).getString();
 				} catch (Exception e) {
@@ -141,14 +143,16 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					return;
 				}
 				councils = PageActivationUtil.getCouncils(dateRolloutNode);
+				List<String> rolloutLog = new ArrayList<String>();
 				Resource srcRes = rr.resolve(srcPath);
 				if (relationManager.isSource(srcRes)) {
 					Page srcPage = (Page) srcRes.adaptTo(Page.class);
 					if (srcPage != null) {
 						Set<String> pages = new HashSet<String>();
-						processExistingLiveRelationships(councils, srcRes, pages);
+
+						processExistingLiveRelationships(councils, srcRes, pages, rolloutLog);
 						if (!councils.isEmpty()) {
-							processNewLiveRelationships(councils, srcRes, pages);
+							processNewLiveRelationships(councils, srcRes, pages, rolloutLog);
 						}
 						if (!councils.isEmpty()) {
 							for (String council : councils) {
@@ -168,35 +172,23 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					PageActivationUtil.markActivationFailed(session, dateRolloutNode);
 					return;
 				}
-				final String dateRolloutNodePath = dateRolloutNode.getPath();
+				List<String> councilNotificationLog = new ArrayList<String>();
 				if (notify) {
-					try {
-						new Thread(new Runnable() {
-							@Override
-							public void run() {
-								notificationAction.notifyCouncils(dateRolloutNodePath);
-							}
-						}).start();
-					} catch (Exception e) {
-					}
+					sendCouncilNotifications(dateRolloutNode, councilNotificationLog);
+					dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.TRUE);
+				} else {
+					dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.FALSE);
 				}
-				// Spawn a thread to process sending email
-				// notifications to GSUSA
-				try {
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							notificationAction.notifyGSUSA(dateRolloutNodePath);
-						}
-					}).start();
-				} catch (Exception e) {
-				}
+				sendGSUSANotifications(dateRolloutNode, rolloutLog, councilNotificationLog);
 				if (activate) {
 					if (!delay) {
 						pageActivator.processActivationNode(dateRolloutNode);
+					} else {
+						dateRolloutNode.setProperty(PARAM_STATUS, STATUS_DELAYED);
+						session.save();
 					}
 				} else {
-					dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETED);
+					dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETE);
 					PageActivationUtil.archive(dateRolloutNode, session);
 				}
 			} catch (Exception e) {
@@ -220,59 +212,59 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		log.info("GS Page Rollout Service Deactivated.");
 	}
 
-	private void processNewLiveRelationships(Set<String> councils, Resource srcRes, Set<String> pagesToActivate)
+	private void processNewLiveRelationships(Set<String> councils, Resource srcRes, Set<String> pagesToActivate,
+			List<String> rolloutLog)
 			throws RepositoryException, WCMException {
 		Session session = rr.adaptTo(Session.class);
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes.getParent(), null, null);
 		while (relationIterator.hasNext()) {
 			LiveRelationship relation = (LiveRelationship) relationIterator.next();
 			String parentPath = relation.getTargetPath();
-			Resource targetResource = rr.resolve(parentPath);
-			if (!targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+			rolloutLog.add("Attempting to roll out a child page of: " + parentPath);
+			Resource parentResource = rr.resolve(parentPath);
+			if (!parentResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				int councilNameIndex = parentPath.indexOf("/", "/content/".length());
 				String councilPath = parentPath.substring(0, councilNameIndex);
 				if (councils.contains(councilPath)) {
 					councils.remove(councilPath);
-					Boolean breakInheritance = false;
-					try {
-						ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
-						breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
-					} catch (Exception e) {
-						e.printStackTrace();
+					PageManager pageManager = rr.adaptTo(PageManager.class);
+					Page srcPage = (Page) srcRes.adaptTo(Page.class);
+					Page copyPage = pageManager.copy(srcPage, parentPath + "/" + srcPage.getName(), srcPage.getName(),
+							false, true);
+					RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
+					RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
+					LiveRelationship relationship = relationManager.establishRelationship(srcPage, copyPage, true,
+							false, gsConfig);
+					String targetPath = relationship.getTargetPath();
+					cancelInheritance(rr, copyPage.getPath());
+					rolloutManager.rollout(rr, relation, false);
+					session.save();
+					rolloutLog.add("Page " + copyPage.getPath() + " created");
+					rolloutLog.add("Live copy established");
+					if (targetPath.endsWith("/jcr:content")) {
+						targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
 					}
-					if (!breakInheritance) {
-						PageManager pageManager = rr.adaptTo(PageManager.class);
-						Page srcPage = (Page) srcRes.adaptTo(Page.class);
-						Page copyPage = pageManager.copy(srcPage,
-								targetResource.getParent().getPath() + "/" + srcPage.getName(), srcPage.getName(),
-								false, true);
-						RolloutConfigManager configMgr = (RolloutConfigManager) rr
-								.adaptTo(RolloutConfigManager.class);
-						RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
-						LiveRelationship relationship = relationManager.establishRelationship(srcPage, copyPage, true,
-								false, gsConfig);
-						String targetPath = relationship.getTargetPath();
-						cancelInheritance(rr, copyPage.getPath());
-						rolloutManager.rollout(rr, relation, false);
-						session.save();
-						if (targetPath.endsWith("/jcr:content")) {
-							targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
-						}
-						pagesToActivate.add(targetPath);
-					}
+					pagesToActivate.add(targetPath);
+					rolloutLog.add("Page added to activation/cache build queue");
 				}
+			} else {
+				rolloutLog.add(
+						"No resource can be found to serve as a suitable parent page. In order to roll out to this council, you must roll out the parent of this template page first.");
+				rolloutLog.add("Will NOT rollout to this council");
 			}
 		}
 
 	}
 
-	private void processExistingLiveRelationships(Set<String> councils, Resource srcRes, Set<String> pagesToActivate)
+	private void processExistingLiveRelationships(Set<String> councils, Resource srcRes, Set<String> pagesToActivate,
+			List<String> rolloutLog)
 			throws RepositoryException, WCMException {
 		Session session = rr.adaptTo(Session.class);
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes, null, null);
 		while (relationIterator.hasNext()) {
 			LiveRelationship relation = (LiveRelationship) relationIterator.next();
 			String targetPath = relation.getTargetPath();
+			rolloutLog.add("Attempting to roll out to: " + targetPath);
 			Resource targetResource = rr.resolve(targetPath);
 			if (!targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				int councilNameIndex = targetPath.indexOf("/", "/content/".length());
@@ -289,12 +281,19 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					if (!breakInheritance) {
 						rolloutManager.rollout(rr, relation, false);
 						session.save();
+						rolloutLog.add("Rolled out content to page");
 						if (targetPath.endsWith("/jcr:content")) {
 							targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
 						}
 						pagesToActivate.add(targetPath);
+						rolloutLog.add("Page added to activation/cache build queue");
+					} else {
+						rolloutLog.add("The page has Break Inheritance checked off. Will not roll out");
 					}
 				}
+			} else {
+				rolloutLog.add("Resource not found in this council.");
+				rolloutLog.add("Will NOT rollout to this page");
 			}
 		}
 	}
@@ -315,5 +314,201 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void sendGSUSANotifications(Node dateRolloutNode, List<String> rolloutLog,
+			List<String> councilNotificationLog) {
+		Set<String> councils = null;
+		String subject = DEFAULT_NOTIFICATION_SUBJECT;
+		StringBuffer html = new StringBuffer();
+		html.append(DEFAULT_REPORT_HEAD);
+		html.append("<body>");
+		html.append("<p>" + DEFAULT_REPORT_SUBJECT + "</p>");
+		html.append("<p>" + DEFAULT_REPORT_GREETING + "</p>");
+		html.append("<p>" + DEFAULT_REPORT_INTRO + "</p>");
+		Date runtime = new Date();
+		html.append("<p>The workflow was run on " + runtime.toString() + ".</p>");
+		String message = "", templatePath = "", srcPath = "";
+		Boolean notify = false, useTemplate = false, delay = false, activate = true;
+		try {
+			notify = dateRolloutNode.getProperty(PARAM_NOTIFY).getBoolean();
+		} catch (Exception e) {
+		}
+		try {
+			activate = dateRolloutNode.getProperty(PARAM_ACTIVATE).getBoolean();
+		} catch (Exception e) {
+		}
+		try {
+			delay = dateRolloutNode.getProperty(PARAM_DELAY).getBoolean();
+		} catch (Exception e) {
+		}
+		try {
+			useTemplate = dateRolloutNode.getProperty(PARAM_USE_TEMPLATE).getBoolean();
+		} catch (Exception e) {
+		}
+		try {
+			if (useTemplate) {
+				subject = PageActivationUtil.getTemplateSubject(templatePath, rr);
+			} else {
+				subject = dateRolloutNode.getProperty(PARAM_EMAIL_SUBJECT).getString();
+			}
+		} catch (Exception e) {
+		}
+		try {
+			if (useTemplate) {
+				message = PageActivationUtil.getTemplateMessage(templatePath, rr);
+			} else {
+				message = dateRolloutNode.getProperty(PARAM_EMAIL_MESSAGE).getString();
+			}
+		} catch (Exception e) {
+		}
+		try {
+			templatePath = dateRolloutNode.getProperty(PARAM_TEMPLATE_PATH).getString();
+		} catch (Exception e) {
+		}
+		try {
+			srcPath = dateRolloutNode.getProperty(PARAM_SOURCE_PATH).getString();
+		} catch (Exception e) {
+		}
+		try {
+			councils = PageActivationUtil.getCouncils(dateRolloutNode);
+		} catch (Exception e) {
+			log.error("GS Page Activator - failed to get initial page count");
+			e.printStackTrace();
+			return;
+		}
+		html.append("<p>This workflow will " + (notify ? "" : "not ") + "send emails to councils.</p>");
+		html.append("<p>This workflow will " + (activate ? "" : "not ") + "activate pages upon completion.</p>");
+		if (activate) {
+			html.append("<p>This workflow will " + (delay ? "" : "not ")
+					+ "delay the page activations until tonight.</p>");
+		}
+		if (useTemplate) {
+			html.append("<p>An email template is in use. The path to the template is " + templatePath + "</p>");
+		}
+		html.append("<p>The email subject is " + subject + "</p>");
+		html.append("<p>The email message is: " + message + "</p>");
+		html.append("<p>The following councils have been selected:</p>");
+		for (String council : councils) {
+			html.append("<p>" + council + "</p>");
+		}
+		html.append("<p><b>Processing:</b><br>Source Page:" + srcPath + "</p>");
+		for (String log : rolloutLog) {
+			html.append("<p>" + log + "</p>");
+		}
+		if (councilNotificationLog != null && !councilNotificationLog.isEmpty()) {
+			for (String log : councilNotificationLog) {
+				html.append("<p>" + log + "</p>");
+			}
+		}
+		List<String> gsusaEmails = PageActivationUtil.getGsusaEmails(rr);
+		try {
+			gsEmailService.sendEmail(subject, gsusaEmails, html.toString());
+		} catch (Exception e) {
+			log.info("Failed to send GSUSA notification email to " + gsusaEmails.toString());
+		}
+	}
+	
+	private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog) {
+		Set<String> pages = null;
+		String subject = DEFAULT_NOTIFICATION_SUBJECT;
+		String message = "", templatePath = "", srcPath = "";
+		Boolean notify = false, useTemplate = false;
+		try {
+			notify = dateRolloutNode.getProperty(PARAM_NOTIFY).getBoolean();
+		} catch (Exception e) {
+		}
+		if (notify) {
+			try {
+				useTemplate = dateRolloutNode.getProperty(PARAM_USE_TEMPLATE).getBoolean();
+			} catch (Exception e) {
+			}
+			try {
+				if (useTemplate) {
+					subject = PageActivationUtil.getTemplateSubject(templatePath, rr);
+				} else {
+					subject = dateRolloutNode.getProperty(PARAM_EMAIL_SUBJECT).getString();
+				}
+			} catch (Exception e) {
+			}
+			try {
+				if (useTemplate) {
+					message = PageActivationUtil.getTemplateMessage(templatePath, rr);
+				} else {
+					message = dateRolloutNode.getProperty(PARAM_EMAIL_MESSAGE).getString();
+				}
+			} catch (Exception e) {
+			}
+			try {
+				templatePath = dateRolloutNode.getProperty(PARAM_TEMPLATE_PATH).getString();
+			} catch (Exception e) {
+			}
+			try {
+				srcPath = dateRolloutNode.getProperty(PARAM_SOURCE_PATH).getString();
+			} catch (Exception e) {
+			}
+			try {
+				pages = PageActivationUtil.getPages(dateRolloutNode);
+			} catch (Exception e) {
+				log.error("GS Page Activator - failed to get initial page count");
+				e.printStackTrace();
+				return;
+			}
+			Resource source = rr.resolve(srcPath);
+			if (!source.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+				if (pages != null && !pages.isEmpty()) {
+					for (String targetPath : pages) {
+						Resource target = rr.resolve(targetPath);
+						if (!target.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+							if (message != null && message.trim().length() > 0) {
+								try {
+									String branch = PageActivationUtil.getBranch(targetPath);
+									ResourceResolver resourceResolver = source.getResourceResolver();
+									// get the email addresses configured in
+									// page
+									// properties of the council's homepage
+									Page homepage = resourceResolver.resolve(branch + "/en").adaptTo(Page.class);
+									ValueMap valuemap = homepage.getProperties();
+									String email1 = (String) valuemap.get("email1");
+									String email2 = (String) valuemap.get("email2");
+									List<String> toAddresses = new ArrayList<String>();
+									toAddresses.add(email1);
+									toAddresses.add(email2);
+									log.info("**** GirlScoutsNotificationAction: sending email to "
+											+ branch.substring(9) + " email1:" + email1 + ", email2:" + email2
+											+ " *****");
+									String body = generateCouncilNotification(srcPath, targetPath, valuemap, message);
+									try {
+										gsEmailService.sendEmail(subject, toAddresses, body);
+										councilNotificationLog.add("Notification for " + branch.substring(9)
+												+ " council sent to email1:" + email1 + ", email2:" + email2);
+									} catch (Exception e) {
+										councilNotificationLog
+												.add("Failed to send notification for " + branch.substring(9)
+														+ " council to email1:" + email1 + ", email2:" + email2);
+									}
+								} catch (WCMException e) {
+									e.printStackTrace();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private String generateCouncilNotification(String nationalPage, String councilPage, ValueMap vm, String message) {
+		String html = message.replaceAll("<%template-page%>", PageActivationUtil.getURL(nationalPage))
+				.replaceAll("&lt;%template-page%&gt;", PageActivationUtil.getURL(nationalPage))
+				.replaceAll("<%council-page%>", PageActivationUtil.getRealUrl(councilPage, vm))
+				.replaceAll("&lt;%council-page%&gt;", PageActivationUtil.getRealUrl(councilPage, vm))
+				.replaceAll("<%council-author-page%>", PageActivationUtil.getURL(councilPage))
+				.replaceAll("&lt;%council-author-page%&gt;",
+						"https://authornew.girlscouts.org" + PageActivationUtil.getURL(councilPage))
+				.replaceAll("<%a", "<a").replaceAll("<%/a>", "</a>").replaceAll("&lt;%a", "<a")
+				.replaceAll("&lt;%/a&gt;", "</a>");
+		html = html.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
+		return html;
 	}
 }

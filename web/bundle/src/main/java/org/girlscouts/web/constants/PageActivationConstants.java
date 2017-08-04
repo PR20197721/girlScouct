@@ -7,7 +7,8 @@ public interface PageActivationConstants {
 	public static final String STATUS_CREATED = "created";
 	public static final String STATUS_QUEUED = "queued";
 	public static final String STATUS_PROCESSING = "processing";
-	public static final String STATUS_COMPLETED = "completed";
+	public static final String STATUS_DELAYED = "delayed";
+	public static final String STATUS_COMPLETE = "complete";
 	public static final String STATUS_FAILED = "failed";
 
 	public static final String DATE_NODE_FMT = "yyyy-MM-dd'T'HHmmss";
@@ -27,7 +28,8 @@ public interface PageActivationConstants {
 	public static final String PARAM_USE_TEMPLATE = "useTemplate";
 	public static final String PARAM_TEMPLATE_PATH = "template";
 	public static final String PARAM_NOTIFY = "notify";
-	public static final String PARAM_NOTIFICATIONS_SENT = "notifications_sent";
+	public static final String PARAM_COUNCIL_NOTIFICATIONS_SENT = "council_notifications_sent";
+	public static final String PARAM_GSUSA_NOTIFICATIONS_SENT = "gsusa_notifications_sent";
 	public static final String PARAM_EMAIL_SUBJECT = "subject";
 	public static final String PARAM_EMAIL_MESSAGE = "message";
 	public static final String PARAM_ACTIVATE = "activate";
@@ -35,7 +37,7 @@ public interface PageActivationConstants {
 	public static final String PARAM_SOURCE_PATH = "srcpath";
 
 	public static final String PARAM_PAGES = "pages";
-	public static final String PARAM_PROCESSED_PAGES = "processedPages";
+	public static final String PARAM_ACTIVATED_PAGES = "activatedPages";
 	public static final String PARAM_UNMAPPED_PAGES = "unmappedPages";
 	public static final String PARAM_REPORT_EMAILS = "emails";
 	public static final String PARAM_DISPATCHER_IPS = "ips";

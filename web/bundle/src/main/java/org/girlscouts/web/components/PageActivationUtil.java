@@ -1,7 +1,11 @@
 package org.girlscouts.web.components;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -12,6 +16,8 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.web.constants.PageActivationConstants;
+
+import com.day.cq.wcm.api.WCMException;
 
 public class PageActivationUtil implements PageActivationConstants {
 
@@ -201,5 +207,54 @@ public class PageActivationUtil implements PageActivationConstants {
 		} catch (RepositoryException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String getURL(String path) {
+		if (path.endsWith("/jcr:content")) {
+			path = path.substring(0, path.lastIndexOf('/'));
+		}
+		return path + ".html";
+	}
+
+	public static String getRealUrl(String path, ValueMap vm) {
+		if (path.endsWith("/jcr:content")) {
+			path = path.substring(0, path.lastIndexOf('/'));
+		}
+		if (vm.containsKey("domain") && !vm.get("domain").equals("")) {
+			try {
+				String pagePath = path.substring(path.indexOf("/", path.indexOf("/", path.indexOf("/") + 1) + 1),
+						path.length());
+				return vm.get("domain") + pagePath + ".html";
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return (path + ".html").replaceFirst("/content/([^/]+)", "https://www.$1.org");
+	}
+
+	public static String getBranch(String path) throws WCMException {
+		Matcher matcher = BRANCH_PATTERN.matcher(path);
+		if (matcher.find()) {
+			return matcher.group();
+		} else {
+			throw new WCMException("Cannot get branch: " + path);
+		}
+	}
+
+	public static List<String> getGsusaEmails(ResourceResolver rr) {
+		List<String> toAddresses = new ArrayList<String>();
+		Resource addressesRes = rr.resolve("/etc/msm/rolloutreports");
+		ValueMap vm = ResourceUtil.getValueMap(addressesRes);
+		try {
+			String[] addresses = vm.get("emails", String[].class);
+			if (addresses != null) {
+				for (String address : addresses) {
+					toAddresses.add(address);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return toAddresses;
 	}
 }

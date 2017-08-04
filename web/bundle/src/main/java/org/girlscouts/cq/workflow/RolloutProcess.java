@@ -186,7 +186,7 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 					councils.add(singleValue.getString().trim());
 				}
 			} catch (Exception e1) {
-				System.err.println("Rollout Could Not Run - No Councils Selected");
+				log.error("Rollout Could Not Run - No Councils Selected");
 				e1.printStackTrace();
 			}
 		}
