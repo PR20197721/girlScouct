@@ -189,7 +189,7 @@ public class PageActivatorImpl
 		HashMap<String, TreeSet<String>> toActivate = new HashMap<String, TreeSet<String>>();
 		reporter.report("Arranging " + pages.size() + " pages by council");
 		try {
-			toActivate = groupByCouncil(pages, rr, unmappedPages);
+			toActivate = groupByCouncil(pages, unmappedPages);
 		} catch (Exception e) {
 			reporter.report("Failed to sort pages by council");
 			log.error("GS Page Activator - failed to arrange councils");
@@ -210,7 +210,7 @@ public class PageActivatorImpl
 		long end = System.currentTimeMillis();
 		reporter.report("Sending report email");
 		try {
-			sendReportEmail(begin, end, delay, crawl, activatedPages, dateRolloutNode, session, reporter);
+			sendReportEmail(begin, end, delay, crawl, activatedPages, dateRolloutNode, reporter);
 			reporter.report("Report email delivered");
 		} catch (Exception e) {
 			reporter.report("Unable to send report email");
@@ -237,6 +237,9 @@ public class PageActivatorImpl
 	private void aggregateActivateCrawl(List<Node> activationsToCrawl) throws RepositoryException {
 		if (activationsToCrawl != null && !activationsToCrawl.isEmpty()) {
 			Node aggregatedRolloutNode = getDateRolloutNode();
+			aggregatedRolloutNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
+			aggregatedRolloutNode.setProperty(PARAM_DELAY, Boolean.TRUE);
+			aggregatedRolloutNode.setProperty(PARAM_ACTIVATE, Boolean.TRUE);
 			for (Node activationNode : activationsToCrawl) {
 				aggregate(activationNode, aggregatedRolloutNode);
 			}
@@ -252,15 +255,13 @@ public class PageActivatorImpl
 			Set<String> pages = PageActivationUtil.getPages(activationNode);
 			if (pages != null && !pages.isEmpty()) {
 				Set<String> aggregatedPages = PageActivationUtil.getPages(aggregatedRolloutNode);
-				aggregatedPages.addAll(pages);
-				aggregatedRolloutNode.setProperty(PARAM_PAGES, aggregatedPages.toArray(new String[pages.size()]));
-				aggregatedRolloutNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
-				aggregatedRolloutNode.setProperty(PARAM_DELAY, Boolean.TRUE);
-				aggregatedRolloutNode.setProperty(PARAM_ACTIVATE, Boolean.TRUE);
-				Session session = aggregatedRolloutNode.getSession();
+				Session session = activationNode.getSession();
 				session.move(activationNode.getPath(),
 						aggregatedRolloutNode.getPath() + "/" + activationNode.getName());
 				session.save();
+				aggregatedPages.addAll(pages);
+				aggregatedRolloutNode.setProperty(PARAM_PAGES, aggregatedPages.toArray(new String[pages.size()]));
+				aggregatedRolloutNode.getSession().save();
 			}
 		} catch (RepositoryException e) {
 			e.printStackTrace();
@@ -420,12 +421,11 @@ public class PageActivatorImpl
 		return activatedPages;
 	}
 	
-	private HashMap<String, TreeSet<String>> groupByCouncil(Set<String> pages, ResourceResolver rr,
-			TreeSet<String> unmapped) {
+	private HashMap<String, TreeSet<String>> groupByCouncil(Set<String> pages, TreeSet<String> unmapped) {
 		HashMap<String, TreeSet<String>> map = new HashMap <String, TreeSet<String>>();
 		for(String page : pages){
 			try{
-				String domain = getDomain(rr, page);
+				String domain = getDomain(page);
 				TreeSet<String> set;
 				if(map.get(domain) != null){
 					set = map.get(domain);
@@ -443,7 +443,7 @@ public class PageActivatorImpl
 		return map;
 	}
 	
-	private String getDomain(ResourceResolver resolver, String path) throws Exception {
+	private String getDomain(String path) throws Exception {
 		String mappingPath, homepagePath;
 		Set<String> runmodes = settingsService.getRunModes();
 		if(runmodes.contains("prod")){
@@ -460,12 +460,12 @@ public class PageActivatorImpl
 			mappingPath = "/etc/map.publish/http";
 		}
 		
-		Resource pageRes = resolver.resolve(path);
+		Resource pageRes = rr.resolve(path);
 		Page pagePage = pageRes.adaptTo(Page.class);
 		Page homePage = pagePage.getAbsoluteParent(2);
 		homepagePath = homePage.getPath() + ".html";
 		
-		Session session = resolver.adaptTo(Session.class);
+		Session session = rr.adaptTo(Session.class);
 		QueryManager qm = session.getWorkspace().getQueryManager();
 		String query = "SELECT [sling:match] FROM [sling:Mapping] as s WHERE ISDESCENDANTNODE(s,'" 
 		+ mappingPath + "') AND [sling:internalRedirect]='" + homepagePath + "'";
@@ -485,7 +485,7 @@ public class PageActivatorImpl
 	}
 	
 	private void sendReportEmail(long startTime, long endTime, Boolean delay, Boolean crawl, Set<String> builtPages,
-			Node dateNode, Session session, PageActivationReporter reporter) throws RepositoryException {
+			Node dateNode, PageActivationReporter reporter) throws RepositoryException {
 		ArrayList<String> emails = new ArrayList<String>();
 		if (builtPages.size() > 0) {
 			reporter.report("Retrieving email addresses for report");
