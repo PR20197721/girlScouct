@@ -138,7 +138,7 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 		Node etcNode = etcRes.adaptTo(Node.class);
 		Node activationsNode = null;
 		Node activationTypeNode = null;
-		String date = getDateRes();
+		String date = PageActivationUtil.getDateRes();
 		if (etcNode.hasNode(ACTIVATIONS_NODE)) {
 			activationsNode = etcNode.getNode(ACTIVATIONS_NODE);
 		} else {
@@ -191,12 +191,5 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 			}
 		}
 		return councils;
-	}
-
-	private String getDateRes() {
-		Date today = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat(DATE_NODE_FMT);
-		String dateString = sdf.format(today);
-		return dateString;
 	}
 }

@@ -1,6 +1,8 @@
 package org.girlscouts.web.components;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -174,7 +176,7 @@ public class PageActivationUtil implements PageActivationConstants {
 	}
 
 	public static Set<String> getPages(Node n) throws RepositoryException {
-		Set<String> pages = null;
+		Set<String> pages = new HashSet<String>();
 		if (n.hasProperty(PARAM_PAGES)) {
 			pages = new HashSet<String>();
 			Value[] values = n.getProperty(PARAM_PAGES).getValues();
@@ -195,12 +197,13 @@ public class PageActivationUtil implements PageActivationConstants {
 		}
 	}
 
-	public static void archive(Node dateRolloutNode, Session session) {
+	public static void archive(Node dateRolloutNode) {
 		try {
 			Node parent = dateRolloutNode.getParent();
 			if (!parent.hasNode(COMPLETED_NODE)) {
 				parent.addNode(COMPLETED_NODE);
 			}
+			Session session = dateRolloutNode.getSession();
 			session.move(dateRolloutNode.getPath(),
 					parent.getPath() + "/" + COMPLETED_NODE + "/" + dateRolloutNode.getName());
 			session.save();
@@ -256,5 +259,12 @@ public class PageActivationUtil implements PageActivationConstants {
 			e.printStackTrace();
 		}
 		return toAddresses;
+	}
+
+	public static String getDateRes() {
+		Date today = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_NODE_FMT);
+		String dateString = sdf.format(today);
+		return dateString;
 	}
 }

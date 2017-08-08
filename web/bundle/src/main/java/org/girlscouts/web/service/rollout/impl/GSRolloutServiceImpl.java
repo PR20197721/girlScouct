@@ -189,7 +189,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					}
 				} else {
 					dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETE);
-					PageActivationUtil.archive(dateRolloutNode, session);
+					PageActivationUtil.archive(dateRolloutNode);
 				}
 			} catch (Exception e) {
 				log.error("GS Page Rollout - encountered error ", e);
