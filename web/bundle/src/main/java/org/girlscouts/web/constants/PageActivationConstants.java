@@ -37,7 +37,7 @@ public interface PageActivationConstants {
 	public static final String PARAM_ACTIVATE = "activate";
 	public static final String PARAM_STATUS = "status";
 	public static final String PARAM_SOURCE_PATH = "srcpath";
-
+	public static final String PARAM_TEST_MODE = "testMode";
 	public static final String PARAM_PAGES = "pages";
 	public static final String PARAM_ACTIVATED_PAGES = "activatedPages";
 	public static final String PARAM_UNMAPPED_PAGES = "unmappedPages";
@@ -58,6 +58,7 @@ public interface PageActivationConstants {
 
 	public interface Email {
 		public static final String DEFAULT_REPORT_SUBJECT = "GSUSA Rollout (Production) Report";
+		public static final String DEFAULT_REPORT_ATTACHMENT = "gs_rollout_notifications_log";
 		public static final String DEFAULT_REPORT_GREETING = "Dear Girl Scouts USA User,";
 		public static final String DEFAULT_REPORT_INTRO = "The following is a report for the GSUSA Rollout Workflow (Production).";
 		public static final String DEFAULT_REPORT_HEAD = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"

@@ -10,9 +10,11 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
+import javax.jcr.ValueFormatException;
 import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
@@ -419,58 +421,49 @@ public class PageActivatorImpl
 	
 	protected void sendReportEmail(long startTime, long endTime, Boolean delay, Boolean crawl, Set<String> builtPages,
 			Node dateNode, PageActivationReporter reporter) throws RepositoryException {
-		ArrayList<String> emails = new ArrayList<String>();
 		if (builtPages.size() > 0) {
 			reporter.report("Retrieving email addresses for report");
-			if (dateNode.hasProperty("emails")) {
-				Value[] values = dateNode.getProperty("emails").getValues();
-				for (Value v : values) {
-					emails.add(v.toString());
-				}
-			} else {
-				reporter.report("No email address property found. Can't send any emails");
-				return;
-			}
-			if (emails.size() < 1) {
-				reporter.report("No email addresses found in email address property. Can't send any emails.");
-				return;
-			}
-			StringBuffer html = new StringBuffer();
-			html.append(DEFAULT_COMPLETION_REPORT_HEAD);
-			html.append("<body><p>The Girl Scouts Activation Process has just finished running.</p>");
-			if (delay) {
-				html.append("<p>It was of type - Scheduled Activation</p>");
-			} else {
-				if (crawl) {
-					html.append("<p>It was of type - Immediate Activation with Crawl</p>");
+			List<String> emails = PageActivationUtil.getReportEmails(dateNode);
+			if (emails != null && emails.size() > 1) {
+				StringBuffer html = new StringBuffer();
+				html.append(DEFAULT_COMPLETION_REPORT_HEAD);
+				html.append("<body><p>The Girl Scouts Activation Process has just finished running.</p>");
+				if (delay) {
+					html.append("<p>It was of type - Scheduled Activation</p>");
 				} else {
-					html.append("<p>It was of type - Immediate Activation without Crawl</p>");
-					;
+					if (crawl) {
+						html.append("<p>It was of type - Immediate Activation with Crawl</p>");
+					} else {
+						html.append("<p>It was of type - Immediate Activation without Crawl</p>");
+						;
+					}
 				}
-			}
-			html.append("<p>Pages Activated:</p><ul>");
-			for (String page : builtPages) {
-				html.append("<li>" + page + "</li>");
-			}
-			html.append("</ul>");
-			long timeDiff = (endTime - startTime) / 60000;
-			html.append("<p>The entire process took approximately " + timeDiff + " minutes to complete</p>");
-			html.append("</body></html>");
+				html.append("<p>Pages Activated:</p><ul>");
+				for (String page : builtPages) {
+					html.append("<li>" + page + "</li>");
+				}
+				html.append("</ul>");
+				long timeDiff = (endTime - startTime) / 60000;
+				html.append("<p>The entire process took approximately " + timeDiff + " minutes to complete</p>");
+				html.append("</body></html>");
 
-			StringBuffer logData = new StringBuffer();
-			logData.append("The following is the process log for the activation process so far:\n\n");
-			for (String s : reporter.getStatusList()) {
-				logData.append(s + "/n");
-			}
-			try {
-				Set<GSEmailAttachment> attachments = new HashSet<GSEmailAttachment>();
-				String fileName = DEFAULT_COMPLETION_REPORT_ATTACHMENT + "_" + dateNode.getName();
-				GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(),
-						GSEmailAttachment.MimeType.TEXT_PLAIN);
-				attachments.add(attachment);
-				gsEmailService.sendEmail(DEFAULT_COMPLETION_REPORT_SUBJECT, emails, html.toString(), attachments);
-			} catch (EmailException | MessagingException | IOException e) {
-				e.printStackTrace();
+				StringBuffer logData = new StringBuffer();
+				logData.append("The following is the process log for the activation process so far:\n\n");
+				for (String s : reporter.getStatusList()) {
+					logData.append(s + "/n");
+				}
+				try {
+					Set<GSEmailAttachment> attachments = new HashSet<GSEmailAttachment>();
+					String fileName = DEFAULT_COMPLETION_REPORT_ATTACHMENT + "_" + dateNode.getName();
+					GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(),
+							GSEmailAttachment.MimeType.TEXT_PLAIN);
+					attachments.add(attachment);
+					gsEmailService.sendEmail(DEFAULT_COMPLETION_REPORT_SUBJECT, emails, html.toString(), attachments);
+				} catch (EmailException | MessagingException | IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				reporter.report("No email addresses found in email address property. Can't send any emails.");
 			}
 		}
 	}

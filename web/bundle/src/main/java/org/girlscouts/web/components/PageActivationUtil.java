@@ -19,6 +19,7 @@ import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.web.constants.PageActivationConstants;
 
+import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.WCMException;
 
 public class PageActivationUtil implements PageActivationConstants {
@@ -246,10 +247,10 @@ public class PageActivationUtil implements PageActivationConstants {
 
 	public static List<String> getGsusaEmails(ResourceResolver rr) {
 		List<String> toAddresses = new ArrayList<String>();
-		Resource addressesRes = rr.resolve("/etc/msm/rolloutreports");
+		Resource addressesRes = rr.resolve(GS_REPORTEMAIL_PATH);
 		ValueMap vm = ResourceUtil.getValueMap(addressesRes);
 		try {
-			String[] addresses = vm.get("emails", String[].class);
+			String[] addresses = vm.get(PARAM_REPORT_EMAILS, String[].class);
 			if (addresses != null) {
 				for (String address : addresses) {
 					toAddresses.add(address);
@@ -259,6 +260,46 @@ public class PageActivationUtil implements PageActivationConstants {
 			e.printStackTrace();
 		}
 		return toAddresses;
+	}
+
+	public static Boolean isTestMode(ResourceResolver rr) {
+		Boolean isTestMode = Boolean.FALSE;
+		try {
+			Resource activationResource = rr.resolve(PAGE_ACTIVATIONS_PATH);
+			if (activationResource != null) {
+				Node activationNode = activationResource.adaptTo(Node.class);
+				if (activationNode != null && activationNode.hasProperty(PARAM_TEST_MODE)) {
+					isTestMode = activationNode.getProperty(PARAM_TEST_MODE).getBoolean();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isTestMode;
+	}
+
+	public static List<String> getCouncilEmails(Node homepage) {
+		List<String> toAddresses = new ArrayList<String>();
+		try {
+			String email1 = homepage.getProperty("email1").getString();
+			String email2 = homepage.getProperty("email2").getString();
+			toAddresses.add(email1);
+			toAddresses.add(email2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return toAddresses;
+	}
+
+	public static List<String> getReportEmails(Node dateNode) throws RepositoryException {
+		List<String> emails = new ArrayList<String>();
+		if (dateNode.hasProperty(PARAM_REPORT_EMAILS)) {
+			Value[] values = dateNode.getProperty(PARAM_REPORT_EMAILS).getValues();
+			for (Value v : values) {
+				emails.add(v.toString());
+			}
+		}
+		return emails;
 	}
 
 	public static String getDateRes() {

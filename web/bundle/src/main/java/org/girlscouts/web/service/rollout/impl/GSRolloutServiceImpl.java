@@ -7,10 +7,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.RangeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.ValueFormatException;
 import javax.jcr.query.Query;
+
+import org.girlscouts.web.components.GSEmailAttachment;
 import org.girlscouts.web.components.PageActivationUtil;
 import org.girlscouts.web.constants.PageActivationConstants;
 import org.girlscouts.web.councilrollout.GirlScoutsNotificationAction;
@@ -174,7 +178,8 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				}
 				List<String> councilNotificationLog = new ArrayList<String>();
 				if (notify) {
-					sendCouncilNotifications(dateRolloutNode, councilNotificationLog);
+					Boolean isTestMode = PageActivationUtil.isTestMode(rr);
+					sendCouncilNotifications(dateRolloutNode, councilNotificationLog, isTestMode);
 					dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.TRUE);
 				} else {
 					dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.FALSE);
@@ -396,20 +401,29 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		for (String log : rolloutLog) {
 			html.append("<p>" + log + "</p>");
 		}
+
+		StringBuffer logData = new StringBuffer();
+		logData.append("The following is the process log for council notifications:\n\n");
 		if (councilNotificationLog != null && !councilNotificationLog.isEmpty()) {
 			for (String log : councilNotificationLog) {
-				html.append("<p>" + log + "</p>");
+				logData.append(log + "\n");
 			}
 		}
 		List<String> gsusaEmails = PageActivationUtil.getGsusaEmails(rr);
 		try {
-			gsEmailService.sendEmail(subject, gsusaEmails, html.toString());
+			Set<GSEmailAttachment> attachments = new HashSet<GSEmailAttachment>();
+			String fileName = DEFAULT_REPORT_ATTACHMENT + "_" + dateRolloutNode.getName();
+			GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(),
+					GSEmailAttachment.MimeType.TEXT_PLAIN);
+			attachments.add(attachment);
+			gsEmailService.sendEmail(DEFAULT_REPORT_SUBJECT, gsusaEmails, html.toString(), attachments);
 		} catch (Exception e) {
 			log.info("Failed to send GSUSA notification email to " + gsusaEmails.toString());
 		}
 	}
 	
-	private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog) {
+	private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog,
+			Boolean isTestMode) {
 		Set<String> pages = null;
 		String subject = DEFAULT_NOTIFICATION_SUBJECT;
 		String message = "", templatePath = "", srcPath = "";
@@ -463,29 +477,33 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 							if (message != null && message.trim().length() > 0) {
 								try {
 									String branch = PageActivationUtil.getBranch(targetPath);
-									ResourceResolver resourceResolver = source.getResourceResolver();
 									// get the email addresses configured in
 									// page
 									// properties of the council's homepage
-									Page homepage = resourceResolver.resolve(branch + "/en").adaptTo(Page.class);
+									Page homepage = rr.resolve(branch + "/en").adaptTo(Page.class);
 									ValueMap valuemap = homepage.getProperties();
-									String email1 = (String) valuemap.get("email1");
-									String email2 = (String) valuemap.get("email2");
-									List<String> toAddresses = new ArrayList<String>();
-									toAddresses.add(email1);
-									toAddresses.add(email2);
+									List<String> toAddresses = PageActivationUtil
+											.getCouncilEmails(homepage.adaptTo(Node.class));
 									log.info("**** GirlScoutsNotificationAction: sending email to "
-											+ branch.substring(9) + " email1:" + email1 + ", email2:" + email2
-											+ " *****");
+											+ branch.substring(9) + " emails:" + toAddresses.toString() + " *****");
 									String body = generateCouncilNotification(srcPath, targetPath, valuemap, message);
 									try {
-										gsEmailService.sendEmail(subject, toAddresses, body);
+										if (isTestMode) {
+											councilNotificationLog.add("Notification is running in test mode!");
+											councilNotificationLog.add("Replacing " + toAddresses.toString());
+											toAddresses = PageActivationUtil.getReportEmails(dateRolloutNode);
+											councilNotificationLog.add("with " + toAddresses.toString());
+											gsEmailService.sendEmail(subject, toAddresses, body);
+										} else {
+											gsEmailService.sendEmail(subject, toAddresses, body);
+										}
 										councilNotificationLog.add("Notification for " + branch.substring(9)
-												+ " council sent to email1:" + email1 + ", email2:" + email2);
+												+ " council sent to emails:" + toAddresses.toString());
+										councilNotificationLog.add("Notification Email Body: \n" + body);
 									} catch (Exception e) {
 										councilNotificationLog
 												.add("Failed to send notification for " + branch.substring(9)
-														+ " council to email1:" + email1 + ", email2:" + email2);
+														+ " council to emails:" + toAddresses.toString());
 									}
 								} catch (WCMException e) {
 									e.printStackTrace();
@@ -497,6 +515,8 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			}
 		}
 	}
+
+
 
 	private String generateCouncilNotification(String nationalPage, String councilPage, ValueMap vm, String message) {
 		String html = message.replaceAll("<%template-page%>", PageActivationUtil.getURL(nationalPage))
