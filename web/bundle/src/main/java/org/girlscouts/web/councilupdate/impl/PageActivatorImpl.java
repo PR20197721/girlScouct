@@ -76,21 +76,21 @@ public class PageActivatorImpl
 	
 	private static Logger log = LoggerFactory.getLogger(PageActivatorImpl.class);
 	@Reference
-	private ResourceResolverFactory resolverFactory;
+	protected ResourceResolverFactory resolverFactory;
 	@Reference
-	private RolloutManager rolloutManager;
+	protected RolloutManager rolloutManager;
 	@Reference 
-	private Replicator replicator;
+	protected Replicator replicator;
 	@Reference
-    private SlingSettingsService settingsService;
+	protected SlingSettingsService settingsService;
 	@Reference
-	public GSEmailService gsEmailService;
+	protected GSEmailService gsEmailService;
 	@Reference
-	private GirlScoutsNotificationAction notificationAction;
+	protected GirlScoutsNotificationAction notificationAction;
 	@Reference
-	private LiveRelationshipManager relationManager;
+	protected LiveRelationshipManager relationManager;
 	
-	private ResourceResolver rr;
+	protected ResourceResolver rr;
 	//configuration fields
 	
 	@Activate
@@ -234,76 +234,14 @@ public class PageActivatorImpl
 		}
 	}
 
-	private void aggregateActivateCrawl(List<Node> activationsToCrawl) throws RepositoryException {
-		if (activationsToCrawl != null && !activationsToCrawl.isEmpty()) {
-			Node aggregatedRolloutNode = getDateRolloutNode();
-			aggregatedRolloutNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
-			aggregatedRolloutNode.setProperty(PARAM_DELAY, Boolean.TRUE);
-			aggregatedRolloutNode.setProperty(PARAM_ACTIVATE, Boolean.TRUE);
-			for (Node activationNode : activationsToCrawl) {
-				aggregate(activationNode, aggregatedRolloutNode);
-			}
-			Set<String> pages = PageActivationUtil.getPages(aggregatedRolloutNode);
-			if (aggregatedRolloutNode != null && pages != null && !pages.isEmpty()) {
-				processActivationNode(aggregatedRolloutNode);
-			}
-		}
-	}
-
-	private void aggregate(Node activationNode, Node aggregatedRolloutNode) {
-		try {
-			Set<String> pages = PageActivationUtil.getPages(activationNode);
-			if (pages != null && !pages.isEmpty()) {
-				Set<String> aggregatedPages = PageActivationUtil.getPages(aggregatedRolloutNode);
-				Session session = activationNode.getSession();
-				session.move(activationNode.getPath(),
-						aggregatedRolloutNode.getPath() + "/" + activationNode.getName());
-				session.save();
-				aggregatedPages.addAll(pages);
-				aggregatedRolloutNode.setProperty(PARAM_PAGES, aggregatedPages.toArray(new String[pages.size()]));
-				aggregatedRolloutNode.getSession().save();
-			}
-		} catch (RepositoryException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private boolean isPublisher() {
+	protected boolean isPublisher() {
 		if (settingsService.getRunModes().contains("publish")) {
 			return true;
 		}
 		return false;
 	}
 
-	private List<Node> queueDelayedActivations() {
-		List<Node> activations = null;
-		Session session = rr.adaptTo(Session.class);
-		Resource gsDelayedRes = rr.resolve(GS_ACTIVATIONS_PATH + "/" + DELAYED_NODE);
-		if (!gsDelayedRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-			Iterable<Resource> gsDelayedJobs = gsDelayedRes.getChildren();
-			if (gsDelayedJobs.iterator() != null) {
-				activations = new ArrayList<Node>();
-				Iterator<Resource> activationJobs = gsDelayedJobs.iterator();
-				while (activationJobs.hasNext()) {
-					try {
-						Resource dateRolloutRes = activationJobs.next();
-						Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
-						if (dateRolloutNode.hasProperty(PARAM_STATUS)
-								&& STATUS_DELAYED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())) {
-							dateRolloutNode.setProperty(PARAM_STATUS, STATUS_QUEUED);
-							session.save();
-							activations.add(dateRolloutNode);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		return activations;
-	}
-
-	private Set<String> activatePages(HashMap<String, TreeSet<String>> toActivate, Node dateNode,
+	protected Set<String> activatePages(HashMap<String, TreeSet<String>> toActivate, Node dateNode,
 			PageActivationReporter reporter) {
 		Set<String> activatedPages = new TreeSet<String>();
 		Set<String> councilDomainsSet = new TreeSet<String>(toActivate.keySet());
@@ -323,7 +261,7 @@ public class PageActivatorImpl
 		return activatedPages;
 	}
 
-	private TreeSet<String> activateAndBuildCache(HashMap<String, TreeSet<String>> toActivate,
+	protected TreeSet<String> activateAndBuildCache(HashMap<String, TreeSet<String>> toActivate,
 			Node dateNode, PageActivationReporter reporter) {
 		TreeSet<String> activatedPages = new TreeSet<String>();
 		Set<String> councilDomainsSet = new TreeSet<String>(toActivate.keySet());
@@ -421,7 +359,7 @@ public class PageActivatorImpl
 		return activatedPages;
 	}
 	
-	private HashMap<String, TreeSet<String>> groupByCouncil(Set<String> pages, TreeSet<String> unmapped) {
+	protected HashMap<String, TreeSet<String>> groupByCouncil(Set<String> pages, TreeSet<String> unmapped) {
 		HashMap<String, TreeSet<String>> map = new HashMap <String, TreeSet<String>>();
 		for(String page : pages){
 			try{
@@ -443,7 +381,7 @@ public class PageActivatorImpl
 		return map;
 	}
 	
-	private String getDomain(String path) throws Exception {
+	protected String getDomain(String path) throws Exception {
 		String mappingPath, homepagePath;
 		Set<String> runmodes = settingsService.getRunModes();
 		if(runmodes.contains("prod")){
@@ -479,12 +417,7 @@ public class PageActivatorImpl
 	    return toReturn;
 	}
 	
-	@Deactivate
-	private void deactivate(ComponentContext componentContext) {
-		log.info("GS Page Activation Service Deactivated.");
-	}
-	
-	private void sendReportEmail(long startTime, long endTime, Boolean delay, Boolean crawl, Set<String> builtPages,
+	protected void sendReportEmail(long startTime, long endTime, Boolean delay, Boolean crawl, Set<String> builtPages,
 			Node dateNode, PageActivationReporter reporter) throws RepositoryException {
 		ArrayList<String> emails = new ArrayList<String>();
 		if (builtPages.size() > 0) {
@@ -542,6 +475,34 @@ public class PageActivatorImpl
 		}
 	}
 
+	private List<Node> queueDelayedActivations() {
+		List<Node> activations = null;
+		Session session = rr.adaptTo(Session.class);
+		Resource gsDelayedRes = rr.resolve(PAGE_ACTIVATIONS_PATH + "/" + DELAYED_NODE);
+		if (!gsDelayedRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+			Iterable<Resource> gsDelayedJobs = gsDelayedRes.getChildren();
+			if (gsDelayedJobs.iterator() != null) {
+				activations = new ArrayList<Node>();
+				Iterator<Resource> activationJobs = gsDelayedJobs.iterator();
+				while (activationJobs.hasNext()) {
+					try {
+						Resource dateRolloutRes = activationJobs.next();
+						Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
+						if (dateRolloutNode.hasProperty(PARAM_STATUS)
+								&& STATUS_DELAYED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())) {
+							dateRolloutNode.setProperty(PARAM_STATUS, STATUS_QUEUED);
+							session.save();
+							activations.add(dateRolloutNode);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return activations;
+	}
+
 	private Node getDateRolloutNode() throws RepositoryException {
 		Node dateRolloutNode = null;
 		try {
@@ -551,10 +512,10 @@ public class PageActivatorImpl
 			Node activationsNode = null;
 			Node activationTypeNode = null;
 			String date = PageActivationUtil.getDateRes();
-			if (etcNode.hasNode(ACTIVATIONS_NODE)) {
-				activationsNode = etcNode.getNode(ACTIVATIONS_NODE);
+			if (etcNode.hasNode(PAGE_ACTIVATIONS_NODE)) {
+				activationsNode = etcNode.getNode(PAGE_ACTIVATIONS_NODE);
 			} else {
-				activationsNode = etcNode.addNode(ACTIVATIONS_NODE);
+				activationsNode = etcNode.addNode(PAGE_ACTIVATIONS_NODE);
 			}
 			if (activationsNode.hasNode(DELAYED_NODE)) {
 				activationTypeNode = activationsNode.getNode(DELAYED_NODE);
@@ -572,5 +533,45 @@ public class PageActivatorImpl
 			e.printStackTrace();
 		}
 		return dateRolloutNode;
+	}
+
+	private void aggregate(Node activationNode, Node aggregatedRolloutNode) {
+		try {
+			Set<String> pages = PageActivationUtil.getPages(activationNode);
+			if (pages != null && !pages.isEmpty()) {
+				Set<String> aggregatedPages = PageActivationUtil.getPages(aggregatedRolloutNode);
+				Session session = activationNode.getSession();
+				session.move(activationNode.getPath(),
+						aggregatedRolloutNode.getPath() + "/" + activationNode.getName());
+				session.save();
+				aggregatedPages.addAll(pages);
+				aggregatedRolloutNode.setProperty(PARAM_PAGES,
+						aggregatedPages.toArray(new String[aggregatedPages.size()]));
+				aggregatedRolloutNode.getSession().save();
+			}
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void aggregateActivateCrawl(List<Node> activationsToCrawl) throws RepositoryException {
+		if (activationsToCrawl != null && !activationsToCrawl.isEmpty()) {
+			Node aggregatedRolloutNode = getDateRolloutNode();
+			aggregatedRolloutNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
+			aggregatedRolloutNode.setProperty(PARAM_DELAY, Boolean.TRUE);
+			aggregatedRolloutNode.setProperty(PARAM_ACTIVATE, Boolean.TRUE);
+			for (Node activationNode : activationsToCrawl) {
+				aggregate(activationNode, aggregatedRolloutNode);
+			}
+			Set<String> pages = PageActivationUtil.getPages(aggregatedRolloutNode);
+			if (aggregatedRolloutNode != null && pages != null && !pages.isEmpty()) {
+				processActivationNode(aggregatedRolloutNode);
+			}
+		}
+	}
+
+	@Deactivate
+	private void deactivate(ComponentContext componentContext) {
+		log.info("GS Page Activation Service Deactivated.");
 	}
 }

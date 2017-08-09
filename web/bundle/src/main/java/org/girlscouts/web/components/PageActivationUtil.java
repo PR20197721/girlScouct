@@ -25,7 +25,7 @@ public class PageActivationUtil implements PageActivationConstants {
 
 	public static String[] getIps(ResourceResolver rr, int group) {
 		try {
-			String gsActivationsNodePath = GS_ACTIVATIONS_PATH;
+			String gsActivationsNodePath = PAGE_ACTIVATIONS_PATH;
 			Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
 			if (!gsActivationRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				Node gsActivationsNode = gsActivationRes.adaptTo(Node.class);
@@ -46,7 +46,7 @@ public class PageActivationUtil implements PageActivationConstants {
 
 	public static int getGroupSize(ResourceResolver rr) {
 		try {
-			String gsActivationsNodePath = GS_ACTIVATIONS_PATH;
+			String gsActivationsNodePath = PAGE_ACTIVATIONS_PATH;
 			Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
 			if (!gsActivationRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				Node gsActivationsNode = gsActivationRes.adaptTo(Node.class);
@@ -69,7 +69,7 @@ public class PageActivationUtil implements PageActivationConstants {
 
 	public static int getMinutes(ResourceResolver rr) {
 		try {
-			String gsActivationsNodePath = GS_ACTIVATIONS_PATH;
+			String gsActivationsNodePath = PAGE_ACTIVATIONS_PATH;
 			Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
 			if (!gsActivationRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				Node gsActivationsNode = gsActivationRes.adaptTo(Node.class);
@@ -92,7 +92,7 @@ public class PageActivationUtil implements PageActivationConstants {
 
 	public static int getCrawlDepth(ResourceResolver rr) {
 		try {
-			String gsActivationsNodePath = GS_ACTIVATIONS_PATH;
+			String gsActivationsNodePath = PAGE_ACTIVATIONS_PATH;
 			Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
 			if (!gsActivationRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				Node gsActivationsNode = gsActivationRes.adaptTo(Node.class);
@@ -114,7 +114,7 @@ public class PageActivationUtil implements PageActivationConstants {
 	}
 
 	public static String[] getEmails(ResourceResolver rr) throws Exception {
-		String gsActivationsNodePath = "/etc/" + ACTIVATIONS_NODE;
+		String gsActivationsNodePath = "/etc/" + PAGE_ACTIVATIONS_NODE;
 		Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
 		if (!gsActivationRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			Node gsActivationsNode = gsActivationRes.adaptTo(Node.class);

@@ -14,9 +14,10 @@ public interface PageActivationConstants {
 	public static final String DATE_NODE_FMT = "yyyy-MM-dd'T'HHmmss";
 
 	public static final String ETC_NODE = "/etc";
-	public static final String ACTIVATIONS_NODE = "gs-activations";
-	public static final String GS_ACTIVATIONS_PATH = ETC_NODE + "/" + ACTIVATIONS_NODE;
-	public static final String GS_EVENTS_PATH = ETC_NODE + "/gs-delayed-activations";
+	public static final String PAGE_ACTIVATIONS_NODE = "gs-activations";
+	public static final String PAGE_ACTIVATIONS_PATH = ETC_NODE + "/" + PAGE_ACTIVATIONS_NODE;
+	public static final String EVENT_ACTIVATIONS_NODE = "gs-delayed-activations";
+	public static final String EVENT_ACTIVATIONS_PATH = ETC_NODE + "/" + EVENT_ACTIVATIONS_NODE;
 	public static final String GS_REPORTEMAIL_PATH = "/etc/msm/rolloutreports";
 	public static final String DELAYED_NODE = "delayed";
 	public static final String INSTANT_NODE = "instant";

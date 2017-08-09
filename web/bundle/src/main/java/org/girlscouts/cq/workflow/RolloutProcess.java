@@ -137,10 +137,10 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 		Node activationsNode = null;
 		Node activationTypeNode = null;
 		String date = PageActivationUtil.getDateRes();
-		if (etcNode.hasNode(ACTIVATIONS_NODE)) {
-			activationsNode = etcNode.getNode(ACTIVATIONS_NODE);
+		if (etcNode.hasNode(PAGE_ACTIVATIONS_NODE)) {
+			activationsNode = etcNode.getNode(PAGE_ACTIVATIONS_NODE);
 		} else {
-			activationsNode = etcNode.addNode(ACTIVATIONS_NODE);
+			activationsNode = etcNode.addNode(PAGE_ACTIVATIONS_NODE);
 		}
 		if (delay) {
 			if (activationsNode.hasNode(DELAYED_NODE)) {
