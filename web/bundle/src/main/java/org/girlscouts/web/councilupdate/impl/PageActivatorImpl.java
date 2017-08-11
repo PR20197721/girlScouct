@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -473,27 +474,66 @@ public class PageActivatorImpl
 		Session session = rr.adaptTo(Session.class);
 		Resource gsDelayedRes = rr.resolve(PAGE_ACTIVATIONS_PATH + "/" + DELAYED_NODE);
 		if (!gsDelayedRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-			Iterable<Resource> gsDelayedJobs = gsDelayedRes.getChildren();
-			if (gsDelayedJobs.iterator() != null) {
-				activations = new ArrayList<Node>();
-				Iterator<Resource> activationJobs = gsDelayedJobs.iterator();
-				while (activationJobs.hasNext()) {
-					try {
-						Resource dateRolloutRes = activationJobs.next();
-						Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
+			Node gsDelayedNode = gsDelayedRes.adaptTo(Node.class);
+			activations = new ArrayList<Node>();
+			try {
+				NodeIterator it = gsDelayedNode.getNodes();
+				if (it != null) {
+					while (it.hasNext()) {
+						Node dateRolloutNode = it.nextNode();
 						if (dateRolloutNode.hasProperty(PARAM_STATUS)
 								&& STATUS_DELAYED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())) {
 							dateRolloutNode.setProperty(PARAM_STATUS, STATUS_QUEUED);
 							session.save();
 							activations.add(dateRolloutNode);
 						}
-					} catch (Exception e) {
-						e.printStackTrace();
 					}
+					it.hasNext();
 				}
+			} catch (RepositoryException e1) {
+				e1.printStackTrace();
+			}
+			try {
+				activations.add(getEventsActivationNode(gsDelayedRes));
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return activations;
+	}
+
+	private Node getEventsActivationNode(Resource gsDelayedRes) throws RepositoryException {
+		Node eventActivationNode = null;
+		try {
+			Resource etcRes = rr.resolve("/etc");
+			Node etcNode = etcRes.adaptTo(Node.class);
+			Node activationsNode = null;
+			if (etcNode.hasNode(EVENT_ACTIVATIONS_NODE)) {
+				activationsNode = etcNode.getNode(EVENT_ACTIVATIONS_NODE);
+			} else {
+				activationsNode = etcNode.addNode(EVENT_ACTIVATIONS_NODE);
+			}
+			if (activationsNode != null) {
+				Set<String> pages = PageActivationUtil.getPages(activationsNode);
+				if (pages != null && !pages.isEmpty()) {
+					String dateNodeName = PageActivationUtil.getDateRes();
+					Node gsDelayedNode = gsDelayedRes.adaptTo(Node.class);
+					eventActivationNode = gsDelayedNode.addNode(dateNodeName);
+					eventActivationNode.setProperty(PARAM_PAGES, pages.toArray(new String[pages.size()]));
+					eventActivationNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
+					eventActivationNode.setProperty(PARAM_DELAY, Boolean.TRUE);
+					eventActivationNode.setProperty(PARAM_ACTIVATE, Boolean.TRUE);
+					eventActivationNode.setProperty(PARAM_ACTIVATE, Boolean.TRUE);
+					eventActivationNode.setProperty(PARAM_STATUS, STATUS_CREATED);
+					eventActivationNode.getSession().save();
+				}
+				activationsNode.setProperty(PARAM_PAGES, new String[] {});
+				activationsNode.getSession().save();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return eventActivationNode;
 	}
 
 	private Node getDateRolloutNode() throws RepositoryException {
