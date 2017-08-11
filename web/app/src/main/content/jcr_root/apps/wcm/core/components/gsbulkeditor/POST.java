@@ -76,6 +76,8 @@ public class POST extends SlingAllMethodsServlet {
 
     public static final String DEFAULT_SEPARATOR = ",";
     public static final String META_DATA_LOCATION = "/jcr:content/metadata";
+    int repDelayInterval = 10;
+    int repDelayTimeInSeconds = 60;
 
     protected void doPost(SlingHttpServletRequest request,
                           SlingHttpServletResponse response)
@@ -298,8 +300,15 @@ public class POST extends SlingAllMethodsServlet {
                                 		if(pathsToReplicate.size() > 0){
 	                                		try{
 	                                			replicator = scriptHelper.getService(Replicator.class);
+	                                			int repCount = 0;
 	                                			for(String activatePath : pathsToReplicate){
+	                                				if(repCount >= repDelayInterval){
+	                                					Thread.sleep(1000 * repDelayTimeInSeconds);
+	                                					repCount = 0;
+	                                				}
+	                                				
 	                                				replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, activatePath);
+	                                				repCount++;
 	                                			}
 	                                		}catch(Exception e){
 	                                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
@@ -908,18 +917,14 @@ public class POST extends SlingAllMethodsServlet {
                 	} */
                 }
                 else if(importType.equals("documents")){
-                	if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
-                		if(node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
-
-                			String metaPath = path + META_DATA_LOCATION;
-                			Resource metaResource = request.getResourceResolver().getResource(metaPath);
-                			Node metaNode = null;
-                            if(metaResource!=null) {
-                            	metaNode = metaResource.adaptTo(Node.class);
-                            }
-                            if(metaNode != null)
-                            	pathsToReplicate.add(metaNode.getPath());
-                		}
+                	if(node.hasProperty("jcr:content/cq:lastReplicationAction") && node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
+    
+                		String metaPath = path + META_DATA_LOCATION;
+                		Resource metaResource = request.getResourceResolver().getResource(metaPath);
+                        if(metaResource!=null) {
+                        	pathsToReplicate.add(metaPath);
+                        }
+                   
                 	}
                 }
                 updated = true;
