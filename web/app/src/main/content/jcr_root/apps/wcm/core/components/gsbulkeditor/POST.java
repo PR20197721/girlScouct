@@ -377,6 +377,7 @@ public class POST extends SlingAllMethodsServlet {
         try {
             int headerSize = headers.size();
             List<String> values = new LinkedList<String>(Arrays.asList(line));
+            //Not made for files in the current format. Seems to follow older format.
             //values.remove(values.size() - 1);
             if(values.size() < headerSize) {
                 //completet missing last empty cols
