@@ -168,7 +168,7 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 	}
 
 	private Set<String> getCouncils(MetaDataMap mdm) {
-		Set<String> councils = null;
+		Set<String> councils = new HashSet<String>();
 		try {
 			Value[] values = (Value[]) mdm.get(PARAM_COUNCILS);
 			if (values != null && values.length > 0) {
