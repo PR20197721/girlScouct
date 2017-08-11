@@ -75,6 +75,7 @@ public class POST extends SlingAllMethodsServlet {
     public static final String YEAR_PARAM = "year";
 
     public static final String DEFAULT_SEPARATOR = ",";
+    public static final String META_DATA_LOCATION = "/jcr:content/metadata";
 
     protected void doPost(SlingHttpServletRequest request,
                           SlingHttpServletResponse response)
@@ -376,7 +377,7 @@ public class POST extends SlingAllMethodsServlet {
         try {
             int headerSize = headers.size();
             List<String> values = new LinkedList<String>(Arrays.asList(line));
-            values.remove(values.size() - 1);
+            //values.remove(values.size() - 1);
             if(values.size() < headerSize) {
                 //completet missing last empty cols
                 for(int i = values.size();i<=headerSize;i++) {
@@ -897,10 +898,26 @@ public class POST extends SlingAllMethodsServlet {
 	                	contactsForTeam.add(contact);
 	                }
 	                contactsToCreate.put(contact.getTeam(),contactsForTeam);
-                }else if(importType.equals("documents") || importType.equals("events")){
-                	if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
+                }else if(importType.equals("events")){
+                	//Disabled for the time being
+                	/*if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
                 		if(node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
                 			pathsToReplicate.add(node.getPath());
+                		}
+                	} */
+                }
+                else if(importType.equals("documents")){
+                	if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
+                		if(node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
+
+                			String metaPath = path + META_DATA_LOCATION;
+                			Resource metaResource = request.getResourceResolver().getResource(metaPath);
+                			Node metaNode = null;
+                            if(metaResource!=null) {
+                            	metaNode = metaResource.adaptTo(Node.class);
+                            }
+                            if(metaNode != null)
+                            	pathsToReplicate.add(metaNode.getPath());
                 		}
                 	}
                 }
