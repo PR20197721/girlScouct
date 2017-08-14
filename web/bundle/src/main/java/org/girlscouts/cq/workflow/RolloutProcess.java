@@ -172,7 +172,6 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 		try {
 			Value[] values = (Value[]) mdm.get(PARAM_COUNCILS);
 			if (values != null && values.length > 0) {
-				councils = new HashSet<String>();
 				for (Value value : values) {
 					councils.add(value.getString().trim());
 				}

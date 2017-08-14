@@ -107,6 +107,7 @@ public class PageActivatorImpl
 
 	@Override
 	public void run() {
+		System.err.println("Running page activator PageActivatorImpl");
 		if (isPublisher()) {
 			return;
 		}
@@ -139,6 +140,7 @@ public class PageActivatorImpl
 				}
 			}
 		}
+		System.err.println("Finished page activator PageActivatorImpl");
 	}
 
 	@Override
