@@ -182,7 +182,6 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				Boolean isTestMode = PageActivationUtil.isTestMode(rr);
 				if (notify) {
 					sendCouncilNotifications(dateRolloutNode, councilNotificationLog, isTestMode);
-					dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.TRUE);
 				} else {
 					dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.FALSE);
 				}
@@ -508,7 +507,20 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 										councilNotificationLog.add("Notification for " + branch.substring(9)
 												+ " council sent to emails:" + toAddresses.toString());
 										councilNotificationLog.add("Notification Email Body: \n" + body);
+										try {
+											dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.TRUE);
+											dateRolloutNode.getSession().save();
+										} catch (RepositoryException e1) {
+											e1.printStackTrace();
+										}
 									} catch (Exception e) {
+										try {
+											dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT,
+													Boolean.FALSE);
+											dateRolloutNode.getSession().save();
+										} catch (RepositoryException e1) {
+											e1.printStackTrace();
+										}
 										councilNotificationLog
 												.add("Failed to send notification for " + branch.substring(9)
 														+ " council to emails:" + toAddresses.toString());
