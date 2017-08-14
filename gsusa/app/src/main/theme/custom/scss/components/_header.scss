@@ -12,7 +12,7 @@
         color: $white;
         /* putting it outside for cq author mode
         .search-form {
-          float: right;
+            float: right;
         }*/
     }
     .logo-section {
@@ -51,4 +51,21 @@
             }
         }
     }
+    &.sticky-nav {
+        &.sticky-nav-fixed,
+        .sticky-nav-fixed {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1002;
+            /* Needs to be 1002 along with box-shadow */
+        }
+        .right-off-canvas-menu {
+            height: 100vh;
+        }
+    }
+}
+
+.header-placeholder {
+    height: 140px;
 }

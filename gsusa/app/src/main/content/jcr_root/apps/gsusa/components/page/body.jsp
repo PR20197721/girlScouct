@@ -6,6 +6,9 @@ String cookieClass = "";
 if (isCookiePage(currentPage)) {
    cookieClass = " cookie-page";
 }
+   
+Boolean sticky = true; // PLACEHOLDER --------------------------------------
+String stickyClass = sticky ? "sticky-nav" : "";
 %>
 
 <!-- body -->
@@ -37,9 +40,10 @@ if (isCookiePage(currentPage)) {
             <section class="main-section">
                 <%-- below print image logo is hard-coded since we cannot incorporate within existing components --%>
                 <img src="/content/dam/girlscouts-gsusa/images/logo/logo_print.png" data-at2x="/content/dam/girlscouts-gsusa/images/logo/logo_print@2x.png" id="mainGSLogoPrint" style="display:none;" />
-                <div class="header">
+                <div class="header <%=stickyClass%> sticky-nav-fixed">
                     <cq:include script="header.jsp" />
                 </div>
+                <div class="header-placeholder"></div>
                 <div class="main-content row">
                     <cq:include script="content.jsp" />
                 </div>

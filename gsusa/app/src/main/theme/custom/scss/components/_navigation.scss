@@ -49,12 +49,10 @@
         > li.active {
             border-left: solid rem-calc(10) $gs-light-orange;
         }
-        /*
-    &:first-child {
-      border-left: solid rem-calc(10) $gs-orange;
-      border-bottom: 1px solid #464646;
-    }
-    */
+        /*&:first-child {
+            border-left: solid rem-calc(10) $gs-orange;
+            border-bottom: 1px solid #464646;
+        }*/
         li.has-submenu {
             > a {
                 text-transform: uppercase;
@@ -151,5 +149,24 @@
                 }
             }
         }
+    }
+}
+
+.off-canvas-wrap {
+    > .inner-wrap {
+        -webkit-transition: margin-left 500ms ease;
+        -moz-transition: margin-left 500ms ease;
+        -ms-transition: margin-left 500ms ease;
+        -o-transition: margin-left 500ms ease;
+        transition: margin-left 500ms ease;
+    }
+    &.move-left > .inner-wrap {
+        -webkit-transform: none;
+        -moz-transform: none;
+        -ms-transform: none;
+        -ms-transform: none;
+        -o-transform: none;
+        transform: none;
+        margin-left: rem-calc(-250);
     }
 }
