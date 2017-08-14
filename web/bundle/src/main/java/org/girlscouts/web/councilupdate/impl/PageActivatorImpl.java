@@ -430,7 +430,7 @@ public class PageActivatorImpl
 		if (builtPages.size() > 0) {
 			reporter.report("Retrieving email addresses for report");
 			List<String> emails = PageActivationUtil.getReportEmails(rr);
-			if (emails != null && emails.size() > 1) {
+			if (emails != null && emails.size() > 0) {
 				StringBuffer html = new StringBuffer();
 				html.append(DEFAULT_COMPLETION_REPORT_HEAD);
 				html.append("<body><p>The Girl Scouts Activation Process has just finished running.</p>");
