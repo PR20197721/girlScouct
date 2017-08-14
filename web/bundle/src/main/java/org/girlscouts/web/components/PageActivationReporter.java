@@ -33,13 +33,13 @@ public class PageActivationReporter {
 		statusList.add(status);
 		try {
 			if (currentReportNode == null || reportIndex > 50) {
-				currentReportNode = dateRolloutNode.addNode("report" + reportNodeIndex,
+				currentReportNode = dateRolloutNode.addNode("report" + formatedReport(reportNodeIndex),
 						"nt:unstructured");
 				reportNodes.add(currentReportNode);
 				reportNodeIndex++;
 				reportIndex = 1;
 			}
-			currentReportNode.setProperty("status" + formatedIndex(reportIndex), status);
+			currentReportNode.setProperty("status" + formatedStatus(reportIndex), status);
 			session.save();
 			reportIndex++;
 		} catch (Exception e) {
@@ -49,11 +49,19 @@ public class PageActivationReporter {
 		}
 	}
 
-	public String formatedIndex(int num) {
+	public String formatedStatus(int num) {
 		if (num < 10) {
 			return "0" + String.valueOf(num);
 		}
 		return String.valueOf(num);
+	}
+
+	public String formatedReport(int num) {
+		String numStr = String.valueOf(num);
+		while (numStr.length() < 4) {
+			numStr = "0" + numStr;
+		}
+		return numStr;
 	}
 
 	public ArrayList<String> getStatusList() {

@@ -291,13 +291,20 @@ public class PageActivationUtil implements PageActivationConstants {
 		return toAddresses;
 	}
 
-	public static List<String> getReportEmails(Node dateNode) throws RepositoryException {
+	public static List<String> getReportEmails(ResourceResolver rr) throws RepositoryException {
 		List<String> emails = new ArrayList<String>();
-		if (dateNode.hasProperty(PARAM_REPORT_EMAILS)) {
-			Value[] values = dateNode.getProperty(PARAM_REPORT_EMAILS).getValues();
-			for (Value v : values) {
-				emails.add(v.toString());
+		List<String> toAddresses = new ArrayList<String>();
+		Resource addressesRes = rr.resolve(PAGE_ACTIVATIONS_PATH);
+		ValueMap vm = ResourceUtil.getValueMap(addressesRes);
+		try {
+			String[] addresses = vm.get(PARAM_REPORT_EMAILS, String[].class);
+			if (addresses != null) {
+				for (String address : addresses) {
+					toAddresses.add(address);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return emails;
 	}

@@ -109,6 +109,7 @@ public class PageActivatorImpl
 	public void run() {
 		System.err.println("Running page activator PageActivatorImpl");
 		if (isPublisher()) {
+			System.err.println("Publisher instance - will not execute Page Activator");
 			return;
 		}
 
@@ -291,6 +292,8 @@ public class PageActivatorImpl
 		}
 		for (String domain : councilDomainsSet) {
 			counter++;
+			reporter.report(
+					"Processing Council " + domain + " [" + counter + " out of " + councilDomainsSet.size() + "]");
 			if ((counter > batchSize) && (counter % batchSize == 0)) {
 				try {
 					Thread.sleep(sleepTime);
@@ -426,7 +429,7 @@ public class PageActivatorImpl
 			Node dateNode, PageActivationReporter reporter) throws RepositoryException {
 		if (builtPages.size() > 0) {
 			reporter.report("Retrieving email addresses for report");
-			List<String> emails = PageActivationUtil.getReportEmails(dateNode);
+			List<String> emails = PageActivationUtil.getReportEmails(rr);
 			if (emails != null && emails.size() > 1) {
 				StringBuffer html = new StringBuffer();
 				html.append(DEFAULT_COMPLETION_REPORT_HEAD);
@@ -518,9 +521,9 @@ public class PageActivatorImpl
 			if (activationsNode != null) {
 				Set<String> pages = PageActivationUtil.getPages(activationsNode);
 				if (pages != null && !pages.isEmpty()) {
-					String dateNodeName = PageActivationUtil.getDateRes();
+					String eventsNodeName = "E-" + PageActivationUtil.getDateRes();
 					Node gsDelayedNode = gsDelayedRes.adaptTo(Node.class);
-					eventActivationNode = gsDelayedNode.addNode(dateNodeName);
+					eventActivationNode = gsDelayedNode.addNode(eventsNodeName);
 					eventActivationNode.setProperty(PARAM_PAGES, pages.toArray(new String[pages.size()]));
 					eventActivationNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
 					eventActivationNode.setProperty(PARAM_DELAY, Boolean.TRUE);
@@ -538,7 +541,7 @@ public class PageActivatorImpl
 		return eventActivationNode;
 	}
 
-	private Node getDateRolloutNode() throws RepositoryException {
+	private Node getAggregateDateRolloutNode() throws RepositoryException {
 		Node dateRolloutNode = null;
 		try {
 			Session session = rr.adaptTo(Session.class);
@@ -546,7 +549,6 @@ public class PageActivatorImpl
 			Node etcNode = etcRes.adaptTo(Node.class);
 			Node activationsNode = null;
 			Node activationTypeNode = null;
-			String date = PageActivationUtil.getDateRes();
 			if (etcNode.hasNode(PAGE_ACTIVATIONS_NODE)) {
 				activationsNode = etcNode.getNode(PAGE_ACTIVATIONS_NODE);
 			} else {
@@ -558,10 +560,11 @@ public class PageActivatorImpl
 				activationTypeNode = activationsNode.addNode(DELAYED_NODE);
 				session.save();
 			}
-			if (activationTypeNode.hasNode(date)) {
-				dateRolloutNode = activationTypeNode.getNode(date);
+			String aggregateNodeName = PageActivationUtil.getDateRes();
+			if (activationTypeNode.hasNode(aggregateNodeName)) {
+				dateRolloutNode = activationTypeNode.getNode(aggregateNodeName);
 			} else {
-				dateRolloutNode = activationTypeNode.addNode(date);
+				dateRolloutNode = activationTypeNode.addNode(aggregateNodeName);
 				session.save();
 			}
 		} catch (Exception e) {
@@ -574,7 +577,8 @@ public class PageActivatorImpl
 		try {
 			Set<String> pages = PageActivationUtil.getPages(activationNode);
 			if (pages != null && !pages.isEmpty()) {
-				Set<String> aggregatedPages = PageActivationUtil.getPages(aggregatedRolloutNode);
+				Set<String> aggregatedPages = new TreeSet<String>();
+				aggregatedPages.addAll(PageActivationUtil.getPages(aggregatedRolloutNode));
 				Session session = activationNode.getSession();
 				session.move(activationNode.getPath(),
 						aggregatedRolloutNode.getPath() + "/" + activationNode.getName());
@@ -591,7 +595,7 @@ public class PageActivatorImpl
 
 	private void aggregateActivateCrawl(List<Node> activationsToCrawl) throws RepositoryException {
 		if (activationsToCrawl != null && !activationsToCrawl.isEmpty()) {
-			Node aggregatedRolloutNode = getDateRolloutNode();
+			Node aggregatedRolloutNode = getAggregateDateRolloutNode();
 			aggregatedRolloutNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
 			aggregatedRolloutNode.setProperty(PARAM_DELAY, Boolean.TRUE);
 			aggregatedRolloutNode.setProperty(PARAM_ACTIVATE, Boolean.TRUE);

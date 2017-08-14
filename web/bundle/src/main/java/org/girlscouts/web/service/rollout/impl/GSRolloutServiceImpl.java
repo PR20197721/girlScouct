@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
+
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RangeIterator;
@@ -424,7 +426,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 	
 	private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog,
 			Boolean isTestMode) {
-		Set<String> pages = null;
+		Set<String> pages = new TreeSet<String>();
 		String subject = DEFAULT_NOTIFICATION_SUBJECT;
 		String message = "", templatePath = "", srcPath = "";
 		Boolean notify = false, useTemplate = false;
@@ -462,7 +464,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			} catch (Exception e) {
 			}
 			try {
-				pages = PageActivationUtil.getPages(dateRolloutNode);
+				pages.addAll(PageActivationUtil.getPages(dateRolloutNode));
 			} catch (Exception e) {
 				log.error("GS Page Activator - failed to get initial page count");
 				e.printStackTrace();
@@ -491,7 +493,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 										if (isTestMode) {
 											councilNotificationLog.add("Notification is running in test mode!");
 											councilNotificationLog.add("Replacing " + toAddresses.toString());
-											toAddresses = PageActivationUtil.getReportEmails(dateRolloutNode);
+											toAddresses = PageActivationUtil.getReportEmails(rr);
 											councilNotificationLog.add("with " + toAddresses.toString());
 											gsEmailService.sendEmail(subject, toAddresses, body);
 										} else {

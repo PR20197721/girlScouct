@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import org.jsoup.Jsoup;
-import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -59,7 +58,6 @@ public class CacheThread implements Runnable {
 			if(!referer.equals("")){
 				conn.setRequestProperty("Referer", referer);
 			}
-			statusList.add("request to " + url);
 			conn.connect();
 			boolean redirect = false;
 			// normally, 3xx is redirect
@@ -88,7 +86,7 @@ public class CacheThread implements Runnable {
 			}
 
 			statusList.add(dispTitle + " - connection established with " + url + " with referer " + referer
-					+ ". Status Code " + conn.getResponseCode());
+					+ ". Status Code " + conn.getResponseCode() + " [" + currentDepth + "]");
 			if (crawlDepth == -1 || crawlDepth > currentDepth) {
 				TreeSet<String> pathsToRequest = new TreeSet<String>();
 				String response = "";
@@ -141,9 +139,10 @@ public class CacheThread implements Runnable {
 						}
 					}
 				}
-				if (pathsToRequest.size() > 0) {
+				currentDepth++;
+				if (pathsToRequest.size() > 0 && (crawlDepth == -1 || crawlDepth > currentDepth)) {
 					for (String pathToRequest : pathsToRequest) {
-						buildCache(pathToRequest, domain, ip, "http://" + domain + path, ++currentDepth);
+						buildCache(pathToRequest, domain, ip, "http://" + domain + path, currentDepth);
 					}
 				}
 			} else {
