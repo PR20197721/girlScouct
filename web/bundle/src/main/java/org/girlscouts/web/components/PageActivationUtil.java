@@ -292,7 +292,6 @@ public class PageActivationUtil implements PageActivationConstants {
 	}
 
 	public static List<String> getReportEmails(ResourceResolver rr) throws RepositoryException {
-		List<String> emails = new ArrayList<String>();
 		List<String> toAddresses = new ArrayList<String>();
 		Resource addressesRes = rr.resolve(PAGE_ACTIVATIONS_PATH);
 		ValueMap vm = ResourceUtil.getValueMap(addressesRes);
@@ -306,7 +305,7 @@ public class PageActivationUtil implements PageActivationConstants {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return emails;
+		return toAddresses;
 	}
 
 	public static String getDateRes() {

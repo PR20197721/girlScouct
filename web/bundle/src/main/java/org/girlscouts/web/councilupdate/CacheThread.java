@@ -40,11 +40,11 @@ public class CacheThread implements Runnable {
 	public void run(){
 		visitedPages = new TreeSet<String>();
 		visitedPages.add(initialPath);
-		buildCache(initialPath, initialDomain, initialIp, initialReferer, 1);
+		buildCache(initialPath, initialDomain, initialIp, initialReferer);
 		return;
 	}
 	
-	private void buildCache(String path, String domain, String ip, String referer, int currentDepth) {
+	private void buildCache(String path, String domain, String ip, String referer) {
 		try{
 			String url = "http://" + domain + path;
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(InetAddress.getByName(ip), 80));
@@ -86,72 +86,81 @@ public class CacheThread implements Runnable {
 			}
 
 			statusList.add(dispTitle + " - connection established with " + url + " with referer " + referer
-					+ ". Status Code " + conn.getResponseCode() + " [" + currentDepth + "]");
-			if (crawlDepth == -1 || crawlDepth > currentDepth) {
-				TreeSet<String> pathsToRequest = new TreeSet<String>();
-				String response = "";
-				try {
-					BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-					response = IOUtils.toString(in);
-				} catch (Exception e) {
-					conn.disconnect();
-					statusList.add(dispTitle + " - could not parse content at " + path + " with referer " + referer
-							+ ". This page may have a 500 error");
-					System.err.println("GS Page Activator - Build Cache Failed on " + path + " with ip " + ip
-							+ ", - Referer: " + referer);
-					return;
-				}
+					+ ". Status Code " + conn.getResponseCode());
+			TreeSet<String> pathsToRequest = new TreeSet<String>();
+			String response = "";
+			try {
+				BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				response = IOUtils.toString(in);
+			} catch (Exception e) {
 				conn.disconnect();
-				Document doc = Jsoup.parse(response, "http://" + domain);
-				Elements href = doc.select("a[href]");
-				Elements media = doc.select("[src]");
-				Elements imports = doc.select("link[href]");
-				for (Element link : href) {
-					String attribute = link.attr("abs:href");
-					if (!attribute.equals("")) {
-						URL tempUrl = new URL(attribute);
-						if (tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html")
-								&& !visitedPages.contains(tempUrl.getPath())) {
-							visitedPages.add(tempUrl.getPath());
-							pathsToRequest.add(tempUrl.getPath());
-						}
+				statusList.add(dispTitle + " - could not parse content at " + path + " with referer " + referer
+						+ ". This page may have a 500 error");
+				System.err.println("GS Page Activator - Build Cache Failed on " + path + " with ip " + ip
+						+ ", - Referer: " + referer);
+				return;
+			}
+			conn.disconnect();
+			Document doc = Jsoup.parse(response, "http://" + domain);
+			Elements href = doc.select("a[href]");
+			Elements media = doc.select("[src]");
+			Elements imports = doc.select("link[href]");
+			for (Element link : href) {
+				String attribute = link.attr("abs:href");
+				if (!attribute.equals("")) {
+					URL tempUrl = new URL(attribute);
+					if (tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html")
+							&& !visitedPages.contains(tempUrl.getPath()) && isLessThanMaxDepth(tempUrl.getPath())) {
+						visitedPages.add(tempUrl.getPath());
+						pathsToRequest.add(tempUrl.getPath());
 					}
 				}
-				for (Element medium : media) {
-					String attribute = medium.attr("abs:src");
-					if (!attribute.equals("")) {
-						URL tempUrl = new URL(attribute);
-						if (tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html")
-								&& !visitedPages.contains(tempUrl.getPath())) {
-							visitedPages.add(tempUrl.getPath());
-							pathsToRequest.add(tempUrl.getPath());
-						}
+			}
+			for (Element medium : media) {
+				String attribute = medium.attr("abs:src");
+				if (!attribute.equals("")) {
+					URL tempUrl = new URL(attribute);
+					if (tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html")
+							&& !visitedPages.contains(tempUrl.getPath()) && isLessThanMaxDepth(tempUrl.getPath())) {
+						visitedPages.add(tempUrl.getPath());
+						pathsToRequest.add(tempUrl.getPath());
 					}
 				}
-				for (Element importElem : imports) {
-					String attribute = importElem.attr("abs:href");
-					if (!attribute.equals("")) {
-						URL tempUrl = new URL(attribute);
-						if (tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html")
-								&& !visitedPages.contains(tempUrl.getPath())) {
-							visitedPages.add(tempUrl.getPath());
-							pathsToRequest.add(tempUrl.getPath());
-						}
+			}
+			for (Element importElem : imports) {
+				String attribute = importElem.attr("abs:href");
+				if (!attribute.equals("")) {
+					URL tempUrl = new URL(attribute);
+					if (tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html")
+							&& !visitedPages.contains(tempUrl.getPath()) && isLessThanMaxDepth(tempUrl.getPath())) {
+						visitedPages.add(tempUrl.getPath());
+						pathsToRequest.add(tempUrl.getPath());
 					}
 				}
-				currentDepth++;
-				if (pathsToRequest.size() > 0 && (crawlDepth == -1 || crawlDepth > currentDepth)) {
-					for (String pathToRequest : pathsToRequest) {
-						buildCache(pathToRequest, domain, ip, "http://" + domain + path, currentDepth);
-					}
+			}
+			if (pathsToRequest.size() > 0) {
+				for (String pathToRequest : pathsToRequest) {
+					buildCache(pathToRequest, domain, ip, "http://" + domain + path);
 				}
-			} else {
-				conn.disconnect();
 			}
 		}catch(Exception e){
 			System.err.println("GS Page Activator - Build Cache Failed on " + path + " with ip " + ip + ", - Referer: " + referer);
 			statusList.add(dispTitle + " - Either unable to establish connection or unable to interpret response from " + domain + path + " with referer " + referer);
 			return;
 		}
+	}
+
+	boolean isLessThanMaxDepth(String path) {
+		if (crawlDepth == -1) {
+			return true;
+		}
+		int enIndex = path.indexOf("/en/");
+		if (enIndex != -1) {
+			String[] relativePathArr = path.substring(enIndex + 1).split("/");
+			if (relativePathArr.length > crawlDepth) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
