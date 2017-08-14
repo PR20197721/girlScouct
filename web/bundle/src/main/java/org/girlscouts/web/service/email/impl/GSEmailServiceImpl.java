@@ -87,16 +87,19 @@ public class GSEmailServiceImpl implements GSEmailService {
 		body = parseHtml(body, email, rr);
 		email.setHtmlMsg(body);
 		MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-		log.info("Sending email message subject:%s, toAddresses:%s, body:%s", subject, toAddresses.toArray(), body);
-		System.err.println("Sending email message subject:" + subject + ", toAddresses:" + toAddresses.toArray()
+		log.info("Sending email message subject:%s, toAddresses:%s, body:%s", subject, (String[]) toAddresses.toArray(),
+				body);
+		System.err.println(
+				"Sending email message subject:" + subject + ", toAddresses:" + (String[]) toAddresses.toArray()
 				+ ", body:" + body);
 		try {
 			messageGateway.send(email);
 		} catch (MailingException e) {
-			log.info("Failed to send email message subject:%s, toAddresses:%s, body:%s", subject, toAddresses.toArray(),
+			log.info("Failed to send email message subject:%s, toAddresses:%s, body:%s", subject,
+					(String[]) toAddresses.toArray(),
 					body);
 			System.err.println("Failed to send email message subject:" + subject + ", toAddresses:"
-					+ toAddresses.toArray() + ", body:" + body);
+					+ (String[]) toAddresses.toArray() + ", body:" + body);
 			throw e;
 		}
 	}
@@ -111,9 +114,18 @@ public class GSEmailServiceImpl implements GSEmailService {
 		setRecipients(toAddresses, email);
 		setBody(body, attachments, email);
 		MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-		log.info("Sending email message subject:%s, toAddresses:%s", subject, toAddresses.toArray());
-		System.err.println("Sending email message subject:" + subject + ", toAddresses:" + toAddresses.toArray());
-		messageGateway.send(email);
+		log.info("Sending email message subject:%s, toAddresses:%s", subject, (String[]) toAddresses.toArray());
+		System.err.println(
+				"Sending email message subject:" + subject + ", toAddresses:" + (String[]) toAddresses.toArray());
+		try {
+			messageGateway.send(email);
+		} catch (MailingException e) {
+			log.info("Failed to send email message subject:%s, toAddresses:%s, body:%s", subject,
+					(String[]) toAddresses.toArray(), body);
+			System.err.println("Failed to send email message subject:" + subject + ", toAddresses:"
+					+ (String[]) toAddresses.toArray() + ", body:" + body);
+			throw e;
+		}
 	}
 
 	private void setBody(String body, Set<GSEmailAttachment> attachments, HtmlEmail email) throws MessagingException {
