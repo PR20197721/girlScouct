@@ -179,14 +179,14 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					return;
 				}
 				List<String> councilNotificationLog = new ArrayList<String>();
+				Boolean isTestMode = PageActivationUtil.isTestMode(rr);
 				if (notify) {
-					Boolean isTestMode = PageActivationUtil.isTestMode(rr);
 					sendCouncilNotifications(dateRolloutNode, councilNotificationLog, isTestMode);
 					dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.TRUE);
 				} else {
 					dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.FALSE);
 				}
-				sendGSUSANotifications(dateRolloutNode, rolloutLog, councilNotificationLog);
+				sendGSUSANotifications(dateRolloutNode, rolloutLog, councilNotificationLog, isTestMode);
 				if (activate) {
 					if (!delay) {
 						pageActivator.processActivationNode(dateRolloutNode);
@@ -324,7 +324,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 	}
 
 	private void sendGSUSANotifications(Node dateRolloutNode, List<String> rolloutLog,
-			List<String> councilNotificationLog) {
+			List<String> councilNotificationLog, Boolean isTestMode) {
 		Set<String> councils = null;
 		String subject = DEFAULT_NOTIFICATION_SUBJECT;
 		StringBuffer html = new StringBuffer();
@@ -418,7 +418,13 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(),
 					GSEmailAttachment.MimeType.TEXT_PLAIN);
 			attachments.add(attachment);
-			gsEmailService.sendEmail(DEFAULT_REPORT_SUBJECT, gsusaEmails, html.toString(), attachments);
+			if (isTestMode) {
+				gsusaEmails = PageActivationUtil.getReportEmails(rr);
+				gsEmailService.sendEmail(DEFAULT_REPORT_SUBJECT, gsusaEmails, html.toString(), attachments);
+			} else {
+				gsEmailService.sendEmail(DEFAULT_REPORT_SUBJECT, gsusaEmails, html.toString(), attachments);
+			}
+
 		} catch (Exception e) {
 			log.info("Failed to send GSUSA notification email to " + gsusaEmails.toString());
 		}
