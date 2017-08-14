@@ -135,7 +135,8 @@
 	for (Resource council: councils) {
 		String html = "";
 		String render;
-		html += "<h3>" + council.getName() + "</h3>";
+		Page tpage = council.adaptTo(Page.class);
+		html += "<h3>" + tpage.getTitle() + " (" + council.getName() + ")</h3>";
 		render = render(requestResponseFactory, requestProcessor, resourceResolver, council, dialogPath);
 		try {
 			html += processHTMLToList(render);
