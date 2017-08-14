@@ -52,6 +52,15 @@
         }
     }
     &.sticky-nav {
+        .logo-section {
+            .sticky-nav-GS-logo {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 68px;
+                display: none;
+            }
+        }
         &.sticky-nav-fixed,
         .sticky-nav-fixed {
             position: fixed;
@@ -59,6 +68,47 @@
             width: 100%;
             z-index: 1002;
             /* Needs to be 1002 along with box-shadow */
+        }
+        &.sticky-nav-fixed {
+            .top-header {
+                padding: rem-calc(17) 0;
+            }
+            .logo-section {
+                #mainGSLogo {
+                    display: none;
+                }
+                .sticky-nav-GS-logo {
+                    display: block;
+                }
+            }
+            .utility.show-for-medium-up {
+                width: auto;
+                float: right;
+                > .clearfix {
+                    display: inline-block;
+                    vertical-align: middle;
+                    float: none;
+                }
+                .eyebrow-nav {
+                    padding: 0;
+                    .inline-list {
+                        margin: 0;
+                    }
+                }
+                .join-buttons {
+                    padding-left: 0;
+                    margin: 0 rem-calc(24);
+                    .parbase {
+                        margin: 0;
+                        &:first-of-type {
+                            margin-right: rem-calc(17);
+                        }
+                    }
+                }
+                .search-box {
+                    margin-right: rem-calc(55);
+                }
+            }
         }
         .right-off-canvas-menu {
             height: 100vh;
