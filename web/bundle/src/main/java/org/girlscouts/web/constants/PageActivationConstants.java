@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 public interface PageActivationConstants {
 
 	public static final String STATUS_CREATED = "created";
+	public static final String STATUS_AGGREGATED = "aggregated";
 	public static final String STATUS_QUEUED = "queued";
 	public static final String STATUS_PROCESSING = "processing";
 	public static final String STATUS_DELAYED = "delayed";

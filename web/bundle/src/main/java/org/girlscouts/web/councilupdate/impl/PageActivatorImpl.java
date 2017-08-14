@@ -582,6 +582,7 @@ public class PageActivatorImpl
 				Session session = activationNode.getSession();
 				session.move(activationNode.getPath(),
 						aggregatedRolloutNode.getPath() + "/" + activationNode.getName());
+				activationNode.setProperty(PARAM_STATUS, STATUS_AGGREGATED);
 				session.save();
 				aggregatedPages.addAll(pages);
 				aggregatedRolloutNode.setProperty(PARAM_PAGES,
@@ -599,6 +600,7 @@ public class PageActivatorImpl
 			aggregatedRolloutNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
 			aggregatedRolloutNode.setProperty(PARAM_DELAY, Boolean.TRUE);
 			aggregatedRolloutNode.setProperty(PARAM_ACTIVATE, Boolean.TRUE);
+			aggregatedRolloutNode.setProperty(PARAM_STATUS, STATUS_CREATED);
 			for (Node activationNode : activationsToCrawl) {
 				aggregate(activationNode, aggregatedRolloutNode);
 			}
