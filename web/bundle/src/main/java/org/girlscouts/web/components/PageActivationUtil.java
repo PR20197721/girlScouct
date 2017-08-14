@@ -257,7 +257,14 @@ public class PageActivationUtil implements PageActivationConstants {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			try {
+				String singleValue = vm.get(PARAM_REPORT_EMAILS, String.class);
+				if (singleValue != null) {
+					toAddresses.add(singleValue);
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 		return toAddresses;
 	}
@@ -303,7 +310,14 @@ public class PageActivationUtil implements PageActivationConstants {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			try {
+				String singleValue = vm.get(PARAM_REPORT_EMAILS, String.class);
+				if (singleValue != null) {
+					toAddresses.add(singleValue);
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 		return toAddresses;
 	}
