@@ -61,6 +61,36 @@
                 display: none;
             }
         }
+        .tab-bar {
+            display: table !important;
+            width: 100%;
+            section {
+                display: table-cell;
+                vertical-align: middle;
+                position: relative;
+                height: 100%;
+                width: 1%;
+                &:nth-of-type(2) {
+                    width: 100%;
+                }
+            }
+            .logo {
+                width: 72px;
+                text-align: center;
+                .sticky-nav-GS-logo {
+                    vertical-align: top;
+                    width: 32px;
+                    height: 30px;
+                }
+            }
+            .search-box {
+                height: 100%;
+                .search-form {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+        }
         &.sticky-nav-fixed,
         .sticky-nav-fixed {
             position: fixed;
@@ -72,6 +102,9 @@
         &.sticky-nav-fixed {
             .top-header {
                 padding: rem-calc(17) 0;
+                @media #{$small-only} {
+                    display: none;
+                }
             }
             .logo-section {
                 #mainGSLogo {

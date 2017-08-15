@@ -9,6 +9,7 @@
 	List<String> mediumLabels = new ArrayList<String>();
 	List<String> smallLabels = new ArrayList<String>();
 	List<String> links = new ArrayList<String>();
+    Boolean sticky = true; // PLACEHOLDER --------------------------------------
 
 	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 
@@ -81,8 +82,18 @@
 
 
 <!-- OFF CANVAS MENU BAR -->
-	<nav class="tab-bar hide-for-medium-up">
-		<section>
+	<nav class="tab-bar hide-for-medium-up"><%
+        if (sticky) {
+            /* %><cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" /><% Use this instead of the below placeholder, replace path */                                                                                 
+            %><section>
+                <% // START PLACEHOLDER %>    
+                <div class="logo">
+                    <img class="sticky-nav-GS-logo" src="http://via.placeholder.com/85x80" />
+                </div>
+                <% // END PLACEHOLDER %>
+            </section><%
+        }
+        %><section>
 		   <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
 		</section>
 		<section class="right-small">
