@@ -424,7 +424,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		try {
 			Set<GSEmailAttachment> attachments = new HashSet<GSEmailAttachment>();
 			String fileName = DEFAULT_REPORT_ATTACHMENT + "_" + dateRolloutNode.getName();
-			GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(),
+			GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(), null,
 					GSEmailAttachment.MimeType.TEXT_PLAIN);
 			attachments.add(attachment);
 			if (isTestMode) {

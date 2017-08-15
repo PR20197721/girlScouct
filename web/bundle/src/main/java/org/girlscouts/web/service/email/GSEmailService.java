@@ -12,7 +12,7 @@ import org.girlscouts.web.components.GSEmailAttachment;
 public interface GSEmailService {
 
 	public void sendEmail(String subject, List<String> toAddresses, String body)
-			throws AddressException, EmailException;
+			throws AddressException, EmailException, MessagingException;
 
 	public void sendEmail(String subject, List<String> toAddresses, String body, Set<GSEmailAttachment> attachments)
 			throws EmailException, MessagingException, IOException;

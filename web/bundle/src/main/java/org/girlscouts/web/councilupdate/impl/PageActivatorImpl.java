@@ -456,7 +456,7 @@ public class PageActivatorImpl
 				try {
 					Set<GSEmailAttachment> attachments = new HashSet<GSEmailAttachment>();
 					String fileName = DEFAULT_COMPLETION_REPORT_ATTACHMENT + "_" + dateNode.getName();
-					GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(),
+					GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(), null,
 							GSEmailAttachment.MimeType.TEXT_PLAIN);
 					attachments.add(attachment);
 					gsEmailService.sendEmail(DEFAULT_COMPLETION_REPORT_SUBJECT, emails, html.toString(), attachments);

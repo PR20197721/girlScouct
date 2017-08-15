@@ -10,20 +10,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.activation.DataHandler;
 import javax.jcr.Node;
-import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.util.ByteArrayDataSource;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.felix.scr.annotations.Activate;
@@ -79,14 +72,14 @@ public class GSEmailServiceImpl implements GSEmailService {
 
 	@Override
 	public void sendEmail(String subject, List<String> toAddresses, String body)
-			throws AddressException, EmailException {
+			throws EmailException, MessagingException {
 		if (toAddresses != null && !toAddresses.isEmpty() && subject != null && subject.trim().length() > 0) {
 			HtmlEmail email = new HtmlEmail();
 			if (subject != null) {
 				email.setSubject(subject);
 			}
 			setRecipients(toAddresses, email);
-			body = parseHtml(body, email, rr);
+			setBody(body, null, email);
 			email.setHtmlMsg(body);
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
 			log.error("Girlscouts Email Service: Sending email message subject:%s, toAddresses:%s, body:%s", subject,
@@ -135,29 +128,19 @@ public class GSEmailServiceImpl implements GSEmailService {
 	private void setBody(String body, Set<GSEmailAttachment> attachments, HtmlEmail email)
 			throws MessagingException, EmailException {
 		body = parseHtml(body, email, rr);
-		// MimeMultipart multipart = new MimeMultipart();
-		// MimeBodyPart messageBodyPart = new MimeBodyPart();
-		// messageBodyPart.setText(body, "text/html; charset=utf-8");
-		// multipart.addBodyPart(messageBodyPart);
 		email.setHtmlMsg(body);
 		if (attachments != null && !attachments.isEmpty()) {
 			for (GSEmailAttachment attachment : attachments) {
 				if (StringUtils.isNotBlank(attachment.getBaseName()) && StringUtils.isNotBlank(attachment.getFileData())
 						&& attachment.getFileType() != null) {
 					try {
-						// MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-						// attachmentBodyPart.setDataHandler(attachment.getDataHandler());
-						// attachmentBodyPart.setFileName(attachment.getFileName());
-						// attachmentBodyPart.setDisposition(MimeBodyPart.ATTACHMENT);
-						// multipart.addBodyPart(attachmentBodyPart);
-						email.attach(attachment.getDataSource(), attachment.getFileName(), attachment.getFileName());
+						email.attach(attachment.getDataSource(), attachment.getFileName(), attachment.getDescription());
 					} catch (IOException e) {
 						log.error("Girlscouts Email Service encountered error: ", e);
 					}
 				}
 			}
 		}
-		// email.setContent(multipart);
 	}
 
 	private void setRecipients(List<String> toAddresses, HtmlEmail email) throws AddressException, EmailException {

@@ -9,34 +9,38 @@ public class GSEmailAttachment {
 
 	private String baseName;
 	private String fileData;
+	private String description;
 	private MimeType fileType;
 
-	public GSEmailAttachment(String fileName, String fileData, MimeType fileType) {
+	public GSEmailAttachment(String fileName, String fileData, String description, MimeType fileType) {
 		this.baseName = fileName;
 		this.fileData = fileData;
 		this.fileType = fileType;
+		if (description != null) {
+			this.description = description;
+		} else {
+			this.description = baseName;
+		}
 	}
 
 	public String getBaseName() {
 		return baseName;
 	}
 
-	public void setBaseName(String baseName) {
-		this.baseName = baseName;
-	}
 	public String getFileData() {
 		return fileData;
-	}
-	public void setFileData(String fileData) {
-		this.fileData = fileData;
 	}
 
 	public MimeType getFileType() {
 		return fileType;
 	}
 
-	public void setFileType(MimeType fileType) {
-		this.fileType = fileType;
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getFileName() {
