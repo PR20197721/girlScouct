@@ -451,7 +451,7 @@ public class PageActivatorImpl
 				StringBuffer logData = new StringBuffer();
 				logData.append("The following is the process log for the activation process so far:\n\n");
 				for (String s : reporter.getStatusList()) {
-					logData.append(s + "/n");
+					logData.append(s + "\n");
 				}
 				try {
 					Set<GSEmailAttachment> attachments = new HashSet<GSEmailAttachment>();
