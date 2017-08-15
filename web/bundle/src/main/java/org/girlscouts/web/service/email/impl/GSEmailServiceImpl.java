@@ -134,22 +134,21 @@ public class GSEmailServiceImpl implements GSEmailService {
 	private void setBody(String body, Set<GSEmailAttachment> attachments, HtmlEmail email) throws MessagingException {
 		body = parseHtml(body, email, rr);
 		MimeMultipart multipart = new MimeMultipart();
-		BodyPart messageBodyPart = new MimeBodyPart();
-		messageBodyPart.setContent(body, "text/html; charset=utf-8");
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setText(body, "text/html; charset=utf-8");
 		multipart.addBodyPart(messageBodyPart);
 		if (attachments != null && !attachments.isEmpty()) {
 			for (GSEmailAttachment attachment : attachments) {
-				if (StringUtils.isNotBlank(attachment.getFileName()) && StringUtils.isNotBlank(attachment.getFileData())
+				if (StringUtils.isNotBlank(attachment.getBaseName()) && StringUtils.isNotBlank(attachment.getFileData())
 						&& attachment.getFileType() != null) {
 					try {
-						BodyPart attachmentBodyPart = new MimeBodyPart();
-						attachmentBodyPart.setDataHandler(new DataHandler(
-								new ByteArrayDataSource(attachment.getFileData(), attachment.getFileType().getMimeType())));
-						attachmentBodyPart
-								.setFileName(attachment.getFileName() + "." + attachment.getFileType().getFileExt());
+						MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+						attachmentBodyPart.setDataHandler(attachment.getDataHandler());
+						attachmentBodyPart.setFileName(attachment.getFileName());
+						attachmentBodyPart.setDisposition(MimeBodyPart.ATTACHMENT);
 						multipart.addBodyPart(attachmentBodyPart);
 					} catch (IOException e) {
-						e.printStackTrace();
+						log.error("Girlscouts Email Service encountered error: ", e);
 					}
 				}
 			}
