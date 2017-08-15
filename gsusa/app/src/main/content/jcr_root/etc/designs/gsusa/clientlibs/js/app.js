@@ -1,6 +1,6 @@
 /*jslint browser: true, eqeq: true*/
 /*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console */
-/*global homeCarouselTimeDelay, homeCarouselAutoScroll, homeCarouselAutoPlaySpeed, videoSliderAuto, videoSliderDelay, shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL */
+/*global homeCarouselTimeDelay, homeCarouselAutoScroll, homeCarouselAutoPlaySpeed, videoSliderAuto, videoSliderDelay, shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL, joinRedirectAutoplaySpeed, joinRedirectSpeed */
 
 //
 //
@@ -256,16 +256,16 @@ function fixSlickSlideActive() {
                 input: $('.formHeaderVolunteer input[type="text"]'),
                 button: $('.formHeaderVolunteer .button')
             };
-            /*searchjoin = { //stand-alone volunteer and join now buttons.
-                form: $('.formJoin'),
-                input: $('.formJoin input[type="text"]'),
-                button: $('.formJoin .button')
-            },
-            searchvolunteer = {
-                form: $('.formVolunteer'),
-                input: $('.formVolunteer input[type="text"]'),
-                button: $('.formVolunteer .button')
-            };*/
+        /*searchjoin = { //stand-alone volunteer and join now buttons.
+            form: $('.formJoin'),
+            input: $('.formJoin input[type="text"]'),
+            button: $('.formJoin .button')
+        },
+        searchvolunteer = {
+            form: $('.formVolunteer'),
+            input: $('.formVolunteer input[type="text"]'),
+            button: $('.formVolunteer .button')
+        };*/
         //on ESC keypress close the input
         searchSlider.input.keyup(function (e) {
             if (e.which == 27) {
@@ -686,18 +686,18 @@ function fixSlickSlideActive() {
             }
         }]
     });
-    
+
     $('.join-redirect-slider').slick({
         dots: false,
         autoplay: true,
         autoplayspeed: (typeof joinRedirectAutoplaySpeed != 'undefined') ? joinRedirectAutoplaySpeed : 2000,
-        speed: (typeof joinRedirectSpeed != 'undefined') ? joinRedirectSpeed : 500,        
+        speed: (typeof joinRedirectSpeed != 'undefined') ? joinRedirectSpeed : 500,
         arrows: false,
         slidesToShow: 1,
         slidesToScroll: 1,
         fade: true
     });
-    
+
     function shop_rotator() {
         /*
         $('.rotator .button.arrow').on("click", function (event) {
@@ -818,6 +818,71 @@ function fixSlickSlideActive() {
         return false;
     });
     // article_tiles();
+
+    //
+    //
+    // Sticky Nav
+    //
+    //
+    var header = $(".header"),
+        mobileHeader = $(".tab-bar"),
+        placeholder = $(".header-placeholder"),
+        headerHeight = header.height(),
+        trigger = false,
+        fixed = false,
+        fixedClass = "sticky-nav-fixed",
+        offset = 0,
+        desktopStickyOffset = 0,
+        mobile = false,
+        MEDIUM_ONLY = 768;
+
+    function setOffset() {
+        placeholder.height(headerHeight);
+        if (!mobile) { // Desktop header
+            header.addClass(fixedClass);
+            desktopStickyOffset = headerHeight - header.height(); // Change header to sticky and change back to get height difference
+            header.removeClass(fixedClass);
+
+            offset = header.offset().top + desktopStickyOffset;
+        } else { // Mobile header
+            offset = mobileHeader.offset().top;
+        }
+    }
+    
+    if ($(".header.sticky-nav").length) {
+        setOffset();
+        
+        // Reset offset on resize
+        $(window).on("resize", function () {
+            if ($(window).width() > MEDIUM_ONLY === mobile) { // Trigger once when the breakpoint is passed
+                mobile = !mobile;
+                //console.log("Mobile is: " + mobile);
+                setOffset();
+            }
+            if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
+                //console.log("Old height: " + headerHeight);
+                //console.log("New height: " + header.height());
+                headerHeight = header.height();
+                setOffset();
+            }
+        });
+
+        // Sticky header
+        $(window).on("scroll", function () {
+            trigger = $(window).scrollTop() > offset;
+            if (trigger && !fixed) { // Trigger once to fix header
+                fixed = true;
+                header.addClass(fixedClass);
+                placeholder.show();
+                //console.log("fixed");
+            } else if (!trigger && fixed) { // Trigger once to unfix header
+                fixed = false;
+                header.removeClass(fixedClass);
+                placeholder.hide();
+                //console.log("static");
+            }
+        });
+    }
 }(jQuery));
 
 //

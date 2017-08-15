@@ -40,7 +40,7 @@ String stickyClass = sticky ? "sticky-nav" : "";
             <section class="main-section">
                 <%-- below print image logo is hard-coded since we cannot incorporate within existing components --%>
                 <img src="/content/dam/girlscouts-gsusa/images/logo/logo_print.png" data-at2x="/content/dam/girlscouts-gsusa/images/logo/logo_print@2x.png" id="mainGSLogoPrint" style="display:none;" />
-                <div class="header <%=stickyClass%> sticky-nav-fixed">
+                <div class="header <%=stickyClass%>">
                     <cq:include script="header.jsp" />
                 </div>
                 <div class="header-placeholder"></div>
