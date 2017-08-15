@@ -6,8 +6,10 @@ String cookieClass = "";
 if (isCookiePage(currentPage)) {
    cookieClass = " cookie-page";
 }
-   
-Boolean sticky = true; // PLACEHOLDER --------------------------------------
+String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
+String headerNavPath = headerPath + "/header-nav";   
+ValueMap headerNavProps = resourceResolver.resolve(headerNavPath).adaptTo(ValueMap.class);
+Boolean sticky = headerNavProps.get("displayStickyNav", false);
 String stickyClass = sticky ? "sticky-nav" : "";
 %>
 
