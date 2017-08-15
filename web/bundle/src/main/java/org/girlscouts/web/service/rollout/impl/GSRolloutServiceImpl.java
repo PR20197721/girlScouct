@@ -274,13 +274,13 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		while (relationIterator.hasNext()) {
 			LiveRelationship relation = (LiveRelationship) relationIterator.next();
 			String targetPath = relation.getTargetPath();
-			rolloutLog.add("Attempting to roll out to: " + targetPath);
-			Resource targetResource = rr.resolve(targetPath);
-			if (!targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-				int councilNameIndex = targetPath.indexOf("/", "/content/".length());
-				String councilPath = targetPath.substring(0, councilNameIndex);
-				if (councils.contains(councilPath)) {
-					councils.remove(councilPath);
+			int councilNameIndex = targetPath.indexOf("/", "/content/".length());
+			String councilPath = targetPath.substring(0, councilNameIndex);
+			if (councils.contains(councilPath)) {
+				rolloutLog.add("Attempting to roll out to: " + targetPath);
+				councils.remove(councilPath);
+				Resource targetResource = rr.resolve(targetPath);
+				if (!targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 					Boolean breakInheritance = false;
 					try {
 						ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
@@ -300,10 +300,10 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					} else {
 						rolloutLog.add("The page has Break Inheritance checked off. Will not roll out");
 					}
+				} else {
+					rolloutLog.add("Resource not found in this council.");
+					rolloutLog.add("Will NOT rollout to this page");
 				}
-			} else {
-				rolloutLog.add("Resource not found in this council.");
-				rolloutLog.add("Will NOT rollout to this page");
 			}
 		}
 	}

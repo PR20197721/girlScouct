@@ -23,6 +23,7 @@ import javax.mail.util.ByteArrayDataSource;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.felix.scr.annotations.Activate;
@@ -134,7 +135,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 	private void setBody(String body, Set<GSEmailAttachment> attachments, HtmlEmail email)
 			throws MessagingException, EmailException {
 		body = parseHtml(body, email, rr);
-		MimeMultipart multipart = new MimeMultipart();
+		// MimeMultipart multipart = new MimeMultipart();
 		// MimeBodyPart messageBodyPart = new MimeBodyPart();
 		// messageBodyPart.setText(body, "text/html; charset=utf-8");
 		// multipart.addBodyPart(messageBodyPart);
@@ -144,18 +145,19 @@ public class GSEmailServiceImpl implements GSEmailService {
 				if (StringUtils.isNotBlank(attachment.getBaseName()) && StringUtils.isNotBlank(attachment.getFileData())
 						&& attachment.getFileType() != null) {
 					try {
-						MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-						attachmentBodyPart.setDataHandler(attachment.getDataHandler());
-						attachmentBodyPart.setFileName(attachment.getFileName());
-						attachmentBodyPart.setDisposition(MimeBodyPart.ATTACHMENT);
-						multipart.addBodyPart(attachmentBodyPart);
+						// MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+						// attachmentBodyPart.setDataHandler(attachment.getDataHandler());
+						// attachmentBodyPart.setFileName(attachment.getFileName());
+						// attachmentBodyPart.setDisposition(MimeBodyPart.ATTACHMENT);
+						// multipart.addBodyPart(attachmentBodyPart);
+						email.attach(attachment.getDataSource(), attachment.getFileName(), attachment.getFileName());
 					} catch (IOException e) {
 						log.error("Girlscouts Email Service encountered error: ", e);
 					}
 				}
 			}
 		}
-		email.setContent(multipart);
+		// email.setContent(multipart);
 	}
 
 	private void setRecipients(List<String> toAddresses, HtmlEmail email) throws AddressException, EmailException {

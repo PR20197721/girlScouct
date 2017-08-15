@@ -3,6 +3,7 @@ package org.girlscouts.web.components;
 import java.io.IOException;
 
 import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.mail.util.ByteArrayDataSource;
 public class GSEmailAttachment {
 
@@ -44,6 +45,10 @@ public class GSEmailAttachment {
 
 	public DataHandler getDataHandler() throws IOException {
 		return new DataHandler(new ByteArrayDataSource(this.getFileData(), this.getFileType().getMimeType()));
+	}
+
+	public DataSource getDataSource() throws IOException {
+		return new ByteArrayDataSource(this.getFileData(), this.getFileType().getMimeType());
 	}
 
 	@Override
