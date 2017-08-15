@@ -18,11 +18,14 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.web.constants.PageActivationConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.WCMException;
 
 public class PageActivationUtil implements PageActivationConstants {
+
+	private static Logger log = LoggerFactory.getLogger(PageActivationUtil.class);
 
 	public static String[] getIps(ResourceResolver rr, int group) {
 		try {
@@ -40,7 +43,7 @@ public class PageActivationUtil implements PageActivationConstants {
 				}
 			}
 		} catch (RepositoryException e) {
-
+			log.error("PageActivationUtil encountered error: ", e);
 		}
 		return new String[0];
 	}
@@ -57,13 +60,13 @@ public class PageActivationUtil implements PageActivationConstants {
 						try {
 							return Integer.parseInt(value);
 						} catch (Exception e) {
-
+							log.error("PageActivationUtil encountered error: ", e);
 						}
 					}
 				}
 			}
 		} catch (RepositoryException e) {
-
+			log.error("PageActivationUtil encountered error: ", e);
 		}
 		return DEFAULT_PARAM_GROUP_SIZE;
 	}
@@ -80,13 +83,13 @@ public class PageActivationUtil implements PageActivationConstants {
 						try {
 							return Integer.parseInt(value);
 						} catch (Exception e) {
-
+							log.error("PageActivationUtil encountered error: ", e);
 						}
 					}
 				}
 			}
 		} catch (RepositoryException e) {
-
+			log.error("PageActivationUtil encountered error: ", e);
 		}
 		return DEFAULT_PARAM_MINUTES;
 	}
@@ -103,13 +106,13 @@ public class PageActivationUtil implements PageActivationConstants {
 						try {
 							return Integer.parseInt(value);
 						} catch (Exception e) {
-
+							log.error("PageActivationUtil encountered error: ", e);
 						}
 					}
 				}
 			}
 		} catch (RepositoryException e) {
-
+			log.error("PageActivationUtil encountered error: ", e);
 		}
 		return DEFAULT_PARAM_CRAWL_DEPTH;
 	}
@@ -147,7 +150,7 @@ public class PageActivationUtil implements PageActivationConstants {
 
 			return ret;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("PageActivationUtil encountered error: ", e);
 			return "";
 		}
 	}
@@ -159,7 +162,7 @@ public class PageActivationUtil implements PageActivationConstants {
 			ValueMap contentProps = ResourceUtil.getValueMap(contentResource);
 			return contentProps.get("jcr:title", "GSUSA Rollout Notification");
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("PageActivationUtil encountered error: ", e);
 			return "";
 		}
 	}
@@ -192,9 +195,8 @@ public class PageActivationUtil implements PageActivationConstants {
 		try {
 			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_FAILED);
 			session.save();
-		} catch (RepositoryException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (RepositoryException e) {
+			log.error("PageActivationUtil encountered error: ", e);
 		}
 	}
 
@@ -209,7 +211,7 @@ public class PageActivationUtil implements PageActivationConstants {
 					parent.getPath() + "/" + COMPLETED_NODE + "/" + dateRolloutNode.getName());
 			session.save();
 		} catch (RepositoryException e) {
-			e.printStackTrace();
+			log.error("PageActivationUtil encountered error: ", e);
 		}
 	}
 
@@ -230,7 +232,7 @@ public class PageActivationUtil implements PageActivationConstants {
 						path.length());
 				return vm.get("domain") + pagePath + ".html";
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error("PageActivationUtil encountered error: ", e);
 			}
 		}
 		return (path + ".html").replaceFirst("/content/([^/]+)", "https://www.$1.org");
@@ -257,13 +259,14 @@ public class PageActivationUtil implements PageActivationConstants {
 				}
 			}
 		} catch (Exception e) {
+			log.error("PageActivationUtil encountered error: ", e);
 			try {
 				String singleValue = vm.get(PARAM_REPORT_EMAILS, String.class);
 				if (singleValue != null) {
 					toAddresses.add(singleValue);
 				}
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				log.error("PageActivationUtil encountered error: ", e1);
 			}
 		}
 		return toAddresses;
@@ -280,7 +283,7 @@ public class PageActivationUtil implements PageActivationConstants {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("PageActivationUtil encountered error: ", e);
 		}
 		return isTestMode;
 	}
@@ -293,7 +296,7 @@ public class PageActivationUtil implements PageActivationConstants {
 			toAddresses.add(email1);
 			toAddresses.add(email2);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("PageActivationUtil encountered error: ", e);
 		}
 		return toAddresses;
 	}
@@ -310,13 +313,14 @@ public class PageActivationUtil implements PageActivationConstants {
 				}
 			}
 		} catch (Exception e) {
+			log.error("PageActivationUtil encountered error: ", e);
 			try {
 				String singleValue = vm.get(PARAM_REPORT_EMAILS, String.class);
 				if (singleValue != null) {
 					toAddresses.add(singleValue);
 				}
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				log.error("PageActivationUtil encountered error: ", e1);
 			}
 		}
 		return toAddresses;

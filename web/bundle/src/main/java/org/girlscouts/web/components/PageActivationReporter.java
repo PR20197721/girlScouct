@@ -31,6 +31,7 @@ public class PageActivationReporter {
 
 	public void report(String status) {
 		statusList.add(status);
+		log.error("Girlscouts Page Activation Reporter: " + status);
 		try {
 			if (currentReportNode == null || reportIndex > 50) {
 				currentReportNode = dateRolloutNode.addNode("report" + formatedReport(reportNodeIndex),

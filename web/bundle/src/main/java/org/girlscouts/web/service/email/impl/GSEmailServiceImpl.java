@@ -79,52 +79,55 @@ public class GSEmailServiceImpl implements GSEmailService {
 	@Override
 	public void sendEmail(String subject, List<String> toAddresses, String body)
 			throws AddressException, EmailException {
-		HtmlEmail email = new HtmlEmail();
-		if (subject != null) {
-			email.setSubject(subject);
-		}
-		setRecipients(toAddresses, email);
-		body = parseHtml(body, email, rr);
-		email.setHtmlMsg(body);
-		MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-		log.info("Sending email message subject:%s, toAddresses:%s, body:%s", subject, (String[]) toAddresses.toArray(),
-				body);
-		System.err.println(
-				"Sending email message subject:" + subject + ", toAddresses:" + (String[]) toAddresses.toArray()
-				+ ", body:" + body);
-		try {
-			messageGateway.send(email);
-		} catch (MailingException e) {
-			log.info("Failed to send email message subject:%s, toAddresses:%s, body:%s", subject,
-					(String[]) toAddresses.toArray(),
+		if (toAddresses != null && !toAddresses.isEmpty() && subject != null && subject.trim().length() > 0) {
+			HtmlEmail email = new HtmlEmail();
+			if (subject != null) {
+				email.setSubject(subject);
+			}
+			setRecipients(toAddresses, email);
+			body = parseHtml(body, email, rr);
+			email.setHtmlMsg(body);
+			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
+			log.error("Girlscouts Email Service: Sending email message subject:%s, toAddresses:%s, body:%s", subject,
+					toAddresses.toArray(new String[toAddresses.size()]),
 					body);
-			System.err.println("Failed to send email message subject:" + subject + ", toAddresses:"
-					+ (String[]) toAddresses.toArray() + ", body:" + body);
-			throw e;
+			try {
+				messageGateway.send(email);
+			} catch (MailingException e) {
+				log.error("Girlscouts Email Service: Failed to send email message subject:%s, toAddresses:%s, body:%s",
+						subject, toAddresses.toArray(new String[toAddresses.size()]), body, e);
+				throw e;
+			}
+		} else {
+			throw new EmailException(
+					"To addresses or subject are null [subject=" + subject + ", toAddresses=" + toAddresses + "]");
 		}
 	}
 
 	@Override
 	public void sendEmail(String subject, List<String> toAddresses, String body, Set<GSEmailAttachment> attachments)
 			throws EmailException, MessagingException {
-		HtmlEmail email = new HtmlEmail();
-		if (subject != null) {
-			email.setSubject(subject);
-		}
-		setRecipients(toAddresses, email);
-		setBody(body, attachments, email);
-		MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-		log.info("Sending email message subject:%s, toAddresses:%s", subject, (String[]) toAddresses.toArray());
-		System.err.println(
-				"Sending email message subject:" + subject + ", toAddresses:" + (String[]) toAddresses.toArray());
-		try {
-			messageGateway.send(email);
-		} catch (MailingException e) {
-			log.info("Failed to send email message subject:%s, toAddresses:%s, body:%s", subject,
-					(String[]) toAddresses.toArray(), body);
-			System.err.println("Failed to send email message subject:" + subject + ", toAddresses:"
-					+ (String[]) toAddresses.toArray() + ", body:" + body);
-			throw e;
+		if (toAddresses != null && !toAddresses.isEmpty() && subject != null && subject.trim().length() > 0) {
+			HtmlEmail email = new HtmlEmail();
+			if (subject != null) {
+				email.setSubject(subject);
+			}
+			setRecipients(toAddresses, email);
+			setBody(body, attachments, email);
+			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
+			log.error("Girlscouts Email Service: Sending email message subject:%s, toAddresses:%s", subject,
+					toAddresses.toArray(new String[toAddresses.size()]));
+			try {
+				messageGateway.send(email);
+			} catch (MailingException e) {
+				log.error(
+						"Girlscouts Email Service encountered error: Failed to send email message subject:%s, toAddresses:%s, body:%s",
+						subject, toAddresses.toArray(new String[toAddresses.size()]), body, e);
+				throw e;
+			}
+		} else {
+			throw new EmailException(
+					"To addresses or subject are null [subject=" + subject + ", toAddresses=" + toAddresses + "]");
 		}
 	}
 
@@ -191,9 +194,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 				bin.close();
 				is.close();
 			} catch (Exception e) {
-				log.error("Input Stream Failed");
-				System.out.println("Input Stream Failed");
-				e.printStackTrace();
+				log.error("Girlscouts Email Service encountered error: ", e);
 			}
 			try {
 				String fileName = imgMatcher.group(1).substring(imgMatcher.group(1).lastIndexOf('/') + 1);
@@ -203,8 +204,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 				imgMatcher.appendTail(imgSb);
 				html = imgSb.toString();
 			} catch (Exception e) {
-				log.error("Failed to embed image");
-				e.printStackTrace();
+				log.error("Girlscouts Email Service encountered error: ", e);
 			}
 		}
 		return html;

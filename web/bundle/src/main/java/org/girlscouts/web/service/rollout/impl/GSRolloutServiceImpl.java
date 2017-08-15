@@ -9,11 +9,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.jcr.Node;
-import javax.jcr.PathNotFoundException;
 import javax.jcr.RangeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.ValueFormatException;
 import javax.jcr.query.Query;
 
 import org.girlscouts.web.components.GSEmailAttachment;
@@ -94,7 +92,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		try {
 			rr = resolverFactory.getAdministrativeResourceResolver(null);
 		} catch (LoginException e) {
-			e.printStackTrace();
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 	}
 
@@ -107,7 +105,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			// 30 second remorse wait time in case workflow needs to be stopped.
 			Thread.sleep(DEFAULT_REMORSE_WAIT_TIME);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 		Session session = rr.adaptTo(Session.class);
 		Resource dateRolloutRes = rr.resolve(path);
@@ -122,26 +120,32 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				try {
 					srcPath = dateRolloutNode.getProperty(PARAM_SOURCE_PATH).getString();
 				} catch (Exception e) {
+					log.error("Girlscouts Rollout Service encountered error: ", e);
 				}
 				try {
 					notify = dateRolloutNode.getProperty(PARAM_NOTIFY).getBoolean();
 				} catch (Exception e) {
+					log.error("Girlscouts Rollout Service encountered error: ", e);
 				}
 				try {
 					activate = dateRolloutNode.getProperty(PARAM_ACTIVATE).getBoolean();
 				} catch (Exception e) {
+					log.error("Girlscouts Rollout Service encountered error: ", e);
 				}
 				try {
 					delay = dateRolloutNode.getProperty(PARAM_DELAY).getBoolean();
 				} catch (Exception e) {
+					log.error("Girlscouts Rollout Service encountered error: ", e);
 				}
 				try {
 					useTemplate = dateRolloutNode.getProperty(PARAM_USE_TEMPLATE).getBoolean();
 				} catch (Exception e) {
+					log.error("Girlscouts Rollout Service encountered error: ", e);
 				}
 				try {
 					templatePath = dateRolloutNode.getProperty(PARAM_TEMPLATE_PATH).getString();
 				} catch (Exception e) {
+					log.error("Girlscouts Rollout Service encountered error: ", e);
 				}
 				if (useTemplate && (templatePath == null || templatePath.trim().length() == 0)) {
 					log.error("Rollout Error - Use Template checked, but no template provided. Cancelling.");
@@ -198,7 +202,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					PageActivationUtil.archive(dateRolloutNode);
 				}
 			} catch (Exception e) {
-				log.error("GS Page Rollout - encountered error ", e);
+				log.error("Girlscouts Rollout Service encountered error: ", e);
 				return;
 			}
 		}
@@ -282,7 +286,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 						ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
 						breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
 					} catch (Exception e) {
-						e.printStackTrace();
+						log.error("Girlscouts Rollout Service encountered error: ", e);
 					}
 					if (!breakInheritance) {
 						rolloutManager.rollout(rr, relation, false);
@@ -316,9 +320,8 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				Resource target = it.next();
 				relationManager.endRelationship(target, true);
 			}
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 	}
 
@@ -339,18 +342,22 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		try {
 			notify = dateRolloutNode.getProperty(PARAM_NOTIFY).getBoolean();
 		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 		try {
 			activate = dateRolloutNode.getProperty(PARAM_ACTIVATE).getBoolean();
 		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 		try {
 			delay = dateRolloutNode.getProperty(PARAM_DELAY).getBoolean();
 		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 		try {
 			useTemplate = dateRolloutNode.getProperty(PARAM_USE_TEMPLATE).getBoolean();
 		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 		try {
 			if (useTemplate) {
@@ -359,6 +366,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				subject = dateRolloutNode.getProperty(PARAM_EMAIL_SUBJECT).getString();
 			}
 		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 		try {
 			if (useTemplate) {
@@ -367,20 +375,22 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				message = dateRolloutNode.getProperty(PARAM_EMAIL_MESSAGE).getString();
 			}
 		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 		try {
 			templatePath = dateRolloutNode.getProperty(PARAM_TEMPLATE_PATH).getString();
 		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 		try {
 			srcPath = dateRolloutNode.getProperty(PARAM_SOURCE_PATH).getString();
 		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 		try {
 			councils = PageActivationUtil.getCouncils(dateRolloutNode);
 		} catch (Exception e) {
-			log.error("GS Page Activator - failed to get initial page count");
-			e.printStackTrace();
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 			return;
 		}
 		html.append("<p>This workflow will " + (notify ? "" : "not ") + "send emails to councils.</p>");
@@ -425,7 +435,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			}
 
 		} catch (Exception e) {
-			log.info("Failed to send GSUSA notification email to " + gsusaEmails.toString());
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 	}
 	
@@ -438,11 +448,13 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		try {
 			notify = dateRolloutNode.getProperty(PARAM_NOTIFY).getBoolean();
 		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 		if (notify) {
 			try {
 				useTemplate = dateRolloutNode.getProperty(PARAM_USE_TEMPLATE).getBoolean();
 			} catch (Exception e) {
+				log.error("Girlscouts Rollout Service encountered error: ", e);
 			}
 			try {
 				if (useTemplate) {
@@ -451,6 +463,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					subject = dateRolloutNode.getProperty(PARAM_EMAIL_SUBJECT).getString();
 				}
 			} catch (Exception e) {
+				log.error("Girlscouts Rollout Service encountered error: ", e);
 			}
 			try {
 				if (useTemplate) {
@@ -459,20 +472,22 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					message = dateRolloutNode.getProperty(PARAM_EMAIL_MESSAGE).getString();
 				}
 			} catch (Exception e) {
+				log.error("Girlscouts Rollout Service encountered error: ", e);
 			}
 			try {
 				templatePath = dateRolloutNode.getProperty(PARAM_TEMPLATE_PATH).getString();
 			} catch (Exception e) {
+				log.error("Girlscouts Rollout Service encountered error: ", e);
 			}
 			try {
 				srcPath = dateRolloutNode.getProperty(PARAM_SOURCE_PATH).getString();
 			} catch (Exception e) {
+				log.error("Girlscouts Rollout Service encountered error: ", e);
 			}
 			try {
 				pages.addAll(PageActivationUtil.getPages(dateRolloutNode));
 			} catch (Exception e) {
-				log.error("GS Page Activator - failed to get initial page count");
-				e.printStackTrace();
+				log.error("Girlscouts Rollout Service encountered error: ", e);
 				return;
 			}
 			Resource source = rr.resolve(srcPath);
@@ -491,8 +506,8 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 									ValueMap valuemap = homepage.getProperties();
 									List<String> toAddresses = PageActivationUtil
 											.getCouncilEmails(homepage.adaptTo(Node.class));
-									log.info("**** GirlScoutsNotificationAction: sending email to "
-											+ branch.substring(9) + " emails:" + toAddresses.toString() + " *****");
+									log.error("Girlscouts Rollout Service: sending email to " + branch.substring(9)
+											+ " emails:" + toAddresses.toString());
 									String body = generateCouncilNotification(srcPath, targetPath, valuemap, message);
 									try {
 										if (isTestMode) {
@@ -511,22 +526,23 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 											dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.TRUE);
 											dateRolloutNode.getSession().save();
 										} catch (RepositoryException e1) {
-											e1.printStackTrace();
+											log.error("Girlscouts Rollout Service encountered error: ", e1);
 										}
 									} catch (Exception e) {
+										log.error("Girlscouts Rollout Service encountered error: ", e);
 										try {
 											dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT,
 													Boolean.FALSE);
 											dateRolloutNode.getSession().save();
 										} catch (RepositoryException e1) {
-											e1.printStackTrace();
+											log.error("Girlscouts Rollout Service encountered error: ", e1);
 										}
 										councilNotificationLog
 												.add("Failed to send notification for " + branch.substring(9)
 														+ " council to emails:" + toAddresses.toString());
 									}
 								} catch (WCMException e) {
-									e.printStackTrace();
+									log.error("Girlscouts Rollout Service encountered error: ", e);
 								}
 							}
 						}

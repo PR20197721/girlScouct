@@ -62,34 +62,42 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 				try {
 					delay = ((Value) mdm.get(PARAM_DELAY)).getBoolean();
 				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
 				}
 				try {
 					useTemplate = ((Value) mdm.get(PARAM_USE_TEMPLATE)).getBoolean();
 				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
 				}
 				try {
 					templatePath = ((Value) mdm.get(PARAM_TEMPLATE_PATH)).getString();
 				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
 				}
 				try {
 					crawl = ((Value) mdm.get(PARAM_CRAWL)).getBoolean();
 				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
 				}
 				try {
 					notify = ((Value) mdm.get(PARAM_NOTIFY)).getBoolean();
 				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
 				}
 				try {
 					subject = ((Value) mdm.get(PARAM_EMAIL_SUBJECT)).getString();
 				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
 				}
 				try {
 					message = ((Value) mdm.get(PARAM_EMAIL_MESSAGE)).getString();
 				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
 				}
 				try {
 					activate = ((Value) mdm.get(PARAM_ACTIVATE)).getBoolean();
 				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
 				}
 				Node dateRolloutNode = getDateRolloutNode(session, resourceResolver, delay);
 				Set<String> sortedCouncils = new TreeSet<String>();
@@ -121,10 +129,10 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 						}
 					}).start();
 				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
 				}
 			} catch (Exception e) {
-				log.error(e.getMessage());
-				e.printStackTrace();
+				log.error("Rollout Workflow encountered error: ", e);
 			}
 		}
     }
@@ -177,14 +185,14 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 				}
 			}
 		} catch (Exception e) {
+			log.error("Rollout Workflow encountered error: ", e);
 			try {
 				Value singleValue = (Value) mdm.get(PARAM_COUNCILS);
 				if (singleValue != null) {
 					councils.add(singleValue.getString().trim());
 				}
 			} catch (Exception e1) {
-				log.error("Rollout Could Not Run - No Councils Selected");
-				e1.printStackTrace();
+				log.error("Rollout Workflow encountered error: ", e);
 			}
 		}
 		return councils;

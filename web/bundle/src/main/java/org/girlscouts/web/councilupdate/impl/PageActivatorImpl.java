@@ -107,9 +107,9 @@ public class PageActivatorImpl
 
 	@Override
 	public void run() {
-		System.err.println("Running page activator PageActivatorImpl");
+		log.error("Running page activator PageActivatorImpl");
 		if (isPublisher()) {
-			System.err.println("Publisher instance - will not execute Page Activator");
+			log.error("Publisher instance - will not execute Page Activator");
 			return;
 		}
 
@@ -141,7 +141,7 @@ public class PageActivatorImpl
 				}
 			}
 		}
-		System.err.println("Finished page activator PageActivatorImpl");
+		log.error("Finished page activator PageActivatorImpl");
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class PageActivatorImpl
 				session.save();
 			}
 		} catch (Exception e) {
-			log.error("GS Page Activator - Failed to check if process in progress already");
+			log.error("Girlscouts Page Activator encountered error: ", e);
 			return;
 		}
 		Boolean delay = false, crawl = false, activate = true;
@@ -180,7 +180,6 @@ public class PageActivatorImpl
 			pages = PageActivationUtil.getPages(dateRolloutNode);
 		} catch (Exception e) {
 			reporter.report("Failed to get initial page count");
-			log.error("GS Page Activator - failed to get initial page count");
 			e.printStackTrace();
 			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
 			return;
@@ -198,7 +197,6 @@ public class PageActivatorImpl
 			toActivate = groupByCouncil(pages, unmappedPages);
 		} catch (Exception e) {
 			reporter.report("Failed to sort pages by council");
-			log.error("GS Page Activator - failed to arrange councils");
 			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
 		}
 		if (unmappedPages.size() > 0) {
@@ -220,8 +218,6 @@ public class PageActivatorImpl
 			reporter.report("Report email delivered");
 		} catch (Exception e) {
 			reporter.report("Unable to send report email");
-			log.error("Girl Scouts Page Activator - Unable to send report email");
-			log.error(e.getMessage());
 		}
 	
 		try {
@@ -233,10 +229,9 @@ public class PageActivatorImpl
 			reporter.report("Moving " + dateRolloutNode.getPath() + " to " + dateRolloutNode.getParent().getPath() + "/"
 					+ COMPLETED_NODE + "/" + dateRolloutNode.getName());
 			PageActivationUtil.archive(dateRolloutNode);
-			log.info("GS Page Activator - Process completed");
 			reporter.report("Process completed");
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Girlscouts Page Activator encountered error: ", e);
 		}
 	}
 
@@ -260,6 +255,7 @@ public class PageActivatorImpl
 					replicator.replicate(dateNode.getSession(), ReplicationActionType.ACTIVATE, pageToActivate);
 				} catch (Exception e) {
 					reporter.report("Failed to activate " + pageToActivate);
+					log.error("Girlscouts Page Activator encountered error: ", e);
 				}
 				activatedPages.add(pageToActivate);
 			}
@@ -281,13 +277,11 @@ public class PageActivatorImpl
 		try {
 			ipsGroupOne = PageActivationUtil.getIps(rr, 1);
 		} catch (Exception e) {
-			log.error("GS Page Activator - failed to retrieve dispatcher 1 ips");
 			reporter.report("Failed to retrieve any dispatcher 1 ips");
 		}
 		try {
 			ipsGroupTwo = PageActivationUtil.getIps(rr, 2);
 		} catch (Exception e) {
-			log.error("GS Page Activator - failed to retrieve dispatcher 2 ips");
 			reporter.report("Failed to retrieve any dispatcher 2 ips");
 		}
 		for (String domain : councilDomainsSet) {
@@ -298,8 +292,8 @@ public class PageActivatorImpl
 				try {
 					Thread.sleep(sleepTime);
 				} catch (InterruptedException e) {
-					log.error("GS Page Activator - could not sleep");
 					reporter.report("Waiting Failed - process (including activations) cancelled prematurely");
+					log.error("Girlscouts Page Activator encountered error: ", e);
 					break;
 				}
 			}
@@ -315,8 +309,8 @@ public class PageActivatorImpl
 					// Wait 5 seconds for stat file to update
 					Thread.sleep(5000);
 				} catch (InterruptedException e) {
-					log.error("GS Page Activator - could not sleep after replication");
 					reporter.report("5 second break failed - process concluded prematurely");
+					log.error("Girlscouts Page Activator encountered error: ", e);
 					break;
 				}
 				reporter.report("Crawling " + domain);
@@ -352,14 +346,14 @@ public class PageActivatorImpl
 				}
 				toActivate.remove(domain);
 			} catch (Exception e) {
-				log.error("An error occurred while processing: " + domain);
+				log.error("Girlscouts Page Activator An error occurred while processing: " + domain);
+				log.error("Girlscouts Page Activator encountered error: ", e);
 				try {
 					reporter.report("Cache may not have built correctly for " + domain);
 					Node detailedReportNode = dateNode.addNode(domain, "nt:unstructured");
 					detailedReportNode.setProperty("message", e.getMessage());
 				} catch (Exception e1) {
-					log.error("GS Page Activator - An exception occurred while creating error node");
-					log.error(e.getMessage());
+					log.error("Girlscouts Page Activator encountered error: ", e1);
 					continue;
 				}
 			}
@@ -383,6 +377,7 @@ public class PageActivatorImpl
 			}catch(Exception e){
 				unmapped.add(page);
 				log.error("Could not map page " + page);
+				log.error("Girlscouts Page Activator encountered error: ", e);
 				continue;
 			}
 		}
@@ -501,7 +496,7 @@ public class PageActivatorImpl
 			try {
 				activations.add(getEventsActivationNode(gsDelayedRes));
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error("Girlscouts Page Activator encountered error: ", e);
 			}
 		}
 		return activations;
@@ -536,7 +531,7 @@ public class PageActivatorImpl
 				activationsNode.getSession().save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Girlscouts Page Activator encountered error: ", e);
 		}
 		return eventActivationNode;
 	}
@@ -568,7 +563,7 @@ public class PageActivatorImpl
 				session.save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Girlscouts Page Activator encountered error: ", e);
 		}
 		return dateRolloutNode;
 	}
@@ -577,6 +572,8 @@ public class PageActivatorImpl
 		try {
 			Set<String> pages = PageActivationUtil.getPages(activationNode);
 			if (pages != null && !pages.isEmpty()) {
+				log.error("Girlscouts Page Activator: Aggregating " + activationNode.getPath() + " into "
+						+ aggregatedRolloutNode.getPath());
 				Set<String> aggregatedPages = new TreeSet<String>();
 				aggregatedPages.addAll(PageActivationUtil.getPages(aggregatedRolloutNode));
 				Session session = activationNode.getSession();
@@ -590,12 +587,14 @@ public class PageActivatorImpl
 				aggregatedRolloutNode.getSession().save();
 			}
 		} catch (RepositoryException e) {
-			e.printStackTrace();
+			log.error("Girlscouts Page Activator encountered error: ", e);
 		}
 	}
 
 	private void aggregateActivateCrawl(List<Node> activationsToCrawl) throws RepositoryException {
 		if (activationsToCrawl != null && !activationsToCrawl.isEmpty()) {
+			log.error("Girlscouts Page Activator: Aggregating " + activationsToCrawl.size()
+					+ " nodes to activate and crawl.");
 			Node aggregatedRolloutNode = getAggregateDateRolloutNode();
 			aggregatedRolloutNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
 			aggregatedRolloutNode.setProperty(PARAM_DELAY, Boolean.TRUE);
