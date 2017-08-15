@@ -59,6 +59,12 @@
         .sticky-nav-fixed {
             position: fixed;
             top: 0;
+            left: 0;
+            -webkit-transition: left 500ms ease 0s;
+            -moz-transition: left 500ms ease 0s;
+            -ms-transition: left 500ms ease 0s;
+            -o-transition: left 500ms ease 0s;
+            transition: left 500ms ease 0s;
             width: 100%;
             z-index: 1002;
             /* Needs to be 1002 along with box-shadow */
@@ -155,6 +161,19 @@
         }
         .right-off-canvas-menu {
             height: 100vh;
+            /*right: auto;
+            -webkit-transition: margin-left 500ms ease 0s;
+            -moz-transition: margin-left 500ms ease 0s;
+            -ms-transition: margin-left 500ms ease 0s;
+            -o-transition: margin-left 500ms ease 0s;
+            transition: margin-left 500ms ease 0s;
+            -webkit-transform: none;
+            -moz-transform: none;
+            -ms-transform: none;
+            -ms-transform: none;
+            -o-transform: none;
+            transform: none;
+            margin-left: 100%;*/
         }
     }
 }
@@ -162,4 +181,10 @@
 .header-placeholder {
     height: 140px;
     display: none;
+}
+
+.off-canvas-wrap.move-left {
+    .header.sticky-nav {
+        left: rem-calc(-250);
+    }
 }
