@@ -131,12 +131,14 @@ public class GSEmailServiceImpl implements GSEmailService {
 		}
 	}
 
-	private void setBody(String body, Set<GSEmailAttachment> attachments, HtmlEmail email) throws MessagingException {
+	private void setBody(String body, Set<GSEmailAttachment> attachments, HtmlEmail email)
+			throws MessagingException, EmailException {
 		body = parseHtml(body, email, rr);
 		MimeMultipart multipart = new MimeMultipart();
-		MimeBodyPart messageBodyPart = new MimeBodyPart();
-		messageBodyPart.setText(body, "text/html; charset=utf-8");
-		multipart.addBodyPart(messageBodyPart);
+		// MimeBodyPart messageBodyPart = new MimeBodyPart();
+		// messageBodyPart.setText(body, "text/html; charset=utf-8");
+		// multipart.addBodyPart(messageBodyPart);
+		email.setHtmlMsg(body);
 		if (attachments != null && !attachments.isEmpty()) {
 			for (GSEmailAttachment attachment : attachments) {
 				if (StringUtils.isNotBlank(attachment.getBaseName()) && StringUtils.isNotBlank(attachment.getFileData())
