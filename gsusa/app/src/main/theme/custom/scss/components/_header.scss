@@ -124,6 +124,10 @@
                 .search-box {
                     margin-right: rem-calc(55);
                 }
+                .cq-placeholder-header_47eyebrow-nav {
+                    display: inline-block !important; /* Prevent eyebrow-nav line break in author */
+                    vertical-align: top;
+                }
             }
             .tab-bar {
                 .logo {
