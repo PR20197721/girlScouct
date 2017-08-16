@@ -9,7 +9,6 @@
 	List<String> mediumLabels = new ArrayList<String>();
 	List<String> smallLabels = new ArrayList<String>();
 	List<String> links = new ArrayList<String>();
-    Boolean sticky = true; // PLACEHOLDER --------------------------------------
 
 	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 
@@ -83,17 +82,23 @@
 
 <!-- OFF CANVAS MENU BAR -->
 	<nav class="tab-bar hide-for-medium-up"><%
-        if (sticky) {
-            /* %><cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" /><% Use this instead of the below placeholder, replace path */                                                                                 
-            %><section>
-                <% // START PLACEHOLDER %>    
-                <div class="logo">
-                    <img class="sticky-nav-GS-logo" src="http://via.placeholder.com/85x80" />
-                </div>
-                <% // END PLACEHOLDER %>
-            </section><%
-        }
-        %><section>
+        String imgAlt = properties.get("imageAlt", "");
+        String headerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/header-nav";   
+        ValueMap headerNavProps = resourceResolver.resolve(headerNavPath).adaptTo(ValueMap.class);
+        Boolean sticky = false;
+        try {
+            sticky = headerNavProps.get("displayStickyNav", false);
+            if (sticky) {
+                String stickyImgPath = "";
+                try {
+                    stickyImgPath = ((ValueMap)resource.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
+                    %><div class="logo">
+                        <img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
+                    </div><%
+                } catch (Exception e) {}
+   		   }
+        } catch(Exception e) {}
+        %><section class="search-section">
 		   <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
 		</section>
 		<section class="right-small">

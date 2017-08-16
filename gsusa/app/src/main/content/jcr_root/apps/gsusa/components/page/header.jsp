@@ -1,12 +1,12 @@
 <%@page import="com.day.cq.wcm.api.WCMMode,
-        com.day.cq.wcm.foundation.Placeholder,
-        java.util.Random,
-        java.util.Map,
-        java.util.HashMap,
-        com.day.cq.search.QueryBuilder,
-        com.day.cq.search.Query,
-        com.day.cq.search.PredicateGroup,
-        com.day.cq.search.result.SearchResult"%>
+                com.day.cq.wcm.foundation.Placeholder,
+                java.util.Random,
+                java.util.Map,
+                java.util.HashMap,
+                com.day.cq.search.QueryBuilder,
+                com.day.cq.search.Query,
+                com.day.cq.search.PredicateGroup,
+                com.day.cq.search.result.SearchResult"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp"%>
 

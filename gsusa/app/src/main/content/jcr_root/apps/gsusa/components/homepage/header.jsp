@@ -20,23 +20,13 @@ String eyebrowNavPath = headerPath + "/eyebrow-nav";
 String headerSearchPath = headerPath + "/search";
 //The cookie header will be created under its own parent, so that all the children of this parent will share the same mobile header
 //String cookieHeaderPath = currentPage. + "/cookie-header";
-   
-Boolean sticky = true; // PLACEHOLDER --------------------------------------
 %>
 
 <div class="top-header row">
     <section class="logo-section">
         <a href="/content/gsusa/en.html" tabindex="1">
-            <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" /><%
-            if (sticky) {
-                /* %><cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" /><% Use this instead of the below placeholder, replace path */
-                // START PLACEHOLDER                                                                                 
-                %><div class="logo">
-                    <img class="sticky-nav-GS-logo" src="http://via.placeholder.com/85x80" />
-                </div><%
-                // END PLACEHOLDER
-            }
-        %></a>
+            <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
+        </a>
     </section>
     <section class="utility show-for-medium-up">
         <div style="" class="clearfix">
