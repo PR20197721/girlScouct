@@ -17,3 +17,4 @@ toggleparsys.js
 title-and-pathfield.js
 link-widget.js
 rss-feed.js
+sticky-nav-link-widget.js

@@ -7,7 +7,6 @@
 		properties = extProperties;
 	}
 	final String[] navs = properties.get("navs", String[].class);
-    final Boolean[] hideInStickyNav = {false, true, true}; // PLACEHOLDER ------------------------
 	
 	if (navs != null) {
 		for (int i = 0; i < navs.length; i++) {
@@ -17,10 +16,10 @@
 			String target = "";
 			boolean openInNewWindow = split.length >= 3 ? Boolean.parseBoolean(split[2]) : false;
 			String cssClass = split.length >= 4 ? split[3] : "";
-            String stickyClass = (hideInStickyNav != null && hideInStickyNav.length == navs.length && hideInStickyNav[i]) ? "hide-in-sticky-nav" : "";
 			Integer eyebrowTabIndex = 10 + i;
 			String cssId = "eyebrow";
-
+			boolean showInSticky = split.length >= 4 ? Boolean.parseBoolean(split[4]) : false;
+			String stickyClass = (!showInSticky) ? "hide-in-sticky-nav" : "";
 			Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
 			if (linkPage != null && !link.contains(".html")) {
 				link += ".html";
