@@ -83,15 +83,17 @@
 <!-- OFF CANVAS MENU BAR -->
 	<nav class="tab-bar hide-for-medium-up"><%
         String imgAlt = properties.get("imageAlt", "");
-        String headerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/header-nav";   
-        ValueMap headerNavProps = resourceResolver.resolve(headerNavPath).adaptTo(ValueMap.class);
+        String headerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/header-nav";  
+        String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/logo";
         Boolean sticky = false;
         try {
+        	ValueMap headerNavProps = resourceResolver.resolve(headerNavPath).adaptTo(ValueMap.class);
             sticky = headerNavProps.get("displayStickyNav", false);
             if (sticky) {
                 String stickyImgPath = "";
                 try {
-                    stickyImgPath = ((ValueMap)resource.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
+                	Resource logo = resourceResolver.resolve(logoPath);
+                    stickyImgPath = ((ValueMap)logo.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
                     %><div class="logo">
                         <img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
                     </div><%
