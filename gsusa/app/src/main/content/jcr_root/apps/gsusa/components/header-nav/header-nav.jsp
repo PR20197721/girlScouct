@@ -87,23 +87,25 @@
         String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/logo";
         Boolean sticky = false;
         try {
-        	ValueMap headerNavProps = resourceResolver.resolve(headerNavPath).adaptTo(ValueMap.class);
+            ValueMap headerNavProps = resourceResolver.resolve(headerNavPath).adaptTo(ValueMap.class);
             sticky = headerNavProps.get("displayStickyNav", false);
             if (sticky) {
                 String stickyImgPath = "";
                 try {
-                	Resource logo = resourceResolver.resolve(logoPath);
+                    Resource logo = resourceResolver.resolve(logoPath);
                     stickyImgPath = ((ValueMap)logo.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
-                    %><div class="logo">
-                        <img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
-                    </div><%
+                    %><section class="sticky-nav-logo-section">
+                        <div class="logo">
+                            <img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
+                        </div>
+                    </section><%
                 } catch (Exception e) {}
-   		   }
+            }
         } catch(Exception e) {}
         %><section class="search-section">
 		   <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
 		</section>
-		<section class="right-small">
+		<section class="toggle-section right-small">
 			<a class="right-off-canvas-toggle menu-icon" role="button" href="#"><span></span></a>
 		</section>
 	</nav>
