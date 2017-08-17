@@ -205,11 +205,11 @@ function fixSlickSlideActive() {
         $(document).on(touchOrClick, function (event) {
             event.stopPropagation();
             var target = $(event.target);
-            if (target.closest('.tab-bar .search-form').length == 0 && $(".tab-bar .search-form input").css('display') != 'none') {
+            if (target.closest('.tab-bar .search-form').length === 0 && $(".tab-bar .search-form input").css('display') != 'none') {
                 $(".tab-bar .search-form span").removeClass('hide');
                 $(".tab-bar .search-form input").hide('slow');
             }
-            if (target.closest('.featured-stories li').length == 0 && target.closest(".story").css('display') != 'none') {
+            if (target.closest('.featured-stories li').length === 0 && target.closest(".story").css('display') != 'none') {
                 $(".story").fadeOut('slow');
                 $("body").css('overflow', '');
                 $(".featured-stories").css('position', '');
@@ -298,7 +298,7 @@ function fixSlickSlideActive() {
                     joinNow.input.focus();
                     joinNow.button.addClass('hide');
                     joinNow.form.submit(function () {
-                        if (joinNow.input.val() != "") {
+                        if (joinNow.input.val() !== "") {
                             //joinNow.form.submit();
                             joinNow.input.val('');
                         } else {
@@ -554,7 +554,7 @@ function fixSlickSlideActive() {
                 arrows: false,
                 customPaging: function (slick, index) {
                     var thumbnailText = $("#hiddenThumbnail" + index).text();
-                    if (thumbnailText.trim() != "") {
+                    if (thumbnailText.trim() !== "") {
                         thumbnailText = "<p>" + thumbnailText + "</p>";
                     }
                     return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML') + thumbnailText;
@@ -824,17 +824,20 @@ function fixSlickSlideActive() {
     // Sticky Nav
     //
     //
-    var header = $(".header"),
+    var desktopHeader = $(".header"),
         mobileHeader = $(".tab-bar"),
-        placeholder = $(".header-placeholder"),
-        headerHeight = header.height(),
+        header,
+        headerHeight,
+        desktopPlaceholder = $(".header-placeholder"),
+        mobilePlaceholder = $(".tab-bar-placeholder"),
+        placeholder,
         trigger = false,
         fixed = false,
         fixedClass = "sticky-nav-fixed",
         offset = 0,
         desktopStickyOffset = 0,
-        mobile = false,
-        MEDIUM_ONLY = 768;
+        MEDIUM_ONLY = 768,
+        mobile = $(window).width() <= MEDIUM_ONLY;
 
     function setOffset() {
         placeholder.height(headerHeight);
@@ -845,18 +848,38 @@ function fixSlickSlideActive() {
 
             offset = header.offset().top + desktopStickyOffset;
         } else { // Mobile header
-            offset = mobileHeader.offset().top;
+            offset = header.offset().top;
         }
     }
-    
+
+    function switchHeader() {
+        // Unfix previous header
+        if (header && placeholder) {
+            header.removeClass(fixedClass);
+            placeholder.hide();
+            fixed = false;
+        }
+
+        // Set new header
+        header = mobile ? mobileHeader : desktopHeader;
+        placeholder = mobile ? mobilePlaceholder : desktopPlaceholder;
+        headerHeight = header.height();
+
+        // Reset fix
+        $(window).trigger("scroll");
+    }
+
     if ($(".header.sticky-nav").length) {
+        // On load
+        switchHeader();
         setOffset();
-        
+
         // Reset offset on resize
         $(window).on("resize", function () {
             if ($(window).width() > MEDIUM_ONLY === mobile) { // Trigger once when the breakpoint is passed
                 mobile = !mobile;
                 //console.log("Mobile is: " + mobile);
+                switchHeader();
                 setOffset();
             }
             if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
@@ -894,7 +917,7 @@ function fixSlickSlideActive() {
 function stopSlider() {
     'use strict';
     var slick = $('.video-slider-wrapper');
-    if (slick != undefined && slick.slick != undefined) {
+    if (slick !== undefined && slick.slick !== undefined) {
         slick.slick('slickPause');
         slick.slick('slickSetOption', 'autoplay', false, false);
         slick.slick('autoPlay', $.noop);

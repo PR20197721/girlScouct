@@ -107,6 +107,7 @@
 			<a class="right-off-canvas-toggle menu-icon" role="button" href="#"><span></span></a>
 		</section>
 	</nav>
+    <div class="tab-bar-placeholder"></div>
 <!-- END NAV.TAB-BAR HIDE-FOR-LARGE-UP -->
 
 	<!--  OFF CANVAS -->

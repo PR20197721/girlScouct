@@ -150,13 +150,13 @@
     }
 }
 
-.header-placeholder {
-    height: 140px;
+.header-placeholder,
+.tab-bar-placeholder {
     display: none;
 }
 
 .off-canvas-wrap.move-left {
-    .header.sticky-nav {
+    .header.sticky-nav .tab-bar.sticky-nav-fixed {
         left: rem-calc(-250);
     }
     .right-off-canvas-menu {
