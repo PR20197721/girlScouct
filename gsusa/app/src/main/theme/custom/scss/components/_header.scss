@@ -72,9 +72,6 @@
         &.sticky-nav-fixed {
             .top-header {
                 padding: rem-calc(17) 0;
-                @media #{$small-only} {
-                    display: none;
-                }
             }
             .logo-section {
                 #mainGSLogo {
@@ -130,16 +127,16 @@
                     vertical-align: top;
                 }
             }
-            .tab-bar {
-                .logo {
-                    width: 72px;
-                    text-align: center;
-                    .sticky-nav-GS-logo {
-                        display: inline-block;
-                        vertical-align: top;
-                        width: 32px;
-                        height: 30px;
-                    }
+        }
+        .tab-bar.sticky-nav-fixed {
+            .logo {
+                width: 72px;
+                text-align: center;
+                .sticky-nav-GS-logo {
+                    display: inline-block;
+                    vertical-align: top;
+                    width: 32px;
+                    height: 30px;
                 }
             }
         }

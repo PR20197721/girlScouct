@@ -94,11 +94,9 @@
                 try {
                     Resource logo = resourceResolver.resolve(logoPath);
                     stickyImgPath = ((ValueMap)logo.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
-                    %><section class="sticky-nav-logo-section">
-                        <div class="logo">
-                            <img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
-                        </div>
-                    </section><%
+                    %><div class="logo">
+                        <img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
+                    </div><%
                 } catch (Exception e) {}
             }
         } catch(Exception e) {}
