@@ -840,7 +840,11 @@ function fixSlickSlideActive() {
         mobile = $(window).width() <= MEDIUM_ONLY;
 
     function setOffset() {
+        // Set placeholders
+        headerHeight = header.height();
         placeholder.height(headerHeight);
+        
+        // Set offset
         if (!mobile) { // Desktop header
             header.addClass(fixedClass);
             desktopStickyOffset = headerHeight - header.height(); // Change header to sticky and change back to get height difference
@@ -850,6 +854,9 @@ function fixSlickSlideActive() {
         } else { // Mobile header
             offset = header.offset().top;
         }
+        
+        // Reset fix
+        $(window).trigger("scroll");
     }
 
     function switchHeader() {
@@ -863,16 +870,14 @@ function fixSlickSlideActive() {
         // Set new header
         header = mobile ? mobileHeader : desktopHeader;
         placeholder = mobile ? mobilePlaceholder : desktopPlaceholder;
-        headerHeight = header.height();
-
-        // Reset fix
-        $(window).trigger("scroll");
+        
+        // Set offset
+        setOffset();
     }
 
     if ($(".header.sticky-nav").length) {
         // On load
         switchHeader();
-        setOffset();
 
         // Reset offset on resize
         $(window).on("resize", function () {
@@ -880,12 +885,10 @@ function fixSlickSlideActive() {
                 mobile = !mobile;
                 //console.log("Mobile is: " + mobile);
                 switchHeader();
-                setOffset();
             }
             if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
                 //console.log("Old height: " + headerHeight);
                 //console.log("New height: " + header.height());
-                headerHeight = header.height();
                 setOffset();
             }
         });
