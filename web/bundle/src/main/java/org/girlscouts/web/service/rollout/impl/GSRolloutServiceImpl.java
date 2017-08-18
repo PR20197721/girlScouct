@@ -269,7 +269,6 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 	private void processExistingLiveRelationships(Set<String> councils, Resource srcRes, Set<String> pagesToActivate,
 			List<String> rolloutLog)
 			throws RepositoryException, WCMException {
-		Session session = rr.adaptTo(Session.class);
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes, null, null);
 		while (relationIterator.hasNext()) {
 			LiveRelationship relation = (LiveRelationship) relationIterator.next();
@@ -289,8 +288,15 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 						log.error("Girlscouts Rollout Service encountered error: ", e);
 					}
 					if (!breakInheritance) {
-						rolloutManager.rollout(rr, relation, false);
-						session.save();
+						// rolloutManager.rollout(rr, relation, false, true);
+						RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
+						params.isDeep = false;
+						params.master = srcRes.adaptTo(Page.class);
+						params.targets = new String[] { targetPath };
+						params.paragraphs = getParagraphs(srcRes);
+						params.trigger = RolloutManager.Trigger.ROLLOUT;
+						params.reset = false;
+						rolloutManager.rollout(params);
 						rolloutLog.add("Rolled out content to page");
 						if (targetPath.endsWith("/jcr:content")) {
 							targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
@@ -303,6 +309,32 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				} else {
 					rolloutLog.add("Resource not found in this council.");
 					rolloutLog.add("Will NOT rollout to this page");
+				}
+			}
+		}
+	}
+
+	private String[] getParagraphs(Resource srcRes) {
+		String[] paragraphs = null;
+		try {
+			List<String> parList = new ArrayList<String>();
+			Resource content = srcRes.getChild("jcr:content");
+			traverseNodeForParagrpaphs(content, parList);
+			paragraphs = parList.toArray(new String[parList.size()]);
+		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
+		}
+		return paragraphs;
+	}
+
+	private void traverseNodeForParagrpaphs(Resource srcRes, List<String> parList) {
+		if (srcRes != null) {
+			parList.add(srcRes.getPath());
+			Iterable<Resource> children = srcRes.getChildren();
+			if (children != null) {
+				Iterator<Resource> it = children.iterator();
+				while (it.hasNext()) {
+					traverseNodeForParagrpaphs(it.next(), parList);
 				}
 			}
 		}

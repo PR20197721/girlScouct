@@ -28,6 +28,7 @@ public interface PageActivationConstants {
 	public static final String PARAM_DELAY = "delayActivation";
 	public static final String PARAM_CRAWL = "crawl";
 	public static final String PARAM_BREAK_INHERITANCE = "breakInheritance";
+	public static final String PARAM_IS_CANCELLED_FOR_CHILDREN = "cq:isCancelledForChildren";
 	public static final String PARAM_USE_TEMPLATE = "useTemplate";
 	public static final String PARAM_TEMPLATE_PATH = "template";
 	public static final String PARAM_NOTIFY = "notify";
@@ -52,7 +53,7 @@ public interface PageActivationConstants {
 	public static final int DEFAULT_PARAM_MINUTES = 5;
 	public static final int DEFAULT_PARAM_CRAWL_DEPTH = -1;
 	public static final int DEFAULT_CRAWL_WAIT_TIME = 5_000;
-	public static final int DEFAULT_REMORSE_WAIT_TIME = 30_000;
+	public static final int DEFAULT_REMORSE_WAIT_TIME = 0;
 
 	public static final String BRANCH_PATTERN_STR = "^(/content/[^/]+)/?";
 	public static final Pattern BRANCH_PATTERN = Pattern.compile(BRANCH_PATTERN_STR);
