@@ -322,8 +322,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			if (meeting == null)
 				meeting = getMeeting(user, troop, meetingEvent.getRefId());
-			String newPath = troop.getPath() + "/lib/meetings/"
-					+ meeting.getId() + "_" + Math.random();
+			
+			String newPath = troop.getPath() + "/lib/meetings/" + meeting.getId() + "_" + Math.random();
+			if( meetingEvent.getRefId().contains("/lib/meetings/") ){ 			
+				newPath = meetingEvent.getRefId();
+				ocm.remove(meeting);			
+				ocm.save();
+			}
+					
 			if (!session.itemExists(troop.getPath() + "/lib/meetings/")) {
 				ocm.insert(new JcrNode(troop.getPath() + "/lib"));
 				ocm.insert(new JcrNode(troop.getPath() + "/lib/meetings"));
