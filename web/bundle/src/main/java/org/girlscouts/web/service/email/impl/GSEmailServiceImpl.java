@@ -147,7 +147,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 		if (toAddresses != null) {
 			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 			for (String address : toAddresses) {
-				if (address != null) {
+				if (address != null && !address.isEmpty()) {
 					emailRecipients.add(new InternetAddress(address));
 				}
 			}
