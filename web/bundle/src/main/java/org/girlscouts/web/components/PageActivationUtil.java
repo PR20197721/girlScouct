@@ -291,12 +291,21 @@ public class PageActivationUtil implements PageActivationConstants {
 	public static List<String> getCouncilEmails(Node homepage) {
 		List<String> toAddresses = new ArrayList<String>();
 		try {
-			String email1 = homepage.getProperty("email1").getString();
-			String email2 = homepage.getProperty("email2").getString();
-			toAddresses.add(email1);
-			toAddresses.add(email2);
-		} catch (Exception e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			Node content = homepage.getNode("jcr:content");
+			try {
+				String email1 = content.getProperty("email1").getString();
+				toAddresses.add(email1);
+			} catch (Exception e) {
+				log.error("PageActivationUtil encountered error: ", e);
+			}
+			try {
+				String email2 = content.getProperty("email2").getString();
+				toAddresses.add(email2);
+			} catch (Exception e) {
+				log.error("PageActivationUtil encountered error: ", e);
+			}
+		} catch (RepositoryException e1) {
+			log.error("PageActivationUtil encountered error: ", e1);
 		}
 		return toAddresses;
 	}
