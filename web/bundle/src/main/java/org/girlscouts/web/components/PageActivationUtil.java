@@ -255,14 +255,16 @@ public class PageActivationUtil implements PageActivationConstants {
 			String[] addresses = vm.get(PARAM_REPORT_EMAILS, String[].class);
 			if (addresses != null) {
 				for (String address : addresses) {
+					if (address != null && !address.isEmpty()) {
 					toAddresses.add(address);
+					}
 				}
 			}
 		} catch (Exception e) {
 			log.error("PageActivationUtil encountered error: ", e);
 			try {
 				String singleValue = vm.get(PARAM_REPORT_EMAILS, String.class);
-				if (singleValue != null) {
+				if (singleValue != null && !singleValue.isEmpty()) {
 					toAddresses.add(singleValue);
 				}
 			} catch (Exception e1) {
@@ -292,17 +294,23 @@ public class PageActivationUtil implements PageActivationConstants {
 		List<String> toAddresses = new ArrayList<String>();
 		try {
 			Node content = homepage.getNode("jcr:content");
+			String email1 = null;
+			String email2 = null;
 			try {
-				String email1 = content.getProperty("email1").getString();
-				toAddresses.add(email1);
+				email1 = content.getProperty("email1").getString();
+				if (email1 != null && !email1.isEmpty()) {
+					toAddresses.add(email1);
+				}
 			} catch (Exception e) {
-				log.error("PageActivationUtil encountered error: ", e);
+				log.error("PageActivationUtil encountered error: email1=" + email1, e);
 			}
 			try {
-				String email2 = content.getProperty("email2").getString();
-				toAddresses.add(email2);
+				email2 = content.getProperty("email2").getString();
+				if (email2 != null && !email2.isEmpty()) {
+					toAddresses.add(email2);
+				}
 			} catch (Exception e) {
-				log.error("PageActivationUtil encountered error: ", e);
+				log.error("PageActivationUtil encountered error: email2=" + email2, e);
 			}
 		} catch (RepositoryException e1) {
 			log.error("PageActivationUtil encountered error: ", e1);
@@ -318,7 +326,9 @@ public class PageActivationUtil implements PageActivationConstants {
 			String[] addresses = vm.get(PARAM_REPORT_EMAILS, String[].class);
 			if (addresses != null) {
 				for (String address : addresses) {
-					toAddresses.add(address);
+					if (address != null && !address.isEmpty()) {
+						toAddresses.add(address);
+					}
 				}
 			}
 		} catch (Exception e) {
