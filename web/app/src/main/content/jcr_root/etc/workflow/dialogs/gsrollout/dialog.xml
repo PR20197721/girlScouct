@@ -4,6 +4,15 @@
     title="GS Rollout - Council Selection Dialog"
     xtype="dialog">
     <items jcr:primaryType="cq:WidgetCollection">
+    	<newPage
+    		jcr:primaryType="cq:Widget"
+    		fieldLabel="New Page"
+    		fieldDescription="If checked new live sync page will be created on council site."
+    		name="./newPage"
+    		value="false"
+    		defaultValue="false"
+    		type="checkbox"
+    		xtype="selection"/>
     	<activate
     		jcr:primaryType="cq:Widget"
     		fieldLabel="Activate Pages"

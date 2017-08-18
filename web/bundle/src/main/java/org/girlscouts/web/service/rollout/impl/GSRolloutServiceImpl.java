@@ -112,13 +112,18 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		if (!dateRolloutRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
 			String srcPath = "", templatePath = "";
-			Boolean notify = false, activate = true, delay = false, useTemplate = false;
+			Boolean notify = false, activate = true, delay = false, useTemplate = false, newPage = false;
 			Set<String> councils = null;
 			try {
 				dateRolloutNode.setProperty(PARAM_STATUS, STATUS_PROCESSING);
 				session.save();
 				try {
 					srcPath = dateRolloutNode.getProperty(PARAM_SOURCE_PATH).getString();
+				} catch (Exception e) {
+					log.error("Girlscouts Rollout Service encountered error: ", e);
+				}
+				try {
+					newPage = dateRolloutNode.getProperty(PARAM_NEW_PAGE).getBoolean();
 				} catch (Exception e) {
 					log.error("Girlscouts Rollout Service encountered error: ", e);
 				}
@@ -159,11 +164,12 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					Page srcPage = (Page) srcRes.adaptTo(Page.class);
 					if (srcPage != null) {
 						Set<String> pages = new HashSet<String>();
-
-						processExistingLiveRelationships(councils, srcRes, pages, rolloutLog);
-						if (!councils.isEmpty()) {
+						if (newPage) {
 							processNewLiveRelationships(councils, srcRes, pages, rolloutLog);
+						} else {
+							processExistingLiveRelationships(councils, srcRes, pages, rolloutLog);
 						}
+
 						if (!councils.isEmpty()) {
 							for (String council : councils) {
 								log.error("Failed to rollout processing for %s council", council);

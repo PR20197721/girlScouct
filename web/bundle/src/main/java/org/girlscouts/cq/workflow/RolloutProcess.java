@@ -58,7 +58,13 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 						.getResourceResolver(Collections.singletonMap("user.jcr.session", (Object) session));
 				String srcPath = item.getWorkflowData().getPayload().toString();
 				String subject = "", message = "", templatePath = "";
-				Boolean useTemplate = false, delay = false, notify = false, crawl = false, activate = true;
+				Boolean useTemplate = false, delay = false, notify = false, crawl = false, activate = true,
+						newPage = false;
+				try {
+					newPage = ((Value) mdm.get(PARAM_NEW_PAGE)).getBoolean();
+				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
+				}
 				try {
 					delay = ((Value) mdm.get(PARAM_DELAY)).getBoolean();
 				} catch (Exception e) {
@@ -109,6 +115,7 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 				String[] ips2 = PageActivationUtil.getIps(resourceResolver, 2);
 				dateRolloutNode.setProperty(PARAM_DISPATCHER_IPS + "1", ips1);
 				dateRolloutNode.setProperty(PARAM_DISPATCHER_IPS + "2", ips2);
+				dateRolloutNode.setProperty(PARAM_NEW_PAGE, newPage);
 				dateRolloutNode.setProperty(PARAM_CRAWL, crawl);
 				dateRolloutNode.setProperty(PARAM_DELAY, delay);
 				dateRolloutNode.setProperty(PARAM_ACTIVATE, activate);

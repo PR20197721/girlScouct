@@ -26,6 +26,7 @@ public interface PageActivationConstants {
 
 	public static final String PARAM_COUNCILS = "councils";
 	public static final String PARAM_DELAY = "delayActivation";
+	public static final String PARAM_NEW_PAGE = "newPage";
 	public static final String PARAM_CRAWL = "crawl";
 	public static final String PARAM_BREAK_INHERITANCE = "breakInheritance";
 	public static final String PARAM_IS_CANCELLED_FOR_CHILDREN = "cq:isCancelledForChildren";
