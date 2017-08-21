@@ -79,6 +79,12 @@
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Google Analytics ID "
                             name="./googleAnalyticsId"/>
+                        <google-display-features
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Add Advertising Features code for Google Analytics"
+                            name="./googleDisplayFeatures"
+                            xtype="selection"
+                            type="checkbox"/>
                         <google-tag-manager-id
                         	jcr:primaryType="cq:Widget"
                         	fieldLabel="Google Tag Manager ID"

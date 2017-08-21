@@ -56,7 +56,9 @@
     String forceMrChangeHandler = multiRes ? "cq5forms_multiResourceChange(event, '" + xssAPI.encodeForJSString(mrName) + "', true);" : "";
 
     %><div class="form_row">
+    	<%if(confirmationEmail!=null){ %>
     	<input type="hidden" id="confirmation_email_<%=id%>" value="<%=confirmationEmail%>"/>
+    	<%} %>
         <% LayoutHelper.printTitle(id, title, required, hideTitle, out); %><%
   	      if (showCharCount && maxLength != null) {
   	      	%><div style="display:block; float:left; margin-left:10px; position:relative; top:-2px;">(<span id="<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft"><%= maxLength %></span> characters left)</div><%

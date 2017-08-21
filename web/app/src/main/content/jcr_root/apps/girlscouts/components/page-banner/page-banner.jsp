@@ -8,14 +8,20 @@
         
      
 <%
-  String title = properties.get("title", String.class);
-  if(title != null && title.trim().length() > 0){
+  	String title = properties.get("title", String.class);
+	if(title == null || title.trim().length() == 0){
+	   title = properties.get("jcr:title", String.class);
+	}
+	if (title == null || title.trim().length() == 0){
+	   title = currentPage.getTitle();
+	} 
+  	if(title != null && title.trim().length() > 0){
        %><h1><%=title.trim()%></h1><% 
-  }else{
-	  if (WCMMode.fromRequest(request) == WCMMode.EDIT){
+  	}else{
+	  	if (WCMMode.fromRequest(request) == WCMMode.EDIT){
 		  %>
 		     <h1> Please Enter  Title </h1>
 		  <%
-	  }
-  }
+	  	}
+  	}
 %>
