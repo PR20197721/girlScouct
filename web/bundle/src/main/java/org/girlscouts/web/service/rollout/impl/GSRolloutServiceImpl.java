@@ -12,6 +12,7 @@ import javax.jcr.Node;
 import javax.jcr.RangeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.nodetype.NodeType;
 import javax.jcr.query.Query;
 
 import org.girlscouts.web.components.GSEmailAttachment;
@@ -114,6 +115,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			String srcPath = "", templatePath = "";
 			Boolean notify = false, activate = true, delay = false, useTemplate = false, newPage = false;
 			Set<String> councils = null;
+			Set<String> notifyCouncils = new TreeSet<String>();
 			try {
 				dateRolloutNode.setProperty(PARAM_STATUS, STATUS_PROCESSING);
 				session.save();
@@ -165,18 +167,21 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					if (srcPage != null) {
 						Set<String> pages = new HashSet<String>();
 						if (newPage) {
-							processNewLiveRelationships(councils, srcRes, pages, rolloutLog);
+							processNewLiveRelationships(councils, srcRes, pages, rolloutLog, notifyCouncils);
 						} else {
-							processExistingLiveRelationships(councils, srcRes, pages, rolloutLog);
+							processExistingLiveRelationships(councils, srcRes, pages, rolloutLog, notifyCouncils);
 						}
 
 						if (!councils.isEmpty()) {
+							notifyCouncils.addAll(councils);
 							for (String council : councils) {
 								log.error("Failed to rollout processing for %s council", council);
 							}
 						}
 						dateRolloutNode.setProperty(PARAM_PAGES,
 								pages.toArray(new String[pages.size()]));
+						dateRolloutNode.setProperty(PARAM_NOTIFY_COUNCILS,
+								notifyCouncils.toArray(new String[notifyCouncils.size()]));
 						session.save();
 					} else {
 						log.error("Resource is not a page. Quit. " + srcPath);
@@ -190,7 +195,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				}
 				List<String> councilNotificationLog = new ArrayList<String>();
 				Boolean isTestMode = PageActivationUtil.isTestMode(rr);
-				if (notify) {
+				if (notify && notifyCouncils.size() > 0) {
 					sendCouncilNotifications(dateRolloutNode, councilNotificationLog, isTestMode);
 				} else {
 					dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.FALSE);
@@ -229,7 +234,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 	}
 
 	private void processNewLiveRelationships(Set<String> councils, Resource srcRes, Set<String> pagesToActivate,
-			List<String> rolloutLog)
+			List<String> rolloutLog, Set<String> notifyCouncils)
 			throws RepositoryException, WCMException {
 		Session session = rr.adaptTo(Session.class);
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes.getParent(), null, null);
@@ -273,7 +278,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 	}
 
 	private void processExistingLiveRelationships(Set<String> councils, Resource srcRes, Set<String> pagesToActivate,
-			List<String> rolloutLog)
+			List<String> rolloutLog, Set<String> notifyCouncils)
 			throws RepositoryException, WCMException {
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes, null, null);
 		while (relationIterator.hasNext()) {
@@ -296,10 +301,15 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					if (!breakInheritance) {
 						// rolloutManager.rollout(rr, relation, false, true);
 						RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
+						String[] components = getComponents(srcRes);
+						boolean notifyCouncil = isLiveSyncCancelled(components, targetResource);
+						if (notifyCouncil) {
+							notifyCouncils.add(targetPath);
+						}
 						params.isDeep = false;
 						params.master = srcRes.adaptTo(Page.class);
 						params.targets = new String[] { targetPath };
-						params.paragraphs = getParagraphs(srcRes);
+						params.paragraphs = components;
 						params.trigger = RolloutManager.Trigger.ROLLOUT;
 						params.reset = false;
 						rolloutManager.rollout(params);
@@ -320,12 +330,43 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		}
 	}
 
-	private String[] getParagraphs(Resource srcRes) {
+	private boolean isLiveSyncCancelled(String[] components, Resource targetResource) {
+		if (components != null && components.length > 0) {
+			if (targetResource != null) {
+				Node targetNode = targetResource.adaptTo(Node.class);
+				for (String component : components) {
+					int srcContentIndex = component.indexOf("jcr:content");
+					if (srcContentIndex > 0) {
+						try {
+							String srcComponentPath = component.substring(srcContentIndex);
+							Node componentNode = targetNode.getNode(srcComponentPath);
+							NodeType[] mixinTypes = componentNode.getMixinNodeTypes();
+							if (mixinTypes != null && mixinTypes.length > 0) {
+								for (NodeType mixinType : mixinTypes) {
+									if (mixinType.isNodeType(PARAM_LIVE_SYNC_CANCELLED)) {
+										return true;
+									}
+								}
+							}
+						} catch (RepositoryException e) {
+							log.error("Girlscouts Rollout Service encountered error: ", e);
+							return true;
+						}
+					}
+				}
+			}
+		} else {
+			return true;
+		}
+		return false;
+	}
+
+	private String[] getComponents(Resource srcRes) {
 		String[] paragraphs = null;
 		try {
 			List<String> parList = new ArrayList<String>();
 			Resource content = srcRes.getChild("jcr:content");
-			traverseNodeForParagrpaphs(content, parList);
+			traverseNodeForComponents(content, parList);
 			paragraphs = parList.toArray(new String[parList.size()]);
 		} catch (Exception e) {
 			log.error("Girlscouts Rollout Service encountered error: ", e);
@@ -333,14 +374,14 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		return paragraphs;
 	}
 
-	private void traverseNodeForParagrpaphs(Resource srcRes, List<String> parList) {
+	private void traverseNodeForComponents(Resource srcRes, List<String> parList) {
 		if (srcRes != null) {
 			parList.add(srcRes.getPath());
 			Iterable<Resource> children = srcRes.getChildren();
 			if (children != null) {
 				Iterator<Resource> it = children.iterator();
 				while (it.hasNext()) {
-					traverseNodeForParagrpaphs(it.next(), parList);
+					traverseNodeForComponents(it.next(), parList);
 				}
 			}
 		}
@@ -353,9 +394,10 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 	private void cancelInheritance(ResourceResolver rr, String councilPath) {
 		try {
 			String sql = "SELECT * FROM [cq:LiveSyncCancelled] AS s WHERE ISDESCENDANTNODE(s, '" + councilPath + "')";
-			log.debug("SQL " + sql);
+			log.error("Girlscouts Rollout Service SQL2: " + sql);
 			for (Iterator<Resource> it = rr.findResources(sql, Query.JCR_SQL2); it.hasNext();) {
 				Resource target = it.next();
+				log.error("Girlscouts Rollout Service : End relationship " + target.getPath());
 				relationManager.endRelationship(target, true);
 			}
 		} catch (Exception e) {
@@ -479,7 +521,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 	
 	private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog,
 			Boolean isTestMode) {
-		Set<String> pages = new TreeSet<String>();
+		Set<String> notifyCouncils = new TreeSet<String>();
 		String subject = DEFAULT_NOTIFICATION_SUBJECT;
 		String message = "", templatePath = "", srcPath = "";
 		Boolean notify = false, useTemplate = false;
@@ -523,23 +565,22 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				log.error("Girlscouts Rollout Service encountered error: ", e);
 			}
 			try {
-				pages.addAll(PageActivationUtil.getPages(dateRolloutNode));
+				notifyCouncils.addAll(PageActivationUtil.getNotifyCouncils(dateRolloutNode));
 			} catch (Exception e) {
 				log.error("Girlscouts Rollout Service encountered error: ", e);
 				return;
 			}
 			Resource source = rr.resolve(srcPath);
 			if (!source.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-				if (pages != null && !pages.isEmpty()) {
-					for (String targetPath : pages) {
+				if (notifyCouncils != null && !notifyCouncils.isEmpty()) {
+					for (String targetPath : notifyCouncils) {
 						Resource target = rr.resolve(targetPath);
 						if (!target.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 							if (message != null && message.trim().length() > 0) {
 								try {
 									String branch = PageActivationUtil.getBranch(targetPath);
 									// get the email addresses configured in
-									// page
-									// properties of the council's homepage
+									// page properties of the council's homepage
 									Page homepage = rr.resolve(branch + "/en").adaptTo(Page.class);
 									ValueMap valuemap = homepage.getProperties();
 									List<String> toAddresses = PageActivationUtil

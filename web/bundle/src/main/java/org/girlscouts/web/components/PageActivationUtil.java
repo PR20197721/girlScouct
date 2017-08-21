@@ -191,6 +191,18 @@ public class PageActivationUtil implements PageActivationConstants {
 		return pages;
 	}
 
+	public static Set<String> getNotifyCouncils(Node n) throws RepositoryException {
+		Set<String> notifyCouncils = new HashSet<String>();
+		if (n.hasProperty(PARAM_NOTIFY_COUNCILS)) {
+			notifyCouncils = new HashSet<String>();
+			Value[] values = n.getProperty(PARAM_NOTIFY_COUNCILS).getValues();
+			for (Value value : values) {
+				notifyCouncils.add(value.getString());
+			}
+		}
+		return notifyCouncils;
+	}
+
 	public static void markActivationFailed(Session session, Node dateRolloutNode) {
 		try {
 			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_FAILED);

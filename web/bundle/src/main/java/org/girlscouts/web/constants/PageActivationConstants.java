@@ -30,6 +30,7 @@ public interface PageActivationConstants {
 	public static final String PARAM_CRAWL = "crawl";
 	public static final String PARAM_BREAK_INHERITANCE = "breakInheritance";
 	public static final String PARAM_IS_CANCELLED_FOR_CHILDREN = "cq:isCancelledForChildren";
+	public static final String PARAM_LIVE_SYNC_CANCELLED = "cq:LiveSyncCancelled";
 	public static final String PARAM_USE_TEMPLATE = "useTemplate";
 	public static final String PARAM_TEMPLATE_PATH = "template";
 	public static final String PARAM_NOTIFY = "notify";
@@ -42,6 +43,7 @@ public interface PageActivationConstants {
 	public static final String PARAM_SOURCE_PATH = "srcpath";
 	public static final String PARAM_TEST_MODE = "testMode";
 	public static final String PARAM_PAGES = "pages";
+	public static final String PARAM_NOTIFY_COUNCILS = "notifyCouncils";
 	public static final String PARAM_ACTIVATED_PAGES = "activatedPages";
 	public static final String PARAM_UNMAPPED_PAGES = "unmappedPages";
 	public static final String PARAM_REPORT_EMAILS = "emails";
