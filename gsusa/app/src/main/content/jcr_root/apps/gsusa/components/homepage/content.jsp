@@ -15,7 +15,6 @@
 %>
 <cq:include path="<%= cookiePlaceholderPath %>" resourceType="gsusa/components/cookie-header" />
 <cq:include path="content/top" resourceType="girlscouts/components/styled-parsys" />
-<cq:include path="content/carousel" resourceType="gsusa/components/carousel" />
-<cq:include path="content/featured-stories" resourceType="gsusa/components/featured-stories" />
+<cq:include path="content/carousel" resourceType="gsusa/components/carousel" /> 
 <cq:include path="content/par" resourceType="girlscouts/components/styled-parsys" />
 <!-- END of content -->

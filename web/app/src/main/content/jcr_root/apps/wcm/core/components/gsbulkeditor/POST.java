@@ -75,6 +75,9 @@ public class POST extends SlingAllMethodsServlet {
     public static final String YEAR_PARAM = "year";
 
     public static final String DEFAULT_SEPARATOR = ",";
+    public static final String META_DATA_LOCATION = "/jcr:content/metadata";
+    int repDelayInterval = 10;
+    int repDelayTimeInSeconds = 60;
 
     protected void doPost(SlingHttpServletRequest request,
                           SlingHttpServletResponse response)
@@ -297,8 +300,15 @@ public class POST extends SlingAllMethodsServlet {
                                 		if(pathsToReplicate.size() > 0){
 	                                		try{
 	                                			replicator = scriptHelper.getService(Replicator.class);
+	                                			int repCount = 0;
 	                                			for(String activatePath : pathsToReplicate){
+	                                				if(repCount >= repDelayInterval){
+	                                					Thread.sleep(1000 * repDelayTimeInSeconds);
+	                                					repCount = 0;
+	                                				}
+	                                				
 	                                				replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, activatePath);
+	                                				repCount++;
 	                                			}
 	                                		}catch(Exception e){
 	                                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
@@ -376,7 +386,8 @@ public class POST extends SlingAllMethodsServlet {
         try {
             int headerSize = headers.size();
             List<String> values = new LinkedList<String>(Arrays.asList(line));
-            values.remove(values.size() - 1);
+            //Not made for files in the current format. Seems to follow older format.
+            //values.remove(values.size() - 1);
             if(values.size() < headerSize) {
                 //completet missing last empty cols
                 for(int i = values.size();i<=headerSize;i++) {
@@ -897,11 +908,23 @@ public class POST extends SlingAllMethodsServlet {
 	                	contactsForTeam.add(contact);
 	                }
 	                contactsToCreate.put(contact.getTeam(),contactsForTeam);
-                }else if(importType.equals("documents") || importType.equals("events")){
-                	if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
+                }else if(importType.equals("events")){
+                	//Disabled for the time being
+                	/*if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
                 		if(node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
                 			pathsToReplicate.add(node.getPath());
                 		}
+                	} */
+                }
+                else if(importType.equals("documents")){
+                	if(node.hasProperty("jcr:content/cq:lastReplicationAction") && node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
+    
+                		String metaPath = path + META_DATA_LOCATION;
+                		Resource metaResource = request.getResourceResolver().getResource(metaPath);
+                        if(metaResource!=null) {
+                        	pathsToReplicate.add(metaPath);
+                        }
+                   
                 	}
                 }
                 updated = true;
