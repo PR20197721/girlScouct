@@ -12,6 +12,7 @@ import javax.jcr.Node;
 import javax.jcr.RangeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.Value;
 import javax.jcr.nodetype.NodeType;
 import javax.jcr.query.Query;
 
@@ -253,7 +254,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					Page copyPage = pageManager.copy(srcPage, parentPath + "/" + srcPage.getName(), srcPage.getName(),
 							false, true);
 					RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
-					RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
+					RolloutConfig gsConfig = configMgr.getRolloutConfig(GS_ROLLOUT_CONFIG);
 					LiveRelationship relationship = relationManager.establishRelationship(srcPage, copyPage, true,
 							false, gsConfig);
 					String targetPath = relationship.getTargetPath();
@@ -299,7 +300,21 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 						log.error("Girlscouts Rollout Service encountered error: ", e);
 					}
 					if (!breakInheritance) {
-						// rolloutManager.rollout(rr, relation, false, true);
+						Node page = targetResource.adaptTo(Node.class);
+						Node srcPage = srcRes.adaptTo(Node.class);
+						if (!isGSRolloutConfig(page)) {
+							Node liveSyncNode = null;
+							if (getLiveSyncNode(page) != null) {
+								liveSyncNode = getLiveSyncNode(page);
+							} else {
+								liveSyncNode = createLiveSyncNode(page, srcPage);
+							}
+							liveSyncNode.setProperty(PARAM_CQ_ROLLOUT_CONFIG, GS_ROLLOUT_CONFIG);
+							liveSyncNode.setProperty(PARAM_CQ_IS_DEEP, Boolean.TRUE);
+							liveSyncNode.setProperty(PARAM_CQ_MASTER, srcPage.getPath());
+							liveSyncNode.getSession().save();
+
+						}
 						RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
 						String[] components = getComponents(srcRes);
 						boolean notifyCouncil = isLiveSyncCancelled(components, targetResource);
@@ -328,6 +343,20 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				}
 			}
 		}
+	}
+
+	private Node createLiveSyncNode(Node page, Node srcPage) {
+		try {
+			Node contentNode = page.getNode("jcr:content");
+			if (contentNode != null) {
+				Node liveSyncNode = contentNode.addNode("cq:LiveSyncConfig");
+				liveSyncNode.setPrimaryType(PARAM_CQ_LIVE_SYNC_CONFIG);
+				return liveSyncNode;
+			}
+		} catch (RepositoryException e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
+		}
+		return null;
 	}
 
 	private boolean isLiveSyncCancelled(String[] components, Resource targetResource) {
@@ -631,8 +660,6 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		}
 	}
 
-
-
 	private String generateCouncilNotification(String nationalPage, String councilPage, ValueMap vm, String message) {
 		String html = message.replaceAll("<%template-page%>", PageActivationUtil.getURL(nationalPage))
 				.replaceAll("&lt;%template-page%&gt;", PageActivationUtil.getURL(nationalPage))
@@ -645,5 +672,56 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				.replaceAll("&lt;%/a&gt;", "</a>");
 		html = html.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
 		return html;
+	}
+
+	private Boolean isGSRolloutConfig(Node pageNode) {
+		boolean isValid = false;
+		if (pageNode != null) {
+			Node liveSync = getLiveSyncNode(pageNode);
+			if (liveSync != null) {
+				try {
+					if (liveSync.hasProperty("cq:rolloutConfigs")) {
+						Value[] configs = liveSync.getProperty("cq:rolloutConfigs").getValues();
+						if (configs != null && configs.length > 0) {
+							for (Value config : configs) {
+								if (GS_ROLLOUT_CONFIG.equals(config.getString())) {
+									isValid = true;
+								}
+							}
+						}
+					}
+				} catch (RepositoryException e) {
+					log.error("Girlscouts Rollout Service encountered error: ", e);
+				}
+			} else {
+				isValid = isGSRolloutConfig(getAncestorWithLiveSync(pageNode));
+			}
+		}
+		return isValid;
+	}
+
+	private Node getLiveSyncNode(Node node) {
+		try {
+			if (node.hasNode("jcr:content/cq:LiveSyncConfig")) {
+				return node.getNode("jcr:content/cq:LiveSyncConfig");
+			}
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	private Node getAncestorWithLiveSync(Node node) {
+		try {
+			Node parentNode = node.getParent();
+			if (parentNode != null) {
+				if (getLiveSyncNode(parentNode) != null) {
+					return parentNode;
+				} else {
+					return getAncestorWithLiveSync(parentNode);
+				}
+			}
+		} catch (Exception e) {
+		}
+		return null;
 	}
 }

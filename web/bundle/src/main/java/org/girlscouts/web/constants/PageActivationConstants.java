@@ -51,6 +51,11 @@ public interface PageActivationConstants {
 	public static final String PARAM_GROUP_SIZE = "groupsize";
 	public static final String PARAM_MINUTES = "minutes";
 	public static final String PARAM_CRAWL_DEPTH = "crawldepth";
+	public static final String GS_ROLLOUT_CONFIG = "/etc/msm/rolloutconfigs/gsdefault";
+	public static final String PARAM_CQ_ROLLOUT_CONFIG = "cq:rolloutConfigs";
+	public static final String PARAM_CQ_IS_DEEP = "cq:isDeep";
+	public static final String PARAM_CQ_MASTER = "cq:master";
+	public static final String PARAM_CQ_LIVE_SYNC_CONFIG = "cq:LiveSyncConfig";
 
 	public static final int DEFAULT_PARAM_GROUP_SIZE = 1;
 	public static final int DEFAULT_PARAM_MINUTES = 5;
