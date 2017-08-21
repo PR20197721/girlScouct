@@ -8,13 +8,22 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.jcr.AccessDeniedException;
+import javax.jcr.InvalidItemStateException;
+import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
 import javax.jcr.RangeIterator;
+import javax.jcr.ReferentialIntegrityException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
+import javax.jcr.ValueFormatException;
+import javax.jcr.lock.LockException;
+import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.nodetype.NoSuchNodeTypeException;
 import javax.jcr.nodetype.NodeType;
 import javax.jcr.query.Query;
+import javax.jcr.version.VersionException;
 
 import org.girlscouts.web.components.GSEmailAttachment;
 import org.girlscouts.web.components.PageActivationUtil;
@@ -300,21 +309,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 						log.error("Girlscouts Rollout Service encountered error: ", e);
 					}
 					if (!breakInheritance) {
-						Node page = targetResource.adaptTo(Node.class);
-						Node srcPage = srcRes.adaptTo(Node.class);
-						if (!isGSRolloutConfig(page)) {
-							Node liveSyncNode = null;
-							if (getLiveSyncNode(page) != null) {
-								liveSyncNode = getLiveSyncNode(page);
-							} else {
-								liveSyncNode = createLiveSyncNode(page, srcPage);
-							}
-							liveSyncNode.setProperty(PARAM_CQ_ROLLOUT_CONFIG, GS_ROLLOUT_CONFIG);
-							liveSyncNode.setProperty(PARAM_CQ_IS_DEEP, Boolean.TRUE);
-							liveSyncNode.setProperty(PARAM_CQ_MASTER, srcPage.getPath());
-							liveSyncNode.getSession().save();
-
-						}
+						validateRolloutConfig(srcRes, targetResource);
 						RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
 						String[] components = getComponents(srcRes);
 						boolean notifyCouncil = isLiveSyncCancelled(components, targetResource);
@@ -342,6 +337,28 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					rolloutLog.add("Will NOT rollout to this page");
 				}
 			}
+		}
+	}
+
+	private void validateRolloutConfig(Resource srcRes, Resource targetResource) {
+		try {
+			Node page = targetResource.adaptTo(Node.class);
+			Node srcPage = srcRes.adaptTo(Node.class);
+			if (!isGSRolloutConfig(page)) {
+				Node liveSyncNode = null;
+				if (getLiveSyncNode(page) != null) {
+					liveSyncNode = getLiveSyncNode(page);
+				} else {
+					liveSyncNode = createLiveSyncNode(page, srcPage);
+				}
+				liveSyncNode.setProperty(PARAM_CQ_MASTER, srcPage.getPath());
+				liveSyncNode.setProperty(PARAM_CQ_IS_DEEP, Boolean.TRUE);
+				liveSyncNode.setProperty(PARAM_CQ_ROLLOUT_CONFIG, new String[] { GS_ROLLOUT_CONFIG });
+				liveSyncNode.getSession().save();
+
+			}
+		} catch (RepositoryException e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 	}
 
