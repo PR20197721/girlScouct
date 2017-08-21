@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:rep="internal"
-    cq:lastReplicated="{Date}2016-11-28T12:55:58.125-05:00"
-    cq:lastReplicatedBy="dlubin"
-    cq:lastReplicationAction="Activate"
-    jcr:mixinTypes="[cq:ReplicationStatus,rep:AccessControllable]"
-    jcr:primaryType="sling:Folder"
-    jcr:title="Adobe Marketing Cloud"
-    sling:resourceType="granite/core/components/cug-login"
-    sling:vanityPath="/content/login.html"/>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2017-08-21T12:15:34.650-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Adobe Marketing Cloud"
+        jcr:uuid="25dd2aa8-d0f8-44a8-820f-b7139f038503"
+        sling:resourceType="granite/core/components/cug-login"
+        sling:vanityPath="/content/login.html">
+        <adobe-logo.png/>
+        <configs
+            jcr:mixinTypes="[]"
+            jcr:primaryType="nt:unstructured">
+            <default
+                jcr:primaryType="nt:unstructured"
+                order="{Long}100">
+                <footer jcr:primaryType="nt:unstructured">
+                    <copy
+                        jcr:primaryType="nt:unstructured"
+                        text="© 2015 Adobe Systems Incorporated. All Rights Reserved."/>
+                    <items/>
+                </footer>
+            </default>
+            <cq/>
+        </configs>
+        <extensions/>
+        <favicon.ico/>
+    </jcr:content>
+</jcr:root>
