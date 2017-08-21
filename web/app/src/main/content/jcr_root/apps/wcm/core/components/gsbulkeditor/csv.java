@@ -192,7 +192,7 @@ public class csv extends SlingAllMethodsServlet {
 	                    		case "jcr:content/cq:tags-progLevel":
 	                    			property = "Program Levels";
 	                    			break;
-	                    		case "jcr:content/data/imagePath":
+	                    		case "jcr:content/data/image/fileReference":
 	                    			property = "Image";
 	                    			break;
 	                    		case "jcr:content/data/regOpen-date":
