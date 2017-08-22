@@ -807,7 +807,7 @@ React.createElement(ActivityPlan),
                            src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
                            style:{
                              width:'9%',
-                             "margin-left":"15px"
+                             "marginLeft":"15px"
                            }
                          }
                        ): React.createElement(
@@ -840,7 +840,7 @@ React.createElement(ActivityPlan),
                            src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
                            style:{
                              width:'9%',
-                             "margin-left":"15px"
+                             "marginLeft":"15px"
                            }
                          }
                        ): React.createElement(
@@ -1337,7 +1337,7 @@ React.createElement(ActivityPlan),
               'className':'columns small-24 medium-push-1 medium-13 small-text-center medium-text-left',
               'style':{
                 'padding':"5px 0px",
-                'margin-left':"-5px"
+                'marginLeft':"-5px"
               }
             },
             React.createElement('b',null,this.state.text_bold+" "),
@@ -1437,8 +1437,10 @@ React.createElement(ActivityPlan),
                               src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
                               style:_style,
                               onClick: this._clickfalse,
+                              alt:'',
+                              title:'',         
                            
-                            }, null))
+                            }))
 
 
 // API for toggle :'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=false'
@@ -1480,8 +1482,8 @@ React.createElement(ActivityPlan),
                                     style:{
                                       'marginBottom':'0px',
                                       color:"green",
-                                      "text-align":"center",
-                                      "font-size":'11px',
+                                      "textAlign":"center",
+                                      "fontSize":'11px',
                                     },
                                     onClick: this._click
                                   },
