@@ -251,13 +251,14 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		while (relationIterator.hasNext()) {
 			LiveRelationship relation = (LiveRelationship) relationIterator.next();
 			String parentPath = relation.getTargetPath();
-			rolloutLog.add("Attempting to roll out a child page of: " + parentPath);
-			Resource parentResource = rr.resolve(parentPath);
-			if (!parentResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-				int councilNameIndex = parentPath.indexOf("/", "/content/".length());
-				String councilPath = parentPath.substring(0, councilNameIndex);
-				if (councils.contains(councilPath)) {
-					councils.remove(councilPath);
+			int councilNameIndex = parentPath.indexOf("/", "/content/".length());
+			String councilPath = parentPath.substring(0, councilNameIndex);
+			if (councils.contains(councilPath)) {
+				councils.remove(councilPath);
+				rolloutLog.add("Attempting to roll out a child page of: " + parentPath);
+				Resource parentResource = rr.resolve(parentPath);
+				if (parentResource != null
+						&& !parentResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 					PageManager pageManager = rr.adaptTo(PageManager.class);
 					Page srcPage = (Page) srcRes.adaptTo(Page.class);
 					Page copyPage = pageManager.copy(srcPage, parentPath + "/" + srcPage.getName(), srcPage.getName(),
@@ -277,11 +278,11 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 					}
 					pagesToActivate.add(targetPath);
 					rolloutLog.add("Page added to activation/cache build queue");
+				} else {
+					rolloutLog.add(
+							"No resource can be found to serve as a suitable parent page. In order to roll out to this council, you must roll out the parent of this template page first.");
+					rolloutLog.add("Will NOT rollout to this council");
 				}
-			} else {
-				rolloutLog.add(
-						"No resource can be found to serve as a suitable parent page. In order to roll out to this council, you must roll out the parent of this template page first.");
-				rolloutLog.add("Will NOT rollout to this council");
 			}
 		}
 
@@ -300,7 +301,8 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				rolloutLog.add("Attempting to roll out to: " + targetPath);
 				councils.remove(councilPath);
 				Resource targetResource = rr.resolve(targetPath);
-				if (!targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+				if (targetResource != null
+						&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 					Boolean breakInheritance = false;
 					try {
 						ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
