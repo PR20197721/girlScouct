@@ -38,8 +38,8 @@ try{
 
   String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
-	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);//, ageLevel);
-
+	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);
+	java.util.Set<String> outdoorMeetingIds = meetingUtil.getOutdoorMeetings(user, troop);
 	
 java.util.List<Meeting> extraInfoMeetings= new java.util.ArrayList();
 for( int i=0;i<meetings.size();i++){
@@ -899,7 +899,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 					   <div style="display:table-cell;height:inherit;vertical-align:middle;">
-						  <p class="title"><%=meeting.getName()%>  </p>
+						  <p class="title"><%=meeting.getName()%>  <%=(outdoorMeetingIds.contains(meeting.getId()) ? '<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png">' : '')%></p>
 						 
 						<p class="blurb"><%=meeting.getBlurb() %></p>
 						<p class="tags"> 

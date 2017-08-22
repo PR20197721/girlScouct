@@ -3178,5 +3178,45 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 	return notes;
 }
 
+	//get all meetings with at least 1 outdoor agenda
+	public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException{
+		if (user != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_LOGIN_ID))
+			throw new IllegalAccessException();
+		Set<String> outdoorMeetings = new java.util.HashSet();
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			String sql ="select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and isOutdoorAvailable=true and ocm_classname='org.girlscouts.vtk.models.Activity'";
+System.err.println("SQK :"+ sql);			
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.SQL);
+			QueryResult result = q.execute();
+
+			for (RowIterator it = result.getRows(); it.hasNext();) {
+				Row r = it.nextRow();
+				//Value excerpt = r.getV("jcr:path");
+				String path =r.getPath(); //excerpt.getString();
+				String pathElements[] = path.split("/");
+				if(pathElements!=null && pathElements.length>5){
+System.err.println( "Adding "+pathElements[6]);					
+					outdoorMeetings.add( pathElements[6] );
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return outdoorMeetings;
+	}
 
 }// edn class
