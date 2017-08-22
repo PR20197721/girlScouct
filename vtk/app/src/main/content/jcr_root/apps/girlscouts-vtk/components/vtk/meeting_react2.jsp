@@ -307,7 +307,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
     var ActivityName = React.createClass({displayName: "ActivityName",
       render: function() {
         return (
-            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid="+mid+"&isAgenda="+(this.props.item.activityNumber-1)}, this.props.item.name)
+            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid="+mid+"&isAgenda="+(this.props.item.activityNumber-1)}, (this.props.item.isOutdoor ? this.props.item.name_outdoor : this.props.item.name) )
         );
       }
     });
