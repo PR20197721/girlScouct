@@ -1016,6 +1016,25 @@ React.createElement(ActivityPlan),
       componentWillReceiveProps: function(newProps) {
          this.setState({data: newProps.data});
       },
+      
+
+      componentDidMount: function(){
+        //Make sure fundation wrap the dom
+        $(document).foundation({
+          tooltip: {
+            selector : '.has-tip',
+            additional_inheritable_classes : [],
+            tooltip_class : '.tooltip',
+            touch_close_text: 'tap to close',
+            disable_for_touch: false,
+            tip_template : function (selector, content) {
+              return '<span data-selector="' + selector + '" class="'
+                + Foundation.libs.tooltip.settings.tooltip_class.substring(1)
+                + '">' + content + '<span class="nub"></span></span>';
+            }
+          }
+        });
+      },
 
       onReorder: function (order) {
           this.setState({data: null});
@@ -1388,23 +1407,39 @@ React.createElement(ActivityPlan),
                     outDoorIconList.add(this.props.item.path,this.props.item,this);
 
                     var _style = {
-                        position: "absolute",
+
                         width: "30px",
-                        top: "-8px",
-                        left: "-38px",
+
                         cursor: 'pointer'
                     }
 
                    if( this.state.isOutdoor ){
 
                         return (
+
                           React.createElement(
-                            'img',
-                            {
+                              'span',
+                              { style: {
+                                  "position": "absolute",
+                                  "top": "-15px",
+                                  "left": "-38px",
+                                  "cursor": "pointer",
+                                  "border": "none",
+                                  "paddingTop": "8px"
+                                },
+                                  onClick: this._click,
+                                  "data-tooltip":true,
+                                  "aria-haspopup":true,
+                                  className:"has-tip tip-top radius",
+                                  title:"<b>Get Girls Outside!</b>"
+                            }, React.createElement(
+                            'img',{
                               src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
                               style:_style,
-                              onClick: this._click
-                            })
+                              onClick: this._clickfalse,
+                           
+                            }, null))
+
 
 // API for toggle :'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=false'
 //                 '/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=true'
@@ -1413,21 +1448,29 @@ React.createElement(ActivityPlan),
 
                         return (
                             React.createElement(
-                              'div',
+                              'span',
                               { style: {
-                                  position: "absolute",
-                                  top: "-12px",
-                                  left: "-38px",
-                                  cursor: 'pointer'
+                                  "position": "absolute",
+                                  "top": "-15px",
+                                  "left": "-38px",
+                                  "cursor": "pointer",
+                                  "border": "none",
+                                  "paddingTop": "8px"
                                 },
-                                  onClick: this._click
+                                  onClick: this._click,
+                                  "data-tooltip":true,
+                                  "aria-haspopup":true,
+                                  className:"has-tip tip-top radius",
+                                  title:"<b>Get Girls Outside!</b>"
                             },
                               React.createElement('img',
                                 {
                                   src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png',
                                   style:{
-                                    width: "30px"
-                                  }
+                                    width: "30px",
+                                     },
+                                     alt:'',
+                                     title:'',                                 
 
                                 }
                               ),
@@ -1435,7 +1478,7 @@ React.createElement(ActivityPlan),
                                   "p",
                                   {
                                     style:{
-
+                                      'marginBottom':'0px',
                                       color:"green",
                                       "text-align":"center",
                                       "font-size":'11px',
@@ -1520,3 +1563,10 @@ React.createElement(ActivityPlan),
 
 <div id="modal_popup" class="reveal-modal" data-reveal></div>
 <div id="modal_popup_video" class="reveal-modal" data-reveal></div>
+
+<!-- Hack for make the tooltip nob -->
+<style>
+.tooltip .nub{
+  left:10px;
+}
+</style>
