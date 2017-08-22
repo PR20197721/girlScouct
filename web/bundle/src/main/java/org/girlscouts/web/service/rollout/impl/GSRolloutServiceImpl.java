@@ -8,23 +8,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.jcr.AccessDeniedException;
-import javax.jcr.InvalidItemStateException;
-import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
 import javax.jcr.RangeIterator;
-import javax.jcr.ReferentialIntegrityException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
-import javax.jcr.ValueFormatException;
-import javax.jcr.lock.LockException;
-import javax.jcr.nodetype.ConstraintViolationException;
-import javax.jcr.nodetype.NoSuchNodeTypeException;
 import javax.jcr.nodetype.NodeType;
 import javax.jcr.query.Query;
-import javax.jcr.version.VersionException;
-
 import org.girlscouts.web.components.GSEmailAttachment;
 import org.girlscouts.web.components.PageActivationUtil;
 import org.girlscouts.web.constants.PageActivationConstants;
