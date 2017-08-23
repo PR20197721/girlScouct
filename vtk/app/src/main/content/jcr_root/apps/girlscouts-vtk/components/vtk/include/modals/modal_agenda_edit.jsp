@@ -88,7 +88,7 @@
 				StringBuilder builder = new StringBuilder();
 				for (Activity activity : activities) {
 					builder.append("<p><b>Activity " + Integer.toString(activity.getActivityNumber()));
-					builder.append(": " + activity.getName() + "</b></p>");
+					builder.append(": " + (activity.getIsOutdoor() ? activity.getName_outdoor() : activity.getName()) + "</b></p>");
 
 					String description = activity.getIsOutdoor() ? activity.getActivityDescription_outdoor() : activity.getActivityDescription() ;
 					
@@ -165,7 +165,10 @@
 		<!-- Title -->
 		<div class="row">
 			<div class="column small-24 small-centered">
-					<h3>Agenda Item: <%=_activity.getName()%></h3>
+					<h3>
+						<div id="__outdoorTitle" style="display: <%=_activity.getIsOutdoor() ? "inline" : "none" %>"><%=_activity.getName_outdoor()%></div>
+						<div id="__indoorTitle"  style="display: <%=_activity.getIsOutdoor() ? "none" : "inline" %>"><%=_activity.getName()%></div>
+					</h3>
 			</div>
 		</div>
 		<!-- End: Title -->
@@ -203,11 +206,17 @@
 		function showIndoor(){
 		    document.getElementById('__outdoor').style.display='none';
 		    document.getElementById('__indoor').style.display='inline';
+		    
+		    document.getElementById('__outdoorTitle').style.display='none';
+		    document.getElementById('__indoorTitle').style.display='inline';
 		}
 
 		function showOutdoor(){
 		    document.getElementById('__outdoor').style.display='inline';
 		    document.getElementById('__indoor').style.display='none';
+		    
+		    document.getElementById('__outdoorTitle').style.display='inline';
+		    document.getElementById('__indoorTitle').style.display='none';
 		}
 
 		     function cngAgendaOutdoor(mid, aPath, isOutdoor){
