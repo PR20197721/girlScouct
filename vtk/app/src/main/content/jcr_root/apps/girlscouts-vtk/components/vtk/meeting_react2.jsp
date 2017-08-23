@@ -1352,6 +1352,7 @@ React.createElement(ActivityPlan),
                   _click:function(r){
                       _this = this;
                       this.setState({pointerEvents:'none'});
+                      VTKDataWorkerShouldSkipNextPoll = true;
                       $.ajax({
                         url:'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.path+'&isOutdoor=true'
                       }).done(
@@ -1368,6 +1369,7 @@ React.createElement(ActivityPlan),
                   _clickfalse:function(r){
                       _this = this;
                       this.setState({pointerEvents:'none'});
+                      VTKDataWorkerShouldSkipNextPoll = true;
                       $.ajax({
                         url:'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.path+'&isOutdoor=false'
                       }).done(
