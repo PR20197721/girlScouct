@@ -386,7 +386,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
               additional_inheritable_classes : [],
               tooltip_class : '.tooltip',
               touch_close_text: 'tap to close',
-              disable_for_touch: false,
+              disable_for_touch: true,
               tip_template : function (selector, content) {
                 return '<span data-selector="' + selector + '" class="'
                   + Foundation.libs.tooltip.settings.tooltip_class.substring(1)
