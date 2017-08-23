@@ -260,7 +260,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
           }
 
           thisMeetingNotes = comment.notes;
-          console.log('set =>',thisMeetingNotes)
+      
 
 
           if(!initialize){
@@ -289,25 +289,24 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
       } //end of render
     });
 
-    var ActivityNameAlex = React.createClass({displayName: "ActivityNameAlex",
-      onClick: function() {
-       loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid="+mid+"&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')
-        },
-      render: function() {
-        return (
-
-            React.createElement("a", {href: "javascript:void(0)", onClick: this.onClick, className: this.props.selected ? "selected" : "", mid: mid, isAgenda: (this.props.item.activityNumber-1)},
-               this.props.item.name
-            )
-        );
-      }
-    });
 
 
     var ActivityName = React.createClass({displayName: "ActivityName",
+
+      getInitialState: function(){
+        return {
+          isOutdoor:this.props.item.isOutdoor
+        }
+      },
+      componentDidUpdate:function(){
+        this.props.services.set(this)
+      },
+      componentDidMount:function(){
+        this.props.services.set(this)
+      },
       render: function() {
         return (
-            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid="+mid+"&isAgenda="+(this.props.item.activityNumber-1)}, (this.props.item.isOutdoor ? this.props.item.name_outdoor : this.props.item.name) )
+            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid="+mid+"&isAgenda="+(this.props.item.activityNumber-1)}, ( this.state.isOutdoor ? this.props.item.name_outdoor : this.props.item.name) )
         );
       }
     });
@@ -859,44 +858,7 @@ React.createElement(ActivityPlan),
 
 
 
-        // return (
-        //         React.createElement(
-        //           "li",
-        //           null,
-        //           React.createElement(
-        //             "a",
-        //               {
-        //                 href: this.props.refId,
-        //                 target: "_blank",
-        //                 title: "View Meeting Aids",
-        //                 className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ this.props.extension
-        //               }, 
-        //               this.props.title,
-        //               (this.props.item.isOutdoorRelated)? React.createElement(
-        //                 "img",
-        //                 {
-        //                   src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
-        //                   style:{
-        //                     width:'9%',
-        //                     "margin-left":"15px"
-        //                   }
-        //                 }
-        //               ): React.createElement(
-        //                 "span",
-        //                 null
-        //               )
-        //             ),
-        //               React.createElement(
-        //                 "p",
-        //                 {
-        //                   className: "info"
-        //                 },
-        //                 this.props.description
-        //               )
-        //         )
-        // );
-      }
-    });
+       
 
     var NavDirectionPrev = React.createClass({displayName: "Prev Date",
         render: function() {
@@ -1054,10 +1016,23 @@ React.createElement(ActivityPlan),
 
     var SortableListItems1 = React.createClass({displayName: "SortableListItems1",
       render: function() {
+        //Services for hold the state of the Simpbling Component.
+        function ServicesForOutDoorState() {
+          this.component = undefined;
+          //Triger the change the state and recive a objet.
+          this.outDoor = function (state) {
+            this.component.setState(state)
+          }
+          //Past to the servicesthe component to apply change 
+          this.set = function(component){
+            this.component = component
+          }
+        }
+
         if( this.props.data!=null ){
           agendaSched=null;
 
-
+            var servicesArrayforOutdoorState = [];
             var _that = this;
           return (
 
@@ -1065,7 +1040,8 @@ React.createElement(ActivityPlan),
                React.createElement("ul", null,
 
                   this.props.data.map((function(item, i) {
-
+             
+                   servicesArrayforOutdoorState.push(new ServicesForOutDoorState());
                   return React.createElement("li", {className: ( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1 && thisMeetingType!='MEETINGCANCELED') ? "row ui-state-default" :"ui-state-disabled" , key: item.activityNumber, id: item.activityNumber},
                     React.createElement("div", {className: "wrapper clearfix"},
 
@@ -1075,7 +1051,7 @@ React.createElement(ActivityPlan),
 
 
                       React.createElement("div", {className: "large-3 medium-3 small-3 columns small-push-1 large-push-2"},
-                    		  React.createElement(Outdoor,{item:item}),
+                    		  React.createElement(Outdoor,{item:item,services:servicesArrayforOutdoorState[i]}),
                     		  
                     		  
                         React.createElement("span", null,   moment(thisMeetingDate).format('YYYY') <1978 ? item.activityNumber : moment.tz(getAgendaTime( item.duration ), "America/New_York").format("h:mm"), " ")
@@ -1083,7 +1059,7 @@ React.createElement(ActivityPlan),
 
                       ),
                         React.createElement("div", {className: "large-17 columns medium-17 small-17 small-push-1 large-push-1"},
-                        React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})
+                        React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1, services: servicesArrayforOutdoorState[i]})
                         ),
                         React.createElement("div", {className: "large-3 medium-3 small-3 columns"},
                           React.createElement("span", null, ":", item.duration<10 ? ("0"+item.duration) : item.duration)
@@ -1375,22 +1351,32 @@ React.createElement(ActivityPlan),
                   displayName: "Outdoor",
                   _click:function(r){
                       _this = this;
+                      this.setState({pointerEvents:'none'});
                       $.ajax({
                         url:'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.path+'&isOutdoor=true'
                       }).done(
                         function(e){
                           _this.setState({isOutdoor:true});
+                          _this.props.services.outDoor({isOutdoor:true});
+                          setTimeout(function(){                           
+                            _this.setState({pointerEvents:'auto'});                         
+                          },150)
                         }
                       );
 
                   },
                   _clickfalse:function(r){
                       _this = this;
+                      this.setState({pointerEvents:'none'});
                       $.ajax({
                         url:'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.path+'&isOutdoor=false'
                       }).done(
                         function(e){
                           _this.setState({isOutdoor:false});
+                          _this.props.services.outDoor({isOutdoor:false});
+                          setTimeout(function(){                        
+                            _this.setState({pointerEvents:'auto'});                       
+                          },150)                          
                         }
                       );
 
@@ -1399,7 +1385,8 @@ React.createElement(ActivityPlan),
 
                     return {
                               isOutdoor: this.props.item.isOutdoor,
-                              isOutdoorAvailable: this.props.item.isOutdoorAvailable
+                              isOutdoorAvailable: this.props.item.isOutdoorAvailable,
+                              pointerEvents:'auto'
                             };
                     },
                   render: function() {
@@ -1407,16 +1394,12 @@ React.createElement(ActivityPlan),
                     outDoorIconList.add(this.props.item.path,this.props.item,this);
 
                     var _style = {
-
                         width: "30px",
-
                         cursor: 'pointer'
                     }
 
                    if( this.state.isOutdoor ){
-
                         return (
-
                           React.createElement(
                               'span',
                               { style: {
@@ -1425,9 +1408,10 @@ React.createElement(ActivityPlan),
                                   "left": "-38px",
                                   "cursor": "pointer",
                                   "border": "none",
-                                  "paddingTop": "8px"
+                                  "paddingTop": "8px",
+                                  "pointerEvents":this.state.pointerEvents
                                 },
-                                  onClick: this._click,
+                                  onClick: this._clickfalse,
                                   "data-tooltip":true,
                                   "aria-haspopup":true,
                                   className:"has-tip tip-top radius",
@@ -1436,18 +1420,15 @@ React.createElement(ActivityPlan),
                             'img',{
                               src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
                               style:_style,
-                              onClick: this._clickfalse,
+                              // onClick: this._clickfalse,
                               alt:'',
                               title:'',         
                            
                             }))
 
 
-// API for toggle :'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=false'
-//                 '/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=true'
                         );
                     }else if(this.state.isOutdoorAvailable){
-
                         return (
                             React.createElement(
                               'span',
@@ -1457,7 +1438,8 @@ React.createElement(ActivityPlan),
                                   "left": "-38px",
                                   "cursor": "pointer",
                                   "border": "none",
-                                  "paddingTop": "8px"
+                                  "paddingTop": "8px",
+                                  "pointerEvents":this.state.pointerEvents
                                 },
                                   onClick: this._click,
                                   "data-tooltip":true,
@@ -1485,7 +1467,7 @@ React.createElement(ActivityPlan),
                                       "textAlign":"center",
                                       "fontSize":'11px',
                                     },
-                                    onClick: this._click
+                                    // onClick: this._click
                                   },
                                   "Select"
                                 )
