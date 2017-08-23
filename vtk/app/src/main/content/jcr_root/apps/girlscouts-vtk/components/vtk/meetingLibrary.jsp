@@ -275,6 +275,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 	  <p class="instruction columns small-22 small-centered">
 	  <%= instruction %>
 	  </p>
+	  <p class="columns small-22 small-centered" style="margin-bottom:0px"><span><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png" width="30px" vertical-align="baseline" /></span> = Outside activity </p>
 	  <div id="cngMeet"></div>
 
 
