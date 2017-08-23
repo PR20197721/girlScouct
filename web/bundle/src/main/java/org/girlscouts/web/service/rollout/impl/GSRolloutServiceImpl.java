@@ -322,9 +322,11 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 						pagesToActivate.add(targetPath);
 						rolloutLog.add("Page added to activation/cache build queue");
 					} else {
+						notifyCouncils.add(targetPath);
 						rolloutLog.add("The page has Break Inheritance checked off. Will not roll out");
 					}
 				} else {
+					notifyCouncils.add(targetPath);
 					rolloutLog.add("Resource not found in this council.");
 					rolloutLog.add("Will NOT rollout to this page");
 				}
