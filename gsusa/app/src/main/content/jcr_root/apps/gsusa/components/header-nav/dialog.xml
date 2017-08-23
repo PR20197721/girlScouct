@@ -25,6 +25,20 @@
                     </multi>
                 </items>
             </first>
+            <options
+                jcr:primaryType="cq:Widget"
+                title="Options"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <display-sticky-nav
+                    	jcr:primaryType="cq:Widget"
+                        fieldDescription="Will display a sticky nav when scrolling down the page."
+                        fieldLabel="Display Sticky Navigation"
+                        name="./displayStickyNav"
+                        type="checkbox"
+                        xtype="selection"/>
+                </items>
+            </options>
         </items>
     </items>
 </jcr:root>
