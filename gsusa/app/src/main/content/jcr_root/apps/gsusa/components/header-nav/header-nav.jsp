@@ -81,14 +81,33 @@
 
 
 <!-- OFF CANVAS MENU BAR -->
-	<nav class="tab-bar hide-for-medium-up">
-		<section>
+	<nav class="tab-bar hide-for-medium-up"><%
+        String imgAlt = properties.get("imageAlt", "");
+        String headerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/header-nav";  
+        String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/logo";
+        Boolean sticky = false;
+        try {
+            ValueMap headerNavProps = resourceResolver.resolve(headerNavPath).adaptTo(ValueMap.class);
+            sticky = headerNavProps.get("displayStickyNav", false);
+            if (sticky) {
+                String stickyImgPath = "";
+                try {
+                    Resource logo = resourceResolver.resolve(logoPath);
+                    stickyImgPath = ((ValueMap)logo.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
+                    %><div class="logo">
+                        <img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
+                    </div><%
+                } catch (Exception e) {}
+            }
+        } catch(Exception e) {}
+        %><section class="search-section">
 		   <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
 		</section>
-		<section class="right-small">
+		<section class="toggle-section right-small">
 			<a class="right-off-canvas-toggle menu-icon" role="button" href="#"><span></span></a>
 		</section>
 	</nav>
+    <div class="tab-bar-placeholder"></div>
 <!-- END NAV.TAB-BAR HIDE-FOR-LARGE-UP -->
 
 	<!--  OFF CANVAS -->
