@@ -789,6 +789,21 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 				}else{
 					$('#vtk-dropdown-filter-2').hide();
 				}
+
+				$(document).foundation({
+					tooltip: {
+						selector : '.has-tip',
+						additional_inheritable_classes : [],
+						tooltip_class : '.tooltip',
+						touch_close_text: 'tap to close',
+						disable_for_touch: false,
+						tip_template : function (selector, content) {
+						return '<span data-selector="' + selector + '" class="'
+							+ Foundation.libs.tooltip.settings.tooltip_class.substring(1)
+							+ '">' + content + '<span class="nub"></span></span>';
+						}
+					}
+					});
 			}
 		});
 
@@ -899,7 +914,8 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 					   <div style="display:table-cell;height:inherit;vertical-align:middle;">
-						  <p class="title"><%=meeting.getName()%>  <%=(outdoorMeetingIds.contains(meeting.getId()) ? "<img src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png\">" : "")%></p>
+
+						<p class="title"><%=meeting.getName()%>  <%=(outdoorMeetingIds.contains(meeting.getId()) ? "<img data-tooltip aria-haspopup='true' class='has-tip tip-top radius' title='<b>Get Girls Outside!</b>' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png\">" : "")%></p>
 						 
 						<p class="blurb"><%=meeting.getBlurb() %></p>
 						<p class="tags"> 
@@ -923,7 +939,6 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 					   <div style="display:table-cell;height:inherit;vertical-align:middle; text-align:center;">
-
 
 				<% if( request.getParameter("newCustYr")!=null || !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
 
@@ -1351,3 +1366,10 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 <%}catch(Exception e){e.printStackTrace();}%>
+
+
+<style>
+	.tooltip .nub{
+		left:10px; //hack for look fine in page
+	}
+</style>
