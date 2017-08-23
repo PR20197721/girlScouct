@@ -38,8 +38,8 @@ try{
 
   String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
-	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);//, ageLevel);
-
+	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);
+	Set<String> outdoorMeetingIds = meetingUtil.getOutdoorMeetings(user, troop);
 	
 java.util.List<Meeting> extraInfoMeetings= new java.util.ArrayList();
 for( int i=0;i<meetings.size();i++){
@@ -93,7 +93,7 @@ meetings.addAll(extraInfoMeetings);
     
     if (isWarning) {
   %>
-  <div class="small-4 medium-2 large-2 columns">
+  <div class="small-4 medium-2 large-2 columns meeting_library">
 	<div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></div>
 	</div>
 	<div class="small-20 medium-22 large-22 columns">
@@ -275,6 +275,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 	  <p class="instruction columns small-22 small-centered">
 	  <%= instruction %>
 	  </p>
+	  <p class="columns small-22 small-centered" style="margin-bottom:0px"><span><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png" width="30px" vertical-align="baseline" /></span> = Outside activity </p>
 	  <div id="cngMeet"></div>
 
 
@@ -789,6 +790,21 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 				}else{
 					$('#vtk-dropdown-filter-2').hide();
 				}
+
+				$(document).foundation({
+					tooltip: {
+						selector : '.has-tip',
+						additional_inheritable_classes : [],
+						tooltip_class : '.tooltip',
+						touch_close_text: 'tap to close',
+						disable_for_touch: true,
+						tip_template : function (selector, content) {
+						return '<span data-selector="' + selector + '" class="'
+							+ Foundation.libs.tooltip.settings.tooltip_class.substring(1)
+							+ '">' + content + '<span class="nub"></span></span>';
+						}
+					}
+					});
 			}
 		});
 
@@ -899,7 +915,8 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 					   <div style="display:table-cell;height:inherit;vertical-align:middle;">
-						  <p class="title"><%=meeting.getName()%>  </p>
+
+						<p class="title"><%=meeting.getName()%>  <%=(outdoorMeetingIds.contains(meeting.getId()) ? "<img data-tooltip aria-haspopup='true' class='has-tip tip-top radius meeting_library' title='<b>Get Girls Outside!</b>' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png\">" : "")%></p>
 						 
 						<p class="blurb"><%=meeting.getBlurb() %></p>
 						<p class="tags"> 
@@ -923,7 +940,6 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 					   <div style="display:table-cell;height:inherit;vertical-align:middle; text-align:center;">
-
 
 				<% if( request.getParameter("newCustYr")!=null || !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
 
@@ -1351,3 +1367,10 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 <%}catch(Exception e){e.printStackTrace();}%>
+
+
+<style>
+	.tooltip span.nub{
+		left:10px; //hack for look fine in page
+	}
+</style>

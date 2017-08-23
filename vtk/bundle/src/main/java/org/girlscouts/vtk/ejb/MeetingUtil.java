@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -1562,6 +1563,8 @@ public class MeetingUtil {
         }
 	}
 	
-	
+	public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException{
+		return meetingDAO.getOutdoorMeetings( user,  troop);
+	}
 	
 }// edn class
