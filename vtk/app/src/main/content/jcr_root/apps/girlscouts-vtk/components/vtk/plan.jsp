@@ -103,7 +103,7 @@
 
 
 
-  <div id="yearPlanMeetings" class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan" : "vtk-pastYear-plan" %>">
+  <div id="yearPlanMeetings" class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan year_plan" : "vtk-pastYear-plan year_plan" %>">
 
 
     <div id="thePlan">
@@ -584,7 +584,7 @@ var src="javascript:newLocCal()";
 
   <!-- Hack for NUB in Tooltip -->
 <style>
-  .tooltip .nub{
+  .tooltip span.nub{
     left: 18px;
   } 
 </style>

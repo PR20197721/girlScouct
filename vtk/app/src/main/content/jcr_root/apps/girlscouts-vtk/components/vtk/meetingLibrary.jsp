@@ -93,7 +93,7 @@ meetings.addAll(extraInfoMeetings);
     
     if (isWarning) {
   %>
-  <div class="small-4 medium-2 large-2 columns">
+  <div class="small-4 medium-2 large-2 columns meeting_library">
 	<div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></div>
 	</div>
 	<div class="small-20 medium-22 large-22 columns">
@@ -915,7 +915,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 					   <div style="display:table-cell;height:inherit;vertical-align:middle;">
 
-						<p class="title"><%=meeting.getName()%>  <%=(outdoorMeetingIds.contains(meeting.getId()) ? "<img data-tooltip aria-haspopup='true' class='has-tip tip-top radius' title='<b>Get Girls Outside!</b>' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png\">" : "")%></p>
+						<p class="title"><%=meeting.getName()%>  <%=(outdoorMeetingIds.contains(meeting.getId()) ? "<img data-tooltip aria-haspopup='true' class='has-tip tip-top radius meeting_library' title='<b>Get Girls Outside!</b>' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png\">" : "")%></p>
 						 
 						<p class="blurb"><%=meeting.getBlurb() %></p>
 						<p class="tags"> 
@@ -1369,7 +1369,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 <style>
-	.tooltip .nub{
+	.tooltip span.nub{
 		left:10px; //hack for look fine in page
 	}
 </style>
