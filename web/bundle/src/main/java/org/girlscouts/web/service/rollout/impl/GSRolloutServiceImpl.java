@@ -614,55 +614,50 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			if (!source.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				if (notifyCouncils != null && !notifyCouncils.isEmpty()) {
 					for (String targetPath : notifyCouncils) {
-						Resource target = rr.resolve(targetPath);
-						if (!target.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-							if (message != null && message.trim().length() > 0) {
+						if (message != null && message.trim().length() > 0) {
+							try {
+								String branch = PageActivationUtil.getBranch(targetPath);
+								// get the email addresses configured in
+								// page properties of the council's homepage
+								Page homepage = rr.resolve(branch + "/en").adaptTo(Page.class);
+								ValueMap valuemap = homepage.getProperties();
+								List<String> toAddresses = PageActivationUtil
+										.getCouncilEmails(homepage.adaptTo(Node.class));
+								log.error("Girlscouts Rollout Service: sending email to " + branch.substring(9)
+										+ " emails:" + toAddresses.toString());
+								String body = generateCouncilNotification(srcPath, targetPath, valuemap, message);
 								try {
-									String branch = PageActivationUtil.getBranch(targetPath);
-									// get the email addresses configured in
-									// page properties of the council's homepage
-									Page homepage = rr.resolve(branch + "/en").adaptTo(Page.class);
-									ValueMap valuemap = homepage.getProperties();
-									List<String> toAddresses = PageActivationUtil
-											.getCouncilEmails(homepage.adaptTo(Node.class));
-									log.error("Girlscouts Rollout Service: sending email to " + branch.substring(9)
-											+ " emails:" + toAddresses.toString());
-									String body = generateCouncilNotification(srcPath, targetPath, valuemap, message);
-									try {
-										if (isTestMode) {
-											councilNotificationLog.add("Notification is running in test mode!");
-											councilNotificationLog.add("Replacing " + toAddresses.toString());
-											toAddresses = PageActivationUtil.getReportEmails(rr);
-											councilNotificationLog.add("with " + toAddresses.toString());
-											gsEmailService.sendEmail(subject, toAddresses, body);
-										} else {
-											gsEmailService.sendEmail(subject, toAddresses, body);
-										}
-										councilNotificationLog.add("Notification for " + branch.substring(9)
-												+ " council sent to emails:" + toAddresses.toString());
-										councilNotificationLog.add("Notification Email Body: \n" + body);
-										try {
-											dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.TRUE);
-											dateRolloutNode.getSession().save();
-										} catch (RepositoryException e1) {
-											log.error("Girlscouts Rollout Service encountered error: ", e1);
-										}
-									} catch (Exception e) {
-										log.error("Girlscouts Rollout Service encountered error: ", e);
-										try {
-											dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT,
-													Boolean.FALSE);
-											dateRolloutNode.getSession().save();
-										} catch (RepositoryException e1) {
-											log.error("Girlscouts Rollout Service encountered error: ", e1);
-										}
-										councilNotificationLog
-												.add("Failed to send notification for " + branch.substring(9)
-														+ " council to emails:" + toAddresses.toString());
+									if (isTestMode) {
+										councilNotificationLog.add("Notification is running in test mode!");
+										councilNotificationLog.add("Replacing " + toAddresses.toString());
+										toAddresses = PageActivationUtil.getReportEmails(rr);
+										councilNotificationLog.add("with " + toAddresses.toString());
+										gsEmailService.sendEmail(subject, toAddresses, body);
+									} else {
+										gsEmailService.sendEmail(subject, toAddresses, body);
 									}
-								} catch (WCMException e) {
+									councilNotificationLog.add("Notification for " + branch.substring(9)
+											+ " council sent to emails:" + toAddresses.toString());
+									councilNotificationLog.add("Notification Email Body: \n" + body);
+									try {
+										dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.TRUE);
+										dateRolloutNode.getSession().save();
+									} catch (RepositoryException e1) {
+										log.error("Girlscouts Rollout Service encountered error: ", e1);
+									}
+								} catch (Exception e) {
 									log.error("Girlscouts Rollout Service encountered error: ", e);
+									try {
+										dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.FALSE);
+										dateRolloutNode.getSession().save();
+									} catch (RepositoryException e1) {
+										log.error("Girlscouts Rollout Service encountered error: ", e1);
+									}
+									councilNotificationLog.add("Failed to send notification for " + branch.substring(9)
+											+ " council to emails:" + toAddresses.toString());
 								}
+							} catch (WCMException e) {
+								log.error("Girlscouts Rollout Service encountered error: ", e);
 							}
 						}
 					}
