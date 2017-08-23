@@ -240,11 +240,17 @@
               }
 
                var options = {
-                 className: 'outdoor-icon',
+                 className: 'outdoor-icon has-tip tip-top radius',
                  src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/'+imgName,
                  style:{
-                    width:'45px'
-                 }
+                    width:'45px',
+                    border:'none',
+                    cursor:'pointer',
+                    paddingTop:'3px'
+                 },
+                 "data-tooltip":true,
+                 "aria-haspopup":true,
+                 title:"<b>Get Girls Outside!</b>"
                }
 
     		   if (isOutdoorAvailable) {
@@ -255,8 +261,11 @@
     	})
 
 
-       var MeetingComponent = React.createClass({displayName: "MeetingComponent",
-        render: function() {
+
+       var MeetingComponent = React.createClass({
+        displayName: "MeetingComponent",
+
+        render: function() {  
             if( this.props.data!=null){
                 var keys =  Object.keys( this.props.data );
                 var obj = this.props.data;
@@ -371,9 +380,22 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
        }
 
+       $(document).foundation({
+            tooltip: {
+              selector : '.has-tip',
+              additional_inheritable_classes : [],
+              tooltip_class : '.tooltip',
+              touch_close_text: 'tap to close',
+              disable_for_touch: false,
+              tip_template : function (selector, content) {
+                return '<span data-selector="' + selector + '" class="'
+                  + Foundation.libs.tooltip.settings.tooltip_class.substring(1)
+                  + '">' + content + '<span class="nub"></span></span>';
+              }
+            }
+          });
 
 
-       
 
 
           var dom = $(ReactDOM.findDOMNode(this));
@@ -557,4 +579,14 @@ var src="javascript:newLocCal()";
 
     </div>
   </div>
+
+
+
+  <!-- Hack for NUB in Tooltip -->
+<style>
+  .tooltip .nub{
+    left: 18px;
+  } 
+</style>
+
 <%@include file="include/bodyBottom.jsp" %>
