@@ -29,7 +29,7 @@
 
 
 <div class="vtk-banner-image">
-	<a href="#" data-reveal-id="vtk-banner-modal" data-effect="modal" data-reveal-init data-options="animation:'none'" >
+	<a href="#" data-reveal-id="vtk-banner-modal-<%=resource.getName()%>" data-effect="modal" data-reveal-init data-options="animation:'none'" >
 		<img src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
 	</a>
 
@@ -40,7 +40,7 @@
 </div>
 
 
-<div id="vtk-banner-modal" data-reveal data-options="close_on_background_click:false; close_on_esc: false;" class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+<div id="vtk-banner-modal-<%=resource.getName()%>" data-reveal data-options="close_on_background_click:false; close_on_esc: false;" class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 	<div class="header clearfix">
 		<h3 id="modalTitle"><%=modalTitle %></h3>
 			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
