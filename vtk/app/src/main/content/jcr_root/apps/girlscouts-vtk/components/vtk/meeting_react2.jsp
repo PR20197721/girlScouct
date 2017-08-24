@@ -773,7 +773,6 @@ React.createElement(ActivityPlan),
           return (function(){
 
             if(_context.props.extension === "movie"){
-              debugger;
               return React.createElement(
                 "li",
                 null,
@@ -1473,7 +1472,6 @@ React.createElement(ActivityPlan),
 
 
   function getAgendaTime( duration ){
-    debugger;
    if( agendaSched==null ){
       agendaSched= thisMeetingDate.getTime();
    }
