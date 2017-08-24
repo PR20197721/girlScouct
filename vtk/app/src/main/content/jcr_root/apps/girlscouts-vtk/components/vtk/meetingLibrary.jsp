@@ -272,10 +272,16 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 	   <%}//end else %>  
   <div class="scroll" style="">
 	<div class="content meeting-library row">
-	  <p class="instruction columns small-22 small-centered">
-	  <%= instruction %>
-	  </p>
-	  <p class="columns small-22 small-centered" style="margin-bottom:0px"><span><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png" width="30px" vertical-align="baseline" /></span> = Outside activity </p>
+	<div class="columns small-22 small-centered">
+		<p class="instruction " style="float:left;">
+	 		 <span><%= instruction %></span>
+			  
+	  	</p>
+	  	<p class="" style="margin-bottom:0px; float:right">
+		  <span><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png" width="30px" vertical-align="baseline" />
+		  </span>= <i>Get Girls Outside!</i> Activity Option</p>	
+	</div>
+	 
 	  <div id="cngMeet"></div>
 
 
@@ -916,7 +922,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 					   <div style="display:table-cell;height:inherit;vertical-align:middle;">
 
-						<p class="title"><%=meeting.getName()%>  <%=(outdoorMeetingIds.contains(meeting.getId()) ? "<img data-tooltip aria-haspopup='true' class='has-tip tip-top radius meeting_library' title='<b>Get Girls Outside!</b>' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png\">" : "")%></p>
+						<p class="title"><%=meeting.getName()%>  <%=(outdoorMeetingIds.contains(meeting.getId()) ? "<img data-tooltip aria-haspopup='true' class='has-tip tip-top radius meeting_library' title='<b>Get Girls Outside!</b>' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png\">" : "")%></p>
 						 
 						<p class="blurb"><%=meeting.getBlurb() %></p>
 						<p class="tags"> 
