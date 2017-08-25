@@ -195,6 +195,12 @@ var VTKDataWorker;
 		    }
 		}
 		
+		if (typeof VTKDataWorkerShouldSkipNextPoll !== 'undefined' && VTKDataWorkerShouldSkipNextPoll) {
+			VTKDataWorkerShouldSkipNextPoll = false;
+			return;
+		}
+		
+	
         $.ajax({
             url: url,
             dataType: 'json',

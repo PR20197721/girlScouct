@@ -260,7 +260,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
           }
 
           thisMeetingNotes = comment.notes;
-          console.log('set =>',thisMeetingNotes)
+      
 
 
           if(!initialize){
@@ -289,25 +289,13 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
       } //end of render
     });
 
-    var ActivityNameAlex = React.createClass({displayName: "ActivityNameAlex",
-      onClick: function() {
-       loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid="+mid+"&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')
-        },
-      render: function() {
+
+
+    var ActivityName = React.createClass({
+      displayName: "ActivityName",
+      render: function () {
         return (
-
-            React.createElement("a", {href: "javascript:void(0)", onClick: this.onClick, className: this.props.selected ? "selected" : "", mid: mid, isAgenda: (this.props.item.activityNumber-1)},
-               this.props.item.name
-            )
-        );
-      }
-    });
-
-
-    var ActivityName = React.createClass({displayName: "ActivityName",
-      render: function() {
-        return (
-            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid="+mid+"&isAgenda="+(this.props.item.activityNumber-1)}, (this.props.item.isOutdoor ? this.props.item.name_outdoor : this.props.item.name) )
+          React.createElement("a", { "data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=" + mid + "&isAgenda=" + (this.props.item.activityNumber - 1) }, (this.props.item.isOutdoor ? this.props.item.name_outdoor : this.props.item.name))
         );
       }
     });
@@ -428,7 +416,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
            );
          }
        });
-
+      
 
     var AddMeeting = React.createClass({displayName: "Add Meeting",
         render: function() {
@@ -785,7 +773,6 @@ React.createElement(ActivityPlan),
           return (function(){
 
             if(_context.props.extension === "movie"){
-              debugger;
               return React.createElement(
                 "li",
                 null,
@@ -856,47 +843,12 @@ React.createElement(ActivityPlan),
               )
             }
           }())
-
-
-
-        // return (
-        //         React.createElement(
-        //           "li",
-        //           null,
-        //           React.createElement(
-        //             "a",
-        //               {
-        //                 href: this.props.refId,
-        //                 target: "_blank",
-        //                 title: "View Meeting Aids",
-        //                 className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ this.props.extension
-        //               }, 
-        //               this.props.title,
-        //               (this.props.item.isOutdoorRelated)? React.createElement(
-        //                 "img",
-        //                 {
-        //                   src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
-        //                   style:{
-        //                     width:'9%',
-        //                     "margin-left":"15px"
-        //                   }
-        //                 }
-        //               ): React.createElement(
-        //                 "span",
-        //                 null
-        //               )
-        //             ),
-        //               React.createElement(
-        //                 "p",
-        //                 {
-        //                   className: "info"
-        //                 },
-        //                 this.props.description
-        //               )
-        //         )
-        // );
-      }
+        }
     });
+
+
+
+       
 
     var NavDirectionPrev = React.createClass({displayName: "Prev Date",
         render: function() {
@@ -1052,114 +1004,124 @@ React.createElement(ActivityPlan),
         }
     });
 
-    var SortableListItems1 = React.createClass({displayName: "SortableListItems1",
-      render: function() {
-        if( this.props.data!=null ){
-          agendaSched=null;
+
+    var AgendaItem = React.createClass({
+        displayName: 'item',
+        getInitialState: function () {
+          this.props.item['durationTotal']= getAgendaTime(this.props.item.duration);
+          return this.props.item;
+        },
+        changeStatusIndoorOutdoor: function (newState) {
+          this.state['isOutdoor'] = newState.isOutdoor;
+          this.setState(this.state);
+        },
+
+        render: function () {
+          return React.createElement("li", { className: (helper.permissions != null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>') != -1 && thisMeetingType != 'MEETINGCANCELED') ? "row ui-state-default" : "ui-state-disabled", key: this.state.activityNumber, id: this.state.activityNumber },
+            React.createElement("div", { className: "wrapper clearfix" },
 
 
-            var _that = this;
-          return (
+
+              React.createElement("img", { className: (moment(thisMeetingDate) < moment(new Date()) && (moment(thisMeetingDate).get('year') > 2000)) ? "touchscroll hide" : "touchscroll <%=VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png" }),
 
 
-               React.createElement("ul", null,
-
-                  this.props.data.map((function(item, i) {
-
-                  return React.createElement("li", {className: ( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1 && thisMeetingType!='MEETINGCANCELED') ? "row ui-state-default" :"ui-state-disabled" , key: item.activityNumber, id: item.activityNumber},
-                    React.createElement("div", {className: "wrapper clearfix"},
+              React.createElement("div", { className: "large-3 medium-3 small-3 columns small-push-1 large-push-2" },
+                React.createElement(Outdoor, { item: this.state, changeStatusIndoorOutdoor: this.changeStatusIndoorOutdoor }),
 
 
-
-                React.createElement("img", {className: (moment(thisMeetingDate) < moment( new Date()) && (moment(thisMeetingDate).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
-
-
-                      React.createElement("div", {className: "large-3 medium-3 small-3 columns small-push-1 large-push-2"},
-                    		  React.createElement(Outdoor,{item:item}),
-                    		  
-                    		  
-                        React.createElement("span", null,   moment(thisMeetingDate).format('YYYY') <1978 ? item.activityNumber : moment.tz(getAgendaTime( item.duration ), "America/New_York").format("h:mm"), " ")
+                React.createElement("span", null, moment(thisMeetingDate).format('YYYY') < 1978 ? this.props.item.activityNumber : moment.tz(this.state.durationTotal, "America/New_York").format("h:mm"), " ")
 
 
-                      ),
-                        React.createElement("div", {className: "large-17 columns medium-17 small-17 small-push-1 large-push-1"},
-                        React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})
-                        ),
-                        React.createElement("div", {className: "large-3 medium-3 small-3 columns"},
-                          React.createElement("span", null, ":", item.duration<10 ? ("0"+item.duration) : item.duration)
-                        )
-                      )
-                    );
-                            }))
-
-
+              ),
+              React.createElement("div", { className: "large-17 columns medium-17 small-17 small-push-1 large-push-1" },
+                React.createElement(ActivityName, { item: this.state, key: this.state.uid, selected: this.state.uid, itemSelected: this.setSelectedItem, activityNumber: this.state.activityNumber - 1 })
+              ),
+              React.createElement("div", { className: "large-3 medium-3 small-3 columns" },
+                React.createElement("span", null, ":", this.state.duration < 10 ? ("0" + this.state.duration) : this.state.duration)
               )
-
-
-      );
-        }else{
-          return React.createElement("div", null, React.createElement("img", {src: "/etc/designs/girlscouts-vtk/images/loading.gif"}))
+            )
+          );
         }
-      },
-      componentDidMount: function() {     
-    	  try{
-           if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1){
-                replaceMeetingHref(thisMeetingPath, moment(thisMeetingDate).valueOf());
-           }
-           resizeWindow();
-       }catch(err){}
+    })
 
-       if (Modernizr.touch) {
+    var SortableListItems1 = React.createClass({
+        displayName: "SortableListItems1",
+        render: function () {
+          //Services for hold the state of the Simpbling Component.
+          if (this.props.data != null) {
+            agendaSched = null;
+
+            var servicesArrayforOutdoorState = [];
+            var _that = this;
+            return (
+              React.createElement("ul", { key: Date.now() },
+                this.props.data.map((function (item, i) {
+                  return React.createElement(AgendaItem, { item: item, key: item.uid + Date.now() })
+                }))
+              )
+            );
+          } else {
+            return React.createElement("div", null, React.createElement("img", { src: "/etc/designs/girlscouts-vtk/images/loading.gif" }))
+          }
+        },
+        componentDidMount: function () {
+          try {
+            if (helper.permissions != null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>') != -1) {
+              replaceMeetingHref(thisMeetingPath, moment(thisMeetingDate).valueOf());
+            }
+            resizeWindow();
+          } catch (err) { }
+
+          if (Modernizr.touch) {
             scrollTarget = ".touchscroll";
           }
 
-        var dom = $(ReactDOM.findDOMNode(this));
-        var onReorder = this.props.onReorder;
-        dom.sortable({
+          var dom = $(ReactDOM.findDOMNode(this));
+          var onReorder = this.props.onReorder;
+          dom.sortable({
             items: "li:not(.ui-state-disabled)",
-            delay:150,
+            delay: 150,
             distance: 5,
-            opacity: 0.5 ,
+            opacity: 0.5,
             scroll: true,
-            scrollSensitivity: 10 ,
-            tolerance: "intersect" ,
+            scrollSensitivity: 10,
+            tolerance: "intersect",
             handle: scrollTarget,
-            helper:'clone',
-          stop: function (event, ui) {
-            var order = dom.sortable("toArray", {attribute: "id"});
-            var yy  = order.toString().replace('"','');
-            repositionActivity1(thisMeetingRefId , yy, this.props.forceReload);
-            onReorder(order);
-          }.bind(this)
-        });
-      },
-      componentWillUpdate: function() {
-        var dom = $(ReactDOM.findDOMNode(this));
-        if (Modernizr.touch) {
-            scrollTarget = ".touchscroll";
-          }
-
-        var onReorder = this.props.onReorder;
-        dom.sortable({
-            items: "li:not(.ui-state-disabled)",
-            delay:150,
-            distance: 5,
-            opacity: 0.5 ,
-            scroll: true,
-            scrollSensitivity: 10 ,
-            tolerance: "intersect" ,
-            handle: scrollTarget,
-            helper:'clone',
+            helper: 'clone',
             stop: function (event, ui) {
-              var order = dom.sortable("toArray", {attribute: "id"});
-              var yy  = order.toString().replace('"','');
-              repositionActivity1(thisMeetingRefId , yy, this.props.forceReload);
+              var order = dom.sortable("toArray", { attribute: "id" });
+              var yy = order.toString().replace('"', '');
+              repositionActivity1(thisMeetingRefId, yy, this.props.forceReload);
               onReorder(order);
             }.bind(this)
-        });
-      }
-    });
+          });
+        },
+        componentWillUpdate: function () {
+          var dom = $(ReactDOM.findDOMNode(this));
+          if (Modernizr.touch) {
+            scrollTarget = ".touchscroll";
+          }
 
+          var onReorder = this.props.onReorder;
+          dom.sortable({
+            items: "li:not(.ui-state-disabled)",
+            delay: 150,
+            distance: 5,
+            opacity: 0.5,
+            scroll: true,
+            scrollSensitivity: 10,
+            tolerance: "intersect",
+            handle: scrollTarget,
+            helper: 'clone',
+            stop: function (event, ui) {
+              var order = dom.sortable("toArray", { attribute: "id" });
+              var yy = order.toString().replace('"', '');
+              repositionActivity1(thisMeetingRefId, yy, this.props.forceReload);
+              onReorder(order);
+            }.bind(this)
+          });
+        }
+    });
 
 
       function repositionActivity1(meetingPath,newVals, callback){
@@ -1371,133 +1333,121 @@ React.createElement(ActivityPlan),
 
    })
 
-   var Outdoor = React.createClass({
-                  displayName: "Outdoor",
-                  _click:function(r){
-                      _this = this;
-                      $.ajax({
-                        url:'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.path+'&isOutdoor=true'
-                      }).done(
-                        function(e){
-                          _this.setState({isOutdoor:true});
-                        }
-                      );
+  var Outdoor = React.createClass({
+    displayName: "Outdoor",
+    _click: function (r) {
+      _this = this;
+      VTKDataWorkerShouldSkipNextPoll = true;
+      $.ajax({
+        url: '/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid=' + mid + '&aid=' + this.props.item.path + '&isOutdoor=true'
+      }).done(
+        function (e) {
+          _this.props.changeStatusIndoorOutdoor({ isOutdoor: true });
+        }
+        );
+    },
+    _clickfalse: function (r) {
+      _this = this;
+      VTKDataWorkerShouldSkipNextPoll = true;
+      $.ajax({
+        url: '/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid=' + mid + '&aid=' + this.props.item.path + '&isOutdoor=false'
+      }).done(
+        function (e) {
+          _this.props.changeStatusIndoorOutdoor({ isOutdoor: false });
+        }
+      );
+    },   
+    render: function () {
 
-                  },
-                  _clickfalse:function(r){
-                      _this = this;
-                      $.ajax({
-                        url:'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.path+'&isOutdoor=false'
-                      }).done(
-                        function(e){
-                          _this.setState({isOutdoor:false});
-                        }
-                      );
+      outDoorIconList.add(this.props.item.path, this.props.item, this);
 
-                  },
-                  getInitialState: function(){
+      var _style = {
+        width: "30px",
+        cursor: 'pointer'
+      }
 
-                    return {
-                              isOutdoor: this.props.item.isOutdoor,
-                              isOutdoorAvailable: this.props.item.isOutdoorAvailable
-                            };
-                    },
-                  render: function() {
+      if (this.props.item.isOutdoor) {
+        return (
+          React.createElement(
+            'span',
+            {
+              style: {
+                "position": "absolute",
+                "top": "-15px",
+                "left": "-38px",
+                "cursor": "pointer",
+                "border": "none",
+                "paddingTop": "8px"
+              },
+              onClick: this._clickfalse,
+              "data-tooltip": true,
+              "aria-haspopup": true,
+              className: "has-tip tip-top radius",
+              title: "<b>Get Girls Outside!</b>"
+            }, React.createElement(
+              'img', {
+                src: '/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
+                style: _style,
+                // onClick: this._clickfalse,
+                alt: '',
+                title: '',
 
-                    outDoorIconList.add(this.props.item.path,this.props.item,this);
-
-                    var _style = {
-
-                        width: "30px",
-
-                        cursor: 'pointer'
-                    }
-
-                   if( this.state.isOutdoor ){
-
-                        return (
-
-                          React.createElement(
-                              'span',
-                              { style: {
-                                  "position": "absolute",
-                                  "top": "-15px",
-                                  "left": "-38px",
-                                  "cursor": "pointer",
-                                  "border": "none",
-                                  "paddingTop": "8px"
-                                },
-                                  onClick: this._click,
-                                  "data-tooltip":true,
-                                  "aria-haspopup":true,
-                                  className:"has-tip tip-top radius",
-                                  title:"<b>Get Girls Outside!</b>"
-                            }, React.createElement(
-                            'img',{
-                              src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
-                              style:_style,
-                              onClick: this._clickfalse,
-                              alt:'',
-                              title:'',         
-                           
-                            }))
+              }))
 
 
-// API for toggle :'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=false'
-//                 '/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=true'
-                        );
-                    }else if(this.state.isOutdoorAvailable){
+        );
+      } else if (this.props.item.isOutdoorAvailable) {
+        return (
+          React.createElement(
+            'span',
+            {
+              style: {
+                "position": "absolute",
+                "top": "-15px",
+                "left": "-38px",
+                "cursor": "pointer",
+                "border": "none",
+                "paddingTop": "8px"
+              },
+              onClick: this._click,
+              "data-tooltip": true,
+              "aria-haspopup": true,
+              className: "has-tip tip-top radius",
+              title: "<b>Get Girls Outside!</b>"
+            },
+            React.createElement('img',
+              {
+                src: '/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png',
+                style: {
+                  width: "30px",
+                },
+                alt: '',
+                title: '',
 
-                        return (
-                            React.createElement(
-                              'span',
-                              { style: {
-                                  "position": "absolute",
-                                  "top": "-15px",
-                                  "left": "-38px",
-                                  "cursor": "pointer",
-                                  "border": "none",
-                                  "paddingTop": "8px"
-                                },
-                                  onClick: this._click,
-                                  "data-tooltip":true,
-                                  "aria-haspopup":true,
-                                  className:"has-tip tip-top radius",
-                                  title:"<b>Get Girls Outside!</b>"
-                            },
-                              React.createElement('img',
-                                {
-                                  src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png',
-                                  style:{
-                                    width: "30px",
-                                     },
-                                     alt:'',
-                                     title:'',                                 
-
-                                }
-                              ),
-                              React.createElement(
-                                  "p",
-                                  {
-                                    style:{
-                                      'marginBottom':'0px',
-                                      color:"green",
-                                      "textAlign":"center",
-                                      "fontSize":'11px',
-                                    },
-                                    onClick: this._click
-                                  },
-                                  "Select"
-                                )
-                              )
-                            );
-                    }else{
-                        return (
-                                React.createElement("span", "")
-                            );
-                    }
-                  }
-                });
+              }
+            ),
+            React.createElement(
+              "p",
+              {
+                style: {
+                  'marginBottom': '0px',
+                  color: "green",
+                  "textAlign": "center",
+                  "fontSize": '11px',
+                },
+                // onClick: this._click
+              },
+              "Select"
+            )
+          )
+        );
+      } else {
+        return (
+          React.createElement("span", "")
+        );
+      }
+    }
+  });
 
 
   function getAgendaTotalTime(x){
