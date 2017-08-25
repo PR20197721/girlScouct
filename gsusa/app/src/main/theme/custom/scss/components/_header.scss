@@ -75,7 +75,8 @@
             }
             .logo-section {
                 #mainGSLogo {
-                    display: none;
+                    visibility: hidden;
+                    position: absolute;
                 }
                 .sticky-nav-GS-logo {
                     position: absolute;
