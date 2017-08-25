@@ -1,3 +1,4 @@
+<%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
 	String text = properties.get("text","");
@@ -7,6 +8,7 @@
 	String sponsorImageTitle = properties.get("sponsorImageTitle","");
 	String sponsorImageAlt = properties.get("sponsorImageAlt","");
 	Resource thumbnail = resource.getChild("thumbnail");
+	boolean isDisabled = "on".equals(properties.get("isDisabled", ""));
 	String filePath = "";
 	if(thumbnail != null) {
 		filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
@@ -25,6 +27,13 @@
 	}
 	String sponsorText = properties.get("sponsorText", "");
 
+	if (isDisabled) {
+		if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+			%>This VTK banner has been disabled.<%
+		} else {
+			%><div class="vtk-banner-disabled"></div><%
+		}
+	} else {
 %>
 
 
@@ -64,6 +73,10 @@
 			<%} %>
 	</div>
 </div>
+
+<%
+	} // if isDisabled
+%>
 
 
 <script>
