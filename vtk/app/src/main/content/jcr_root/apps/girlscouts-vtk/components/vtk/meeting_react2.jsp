@@ -1005,7 +1005,7 @@ React.createElement(ActivityPlan),
     });
 
 
-    var Item = React.createClass({
+    var AgendaItem = React.createClass({
         displayName: 'item',
         getInitialState: function () {
           this.props.item['durationTotal']= getAgendaTime(this.props.item.duration);
@@ -1056,7 +1056,7 @@ React.createElement(ActivityPlan),
             return (
               React.createElement("ul", { key: Date.now() },
                 this.props.data.map((function (item, i) {
-                  return React.createElement(Item, { item: item, key: item.uid + Date.now() })
+                  return React.createElement(AgendaItem, { item: item, key: item.uid + Date.now() })
                 }))
               )
             );
