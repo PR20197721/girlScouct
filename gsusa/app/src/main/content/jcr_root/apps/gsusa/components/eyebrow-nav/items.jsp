@@ -18,7 +18,8 @@
 			String cssClass = split.length >= 4 ? split[3] : "";
 			Integer eyebrowTabIndex = 10 + i;
 			String cssId = "eyebrow";
-
+			boolean showInSticky = split.length >= 4 ? Boolean.parseBoolean(split[4]) : false;
+			String stickyClass = (!showInSticky) ? "hide-in-sticky-nav" : "";
 			Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
 			if (linkPage != null && !link.contains(".html")) {
 				link += ".html";
@@ -26,7 +27,9 @@
 			if (openInNewWindow) {
 				target = "target=\"_blank\"";
 			}
-			%><li><a <%= target %>id="tag_eyebrow_<%= linkifyString(label, 25)%>" class="<%= cssClass %>" href="<%= link %>" title="<%= label %>" tabindex="<%= eyebrowTabIndex++ %>"><%= label %></a></li><%
+			%><li class="<%=stickyClass%>">
+                <a <%= target %>id="tag_eyebrow_<%= linkifyString(label, 25)%>" class="<%= cssClass %>" href="<%= link %>" title="<%= label %>" tabindex="<%= eyebrowTabIndex++ %>"><%= label %></a>
+            </li><%
 		}
 	}
 %>
