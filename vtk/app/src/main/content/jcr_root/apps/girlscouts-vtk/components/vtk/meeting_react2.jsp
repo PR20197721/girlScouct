@@ -103,7 +103,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
         success: function(result) {
           $("#vtk_banner2234").html(result);
 
-            $(function(){
+            // $(function(){
 
               if($("#vtk_banner2234").data('cached') === 'no'){
                 $("#vtk_banner2234").show();
@@ -117,12 +117,16 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
                     dataType:'html',
                   }).done(function(){
                    $('.vtk-banner-image').slideUp();
-
                 })
 
-                // $('.vtk-banner-image').slideUp();
+
               });
-            });
+            // });
+
+
+            $('.vtk-banner-container').slick({
+              slidesToScroll: 1
+            })
 
         }
     });

@@ -43,24 +43,25 @@
 <div id="vtk-banner-modal-<%=resource.getName()%>" data-reveal data-options="close_on_background_click:false; close_on_esc: false;" class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 	<div class="header clearfix">
 		<h3 id="modalTitle"><%=modalTitle %></h3>
-			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
+	    <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
 	</div>
 	<div>
 			<img id="banner-image" class="banner-image" draggable="false" style="width:100%;height:auto;pointer-events: none" src="<%= modalImagePath %>"   alt="<%=imageAlt %>" title="<%=imageTitle %>" >
 	</div>
 
 	<div class="scroll-banner content">
+		
 
 		<div class="reset"><%=text %></div>
 
-<% if (!"".equals(sponsorImagePath) || !"".equals(sponsorImageTitle)) { %>
-		<div class="sponsor">
-			<p style="text-align: center; font-size: 12px;">
-				<img src="<%=sponsorImagePath %>" style="margin-right: 5px;" align="middle" width="50px" alt="<%=sponsorImageAlt %>" title="<%= sponsorImageTitle%>">
-				<%=sponsorText %>
-			</p>
-		</div>
-<%} %>
+			<% if (!"".equals(sponsorImagePath) || !"".equals(sponsorImageTitle)) { %>
+					<div class="sponsor">
+						<p style="text-align: center; font-size: 12px;">
+							<img src="<%=sponsorImagePath %>" style="margin-right: 5px;" align="middle" width="50px" alt="<%=sponsorImageAlt %>" title="<%= sponsorImageTitle%>">
+							<%=sponsorText %>
+						</p>
+					</div>
+			<%} %>
 	</div>
 </div>
 
@@ -71,31 +72,6 @@
 
 $(function(){
 
-	$('#vtk-banner-modal').data('reveal-init', {
-        animation: 'fadeAndPop',
-        animation_speed: 50,
-        close_on_background_click: false,
-        close_on_esc: false,
-        dismiss_modal_class: 'close-reveal-modal',
-        bg_class: 'reveal-modal-bg',
-        bg : $('.reveal-modal-bg'),
-        css : {
-            open : {
-                'opacity': 0,
-                'visibility': 'visible',
-                'display' : 'block'
-            },
-            close : {
-                'opacity': 1,
-                'visibility': 'hidden',
-                'display': 'none'
-            }
-        }
-    });
-
-
-
-
 	overFlowY = false;
 
 	function setHeightSS(p){
@@ -104,7 +80,7 @@ $(function(){
 		var scroll = $('.scroll-banner');
 		var height = $(window).height();
 		var imageHeight;
-		var modalwidth = $('#vtk-banner-modal').innerWidth();
+		var modalwidth = $('#vtk-banner-modal-<%=resource.getName()%>').innerWidth();
 		var realimgheight = document.getElementById('banner-image').height;
 		var realimgwidth = document.getElementById('banner-image').width;
 
@@ -130,7 +106,7 @@ $(function(){
 
 
 
-	$('#vtk-banner-modal').bind('opened', function() {
+	$('#vtk-banner-modal-<%=resource.getName()%>"').bind('opened', function() {
   		setHeightSS(true);
   	
 	});
