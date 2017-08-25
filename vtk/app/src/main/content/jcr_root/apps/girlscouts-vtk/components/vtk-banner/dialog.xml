@@ -11,6 +11,10 @@
                 jcr:primaryType="cq:Panel"
                 title="Disable">
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <disable-delete
+                        jcr:primaryType="cq:Widget"
+                        name="./isDisabled@Delete"
+                        xtype="hidden"/>
                     <disable
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Temporarily disable this banner. It will not show up in the carousel."
