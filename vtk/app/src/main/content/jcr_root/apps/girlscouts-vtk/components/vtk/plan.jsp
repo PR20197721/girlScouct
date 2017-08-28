@@ -17,83 +17,18 @@
   <%@include file="include/bodyTop.jsp" %>
   <%@include file="include/modals/modal_help.jsp"%>
        
-  <div 
-    id="vtk_banner2234" 
-    data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"
-    class="column small-24 medium-20 small-centered" 
-    style="display:none;"
-  >
+  <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"  class="column medium-20 small-24 small-centered" style="display:none;">
   </div>
 
 
 
-    <script>
+
+<script>
+
+callExecuteBannerSlider()
 
 
-
-  $(function(){
-   
-  })
-
-
-
-    $(function(){
-
-
-
-      $.ajax({
-        url: '/content/vtkcontent/en/vtk-banner.simple.html',
-        type: 'GET',
-        dataType:'html',
-        data: {
-            a: Date.now()
-        },
-        success: function(result) {
-            // document.getElementById("vtk_banner2234").innerHTML=result;
-            $("#vtk_banner2234").html(result);
-
-            $(function(){
-              // if($("#vtk_banner2234").data('cached') === 'no'){
-              //   $("#vtk_banner2234").show();
-              // }
-
-
-
-              $('.vtk-banner-button').click(function(){
-
-                 $.ajax({
-                   url:'/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
-                   dataType:'html',
-                 }).done(function(){
-                  $('.vtk-banner-image').slideUp();
-
-                   
-       
-                  })
-
-
-              });
-            });
-
-
-            // get if the there is a vtk cached
-            if($("#vtk_banner2234").data('cached') === 'no'){
-              $("#vtk_banner2234").show();
-            }
-       
-
-        }
-      });
-
-
-
-     });
-
-
-   
-
-
-    </script>
+</script>
 
 
 

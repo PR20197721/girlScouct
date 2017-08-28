@@ -93,56 +93,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
     <script>
 
-    $.ajax({
-        url: '/content/vtkcontent/en/vtk-banner.simple.html',
-        type: 'GET',
-        dataType:'html',
-        data: {
-            a: Date.now()
-        },
-        success: function(result) {
-
-          var htmlResults = $(result);
-          var vtkBannerSections = htmlResults.find('.vtk-banner.section')
-          
-          
-          vtkBannerSections.each(function(x,y){ 
-            if($(y).find('.vtk-banner-disabled').length){
-                $(this).remove();
-            }
-          })
-
-          $("#vtk_banner2234").html(htmlResults);
-              if($("#vtk_banner2234").data('cached') === 'no'){
-                $("#vtk_banner2234").show();
-              }
-
-
-              $('.vtk-banner-button').click(function(){
-
-                  $.ajax({
-                    url:'/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
-                    dataType:'html',
-                  }).done(function(){
-                   $('.vtk-banner-image').slideUp();
-                })
-
-
-              });
-
-
-
-            $('.vtk-banner-container').slick({
-              slidesToScroll: 1,
-              adaptiveHeight: true,
-              autoplaySpeed: 10000,
-              autoplay:true
-            })
-
-        }
-    });
-
-
+      callExecuteBannerSlider()
 
     </script>
 
