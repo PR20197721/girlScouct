@@ -1046,6 +1046,31 @@ React.createElement(ActivityPlan),
 
     var SortableListItems1 = React.createClass({
         displayName: "SortableListItems1",
+        hookJquerySortable:function(){
+          if (Modernizr.touch) {
+            scrollTarget = ".touchscroll";
+          }
+
+          var dom = $(ReactDOM.findDOMNode(this));
+          var onReorder = this.props.onReorder;
+          dom.sortable({
+            items: "li:not(.ui-state-disabled)",
+            delay: 150,
+            distance: 5,
+            opacity: 0.5,
+            scroll: true,
+            scrollSensitivity: 10,
+            tolerance: "intersect",
+            handle: scrollTarget,
+            helper: 'clone',
+            stop: function (event, ui) {
+              var order = dom.sortable("toArray", { attribute: "id" });
+              var yy = order.toString().replace('"', '');
+              repositionActivity1(thisMeetingRefId, yy, this.props.forceReload);
+              onReorder(order);
+            }.bind(this)
+          });
+        },
         render: function () {
           //Services for hold the state of the Simpbling Component.
           if (this.props.data != null) {
@@ -1072,54 +1097,10 @@ React.createElement(ActivityPlan),
             resizeWindow();
           } catch (err) { }
 
-          if (Modernizr.touch) {
-            scrollTarget = ".touchscroll";
-          }
-
-          var dom = $(ReactDOM.findDOMNode(this));
-          var onReorder = this.props.onReorder;
-          dom.sortable({
-            items: "li:not(.ui-state-disabled)",
-            delay: 150,
-            distance: 5,
-            opacity: 0.5,
-            scroll: true,
-            scrollSensitivity: 10,
-            tolerance: "intersect",
-            handle: scrollTarget,
-            helper: 'clone',
-            stop: function (event, ui) {
-              var order = dom.sortable("toArray", { attribute: "id" });
-              var yy = order.toString().replace('"', '');
-              repositionActivity1(thisMeetingRefId, yy, this.props.forceReload);
-              onReorder(order);
-            }.bind(this)
-          });
+          this.hookJquerySortable();
         },
-        componentWillUpdate: function () {
-          var dom = $(ReactDOM.findDOMNode(this));
-          if (Modernizr.touch) {
-            scrollTarget = ".touchscroll";
-          }
-
-          var onReorder = this.props.onReorder;
-          dom.sortable({
-            items: "li:not(.ui-state-disabled)",
-            delay: 150,
-            distance: 5,
-            opacity: 0.5,
-            scroll: true,
-            scrollSensitivity: 10,
-            tolerance: "intersect",
-            handle: scrollTarget,
-            helper: 'clone',
-            stop: function (event, ui) {
-              var order = dom.sortable("toArray", { attribute: "id" });
-              var yy = order.toString().replace('"', '');
-              repositionActivity1(thisMeetingRefId, yy, this.props.forceReload);
-              onReorder(order);
-            }.bind(this)
-          });
+        componentDidUpdate: function () {
+          this.hookJquerySortable();         
         }
     });
 
