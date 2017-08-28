@@ -143,32 +143,6 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
     });
 
 
-    
-	function setHeightSS(p){
-		
-		var image = $('.banner-image');
-		var scroll = $('.scroll-banner');
-		var height = $(window).height();
-		var imageHeight;
-		var modalwidth = $(p).innerWidth();
-		var realimgheight = document.getElementById('banner-image').height;
-		var realimgwidth = document.getElementById('banner-image').width;
-
-
-			imageHeight = image.height();
-
-
-		scroll.css(
-			{
-				'maxHeight':$(window).height()-imageHeight-75+'px',
-				'overflow-y':'auto'
-			}
-		);
-
-
-
-
-	}
 
     </script>
 
