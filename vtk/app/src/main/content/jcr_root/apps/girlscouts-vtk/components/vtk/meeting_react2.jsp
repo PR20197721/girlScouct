@@ -101,28 +101,18 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
             a: Date.now()
         },
         success: function(result) {
-          window['___JUAN___'] = $(result);
 
           var htmlResults = $(result);
           var vtkBannerSections = htmlResults.find('.vtk-banner.section')
           
           
           vtkBannerSections.each(function(x,y){ 
-            
             if($(y).find('.vtk-banner-disabled').length){
-              // console.log($(y),$(y).find('.vtk-banner-disabled').length,htmlResults.find('.vtk-banner.section'))
                 $(this).remove();
-                // console.log($(y),$(y).find('.vtk-banner-disabled').length,htmlResults.find('.vtk-banner.section'))
             }
-            
           })
-                   
-
 
           $("#vtk_banner2234").html(htmlResults);
-
-
-
               if($("#vtk_banner2234").data('cached') === 'no'){
                 $("#vtk_banner2234").show();
               }
