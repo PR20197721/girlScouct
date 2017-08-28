@@ -101,10 +101,18 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
             a: Date.now()
         },
         success: function(result) {
-          $("#vtk_banner2234").html(result);
 
-            $(function(){
+          var htmlResults = $(result);
+          var vtkBannerSections = htmlResults.find('.vtk-banner.section')
+          
+          
+          vtkBannerSections.each(function(x,y){ 
+            if($(y).find('.vtk-banner-disabled').length){
+                $(this).remove();
+            }
+          })
 
+          $("#vtk_banner2234").html(htmlResults);
               if($("#vtk_banner2234").data('cached') === 'no'){
                 $("#vtk_banner2234").show();
               }
@@ -117,15 +125,50 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
                     dataType:'html',
                   }).done(function(){
                    $('.vtk-banner-image').slideUp();
-
                 })
 
-                // $('.vtk-banner-image').slideUp();
+
               });
-            });
+
+
+
+            $('.vtk-banner-container').slick({
+              slidesToScroll: 1,
+              adaptiveHeight: true,
+              autoplaySpeed: 10000,
+              autoplay:true
+            })
 
         }
     });
+
+
+    
+	function setHeightSS(p){
+		
+		var image = $('.banner-image');
+		var scroll = $('.scroll-banner');
+		var height = $(window).height();
+		var imageHeight;
+		var modalwidth = $(p).innerWidth();
+		var realimgheight = document.getElementById('banner-image').height;
+		var realimgwidth = document.getElementById('banner-image').width;
+
+
+			imageHeight = image.height();
+
+
+		scroll.css(
+			{
+				'maxHeight':$(window).height()-imageHeight-75+'px',
+				'overflow-y':'auto'
+			}
+		);
+
+
+
+
+	}
 
     </script>
 

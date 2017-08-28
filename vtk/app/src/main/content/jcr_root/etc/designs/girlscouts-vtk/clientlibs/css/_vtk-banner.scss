@@ -61,3 +61,16 @@ overflow-x:hidden;
 		display:inline-block;
 	}
 }
+
+
+
+//Re Write the Css default button of slick
+#main {
+	button.slick-prev{
+		left:10px;
+	}
+
+	button.slick-next{
+		right: 10px;
+	}
+}
