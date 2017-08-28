@@ -88,14 +88,40 @@ $(function(){
 	overFlowY = false;
 
 
+
+/**
+ * Gift some style to the banner view .
+ * Use for the Meeting plan and the Year.
+ *@param string dom element ID Banner
+ */
+
+function setHeigthPropertiesToBanner(p){
+	var image = $('.banner-image');
+	var scroll = $('.scroll-banner');
+	var height = $(window).height();
+	var imageHeight;
+	var modalwidth = $(p).innerWidth();
+	var realimgheight = document.getElementById('banner-image').height;
+	var realimgwidth = document.getElementById('banner-image').width;
+		imageHeight = image.height();
+	scroll.css(
+		{
+			'maxHeight':$(window).height()-imageHeight-75+'px',
+			'overflow-y':'auto'
+		}
+	);
+}
+
+
+
 	$(window).on('resize',function(){
-			setHeightSS('#vtk-banner-modal-<%=resource.getName()%>');
+			setHeigthPropertiesToBanner('#vtk-banner-modal-<%=resource.getName()%>');
 	})	
 
 
 
 	$('#vtk-banner-modal-<%=resource.getName()%>').bind('opened', function() {
-  		setHeightSS('#vtk-banner-modal-<%=resource.getName()%>');
+  		setHeigthPropertiesToBanner('#vtk-banner-modal-<%=resource.getName()%>');
   	
 	});
 
