@@ -87,40 +87,15 @@ $(function(){
 
 	overFlowY = false;
 
-	function setHeightSS(p){
-		
-		var image = $('.banner-image');
-		var scroll = $('.scroll-banner');
-		var height = $(window).height();
-		var imageHeight;
-		var modalwidth = $('#vtk-banner-modal-<%=resource.getName()%>').innerWidth();
-		var realimgheight = document.getElementById('banner-image').height;
-		var realimgwidth = document.getElementById('banner-image').width;
-
-
-			imageHeight = image.height();
-
-
-		scroll.css(
-			{
-				'maxHeight':$(window).height()-imageHeight-75+'px',
-				'overflow-y':'auto'
-			}
-		);
-
-
-
-
-	}
 
 	$(window).on('resize',function(){
-			setHeightSS();
-		})	
+			setHeightSS('#vtk-banner-modal-<%=resource.getName()%>');
+	})	
 
 
 
-	$('#vtk-banner-modal-<%=resource.getName()%>"').bind('opened', function() {
-  		setHeightSS(true);
+	$('#vtk-banner-modal-<%=resource.getName()%>').bind('opened', function() {
+  		setHeightSS('#vtk-banner-modal-<%=resource.getName()%>');
   	
 	});
 
