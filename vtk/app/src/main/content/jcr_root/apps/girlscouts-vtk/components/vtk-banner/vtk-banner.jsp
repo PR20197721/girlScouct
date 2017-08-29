@@ -96,14 +96,11 @@ $(function(){
  */
 
 function setHeigthPropertiesToBanner(p){
-	var image = $('.banner-image');
-	var scroll = $('.scroll-banner');
+	var image = $(p).find('.banner-image');
+	var scroll = $(p).find('.scroll-banner');
 	var height = $(window).height();
-	var imageHeight;
 	var modalwidth = $(p).innerWidth();
-	var realimgheight = document.getElementById('banner-image').height;
-	var realimgwidth = document.getElementById('banner-image').width;
-		imageHeight = image.height();
+	var	imageHeight = image.height();
 	scroll.css(
 		{
 			'maxHeight':$(window).height()-imageHeight-75+'px',
