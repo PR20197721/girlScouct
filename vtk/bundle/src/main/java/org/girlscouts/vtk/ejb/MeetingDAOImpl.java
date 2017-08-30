@@ -221,9 +221,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 					if( gActivity.getIsOutdoorAvailable() )
 					 for(int y=0;y<meeting.getActivities().size();y++){
 						Activity activity = meeting.getActivities().get(y);
-
+						
+						//if meeting is custom and outdoor activity name in meeting lib is modified, change custom activity outdoor name
+						if(  activity.getName().equals(gActivity.getName()) ){ 
+							activity.setName_outdoor( gActivity.getName_outdoor());
+						}
+						
 						if( !activity.getIsOutdoorAvailable() && activity.getName().equals(gActivity.getName()) ){
-			
 							activity.setIsOutdoorAvailable(true);
 							activity.setActivityDescription_outdoor( gActivity.getActivityDescription_outdoor() );
 						}
