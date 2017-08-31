@@ -15,8 +15,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		response.setContentType("application/csv");
 		response.setHeader("Content-Disposition","attachment; filename=MeetingCountReport.csv");
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
-
-		String sql="select id,name, level from nt:unstructured where jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+user.getCurrentYear()+"/%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
+		String sql="select id,name, level, catTags, catTagsAlt from nt:unstructured where jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+user.getCurrentYear()+"/%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
 		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		javax.jcr.query.QueryResult result = q.execute();
@@ -26,9 +25,13 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 			try{ 
 				String name= r.getValue("name").getString();
 				String id= r.getValue("id").getString();
-				String level= r.getValue("level").getString();
-				String meetingInfo[] = {name, level};
-				meetingInfos.put( id, meetingInfo);		 
+				String level= r.getValue("level").getString();      
+				String cat= "";
+				try{ cat= r.getValue("catTags").getString();}catch(Exception e){}
+				String catAlt= "";
+				try{ catAlt= r.getValue("catTagsAlt").getString();}catch(Exception e){}
+				String meetingInfo[] = {name, level, (cat+","+catAlt)};
+				meetingInfos.put( id, meetingInfo);	           
 			}catch(Exception e){e.printStackTrace();}		  
 		}
 		
@@ -51,6 +54,6 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 			String meetingId = (String) itr.next();
 			java.util.Collection paths = meetingIds.get(meetingId);
 			String meetingInfo[] = meetingInfos.get( meetingId );
-			out.println("\n"+ meetingId +","+ paths.size() + "," + StringEscapeUtils.escapeCsv(  meetingInfo==null ? "" : meetingInfo[0]) +","+ StringEscapeUtils.escapeCsv(  meetingInfo==null ? "" :  meetingInfo[1]));
+			out.println("\n"+ meetingId +","+ paths.size() + "," + StringEscapeUtils.escapeCsv(  meetingInfo==null ? "" : meetingInfo[0]) +","+ StringEscapeUtils.escapeCsv(  meetingInfo==null ? "" :  meetingInfo[1]) +","+ StringEscapeUtils.escapeCsv(  meetingInfo==null ? "" :  meetingInfo[2]));
 		}
   %>
