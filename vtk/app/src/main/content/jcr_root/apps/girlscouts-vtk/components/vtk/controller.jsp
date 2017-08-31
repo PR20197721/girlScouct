@@ -1217,7 +1217,12 @@ try{
         	try{ yearPlanUtil.GSMonthlyDetailedRpt(); }catch(Exception e){e.printStackTrace();}
         }else if( request.getParameter("alex344") !=null){
         	try{ yearPlanUtil.GSRptCouncilPublishFinance(); }catch(Exception e){e.printStackTrace();}
-        
+        }else if( "switchFinanceYear".equals(request.getParameter("act") ) ){
+        	int financeYear = 0;
+        	try{ 
+        			financeYear = Integer.parseInt(request.getParameter("financeYear") );
+        			user.setCurrentFinanceYear( financeYear );
+        	}catch(Exception e){e.printStackTrace();}	
         } else {
 			//TODO throw ERROR CODE
 		}

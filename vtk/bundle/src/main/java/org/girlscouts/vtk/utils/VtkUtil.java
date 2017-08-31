@@ -54,11 +54,14 @@ public class VtkUtil  implements ConfigListener{
 	
 	private static String gsNewYear;
 	private static String vtkHolidays[];
-	
+	private static String gsFinanceYearCutoffDate;
 	@SuppressWarnings("rawtypes")
 	public void updateConfig(Dictionary configs) {
+	
 		gsNewYear = (String) configs.get("gsNewYear");
 		vtkHolidays= (String[]) configs.get("vtkHolidays");
+		gsFinanceYearCutoffDate=  (String)configs.get("gsFinanceYearCutoffDate");
+
 	}
 
 	@Activate
@@ -722,5 +725,22 @@ public static java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> me
 
 	public static Map<String, Long> countUniq(java.util.List<String> container){
 		return container.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+	}
+	
+	/* 
+	 * GS Finance Year 
+	 * IF NOT CONFIG, then let it fail
+	 * */
+	public static int getCurrentGSFinanceYear(){
+		java.util.Calendar cutOffDate= java.util.Calendar.getInstance();
+		cutOffDate.setTime(new java.util.Date(gsFinanceYearCutoffDate) );
+		
+		java.util.Calendar now = java.util.Calendar.getInstance();
+		
+		if( now.getTimeInMillis() < cutOffDate.getTimeInMillis())
+			return cutOffDate.get(java.util.Calendar.YEAR) -1 ;
+		else
+			return cutOffDate.get(java.util.Calendar.YEAR);
+			
 	}
 }//end class
