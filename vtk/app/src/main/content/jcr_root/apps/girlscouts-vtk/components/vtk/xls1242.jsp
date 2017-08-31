@@ -39,6 +39,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
             String path = r.getValue("jcr:path").getString() ;
             String refId= r.getValue("refId").getString();
             String meetingId= refId.substring( refId.lastIndexOf("/")+1 );
+            if( meetingId.contains("_") ) meetingId= meetingId.substring( 0, meetingId.indexOf("_") );
             out.println(path.split("/")[4] + "," +meetingId);
         }
 
