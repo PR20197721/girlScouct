@@ -12,8 +12,8 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <%
-    	response.setContentType("application/csv");
-    	response.setHeader("Content-Disposition","attachment; filename=MeetingCountReport.csv");
+		response.setContentType("application/csv");
+		response.setHeader("Content-Disposition","attachment; filename=MeetingCountReport.csv");
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
 		String sql="select id,name, level, catTags, catTagsAlt from nt:unstructured where jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+user.getCurrentYear()+"/%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
 		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
@@ -27,9 +27,9 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 				String id= r.getValue("id").getString();
 				String level= r.getValue("level").getString();      
 				String cat= "";
-                try{ cat= r.getValue("catTags").getString();}catch(Exception e){}
-                String catAlt= "";
-                try{ catAlt= r.getValue("catTagsAlt").getString();}catch(Exception e){}
+				try{ cat= r.getValue("catTags").getString();}catch(Exception e){}
+				String catAlt= "";
+				try{ catAlt= r.getValue("catTagsAlt").getString();}catch(Exception e){}
 				String meetingInfo[] = {name, level, (cat+","+catAlt)};
 				meetingInfos.put( id, meetingInfo);	           
 			}catch(Exception e){e.printStackTrace();}		  
