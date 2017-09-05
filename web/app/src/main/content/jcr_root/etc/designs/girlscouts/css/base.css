@@ -1426,10 +1426,10 @@ ul.searchResultsList article p {
   line-height: 1.12em;
 }
 ul.searchResultsList article.readmore-js-section * {
-  line-height: 1.1875em; /* 19px, in em for cross-browser */
+  line-height: 1.11765em; /* 19px, in em for cross-browser (base em is 17px) */
 }
 ul.searchResultsList article.readmore-js-section p {
-  margin-bottom: 1.1875em;
+  margin-bottom: 1.11765em;
 }
 .readmore-js-toggle {
   padding-bottom: 20px;
