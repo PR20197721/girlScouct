@@ -2,7 +2,6 @@
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Widget"
     fieldLabel="Disable Confirmation Emails"
-    fieldDescription="By default, confirmation emails will be sent to email addresses entered into any fields starting with 'email-confirmation'. You can add a number at the end for multiple confirmation fields."
     name="./disableConfirmation"
     type="checkbox"
-    xtype="selection"/>
+    xtype="checkbox"/>

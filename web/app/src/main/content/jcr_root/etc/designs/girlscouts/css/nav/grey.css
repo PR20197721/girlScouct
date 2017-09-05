@@ -3,7 +3,7 @@
 #main .side-nav * {
   color: #858585;
   margin: 0;
-  font-size: 13.5px;
+  font-size: 0.9375rem;
 }
 #main .side-nav > li:before {
   border: none;
@@ -18,7 +18,7 @@
   font-weight: normal;
 }
 #main .side-nav > li.active > div > a {
-  font-weight: bold;
+  font-weight: 600;
   color: #414141;
 }
 #main .side-nav li div {

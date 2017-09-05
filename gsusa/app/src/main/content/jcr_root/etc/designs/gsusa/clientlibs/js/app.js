@@ -1,6 +1,6 @@
 /*jslint browser: true, eqeq: true*/
 /*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console */
-/*global homeCarouselTimeDelay, homeCarouselAutoScroll, homeCarouselAutoPlaySpeed, videoSliderAuto, videoSliderDelay, shopautoscroll, shoptimedelay, loc */
+/*global homeCarouselTimeDelay, homeCarouselAutoScroll, homeCarouselAutoPlaySpeed, videoSliderAuto, videoSliderDelay, shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL, joinRedirectAutoplaySpeed, joinRedirectSpeed */
 
 //
 //
@@ -8,6 +8,62 @@
 // https://google.github.io/styleguide/javascriptguide.xml#Naming
 //
 //
+var boundHashForms = {};
+
+function bindSubmitHash(form) {
+    "use strict";
+
+    // Check if form exists and ensure a single form binding
+    if (boundHashForms[form.formElement] || !$(form.formElement)) {
+        return false;
+    }
+    boundHashForms[form.formElement] = true;
+
+    $(form.formElement).submit(function (event) {
+        // Stop other events
+        if (event.preventDefault) {
+            event.preventDefault();
+        } else {
+            event.stop();
+        }
+        event.returnValue = false;
+        event.stopPropagation();
+
+        var hashElement = $(this).find(form.hashElement),
+            hash = hashElement.val(),
+            pattern = hashElement.attr("pattern") || false,
+            match = !pattern || (pattern && hash.match(pattern));
+
+        // Prevent double submit on redirect and invalid data (if a pattern is specified)
+        if (form.submitted || !match) {
+            return false;
+        }
+
+        // Do ajax request instead of redirect
+        if (form.ajax) {
+            if (form.edit) {
+                alert("This tool can only be used on a live page");
+                return false;
+            }
+            $.ajax({
+                method: form.ajax.method || "POST",
+                url: form.ajax.url || "",
+                data: form.ajax.data || $(this).serialize(),
+                async: form.ajax.async || false,
+                success: form.ajax.success || function () {}
+            });
+            return false;
+        }
+
+        // Redirect to the results page while maintaining query
+        window.location = form.redirectUrl + ".html" + window.location.search + "#" + hash;
+        if (form.currentUrl == form.redirectUrl) {
+            window.location.reload();
+        }
+        form.submitted = true;
+        return false;
+    });
+}
 
 function fixColorlessWrapper() {
     'use strict';
@@ -21,13 +77,6 @@ function fixColorlessWrapper() {
             $(colorlessWrappers[i]).attr("style", thisWrapperStyle.replace(/, ?[0-9\.]*\)/, ", 1)"));
         }
     }
-    /*
-    $(".story.colorless .bg-wrapper").each(function () {
-        if ($(this).attr("style")) {
-            $(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"));
-        }
-    });
-    */
 }
 
 function fixSlickListTrack() {
@@ -59,6 +108,35 @@ function fixSlickSlideActive() {
         }
     }
 }
+
+(function bindButtonForms() {
+    "use strict";
+    //Detect ipad
+    var touchOrClick = (navigator.userAgent.match(/iPad/i)) ? "touchstart" : "click";
+
+    $(document).on(touchOrClick, function (event) {
+        var target = $(event.target),
+            form = target.closest(".button-form-target.open").length,
+            button = target.is(".button-form");
+
+        // Close all other open forms, including when clicking on a button
+        if (!form) {
+            //console.log("clicked outside form");
+            $(".button-form-target.open").removeClass("open").addClass("hide");
+        }
+        /*
+        if (form) {
+            console.log("clicked form");
+        }
+        */
+        // Open child form
+        if (button) {
+            //console.log("clicked button");
+            target.find(".button-form-target.hide").removeClass("hide").addClass("open");
+            target.find("input[type='text']").focus();
+        }
+    });
+}());
 
 //
 //
@@ -127,61 +205,19 @@ function fixSlickSlideActive() {
         $(document).on(touchOrClick, function (event) {
             event.stopPropagation();
             var target = $(event.target);
-            if (target.closest('.tab-bar .search-form').length == 0 && $(".tab-bar .search-form input").css('display') != 'none') {
+            if (target.closest('.tab-bar .search-form').length === 0 && $(".tab-bar .search-form input").css('display') != 'none') {
                 $(".tab-bar .search-form span").removeClass('hide');
                 $(".tab-bar .search-form input").hide('slow');
             }
-            if (target.closest('.featured-stories li').length == 0 && target.closest(".story").css('display') != 'none') {
+            if (target.closest('.featured-stories li').length === 0 && target.closest(".story").css('display') != 'none') {
                 $(".story").fadeOut('slow');
                 $("body").css('overflow', '');
                 $(".featured-stories").css('position', '');
             }
-            // Join Now fades out but still appears 
-            /*
-            if (target.closest('.join .wrapper').length == 0 && target.closest(".join section").css('display') != 'none') {
-                $('.join section').fadeOut('500', function () {
-                    $('.join a').fadeIn('slow');
-                });
-            }
-            if (target.closest('.hero-feature').length == 0 && target.closest(".hero-feature").css('display') != 'none') {
-                $('.position').animate({
-                    'opacity': 0
-                }, 100, function () {
-                    $('.hero-feature .overlay').fadeOut();
-                    $('.position').css('z-index', '-1');
-                    $('.zip-council').removeClass('change');
-                    $('.main-slider').slick('slickPlay');
-                    pauseAllCarouselVideos();
-                    // release opacity for mike's fix
-                    if (isIE11 && lastAfterSlick) {
-                        for (var x in lastAfterSlick) {
-                            for (var i = 0; i < lastAfterSlick.length; i++) {
-                                $(lastAfterSlick[i]).css('opacity', '1');
-                            }
-                        }
-                    }
-                });
-            }
-            if (target.closest('.final-comp').length == 0 && target.closest(".final-comp").css('display') != 'none') {
-                $(".final-comp").fadeOut('slow');
-                $('.hero-text.first').show();
-                $('.zip-council').fadeIn('slow');
-                $('.main-slider').css('opacity', '');
-                $("#tag_explore_final input[type=\"text\"]").hide();
-            }
-            */
-            if ((target.closest('.standalone-volunteer').length == 0 && target.closest('.footer-volunteer').length == 0) && target.closest('.vol.button.arrow').siblings('form').css('display') != 'none') {
-                $('.vol.button.arrow').siblings('form').addClass('hide');
-            }
-            if ((target.closest('.standalone-join').length == 0 && target.closest('.footer-join').length == 0) && target.closest('.join.button.arrow').siblings('form').css('display') != 'none') {
-                $('.join.button.arrow').siblings('form').addClass('hide');
-            }
-            if (target.closest('.standalone-donate').length == 0 && target.closest('a.button.form').siblings('form').css('display') != 'none') {
-                $('a.button.form').siblings('form').addClass('hide');
-                $('a.button.form').removeClass('hide');
-            }
         });
+
     }
+
     //header join now volunteer forms.
     function headercomptrigger(item, event) {
         event.stopPropagation();
@@ -219,17 +255,17 @@ function fixSlickSlideActive() {
                 form: $('.formHeaderVolunteer'),
                 input: $('.formHeaderVolunteer input[type="text"]'),
                 button: $('.formHeaderVolunteer .button')
-            },
-            searchjoin = { //stand-alone volunteer and join now buttons.
-                form: $('.formJoin'),
-                input: $('.formJoin input[type="text"]'),
-                button: $('.formJoin .button')
-            },
-            searchvolunteer = {
-                form: $('.formVolunteer'),
-                input: $('.formVolunteer input[type="text"]'),
-                button: $('.formVolunteer .button')
             };
+        /*searchjoin = { //stand-alone volunteer and join now buttons.
+            form: $('.formJoin'),
+            input: $('.formJoin input[type="text"]'),
+            button: $('.formJoin .button')
+        },
+        searchvolunteer = {
+            form: $('.formVolunteer'),
+            input: $('.formVolunteer input[type="text"]'),
+            button: $('.formVolunteer .button')
+        };*/
         //on ESC keypress close the input
         searchSlider.input.keyup(function (e) {
             if (e.which == 27) {
@@ -262,7 +298,7 @@ function fixSlickSlideActive() {
                     joinNow.input.focus();
                     joinNow.button.addClass('hide');
                     joinNow.form.submit(function () {
-                        if (joinNow.input.val() != "") {
+                        if (joinNow.input.val() !== "") {
                             //joinNow.form.submit();
                             joinNow.input.val('');
                         } else {
@@ -295,7 +331,7 @@ function fixSlickSlideActive() {
                 headercomptrigger(headervolunteer, event);
             }
         });
-        searchvolunteer.form.submit(function () {
+        /*searchvolunteer.form.submit(function () {
             if (searchvolunteer.input.val() != "") {
                 searchvolunteer.form.submit();
                 searchvolunteer.input.val('');
@@ -310,32 +346,9 @@ function fixSlickSlideActive() {
             } else {
                 return false;
             }
-        });
+        });*/
     }
-    //join now and volunteer form for standalone
-    $('.vol.button.arrow, .join.button.arrow').on("click", function (event) {
-        event.preventDefault();
-        var this_form = $(this).siblings("form");
-        this_form.removeClass('hide');
-        if (this_form.find('input[name="ZipJoin"]').length > 0) {
-            this_form.find('input[name="ZipJoin"]').focus();
-        }
-        if (this_form.find('input[name="ZipVolunteer"]').length > 0) {
-            this_form.find('input[name="ZipVolunteer"]').focus();
-        }
-    });
-    //home page join now link will open the email form.
-    /*
-    function join_now() {
-        $('.zip-council > .join a').on('click', function (e) {
-            e.preventDefault();
-            $(this).fadeOut(500, function () {
-                $(this).siblings('section').fadeIn('slow');
-                $(this).siblings('section').find("input[name='zipcode']").focus();
-            });
-        });
-    }
-    */
+
     $('.shop-slider').slick({
         dots: false,
         infinite: false,
@@ -541,7 +554,7 @@ function fixSlickSlideActive() {
                 arrows: false,
                 customPaging: function (slick, index) {
                     var thumbnailText = $("#hiddenThumbnail" + index).text();
-                    if (thumbnailText.trim() != "") {
+                    if (thumbnailText.trim() !== "") {
                         thumbnailText = "<p>" + thumbnailText + "</p>";
                     }
                     return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML') + thumbnailText;
@@ -652,7 +665,7 @@ function fixSlickSlideActive() {
         imageMap = new ImageMap(document.getElementById('council-map'), document.getElementById('council-map-img'));
         imageMap.resize();
     }
-    
+
     $('.video-slider-wrapper').slick({
         dots: false,
         speed: 500,
@@ -673,7 +686,18 @@ function fixSlickSlideActive() {
             }
         }]
     });
-    
+
+    $('.join-redirect-slider').slick({
+        dots: false,
+        autoplay: true,
+        autoplayspeed: (typeof joinRedirectAutoplaySpeed != 'undefined') ? joinRedirectAutoplaySpeed : 2000,
+        speed: (typeof joinRedirectSpeed != 'undefined') ? joinRedirectSpeed : 500,
+        arrows: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        fade: true
+    });
+
     function shop_rotator() {
         /*
         $('.rotator .button.arrow').on("click", function (event) {
@@ -733,64 +757,6 @@ function fixSlickSlideActive() {
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         }
     }
-    //camp-finder vaidation and submittion function
-    function camp_finder() {
-        var campFormSubmitted = false;
-        $('.find-camp').submit(function (event) {
-            if (event.preventDefault) {
-                event.preventDefault();
-            } else {
-                event.stop();
-            }
-            event.returnValue = false;
-            event.stopPropagation();
-            if (campFormSubmitted) {
-                return;
-            }
-            event.preventDefault();
-
-            var zip = $(this).find('input[name="zip-code"]').val(),
-                zip_field = $(this).find('input[type="text"]'),
-                redirectUrl = loc, //passed in from standalone-camp-finder.jsp
-                currentUrl,
-                isSameUrl;
-
-            if (zip != zip.match("[0-9]{5}")) {
-                zip_field.attr("value", "invalid zip code");
-                zip_field.css({
-                    "font-size": "12px",
-                    "color": "red"
-                });
-                zip_field.on("blur, focus", function () {
-                    $(this).css({
-                        "font-size": "1.125rem",
-                        "color": "#000"
-                    });
-                    if ($(this).attr('value') == "invalid zip code") {
-                        $(this).val("").attr("placeholder", "ZIP Code");
-                    }
-                });
-
-            } else {
-                //currentUrl = window.location.href;
-                currentUrl = window.location.pathname;
-                //console.log("Current URL Substring: " + currentUrl.substring(0, currentUrl.indexOf('.html')));
-                //console.log("Redirect URL Substring: " + redirectUrl.substring(0, redirectUrl.indexOf('.html')));
-                
-                isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
-                if (window.location.search != undefined && window.location.search != "") {
-                    redirectUrl += window.location.search;
-                }
-                redirectUrl = redirectUrl + '#' + zip;
-                if (isSameUrl) {
-                    window.location.hash = "#" + zip;
-                    window.location.reload();
-                } else {
-                    window.location.href = redirectUrl;
-                }
-            }
-        });
-    }
 
     function hide_show_cookie() {
         $('#meet-cookie-layout section').hide();
@@ -810,7 +776,7 @@ function fixSlickSlideActive() {
     welcome_cookie_slider();
     loadYTScript();
     $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
-    camp_finder();
+    //camp_finder();
     $(window).resize(function () {
         small_screens();
     });
@@ -827,11 +793,11 @@ function fixSlickSlideActive() {
         hide_show_cookie();
     });
     // form on the Donate Tile.
-    $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e) {
+    $("#tag_tile_button_local").on('click', function (e) {
         e.preventDefault();
         $('#tag_tile_button_donate').toggle();
         $('.formDonate').toggleClass('hide');
-        $(this).toggleClass('hide');
+        //$(this).toggleClass('hide');
         $('.formDonate input[type="text"]').focus();
     });
     $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
@@ -852,6 +818,97 @@ function fixSlickSlideActive() {
         return false;
     });
     // article_tiles();
+
+    //
+    //
+    // Sticky Nav
+    //
+    //
+    var desktopHeader = $(".header"),
+        mobileHeader = $(".tab-bar"),
+        header,
+        headerHeight,
+        desktopPlaceholder = $(".header-placeholder"),
+        mobilePlaceholder = $(".tab-bar-placeholder"),
+        placeholder,
+        trigger = false,
+        fixed = false,
+        fixedClass = "sticky-nav-fixed",
+        offset = 0,
+        desktopStickyOffset = 0,
+        MEDIUM_ONLY = 768,
+        mobile = $(window).width() <= MEDIUM_ONLY;
+
+    function setOffset() {
+        // Set placeholders
+        headerHeight = header.height();
+        placeholder.height(headerHeight);
+        
+        // Set offset
+        if (!mobile) { // Desktop header
+            header.addClass(fixedClass);
+            desktopStickyOffset = headerHeight - header.height(); // Change header to sticky and change back to get height difference
+            header.removeClass(fixedClass);
+
+            offset = header.offset().top + desktopStickyOffset;
+        } else { // Mobile header
+            offset = header.offset().top;
+        }
+        
+        // Reset fix
+        $(window).trigger("scroll");
+    }
+
+    function switchHeader() {
+        // Unfix previous header
+        if (header && placeholder) {
+            header.removeClass(fixedClass);
+            placeholder.hide();
+            fixed = false;
+        }
+
+        // Set new header
+        header = mobile ? mobileHeader : desktopHeader;
+        placeholder = mobile ? mobilePlaceholder : desktopPlaceholder;
+        
+        // Set offset
+        setOffset();
+    }
+
+    if ($(".header.sticky-nav").length) {
+        // On load
+        switchHeader();
+
+        // Reset offset on resize
+        $(window).on("resize", function () {
+            if ($(window).width() > MEDIUM_ONLY === mobile) { // Trigger once when the breakpoint is passed
+                mobile = !mobile;
+                //console.log("Mobile is: " + mobile);
+                switchHeader();
+            }
+            if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
+                //console.log("Old height: " + headerHeight);
+                //console.log("New height: " + header.height());
+                setOffset();
+            }
+        });
+
+        // Sticky header
+        $(window).on("scroll", function () {
+            trigger = $(window).scrollTop() > offset;
+            if (trigger && !fixed) { // Trigger once to fix header
+                fixed = true;
+                header.addClass(fixedClass);
+                placeholder.show();
+                //console.log("fixed");
+            } else if (!trigger && fixed) { // Trigger once to unfix header
+                fixed = false;
+                header.removeClass(fixedClass);
+                placeholder.hide();
+                //console.log("static");
+            }
+        });
+    }
 }(jQuery));
 
 //
@@ -863,7 +920,7 @@ function fixSlickSlideActive() {
 function stopSlider() {
     'use strict';
     var slick = $('.video-slider-wrapper');
-    if (slick != undefined && slick.slick != undefined) {
+    if (slick !== undefined && slick.slick !== undefined) {
         slick.slick('slickPause');
         slick.slick('slickSetOption', 'autoplay', false, false);
         slick.slick('autoPlay', $.noop);
@@ -953,30 +1010,39 @@ Handlebars.registerHelper('escapeDoubleQuotes', function (context) {
 });
 Handlebars.registerHelper({
     eq: function (v1, v2) {
+        'use strict';
         return v1 === v2;
     },
     ne: function (v1, v2) {
+        'use strict';
         return v1 !== v2;
     },
     lt: function (v1, v2) {
+        'use strict';
         return v1 < v2;
     },
     gt: function (v1, v2) {
+        'use strict';
         return v1 > v2;
     },
     lte: function (v1, v2) {
+        'use strict';
         return v1 <= v2;
     },
     gte: function (v1, v2) {
+        'use strict';
         return v1 >= v2;
     },
     and: function (v1, v2) {
+        'use strict';
         return v1 && v2;
     },
     or: function (v1, v2) {
+        'use strict';
         return v1 || v2;
     }
 });
+
 function seeMoreScale() {
     'use strict';
     $.each($('.article-slider .article-tile.last section'), function (index, value) {

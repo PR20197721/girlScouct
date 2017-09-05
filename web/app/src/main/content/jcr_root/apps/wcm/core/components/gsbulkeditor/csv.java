@@ -192,7 +192,7 @@ public class csv extends SlingAllMethodsServlet {
 	                    		case "jcr:content/cq:tags-progLevel":
 	                    			property = "Program Levels";
 	                    			break;
-	                    		case "jcr:content/data/imagePath":
+	                    		case "jcr:content/data/image/fileReference":
 	                    			property = "Image";
 	                    			break;
 	                    		case "jcr:content/data/regOpen-date":
@@ -253,9 +253,10 @@ public class csv extends SlingAllMethodsServlet {
 					}
 				}
 			}
-            
-            iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString, primaryTypeString, includePath, importType, rr);
-
+			
+			if(null != rr.getResource(path)){
+				iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString, primaryTypeString, includePath, importType, rr);
+			}
         } catch (Exception e) {
             throw new ServletException(e);
         }

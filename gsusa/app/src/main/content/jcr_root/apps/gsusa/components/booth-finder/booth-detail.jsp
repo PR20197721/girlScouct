@@ -37,10 +37,12 @@ try {
 	log.error("Error parsing start date.");
 }
 
+String googleMapsAPI = properties.get("mapAPI", "AIzaSyDWhROdret3d0AGaTTZrYeFH8hP5SIbmzw");
+
 %>
 <html>
 <head>
-  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsAPI %>&callback=initMap"></script>
   <script>
     var map;
     var geocoder;

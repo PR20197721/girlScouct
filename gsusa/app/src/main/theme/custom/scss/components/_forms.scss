@@ -32,20 +32,39 @@ form {
 }
 
 .tab-bar {
-    .search-form {
-        @include grid-column(22);
-        top: rem-calc(-1);
-        .icon-search-magnifying-glass {
-            color: $white;
-            top: 0;
-            font-size: rem-calc(25);
-            position: absolute;
-            right: rem-calc(10);
-            top: rem-calc(3);
+    @media #{$small-only} {
+        display: table !important;
+    }
+    width: 100%;
+    section {
+        display: table-cell;
+        vertical-align: middle;
+        position: relative;
+        height: 100%;
+        width: 1%;
+        &.search-section {
+            width: 100%;
         }
-        input {
-            display: none;
-            margin: 0;
+    }
+    .search-box {
+        height: 100%;
+        .search-form {
+            @include grid-column(22);
+            top: rem-calc(-1);
+            height: 100%;
+            width: 100%;
+            .icon-search-magnifying-glass {
+                color: $white;
+                top: 0;
+                font-size: rem-calc(25);
+                position: absolute;
+                right: rem-calc(15);
+                top: rem-calc(3);
+            }
+            input {
+                display: none;
+                margin: 0;
+            }
         }
     }
 }
@@ -80,6 +99,8 @@ form {
         }
     }
 }
+
+
 /*
 input[type="submit"]::-moz-focus-inner {
     border: 0px;
