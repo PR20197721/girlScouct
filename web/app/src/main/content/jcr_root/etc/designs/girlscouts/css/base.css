@@ -1422,14 +1422,11 @@ ul.searchResultsList li h2 {
 ul.searchResultsList li h2 a {
   font-size: 1.26rem;
 }
+ul.searchResultsList article * {
+  line-height: 1.29412em; /* 22px, in em for cross-browser (base em is 17px) */
+}
 ul.searchResultsList article p {
-  line-height: 1.12em;
-}
-ul.searchResultsList article.readmore-js-section * {
-  line-height: 1.11765em; /* 19px, in em for cross-browser (base em is 17px) */
-}
-ul.searchResultsList article.readmore-js-section p {
-  margin-bottom: 1.11765em;
+  margin-bottom: 1.29412em;
 }
 .readmore-js-toggle {
   padding-bottom: 20px;

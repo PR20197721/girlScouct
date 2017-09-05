@@ -113,9 +113,10 @@
 %>
 
 <script>
+var lineHeight = Number($(".searchResultsList article p").css("line-height").match(/\d+/g)[0]); // Match digits within string (ignore "px")
 $(".searchResultsList article").readmore({
 	speed: 75,
-	maxHeight: 114, // 19px line-height * 6 visible lines
+	maxHeight: lineHeight * 6, // line-height of content * 6 visible lines
 	heightMargin: 16,
 	moreLink: '<a href="#">Read more</a>',
 	lessLink: '<a href="#">Close</a>',
@@ -123,7 +124,6 @@ $(".searchResultsList article").readmore({
 	sectionCSS: 'display: block; width: 100%;',
 	expandedClass: 'readmore-js-expanded',
 	collapsedClass: 'readmore-js-collapsed'
-
 });
 </script>
 
