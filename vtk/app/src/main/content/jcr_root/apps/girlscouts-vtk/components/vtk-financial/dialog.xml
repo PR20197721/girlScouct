@@ -13,13 +13,8 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <financial-summary
 	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="Financial Summary Line 1"
+	                    fieldLabel="Financial Summary"
 	                    name="./finsum1"
-	                    xtype="textfield"/>
-                    <financial-summary2
-	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="Notes and Questions"
-	                    name="./finsum2"
 	                    xtype="textfield"/>
                     <review-and-publish1
 	                    jcr:primaryType="cq:Widget"
@@ -43,13 +38,18 @@
 	                    xtype="textfield"/>
 					<TL-preview-instruction-1
 	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="TL preview instruction"
+	                    fieldLabel="TL preview instructions 1"
 	                    name="./tlpreviewinst1"
 	                    xtype="textfield"/>
 					<TL-preview-instruction-2
 	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="TL preview instruction"
+	                    fieldLabel="TL preview instructions 2"
 	                    name="./tlpreviewinst2"
+	                    xtype="textfield"/>
+                    <financial-summary2
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Notes and Questions"
+	                    name="./finsum2"
 	                    xtype="textfield"/>
 					<document-attachments
 	                    jcr:primaryType="cq:Widget"
