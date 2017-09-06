@@ -11,36 +11,16 @@
                 jcr:primaryType="cq:Panel"
                 title="Modal">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <financial-summary1
+                    <financial-summary
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Financial Summary Line 1"
 	                    name="./finsum1"
 	                    xtype="textfield"/>
                     <financial-summary2
 	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="Financial Summary Line 2"
+	                    fieldLabel="Notes and Questions"
 	                    name="./finsum2"
 	                    xtype="textfield"/>
-	                <troop-back-info1
-	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="Troop Bank Info Line 1"
-	                    name="./troopbankinfo1"
-	                    xtype="textfield"/>
-	                <troop-back-info2
-	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="Troop Bank Info Line 2"
-	                    name="./troopbankinfo2"
-	                    xtype="textfield"/>
-	                <council-note1
-	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="Council Notes And Questions For Troops Line 1"
-	                    name="./councilnotes1"
-	                    xtype="textfield"/>
-	                <council-note2
-	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="Council Notes And Questions For Troops Line 2"
-	                    name="./councilnotes2"
-	                    xtype="textfield"/>    
                     <review-and-publish1
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Review and Publish Line 1"
@@ -50,6 +30,31 @@
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Review and Publish Line 2"
 	                    name="./reviewandpublish2"
+	                    xtype="textfield"/>
+					<TL-Income-Expense-Instruction
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="TL Income Expense Instruction"
+	                    name="./incomeexpenseinst"
+	                    xtype="textfield"/>
+					<TL-Message-about-parent-view
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="TL Message about parent view"
+	                    name="./messageabout"
+	                    xtype="textfield"/>
+					<TL-preview-instruction-1
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="TL preview instruction"
+	                    name="./tlpreviewinst1"
+	                    xtype="textfield"/>
+					<TL-preview-instruction-2
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="TL preview instruction"
+	                    name="./tlpreviewinst2"
+	                    xtype="textfield"/>
+					<document-attachments
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Document Attachments"
+	                    name="./documentattachments"
 	                    xtype="textfield"/>
                 </items>
             </properties>
