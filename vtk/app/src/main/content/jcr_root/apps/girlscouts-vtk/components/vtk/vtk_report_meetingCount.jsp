@@ -54,6 +54,6 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 			String meetingId = (String) itr.next();
 			java.util.Collection paths = meetingIds.get(meetingId);
 			String meetingInfo[] = meetingInfos.get( meetingId );
-			out.println("\n"+ meetingId +","+ paths.size() + "," + StringEscapeUtils.escapeCsv(  meetingInfo==null ? "" : meetingInfo[0]) +","+ StringEscapeUtils.escapeCsv(  meetingInfo==null ? "" :  meetingInfo[1]) +","+ StringEscapeUtils.escapeCsv(  meetingInfo==null ? "" :  meetingInfo[2]));
+			out.println("\n"+ meetingId +","+ paths.size() + "," + StringEscapeUtils.escapeCsv(  meetingInfo==null ? "" : meetingInfo[0]) +","+ StringEscapeUtils.escapeCsv(  meetingInfo==null ? "" :  meetingInfo[1]) +","+ (  meetingInfo==null ? "" :  meetingInfo[2].replaceAll(",,","")));
 		}
   %>
