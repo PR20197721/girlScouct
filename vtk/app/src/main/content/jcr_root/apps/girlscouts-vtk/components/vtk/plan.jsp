@@ -17,83 +17,18 @@
   <%@include file="include/bodyTop.jsp" %>
   <%@include file="include/modals/modal_help.jsp"%>
        
-  <div 
-    id="vtk_banner2234" 
-    data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"
-    class="column small-24 medium-20 small-centered" 
-    style="display:none;"
-  >
+  <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"  class="column medium-20 small-24 small-centered" style="display:none;">
   </div>
 
 
 
-    <script>
+
+<script>
+
+callExecuteBannerSlider()
 
 
-
-  $(function(){
-   
-  })
-
-
-
-    $(function(){
-
-
-
-      $.ajax({
-        url: '/content/vtkcontent/en/vtk-banner.simple.html',
-        type: 'GET',
-        dataType:'html',
-        data: {
-            a: Date.now()
-        },
-        success: function(result) {
-            // document.getElementById("vtk_banner2234").innerHTML=result;
-            $("#vtk_banner2234").html(result);
-
-            $(function(){
-              // if($("#vtk_banner2234").data('cached') === 'no'){
-              //   $("#vtk_banner2234").show();
-              // }
-
-
-
-              $('.vtk-banner-button').click(function(){
-
-                 $.ajax({
-                   url:'/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
-                   dataType:'html',
-                 }).done(function(){
-                  $('.vtk-banner-image').slideUp();
-
-                   
-       
-                  })
-
-
-              });
-            });
-
-
-            // get if the there is a vtk cached
-            if($("#vtk_banner2234").data('cached') === 'no'){
-              $("#vtk_banner2234").show();
-            }
-       
-
-        }
-      });
-
-
-
-     });
-
-
-   
-
-
-    </script>
+</script>
 
 
 
@@ -103,7 +38,7 @@
 
 
 
-  <div id="yearPlanMeetings" class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan" : "vtk-pastYear-plan" %>">
+  <div id="yearPlanMeetings" class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan year_plan" : "vtk-pastYear-plan year_plan" %>">
 
 
     <div id="thePlan">
@@ -219,7 +154,7 @@
                               React.createElement("p", {className: "hide-for-print <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
                           )
                       ),
-                        React.createElement(MeetingComponent, {key: this.props.data, data: this.props.data, onReorder: this.onReorder})
+                        React.createElement(MeetingComponent, {key: this.props.data.yearPlanName+(new Date()).getTime(), data: this.props.data, onReorder: this.onReorder})
                 )
            );
         } //end of render
@@ -240,11 +175,17 @@
               }
 
                var options = {
-                 className: 'outdoor-icon',
+                 className: 'outdoor-icon has-tip tip-top radius',
                  src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/'+imgName,
                  style:{
-                    width:'45px'
-                 }
+                    width:'45px',
+                    border:'none',
+                    cursor:'pointer',
+                    paddingTop:'3px'
+                 },
+                 "data-tooltip":true,
+                 "aria-haspopup":true,
+                 title:"<b>Get Girls Outside!</b>"
                }
 
     		   if (isOutdoorAvailable) {
@@ -255,8 +196,11 @@
     	})
 
 
-       var MeetingComponent = React.createClass({displayName: "MeetingComponent",
-        render: function() {
+
+       var MeetingComponent = React.createClass({
+        displayName: "MeetingComponent",
+
+        render: function() {  
             if( this.props.data!=null){
                 var keys =  Object.keys( this.props.data );
                 var obj = this.props.data;
@@ -312,7 +256,7 @@
                                   }else if( obj[comment].type == 'ACTIVITY' ){
 
                                         return (
-React.createElement("li", {draggable: false, className: "row meeting activity ui-state-default ui-state-disabled", key: obj[comment].id},
+React.createElement("li", {draggable: false, className: "row meeting activity ui-state-default ui-state-disabled", key: obj[comment].uid},
   React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
     React.createElement("div", {},
     React.createElement("div", {className: bgcolor(obj, comment, 0)},
@@ -371,9 +315,22 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
        }
 
+       $(document).foundation({
+            tooltip: {
+              selector : '.has-tip',
+              additional_inheritable_classes : [],
+              tooltip_class : '.tooltip',
+              touch_close_text: 'tap to close',
+              disable_for_touch: true,
+              tip_template : function (selector, content) {
+                return '<span data-selector="' + selector + '" class="'
+                  + Foundation.libs.tooltip.settings.tooltip_class.substring(1)
+                  + '">' + content + '<span class="nub"></span></span>';
+              }
+            }
+          });
 
 
-       
 
 
           var dom = $(ReactDOM.findDOMNode(this));
@@ -557,4 +514,14 @@ var src="javascript:newLocCal()";
 
     </div>
   </div>
+
+
+
+  <!-- Hack for NUB in Tooltip -->
+<style>
+  .tooltip span.nub{
+    left: 18px;
+  } 
+</style>
+
 <%@include file="include/bodyBottom.jsp" %>

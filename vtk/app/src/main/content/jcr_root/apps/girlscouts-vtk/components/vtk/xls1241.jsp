@@ -137,16 +137,10 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
                     continue;
                     }
             }catch(Exception e){}
-            
-            
-            
+
             out.println( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ "," + yearPlanName  +","+ sfTroopId + ","+sfTroopName );          
             sb.append( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ "," + yearPlanName  +","+ sfTroopId + ","+sfTroopName );          
-           
-            
-           
-            
-           
+
         }
         
        
@@ -154,5 +148,5 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
 
 
 //email rpt
-councilRpt.emailRpt(sb.toString());//vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
+councilRpt.emailRpt(sb.toString());
     %>

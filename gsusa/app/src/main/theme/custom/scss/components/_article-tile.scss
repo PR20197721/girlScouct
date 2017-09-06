@@ -32,11 +32,11 @@ $lines-to-show: 3;
                 margin-top: 0;
                 font-weight: normal;
             }
-            @media #{$small-only} {   
-                h3{
-                   font-size: rem-calc(14);
-                   line-height: 1rem;   
-                   font-weight: normal;
+            @media #{$small-only} {
+                h3 {
+                    font-size: rem-calc(14);
+                    line-height: 1.25rem;
+                    font-weight: normal;
                 }
                 p {
                     line-height: 1rem;
@@ -177,16 +177,14 @@ $lines-to-show: 3;
             }
         }
         @media #{$small-only} {
-
-          section .text-content h3 {
-            font-size: rem-calc(13);
-            line-height: 1rem;
-          }
-          section .text-content {
-             padding-left: 0.8rem;
-            padding-right: 0.8rem;
-          }
-
+            section .text-content h3 {
+                font-size: rem-calc(14);
+                line-height: 1rem;
+            }
+            section .text-content {
+                padding-left: 0.8rem;
+                padding-right: 0.8rem;
+            }
         }
         ul {
             @include block-grid(2,

@@ -7,18 +7,18 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 public class User implements Serializable {
 
 	private ApiConfig apiConfig;
-	//private java.util.Set<Integer> permissions; ------pull from troop
 	private String sid;// my http sessionId
 	private String currentYear; // could be uniq id -> String
-/*
-	public java.util.Set<Integer> getPermissions() {
-		return permissions;
+	private int currentFinanceYear; //ex: 2017
+	
+	public int getCurrentFinanceYear() {
+		return currentFinanceYear;
 	}
 
-	public void setPermissions(java.util.Set<Integer> permissions) {
-		this.permissions = permissions;
+	public void setCurrentFinanceYear(int currentFinanceYear) {
+		this.currentFinanceYear = currentFinanceYear;
 	}
-*/
+
 	public ApiConfig getApiConfig() {
 		return apiConfig;
 	}

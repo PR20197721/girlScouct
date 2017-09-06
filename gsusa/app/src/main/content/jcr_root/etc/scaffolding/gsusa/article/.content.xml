@@ -4,7 +4,7 @@
     <jcr:content
         cq:lastModified="{Date}2014-04-30T11:18:03.571-04:00"
         cq:lastModifiedBy="admin"
-        cq:targetPath="/content/gsusa/en/raising-girls"
+        cq:targetPath="/content/gsusa/en"
         cq:targetTemplate="/apps/gsusa/templates/gsusa-content-hub-article-page"
         cq:template="/libs/wcm/scaffolding/templates/scaffolding"
         jcr:description="Content Hub Article Scaffolding"
