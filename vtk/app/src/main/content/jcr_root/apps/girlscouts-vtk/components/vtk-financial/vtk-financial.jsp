@@ -8,6 +8,7 @@
 	String councilnotes2 = properties.get("councilnotes2","");
 	String reviewandpublish1 = properties.get("reviewandpublish1","");
 	String reviewandpublish2 = properties.get("reviewandpublish2","");
+	String setuptip = properties.get("setuptip", "");
 %>
 
 ##### VTK Financial Tab Settings #####
@@ -21,5 +22,6 @@
     Council Notes And Questions For Troops Line 2: <%=councilnotes2 %><br>
     Review & Publish Line 1: <%=reviewandpublish1 %>
     Review & Publish Line 2: <%=reviewandpublish2 %>
+    Set Up Tip: <%= setuptip %>
   </p>
 </div>
