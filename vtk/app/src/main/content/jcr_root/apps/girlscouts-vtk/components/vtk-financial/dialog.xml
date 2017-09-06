@@ -58,7 +58,7 @@
 	                    xtype="textfield"/>
                     <setup-tip
                         jcr:primaryType="cq:Widget"
-                        hideLabel="{Boolean}true"
+                        fieldLabel="Set Up Tip"
                         name="./setuptip"
                         xtype="richtext">
                         <rtePlugins jcr:primaryType="nt:unstructured">
