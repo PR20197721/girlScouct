@@ -117,8 +117,13 @@ CQ.wcm.FormActionSelection = CQ.Ext.extend(CQ.form.Selection, {
 
     /*  The servlet that was used to retrieve form actions has been replaced by a hard-coded json file. We want to choose which actions appear to users.  */
     constructor: function(config) {
+    		// If in web2lead demo site, show demo web2lead form action.
+        var defaultOptions = window.location.href.indexOf('/content/web2lead-demo') == -1 ? 
+                "/apps/girlscouts/components/form/gs-actions.json" :
+                "/apps/girlscouts/components/form/gs-actions-web2lead-demo.json";
+        
         var defaults = {
-            options:"/apps/girlscouts/components/form/gs-actions.json",
+            options: defaultOptions,
             type:"select",
             tabId:"cq5_form_action_config_panel",
             workflowId:"cq5_form_action_workflow_id"
