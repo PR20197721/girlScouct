@@ -84,6 +84,7 @@ public class POST extends SlingAllMethodsServlet {
             throws ServletException, IOException {
 
         HtmlResponse htmlResponse = null;
+        StringBuilder errorLines = new StringBuilder();
 
         if (request.getRequestParameter(DOCUMENT_PARAM) != null) {
             InputStream in = request.getRequestParameter(DOCUMENT_PARAM).getInputStream();
@@ -277,10 +278,12 @@ public class POST extends SlingAllMethodsServlet {
 	                                lineRead++;
 	                                if(performLine(request,nextLine,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate, councilName)) {
 	                                   lineOK++;
+	                                } else{
+	                                	errorLines.append(lineRead + " ");
 	                                }
 	                            }
 	                            
-	                            if(lineOK>0) {
+	                            if(lineOK>0 && lineRead == lineOK) {
                                 	if(importType.equals("contacts")){
     	                                try {
     	                                	replicator = scriptHelper.getService(Replicator.class);
@@ -341,7 +344,7 @@ public class POST extends SlingAllMethodsServlet {
 	                                }
 	                            } else {
 	                                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                                    "Imported " + lineOK + "/" + lineRead + " lines");
+	                                    "Imported " + lineOK + "/" + lineRead + " lines. Encountered problems with lines " + errorLines.toString());
 	                            }
 	                        } else {
 	                            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
@@ -373,6 +376,7 @@ public class POST extends SlingAllMethodsServlet {
 
     public boolean performLine(SlingHttpServletRequest request, String[] line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> pathsToReplicate, String councilName) {
     	boolean updated = false;
+    	//Replace special characters
     	for(String s : line){
     		System.out.println(s.replaceAll("[\\u2013\\u2014\\u2015]", "-")
 					.replaceAll("[\\u2017]", "_")
@@ -389,22 +393,26 @@ public class POST extends SlingAllMethodsServlet {
             //Not made for files in the current format. Seems to follow older format.
             //values.remove(values.size() - 1);
             if(values.size() < headerSize) {
-                //completet missing last empty cols
+                //Fill in missing last empty cols
                 for(int i = values.size();i<=headerSize;i++) {
                     values.add("");
                 }
             }
+            //Assign base node?
             Node node = null;
-
+            
+            //Retrieve path of target content
             String path = (pathIndex > -1 ? values.get(pathIndex) : null);
 
+            //If path is not null or empty retrieve the resource represented by the path
             Resource resource = (path==null || path.length()==0 || path.equals(" ") ?
                     null : request.getResourceResolver().getResource(path));
             
+            //If importing contacts create all nodes from scratch
             if(importType.equals("contacts")){
             	node = rootNode;
             }else{
-            
+                
 	            if(resource!=null) {
 	                node = resource.adaptTo(Node.class);
 	            } else {
@@ -786,6 +794,7 @@ public class POST extends SlingAllMethodsServlet {
 		                                    	try{
 		                                    		updatedNode.setProperty(property,val);
 		                                    	}catch(Exception e){
+		                                    		return false;
 		                                    		e.printStackTrace();
 		                                    	}
 	                    					}
@@ -932,6 +941,9 @@ public class POST extends SlingAllMethodsServlet {
         } catch (RepositoryException e) {
         	e.printStackTrace();
             return false;
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	return false;
         }
         return updated;
     }
