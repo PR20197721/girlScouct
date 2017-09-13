@@ -56,6 +56,11 @@
 	                    fieldLabel="Document Attachments"
 	                    name="./documentattachments"
 	                    xtype="textfield"/>
+					<setup-tip-last-updated
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Set Up Tip Last Updated"
+	                    name="./setuptiplastupdated"
+	                    xtype="textfield"/>
                     <setup-tip
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Set Up Tip"
