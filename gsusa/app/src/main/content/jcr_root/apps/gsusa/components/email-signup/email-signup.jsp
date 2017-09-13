@@ -25,6 +25,7 @@ String dataExtensionKey = properties.get("dataextensionkey", "");
 
 String mainText = properties.get("heading", "New article alerts!"); 
 String subText = properties.get("description", "Get updates when new content is available."); 
+String source = properties.get("source", "");
 String fieldText = properties.get("emailplaceholder", "Enter your email address here");
 String fieldTextMobile = properties.get("emailplaceholdermobile", "Enter your email!"); 
 String submitButtonText = properties.get("submitbuttontext", "SUBMIT");
@@ -67,7 +68,7 @@ $(document).ready(function(){
 	var dename = '<%= dataExtensionName %>';
 	var dekey = '<%= dataExtensionKey %>';
 	var fieldTextMobile = '<%= fieldTextMobile %>';
-
+	var source = '<%= source %>';
 	var formID = '#<%= formID %>';
 	
 	$(formID).find('input[name="email"]').keyup(function(event) {
@@ -99,7 +100,7 @@ $(document).ready(function(){
 			else if (dekey.length == 0)
 				alert("Error: DataExtension Key is missing!");
 			else
-				post(this, url, email, cid, dename, dekey);
+				post(this, url, email, cid, dename, dekey, source);
 		}
 		
 	});
@@ -136,7 +137,7 @@ function toDefault(form) {
 	$(form).find('input[name="email"]').css("color", "black");
 }
 
-function post(form, url, email, cid, dename, dekey) {
+function post(form, url, email, cid, dename, dekey, source) {
 	//var url = 'http://localhost:4502/campsapi/ajax_camp_result.asp';
 
 	var opts = {
@@ -172,6 +173,7 @@ function post(form, url, email, cid, dename, dekey) {
 			cid: cid, 
 			deName: dename,
 			deKey: dekey,
+			source: source
 			},
 		dataType: 'json', 
 		success: function(data) {
