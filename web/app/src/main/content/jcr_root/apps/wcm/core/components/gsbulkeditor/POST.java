@@ -279,7 +279,7 @@ public class POST extends SlingAllMethodsServlet {
 	                                if(performLine(request,nextLine,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate, councilName)) {
 	                                   lineOK++;
 	                                } else{
-	                                	errorLines.append(lineRead + " ");
+	                                	errorLines.append((lineRead +1) +", ");
 	                                }
 	                            }
 	                            
@@ -343,6 +343,9 @@ public class POST extends SlingAllMethodsServlet {
 	                                    }
 	                                }
 	                            } else {
+	                            	if(errorLines.length() > 0){
+	                            		errorLines.delete(errorLines.lastIndexOf(','), errorLines.length());
+	                            	}
 	                                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
 	                                    "Imported " + lineOK + "/" + lineRead + " lines. Encountered problems with lines " + errorLines.toString());
 	                            }
@@ -794,8 +797,8 @@ public class POST extends SlingAllMethodsServlet {
 		                                    	try{
 		                                    		updatedNode.setProperty(property,val);
 		                                    	}catch(Exception e){
-		                                    		return false;
 		                                    		e.printStackTrace();
+		                                    		return false;
 		                                    	}
 	                    					}
 	                    				}else if((property.equals("start") || property.equals("end") || property.equals("regOpen") || property.equals("regClose")) && additional.equals("time")){
