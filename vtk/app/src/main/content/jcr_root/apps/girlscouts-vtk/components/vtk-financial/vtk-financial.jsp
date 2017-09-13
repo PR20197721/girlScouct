@@ -11,6 +11,7 @@
     TL preview instructions 2: <%= properties.get("tlpreviewinst2", "") %><br>
     Notes and Questions: <%= properties.get("finsum2", "") %><br>
     Document Attachments: <%= properties.get("documentattachments", "") %><br>
+    Set Up Tip Last Updated: <%= properties.get("setuptiplastupdated", "") %><br>
     Set Up Tip: <%= properties.get("setuptip", "") %><br>
   </p>
 </div>
