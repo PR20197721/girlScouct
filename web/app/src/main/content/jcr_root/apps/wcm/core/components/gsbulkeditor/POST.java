@@ -344,7 +344,7 @@ public class POST extends SlingAllMethodsServlet {
 	                                }
 	                            } else {
 	                            	if(errorLines.length() > 0){
-	                            		errorLines.delete(errorLines.lastIndexOf(','), errorLines.length());
+	                            		errorLines.delete(errorLines.lastIndexOf(","), errorLines.length());
 	                            	}
 	                                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
 	                                    "Imported " + lineOK + "/" + lineRead + " lines. Encountered problems with lines " + errorLines.toString());
