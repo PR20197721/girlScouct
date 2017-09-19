@@ -33,6 +33,13 @@
                 		defaultValue="Get updates when new content is available."
                 		name="./description"
                 		xtype="textfield"/>
+                	<source 
+                	    jcr:primaryType="cq:Widget"
+                	    fieldLabel="Source"
+                	    fieldDescription="Originating source in 300 or less characters"
+                	    defaultValue=""
+                	    name="./source"
+                	    xtye="textfield" />
                 	<emailplaceholder
                 		jcr:primaryType="cq:Widget"
                 		fieldLabel="Email Placeholder"
