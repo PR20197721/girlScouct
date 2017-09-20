@@ -179,11 +179,23 @@ public class PageActivationUtil implements PageActivationConstants {
 		return pages;
 	}
 
-	public static Set<String> getPages(Node n) throws RepositoryException {
+	public static Set<String> getPagesToActivate(Node n) throws RepositoryException {
 		Set<String> pages = new HashSet<String>();
 		if (n.hasProperty(PARAM_PAGES)) {
 			pages = new HashSet<String>();
 			Value[] values = n.getProperty(PARAM_PAGES).getValues();
+			for (Value value : values) {
+				pages.add(value.getString());
+			}
+		}
+		return pages;
+	}
+
+	public static Set<String> getPagesToDelete(Node n) throws RepositoryException {
+		Set<String> pages = new HashSet<String>();
+		if (n.hasProperty(PARAM_PAGES_TO_DELETE)) {
+			pages = new HashSet<String>();
+			Value[] values = n.getProperty(PARAM_PAGES_TO_DELETE).getValues();
 			for (Value value : values) {
 				pages.add(value.getString());
 			}

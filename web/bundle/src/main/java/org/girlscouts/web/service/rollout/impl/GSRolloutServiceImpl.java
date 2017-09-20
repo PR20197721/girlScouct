@@ -19,7 +19,7 @@ import org.girlscouts.web.components.GSEmailAttachment;
 import org.girlscouts.web.components.PageActivationUtil;
 import org.girlscouts.web.constants.PageActivationConstants;
 import org.girlscouts.web.councilrollout.GirlScoutsNotificationAction;
-import org.girlscouts.web.councilupdate.PageActivator;
+import org.girlscouts.web.councilupdate.PageReplicator;
 import org.girlscouts.web.service.email.GSEmailService;
 import org.girlscouts.web.service.rollout.GSRolloutService;
 import org.osgi.framework.Constants;
@@ -55,8 +55,6 @@ import org.apache.sling.api.resource.ResourceResolver;
 /*
  * Girl Scouts Page Activator - DL
  * This process activates a queue of pages, in batches, with a timed delay between batches
- * This system of staggering activations allows the dispatcher caches to rebuild during large rollouts
- * The process runs at a scheduled time as a cron job, but it can also be called as a sling service and run at any time with the run() method
  */
 @Component
 @Service
@@ -73,18 +71,14 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 	private ResourceResolverFactory resolverFactory;
 	@Reference
 	private RolloutManager rolloutManager;
-	@Reference 
-	private Replicator replicator;
 	@Reference
     private SlingSettingsService settingsService;
 	@Reference
 	public GSEmailService gsEmailService;
 	@Reference
-	private GirlScoutsNotificationAction notificationAction;
-	@Reference
 	private LiveRelationshipManager relationManager;
 	@Reference
-	private PageActivator pageActivator;
+	private PageReplicator pageReplicator;
 	
 	private ResourceResolver rr;
 	
@@ -103,7 +97,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			return;
 		}
 		try {
-			// 30 second remorse wait time in case workflow needs to be stopped.
+			// N second remorse wait time in case workflow needs to be stopped.
 			Thread.sleep(DEFAULT_REMORSE_WAIT_TIME);
 		} catch (InterruptedException e) {
 			log.error("Girlscouts Rollout Service encountered error: ", e);
@@ -202,11 +196,11 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				}
 				sendGSUSANotifications(dateRolloutNode, rolloutLog, councilNotificationLog, isTestMode);
 				if (activate) {
-					if (!delay) {
-						pageActivator.processActivationNode(dateRolloutNode);
-					} else {
+					if (delay) {
 						dateRolloutNode.setProperty(PARAM_STATUS, STATUS_DELAYED);
 						session.save();
+					} else {
+						pageReplicator.processReplicationNode(dateRolloutNode);
 					}
 				} else {
 					dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETE);

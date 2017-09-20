@@ -4,18 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
-import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.Value;
-import javax.jcr.ValueFormatException;
 import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
@@ -27,7 +24,7 @@ import org.girlscouts.web.components.PageActivationUtil;
 import org.girlscouts.web.constants.PageActivationConstants;
 import org.girlscouts.web.councilrollout.GirlScoutsNotificationAction;
 import org.girlscouts.web.councilupdate.CacheThread;
-import org.girlscouts.web.councilupdate.PageActivator;
+import org.girlscouts.web.councilupdate.PageReplicator;
 import org.girlscouts.web.service.email.GSEmailService;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
@@ -54,7 +51,7 @@ import org.apache.sling.settings.SlingSettingsService;
 import org.apache.sling.api.resource.ResourceResolver;
 
 /*
- * Girl Scouts Page Activator - DL
+ * Girl Scouts Page Replicator - DL
  * This process activates a queue of pages, in batches, with a timed delay between batches
  * This system of staggering activations allows the dispatcher caches to rebuild during large rollouts
  * The process runs at a scheduled time as a cron job, but it can also be called as a sling service and run at any time with the run() method
@@ -62,22 +59,22 @@ import org.apache.sling.api.resource.ResourceResolver;
 @Component(
 		metatype = true, 
 		immediate = true,
-		label = "Girl Scouts Page Activation Service", 
-		description = "Activates pages at night to make cache-clearing interfere less with production sites" 
+		label = "Girl Scouts Page Replication Service", 
+		description = "Activates/Deletes pages at night to make sure cache-clearing does not interfere with traffic on production sites" 
 		)
-@Service(value = {Runnable.class, PageActivator.class})
+@Service(value = {Runnable.class, PageReplicator.class})
 @Properties({
-	@Property(name = "service.description", value = "Girl Scouts GS Activation Service",propertyPrivate=true),
+		@Property(name = "service.description", value = "Girl Scouts GS Replication Service", propertyPrivate = true),
 	@Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate=true), 
 	@Property(name = "scheduler.expression", label="scheduler.expression", description="cron expression"),
 	@Property(name = "scheduler.concurrent", boolValue=false, propertyPrivate=true),
 		@Property(name = "scheduler.runOn", value = "SINGLE", propertyPrivate = true)
 })
 
-public class PageActivatorImpl
-		implements Runnable, PageActivator, PageActivationConstants, PageActivationConstants.Email {
+public class PageReplicatorImpl
+		implements Runnable, PageReplicator, PageActivationConstants, PageActivationConstants.Email {
 	
-	private static Logger log = LoggerFactory.getLogger(PageActivatorImpl.class);
+	private static Logger log = LoggerFactory.getLogger(PageReplicatorImpl.class);
 	@Reference
 	protected ResourceResolverFactory resolverFactory;
 	@Reference
@@ -94,7 +91,6 @@ public class PageActivatorImpl
 	protected LiveRelationshipManager relationManager;
 	
 	protected ResourceResolver rr;
-	//configuration fields
 	
 	@Activate
 	private void activate(ComponentContext context) {
@@ -103,62 +99,67 @@ public class PageActivatorImpl
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}
+		log.info("Girlscouts Page Replication Service Deactivated.");
 	}
 
 	@Override
 	public void run() {
-		log.error("Running page activator PageActivatorImpl");
+		log.error("Running PageReplicatorImpl");
 		if (isPublisher()) {
-			log.error("Publisher instance - will not execute Page Activator");
+			log.error("Publisher instance - will not execute Page Replicator");
 			return;
 		}
 
-		List<Node> queuedActivations = queueDelayedActivations();
-		if (queuedActivations != null) {
-			List<Node> activationsToCrawl = new ArrayList<Node>();
-			for (Node dateRolloutNode : queuedActivations) {
+		List<Node> queuedReplications = queueDelayedReplications();
+		if (queuedReplications != null) {
+			List<Node> replicationsToCrawl = new ArrayList<Node>();
+			for (Node dateRolloutNode : queuedReplications) {
 				Boolean crawl = true;
 				try {
 					crawl = dateRolloutNode.getProperty(PARAM_CRAWL).getBoolean();
 					if (crawl) {
-						activationsToCrawl.add(dateRolloutNode);
+						replicationsToCrawl.add(dateRolloutNode);
 					} else {
-						processActivationNode(dateRolloutNode);
+						processReplicationNode(dateRolloutNode);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			if (!activationsToCrawl.isEmpty()) {
+			if (!replicationsToCrawl.isEmpty()) {
 				try {
-					if (activationsToCrawl.size() > 1) {
-						aggregateActivateCrawl(activationsToCrawl);
+					if (replicationsToCrawl.size() > 1) {
+						aggregateReplicateCrawl(replicationsToCrawl);
 					} else {
-						processActivationNode(activationsToCrawl.get(0));
+						processReplicationNode(replicationsToCrawl.get(0));
 					}
 				} catch (RepositoryException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		log.error("Finished page activator PageActivatorImpl");
+		log.error("Finished PageReplicatorImpl");
 	}
 
 	@Override
-	public void processActivationNode(Node dateRolloutNode) throws RepositoryException {
+	public void processReplicationNode(Node dateRolloutNode) throws RepositoryException {
 		long begin = System.currentTimeMillis();
 		Session session = dateRolloutNode.getSession();
 		try {
 			if (dateRolloutNode.hasProperty(PARAM_STATUS)
-					&& !STATUS_PROCESSING.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())) {
+					&& !STATUS_PROCESSING.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())
+					&& !STATUS_FAILED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())
+					&& !STATUS_COMPLETE.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())
+					&& !STATUS_AGGREGATED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())
+					&& !STATUS_QUEUED.equals(dateRolloutNode.getProperty(PARAM_STATUS).getString())) {
 				dateRolloutNode.setProperty(PARAM_STATUS, STATUS_PROCESSING);
 				session.save();
 			}
 		} catch (Exception e) {
-			log.error("Girlscouts Page Activator encountered error: ", e);
+			log.error("Girlscouts Page Replicator encountered error: ", e);
 			return;
 		}
-		Boolean delay = false, crawl = false, activate = true;
+		Boolean delay = false, crawl = false;
 		try {
 			delay = dateRolloutNode.getProperty(PARAM_DELAY).getBoolean();
 		} catch (Exception e) {
@@ -167,36 +168,44 @@ public class PageActivatorImpl
 			crawl = dateRolloutNode.getProperty(PARAM_CRAWL).getBoolean();
 		} catch (Exception e) {
 		}
-		try {
-			activate = dateRolloutNode.getProperty(PARAM_ACTIVATE).getBoolean();
-		} catch (Exception e) {
-		}
 	
 		PageActivationReporter reporter = new PageActivationReporter(dateRolloutNode, session);
 		reporter.report("Initializing process");
 		Set<String> pages = null;
+		Set<String> pagesToDelete = null;
 		reporter.report("Retrieving page queue");
 		try {
-			pages = PageActivationUtil.getPages(dateRolloutNode);
+			pages = PageActivationUtil.getPagesToActivate(dateRolloutNode);
 		} catch (Exception e) {
-			reporter.report("Failed to get initial page count");
+			reporter.report("Failed to get initial pages to activate count");
 			e.printStackTrace();
-			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
-			return;
 		}
-		if (pages.isEmpty()) {
+		try {
+			pagesToDelete = PageActivationUtil.getPagesToDelete(dateRolloutNode);
+		} catch (Exception e) {
+			reporter.report("Failed to get initial pages to delete count");
+			e.printStackTrace();
+		}
+		if (pages.isEmpty() && pagesToDelete.isEmpty()) {
 			reporter.report("No pages found in page queue. Will not proceed");
 			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
 			return;
 		}
-		Set<String> activatedPages = new TreeSet<String>();
 		TreeSet<String> unmappedPages = new TreeSet<String>();
+		Map<String, Set<String>> replicatedPages = new HashMap<String, Set<String>>();
 		HashMap<String, TreeSet<String>> toActivate = new HashMap<String, TreeSet<String>>();
+		HashMap<String, TreeSet<String>> toDelete = new HashMap<String, TreeSet<String>>();
 		reporter.report("Arranging " + pages.size() + " pages by council");
 		try {
 			toActivate = groupByCouncil(pages, unmappedPages);
 		} catch (Exception e) {
-			reporter.report("Failed to sort pages by council");
+			reporter.report("Failed to group pages to activate by council");
+			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
+		}
+		try {
+			toDelete = groupByCouncil(pagesToDelete, unmappedPages);
+		} catch (Exception e) {
+			reporter.report("Failed to group pages to delete by council");
 			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
 		}
 		if (unmappedPages.size() > 0) {
@@ -204,25 +213,28 @@ public class PageActivatorImpl
 				reporter.report("Page " + u + " could not be mapped to an external url");
 			}
 		}
-		if (toActivate.size() > 0 && activate) {
+		if (toActivate.size() > 0 || toDelete.size() > 0) {
 			if (crawl) {
-				activatedPages = activateAndBuildCache(toActivate, dateRolloutNode, reporter);
+				replicatedPages = replicateAndCrawl(toActivate, toDelete, dateRolloutNode, reporter);
 			} else {
-				activatedPages = activatePages(toActivate, dateRolloutNode, reporter);
+				replicatedPages = replicatePages(toActivate, toDelete, dateRolloutNode, reporter);
 			}
 		}
 		long end = System.currentTimeMillis();
 		reporter.report("Sending report email");
 		try {
-			sendReportEmail(begin, end, delay, crawl, activatedPages, dateRolloutNode, reporter);
+			sendReportEmail(begin, end, delay, crawl, replicatedPages, dateRolloutNode, reporter);
 			reporter.report("Report email delivered");
 		} catch (Exception e) {
 			reporter.report("Unable to send report email");
 		}
 	
 		try {
+			Set<String> activatedPages = replicatedPages.get(PARAM_ACTIVATED_PAGES);
+			Set<String> deletedPages = replicatedPages.get(PARAM_DELETED_PAGES);
 			dateRolloutNode.setProperty(PARAM_ACTIVATED_PAGES,
 					activatedPages.toArray(new String[activatedPages.size()]));
+			dateRolloutNode.setProperty(PARAM_DELETED_PAGES, deletedPages.toArray(new String[deletedPages.size()]));
 			dateRolloutNode.setProperty(PARAM_UNMAPPED_PAGES, unmappedPages.toArray(new String[unmappedPages.size()]));
 			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETE);
 			session.save();
@@ -231,7 +243,7 @@ public class PageActivatorImpl
 			PageActivationUtil.archive(dateRolloutNode);
 			reporter.report("Process completed");
 		} catch (Exception e) {
-			log.error("Girlscouts Page Activator encountered error: ", e);
+			log.error("Girlscouts Page Replicator encountered error: ", e);
 		}
 	}
 
@@ -242,31 +254,35 @@ public class PageActivatorImpl
 		return false;
 	}
 
-	protected Set<String> activatePages(HashMap<String, TreeSet<String>> toActivate, Node dateNode,
+	protected Map<String, Set<String>> replicatePages(HashMap<String, TreeSet<String>> toActivate,
+			HashMap<String, TreeSet<String>> toDelete, Node dateNode,
 			PageActivationReporter reporter) {
+		reporter.report("Replicating all pages immediately");
+		Map<String, Set<String>> replicatedPages = new HashMap<String, Set<String>>();
 		Set<String> activatedPages = new TreeSet<String>();
-		Set<String> councilDomainsSet = new TreeSet<String>(toActivate.keySet());
-		reporter.report("Activating all pages immediately");
+		Set<String> deletedPages = new TreeSet<String>();
+		Set<String> councilDomainsSet = new TreeSet<String>();
+		councilDomainsSet.addAll(toActivate.keySet());
+		councilDomainsSet.addAll(toDelete.keySet());
 		for (String domain : councilDomainsSet) {
-			TreeSet<String> pagesToActivate = toActivate.get(domain);
-			for (String pageToActivate : pagesToActivate) {
-				reporter.report("Activating " + pageToActivate);
-				try {
-					replicator.replicate(dateNode.getSession(), ReplicationActionType.ACTIVATE, pageToActivate);
-				} catch (Exception e) {
-					reporter.report("Failed to activate " + pageToActivate);
-					log.error("Girlscouts Page Activator encountered error: ", e);
-				}
-				activatedPages.add(pageToActivate);
-			}
+			Map<String, Set<String>> replicatedPagesForDomain = replicate(dateNode, reporter,
+					toDelete.get(domain), toActivate.get(domain));
+			activatedPages.addAll(replicatedPagesForDomain.get(PARAM_ACTIVATED_PAGES));
+			deletedPages.addAll(replicatedPagesForDomain.get(PARAM_DELETED_PAGES));
 		}
-		return activatedPages;
+		replicatedPages.put(PARAM_ACTIVATED_PAGES, activatedPages);
+		replicatedPages.put(PARAM_DELETED_PAGES, deletedPages);
+		return replicatedPages;
 	}
 
-	protected TreeSet<String> activateAndBuildCache(HashMap<String, TreeSet<String>> toActivate,
-			Node dateNode, PageActivationReporter reporter) {
-		TreeSet<String> activatedPages = new TreeSet<String>();
-		Set<String> councilDomainsSet = new TreeSet<String>(toActivate.keySet());
+	protected Map<String, Set<String>> replicateAndCrawl(HashMap<String, TreeSet<String>> toActivate,
+			HashMap<String, TreeSet<String>> toDelete, Node dateNode, PageActivationReporter reporter) {
+		Map<String, Set<String>> replicatedPages = new HashMap<String, Set<String>>();
+		Set<String> activatedPages = new TreeSet<String>();
+		Set<String> deletedPages = new TreeSet<String>();
+		Set<String> councilDomainsSet = new TreeSet<String>();
+		councilDomainsSet.addAll(toActivate.keySet());
+		councilDomainsSet.addAll(toDelete.keySet());
 		int batchSize = PageActivationUtil.getGroupSize(rr);
 		int sleepTime = PageActivationUtil.getMinutes(rr) * 60 * 1000;
 		int depth = PageActivationUtil.getCrawlDepth(rr);
@@ -293,24 +309,22 @@ public class PageActivatorImpl
 					Thread.sleep(sleepTime);
 				} catch (InterruptedException e) {
 					reporter.report("Waiting Failed - process (including activations) cancelled prematurely");
-					log.error("Girlscouts Page Activator encountered error: ", e);
+					log.error("Girlscouts Page Replicator encountered error: ", e);
 					break;
 				}
 			}
 			try {
-				TreeSet<String> pagesToActivate = toActivate.get(domain);
-				for (String pageToActivate : pagesToActivate) {
-					reporter.report("Activating " + pageToActivate);
-					replicator.replicate(dateNode.getSession(), ReplicationActionType.ACTIVATE, pageToActivate);
-					activatedPages.add(pageToActivate);
-				}
+				Map<String, Set<String>> replicatedPagesForDomain = replicate(dateNode, reporter, toDelete.get(domain),
+						toActivate.get(domain));
+				activatedPages.addAll(replicatedPagesForDomain.get(PARAM_ACTIVATED_PAGES));
+				deletedPages.addAll(replicatedPagesForDomain.get(PARAM_DELETED_PAGES));
 				reporter.report("Waiting 5 sec for stat file to update before cache build");
 				try {
 					// Wait 5 seconds for stat file to update
 					Thread.sleep(5000);
 				} catch (InterruptedException e) {
 					reporter.report("5 second break failed - process concluded prematurely");
-					log.error("Girlscouts Page Activator encountered error: ", e);
+					log.error("Girlscouts Page Replicator encountered error: ", e);
 					break;
 				}
 				reporter.report("Crawling " + domain);
@@ -346,19 +360,21 @@ public class PageActivatorImpl
 				}
 				toActivate.remove(domain);
 			} catch (Exception e) {
-				log.error("Girlscouts Page Activator An error occurred while processing: " + domain);
-				log.error("Girlscouts Page Activator encountered error: ", e);
+				log.error("Girlscouts Page Replicator An error occurred while processing: " + domain);
+				log.error("Girlscouts Page Replicator encountered error: ", e);
 				try {
 					reporter.report("Cache may not have built correctly for " + domain);
 					Node detailedReportNode = dateNode.addNode(domain, "nt:unstructured");
 					detailedReportNode.setProperty("message", e.getMessage());
 				} catch (Exception e1) {
-					log.error("Girlscouts Page Activator encountered error: ", e1);
+					log.error("Girlscouts Page Replicator encountered error: ", e1);
 					continue;
 				}
 			}
 		}
-		return activatedPages;
+		replicatedPages.put(PARAM_ACTIVATED_PAGES, activatedPages);
+		replicatedPages.put(PARAM_DELETED_PAGES, deletedPages);
+		return replicatedPages;
 	}
 	
 	protected HashMap<String, TreeSet<String>> groupByCouncil(Set<String> pages, TreeSet<String> unmapped) {
@@ -377,7 +393,7 @@ public class PageActivatorImpl
 			}catch(Exception e){
 				unmapped.add(page);
 				log.error("Could not map page " + page);
-				log.error("Girlscouts Page Activator encountered error: ", e);
+				log.error("Girlscouts Page Replicator encountered error: ", e);
 				continue;
 			}
 		}
@@ -420,9 +436,12 @@ public class PageActivatorImpl
 	    return toReturn;
 	}
 	
-	protected void sendReportEmail(long startTime, long endTime, Boolean delay, Boolean crawl, Set<String> builtPages,
+	protected void sendReportEmail(long startTime, long endTime, Boolean delay, Boolean crawl,
+			Map<String, Set<String>> replicatedPages,
 			Node dateNode, PageActivationReporter reporter) throws RepositoryException {
-		if (builtPages.size() > 0) {
+		if (replicatedPages.size() > 0) {
+			Set<String> activatedPages = replicatedPages.get(PARAM_ACTIVATED_PAGES);
+			Set<String> deletedPages = replicatedPages.get(PARAM_DELETED_PAGES);
 			reporter.report("Retrieving email addresses for report");
 			List<String> emails = PageActivationUtil.getReportEmails(rr);
 			if (emails != null && emails.size() > 0) {
@@ -439,11 +458,20 @@ public class PageActivatorImpl
 						;
 					}
 				}
-				html.append("<p>Pages Activated:</p><ul>");
-				for (String page : builtPages) {
-					html.append("<li>" + page + "</li>");
+				if (deletedPages != null) {
+					html.append("<p>Deleted Pages:</p><ul>");
+					for (String page : deletedPages) {
+						html.append("<li>" + page + "</li>");
+					}
+					html.append("</ul>");
 				}
-				html.append("</ul>");
+				if (activatedPages != null) {
+					html.append("<p>Activated Pages:</p><ul>");
+					for (String page : activatedPages) {
+						html.append("<li>" + page + "</li>");
+					}
+					html.append("</ul>");
+				}
 				long timeDiff = (endTime - startTime) / 60000;
 				html.append("<p>The entire process took approximately " + timeDiff + " minutes to complete</p>");
 				html.append("</body></html>");
@@ -469,7 +497,50 @@ public class PageActivatorImpl
 		}
 	}
 
-	private List<Node> queueDelayedActivations() {
+	private Map<String, Set<String>> replicate(Node dateNode, PageActivationReporter reporter,
+			TreeSet<String> pagesToDelete, TreeSet<String> pagesToActivate) {
+		Map<String, Set<String>> replicatedPages = new HashMap<String, Set<String>>();
+		if (pagesToDelete != null && !pagesToDelete.isEmpty()) {
+			Set<String> deletedPages = new TreeSet<String>();
+			reporter.report("Replicating Deletions");
+			for (String pageToDelete : pagesToDelete) {
+				reporter.report("Deactivating " + pageToDelete);
+				try {
+					replicator.replicate(dateNode.getSession(), ReplicationActionType.DEACTIVATE, pageToDelete);
+				} catch (Exception e) {
+					reporter.report("Failed to deactivate " + pageToDelete);
+					log.error("Girlscouts Page Replicator encountered error: ", e);
+				}
+				reporter.report("Deleting " + pageToDelete);
+				try {
+					replicator.replicate(dateNode.getSession(), ReplicationActionType.DELETE, pageToDelete);
+					deletedPages.add(pageToDelete);
+				} catch (Exception e) {
+					reporter.report("Failed to delete " + pageToDelete);
+					log.error("Girlscouts Page Replicator encountered error: ", e);
+				}
+			}
+			replicatedPages.put(PARAM_DELETED_PAGES, deletedPages);
+		}
+		if (pagesToActivate != null && !pagesToActivate.isEmpty()) {
+			Set<String> activatedPages = new TreeSet<String>();
+			reporter.report("Replicating Activations");
+			for (String pageToActivate : pagesToActivate) {
+				reporter.report("Activating " + pageToActivate);
+				try {
+					replicator.replicate(dateNode.getSession(), ReplicationActionType.ACTIVATE, pageToActivate);
+					activatedPages.add(pageToActivate);
+				} catch (Exception e) {
+					reporter.report("Failed to activate " + pageToActivate);
+					log.error("Girlscouts Page Replicator encountered error: ", e);
+				}
+			}
+			replicatedPages.put(PARAM_ACTIVATED_PAGES, activatedPages);
+		}
+		return replicatedPages;
+	}
+
+	private List<Node> queueDelayedReplications() {
 		List<Node> activations = null;
 		Session session = rr.adaptTo(Session.class);
 		Resource gsDelayedRes = rr.resolve(PAGE_ACTIVATIONS_PATH + "/" + DELAYED_NODE);
@@ -494,46 +565,44 @@ public class PageActivatorImpl
 				e1.printStackTrace();
 			}
 			try {
-				activations.add(getEventsActivationNode(gsDelayedRes));
+				activations.add(getEventsReplicationNode(gsDelayedRes));
 			} catch (Exception e) {
-				log.error("Girlscouts Page Activator encountered error: ", e);
+				log.error("Girlscouts Page Replicator encountered error: ", e);
 			}
 		}
 		return activations;
 	}
 
-	private Node getEventsActivationNode(Resource gsDelayedRes) throws RepositoryException {
-		Node eventActivationNode = null;
+	private Node getEventsReplicationNode(Resource gsDelayedRes) throws RepositoryException {
+		Node eventReplicationNode = null;
 		try {
 			Resource etcRes = rr.resolve("/etc");
 			Node etcNode = etcRes.adaptTo(Node.class);
-			Node activationsNode = null;
+			Node replicationsNode = null;
 			if (etcNode.hasNode(EVENT_ACTIVATIONS_NODE)) {
-				activationsNode = etcNode.getNode(EVENT_ACTIVATIONS_NODE);
+				replicationsNode = etcNode.getNode(EVENT_ACTIVATIONS_NODE);
 			} else {
-				activationsNode = etcNode.addNode(EVENT_ACTIVATIONS_NODE);
+				replicationsNode = etcNode.addNode(EVENT_ACTIVATIONS_NODE);
 			}
-			if (activationsNode != null) {
-				Set<String> pages = PageActivationUtil.getPages(activationsNode);
+			if (replicationsNode != null) {
+				Set<String> pages = PageActivationUtil.getPagesToActivate(replicationsNode);
 				if (pages != null && !pages.isEmpty()) {
 					String eventsNodeName = "E-" + PageActivationUtil.getDateRes();
 					Node gsDelayedNode = gsDelayedRes.adaptTo(Node.class);
-					eventActivationNode = gsDelayedNode.addNode(eventsNodeName);
-					eventActivationNode.setProperty(PARAM_PAGES, pages.toArray(new String[pages.size()]));
-					eventActivationNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
-					eventActivationNode.setProperty(PARAM_DELAY, Boolean.TRUE);
-					eventActivationNode.setProperty(PARAM_ACTIVATE, Boolean.TRUE);
-					eventActivationNode.setProperty(PARAM_ACTIVATE, Boolean.TRUE);
-					eventActivationNode.setProperty(PARAM_STATUS, STATUS_CREATED);
-					eventActivationNode.getSession().save();
+					eventReplicationNode = gsDelayedNode.addNode(eventsNodeName);
+					eventReplicationNode.setProperty(PARAM_PAGES, pages.toArray(new String[pages.size()]));
+					eventReplicationNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
+					eventReplicationNode.setProperty(PARAM_DELAY, Boolean.TRUE);
+					eventReplicationNode.setProperty(PARAM_STATUS, STATUS_CREATED);
+					eventReplicationNode.getSession().save();
 				}
-				activationsNode.setProperty(PARAM_PAGES, new String[] {});
-				activationsNode.getSession().save();
+				replicationsNode.setProperty(PARAM_PAGES, new String[] {});
+				replicationsNode.getSession().save();
 			}
 		} catch (Exception e) {
-			log.error("Girlscouts Page Activator encountered error: ", e);
+			log.error("Girlscouts Page Replicator encountered error: ", e);
 		}
-		return eventActivationNode;
+		return eventReplicationNode;
 	}
 
 	private Node getAggregateDateRolloutNode() throws RepositoryException {
@@ -563,55 +632,54 @@ public class PageActivatorImpl
 				session.save();
 			}
 		} catch (Exception e) {
-			log.error("Girlscouts Page Activator encountered error: ", e);
+			log.error("Girlscouts Page Replicator encountered error: ", e);
 		}
 		return dateRolloutNode;
 	}
 
-	private void aggregate(Node activationNode, Node aggregatedRolloutNode) {
+	private void aggregate(Node replicationNode, Node aggregatedRolloutNode) {
 		try {
-			Set<String> pages = PageActivationUtil.getPages(activationNode);
-			if (pages != null && !pages.isEmpty()) {
-				log.error("Girlscouts Page Activator: Aggregating " + activationNode.getPath() + " into "
+			log.error("Girlscouts Page Replicator: Aggregating " + replicationNode.getPath() + " into "
 						+ aggregatedRolloutNode.getPath());
-				Set<String> aggregatedPages = new TreeSet<String>();
-				aggregatedPages.addAll(PageActivationUtil.getPages(aggregatedRolloutNode));
-				Session session = activationNode.getSession();
-				session.move(activationNode.getPath(),
-						aggregatedRolloutNode.getPath() + "/" + activationNode.getName());
-				activationNode.setProperty(PARAM_STATUS, STATUS_AGGREGATED);
-				session.save();
-				aggregatedPages.addAll(pages);
-				aggregatedRolloutNode.setProperty(PARAM_PAGES,
-						aggregatedPages.toArray(new String[aggregatedPages.size()]));
-				aggregatedRolloutNode.getSession().save();
-			}
+			Set<String> aggregatedPagesToActivate = new TreeSet<String>();
+			Set<String> aggregatedPagesToDelete = new TreeSet<String>();
+			aggregatedPagesToActivate.addAll(PageActivationUtil.getPagesToActivate(aggregatedRolloutNode));
+			aggregatedPagesToDelete.addAll(PageActivationUtil.getPagesToDelete(aggregatedRolloutNode));
+			aggregatedPagesToActivate.addAll(PageActivationUtil.getPagesToActivate(replicationNode));
+			aggregatedPagesToDelete.addAll(PageActivationUtil.getPagesToDelete(replicationNode));
+			aggregatedRolloutNode.setProperty(PARAM_PAGES,
+					aggregatedPagesToActivate.toArray(new String[aggregatedPagesToActivate.size()]));
+			aggregatedRolloutNode.setProperty(PARAM_PAGES_TO_DELETE,
+					aggregatedPagesToDelete.toArray(new String[aggregatedPagesToDelete.size()]));
+			aggregatedRolloutNode.getSession().save();
+			replicationNode.setProperty(PARAM_STATUS, STATUS_AGGREGATED);
+			replicationNode.getSession().move(replicationNode.getPath(),
+					aggregatedRolloutNode.getPath() + "/" + replicationNode.getName());
+			replicationNode.getSession().save();
 		} catch (RepositoryException e) {
-			log.error("Girlscouts Page Activator encountered error: ", e);
+			log.error("Girlscouts Page Replicator encountered error: ", e);
 		}
 	}
 
-	private void aggregateActivateCrawl(List<Node> activationsToCrawl) throws RepositoryException {
-		if (activationsToCrawl != null && !activationsToCrawl.isEmpty()) {
-			log.error("Girlscouts Page Activator: Aggregating " + activationsToCrawl.size()
+	private void aggregateReplicateCrawl(List<Node> replicationsToCrawl) throws RepositoryException {
+		if (replicationsToCrawl != null && !replicationsToCrawl.isEmpty()) {
+			log.error("Girlscouts Page Replicator: Aggregating " + replicationsToCrawl.size()
 					+ " nodes to activate and crawl.");
 			Node aggregatedRolloutNode = getAggregateDateRolloutNode();
 			aggregatedRolloutNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
 			aggregatedRolloutNode.setProperty(PARAM_DELAY, Boolean.TRUE);
-			aggregatedRolloutNode.setProperty(PARAM_ACTIVATE, Boolean.TRUE);
 			aggregatedRolloutNode.setProperty(PARAM_STATUS, STATUS_CREATED);
-			for (Node activationNode : activationsToCrawl) {
+			aggregatedRolloutNode.getSession().save();
+			for (Node activationNode : replicationsToCrawl) {
 				aggregate(activationNode, aggregatedRolloutNode);
 			}
-			Set<String> pages = PageActivationUtil.getPages(aggregatedRolloutNode);
-			if (aggregatedRolloutNode != null && pages != null && !pages.isEmpty()) {
-				processActivationNode(aggregatedRolloutNode);
-			}
+			aggregatedRolloutNode.getSession().save();
+			processReplicationNode(aggregatedRolloutNode);
 		}
 	}
 
 	@Deactivate
 	private void deactivate(ComponentContext componentContext) {
-		log.info("GS Page Activation Service Deactivated.");
+		log.info("Girlscouts Page Replication Service Deactivated.");
 	}
 }

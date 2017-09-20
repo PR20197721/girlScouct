@@ -43,8 +43,10 @@ public interface PageActivationConstants {
 	public static final String PARAM_SOURCE_PATH = "srcpath";
 	public static final String PARAM_TEST_MODE = "testMode";
 	public static final String PARAM_PAGES = "pages";
+	public static final String PARAM_PAGES_TO_DELETE = "pagesToDelete";
 	public static final String PARAM_NOTIFY_COUNCILS = "notifyCouncils";
 	public static final String PARAM_ACTIVATED_PAGES = "activatedPages";
+	public static final String PARAM_DELETED_PAGES = "deletedPages";
 	public static final String PARAM_UNMAPPED_PAGES = "unmappedPages";
 	public static final String PARAM_REPORT_EMAILS = "emails";
 	public static final String PARAM_DISPATCHER_IPS = "ips";
