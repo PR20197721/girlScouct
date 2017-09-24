@@ -10,6 +10,7 @@ public class User implements Serializable {
 	private String sid;// my http sessionId
 	private String currentYear; // could be uniq id -> String
 	private int currentFinanceYear; //ex: 2017
+	private int gSFinanceCutOffDate;//config fin year cut off date
 	
 	public int getCurrentFinanceYear() {
 		return currentFinanceYear;
@@ -41,6 +42,14 @@ public class User implements Serializable {
 
 	public void setCurrentYear(String currentYear) {
 		this.currentYear = currentYear;
+	}
+
+	public int getgSFinanceCutOffDate() {
+		return gSFinanceCutOffDate;
+	}
+
+	public void setgSFinanceCutOffDate(int gSFinanceCutOffDate) {
+		this.gSFinanceCutOffDate = gSFinanceCutOffDate;
 	}
 
 }
