@@ -1,7 +1,17 @@
 package org.girlscouts.web.service.rollout.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.jcr.Node;
+import javax.jcr.RangeIterator;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.nodetype.NodeType;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -13,7 +23,10 @@ import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.resource.ResourceUtil;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.settings.SlingSettingsService;
+import org.girlscouts.web.components.PageActivationUtil;
 import org.girlscouts.web.constants.PageActivationConstants;
 import org.girlscouts.web.councilupdate.PageReplicator;
 import org.girlscouts.web.service.email.GSEmailService;
@@ -23,6 +36,9 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.WCMException;
+import com.day.cq.wcm.msm.api.LiveRelationship;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
 import com.day.cq.wcm.msm.api.RolloutManager;
 
@@ -78,13 +94,229 @@ public class GSPageDeletionServiceImpl
 			// N second remorse wait time in case workflow needs to be stopped.
 			Thread.sleep(DEFAULT_REMORSE_WAIT_TIME);
 		} catch (InterruptedException e) {
-			log.error("Girlscouts Rollout Service encountered error: ", e);
+			log.error("Girlscouts Page Deletion Service encountered error: ", e);
 		}
 		Session session = rr.adaptTo(Session.class);
 		Resource dateRolloutRes = rr.resolve(path);
 		if (!dateRolloutRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
-			// TODO:
+			String srcPath = "", templatePath = "";
+			Boolean notify = false, delay = false, useTemplate = false;
+			Set<String> councils = null;
+			Set<String> notifyCouncils = new TreeSet<String>();
+			try {
+				dateRolloutNode.setProperty(PARAM_STATUS, STATUS_PROCESSING);
+				session.save();
+				try {
+					srcPath = dateRolloutNode.getProperty(PARAM_SOURCE_PATH).getString();
+				} catch (Exception e) {
+					log.error("Girlscouts Page Deletion Service encountered error: ", e);
+				}
+				try {
+					notify = dateRolloutNode.getProperty(PARAM_NOTIFY).getBoolean();
+				} catch (Exception e) {
+					log.error("Girlscouts Page Deletion Service encountered error: ", e);
+				}
+				try {
+					delay = dateRolloutNode.getProperty(PARAM_DELAY).getBoolean();
+				} catch (Exception e) {
+					log.error("Girlscouts Page Deletion Service encountered error: ", e);
+				}
+				try {
+					useTemplate = dateRolloutNode.getProperty(PARAM_USE_TEMPLATE).getBoolean();
+				} catch (Exception e) {
+					log.error("Girlscouts Page Deletion Service encountered error: ", e);
+				}
+				try {
+					templatePath = dateRolloutNode.getProperty(PARAM_TEMPLATE_PATH).getString();
+				} catch (Exception e) {
+					log.error("Girlscouts Page Deletion Service encountered error: ", e);
+				}
+				if (useTemplate && (templatePath == null || templatePath.trim().length() == 0)) {
+					log.error(
+							"Girlscouts Page Deletion Service encountered error - Use Template checked, but no template provided. Cancelling.");
+					PageActivationUtil.markReplicationFailed(session, dateRolloutNode);
+					return;
+				}
+				councils = PageActivationUtil.getCouncils(dateRolloutNode);
+				List<String> deletionLog = new ArrayList<String>();
+				Resource srcRes = rr.resolve(srcPath);
+				if (relationManager.isSource(srcRes)) {
+					Page srcPage = (Page) srcRes.adaptTo(Page.class);
+					if (srcPage != null) {
+						Set<String> pagesToDelete = new HashSet<String>();
+						markLiveRelationshipsForDeletion(councils, srcRes, pagesToDelete, deletionLog, notifyCouncils);
+						if (!councils.isEmpty()) {
+							notifyCouncils.addAll(councils);
+							for (String council : councils) {
+								log.error("Failed to process deletion for {} council", council);
+							}
+						}
+						dateRolloutNode.setProperty(PARAM_PAGES_TO_DELETE, pagesToDelete.toArray(new String[pagesToDelete.size()]));
+						dateRolloutNode.setProperty(PARAM_NOTIFY_COUNCILS,
+								notifyCouncils.toArray(new String[notifyCouncils.size()]));
+						session.save();
+					} else {
+						log.error("Resource is not a page. Quit. " + srcPath);
+						PageActivationUtil.markReplicationFailed(session, dateRolloutNode);
+						return;
+					}
+				}
+			} catch (Exception e) {
+				log.error("Girlscouts Page Deletion Service encountered error: ", e);
+				return;
+			}
+		}
+	}
+
+	private void markLiveRelationshipsForDeletion(Set<String> councils, Resource srcRes, Set<String> pagesToDelete,
+			List<String> deletionLog, Set<String> notifyCouncils) throws RepositoryException, WCMException {
+		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes, null, null);
+		while (relationIterator.hasNext()) {
+			LiveRelationship relation = (LiveRelationship) relationIterator.next();
+			String targetPath = relation.getTargetPath();
+			int councilNameIndex = targetPath.indexOf("/", "/content/".length());
+			String councilPath = targetPath.substring(0, councilNameIndex);
+			if (councils.contains(councilPath)) {
+				deletionLog.add("Attempting to queue for deletion: " + targetPath);
+				councils.remove(councilPath);
+				Resource targetResource = rr.resolve(targetPath);
+				if (targetResource != null
+						&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					Boolean breakInheritance = false;
+					try {
+						ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
+						breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
+					} catch (Exception e) {
+						log.error("Girlscouts Page Deletion Service encountered error: ", e);
+					}
+					if (!breakInheritance) {
+						Set<String> components = getComponents(targetResource);
+						boolean notifyCouncil = isInheritanceBroken(components, councilPath, deletionLog);
+						if (notifyCouncil) {
+							notifyCouncils.add(targetPath);
+							deletionLog.add("Page " + targetPath + " was not added to deletion queue");
+						} else {
+							pagesToDelete.add(targetPath);
+							deletionLog.add("Page " + targetPath + " added to deletion queue");
+						}
+						if (targetPath.endsWith("/jcr:content")) {
+							targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
+						}
+
+					} else {
+						notifyCouncils.add(targetPath);
+						deletionLog.add("The page has Break Inheritance checked off. Will not delete");
+					}
+				} else {
+					notifyCouncils.add(targetPath);
+					deletionLog.add("Resource not found in this council.");
+					deletionLog.add("Will NOT delete this page");
+				}
+			}
+		}
+	}
+
+	private boolean isInheritanceBroken(Set<String> components, String councilPath, List<String> rolloutLog) {
+		boolean inheritanceBroken = false;
+		if (components != null && components.size() > 0) {
+			Set<String> brokenComponents = new HashSet<String>();
+			for (String component : components) {
+				if (!isComponentInherited(councilPath, component, rolloutLog)) {
+					inheritanceBroken = true;
+					brokenComponents.add(component);
+					log.error(
+							"Girlscouts Rollout Service: Component at {} has broken inheritance. Removing from RolloutParams",
+							component);
+					rolloutLog.add("Girlscouts Rollout Service: Source Component at " + component
+							+ " does not have relation with " + councilPath + ". Removing from RolloutParams");
+				}
+			}
+			components.removeAll(brokenComponents);
+		}
+		return inheritanceBroken;
+	}
+
+	private boolean isComponentInherited(String councilPath, String component, List<String> rolloutLog) {
+		Resource componentRes = rr.resolve(component);
+		if (componentRes != null && !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+			try {
+				RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes, null, null);
+				boolean relationShipExists = false;
+				while (relationIterator.hasNext()) {
+					LiveRelationship relation = (LiveRelationship) relationIterator.next();
+					String relationPath = relation.getTargetPath();
+					if (relationPath.startsWith(councilPath)) {
+						relationShipExists = true;
+						Resource targetComponentRes = rr.resolve(relationPath);
+						if (targetComponentRes != null
+								&& !targetComponentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+							try {
+								Node componentNode = targetComponentRes.adaptTo(Node.class);
+								if (componentNode != null) {
+									NodeType[] mixinTypes = componentNode.getMixinNodeTypes();
+									if (mixinTypes != null && mixinTypes.length > 0) {
+										for (NodeType mixinType : mixinTypes) {
+											if (mixinType.isNodeType(PARAM_LIVE_SYNC_CANCELLED)) {
+												log.error(
+														"Girlscouts Rollout Service: Component at {} has broken inheritance.",
+														relationPath);
+												rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath
+														+ " broke inheritance between " + component + " and "
+														+ relationPath);
+												return false;
+											}
+										}
+									}
+								}
+							} catch (RepositoryException e) {
+								log.error("Girlscouts Rollout Service encountered error: ", e);
+							}
+						} else {
+							log.error("Girlscouts Rollout Service: Component at {} is not found.", relationPath);
+							rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath + " deleted "
+									+ relationPath + " related to " + component);
+							return false;
+						}
+					}
+				}
+				if (!relationShipExists) {
+					log.error(
+							"Girlscouts Rollout Service: Source Site Component {} does not have live relationship for {}.",
+							component, councilPath);
+					rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath
+							+ " does not have live relationship for " + component);
+					return false;
+				}
+			} catch (WCMException e1) {
+				log.error("Girlscouts Rollout Service encountered error: ", e1);
+			}
+		}
+		return true;
+	}
+
+	private Set<String> getComponents(Resource srcRes) {
+		Set<String> components = null;
+		try {
+			components = new HashSet<String>();
+			Resource content = srcRes.getChild("jcr:content");
+			traverseNodeForComponents(content, components);
+		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
+		}
+		return components;
+	}
+
+	private void traverseNodeForComponents(Resource srcRes, Set<String> components) {
+		if (srcRes != null) {
+			components.add(srcRes.getPath());
+			Iterable<Resource> children = srcRes.getChildren();
+			if (children != null) {
+				Iterator<Resource> it = children.iterator();
+				while (it.hasNext()) {
+					traverseNodeForComponents(it.next(), components);
+				}
+			}
 		}
 	}
 

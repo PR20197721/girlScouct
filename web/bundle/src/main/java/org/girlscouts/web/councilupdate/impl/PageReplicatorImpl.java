@@ -188,7 +188,7 @@ public class PageReplicatorImpl
 		}
 		if (pages.isEmpty() && pagesToDelete.isEmpty()) {
 			reporter.report("No pages found in page queue. Will not proceed");
-			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
+			PageActivationUtil.markReplicationFailed(session, dateRolloutNode);
 			return;
 		}
 		TreeSet<String> unmappedPages = new TreeSet<String>();
@@ -200,13 +200,13 @@ public class PageReplicatorImpl
 			toActivate = groupByCouncil(pages, unmappedPages);
 		} catch (Exception e) {
 			reporter.report("Failed to group pages to activate by council");
-			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
+			PageActivationUtil.markReplicationFailed(session, dateRolloutNode);
 		}
 		try {
 			toDelete = groupByCouncil(pagesToDelete, unmappedPages);
 		} catch (Exception e) {
 			reporter.report("Failed to group pages to delete by council");
-			PageActivationUtil.markActivationFailed(session, dateRolloutNode);
+			PageActivationUtil.markReplicationFailed(session, dateRolloutNode);
 		}
 		if (unmappedPages.size() > 0) {
 			for (String u : unmappedPages) {

@@ -215,7 +215,7 @@ public class PageActivationUtil implements PageActivationConstants {
 		return notifyCouncils;
 	}
 
-	public static void markActivationFailed(Session session, Node dateRolloutNode) {
+	public static void markReplicationFailed(Session session, Node dateRolloutNode) {
 		try {
 			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_FAILED);
 			session.save();
