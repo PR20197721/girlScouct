@@ -68,7 +68,7 @@ $(document).ready(function(){
 	var dename = '<%= dataExtensionName %>';
 	var dekey = '<%= dataExtensionKey %>';
 	var fieldTextMobile = '<%= fieldTextMobile %>';
-	var source = '<%= source %>';
+	var source = '<%= source.replaceAll("\'", "\\\\'")%>'; 
 	var formID = '#<%= formID %>';
 	
 	$(formID).find('input[name="email"]').keyup(function(event) {
