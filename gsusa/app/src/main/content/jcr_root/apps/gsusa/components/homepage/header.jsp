@@ -24,7 +24,11 @@ String headerSearchPath = headerPath + "/search";
 
 <div class="top-header row">
     <section class="logo-section">
-        <a href="/content/gsusa/en.html" tabindex="1">
+<%
+    ValueMap logoProps = resourceResolver.resolve(logoPath).adaptTo(ValueMap.class);
+    String logoLink = logoProps.get("logoLink", "") +  ".html";
+%>
+        <a href="<%= logoLink %>" tabindex="1">
             <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
         </a>
     </section>
