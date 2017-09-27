@@ -27,7 +27,8 @@ gsusa.components.GSUSALinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     classField: null,
     hideInDesktopField: null,
     hideInMobileField: null,
-    rootLandingPage: null,
+    rootLandingPageField: null,
+    openInNewWindowField: null,
     
     
     constructor: function(config) {
@@ -149,6 +150,20 @@ gsusa.components.GSUSALinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             }
         });
         this.add(this.rootLandingPageField);
+
+        
+        this.add(new CQ.Ext.form.Label({text: "Open in new window"}));
+        this.openInNewWindowField = new CQ.Ext.form.Checkbox({
+        	width: 20,
+            listeners: {
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            }
+        });
+        this.add(this.openInNewWindowField);
+        
         
     },
 
@@ -163,6 +178,7 @@ gsusa.components.GSUSALinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
 		this.hideInDesktopField.setValue(parts[5]); 
 		this.hideInMobileField.setValue(parts[6]); 
 		this.rootLandingPageField.setValue(parts[7]); 
+		this.openInNewWindowField.setValue(parts[8]); 
         this.hiddenField.setValue(value);
     },
 
@@ -180,7 +196,8 @@ gsusa.components.GSUSALinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             + this.smallLabel.getValue() + "|||"
             + this.hideInDesktopField.getValue() + "|||"
             + this.hideInMobileField.getValue() + "|||"
-            + this.rootLandingPageField.getValue();
+            + this.rootLandingPageField.getValue() + "|||"
+            + this.openInNewWindowField.getValue();
     },
 
     // private
@@ -192,3 +209,4 @@ gsusa.components.GSUSALinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
 
 // register xtype
 CQ.Ext.reg('gsusacustomlink', gsusa.components.GSUSALinkWidget);
+ 

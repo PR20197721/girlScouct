@@ -2,7 +2,7 @@
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     warnIfModified="{Boolean}false"
-    width="{Long}1000"
+    width="{Long}1200" 
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
