@@ -4,7 +4,7 @@
     <jcr:content
         cq:lastModified="{Date}2014-04-30T11:18:03.571-04:00"
         cq:lastModifiedBy="admin"
-        cq:targetPath="/content/girlscouts-vtk/yearPlanTemplates/yearplan2016"
+        cq:targetPath="/content/girlscouts-vtk/yearPlanTemplates/yearplan2017"
         cq:template="/libs/wcm/scaffolding/templates/scaffolding"
         jcr:description="Girl Scouts Year Plan Scaffolding"
         jcr:primaryType="cq:PageContent"
