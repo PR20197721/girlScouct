@@ -134,5 +134,5 @@ public interface MeetingDAO {
 	public Note getNote(User user, Troop troop, String nid)
 			throws IllegalAccessException ;
 	
-	//public java.util.List<Meeting> getMeetings(int gsYear);
+	public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException;
 }

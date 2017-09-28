@@ -145,6 +145,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 	nodeName: null,
 	outdoorCheckboxField: null,
 	outdoorDescriptionField: null,
+	outdoorNameField:null,
     
     constructor: function(config) {
         config = config || { };
@@ -296,6 +297,19 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         });
         this.add(this.outdoorDescriptionField);
         
+        this.add(new CQ.Ext.form.Label({text: "Outdoor-Name"}));
+        this.outdoorNameField = new CQ.Ext.form.TextField({
+        	width: 100,
+        	allowBlank: true,
+            listeners: {
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            }
+        });
+        this.add(this.outdoorNameField);
+        
     },
 
     // overriding CQ.form.CompositeField#setValue
@@ -306,6 +320,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     	this.descriptionField.setValue(value.description);
     	this.outdoorCheckboxField.setValue(value.isOutdoorAvailable);
     	this.outdoorDescriptionField.setValue(value.activityDescription_outdoor);
+    	this.outdoorNameField.setValue(value.name_outdoor);
     },
 
     // overriding CQ.form.CompositeField#getValue
@@ -321,7 +336,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     		"duration": this.durationField.getValue(),
     		"description": this.descriptionField.getValue(),
     		"isOutdoorAvailable": this.outdoorCheckboxField.getValue(),
-    		"activityDescription_outdoor": this.outdoorDescriptionField.getValue()
+    		"activityDescription_outdoor": this.outdoorDescriptionField.getValue(),
+    		"name_outdoor": this.outdoorNameField.getValue(),
     	};
     	return agenda;
     },
