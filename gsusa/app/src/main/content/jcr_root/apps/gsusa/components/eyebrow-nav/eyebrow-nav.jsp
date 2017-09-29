@@ -8,5 +8,9 @@
 			<cq:include script="items.jsp" />
 		</ul>
 <%
+	} else {
+%>
+	<ul class="inline-list"><li>### No eyebrow navs found ###</li></ul>
+<%	
 	}
 %>
