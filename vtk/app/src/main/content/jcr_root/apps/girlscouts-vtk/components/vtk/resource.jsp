@@ -172,6 +172,7 @@
                           bresource.setItemCount(85);//meeting_overviews);
 
                       if( "VTK Tutorial Videos".equals( bresource.getTitle() )){bresource.setItemCount(5);}
+                      if( "Staying Safe on Adventures (Safety Activity Checkpoints)".equals( bresource.getTitle() )){bresource.setItemCount(1);}
                       if( "vtkvideos".equals( bresource.getTitle() ) ){continue;}
 		         %>
 			         <div>
