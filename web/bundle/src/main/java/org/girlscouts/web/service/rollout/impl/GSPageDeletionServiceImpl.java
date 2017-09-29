@@ -183,16 +183,9 @@ public class GSPageDeletionServiceImpl
 				Resource targetResource = rr.resolve(targetPath);
 				if (targetResource != null
 						&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-					Boolean breakInheritance = false;
-					try {
-						ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
-						breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
-					} catch (Exception e) {
-						log.error("Girlscouts Page Deletion Service encountered error: ", e);
-					}
-					if (!breakInheritance) {
+					if (!isPageInheritanceBroken(targetResource, deletionLog)) {
 						Set<String> components = getComponents(targetResource);
-						boolean notifyCouncil = isInheritanceBroken(components, councilPath, deletionLog);
+						boolean notifyCouncil = isComponentsInheritanceBroken(components, councilPath, deletionLog);
 						if (notifyCouncil) {
 							notifyCouncils.add(targetPath);
 							deletionLog.add("Page " + targetPath + " was not added to deletion queue");
@@ -217,19 +210,44 @@ public class GSPageDeletionServiceImpl
 		}
 	}
 
-	private boolean isInheritanceBroken(Set<String> components, String councilPath, List<String> rolloutLog) {
+	private boolean isPageInheritanceBroken(Resource targetResource, List<String> deletionLog) {
+		Boolean breakInheritance = false;
+		try {
+			ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
+			breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
+			deletionLog.add("Girlscouts Deletion Service: Resource at " + targetResource.getPath()
+					+ " has parameter breakInheritance = true");
+		} catch (Exception e) {
+			log.error("Girlscouts Deletion Service encountered error: ", e);
+		}
+		if (!breakInheritance) {
+			Resource targetResourceContent = targetResource.getChild("jcr:content");
+			try {
+				ValueMap contentProps = ResourceUtil.getValueMap(targetResourceContent);
+				breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
+				deletionLog.add("Girlscouts Deletion Service: Resource at " + targetResourceContent.getPath()
+						+ " has parameter breakInheritance = true");
+			} catch (Exception e) {
+				log.error("Girlscouts Deletion Service encountered error: ", e);
+			}
+		}
+		return breakInheritance;
+	}
+
+
+	private boolean isComponentsInheritanceBroken(Set<String> components, String councilPath, List<String> rolloutLog) {
 		boolean inheritanceBroken = false;
 		if (components != null && components.size() > 0) {
 			Set<String> brokenComponents = new HashSet<String>();
 			for (String component : components) {
-				if (!isComponentInherited(councilPath, component, rolloutLog)) {
+				if (!isInheritanceBroken(councilPath, component, rolloutLog)) {
 					inheritanceBroken = true;
 					brokenComponents.add(component);
 					log.error(
-							"Girlscouts Rollout Service: Component at {} has broken inheritance. Removing from RolloutParams",
-							component);
-					rolloutLog.add("Girlscouts Rollout Service: Source Component at " + component
-							+ " does not have relation with " + councilPath + ". Removing from RolloutParams");
+							"Girlscouts Rollout Service: Council {} has broken inheritance with template component at {}. Removing from RolloutParams.",
+							councilPath, component);
+					rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath
+							+ " has broken inheritance with template component at " + component + ".");
 				}
 			}
 			components.removeAll(brokenComponents);
@@ -237,7 +255,7 @@ public class GSPageDeletionServiceImpl
 		return inheritanceBroken;
 	}
 
-	private boolean isComponentInherited(String councilPath, String component, List<String> rolloutLog) {
+	private boolean isInheritanceBroken(String councilPath, String component, List<String> rolloutLog) {
 		Resource componentRes = rr.resolve(component);
 		if (componentRes != null && !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			try {
@@ -259,12 +277,11 @@ public class GSPageDeletionServiceImpl
 										for (NodeType mixinType : mixinTypes) {
 											if (mixinType.isNodeType(PARAM_LIVE_SYNC_CANCELLED)) {
 												log.error(
-														"Girlscouts Rollout Service: Component at {} has broken inheritance.",
-														relationPath);
-												rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath
-														+ " broke inheritance between " + component + " and "
-														+ relationPath);
-												return false;
+														"Girlscouts Rollout Service: Component at {} has mixinType {}",
+														relationPath, mixinType.getName());
+												rolloutLog.add("Girlscouts Rollout Service: Component at "
+														+ relationPath + " has mixinType " + mixinType.getName());
+												return true;
 											}
 										}
 									}
@@ -274,25 +291,25 @@ public class GSPageDeletionServiceImpl
 							}
 						} else {
 							log.error("Girlscouts Rollout Service: Component at {} is not found.", relationPath);
-							rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath + " deleted "
-									+ relationPath + " related to " + component);
-							return false;
+							rolloutLog
+									.add("Girlscouts Rollout Service: Component at " + relationPath + " is not found.");
+							return true;
 						}
 					}
 				}
 				if (!relationShipExists) {
 					log.error(
-							"Girlscouts Rollout Service: Source Site Component {} does not have live relationship for {}.",
+							"Girlscouts Rollout Service: Source Site Component {} does not have live sync relationship for {}.",
 							component, councilPath);
 					rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath
-							+ " does not have live relationship for " + component);
-					return false;
+							+ " does not have live sync relationship for " + component);
+					return true;
 				}
 			} catch (WCMException e1) {
 				log.error("Girlscouts Rollout Service encountered error: ", e1);
 			}
 		}
-		return true;
+		return false;
 	}
 
 	private Set<String> getComponents(Resource srcRes) {
@@ -302,7 +319,7 @@ public class GSPageDeletionServiceImpl
 			Resource content = srcRes.getChild("jcr:content");
 			traverseNodeForComponents(content, components);
 		} catch (Exception e) {
-			log.error("Girlscouts Rollout Service encountered error: ", e);
+			log.error("Girlscouts Deletion Service encountered error: ", e);
 		}
 		return components;
 	}

@@ -288,25 +288,18 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				Resource targetResource = rr.resolve(targetPath);
 				if (targetResource != null
 						&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-					Boolean breakInheritance = false;
-					try {
-						ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
-						breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
-					} catch (Exception e) {
-						log.error("Girlscouts Rollout Service encountered error: ", e);
-					}
-					if (!breakInheritance) {
+					if (!isPageInheritanceBroken(targetResource, rolloutLog)) {
 						validateRolloutConfig(srcRes, targetResource);
 						RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
-						Set<String> components = getComponents(srcRes);
-						boolean notifyCouncil = isInheritanceBroken(components, councilPath, rolloutLog);
+						Set<String> srcComponents = getComponents(srcRes);
+						boolean notifyCouncil = isComponentsInheritanceBroken(srcComponents, councilPath, rolloutLog);
 						if (notifyCouncil) {
 							notifyCouncils.add(targetPath);
 						}
 						params.isDeep = false;
 						params.master = srcRes.adaptTo(Page.class);
 						params.targets = new String[] { targetPath };
-						params.paragraphs = components.toArray(new String[components.size()]);
+						params.paragraphs = srcComponents.toArray(new String[srcComponents.size()]);
 						params.trigger = RolloutManager.Trigger.ROLLOUT;
 						params.reset = false;
 						rolloutManager.rollout(params);
@@ -327,6 +320,30 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				}
 			}
 		}
+	}
+
+	private boolean isPageInheritanceBroken(Resource targetResource, List<String> rolloutLog) {
+		Boolean breakInheritance = false;
+		try {
+			ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
+			breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
+			rolloutLog.add("Girlscouts Rollout Service: Resource at " + targetResource.getPath()
+					+ " has parameter breakInheritance = true");
+		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
+		}
+		if (!breakInheritance) {
+			Resource targetResourceContent = targetResource.getChild("jcr:content");
+			try {
+				ValueMap contentProps = ResourceUtil.getValueMap(targetResourceContent);
+				breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
+				rolloutLog.add("Girlscouts Rollout Service: Resource at " + targetResourceContent.getPath()
+						+ " has parameter breakInheritance = true");
+			} catch (Exception e) {
+				log.error("Girlscouts Rollout Service encountered error: ", e);
+			}
+		}
+		return breakInheritance;
 	}
 
 	private void validateRolloutConfig(Resource srcRes, Resource targetResource) {
@@ -365,19 +382,19 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		return null;
 	}
 
-	private boolean isInheritanceBroken(Set<String> components, String councilPath, List<String> rolloutLog) {
+	private boolean isComponentsInheritanceBroken(Set<String> components, String councilPath, List<String> rolloutLog) {
 		boolean inheritanceBroken = false;
 		if (components != null && components.size() > 0) {
 			Set<String> brokenComponents = new HashSet<String>();
 			for (String component : components) {
-				if (!isComponentInherited(councilPath, component, rolloutLog)) {
+				if (!isInheritanceBroken(councilPath, component, rolloutLog)) {
 					inheritanceBroken = true;
 					brokenComponents.add(component);
 					log.error(
-							"Girlscouts Rollout Service: Component at {} has broken inheritance. Removing from RolloutParams",
-							component);
-					rolloutLog.add("Girlscouts Rollout Service: Source Component at " + component
-							+ " does not have relation with " + councilPath + ". Removing from RolloutParams");
+							"Girlscouts Rollout Service: Council {} has broken inheritance with template component at {}. Removing from RolloutParams.",
+							councilPath, component);
+					rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath
+							+ " has broken inheritance with template component at " + component + ".");
 				}
 			}
 			components.removeAll(brokenComponents);
@@ -385,13 +402,11 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		return inheritanceBroken;
 	}
 
-	private boolean isComponentInherited(String councilPath, String component, List<String> rolloutLog) {
+	private boolean isInheritanceBroken(String councilPath, String component, List<String> rolloutLog) {
 		Resource componentRes = rr.resolve(component);
-		if (componentRes != null
-				&& !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+		if (componentRes != null && !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			try {
-				RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes, null,
-						null);
+				RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes, null, null);
 				boolean relationShipExists = false;
 				while (relationIterator.hasNext()) {
 					LiveRelationship relation = (LiveRelationship) relationIterator.next();
@@ -409,12 +424,11 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 										for (NodeType mixinType : mixinTypes) {
 											if (mixinType.isNodeType(PARAM_LIVE_SYNC_CANCELLED)) {
 												log.error(
-														"Girlscouts Rollout Service: Component at {} has broken inheritance.",
-														relationPath);
-												rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath
-														+ " broke inheritance between " + component + " and "
-														+ relationPath);
-												return false;
+														"Girlscouts Rollout Service: Component at {} has mixinType {}",
+														relationPath, mixinType.getName());
+												rolloutLog.add("Girlscouts Rollout Service: Component at "
+														+ relationPath + " has mixinType " + mixinType.getName());
+												return true;
 											}
 										}
 									}
@@ -424,25 +438,25 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 							}
 						} else {
 							log.error("Girlscouts Rollout Service: Component at {} is not found.", relationPath);
-							rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath + " deleted "
-									+ relationPath + " related to " + component);
-							return false;
+							rolloutLog
+									.add("Girlscouts Rollout Service: Component at " + relationPath + " is not found.");
+							return true;
 						}
 					}
 				}
 				if (!relationShipExists) {
 					log.error(
-							"Girlscouts Rollout Service: Source Site Component {} does not have live relationship for {}.",
+							"Girlscouts Rollout Service: Source Site Component {} does not have live sync relationship for {}.",
 							component, councilPath);
 					rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath
-							+ " does not have live relationship for " + component);
-					return false;
+							+ " does not have live sync relationship for " + component);
+					return true;
 				}
 			} catch (WCMException e1) {
 				log.error("Girlscouts Rollout Service encountered error: ", e1);
 			}
 		}
-		return true;
+		return false;
 	}
 
 	private Set<String> getComponents(Resource srcRes) {
