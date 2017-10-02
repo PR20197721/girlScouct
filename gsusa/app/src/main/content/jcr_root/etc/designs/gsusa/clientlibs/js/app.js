@@ -817,7 +817,6 @@ function fixSlickSlideActive() {
         // Prevent default
         return false;
     });
-    // article_tiles();
 
     //
     //
@@ -1057,61 +1056,3 @@ function seeMoreScale() {
         }
     });
 }
-//This function could be refact but this is the way that the compoennt was built
-function article_tiles() {
-    /*'use strict';
-    var inProcess = false,
-        arrayElements = [],
-        transform = function (obj) { //Format the component.
-            //if ( !obj.adjusted && obj.content_height > obj.title_height) {
-            if (obj.content_height > obj.title_height) {
-                var jqElement = $(obj.el),
-                    ratio,
-                    c_height,
-                    title_height = parseInt($(obj.el).height(), 10);
-                if ($(window).width() < 760) {
-                    c_height = obj.content_height;
-                } else {
-                    ratio = obj.content_height / obj.height_real;
-                    if (ratio < 0.20) {
-                        ratio = 0.1585;
-                    }
-                    if (ratio > 0.20) {
-                        ratio = 0.33;
-                    }
-                    c_height = obj.height_real * ratio;
-                }
-                jqElement.css({
-                    "padding-top": (c_height - title_height) / 2 + 'px'
-                });
-            }
-        };
-    //Create an Array of object width information
-    $('.article-tile .text-content h3').each(function (index, el) {
-        var obj = {
-            index: index,
-            el: el,
-            title_height: parseInt($(el).height(), 10),
-            content_height: $(el).parent().height(),
-            adjusted: $(el).data('adjusted'),
-            height_real: $(el).parents('a').parent('section').parent('.article-tile').height()
-        };
-        arrayElements.push(obj);
-    });
-    //Call the function Transoform
-    arrayElements.forEach(function (elObj) {
-        transform(elObj);
-    });*/
-}
-$(function () {
-    'use strict';
-    $(window).resize(function () {
-        article_tiles();
-    });
-    //this condition going to check if there is a Dynamic
-    //carrousel its going to hold until rum the Dynamic Carrousel 
-    //see dynamic-tag-carousel.js
-    if (!$(document).hasClass('.dynamic-tag-carousel')) {
-        article_tiles();
-    }
-});
