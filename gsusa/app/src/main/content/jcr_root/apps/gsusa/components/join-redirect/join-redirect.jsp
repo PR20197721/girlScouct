@@ -45,8 +45,6 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
     <div class="join-redirect-hero hide-for-small">
       <div class="join-redirect-slider">
 <%	    for (String image : images) {
-			int lastDotPos = image.lastIndexOf(".");
-			String img2x = image.substring(0, lastDotPos) + "@2x" + image.substring(lastDotPos);
 			
 %>
       		<div><img src="<%= getImageRenditionSrc(resourceResolver, image, "cq5dam.npd.hero.") %>" 
