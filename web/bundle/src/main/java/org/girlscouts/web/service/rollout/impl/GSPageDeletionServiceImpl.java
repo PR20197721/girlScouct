@@ -179,7 +179,6 @@ public class GSPageDeletionServiceImpl
 			String councilPath = targetPath.substring(0, councilNameIndex);
 			if (councils.contains(councilPath)) {
 				deletionLog.add("Attempting to queue for deletion: " + targetPath);
-				councils.remove(councilPath);
 				Resource targetResource = rr.resolve(targetPath);
 				if (targetResource != null
 						&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
@@ -192,18 +191,15 @@ public class GSPageDeletionServiceImpl
 						} else {
 							pagesToDelete.add(targetPath);
 							deletionLog.add("Page " + targetPath + " added to deletion queue");
+							councils.remove(councilPath);
 						}
-						if (targetPath.endsWith("/jcr:content")) {
-							targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
-						}
-
 					} else {
 						notifyCouncils.add(targetPath);
 						deletionLog.add("The page has Break Inheritance checked off. Will not delete");
 					}
 				} else {
 					notifyCouncils.add(targetPath);
-					deletionLog.add("Resource not found in this council.");
+					deletionLog.add("Resource " + targetPath + " not found.");
 					deletionLog.add("Will NOT delete this page");
 				}
 			}

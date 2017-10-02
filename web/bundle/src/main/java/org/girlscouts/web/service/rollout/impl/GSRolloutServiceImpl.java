@@ -284,7 +284,6 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			String councilPath = targetPath.substring(0, councilNameIndex);
 			if (councils.contains(councilPath)) {
 				rolloutLog.add("Attempting to roll out to: " + targetPath);
-				councils.remove(councilPath);
 				Resource targetResource = rr.resolve(targetPath);
 				if (targetResource != null
 						&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
@@ -292,7 +291,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 						validateRolloutConfig(srcRes, targetResource);
 						RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
 						Set<String> srcComponents = getComponents(srcRes);
-						boolean notifyCouncil = isComponentsInheritanceBroken(srcComponents, councilPath, rolloutLog);
+						boolean notifyCouncil = isComponentsInheritanceBroken(srcComponents, targetPath, rolloutLog);
 						if (notifyCouncil) {
 							notifyCouncils.add(targetPath);
 						}
@@ -304,11 +303,9 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 						params.reset = false;
 						rolloutManager.rollout(params);
 						rolloutLog.add("Rolled out content to page");
-						if (targetPath.endsWith("/jcr:content")) {
-							targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
-						}
 						pagesToActivate.add(targetPath);
 						rolloutLog.add("Page added to activation queue");
+						councils.remove(councilPath);
 					} else {
 						notifyCouncils.add(targetPath);
 						rolloutLog.add("The page has Break Inheritance checked off. Will not roll out");
@@ -382,18 +379,18 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		return null;
 	}
 
-	private boolean isComponentsInheritanceBroken(Set<String> components, String councilPath, List<String> rolloutLog) {
+	private boolean isComponentsInheritanceBroken(Set<String> components, String targetPath, List<String> rolloutLog) {
 		boolean inheritanceBroken = false;
 		if (components != null && components.size() > 0) {
 			Set<String> brokenComponents = new HashSet<String>();
 			for (String component : components) {
-				if (!isInheritanceBroken(councilPath, component, rolloutLog)) {
+				if (!isInheritanceBroken(targetPath, component, rolloutLog)) {
 					inheritanceBroken = true;
 					brokenComponents.add(component);
 					log.error(
 							"Girlscouts Rollout Service: Council {} has broken inheritance with template component at {}. Removing from RolloutParams.",
-							councilPath, component);
-					rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath
+							targetPath, component);
+					rolloutLog.add("Girlscouts Rollout Service: Council " + targetPath
 							+ " has broken inheritance with template component at " + component + ".");
 				}
 			}
@@ -402,7 +399,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		return inheritanceBroken;
 	}
 
-	private boolean isInheritanceBroken(String councilPath, String component, List<String> rolloutLog) {
+	private boolean isInheritanceBroken(String targetPath, String component, List<String> rolloutLog) {
 		Resource componentRes = rr.resolve(component);
 		if (componentRes != null && !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			try {
@@ -411,7 +408,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				while (relationIterator.hasNext()) {
 					LiveRelationship relation = (LiveRelationship) relationIterator.next();
 					String relationPath = relation.getTargetPath();
-					if (relationPath.startsWith(councilPath)) {
+					if (relationPath.startsWith(targetPath)) {
 						relationShipExists = true;
 						Resource targetComponentRes = rr.resolve(relationPath);
 						if (targetComponentRes != null && !targetComponentRes.getResourceType()
@@ -447,8 +444,8 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 				if (!relationShipExists) {
 					log.error(
 							"Girlscouts Rollout Service: Source Site Component {} does not have live sync relationship for {}.",
-							component, councilPath);
-					rolloutLog.add("Girlscouts Rollout Service: Council " + councilPath
+							component, targetPath);
+					rolloutLog.add("Girlscouts Rollout Service: Council " + targetPath
 							+ " does not have live sync relationship for " + component);
 					return true;
 				}
