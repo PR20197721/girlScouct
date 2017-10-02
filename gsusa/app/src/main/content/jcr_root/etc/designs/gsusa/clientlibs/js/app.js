@@ -1059,7 +1059,7 @@ function seeMoreScale() {
 }
 //This function could be refact but this is the way that the compoennt was built
 function article_tiles() {
-    'use strict';
+    /*'use strict';
     var inProcess = false,
         arrayElements = [],
         transform = function (obj) { //Format the component.
@@ -1101,7 +1101,7 @@ function article_tiles() {
     //Call the function Transoform
     arrayElements.forEach(function (elObj) {
         transform(elObj);
-    });
+    });*/
 }
 $(function () {
     'use strict';
