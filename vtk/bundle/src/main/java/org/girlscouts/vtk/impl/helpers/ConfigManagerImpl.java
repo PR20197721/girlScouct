@@ -43,7 +43,7 @@ import org.osgi.service.component.ComponentContext;
 		@Property(name = "vtkApiContactUri", label = "vtkApiContactUri", description = "vtkApiContactUri"),
 		@Property(name = "vtkApiTroopLeadersUri", label = "vtkApiTroopLeadersUri", description = "vtkApiTroopLeadersUri"),
 		
-		@Property(name = "vtkHolidays", label = "vtkHolidays", description = "vtkHolidays"),
+		@Property(name = "vtkHolidays", cardinality = Integer.MAX_VALUE, label = "vtkHolidays", description = "vtkHolidays"),
 
 		@Property(name = "startShowingArchiveCmd", label = "startShowingArchiveCmd", description = "startShowingArchiveCmd"),
 		@Property(name = "isDemoSite", label = "isDemoSite", description = "isDemoSite"),
