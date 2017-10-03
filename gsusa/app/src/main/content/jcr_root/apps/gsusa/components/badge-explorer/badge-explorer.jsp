@@ -460,10 +460,10 @@ class BadgeComparator implements Comparator<Resource>{
             groupClass = "group-",
             submenu = $(".submenu");
 
-        $.fn.show = function () {
+        $.fn.showBadge = function () {
             return this.removeClass(hideClass);
         };
-        $.fn.hide = function () {
+        $.fn.hideBadge = function () {
             return this.addClass(hideClass);
         };
         $.fn.removeClassAll = function (name) {
@@ -522,10 +522,10 @@ class BadgeComparator implements Comparator<Resource>{
             // Show/Hide badges
             if (active) {
                 activeFilters[filter] = true;
-                filterSets[filter].tag.show();
+                filterSets[filter].tag.showBadge();
             } else {
                 delete activeFilters[filter];
-                filterSets[filter].tag.hide();
+                filterSets[filter].tag.hideBadge();
             }
 
             if (hasActiveFilters()) { // If there are other active filters
@@ -536,11 +536,11 @@ class BadgeComparator implements Comparator<Resource>{
                         intersect += "." + g; // No space before period for AND relationship, add comma with space after g for OR
                     }
                 }
-                badges.hide();
-                $(intersect).show();
+                badges.hideBadge();
+                $(intersect).showBadge();
                 badges.removeClassAll(groupClass);
             } else { // If there are no active filters
-                badges.show();
+                badges.showBadge();
             }
 
         });

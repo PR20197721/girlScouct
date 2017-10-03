@@ -27,17 +27,14 @@
 			String link = split.length >= 2 ? split[1] : "";
 			String mediumLabel = split.length >= 4 ? split[3] : label;
 			boolean hideInDesktop = split.length >= 6 ? Boolean.parseBoolean(split[5]) : false;
-			boolean openInNewWindow = false;
+			boolean openInNewWindow = split.length >= 9 ? Boolean.parseBoolean(split[8]) : false;
 			String target = "";
 			int headerNavTabindex = 40 + i;
 			String activeClass = "";
 
 			mediumLabel = mediumLabel.isEmpty() ? label : mediumLabel;
 
-			//We are hardcoding openInNewWindow for "For Cookies", "Shop" and Cookies"
-			//TODO: Please make it customizable, like the eyebrow-nav components
-			if (i == 2) {
-				openInNewWindow = true;
+			if (openInNewWindow) { 
 				target = "target=\"_blank\"";
 			}
 						

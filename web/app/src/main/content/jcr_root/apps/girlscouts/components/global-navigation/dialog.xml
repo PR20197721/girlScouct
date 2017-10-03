@@ -38,25 +38,26 @@
                         xtype="textfield"/>
                 </items>
             </styles>
-            <!-- 
             <options
                 jcr:primaryType="cq:Widget"
                 title="Options"
                 xtype="panel">
                 <items jcr:primaryType="cq:WidgetCollection">
+                	<display-nav-fly-out
+                		jcr:primaryType="cq:Widget"
+                        fieldDescription="Will create a secondary navigation flyout when user hovers over top nav link."
+                        fieldLabel="Display Secondary Navigation Flyout"
+                        name="./displaySecondaryNavFlyOut"
+                        type = "checkbox"
+                        xtype="selection"/>
+                    <!--  
                     <display-page-banner
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Will create a transparent banner area so a title can be added. Will be displayed between navigation and content."
                         fieldLabel="Display Transparent Page Banner"
                         name="./displayPageBanner"
                         type = "checkbox"
-                        xtype="selection"/>
-					<display-nav-fly-out
-                        fieldDescription="Will create a secondary navigation flyout when user hovers over top nav link."
-                        fieldLabel="Display Secondary Navigation Flyout"
-                        name="./displaySecondaryNavFlyOut"
-                        type = "checkbox"
-                        xtype="selection"/>
+                        xtype="selection"/>		
                     <mobile-cta
 			            jcr:primaryType="cq:Widget"
 			            fieldLabel="Mobile Calls to Action"
@@ -67,9 +68,9 @@
 			                jcr:primaryType="nt:unstructured"
 			                xtype="customlink"/>
 			        </mobile-cta>
+			        -->
                 </items>
             </options>
-             -->
         </items>
     </items>
 </jcr:root>
