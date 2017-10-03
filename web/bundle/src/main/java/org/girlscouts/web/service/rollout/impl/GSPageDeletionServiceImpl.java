@@ -134,7 +134,7 @@ public class GSPageDeletionServiceImpl
 				}
 				if (useTemplate && (templatePath == null || templatePath.trim().length() == 0)) {
 					log.error(
-							"Girlscouts Page Deletion Service encountered error - Use Template checked, but no template provided. Cancelling.");
+							"Girlscouts Page Deletion Service encountered error: Use Template checked, but no template provided. Cancelling.");
 					PageActivationUtil.markReplicationFailed(session, dateRolloutNode);
 					return;
 				}
@@ -147,9 +147,13 @@ public class GSPageDeletionServiceImpl
 						Set<String> pagesToDelete = new HashSet<String>();
 						markLiveRelationshipsForDeletion(councils, srcRes, pagesToDelete, deletionLog, notifyCouncils);
 						if (!councils.isEmpty()) {
+							int councilNameIndex = srcPath.indexOf("/", "/content/".length());
+							String srcRelativePath = srcPath.substring(councilNameIndex);
 							notifyCouncils.addAll(councils);
 							for (String council : councils) {
+								notifyCouncils.add(council + srcRelativePath);
 								log.error("Failed to process deletion for {} council", council);
+								deletionLog.add("Failed to process deletion for " + council + " council");
 							}
 						}
 						dateRolloutNode.setProperty(PARAM_PAGES_TO_DELETE, pagesToDelete.toArray(new String[pagesToDelete.size()]));
@@ -186,7 +190,6 @@ public class GSPageDeletionServiceImpl
 						Set<String> components = getComponents(targetResource);
 						boolean notifyCouncil = isComponentsInheritanceBroken(components, councilPath, deletionLog);
 						if (notifyCouncil) {
-							notifyCouncils.add(targetPath);
 							deletionLog.add("Page " + targetPath + " was not added to deletion queue");
 						} else {
 							pagesToDelete.add(targetPath);
@@ -194,11 +197,9 @@ public class GSPageDeletionServiceImpl
 							councils.remove(councilPath);
 						}
 					} else {
-						notifyCouncils.add(targetPath);
 						deletionLog.add("The page has Break Inheritance checked off. Will not delete");
 					}
 				} else {
-					notifyCouncils.add(targetPath);
 					deletionLog.add("Resource " + targetPath + " not found.");
 					deletionLog.add("Will NOT delete this page");
 				}

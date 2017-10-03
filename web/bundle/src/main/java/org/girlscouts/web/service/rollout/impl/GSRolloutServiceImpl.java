@@ -168,9 +168,12 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 						}
 
 						if (!councils.isEmpty()) {
-							notifyCouncils.addAll(councils);
+							int councilNameIndex = srcPath.indexOf("/", "/content/".length());
+							String srcRelativePath = srcPath.substring(councilNameIndex);
 							for (String council : councils) {
-								log.error("Failed to rollout processing for {} council", council);
+								notifyCouncils.add(council + srcRelativePath);
+								log.error("Failed to rollout for {} council", council);
+								rolloutLog.add("Failed to rollout for " + council + " council");
 							}
 						}
 						dateRolloutNode.setProperty(PARAM_PAGES,
@@ -307,12 +310,11 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 						rolloutLog.add("Page added to activation queue");
 						councils.remove(councilPath);
 					} else {
-						notifyCouncils.add(targetPath);
-						rolloutLog.add("The page has Break Inheritance checked off. Will not roll out");
+						rolloutLog.add(
+								"The page " + targetPath + " has Break Inheritance checked off. Will not roll out");
 					}
 				} else {
-					notifyCouncils.add(targetPath);
-					rolloutLog.add("Resource not found in this council.");
+					rolloutLog.add("Resource " + targetPath + " not found.");
 					rolloutLog.add("Will NOT rollout to this page");
 				}
 			}
