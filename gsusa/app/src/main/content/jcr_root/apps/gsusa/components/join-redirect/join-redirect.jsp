@@ -47,8 +47,8 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
 <%	    for (String image : images) {
 			
 %>
-      		<div><img src="<%= getImageRenditionSrc(resourceResolver, image, "cq5dam.npd.hero.") %>" 
-      				data-at2x="<%= getImageRenditionSrc(resourceResolver, image, "cq5dam.npd.hero@2x.") %>" alt=""/></div>
+      		<div><img src="<%= getImageRenditionSrc(resourceResolver, image, "cq5dam.npd.top.") %>" 
+      				data-at2x="<%= getImageRenditionSrc(resourceResolver, image, "cq5dam.npd.top@2x.") %>" alt=""/></div>
 <%    } %>
       </div> 
       <div class="join-redirect-header">
