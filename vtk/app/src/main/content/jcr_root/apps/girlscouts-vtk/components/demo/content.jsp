@@ -177,7 +177,7 @@ function xyz(slc){
                                         <p>Key Features:</p>
                                         <ul>
                                           <li>Pre-populated Year Plans with meeting content.</li>
-                                          <li>Add you own troop activities or council event.</li>
+                                          <li>Add your own troop activities or council event.</li>
                                           <li>View your troop roster.</li>
                                           <li>Email meeting reminders to parents.</li>
                                           <li>Track girls' attendance and achievements.</li>
