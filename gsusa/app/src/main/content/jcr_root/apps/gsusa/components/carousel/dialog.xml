@@ -109,6 +109,12 @@
                 jcr:primaryType="cq:Panel"
                 title="Bottom Overlay">
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <hideZIPcode
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Hide ZIPCode"
+                        name="./hideZIPCode"
+                        type="checkbox"
+                		xtype="selection"/>
                     <Source
                         jcr:primaryType="cq:Widget"
                         defaultValue="not_set"

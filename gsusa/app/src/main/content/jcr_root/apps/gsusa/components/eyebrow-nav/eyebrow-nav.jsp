@@ -8,5 +8,15 @@
 			<cq:include script="items.jsp" />
 		</ul>
 <%
+	} else {
+
+		if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+%>
+			<ul class="inline-list"><li>### No navs found ###</li></ul>
+<%		} else {
+%>
+			<ul class="inline-list"><li>&nbsp;</li></ul>
+<%
+		}
 	}
 %>

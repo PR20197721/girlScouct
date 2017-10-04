@@ -29,13 +29,18 @@
     image.setDoctype(Doctype.fromRequest(request));
 
 	Boolean newWindow = properties.get("./newWindow", false);
+	String additionalCssStyle = properties.get("./additionalCssStyle", "");
+	String style = "";
+	if(additionalCssStyle.length() > 0) {
+		style = "style=\""+additionalCssStyle+"\"";
+	}
 
     // add design information if not default (i.e. for reference paras)
     if (!currentDesign.equals(resourceDesign)) {
         image.setSuffix(currentDesign.getId());
     }
     String divId = "cq-image-jsp-" + resource.getPath();
-    %><div id="<%= divId %>"><% 
+    %><div id="<%= divId %>" <%=style%> ><% 
         if(!newWindow) { 
         image.draw(out); 
     	}

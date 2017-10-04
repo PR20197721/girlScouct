@@ -148,8 +148,14 @@
     }
     %> <img src="<%=imageSrc%>" data-at2x="<%= image2xSrc %>" />
 						<div class="text-content" style="background: <%=rgba%>">
-							<h3><%=tileTitle%></h3>
-							<p><%=tileText%></p>
+                            <div class="text-wrapper">
+                                <div class="text-inner">
+                                    <h3>
+                                        <%=tileTitle%>
+                                        <p><%=tileText%></p>
+                                    </h3>
+                                </div>
+                            </div>
 						</div>
 				</a>
 </section>

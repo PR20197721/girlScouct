@@ -69,7 +69,14 @@
                 } else {
                     sb.append("<li>");
                 }
-                sb.append("<a href=\"" + page.getPath() + ".html\" title=\"" + title +"\">");
+                
+                String target = "";
+                String openInNewWindow = page.getProperties().get("openInNewWindow", "");
+				if(openInNewWindow.equals("true")) {
+					target = "target=\"_blank\"";
+				}
+
+                sb.append("<a " + target + " href=\"" + page.getPath() + ".html\" title=\"" + title +"\">");
                 sb.append(title);
                 sb.append("</a>");
                 
