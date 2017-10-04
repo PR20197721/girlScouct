@@ -18,10 +18,27 @@ org.girlscouts.web.search.GSJcrSearchProvider" %>
 <%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>      
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-<cq:defineObjects/>
+
 <%
-   	long RESULTS_PER_PAGE = 20;
+   	long RESULTS_PER_PAGE = 10;
 	long offset = 0;
+	String[] propertyPaths = new String[]{
+			"jcr:content/jcr:title",
+			"jcr:content/data/locationLabel",
+			"jcr:content/data/address",
+			"jcr:content/data/register",
+			"jcr:content/data/end",
+			"jcr:content/data/color",
+			"jcr:content/data/start",
+			"jcr:content/data/srchdisp",
+			"jcr:content/data/eid",
+			"jcr:content/data/image",
+			"jcr:content/data/memberOnly",
+			"jcr:content/data/priceRange",
+			"jcr:content/data/thumbImage",
+			"jcr:content/data/timezone",
+			"jcr:content/data/visibleDate"
+	};
 	String EVENTS_RESOURCE_TYPE = "girlscouts/components/event-page";
 	Calendar cal = Calendar.getInstance();
 	cal.setTimeZone(TimeZone.getDefault());
@@ -62,18 +79,19 @@ org.girlscouts.web.search.GSJcrSearchProvider" %>
 			 	List<GSSearchResult> queryResults = gsResultManager.getResults();
 			 	for(GSSearchResult qResult:queryResults){
 			 		offset++;
-			 		Node resultNode = qResult.getResultNode();
-			 		if(resultNode.hasNode("jcr:content/data")){
-			 			JSONObject event = new JSONObject();
-			 			Node dataNode = resultNode.getNode("jcr:content/data");
-			 			PropertyIterator props = dataNode.getProperties();
-			 			while(props.hasNext()){
-			 				Property property = props.nextProperty();
-			 				event.put(property.getName(), property.getString());
-			 			}
-			 			json.accumulate("results", event);
+			 		try{
+				 		Node resultNode = qResult.getResultNode();
+				 		JSONObject event = new JSONObject();
+				 		event.put("path", resultNode.getPath());
+				 		for(String prop:propertyPaths){
+				 			if(resultNode.hasProperty(prop)){
+				 				Property property = resultNode.getProperty(prop);
+				 				event.put(property.getName(), property.getString());
+				 			}
+				 		}
+				 		json.accumulate("results", event);
 				 		resultCount ++;
-			 		}
+			 		}catch(Exception e){}
 			 		if(resultCount == RESULTS_PER_PAGE){
 			 			searchMore = false;
 			 			break;
@@ -83,9 +101,11 @@ org.girlscouts.web.search.GSJcrSearchProvider" %>
 	   	} catch(Exception e){
 	   		e.printStackTrace();
 	   	}
+	   	json.put("newOffset",offset);
 	   	json.write(response.getWriter());
 	} catch(Exception e){
    		e.printStackTrace();
    	}
+	
    	//out.println("<div>offset:"+offset+"</div>");
 %>
