@@ -83,28 +83,35 @@ public final class GSSearchResultManager {
 			try {
 				GSSearchResult result = this.searchResults.get(key);
 				Node resultNode = result.getResultNode();
-				if (resultNode.hasNode("jcr:content/data")) {
-					Node dataNode = resultNode.getNode("jcr:content/data");
-					if (dataNode.hasProperty("visibleDate")) {
-						try {
-							String visibleDate = dataNode.getProperty("visibleDate").getString();
-							GSDateTime vis = GSDateTime.parse(visibleDate, dtfIn);
-							if (vis.isAfter(today)) {
-								this.searchResults.remove(key);
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+				if (resultNode.hasNode("jcr:content")) {
+					Node jcrContentNode = resultNode.getNode("jcr:content");
+					if (jcrContentNode.hasProperty("hideInNav")
+							&& "true".equalsIgnoreCase(jcrContentNode.getProperty("hideInNav").getString())) {
+						this.searchResults.remove(key);
 					}
-					if (dataNode.hasProperty("end")) {
-						try {
-							String endDateString = dataNode.getProperty("end").getString();
-							GSDateTime endDate = GSDateTime.parse(endDateString, dtfIn);
-							if (today.isAfter(endDate)) {
-								this.searchResults.remove(key);
+					if (jcrContentNode.hasNode("data")) {
+						Node dataNode = jcrContentNode.getNode("data");
+						if (dataNode.hasProperty("visibleDate")) {
+							try {
+								String visibleDate = dataNode.getProperty("visibleDate").getString();
+								GSDateTime vis = GSDateTime.parse(visibleDate, dtfIn);
+								if (vis.isAfter(today)) {
+									this.searchResults.remove(key);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
 							}
-						} catch (Exception e) {
-							e.printStackTrace();
+						}
+						if (dataNode.hasProperty("end")) {
+							try {
+								String endDateString = dataNode.getProperty("end").getString();
+								GSDateTime endDate = GSDateTime.parse(endDateString, dtfIn);
+								if (today.isAfter(endDate)) {
+									this.searchResults.remove(key);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
 					}
 				}
