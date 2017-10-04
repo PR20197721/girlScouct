@@ -244,7 +244,7 @@
         String level = troop.getTroop().getGradeLevel().toLowerCase();
 		// The field in SF is 1-Brownie, we need brownie
 		if (level.contains("-")) {
-			level = level.split("-")[1];
+			 level= level.substring( level.indexOf("-")+1 ); //exception: 7-Multi-level
 		}
 
 		// TODO: Move this to a constant? Or we need a DAO to get all meetings of a certain level.
