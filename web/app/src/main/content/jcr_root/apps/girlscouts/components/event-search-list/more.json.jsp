@@ -134,6 +134,8 @@ public void setDates(JSONObject event, Node node){
 <%
    	long RESULTS_PER_PAGE = 10;
 	long offset = 0;
+	long resultCount = 0;
+	
 	String[] propertyPaths = new String[]{
 			"jcr:content/jcr:title",
 			"jcr:content/data/locationLabel",
@@ -176,7 +178,6 @@ public void setDates(JSONObject event, Node node){
 	   	try {
 			GSJcrSearchProvider searchProvider = new GSJcrSearchProvider(slingRequest);
 		 	boolean searchMore = true;
-		 	long resultCount = 0;
 		 	Calendar cale =  Calendar.getInstance();
 		 	while(searchMore){
 		 		GSSearchResultManager gsResultManager = new GSSearchResultManager();
@@ -218,6 +219,7 @@ public void setDates(JSONObject event, Node node){
 	   		e.printStackTrace();
 	   	}
 	   	json.put("newOffset",offset);
+	   	json.put("resultCount",resultCount);
 	   	json.write(response.getWriter());
 	} catch(Exception e){
    		e.printStackTrace();
