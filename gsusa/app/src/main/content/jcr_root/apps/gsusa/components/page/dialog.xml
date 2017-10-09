@@ -117,6 +117,25 @@
                             fieldLabel="fb:app_id"
                             fieldDescription="Default: 419540344831322 "
                             name="./fbAppId"/>
+                        <openInNewWindow
+                            jcr:primaryType="nt:unstructured"
+                            fieldLabel="Open in new window"
+                            fieldDescription="Left nav only"
+                            value="false"
+                            defaultValue="false"
+                            name="./openInNewWindow"
+                            xtype="selection">
+                            <options jcr:primaryType="cq:WidgetCollection">
+                                <true 
+                                    jcr:primaryType="cq:Widget"
+                                    text="True"
+                                    value="true"/> 
+                                <false
+                                    jcr:primaryType="cq:Widget"
+                                    text="False"
+                                    value="false"/>
+                            </options>
+                        </openInNewWindow>
                     </items>
                 </gsusa>
             </items>

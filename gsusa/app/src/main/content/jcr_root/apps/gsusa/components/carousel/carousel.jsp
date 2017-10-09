@@ -121,6 +121,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	String homeCarouselTimeDelay = properties.get("homecarouseltimedelay", "1000");
 	String homeCarouselAutoPlaySpeed = properties.get("homecarouselautoplayspeed", "2000");
 	String blogBgImage = properties.get("blogbgimage", "");
+	String hideZIPCode = properties.get("hideZIPCode", "false");
 
 	//passing this to another jsp
 	request.setAttribute("source7", source7);
@@ -140,6 +141,7 @@ public  String readUrlFile(String urlString) throws Exception {
             player,
             i;
 
+
 		function pauseVideoSliderVideosYoutube() {
             $.each(youtubePlayer, function(i, iframe) {
                 iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
@@ -155,7 +157,9 @@ public  String readUrlFile(String urlString) throws Exception {
 		slick.on('afterChange', function (event, slick, currentSlide) {
 			pauseVideoSliderVideosYoutube();
 			//pauseVideoSliderVideosVimeo();
-			underbar.slideDown(1000);
+		    <% if(hideZIPCode=="false") { %>
+				underbar.slideDown(1000);
+			<% } %>
 		});
 		
         function stopSlider() {
@@ -187,7 +191,9 @@ public  String readUrlFile(String urlString) throws Exception {
 
                 player.on('play', function() {
                     stopSlider();
-                    underbar.slideUp(0);
+                    <% if(hideZIPCode=="false") { %>
+	                    underbar.slideUp(0);
+                    <% } %>
                 });
 
                 slideButton.on('click', function() {
@@ -248,7 +254,10 @@ public  String readUrlFile(String urlString) throws Exception {
 		%>
 	</ul>
 
-	<cq:include path="zip-council" resourceType="gsusa/components/zip-council" />
+    <% if(hideZIPCode=="false") { %>
+		<cq:include path="zip-council" resourceType="gsusa/components/zip-council" />
+	<% } %>
+
 
 
 </div>

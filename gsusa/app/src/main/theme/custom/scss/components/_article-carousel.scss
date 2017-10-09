@@ -74,13 +74,10 @@
         .text-content {
           padding-left: rem-calc(10) !important;
           padding-right: rem-calc(10) !important;
-          height: rem-calc(40);
-          max-height: rem-calc(40);
         }
         h3 {
           font-size: rem-calc(12);
           line-height: rem-calc(13);
-          margin: 0 0 5px 0;
         }
       }
 
@@ -88,13 +85,10 @@
         .text-content {
           padding-left: rem-calc(12.8) !important;
           padding-right: rem-calc(12.8) !important;
-          height: rem-calc(40);
-          max-height: rem-calc(40);
         }
         h3 {
           font-size: rem-calc(14);
           line-height: rem-calc(16);
-          margin: 0 0 5px 0;
         }
       }
       a {
@@ -107,6 +101,12 @@
         display: none;
         opacity: 0;
         visibility: 0;
+      }
+    }
+    &:hover {
+      .text-content {
+        transition: none;
+        bottom: -65.5%;
       }
     }
     &.last {

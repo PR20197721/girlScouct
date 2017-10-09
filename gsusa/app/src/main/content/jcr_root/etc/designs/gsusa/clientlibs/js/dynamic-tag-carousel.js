@@ -24,6 +24,6 @@
 
 		// After Load the content to the selector trigger the callback
 		//  in this case going to be the article style in app.js
-		$(selector).load(url,article_tiles);
+		$(selector).load(url);
 	};
 })();
