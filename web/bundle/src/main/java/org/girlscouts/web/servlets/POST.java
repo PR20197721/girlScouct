@@ -40,13 +40,18 @@ import org.girlscouts.web.events.search.GSDateTimeFormatter;
 import org.girlscouts.web.events.search.GSDateTimeZone;
 
 import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
-import com.day.cq.personalization.ClientContextUtil;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.Replicator;
 import com.day.cq.tagging.InvalidTagFormatException;
 import com.day.cq.tagging.Tag;
 import com.day.cq.tagging.TagManager;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.workflow.WorkflowException;
+import com.day.cq.workflow.WorkflowService;
+import com.day.cq.workflow.WorkflowSession;
+import com.day.cq.workflow.exec.Workflow;
+import com.day.cq.workflow.exec.WorkflowData;
+import com.day.cq.workflow.model.WorkflowModel;
 import com.day.jcr.vault.fs.api.PathFilterSet;
 import com.day.jcr.vault.fs.config.DefaultWorkspaceFilter;
 import com.day.jcr.vault.packaging.JcrPackage;
@@ -78,11 +83,12 @@ public class POST extends SlingAllMethodsServlet {
     private final String NT_UNSTRUCTURED = "nt:unstructured";
     private final String SLING_FOLDER = "sling:Folder";
     private final String DELAYED_ACTIVATION_PATH = "/etc/gs-activations/delayed";
+    private final String STAG_ACTIVATION = "gs-stag-activation";
     
     
     int contactDelayInterval = 40;
     int documentDelayInterval = 10;
-    int repDelayTimeInSeconds = 60;
+    int repDelayTimeInMinutes = 1;
 
     protected void doPost(SlingHttpServletRequest request,
                           SlingHttpServletResponse response)
@@ -194,14 +200,6 @@ public class POST extends SlingAllMethodsServlet {
 			                                "General Exception occured while processing content: " + e.getMessage());
 		                		}
 		                            
-	                              
-	                            //SEND SUCCESS RESPONSE HERE
-		                    	if(htmlResponse == null) {
-		                    		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                                "Content Imported Successfully.");
-		                    	}
-	                                
-		                            
 		                       
 		                    } else {
 		                        htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
@@ -223,11 +221,7 @@ public class POST extends SlingAllMethodsServlet {
             } catch (RepositoryException e) {
             	 htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
                          "Unable to get admin access for modifying content due to error: " + e.getMessage());
-            } finally {
-               if (admin != null) {
-                   admin.logout();
-               }
-           }
+            }
             
         } else {
             htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
@@ -410,8 +404,15 @@ public class POST extends SlingAllMethodsServlet {
         }
         
         //Activate contacts 
-        response = staggerActivate(rootNode, scriptHelper, replicationList, contactDelayInterval, repDelayTimeInSeconds);
+        response = staggerActivate(scriptHelper, replicationList, contactDelayInterval, repDelayTimeInMinutes, adminResolver);
     	
+        if(response == null){
+        	int mins = lineCount / documentDelayInterval;
+        	mins++;
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Contacts updated successfully. The data will finish replicating in approximately " + mins + " minutes.");
+        }
+        
     	return  response;
     }
     
@@ -775,6 +776,13 @@ public class POST extends SlingAllMethodsServlet {
     	
     	response = delayedActivate(rootNode, scriptHelper, replicationList, adminResolver);
     	
+    	if(response == null){
+        	int mins = lineCounter / documentDelayInterval;
+        	mins++;
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Events updated successfully. The data will replicate overnight.");
+        }
+    	
     	
     	return  response;
     }
@@ -814,6 +822,7 @@ public class POST extends SlingAllMethodsServlet {
     			int indexCounter = 0;
     			for(String value: values){
     				if(headers.get(indexCounter).equals(Document.TITLE_PROP)){
+    					value = value.replaceAll("\\[", "").replaceAll("\\]", "");
     					doc.setTitle(value);	
     				} else if(headers.get(indexCounter).equals(Document.PATH_PROP)){
     					doc.setPath(value);
@@ -825,6 +834,7 @@ public class POST extends SlingAllMethodsServlet {
     						doc.setTags(taglist);
     					}
     				} else if(headers.get(indexCounter).equals(Document.DESCRIPTION_PROP)){
+    					value = value.replaceAll("\\[", "").replaceAll("\\]", "");
     					doc.setDescription(value);
     				} else{
     					
@@ -876,6 +886,14 @@ public class POST extends SlingAllMethodsServlet {
 						metaDataNode = contentNode.addNode("metadata");
 					}
 					
+					if(metaDataNode.hasProperty(Document.TITLE_PROP)){
+						metaDataNode.getProperty(Document.TITLE_PROP).remove();
+					}
+					
+					if(metaDataNode.hasProperty(Document.DESCRIPTION_PROP)){
+						metaDataNode.getProperty(Document.DESCRIPTION_PROP).remove();
+					}
+					
 					metaDataNode.setProperty(Document.TITLE_PROP, doc.getTitle());
 					metaDataNode.setProperty(Document.DESCRIPTION_PROP, doc.getDescription());
 					if(doc.getTags() != null){
@@ -896,13 +914,19 @@ public class POST extends SlingAllMethodsServlet {
 	    	rootNode.save();
     	} catch (RepositoryException e) {
     		response = HtmlStatusResponseHelper.createStatusResponse(false,
-                    "Document at line "+lineCounter +" encountered issue writing to repository. Process aborted");
+                    "Document at line "+lineCounter +" encountered issue writing to repository. Process aborted with message: " + e.getMessage());
         	return response;
 		}
     	
     	//Activate contacts 
-        response = staggerActivate(rootNode, scriptHelper, replicationList, documentDelayInterval, repDelayTimeInSeconds);
+        response = staggerActivate(scriptHelper, replicationList, documentDelayInterval, repDelayTimeInMinutes, adminResolver);
     	
+        if(response == null){
+        	int mins = lineCounter / documentDelayInterval;
+        	mins++;
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Documents updated successfully. The data will finish replicating in approximately " + mins + " minutes.");
+        }
     	
     	return response;
     }
@@ -943,33 +967,55 @@ public class POST extends SlingAllMethodsServlet {
     	return null;
     }
     
-    private HtmlResponse staggerActivate(Node rootNode, SlingScriptHelper scriptHelper, List<String> replicationList, int interval, int delayTimeInSeconds){
+    private HtmlResponse staggerActivate(SlingScriptHelper scriptHelper, List<String> replicationList, int interval, int delayTimeInMinutes, ResourceResolver adminResolver){
     	 
     	HtmlResponse response = null;
-    	//Replicate the created contacts
-        try{
-    		Session session = rootNode.getSession();
-    		Replicator replicator = scriptHelper.getService(Replicator.class);
-    		int repCount = 0;
-    		for(String repPath : replicationList){
-    			if(repCount >= interval){
-    				Thread.sleep(delayTimeInSeconds * 1000);
-    				repCount = 0;
-    			}
-	        	try{
-	    			replicator.replicate(session, ReplicationActionType.ACTIVATE, repPath);
-	    		}catch(Exception e){
-	    			response = HtmlStatusResponseHelper.createStatusResponse(false,
-	    	                "Unable to replicate. Replication failed due to error: " + e.getMessage());
-	    	            	return response;
-	    		}
-	        	repCount++;
-	        }
-        }catch(Exception e){
-        	response = HtmlStatusResponseHelper.createStatusResponse(false,
-        			"Unable to replicate. Replication failed due to error: " + e.getMessage());
-	            	return response;
+    	String wfNodePath = null;
+    	try {
+    		Node parentNode = null;
+	    	Node etcNode = adminResolver.getResource("/etc").adaptTo(Node.class);
+	    	String stagNodeName = PageActivationUtil.getDateRes();
+	    	if(etcNode.hasNode(STAG_ACTIVATION)){
+	    		parentNode = etcNode.getNode(STAG_ACTIVATION);
+	    	} else{
+	    		parentNode = etcNode.addNode(STAG_ACTIVATION);
+	    	}
+	    	
+	    	String[] activations = replicationList.toArray(new String[0]);
+	    	
+	    	Node stagNode = parentNode.addNode(stagNodeName);
+	    	
+	    	stagNode.setProperty("delay", delayTimeInMinutes);
+	    	stagNode.setProperty("interval", interval);
+	    	stagNode.setProperty("state", "intiated");
+	    	stagNode.setProperty("activations", activations);
+	    	etcNode.save();
+	    	
+	    	
+	    	//Kick off the workflow to replicate the created nodes
+	    	WorkflowService wfService = scriptHelper.getService(WorkflowService.class);
+	
+	    	WorkflowSession wfSession = wfService.getWorkflowSession(adminResolver.adaptTo(Session.class));
+	
+	    	WorkflowModel model;
+		
+			model = wfSession.getModel("/etc/workflow/models/staggered-activate/jcr:content/model");
+			wfNodePath = "/etc/" + STAG_ACTIVATION + "/" + stagNodeName;
+
+			WorkflowData data = wfSession.newWorkflowData("JCR_PATH", stagNode.getPath());
+			
+
+			wfSession.startWorkflow(model, data);
+		} catch (WorkflowException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(false,
+                    "Critical Activation Error. Failed to initiate workflow. Due to error: " + e.getMessage());
+        	return response;
+		} catch (RepositoryException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(false,
+                    "Critical Activation Error. Failed while accessing repository. Due to error: " + e.getMessage());
+        	return response;
 		}
+       
         
         return response;
     }
