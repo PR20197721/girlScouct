@@ -637,7 +637,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			//use default image
 			dataNode.setProperty("image", "/content/dam/girlscouts-shared/images/events/GS_servicemark_602x237.png");
 		} else {
-			dataNode.setProperty("image", imageVal);
+			imageVal = imageVal.replaceAll("https?:\\/\\/www\\.[^\\.]+\\.org", "");
+			dataNode.setProperty("imagePath", imageVal);
 		}
 		String end = getString(payload, _end);
 		if (end != null) {
