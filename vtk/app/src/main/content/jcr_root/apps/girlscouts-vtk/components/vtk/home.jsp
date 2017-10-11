@@ -12,6 +12,7 @@
     String communityUrl = "";
     int councilIdInt = 0;
     String councilId = "0";
+    String gradeLevel ="CA";
     try{
          apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
     }catch(Exception e){e.printStackTrace();}
@@ -24,6 +25,9 @@
 	        councilIdInt = apiConfig.getTroops().get(0).getCouncilCode();
 	        councilId = Integer.toString(councilIdInt);
 	        branch = mapper.getCouncilBranch(councilId);
+	        gradeLevel =  apiConfig.getTroops().get(0).getGradeLevel();
+	        gradeLevel = gradeLevel ==null ? "CA" : VtkUtil.formatAgeGroup(gradeLevel);
+	
 	    } catch (Exception e) {
 	        String refererCouncil = VtkUtil.getCouncilInClient(request);
 	        if (refererCouncil != null && !refererCouncil.isEmpty()) {
@@ -118,7 +122,7 @@
 	                    	 ;  
 	                       
 	                       }else if( apiConfig!=null &&  apiConfig.getUser().isAdmin() ){
-	                            vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/vtk.resource.html";   
+	                            vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/"+ gradeLevel +"/vtk.resource.html";   
 	                        }
                         }
                         
