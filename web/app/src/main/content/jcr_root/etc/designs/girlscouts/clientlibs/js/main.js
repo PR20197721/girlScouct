@@ -281,9 +281,9 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 	
 	function getEventImage(event){
 		try{
-			if(event.image){
+			if(event.imgPath){
 				var $imgDiv = $("<div>", {"class": "leftCol", "itemprop":"image"});
-				$imgDiv.append("<img src="+event.imgPath+"/>");
+				$imgDiv.append("<img src=\""+event.imgPath+"\"/>");
 				return $imgDiv;
 			}else{
 				return "";
