@@ -33,7 +33,7 @@ public final class GSSearchResult implements GSSearchResultConstants {
 		this.row = row;
     }
 
-	protected Node getPageOrAsset(Node node) throws RepositoryException {
+	private Node getPageOrAsset(Node node) throws RepositoryException {
 		if (node != null) {
 			while ((!isPageOrAsset(node)) && (node.getName().length() > 0)) {
 				node = node.getParent();
@@ -48,7 +48,7 @@ public final class GSSearchResult implements GSSearchResultConstants {
 		return (isPage(n)) || (n.isNodeType(NODE_TYPE_DAM_ASSET));
 	}
 
-	protected boolean isPage(Node n) throws RepositoryException {
+	private boolean isPage(Node n) throws RepositoryException {
 		return (n.isNodeType(NODE_TYPE_CQ_PAGE)) || (n.isNodeType(NODE_TYPE_CQ_PSEUDO_PAGE));
 	}
 
