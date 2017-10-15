@@ -13,7 +13,8 @@
 	StringBuilder csv= new StringBuilder();
 	List<Contact> contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
 	Map<Contact, List<ContactExtras>> contactsExtras= contactUtil.getContactsExtras( user,  troop, contacts);
-	List <MeetingE> meetingEvents= troop.getYearPlan().getMeetingEvents();
+	List <MeetingE> meetingEvents= null;
+	if( troop!=null && troop.getYearPlan()!=null) meetingEvents = troop.getYearPlan().getMeetingEvents();
 	csv.append("Legend:  X = attendance; A = achievement\n");
 	// doc title
 	csv.append(FORMAT_MMM_dd_yyyy.format( new Date() ) +" "+
