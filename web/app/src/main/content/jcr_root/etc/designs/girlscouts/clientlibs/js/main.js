@@ -216,7 +216,7 @@ function toggleParsys(s)
 //GSWP-1173
 function EventLoader(jsonPath, containerObj, loaderObj) {
 	var d = new Date();
-	var path = jsonPath+".more.json/"+(d.getMonth()+1)+d.getDate()+"/";
+	var path = jsonPath+".more."+(d.getMonth()+1)+d.getDate()+".";
 	var eventsOffset = 0;
 	var monthYearLabel = "";
 	var container = containerObj;
@@ -231,7 +231,7 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 		if(isMore && !isProcessing){
 			isProcessing = true;
 			loader.show();
-			$.getJSON(path+eventsOffset, function (data) {
+			$.getJSON(path+eventsOffset+".json", function (data) {
 				try{
 					if(parseInt(data.resultCount,10) < 10){
 						isMore=false;
