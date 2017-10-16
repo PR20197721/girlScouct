@@ -83,9 +83,10 @@ public class GetReferences extends SlingAllMethodsServlet {
 			for (List<String> row : table) {
 				csv.writeRow(row.toArray(new String[row.size()]));
 			}
-			csv.close();
 		} catch (Exception e) {
 			throw new ServletException("Error getting references", e);
+		} finally {
+			csv.close();
 		}
 	}
 
