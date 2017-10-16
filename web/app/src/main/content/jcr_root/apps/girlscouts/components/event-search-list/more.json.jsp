@@ -8,6 +8,7 @@ javax.jcr.Node,
 javax.jcr.Property,
 org.girlscouts.web.events.search.*,
 org.apache.sling.commons.json.JSONObject,
+org.apache.sling.api.request.RequestPathInfo,
 org.girlscouts.web.search.GSSearchResult, 
 org.girlscouts.web.search.GSSearchResultManager,
 org.girlscouts.web.search.GSJcrSearchProvider" %>    
@@ -165,7 +166,12 @@ public void setDates(JSONObject event, Node node){
 	try {
         JSONObject json = new JSONObject();
 		try{
-			offset = Long.parseLong(request.getParameter("offset"));
+			final RequestPathInfo requestPathInfo = slingRequest.getRequestPathInfo();
+			String suffix = requestPathInfo.getSuffix();
+			String[] suffixArr = suffix.split("/");
+			if(suffixArr.length == 3){
+				offset = Long.parseLong(suffixArr[2]);
+			}
 		}catch(Exception e){}
 	   	String EXPRESSION = "SELECT [jcr:score], [jcr:path], [jcr:primaryType] "
 	   			+ "FROM [cq:Page] AS s "
