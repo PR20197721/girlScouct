@@ -167,10 +167,9 @@ public void setDates(JSONObject event, Node node){
         JSONObject json = new JSONObject();
 		try{
 			final RequestPathInfo requestPathInfo = slingRequest.getRequestPathInfo();
-			String suffix = requestPathInfo.getSuffix();
-			String[] suffixArr = suffix.split("/");
-			if(suffixArr.length == 3){
-				offset = Long.parseLong(suffixArr[2]);
+			String[] selectors = requestPathInfo.getSelectors();
+			if(selectors.length == 3){
+				offset = Long.parseLong(selectors[2]);
 			}
 		}catch(Exception e){}
 	   	String EXPRESSION = "SELECT [jcr:score], [jcr:path], [jcr:primaryType] "
