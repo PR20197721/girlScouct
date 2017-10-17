@@ -81,7 +81,7 @@
 
 <script>
 	function doVtkBannerContentCopy(id){
-	    document.getElementById('caca').innerHTML = document.getElementById(id).innerHTML ;
+	    document.getElementById('vtkBannerModal').innerHTML = document.getElementById(id).innerHTML ;
 	}
 
 
