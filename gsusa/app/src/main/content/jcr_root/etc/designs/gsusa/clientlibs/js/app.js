@@ -749,14 +749,6 @@ function fixSlickSlideActive() {
         $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
     };
     */
-    function loadYTScript() {
-        if (typeof (YT) == 'undefined' || typeof (YT.Player) == 'undefined') {
-            var tag = document.createElement('script'),
-                firstScriptTag = document.getElementsByTagName('script')[0];
-            tag.src = "https://www.youtube.com/iframe_api";
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        }
-    }
 
     function hide_show_cookie() {
         $('#meet-cookie-layout section').hide();
@@ -774,7 +766,6 @@ function fixSlickSlideActive() {
     //join_now();
     shop_rotator();
     welcome_cookie_slider();
-    loadYTScript();
     $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
     //camp_finder();
     $(window).resize(function () {

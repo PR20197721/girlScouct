@@ -219,48 +219,31 @@ public  String readUrlFile(String urlString) throws Exception {
 
 
 <div class="hero-feature">
-	<ul class="main-slider">
-		<% for (int i = 0 ; i < numberOfImages; i++) { 
-			if (!tempHidden[i]) { %>
-		<li id="tag_explore_main_<%=i%>">
-			<% 
-				if (link[i].indexOf("https://www.youtube.com") != -1) { %>
-					<div class="videoWrapper show-for-small thumbnail">
-						<iframe id="youtubePlayer<%=i%>" width="100%" height="560" src="<%=link[i]%>" frameborder="0" allowfullscreen></iframe>
-					</div>
-						
-					<div class="show-for-medium-up">
-					<% if(!"".equals(title[i])){ %>
-						<div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer<%=i%>" data-ratio="16:9" data-youtube-id="<%= videoId[i]%>" data-display-title="true" title="<%=title[i]%>"></div>
-		  			<% } else { %>
-			  			<div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer<%=i%>" data-ratio="16:9" data-youtube-id="<%= videoId[i]%>"></div>
-		  			<% } %>
-					</div>
-			<% } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {%>
-
-					<div class="videoWrapper"><iframe id="vimeoPlayer<%=i%>" src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
-
-			<% } else {%>
-
-					<a href="<%=link[i]%>" title="<%=title[i]%>" <%=openInNewWindow[i]%>>
-						<img src="<%= getImageRenditionSrc(resourceResolver, imagePath[i], "cq5dam.npd.top.")%>" alt="<%= alt[i] %>" class="slide-thumb tag_explore_image_hero_<%=i%>"/>
-					</a>
-
-			<% }%>
-
-		</li>
-		<% } 
+	<ul class="main-slider"><%
+        for (int i = 0 ; i < numberOfImages; i++) { 
+			if (!tempHidden[i]) {
+                String titleYT = !"".equals(title[i]) ? "data-display-title='true' title='" + title[i] + "'" : "";
+                %><li id="tag_explore_main_<%=i%>"><% 
+                    if (link[i].indexOf("https://www.youtube.com") != -1) { 
+                        %><div class="videoWrapper thumbnail">
+                            <div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer<%=i%>" data-ratio="16:9" data-youtube-id="<%=videoId[i]%>" <%=titleYT%>></div>
+                        </div><% 
+                    } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {
+                        %><div class="videoWrapper">
+                            <iframe id="vimeoPlayer<%=i%>" src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                        </div><%
+                    } else {
+                        %><a href="<%=link[i]%>" title="<%=title[i]%>" <%=openInNewWindow[i]%>>
+                            <img src="<%= getImageRenditionSrc(resourceResolver, imagePath[i], "cq5dam.npd.top.")%>" alt="<%=alt[i]%>" class="slide-thumb tag_explore_image_hero_<%=i%>"/>
+                        </a><%
+                    }
+                %></li><%
+            } 
 		}
-		%>
-	</ul>
+    %></ul><%
+    if(hideZIPCode=="false") {
+        %><cq:include path="zip-council" resourceType="gsusa/components/zip-council" /><%
+    }
+%></div>
 
-    <% if(hideZIPCode=="false") { %>
-		<cq:include path="zip-council" resourceType="gsusa/components/zip-council" />
-	<% } %>
-
-
-
-</div>
-<%
-	request.removeAttribute("source7");
-%>
+<%request.removeAttribute("source7");%>
