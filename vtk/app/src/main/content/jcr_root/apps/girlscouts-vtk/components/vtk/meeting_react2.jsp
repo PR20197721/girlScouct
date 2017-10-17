@@ -124,7 +124,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
     function callPrintModal(){
 
-        printModal.fillWith('What you would like to print?',cll, function(){
+        printModal.fillWith('What would you like to print?',cll, function(){
 
           var listPrintAdress = {
             agenda:'/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isAgenda&mid=<%=mid%>',
