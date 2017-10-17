@@ -220,12 +220,13 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 	var eventsOffset = 0;
 	var monthYearLabel = "";
 	var container = containerObj;
-	var loader = loaderObj;
+	var loader = $("<div>",{"id":"infiniteLoader"}).append($("<p>",{"style":"text-align: center;"}).append("Loading..."));
 	var isMore = true;
 	var isProcessing = false;
 	
+	containerObj.after(loader);
 	loadMoreEvents();
-	bindScroll();
+	addLoadMoreButton();
 	
 	function loadMoreEvents(){
 		if(isMore && !isProcessing){
@@ -254,12 +255,32 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 		}
 	}
 	
+	function addLoadMoreButton(){
+		var $buttonDiv = $("<div>",{"id":"loadMoreEvents"});
+		var $buttonPar = $("<p>",{"style":"text-align: center;"});
+		var $buttonAnchor = $("<a>",{"class":"button", "style":"padding: 0.6rem 2rem; font-size: 0.95em; font-weight:bold;","href":"javascript:;"});
+		$buttonAnchor.click(function(e){
+			e.preventDefault();
+			loadMoreEvents(); 
+			bindScroll();
+			$("#loadMoreEvents").remove();
+		});
+		$buttonAnchor.append("LOAD MORE");
+		$buttonPar.append($buttonAnchor);
+		$buttonDiv.append($buttonPar);
+		container.after($buttonDiv);
+	}
+	
 	function bindScroll(){
-		$(window).scroll(function(){
-          if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-          	loadMoreEvents();
-          }
-  	});
+		$(window).on('scroll', function(){
+			var hT = container.offset().top,
+		       hH = container.outerHeight(),
+		       wH = $(window).height(),
+		       wS = $(this).scrollTop();
+			if(wS > (hT+hH-wH)){
+				loadMoreEvents();
+			}
+		});
 	}
 	
 	function getEventContent(event){
