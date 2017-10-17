@@ -374,6 +374,7 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 			var addToCartFunc = "addToCart('"+title+"','"+eid+"','"+event.path+".html'); return false;";
 			var $addToCartLink =  $("<a>", {"onclick":addToCartFunc}).append("Add to MyActivities");
 			$div.append($addToCartLink);
+			return $div;
 		}catch(err){}
 	}
 	
