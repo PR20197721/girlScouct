@@ -67,13 +67,16 @@ public class GetReferences extends SlingAllMethodsServlet {
 					for (ReferenceSearch.Info info : resultSet) {
 						for (String p : info.getProperties()) {
 							Resource resource  = resolver.resolve(p);
-							ReplicationStatus replicationStatus = resource.adaptTo(ReplicationStatus.class);
-							if (replicationStatus.isActivated()) {
-								p = p + "(Active)";
-							} else {
-								p = p + "(Not Active)";
+							Resource page = getPage(resource);
+							if (page != null) {
+								if (isActive(page)) {
+									p = page.getPath() + " (Active)";
+								} else {
+									p = page.getPath() + " (Not Active)";
+								}
 							}
 							councils.add(p);
+
 						}
 					}
 					row.addAll(councils);
@@ -94,6 +97,26 @@ public class GetReferences extends SlingAllMethodsServlet {
 				csv.close();
 			}
 		}
+	}
+
+	private boolean isActive(Resource page) {
+		if (page != null) {
+			ReplicationStatus replicationStatus = page.adaptTo(ReplicationStatus.class);
+			return replicationStatus.isActivated();
+		}
+		return false;
+	}
+
+	private Resource getPage(Resource resource) {
+		Resource parent = resource.getParent();
+		if (parent != null && !resource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+			if (parent.isResourceType("cq:Page")) {
+				return parent;
+			} else {
+				return getPage(parent);
+			}
+		}
+		return null;
 	}
 
 	private List<List<String>> transpose(List<List<String>> table) {
