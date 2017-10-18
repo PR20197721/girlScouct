@@ -3,8 +3,6 @@ package org.girlscouts.web.gsusa.servlets;
 import com.day.text.csv.Csv;
 import com.day.cq.replication.ReplicationStatus;
 import com.day.cq.wcm.commons.ReferenceSearch;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -26,11 +24,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
 
-@SlingServlet
-@Properties({
-        @Property(name = "sling.servlet.methods", value = {"GET"}, propertyPrivate = true),
-		@Property(name = "sling.servlet.paths", value = "/bin/gsusa/references", propertyPrivate = true),
-		@Property(name = "sling.servlet.extensions", value = "csv", propertyPrivate = true) })
+@SlingServlet(name = "GetReferencesServlet", resourceTypes = "gsusa/components/references", extensions = "html", methods = "GET", metatype = true)
 public class GetReferences extends SlingAllMethodsServlet {
 
 	/**
@@ -73,13 +67,16 @@ public class GetReferences extends SlingAllMethodsServlet {
 					for (ReferenceSearch.Info info : resultSet) {
 						for (String p : info.getProperties()) {
 							Resource resource  = resolver.resolve(p);
-							ReplicationStatus replicationStatus = resource.adaptTo(ReplicationStatus.class);
-							if (replicationStatus.isActivated()) {
-								p = p + "(Active)";
-							} else {
-								p = p + "(Not Active)";
+							Resource page = getPage(resource);
+							if (page != null) {
+								if (isActive(page)) {
+									p = page.getPath() + " (Active)";
+								} else {
+									p = page.getPath() + " (Not Active)";
+								}
 							}
 							councils.add(p);
+
 						}
 					}
 					row.addAll(councils);
@@ -100,6 +97,26 @@ public class GetReferences extends SlingAllMethodsServlet {
 				csv.close();
 			}
 		}
+	}
+
+	private boolean isActive(Resource page) {
+		if (page != null) {
+			ReplicationStatus replicationStatus = page.adaptTo(ReplicationStatus.class);
+			return replicationStatus.isActivated();
+		}
+		return false;
+	}
+
+	private Resource getPage(Resource resource) {
+		Resource parent = resource.getParent();
+		if (parent != null && !resource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+			if (parent.isResourceType("cq:Page")) {
+				return parent;
+			} else {
+				return getPage(parent);
+			}
+		}
+		return null;
 	}
 
 	private List<List<String>> transpose(List<List<String>> table) {
@@ -135,11 +152,12 @@ public class GetReferences extends SlingAllMethodsServlet {
 					Resource child = it.next();
 					if (child.isResourceType("dam:Asset")) {
 						results.add(child.getPath());
-					} else {
-						if (child.isResourceType("sling:OrderedFolder")) {
-							results.addAll(getAssets(resolver, child.getPath()));
-						}
 					}
+					// else {
+					// if (child.isResourceType("sling:OrderedFolder")) {
+					// results.addAll(getAssets(resolver, child.getPath()));
+					// }
+					// }
 				}
 			}
 		}
