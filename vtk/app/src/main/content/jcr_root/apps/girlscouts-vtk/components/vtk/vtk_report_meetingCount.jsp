@@ -12,10 +12,14 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <%
+		String rptForYear = user.getCurrentYear();
+		if( request.getParameter("rptForYear")!=null) //overwrite current year 
+			rptForYear= request.getParameter("rptForYear");
+
 		response.setContentType("application/csv");
 		response.setHeader("Content-Disposition","attachment; filename=MeetingCountReport.csv");
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
-		String sql="select id,name, level, catTags, catTagsAlt from nt:unstructured where jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+user.getCurrentYear()+"/%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
+		String sql="select id,name, level, catTags, catTagsAlt from nt:unstructured where jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+rptForYear+"/%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
 		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		javax.jcr.query.QueryResult result = q.execute();
@@ -35,7 +39,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 			}catch(Exception e){e.printStackTrace();}		  
 		}
 		
-		sql="select refId from nt:unstructured where jcr:path like '"+ VtkUtil.getYearPlanBase(null,null) +"%' and ocm_classname ='org.girlscouts.vtk.models.MeetingE'";
+		sql="select refId from nt:unstructured where jcr:path like '/vtk"+ rptForYear +"/%' and ocm_classname ='org.girlscouts.vtk.models.MeetingE'";
 		q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		result = q.execute();
 		Multimap<String, String> meetingIds = ArrayListMultimap.create();
