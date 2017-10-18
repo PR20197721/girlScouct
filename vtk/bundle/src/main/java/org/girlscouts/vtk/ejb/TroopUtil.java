@@ -574,10 +574,19 @@ if( newTroop ==null ) return;
 		int currMeetingCount = 0;
 		if (newYearPlan.getMeetingEvents() != null)
 			currMeetingCount = newYearPlan.getMeetingEvents().size();
-
+		
 		java.util.List<java.util.Date> oldSched = VtkUtil
 				.getStrCommDelToArrayDates(oldPlan.getSchedule().getDates());
+		
 
+		//add all past meeting dates to currMeetingCount. Because they carry over
+		int past_meeting_count = (int) oldSched.stream()
+				.filter(e-> e.after(new java.util.Date()) )
+				.count();
+		
+		currMeetingCount += past_meeting_count;
+		
+System.err.println( "Kafka oldSched size..." +oldSched.size() +": " + currMeetingCount);
 		// fever meetings
 		if (oldSched.size() > currMeetingCount)
 			for (int i = (oldSched.size() - 1); i >= currMeetingCount; i--) {
@@ -598,7 +607,11 @@ if( newTroop ==null ) return;
 				calFreq = "biweekly";
 
 			// add meeting dates
-			for (int i = oldSched.size(); i < currMeetingCount; i++) {
+System.err.println("Kafka b4... "+ oldSched);
+System.err.println( "Kafka adding dates..." +oldSched.size() +" :" + currMeetingCount);
+			int oldSched_size = oldSched.size();
+			for (int i = oldSched_size; i < currMeetingCount; i++) {
+System.err.println( "Kafka adding dates..." +i);	
 				long newDate = new CalendarUtil().getNextDate(VtkUtil
 						.getStrCommDelToArrayStr(oldPlan.getCalExclWeeksOf()),
 						oldSched.get(oldSched.size() - 1).getTime(), oldPlan
@@ -606,6 +619,7 @@ if( newTroop ==null ) return;
 				oldSched.add(new java.util.Date(newDate));
 			}
 		}
+System.err.println("Kafka after... "+ oldSched);		
 		cal.setDates(VtkUtil.getArrayDateToLongComDelim(oldSched));
 		cal.setDbUpdate(true);
 		return cal;
@@ -649,15 +663,14 @@ if( newTroop ==null ) return;
 																			// numOfPastMeetings->
 																			// overwrite
 			for (int i = 0; i < numOfPastMeetings; i++) {
-				newYearPlan.getMeetingEvents().set(i,
-						oldPlan.getMeetingEvents().get(i));
+				//newYearPlan.getMeetingEvents().set(i, oldPlan.getMeetingEvents().get(i));
+				newYearPlan.getMeetingEvents().add(i, oldPlan.getMeetingEvents().get(i));
 			}
 		} else if (newYearPlan.getMeetingEvents() == null
 				|| newYearPlan.getMeetingEvents().size() == 0) {
 			newYearPlan.setMeetingEvents(new java.util.ArrayList<MeetingE>());
 			for (int i = 0; i < numOfPastMeetings; i++)
-				newYearPlan.getMeetingEvents().add(
-						oldPlan.getMeetingEvents().get(i));
+				newYearPlan.getMeetingEvents().add(oldPlan.getMeetingEvents().get(i));
 		}
 		return VtkUtil.setToDbUpdate(newYearPlan.getMeetingEvents());
 	}
@@ -677,6 +690,8 @@ if( newTroop ==null ) return;
 			orgSchedDates = oldPlan.getSchedule().getDates();
 	
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);
+		
+		//sched
 		if (oldPlan != null) {
 			if (oldPlan.getName().equals(planName)) {// reset current yearplan
 				if (!userUtil.hasPermission(troop,
@@ -694,6 +709,8 @@ if( newTroop ==null ) return;
 			troop.setYearPlan(newYearPlan);
 		}
 
+		
+		//meetings
 		if (yearPlanPath != null && !yearPlanPath.equals("")) {
 			troop.getYearPlan().setMeetingEvents(
 					selectYearPlan_newMeetingPlan(user, troop, newYearPlan));
@@ -710,6 +727,9 @@ if( newTroop ==null ) return;
 					VtkUtil.setToDbUpdate(pastMeetings));
 		}
 
+		
+		
+		
 		if (oldPlan != null) {
 			// rm activities
 			if (troop.getYearPlan().getActivities() != null)
