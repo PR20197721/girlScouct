@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
 
-@SlingServlet(resourceTypes = "gsusa/components/references", methods = "GET", metatype = true)
+@SlingServlet(name = "GetReferencesServlet", resourceTypes = "gsusa/components/references", extensions = "html", methods = "GET", metatype = true)
 public class GetReferences extends SlingAllMethodsServlet {
 
 	/**
