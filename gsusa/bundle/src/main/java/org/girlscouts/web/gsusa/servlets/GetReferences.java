@@ -3,8 +3,6 @@ package org.girlscouts.web.gsusa.servlets;
 import com.day.text.csv.Csv;
 import com.day.cq.replication.ReplicationStatus;
 import com.day.cq.wcm.commons.ReferenceSearch;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -26,11 +24,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
 
-@SlingServlet
-@Properties({
-        @Property(name = "sling.servlet.methods", value = {"GET"}, propertyPrivate = true),
-		@Property(name = "sling.servlet.paths", value = "/bin/gsusa/references", propertyPrivate = true),
-		@Property(name = "sling.servlet.extensions", value = "csv", propertyPrivate = true) })
+@SlingServlet(resourceTypes = "gsusa/components/references", methods = "GET", metatype = true)
 public class GetReferences extends SlingAllMethodsServlet {
 
 	/**
