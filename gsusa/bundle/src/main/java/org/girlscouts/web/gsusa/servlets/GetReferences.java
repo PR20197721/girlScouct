@@ -152,12 +152,11 @@ public class GetReferences extends SlingAllMethodsServlet {
 					Resource child = it.next();
 					if (child.isResourceType("dam:Asset")) {
 						results.add(child.getPath());
+					} else {
+						if (child.isResourceType("sling:OrderedFolder")) {
+							results.addAll(getAssets(resolver, child.getPath()));
+						}
 					}
-					// else {
-					// if (child.isResourceType("sling:OrderedFolder")) {
-					// results.addAll(getAssets(resolver, child.getPath()));
-					// }
-					// }
 				}
 			}
 		}
