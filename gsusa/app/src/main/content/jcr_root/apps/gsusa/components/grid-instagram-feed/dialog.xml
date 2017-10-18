@@ -10,6 +10,12 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <url
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="URL that fetches feed"
+                        fieldLabel="Endpoint URL"
+                        name="./url"
+                        xtype="textfield"/>
                     <count
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Specify a limit for how many images will appear. Will default to 19 if left blank"
