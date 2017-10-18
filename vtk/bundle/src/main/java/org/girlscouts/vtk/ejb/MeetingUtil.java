@@ -1175,6 +1175,11 @@ public class MeetingUtil {
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 				troopDAO, connectionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
+		
+		contacts = contacts.stream()
+				.filter(e-> "GIRL".equals(e.getRole().trim().toUpperCase()) )
+				.collect( java.util.stream.Collectors.toList());
+		
 		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
 				+ "/attendance";
