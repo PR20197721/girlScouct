@@ -1,0 +1,53 @@
+//  For Social Media Feed in Grid
+//  * grid-instagram-feed
+//  * grid-twitter-feed
+//  * grid-blog-feed
+ 
+
+.feedwrapper {
+    background-color: $white;
+    position: relative;
+    padding-bottom: rem-calc(45);
+    [class^="icon-"],
+    [class*=" icon-"] {
+        font-size: 50px;
+        display: block;
+        color: #797979;
+        text-align: center;
+    }
+    .feed-block {
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: rem-calc(620);
+        height: rem-calc(570);
+        margin: rem-calc(7);        
+    }
+    .centered {
+        text-align: center;
+    }
+}
+
+
+
+
+// Instagram
+.grid-instagram-feed {
+    @media #{$medium-up} {
+        padding-left: 0;
+        padding-right: rem-calc(2);
+    }
+    @media #{$small-only} {
+        margin-bottom: rem-calc(35);
+    }
+    
+}
+
+.instagram-feed-image-head-area {
+    margin-bottom: rem-calc(10);
+    margin-top: rem-calc(10);
+}
+
+.instagram-feed-image-area {
+    @include block-grid(3);
+}
+
