@@ -31,6 +31,7 @@ import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Calendar;
 
 @Component
 @Service(value = TroopUtil.class)
@@ -581,12 +582,12 @@ if( newTroop ==null ) return;
 
 		//add all past meeting dates to currMeetingCount. Because they carry over
 		int past_meeting_count = (int) oldSched.stream()
-				.filter(e-> e.after(new java.util.Date()) )
+				.filter(e-> e.before(Calendar.getInstance().getTime()) )
 				.count();
 		
 		currMeetingCount += past_meeting_count;
 		
-System.err.println( "Kafka oldSched size..." +oldSched.size() +": " + currMeetingCount);
+
 		// fever meetings
 		if (oldSched.size() > currMeetingCount)
 			for (int i = (oldSched.size() - 1); i >= currMeetingCount; i--) {
@@ -607,11 +608,9 @@ System.err.println( "Kafka oldSched size..." +oldSched.size() +": " + currMeetin
 				calFreq = "biweekly";
 
 			// add meeting dates
-System.err.println("Kafka b4... "+ oldSched);
-System.err.println( "Kafka adding dates..." +oldSched.size() +" :" + currMeetingCount);
+
 			int oldSched_size = oldSched.size();
 			for (int i = oldSched_size; i < currMeetingCount; i++) {
-System.err.println( "Kafka adding dates..." +i);	
 				long newDate = new CalendarUtil().getNextDate(VtkUtil
 						.getStrCommDelToArrayStr(oldPlan.getCalExclWeeksOf()),
 						oldSched.get(oldSched.size() - 1).getTime(), oldPlan
@@ -619,7 +618,6 @@ System.err.println( "Kafka adding dates..." +i);
 				oldSched.add(new java.util.Date(newDate));
 			}
 		}
-System.err.println("Kafka after... "+ oldSched);		
 		cal.setDates(VtkUtil.getArrayDateToLongComDelim(oldSched));
 		cal.setDbUpdate(true);
 		return cal;
