@@ -12,77 +12,16 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-	                    <text
-					    jcr:primaryType="cq:Widget"
-					    height="200"
-					    name="./text"
-					    xtype="richtext">
-					    <listeners
-					        jcr:primaryType="nt:unstructured"
-					        destroy="function() {this.el.dom={};}"/>
-					    <rtePlugins jcr:primaryType="nt:unstructured">
-					        <links jcr:primaryType="nt:unstructured">
-					            <linkDialogConfig
-					                jcr:primaryType="nt:unstructured"
-					                height="{Long}316">
-					                <linkAttributes jcr:primaryType="cq:WidgetCollection">
-					                    <linkAdvanced
-					                        jcr:primaryType="cq:Widget"
-					                        collapsed="{Boolean}true"
-					                        collapsible="{Boolean}true"
-					                        inputValue="advanced"
-					                        name="./linkdialog/cq:adhocLinkTrackingTab"
-					                        title="Link tracking"
-					                        xtype="dialogfieldset">
-					                        <items jcr:primaryType="cq:WidgetCollection">
-					                            <enable
-					                                jcr:primaryType="nt:unstructured"
-					                                attribute="enabletracking"
-					                                fieldDescription="override analytics framework settings"
-					                                fieldLabel="Custom link tracking"
-					                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
-					                                xtype="checkbox">
-					                                <listeners
-					                                    jcr:primaryType="nt:unstructured"
-					                                    check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
-					                            </enable>
-					                            <events
-					                                jcr:primaryType="nt:unstructured"
-					                                attribute="adhocevents"
-					                                fieldDescription="e.g.: event2, event7"
-					                                fieldLabel="Include SiteCatalyst events"
-					                                name="./linkdialog/cq:adhocLinkTrackingEvents"
-					                                xtype="textfield"/>
-					                            <evars
-					                                jcr:primaryType="nt:unstructured"
-					                                attribute="adhocevars"
-					                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
-					                                fieldLabel="Include SiteCatalyst variables"
-					                                name="./linkdialog/cq:adhocLinkTrackingEvars"
-					                                xtype="textfield"/>
-					                        </items>
-					                    </linkAdvanced>
-					                </linkAttributes>
-					            </linkDialogConfig>
-					        </links>
-					        <justify
-					            jcr:primaryType="nt:unstructured"
-					            features="*"/>
-					        <spellcheck
-					            jcr:primaryType="nt:unstructured"
-					            features="*"/>
-					    </rtePlugins>
-					</text>
-					<isRichTextFlag
-						jcr:primaryType="cq:Widget"
-						ignoreData="{Boolean}true"
-						name="./textIsRich"
-						value="true"
-						xtype="hidden"/>
+                    <text
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Enter the quote text. You can enter HTML code."
+                        fieldLabel="Quote Text"
+                        name="./text"
+                        xtype="textarea"/>
 					<isQuote
 						jcr:primaryType="cq:Widget"
                        	name="./isQuote"
-                       	fieldLabel="Check if you want to make this a quote"
+                       	fieldLabel="Show Quote Symbol"
                        	xtype="selection"
                        	type="checkbox">
                        	<listeners
@@ -93,7 +32,7 @@
                        	jcr:primaryType="cq:Widget"
                        	name="./hasQuotee"
                        	hidden="{Boolean}true"
-                       	fieldLabel="Display the quotee"
+                       	fieldLabel="Display the Quotee"
                        	itemId="hasQuotee"
                        	xtype="selection"
                        	type="checkbox">
@@ -106,15 +45,9 @@
                     	name="./quotee"
                     	hidden="{Boolean}true"
                     	itemId="quotee"
-                    	fieldLabel="Quotee (who said the quote)"
+                    	fieldLabel="Quotee"
                     	xtype="textfield"/>
-                    <icons
-                    	jcr:primaryType="cq:Widget"
-                    	name="./icons"
-                    	fieldLabel="Display Social Icons"
-                    	xtype="selection"
-                    	type="checkbox"/>
-                    <style
+                    <style 
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Style"
                         name="./style"
@@ -151,6 +84,60 @@
                                 value="bg-color cyan"/>
                         </options>
                     </style>
+                    <textalignment
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Text Alignment"
+                        name="./textalignment"
+						value="left"
+						defaultValue="left"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <left
+                                jcr:primaryType="nt:unstructured"
+                                text="Left"
+                                value="left"/>
+                            <center
+                                jcr:primaryType="nt:unstructured"
+                                text="Center"
+                                value="center"/>
+                            <right
+                                jcr:primaryType="nt:unstructured"
+                                text="Right"
+                                value="right"/>
+                        </options>
+                    </textalignment>
+                    <textsize
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Optional) Enter text size (e.g. 2.0625rem or 33px)"
+                        fieldLabel="Text Size"
+                        name="./textsize"
+                        xtype="textfield"/>
+                    <lineheight
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Optional) Enter line height (e.g. 1.35em)"
+                        fieldLabel="Line Height"
+                        name="./lineheight"
+                        xtype="textfield"/>
+                    <textcolor
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Optional) Enter text color in HEX (e.g. ffffff)"
+                        fieldLabel="Text Color"
+                        name="./textcolor"
+                        xtype="textfield"/>
+                    <backgroundcolor
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Optional) Enter background color in HEX (e.g. ec008c)"
+                        fieldLabel="Background Color"
+                        name="./backgroundcolor"
+                        xtype="textfield"/>
+                    <bordercolor
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Optional) Enter border color in HEX (e.g. d2007d)"
+                        fieldLabel="Border Color"
+                        name="./bordercolor"
+                        xtype="textfield"/>
+                    
                 </items>
             </properties>
         </items>
