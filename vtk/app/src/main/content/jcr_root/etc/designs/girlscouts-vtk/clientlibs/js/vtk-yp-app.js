@@ -1753,7 +1753,7 @@ var VtkMainYp = (function (_super) {
                 : React.createElement("div", { className: state.data.name },
                     React.createElement("p", null,
                         React.createElement("b", null,
-                            "You want to replace your current Year Plan with the new Year Plan listed below for ", "" + ________app________,
+                            "You want to replace your current Year Plan with the new Year Plan listed below for ", "" + (________app________.charAt(0).toUpperCase()+  ________app________.slice(1)),
                             "  ",
                             (________troopName________.match(/troop/i).length) ? null : "Troop",
                             "  ", ________troopName________ + ".",
