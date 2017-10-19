@@ -181,7 +181,7 @@
 		         %>
 			         <div>
 
-			            * <a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/<%=troop.getSfTroopAge()==null ? "CA" : VtkUtil.formatAgeGroup(troop.getSfTroopAge())%>/vtk.resource.<%=(bresource.getPath() ==null || bresource.getPath().length()<=0) ? "" : bresource.getPath().substring(1).replaceAll("/","___")%>.html"><%=bresource.getTitle()%> 
+			            <a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/<%=troop.getSfTroopAge()==null ? "CA" : VtkUtil.formatAgeGroup(troop.getSfTroopAge())%>/vtk.resource.<%=(bresource.getPath() ==null || bresource.getPath().length()<=0) ? "" : bresource.getPath().substring(1).replaceAll("/","___")%>.html"><%=bresource.getTitle()%> 
 			               <%= (bresource.getTitle().equals("Meeting Overviews")) ? "" : ("("+bresource.getItemCount()+")")%> 
 			             </a>
 			             
@@ -293,34 +293,22 @@
 			com.adobe.granite.xss.XSSAPI xssAPI) {
 
 		String path = rootPage.getPath();
-		String href = "\"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_resource.html?resource="
-				+ path + "\">";
-		String modalUrl = "<a data-reveal-id=\"modal_popup\" data-reveal-ajax=\"true\" href="
-				+ href + rootPage.getTitle() + "</a>";
-         String assetImage = "";
-
 
         builder.append("<tr>"+
                        "<td width=\"40\">");
-        if (assetImage != null) {
-                   builder.append("<img src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png\" width=\"40\" height=\"40\" border=\"0\"> ");
-        }
+
+        builder.append("<img src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png\" width=\"40\" height=\"40\" border=\"0\"> ");
+
         builder.append("</td>");
-        builder.append("<td><a class=\"previewItem\" href=\""+href + rootPage.getTitle() +"\" target=\"_blank\">"+ rootPage.getTitle() +"</a></td>");
-
-
+        builder.append("<td><a class=\"previewItem\" href=\""+ path   +"\" target=\"_blank\">"+ rootPage.getTitle() +"</a></td>");
 
 		Iterator<Page> iter = rootPage.listChildren();
 		while (iter.hasNext()) {
 			Page childPage = iter.next();
-
-            //builder.append("<ul>");
 			displayAllChildren_pdf_fmt(childPage, builder, xssAPI);
-            //builder.append("</ul>");
-
         }
 
-builder.append("</tr>");
+		builder.append("</tr>");
 
 
 	}
