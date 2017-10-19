@@ -645,7 +645,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 	function createElement(el){
 		var $input = $(el).find('input');
 		var $complement = $(el).find('label');
-
+		if ($input.attr('id')==undefined) return;
 
 		var $li = $('<li data-id="'+$input.attr('id') +'" ></li>');
 
