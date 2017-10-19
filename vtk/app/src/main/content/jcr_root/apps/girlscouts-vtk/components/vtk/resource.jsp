@@ -150,14 +150,17 @@
     CouncilMapper mapper = sling.getService(CouncilMapper.class);
     String branch = mapper.getCouncilBranch(councilId);
     String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
+
     java.util.Collection<bean_resource> resources= yearPlanUtil.getResourceData(user, troop, resourceRootPath);
     java.util.List<String> categories = VtkUtil.countResourseCategories(resources);
 	%>
 	
 	<ul class="small-block-grid-1 medium-block-grid-<%=categories.size()%> large-block-grid-<%=categories.size()%> browseResources">
 	    <%
+
 	    for(int i=0;i<categories.size();i++){ 
 	        String category= categories.get(i);
+
 	    %>
 		    <li>
 		         <div><%=category %></div>
@@ -165,6 +168,7 @@
 		         java.util.Iterator <bean_resource>itr = resources.iterator();
 		         while( itr.hasNext()){
 		        	  bean_resource bresource = itr.next();
+
 		        	  if( !bresource.getCategoryDisplay().equals( category ) ) continue;
                      if( bresource.getTitle().equals("Meeting Aids") )// && bresource.getItemCount()==0)
                           bresource.setItemCount(18);//meetingAidCount ) ;
@@ -176,8 +180,8 @@
                       if( "vtkvideos".equals( bresource.getTitle() ) ){continue;}
 		         %>
 			         <div>
-			            
-			             <a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/<%=troop.getSfTroopAge()==null ? "CA" : VtkUtil.formatAgeGroup(troop.getSfTroopAge())%>/vtk.resource.<%=(bresource.getPath() ==null || bresource.getPath().length()<=0) ? "" : bresource.getPath().substring(1).replaceAll("/","___")%>.html"><%=bresource.getTitle()%> 
+
+			            <a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/<%=troop.getSfTroopAge()==null ? "CA" : VtkUtil.formatAgeGroup(troop.getSfTroopAge())%>/vtk.resource.<%=(bresource.getPath() ==null || bresource.getPath().length()<=0) ? "" : bresource.getPath().substring(1).replaceAll("/","___")%>.html"><%=bresource.getTitle()%> 
 			               <%= (bresource.getTitle().equals("Meeting Overviews")) ? "" : ("("+bresource.getItemCount()+")")%> 
 			             </a>
 			             
@@ -282,4 +286,30 @@
 		} catch (Exception e) {
 		}
 		return "";
-	}%>
+	}
+
+
+	private void displayAllChildren_pdf_fmt(Page rootPage, StringBuilder builder,
+			com.adobe.granite.xss.XSSAPI xssAPI) {
+
+		String path = rootPage.getPath();
+
+        builder.append("<tr>"+
+                       "<td width=\"40\">");
+
+        builder.append("<img src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png\" width=\"40\" height=\"40\" border=\"0\"> ");
+
+        builder.append("</td>");
+        builder.append("<td><a class=\"previewItem\" href=\""+ path   +"\" target=\"_blank\">"+ rootPage.getTitle() +"</a></td>");
+
+		Iterator<Page> iter = rootPage.listChildren();
+		while (iter.hasNext()) {
+			Page childPage = iter.next();
+			displayAllChildren_pdf_fmt(childPage, builder, xssAPI);
+        }
+
+		builder.append("</tr>");
+
+
+	}
+%>
