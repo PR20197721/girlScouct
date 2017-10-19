@@ -265,6 +265,8 @@ function callExecuteBannerSlider() {
 
 				$("#vtk_banner2234").append(htmlResults);
 
+				// $(document).foundation('reveal', 'reflow');
+
 
 							//CLOSE BANNER
 			$('.vtk-banner-button').click(function () {
@@ -295,14 +297,14 @@ function callExecuteBannerSlider() {
 			}
 
 
-
+			
 
 		}
 	});
 }
 
 function callFoundationModal(e,id) {
-
+	$(document).foundation();
 	e.preventDefault();
 	console.log('#' + id)
 
