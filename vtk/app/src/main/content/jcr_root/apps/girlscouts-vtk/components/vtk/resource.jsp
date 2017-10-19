@@ -184,8 +184,16 @@
 			            <a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/<%=troop.getSfTroopAge()==null ? "CA" : VtkUtil.formatAgeGroup(troop.getSfTroopAge())%>/vtk.resource.<%=(bresource.getPath() ==null || bresource.getPath().length()<=0) ? "" : bresource.getPath().substring(1).replaceAll("/","___")%>.html"><%=bresource.getTitle()%> 
 			               <%= (bresource.getTitle().equals("Meeting Overviews")) ? "" : ("("+bresource.getItemCount()+")")%> 
 			             </a>
-			             
-			         </div> 
+                	</div>
+
+			              <%if(bresource.getTitle().equals("Meeting Aids")){%>
+			            	 <div>
+                                 <a href="http://www.girlscouts.org/en/our-program/badges/badge_explorer.html" target="_blank">
+                                 	Badge Explorer 
+				             	 </a>
+                			</div>
+			             <%}%>
+
 			     <%} %>
 		    </li>
 	    <%} %>
