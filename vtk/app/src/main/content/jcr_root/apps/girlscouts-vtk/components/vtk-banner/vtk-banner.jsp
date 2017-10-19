@@ -38,7 +38,7 @@
 
 
 <div class="vtk-banner-image">
-	<a href="#" data-reveal-id="vtk-banner-modal-<%=resource.getName()%>" data-effect="modal" data-reveal-init data-options="animation:'none'" >
+	<a href="#"  onclick="doVtkBannerContentCopy('vtk-banner-modal-<%=resource.getName()%>')" data-reveal-id="vtkBannerModal" data-effect="modal" data-reveal-init data-options="animation:'none'" >
 		<img src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
 	</a>
 
@@ -80,7 +80,9 @@
 
 
 <script>
-
+	function doVtkBannerContentCopy(id){
+	    document.getElementById('vtkBannerModal').innerHTML = document.getElementById(id).innerHTML ;
+	}
 
 
 $(function(){

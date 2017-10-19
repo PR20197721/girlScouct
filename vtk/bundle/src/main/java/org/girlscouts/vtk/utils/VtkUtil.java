@@ -743,4 +743,9 @@ public static java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> me
 			return cutOffDate.get(java.util.Calendar.YEAR);
 			
 	}
+	
+	public static String formatAgeGroup(String sf_age_group){
+		return ( sf_age_group ==null || sf_age_group.indexOf("-") ==-1 ) ? sf_age_group :
+			sf_age_group.substring( sf_age_group.indexOf("-")+1 ).toLowerCase();
+	}
 }//end class

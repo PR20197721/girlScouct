@@ -18,7 +18,8 @@
 	}
 	String vtk_cache_uri = "";
 	if( isParent ){
-		vtk_cache_uri = "/myvtk/" + troop.getSfCouncil() ;
+		vtk_cache_uri = "/myvtk/" + troop.getSfCouncil() +"/"+ (troop.getSfTroopAge() == null ? "CA" : VtkUtil.formatAgeGroup(troop.getSfTroopAge())) ;
+		
 	}
 	String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
 	
@@ -103,7 +104,7 @@
 				
 		<%if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
 				<dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
-					<a href="<%=relayUrl %>/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/vtk.resource.html">Resources</a>
+					<a href="<%=relayUrl %>/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/<%=troop.getSfTroopAge() == null ? "CA" : VtkUtil.formatAgeGroup(troop.getSfTroopAge())%>/vtk.resource.html">Resources</a>
 				</dd>
 				
 
@@ -279,7 +280,7 @@
 					<%  } %>
 <%if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
 					<li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a
-						href="<%=relayUrl %>/content/girlscouts-vtk/en/myvtk/<%=troop.getSfCouncil() %>/vtk.resource.html">Resources</a></li>
+						href="<%=relayUrl %>/content/girlscouts-vtk/en/myvtk/<%=troop.getSfCouncil() %>/<%=troop.getSfTroopAge() == null ? "CA" : VtkUtil.formatAgeGroup(troop.getSfTroopAge())%>/vtk.resource.html">Resources</a></li>
 
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
 					<li <%= ("milestones".equals(activeTab)) ? "class='active'" : "" %>><a
@@ -459,10 +460,10 @@
 						<% if("myTroop".equals(activeTab) && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID) ) { %>
 						   <li><a
 							title="print" href="/content/girlscouts-vtk/controllers/vtk.include.troopRoster.pdf" target="_blank"><i class="icon-printer"></i></a></li>
-							<%if( troop.getYearPlan()!=null ){%>
+							
 								<li style="margin-right:15px"><a
 								title="download" href="/content/girlscouts-vtk/controllers/vtk.include.troopRosterCsvRpt.html" target="_blank"><i class="icon-download"></i></a></li>
-							<%}%>
+						
                         <%}%>
 					
 						<%if(activeTab!=null  && ( "plan".equals(activeTab) || (  pageContext.getAttribute("YearPlanComponent")!=null && ((String)pageContext.getAttribute("YearPlanComponent")).equals("MEETING")  &&  "planView".equals(activeTab) )) ){ %>
