@@ -1,0 +1,52 @@
+// .cookie-page {
+//   .accordion {
+//     margin-bottom: 0;
+//     dt {
+//       background: #e3e3e3;
+//       margin: 0;
+//       h6 {
+//         color: #000;
+//         display: block;
+//         padding: rem-calc(10);
+//         font-size: rem-calc(18);
+//         margin: 0;
+//         &:before {
+//           border-color:#00ae58 transparent transparent;
+//           border-width: rem-calc(10);
+//           left: auto;
+//           right: rem-calc(10);
+//         }
+//         &.on:before {
+//           border-color: transparent transparent #fff;
+//           margin-top:rem-calc(-15);
+//         }
+//         &.on {
+//           color: $white;
+//         }
+//       }
+//     }
+//     &.section dt.on {
+//       background: #00ae58;
+//       // h6 {
+//       //   color: #fff;
+//       //   margin-bottom: 0;
+//       //   &:before {
+//       //     border-color: transparent transparent #fff;
+//       //   }
+//       //   &.on:before {
+//       //     border-color: transparent transparent #fff;
+//       //   }
+//       // }
+//     }
+//     dd {
+//       background: #f8f8f8;
+//       margin-bottom: rem-calc(3) !important;
+//       .content {
+//         padding: rem-calc(25 15 0 15);
+//       }
+//     }
+//     p {
+//       font-size: rem-calc(14);
+//     }
+//   }
+// }

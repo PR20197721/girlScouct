@@ -4,6 +4,7 @@ $lines-to-show: 3;
 .article-tile {
     section {
         position: relative;
+        overflow: hidden;
         img {
             width: 100%;
             &.last {
@@ -12,25 +13,44 @@ $lines-to-show: 3;
         }
         .text-content {
             z-index: 15;
-            bottom: 0;
             display: block;
             padding: rem-calc(0 16px 0);
             color: #fff;
             position: absolute;
             width: 100%;
+            height: 100%;
+            bottom: -65.5%;
             transition: 500ms;
-            height: rem-calc(100);
-            overflow: hidden;
-            max-height: 34.5%;
             * {
                 color: $white;
+            }
+            .text-wrapper {
+                display: table;
+                height: 34.5%;
+            }
+            .text-inner {
+                display: table-cell;
+                vertical-align: middle;
+                height: 100%;
             }
             h3 {
                 font-size: rem-calc(17);
                 line-height: 1.2rem;
-                margin-bottom: rem-calc(10);
-                margin-top: 0;
+                margin: 0;
                 font-weight: normal;
+                position: relative;
+                display: block;
+            }
+            p {
+                font-size: rem-calc(14);
+                // transition: opacity 0.1s linear;
+                margin: 0;
+                line-height: 1.2rem;
+                opacity: 0;
+                z-index: -10;
+                position: absolute;
+                top: 100%;
+                padding-top: rem-calc(10);
             }
             @media #{$small-only} {
                 h3 {
@@ -41,16 +61,6 @@ $lines-to-show: 3;
                 p {
                     line-height: 1rem;
                 }
-            }
-            p {
-                font-size: rem-calc(14);
-                // transition: opacity 0.1s linear;
-                // -moz-transition: opacity 0.1s linear;
-                // -webkit-transition: opacity 0.1s linear;
-                margin: 0;
-                line-height: 1.20rem;
-                opacity: 0;
-                z-index: -10;
             }
         }
         @media #{$small-only} {
@@ -91,8 +101,7 @@ $lines-to-show: 3;
             @media #{$medium-up} {
                 &:hover {
                     .text-content {
-                        height: 100%;
-                        max-height: 100%;
+                        bottom: 0;
                         p {
                             opacity: 1;
                             // transition: opacity .5s linear;

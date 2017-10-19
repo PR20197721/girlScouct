@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-05-21T10:00:32.567-04:00"
+        cq:lastModifiedBy="kstavisky"
+        cq:lastReplicated="{Date}2014-05-21T10:14:27.701-04:00"
+        cq:lastReplicatedBy="kstavisky"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Highest Awards"
+        jcr:uuid="e918f8b9-9fbb-4a15-966b-49010228972a"
+        sling:resourceType="girlscouts/components/three-column-page">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        jcr:created="{Date}2014-05-21T10:00:11.273-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T10:00:11.273-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/title"/>
+                    <text
+                        jcr:created="{Date}2014-05-21T10:00:14.596-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T10:00:32.565-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/text"
+                        text="&lt;p>Bronze. Silver. Gold. These represent the highest honors a Girl Scout can earn.&lt;/p>&#xa;&lt;p>All three awards give you the chance to do big things while working on an issue you care about. Whether you want to plant a community garden at your school and inspire others to eat healthy for your Bronze, advocate for animal rights for your Silver, or build a career network that encourages girls to become scientists and engineers for your Gold, you’ll inspire others (and yourself).&amp;nbsp;&lt;/p>&#xa;&lt;p>Also a given: as you earn one of Girl Scouting’s highest awards, you’ll change your corner of the world—and maybe even beyond. The possibilities are endless.&lt;/p>&#xa;&lt;p>Want to see what others have done to earn their award? For inspiration, check out examples of Bronze, Silver, and Gold Award projects via Girl Scouts of the USA’s Map It: Girls Changing the World.&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+    </jcr:content>
+    <bronze/>
+    <silver/>
+    <gold/>
+</jcr:root>

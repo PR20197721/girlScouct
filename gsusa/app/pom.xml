@@ -22,7 +22,24 @@
       <artifactId>gsusa-bundle</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>compass</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>sass-globbing</artifactId>
+      <type>gem</type>
+    </dependency>
   </dependencies>
+  <!-- Torquebox rubygem repo only for gsusa content project -->
+  <repositories>
+    <repository>
+      <id>rubygems-release</id>
+      <url>http://rubygems-proxy.torquebox.org/releases</url>
+    </repository>
+  </repositories>
   <build>
     <resources>
       <resource>
@@ -49,6 +66,25 @@
         <configuration>
           <skip>true</skip>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.girlscouts.web</groupId>
+        <artifactId>selectiveclean-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <preserveInTarget>
+            <param>rubygems</param>
+            <param>test-classes</param>
+          </preserveInTarget>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>clean</phase>
+            <goals>
+              <goal>preservegems</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>de.saumya.mojo</groupId>

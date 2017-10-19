@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Tab 1">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Component Title"
+                        name="./title"
+                        xtype="textfield"/>
+                    <article1
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Article 1"
+                        name="./article1"
+                        rootPath="/content/gsusa/en"
+                        xtype="pathfield"/>
+                    <article2
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Article 2"
+                        name="./article2"
+                        rootPath="/content/gsusa/en"
+                        xtype="pathfield"/>
+                    <article3
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Article 3"
+                        name="./article3"
+                        rootPath="/content/gsusa/en"
+                        xtype="pathfield"/>
+                    <pullFromFeed
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Pull From Feed"
+                        name="./pullFromFeed"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <articletags
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Select One Tag"
+                        fieldLabel="Article Tag"
+                        name="./tag"
+                        suggestMinChars="1"
+                        xtype="tags">
+                        <namespaces jcr:primaryType="cq:WidgetCollection">
+                            <ns1
+                                jcr:primaryType="nt:unstructured"
+                                maximum="3"
+                                name="gsusa"/>
+                        </namespaces>
+                    </articletags>
+                    <feedLimit
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="3"
+                        fieldDescription="Enter a number 1-3 to specify the maximum number of articles pulled from the feed."
+                        fieldLabel="Max Articles From Feed"
+                        maxValue="{Long}3"
+                        minValue="{Long}1"
+                        name="./feedLimit"
+                        xtype="numberfield"/>
+                    <sortByPriority
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Sort By Priority"
+                        name="./sortByPriority"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <borderLine
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        defaultValue="on"
+                        fieldLabel="Border Line"
+                        name="./borderLine"
+                        type="radio"
+                        value="on"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <on
+                                jcr:primaryType="nt:unstructured"
+                                text="On"
+                                value="on"/>
+                            <off
+                                jcr:primaryType="nt:unstructured"
+                                text="Off"
+                                value="off"/>
+                        </options>
+                    </borderLine>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

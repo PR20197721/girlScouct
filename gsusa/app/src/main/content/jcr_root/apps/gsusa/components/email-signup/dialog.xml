@@ -33,6 +33,13 @@
                 		defaultValue="Get updates when new content is available."
                 		name="./description"
                 		xtype="textfield"/>
+                	<source 
+                	    jcr:primaryType="cq:Widget"
+                	    fieldLabel="Source"
+                	    fieldDescription="Originating source in 300 or less characters"
+                	    defaultValue=""
+                	    name="./source"
+                	    xtye="textfield" />
                 	<emailplaceholder
                 		jcr:primaryType="cq:Widget"
                 		fieldLabel="Email Placeholder"
@@ -159,21 +166,18 @@
                 		jcr:primaryType="cq:Widget"
                 		fieldLabel="Council ID"
                 		fieldDescription="3 digit Council ID"
-                		allowBlank="false"
                 		name="./cid"
                 		xtype="textfield"/>
                 	<dataextensionname
                 		jcr:primaryType="cq:Widget"
                 		fieldLabel="Data Extension Name"
                 		fieldDescription=""
-                		allowBlank="false"
                 		name="./dataextensionname"
                 		xtype="textfield"/>
                 	<dataextensionkey
                 		jcr:primaryType="cq:Widget"
                 		fieldLabel="Data Extension Key"
                 		fieldDescription=""
-                		allowBlank="false"
                 		name="./dataextensionkey"
                 		xtype="textfield"/>      
                 </items>

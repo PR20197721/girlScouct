@@ -822,27 +822,32 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	 */
 	private List<Page> buildLiveCopyPages(PageManager manager,  ResourceResolver rr, Node rootNode, String contentPath, String templatePath, String councilPath, String languagePath) {
 		ArrayList<Page> copyPages = new ArrayList<Page>();
-		try {		
-			final String templateLangPath = templatePath + "/" + languagePath;
-			final String councilLangPath = councilPath + "/" + languagePath;
-			RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
-			RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
+		final String templateLangPath = templatePath + "/" + languagePath;
+//		LiveRelationshipManager relationshipMgr = (LiveRelationshipManager) rr.adaptTo(LiveRelationshipManager.class);
+		RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
+		
+		try {			
 			if (rootNode.hasNode(templateLangPath)) {
 				Resource languageRootRes = rr.resolve(contentPath + "/" + templateLangPath);
 				Iterator<Resource> pageItr = languageRootRes.listChildren();
-				//Iterating through template site top level navigation items
 				while (pageItr.hasNext()) {
 					Resource childRes = pageItr.next();
-					if ("cq:Page".equals(childRes.getResourceType())) {
-						Page templatePage = childRes.adaptTo(Page.class);
-						//performing deep copy of a top level nav item from template site to council site
-						Page copyPage = manager.copy(templatePage, councilLangPath + "/" + childRes.getName(), childRes.getName(), false, true);
-						//GSWP-77 c.w.
-						rollout(rr, copyPage, contentPath, templatePath, councilPath, gsConfig);
+					if (childRes.getName().equals("jcr:content")) {
+						
+					} 
+					else {
+						String templatePageName = childRes.getName();
+						Page templatePage = (Page) languageRootRes.getChild(templatePageName).adaptTo(Page.class);
+						Page copyPage = manager.copy(templatePage, councilPath + "/" + languagePath + "/" + templatePageName, templatePageName, false, true);
 						copyPages.add(copyPage);
+						RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
+						LiveRelationship relationship= relationshipManager.establishRelationship(templatePage, copyPage, true, false, gsConfig);
+						cancelInheritance(rr, councilPath + "/" + languagePath);
+						//GSWP-77 c.w.
+						rollout(rr,copyPage);
+						
 					}
 				}
-				cancelInheritance(rr, councilPath + "/" + languagePath);
 			}
 			else {
 				LOG.error(templatePath + " doesn't exist in repository. Cannot create live copies");
@@ -878,22 +883,17 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	 *  to trigger the gsreferenceupdate action
 	 * @throws WCMException 
 	 */
-	private void rollout(ResourceResolver rr, Page copyPage, String contentPath, String templatePath, String councilPath, RolloutConfig gsConfig) throws WCMException {	
-		String copyPagePath = copyPage.getPath();
-		String templatePagePath = copyPagePath.replaceAll(councilPath, templatePath);
-		Page templatePage = rr.resolve(contentPath + "/" + templatePagePath).adaptTo(Page.class);
-		if(templatePage != null){
-			LiveRelationship relationship= relationshipManager.establishRelationship(templatePage, copyPage, true, false, gsConfig);
-			if(relationship != null){
+	private void rollout(ResourceResolver rr, Page targetPage) throws WCMException {
+		Iterator<Page> childIter = targetPage.listChildren(null,true);
+		while(childIter.hasNext()){
+			Page child = childIter.next();
+			LiveRelationship relationship = relationshipManager.getLiveRelationship(child.adaptTo(Resource.class), false);
+			if(relationship!=null){
 				rolloutMgr.rollout(rr, relationship, false);
 			}
 		}
-		Iterator<Page> pageItr = copyPage.listChildren();
-		while (pageItr.hasNext()) {
-			rollout(rr, pageItr.next(), contentPath, templatePath, councilPath, gsConfig);
-		}
+		
 	}
-	
 	/**
 	 * Creates the Salesforce Web to Case page with it's form and properties
 	 * @param  languagePath  path to the page's /en directory

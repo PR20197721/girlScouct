@@ -33,6 +33,7 @@
     final boolean multiValued = properties.get("multivalue", false);
     final boolean hideTitle = properties.get("hideTitle", false);
     final String width = properties.get("width", String.class);
+    final String confirmationEmail = properties.get("confirmationemail", String.class);
     final int rows = xssAPI.getValidInteger(properties.get("rows", String.class), 1);
     final int cols = xssAPI.getValidInteger(properties.get("cols", String.class), 35);
 	//c.w add maxlength attribute to input text
@@ -54,6 +55,9 @@
     String forceMrChangeHandler = multiRes ? "cq5forms_multiResourceChange(event, '" + xssAPI.encodeForJSString(mrName) + "', true);" : "";
 
     %><div class="form_row">
+    	<%if(confirmationEmail!=null){ %>
+    	<input type="hidden" id="confirmation_email_<%=id%>" value="<%=confirmationEmail%>"/>
+    	<%} %>
         <% LayoutHelper.printTitle(id, title, required, hideTitle, out); %>
         <div class="form_rightcol" id="<%= xssAPI.encodeForHTMLAttr(name) %>_rightcol"><%
             int i = 0;

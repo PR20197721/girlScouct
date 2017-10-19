@@ -1,0 +1,99 @@
+/*
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
+ * licensing@extjs.com
+ *
+ * http://extjs.com/license
+ */
+
+#CQ #cq-notification-div {
+    position:absolute;
+    top:10px;
+    width:250px;
+    z-index:20000;
+    max-width: 250px;
+}
+
+#CQ #cq-notification-div .cq-notification-msg-title {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#CQ #cq-notification-div .cq-notification-msg-content {
+    display: block;
+    font-size:14px;
+}
+
+#CQ .x-box-tl {
+	background:transparent url(../utils/Notification/corners.png) no-repeat 0 0;zoom:1;
+	/*filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../../util/Notification/corners.png');*/
+}
+
+#CQ .x-box-tc {
+	height:8px;
+	background:transparent url(../utils/Notification/tb.png) repeat-x 0 0;
+	/*filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../../util/Notification/tb.png');*/
+	overflow:hidden;
+}
+
+#CQ .x-box-tr {
+	background:transparent url(../utils/Notification/corners.png) no-repeat right -8px;
+	/*filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../../util/Notification/corners.png');*/
+}
+
+#CQ .x-box-ml {
+	background:transparent url(../utils/Notification/l.png) repeat-y 0;
+	/*filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../../util/Notification/l.png');*/
+	padding-left:4px;
+	overflow:hidden;
+	zoom:1;
+}
+
+#CQ .x-box-mc {
+	background:#eee url(../utils/Notification/tb.png) repeat-x 0 -16px;
+	/*filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../../util/Notification/tb.png');*/
+	padding:4px 10px;
+	font:12px Tahoma, Arial, Helvetica, sans-serif;
+    color:#393939;
+}
+
+#CQ .x-box-mc h3 {
+	font-size:14px;
+	font-weight:bold;
+	margin:0 0 4px 0;
+	zoom:1;
+}
+
+#CQ .x-box-mr {
+	background:transparent url(../utils/Notification/r.png) repeat-y right;
+	/*filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../../util/Notification/r.png');*/
+	padding-right:4px;
+	overflow:hidden;
+}
+
+#CQ .x-box-bl {
+	background:transparent url(../utils/Notification/corners.png) no-repeat 0 -16px;
+	/*filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../../util/Notification/corners.png');*/
+	zoom:1;
+}
+
+#CQ .x-box-bc {
+	background:transparent url(../utils/Notification/tb.png) repeat-x 0 -8px;
+	/*filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../../util/Notification/tb.png');*/
+	height:8px;
+	overflow:hidden;
+}
+
+#CQ .x-box-br {
+	background:transparent url(../utils/Notification/corners.png) no-repeat right -24px;
+	/*filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../../util/Notification/corners.png');*/
+}
+
+#CQ .x-box-tl,.x-box-bl{
+	padding-left:8px;overflow:hidden;
+}
+
+#CQ .x-box-tr,.x-box-br{
+	padding-right:8px;overflow:hidden;
+}

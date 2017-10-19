@@ -1,0 +1,16 @@
+.news-list{
+  li{
+    margin-left: em-calc(60);
+    margin-bottom: em-calc(15);
+  }
+
+  .news-year{
+    color: $primary-color;
+    font-size: em-calc(14);
+    font-weight: bold;
+  }
+  
+  .date{
+    font-style: italic;
+  }
+}

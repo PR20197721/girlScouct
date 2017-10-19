@@ -17,11 +17,17 @@
 		    	        fieldLabel="Image Alt"
         	    		name="./imageAlt"
 		            	xtype="textfield"/>
+                    <logoLink
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Logo Link"
+                        name="./logoLink"
+                        rootPath="/content/gsusa"
+                        xtype="pathfield"/>
 		      	</items>
 		 	</tab1>
             <tab2
                 jcr:primaryType="cq:Panel"
-                title="Image">
+                title="Images">
                 <items jcr:primaryType="cq:WidgetCollection">
 		            <image
     		            jcr:primaryType="cq:Widget"
@@ -42,6 +48,24 @@
     	    	                xtype="hidden"/>
         	    	    </items>
 	        	    </image>
+	        	    <sticky-nav-image
+			            jcr:primaryType="cq:Widget"
+			            ddGroups="[media]"
+			            fileNameParameter="./stickyNavImage/fileName"
+			            fileReferenceParameter="./stickyNavImage/fileReference"
+			            name="./stickyNavImage/file"
+			            requestSuffix="/stickyNavImage.img.png"
+			            title="Sticky Nav Image"
+			            xtype="html5smartimage">
+			            <items jcr:primaryType="cq:WidgetCollection">
+			                <resType
+			                    jcr:primaryType="cq:Widget"
+			                    ignoreData="{Boolean}true"
+			                    name="./stickyNavImage/sling:resourceType"
+			                    value="foundation/components/image"
+			                    xtype="hidden"/>
+			            </items>
+			        </sticky-nav-image>
 	        	</items>
 	      	</tab2>
         </items>

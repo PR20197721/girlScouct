@@ -16,6 +16,13 @@
   <artifactId>girlscouts-app</artifactId>
   <packaging>content-package</packaging>
   <name>Girl Scouts USA App Package</name>
+  <repositories>
+    <repository>
+      <id>project.local</id>
+      <name>project</name>
+      <url>file:${project.basedir}/../../repo</url>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -23,9 +30,10 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.day.cq.wcm</groupId>
-      <artifactId>cq-wcm-api</artifactId>
-      <version>5.6.6</version>
+      <groupId>com.adobe.aem</groupId>
+      <artifactId>uber-jar</artifactId>
+      <version>6.3.0</version>
+      <classifier>apis</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -37,12 +45,6 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>pdfbox-wrapper</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.girlscouts.vtk</groupId>
-      <artifactId>girlscouts-vtk-bundle</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.girlscouts.web</groupId>

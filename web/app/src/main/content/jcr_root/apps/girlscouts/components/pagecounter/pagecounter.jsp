@@ -44,17 +44,23 @@
 	public static final String RESOURCE_TYPES = "foundation/components/page, girlscouts/components/homepage, girlscouts/components/one-column-page, girlscouts/components/three-column-page, girlscouts/components/placeholder-page";
 	public static final String FOOTER_LINK_FILTERs = "Terms, Conditions, Privacy, Policy, Social";
 	
-	ArrayList<String> nationalTemplatePages;
 	ArrayList<String> councilTemplatePages;
 	ArrayList<String> councilAddedPages;
-	ArrayList<String> noncountPages;
+	//ArrayList<String> noncountPages;
 	ArrayList<String> allPages;	
+	//Map<String, String> councilTemplatePages;
+	//Map<String, String> councilAddedPages;
+	Map<String, String> noncountPages;
+	//Map<String, String> allPages;	
 
+	ArrayList<String> nationalTemplatePages;
 	ArrayList<String> countedResourceTypes;
 	ArrayList<String> exceptionPages;
 	ArrayList<String> exceptionDirectories; 
 	ArrayList<String> thankYouPages;	
 	ArrayList<String> defaultValues; 	
+	
+	ArrayList<String> overrides;
 		
 	Long before;
 	Long after;	
@@ -68,7 +74,7 @@
 		return arrayList;
 	}
 	
-	void processPaths(String[] list) {		
+	void processFilterPaths(String[] list) {		
 		for (int i = 0; i < list.length; i++) {
 			String[] values = list[i].split("\\|\\|\\|");
 			String label = values[0];
@@ -85,20 +91,26 @@
 		}		
 	}
 	
+	void processOverridePaths(String[] list) {
+		if (list != null) {
+			for (int i = 0; i < list.length; i++) {
+				//String[] values = list[i].split("\\|\\|\\|");
+				//String label = values[0];
+				//String path = values.length > 1 ? values[1] : ""; 
+				//String page = values.length > 2 ? values[2] : "";
+				//String subdir = values.length > 3 ? values [3] : "";
+								
+				overrides.add(list[i].trim());
+			}
+		}
+	}
+	
+	
 	String linkify(String path) {
-		String[] values = path.split("\\|");
-		String reason = "";
-		for (int i = 1; i < values.length; i++) {
-			reason += values[i] + " ";
-		}
-		
-		String html = "<a  target=\"_blank\"  href=\"" + values[0].trim() + ".html\">" + trimTopLevel(values[0],2) + "</a>";  
-		
-		if (reason.length() > 0) {
-			html += " (" + reason.trim() + ")";
-		}
-		
-		return html;
+		return "<a  target=\"_blank\"  href=\"" + path.trim() + ".html\">" + trimTopLevel(path,2) + "</a>";  
+	}
+	String linkify(String path, String reason) {		
+		return linkify(path) + " (" + reason.trim() + ")";		
 	}
 	
 	String trimTopLevel(String path, int num) {
@@ -195,13 +207,15 @@
 		// Active Pages
 		String lastReplicationAction = properties.get("cq:lastReplicationAction", "");
 		if (!lastReplicationAction.equals("Activate")) {
-			noncountPages.add(path + " | NonActive");
+			//noncountPages.add(path + " | NonActive");
+			noncountPages.put(path, "NonActivate");
 			return;
 		}
 		
 		// Exception Pages
 		if (exceptionPages.contains(path)) {			
-			noncountPages.add(path + " | ExceptionPages");
+			//noncountPages.add(path + " | ExceptionPages");
+			noncountPages.put(path, "ExceptionPages");
 			return;
 		}		
 		
@@ -209,7 +223,8 @@
 		for (int i = 0; i < exceptionDirectories.size(); i++) {
 			String dir = exceptionDirectories.get(i);
 			if (!path.equals(dir) && path.contains(dir)) {				
-				noncountPages.add(path + " | ExceptionDirectories");
+				//noncountPages.add(path + " | ExceptionDirectories");
+				noncountPages.put(path, "ExceptionDirectories");
 				return;
 			}
 		}		
@@ -263,13 +278,24 @@
 		for (int i = 0; i < thankYouPages.size(); i++) {
 			String[] val = thankYouPages.get(i).split(" ");
 			if (path.equals(val[0])) {				
-				noncountPages.add(path + " | ThankYou " + val[1]);
+				//noncountPages.add(path + " | ThankYou " + val[1]);
+				noncountPages.put(path, "ThankYou " + val[1]);
 				return;
 			}
 		}	
 		
 		
 		councilAddedPages.add(path);
+	}
+	
+	void overridePages() {
+		
+		for (String path: overrides){
+			if (noncountPages.containsKey(path)) {
+				councilAddedPages.add(path);
+				noncountPages.remove(path);
+			}
+		}
 	}
 %>
 
@@ -284,21 +310,19 @@
 	String councilName = top.getName(); 
 	String councilPath = top.getPath();
 	
-	nationalTemplatePages = new ArrayList<String>();
+	noncountPages = new HashMap<String,String>(); // new ArrayList<String>();
+	allPages = new ArrayList<String>();
 	councilTemplatePages = new ArrayList<String>();
 	councilAddedPages = new ArrayList<String>();
 	
+	nationalTemplatePages = new ArrayList<String>();
 	exceptionPages = new ArrayList<String>();
-	exceptionDirectories = new ArrayList<String>();
+	exceptionDirectories = new ArrayList<String>();	
 	
 	countedResourceTypes = new ArrayList<String>();
-	
-	noncountPages = new ArrayList<String>();
-	allPages = new ArrayList<String>();
-	
-	thankYouPages = new ArrayList<String>();
-	
-	defaultValues = new ArrayList<String>();
+	thankYouPages = new ArrayList<String>();	
+	defaultValues = new ArrayList<String>();	
+	overrides = new ArrayList<String>();
 	
 	ArrayList<String> links = new ArrayList<String>();
 	ArrayList<String> footerLinkFilters = new ArrayList<String>();
@@ -310,6 +334,7 @@
 	
 	String resourceTypes = properties.get("resourceTypes", "");
 	String[] filters = properties.get("paths", String[].class);
+	String[] overridePaths = properties.get("overrides", String[].class);
 	
 	String nodePath = resource.getPath(); //top.getPath() + "/en/jcr:content/content/middle/par/pagecounter";
 	Node node = resourceResolver.getResource(nodePath).adaptTo(Node.class);
@@ -372,7 +397,8 @@
 	}
 	
 	countedResourceTypes = listToArray(resourceTypes);	
-	processPaths(filters);
+	processFilterPaths(filters);
+	processOverridePaths(overridePaths);
 
 	// These pages belong to council template pages 
 	// They aren't inherited so no mixins to check
@@ -390,6 +416,10 @@
 		processPage(resourceResolver, allPages.get(i));
 	}
 	
+	// If overrides are set, add override paths
+	overridePages();
+	
+		
 	after = System.currentTimeMillis();
 %>
 
@@ -458,11 +488,13 @@
 		<a id="<%= councilName %>NoncountPages" class="showlist">Show List</a> 
 	</div>
 	<div id="<%= councilName %>NoncountPagesList" class="pagelist">
-	<% for(String str: noncountPages) { %>
-		<br><%= linkify(str) %>
+	<% for(Map.Entry<String,String> entry: noncountPages.entrySet()) { %>
+		<br><%= linkify(entry.getKey(), entry.getValue()) %>
 	<% } %><br>
 	</div> 
 	<br>
+	
+	
 	
 	<br><br><br>
 	<!-- # -->
@@ -496,9 +528,9 @@
 					</td>
 					<td><%= councilAddedPages.size() %></td>
 					<td style="white-space:nowrap;">
-						<% for(String str: noncountPages) { %>
-							<br><%= linkify(str) %>
-						<% } %> 
+						<% for(Map.Entry<String,String> entry: noncountPages.entrySet()) { %>
+							<br><%= linkify(entry.getKey(), entry.getValue()) %>
+						<% } %><br>
 					</td>
 					<td><%= noncountPages.size() %></td>
 				</tr>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-04-29T15:50:45.634-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-05-20T15:03:22.375-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Ad Page"
+        jcr:uuid="a9c936a5-4cf7-4d19-90e8-687306667df5"
+        sling:resourceType="girlscouts/components/ad-page"/>
+    <ad-page/>
+</jcr:root>

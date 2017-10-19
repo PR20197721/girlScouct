@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <fonts/>
+    <jcr:content
+        cq:lastModified="{Date}2015-12-01T14:49:22.069-05:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/libs/wcm/core/templates/designpage"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts USA"
+        sling:resourceType="wcm/core/components/designer">
+        <two-column-page jcr:primaryType="nt:unstructured">
+            <par
+                jcr:lastModified="{Date}2015-07-30T19:36:36.176-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/styled-parsys"
+                components="[group:GSUSA,group:Girl Scouts,group:Girl Scouts Form]">
+                <section jcr:primaryType="nt:unstructured"/>
+                <video
+                    jcr:lastModified="{Date}2015-06-29T17:07:53.009-04:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/video"
+                    flashPlayer="flvfallback"
+                    profiles="[hq,flv,firefoxhq]"
+                    wmode="opaque"/>
+            </par>
+        </two-column-page>
+        <homepage jcr:primaryType="nt:unstructured">
+            <par
+                jcr:lastModified="{Date}2015-12-01T14:49:22.063-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/styled-parsys"
+                components="[group:GSUSA,group:Girl Scouts,group:Girl Scouts Form]">
+                <section jcr:primaryType="nt:unstructured"/>
+            </par>
+            <finder-par
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/parsys"
+                components="[/apps/gsusa/components/standalone-cookie-header]">
+                <section jcr:primaryType="nt:unstructured"/>
+            </finder-par>
+            <top
+                jcr:lastModified="{Date}2015-12-01T14:49:22.063-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/styled-parsys"
+                components="[group:GSUSA,group:Girl Scouts,group:Girl Scouts Form]">
+                <section jcr:primaryType="nt:unstructured"/>
+            </top>
+        </homepage>
+        <page jcr:primaryType="nt:unstructured">
+            <par
+                jcr:lastModified="{Date}2015-07-10T16:59:22.589-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/parsys"
+                components="[group:GSUSA,group:Girl Scouts,group:Girl Scouts Form]">
+                <section jcr:primaryType="nt:unstructured"/>
+            </par>
+            <video
+                jcr:lastModified="{Date}2015-06-29T17:07:53.009-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/video"
+                flashPlayer="flvfallback"
+                profiles="[hq,flv,firefoxhq]"
+                wmode="opaque"/>
+        </page>
+        <three-column-page jcr:primaryType="nt:unstructured">
+            <par
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/parsys"
+                components="[group:GSUSA,group:Girl Scouts,group:Girl Scouts Form]">
+                <section jcr:primaryType="nt:unstructured"/>
+            </par>
+        </three-column-page>
+    </jcr:content>
+    <clientlibs/>
+    <images/>
+    <dropdown_data/>
+    <favicon.ico/>
+</jcr:root>

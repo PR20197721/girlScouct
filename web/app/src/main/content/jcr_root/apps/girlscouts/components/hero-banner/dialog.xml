@@ -6,14 +6,14 @@
         jcr:primaryType="cq:Widget"
         xtype="tabpanel">
         <items jcr:primaryType="cq:WidgetCollection">
-        <tab0
-	        	jcr:primaryType="cq:Panel"
-	            title="Images and Videos">
-	            <items jcr:primaryType="cq:WidgetCollection">
-	            <slide-show-counts
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Number Of Slide Show Image">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <slide-show-counts
                         jcr:primaryType="cq:Widget"
                         defaultValue="0"
-                        fieldDescription="(Select number of images in slideshow. Used to support legacy version of slideshow.)"
+                        fieldDescription="(Select number of image slideshow)"
                         fieldLabel="Number of Slide Show Images"
                         imageLabel="Image"
                         name="./slideshowcount"
@@ -84,26 +84,8 @@
                                 value="bottom"/>
                         </options>
                     </sb-placement>
-                    <text1
-                		jcr:primaryType="cq:Widget"
-                        text="Add images or videos in a table below to generate a slideshow. Legacy slideshow will be deactivated if a table has at least one item."
-                        xtype="label"/>
-	            	<text2
-                		jcr:primaryType="cq:Widget"
-                        text="If you have a video URL, please put it in the Link field and leave the image path blank."
-                        xtype="label"/>
-		            <multi
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Images/Videos"
-                        hideLabel="{Boolean}true"
-                        name="./carouselList"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="nt:unstructured"
-                            xtype="imagevideomultifieldwidget"/>
-                    </multi>
                 </items>
-        	</tab0>
+            </tab1>
             <first-spring-board
                 jcr:primaryType="cq:Panel"
                 title="First Spring Board Component">

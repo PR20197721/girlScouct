@@ -54,9 +54,6 @@ function loadResults(){
 		success: function(res){
 			$("#article-list").append(res);
 			retina(true);
-			setTimeout(function() {
-				article_tiles();
-			}, 750);
 		}
 	});
 }

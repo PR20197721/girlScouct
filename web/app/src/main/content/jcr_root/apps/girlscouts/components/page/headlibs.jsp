@@ -31,7 +31,7 @@ if (newCurrentDesign != null) {
 
 <!-- Begin: login logic -->
 <%
-org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
+org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(ConfigManager.class);
 
 	String helloUrl = configManager.getConfig("helloUrl");
 	String callbackUrl = configManager.getConfig("callbackUrl");

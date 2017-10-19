@@ -1,0 +1,27 @@
+#CQ .cq-tour-overlay {
+	background-color:#CCCCCC;
+    height:0pt;
+    left:0pt;
+    opacity:0.6;
+    position:absolute;
+    top:0pt;
+    width:0pt;
+    z-index:8999;
+}
+
+
+#CQ .cq-tour-msg {
+	background-color:white;
+    border:1px solid gray;
+    padding:8px;
+    position:absolute;
+    z-index:9001;
+    
+    font-family:tahoma,arial,helvetica,sans-serif;
+	font-size:12px;
+	font-size-adjust:none;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:normal;
+}

@@ -1,0 +1,8 @@
+[{"value":"girlscouts/components/form/actions/gsmail","text":"Mail","qtip":"Sends all submitted values in an email."},
+{"value":"girlscouts/components/form/actions/spiceworks","text":"Spiceworks Mail","qtip":"Sends all submitted values in an email, formatted for Spiceworks application."},
+{"value":"girlscouts/components/form/actions/gsstore","text":"Store Content","qtip":"Stores the submitted values into the repository."},
+{"value":"girlscouts/components/form/actions/web-to-case","text":"Web to Case","qtip":"Submit a case in WebPlatform to Salesforce"},
+{"value":"girlscouts/components/form/actions/web-to-lead","text":"Web to Lead","qtip":"Submit a lead in WebPlatform to Salesforce"},
+{"value":"girlscouts/components/form/actions/web-to-lead-demo","text":"DEMO ONLY Web to Lead","qtip":"USE FOR Web-to-lead DEMO ONLY"},
+{"value":"foundation/components/form/actions/mail","text":"Old Mail - Select 'Mail' instead","qtip":"This option is deprecated and will later be removed."},
+{"value":"foundation/components/form/actions/store","text":"Old Store Content - Select 'Store Content' instead","qtip":"This option is deprecated and will later be removed."}]

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/content/girlscouts-usa" mode="merge"/>
+    <filter root="/content/dam/girlscouts-shared" mode="merge"/>
+    <filter root="/etc/tags/girlscouts" mode="merge"/>
+    <filter root="/etc/projects/girlscouts" mode="merge"/>
+    <filter root="/home/groups/c/content-authors" mode="merge"/>
+    <filter root="/home/users/girlscouts" mode="merge"/>
+    <filter root="/home/groups/girlscouts-usa/girlscouts-usa-reviewers" mode="merge"/>
+    
+</workspaceFilter>

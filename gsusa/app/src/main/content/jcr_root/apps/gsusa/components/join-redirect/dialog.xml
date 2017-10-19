@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <main
+                jcr:primaryType="cq:Panel"
+                title="Join Redirect">
+                <items jcr:primaryType="cq:WidgetCollection">
+                	<type
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Redirect Type"
+                		fieldDescription="Choose whether it redirects to Join or Volunteer page"
+                		allowBlank="{Boolean}false"
+                		type="radiogroup"
+                		name="./type"
+                		xtype="selection">
+                		<options jcr:primaryType="cq:WidgetCollection">
+                			<option1
+                				jcr:primaryType="cq:Widget"
+                				text="Join"
+                				value="join" />
+                			<option2
+                				jcr:primaryType="cq:Widget"
+                				text="Volunteer"
+                				value="volunteer" />
+                		</options>
+                	</type>
+                	<source
+                		jcr:primaryType="cq:Widget"
+                		defaultValue="GIRLRedirect"
+                		fieldLabel="Source"
+                		fieldDescription="Idenfiable name to describe where redirect came from"
+                		name="./source"
+                		xtype="textfield" />
+                    <text
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="JOIN!"
+                        fieldDescription="Call To Action"
+                        fieldLabel="Text"
+                        name="./text"
+                        xtype="textfield"/>
+                    <textcolor
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="#FFFFFF"
+                        fieldDescription="Background color in HEX ex. #FFFFFF"
+                        fieldLabel="Text Color"
+                        name="./textcolor"
+                        xtype="textfield"/>
+                    <images
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Images for the slider"
+                        fieldLabel="Slider Images"
+                        name="./images"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="nt:unstructured"
+                            rootPath="/content/dam"
+                            xtype="pathfield"/>
+                    </images>
+                    <autoplayspeed
+                        jcr:primaryType="cq:Widget"
+                        allowDecimals="{Boolean}false"
+                        allowNegative="{Boolean}false"
+                        defaultValue="2000"
+                        fieldDescription="Default: 1000, Min: 20, Max: 10000"
+                        fieldLabel="Speed of the slider (in ms)"
+                        maxValue="10000"
+                        minValue="20"
+                        name="./autoplayspeed"
+                        xtype="numberfield"/>
+                    <speed
+                        jcr:primaryType="cq:Widget"
+                        allowDecimals="{Boolean}false"
+                        allowNegative="{Boolean}false"
+                        defaultValue="500"
+                        fieldDescription="Default: 2000, Min: 20, Max: 10000"
+                        fieldLabel="Transition Time of the slider (in ms)"
+                        maxValue="10000"
+                        minValue="20"
+                        name="./speed"
+                        xtype="numberfield"/>
+                </items>
+            </main>
+            <mobile
+                jcr:primaryType="cq:Panel"
+                title="Join Redirect Mobile">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <textmobile
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="JOIN!"
+                        fieldDescription="Call to Action"
+                        fieldLabel="Mobile Text"
+                        name="./textmobile"
+                        xtype="textfield"/>
+                    <backgroundcolor
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Background color in HEX ex. #FFFFFF"
+                        fieldLabel="Background Color"
+                        name="./backgroundcolor"
+                        xtype="textfield"/>
+                </items>
+            </mobile>
+            <logo
+                jcr:primaryType="cq:Widget"
+                cropParameter="./logo/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./logo/fileName"
+                fileReferenceParameter="./logo/fileReference"
+                mapParameter="./logo/imageMap"
+                name="./logo"
+                requestSuffix="/logo.img.png"
+                rotateParameter="./logo/imageRotate"
+                title="Logo"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./logo/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </logo>
+            <logomobile
+                jcr:primaryType="cq:Widget"
+                cropParameter="./logomobile/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./logomobile/fileName"
+                fileReferenceParameter="./logomobile/fileReference"
+                mapParameter="./logomobile/imageMap"
+                name="./logomobile"
+                requestSuffix="/logomobile.img.png"
+                rotateParameter="./logomobile/imageRotate"
+                title="Mobile Logo"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./logomobile/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </logomobile>
+            <bannermobile
+                jcr:primaryType="cq:Widget"
+                cropParameter="./bannermobile/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./bannermobile/fileName"
+                fileReferenceParameter="./bannermobile/fileReference"
+                mapParameter="./bannermobile/imageMap"
+                name="./bannermobile"
+                requestSuffix="/bannermobile.img.png"
+                rotateParameter="./bannermobile/imageRotate"
+                title="Mobile Banner"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./bannermobile/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </bannermobile>
+        </items>
+    </items>
+</jcr:root>
