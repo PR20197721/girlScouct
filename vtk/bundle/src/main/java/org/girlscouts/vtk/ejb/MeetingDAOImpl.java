@@ -174,7 +174,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	public Meeting getMeeting(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException {
-System.err.println("Kafka: "+ troop.getTroop().getPermissionTokens()+" : "+ Permission.PERMISSION_VIEW_MEETING_ID);
+
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID)  && !userUtil.hasPermission(troop,
