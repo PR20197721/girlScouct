@@ -177,7 +177,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		if (user != null
 				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_VIEW_MEETING_ID))
+						Permission.PERMISSION_VIEW_MEETING_ID)  && !userUtil.hasPermission(troop,
+								Permission.PERMISSION_VIEW_REPORT_ID )
+				)
 			throw new IllegalAccessException();
 
 		Meeting meeting = null;
