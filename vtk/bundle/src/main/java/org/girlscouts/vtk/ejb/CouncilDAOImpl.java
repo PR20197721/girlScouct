@@ -845,8 +845,9 @@ System.err.println("TESt: " + sb.toString());
 			            String timePath = VtkUtil.getYearPlanBase(null, null) +""+councilId +"/finances/template";
 			            if( !session.itemExists(timePath)) continue;
 			            Node infoNode = session.getNode( timePath );
-			            if( infoNode!=null)
-			            	submitTime = new java.util.Date( infoNode.getProperty("submitTime").getLong() );
+			            if( infoNode!=null){
+			            	try{ submitTime = new java.util.Date( infoNode.getProperty("submitTime").getLong() ); }catch(Exception e){}
+			            }
 		            }catch(Exception e){
 		            	e.printStackTrace();
 		            }
