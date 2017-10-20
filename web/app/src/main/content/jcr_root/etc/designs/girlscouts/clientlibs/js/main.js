@@ -240,10 +240,12 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 						eventsOffset = parseInt(data.newOffset, 10);
 					}
 					$.each(data.results, function (index, result) {
-						if(monthYearLabel != result.monthYearLabel){
-							monthYearLabel = result.monthYearLabel;
-							container.append("<div class=\"eventsList monthSection\"><div class=\"leftCol\"><b>"+monthYearLabel.toUpperCase()+"</b></div><div class=\"rightCol horizontalRule\">&nbsp;</div></div><br/><br/>");
-						}
+						try{
+							if(monthYearLabel != result.monthYearLabel){
+								monthYearLabel = result.monthYearLabel;
+								container.append("<div class=\"eventsList monthSection\"><div class=\"leftCol\"><b>"+monthYearLabel.toUpperCase()+"</b></div><div class=\"rightCol horizontalRule\">&nbsp;</div></div><br/><br/>");
+							}
+						}catch(err){}
 						container.append(getEventContent(result));
 						container.append("<div class=\"eventsList bottomPadding\"></div>");
 					});
@@ -331,11 +333,13 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 	
 	function getEventDate(event){
 		try{
-			var $p = $("<p>", {"class":"bold"});
-			$p.append("Date: ");
-			$p.append("<span itemprop=\"startDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfStartDate+"\">"+event.formattedStartDate+"</span>");
-			$p.append("<span itemprop=\"stopDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfEndDate+"\">"+event.formattedEndDate+"</span>");
-			return $p;
+			if(event.formattedStartDate != undefined && event.formattedEndDate != undefined){
+				var $p = $("<p>", {"class":"bold"});
+				$p.append("Date: ");
+				$p.append("<span itemprop=\"startDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfStartDate+"\">"+event.formattedStartDate+"</span>");
+				$p.append("<span itemprop=\"stopDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfEndDate+"\">"+event.formattedEndDate+"</span>");
+				return $p;
+			}
 		}catch(err){}
 	}
 	
