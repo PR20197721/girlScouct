@@ -987,6 +987,8 @@ React.createElement(ActivityPlan),
           this.setState(this.state);
         },
 
+
+
         render: function () {
           return React.createElement("li", { className: (helper.permissions != null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>') != -1 && thisMeetingType != 'MEETINGCANCELED') ? "row ui-state-default" : "ui-state-disabled", key: this.state.activityNumber, id: this.state.activityNumber },
             React.createElement("div", { className: "wrapper clearfix" },
@@ -1069,6 +1071,7 @@ React.createElement(ActivityPlan),
           } catch (err) { }
 
           this.hookJquerySortable();
+          $(document).foundation();
         },
         componentDidUpdate: function () {
           this.hookJquerySortable();         

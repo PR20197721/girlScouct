@@ -5,7 +5,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
-<!-- apps/girlscouts-vtk/components/vtk/meetingLibrary.jsp  -->
 
 <%
 try{
