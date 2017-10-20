@@ -210,6 +210,7 @@ public void setDates(JSONObject event, Node node){
 				 		}
 				 		setDates(event, resultNode);
 				 		setImage(event, resultNode, resourceResolver);
+				 		event.put("includeCart",includeCart);
 				 		setRegistrationLink(event, resultNode, includeCart, resourceResolver);
 				 		json.accumulate("results", event);
 				 		resultCount ++;

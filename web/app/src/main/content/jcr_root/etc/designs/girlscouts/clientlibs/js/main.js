@@ -379,23 +379,25 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 	
 	function getEventRegistration(event){
 		try{
-			var eid = -1;
-			var title = "";
-			if(event.eid){
-				eid = event.eid;
+			if(event.includeCart == true){
+				var eid = -1;
+				var title = "";
+				if(event.eid){
+					eid = event.eid;
+				}
+				var $div = $("<div>", {"class":"eventDetailsRegisterLink"});
+				if(event.registerLink){
+					var $registerLink =  $("<a>", {"href":event.registerLink}).append("Register Now");
+					$div.append($registerLink);
+				}
+				title = event.jcr_title;
+				title = title.replace(/"\""/g, "&quot");
+				title = title.replace(/"\'"/g, "\\\\'");
+				var addToCartFunc = "addToCart('"+title+"','"+eid+"','"+event.path+".html'); return false;";
+				var $addToCartLink =  $("<a>", {"onclick":addToCartFunc}).append("Add to MyActivities");
+				$div.append($addToCartLink);
+				return $div;
 			}
-			var $div = $("<div>", {"class":"eventDetailsRegisterLink"});
-			if(event.registerLink){
-				var $registerLink =  $("<a>", {"href":event.registerLink}).append("Register Now");
-				$div.append($registerLink);
-			}
-			title = event.jcr_title;
-			title = title.replace(/"\""/g, "&quot");
-			title = title.replace(/"\'"/g, "\\\\'");
-			var addToCartFunc = "addToCart('"+title+"','"+eid+"','"+event.path+".html'); return false;";
-			var $addToCartLink =  $("<a>", {"onclick":addToCartFunc}).append("Add to MyActivities");
-			$div.append($addToCartLink);
-			return $div;
 		}catch(err){}
 	}
 	
