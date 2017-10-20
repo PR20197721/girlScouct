@@ -247,7 +247,7 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 							}
 						}catch(err){}
 						container.append(getEventContent(result));
-						container.append("<div class=\"eventsList bottomPadding\"></div>");
+						container.append($("<div>", {"class": "eventsList bottomPadding"}));
 					});
 				}catch(err){}
 				loader.hide();
@@ -297,9 +297,6 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 		$rightColDiv.append(getEventDescription(event));
 		$rightColDiv.append(getEventRegistration(event));
 		$eventDiv.append($rightColDiv);
-		var $bottomPaddingDiv = $("<div>", {"class": "eventsList bottomPadding"});
-		$eventDiv.append($rightColDiv);
-		$eventDiv.append($bottomPaddingDiv);
 	return $eventDiv;
 	}
 	
