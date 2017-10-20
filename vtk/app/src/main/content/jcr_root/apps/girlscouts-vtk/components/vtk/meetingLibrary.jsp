@@ -1107,7 +1107,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		 }
 	   }
 
-       if( clickSrc==2) {
+       if( clickSrc==2 || clickSrc==3) {
             var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
             typeSelected= typeSelected.replace('/',' ').replace('_',' ');
 
