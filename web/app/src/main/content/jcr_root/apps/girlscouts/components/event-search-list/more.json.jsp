@@ -27,8 +27,8 @@ public void setImage(JSONObject event, Node node, ResourceResolver rr){
 		String imgPath="";
 		if(node.hasProperty("jcr:content/data/thumbImage")){
 			imgPath = node.getProperty("jcr:content/data/thumbImage").getString();
-		} else if(node.hasProperty("jcr:content/data/image")){
-			imgPath = node.getProperty("jcr:content/data/image").getString();
+		} else if(node.hasNode("jcr:content/data/image")){
+			imgPath = node.hasProperty("jcr:content/data/image/fileReference") ? node.getProperty("jcr:content/data/image/fileReference").getString() : "";
 		} else{
 			imgPath = node.getPath() + "/image";
 			displayRendition(rr, imgPath, "cq5dam.web.240.240");
@@ -210,6 +210,7 @@ public void setDates(JSONObject event, Node node){
 				 		}
 				 		setDates(event, resultNode);
 				 		setImage(event, resultNode, resourceResolver);
+				 		event.put("includeCart",includeCart);
 				 		setRegistrationLink(event, resultNode, includeCart, resourceResolver);
 				 		json.accumulate("results", event);
 				 		resultCount ++;

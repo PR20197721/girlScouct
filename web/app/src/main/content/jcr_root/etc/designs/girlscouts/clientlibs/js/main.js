@@ -240,10 +240,12 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 						eventsOffset = parseInt(data.newOffset, 10);
 					}
 					$.each(data.results, function (index, result) {
-						if(monthYearLabel != result.monthYearLabel){
-							monthYearLabel = result.monthYearLabel;
-							container.append("<div class=\"eventsList monthSection\"><div class=\"leftCol\"><b>"+monthYearLabel.toUpperCase()+"</b></div><div class=\"rightCol horizontalRule\">&nbsp;</div></div><br/><br/>");
-						}
+						try{
+							if(monthYearLabel != result.monthYearLabel){
+								monthYearLabel = result.monthYearLabel;
+								container.append("<div class=\"eventsList monthSection\"><div class=\"leftCol\"><b>"+monthYearLabel.toUpperCase()+"</b></div><div class=\"rightCol horizontalRule\">&nbsp;</div></div><br/><br/>");
+							}
+						}catch(err){}
 						container.append(getEventContent(result));
 						container.append("<div class=\"eventsList bottomPadding\"></div>");
 					});
@@ -331,11 +333,13 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 	
 	function getEventDate(event){
 		try{
-			var $p = $("<p>", {"class":"bold"});
-			$p.append("Date: ");
-			$p.append("<span itemprop=\"startDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfStartDate+"\">"+event.formattedStartDate+"</span>");
-			$p.append("<span itemprop=\"stopDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfEndDate+"\">"+event.formattedEndDate+"</span>");
-			return $p;
+			if(event.formattedStartDate != undefined && event.formattedEndDate != undefined){
+				var $p = $("<p>", {"class":"bold"});
+				$p.append("Date: ");
+				$p.append("<span itemprop=\"startDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfStartDate+"\">"+event.formattedStartDate+"</span>");
+				$p.append("<span itemprop=\"stopDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfEndDate+"\">"+event.formattedEndDate+"</span>");
+				return $p;
+			}
 		}catch(err){}
 	}
 	
@@ -379,23 +383,25 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 	
 	function getEventRegistration(event){
 		try{
-			var eid = -1;
-			var title = "";
-			if(event.eid){
-				eid = event.eid;
+			if(event.includeCart == true){
+				var eid = -1;
+				var title = "";
+				if(event.eid){
+					eid = event.eid;
+				}
+				var $div = $("<div>", {"class":"eventDetailsRegisterLink"});
+				if(event.registerLink){
+					var $registerLink =  $("<a>", {"href":event.registerLink}).append("Register Now");
+					$div.append($registerLink);
+				}
+				title = event.jcr_title;
+				title = title.replace(/"\""/g, "&quot");
+				title = title.replace(/"\'"/g, "\\\\'");
+				var addToCartFunc = "addToCart('"+title+"','"+eid+"','"+event.path+".html'); return false;";
+				var $addToCartLink =  $("<a>", {"onclick":addToCartFunc}).append("Add to MyActivities");
+				$div.append($addToCartLink);
+				return $div;
 			}
-			var $div = $("<div>", {"class":"eventDetailsRegisterLink"});
-			if(event.registerLink){
-				var $registerLink =  $("<a>", {"href":event.registerLink}).append("Register Now");
-				$div.append($registerLink);
-			}
-			title = event.jcr_title;
-			title = title.replace(/"\""/g, "&quot");
-			title = title.replace(/"\'"/g, "\\\\'");
-			var addToCartFunc = "addToCart('"+title+"','"+eid+"','"+event.path+".html'); return false;";
-			var $addToCartLink =  $("<a>", {"onclick":addToCartFunc}).append("Add to MyActivities");
-			$div.append($addToCartLink);
-			return $div;
 		}catch(err){}
 	}
 	
