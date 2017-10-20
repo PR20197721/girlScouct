@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +22,7 @@ import org.girlscouts.web.events.search.GSDateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class GSSearchResultManager {
+public final class GSSearchResultManager implements GSSearchResultConstants {
 
     private static final Logger log = LoggerFactory.getLogger(GSSearchResultManager.class);
 
@@ -31,8 +31,10 @@ public final class GSSearchResultManager {
 	private String[] resourceTypeFilters = new String[] { "girlscouts/components/contact-placeholder-page",
 			"girlscouts/components/contact-page" };
 
+	private String[] resourcePathFilters = new String[] { "/contacts/" };
+
 	public GSSearchResultManager() {
-		this.searchResults = new HashMap<String, GSSearchResult>();
+		this.searchResults = new LinkedHashMap<String, GSSearchResult>();
 
     }
 
@@ -85,9 +87,12 @@ public final class GSSearchResultManager {
 			try {
 				GSSearchResult result = this.searchResults.get(key);
 				Node resultNode = result.getResultNode();
-				if (resultNode.hasNode("jcr:content")) {
-					Node jcrContentNode = resultNode.getNode("jcr:content");
-					if (isFilterByResourceType(jcrContentNode) || isFilterByProperty(jcrContentNode)) {
+				String primaryType = resultNode.getPrimaryNodeType().getName();
+				if (primaryType.equals(NODE_TYPE_CQ_PAGE) && resultNode.hasNode(NODE_JCR_CONTENT)) {
+					Node jcrContentNode = resultNode.getNode(NODE_JCR_CONTENT);
+					if (!jcrContentNode.hasNodes() || isFilterByResourcePath(jcrContentNode)
+							|| isFilterByResourceType(jcrContentNode)
+							|| isFilterByProperty(jcrContentNode)) {
 						this.searchResults.remove(key);
 					}
 				}
@@ -117,9 +122,7 @@ public final class GSSearchResultManager {
 				}
 				return result;
 			}
-
 		}
-
 	}
 
 	private boolean isFilterByResourceType(Node jcrContentNode) {
@@ -130,6 +133,20 @@ public final class GSSearchResultManager {
 					if (resourceType.equals(rtFilter)) {
 						return true;
 					}
+				}
+			}
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean isFilterByResourcePath(Node jcrContentNode) {
+		try {
+			String path = jcrContentNode.getPath();
+			for (String rpFilter : resourcePathFilters) {
+				if (path.contains(rpFilter)) {
+					return true;
 				}
 			}
 		} catch (RepositoryException e) {
