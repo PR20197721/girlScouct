@@ -36,7 +36,6 @@
 	} else {
 %>
 
-<!-- // onclick="callFoundationModal(event,'vtk-banner-modal-<%=resource.getName()%>')" -->
 
 <div class="vtk-banner-image">
 	<a href="#"  onclick="callFoundationModal(event,'vtk-banner-modal-<%=resource.getName()%>')" data-slider-id="vtk-banner-modal-<%=resource.getName()%>" data-effect="modal"  data-options="animation:'none'" >
@@ -81,32 +80,16 @@
 
 
 <script>
+	$(function(){
+		$(window).on('resize',function(){
+				setHeigthPropertiesToBanner('#vtk-banner-modal-<%=resource.getName()%>');
+		})	
 
-
-
-$(function(){
-
-
-
-	// $('[data-slider-id]').on('click', 'img', function(event){
-	// 	$('#vtk-banner-modal-<%=resource.getName()%>').foundation('reveal', 'open')
-	// })
-
-
-	$(window).on('resize',function(){
+		$('#vtk-banner-modal-<%=resource.getName()%>').bind('opened', function() {
 			setHeigthPropertiesToBanner('#vtk-banner-modal-<%=resource.getName()%>');
-	})	
-
-	$('#vtk-banner-modal-<%=resource.getName()%>').bind('opened', function() {
-  		setHeigthPropertiesToBanner('#vtk-banner-modal-<%=resource.getName()%>');
-  	
-	});
-
 		
-
-
-
-});
+		});
+	});
 </script>
 
 

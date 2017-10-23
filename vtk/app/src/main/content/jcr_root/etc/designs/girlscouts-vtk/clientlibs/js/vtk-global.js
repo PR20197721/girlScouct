@@ -265,8 +265,6 @@ function callExecuteBannerSlider() {
 
 				$("#vtk_banner2234").append(htmlResults);
 
-				// $(document).foundation('reveal', 'reflow');
-
 
 							//CLOSE BANNER
 			$('.vtk-banner-button').click(function () {
