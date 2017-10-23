@@ -1020,7 +1020,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
 ;
 ;
-var Header = (function (_super) {
+var Header = /** @class */ (function (_super) {
     __extends(Header, _super);
     function Header() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -1072,7 +1072,7 @@ var data_1 = __webpack_require__(2);
 var meetings_1 = __webpack_require__(19);
 ;
 ;
-var YplanTrack = (function (_super) {
+var YplanTrack = /** @class */ (function (_super) {
     __extends(YplanTrack, _super);
     function YplanTrack() {
         var _this = _super.call(this) || this;
@@ -1687,7 +1687,7 @@ var vtk_popup_1 = __webpack_require__(21);
 var year_plan_track_1 = __webpack_require__(8);
 ;
 ;
-var VtkMainYp = (function (_super) {
+var VtkMainYp = /** @class */ (function (_super) {
     __extends(VtkMainYp, _super);
     function VtkMainYp() {
         var _this = _super.call(this) || this;
@@ -1728,9 +1728,9 @@ var VtkMainYp = (function (_super) {
                 ? React.createElement("div", { className: state.data.name },
                     React.createElement("p", null,
                         React.createElement("b", null,
-                            "You have selected the Year Plan below for ", "" + (________app________.charAt(0).toUpperCase()+  ________app________.slice(1)),
+                            "You have selected the Year Plan below for ", "" + ________app________,
                             "  ",
-                            (________troopName________.match(/troop/i).length) ? null : "Troop",
+                            (________troopName________.match(/troop/i)) ? null : "Troop",
                             "  ", ________troopName________ + ".",
                             "  Is this correct?")),
                     React.createElement("table", { style: { width: '70%' } },
@@ -1753,9 +1753,9 @@ var VtkMainYp = (function (_super) {
                 : React.createElement("div", { className: state.data.name },
                     React.createElement("p", null,
                         React.createElement("b", null,
-                            "You want to replace your current Year Plan with the new Year Plan listed below for ", "" + (________app________.charAt(0).toUpperCase()+  ________app________.slice(1)),
+                            "You want to replace your current Year Plan with the new Year Plan listed below for ", "" + ________app________,
                             "  ",
-                            (________troopName________.match(/troop/i).length) ? null : "Troop",
+                            (________troopName________.match(/troop/i)) ? null : "Troop",
                             "  ", ________troopName________ + ".",
                             "  Is this correct?")),
                     React.createElement("table", null,
@@ -1862,7 +1862,7 @@ var header_1 = __webpack_require__(6);
 var year_plan_track_1 = __webpack_require__(8);
 ;
 ;
-var Category = (function (_super) {
+var Category = /** @class */ (function (_super) {
     __extends(Category, _super);
     function Category() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -1902,7 +1902,7 @@ var React = __webpack_require__(1);
 var tree_1 = __webpack_require__(7);
 ;
 ;
-var Meeting = (function (_super) {
+var Meeting = /** @class */ (function (_super) {
     __extends(Meeting, _super);
     function Meeting() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -1958,7 +1958,7 @@ var React = __webpack_require__(1);
 var meeting_1 = __webpack_require__(18);
 ;
 ;
-var Meetings = (function (_super) {
+var Meetings = /** @class */ (function (_super) {
     __extends(Meetings, _super);
     function Meetings() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -1992,7 +1992,7 @@ var React = __webpack_require__(1);
 var data_1 = __webpack_require__(2);
 ;
 ;
-var Gray = (function (_super) {
+var Gray = /** @class */ (function (_super) {
     __extends(Gray, _super);
     function Gray() {
         var _this = _super.call(this) || this;
@@ -2021,7 +2021,7 @@ var Gray = (function (_super) {
     };
     Gray.prototype.hide = function () {
         this.setState({ showGray: false });
-        document.body.style.overflowY = 'auto';
+        document.body.style.overflowY = '';
     };
     Gray.prototype.show = function () {
         this.setDimension();
@@ -2068,7 +2068,7 @@ var React = __webpack_require__(1);
 var data_1 = __webpack_require__(2);
 ;
 ;
-var VtkPopUp = (function (_super) {
+var VtkPopUp = /** @class */ (function (_super) {
     __extends(VtkPopUp, _super);
     function VtkPopUp() {
         var _this = _super.call(this) || this;
@@ -2109,9 +2109,6 @@ var VtkPopUp = (function (_super) {
         this.modal = data_1.modal.subscribe(this.props.name, this.openclose.bind(this));
         this.setDimentions();
     };
-    VtkPopUp.prototype.componentWillReceiveProps = function (props) {
-        document.body.style.overflowY = 'auto';
-    };
     VtkPopUp.prototype.componentDidMount = function () {
         var _this = this;
         window.addEventListener('resize', function (e) {
@@ -2126,7 +2123,6 @@ var VtkPopUp = (function (_super) {
         });
     };
     VtkPopUp.prototype.componentWillUnmount = function () {
-        document.body.style.overflowY = 'auto';
         this.modal.remove();
         window.removeEventListener('resize');
     };

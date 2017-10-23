@@ -49,7 +49,7 @@ class Gray extends React.Component<IGrayProps, IGrayState> {
 
     hide() { 
         this.setState({ showGray: false });     
-         document.body.style.overflowY = 'auto';
+         document.body.style.overflowY = '';
     }
 
 
