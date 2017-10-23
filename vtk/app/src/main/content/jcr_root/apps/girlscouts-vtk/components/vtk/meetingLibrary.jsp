@@ -954,13 +954,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 									value="<%=meeting.getPath()%>"/>
                             <%}//edn if%>
 							<label for="<%=meeting.getPath()%>_<%=i%>"><span></span>
-							<%if( request.getParameter("newCustYr")!=null){ %>
-								   <p onclick="createCustPlan('<%=meeting.getPath()%>')">Select Meeting</p>
-							  <%}else{ %>
-								   <p onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</p>
-							  <%}//end else %>
-
-
+								<p>Select Meeting</p>
 							</label>
 							</div>
 						   
