@@ -61,7 +61,8 @@
     <module>modified-checker-bundle</module>
     <module>bundle</module>
     <module>app</module>
-    <module>replication-bundle</module>
+    <!-- TODO: temporarily disable replication bundle. Need to upgrade later.
+    <module>replication-bundle</module>-->
     <module>scaffolding-bundle</module>
     <module>ical4j-wrapper</module>
     <module>beanutils-wrapper</module>
