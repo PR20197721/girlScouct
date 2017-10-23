@@ -814,16 +814,8 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 		});
 
 		button.cancel.on('click',function(e){
-			resetVtkFilters();
-			button.ok.addClass('inactive-button');
 
-			$('#vtk-meeting-filter').find('input')
-			.not(':button, :submit, :reset, :hidden')
-			.val('')
-			.removeAttr('checked')
-			.removeAttr('selected');
-
-			$("#meetingSelect").slideUp();
+			closeModalPage();
 		});
 
 		renderElement('#vtk-meeting-group-age','#vtk-dropdown-filter-1',true);
