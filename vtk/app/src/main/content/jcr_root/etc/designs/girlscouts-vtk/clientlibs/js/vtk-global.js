@@ -250,7 +250,6 @@ function callExecuteBannerSlider() {
 			a: Date.now()
 		},
 		success: function (result) {
-
 			var htmlResults = $(result);
 			var vtkBannerSections = htmlResults.find('.vtk-banner.section')
 		
@@ -262,14 +261,14 @@ function callExecuteBannerSlider() {
 			})
 
 			//APPEND TO THE  BANNER
-			$("#vtk_banner2234").html(htmlResults);
-			
-			if ($("#vtk_banner2234").data('cached') === 'no') {
-				$("#vtk_banner2234").show();
-			}
 
 
-			//CLOSE BANNER
+				$("#vtk_banner2234").append(htmlResults);
+
+				// $(document).foundation('reveal', 'reflow');
+
+
+							//CLOSE BANNER
 			$('.vtk-banner-button').click(function () {
 				$.ajax({
 					url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
@@ -285,9 +284,50 @@ function callExecuteBannerSlider() {
 				slidesToScroll: 1,
 				adaptiveHeight: true,
 				autoplaySpeed: 10000,
-				autoplay: true
+				autoplay: true,
+			
 			})
+
+			
+
+
+			
+			if ($("#vtk_banner2234").data('cached') === 'no') {
+				$("#vtk_banner2234").show();
+			}
+
+
+			
 
 		}
 	});
 }
+
+function callFoundationModal(e,id) {
+	$(document).foundation();
+	e.preventDefault();
+	console.log('#' + id)
+
+	// $(e.target).trigger('click')
+
+		$('#'+id).foundation('reveal', 'open');
+}
+
+
+
+	function setHeigthPropertiesToBanner(p){
+
+		var image = $(p).find('.banner-image');
+		var scroll = $(p).find('.scroll-banner');
+		var height = $(window).height();
+		var modalwidth = $(p).innerWidth();
+		var	imageHeight = image.height();
+		scroll.css(
+			{
+				'maxHeight':$(window).height()-imageHeight-75+'px',
+				'overflow-y':'auto'
+			}
+		);
+	}
+
+

@@ -87,14 +87,16 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
       <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"  class="column medium-20 small-24 small-centered" style="display:none;">
       </div>
-      <div id="vtkBannerModal" data-reveal data-options="close_on_background_click:false; close_on_esc: false;" class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-      </div>
+      <!-- <div id="vtkBannerModal" data-reveal data-options="close_on_background_click:false; close_on_esc: false;" class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+      </div> -->
 
 
 
     <script>
+      $(function(){
+        callExecuteBannerSlider()
+      })
 
-      callExecuteBannerSlider()
 
     </script>
 
@@ -985,6 +987,8 @@ React.createElement(ActivityPlan),
           this.setState(this.state);
         },
 
+
+
         render: function () {
           return React.createElement("li", { className: (helper.permissions != null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>') != -1 && thisMeetingType != 'MEETINGCANCELED') ? "row ui-state-default" : "ui-state-disabled", key: this.state.activityNumber, id: this.state.activityNumber },
             React.createElement("div", { className: "wrapper clearfix" },
@@ -1067,6 +1071,7 @@ React.createElement(ActivityPlan),
           } catch (err) { }
 
           this.hookJquerySortable();
+          $(document).foundation();
         },
         componentDidUpdate: function () {
           this.hookJquerySortable();         

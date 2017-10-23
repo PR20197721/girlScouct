@@ -5,7 +5,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
-<!-- apps/girlscouts-vtk/components/vtk/meetingLibrary.jsp  -->
 
 <%
 try{
@@ -74,7 +73,7 @@ meetings.addAll(extraInfoMeetings);
               HINT: meeting overviews are available under resources
        <%}//end else %>
     </span>
-    <a class="close-reveal-modal columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
+    <a class="columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
 
   </div>
 
