@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="List"
+    sling:resourceType="cq/gui/components/authoring/dialog"
+    helpPath="en/cq/current/wcm/default_components.html#List">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <static
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Fixed list"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <pages
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/multifield"
+                                fieldDescription="Click the '+' to add a new page"
+                                fieldLabel="Pages">
+                                <field/>
+                            </pages>
+                        </items>
+                    </columns>
+                </items>
+            </static>
+            <feature
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Home Page News-List Mode"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <featuretitle
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="(Title Displayed with the Feature News )"
+                                fieldLabel="Title "
+                                name="./featuretitle"/>
+                            <newsfeatures
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                fieldDescription="(Only Check the boxes if News-List need to be displayed as featured)"
+                                name="./isonhomepage"
+                                text="Display on Home Page"/>
+                            <newsfeatures-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./isonhomepage@Delete"
+                                value="{Boolean}true"/>
+                            <newscounts
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="(Number of News to be displayed in Feature)"
+                                fieldLabel="Number of News"
+                                name="./count"/>
+                            <linktext
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="(Provide the text to link to all the Events Page)"
+                                fieldLabel="Link text"
+                                name="./linktext"/>
+                            <url
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                fieldDescription="(Select the Event List Page)"
+                                fieldLabel="Url"
+                                name="./urltolink"/>
+                            <selectList
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/select"
+                                fieldDescription="(Select layout 2 or 1 column layout)"
+                                fieldLabel="Layout"
+                                name="./layout"
+                                value="0">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <one
+                                        jcr:primaryType="nt:unstructured"
+                                        text="1"
+                                        value="1"/>
+                                    <two
+                                        jcr:primaryType="nt:unstructured"
+                                        text="2"
+                                        value="2"/>
+                                </items>
+                            </selectList>
+                        </items>
+                    </columns>
+                </items>
+            </feature>
+            <image/>
+        </items>
+    </content>
+</jcr:root>

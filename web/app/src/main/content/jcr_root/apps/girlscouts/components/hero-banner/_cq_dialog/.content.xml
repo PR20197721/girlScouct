@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <tab1
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Number Of Slide Show Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <slide-show-counts
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/select"
+                                fieldDescription="(Select number of image slideshow)"
+                                fieldLabel="Number of Slide Show Images"
+                                name="./slideshowcount"
+                                value="0">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <one
+                                        jcr:primaryType="nt:unstructured"
+                                        text="1"
+                                        value="1"/>
+                                    <two
+                                        jcr:primaryType="nt:unstructured"
+                                        text="2"
+                                        value="2"/>
+                                    <three
+                                        jcr:primaryType="nt:unstructured"
+                                        text="3"
+                                        value="3"/>
+                                    <four
+                                        jcr:primaryType="nt:unstructured"
+                                        text="4"
+                                        value="4"/>
+                                    <five
+                                        jcr:primaryType="nt:unstructured"
+                                        text="5"
+                                        value="5"/>
+                                    <six
+                                        jcr:primaryType="nt:unstructured"
+                                        text="6"
+                                        value="6"/>
+                                    <seven
+                                        jcr:primaryType="nt:unstructured"
+                                        text="7"
+                                        value="7"/>
+                                    <eight
+                                        jcr:primaryType="nt:unstructured"
+                                        text="8"
+                                        value="8"/>
+                                </items>
+                            </slide-show-counts>
+                            <slideshow-timer
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="(Provide time in millisecond.Default (6000ms))"
+                                fieldLabel="Time Interval"
+                                name="./slideshowtimer"/>
+                            <sb-placement
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/select"
+                                fieldDescription="(Select spring board location)"
+                                fieldLabel="Spring Board Position"
+                                name="./spplacement"
+                                value="0">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <none
+                                        jcr:primaryType="nt:unstructured"
+                                        text="None"
+                                        value="none"/>
+                                    <right
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Right"
+                                        value="right"/>
+                                    <bottom
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Bottom"
+                                        value="bottom"/>
+                                </items>
+                            </sb-placement>
+                        </items>
+                    </columns>
+                </items>
+            </tab1>
+            <first-spring-board
+                jcr:primaryType="nt:unstructured"
+                jcr:title="First Spring Board Component"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <first-sb-title
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Spring Board Title"
+                                name="./firstsbtitle"/>
+                            <first-sb-des
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textarea"
+                                fieldLabel="Spring Board Details"
+                                name="./firstsbdesc"/>
+                            <first-sb-link/>
+                            <first-sb-new-window
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./firstsbnewwindow"
+                                text="New Window"
+                                value="false"/>
+                            <first-sb-new-window-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./firstsbnewwindow@Delete"
+                                value="{Boolean}true"/>
+                            <first-sb-button-txt
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Spring Board Button"
+                                name="./firstsbbutton"/>
+                        </items>
+                    </columns>
+                </items>
+            </first-spring-board>
+            <second-spring-board
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Second Spring Board Component"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <second-sb-title
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Spring Board Title"
+                                name="./secondsbtitle"/>
+                            <second-sb-des
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textarea"
+                                fieldLabel="Spring Board Details"
+                                name="./secondsbdesc"/>
+                            <second-sb-link/>
+                            <second-sb-new-window
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./secondsbnewwindow"
+                                text="New Window"
+                                value="false"/>
+                            <second-sb-new-window-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./secondsbnewwindow@Delete"
+                                value="{Boolean}true"/>
+                            <second-sb-button-txt
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Spring Board Button"
+                                name="./secondsbbutton"/>
+                        </items>
+                    </columns>
+                </items>
+            </second-spring-board>
+        </items>
+    </content>
+</jcr:root>

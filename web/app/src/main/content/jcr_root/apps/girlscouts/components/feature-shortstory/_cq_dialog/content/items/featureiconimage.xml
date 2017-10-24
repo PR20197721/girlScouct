@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Widget"
+    cropParameter="./featureiconimage/imageCrop"
+    ddGroups="[media]"
+    fileNameParameter="./featureiconimage/fileName"
+    fileReferenceParameter="./featureiconimage/fileReference"
+    mapParameter="./featureiconimage/imageMap"
+    name="./featureiconimage/file"
+    requestSuffix="/featureiconimage.img.png"
+    rotateParameter="./featureiconimage/imageRotate"
+    title="Feature Icon Image"
+    xtype="html5smartimage"/>

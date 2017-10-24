@@ -30,19 +30,19 @@
                             selectionchanged="function(field){girlscouts.functions.toggleField(field);}"/>
                     </customize>
                     <pages
-                    	jcr:primaryType="cq:Widget"
-                    	collapsible="{Boolean}true"
-                    	disabled="{Boolean}true"
+                        jcr:primaryType="cq:Widget"
+                        collapsible="{Boolean}true"
+                        disabled="{Boolean}true"
                         fieldDescription="Select and order the ads to be displayed"
                         fieldLabel="Ads Selection"
                         header="{Boolean}true"
                         name="./pages"
                         xtype="multifield">
                         <fieldConfig
-                        	jcr:primaryType="cq:Widget"
-	                        optionsProvider="girlscouts.functions.AdOptions"
-	                        type="select"
-	                        xtype="selection"/>
+                            jcr:primaryType="cq:Widget"
+                            optionsProvider="girlscouts.functions.AdOptions"
+                            type="select"
+                            xtype="selection"/>
                     </pages>
                 </items>
             </tab1>

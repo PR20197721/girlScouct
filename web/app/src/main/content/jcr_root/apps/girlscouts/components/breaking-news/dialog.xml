@@ -11,34 +11,34 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<newstype
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Show"
-                		fieldDescription="Choose one type of Breaking News"
-                		type="radiogroup"
-                		name="./newstype"
-                		xtype="selection">
-		                <options jcr:primaryType="cq:WidgetCollection">
-		                	<option1
-    		            		jcr:primaryType="cq:Widget"
-        	        			text="None"
-            	    			value="None"/>
-		                	<option2
-    		            		jcr:primaryType="cq:Widget"
-        	        			text="Text"
-            	    			value="Text"/>
-	            	    	<option3
-    	            			jcr:primaryType="cq:Widget"
-                				text="Image"
-	                			value="Image"/>
-		                </options>
-                	</newstype>
-                	<alert
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Alert"
-                		fieldDescription="(Optional) Enter a bold alert statement (e.g. BREAKING NEWS:)"
-                		name="./alert"
-                		xtype="textfield"/>
+                    <newstype
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Choose one type of Breaking News"
+                        fieldLabel="Show"
+                        name="./newstype"
+                        type="radiogroup"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <option1
+                                jcr:primaryType="cq:Widget"
+                                text="None"
+                                value="None"/>
+                            <option2
+                                jcr:primaryType="cq:Widget"
+                                text="Text"
+                                value="Text"/>
+                            <option3
+                                jcr:primaryType="cq:Widget"
+                                text="Image"
+                                value="Image"/>
+                        </options>
+                    </newstype>
+                    <alert
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Optional) Enter a bold alert statement (e.g. BREAKING NEWS:)"
+                        fieldLabel="Alert"
+                        name="./alert"
+                        xtype="textfield"/>
                     <message
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Enter the breaking news message. If left blank, breaking news will be hidden"
@@ -55,8 +55,8 @@
                         jcr:primaryType="cq:Widget"
                         fieldDescription="(Optional) Enter a URL to link to, e.g. http://girlscouts.org"
                         fieldLabel="URL"
+                        linkPattern="\{0}.html"
                         name="./url"
-                        linkPattern="\{0\}.html"
                         xtype="pathfield"/>
                     <bgcolor
                         jcr:primaryType="cq:Widget"

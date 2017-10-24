@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Widget"
+    title="Girl Scouts">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <google-analytics-id
+            jcr:primaryType="cq:Widget"
+            fieldLabel="Google Analytics ID "
+            name="./googleAnalyticsId"/>
+        <tracking
+            jcr:primaryType="cq:Widget"
+            fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
+            fieldLabel="Tracking"
+            name="./footerTracking"/>
+    </items>
+</jcr:root>

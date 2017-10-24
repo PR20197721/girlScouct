@@ -3,5 +3,4 @@
     cq:actions="[text:Breaking News,-,edit]"
     cq:disableTargeting="{Boolean}true"
     cq:layout="editbar"
-    jcr:primaryType="cq:EditConfig">
-</jcr:root>
+    jcr:primaryType="cq:EditConfig"/>

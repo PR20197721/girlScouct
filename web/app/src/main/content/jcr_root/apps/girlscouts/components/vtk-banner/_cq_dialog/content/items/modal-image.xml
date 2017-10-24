@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Widget"
+    cropParameter="./modal-image/imageCrop"
+    ddGroups="media"
+    fileNameParameter="./modal-image/fileName"
+    fileReferenceParameter="./modal-image/fileReference"
+    mapParameter="./modal-image/imageMap"
+    name="./file"
+    requestSuffix="/modal-image.img.png"
+    rotateParameter="./modal-image/imageRotate"
+    title="Modal Image"
+    xtype="html5smartimage">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <resource-type
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/form/hidden"
+            name="./modal-image/sling:resourceType"
+            value="foundation/components/image"/>
+    </items>
+</jcr:root>

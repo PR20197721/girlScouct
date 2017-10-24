@@ -16,10 +16,10 @@
                         name="./html"
                         xtype="textarea"/>
                     <javascript
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Javascript (Exclude the script tags)"
-                    	name="./javascript"
-                    	xtype="textarea"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Javascript (Exclude the script tags)"
+                        name="./javascript"
+                        xtype="textarea"/>
                 </items>
             </tab1>
         </items>

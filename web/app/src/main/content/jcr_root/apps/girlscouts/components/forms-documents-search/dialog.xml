@@ -19,7 +19,7 @@
                         xtype="pathfield"/>
                     <form-document-path
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="The root path of form pages in content.(default: current page, if empty)"                        
+                        fieldDescription="The root path of form pages in content.(default: current page, if empty)"
                         fieldLabel="Form &amp; Document Content Location"
                         name="./form-document-path"
                         xtype="pathfield"/>

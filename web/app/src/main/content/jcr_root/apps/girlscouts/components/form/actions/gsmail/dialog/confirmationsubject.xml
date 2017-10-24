@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Widget"
+    evaluateValidatorsFirst="true"
     fieldLabel="Confirmation Subject"
     name="./confirmationSubject"
-    xtype="textfield"
-    evaluateValidatorsFirst="true"
     vtype="mailFormConfSubjectFieldValidator"
-    vtypeText="Confirmation Subject field is required when sending confirmation email."/>
+    vtypeText="Confirmation Subject field is required when sending confirmation email."
+    xtype="textfield"/>

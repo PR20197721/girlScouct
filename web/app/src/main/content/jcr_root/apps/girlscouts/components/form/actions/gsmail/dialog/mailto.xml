@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Widget"
     fieldLabel="Mail To Email*"
     name="./mailto"
-    xtype="multifield"
-    validate="function(){
-        	return validateMailtoMultiField(this);
-        }" >
-    <fieldConfig jcr:primaryType="nt:unstructured" 
-    	xtype="textfield"
-    	evaluateValidatorsFirst="true"
-    	vtype="mailFormEmailFieldValidator" 
-    	vtypeText="This field should be an e-mail address in the format 'user@example.com'"/>
+    validate="function(){          return validateMailtoMultiField(this);         }"
+    xtype="multifield">
+    <fieldConfig
+        jcr:primaryType="nt:unstructured"
+        evaluateValidatorsFirst="true"
+        vtype="mailFormEmailFieldValidator"
+        vtypeText="This field should be an e-mail address in the format 'user@example.com'"
+        xtype="textfield"/>
 </jcr:root>

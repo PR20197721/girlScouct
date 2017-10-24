@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Widget"
-    fieldLabel="Confirmation BCC"
     fieldDescription="The recipient of the confirmation email will not see email addresses entered here"
+    fieldLabel="Confirmation BCC"
     name="./confirmationmailto"
     xtype="multifield"/>

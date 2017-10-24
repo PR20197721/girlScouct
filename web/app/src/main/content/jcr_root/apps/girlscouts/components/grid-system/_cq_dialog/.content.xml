@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <grid
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Grid System"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <large-blocks
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                fieldDescription="How many blocks in a row in large pages."
+                                fieldLabel="Blocks (Large)"
+                                name="./largeBlocks"
+                                value="4"/>
+                            <medium-blocks
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                fieldDescription="How many blocks in a row in medium pages."
+                                fieldLabel="Blocks (Medium)"
+                                name="./mediumBlocks"
+                                value="2"/>
+                            <small-blocks
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                fieldDescription="How many blocks in a row in small pages."
+                                fieldLabel="Blocks (Small)"
+                                name="./smallBlocks"
+                                value="1"/>
+                        </items>
+                    </columns>
+                </items>
+            </grid>
+            <styles
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Styles"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <gridStyle
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Enter css tags separated by spaces ie &quot;padding:0px color:#FFFFFF&quot;. Tags for this field will affect the entire grid."
+                                fieldLabel="Grid Css"
+                                name="./gridStyle"/>
+                            <itemStyle
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Enter css tags separated by spaces ie &quot;padding:0px color:#FFFFFF&quot;. Tags for this field will affect each individual item within the grid."
+                                fieldLabel="Individual Item Css"
+                                name="./itemStyle"/>
+                            <cssClasses
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Css classes will be added to all children components"
+                                fieldLabel="CSS Classes"
+                                name="./cssClasses"/>
+                        </items>
+                    </columns>
+                </items>
+            </styles>
+        </items>
+    </content>
+</jcr:root>

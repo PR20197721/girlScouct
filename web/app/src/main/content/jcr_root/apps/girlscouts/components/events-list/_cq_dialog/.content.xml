@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="dialog"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <static
+                    jcr:primaryType="nt:unstructured"
+                    jcr:title="Select Events"
+                    sling:resourceType="granite/ui/components/foundation/container">
+                    <layout
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                    <items jcr:primaryType="nt:unstructured">
+                        <columns
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/container">
+                            <items jcr:primaryType="nt:unstructured">
+                                <pages
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/multifield"
+                                    fieldDescription="Click the '+' to add a new page"
+                                    fieldLabel="Pages">
+                                    <field
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        name="./pages"/>
+                                </pages>
+                            </items>
+                        </columns>
+                    </items>
+                </static>
+            </items>
+            <tab1
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Feature Events Mode"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <featuretitle
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Feature Title"
+                                name="./featuretitle"/>
+                            <eventcounts
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                fieldDescription="(Please provide only numbers.)"
+                                fieldLabel="Number of Events"
+                                max="{Long}100"
+                                name="./eventcount"/>
+                            <url
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                fieldDescription="(Provide the URL for the Title to be linked too)"
+                                fieldLabel="Url"
+                                name="./urltolink"/>
+                            <filter/>
+                        </items>
+                    </columns>
+                </items>
+            </tab1>
+            <image/>
+            <daysofevents
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Days out Events Mode"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <days-of-events
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/select"
+                                fieldDescription="(Number of days out events to be displayed from current date.)"
+                                fieldLabel="Days out events from today"
+                                name="./daysofevents"
+                                value="0">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <zero
+                                        jcr:primaryType="nt:unstructured"
+                                        text="0"
+                                        value="0"/>
+                                    <one
+                                        jcr:primaryType="nt:unstructured"
+                                        text="5"
+                                        value="5"/>
+                                    <two
+                                        jcr:primaryType="nt:unstructured"
+                                        text="10"
+                                        value="10"/>
+                                    <three
+                                        jcr:primaryType="nt:unstructured"
+                                        text="15"
+                                        value="15"/>
+                                    <four
+                                        jcr:primaryType="nt:unstructured"
+                                        text="20"
+                                        value="20"/>
+                                    <five
+                                        jcr:primaryType="nt:unstructured"
+                                        text="25"
+                                        value="25"/>
+                                    <six
+                                        jcr:primaryType="nt:unstructured"
+                                        text="30"
+                                        value="30"/>
+                                    <seven
+                                        jcr:primaryType="nt:unstructured"
+                                        text="35"
+                                        value="35"/>
+                                    <eight
+                                        jcr:primaryType="nt:unstructured"
+                                        text="40"
+                                        value="40"/>
+                                    <nine
+                                        jcr:primaryType="nt:unstructured"
+                                        text="45"
+                                        value="45"/>
+                                    <ten
+                                        jcr:primaryType="nt:unstructured"
+                                        text="50"
+                                        value="50"/>
+                                    <eleven
+                                        jcr:primaryType="nt:unstructured"
+                                        text="55"
+                                        value="55"/>
+                                    <twelve
+                                        jcr:primaryType="nt:unstructured"
+                                        text="60"
+                                        value="60"/>
+                                </items>
+                            </days-of-events>
+                        </items>
+                    </columns>
+                </items>
+            </daysofevents>
+        </items>
+    </content>
+</jcr:root>

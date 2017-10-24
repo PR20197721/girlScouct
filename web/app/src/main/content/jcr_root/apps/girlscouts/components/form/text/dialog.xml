@@ -15,11 +15,11 @@
                     path="/libs/foundation/components/form/defaults/items.infinity.json"
                     xtype="cqinclude"/>
                 <confirmationemail
-                	jcr:primaryType="cq:Widget"
-                	fieldLabel="Send Confirmation Email to this Field"
-                	name="./confirmationemail"
-                	type="checkbox"
-                	xtype="selection"/>
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Send Confirmation Email to this Field"
+                    name="./confirmationemail"
+                    type="checkbox"
+                    xtype="selection"/>
                 <multivalue
                     jcr:primaryType="cq:Widget"
                     boxLabel="Property is multi value"

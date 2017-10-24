@@ -16,8 +16,8 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Links"
                         hideLabel="{Boolean}true"
-                        orderable="{Boolean}false"
                         name="./paths"
+                        orderable="{Boolean}false"
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="nt:unstructured"
@@ -26,22 +26,22 @@
                 </items>
             </custom>
             <override
-            	jcr:primaryType="cq:Widget"
-            	title="Override"
-            	xtype="panel">
-            	<items jcr:primaryType="cq:WidgetCollection">
-            		<multi
-            			jcr:primaryType="cq:Widget"
-            			fieldLabel="Links"
-            			hideLabel="{Boolean}true"
-            			orderable="{Boolean}false"
-            			name="./overrides"
-            			xtype="multifield">
-            			<fieldConfig
-            				jcr:primaryType="nt:unstructured"
-            				xtype="pathfield"/>
-            		</multi>		
-            	</items>
+                jcr:primaryType="cq:Widget"
+                title="Override"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <multi
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Links"
+                        hideLabel="{Boolean}true"
+                        name="./overrides"
+                        orderable="{Boolean}false"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="nt:unstructured"
+                            xtype="pathfield"/>
+                    </multi>
+                </items>
             </override>
         </items>
     </items>

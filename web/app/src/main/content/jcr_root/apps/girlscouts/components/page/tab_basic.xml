@@ -34,13 +34,13 @@
                     type="checkbox"
                     xtype="selection"/>
                 <breakinheritance
-                	jcr:primaryType="cq:Widget"
-                	fieldLabel="Block Rollouts for this page"
-                	fieldDescription="Rejects all GSUSA content rollouts for this page. If you want to sync individual components with national content, you will need to unlock and relock them"
-                	inputValue="true"
-                	name="./breakInheritance"
-                	type="checkbox"
-                	xtype="selection"/>
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Rejects all GSUSA content rollouts for this page. If you want to sync individual components with national content, you will need to unlock and relock them"
+                    fieldLabel="Block Rollouts for this page"
+                    inputValue="true"
+                    name="./breakInheritance"
+                    type="checkbox"
+                    xtype="selection"/>
             </items>
         </basic>
         <more_titles

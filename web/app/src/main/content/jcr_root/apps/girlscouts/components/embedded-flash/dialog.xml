@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     xtype="dialog">
     <items
@@ -13,43 +13,43 @@
                     <path
                         jcr:primaryType="cq:Widget"
                         fieldLabel="SWF File"
-                        rootPath="/content/dam"
                         name="./path"
+                        rootPath="/content/dam"
                         xtype="pathfield"/>
                     <width
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Width (specify px or %)"
-                    	fieldDescription="Defaults to 100%"
-                    	name="./width"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Defaults to 100%"
+                        fieldLabel="Width (specify px or %)"
+                        name="./width"
+                        xtype="textfield"/>
                     <height
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Height (specify px or %)"
-                    	fieldDescription="Defaults to 100%, but is not guaranteed to scale properly"
-                    	name="./height"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Defaults to 100%, but is not guaranteed to scale properly"
+                        fieldLabel="Height (specify px or %)"
+                        name="./height"
+                        xtype="textfield"/>
                     <scale
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Scaling Type"
-                    	name="./scale"
-                    	type="select"
-                    	value="default"
-                    	defaultValue="default"
-                    	xtype="selection">
-                    		<options jcr:primaryType="cq:WidgetCollection">
-                    			<default
-                    				jcr:primaryType="nt:unstructured"
-                    				text="Default"
-                    				value="default"/>
-                    			<exactFit
-                    				jcr:primaryType="nt:unstructured"
-                    				text="Exact Fit"
-                    				value="exactFit"/>
-                    			<noScale
-                    				jcr:primaryType="nt:unstructured"
-                    				text="No Scale"
-                    				value="noScale"/>
-                    		</options>	
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="default"
+                        fieldLabel="Scaling Type"
+                        name="./scale"
+                        type="select"
+                        value="default"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <default
+                                jcr:primaryType="nt:unstructured"
+                                text="Default"
+                                value="default"/>
+                            <exactFit
+                                jcr:primaryType="nt:unstructured"
+                                text="Exact Fit"
+                                value="exactFit"/>
+                            <noScale
+                                jcr:primaryType="nt:unstructured"
+                                text="No Scale"
+                                value="noScale"/>
+                        </options>
                     </scale>
                 </items>
             </tab1>

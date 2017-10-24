@@ -22,7 +22,7 @@
                     fieldLabel="Title Link"
                     name="./pathfield"
                     xtype="pathfield"/>
-				<isRichTextFlag
+                <isRichTextFlag
                     jcr:primaryType="cq:Widget"
                     ignoreData="{Boolean}true"
                     name="./textIsRich"

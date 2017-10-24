@@ -83,27 +83,27 @@
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Add Advertising Features code for Google Analytics"
                             name="./googleDisplayFeatures"
-                            xtype="selection"
-                            type="checkbox"/>
+                            type="checkbox"
+                            xtype="selection"/>
                         <google-tag-manager-id
-                        	jcr:primaryType="cq:Widget"
-                        	fieldLabel="Google Tag Manager ID"
-                        	name="./gtmId"/>
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Google Tag Manager ID"
+                            name="./gtmId"/>
                         <tracking
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
                             fieldLabel="Tracking"
-                            xtype="textarea"
-                            name="./footerTracking"/>
+                            name="./footerTracking"
+                            xtype="textarea"/>
                         <event-cart
-                        	jcr:primaryType="cq:Widget"
-                        	fieldLabel="Display Event Cart"
-                        	fieldDescription="Include the event cart and associated functionality to the site"
-                        	xtype="selection"
-                        	value="false"
-                        	defaultValue="false"
-                        	name="./event-cart">
-                        	<options jcr:primaryType="cq:WidgetCollection">
+                            jcr:primaryType="cq:Widget"
+                            defaultValue="false"
+                            fieldDescription="Include the event cart and associated functionality to the site"
+                            fieldLabel="Display Event Cart"
+                            name="./event-cart"
+                            value="false"
+                            xtype="selection">
+                            <options jcr:primaryType="cq:WidgetCollection">
                                 <true
                                     jcr:primaryType="nt:unstructured"
                                     text="Yes"
@@ -167,11 +167,11 @@
                             rootPath="/content/dam"
                             xtype="pathfield"/>
                         <domain
-                        	jcr:primaryType="cq:Widget"
-                        	fieldLabel="Site Domain"
-                        	fieldDescription="Use if council's domain differs from their path in AEM. Example: https://www.girlscouts.org"
-                        	name="./domain"
-                        	xtype="textfield"/>
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Use if council's domain differs from their path in AEM. Example: https://www.girlscouts.org"
+                            fieldLabel="Site Domain"
+                            name="./domain"
+                            xtype="textfield"/>
                         <primary-email
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Primary email address to receive the rollout notification."

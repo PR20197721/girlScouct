@@ -4,4 +4,3 @@
     cq:disableTargeting="{Boolean}true"
     cq:layout="editbar"
     jcr:primaryType="cq:EditConfig"/>
-    

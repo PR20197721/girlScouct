@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Widget"
+    defaultValue="end"
+    fieldDescription="Choose to filter the events by starting or ending date."
+    fieldLabel="Filtered By"
+    name="./filter"
+    value="end"
+    xtype="selection">
+    <options jcr:primaryType="cq:WidgetCollection">
+        <start
+            jcr:primaryType="nt:unstructured"
+            text="Starting Date: displays events that start after current date"
+            value="start"/>
+        <end
+            jcr:primaryType="nt:unstructured"
+            text="Ending Date: displays events that end after current date"
+            value="end"/>
+    </options>
+</jcr:root>
