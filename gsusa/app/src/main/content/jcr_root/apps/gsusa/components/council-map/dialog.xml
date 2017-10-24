@@ -6,23 +6,23 @@
         jcr:primaryType="cq:Widget"
         xtype="tabpanel">
         <items jcr:primaryType="cq:WidgetCollection">
-        	<properties
+            <properties
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<path
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Path to Results Page"
-                		name="./path"
-                		xtype="pathfield"/>
-                	<imgPath
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Path to Map Image"
-                		fieldDescription="Defaults to /content/dam/girlscouts-gsusa/images/misc/council-map.gif"
-                		name="./imgPath"
-                		xtype="pathfield"/>
-		        </items>
-			</properties>
+                    <path
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Path to Results Page"
+                        name="./path"
+                        xtype="pathfield"/>
+                    <imgPath
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Defaults to /content/dam/girlscouts-gsusa/images/misc/council-map.gif"
+                        fieldLabel="Path to Map Image"
+                        name="./imgPath"
+                        xtype="pathfield"/>
+                </items>
+            </properties>
         </items>
     </items>
 </jcr:root>

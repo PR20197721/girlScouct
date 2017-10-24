@@ -15,9 +15,8 @@
                         defaultValue="false"
                         fieldLabel="Hide Breadcrumb?"
                         name="./isHidden"
-                        xtype="selection"
-                        type="checkbox">
-                    </hidden>
+                        type="checkbox"
+                        xtype="selection"/>
                     <breadcrumb-root
                         jcr:primaryType="cq:Widget"
                         defaultValue="0"

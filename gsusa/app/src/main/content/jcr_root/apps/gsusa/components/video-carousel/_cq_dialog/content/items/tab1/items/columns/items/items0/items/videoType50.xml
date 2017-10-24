@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Widget"
+    fieldLabel="Select a source"
+    name="./videoType50"
+    type="radiogroup"
+    xtype="selection">
+    <options jcr:primaryType="cq:WidgetCollection">
+        <option0
+            jcr:primaryType="nt:unstructured"
+            text="None"
+            value="none"/>
+        <option1
+            jcr:primaryType="nt:unstructured"
+            text="Link"
+            value="link"/>
+        <option2
+            jcr:primaryType="nt:unstructured"
+            text="Path"
+            value="path"/>
+    </options>
+    <listeners
+        jcr:primaryType="nt:unstructured"
+        selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath50&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink50&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else if (val === &quot;link&quot;){&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   } &#xa;}"/>
+</jcr:root>

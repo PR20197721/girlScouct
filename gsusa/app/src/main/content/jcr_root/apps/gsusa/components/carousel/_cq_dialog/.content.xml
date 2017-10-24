@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Carousel"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <tab0
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Images and Videos"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <text/>
+                            <multi
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/multifield"
+                                fieldLabel="Images/Videos">
+                                <field/>
+                            </multi>
+                        </items>
+                    </columns>
+                </items>
+            </tab0>
+            <tab1
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Blog"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <bgImage
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                fieldLabel="Background Image"
+                                name="./blogbgimage"
+                                rootPath="/content/dam/girlscouts-gsusa"/>
+                            <blog-id
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="(Optional) Specify an alternative blog to use by entering its Blogger ID"
+                                fieldLabel="Blog ID"
+                                name="./blog-feed/id"/>
+                            <api-key
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="(Optional) If you are using an alternative blog, enter its API Key here"
+                                fieldLabel="API Key"
+                                name="./blog-feed/key"/>
+                            <post-id1
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Specify a blog post by its id."
+                                fieldLabel="Post ID"
+                                name="./blog-feed/post-id1"/>
+                            <post-id2
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Specify a blog post by its id."
+                                fieldLabel="Post ID"
+                                name="./blog-feed/post-id2"/>
+                            <post-id3
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Specify a blog post by its id."
+                                fieldLabel="Post ID"
+                                name="./blog-feed/post-id3"/>
+                        </items>
+                    </columns>
+                </items>
+            </tab1>
+            <tab2
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Configuration"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <autoScroll
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./homecarouselautoscroll"
+                                text="Auto Scroll"/>
+                            <autoscroll-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./homecarouselautoscroll@Delete"
+                                value="{Boolean}true"/>
+                            <timedelay
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                fieldDescription="Default: 1000, Min: 20, Max: 10000"
+                                fieldLabel="Transition Time of the carousel (in ms)"
+                                max="10000"
+                                min="20"
+                                name="./homecarouseltimedelay"/>
+                            <autoplayspeed
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                fieldDescription="Default: 2000, Min: 20, Max: 10000"
+                                fieldLabel="Time Delay of the carousel (in ms)"
+                                max="10000"
+                                min="20"
+                                name="./homecarouselautoplayspeed"/>
+                        </items>
+                    </columns>
+                </items>
+            </tab2>
+            <tab7
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Bottom Overlay"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <hideZIPcode
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./hideZIPCode"
+                                text="Hide ZIPCode"/>
+                            <hidezipcode-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./hideZIPCode@Delete"
+                                value="{Boolean}true"/>
+                            <Source
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="This field is used for tracking in Google Analytics."
+                                fieldLabel="Source"
+                                name="./source7"
+                                value="not_set"/>
+                        </items>
+                    </columns>
+                </items>
+            </tab7>
+        </items>
+    </content>
+</jcr:root>

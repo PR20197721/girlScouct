@@ -27,11 +27,11 @@
                     name="./cq:tags"
                     xtype="tags"/>
                 <keywords
-                	jcr:primaryType="cq:Widget"
-                	fieldLabel="Keywords"
-                	fieldDescription="Enter the keywords exactly as they would appear in the HTML tag (each keyword separated by comma, no spaces)"
-                	name="./keywords"
-                	xtype="textfield"/>
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Enter the keywords exactly as they would appear in the HTML tag (each keyword separated by comma, no spaces)"
+                    fieldLabel="Keywords"
+                    name="./keywords"
+                    xtype="textfield"/>
                 <hideinnav
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Hide in Navigation"
@@ -40,13 +40,13 @@
                     type="checkbox"
                     xtype="selection"/>
                 <breakinheritance
-                	jcr:primaryType="cq:Widget"
-                	fieldLabel="Break Inheritance for this page"
-                	fieldDescription="Rejects all GSUSA content rollouts for this page. If you want to sync individual components with national content, you will need to unlock and relock them"
-                	inputValue="true"
-                	name="./breakInheritance"
-                	type="checkbox"
-                	xtype="selection"/>
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Rejects all GSUSA content rollouts for this page. If you want to sync individual components with national content, you will need to unlock and relock them"
+                    fieldLabel="Break Inheritance for this page"
+                    inputValue="true"
+                    name="./breakInheritance"
+                    type="checkbox"
+                    xtype="selection"/>
             </items>
         </basic>
         <more_titles

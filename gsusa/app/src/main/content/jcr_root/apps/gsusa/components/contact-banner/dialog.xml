@@ -11,25 +11,25 @@
                 jcr:primaryType="cq:Panel"
                 title="Keep In Touch Settings">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<btn
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Button Text"
-                		name="./btn"
-                		value="Contact Your Local Council"
-                		defaultValue="Contact Your Local Council"
-                		xtype="textfield"/>
+                    <btn
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="Contact Your Local Council"
+                        fieldLabel="Button Text"
+                        name="./btn"
+                        value="Contact Your Local Council"
+                        xtype="textfield"/>
                     <title
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Title"
                         name="./title"
                         xtype="textfield"/>
                     <desc
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Description"
-                    	name="./desc"
-                    	xtype="textarea"/>
-                 </items>
-             </tab1>
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Description"
+                        name="./desc"
+                        xtype="textarea"/>
+                </items>
+            </tab1>
         </items>
     </items>
 </jcr:root>

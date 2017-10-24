@@ -12,62 +12,62 @@
                 jcr:primaryType="cq:Panel"
                 title="Info">
                 <items jcr:primaryType="cq:WidgetCollection">
-					<imageAlt
-						jcr:primaryType="cq:Widget"
-		    	        fieldLabel="Image Alt"
-        	    		name="./imageAlt"
-		            	xtype="textfield"/>
+                    <imageAlt
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Image Alt"
+                        name="./imageAlt"
+                        xtype="textfield"/>
                     <logoLink
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Logo Link"
                         name="./logoLink"
                         rootPath="/content/gsusa"
                         xtype="pathfield"/>
-		      	</items>
-		 	</tab1>
+                </items>
+            </tab1>
             <tab2
                 jcr:primaryType="cq:Panel"
                 title="Images">
                 <items jcr:primaryType="cq:WidgetCollection">
-		            <image
-    		            jcr:primaryType="cq:Widget"
-        		        allowUpload="{Boolean}false"
-            		    ddGroups="[media]"
-	            	    fileNameParameter="./image/fileName"
-	    	            fileReferenceParameter="./image/fileReference"
-    	    	        name="./image/file"
-        	    	    requestSuffix="/image.img.png"
-            	    	title="Logo"
-	            	   	xtype="html5smartimage">
-	    		        <items jcr:primaryType="cq:WidgetCollection">
-    	        	        <resType
-        	        	        jcr:primaryType="cq:Widget"
-            	        	    ignoreData="{Boolean}true"
-	            	            name="./image/sling:resourceType"
-	    	                    value="foundation/components/image"
-    	    	                xtype="hidden"/>
-        	    	    </items>
-	        	    </image>
-	        	    <sticky-nav-image
-			            jcr:primaryType="cq:Widget"
-			            ddGroups="[media]"
-			            fileNameParameter="./stickyNavImage/fileName"
-			            fileReferenceParameter="./stickyNavImage/fileReference"
-			            name="./stickyNavImage/file"
-			            requestSuffix="/stickyNavImage.img.png"
-			            title="Sticky Nav Image"
-			            xtype="html5smartimage">
-			            <items jcr:primaryType="cq:WidgetCollection">
-			                <resType
-			                    jcr:primaryType="cq:Widget"
-			                    ignoreData="{Boolean}true"
-			                    name="./stickyNavImage/sling:resourceType"
-			                    value="foundation/components/image"
-			                    xtype="hidden"/>
-			            </items>
-			        </sticky-nav-image>
-	        	</items>
-	      	</tab2>
+                    <image
+                        jcr:primaryType="cq:Widget"
+                        allowUpload="{Boolean}false"
+                        ddGroups="[media]"
+                        fileNameParameter="./image/fileName"
+                        fileReferenceParameter="./image/fileReference"
+                        name="./image/file"
+                        requestSuffix="/image.img.png"
+                        title="Logo"
+                        xtype="html5smartimage">
+                        <items jcr:primaryType="cq:WidgetCollection">
+                            <resType
+                                jcr:primaryType="cq:Widget"
+                                ignoreData="{Boolean}true"
+                                name="./image/sling:resourceType"
+                                value="foundation/components/image"
+                                xtype="hidden"/>
+                        </items>
+                    </image>
+                    <sticky-nav-image
+                        jcr:primaryType="cq:Widget"
+                        ddGroups="[media]"
+                        fileNameParameter="./stickyNavImage/fileName"
+                        fileReferenceParameter="./stickyNavImage/fileReference"
+                        name="./stickyNavImage/file"
+                        requestSuffix="/stickyNavImage.img.png"
+                        title="Sticky Nav Image"
+                        xtype="html5smartimage">
+                        <items jcr:primaryType="cq:WidgetCollection">
+                            <resType
+                                jcr:primaryType="cq:Widget"
+                                ignoreData="{Boolean}true"
+                                name="./stickyNavImage/sling:resourceType"
+                                value="foundation/components/image"
+                                xtype="hidden"/>
+                        </items>
+                    </sticky-nav-image>
+                </items>
+            </tab2>
         </items>
     </items>
 </jcr:root>

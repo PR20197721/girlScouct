@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
-    warnIfModified="{Boolean}false"
     height="{Long}530"
+    warnIfModified="{Boolean}false"
     width="{Long}780"
     xtype="dialog">
     <items
@@ -14,15 +14,15 @@
                 title="Footer Share Widget"
                 xtype="panel">
                 <items jcr:primaryType="cq:WidgetCollection">
-    	            <multi
-           	            jcr:primaryType="cq:Widget"
-               	        fieldLabel="Links"
+                    <multi
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Links"
                         hideLabel="{Boolean}true"
-   	                    name="./socialIcons"
-       	                xtype="multifield">
-           	            <fieldConfig
-               	            jcr:primaryType="nt:unstructured"
-                   	        xtype="socialmediawidgetwithname"/>
+                        name="./socialIcons"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="nt:unstructured"
+                            xtype="socialmediawidgetwithname"/>
                     </multi>
                 </items>
             </first>

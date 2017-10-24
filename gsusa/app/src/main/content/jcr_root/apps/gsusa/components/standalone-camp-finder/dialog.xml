@@ -11,18 +11,18 @@
                 jcr:primaryType="cq:Panel"
                 title="Main Content">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<text
-                		jcr:primaryType="cq:Widget"
+                    <text
+                        jcr:primaryType="cq:Widget"
                         fieldLabel="Text to be displayed"
-                        xtype="textfield"
-                        name="./text"/>
-                	<resultspath
-	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="Results Page"
-	                    allowBlank="false"
-	                    name="./results"
-	                    rootPath="/content/gsusa"
-	                    xtype="pathfield"/>
+                        name="./text"
+                        xtype="textfield"/>
+                    <resultspath
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="false"
+                        fieldLabel="Results Page"
+                        name="./results"
+                        rootPath="/content/gsusa"
+                        xtype="pathfield"/>
                 </items>
             </maincontent>
             <image

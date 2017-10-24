@@ -18,8 +18,8 @@
                         name="./label"
                         value="Keep in touch"
                         xtype="textfield"/>
-                 </items>
-             </tab1>
+                </items>
+            </tab1>
         </items>
     </items>
 </jcr:root>

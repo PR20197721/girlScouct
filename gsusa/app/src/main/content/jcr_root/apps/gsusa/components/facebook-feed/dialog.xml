@@ -10,12 +10,12 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<fbPage
-                		jcr:primaryType="cq:Widget"
-                		fieldDescription="Enter the full name (case sensitive) of the facebook page you would like to display. The default is GirlScoutsUSA. If you use a different page, you will need to provide your own access token"
-                		fieldLabel="Facebook Page"
-                		name="./fbPage"
-                		xtype="textfield"/>
+                    <fbPage
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Enter the full name (case sensitive) of the facebook page you would like to display. The default is GirlScoutsUSA. If you use a different page, you will need to provide your own access token"
+                        fieldLabel="Facebook Page"
+                        name="./fbPage"
+                        xtype="textfield"/>
                     <token
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Only fill in if you are using a page other than GirlScoutsUSA"

@@ -12,8 +12,8 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <text
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Text"
                         fieldDescription="Text above the cookie finder field"
+                        fieldLabel="Text"
                         name="./text"
                         xtype="textarea"/>
                     <result-page

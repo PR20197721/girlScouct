@@ -38,13 +38,12 @@
                         name="./mainTitle"
                         xtype="textfield"/>
                     <showverticalrule
-                    	jcr:primaryType="cq:Widget"
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Default: false"
                         fieldLabel="Show Vertical Rule"
                         name="./showverticalrule"
-                        fieldDescription="Default: false"
                         type="checkbox"
-                		xtype="selection">
-                    </showverticalrule>
+                        xtype="selection"/>
                     <text
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Text"
@@ -76,21 +75,21 @@
                 jcr:primaryType="cq:Panel"
                 title="Advanced Settings">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<max-width
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Max Width (in px)"
-                		fieldDescription="Default is 210px"
-                		name="./maxWidth"
-                		minValue="{Long}0"
-                		xtype="numberfield"/>
+                    <max-width
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Default is 210px"
+                        fieldLabel="Max Width (in px)"
+                        minValue="{Long}0"
+                        name="./maxWidth"
+                        xtype="numberfield"/>
                     <source
                         jcr:primaryType="cq:Widget"
                         defaultValue="not_set"
                         fieldLabel="Source"
-                        name="./source"
-                        value="not_set"
                         maxLength="25"
                         maxLengthText="The source cannot be longer than 25 characters"
+                        name="./source"
+                        value="not_set"
                         xtype="textfield"/>
                 </items>
             </tab2>

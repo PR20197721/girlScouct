@@ -6,38 +6,38 @@
         jcr:primaryType="cq:Widget"
         xtype="tabpanel">
         <items jcr:primaryType="cq:WidgetCollection">
-        	<properties
+            <properties
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<path
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Path to Results Page"
-                		name="./path"
-                		xtype="pathfield"/>
-		            <zip
-		            	jcr:primaryType="cq:Widget"
-		            	fieldDescription="Search By Zip Code"
-		            	fieldLabel="Zip Code"
-		            	name="./zip"
-		            	type="checkbox"
-		            	xtype="selection"/>
-		            <state
-		            	jcr:primaryType="cq:Widget"
-		            	fieldDescription="Search By State"
-		            	fieldLabel="State"
-		            	name="./state"
-		            	type="checkbox"
-		            	xtype="selection"/>
-		            <council
-		            	jcr:primaryType="cq:Widget"
-		            	fieldDescription="Search By Council Name"
-		            	fieldLabel="Council Name"
-		            	name="./council-name"
-		            	type="checkbox"
-		            	xtype="selection"/>
-		        </items>
-			</properties>
+                    <path
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Path to Results Page"
+                        name="./path"
+                        xtype="pathfield"/>
+                    <zip
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Search By Zip Code"
+                        fieldLabel="Zip Code"
+                        name="./zip"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <state
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Search By State"
+                        fieldLabel="State"
+                        name="./state"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <council
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Search By Council Name"
+                        fieldLabel="Council Name"
+                        name="./council-name"
+                        type="checkbox"
+                        xtype="selection"/>
+                </items>
+            </properties>
         </items>
     </items>
 </jcr:root>

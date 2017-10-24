@@ -10,12 +10,12 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<file-path
-                		jcr:primaryType="cq:Widget"
-                		fieldDescription="Please enter the path to the folder in which scholarships are stored"
-                		fieldLabel="Path to Scholarships Directory"
-                		name="./path"
-                		xtype="pathfield"/>
+                    <file-path
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Please enter the path to the folder in which scholarships are stored"
+                        fieldLabel="Path to Scholarships Directory"
+                        name="./path"
+                        xtype="pathfield"/>
                 </items>
             </properties>
         </items>

@@ -12,10 +12,10 @@
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <title
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Title"
-                    	name="./title"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title"
+                        name="./title"
+                        xtype="textfield"/>
                     <text
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Content"
@@ -67,21 +67,21 @@
                                 </linkDialogConfig>
                             </links>
                             <justify
-	                            jcr:primaryType="nt:unstructured"
-	                            features="*"/>
-	                        <paraformat
-                            jcr:primaryType="nt:unstructured"
-                            features="*">
-                            <formats jcr:primaryType="cq:WidgetCollection">
-                                <p
-                                    jcr:primaryType="nt:unstructured"
-                                    description="Paragraph"
-                                    tag="p"/>
-                            </formats>
-                        </paraformat>
-                        <spellcheck
-                            jcr:primaryType="nt:unstructured"
-                            features="*"/>
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
+                            <paraformat
+                                jcr:primaryType="nt:unstructured"
+                                features="*">
+                                <formats jcr:primaryType="cq:WidgetCollection">
+                                    <p
+                                        jcr:primaryType="nt:unstructured"
+                                        description="Paragraph"
+                                        tag="p"/>
+                                </formats>
+                            </paraformat>
+                            <spellcheck
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
                         </rtePlugins>
                     </text>
                     <isRichTextFlag
@@ -93,15 +93,15 @@
                     <shop-link
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Shop Button Link"
+                        linkPattern="\{0}.html"
                         name="./shopLink"
-                        linkPattern="\{0\}.html"
                         rootPath="/content/gsusa/en"
                         xtype="pathfield"/>
                     <button-text
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Button Text"
-                    	name="./buttonText"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Button Text"
+                        name="./buttonText"
+                        xtype="textfield"/>
                     <multi
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Links"

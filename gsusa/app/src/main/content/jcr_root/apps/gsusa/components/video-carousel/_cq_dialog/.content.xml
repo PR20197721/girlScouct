@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Video Carousel"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <tab1
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Properties"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <items0
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Content 1"
+                                sling:resourceType="granite/ui/components/foundation/form/fieldset"
+                                title="Content 1">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <videoType50/>
+                                    <videoLink50
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                        fieldLabel="Video Link 1"
+                                        name="./videoLink50"/>
+                                    <videoPath50
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        fieldLabel="Video Path 1"
+                                        name="./videoPath50"
+                                        rootPath="/content/dam/girlscouts-gsusa"/>
+                                </items>
+                            </items0>
+                            <items1
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Content 2"
+                                sling:resourceType="granite/ui/components/foundation/form/fieldset"
+                                title="Content 2">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <videoType51/>
+                                    <videoLink51
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                        fieldLabel="Video Link 2"
+                                        name="./videoLink51"/>
+                                    <videoPath51
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        fieldLabel="Video Path 2"
+                                        name="./videoPath51"
+                                        rootPath="/content/dam/girlscouts-gsusa"/>
+                                </items>
+                            </items1>
+                            <items2
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Content 3"
+                                sling:resourceType="granite/ui/components/foundation/form/fieldset"
+                                title="Content 3">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <videoType52/>
+                                    <videoLink52
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                        fieldLabel="Video Link 3"
+                                        name="./videoLink52"/>
+                                    <videoPath52
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        fieldLabel="Video Path 3"
+                                        name="./videoPath52"
+                                        rootPath="/content/dam/girlscouts-gsusa"/>
+                                </items>
+                            </items2>
+                            <items3
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Content 4"
+                                sling:resourceType="granite/ui/components/foundation/form/fieldset"
+                                title="Content 4">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <videoType53/>
+                                    <videoLink53
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                        fieldLabel="Video Link 4"
+                                        name="./videoLink53"/>
+                                    <videoPath53
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        fieldLabel="Video Path 4"
+                                        name="./videoPath53"
+                                        rootPath="/content/dam/girlscouts-gsusa"/>
+                                </items>
+                            </items3>
+                        </items>
+                    </columns>
+                </items>
+            </tab1>
+        </items>
+    </content>
+</jcr:root>

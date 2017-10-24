@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Widget"
+    fieldLabel="Select a source"
+    name="./source"
+    type="radiogroup"
+    xtype="selection">
+    <options jcr:primaryType="cq:WidgetCollection">
+        <option1
+            jcr:primaryType="nt:unstructured"
+            text="Directory"
+            value="dir"/>
+        <option2
+            jcr:primaryType="nt:unstructured"
+            text="Individual stories manually"
+            value="manual"/>
+    </options>
+    <listeners
+        jcr:primaryType="nt:unstructured"
+        selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;pathField&quot;); &#xa;&#x9;var storyPathField = panel.getComponent(&quot;storyPathField&quot;);&#xa;&#xa;    if (val === 'dir') {&#xa;       pathField.show();&#xa;&#x9;   storyPathField.hide();&#xa;   } else {&#xa;       pathField.hide();&#xa;&#x9;   storyPathField.show();&#xa;   }&#xa;}"/>
+</jcr:root>

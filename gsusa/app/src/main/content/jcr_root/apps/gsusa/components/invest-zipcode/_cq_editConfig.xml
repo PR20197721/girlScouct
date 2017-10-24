@@ -5,6 +5,6 @@
     jcr:primaryType="cq:EditConfig">
     <cq:listeners
         jcr:primaryType="cq:EditListenersConfig"
-        afterinsert="REFRESH_PAGE"
-        afteredit="REFRESH_PAGE"/>
+        afteredit="REFRESH_PAGE"
+        afterinsert="REFRESH_PAGE"/>
 </jcr:root>

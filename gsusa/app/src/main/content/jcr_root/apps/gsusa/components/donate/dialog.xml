@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     title="Join"
     xtype="dialog">
@@ -17,38 +17,38 @@
                         fieldLabel="Title"
                         name="./title"
                         xtype="textfield"/>
-                        <max-width
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Max Width (in px)"
-                		fieldDescription="Default is 210px"
-                		name="./maxWidth"
-                		minValue="{Long}0"
-                		xtype="numberfield"/>
-                    <zip
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Zip Code"
-                    	fieldDescription="Do you want users to be able to enter their zip code and go to their local council's donation page?"
-                    	name="./zip"
-                    	defaultValue="Yes"
-                    	value="No"
-                    	xtype="selection"
-                    	type="select">
-                    	<options jcr:primaryType="cq:WidgetCollection">
-                                <true
-                                    jcr:primaryType="nt:unstructured"
-                                    text="Yes"
-                                    value="Yes"/>
-                                <false
-                                    jcr:primaryType="nt:unstructured"
-                                    text="No"
-                                    value="No"/>
-                            </options>
-                    	</zip>
-                   	<href
+                    <max-width
                         jcr:primaryType="cq:Widget"
+                        fieldDescription="Default is 210px"
+                        fieldLabel="Max Width (in px)"
+                        minValue="{Long}0"
+                        name="./maxWidth"
+                        xtype="numberfield"/>
+                    <zip
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="Yes"
+                        fieldDescription="Do you want users to be able to enter their zip code and go to their local council's donation page?"
+                        fieldLabel="Zip Code"
+                        name="./zip"
+                        type="select"
+                        value="No"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <true
+                                jcr:primaryType="nt:unstructured"
+                                text="Yes"
+                                value="Yes"/>
+                            <false
+                                jcr:primaryType="nt:unstructured"
+                                text="No"
+                                value="No"/>
+                        </options>
+                    </zip>
+                    <href
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="This field is required if you choose not to use a zip code field. If you don't use a zip code field, please enter the destination of the button here."
                         fieldLabel="Hard-coded URL"
                         name="./href"
-                        fieldDescription="This field is required if you choose not to use a zip code field. If you don't use a zip code field, please enter the destination of the button here."
                         xtype="textfield"/>
                 </items>
             </tab1>

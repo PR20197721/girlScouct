@@ -19,14 +19,14 @@
                         value="Get Updates"
                         xtype="textfield"/>
                     <desc
-                    	jcr:primaryType="cq:Widget"
-                    	defaultValue="Sign up for cookie email updates"
-                    	fieldLabel="Description"
-                    	name="./desc"
-                    	value="Sign up for cookie email updates"
-                    	xtype="textfield"/>
-                 </items>
-             </tab1>
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="Sign up for cookie email updates"
+                        fieldLabel="Description"
+                        name="./desc"
+                        value="Sign up for cookie email updates"
+                        xtype="textfield"/>
+                </items>
+            </tab1>
         </items>
     </items>
 </jcr:root>

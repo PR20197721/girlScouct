@@ -51,16 +51,16 @@
                             name="./addThisId"/>
                         <ogtitle
                             jcr:primaryType="cq:Widget"
-                            fieldLabel="og:title"
                             fieldDescription="Default: SEO Title"
+                            fieldLabel="og:title"
                             name="./ogTitle"/>
                         <ogsitename
                             jcr:primaryType="cq:Widget"
-                            fieldLabel="og:site_name"
-                            value="Girl Scouts of the USA"
                             defaultValue="Girl Scouts of the USA"
                             fieldDescription="Default: Girl Scouts of the USA"
-                            name="./ogSiteName"/>
+                            fieldLabel="og:site_name"
+                            name="./ogSiteName"
+                            value="Girl Scouts of the USA"/>
                         <ogurl
                             jcr:primaryType="cq:Widget"
                             fieldLabel="og:url"
@@ -72,20 +72,20 @@
                         <ogimage
                             jcr:primaryType="cq:Widget"
                             fieldLabel="og:image"
+                            name="./ogImage"
                             rootPath="/content/dam/girlscouts-gsusa"
-                            xtype="pathfield"
-                            name="./ogImage"/>
+                            xtype="pathfield"/>
                         <facebook-id
                             jcr:primaryType="cq:Widget"
-                            fieldLabel="Facebook ID"
                             fieldDescription="Default Facebook ID for the Site"
+                            fieldLabel="Facebook ID"
                             name="./facebookId"/>
                         <tracking
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
                             fieldLabel="Tracking"
-                            xtype="textarea"
-                            name="./footerTracking"/>
+                            name="./footerTracking"
+                            xtype="textarea"/>
                     </items>
                 </gsusa>
             </items>

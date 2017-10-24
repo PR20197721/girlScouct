@@ -19,8 +19,8 @@
                         hideLabel="{Boolean}true"
                         name="./navs"
                         xtype="multifield">
-                        <fieldConfig 
-                            jcr:primaryType="nt:unstructured" 
+                        <fieldConfig
+                            jcr:primaryType="nt:unstructured"
                             xtype="stickynavlink"/>
                     </multi>
                 </items>

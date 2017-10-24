@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Widget"
+    allowBlank="{Boolean}false"
+    fieldDescription="The metadata properties to be displayed, separated by comma. Properties listed here will be inspected one by one, until a non-empty value is found."
+    fieldLabel="Metadata Property Name"
+    name="./metaProperty"/>

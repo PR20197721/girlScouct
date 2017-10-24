@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <sharesection
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Share Section"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <sharesection
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                fieldDescription="The right section of the header will be delicated to sharing. Check this when the header is on top of the page"
+                                name="./shareSection"
+                                text="Right Share Section"/>
+                            <sharesection-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./shareSection@Delete"
+                                value="{Boolean}true"/>
+                            <icon/>
+                            <sharetext
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="text in the share section"
+                                fieldLabel="Text in the Share Section"
+                                name="./sharetext"/>
+                            <sharelink
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                fieldLabel="Link in the share section"
+                                name="./sharelink"/>
+                        </items>
+                    </columns>
+                </items>
+            </sharesection>
+            <maincontent
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Main Content"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <text/>
+                            <bgcolor
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Enter background color in HEX (e.g. e34c38). Default: 6e298d"
+                                fieldLabel="Background Color"
+                                name="./bgcolor"/>
+                            <maintext
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="text in the center of the header"
+                                fieldLabel="Main Text"
+                                name="./maintext"/>
+                            <cookieboothpath
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                fieldDescription="This path defines the result page. If this path is left empty, the cookie-finder will not work"
+                                fieldLabel="Link in the Cookie Booth"
+                                name="./cookieboothlink"
+                                required="false"/>
+                        </items>
+                    </columns>
+                </items>
+            </maincontent>
+            <image/>
+            <mobileimage/>
+        </items>
+    </content>
+</jcr:root>

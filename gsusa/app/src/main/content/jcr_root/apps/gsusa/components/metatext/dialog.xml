@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
+    height="{Long}500"
     title="Metatext"
     width="{Long}1000"
-    height="{Long}500"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -14,25 +14,25 @@
                 title="Configuration">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <meta-property
-                        allowBlank="{Boolean}false"
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Metadata Property Name"
+                        allowBlank="{Boolean}false"
                         fieldDescription="The metadata properties to be displayed, separated by comma. Properties listed here will be inspected one by one, until a non-empty value is found."
+                        fieldLabel="Metadata Property Name"
                         name="./metaProperty"/>
                     <tagName
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Tag Name"
                         fieldDescription="Default to 'p' tag. Override the surrounding HTML tag here. e.g. h1"
+                        fieldLabel="Tag Name"
                         name="./tagName"/>
                     <dateFormat
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Date Format"
                         fieldDescription="The display format of dates. e.g. MMMM dd, yyyy. Leave this field blank of this is not a date property."
+                        fieldLabel="Date Format"
                         name="./dateFormat"/>
                     <text
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Override Text"
                         fieldDescription="This text will be displayed if not empty. However, updating this field will not update the metadata of this page. Go to scaffolding mode to update page metadata."
+                        fieldLabel="Override Text"
                         name="./text"
                         xtype="richtext">
                         <rtePlugins jcr:primaryType="nt:unstructured">
@@ -81,25 +81,25 @@
                                 </linkDialogConfig>
                             </links>
                             <justify
-	                            jcr:primaryType="nt:unstructured"
-	                            features="*"/>
-	                        <paraformat
-                            jcr:primaryType="nt:unstructured"
-                            features="*">
-                            <formats jcr:primaryType="cq:WidgetCollection">
-                                <p
-                                    jcr:primaryType="nt:unstructured"
-                                    description="Paragraph"
-                                    tag="p"/>
-                                <h3
-                                	jcr:primaryType="nt:unstructured"
-                                	description="Header 3"
-                                	tag="h3"/>
-                            </formats>
-                        </paraformat>
-                        <spellcheck
-                            jcr:primaryType="nt:unstructured"
-                            features="*"/>
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
+                            <paraformat
+                                jcr:primaryType="nt:unstructured"
+                                features="*">
+                                <formats jcr:primaryType="cq:WidgetCollection">
+                                    <p
+                                        jcr:primaryType="nt:unstructured"
+                                        description="Paragraph"
+                                        tag="p"/>
+                                    <h3
+                                        jcr:primaryType="nt:unstructured"
+                                        description="Header 3"
+                                        tag="h3"/>
+                                </formats>
+                            </paraformat>
+                            <spellcheck
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
                         </rtePlugins>
                     </text>
                     <isRichTextFlag

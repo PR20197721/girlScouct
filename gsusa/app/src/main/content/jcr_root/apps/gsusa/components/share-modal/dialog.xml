@@ -15,9 +15,9 @@
                     <btn
                         jcr:primaryType="cq:Widget"
                         defaultValue="SHARE WITH YOUR FRIENDS"
-                        value="SHARE WITH YOUR FRIENDS"
                         fieldLabel="Button Text"
                         name="./btn"
+                        value="SHARE WITH YOUR FRIENDS"
                         xtype="textfield"/>
                     <header
                         jcr:primaryType="cq:Widget"
@@ -27,55 +27,56 @@
                     <desc
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Modal Description"
-                        xtype="textarea"
-                        name="./desc"/>
+                        name="./desc"
+                        xtype="textarea"/>
                     <text1
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Button 1 - Facebook Text"
-                        xtype="textfield"
-                        name="./text1"/>
+                        name="./text1"
+                        xtype="textfield"/>
                     <icon1
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Icon 1 (optional)"
-                        xtype="iconpicker"
-                        name="./icon1"/>
+                        name="./icon1"
+                        xtype="iconpicker"/>
                     <fbtitle
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Facebook Title"
                         name="./fbtitle"
                         xtype="textfield"/>
                     <fbdesc
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Facebook Description"
-                    	name="./fbdesc"
-                    	xtype="textarea"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Facebook Description"
+                        name="./fbdesc"
+                        xtype="textarea"/>
                     <text2
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Button 2 - Twitter Text"
-                    	name="./text2"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Button 2 - Twitter Text"
+                        name="./text2"
+                        xtype="textfield"/>
                     <icon2
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Icon 2 (optional)"
-                        xtype="iconpicker"
-                        name="./icon2"/>
+                        name="./icon2"
+                        xtype="iconpicker"/>
                     <twtext
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Button 2 - Tweet Message"
                         name="./tweet"
                         xtype="textarea"/>
                     <hashtags
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Twitter Hashtags"
-                    	fieldDescription="List relevant hashtags, separated by comma (leave out the '#' sign)"
-                    	name="./hashtags"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="List relevant hashtags, separated by comma (leave out the '#' sign)"
+                        fieldLabel="Twitter Hashtags"
+                        name="./hashtags"
+                        xtype="textfield"/>
                 </items>
             </tab1>
             <modalimage
                 jcr:primaryType="cq:Widget"
                 cropParameter="./modalimage/imageCrop"
                 ddGroups="media"
+                description="This image will appear in the popup modal"
                 fileNameParameter="./modalimage/fileName"
                 fileReferenceParameter="./modalimage/fileReference"
                 mapParameter="./modalimage/imageMap"
@@ -83,7 +84,6 @@
                 requestSuffix="/modalimage.img.png"
                 rotateParameter="./modalimage/imageRotate"
                 title="Modal Image"
-                description="This image will appear in the popup modal"
                 xtype="html5smartimage">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <resource-type
@@ -97,6 +97,7 @@
                 jcr:primaryType="cq:Widget"
                 cropParameter="./shareimage/imageCrop"
                 ddGroups="media"
+                description="This image will be used by facebook when sharing the page"
                 fileNameParameter="./shareimage/fileName"
                 fileReferenceParameter="./shareimage/fileReference"
                 mapParameter="./shareimage/imageMap"
@@ -104,7 +105,6 @@
                 requestSuffix="/shareimage.img.png"
                 rotateParameter="./shareimage/imageRotate"
                 title="Image to Share"
-                description="This image will be used by facebook when sharing the page"
                 xtype="html5smartimage">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <resource-type

@@ -10,32 +10,32 @@
                 jcr:primaryType="cq:Panel"
                 title="Join Redirect">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<type
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Redirect Type"
-                		fieldDescription="Choose whether it redirects to Join or Volunteer page"
-                		allowBlank="{Boolean}false"
-                		type="radiogroup"
-                		name="./type"
-                		xtype="selection">
-                		<options jcr:primaryType="cq:WidgetCollection">
-                			<option1
-                				jcr:primaryType="cq:Widget"
-                				text="Join"
-                				value="join" />
-                			<option2
-                				jcr:primaryType="cq:Widget"
-                				text="Volunteer"
-                				value="volunteer" />
-                		</options>
-                	</type>
-                	<source
-                		jcr:primaryType="cq:Widget"
-                		defaultValue="GIRLRedirect"
-                		fieldLabel="Source"
-                		fieldDescription="Idenfiable name to describe where redirect came from"
-                		name="./source"
-                		xtype="textfield" />
+                    <type
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Choose whether it redirects to Join or Volunteer page"
+                        fieldLabel="Redirect Type"
+                        name="./type"
+                        type="radiogroup"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <option1
+                                jcr:primaryType="cq:Widget"
+                                text="Join"
+                                value="join"/>
+                            <option2
+                                jcr:primaryType="cq:Widget"
+                                text="Volunteer"
+                                value="volunteer"/>
+                        </options>
+                    </type>
+                    <source
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="GIRLRedirect"
+                        fieldDescription="Idenfiable name to describe where redirect came from"
+                        fieldLabel="Source"
+                        name="./source"
+                        xtype="textfield"/>
                     <text
                         jcr:primaryType="cq:Widget"
                         defaultValue="JOIN!"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     title="Header Navigation"
     xtype="dialog">
@@ -12,19 +12,19 @@
                 title="Configuration">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <title
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Number of Stories"
-                    	name="./number"
-                    	value="6"
-                    	defaultValue="6"
-                    	type="select"
-                    	xtype="selection">
-                    	<options jcr:primaryType="cq:WidgetCollection">
-	                    	<zero
-	                    		jcr:primaryType="nt:unstructured"
-	                    		text="0"
-	                    		value="0"/>
-                    		<one
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="6"
+                        fieldLabel="Number of Stories"
+                        name="./number"
+                        type="select"
+                        value="6"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <zero
+                                jcr:primaryType="nt:unstructured"
+                                text="0"
+                                value="0"/>
+                            <one
                                 jcr:primaryType="nt:unstructured"
                                 text="1"
                                 value="1"/>
@@ -48,7 +48,7 @@
                                 jcr:primaryType="nt:unstructured"
                                 text="6"
                                 value="6"/>
-                    	</options>
+                        </options>
                     </title>
                 </items>
             </tab1>

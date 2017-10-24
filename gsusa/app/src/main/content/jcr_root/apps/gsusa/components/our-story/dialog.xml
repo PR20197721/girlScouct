@@ -13,12 +13,12 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <ColNum
                         jcr:primaryType="cq:Widget"
+                        allowDecimals="{Boolean}false"
                         fieldLabel="Number Of Columns"
                         fieldSubLabel="Please enter a number between 1-3"
-                        name="./colNum"
-                        allowDecimals="{Boolean}false"
                         maxValue="3"
                         minValue="1"
+                        name="./colNum"
                         xtype="numberfield"/>
                     <radiogp
                         jcr:primaryType="cq:Widget"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     height="{Long}600"
     title="Badge Explorer"
@@ -18,17 +18,17 @@
                         fieldLabel="Component Title"
                         name="./componentTitle"
                         xtype="textfield"/>
-                    <badgePath xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-					    jcr:primaryType="cq:Widget"
-					    fieldDescription="For example: /content/dam/girlscouts-gsusa/images/Badges"
+                    <badgePath
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="For example: /content/dam/girlscouts-gsusa/images/Badges"
                         fieldLabel="Badge Image Path"
-					    name="./badgePaths"
-					    xtype="multifield">
-						<fieldConfig
-	                        jcr:primaryType="nt:unstructured"
-	                        rootPath="/content/dam/girlscouts-gsusa"
-	                        xtype="pathfield"/>
-					</badgePath>
+                        name="./badgePaths"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="nt:unstructured"
+                            rootPath="/content/dam/girlscouts-gsusa"
+                            xtype="pathfield"/>
+                    </badgePath>
                 </items>
             </tab0>
         </items>

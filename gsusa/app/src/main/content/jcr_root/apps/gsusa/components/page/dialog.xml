@@ -64,11 +64,11 @@
                         </is-cookie-page>
                         <is-content-hub
                             jcr:primaryType="cq:Widget"
+                            defaultValue="derived"
                             fieldDescription="Article pages in content hub follows different logic for the left navigation"
                             fieldLabel="Is Content Hub Repository"
                             name="./isContentHub"
                             type="radio"
-                            defaultValue="derived"
                             value="derived"
                             xtype="selection">
                             <options jcr:primaryType="cq:WidgetCollection">
@@ -88,16 +88,16 @@
                         </is-content-hub>
                         <ogtitle
                             jcr:primaryType="cq:Widget"
-                            fieldLabel="og:title"
                             fieldDescription="Default: SEO Title"
+                            fieldLabel="og:title"
                             name="./ogTitle"/>
                         <ogsitename
                             jcr:primaryType="cq:Widget"
-                            fieldLabel="og:site_name"
-                            fieldDescription="Default: Girl Scouts of the USA"
-                            value="Girl Scouts of the USA"
                             defaultValue="Girl Scouts of the USA"
-                            name="./ogSiteName"/>
+                            fieldDescription="Default: Girl Scouts of the USA"
+                            fieldLabel="og:site_name"
+                            name="./ogSiteName"
+                            value="Girl Scouts of the USA"/>
                         <ogurl
                             jcr:primaryType="cq:Widget"
                             fieldLabel="og:url"
@@ -109,27 +109,27 @@
                         <ogimage
                             jcr:primaryType="cq:Widget"
                             fieldLabel="og:image"
+                            name="./ogImage"
                             rootPath="/content/dam/girlscouts-gsusa"
-                            xtype="pathfield"
-                            name="./ogImage"/>
+                            xtype="pathfield"/>
                         <fbappid
                             jcr:primaryType="cq:Widget"
-                            fieldLabel="fb:app_id"
                             fieldDescription="Default: 419540344831322 "
+                            fieldLabel="fb:app_id"
                             name="./fbAppId"/>
                         <openInNewWindow
                             jcr:primaryType="nt:unstructured"
-                            fieldLabel="Open in new window"
-                            fieldDescription="Left nav only"
-                            value="false"
                             defaultValue="false"
+                            fieldDescription="Left nav only"
+                            fieldLabel="Open in new window"
                             name="./openInNewWindow"
+                            value="false"
                             xtype="selection">
                             <options jcr:primaryType="cq:WidgetCollection">
-                                <true 
+                                <true
                                     jcr:primaryType="cq:Widget"
                                     text="True"
-                                    value="true"/> 
+                                    value="true"/>
                                 <false
                                     jcr:primaryType="cq:Widget"
                                     text="False"

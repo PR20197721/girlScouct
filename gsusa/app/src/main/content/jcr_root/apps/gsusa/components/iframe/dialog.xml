@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     xtype="dialog">
     <items
@@ -10,12 +10,12 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<src
-                		jcr:primaryType="cq:Widget"
-                		fieldDescription="Please enter the URL of the site"
-                		fieldLabel="URL"
-                		name="./src"
-                		xtype="textfield"/>
+                    <src
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Please enter the URL of the site"
+                        fieldLabel="URL"
+                        name="./src"
+                        xtype="textfield"/>
                     <width
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Enter the width of the iframe. Include 'px' or '%' at the end or it will default to pixels. Default is 100%"
@@ -29,67 +29,67 @@
                         name="./height"
                         xtype="textfield"/>
                     <scrolling
-                    	jcr:primaryType="cq:Widget"
-                    	fieldDescription="Check to allow scrolling"
-                    	fieldLabel="Scrolling"
-                    	name="./scrolling"
-                    	value="Auto"
-                    	defaultValue="Auto"
-                    	type="select"
-                    	xtype="selection">
-                    	<options jcr:primaryType="cq:WidgetCollection">
-	                    	<auto
-	                    		jcr:primaryType="nt:unstructured"
-	                    		text="Auto"
-	                    		value="auto"/>
-                    		<yes
-                    			jcr:primaryType="nt:unstructured"
-                    			text="Yes"
-                    			value="yes"/>
-                    		<no
-                    			jcr:primaryType="nt:unstructured"
-                    			text="No"
-                    			value="no"/>
-                    	</options>
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="Auto"
+                        fieldDescription="Check to allow scrolling"
+                        fieldLabel="Scrolling"
+                        name="./scrolling"
+                        type="select"
+                        value="Auto"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <auto
+                                jcr:primaryType="nt:unstructured"
+                                text="Auto"
+                                value="auto"/>
+                            <yes
+                                jcr:primaryType="nt:unstructured"
+                                text="Yes"
+                                value="yes"/>
+                            <no
+                                jcr:primaryType="nt:unstructured"
+                                text="No"
+                                value="no"/>
+                        </options>
                     </scrolling>
-                   	<frame-border
-                   		jcr:primaryType="cq:Widget"
-                   		fieldDescription="Check to give the frame a border"
-                   		fieldLabel="Border"
-                   		name="./frame-border"
-                   		type="checkbox"
-                    	xtype="selection"/>    
+                    <frame-border
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Check to give the frame a border"
+                        fieldLabel="Border"
+                        name="./frame-border"
+                        type="checkbox"
+                        xtype="selection"/>
                 </items>
             </properties>
             <design
-            	jcr:primaryType="cq:Panel"
-            	title="Design">
-            	<items jcr:primaryType="cq:WidgetCollection">
-            		<outer-css
-            			jcr:primaryType="cq:Widget"
-            			fieldDescription="Enter inline CSS for the iframe container, separated by semi-colons. Note: width, height, overflow, and position are handled automatically"
-            			fieldLabel="Outer Frame CSS"
-            			name="./outer-css"
-            			xtype="textfield"/>
-            		<inner-css
-            			jcr:primaryType="cq:Widget"
-            			fieldDescription="Enter inline CSS for the iframe content, separated by semi-colons, possibly including width, height, top, and left"
-            			fieldLabel="Inner Frame CSS"
-            			name="./inner-css"
-            			xtype="textfield"/>
-            		<outer-class
-            			jcr:primaryType="cq:Widget"
-            			fieldDescription="Insert CSS classes for the iframe container, separated by spaces"
-            			fieldLabel="Outer Frame Classes"
-            			name="./outer-class"
-            			xtype="textfield"/>
-            		<inner-class
-            			jcr:primaryType="cq:Widget"
-            			fieldDescription="Insert CSS classes for the iframe content, separated by spaces"
-            			fieldLabel="Inner Frame Classes"
-            			name="./inner-class"
-            			xtype="textfield"/>
-            	</items>
+                jcr:primaryType="cq:Panel"
+                title="Design">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <outer-css
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Enter inline CSS for the iframe container, separated by semi-colons. Note: width, height, overflow, and position are handled automatically"
+                        fieldLabel="Outer Frame CSS"
+                        name="./outer-css"
+                        xtype="textfield"/>
+                    <inner-css
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Enter inline CSS for the iframe content, separated by semi-colons, possibly including width, height, top, and left"
+                        fieldLabel="Inner Frame CSS"
+                        name="./inner-css"
+                        xtype="textfield"/>
+                    <outer-class
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Insert CSS classes for the iframe container, separated by spaces"
+                        fieldLabel="Outer Frame Classes"
+                        name="./outer-class"
+                        xtype="textfield"/>
+                    <inner-class
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Insert CSS classes for the iframe content, separated by spaces"
+                        fieldLabel="Inner Frame Classes"
+                        name="./inner-class"
+                        xtype="textfield"/>
+                </items>
             </design>
         </items>
     </items>

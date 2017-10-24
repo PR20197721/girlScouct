@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Booth Finder"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <tab1
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Booth Finder"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <num-per-page
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                fieldDescription="Number of booths shown on each page"
+                                fieldLabel="Number of Booths Per Page"
+                                name="./numPerPage"/>
+                        </items>
+                    </columns>
+                </items>
+            </tab1>
+            <path1
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Path 1"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <text/>
+                            <showShareDialog
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./path1ShowShareDialog"
+                                text="Show Share Dialog"/>
+                            <showsharedialog-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./path1ShowShareDialog@Delete"
+                                value="{Boolean}true"/>
+                            <shareDialogHeader/>
+                            <shareDialogDescription/>
+                            <shareDialogTweet/>
+                            <shareDialogImg
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                fieldLabel="Image"
+                                name="./path1ShareDialogImagePath"
+                                rootPath="/content/dam"/>
+                        </items>
+                    </columns>
+                </items>
+            </path1>
+            <path2
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Path 2"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <text/>
+                            <showShareDialog
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./path2ShowShareDialog"
+                                text="Show Share Dialog"/>
+                            <showsharedialog-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./path2ShowShareDialog@Delete"
+                                value="{Boolean}true"/>
+                            <shareDialogHeader/>
+                            <shareDialogDescription/>
+                            <shareDialogTweet/>
+                            <shareDialogImg
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                fieldLabel="Image"
+                                name="./path2ShareDialogImagePath"
+                                rootPath="/content/dam"/>
+                        </items>
+                    </columns>
+                </items>
+            </path2>
+            <path4
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Path 4"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <text/>
+                            <showShareDialog
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./path4ShowShareDialog"
+                                text="Show Share Dialog"/>
+                            <showsharedialog-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./path4ShowShareDialog@Delete"
+                                value="{Boolean}true"/>
+                            <shareDialogHeader/>
+                            <shareDialogDescription/>
+                            <shareDialogTweet/>
+                            <shareDialogImg
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                fieldLabel="Image"
+                                name="./path4ShareDialogImagePath"
+                                rootPath="/content/dam"/>
+                        </items>
+                    </columns>
+                </items>
+            </path4>
+            <path5
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Path 5"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <text/>
+                            <showShareDialog
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./path5ShowShareDialog"
+                                text="Show Share Dialog"/>
+                            <showsharedialog-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./path5ShowShareDialog@Delete"
+                                value="{Boolean}true"/>
+                            <shareDialogHeader/>
+                            <shareDialogDescription/>
+                            <shareDialogTweet/>
+                            <shareDialogModImg
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                fieldDescription="This image will appear in the popup modal"
+                                fieldLabel="Modal Image"
+                                name="./path5ShareDialogModImagePath"
+                                rootPath="/content/dam"/>
+                            <shareDialogShareImg
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                fieldDescription="This image will be used by facebook when sharing the page"
+                                fieldLabel="Image to Share"
+                                name="./path5ShareDialogShareImagePath"
+                                rootPath="/content/dam"/>
+                        </items>
+                    </columns>
+                </items>
+            </path5>
+            <mapModal
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Map Modal"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <mapFBTitle/>
+                            <mapFBDesc/>
+                            <mapTweet/>
+                            <mapFBImg
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                fieldDescription="This image will be used by facebook when sharing the page"
+                                fieldLabel="Image to Share"
+                                name="./mapFBImgPath"
+                                rootPath="/content/dam"/>
+                            <mapGoogleAPI
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Google Maps API key to show map"
+                                fieldLabel="Google Maps API"
+                                name="./mapAPI"/>
+                        </items>
+                    </columns>
+                </items>
+            </mapModal>
+            <not-found
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Not Found"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <text/>
+                        </items>
+                    </columns>
+                </items>
+            </not-found>
+        </items>
+    </content>
+</jcr:root>

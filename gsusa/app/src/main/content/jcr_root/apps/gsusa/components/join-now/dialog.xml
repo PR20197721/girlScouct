@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     title="Join"
     width="{Long}1000"
@@ -36,13 +36,12 @@
                         name="./mainTitle"
                         xtype="textfield"/>
                     <showverticalrule
-                    	jcr:primaryType="cq:Widget"
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Default: false"
                         fieldLabel="Show Vertical Rule"
                         name="./showverticalrule"
-                        fieldDescription="Default: false"
                         type="checkbox"
-                		xtype="selection">
-                    </showverticalrule>
+                        xtype="selection"/>
                     <text
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Content"
@@ -94,54 +93,54 @@
                                 </linkDialogConfig>
                             </links>
                             <misctools
-	                            jcr:primaryType="nt:unstructured"
-	                            features="*"/>
-	                        <edit
-	                            jcr:primaryType="nt:unstructured"
-	                            features="[paste-plaintext,paste-wordhtml]"/>
-	                        <findreplace
-	                            jcr:primaryType="nt:unstructured"
-	                            features="*"/>
-	                        <format
-	                            jcr:primaryType="nt:unstructured"
-	                            features="*"/>
-	                        <image
-	                            jcr:primaryType="nt:unstructured"
-	                            features="*"/>
-	                        <keys
-	                            jcr:primaryType="nt:unstructured"
-	                            features="*"/>
-	                        <justify
-	                            jcr:primaryType="nt:unstructured"
-	                            features="*"/>
-	                        <lists
-	                            jcr:primaryType="nt:unstructured"
-	                            features="*"/>
-	                        <paraformat
-                            jcr:primaryType="nt:unstructured"
-                            features="*">
-                            <formats jcr:primaryType="cq:WidgetCollection">
-                                <p
-                                    jcr:primaryType="nt:unstructured"
-                                    description="Paragraph"
-                                    tag="p"/>
-                                <h1
-                                	jcr:primaryType="nt:unstructured"
-                                	description="Header 1"
-                                	tag="h1"/>
-								<h2
-                                	jcr:primaryType="nt:unstructured"
-                                	description="Header 2"
-                                	tag="h2"/>
-                                <h3
-                                	jcr:primaryType="nt:unstructured"
-                                	description="Header 3"
-                                	tag="h3"/>
-                            </formats>
-                        </paraformat>
-                        <spellcheck
-                            jcr:primaryType="nt:unstructured"
-                            features="*"/>
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
+                            <edit
+                                jcr:primaryType="nt:unstructured"
+                                features="[paste-plaintext,paste-wordhtml]"/>
+                            <findreplace
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
+                            <format
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
+                            <image
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
+                            <keys
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
+                            <justify
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
+                            <lists
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
+                            <paraformat
+                                jcr:primaryType="nt:unstructured"
+                                features="*">
+                                <formats jcr:primaryType="cq:WidgetCollection">
+                                    <p
+                                        jcr:primaryType="nt:unstructured"
+                                        description="Paragraph"
+                                        tag="p"/>
+                                    <h1
+                                        jcr:primaryType="nt:unstructured"
+                                        description="Header 1"
+                                        tag="h1"/>
+                                    <h2
+                                        jcr:primaryType="nt:unstructured"
+                                        description="Header 2"
+                                        tag="h2"/>
+                                    <h3
+                                        jcr:primaryType="nt:unstructured"
+                                        description="Header 3"
+                                        tag="h3"/>
+                                </formats>
+                            </paraformat>
+                            <spellcheck
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
                         </rtePlugins>
                     </text>
                     <isRichTextFlag
@@ -176,21 +175,21 @@
                 jcr:primaryType="cq:Panel"
                 title="Advanced Settings">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<max-width
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Max Width (in px)"
-                		fieldDescription="Default is 210px"
-                		name="./maxWidth"
-                		minValue="{Long}0"
-                		xtype="numberfield"/>
+                    <max-width
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Default is 210px"
+                        fieldLabel="Max Width (in px)"
+                        minValue="{Long}0"
+                        name="./maxWidth"
+                        xtype="numberfield"/>
                     <source
                         jcr:primaryType="cq:Widget"
                         defaultValue="not_set"
                         fieldLabel="Source"
-                        name="./source"
-                        value="not_set"
                         maxLength="25"
                         maxLengthText="The source cannot be longer than 25 characters"
+                        name="./source"
+                        value="not_set"
                         xtype="textfield"/>
                 </items>
             </tab2>

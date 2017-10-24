@@ -15,22 +15,22 @@
                     <title
                         jcr:primaryType="cq:Widget"
                         defaultValue="Install"
-                        value="Install"
                         fieldLabel="Title"
                         name="./title"
+                        value="Install"
                         xtype="textfield"/>
                     <desc
                         jcr:primaryType="cq:Widget"
                         defaultValue="The official Girl Scout Cookie Finder App"
-                        value="The official Girl Scout Cookie Finder App"
                         fieldLabel="Description"
                         name="./description"
+                        value="The official Girl Scout Cookie Finder App"
                         xtype="textarea"/>
                     <icon
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Icon"
-                        xtype="iconpicker"
-                        name="./icon"/>
+                        name="./icon"
+                        xtype="iconpicker"/>
                     <background-color
                         jcr:primaryType="cq:Widget"
                         colors="[FAA61A,F27536,EC008C,AB218E,00AAE5,C4D82E]"
@@ -43,10 +43,10 @@
                         name="./apple"
                         xtype="shoplink"/>
                     <google
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Google Play"
-                    	name="./google"
-                    	xtype="shoplink"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Google Play"
+                        name="./google"
+                        xtype="shoplink"/>
                 </items>
             </tab1>
         </items>

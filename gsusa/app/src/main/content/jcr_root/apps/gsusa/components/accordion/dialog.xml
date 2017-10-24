@@ -23,8 +23,7 @@
                             removeditem="function(field){girlscouts.functions.deleteaccordion(field)}"/>
                         <fieldConfig
                             jcr:primaryType="nt:unstructured"
-                            xtype="accordionfield">
-                       </fieldConfig>
+                            xtype="accordionfield"/>
                     </children>
                 </items>
             </tab1>

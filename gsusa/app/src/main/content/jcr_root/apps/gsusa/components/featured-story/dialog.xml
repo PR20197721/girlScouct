@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
+    height="{Long}500"
     title="Header Navigation"
     width="{Long}1000"
-    height="{Long}500"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -24,8 +24,8 @@
                     <icon
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Icon"
-                        xtype="iconpicker"
-                        name="./icon"/>
+                        name="./icon"
+                        xtype="iconpicker"/>
                     <background-color
                         jcr:primaryType="cq:Widget"
                         colors="[FAA61A,F27536,EC008C,AB218E,00AAE5,C4D82E]"
@@ -34,41 +34,41 @@
                         xtype="colorfield"/>
                     <no-padding
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="No Padding"
                         fieldDescription="The popup tile will have no padding if checked."
+                        fieldLabel="No Padding"
                         name="./noPadding"
                         type="checkbox"
                         xtype="selection"/>
                     <theme
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Theme"
-                    	name="./theme"
-                    	type="select"
-    			xtype="selection"
-    			value="classic"
-    			defaultValue="classic">
-                    	<options jcr:primaryType="cq:WidgetCollection">
-				<classic
-					jcr:primaryType="nt:unstructured"
-					text="Classic"
-					value="classic"/>
-				<colorless-background
-					jcr:primaryType="nt:unstructured"
-					text="Colorless Background"
-					value="colorless"/>	
-				<shop
-					jcr:primaryType="nt:unstructured"
-					text="Shop"
-					value="shop"/>
-				<social
-					jcr:primaryType="nt:unstructured"
-					text="Social"
-					value="social"/>
-				<video
-					jcr:primaryType="nt:unstructured"
-					text="Video"
-					value="video"/>
-			</options>
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="classic"
+                        fieldLabel="Theme"
+                        name="./theme"
+                        type="select"
+                        value="classic"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <classic
+                                jcr:primaryType="nt:unstructured"
+                                text="Classic"
+                                value="classic"/>
+                            <colorless-background
+                                jcr:primaryType="nt:unstructured"
+                                text="Colorless Background"
+                                value="colorless"/>
+                            <shop
+                                jcr:primaryType="nt:unstructured"
+                                text="Shop"
+                                value="shop"/>
+                            <social
+                                jcr:primaryType="nt:unstructured"
+                                text="Social"
+                                value="social"/>
+                            <video
+                                jcr:primaryType="nt:unstructured"
+                                text="Video"
+                                value="video"/>
+                        </options>
                     </theme>
                     <text
                         jcr:primaryType="cq:Widget"
@@ -121,25 +121,25 @@
                                 </linkDialogConfig>
                             </links>
                             <justify
-	                            jcr:primaryType="nt:unstructured"
-	                            features="*"/>
-	                        <paraformat
-                            jcr:primaryType="nt:unstructured"
-                            features="*">
-                            <formats jcr:primaryType="cq:WidgetCollection">
-                                <p
-                                    jcr:primaryType="nt:unstructured"
-                                    description="Paragraph"
-                                    tag="p"/>
-                                <h3
-                                	jcr:primaryType="nt:unstructured"
-                                	description="Header 3"
-                                	tag="h3"/>
-                            </formats>
-                        </paraformat>
-                        <spellcheck
-                            jcr:primaryType="nt:unstructured"
-                            features="*"/>
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
+                            <paraformat
+                                jcr:primaryType="nt:unstructured"
+                                features="*">
+                                <formats jcr:primaryType="cq:WidgetCollection">
+                                    <p
+                                        jcr:primaryType="nt:unstructured"
+                                        description="Paragraph"
+                                        tag="p"/>
+                                    <h3
+                                        jcr:primaryType="nt:unstructured"
+                                        description="Header 3"
+                                        tag="h3"/>
+                                </formats>
+                            </paraformat>
+                            <spellcheck
+                                jcr:primaryType="nt:unstructured"
+                                features="*"/>
                         </rtePlugins>
                     </text>
                     <isRichTextFlag
@@ -149,19 +149,19 @@
                         value="true"
                         xtype="hidden"/>
                     <button-text
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Button Text"
-                    	fieldDescription="For applicable themes, please select the text to appear in the button"
-                    	name="./buttonText"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="For applicable themes, please select the text to appear in the button"
+                        fieldLabel="Button Text"
+                        name="./buttonText"
+                        xtype="textfield"/>
                     <button-link
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Button Link"
-                    	fieldDescription="For applicable themes, please enter the url the button will link to"
-                    	name="./buttonLink"
-                    	linkPattern="\{0\}.html"
-                    	rootPath="/content/gsusa/en"
-                    	xtype="pathfield" />
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="For applicable themes, please enter the url the button will link to"
+                        fieldLabel="Button Link"
+                        linkPattern="\{0}.html"
+                        name="./buttonLink"
+                        rootPath="/content/gsusa/en"
+                        xtype="pathfield"/>
                 </items>
             </tab1>
             <background-image

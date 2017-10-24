@@ -10,24 +10,24 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<local
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Display Local Invest Option - By Zipcode"
-                		name="./local"
-                		type="checkbox"
-                		xtype="selection"/>
-                	<national
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Display National Invest Option"
-                		name="./national"
-                		type="checkbox"
-                		xtype="selection"/>
-                	<link
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Enter the URL for the national option"
-                		name="./link"
-                		linkPattern="\{0\}.html"
-                		xtype="pathfield"/>
+                    <local
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Display Local Invest Option - By Zipcode"
+                        name="./local"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <national
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Display National Invest Option"
+                        name="./national"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <link
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Enter the URL for the national option"
+                        linkPattern="\{0}.html"
+                        name="./link"
+                        xtype="pathfield"/>
                 </items>
             </properties>
         </items>

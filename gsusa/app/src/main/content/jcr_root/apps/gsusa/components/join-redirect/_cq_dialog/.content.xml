@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <main
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Join Redirect"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <type/>
+                            <source
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Idenfiable name to describe where redirect came from"
+                                fieldLabel="Source"
+                                name="./source"/>
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Call To Action"
+                                fieldLabel="Text"
+                                name="./text"/>
+                            <textcolor
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Background color in HEX ex. #FFFFFF"
+                                fieldLabel="Text Color"
+                                name="./textcolor"/>
+                            <images
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/multifield"
+                                fieldDescription="Images for the slider"
+                                fieldLabel="Slider Images">
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                    name="./images"
+                                    rootPath="/content/dam"/>
+                            </images>
+                            <autoplayspeed
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                defaultValue="2000"
+                                fieldDescription="Default: 1000, Min: 20, Max: 10000"
+                                fieldLabel="Speed of the slider (in ms)"
+                                max="10000"
+                                min="20"
+                                name="./autoplayspeed"/>
+                            <speed
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                defaultValue="500"
+                                fieldDescription="Default: 2000, Min: 20, Max: 10000"
+                                fieldLabel="Transition Time of the slider (in ms)"
+                                max="10000"
+                                min="20"
+                                name="./speed"/>
+                        </items>
+                    </columns>
+                </items>
+            </main>
+            <mobile
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Join Redirect Mobile"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <textmobile
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Call to Action"
+                                fieldLabel="Mobile Text"
+                                name="./textmobile"/>
+                            <backgroundcolor
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Background color in HEX ex. #FFFFFF"
+                                fieldLabel="Background Color"
+                                name="./backgroundcolor"/>
+                        </items>
+                    </columns>
+                </items>
+            </mobile>
+            <logo/>
+            <logomobile/>
+            <bannermobile/>
+        </items>
+    </content>
+</jcr:root>

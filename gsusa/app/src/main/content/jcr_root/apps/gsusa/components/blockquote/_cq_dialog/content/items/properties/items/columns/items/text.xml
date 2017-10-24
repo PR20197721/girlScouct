@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Widget"
+    height="200"
+    name="./text"
+    xtype="richtext">
+    <listeners
+        jcr:primaryType="nt:unstructured"
+        destroy="function() {this.el.dom={};}"/>
+    <rtePlugins jcr:primaryType="nt:unstructured">
+        <links jcr:primaryType="nt:unstructured">
+            <linkDialogConfig
+                jcr:primaryType="nt:unstructured"
+                height="{Long}316">
+                <linkAttributes jcr:primaryType="cq:WidgetCollection">
+                    <linkAdvanced
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Link tracking"
+                        sling:resourceType="granite/ui/components/foundation/form/fieldset"
+                        title="Link tracking">
+                        <items jcr:primaryType="nt:unstructured">
+                            <enable
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                fieldDescription="override analytics framework settings"
+                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+                                text="Custom link tracking"/>
+                            <enable-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking@Delete"
+                                value="{Boolean}true"/>
+                            <events
+                                jcr:primaryType="nt:unstructured"
+                                attribute="adhocevents"
+                                fieldDescription="e.g.: event2, event7"
+                                fieldLabel="Include SiteCatalyst events"
+                                name="./linkdialog/cq:adhocLinkTrackingEvents"
+                                xtype="textfield"/>
+                            <evars
+                                jcr:primaryType="nt:unstructured"
+                                attribute="adhocevars"
+                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+                                fieldLabel="Include SiteCatalyst variables"
+                                name="./linkdialog/cq:adhocLinkTrackingEvars"
+                                xtype="textfield"/>
+                        </items>
+                    </linkAdvanced>
+                </linkAttributes>
+            </linkDialogConfig>
+        </links>
+        <justify
+            jcr:primaryType="nt:unstructured"
+            features="*"/>
+        <spellcheck
+            jcr:primaryType="nt:unstructured"
+            features="*"/>
+    </rtePlugins>
+</jcr:root>

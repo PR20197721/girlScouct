@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
     xtype="dialog">
     <items
@@ -12,8 +12,8 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <text
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Text"
                         fieldDescription="Text above the camp finder field"
+                        fieldLabel="Text"
                         name="./text"
                         xtype="textarea"/>
                     <result-page
