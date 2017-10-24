@@ -1175,7 +1175,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				activity.setName(r.getValue("child.srchdisp").getString());
+				//activity.setName(r.getValue("child.srchdisp").getString());
 				activity.setName(r.getValue("parent.jcr:title").getString());
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT" + i);
@@ -1772,7 +1772,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				activity.setName(r.getValue("child.srchdisp").getString());
+				//activity.setName(r.getValue("child.srchdisp").getString());
 				activity.setName(r.getValue("parent.jcr:title").getString());
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT" + i);
