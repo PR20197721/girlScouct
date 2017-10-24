@@ -232,7 +232,7 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 		if(isMore && !isProcessing){
 			isProcessing = true;
 			loader.show();
-			$.getJSON(path+eventsOffset+".json", function (data) {
+			$.getJSON(path+eventsOffset+".html", function (data) {
 				try{
 					if(parseInt(data.resultCount,10) < 10){
 						isMore=false;
