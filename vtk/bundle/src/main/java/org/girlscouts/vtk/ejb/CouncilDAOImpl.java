@@ -521,7 +521,7 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 	        cTrans.put("687", "Eastern Washington and Northern Idaho");
 	        cTrans.put("441", "Southwest Indiana");
 	        cTrans.put("238", "Ohio's Heartland");
-	        
+	       
 	        
 		StringBuffer sb= new StringBuffer();
 		try{
@@ -580,7 +580,7 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 	}
 		//save to db
 		String rptId= councilRpt.saveRpt( sb );
-System.err.println("TESt: " + sb.toString());
+
 		//email rpt
 		councilRpt.emailRpt( sb.toString(), "GS Monthly Report" ); //"/vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
 	}
@@ -843,11 +843,14 @@ System.err.println("TESt: " + sb.toString());
 		            java.util.Date submitTime=null;
 		            try{
 			            String timePath = VtkUtil.getYearPlanBase(null, null) +""+councilId +"/finances/template";
-			            if( !session.itemExists(timePath)) continue;
+			            String timePathFinalized = VtkUtil.getYearPlanBase(null, null) +""+councilId +"/finances/finalized";
+			            if( !session.itemExists(timePathFinalized)) continue;
 			            Node infoNode = session.getNode( timePath );
 			            if( infoNode!=null){
 			            	try{ submitTime = new java.util.Date( infoNode.getProperty("submitTime").getLong() ); }catch(Exception e){}
 			            }
+			            
+			            
 		            }catch(Exception e){
 		            	e.printStackTrace();
 		            }

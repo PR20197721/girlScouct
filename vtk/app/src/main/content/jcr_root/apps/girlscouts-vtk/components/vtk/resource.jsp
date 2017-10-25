@@ -308,13 +308,39 @@
         builder.append("<img src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png\" width=\"40\" height=\"40\" border=\"0\"> ");
 
         builder.append("</td>");
-        builder.append("<td><a class=\"previewItem\" href=\""+ path   +"\" target=\"_blank\">"+ rootPage.getTitle() +"</a></td>");
+        builder.append("<td><a class=\"previewItem\" href=\""+ path   +"\" target=\"_blank\">"+ rootPage.getTitle()+ "</a></td>");
 
 		Iterator<Page> iter = rootPage.listChildren();
 		while (iter.hasNext()) {
 			Page childPage = iter.next();
 			displayAllChildren_pdf_fmt(childPage, builder, xssAPI);
         }
+
+		builder.append("</tr>");
+
+
+	}
+
+    private void displayAllChildren_pdf_fmt(Resource rootPage, StringBuilder builder,
+			com.adobe.granite.xss.XSSAPI xssAPI) {
+
+		String path = rootPage.getPath();
+        Node thisPdf = null;
+        String pdfName=null;
+        try{ 
+            thisPdf = rootPage.adaptTo(Node.class);//path +"/jcr:content/metadata");
+            if( thisPdf==null) return;
+
+            pdfName= thisPdf.getProperty("jcr:content/metadata/dc:title").getString();
+           }catch(Exception e){e.printStackTrace();}
+        builder.append("<tr>"+
+                       "<td width=\"40\">");
+
+        builder.append("<img src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png\" width=\"40\" height=\"40\" border=\"0\"> ");
+
+        builder.append("</td>");
+        builder.append("<td><a class=\"previewItem\" href=\""+ path   +"\" target=\"_blank\"> "+pdfName+" </a></td>");
+
 
 		builder.append("</tr>");
 
