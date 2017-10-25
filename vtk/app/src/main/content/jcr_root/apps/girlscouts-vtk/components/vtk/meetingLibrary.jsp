@@ -1106,7 +1106,9 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			document.getElementById("levelNav_"+ x.id.split(';')[3]).style.display = "inline";
 		 }
 	   }
-
+       // "1" - filter by level checked.
+       // "2" - filter by type selected
+       // "3" - filter by category checked/selected
        if( clickSrc==2 || clickSrc==3) {
             var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
             typeSelected= typeSelected.replace('/',' ').replace('_',' ');
