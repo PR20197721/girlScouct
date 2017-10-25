@@ -15,10 +15,12 @@
                                 <th colspan="3"><%=categoryPage.getTitle()%></th>
                             </tr><%
 
+                            Resource r1 = resourceResolver.resolve(categoryPage.getProperties().get("refPath", ""));
+
 							StringBuilder builder = new StringBuilder();
-                            Iterator<Page> resIter = categoryPage.listChildren();
+                            Iterator<Resource> resIter = r1.listChildren();
                             while (resIter.hasNext()) {
-                                Page resPage = resIter.next();
+                                Resource resPage = resIter.next();
                                 displayAllChildren_pdf_fmt(resPage, builder, xssAPI);
                             }
             				%><%=builder.toString()%><%
