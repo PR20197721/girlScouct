@@ -27,7 +27,7 @@ public String generateId() {
 		<span class="icon-social-instagram"></span>
 	    <div class="feed-block">
 	        <div class="block-area">
-				<div class="instagram-feed-image-head-area centered"></div>
+				<div class="instagram-feed-image-pinned-area centered"></div>
 		        <ul class="instagram-feed-image-area"></ul>
 		    </div>
 		    <p class="centered"><a href="https://instagram.com/girlscouts/" title="see more on instagram">See more</a></p>
@@ -41,7 +41,7 @@ function processInstagram(el, data) {
 	if (data.items != undefined) {
 
 		var feedID = $("#" + el);
-		var feedHeadArea = $(feedID).find(".instagram-feed-image-head-area");
+		var feedHeadArea = $(feedID).find(".instagram-feed-image-pinned-area");
 	    var feedArea = $(feedID).find(".instagram-feed-image-area");
 
 	    var posts = [];
