@@ -946,21 +946,15 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 									value="<%=meeting.getPath()%>"/>
                             <%}//edn if%>
 							<label for="<%=meeting.getPath()%>_<%=i%>"><span></span>
-							<%if( request.getParameter("newCustYr")!=null){ %>
-								   <p onclick="createCustPlan('<%=meeting.getPath()%>')">Select Meeting</p>
-							  <%}else{ %>
-								   <p onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</p>
-							  <%}//end else %>
-
-
+								<%if( request.getParameter("newCustYr")!=null){ %>
+								   <p  class="select-meeting-withaction" style="display:none" onclick="createCustPlan('<%=meeting.getPath()%>')">SELECT MEETING</p>
+							  	<%}else{ %>
+								   <p class="select-meeting-withaction" style="display:none" onclick="cngMeeting('<%=meeting.getPath()%>')">SELECT MEETING</p>
+								  <%}//end else %> 
+								
+								<p class="select-meeting-withoutaction" style="display:none">SELECT MEETING</p>
 							</label>
 							</div>
-						   
-
-							
-							 
-				
-							
 				<% } else {%>
 				  <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
 
@@ -1097,8 +1091,10 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			document.getElementById("levelNav_"+ x.id.split(';')[3]).style.display = "inline";
 		 }
 	   }
-
-       if( clickSrc==2) {
+       // "1" - filter by level checked.
+       // "2" - filter by type selected
+       // "3" - filter by category checked/selected
+       if( clickSrc==2 || clickSrc==3) {
             var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
             typeSelected= typeSelected.replace('/',' ').replace('_',' ');
 
@@ -1360,6 +1356,17 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 	// })
+
+	//after page load check if the Is_add_meeting to show our hide  
+	$(function(){
+		if(is_add_meeting){
+			$('.select-meeting-withoutaction').show();
+			$('.select-meeting-withaction').hide();
+		}else{
+			$('.select-meeting-withaction').show();
+			$('.select-meeting-withoutaction').hide();
+		}
+	})
 </script>
 
 

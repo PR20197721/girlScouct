@@ -1,3 +1,6 @@
+var is_add_meeting;
+
+
 function loadMeetings() {
     var url = '/content/girlscouts-vtk/controllers/vtk.meetingInclude.html';
     $("#yearPlanMeetings").load(url, resizeWindow);
@@ -759,14 +762,19 @@ function bindAssetToYPC(assetId, ypcId) {
 
 
 function doMeetingLib(isMsgConf) {
-	
+    is_add_meeting = true;
     if (!isMsgConf) {
 
         if (!confirm("This action will create a meeting outside of the current GirlScouts school year. Would you like to proceed?")) {
             return;
         }
     }
-    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false);
+    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false); 
+}
+
+function replaceDoMeetingLib(path) { 
+    is_add_meeting = false;
+    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath='+path, false, null, true)
 }
 
 function doHelp(isSched) {
