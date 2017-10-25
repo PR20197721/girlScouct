@@ -848,7 +848,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
      <%if(request.getParameter("isReplaceMeeting")==null){%>
-      <input class="button tiny" type="button" value="CLEAR" onclick="clearList()" />
+      <input class="button tiny inactive-button clear-meeting-filter-result" type="button" value="CLEAR" onclick="clearList()" />
 	  <%if( request.getParameter("newCustYr")!=null){ %>
 		   <input class="button tiny inactive-button add-to-year-plan" type="button" value="ADD TO YEAR PLAN"  onclick="createCustPlan(null)"/>
 	  <%}else{ %>
@@ -1004,8 +1004,11 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		var arraylist =  Array.prototype.slice.call(document.getElementsByName('addMeetingMulti'))
 
 		arraylist.forEach(function(element){
-			element.removeAttribute('checked');
-			element.checked=false;
+			if(element.checked){
+				element.removeAttribute('checked');
+				element.checked=false;
+			}
+			
 		})
 
 		checkAddMeetingMulti();
@@ -1019,9 +1022,9 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		});
 	
 		if(_hasOneCheck){
-			$('.add-to-year-plan').removeClass('inactive-button');
+			$('.add-to-year-plan,.clear-meeting-filter-result').removeClass('inactive-button');
 		}else{
-			$('.add-to-year-plan').addClass('inactive-button');
+			$('.add-to-year-plan,.clear-meeting-filter-result').addClass('inactive-button');
 		}
 	}
 
