@@ -331,7 +331,7 @@
             thisPdf = rootPage.adaptTo(Node.class);//path +"/jcr:content/metadata");
             if( thisPdf==null) return;
 
-            pdfName= thisPdf.getProperty("jcr:content/metadata/dc:name").getString();
+            pdfName= thisPdf.getProperty("jcr:content/metadata/dc:title").getString();
            }catch(Exception e){e.printStackTrace();}
         builder.append("<tr>"+
                        "<td width=\"40\">");
