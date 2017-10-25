@@ -24,9 +24,9 @@
 		%>
 		<tr>
 		  <td>
-		   <% if( date!=null && date.after( new java.util.Date() ) ){%>
+		  
 		    <a onclick="manageCalElem('<%=date.getTime()%>');" title="calendar"><i class="icon-calendar"></i></a>
-		   <%} %>
+		 
 		   </td>
 		  <td><span><%=currentMeeting %></span></td>
 		  <td><span><%= VtkUtil.formatDate(VtkUtil.FORMAT_CALENDAR_DATE,  date ) %></span></td>
