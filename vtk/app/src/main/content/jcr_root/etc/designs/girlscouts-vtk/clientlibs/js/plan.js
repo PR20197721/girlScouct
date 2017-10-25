@@ -1,4 +1,4 @@
-var is_add_meeting;
+var is_add_meeting=false;
 
 
 function loadMeetings() {
