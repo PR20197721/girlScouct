@@ -1,36 +1,48 @@
 <%@include file="/libs/foundation/global.jsp"%>
-<%@page import="org.apache.sling.commons.json.*, java.io.*, java.net.*" %>
+<%@page import="org.apache.sling.commons.json.*, 
+				java.io.*, 
+				java.net.*,
+				java.util.Random" %>
+
+<%!
+public String generateId() {
+	Random rand = new Random();
+	String possibleLetters = "abcdefghijklmnopqrstuvwxyz";
+	StringBuilder sb = new StringBuilder(6);
+	for(int i = 0; i < 4; i++)
+	    sb.append(possibleLetters.charAt(rand.nextInt(possibleLetters.length())));
+	return sb.toString();
+}
+%>
 
 <%
 	String url = properties.get("url", "");
 	int count = properties.get("count",19);
 	String pinID = properties.get("pin-id","");
+	String uID = generateId();
+	String instaID = "instagramfeed_" + uID;
 %>
 <div id="tag_social_feed_instagram" class="feedwrapper clearfix">
-	<span class="icon-social-instagram"></span>
-    <div class="feed-block">
-        <div class="block-area">
-			<div class="instagram-feed-image-head-area centered"></div>
-	        <ul class="instagram-feed-image-area"></ul>
+	<div id="<%= instaID %>" >
+		<span class="icon-social-instagram"></span>
+	    <div class="feed-block">
+	        <div class="block-area">
+				<div class="instagram-feed-image-head-area centered"></div>
+		        <ul class="instagram-feed-image-area"></ul>
+		    </div>
+		    <p class="centered"><a href="https://instagram.com/girlscouts/" title="see more on instagram">See more</a></p>
 	    </div>
-	    <p class="centered"><a href="https://instagram.com/girlscouts/" title="see more on instagram">See more</a></p>
-    </div>
+	</div>
 </div>
 <script>
 
-function fixHeight() {
-	console.log('fix');
-	var width = $('.instagrid').width();
-	$('.instagrid').height(width);
-	console.log('done');
-}
-
-function process(data) {
+function processInstagram(el, data) {
 
 	if (data.items != undefined) {
-		
-		var feedHeadArea = $(".instagram-feed-image-head-area");
-	    var feedArea = $(".instagram-feed-image-area");
+
+		var feedID = $("#" + el);
+		var feedHeadArea = $(feedID).find(".instagram-feed-image-head-area");
+	    var feedArea = $(feedID).find(".instagram-feed-image-area");
 
 	    var posts = [];
 
@@ -63,7 +75,6 @@ function process(data) {
     		feedArea.append(output);
     	}
 
-    	//fixHeight();
     } else {
         console.log('data is undefined');
     }
@@ -71,23 +82,22 @@ function process(data) {
 }
 
 $(function() {
-    $.ajax({
+
+	var instaID = '<%= instaID %>';
+    var ajax_<%= uID %> = $.ajax({
 		type: 'GET',
-		url: '<%= url %>', // /socialmediafeed.aspx // 
+		url: '<%= url %>', 
 		dataType: 'json',
-		contentType: 'text/plain',
-		success: function(data) {
-			process(data);
-			},
-		error: function(data) {
-			console.log('ERROR');
-			console.log(data);
-			},
-		complete: function(data) {
-			console.log('COMPLETE');
-			}
+		contentType: 'text/plain'
     });
 
+    ajax_<%= uID %>.done(function(data){
+        processInstagram(instaID, data);
+    }).fail(function(jqXHR, textStatus, errorThrown){
+		console.log('ERROR: ' + textStatus + ': ' + errorThrown);
+    }).always(function(){
+        console.log('COMPLETE');
+    });
     
 });
 </script>
