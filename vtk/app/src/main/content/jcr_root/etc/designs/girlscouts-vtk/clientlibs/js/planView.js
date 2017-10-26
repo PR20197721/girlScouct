@@ -489,6 +489,10 @@ function rmMeetingWithConfBlocked(mPath, mDate, ageGroup, meetingName) {
 	})
 }
 
+function schedChanger(dt) {
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.sched.html?elem='+ dt, false, null, true, false);
+}
+
 var getDataIfModified;
 (function() {
 	var BASE_PATH = '/vtk-data';

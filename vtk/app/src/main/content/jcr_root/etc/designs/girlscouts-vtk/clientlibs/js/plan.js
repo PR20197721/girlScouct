@@ -2168,6 +2168,7 @@ var initNotes = (function(global, ModalVtk, $) {
 
     }
 
+  
 
     $(function() {
         var editormain = Object.create(editor);
@@ -2209,7 +2210,6 @@ var initNotes = (function(global, ModalVtk, $) {
     };
 
 })(this, ModalVtk, $);
-
 
 
 

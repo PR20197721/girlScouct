@@ -476,7 +476,11 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
             var obj = this.props.obj;
             var comment= this.props.comment;
-var src="javascript:newLocCal()";
+            var xx= moment.tz(comment,"America/New_York");
+            console.log( obj[comment]);
+     
+            console.log(comment);
+var src="javascript:schedChanger('"+moment(comment).valueOf()+"')";
 
       return (
     		  React.createElement("a", {href: src},
