@@ -119,15 +119,20 @@ var $ = jQuery.noConflict();
 //	  $(document).ready(function() {
 	  	 $(document).foundation({
 	  	  reveal : {
-	  	     animation: 'fade',
+				  animation: 'fade',
 	  	     root_element: 'window',
-	  	     close_on_background_click: false,
+				 close_on_background_click: false,
+				 opened: function () {
+					var window_h = $(window).height();
+					var popup_h = (window_h - 75);
+					$('#modal_popup').find('.scroll').css('max-height' , popup_h + 'px'); 
+				  },
 	  	     open: function () {
 	  	     	$('body').css({'overflow':'hidden'});
      		  	if (navigator.userAgent.match(/msie/i) ) {
      		  		// alert(navigator.userAgent.match(/msie/i));
-     	        add_placeholdersIE9();
-     	      }
+     	        	add_placeholdersIE9();
+						}
 	  	     },
 	  	     close: function () {
 	  	     	$('body').css({'overflow':'inherit'})
