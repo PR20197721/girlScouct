@@ -168,7 +168,7 @@ public class GetReferences extends SlingAllMethodsServlet {
 					while (it.hasNext()) {
 						Resource child = it.next();
 						if (child.isResourceType("dam:Asset")) {
-							results.add(resource.getPath());
+							results.add(child.getPath());
 						} else {
 							results.addAll(getAssets(child));
 						}
