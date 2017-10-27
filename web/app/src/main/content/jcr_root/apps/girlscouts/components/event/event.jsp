@@ -454,7 +454,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
         <div class="eventDetailsRegisterLink">
     	 	<a class="button" href="<%=genLink(resourceResolver, register)%>">REGISTER NOW</a>
     	 	<% if(includeCart && !eventID.equals("-1")){ %>
-    	 	<a class="button" onclick="addToCart('<%= title.replaceAll("'","\\\\'").replaceAll("\"","&quot") %>', '<%= eventID %>', '<%= currentPage.getPath() %>'); return false;">Add to MyActivities</a>
+    	 	<a class="button" onclick="addToCart('<%= title.replaceAll("'","\\\\'").replaceAll("\"","&quot") %>', '<%= eventID %>', '<%= currentPage.getPath() %>', '<%=register %>'); return false;">Add to MyActivities</a>
     		<%}
     		%>
 
