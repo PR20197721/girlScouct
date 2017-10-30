@@ -4,7 +4,7 @@
     sling:resourceType="cq/gui/components/authoring/dialog">
     <content
         jcr:primaryType="nt:unstructured"
-        sling:resourceType="granite/ui/components/foundation/container">
+        sling:resourceType="granite/ui/components/coral/foundation/container">
         <layout
             jcr:primaryType="nt:unstructured"
             sling:resourceType="granite/ui/components/foundation/layouts/tabs"
@@ -13,22 +13,43 @@
             <tab1
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Tab 1"
-                sling:resourceType="granite/ui/components/foundation/container">
+                sling:resourceType="granite/ui/components/coral/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
                 <items jcr:primaryType="nt:unstructured">
                     <columns
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/container">
+                        sling:resourceType="granite/ui/components/coral/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <children
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/multifield"
-                                fieldDescription="Enter the titles of the Accordions you would like."
-                                fieldLabel="Titles">
-                                <field/>
-                            </children>
+                            	jcr:primaryType="nt:unstructured"
+  								sling:resourceType = "granite/ui/components/coral/foundation/form/multifield"
+   								composite = "true">
+   								<field
+   									jcr:primaryType="nt:unstructured"
+									sling:resourceType = "granite/ui/components/coral/foundation/container"
+    								name = "./children">
+    								<items jcr:primaryType="nt:unstructured">
+      									<nameField
+      										jcr:primaryType="nt:unstructured"
+        									sling:resourceType = "granite/ui/components/coral/foundation/form/textfield"
+        									fieldLabel="Section Name"
+        									name = "nameField"/>
+      									<anchorField
+      										jcr:primaryType="nt:unstructured"
+        									sling:resourceType = "granite/ui/components/coral/foundation/form/textfield"
+        									fieldLabel="Anchor"
+        									name = "anchorField"/>
+      									<idField
+      										jcr:primaryType="nt:unstructured"
+        									sling:resourceType = "granite/ui/components/coral/foundation/form/textfield"
+        									fieldLabel="Identifier"
+        									name = "idField"
+        									required="true"/>
+        							</items>
+        						</field>
+        					</children>
                         </items>
                     </columns>
                 </items>
