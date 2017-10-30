@@ -669,8 +669,8 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 	private String generateCouncilNotification(String nationalPage, String councilPage, ValueMap vm, String message) {
 		String html = message.replaceAll("<%template-page%>", PageActivationUtil.getURL(nationalPage))
 				.replaceAll("&lt;%template-page%&gt;", PageActivationUtil.getURL(nationalPage))
-				.replaceAll("<%council-page%>", PageActivationUtil.getRealUrl(councilPage, vm))
-				.replaceAll("&lt;%council-page%&gt;", PageActivationUtil.getRealUrl(councilPage, vm))
+				.replaceAll("<%council-page%>", PageActivationUtil.getCouncilUrl(rr, settingsService, councilPage))
+				.replaceAll("&lt;%council-page%&gt;", PageActivationUtil.getCouncilUrl(rr, settingsService, councilPage))
 				.replaceAll("<%council-author-page%>", PageActivationUtil.getURL(councilPage))
 				.replaceAll("&lt;%council-author-page%&gt;",
 						"https://authornew.girlscouts.org" + PageActivationUtil.getURL(councilPage))
