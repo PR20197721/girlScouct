@@ -1111,6 +1111,9 @@ public class POST extends SlingAllMethodsServlet {
     	for(i = 0; i < list.size(); i++){
     		if(list.get(i) == null){
     			list.set(i, "");
+    		}else{
+    			String val = list.get(i);
+    			list.set(i, val.trim());
     		}
     	}
     	
