@@ -10,18 +10,13 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<blog-id
-						jcr:primaryType="cq:Widget"
-						fieldDescription="(Optional) Specify an alternative blog to use by entering its Blogger ID"
-						fieldLabel="Blog ID"
-						name="./id"
-						xtype="textfield"/>
-					<api-key
-						jcr:primaryType="cq:Widget"
-						fieldDescription="(Optional) If you are using an alternative blog, enter its API Key here"
-						fieldLabel="API Key"
-						name="./key"
-						xtype="textfield"/>
+                    <url
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Endpoint URL"
+                        fieldDescription="URL to retrieve Blog data"
+                        name="./url"
+                        xtype="textfield" 
+                        />
                     <count
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Specify how many posts to display. Will default to 20 if left blank"
@@ -29,11 +24,11 @@
                         minValue="1"
                         name="./count"
                         xtype="numberfield"/>
-                    <pin-id
+                    <postid1
                     	jcr:primaryType="cq:Widget"
                     	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
-                    	fieldLabel="Pin ID"
-                    	name="./pin-id"
+                    	fieldLabel="Post ID"
+                    	name="./postid1"
                     	xtype="textfield"/>
                 </items>
             </properties>
