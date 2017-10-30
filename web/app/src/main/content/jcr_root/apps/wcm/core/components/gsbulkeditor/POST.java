@@ -200,14 +200,6 @@ public class POST extends SlingAllMethodsServlet {
 			                                "General Exception occured while processing content: " + e.getMessage());
 		                		}
 		                            
-	                              
-	                            //SEND SUCCESS RESPONSE HERE
-		                    	if(htmlResponse == null) {
-		                    		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                                "Content Imported Successfully.");
-		                    	}
-	                                
-		                            
 		                       
 		                    } else {
 		                        htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
@@ -414,6 +406,13 @@ public class POST extends SlingAllMethodsServlet {
         //Activate contacts 
         response = staggerActivate(scriptHelper, replicationList, contactDelayInterval, repDelayTimeInMinutes, adminResolver);
     	
+        if(response == null){
+        	int mins = lineCount / documentDelayInterval;
+        	mins++;
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Contacts updated successfully. The data will finish replicating in approximately " + mins + " minutes.");
+        }
+        
     	return  response;
     }
     
@@ -777,6 +776,13 @@ public class POST extends SlingAllMethodsServlet {
     	
     	response = delayedActivate(rootNode, scriptHelper, replicationList, adminResolver);
     	
+    	if(response == null){
+        	int mins = lineCounter / documentDelayInterval;
+        	mins++;
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Events updated successfully. The data will replicate overnight.");
+        }
+    	
     	
     	return  response;
     }
@@ -816,7 +822,7 @@ public class POST extends SlingAllMethodsServlet {
     			int indexCounter = 0;
     			for(String value: values){
     				if(headers.get(indexCounter).equals(Document.TITLE_PROP)){
-    					value = value.replace("\\[", "").replace("\\]", "");
+    					value = value.replaceAll("\\[", "").replaceAll("\\]", "");
     					doc.setTitle(value);	
     				} else if(headers.get(indexCounter).equals(Document.PATH_PROP)){
     					doc.setPath(value);
@@ -828,6 +834,7 @@ public class POST extends SlingAllMethodsServlet {
     						doc.setTags(taglist);
     					}
     				} else if(headers.get(indexCounter).equals(Document.DESCRIPTION_PROP)){
+    					value = value.replaceAll("\\[", "").replaceAll("\\]", "");
     					doc.setDescription(value);
     				} else{
     					
@@ -879,6 +886,14 @@ public class POST extends SlingAllMethodsServlet {
 						metaDataNode = contentNode.addNode("metadata");
 					}
 					
+					if(metaDataNode.hasProperty(Document.TITLE_PROP)){
+						metaDataNode.getProperty(Document.TITLE_PROP).remove();
+					}
+					
+					if(metaDataNode.hasProperty(Document.DESCRIPTION_PROP)){
+						metaDataNode.getProperty(Document.DESCRIPTION_PROP).remove();
+					}
+					
 					metaDataNode.setProperty(Document.TITLE_PROP, doc.getTitle());
 					metaDataNode.setProperty(Document.DESCRIPTION_PROP, doc.getDescription());
 					if(doc.getTags() != null){
@@ -899,13 +914,19 @@ public class POST extends SlingAllMethodsServlet {
 	    	rootNode.save();
     	} catch (RepositoryException e) {
     		response = HtmlStatusResponseHelper.createStatusResponse(false,
-                    "Document at line "+lineCounter +" encountered issue writing to repository. Process aborted");
+                    "Document at line "+lineCounter +" encountered issue writing to repository. Process aborted with message: " + e.getMessage());
         	return response;
 		}
     	
     	//Activate contacts 
         response = staggerActivate(scriptHelper, replicationList, documentDelayInterval, repDelayTimeInMinutes, adminResolver);
     	
+        if(response == null){
+        	int mins = lineCounter / documentDelayInterval;
+        	mins++;
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Documents updated successfully. The data will finish replicating in approximately " + mins + " minutes.");
+        }
     	
     	return response;
     }
@@ -972,9 +993,6 @@ public class POST extends SlingAllMethodsServlet {
 	    	
 	    	
 	    	//Kick off the workflow to replicate the created nodes
-	    	System.out.println("BULK EDITOR____________________");
-	    	System.out.println("About to trigger workflow");
-	    	System.out.println("BULK EDITOR____________________");
 	    	WorkflowService wfService = scriptHelper.getService(WorkflowService.class);
 	
 	    	WorkflowSession wfSession = wfService.getWorkflowSession(adminResolver.adaptTo(Session.class));
@@ -988,9 +1006,6 @@ public class POST extends SlingAllMethodsServlet {
 			
 
 			wfSession.startWorkflow(model, data);
-			System.out.println("BULK EDITOR____________________");
-	    	System.out.println("Triggered workflow");
-	    	System.out.println("BULK EDITOR____________________");
 		} catch (WorkflowException e) {
 			response = HtmlStatusResponseHelper.createStatusResponse(false,
                     "Critical Activation Error. Failed to initiate workflow. Due to error: " + e.getMessage());
