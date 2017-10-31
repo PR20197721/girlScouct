@@ -27,9 +27,6 @@
     }
 }
 
-
-
-
 // Instagram
 .grid-instagram-feed {
     @media #{$medium-up} {
@@ -50,4 +47,53 @@
 .instagram-feed-image-area {
     @include block-grid(3);
 }
+
+// Blogger
+.grid-blog-feed {
+  ul {
+    list-style: none;
+    margin-left: 0px;
+    
+    @media #{$medium-up} {
+      .blogfeedwrapper {
+        overflow: hidden;
+        padding: rem-calc(20 0);
+        border-bottom: 1px dashed #ccc;
+      }
+      .blogfeedleft {
+          float: left;
+          width: rem-calc(110);
+        }
+      .blogfeedright {
+        float: left;
+        width: calc(100% - 110px);
+        padding-left: rem-calc(5);
+      }
+      .blogfeedtitle {
+        font-size: 15px;
+        line-height: 20px;
+      }
+      .blogfeedsnippet {
+        font-size: 14px;
+        line-height: 18px;
+        color: $black;
+      }
+    }
+    @media #{small-only} {
+      .blogfeedleft {
+          float: left;
+          width: rem-calc(110);
+        }
+        .blogfeedright {
+          float: left;
+          width: calc(100% - 110px);
+          padding-left: rem-calc(5);
+        }
+    }
+    
+  }
+}
+
+
+
 
