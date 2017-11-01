@@ -9,7 +9,7 @@
 <cq:defineObjects />
 <%@include file="../session.jsp"%>
 <% 
-	java.util.List<Contact>contacts = new SalesforceDAO(troopDAO, connectionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+	java.util.List<Contact>contacts = new SalesforceDAO(troopDAO, connectionFactory, sessionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
 	String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+request.getParameter("mid");
 	Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
 	Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
