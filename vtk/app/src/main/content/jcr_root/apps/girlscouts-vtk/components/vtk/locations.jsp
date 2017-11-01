@@ -63,9 +63,11 @@ if (troop.getYearPlan() != null) {
 					<div id="calMng">
 						<%
 						  if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
-						%>
-							<%@include file="include/calendarAlterStartDate.jsp"%>
-						<%
+    							if( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size() <=0 ){
+                                    %><p>In order to use the calendar wizard, you must have at least 1 meeting in the Year Plan</p><%
+                                }else{
+									%><%@include file="include/calendarAlterStartDate.jsp"%><%
+                                }
 						    } else {
 						%>
 							<%@include file="include/calList.jsp"%>
