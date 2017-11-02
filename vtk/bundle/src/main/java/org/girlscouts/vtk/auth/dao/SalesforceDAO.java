@@ -436,7 +436,7 @@ log.debug(" " + rsp);
 					entity = resp.getEntity();
 					entity.getContent();
 					rsp = EntityUtils.toString(entity);
-System.err.println("ALEXALEX contacts: "+ rsp);
+
 					EntityUtils.consume(entity);
 					method.releaseConnection();
 					method = null;
@@ -453,12 +453,11 @@ System.err.println("ALEXALEX contacts: "+ rsp);
 			}else{
 			
 				String userJsonFile=vtkDemoPath +"/vtkContact_"+apiConfig.getDemoUserName()+".json";
-System.err.println("user file : "+userJsonFile );
 				rsp = readFile(userJsonFile).toString();
 		    }
 			
 			log.debug(">>>>> " + rsp);
-System.err.println("RPS: "+ rsp);
+
 			try {
 				JSONObject response = new JSONObject(rsp);
 
@@ -896,7 +895,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				HttpEntity entity = resp.getEntity();
 				entity.getContent();
 				rsp= EntityUtils.toString(entity);
-System.err.println("ALEXALEX TL: "+ rsp);		
+		
 				if(apiConfig.isUseAsDemo() )
 					writeToFile(vtkDemoPath +"/vtkTroop_"+user.getName()+".json" , rsp);
 			}else{
@@ -1322,11 +1321,8 @@ System.err.println("ALEXALEX TL: "+ rsp);
 	
 	public StringBuffer readFile(String fileName){
 		try {
-System.err.println("Kafka readfile: "+ (session==null) );			
 			InputStream is = session.getNode(fileName + "/jcr:content").getProperty("jcr:data").getBinary().getStream();
-System.err.println("Kafka readfile is: "+ (is==null) );
 			String content = IOUtils.toString(new InputStreamReader(is, "UTF-8"));
-System.err.println( (content==null ) );
 			return new StringBuffer(content);
 		} catch (RepositoryException re) {
 			log.error("Cannot get file node: " + fileName + " due to RepositoryException.");
