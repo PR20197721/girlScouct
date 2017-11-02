@@ -88,7 +88,6 @@ $(document).ready(function() {
 				
 			}			
 			blogFeedArea.html(output);
-			$('.blogfeedtitle').ellipsis({ lines:3 });
 			},
 		error: function(jqXHR, status, error) {
 			console.log('ERROR');
