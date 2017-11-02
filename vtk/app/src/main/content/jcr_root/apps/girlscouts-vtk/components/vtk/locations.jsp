@@ -64,7 +64,12 @@ if (troop.getYearPlan() != null) {
 						<%
 						  if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
     							if( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size() <=0 ){
-                                    %><p>In order to use the calendar wizard, you must have at least 1 meeting in the Year Plan</p><%
+                                    %>
+                                    <p>
+                                    	The calendar function is not available as there are no meetings in your Year Plan
+                                    	<a href="#" onclick="doMeetingLib(true)">Add A Meeting</a>
+                                    </p>
+                                    <%
                                 }else{
 									%><%@include file="include/calendarAlterStartDate.jsp"%><%
                                 }
