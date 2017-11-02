@@ -67,7 +67,7 @@ if (troop.getYearPlan() != null) {
                                     %>
                                     <p>
                                     	The calendar function is not available as there are no meetings in your Year Plan
-                                    	<a href="#" onclick="doMeetingLib(true)">Add A Meeting</a>
+                                        <div style="float:right;"><button class="btn right" name=""  onclick="doMeetingLib(true)">ADD A MEETING</button></div>
                                     </p>
                                     <%
                                 }else{
