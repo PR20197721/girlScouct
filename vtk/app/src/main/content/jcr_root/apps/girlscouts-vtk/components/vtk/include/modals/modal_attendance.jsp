@@ -29,7 +29,7 @@
 %>
 <div class="modal-attendance">
 	<div class="header clearfix">
-		<h3 class="columns large-22">Attendance and Achievements</h3>
+		<h3 class="columns large-22">Attendance <%="meetingEvents".equals(YEAR_PLAN_EVENT) ? " and Achievements" : "" %></h3>
 		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 	</div>
 	<div class="scroll">
