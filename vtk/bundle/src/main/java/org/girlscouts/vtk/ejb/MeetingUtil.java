@@ -1161,7 +1161,10 @@ public class MeetingUtil {
 
 		//MEETING or Attendance
 		String eventType = request.getParameter("eType");
-		
+	
+		String YEAR_PLAN_EVENT="meetingEvents";
+		if( eventType!=null && eventType.equals("ACTIVITY") )
+			YEAR_PLAN_EVENT="activities";
 		
 		String mid = request.getParameter("mid");
 		String attendances[] = null;
@@ -1185,7 +1188,7 @@ public class MeetingUtil {
 				.collect( java.util.stream.Collectors.toList());
 		
 		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
-				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
+				+ troop.getSfTroopId() + "/yearPlan/"+ YEAR_PLAN_EVENT +"/" + mid
 				+ "/attendance";
 		java.util.List<String> Attendances = new java.util.ArrayList<String>();
 		Attendance ATTENDANCES = getAttendance(user, troop, path);
@@ -1272,7 +1275,7 @@ public class MeetingUtil {
 
 	public boolean updateAchievement(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) {
-
+					
 		String mid = request.getParameter("mid");
 		String attendances[] = null;
 		if (request.getParameter("achievement") != null) {
