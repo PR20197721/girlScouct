@@ -12,5 +12,11 @@
       </tr>
     <% } %>
   </table>
-  <% } else {  %> <p>No activities.</p> <% } %>
+  <% } else {  %> 
+  		<div>
+            <p>There are no activities in your Year Plan.</p>
+  			<div style="float:right;">
+  				<button class="btn right" onclick="newActivity()">ADD ACTIVITY</button>
+  			</div>
+  		</div> <% } %>
 </div><!--/content-3-->
