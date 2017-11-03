@@ -1248,7 +1248,18 @@ public class MeetingUtil {
 		}
 		ATTENDANCES.setTotal(cTotal);
 		setAttendance(user, troop, mid, ATTENDANCES);
+		
+		//update activity 
+		Activity _thisActivity = troop.getYearPlan().getActivities().stream()
+		.filter( _activity -> _activity.getPath().equals( path.substring(0, path.lastIndexOf("/")) ) )
+		.findAny()                                    
+        .orElse(null); 
+		
+		if( _thisActivity !=null )
+			_thisActivity.setAttendance( ATTENDANCES);
+		
 
+		
 		return false;
 	}
 
