@@ -9,6 +9,7 @@
 <cq:defineObjects />
 <%@include file="../session.jsp"%>
 <% 
+
 	java.util.List<Contact>contacts = new SalesforceDAO(troopDAO, connectionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
 	String YEAR_PLAN_EVENT="meetingEvents";
 	String eventType= request.getParameter("eType");
@@ -16,6 +17,7 @@
 			YEAR_PLAN_EVENT="activities";
 	
 	String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/"+YEAR_PLAN_EVENT+"/"+request.getParameter("mid");
+
 	Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
 	Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
 
