@@ -74,7 +74,7 @@
 						%>
 					</tbody>
 				</table>        
-				<input type="button" value="Save"  class="btn button right" onclick="updateAttendAchvm('<%=request.getParameter("mid")%>')"/>
+				<input type="button" value="Save"  class="btn button right" onclick="updateAttendAchvm('<%=request.getParameter("mid")%>','<%=request.getParameter("eType")%>')"/>
 			</form>
 		</div>
 	</div>

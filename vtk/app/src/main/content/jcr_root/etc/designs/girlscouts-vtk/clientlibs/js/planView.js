@@ -261,14 +261,10 @@ function openClose1(div1, div2){
 	}
 }
 
-function updateAttendAchvm(mid){
+function updateAttendAchvm(mid, eventType){
 	
 	var attend = getCheckedCheckboxesFor('attendance');
 	var achn = getCheckedCheckboxesFor('achievement');
-	//var UpdAttendance= document.getElementById('UpdAttendance');
-	//var mid= document.getElementById('mid');
-	console.log( "attend: "+ attend);
-	console.log( "achv: "+ achn);
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -276,7 +272,8 @@ function updateAttendAchvm(mid){
 			act:'UpdAttendance',
 			mid:mid,
 			attendance:attend,
-			achievement:achn
+			achievement:achn,
+			eType:eventType
 		},
 		success: function(result) {
 			console.log("closing...");
@@ -288,6 +285,7 @@ function updateAttendAchvm(mid){
 	return;
 	
 }
+
 
 function getCheckedCheckboxesFor(checkboxName) {
 	var t="";

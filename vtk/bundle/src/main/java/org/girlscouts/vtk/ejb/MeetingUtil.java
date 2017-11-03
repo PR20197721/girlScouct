@@ -1159,6 +1159,10 @@ public class MeetingUtil {
 	public boolean updateAttendance(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) {
 
+		//MEETING or Attendance
+		String eventType = request.getParameter("eType");
+		
+		
 		String mid = request.getParameter("mid");
 		String attendances[] = null;
 		if (request.getParameter("attendance") != null) {
