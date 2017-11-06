@@ -414,7 +414,6 @@ function getMeetings(url) {
 }
 exports.getMeetings = getMeetings;
 function parseJSONVTK(json) {
-    debugger;
     var parts = [];
     var currentCategory = 0;
     var counting = 0;
@@ -1812,7 +1811,7 @@ var VtkMainYp = /** @class */ (function (_super) {
                 .Category
                 .map(function (cat, idx, arr) {
                 return React.createElement("div", { key: 'category-' + idx },
-                    React.createElement(category_1.default, __assign({}, cat, { store: _this.store.bind(_this) })));
+                    React.createElement(category_1.default, __assign({}, cat, { store: _this.store.bind(_this), idx: idx })));
             }),
             React.createElement("div", { className: "columns small-24" },
                 (this
@@ -1878,11 +1877,10 @@ var Category = /** @class */ (function (_super) {
     }
     Category.prototype.render = function () {
         var _this = this;
-        debugger;
         return (React.createElement("div", { className: "__categories column small-24" },
             React.createElement(header_1.default, { title: this.props.title, subTitle: this.props.subtitle }),
             this.props.categories.map(function (track, idx, array) {
-                return React.createElement(year_plan_track_1.default, __assign({ key: 'YplanTrack' + idx + track.track }, track, { first: idx == 0, last: array.length - 1 == idx, store: _this.props.store }));
+                return React.createElement(year_plan_track_1.default, __assign({ key: 'YplanTrack' + idx + track.track }, track, { first: idx == 0 && _this.props.idx == 0, last: array.length - 1 == idx, store: _this.props.store }));
             })));
     };
     return Category;

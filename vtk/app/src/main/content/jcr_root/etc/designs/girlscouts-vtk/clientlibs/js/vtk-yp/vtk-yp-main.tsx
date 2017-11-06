@@ -192,9 +192,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                     .map((cat, idx, arr) => {
 
                         return <div key={'category-'+idx}>
-                            <Category  {...cat} store={this.store.bind(this)}/>
-
-                           
+                            <Category  {...cat} store={this.store.bind(this)} idx={idx}/>                           
                         </div>
                     })
                 }
