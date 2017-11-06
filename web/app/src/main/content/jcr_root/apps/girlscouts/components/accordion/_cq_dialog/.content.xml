@@ -22,26 +22,29 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <children
+        					<children
                             	jcr:primaryType="nt:unstructured"
   								sling:resourceType = "granite/ui/components/coral/foundation/form/multifield"
-   								composite = "true">
+   								composite = "true"
+   								fieldDescription = "Click 'Add' to add an accordion"
+                                fieldLabel = "Accordions">
    								<field
    									jcr:primaryType="nt:unstructured"
 									sling:resourceType = "granite/ui/components/coral/foundation/container"
+									class="coral-Table--bordered"
     								name = "./children">
     								<items jcr:primaryType="nt:unstructured">
-      									<nameField
+		    							<nameField
       										jcr:primaryType="nt:unstructured"
         									sling:resourceType = "granite/ui/components/coral/foundation/form/textfield"
         									fieldLabel="Section Name"
         									name = "nameField"/>
-      									<anchorField
+	        							<anchorField
       										jcr:primaryType="nt:unstructured"
         									sling:resourceType = "granite/ui/components/coral/foundation/form/textfield"
         									fieldLabel="Anchor"
         									name = "anchorField"/>
-      									<idField
+	        							<idField
       										jcr:primaryType="nt:unstructured"
         									sling:resourceType = "granite/ui/components/coral/foundation/form/textfield"
         									fieldLabel="Identifier"
