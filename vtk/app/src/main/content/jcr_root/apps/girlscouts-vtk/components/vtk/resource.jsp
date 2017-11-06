@@ -182,7 +182,7 @@
 			         <div>
 
 			            <a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/<%=troop.getSfTroopAge()==null ? "CA" : VtkUtil.formatAgeGroup(troop.getSfTroopAge())%>/vtk.resource.<%=(bresource.getPath() ==null || bresource.getPath().length()<=0) ? "" : bresource.getPath().substring(1).replaceAll("/","___")%>.html"><%=bresource.getTitle()%> 
-			               <%= (bresource.getTitle().equals("Meeting Overviews")) ? "" : ("("+bresource.getItemCount()+")")%> 
+			               <%= (bresource.getItemCount()==0 || bresource.getTitle().equals("Meeting Overviews")) ? "" : ("("+bresource.getItemCount()+")")%> 
 			             </a>
                 	</div>
 
