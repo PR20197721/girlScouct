@@ -284,7 +284,8 @@ $(function(){
         saveChange: function(){
           var _this = this;
           if(moment(this.refs.date.value +" "+ this.refs.time.value + " " + this.refs.ap.value).isValid()){
-              var newTime = moment(this.refs.date.value).format('YYYY-MM-DD');
+            debugger;
+              var newTime = moment(this.refs.date.value+' '+this.refs.time.value+' '+this.refs.ap.value).utc().format('YYYY-MM-DDTHH:mm:ss.SSS');
             var arrayOfKeys = Object.keys(this.props.obj);
 
             if(!arrayOfKeys.some(function(key){return !!~key.indexOf(newTime)})){
@@ -300,7 +301,7 @@ $(function(){
               }).success(function(){
                 location.reload();
               }).fail(function(){
-                _this.setState({message:{type:'Error:',display:'We have problem in the serve please try again'}})
+                _this.setState({message:{type:'Error:',display:'We have problem in the serve please try again.'}})
               })
 
             }else{
@@ -309,7 +310,7 @@ $(function(){
 
 
 
-              this.setState({message:{type:'Note:',display:'Date already exists in schedule'}})
+              this.setState({message:{type:'Note:',display:'This date and time have already been selected for another meeting.'}})
             }
 
                
@@ -331,10 +332,10 @@ $(function(){
         },
         changeInput:function(e){
 
-            this.setState({change:true,time:e.target.value})
+            this.setState({change:true,time:e.target.value,message:{type:'',display:''}})
         },
         change:function(){
-            this.setState({change:true})
+            this.setState({change:true,message:{type:'',display:''}})
         },
         calculateDesign:function(){
           var h = window.innerHeight,
