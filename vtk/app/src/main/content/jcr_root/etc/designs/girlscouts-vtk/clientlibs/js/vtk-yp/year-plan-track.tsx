@@ -91,7 +91,7 @@ YplanTrackState > {
                                     
                                         {(this.props.first && (________app________ === "brownie" || ________app________ === "daisy" || ________app________ === "junior")) ?
                                         <span>
-                                            {'To learn about ' + ________app________ + ' badges use the new'} <a href='https://www.girlscouts.org/en/our-program/badges/badge_explorer.html' target="_blank">Badge Explorer.</a>
+                                            {'To learn about ' + ________app________.charAt(0)+________app________.slice(1)  + ' badges use the new'} <a href='https://www.girlscouts.org/en/our-program/badges/badge_explorer.html' target="_blank">Badge Explorer.</a>
                                         </span>
                                         : null
                                     }
