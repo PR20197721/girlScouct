@@ -7,6 +7,29 @@ $(function() {
 
 
   
+function updSchedDirectCalendar(currDt, obj) {
+
+	var date = obj.date;
+	var time = obj.time;
+	var ap = obj.ap;
+	var isCancelled = false;
+
+	var urlParam = "meetingPath=" + '' +
+	"&date=" + date +
+	"&time=" + time +
+	"&ap=" + ap +
+	"&currDt=" + currDt +
+	"&isCancelledMeeting=" + isCancelled;
+
+
+	 return $.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=UpdateSched&updSched=true&'+urlParam,
+		type: "POST",
+   });
+
+}
+
+  
 function updSched1(i, meetingPath, currDt){
 	
 	var date = document.getElementById("cngDate"+i).value;
