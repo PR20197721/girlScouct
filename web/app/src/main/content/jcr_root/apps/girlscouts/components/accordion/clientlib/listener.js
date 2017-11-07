@@ -1,6 +1,7 @@
 var deleteAccordionFlag = false;
 (function (document, $, ns) {
     "use strict";
+    
     $(document).on("coral-component:attached", "[name='idField']", function (e) {
 		var id = $(this).val();
         if(id == null || id == ""){
