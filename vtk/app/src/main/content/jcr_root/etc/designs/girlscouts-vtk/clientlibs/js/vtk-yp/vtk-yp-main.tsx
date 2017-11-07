@@ -77,7 +77,6 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
 
 
         function renderChild(state) { 
-            debugger; console.log('SSSSSSS====>>>>',state)
             return (________isYearPlan________ ==  false)
                 ? <div className={state.data.name}>
                     <p>
@@ -167,7 +166,6 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
         }
 
 
-        debugger;
         
      return (
             <div>
