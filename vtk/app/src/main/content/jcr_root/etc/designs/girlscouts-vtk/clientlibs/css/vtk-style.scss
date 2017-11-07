@@ -2376,6 +2376,13 @@ input[type="file"] {
 }
 
 
+//Rewrite Modal in all circuntances
+.reveal-modal{
+  &.open{
+    z-index: 2000;
+  }
+}
+
 @import 'vtk-button';
 @import 'vtk-archive';
 @import 'vtk-notes';
