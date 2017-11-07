@@ -1,6 +1,6 @@
 {
   "name": "vtk-yp",
-  "version": "1.0.0",
+  "version": "1.10.0",
   "description": "",
   "main": "vtk-yp-app.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "@types/axios": "^0.9.34",
-     "axios": "^0.15.3",
+    "axios": "^0.15.3",
     "promise": "^7.1.1",
     "@types/promise": "^7.1.30"
   }
