@@ -10,7 +10,7 @@
 <%@include file="../session.jsp"%>
 <% 
 
-	java.util.List<Contact>contacts = new SalesforceDAO(troopDAO, connectionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+	java.util.List<Contact>contacts = new SalesforceDAO(troopDAO, connectionFactory, sessionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
 	String YEAR_PLAN_EVENT="meetingEvents";
 	String eventType= request.getParameter("eType");
 	if( eventType!=null && eventType.equals("ACTIVITY") )
