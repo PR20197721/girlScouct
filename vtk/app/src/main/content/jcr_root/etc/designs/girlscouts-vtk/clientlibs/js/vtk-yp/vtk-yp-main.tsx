@@ -77,12 +77,11 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
 
 
         function renderChild(state) { 
-       
             return (________isYearPlan________ ==  false)
                 ? <div className={state.data.name}>
                     <p>
                         <b>
-                            You have selected the Year Plan below for {`${________app________}`}  {(________troopName________.match(/troop/i))?null:"Troop"}  {`${________troopName________}.`}  Is this correct?
+                            You have selected the Year Plan below for {________app________.charAt(0).toUpperCase()+________app________.slice(1)}  {(________troopName________.match(/troop/i))?null:"Troop"}  {`${________troopName________}.`}  Is this correct?
                         </b>
                     </p>
                     
@@ -122,7 +121,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                 : <div className={state.data.name}>
                     <p>
                         <b>
-                            You want to replace your current Year Plan with the new Year Plan listed below for {`${________app________}`}  {(________troopName________.match(/troop/i))?null:"Troop"}  {`${________troopName________}.`}  Is this correct?
+                            You want to replace your current Year Plan with the new Year Plan listed below for {`${________app________.charAt(0).toUpperCase()+________app________.slice(1)}`}  {(________troopName________.match(/troop/i))?null:"Troop"}  {`${________troopName________}.`}  Is this correct?
                         </b>
                     </p>
 
@@ -165,6 +164,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
 
 
         }
+
 
         
      return (
