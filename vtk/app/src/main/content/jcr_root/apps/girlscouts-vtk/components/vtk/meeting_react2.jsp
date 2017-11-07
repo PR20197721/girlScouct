@@ -516,10 +516,10 @@ React.createElement(ActivityPlan),
   React.createElement("ul", {className: "large-block-grid-2 medium-block-grid-2 small-block-grid-2"},
 
         React.createElement(EmailMeetingReminder)
-      
+
 	        ,
 	        React.createElement(AttendanceAchievement,{data:this.props.thisMeeting})
-	 
+
 
 
 
@@ -686,7 +686,7 @@ React.createElement(ActivityPlan),
                 }
              return (
                    React.createElement("li", null,
-                    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%>",  href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid="+this.props.data.uid+"&isAch="+isArch+"&mName="+mName}, "Record Attendance & Achievements"),
+                    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%>",  href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?eType=MEETING&mid="+this.props.data.uid+"&isAch="+isArch+"&mName="+mName}, "Record Attendance & Achievements"),
                       React.createElement("li", null, "(",txt,")")
                   )
                 );

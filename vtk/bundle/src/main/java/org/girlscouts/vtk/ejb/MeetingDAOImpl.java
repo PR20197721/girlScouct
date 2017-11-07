@@ -189,6 +189,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
+			classes.add(Attendance.class);
+			
 			classes.add(JcrCollectionHoldString.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,

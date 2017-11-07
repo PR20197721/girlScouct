@@ -307,7 +307,9 @@
 				return;
 			case UpdAttendance:
 				meetingUtil.updateAttendance(user, troop, request);
-				meetingUtil.updateAchievement(user, troop, request);
+				if( "MEETING".equals( request.getParameter("eType") ) ){
+					meetingUtil.updateAchievement(user, troop, request);
+				}
 				return;
 			case CreateCustomYearPlan:
 
@@ -695,7 +697,7 @@ try{
 						"X" + session.getId(), troop.getYearPlan()
 								.getPath());
 			}
-			System.err.println("tata xx");
+			
 			if (isFirst || isCng) {
 				org.girlscouts.vtk.salesforce.Troop prefTroop = null;
 				if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
@@ -858,6 +860,20 @@ try{
                 YearPlan yearPlan = new YearPlan();
 
 
+                Attendance attendance = meetingUtil.getAttendance( user,  troop,  currentActivity.getPath()+"/attendance");
+				Achievement achievement = meetingUtil.getAchievement( user,  troop,  currentActivity.getPath()+"/achievement");
+				int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
+
+				if( attendance !=null && attendance.getUsers()!=null ){
+				    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
+				    attendanceTotal= attendance.getTotal();
+				}
+
+				if( achievement !=null && achievement.getUsers()!=null ){
+				    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
+				}
+
+                
 
                 if( troop!=null && troop.getYearPlan()!=null){
                     Helper helper = troop.getYearPlan().getHelper();
@@ -872,7 +888,10 @@ try{
                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_ACT_ID));
 
                     helper.setPermissions(permissions);
-
+                    helper.setAchievementCurrent(achievementCurrent);
+					helper.setAttendanceCurrent(attendanceCurrent);
+					helper.setAttendanceTotal(attendanceTotal);
+					
                     yearPlan.setHelper(helper);
                 }
 
