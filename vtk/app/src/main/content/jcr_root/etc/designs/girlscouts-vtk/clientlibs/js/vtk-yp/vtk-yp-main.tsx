@@ -174,7 +174,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                         <h3 className="">{title}</h3>
                         <div className="row">
                             <div className="small-24 medium-18 columns">
-                                <p>{subtitle}</p>
+                             <p style={{ 'marginBottom': '30px' }}>{subtitle}</p>
                             </div>
                             <div className="small-24 medium-6 columns" style={{textAlign:'right'}}>
                             {this.state.pdf ? <a target="_blank" href={this.state.pdf}> <img src={pdf} />  Year Plan Overview</a> : null}
@@ -192,9 +192,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                     .map((cat, idx, arr) => {
 
                         return <div key={'category-'+idx}>
-                            <Category  {...cat} store={this.store.bind(this)}/>
-
-                           
+                            <Category  {...cat} store={this.store.bind(this)} idx={idx}/>                           
                         </div>
                     })
                 }
@@ -204,21 +202,17 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                     {(this
                     .props
                     .data
-                    .Category.length)?<div style={{ marginBottom: '50px'}}></div>:null}
-                    <Header subTitle={bottom.subtitle} title={bottom.title} />
-                    
+                    .Category.length)?<div style={{ marginBottom: '20px'}}></div>:null}
+                    <Header subTitle={bottom.subtitle} title={bottom.title} />                    
                     <div className="row">
                         <div className="columns small-20 small-centered">
-                            <div className="columns small-17" style={{padding:'0px',marginLeft:'-5px'}}><p>{customizedYearPlanContent.title}</p></div>
+                         <div className="columns small-17" style={{ padding: '0px', marginLeft: '-5px' }}><p style={{ marginBottom: '0px'}}>{customizedYearPlanContent.title}</p></div>
                             <div onClick={()=>{
                                 selectPlan('Custom Year Plan', '', this.store.bind(this)); 
-                    
-
-                         }} className="columns small-5 end vtk-yp-link" >{customizedYearPlanContent.linkText}</div>
-
-
+                                }} className="columns small-5 end vtk-yp-link" >{customizedYearPlanContent.linkText}</div>
                         </div>    
-                    </div>
+                 </div>
+                <div style={{ marginBottom: '70px'}}></div>
              </div>
 
                          <Gray /> 
