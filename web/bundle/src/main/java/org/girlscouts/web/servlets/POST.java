@@ -117,14 +117,14 @@ public class POST extends SlingAllMethodsServlet {
 				bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
 				scriptHelper = bindings.getSling();
 			}catch(Exception e){
-                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
                         "Could not resolve sling helper");
                 htmlResponse.send(response, true);
                 return;
 			}
 			
 			if(scriptHelper == null){
-				 htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+				 htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
 	                        "Could not resolve sling helper");
 	             htmlResponse.send(response, true);
 	             return;
@@ -191,18 +191,18 @@ public class POST extends SlingAllMethodsServlet {
 			            			} else if(importType.equals("documents")){
 			            				htmlResponse = updateFormMetadata(headers, rootPath, csvR, scriptHelper, adminResolver);
 			            			} else{
-			            				htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+			            				htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
 				                                "Unsupported import type.");
 			            			}
 		            			
 		                    	} catch(Exception e){
-		                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+		                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
 			                                "General Exception occured while processing content: " + e.getMessage());
 		                		}
 		                            
 		                       
 		                    } else {
-		                        htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+		                        htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
 		                                "Empty document");
 		                    }
 	                	} else {
@@ -210,21 +210,21 @@ public class POST extends SlingAllMethodsServlet {
 	                                "Please increase the depth of the root path to at least two");
 	                	}
 	                } else {
-	                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+	                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
 	                        "Invalid root path");
 	                }
 	            } else {
-	                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+	                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
 	                    "No root path provided");
 	            }
             
             } catch (RepositoryException e) {
-            	 htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+            	 htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
                          "Unable to get admin access for modifying content due to error: " + e.getMessage());
             }
             
         } else {
-            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
                     "No document provided");
         }
         
@@ -247,7 +247,7 @@ public class POST extends SlingAllMethodsServlet {
         if(resource!=null) {
             rootNode = resource.adaptTo(Node.class);
         } else{
-        	response = HtmlStatusResponseHelper.createStatusResponse(false,
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Root node does not exist. Process aborted");
         	return response;
         }
@@ -266,7 +266,7 @@ public class POST extends SlingAllMethodsServlet {
 				
 					if(Contact.NAME_PROP.equals(headers.get(indexCount))){ 
 						if(value == null || value.trim().isEmpty()){
-							response = HtmlStatusResponseHelper.createStatusResponse(false,
+							response = HtmlStatusResponseHelper.createStatusResponse(true,
 				                    "Missing required field jcr:content/jcr:title at line:" + lineCount +". Process aborted");
 				            return response;
 						}
@@ -279,7 +279,7 @@ public class POST extends SlingAllMethodsServlet {
 						contact.setPhone(value);
 					} else if(Contact.TEAM_PROP.equals(headers.get(indexCount))){
 						if(value == null || value.trim().isEmpty()){
-							response = HtmlStatusResponseHelper.createStatusResponse(false,
+							response = HtmlStatusResponseHelper.createStatusResponse(true,
 				                    "Missing required field jcr:content/team at line:" + lineCount +". Process aborted");
 				            return response;
 						}
@@ -293,7 +293,7 @@ public class POST extends SlingAllMethodsServlet {
 	    		String jcrName = this.getJcrName(contact.getName().trim());
 	    		String jcrTeamName = this.getJcrName(contact.getTeam().trim());
 	    		if(jcrName == null || jcrTeamName == null || jcrName.isEmpty() || jcrTeamName.isEmpty()){
-	    			response = HtmlStatusResponseHelper.createStatusResponse(false,
+	    			response = HtmlStatusResponseHelper.createStatusResponse(true,
 		                    "Required fields blank at line:" + lineCount +". Process aborted");
 		            return response;
 	    		}
@@ -313,7 +313,7 @@ public class POST extends SlingAllMethodsServlet {
 	    		lineCount++;
 	    	}
     	} catch(IOException e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(false,
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Critical Issue Parsing the input file at:" + lineCount +". Process aborted");
             return response;
     	}
@@ -341,7 +341,7 @@ public class POST extends SlingAllMethodsServlet {
             }
             //If deleting the contacts does not work create an error and exit method
         }catch(Exception e){
-            response = HtmlStatusResponseHelper.createStatusResponse(false,
+            response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Failed to delete original contact data. Process Aborted");
             return response;
         }
@@ -388,7 +388,7 @@ public class POST extends SlingAllMethodsServlet {
 				}
 			}
     	} catch (RepositoryException e) {
-    		response = HtmlStatusResponseHelper.createStatusResponse(false,
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Critical Error While Writing Data to Repository. Process Aborted" + e.getMessage());
             return response;
 		}
@@ -398,7 +398,7 @@ public class POST extends SlingAllMethodsServlet {
         try{
         	rootNode.save();
         } catch(Exception e){
-        	response = HtmlStatusResponseHelper.createStatusResponse(false,
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
                 "Unable to save Contacts. Process Aborted");
             	return response;
         }
@@ -499,15 +499,15 @@ public class POST extends SlingAllMethodsServlet {
 			}
 			
 		} catch (RepositoryException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(false,
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Unable to access the repository. Critical error. Process aborted");
         	return response;
 		} catch (AccessControlException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(false,
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Unable to modify tags. Critical error. Process aborted");
         	return response;
 		} catch (InvalidTagFormatException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(false,
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Ivalid tag format. Critical error. Process aborted");
         	return response;
 		}
@@ -538,14 +538,14 @@ public class POST extends SlingAllMethodsServlet {
     					event.setEndTime(value);
     				} else if (header.equals(Event.START_DATE)){
     					if(value == null || value.trim().isEmpty()){
-    						response = HtmlStatusResponseHelper.createStatusResponse(false,
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
     			                    "Missing required field Start Date at line "+lineCount +". Process aborted");
     			        	return response;
     					}
     					event.setStartDate(value);
     				} else if (header.equals(Event.START_TIME)){
     					if(value == null || value.trim().isEmpty()){
-    						response = HtmlStatusResponseHelper.createStatusResponse(false,
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
     			                    "Missing required field Start Time at line "+lineCount +". Process aborted");
     			        	return response;
     					}
@@ -563,7 +563,7 @@ public class POST extends SlingAllMethodsServlet {
     						String truncatedHeader = header.replace("jcr:content/data/", "");
     						event.addDataPair(truncatedHeader, value);
     					}else{
-    						response = HtmlStatusResponseHelper.createStatusResponse(false,
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
     			                    "Color field is in the wrong format at line "+lineCount +". Process aborted");
     			        	return response;
     					}
@@ -591,21 +591,21 @@ public class POST extends SlingAllMethodsServlet {
     					event.setProgramLevels(tagTitleList);
     				} else if (header.equals(Event.TITLE)){
     					if(value == null || value.trim().isEmpty()){
-    						response = HtmlStatusResponseHelper.createStatusResponse(false,
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
     			                    "Missing required field Title at line "+lineCount +". Process aborted");
     			        	return response;
     					}
     					event.setTitle(value);
     				} else if (header.equals(Event.LOCATION_NAME)){
     					if(value == null || value.trim().isEmpty()){
-    						response = HtmlStatusResponseHelper.createStatusResponse(false,
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
     			                    "Missing required field Location Name at line "+lineCount +". Process aborted");
     			        	return response;
     					}
     					event.addDataPair(header.replace("jcr:content/data/", ""), value);
     				} else if (header.equals(Event.TEXT)){
     					if(value == null || value.trim().isEmpty()){
-    						response = HtmlStatusResponseHelper.createStatusResponse(false,
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
     			                    "Missing required field Text at line "+lineCount +". Process aborted");
     			        	return response;
     					}
@@ -626,7 +626,7 @@ public class POST extends SlingAllMethodsServlet {
     			//Convert the date and time + timezone to single date string fields and add to the values map
     			String message = event.updateDataPairs();
     			if(message != null){
-    				response = HtmlStatusResponseHelper.createStatusResponse(false,
+    				response = HtmlStatusResponseHelper.createStatusResponse(true,
     	                    "Content error:  "+message+" at line "+lineCount +". Process aborted");
     	        	return response;
     			}
@@ -635,11 +635,11 @@ public class POST extends SlingAllMethodsServlet {
     			lineCount++;
     		}
     	} catch(IOException e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(false,
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Input/Output error at line "+lineCount +". Process aborted");
         	return response;
     	} catch(Exception e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(false,
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "General error at line "+lineCount +". Process aborted");
         	return response;
     	}
@@ -669,11 +669,11 @@ public class POST extends SlingAllMethodsServlet {
 	    		}
 	    	}
     	} catch (AccessControlException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(false,
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Unable to modify tags. Critical error. Process aborted");
         	return response;
 		} catch (InvalidTagFormatException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(false,
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Invalid tag format. Critical error. Process aborted");
         	return response;
 		}
@@ -710,7 +710,7 @@ public class POST extends SlingAllMethodsServlet {
 	    					
 	    				
 	    			} else{
-	    				response = HtmlStatusResponseHelper.createStatusResponse(false,
+	    				response = HtmlStatusResponseHelper.createStatusResponse(true,
 	    	                    "Path at line "+lineCounter 
 	    	                    +" points to an event that doesn't exist. Fix path or remove altogether if creating new event. Process aborted");
 	    	        	return response;
@@ -767,7 +767,7 @@ public class POST extends SlingAllMethodsServlet {
 	    	
 	    	rootNode.save();
     	} catch (RepositoryException e) {
-    		response = HtmlStatusResponseHelper.createStatusResponse(false,
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Encountered repository error at line "+lineCounter 
                     +". Process aborted." + e.getMessage());
         	return response;
@@ -801,7 +801,7 @@ public class POST extends SlingAllMethodsServlet {
         if(resource!=null) {
             rootNode = resource.adaptTo(Node.class);
         } else{
-        	response = HtmlStatusResponseHelper.createStatusResponse(false,
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Root node does not exist. Process aborted");
         	return response;
         }
@@ -849,15 +849,15 @@ public class POST extends SlingAllMethodsServlet {
     			lineCount++;
     		}
     	} catch(IOException e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(false,
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Input/Output error at line "+lineCount +". Process aborted");
         	return response;
     	} catch(IllegalArgumentException e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(false,
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Issue with formatting date or time at line "+lineCount +". Process aborted");
         	return response;
     	} catch(Exception e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(false,
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "General error at line "+lineCount +". Process aborted");
         	return response;
     	}
@@ -902,7 +902,7 @@ public class POST extends SlingAllMethodsServlet {
 					replicationList.add(doc.getPath() + "/jcr:content/metadata");
 	    			
 	    		} else{
-	    			response = HtmlStatusResponseHelper.createStatusResponse(false,
+	    			response = HtmlStatusResponseHelper.createStatusResponse(true,
 	                        "Document at line "+lineCounter +" not found. Please check that the path is correct. Process aborted");
 	            	return response;
 	    		}
@@ -913,7 +913,7 @@ public class POST extends SlingAllMethodsServlet {
 	    	
 	    	rootNode.save();
     	} catch (RepositoryException e) {
-    		response = HtmlStatusResponseHelper.createStatusResponse(false,
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Document at line "+lineCounter +" encountered issue writing to repository. Process aborted with message: " + e.getMessage());
         	return response;
 		}
@@ -952,13 +952,13 @@ public class POST extends SlingAllMethodsServlet {
 	    		delayedNode.setProperty("pages", paths);
 	    		delayedParent.save();
     		} catch(RepositoryException e){
-    			response = HtmlStatusResponseHelper.createStatusResponse(false,
+    			response = HtmlStatusResponseHelper.createStatusResponse(true,
                         "Critical Activation Error. Error while setting up delayed activation");
             	return response;
     		}
     		
     	} else{
-    		response = HtmlStatusResponseHelper.createStatusResponse(false,
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Critical Activation Error. Delayed activation node is not available");
         	return response;
     	}
@@ -1007,11 +1007,11 @@ public class POST extends SlingAllMethodsServlet {
 
 			wfSession.startWorkflow(model, data);
 		} catch (WorkflowException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(false,
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Critical Activation Error. Failed to initiate workflow. Due to error: " + e.getMessage());
         	return response;
 		} catch (RepositoryException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(false,
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Critical Activation Error. Failed while accessing repository. Due to error: " + e.getMessage());
         	return response;
 		}
@@ -1145,7 +1145,7 @@ public class POST extends SlingAllMethodsServlet {
     		PrintWriter pkgout = new PrintWriter(System.out);
     		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
 		}catch(Exception e){
-            response = HtmlStatusResponseHelper.createStatusResponse(false,
+            response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Failed to create contact backup package");
             
             e.printStackTrace();
@@ -1458,11 +1458,23 @@ public class POST extends SlingAllMethodsServlet {
 			if(date == null || time == null || date.isEmpty() || time.isEmpty()){
 				return null;
 			}
-			String startingFormat = date + "T" + time + " -05:00";
+			
+			String formatDate = date;
+			String[] dateSplit = date.split("/");
+			if(dateSplit.length == 3){
+				String endYear = dateSplit[2];
+				if(endYear.length() < 4){
+					endYear = "20" + endYear;
+				}
+				formatDate = dateSplit[0] + "/" + dateSplit[1] + "/" + endYear;
+				
+			}
+			String startingFormat = formatDate + "T" + time + " -05:00";
 			GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'hh:mm a Z");
         	GSDateTime dt = GSDateTime.parse(startingFormat,dtfIn);
         	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
         	String result = dtfOut.print(dt);
+        	System.out.println("Bulkeditor Converting Starting date format " + startingFormat + " to " + result);
         	if(this.timezone != null){
         		GSDateTimeFormatter dtfOutZone = GSDateTimeFormat.forPattern("ZZ");
         		GSDateTimeZone dtz = GSDateTimeZone.forID(this.timezone);
