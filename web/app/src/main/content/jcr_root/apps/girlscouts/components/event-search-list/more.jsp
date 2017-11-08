@@ -4,6 +4,7 @@ java.text.DateFormat,
 java.text.SimpleDateFormat,
 java.util.Date,
 java.util.List, 
+java.util.ArrayList, 
 javax.jcr.Node,
 javax.jcr.Property,
 org.girlscouts.web.events.search.*,
@@ -165,6 +166,7 @@ public void setDates(JSONObject event, Node node){
 	}
 	try {
         JSONObject json = new JSONObject();
+        List<JSONObject> events = new ArrayList<JSONObject>();
 		try{
 			final RequestPathInfo requestPathInfo = slingRequest.getRequestPathInfo();
 			String[] selectors = requestPathInfo.getSelectors();
@@ -212,7 +214,7 @@ public void setDates(JSONObject event, Node node){
 				 		setImage(event, resultNode, resourceResolver);
 				 		event.put("includeCart",includeCart);
 				 		setRegistrationLink(event, resultNode, includeCart, resourceResolver);
-				 		json.accumulate("results", event);
+				 		events.add(event);
 				 		resultCount ++;
 			 		}catch(Exception e){}
 			 		if(resultCount == RESULTS_PER_PAGE){
@@ -224,6 +226,7 @@ public void setDates(JSONObject event, Node node){
 	   	} catch(Exception e){
 	   		e.printStackTrace();
 	   	}
+	   	json.put("results",events);
 	   	json.put("newOffset",offset);
 	   	json.put("resultCount",resultCount);
 	   	json.write(response.getWriter());

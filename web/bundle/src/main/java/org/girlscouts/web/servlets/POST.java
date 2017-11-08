@@ -1,4 +1,4 @@
-package apps.wcm.core.components.gsbulkeditor;
+package org.girlscouts.web.servlets;
 
 import java.io.BufferedReader;
 import java.io.IOException;

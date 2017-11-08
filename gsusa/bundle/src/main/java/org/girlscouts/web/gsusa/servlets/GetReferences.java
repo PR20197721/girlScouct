@@ -52,13 +52,30 @@ public class GetReferences extends SlingAllMethodsServlet {
 			}
 
 			try {
+				List<List<String>> table = new ArrayList<List<String>>();
 				ResourceResolver resolver = request.getResourceResolver();
-				List<String> assetPaths = getAssets(resolver, path);
+				Resource target = resolver.resolve(path);
+				List<String> assetPaths = new ArrayList<String>();
+				if (target != null && !target.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					if (target.isResourceType("dam:Asset")) {
+						assetPaths.add(path);
+					} else {
+						int level = getLevel(path);
+						if (level > 4) {
+							assetPaths = getAssets(target);
+						} else {
+							List<String> row = new ArrayList<String>();
+							row.add("Selected folder could have negative implications on server performance. Please select a folder "
+									+ (5 - level) + " level/s down.");
+							table.add(row);
+						}
+					}
+				}
 				ReferenceSearch referenceSearch = new ReferenceSearch();
 				referenceSearch.setExact(true);
 				referenceSearch.setHollow(true);
 				referenceSearch.setMaxReferencesPerPage(-1);
-				List<List<String>> table = new ArrayList<List<String>>();
+
 				for (String asset : assetPaths) {
 					List<String> row = new ArrayList<String>();
 					Set<String> councils = new TreeSet<String>();
@@ -141,20 +158,19 @@ public class GetReferences extends SlingAllMethodsServlet {
 		return ret;
 	}
 
-	private List<String> getAssets(ResourceResolver resolver, String path) {
+	private List<String> getAssets(Resource resource) {
 		List<String> results = new ArrayList<String>();
-		Resource resource = resolver.resolve(path);
 		if (resource != null && !resource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-			Iterable<Resource> children = resource.getChildren();
-			Iterator<Resource> it = children.iterator();
-			if (it != null) {
-				while (it.hasNext()) {
-					Resource child = it.next();
-					if (child.isResourceType("dam:Asset")) {
-						results.add(child.getPath());
-					} else {
-						if (child.isResourceType("sling:OrderedFolder")) {
-							results.addAll(getAssets(resolver, child.getPath()));
+			if (resource.isResourceType("sling:OrderedFolder")) {
+				Iterable<Resource> children = resource.getChildren();
+				Iterator<Resource> it = children.iterator();
+				if (it != null) {
+					while (it.hasNext()) {
+						Resource child = it.next();
+						if (child.isResourceType("dam:Asset")) {
+							results.add(child.getPath());
+						} else {
+							results.addAll(getAssets(child));
 						}
 					}
 				}
@@ -168,6 +184,16 @@ public class GetReferences extends SlingAllMethodsServlet {
 			return true;
 		}
 		return false;
+	}
+
+	private int getLevel(String path) {
+		int counter = 0;
+		for (int i = 0; i < path.length(); i++) {
+			if (path.charAt(i) == '/') {
+				counter++;
+			}
+		}
+		return counter;
 	}
 
 }
