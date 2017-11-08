@@ -266,7 +266,7 @@ $(function(){
         componentDidMount(){
           var _this = this;
           $('.vtk-calendar-ui-jquery').datepicker({
-            minDate: new Date(this.props.time)
+            minDate: new Date()
           }).on('change',function(e){
             _this.change();
           });
