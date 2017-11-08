@@ -491,7 +491,6 @@ $(function(){
 
           function openModal(options, time, comment, meeting){
 
-            debugger;
             if(moment.tz(comment,"America/New_York").get('year') > 1978 && moment.tz(comment,"America/New_York").get('year') >= (new Date()).getFullYear() && <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>){
               _this.setState({ //Make sure it clean the previous state
                 element:{},
