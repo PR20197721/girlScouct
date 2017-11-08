@@ -1,7 +1,6 @@
-var deleteAccordionFlag = false;
 (function (document, $, ns) {
     "use strict";
-    
+    var DELETE_ACCORDION_FLAG = false;
     $(document).on("coral-component:attached", "[name='idField']", function (e) {
 		var id = $(this).val();
         if(id == null || id == ""){
@@ -17,8 +16,8 @@ var deleteAccordionFlag = false;
         e.stopImmediatePropagation();
         e.preventDefault();
         $(this).click(function(){
-        	if(deleteAccordionFlag == false){
-            	deleteAccordionFlag = true;
+        	if(DELETE_ACCORDION_FLAG == false){
+        		DELETE_ACCORDION_FLAG = true;
                 ns.ui.helpers.prompt({
                     title: Granite.I18n.get("Warning"),
                     message: "<div>If you delete this field, all content contained within will be removed as well.</div>" +
