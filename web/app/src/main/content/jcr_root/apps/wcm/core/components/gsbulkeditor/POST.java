@@ -641,10 +641,6 @@ public class POST extends SlingAllMethodsServlet {
     		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Input/Output error at line "+lineCount +". Process aborted");
         	return response;
-    	} catch(NullPointerException e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "General error at line "+lineCount +". Process aborted");
-        	throw e;
     	} catch(Exception e){
     		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "General error at line "+lineCount +". Process aborted");
@@ -1302,6 +1298,7 @@ public class POST extends SlingAllMethodsServlet {
     	
     	public Event(){
     		this.dataPairs = new HashMap<String,String>();
+    		this.datePairs = new HashMap<String,Calendar>();
     		this.startDate = "";
     		this.startTime = "";
     		this.regOpenDate = "";
