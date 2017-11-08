@@ -19,7 +19,7 @@
                         />
                     <count
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Specify how many posts to display. Will default to 20 if left blank"
+                        fieldDescription="Specify how many posts to display. Will default to 10 if left blank"
                         fieldLabel="Count"
                         minValue="1"
                         name="./count"
@@ -27,19 +27,19 @@
                     <postid1
                     	jcr:primaryType="cq:Widget"
                     	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
-                    	fieldLabel="Post ID"
+                    	fieldLabel="Post ID 1"
                     	name="./postid1"
                     	xtype="textfield"/>
                     <postid2
                     	jcr:primaryType="cq:Widget"
                     	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
-                    	fieldLabel="Post ID"
+                    	fieldLabel="Post ID 2"
                     	name="./postid2"
                     	xtype="textfield"/>
                     <postid3
                     	jcr:primaryType="cq:Widget"
                     	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
-                    	fieldLabel="Post ID"
+                    	fieldLabel="Post ID 3"
                     	name="./postid3"
                     	xtype="textfield"/>
                 </items>

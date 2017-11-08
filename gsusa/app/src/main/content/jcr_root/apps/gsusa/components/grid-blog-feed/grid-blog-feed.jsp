@@ -52,49 +52,76 @@ $(document).ready(function() {
 			},
 		dataType: "json",
 		success: function(result) {
-
-			var imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi;
-			var imageTag = "";			
+			console.log('GRIDBLOG');		
 			
 			for (var i = 0; i < result.items.length; i++) {
 				var data = result.items[i];
-				var contentData = data.content;
-
-				if (contentData && contentData.match(imageUrlPattern)) {
-					imageTag = contentData.match(imageUrlPattern)[0] + " />";
-				}
-				console.log(imageTag);
-
-				var date = data.published;
+				//console.log(i + ": " + data.image);
 				var liwrapper = 
 					'<li class="blogger">' + 
 						'<a href="' + data.url + '" target="_blank">' + 
 							'<div class="blogfeedwrapper">' +
-								'<div class="blogfeedleft">' +
-									imageTag +
+								'<div class="blogfeedimage" style="' + 
+									'background-image:url(\'' + data.image + '\');" ' +
+								'>' +
+									//'<img src="' + data.image + '" />' +
 								'</div>' +
-								'<div class="blogfeedright">' +
+								'<div class="blogfeedcontent">' +
 									'<div class="blogfeedtitle">' + data.title + '</div>' +
-									'<div class="blogfeedsnippet">Snippet Snippet</div>' +
+									'<div class="blogfeedsnippet">' + data.content + '</div>' +
 								'</div>' +
 							'</div>' + 
 						'</a>' + 
 					'</li>';			
 
-				var blogtext = data.title.toLowerCase().replace(/https?:\/\//i, "").trim().replace(/[^0-9a-z_]/g, "-");
-				//output += '<li id="tag_blog_item_' + 0 + '"><div>' + imageTag + '<a id="tag_blog_title_' + blogtext + '" class="title" href="' + data.url + '" target="_blank">' + 'READ MORE' + '</a></div></li>';
-				output += liwrapper;
-
-				
+				output += liwrapper;		
 			}			
 			blogFeedArea.html(output);
 			},
 		error: function(jqXHR, status, error) {
-			console.log('ERROR');
-			console.log('STATUS: ' + status);
+			console.log('GRID BLOG FEED');
 			console.log('ERROR: ' + error);
+			console.log('STATUS: ' + status);
 			}
 	});
 	
 })
+
+/*
+var imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi;
+var imageTag = "";			
+
+for (var i = 0; i < result.items.length; i++) {
+	var data = result.items[i];
+	var contentData = data.content;
+
+	if (contentData && contentData.match(imageUrlPattern)) {
+		imageTag = contentData.match(imageUrlPattern)[0] + " />";
+	}
+	console.log(imageTag);
+
+	var date = data.published;
+	var liwrapper = 
+		'<li class="blogger">' + 
+			'<a href="' + data.url + '" target="_blank">' + 
+				'<div class="blogfeedwrapper">' +
+					'<div class="blogfeedleft">' +
+						'<img src="' + data.image + '" />' +
+					'</div>' +
+					'<div class="blogfeedright">' +
+						'<div class="blogfeedtitle">' + data.title + '</div>' +
+						'<div class="blogfeedsnippet">' + data.content + '</div>' +
+					'</div>' +
+				'</div>' + 
+			'</a>' + 
+		'</li>';			
+
+	var blogtext = data.title.toLowerCase().replace(/https?:\/\//i, "").trim().replace(/[^0-9a-z_]/g, "-");
+	//output += '<li id="tag_blog_item_' + 0 + '"><div>' + imageTag + '<a id="tag_blog_title_' + blogtext + '" class="title" href="' + data.url + '" target="_blank">' + 'READ MORE' + '</a></div></li>';
+	output += liwrapper;
+	//console.log('output: ' + i);
+	//console.log(output);			
+}			
+blogFeedArea.html(output);
+*/
 </script>
