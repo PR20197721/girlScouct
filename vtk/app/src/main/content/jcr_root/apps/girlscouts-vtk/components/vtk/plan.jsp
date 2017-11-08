@@ -323,6 +323,8 @@ $(function(){
           var meetingId=this.props.meeting.uid,
           time=this.props.time,
           level=this.props.meeting.meetingInfo.level;
+
+          this.close();
           
           rmMeetingWithConf(meetingId,time,level);
         },
@@ -489,8 +491,7 @@ $(function(){
 
           function openModal(options, time, comment, meeting){
 
-
-            if(moment.tz(_this.props.data[comment],"America/New_York").get('year') > 1978 && true /*Other logic for previous year*/){
+            if(moment.tz(comment,"America/New_York").get('year') > 1978 && moment.tz(comment,"America/New_York").get('year') >= (new Date()).getFullYear() && <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>){
               _this.setState({ //Make sure it clean the previous state
                 element:{},
                 time: undefined,
