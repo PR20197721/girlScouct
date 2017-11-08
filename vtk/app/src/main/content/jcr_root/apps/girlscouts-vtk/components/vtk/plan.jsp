@@ -266,7 +266,7 @@ $(function(){
         componentDidMount(){
           var _this = this;
           $('.vtk-calendar-ui-jquery').datepicker({
-            defaultDate: new Date(this.props.time)
+            minDate: new Date(this.props.time)
           }).on('change',function(e){
             _this.change();
           });
@@ -326,7 +326,7 @@ $(function(){
 
           this.close();
           
-          rmMeetingWithConf(meetingId,time,level);
+          rmMeetingWithConf(meetingId,time,level,this.props.meeting.meetingInfo.name);
         },
         seeMoreCalendar: function(){
           this.props.close();
