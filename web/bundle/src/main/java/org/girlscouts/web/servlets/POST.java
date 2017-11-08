@@ -697,6 +697,7 @@ public class POST extends SlingAllMethodsServlet {
 	    			
 	    			Node eventNode = rootNode.addNode(eventName, CQ_PAGE);
 	    			contentNode = eventNode.addNode(JCR_CONTENT, CQ_PAGE_CONTENT);
+	    			contentNode.setProperty("sling:resourceType", "girlscouts/components/event-page");
 	    			contentNode.setProperty(CQ_TEMPLATE, EVENT_TEMPLATE);
 	    			contentNode.setProperty(CQ_SCAFFOLDING, "/etc/scaffolding/" + councilName + "/event");
 	    			event.setPath(eventNode.getPath());
