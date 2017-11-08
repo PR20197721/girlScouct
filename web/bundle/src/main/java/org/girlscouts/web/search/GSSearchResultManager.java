@@ -31,7 +31,7 @@ public final class GSSearchResultManager implements GSSearchResultConstants {
 	private String[] resourceTypeFilters = new String[] { "girlscouts/components/contact-placeholder-page",
 			"girlscouts/components/contact-page" };
 
-	private String[] resourcePathFilters = new String[] { "/contacts/", "/ad-page/" };
+	private String[] resourcePathFilters = new String[] { "/contacts/", "/ad-page/", "/resources/" };
 
 	public GSSearchResultManager() {
 		this.searchResults = new LinkedHashMap<String, GSSearchResult>();
