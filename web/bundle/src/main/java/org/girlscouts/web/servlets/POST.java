@@ -6,12 +6,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.security.AccessControlException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -638,6 +641,10 @@ public class POST extends SlingAllMethodsServlet {
     		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Input/Output error at line "+lineCount +". Process aborted");
         	return response;
+    	} catch(NullPointerException e){
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "General error at line "+lineCount +". Process aborted");
+        	throw e;
     	} catch(Exception e){
     		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "General error at line "+lineCount +". Process aborted");
@@ -734,6 +741,12 @@ public class POST extends SlingAllMethodsServlet {
 				Set<String> valueKeys = valueMap.keySet();
 				for(String key : valueKeys){
 					dataNode.setProperty(key, valueMap.get(key));
+				}
+				
+				Map<String, Calendar> dateMap = event.getDatePairs();
+				Set<String> dateKeys = dateMap.keySet();
+				for(String key : dateKeys){
+					dataNode.setProperty(key, dateMap.get(key));
 				}
 				Node imageNode = null;
 				if(dataNode.hasNode("image")){
@@ -1285,9 +1298,11 @@ public class POST extends SlingAllMethodsServlet {
     	private String imagePath;
     	
     	private Map<String, String> dataPairs;
+    	private Map<String, Calendar> datePairs;
     	
     	public Event(){
     		this.dataPairs = new HashMap<String,String>();
+    		this.datePairs = new HashMap<String,Calendar>();
     		this.startDate = "";
     		this.startTime = "";
     		this.regOpenDate = "";
@@ -1388,16 +1403,20 @@ public class POST extends SlingAllMethodsServlet {
     		this.dataPairs.put(key, value);
     	}
 		
+		public Map<String,Calendar> getDatePairs(){
+			return this.datePairs;
+		}
+		
 		public String updateDataPairs(){
 			
-			String start = null;
+			Calendar start = null;
 			try{
 				start = convertDateAndTime(this.startDate, this.startTime);
 			}  catch(IllegalArgumentException e){
 	    		return "Issue with formatting of start date or time";
 	    	}
 			if(start != null){
-					addDataPair("start", start);
+				this.datePairs.put("start", start);
 			}
 		
 			if(!this.endDate.isEmpty() && this.endTime.isEmpty()){
@@ -1407,14 +1426,14 @@ public class POST extends SlingAllMethodsServlet {
 				return "End Time does not have a correponding End Date";
 			}
 			
-			String end = null;
+			Calendar end = null;
 			try{
 				end = convertDateAndTime(this.endDate, this.endTime);
 			}  catch(IllegalArgumentException e){
 	    		return "Issue with formatting of end date or time";
 	    	}
 			if(end != null){
-				addDataPair("end", end);
+				this.datePairs.put("end", end);
 			}
 		
 			if(!this.regOpenDate.isEmpty() && this.regOpenTime.isEmpty()){
@@ -1423,7 +1442,7 @@ public class POST extends SlingAllMethodsServlet {
 			if(this.regOpenDate.isEmpty() && !this.regOpenTime.isEmpty()){
 				return "Registration Open Time does not have a correponding Registration Open Date";
 			}
-			String regOpen = null;
+			Calendar regOpen = null;
 			try{
 				regOpen = convertDateAndTime(this.regOpenDate, this.regOpenTime);
 			}  catch(IllegalArgumentException e){
@@ -1431,7 +1450,7 @@ public class POST extends SlingAllMethodsServlet {
 	    	}
 			
 			if(regOpen != null){
-				addDataPair("regOpen", regOpen);
+				this.datePairs.put("regOpen", regOpen);
 			}
 			
 			
@@ -1441,7 +1460,7 @@ public class POST extends SlingAllMethodsServlet {
 			if(this.regCloseDate.isEmpty() && !this.regCloseTime.isEmpty()){
 				return "Registration Close Time does not have a correponding Registration Close Date";
 			}
-			String regClose = null;
+			Calendar regClose = null;
 			try{
 				regClose = convertDateAndTime(this.regCloseDate, this.regCloseTime);
 			}  catch(IllegalArgumentException e){
@@ -1449,13 +1468,13 @@ public class POST extends SlingAllMethodsServlet {
 	    	}
 			
 			if(regClose != null){
-				addDataPair("regClose", regClose);
+				this.datePairs.put("regClose", regClose);
 			}
 			
 			return null;
 		}
 		
-		private String convertDateAndTime(String date, String time){
+		private Calendar convertDateAndTime(String date, String time){
 			if(date == null || time == null || date.isEmpty() || time.isEmpty()){
 				return null;
 			}
@@ -1470,6 +1489,7 @@ public class POST extends SlingAllMethodsServlet {
 				formatDate = dateSplit[0] + "/" + dateSplit[1] + "/" + endYear;
 				
 			}
+			
 			String startingFormat = formatDate + "T" + time + " -05:00";
 			GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'hh:mm a Z");
         	GSDateTime dt = GSDateTime.parse(startingFormat,dtfIn);
@@ -1479,12 +1499,14 @@ public class POST extends SlingAllMethodsServlet {
         	if(this.timezone != null){
         		GSDateTimeFormatter dtfOutZone = GSDateTimeFormat.forPattern("ZZ");
         		GSDateTimeZone dtz = GSDateTimeZone.forID(this.timezone);
-			    GSDateTime baseDateTime = GSDateTime.parse(result, dtfIn);
-			    baseDateTime = baseDateTime.withZone(dtz);
-			    String timeZoneOffset = dtfOutZone.print(baseDateTime);
-			    result = result.substring(0,result .lastIndexOf("-")) + timeZoneOffset;
+			    dt = GSDateTime.parse(result, dtfIn);
+			    dt = dt.withZone(dtz);
+			    String timeZoneOffset = dtfOutZone.print(dt);
+			    //result = result.substring(0,result .lastIndexOf("-")) + timeZoneOffset;
         	}
-        	return result;
+        	
+        	return dt.getCalendar();
+        	//return result;
         	
 		}
 
