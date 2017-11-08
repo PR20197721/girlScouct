@@ -20,6 +20,7 @@ import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
 
 import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -72,12 +73,9 @@ import com.day.cq.search.result.SearchResult;
 @Service(value = MeetingDAO.class)
 public class MeetingDAOImpl implements MeetingDAO {
 	private final Logger log = LoggerFactory.getLogger("vtk");
-	
-	//public static Map<String,Long> resourceCountMap = new HashMap<String,Long>();
-	public static Map resourceCountMap = new HashMap();
 	public static final String RESOURCE_COUNT_MAP_AGE = "RESOURCE_COUNT_MAP_AGE";
 	public static final long MAX_CACHE_AGE_MS = 3600000; // 1 hour in ms
-//	public static final long MAX_CACHE_AGE_MS = 60000; // 1 minute in ms
+	public static Map resourceCountMap = new PassiveExpiringMap(MAX_CACHE_AGE_MS);
 
 	@Reference
 	private SessionFactory sessionFactory;
@@ -2593,15 +2591,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public java.util.Collection<bean_resource> getResourceData(User user, Troop troop, String _path)
 			throws IllegalAccessException { 
 		
-		int count = 0;
-		
+		int count = 0;	
 		if (resourceCountMap.containsKey(_path)) {
-			// it contains the key
-			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
-				// return cache
-				
-				return (java.util.Collection<bean_resource>)resourceCountMap.get(_path);
-			}
+			return (java.util.Collection<bean_resource>)resourceCountMap.get(_path);
 		}
 		
 		java.util.Map <String, bean_resource>dictionary =null;
@@ -2692,9 +2684,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 		
 				
 		resourceCountMap.put(_path, dictionary.values());
-		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
-
-		
 		return dictionary.values();
 	}
 	
@@ -2706,12 +2695,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		}
 		
 		if (resourceCountMap.containsKey(path)) {
-			// it contains the key
-			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
-				// return cache
-			
-				return ((Integer)resourceCountMap.get(path)).intValue();
-			}
+				return ((Integer)resourceCountMap.get(path)).intValue();	
 		}
 		
 		
@@ -2749,7 +2733,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 		
 				
 		resourceCountMap.put(path, count);
-		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 		return count;
 	}
 	
@@ -2757,12 +2740,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException {
 		if (resourceCountMap.containsKey(path)) {
-			// it contains the key
-			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
-				// return cache
-			
 				return ((Long)resourceCountMap.get(path)).intValue();
-			}
 		}
 			
 		long count = 0;
@@ -2784,8 +2762,7 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 			count = (long) result.getNodes().getSize();
 				
 			resourceCountMap.put(path, count);
-			resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
-			
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
