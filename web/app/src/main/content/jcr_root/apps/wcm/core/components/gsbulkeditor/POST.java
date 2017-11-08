@@ -1302,6 +1302,7 @@ public class POST extends SlingAllMethodsServlet {
     	
     	public Event(){
     		this.dataPairs = new HashMap<String,String>();
+    		this.datePairs = new HashMap<String,Calendar>();
     		this.startDate = "";
     		this.startTime = "";
     		this.regOpenDate = "";
