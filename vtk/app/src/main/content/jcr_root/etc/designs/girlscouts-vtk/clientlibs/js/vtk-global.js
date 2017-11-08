@@ -38,6 +38,7 @@ var $ = jQuery.noConflict();
   }
 */
 
+
 	function modal_height_on_open() {
 	  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
 			var window_h = $(window).height();
@@ -57,10 +58,11 @@ var $ = jQuery.noConflict();
 	}
 
 	function modal_height_resize() {
-  	var window_h = $(window).height();
-  	var popup_h = (window_h - 75);
+  		var window_h = $(window).height();
+  		var popup_h = (window_h - 75);
 		$('.scroll').css('max-height' , popup_h + 'px');
-		$('.modalWrap').css('max-height' , $(window).height()+'px');
+		$('.modalWrap').css('max-height', $(window).height() + 'px');
+		$('.ui-dialog').css('left', $(window).width()<920?0:($(window).width() - 920) / 2 )
 		//adding a heights to popups with two scrollable content.
 		$('.scroll_2').css('max-height', ($(window).height()-75)-$('.scroll_1').height() + 'px');
 	}
