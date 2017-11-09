@@ -249,7 +249,8 @@ $(function(){
       var DirectCalendar = React.createClass({
         displayName:'DirectCalendar',
         close: function(){
-          this.props.close()
+          this.props.close();
+          document.body.style.overflowY=''
         },
         getInitialState: function(){
           return {
@@ -284,7 +285,6 @@ $(function(){
         saveChange: function(){
           var _this = this;
           if(moment(this.refs.date.value +" "+ this.refs.time.value + " " + this.refs.ap.value).isValid()){
-            debugger;
               var newTime = moment(this.refs.date.value+' '+this.refs.time.value+' '+this.refs.ap.value).utc().format('YYYY-MM-DDTHH:mm:ss.SSS');
             var arrayOfKeys = Object.keys(this.props.obj);
 
