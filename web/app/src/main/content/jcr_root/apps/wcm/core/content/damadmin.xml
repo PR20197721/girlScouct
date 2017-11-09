@@ -403,6 +403,7 @@
             handler="function(data,event){&#xa;&#x9;try{&#xa;&#x9;&#x9;var path = data.baseAction.path;&#xa;&#x9;&#x9;if(path != null){&#xa;&#x9;&#x9;&#x9;path = '/apps/test/components/references.html?path='+ path;&#xa;&#x9;&#x9;&#x9;window.open(path, 'report', '');&#xa;&#x9;&#x9;}&#xa;&#x9;}catch(err){&#xa;&#x9;}&#xa;}"
             iconCls="cq-damadmin-open-icon"
             privileges="[replicate]"
+            target="CQ.wcm.SiteAdmin.getTargetFromList"
             text="Download References Report"/>
     </actions>
     <search
