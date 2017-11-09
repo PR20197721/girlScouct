@@ -330,11 +330,13 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 	
 	function getEventDate(event){
 		try{
-			if(event.formattedStartDate != undefined && event.formattedEndDate != undefined){
+			if(event.formattedStartDate != undefined){
 				var $p = $("<p>", {"class":"bold"});
 				$p.append("Date: ");
 				$p.append("<span itemprop=\"startDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfStartDate+"\">"+event.formattedStartDate+"</span>");
-				$p.append("<span itemprop=\"stopDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfEndDate+"\">"+event.formattedEndDate+"</span>");
+				if(event.formattedEndDate != undefined){
+					$p.append("<span itemprop=\"stopDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfEndDate+"\">"+event.formattedEndDate+"</span>");
+				}
 				return $p;
 			}
 		}catch(err){}
