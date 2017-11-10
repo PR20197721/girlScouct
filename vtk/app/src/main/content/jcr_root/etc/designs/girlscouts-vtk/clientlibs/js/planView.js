@@ -396,10 +396,7 @@ function gsDialog(config) {
 
 
 	function attachResize() { 
-		window.addEventListener('resize', function(event){
-			console.log('RESIXE')
-					resizeDialogo();
-		  });
+		window.addEventListener('resize',resizeDialogo);
 	}
 
 
@@ -428,7 +425,7 @@ function gsDialog(config) {
 				},
 				close: function () {
 					$('body').css('overflow', 'inherit');
-					// $('.'+classDialog).off('resize');
+					window.removeEventListener('resize',resizeDialogo);
 				},
 				create: function () {
 					$('.'+classDialog).removeClass('ui-widget ui-widget-content ui-corner-all  ui-dialog-buttons');
