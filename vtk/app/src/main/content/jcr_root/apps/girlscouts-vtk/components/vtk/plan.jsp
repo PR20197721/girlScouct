@@ -284,7 +284,7 @@ $(function(){
         saveChange: function(){
           var _this = this;
           if(moment(this.refs.date.value +" "+ this.refs.time.value + " " + this.refs.ap.value).isValid()){
-            debugger;
+
               var newTime = moment(this.refs.date.value+' '+this.refs.time.value+' '+this.refs.ap.value).utc().format('YYYY-MM-DDTHH:mm:ss.SSS');
             var arrayOfKeys = Object.keys(this.props.obj);
 
@@ -490,25 +490,25 @@ $(function(){
           }
 
           function openModal(options, time, comment, meeting){
-
-            if(moment.tz(comment,"America/New_York").get('year') > 1978 && moment.tz(comment,"America/New_York").get('year') >= (new Date()).getFullYear() && <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>){
-              _this.setState({ //Make sure it clean the previous state
-                element:{},
-                time: undefined,
-                meeting:{}
-              },function(){
-                _this.setState({
-                element:options,
-                time:time,
-                meeting:meeting
-              })
-
-
-              })
-            
+            if(moment.tz(comment,"America/New_York").get('year') > 1978){
+              if(moment.tz(comment,"America/New_York").get('year') >= (new Date()).getFullYear() && <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>){
+                _this.setState({ //Make sure it clean the previous state
+                  element:{},
+                  time: undefined,
+                  meeting:{}
+                },function(){
+                    _this.setState({
+                    element:options,
+                    time:time,
+                    meeting:meeting
+                    })
+                  }
+                )
+              }
+            }else{
+              newLocCal();
             }
           }
-
 
           if( this.props.data!=null){
             var keys =  Object.keys( this.props.data );
