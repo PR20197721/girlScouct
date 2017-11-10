@@ -28,6 +28,55 @@
 
 <script type="text/javascript">
 
+//Adapted from jquery.ellipsis.js
+function truncate(el, lines) {
+	console.log("truncate: " + el);
+	var $container = $(el),
+		className = "trunc",
+		$elspan = $('<span class="' + className + '" />'),
+		spantag = '<span style="white-space: nowrap;">',
+		currLine = 0,
+		currOffset,
+		containerHeight,
+		setStartEllipAt,
+        startEllipAt,
+		words,
+		baseText = $container.text();
+		
+	$elspan.text(baseText);	
+	$container.empty().append($elspan);
+	
+	containerHeight = $container.height();
+	
+	if (containerHeight >= $elspan.height()) { return; }
+	
+	words = $.trim(baseText).split(/\s+/);
+	$elspan.html(spantag + words.join('</span> ' + spantag) + '</span>');
+	
+	var setStartEllipByLine = function(i, word) {
+		var $word = $(word),
+			top = $word.position().top;
+		if (top !== currOffset) {
+			currOffset = top;
+			currLine += 1;
+		}
+		if (currLine === lines) {
+			startEllipAt = i;
+			return false;
+		}
+	};
+	$elspan.find('span').each(setStartEllipByLine);
+	
+	function updateText(nth) {
+		words[nth] = '<span class="' + 'truncline' + '">' + words[nth];
+		words.push('</span>');
+		$elspan.html(words.join(' '));
+	}	
+	if (startEllipAt != null) {
+        updateText(startEllipAt);
+    }
+	
+}
 
 var blogFeedArea = $(".blog-feed-area");
 
@@ -56,7 +105,6 @@ $(document).ready(function() {
 			
 			for (var i = 0; i < result.items.length; i++) {
 				var data = result.items[i];
-				//console.log(i + ": " + data.image);
 				var liwrapper = 
 					'<li class="blogger">' + 
 						'<a href="' + data.url + '" target="_blank">' + 
@@ -75,8 +123,12 @@ $(document).ready(function() {
 					'</li>';			
 
 				output += liwrapper;		
-			}			
+			}
+						
 			blogFeedArea.html(output);
+			$('.blogfeedsnippet').each(function() {
+				truncate(this, 3);
+			});
 			},
 		error: function(jqXHR, status, error) {
 			console.log('GRID BLOG FEED');
@@ -87,41 +139,4 @@ $(document).ready(function() {
 	
 })
 
-/*
-var imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi;
-var imageTag = "";			
-
-for (var i = 0; i < result.items.length; i++) {
-	var data = result.items[i];
-	var contentData = data.content;
-
-	if (contentData && contentData.match(imageUrlPattern)) {
-		imageTag = contentData.match(imageUrlPattern)[0] + " />";
-	}
-	console.log(imageTag);
-
-	var date = data.published;
-	var liwrapper = 
-		'<li class="blogger">' + 
-			'<a href="' + data.url + '" target="_blank">' + 
-				'<div class="blogfeedwrapper">' +
-					'<div class="blogfeedleft">' +
-						'<img src="' + data.image + '" />' +
-					'</div>' +
-					'<div class="blogfeedright">' +
-						'<div class="blogfeedtitle">' + data.title + '</div>' +
-						'<div class="blogfeedsnippet">' + data.content + '</div>' +
-					'</div>' +
-				'</div>' + 
-			'</a>' + 
-		'</li>';			
-
-	var blogtext = data.title.toLowerCase().replace(/https?:\/\//i, "").trim().replace(/[^0-9a-z_]/g, "-");
-	//output += '<li id="tag_blog_item_' + 0 + '"><div>' + imageTag + '<a id="tag_blog_title_' + blogtext + '" class="title" href="' + data.url + '" target="_blank">' + 'READ MORE' + '</a></div></li>';
-	output += liwrapper;
-	//console.log('output: ' + i);
-	//console.log(output);			
-}			
-blogFeedArea.html(output);
-*/
 </script>
