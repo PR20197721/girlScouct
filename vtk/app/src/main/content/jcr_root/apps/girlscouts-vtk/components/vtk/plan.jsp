@@ -507,7 +507,7 @@ $(function(){
                 )
               }
             }else{
-              if(moment.tz(comment,"America/New_York").get('year') >= (new Date()).getFullYear() && <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>){
+              if( <%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "true" : "false" %> && <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>){
                 newLocCal();
               }
             }
