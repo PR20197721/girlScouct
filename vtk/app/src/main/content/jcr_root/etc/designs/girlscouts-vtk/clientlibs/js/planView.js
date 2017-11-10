@@ -386,7 +386,6 @@ function gsDialog(config) {
 				resizable: false,
 				buttons: config.buttons,
 				open: function () {
-
 						$('body').css('overflow', 'hidden');
 
 						$(".ui-dialog-titlebar").html('<div>'+config.headerText+'<i onclick="____close_Dialog()" style="posi' +
@@ -394,27 +393,33 @@ function gsDialog(config) {
 														'/i></div>');
 						$(".ui-dialog-titlebar").show();
 
-						$(window).on('resize', function (event) {
+						function resizeDialogo() { 
+							dislogElement.dialog("option", "position", {
+								my: "center",
+								at: "center",
+								of: window
+							});
+	
+							if ($(window).width() < 500) {
+								dislogElement.dialog("option", "width", $(window).width());
+							} else {
+								dislogElement.dialog("option", "width", config.width);
+							}
+						}
 
-										dislogElement.dialog("option", "position", {
-														my: "center",
-														at: "center",
-														of: window
-										});
 
-										if ($(window).width() < 500) {
-														dislogElement.dialog("option", "width", $(window).width());
-										} else {
-														dislogElement.dialog("option", "width", config.width);
-										}
+						$(function () { 
+							$(window).on('resize', function (event) {
+								resizeDialogo();									
+							})
+						}) 
 
-						})
+						resizeDialogo();		
 
 				},
 				close: function () {
 					$('body').css('overflow', 'inherit');
 					$('.'+classDialog).off('resize');
-
 				},
 				create: function () {
 					$('.'+classDialog).removeClass('ui-widget ui-widget-content ui-corner-all  ui-dialog-buttons');

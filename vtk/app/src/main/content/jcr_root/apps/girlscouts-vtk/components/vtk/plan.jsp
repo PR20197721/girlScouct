@@ -249,7 +249,8 @@ $(function(){
       var DirectCalendar = React.createClass({
         displayName:'DirectCalendar',
         close: function(){
-          this.props.close()
+          this.props.close();
+          document.body.style.overflowY=''
         },
         getInitialState: function(){
           return {
