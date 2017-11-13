@@ -261,14 +261,10 @@ function openClose1(div1, div2){
 	}
 }
 
-function updateAttendAchvm(mid){
+function updateAttendAchvm(mid, eventType){
 	
 	var attend = getCheckedCheckboxesFor('attendance');
 	var achn = getCheckedCheckboxesFor('achievement');
-	//var UpdAttendance= document.getElementById('UpdAttendance');
-	//var mid= document.getElementById('mid');
-	console.log( "attend: "+ attend);
-	console.log( "achv: "+ achn);
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -276,7 +272,8 @@ function updateAttendAchvm(mid){
 			act:'UpdAttendance',
 			mid:mid,
 			attendance:attend,
-			achievement:achn
+			achievement:achn,
+			eType:eventType
 		},
 		success: function(result) {
 			console.log("closing...");
@@ -288,6 +285,7 @@ function updateAttendAchvm(mid){
 	return;
 	
 }
+
 
 function getCheckedCheckboxesFor(checkboxName) {
 	var t="";
@@ -378,6 +376,31 @@ function gsDialog(config) {
 	
 	dislogElement.html('<p>' + config.content + "</p>");
 
+
+
+	function resizeDialogo() { 
+		dislogElement.dialog("option", "position", {
+			my: "center",
+			at: "center",
+			of: window
+		});
+
+		if ($(window).width() < config.width) {
+			dislogElement.dialog("option", "width", $(window).width());
+		} else {
+			dislogElement.dialog("option", "width", config.width);
+		}
+	}
+
+
+
+
+	function attachResize() { 
+		window.addEventListener('resize',resizeDialogo);
+	}
+
+
+
 	dislogElement
 		.dialog({
 				dialogClass: classDialog,
@@ -385,10 +408,9 @@ function gsDialog(config) {
 				show: 375,
 				draggable: false,
 				width: config.width || 500,
-				resizable: false,
-				buttons: config.buttons,
-				open: function () {
-
+				resizable: true,
+			buttons: config.buttons,
+			open: function () {
 						$('body').css('overflow', 'hidden');
 
 						$(".ui-dialog-titlebar").html('<div>'+config.headerText+'<i onclick="____close_Dialog()" style="posi' +
@@ -396,27 +418,14 @@ function gsDialog(config) {
 														'/i></div>');
 						$(".ui-dialog-titlebar").show();
 
-						$(window).on('resize', function (event) {
-
-										dislogElement.dialog("option", "position", {
-														my: "center",
-														at: "center",
-														of: window
-										});
-
-										if ($(window).width() < 500) {
-														dislogElement.dialog("option", "width", $(window).width());
-										} else {
-														dislogElement.dialog("option", "width", config.width);
-										}
-
-						})
+				resizeDialogo();
+				
+				attachResize();
 
 				},
 				close: function () {
 					$('body').css('overflow', 'inherit');
-					$('.'+classDialog).off('resize');
-
+					window.removeEventListener('resize',resizeDialogo);
 				},
 				create: function () {
 					$('.'+classDialog).removeClass('ui-widget ui-widget-content ui-corner-all  ui-dialog-buttons');
@@ -433,125 +442,26 @@ function gsDialog(config) {
 
 
 
+
 function rmMeetingWithConf(mPath, mDate, ageGroup, meetingName) {
-	
-	//$('#gsDialog')
-		// .html('Are you sure you want to delete the ' + ageGroup + ' meeting, "' + meetingName + '" from your Year Plan?')
-
-		// $('#gsDialog').dialog({
-		// 	dialogClass: '__modalWrap',
-		// 	modal: true,
-		// 	show: 375,
-		// 	draggable: false,
-		// 	width: 500,
-		// 	classes:{
-		// 	},
-		// 	 resizable: false,
-		// 		buttons : [
-		// 						{
-		// 										text: "Ok",
-		
-		// 										click: function () {
-		// 														$(this).dialog("close");
-		// 										},
-
-		// 										// Uncommenting the following line would hide the text, resulting in the label
-		// 										// being used as a tooltip
-		// 										//showText: falses
-		// 						}, {
-		// 										text: "Ok",
-
-		// 										click: function () {
-		// 														$(this).dialog("close");
-		// 										},
-
-		// 										// Uncommenting the following line would hide the text, resulting in the label
-		// 										// being used as a tooltip
-		// 										//showText: falses
-		// 						}
-		// 		],
-
-		// 		open: function () {
-				
-
-
-		// 		$('body').css('overflow', 'hidden');
-				
-		// 		// $("span.ui-dialog-title").html('Are you sure you want to delete');
-		// 		$(".ui-dialog-titlebar").html('<div>Are you sure you want to delete <i onclick="____close_Dialog()" style="position:absolute;top:0px;right:5px;color:white;" class="icon-button-circle-cross"></i></div>');
-		// 		$(".ui-dialog-titlebar").show();
-		// 		// $(".ui-dialog-titlebar").children('i').on('click', function () { 
-		// 		// 	console.log('click@@@@')
-		// 		// 	$('#gsDialog').dialog('close');
-		// 		// 	})
-		// 		$(window).on('resize', function (event) { 
-
-
-					
-	
-		// 			$('#gsDialog')
-		// 				.dialog("option", "position", { my: "center", at: "center", of: window });
-					
-		// 			if ($(window).width()<500){ 
-		// 				$('#gsDialog')
-		// 					.dialog("option", "width", $(window).width());
-		// 			} else {
-		// 				$('#gsDialog')
-		// 					.dialog("option", "width", 500);
-		// 			}
-
-					
-		// 		})
-
-
-
-
-
-		// 	},
-		// 	close: function () {
-		// 		$('body').css('overflow', 'inherit');
-		// 		$('.__modalWrap').off('resize');
-
-		// 		},
-		// 	create: function () { 
-		// 		$('.__modalWrap').removeClass('ui-widget ui-widget-content ui-corner-all  ui-dialog-buttons');
-		// 		$('.__modalWrap').children('.ui-dialog-titlebar').removeClass('ui-widget-header ui-corner-all');
-		// 		$('.__modalWrap').children('.ui-dialog-buttonpane').removeClass('ui-widget-content');
-		// 	},
-			
-
-		// })
-	
-	
-	// var isRm = confirm('Are you sure you want to delete the '+ ageGroup+' meeting, "'+meetingName+'" from your Year Plan?');
-
-
 	gsDialog({
-		content: 'Are you sure you want to delete the ' + ageGroup + ' meeting, "' + meetingName + '" from your Year Plan?',
+		content: 'You want to delete the ' + ageGroup + ' meeting, "' + meetingName + '"<br /><p style="margin:0px;"><b>NOTE:</b> <span style="color:orange;">Girls must complete all requirements in order to earn a badge. If you delete this meeting, consider deleting the corresponding badge meetings to avoid confusion.</span></p> ',
 		headerText: 'Delete Meeting',
 		buttons : [	{
-					text: "NO, KEEP",
+					text: "CANCEL",
 					click: function () {
 						$(this).dialog("close");
 					}
 		},
 		{
-					text: "YES, DELETE",
+					text: "DELETE",
 					click: function () {
 						rmMeetingSingle(  mDate, mPath );
 					}
 			}],
 		width:600
 	})
-
-
-	// function removeMeeting() {
-	// 		rmMeetingSingle(  mDate, mPath );
-	// }
-
-
 }
-
 
 function rmMeetingSingle(rmDate, mid) {
 
@@ -586,6 +496,10 @@ function rmMeetingWithConfBlocked(mPath, mDate, ageGroup, meetingName) {
 			}],
 		width:600
 	})
+}
+
+function schedChanger(dt) {
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.sched.html?elem='+ dt, false, null, true, false);
 }
 
 var getDataIfModified;

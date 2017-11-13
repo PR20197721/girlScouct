@@ -66,7 +66,7 @@
           </p>
          </li>
          <li class="row">
-          <p><strong>Meetings Attended:</strong></p>
+          <p><strong> Attendance:</strong></p>
           <p>
           <% for(int y=0;y<infos.size();y++) {
               if(infos.get(y).isAttended()) {

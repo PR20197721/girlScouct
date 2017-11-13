@@ -1,3 +1,6 @@
+var is_add_meeting=false;
+
+
 function loadMeetings() {
     var url = '/content/girlscouts-vtk/controllers/vtk.meetingInclude.html';
     $("#yearPlanMeetings").load(url, resizeWindow);
@@ -148,7 +151,8 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
     }).done(function(response){
         $("#gsModal").html(response);
         loadModal("#gsModal", showTitle, title, fullPageScroll, print);
-                  $('#gsModal').children('.scroll').css('maxHeight','601px');
+        $('#gsModal').children('.scroll').css('maxHeight', '601px');
+       $(document).foundation();
     }).fail(function(response, status, xhr){
        $("#error").html(response + xhr.status + " " + xhr.statusText);
     })
@@ -251,6 +255,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
             }
         });
     }
+    $(document).foundation();
 }
 //add placeholder to the forms in the popups for IE9.
 function placeholder_IE9() {
@@ -757,14 +762,19 @@ function bindAssetToYPC(assetId, ypcId) {
 
 
 function doMeetingLib(isMsgConf) {
-	
+    is_add_meeting = true;
     if (!isMsgConf) {
 
         if (!confirm("This action will create a meeting outside of the current GirlScouts school year. Would you like to proceed?")) {
             return;
         }
     }
-    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false);
+    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false); 
+}
+
+function replaceDoMeetingLib(path) { 
+    is_add_meeting = false;
+    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath='+path, false, null, true)
 }
 
 function doHelp(isSched) {
@@ -2158,6 +2168,7 @@ var initNotes = (function(global, ModalVtk, $) {
 
     }
 
+  
 
     $(function() {
         var editormain = Object.create(editor);
@@ -2199,7 +2210,6 @@ var initNotes = (function(global, ModalVtk, $) {
     };
 
 })(this, ModalVtk, $);
-
 
 
 

@@ -12,10 +12,15 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <%
+
+		String rptForYear = user.getCurrentYear();
+		if( request.getParameter("rptForYear")!=null) //overwrite current year 
+			rptForYear= request.getParameter("rptForYear");
+		
 		response.setContentType("application/csv");
 		response.setHeader("Content-Disposition","attachment; filename=AchievementReport.csv");
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
-		String sql="select id,name, level from nt:unstructured where jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+user.getCurrentYear()+"/%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
+		String sql="select id,name, level from nt:unstructured where jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+rptForYear+"/%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
 		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		javax.jcr.query.QueryResult result = q.execute();
@@ -31,7 +36,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 			}catch(Exception e){e.printStackTrace();}          
 		}
 		
-		sql="select parent.refId, child.users from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ VtkUtil.getYearPlanBase(null,null) +"])) and child.ocm_classname='org.girlscouts.vtk.models.Achievement' and child.users <> ''";
+		sql="select parent.refId, child.users from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/vtk"+ rptForYear +"/])) and child.ocm_classname='org.girlscouts.vtk.models.Achievement' and child.users <> ''";
 		q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
 		result = q.execute();
 		Multimap<String, String> meetingIds = ArrayListMultimap.create();

@@ -87,14 +87,12 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
       <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"  class="column medium-20 small-24 small-centered" style="display:none;">
       </div>
-      <div id="vtkBannerModal" data-reveal data-options="close_on_background_click:false; close_on_esc: false;" class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-      </div>
-
-
 
     <script>
+      $(function(){
+        callExecuteBannerSlider()
+      })
 
-      callExecuteBannerSlider()
 
     </script>
 
@@ -124,7 +122,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
     function callPrintModal(){
 
-        printModal.fillWith('What you would like to print?',cll, function(){
+        printModal.fillWith('What would you like to print?',cll, function(){
 
           var listPrintAdress = {
             agenda:'/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isAgenda&mid=<%=mid%>',
@@ -518,10 +516,10 @@ React.createElement(ActivityPlan),
   React.createElement("ul", {className: "large-block-grid-2 medium-block-grid-2 small-block-grid-2"},
 
         React.createElement(EmailMeetingReminder)
-        <%if( !user.getApiConfig().isDemoUser()  ){%>
+
 	        ,
 	        React.createElement(AttendanceAchievement,{data:this.props.thisMeeting})
-	    <%}%>
+
 
 
 
@@ -688,7 +686,7 @@ React.createElement(ActivityPlan),
                 }
              return (
                    React.createElement("li", null,
-                    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%>",  href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid="+this.props.data.uid+"&isAch="+isArch+"&mName="+mName}, "Record Attendance & Achievements"),
+                    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%>",  href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?eType=MEETING&mid="+this.props.data.uid+"&isAch="+isArch+"&mName="+mName}, "Record Attendance & Achievements"),
                       React.createElement("li", null, "(",txt,")")
                   )
                 );
@@ -985,6 +983,8 @@ React.createElement(ActivityPlan),
           this.setState(this.state);
         },
 
+
+
         render: function () {
           return React.createElement("li", { className: (helper.permissions != null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>') != -1 && thisMeetingType != 'MEETINGCANCELED') ? "row ui-state-default" : "ui-state-disabled", key: this.state.activityNumber, id: this.state.activityNumber },
             React.createElement("div", { className: "wrapper clearfix" },
@@ -1067,6 +1067,7 @@ React.createElement(ActivityPlan),
           } catch (err) { }
 
           this.hookJquerySortable();
+          $(document).foundation();
         },
         componentDidUpdate: function () {
           this.hookJquerySortable();         

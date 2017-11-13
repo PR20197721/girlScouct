@@ -3,6 +3,7 @@ import * as data from './data'
 
 import {getMeetings, modal} from './data';
 
+import Category from './category';
 import Meeting from './meeting';
 import Meetings from './meetings';
 
@@ -10,7 +11,8 @@ interface YplanTrackProps {
     track : string;
     isnew: string;
     last: boolean;
-    store:any;
+    store: any;
+    first: boolean;
 };
 
 interface YplanTrackState {
@@ -73,7 +75,7 @@ YplanTrackState > {
 
 
     public render(): JSX.Element {
-        
+
         return (
             <div className="__year-plan-track-row">
               
@@ -85,8 +87,14 @@ YplanTrackState > {
                                     {this
                                         .props
                                         .track
-                                        .split('###')[1]} <span style={{marginLeft:'10px',color:'#FAA61A',fontWeight:'bold'}}>{(this.props.isnew=='isnew')?'NEW':null}</span> 
-
+                                        .split('###')[1]} <span style={{ marginLeft: '12pt', color: '#FAA61A', fontWeight: 'bold' }}>{(this.props.isnew == 'isnew') ? 'NEW' : null}</span> <br />
+                                    
+                                        {(this.props.first && (________app________ === "brownie" || ________app________ === "daisy" || ________app________ === "junior")) ?
+                                        <span>
+                                            {'To learn about ' + ________app________.charAt(0).toUpperCase()+________app________.slice(1)  + ' badges use the new'} <a href='https://www.girlscouts.org/en/our-program/badges/badge_explorer.html' target="_blank">Badge Explorer.</a>
+                                        </span>
+                                        : null
+                                    }
                                 </div>
                                 <div
                                     className={this.state.isOpen

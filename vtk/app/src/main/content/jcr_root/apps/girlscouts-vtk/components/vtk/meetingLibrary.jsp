@@ -5,7 +5,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
-<!-- apps/girlscouts-vtk/components/vtk/meetingLibrary.jsp  -->
 
 <%
 try{
@@ -74,7 +73,7 @@ meetings.addAll(extraInfoMeetings);
               HINT: meeting overviews are available under resources
        <%}//end else %>
     </span>
-    <a class="close-reveal-modal columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
+    <a class="columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
 
   </div>
 
@@ -645,7 +644,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 	function createElement(el){
 		var $input = $(el).find('input');
 		var $complement = $(el).find('label');
-
+		if ($input.attr('id')==undefined) return;
 
 		var $li = $('<li data-id="'+$input.attr('id') +'" ></li>');
 
@@ -815,16 +814,8 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 		});
 
 		button.cancel.on('click',function(e){
-			resetVtkFilters();
-			button.ok.addClass('inactive-button');
 
-			$('#vtk-meeting-filter').find('input')
-			.not(':button, :submit, :reset, :hidden')
-			.val('')
-			.removeAttr('checked')
-			.removeAttr('selected');
-
-			$("#meetingSelect").slideUp();
+			closeModalPage();
 		});
 
 		renderElement('#vtk-meeting-group-age','#vtk-dropdown-filter-1',true);
@@ -857,7 +848,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
      <%if(request.getParameter("isReplaceMeeting")==null){%>
-      <input class="button tiny" type="button" value="CLEAR" onclick="clearList()" />
+      <input class="button tiny inactive-button clear-meeting-filter-result" type="button" value="CLEAR" onclick="clearList()" />
 	  <%if( request.getParameter("newCustYr")!=null){ %>
 		   <input class="button tiny inactive-button add-to-year-plan" type="button" value="ADD TO YEAR PLAN"  onclick="createCustPlan(null)"/>
 	  <%}else{ %>
@@ -955,28 +946,19 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 									value="<%=meeting.getPath()%>"/>
                             <%}//edn if%>
 							<label for="<%=meeting.getPath()%>_<%=i%>"><span></span>
-							<%if( request.getParameter("newCustYr")!=null){ %>
-								   <p onclick="createCustPlan('<%=meeting.getPath()%>')">Select Meeting</p>
-							  <%}else{ %>
-								   <p onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</p>
-							  <%}//end else %>
-
-
+								<%if( request.getParameter("newCustYr")!=null){ %>
+								   <p  class="select-meeting-withaction" style="display:none" onclick="createCustPlan('<%=meeting.getPath()%>')">SELECT MEETING</p>
+							  	<%}else{ %>
+								   <p class="select-meeting-withaction" style="display:none" onclick="cngMeeting('<%=meeting.getPath()%>')">SELECT MEETING</p>
+								  <%}//end else %> 
+								
+								<p class="select-meeting-withoutaction" style="display:none">SELECT MEETING</p>
 							</label>
 							</div>
-						   
-
-							
-							 
-				
-							
 				<% } else {%>
 				  <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
 
-					<%
-					if( !futureMeetings.contains(meeting.getId().toLowerCase() )  && reAddMeetings.contains( meeting.getId().toLowerCase() ) ){%>
-						 <a onclick="cngMeeting('<%=meeting.getPath()%>')">Re-add meeting</a>
-					<%} %>
+					
 				<% }%>
 
 						  </div>
@@ -1022,8 +1004,11 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		var arraylist =  Array.prototype.slice.call(document.getElementsByName('addMeetingMulti'))
 
 		arraylist.forEach(function(element){
-			element.removeAttribute('checked');
-			element.checked=false;
+			if(element.checked){
+				element.removeAttribute('checked');
+				element.checked=false;
+			}
+			
 		})
 
 		checkAddMeetingMulti();
@@ -1037,9 +1022,9 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		});
 	
 		if(_hasOneCheck){
-			$('.add-to-year-plan').removeClass('inactive-button');
+			$('.add-to-year-plan,.clear-meeting-filter-result').removeClass('inactive-button');
 		}else{
-			$('.add-to-year-plan').addClass('inactive-button');
+			$('.add-to-year-plan,.clear-meeting-filter-result').addClass('inactive-button');
 		}
 	}
 
@@ -1106,8 +1091,10 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			document.getElementById("levelNav_"+ x.id.split(';')[3]).style.display = "inline";
 		 }
 	   }
-
-       if( clickSrc==2) {
+       // "1" - filter by level checked.
+       // "2" - filter by type selected
+       // "3" - filter by category checked/selected
+       if( clickSrc==2 || clickSrc==3) {
             var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
             typeSelected= typeSelected.replace('/',' ').replace('_',' ');
 
@@ -1369,6 +1356,17 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 	// })
+
+	//after page load check if the Is_add_meeting to show our hide  
+	$(function(){
+		if(is_add_meeting){
+			$('.select-meeting-withoutaction').show();
+			$('.select-meeting-withaction').hide();
+		}else{
+			$('.select-meeting-withaction').show();
+			$('.select-meeting-withoutaction').hide();
+		}
+	})
 </script>
 
 

@@ -81,7 +81,10 @@
 	                       csv.append( fmtValue(contactSub.getFirstName() + " " + contactSub.getLastName()) +",");
 	                       if( VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){
 	                    	   csv.append( fmtValue(contactSub.getEmail()) +",");
-	                       } 
+	                       } else{
+                               csv.append (",");
+                               
+                           }
 						}
 					}
 
