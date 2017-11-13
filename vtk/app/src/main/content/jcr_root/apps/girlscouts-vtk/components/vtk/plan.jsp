@@ -267,7 +267,7 @@ $(function(){
         componentDidMount(){
           var _this = this;
           $('.vtk-calendar-ui-jquery').datepicker({
-            minDate: new Date()
+            minDate: new Date(_this.props.time)
           }).on('change',function(e){
             _this.change();
           });
@@ -410,11 +410,11 @@ $(function(){
               React.createElement('div',{className:'columns small-24'},
                 React.createElement('div',{className:'row'},
                   React.createElement('div',{className:'columns small-24'},
-                    React.createElement('p',{className:'__title'},moment(time).format('MMM DD, YYYY')+'  '+meeting.meetingInfo.name
+                    React.createElement('p',{className:'__title',style:{}},moment(time).format('MMM DD, YYYY'),React.createElement('span',{style:{marginLeft:'15px'}},''),meeting.meetingInfo.name
                   ),(this.state.message.display)?React.createElement('p',
                       {className:'__error_message small-only-text-center', style:{}
                       },this.state.message.type+' '+this.state.message.display):null
-                  ),React.createElement('p',{className:'small-only-text-center',style:{fontWeight:'bold',marginBottom:'6px'}},'Change meeting date and time'),
+                  ),React.createElement('p',{className:'',style:{marginBottom:'6px',textAlign:'center'}},'Change meeting date and time'),
                 ),
                 React.createElement('div',{className:'row'},
                   React.createElement('div',{className:"__calendar columns small-24 medium-12"},
@@ -425,7 +425,7 @@ $(function(){
                 React.createElement('div',{className:"columns small-24 medium-12"},
                   React.createElement('div',{className:" __other_site"},
                     React.createElement('div',{className:"columns small-24"},
-                      React.createElement('div',{className:'row __inputs'},
+                      React.createElement('div',{className:'__inputs'},
                         
                         React.createElement('div',{className:'columns small-8'},
                           React.createElement('p',{},'Start Time')
