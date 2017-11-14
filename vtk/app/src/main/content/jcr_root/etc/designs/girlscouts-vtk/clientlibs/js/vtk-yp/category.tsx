@@ -8,7 +8,8 @@ interface CategoryProps {
     title: string;
     subtitle: string;
     categories: any[];
-    store: Function
+    store: Function;
+    idx: number;
 };
 
 interface CategoryState {
@@ -24,17 +25,12 @@ class Category extends React.Component<CategoryProps, CategoryState> {
         
     public render(): JSX.Element {
 
-
-        return (<div className="column small-24">
+        return (<div className="__categories column small-24">
             <Header title={this.props.title} subTitle={this.props.subtitle} />
 
             {this.props.categories.map((track,idx,array) => { 
-                return <YplanTrack key={'YplanTrack'+idx + track.track} {...track} last={array.length - 1 == idx} store={this.props.store}/>
+                return <YplanTrack key={'YplanTrack' + idx + track.track} {...track} first={idx==0 && this.props.idx == 0} last={array.length - 1 == idx} store={this.props.store}/>
             })}
-
-     
-
-
         </div>);
     }
 }

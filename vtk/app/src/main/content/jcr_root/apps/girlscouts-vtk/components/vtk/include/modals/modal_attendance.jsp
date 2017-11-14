@@ -9,8 +9,15 @@
 <cq:defineObjects />
 <%@include file="../session.jsp"%>
 <% 
-	java.util.List<Contact>contacts = new SalesforceDAO(troopDAO, connectionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
-	String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+request.getParameter("mid");
+
+	java.util.List<Contact>contacts = new SalesforceDAO(troopDAO, connectionFactory, sessionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+	String YEAR_PLAN_EVENT="meetingEvents";
+	String eventType= request.getParameter("eType");
+	if( eventType!=null && eventType.equals("ACTIVITY") )
+			YEAR_PLAN_EVENT="activities";
+	
+	String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/"+YEAR_PLAN_EVENT+"/"+request.getParameter("mid");
+
 	Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
 	Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
 
@@ -22,7 +29,7 @@
 %>
 <div class="modal-attendance">
 	<div class="header clearfix">
-		<h3 class="columns large-22">Attendance and Achievements</h3>
+		<h3 class="columns large-22">Attendance <%="meetingEvents".equals(YEAR_PLAN_EVENT) ? " and Achievements" : "" %></h3>
 		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 	</div>
 	<div class="scroll">
@@ -74,7 +81,7 @@
 						%>
 					</tbody>
 				</table>        
-				<input type="button" value="Save"  class="btn button right" onclick="updateAttendAchvm('<%=request.getParameter("mid")%>')"/>
+				<input type="button" value="Save"  class="btn button right" onclick="updateAttendAchvm('<%=request.getParameter("mid")%>','<%=request.getParameter("eType")%>')"/>
 			</form>
 		</div>
 	</div>

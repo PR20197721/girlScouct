@@ -82,9 +82,6 @@ class VtkPopUp extends React.Component < IVtkPopUpProps,IVtkPopUpState > {
         this.setDimentions();
     }
 
-    componentWillReceiveProps(props: any) {
-        document.body.style.overflowY = 'auto';
-    }
 
     componentDidMount() {
         window.addEventListener('resize', (e : Event) => {
@@ -101,7 +98,6 @@ class VtkPopUp extends React.Component < IVtkPopUpProps,IVtkPopUpState > {
     }
 
     componentWillUnmount() {
-        document.body.style.overflowY = 'auto';
         this.modal.remove();
         window.removeEventListener('resize')
     }

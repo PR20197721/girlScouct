@@ -88,7 +88,8 @@
         <div class="small-24 medium-6 large-5 columns linkButtonWrapper">
         
        <%  if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ){ %>
-			<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meetingB</a>
+			<a href="#" class="mLocked button linkButton" onclick="replaceDoMeetingLib('<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>')">
+				replace this meeting</a>
 			<br/>
 		<%} %>
 <%

@@ -71,6 +71,9 @@ public class MeetingUtil {
 	@Reference
 	private ConnectionFactory connectionFactory;
 	
+	@Reference
+	SessionFactory sessionFactory;
+	
 	//@Reference
 	//CalendarUtil calendarUtil;
 
@@ -1159,6 +1162,13 @@ public class MeetingUtil {
 	public boolean updateAttendance(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) {
 
+		//MEETING or Attendance
+		String eventType = request.getParameter("eType");
+	
+		String YEAR_PLAN_EVENT="meetingEvents";
+		if( eventType!=null && eventType.equals("ACTIVITY") )
+			YEAR_PLAN_EVENT="activities";
+		
 		String mid = request.getParameter("mid");
 		String attendances[] = null;
 		if (request.getParameter("attendance") != null) {
@@ -1173,10 +1183,15 @@ public class MeetingUtil {
 			}
 		}
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				troopDAO, connectionFactory).getContacts(user.getApiConfig(),
+				troopDAO, connectionFactory, sessionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
+		
+		contacts = contacts.stream()
+				.filter(e-> "GIRL".equals(e.getRole().trim().toUpperCase()) )
+				.collect( java.util.stream.Collectors.toList());
+		
 		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
-				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
+				+ troop.getSfTroopId() + "/yearPlan/"+ YEAR_PLAN_EVENT +"/" + mid
 				+ "/attendance";
 		java.util.List<String> Attendances = new java.util.ArrayList<String>();
 		Attendance ATTENDANCES = getAttendance(user, troop, path);
@@ -1236,7 +1251,19 @@ public class MeetingUtil {
 		}
 		ATTENDANCES.setTotal(cTotal);
 		setAttendance(user, troop, mid, ATTENDANCES);
+		
+		if(troop.getYearPlan().getActivities()!=null && troop.getYearPlan().getActivities().size()>0 ){
+			//update activity 
+			Activity _thisActivity = troop.getYearPlan().getActivities().stream()
+			.filter( _activity -> _activity.getPath().equals( path.substring(0, path.lastIndexOf("/")) ) )
+			.findAny()                                    
+	        .orElse(null); 
+			
+			if( _thisActivity !=null )
+				_thisActivity.setAttendance( ATTENDANCES);
+		}
 
+		
 		return false;
 	}
 
@@ -1263,7 +1290,7 @@ public class MeetingUtil {
 
 	public boolean updateAchievement(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) {
-
+					
 		String mid = request.getParameter("mid");
 		String attendances[] = null;
 		if (request.getParameter("achievement") != null) {
@@ -1281,7 +1308,7 @@ public class MeetingUtil {
 		}
 
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				troopDAO, connectionFactory).getContacts(user.getApiConfig(),
+				troopDAO, connectionFactory, sessionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
 		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid

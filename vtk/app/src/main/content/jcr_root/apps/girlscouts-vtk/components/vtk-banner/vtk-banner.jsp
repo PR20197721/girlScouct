@@ -38,7 +38,7 @@
 
 
 <div class="vtk-banner-image">
-	<a href="#"  onclick="doVtkBannerContentCopy('vtk-banner-modal-<%=resource.getName()%>')" data-reveal-id="vtkBannerModal" data-effect="modal" data-reveal-init data-options="animation:'none'" >
+	<a href="#"  onclick="callFoundationModal(event,'vtk-banner-modal-<%=resource.getName()%>')" data-slider-id="vtk-banner-modal-<%=resource.getName()%>" data-effect="modal"  data-options="animation:'none'" >
 		<img src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
 	</a>
 
@@ -80,58 +80,16 @@
 
 
 <script>
-	function doVtkBannerContentCopy(id){
-	    document.getElementById('vtkBannerModal').innerHTML = document.getElementById(id).innerHTML ;
-	}
+	$(function(){
+		$(window).on('resize',function(){
+				setHeigthPropertiesToBanner('#vtk-banner-modal-<%=resource.getName()%>');
+		})	
 
-
-$(function(){
-
-	overFlowY = false;
-
-
-
-/**
- * Gift some style to the banner view .
- * Use for the Meeting plan and the Year.
- *@param string dom element ID Banner
- */
-
-function setHeigthPropertiesToBanner(p){
-	var image = $(p).find('.banner-image');
-	var scroll = $(p).find('.scroll-banner');
-	var height = $(window).height();
-	var modalwidth = $(p).innerWidth();
-	var	imageHeight = image.height();
-	scroll.css(
-		{
-			'maxHeight':$(window).height()-imageHeight-75+'px',
-			'overflow-y':'auto'
-		}
-	);
-}
-
-
-
-	$(window).on('resize',function(){
+		$('#vtk-banner-modal-<%=resource.getName()%>').bind('opened', function() {
 			setHeigthPropertiesToBanner('#vtk-banner-modal-<%=resource.getName()%>');
-	})	
-
-
-
-	$('#vtk-banner-modal-<%=resource.getName()%>').bind('opened', function() {
-  		setHeigthPropertiesToBanner('#vtk-banner-modal-<%=resource.getName()%>');
-  	
-	});
-
-
-
-	
 		
-
-
-
-});
+		});
+	});
 </script>
 
 
