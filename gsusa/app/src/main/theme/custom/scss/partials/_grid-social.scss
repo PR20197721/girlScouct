@@ -3,7 +3,6 @@
 //  * grid-twitter-feed
 //  * grid-blog-feed
  
-
 .feedwrapper {
     background-color: $white;
     position: relative;
@@ -75,7 +74,9 @@
     .blogfeedcontent {
       float: left;
       width: 61%;
-      padding-left: rem-calc(5);
+      padding: rem-calc(0 5);
+      //height: rem-calc(112);
+      overflow: hidden;
     }
     .blogfeedtitle {
       font-size: rem-calc(15);
@@ -85,9 +86,31 @@
       font-size: rem-calc(12);
       line-height: rem-calc(18);
       overflow: hidden;
-      color: $black;
+      //color: $black;
+      color: red;
     }
-    
+    .trunc,
+    .truncline {
+      position: relative;
+      //overflow: hidden;
+      //max-width: 100%;
+    }
+    .truncline {
+        display: inline-block;
+        //text-overflow: ellipsis;
+        overflow: visible;
+        white-space: nowrap;
+        word-wrap: normal;
+    }
+      
+    // Small Mobile view
+    @media only screen and (max-width: 480px) {
+      .blogfeedsnippet {
+        color: #00AAE5;
+      }  
+    }
+        
+    // Mobile view
     @media #{$small-only} {
       .blogfeedimage {
         width: 20%;
@@ -106,21 +129,17 @@
         position: relative;
         padding-top: rem-calc(10);
         font-size: rem-calc(14);
-      }
-      .truncline {
-        display: inline-block;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        word-wrap: normal;
-      }
-      .trunc,
-      .truncline {
-        position: relative;
-        overflow: hidden;
-        max-width: 100%;
+        color: blue;
       }
       
+      
     }
+    
+    //@media #{$medium-only} {
+    //  .blogfeedsnippet {
+    //    color: orange;
+    //  }  
+    //}
     
   } //ul
 }   //.grid-blog-feed

@@ -6,10 +6,17 @@
         jcr:primaryType="cq:Widget"
         xtype="tabpanel">
         <items jcr:primaryType="cq:WidgetCollection">
-            <properties
+            <general
                 jcr:primaryType="cq:Panel"
-                title="Properties">
+                title="General" >
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <desc
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Display Label"
+                        fieldDescription="Display Description"
+                        name="./displayfield"
+                        xtype="displayfield" 
+                        />
                     <url
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Endpoint URL"
@@ -43,7 +50,91 @@
                     	name="./postid3"
                     	xtype="textfield"/>
                 </items>
-            </properties>
+            </general>
+            <col3
+                jcr:primaryType="cq:Panel"
+                title="Desktop">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <desktoptitlefont
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Font Size"
+                        fieldDescription="Font size for Blog title in Desktop view"
+                        defaultValue="15"
+                        minValue="0"
+                        value="15"
+                        name="./desktoptitlefont"
+                        xtype="numberfield"/>
+                    <desktopsnippetfont
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Snippet Font Size"
+                        fieldDescription="Font size for Blog snippet in Desktop view"
+                        defaultValue="12"
+                        value="12"
+                        minValue="0"
+                        name="./desktopsnippetfont"
+                        xtype="numberfield"/>
+                    <desktoptitlelines
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Lines"
+                        fieldDescription="Number of lines of Blog title to show"
+                        defaultValue="0"
+                        minValue="0"
+                        value="0"
+                        name="./desktoptitlelines"
+                        xtype="numberfield"/>
+                    <desktopsnippetlines
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Snippet Lines"
+                        fieldDescription="Number of lines of Blog snippet to show"
+                        defaultValue="0"
+                        minValue="0" 
+                        value="0"
+                        name="./desktopsnippetlines"
+                        xtype="numberfield"/>
+                </items>
+            </col3>            
+            <col1
+                jcr:primaryType="cq:Panel"
+                title="Mobile">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <mobiletitlefont
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Font Size"
+                        fieldDescription="Font size for Blog title in Mobile view"
+                        defaultValue="2"
+                        minValue="1"
+                        value="2"
+                        name="./mobiletitlefont"
+                        xtype="numberfield"/>
+                    <mobilesnippetfont
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Snippet Font Size"
+                        fieldDescription="Font size for Blog snippet in Mobile view"
+                        defaultValue="2"
+                        minValue="1"
+                        value="2"
+                        name="./mobilesnippetfont"
+                        xtype="numberfield"/>
+                    <mobiletitlelines
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Lines"
+                        fieldDescription="Number of lines of Blog title to show"
+                        minValue="1"                        
+                        defaultValue="2"
+                        value="2"
+                        name="./mobiletitlelines"
+                        xtype="numberfield"/>
+                    <mobilesnippetlines
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Snippet Lines"
+                        fieldDescription="Number of lines of Blog snippet to show"
+                        defaultValue="2"
+                        value="2"
+                        minValue="1"
+                        name="./mobilesnippetlines"
+                        xtype="numberfield"/>
+                </items>
+            </col1>
         </items>
     </items>
 </jcr:root>
