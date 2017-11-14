@@ -7,6 +7,7 @@ blockquote {
     padding: rem-calc(20 50 0);
   }
   @include clearfix;
+  padding-bottom: 5px;
   & * {
     font-size: rem-calc(33);
   }
@@ -32,10 +33,13 @@ blockquote {
       content: open-quote;
       top: rem-calc(9);
       left: 0;
+      text-align:left;
     }
-    p:nth-last-child(3):after {
+    p:first-child:after {
       content: close-quote;
-      bottom: 0;
+      bottom: 5;
+      text-align:left;
+      margin-top: 4px;
     }
   }
   p.quotee {
@@ -78,7 +82,7 @@ blockquote {
       width: 100%;
     }
     &:before {
-      margin-bottom: rem-calc(20);
+      /*margin-bottom: rem-calc(20);*/
     }
   }
   .social-icons {

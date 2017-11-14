@@ -17,6 +17,12 @@
 		    	        fieldLabel="Image Alt"
         	    		name="./imageAlt"
 		            	xtype="textfield"/>
+                    <logoLink
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Logo Link"
+                        name="./logoLink"
+                        rootPath="/content/gsusa"
+                        xtype="pathfield"/>
 		      	</items>
 		 	</tab1>
             <tab2

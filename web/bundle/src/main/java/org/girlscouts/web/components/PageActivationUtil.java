@@ -12,15 +12,21 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
+import javax.jcr.query.Query;
+import javax.jcr.query.QueryManager;
+import javax.jcr.query.QueryResult;
+import javax.jcr.query.RowIterator;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.web.constants.PageActivationConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.WCMException;
 
 public class PageActivationUtil implements PageActivationConstants {
@@ -312,6 +318,50 @@ public class PageActivationUtil implements PageActivationConstants {
 			log.error("PageActivationUtil encountered error: ", e);
 		}
 		return isTestMode;
+	}
+	
+	public static String getCouncilUrl(ResourceResolver rr, SlingSettingsService settingsService, String path){
+		
+		String mappingPath, homepagePath;
+		Set<String> runmodes = settingsService.getRunModes();
+		if(runmodes.contains("prod")){
+			mappingPath = "/etc/map.publish.prod/http";
+		}else if(runmodes.contains("uat")){
+			mappingPath = "/etc/map.publish.uat/http";
+		}else if(runmodes.contains("stage")){
+			mappingPath = "/etc/map.publish.stage/http";
+		}else if(runmodes.contains("dev")){
+			mappingPath = "/etc/map.publish.dev/http";
+		}else if(runmodes.contains("local")){
+			mappingPath = "/etc/map.publish.local/http";
+		}else{
+			mappingPath = "/etc/map.publish/http";
+		}
+		
+		Resource pageRes = rr.resolve(path);
+		Page pagePage = pageRes.adaptTo(Page.class);
+		Page homePage = pagePage.getAbsoluteParent(2);
+		homepagePath = homePage.getPath() + ".html";
+		
+		Session session = rr.adaptTo(Session.class);
+		try{
+			QueryManager qm = session.getWorkspace().getQueryManager();
+			String query = "SELECT [sling:match] FROM [sling:Mapping] as s WHERE ISDESCENDANTNODE(s,'" 
+			+ mappingPath + "') AND [sling:internalRedirect]='" + homepagePath + "'";
+		    Query q = qm.createQuery(query, Query.JCR_SQL2); 
+		    QueryResult result = q.execute();
+		    RowIterator rowIt = result.getRows();
+		    String toReturn = rowIt.nextRow().getValue("sling:match").getString();
+		    if(toReturn.endsWith("/$")){
+		    	toReturn = toReturn.substring(0,toReturn.length() - 2);
+		    }
+		    return toReturn;
+		}catch(RepositoryException e){
+			e.printStackTrace();
+		}
+		
+		return homepagePath.replaceAll("\\.html", "");
+		
 	}
 
 	public static List<String> getCouncilEmails(Node homepage) {

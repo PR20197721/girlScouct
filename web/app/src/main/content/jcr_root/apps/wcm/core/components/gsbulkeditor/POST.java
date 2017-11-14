@@ -1,68 +1,68 @@
-/*
- * Copyright 1997-2008 Day Management AG
- * Barfuesserplatz 6, 4001 Basel, Switzerland
- * All Rights Reserved.
- *
- * This software is the confidential and proprietary information of
- * Day Management AG, ("Confidential Information"). You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Day.
- */
 package apps.wcm.core.components.gsbulkeditor;
 
-import org.apache.commons.lang.ArrayUtils;
-
-import com.day.cq.commons.jcr.JcrConstants;
-import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
-import com.day.cq.replication.ReplicationActionType;
-import com.day.cq.wcm.api.Page;
-import com.day.cq.tagging.TagManager;
-import com.day.cq.tagging.Tag;
-import com.day.cq.replication.Replicator;
-
-import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.api.SlingHttpServletResponse;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.servlets.HtmlResponse;
-import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-import org.apache.sling.jcr.resource.JcrResourceConstants;
-
-import javax.jcr.*;
-import javax.servlet.ServletException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.security.AccessControlException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.TreeSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
-import org.girlscouts.web.events.search.GSDateTime;
-import org.girlscouts.web.events.search.GSDateTimeFormatter;
-import org.girlscouts.web.events.search.GSDateTimeFormat;
-import com.day.jcr.vault.packaging.JcrPackageManager;
-import com.day.jcr.vault.packaging.JcrPackage;
-import com.day.jcr.vault.packaging.JcrPackageDefinition;
-import com.day.jcr.vault.fs.config.DefaultWorkspaceFilter;
-import com.day.jcr.vault.fs.api.PathFilterSet;
-import com.day.jcr.vault.util.DefaultProgressListener;
-import com.day.jcr.vault.packaging.Packaging;
-import java.io.PrintWriter;
+import javax.jcr.ItemExistsException;
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.servlet.ServletException;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
+import org.apache.sling.api.servlets.HtmlResponse;
+import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+import org.apache.sling.jcr.api.SlingRepository;
+import org.apache.sling.jcr.resource.JcrResourceResolverFactory;
+import org.girlscouts.web.components.PageActivationUtil;
+import org.girlscouts.web.events.search.GSDateTime;
+import org.girlscouts.web.events.search.GSDateTimeFormat;
+import org.girlscouts.web.events.search.GSDateTimeFormatter;
+import org.girlscouts.web.events.search.GSDateTimeZone;
 
-import org.girlscouts.web.events.search.*;
+import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.Replicator;
+import com.day.cq.tagging.InvalidTagFormatException;
+import com.day.cq.tagging.Tag;
+import com.day.cq.tagging.TagManager;
+import com.day.cq.wcm.api.Page;
+import com.day.cq.workflow.WorkflowException;
+import com.day.cq.workflow.WorkflowService;
+import com.day.cq.workflow.WorkflowSession;
+import com.day.cq.workflow.exec.Workflow;
+import com.day.cq.workflow.exec.WorkflowData;
+import com.day.cq.workflow.model.WorkflowModel;
+import com.day.jcr.vault.fs.api.PathFilterSet;
+import com.day.jcr.vault.fs.config.DefaultWorkspaceFilter;
+import com.day.jcr.vault.packaging.JcrPackage;
+import com.day.jcr.vault.packaging.JcrPackageDefinition;
+import com.day.jcr.vault.packaging.JcrPackageManager;
+import com.day.jcr.vault.packaging.Packaging;
+import com.day.jcr.vault.util.DefaultProgressListener;
 import com.opencsv.CSVReader;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Servers as base for image servlets
@@ -76,14 +76,29 @@ public class POST extends SlingAllMethodsServlet {
 
     public static final String DEFAULT_SEPARATOR = ",";
     public static final String META_DATA_LOCATION = "/jcr:content/metadata";
-    int repDelayInterval = 10;
-    int repDelayTimeInSeconds = 60;
+    
+    private final String JCR_CONTENT = "jcr:content";
+    private final String CQ_PAGE = "cq:Page";
+    private final String CQ_PAGE_CONTENT = "cq:PageContent";
+    private final String CQ_SCAFFOLDING = "cq:scaffolding";
+    private final String CQ_TEMPLATE = "cq:template";
+    private final String EVENT_TEMPLATE = "/apps/girlscouts/templates/event-page";
+    private final String NT_UNSTRUCTURED = "nt:unstructured";
+    private final String SLING_FOLDER = "sling:Folder";
+    private final String DELAYED_ACTIVATION_PATH = "/etc/gs-activations/delayed";
+    private final String STAG_ACTIVATION = "gs-stag-activation";
+    
+    
+    int contactDelayInterval = 40;
+    int documentDelayInterval = 10;
+    int repDelayTimeInMinutes = 1;
 
     protected void doPost(SlingHttpServletRequest request,
                           SlingHttpServletResponse response)
             throws ServletException, IOException {
 
         HtmlResponse htmlResponse = null;
+        
 
         if (request.getRequestParameter(DOCUMENT_PARAM) != null) {
             InputStream in = request.getRequestParameter(DOCUMENT_PARAM).getInputStream();
@@ -93,925 +108,1061 @@ public class POST extends SlingAllMethodsServlet {
                     request.getRequestParameter(INSERTEDRESOURCETYPE_PARAM).getString() : null;
             String rootPath = request.getRequestParameter(ROOTPATH_PARAM)!=null ?
                     request.getRequestParameter(ROOTPATH_PARAM).getString() : null;
-
+                    
+            
 
             String importType = request.getRequestParameter(IMPORT_TYPE_PARAM)!=null ? request.getRequestParameter(IMPORT_TYPE_PARAM).getString() : "";
             String year = request.getRequestParameter(YEAR_PARAM)!=null ? request.getRequestParameter(YEAR_PARAM).getString() : "";
-            if(!year.equals("")){
-            	if(rootPath != null){
-                	Resource rootRes = request.getResourceResolver().getResource(rootPath + "/" + year);
-                	if(rootRes == null){
-                		rootRes = request.getResourceResolver().getResource(rootPath);
-                		if(rootRes == null){
-                    		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-                                    "Could not resolve root path");
-                            htmlResponse.send(response, true);
-                            return;
-                		}else{
-                    		Node parentNode = rootRes.adaptTo(Node.class);
-                    		Node newYearNode = null;
-                    		Node newYearContentNode = null;
-                    		try{
-                    			newYearNode = parentNode.addNode(year,"cq:Page");
-                    			newYearContentNode = newYearNode.addNode("jcr:content","cq:PageContent");
-                    		}catch(Exception e){
-                        		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-                                        "Failed to create year node");
-                                htmlResponse.send(response, true);
-                                return;
-                    		}
-                		}
-                	}
-            	}
-            	
-            	rootPath = rootPath + "/" + year;
-            }
-            if(rootPath!=null) {
-                Node rootNode = null;
+            
+            SlingBindings bindings = null;
+			SlingScriptHelper scriptHelper = null;
+			try{
+				bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
+				scriptHelper = bindings.getSling();
+			}catch(Exception e){
+                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+                        "Could not resolve sling helper");
+                htmlResponse.send(response, true);
+                return;
+			}
+			
+			if(scriptHelper == null){
+				 htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+	                        "Could not resolve sling helper");
+	             htmlResponse.send(response, true);
+	             return;
+			}
+            
+            
+        	SlingRepository repo = scriptHelper.getService(SlingRepository.class);
+            Session admin = null;
 
-                Resource resource = request.getResourceResolver().getResource(rootPath);
-                if(resource!=null) {
-                    rootNode = resource.adaptTo(Node.class);
-                }
-
-                if(rootNode!=null) {
-                    //counter is "session unique id: created items will have their own unique ids, which will
-                    //avoid the case to have duplicate node names (using [1], [2] to differentiate).
-                	
-            		//GS: We don't want to let anyone import with a depth less than two
-                	int rootDepth = 0;
-                	String councilRoot = null;
-                    String councilName = "";
-                	try{
-                		rootDepth = rootNode.getDepth();
-                        //GS: Used to determine contact scaffolding property
-                        councilRoot = rootNode.getAncestor(2).getPath();
-                        	htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-                                    "Could not determine council root");
-                        if(councilRoot.indexOf("/") != -1 && !councilRoot.endsWith("/")){
-                        	councilName = councilRoot.substring(councilRoot.lastIndexOf("/") + 1,councilRoot.length());
-                        }
-                	}catch(Exception e){
-                		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-                                "Can not Determine Root Node Depth and/or Council Name");
-                        htmlResponse.send(response, true);
-                        e.printStackTrace();
-                        return;
-                	}
-                	if(rootDepth >= 2){
-            			SlingBindings bindings = null;
-            			SlingScriptHelper scriptHelper = null;
-            			try{
-            				bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
-            				scriptHelper = bindings.getSling();
-            			}catch(Exception e){
-                            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-                                    "Could not resolve sling helper");
-                            htmlResponse.send(response, true);
-                            e.printStackTrace();
-                            return;
-            			}
-            			//GS - We can't make lots of asset packages
-            			if(importType.equals("contacts")){
-	                		try{
-	                	        Packaging packaging = scriptHelper.getService(Packaging.class);
-	                			//Start by creating a package under the root node, in case we need to roll back
-		                		JcrPackageManager jcrPM = packaging.getPackageManager(rootNode.getSession());
-		                		String packageName = rootPath.replaceAll("/","-");
-		                		GSDateTime gdt = new GSDateTime();
-		                		GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyyMMddHHmm");
-		                		String dateString = dtfOut.print(gdt);  
-		                		if(jcrPM == null){
-		                			System.err.println("Null PackageManager");
-		                		}
-		                		JcrPackage jcrP = jcrPM.create("GirlScouts","spreadsheet-prebuild-" + packageName.toLowerCase(), dateString);
-		                		JcrPackageDefinition jcrPD = jcrP.getDefinition();
-		                		DefaultWorkspaceFilter filter = new DefaultWorkspaceFilter();
-		                		PathFilterSet pfs = new PathFilterSet(rootPath);
-		                		filter.add(pfs);
-		                		jcrPD.setFilter(filter, false);
-		                		PrintWriter pkgout = new PrintWriter(System.out);
-		                		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
-	                		}catch(Exception e){
-	                            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-	                                    "Failed to create package");
-	                            htmlResponse.send(response, true);
-	                            e.printStackTrace();
-	                            return;
-	                		}
-            			}
-                	
-	                    long counter = System.currentTimeMillis();
+            try {
+                admin = repo.loginAdministrative(null);
+                ResourceResolver adminResolver = scriptHelper.getService(JcrResourceResolverFactory.class).getResourceResolver(admin);
+                
+	            if(rootPath!=null) {
+	                Node rootNode = null;
 	
-	                    //manage headers
-	                    String lineBuffer = bufferReader.readLine();
-	                    if(importType.equals("documents")){
-	                    	lineBuffer = lineBuffer.replaceAll("Title","jcr:content/metadata/dc:title").replaceAll("Description","jcr:content/metadata/dc:description").replaceAll("Categories","jcr:content/metadata/cq:tags").replaceAll("Path","jcr:path");
-	                    }else if(importType.equals("events")){
-	                    	lineBuffer = lineBuffer.replaceAll("Title","jcr:content/jcr:title")
-	                    			.replaceAll("Start Date","jcr:content/data/start-date")
-	                    			.replaceAll("Start Time","jcr:content/data/start-time")
-	                    			.replaceAll("End Date","jcr:content/data/end-date")
-	                    			.replaceAll("End Time","jcr:content/data/end-time")
-	                    			.replaceAll("Time Zone \\(Only enter if you want timezone to be visible e.g. 10:30 PM EST. See http://joda-time.sourceforge.net/timezones.html for valid IDs\\)","jcr:content/data/timezone")
-	                    			.replaceAll("Registration Open Date","jcr:content/data/regOpen-date")
-	                    			.replaceAll("Registration Open Time","jcr:content/data/regOpen-time")
-	                    			.replaceAll("Registration Close Date","jcr:content/data/regClose-date")
-	                    			.replaceAll("Registration Close Time","jcr:content/data/regClose-time")
-	                    			.replaceAll("Region","jcr:content/data/region")
-	                    			.replaceAll("Location Name","jcr:content/data/locationLabel")
-	                    			.replaceAll("Address","jcr:content/data/address")
-	                    			.replaceAll("Text","jcr:content/data/details")
-	                    			.replaceAll("Search Description","jcr:content/data/srchdisp")
-	                    			.replaceAll("Color","jcr:content/data/color")
-	                    			.replaceAll("Registration","jcr:content/data/register")
-	                    			.replaceAll("Categories","jcr:content/cq:tags-categories")
-	                    			.replaceAll("Program Levels","jcr:content/cq:tags-progLevel")
-	                    			.replaceAll("Path","jcr:path")
-	                    			.replaceAll("Image","jcr:content/data/imagePath")
-	                    			.replaceAll("Program Type","jcr:content/data/progType")
-	                    			.replaceAll("Grades","jcr:content/data/grades")
-	                    			.replaceAll("Girl Fee","jcr:content/data/girlFee")
-	                    			.replaceAll("Adult Fee","jcr:content/data/adultFee")
-	                    			.replaceAll("Minimum Attendance","jcr:content/data/minAttend")
-	                    			.replaceAll("Maximum Attendance","jcr:content/data/maxAttend")
-	                    			.replaceAll("Program Code","jcr:content/data/programCode");
-	                    }
-	                    if (lineBuffer != null) {
-	                        List<String> headers = Arrays.asList(lineBuffer.split(DEFAULT_SEPARATOR + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1));
-	                        List<String> headersLowerCase = Arrays.asList(lineBuffer.toLowerCase().split(DEFAULT_SEPARATOR + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1));
-	                        if (headers.size() > 0) {
-	                        	//GS: The importer expects a jcr:path header, but it can use the rootpath from the querybuilder if no path is present
-	                            int pathIndex = headers.indexOf(JcrConstants.JCR_PATH);
-	                            Replicator replicator;
-	                            //GS: Check if the type is "contacts." If so, deactivate and delete everything under the rootpath
-	                            if(importType.equals("contacts")){
-		                            try{
-			                            if(rootNode.getProperty("jcr:content/sling:resourceType").getString().equals("girlscouts/components/contact-placeholder-page")){
-			                            	Page rootPage = resource.adaptTo(Page.class);
-			                            	Iterator<Page> oldChildren = rootPage.listChildren();
-			                            	replicator = scriptHelper.getService(Replicator.class);
-			                            	while(oldChildren.hasNext()){
-			                            		Page child = oldChildren.next();
-			                            		replicator.replicate(rootNode.getSession(), ReplicationActionType.DELETE, child.getPath());
-			                            		Resource childRes = request.getResourceResolver().getResource(child.getPath());
-			                            		Node childNode = childRes.adaptTo(Node.class);
-			                            		childNode.remove();
-			                            	}
-			                            }
-		                            }catch(Exception e){
-		                                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-		                                        "Failed to delete original contact data. Process Aborted");
-		                                htmlResponse.send(response, true);
-		                                e.printStackTrace();
-		                                return;
-		                            }
-	                            }
-	                            int lineRead = 0, lineOK = 0;
-	                            HashMap<String,ArrayList<Contact>> contactsToCreate = new HashMap<String,ArrayList<Contact>>();
-	                            ArrayList<String> pathsToReplicate = new ArrayList<String>();
-	                            TreeSet<String> allNames = new TreeSet<String>();
-	                            CSVReader csvR = new CSVReader(bufferReader);
-	                            String[] nextLine;
-	                            while((nextLine = csvR.readNext()) != null){
-	                                lineRead++;
-	                                if(performLine(request,nextLine,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate, councilName)) {
-	                                   lineOK++;
-	                                }
-	                            }
-	                            
-	                            if(lineOK>0) {
-                                	if(importType.equals("contacts")){
-    	                                try {
-    	                                	replicator = scriptHelper.getService(Replicator.class);
-    	                                	createNewContacts(rootNode,contactsToCreate,councilName,rootNode.getSession(),replicator);
-    	                                }catch(Exception e){
-    	                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-    		                                        "Error saving new contacts " + e.getMessage());
-    	                                    try {
-    	                                        rootNode.refresh(false);
-    	                                    } catch (InvalidItemStateException e1) {
-    	                                    } catch (RepositoryException e1) {
-    	                                    }
-    	                                	e.printStackTrace();
-    	                                	return;
-    	                                }
-                                	}else if(importType.equals("documents") || importType.equals("events")){
-                                		if(pathsToReplicate.size() > 0){
-	                                		try{
-	                                			replicator = scriptHelper.getService(Replicator.class);
-	                                			int repCount = 0;
-	                                			for(String activatePath : pathsToReplicate){
-	                                				if(repCount >= repDelayInterval){
-	                                					Thread.sleep(1000 * repDelayTimeInSeconds);
-	                                					repCount = 0;
-	                                				}
-	                                				
-	                                				replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, activatePath);
-	                                				repCount++;
-	                                			}
-	                                		}catch(Exception e){
-	                                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-	    		                                        "Error activating documents " + e.getMessage());
-	                                			try {
-	    	                                        rootNode.refresh(false);
-	    	                                    } catch (InvalidItemStateException e1) {
-	    	                                    	e1.printStackTrace();
-	    	                                    } catch (RepositoryException e1) {
-	    	                                    	e1.printStackTrace();
-	    	                                    }
-	    	                                	e.printStackTrace();
-	    	                                	return;
-	                                		}
-                                		}
-                                	}
-	                                try {
-	                                    rootNode.save();
-	                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                                        "Imported " + lineOK + "/" + lineRead + " lines");
-	                                } catch (RepositoryException e) {
-	                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-	                                        "Error while saving modifications " + e.getMessage());
-	                                    e.printStackTrace();
-	                                    try {
-	                                        rootNode.refresh(false);
-	                                    } catch (InvalidItemStateException e1) {
-	                                    } catch (RepositoryException e1) {
-	                                    }
-	                                }
-	                            } else {
-	                                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                                    "Imported " + lineOK + "/" + lineRead + " lines");
-	                            }
-	                        } else {
-	                            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-	                                    "Invalid headers");
+	                Resource resource = adminResolver.getResource(rootPath);
+	                if(resource!=null) {
+	                    rootNode = resource.adaptTo(Node.class);
+	                }
+	
+	                if(rootNode!=null) {
+	                    //counter is "session unique id: created items will have their own unique ids, which will
+	                    //avoid the case to have duplicate node names (using [1], [2] to differentiate).
+	                	
+	            		//GS: We don't want to let anyone import with a depth less than two
+	                	int rootDepth = 0;
+	                	String councilRoot = null;
+	                    String councilName = "";
+	                	try{
+	                		rootDepth = rootNode.getDepth();
+	                        //GS: Used to determine contact scaffolding property
+	                        councilRoot = rootNode.getAncestor(2).getPath();
+	                        	htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+	                                    "Could not determine council root");
+	                        if(councilRoot.indexOf("/") != -1 && !councilRoot.endsWith("/")){
+	                        	councilName = councilRoot.substring(councilRoot.lastIndexOf("/") + 1,councilRoot.length());
 	                        }
-	                    } else {
-	                        htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-	                                "Empty document");
-	                    }
-                	} else {
-                		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-                                "Please increase the depth of the root path to at least two");
-                	}
-                } else {
-                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-                        "Invalid root path");
-                }
-            } else {
-                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-                    "No root path provided");
+	                	}catch(Exception e){
+	                		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+	                                "Can not Determine Root Node Depth and/or Council Name");
+	                        htmlResponse.send(response, true);
+	                        e.printStackTrace();
+	                        return;
+	                	}
+	                	if(rootDepth >= 2){
+	            			
+	            			
+	                		
+		                    
+		                    
+		                    CSVReader csvR = new CSVReader(bufferReader);
+		                    String[] headerArr = csvR.readNext();
+		                    if (headerArr != null) {
+		                        
+		                    	List<String> headers = new LinkedList<String>(Arrays.asList(headerArr));
+		                    	try{
+			                    	//GS - We can't make lots of asset packages
+			            			if(importType.equals("contacts")){
+				                		
+				                		htmlResponse = updateContacts(headers, rootPath, councilName, csvR, scriptHelper, adminResolver);	
+			            			} else if(importType.equals("events")){
+			            				htmlResponse = updateEvents(headers, rootPath, year, csvR, scriptHelper, adminResolver);
+			            			} else if(importType.equals("documents")){
+			            				htmlResponse = updateFormMetadata(headers, rootPath, csvR, scriptHelper, adminResolver);
+			            			} else{
+			            				htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+				                                "Unsupported import type.");
+			            			}
+		            			
+		                    	} catch(Exception e){
+		                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+			                                "General Exception occured while processing content: " + e.getMessage());
+		                		}
+		                            
+		                       
+		                    } else {
+		                        htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+		                                "Empty document");
+		                    }
+	                	} else {
+	                		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+	                                "Please increase the depth of the root path to at least two");
+	                	}
+	                } else {
+	                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+	                        "Invalid root path");
+	                }
+	            } else {
+	                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+	                    "No root path provided");
+	            }
+            
+            } catch (RepositoryException e) {
+            	 htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+                         "Unable to get admin access for modifying content due to error: " + e.getMessage());
             }
+            
         } else {
-            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
                     "No document provided");
         }
+        
+        
 
         htmlResponse.send(response, true);
     }
-
-    public boolean performLine(SlingHttpServletRequest request, String[] line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> pathsToReplicate, String councilName) {
-    	boolean updated = false;
-    	for(String s : line){
-    		System.out.println(s.replaceAll("[\\u2013\\u2014\\u2015]", "-")
-					.replaceAll("[\\u2017]", "_")
-					.replaceAll("[\\u2018\\u2019]","'")
-					.replaceAll("[\\u201C\\u201D]", "\"")
-					.replaceAll("[\\u201D\\u201E]","\"")
-					.replaceAll("[\\u2026]","...")
-					.replaceAll("[\\u2032]","\'")
-					.replaceAll("[\\u2033]","\""));
-    	}
-        try {
-            int headerSize = headers.size();
-            List<String> values = new LinkedList<String>(Arrays.asList(line));
-            //Not made for files in the current format. Seems to follow older format.
-            //values.remove(values.size() - 1);
-            if(values.size() < headerSize) {
-                //completet missing last empty cols
-                for(int i = values.size();i<=headerSize;i++) {
-                    values.add("");
-                }
-            }
-            Node node = null;
-
-            String path = (pathIndex > -1 ? values.get(pathIndex) : null);
-
-            Resource resource = (path==null || path.length()==0 || path.equals(" ") ?
-                    null : request.getResourceResolver().getResource(path));
-            
-            if(importType.equals("contacts")){
-            	node = rootNode;
-            }else{
-            
-	            if(resource!=null) {
-	                node = resource.adaptTo(Node.class);
-	            } else {
-	                if(rootNode!=null && !importType.equals("documents") && !importType.equals("contacts") && !importType.equals("events")) {
-	                	if(path==null || path.length()==0 || path.equals(" ")) {
-	                        path = "" + counter;
-	                    } else {
-	                        //check if path is under root node.
-	                        //for the moment do nothing if path does not exist
-	
-	                        if(path.startsWith(rootNode.getPath())) {
-	                            path = path.substring(rootNode.getPath().length() + 1,path.length());
-	                        } else {
-	                            return false;
-	                        }
-	                    }
-	
-	                    int index = headers.indexOf(JcrConstants.JCR_PRIMARYTYPE);
-	                    if(index!=-1) {
-	                        String primaryType = values.get(index);
-	                        if(primaryType!=null && primaryType.length()>0) {
-	                            node = rootNode.addNode(path,primaryType);
-	                        } else {
-	                            node = rootNode.addNode(path,"nt:unstructured");
-	                        }
-	                    } else {
-	                        node = rootNode.addNode(path,"nt:unstructured");
-	                        if(insertedResourceType!=null) {
-	                            ValueFactory valueFactory = node.getSession().getValueFactory();
-	                            Value value = valueFactory.createValue(insertedResourceType);
-	                            if(node.getPrimaryNodeType().canSetProperty(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY,value)) {
-	                                node.setProperty(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY,value);
-	                            }
-	                        }
-	                    }
-	                }
-	                if(rootNode!=null && importType.equals("events")){
-	                	if(path==null || path.length()==0 || path.equals(" ")) {
-		                    int index = headers.indexOf("jcr:content/jcr:title");
-		                    if(index!=-1) {
-		                    	if(null == values.get(index) || "".equals(values.get(index))){
-		                    		return false;
-		                    	}
-		                    	String newEventPath = values.get(index).toLowerCase().replaceAll("[^A-Za-z0-9]","-");
-		                    	if(request.getResourceResolver().getResource(rootNode.getPath() + "/" + newEventPath) != null){
-		                    		int nodeNameCounter = 0;
-		                    		while(request.getResourceResolver().getResource(rootNode.getPath() + "/" + newEventPath + nodeNameCounter) != null){
-			                    		nodeNameCounter++;
-			                    	}
-		                    		newEventPath = newEventPath + nodeNameCounter;
-		                    	}
-		                    	
-		                    	node = rootNode.addNode(newEventPath,"cq:Page");
-		                    	Node jcrNode = node.addNode("jcr:content","cq:PageContent");
-		                    	jcrNode.setProperty("sling:resourceType","girlscouts/components/event-page");
-		                    	jcrNode.setProperty("cq:scaffolding","/etc/scaffolding/" + councilName + "/event");
-		                    	jcrNode.addNode("data","nt:unstructured");
-		                    }else{
-		                    	return false;
-		                    }
-	                	}else{
-	                		node = rootNode.addNode(path,"nt:unstructured");
-	                		Node jcrNode = node.addNode("jcr:content","cq:PageContent");
-	                    	jcrNode.addNode("data","nt:unstructured");
-	                	}
-	                }
-	            }
-            }
-
-           if(node!=null) {
-               ValueFactory valueFactory = node.getSession().getValueFactory();
-       		   Contact contact = new Contact();
-                for(int i=0;i<headerSize;i++) {
-                    if(i!=pathIndex) {
-                        String property = headers.get(i);
-                        property = property.trim();
-                        String additional = "";
-                        if(property.endsWith("cq:tags-categories") || property.endsWith("cq:tags-progLevel") || property.endsWith("start-date") || property.endsWith("start-time") || property.endsWith("end-date") || property.endsWith("end-time") || property.endsWith("regOpen-date") || property.endsWith("regOpen-time") || property.endsWith("regClose-date") || property.endsWith("regClose-time")){
-                        	additional = property.substring(property.lastIndexOf("-")+1,property.length());
-                        	property = property.substring(0,property.lastIndexOf("-"));
-                        }
-                        if(!property.equals(JcrConstants.JCR_PATH)
-                                && !property.equals(JcrConstants.JCR_PRIMARYTYPE) && !property.isEmpty()) {
-                        	Value value = valueFactory.createValue(values.get(i));
-	                        //GS: If this is a contact spreadsheet, just get the necessary properties for a contact
-	                        if(importType.equals("contacts")){
-	                    		if(value != null){
-	                    			String val = value.getString();
-	                    			if(val != null){
-	                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
-	                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
-	                    				if(startsWithMultipleQuotes){
-	                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
-	                    				}
-	                    				else if(startsWithOneQuote && val.length() >= 3){
-	                    					val = val.substring(1,val.length()-1);
-	                    				}
-	                    				if(property.equals(Contact.NAME_PROP)){
-	                    					if(allNames.contains(val)){
-	                    						int nameIndex = 0;
-		                    					while(allNames.contains(val + nameIndex)){
-		                    						nameIndex++;
-		                    					}
-		                    					val = val + nameIndex;
-	                    					}
-		                    				contact.setName(val);
-		                    				allNames.add(val);
-		                    				contact.setPath(val.toLowerCase().replaceAll("[^A-Za-z0-9]","-"));
-		                    			}else if(property.equals(Contact.JOB_TITLE_PROP)){
-		                    				contact.setJobTitle(val);
-		                    			}else if(property.equals(Contact.PHONE_PROP)){
-		                    				contact.setPhone(val);
-		                    			}else if(property.equals(Contact.EMAIL_PROP)){
-		                    				contact.setEmail(val);
-		                    			}else if(property.equals(Contact.TEAM_PROP)){
-		                    				contact.setTeam(val);
-		                    			}
-		                    		}
-	                    		}
-	                    	}else if(importType.equals("documents")){
-	                    		if(value != null){
-	                    			String val = value.getString();
-	                    			if(val != null && !"".equals(val)){
-	                    				Node updatedNode = node;
-	                    				if(property.indexOf('/') != -1){
-	        	                            if( property.indexOf('/') != -1) {
-	        	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
-	        	                                updatedNode = node.getNode(childNodeName);
-	        	                                property = property.substring(property.lastIndexOf('/') + 1);
-	        	                            }
-	                    				}
-	                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
-	                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
-	                    				if(startsWithMultipleQuotes){
-	                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
-	                    				}
-	                    				else if(startsWithOneQuote && val.length() >= 3){
-	                    					val = val.substring(1,val.length()-1);
-	                    				}
-	                    				Boolean multiValue = val.matches("^\\[.*\\]$");
-	                    				String[] multiVal = null;
-	                    				if(multiValue){
-	                    					val = val.substring(1,val.length()-1);
-	                    					multiVal = val.split(",");
-	                    				}
-	                    				if(property.endsWith("cq:tags")){
-	                    					String[] tags = val.split(";");
-	                    					if(multiVal != null){
-	                    						tags = multiVal;
-	                    					}
-	                    					ArrayUtils.removeElement(tags,"");
-	                    					ArrayUtils.removeElement(tags,null);
-	                    					ArrayList<String> tagList = new ArrayList<String>();
-	                    					ArrayList<String> tagPathList = new ArrayList<String>();
-	                                    	if(tags.length > 0){
-	                                    		for(String tag : tags){
-	                                    			String tagTitle = tag.trim();
-	                                    			String tagID = createID(tagTitle, rootNode.getPath(),"forms_documents","_");
-	                                    			if(!tagTitle.isEmpty() && !tagID.isEmpty()){
-		                                    			 try{
-		                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
-		                	                    			if(null == tm.resolve(tagID)){
-		                	                    				if(tm.canCreateTag(tagID)){
-		                	                    					Tag newTag = tm.createTag(tagID,tagTitle,"",true);
-		                	                    					tagList.add(tagID);
-		                	                    					tagPathList.add(newTag.getPath());
-		                	                    				}
-		                	                    			}else{
-		                	                    				Tag existingTag = tm.resolve(tagID);
-		                	                    				tagList.add(tagID);
-		                	                    				tagPathList.add(existingTag.getPath());
-		                	                    			}
-		                                    			}catch(Exception e){
-		                                    				System.err.println("GSBulkEditor - Failed to Create Tag");
-		                                    			} 
-	                                    			}
-	                                    		}
-	                                    	}
-	        	                            if(updatedNode != null){
-		        	                            updatedNode.setProperty(property,tagList.toArray(new String[0]));
-		        	                        }
-	        	                            if(tagPathList.size() > 0){
-	        	                            	try{
-	        	                            		Session session = rootNode.getSession();
-	        	                            		Replicator replicator = scriptHelper.getService(Replicator.class);
-		        	                            	for(String tagPath : tagPathList){
-		        	                            		try{
-		        	                            			replicator.replicate(session, ReplicationActionType.ACTIVATE, tagPath);
-		        	                            		}catch(Exception e1){
-		        	                            			e1.printStackTrace();
-		        	                            		}
-		        	                            	}
-	        	                            	}catch(Exception e){
-	        	                            		e.printStackTrace();
-	        	                            	}
-	        	                            }
-	                    				}else{
-	        	                            if(updatedNode != null){
-	        	                            	if(multiVal != null){
-	        	                            		updatedNode.setProperty(property,multiVal);
-	        	                            	}else{
-	        	                            		try{
-	        	                            			updatedNode.setProperty(property,val);
-	        	                            		}catch(ValueFormatException e){
-	        	                            			multiVal = new String[1];
-	        	                            			multiVal[0] = val;
-	        	                            			updatedNode.setProperty(property,multiVal);
-	        	                            		}
-	        	                            	}
-	        	                            }
-	                    				}
-	                    			}
-	                    		}
-	                    	}else if(importType.equals("events")){
-	                    		if(value != null){
-	                    			String val = value.getString();
-	                    			val = val.replaceAll("[\\u2013\\u2014\\u2015]", "-")
-	                    					.replaceAll("[\\u2017]", "_")
-	                    					.replaceAll("[\\u2018\\u2019]","'")
-	                    					.replaceAll("[\\u201C\\u201D]", "\"")
-	                    					.replaceAll("[\\u201D\\u201E]","\"")
-	                    					.replaceAll("[\\u2026]","...")
-	                    					.replaceAll("[\\u2032]","\'")
-	                    					.replaceAll("[\\u2033]","\"");
-	                    			if(val != null && !"".equals(val)){
-	                    				Node updatedNode = node;
-	                    				if(property.indexOf('/') != -1){
-	        	                            if( property.indexOf('/') != -1) {
-	        	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
-	        	                                updatedNode = node.getNode(childNodeName);
-	        	                                property = property.substring(property.lastIndexOf('/') + 1);
-	        	                            }
-	                    				}
-	                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
-	                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
-	                    				if(startsWithMultipleQuotes){
-	                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
-	                    				}
-	                    				else if(startsWithOneQuote && val.length() >= 3){
-	                    					val = val.substring(1,val.length()-1);
-	                    				}
-	                    				Boolean multiValue = val.matches("^\\[.*\\]$");
-	                    				String[] multiVal = null;
-	                    				if(multiValue){
-	                    					val = val.substring(1,val.length()-1);
-	                    					multiVal = val.split(",");
-	                    				}
-	                    				if(property.endsWith("cq:tags") && (additional.equals("categories") || additional.equals("progLevel"))){
-	                    					String tagFolder = additional;
-	                						if(tagFolder.equals("progLevel")){
-	                							tagFolder = "program-level";
-	                						}
-	                    					String[] tags = val.split(";");
-	                    					if(multiVal != null){
-	                    						tags = multiVal;
-	                    					}
-	                    					ArrayUtils.removeElement(tags,"");
-	                    					ArrayUtils.removeElement(tags,null);
-	                    					ArrayList<String> tagList = new ArrayList<String>();
-	                    					ArrayList<String> tagPathList = new ArrayList<String>();
-	                    					if(updatedNode.hasProperty(property)){
-	                    						Property tagsProp = updatedNode.getProperty(property);
-	                							Value[] tagsVals = tagsProp.getValues();
-	                							TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
-	                							if(tagsVals.length > 0){
-	                								for(Value existing : tagsVals){
-	                									String existingStr = existing.getString();
-	                									if(tagFolder.equals("program-level")){
-	                										if(existingStr.matches("^.*:" + "categories" + "/.*$")){
-	                        	                    			if(null != tm.resolve(existingStr)){
-	                        	                    				Tag existingTag = tm.resolve(existingStr);
-	                        	                    				tagList.add(existingStr);
-	                        	                    				tagPathList.add(existingTag.getPath());
-	                        	                    			}
-	                										}
-	                									}else if(tagFolder.equals("categories")){
-	                										if(existingStr.matches("^.*:" + "program-level" + "/.*$")){
-	                        	                    			if(null != tm.resolve(existingStr)){
-	                        	                    				Tag existingTag = tm.resolve(existingStr);
-	                        	                    				tagList.add(existingStr);
-	                        	                    				tagPathList.add(existingTag.getPath());
-	                        	                    			}
-	                										}
-	                									}
-	                								}
-	                							}
-	                    					}
-	                    					
-	                                    	if(tags.length > 0){
-	                                    		for(String tag : tags){
-	                                    			String tagTitle = tag.trim();
-	                                    			String tagID = "";
-	                                    			if(tagFolder.equals("categories")){
-	                                    				tagID = createID(tagTitle, rootNode.getPath(), tagFolder,"");
-	                                    			}else if(tagFolder.equalsIgnoreCase("program-level")){
-	                                    				tagID = createID(tagTitle, rootNode.getPath(), tagFolder,"-");
-	                                    			}else{
-	                                    				tagID = createID(tagTitle, rootNode.getPath(), tagFolder,"_");
-	                                    			}
-	                                    			if(!tagTitle.isEmpty() && !tagID.isEmpty()){
-		                                    			 try{
-		                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
-		                	                    			if(null == tm.resolve(tagID)){
-		                	                    				if(tm.canCreateTag(tagID)){
-		                	                    					String rand = "" + System.currentTimeMillis();
-		                	                    					Tag newTag = tm.createTag(tagID + rand,tagTitle,"",true);
-		                	                    					Resource newTagRes = request.getResourceResolver().getResource(newTag.getPath());
-		                	                    					Node newTagNode = newTagRes.adaptTo(Node.class);
-		                	                    					Session newTagSession = newTagNode.getSession();
-		                	                    					newTagSession.save();
-		                	                    					newTagSession.move(newTagNode.getPath(), newTagNode.getPath().substring(0,newTagNode.getPath().indexOf(rand)));
-		                	                    					newTagSession.save();
-		                	                    					tagList.add(tagID);
-		                	                    					tagPathList.add(newTag.getPath());
-		                	                    				}
-		                	                    			}else{
-		                	                    				Tag existingTag = tm.resolve(tagID);
-		                	                    				tagList.add(tagID);
-		                	                    				tagPathList.add(existingTag.getPath());
-		                	                    			}
-		                                    			}catch(Exception e){
-		                                    				System.err.println("GSBulkEditor - Failed to Create Tag");
-		                                    				e.printStackTrace();
-		                                    			} 
-	                                    			}
-	                                    		}
-	                                    	}
-	        	                            if(updatedNode != null){
-		        	                            updatedNode.setProperty(property,tagList.toArray(new String[0]));
-		        	                        }
-	        	                            if(tagPathList.size() > 0){
-	        	                            	try{
-	        	                            		Session session = rootNode.getSession();
-	        	                            		Replicator replicator = scriptHelper.getService(Replicator.class);
-		        	                            	for(String tagPath : tagPathList){
-		        	                            		try{
-		        	                            			Resource tagRes = request.getResourceResolver().resolve(tagPath);
-		        	                            			Node tagNode = tagRes.adaptTo(Node.class);
-		        	                            			if(tagNode.hasProperty("cq:lastReplicationAction")){
-		        	                            				if(tagNode.getProperty("cq:lastReplicationAction").getValue().getString().equals("Activate")){
-		        	                            					replicator.replicate(session, ReplicationActionType.ACTIVATE, tagPath);
-		        	                            				}
-		        	                            			}else{
-		        	                            				replicator.replicate(session, ReplicationActionType.ACTIVATE, tagPath);
-		        	                            			}
-		        	                            		}catch(Exception e1){
-		        	                            			e1.printStackTrace();
-		        	                            		}
-		        	                            	}
-	        	                            	}catch(Exception e){
-	        	                            		e.printStackTrace();
-	        	                            	}
-	        	                            }
-	                    				}else if((property.equals("start") || property.equals("end") || property.equals("regOpen") || property.equals("regClose")) && additional.equals("date")){
-	                    					if(updatedNode.hasProperty(property)){
-		                                    	try{
-			                    					Property dateProp = updatedNode.getProperty(property);
-			                                    	String dateString = val;
-			                                    	String timeString = dateProp.getString().substring(dateProp.getString().indexOf("T"));
-			                                    	String dateTimeString = dateString + timeString;
-			                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'HH:mm:ss.SSSZ");
-			                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
-			                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
-			                                    	val = dtfOut.print(dt);
-	    	                            			updatedNode.setProperty(property,val);
-	    	                            		}catch(Exception e){
-	    	                            			multiVal = new String[1];
-	    	                            			multiVal[0] = val;
-	    	                            			updatedNode.setProperty(property,multiVal);
-	    	                            		}
-	                    					}else{
-	                    						String dateString = val;
-	                    						String timeString = "T00:00:00.000";
-		                                    	String dateTimeString = dateString + timeString;
-		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'HH:mm:ss.SSS");
-		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
-		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
-		                                    	val = dtfOut.print(dt);
-		                                    	try{
-		                                    		updatedNode.setProperty(property,val);
-		                                    	}catch(Exception e){
-		                                    		e.printStackTrace();
-		                                    	}
-	                    					}
-	                    				}else if((property.equals("start") || property.equals("end") || property.equals("regOpen") || property.equals("regClose")) && additional.equals("time")){
-	                    					if(updatedNode.hasProperty(property)){
-		                    					Property dateProp = updatedNode.getProperty(property);
-		                                    	String datetimeString = dateProp.getString();
-		                                    	String timeString = val;
-		                                    	String dateString = dateProp.getString().substring(0, dateProp.getString().indexOf("T"));
-		                                    	String dateTimeString = dateString + "T" + timeString;
-		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm a");
-		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
-		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
-		                                    	val = dtfOut.print(dt);
-		                                    	try{
-	    	                            			updatedNode.setProperty(property,val);
-	    	                            		}catch(Exception e){
-	    	                            			multiVal = new String[1];
-	    	                            			multiVal[0] = val;
-	    	                            			updatedNode.setProperty(property,multiVal);
-	    	                            		}
-	                    					}else{
-	                    						String timeString = val.toUpperCase();
-		                                    	String dateString = "2017-01-01";
-		                                    	String dateTimeString = dateString + "T" + timeString + " -05:00";
-		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm a Z");
-		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
-		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
-		                                    	val = dtfOut.print(dt);
-		                                    	try{
-		                                    		updatedNode.setProperty(property,val);
-		                                    	}catch(Exception e){
-		                                    		e.printStackTrace();
-		                                    	}
-	                    					}
-	                    				}else if(property.equals("timezone")){
-	                    					updatedNode.setProperty(property,"()(" + val + ")");
-	                    					GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
-	                    					GSDateTimeFormatter dtfOutZone = GSDateTimeFormat.forPattern("ZZ");
-	                    					if(updatedNode.hasProperty("start")){
-	                    						try{
-	                    							String startDate = updatedNode.getProperty("start").getString();
-	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
-	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
-	                    						    startDateTime = startDateTime.withZone(dtz);
-	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
-	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
-	                    						    updatedNode.setProperty("start",startDate);
-	                    						}catch(Exception e){
-	                    							e.printStackTrace();
-	                    						}
-	                    					}
-	                    					if(updatedNode.hasProperty("end")){
-	                    						try{
-	                    							String startDate = updatedNode.getProperty("end").getString();
-	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
-	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
-	                    						    startDateTime = startDateTime.withZone(dtz);
-	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
-	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
-	                    						    updatedNode.setProperty("end",startDate);
-	                    						}catch(Exception e){
-	                    							e.printStackTrace();
-	                    						}
-	                    					}
-	                    					if(updatedNode.hasProperty("regOpen")){
-	                    						try{
-	                    							String startDate = updatedNode.getProperty("regOpen").getString();
-	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
-	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
-	                    						    startDateTime = startDateTime.withZone(dtz);
-	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
-	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
-	                    						    updatedNode.setProperty("regOpen",startDate);
-	                    						}catch(Exception e){
-	                    							e.printStackTrace();
-	                    						}
-	                    					}
-	                    					if(updatedNode.hasProperty("regClose")){
-	                    						try{
-	                    							String startDate = updatedNode.getProperty("regClose").getString();
-	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
-	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
-	                    						    startDateTime = startDateTime.withZone(dtz);
-	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
-	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
-	                    						    updatedNode.setProperty("regClose",startDate);
-	                    						}catch(Exception e){
-	                    							e.printStackTrace();
-	                    						}
-	                    					}
-	                    				}else{
-	        	                            if(updatedNode != null){
-	        	                            	if(multiVal != null){
-	        	                            		updatedNode.setProperty(property,multiVal);
-	        	                            	}else{
-	        	                            		try{
-	        	                            			updatedNode.setProperty(property,val);
-	        	                            		}catch(ValueFormatException e){
-	        	                            			multiVal = new String[1];
-	        	                            			multiVal[0] = val;
-	        	                            			updatedNode.setProperty(property,multiVal);
-	        	                            		}
-	        	                            	}
-	        	                            }
-	                    				}
-	                    			}
-	                    		}
-	                        }
-                    	}
-                    }
-                }
-                if(importType.equals("contacts")){
-	                ArrayList<Contact> contactsForTeam;
-	                if(contact.getTeam() != null && contactsToCreate.get(contact.getTeam()) != null){
-	                	contactsForTeam = contactsToCreate.get(contact.getTeam());
-	                	contactsForTeam.add(contact);
-	                }else{
-	                	contactsForTeam = new ArrayList<Contact>();
-	                	contactsForTeam.add(contact);
-	                }
-	                contactsToCreate.put(contact.getTeam(),contactsForTeam);
-                }else if(importType.equals("events")){
-                	//Disabled for the time being
-                	/*if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
-                		if(node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
-                			pathsToReplicate.add(node.getPath());
-                		}
-                	} */
-                }
-                else if(importType.equals("documents")){
-                	if(node.hasProperty("jcr:content/cq:lastReplicationAction") && node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
     
-                		String metaPath = path + META_DATA_LOCATION;
-                		Resource metaResource = request.getResourceResolver().getResource(metaPath);
-                        if(metaResource!=null) {
-                        	pathsToReplicate.add(metaPath);
-                        }
-                   
-                	}
-                }
-                updated = true;
-            }
-        } catch (RepositoryException e) {
-        	e.printStackTrace();
-            return false;
-        }
-        return updated;
-    }
     
-    public String createID(String tag, String path, String folder, String divider){
-    	HashMap<String,String> specialCouncils = new HashMap<String,String>();
-    	specialCouncils.put("southern-appalachian","girlscoutcsa");
-    	specialCouncils.put("NE_Texas","NE_Texas");
-    	specialCouncils.put("nc-coastal-pines-images-","girlscoutsnccp");
-    	specialCouncils.put("wcf-images","gswcf");
-    	specialCouncils.put("oregon-sw-washington-","girlscoutsosw");
-    	specialCouncils.put("dxp","girlscouts-dxp");
+    //This method processes the contacts file
+    public HtmlResponse updateContacts(List<String> headers, String rootPath, String councilName, CSVReader csvR, SlingScriptHelper scriptHelper, ResourceResolver adminResolver){
     	
-    	String councilRoot = "";
-    	String tagName = tag.toLowerCase().replaceAll(" ",divider).replaceAll("[^a-z0-9_]",divider).trim();
-    	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/*.*$");
-    	Matcher mDam = pDam.matcher(path);
-    	Pattern pContent = Pattern.compile("^/content/([^/]{1,})/*.*$");
-    	Matcher mContent = pContent.matcher(path);
-    	if(mDam.matches()){
-    		councilRoot = mDam.group(1);
-        	if(specialCouncils.containsKey(councilRoot)){
-        		councilRoot = specialCouncils.get(councilRoot);
-        	}
-        	if(councilRoot.startsWith("girlscouts-")){
-        		councilRoot = councilRoot.replace("girlscouts-","");
-        	}
-    		return councilRoot + ":" + folder + "/" + tagName;
-    	}else if(mContent.matches()){
-    		councilRoot = mContent.group(1);
-        	if(specialCouncils.containsKey(councilRoot)){
-        		councilRoot = specialCouncils.get(councilRoot);
-        	}
-    		return councilRoot + ":" + folder + "/" + tagName;
-    	}else{
-    		return null;
+    	List<String> replicationList = new ArrayList<String>();
+    	Map<String,List<Contact>> teamMap = new HashMap<String,List<Contact>>();
+    	HtmlResponse response = null;
+    	Node rootNode = null;
+    	
+    	//Acquire root node. If doesn't exist resturn error
+    	Resource resource = adminResolver.getResource(rootPath);
+        if(resource!=null) {
+            rootNode = resource.adaptTo(Node.class);
+        } else{
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Root node does not exist. Process aborted");
+        	return response;
+        }
+        
+    	//Parse CSV file line by line
+    	String[] nextLine = null;
+    	int lineCount = 2;
+    	try{
+	    	while((nextLine = csvR.readNext()) != null){
+	    		//Convert array to list
+	    		List<String> values = new LinkedList<String>(Arrays.asList(nextLine));
+	    		clearNullValues(values, headers.size());
+	    		Contact contact = new Contact();
+	    		int indexCount = 0;
+	    		for(String value : values){
+				
+					if(Contact.NAME_PROP.equals(headers.get(indexCount))){ 
+						if(value == null || value.trim().isEmpty()){
+							response = HtmlStatusResponseHelper.createStatusResponse(true,
+				                    "Missing required field jcr:content/jcr:title at line:" + lineCount +". Process aborted");
+				            return response;
+						}
+						contact.setName(value);
+					} else if(Contact.JOB_TITLE_PROP.equals(headers.get(indexCount))){
+						contact.setJobTitle(value);
+					} else if(Contact.EMAIL_PROP.equals(headers.get(indexCount))){
+						contact.setEmail(value);
+					} else if(Contact.PHONE_PROP.equals(headers.get(indexCount))){
+						contact.setPhone(value);
+					} else if(Contact.TEAM_PROP.equals(headers.get(indexCount))){
+						if(value == null || value.trim().isEmpty()){
+							response = HtmlStatusResponseHelper.createStatusResponse(true,
+				                    "Missing required field jcr:content/team at line:" + lineCount +". Process aborted");
+				            return response;
+						}
+						contact.setTeam(value);
+					} else{
+						//Do nothing
+					}
+				
+	    			indexCount++;
+	    		}
+	    		String jcrName = this.getJcrName(contact.getName().trim());
+	    		String jcrTeamName = this.getJcrName(contact.getTeam().trim());
+	    		if(jcrName == null || jcrTeamName == null || jcrName.isEmpty() || jcrTeamName.isEmpty()){
+	    			response = HtmlStatusResponseHelper.createStatusResponse(true,
+		                    "Required fields blank at line:" + lineCount +". Process aborted");
+		            return response;
+	    		}
+	    		
+	    		contact.setPath(jcrName);
+	    		
+	    		List<Contact> contactList = teamMap.get(contact.getTeam());
+	    		if(contactList != null){
+	    			contactList.add(contact);
+	    		} else{
+	    			List<Contact> newList = new ArrayList<Contact>();
+	    			newList.add(contact);
+	    			teamMap.put(contact.getTeam(), newList);
+	    		}
+	    		
+	    		
+	    		lineCount++;
+	    	}
+    	} catch(IOException e){
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Critical Issue Parsing the input file at:" + lineCount +". Process aborted");
+            return response;
+    	}
+    	
+    	//Try to create a backup contact package 
+    	response = backupContacts(scriptHelper, rootPath, rootNode);
+        if(response != null){
+        	return response;
+        }
+    	
+    	//Delete all the old contacts
+    	try{
+    		
+            if(rootNode.getProperty("jcr:content/sling:resourceType").getString().equals("girlscouts/components/contact-placeholder-page")){
+            	Page rootPage = resource.adaptTo(Page.class);
+            	Iterator<Page> oldChildren = rootPage.listChildren();
+            	Replicator replicator = scriptHelper.getService(Replicator.class);
+            	while(oldChildren.hasNext()){
+            		Page child = oldChildren.next();
+            		replicator.replicate(rootNode.getSession(), ReplicationActionType.DELETE, child.getPath());
+            		Resource childRes = adminResolver.getResource(child.getPath());
+            		Node childNode = childRes.adaptTo(Node.class);
+            		childNode.remove();
+            	}
+            }
+            //If deleting the contacts does not work create an error and exit method
+        }catch(Exception e){
+            response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Failed to delete original contact data. Process Aborted");
+            return response;
+        }
+    	
+    	
+    	//Now that old contacts have been cleared create new contact nodes
+    	try {
+	    	for(String team : teamMap.keySet()){
+				String teamPath = (team == null || team.equals("")) ? "none" : team;
+				String teamPathName = this.getJcrName(teamPath);
+				Node teamNode = null;
+				Node teamContentNode = null;
+				try{
+					teamNode = rootNode.addNode(teamPathName,CQ_PAGE);
+					teamContentNode = teamNode.addNode(JCR_CONTENT,CQ_PAGE_CONTENT);
+					teamContentNode.setProperty("jcr:title",team);
+					teamContentNode.setProperty("hideInNav", true);
+				}catch(ItemExistsException e){
+					try{
+						teamNode = rootNode.getNode(teamPathName);
+					}catch(Exception e1){
+						e1.printStackTrace();
+						break;
+					}
+				}
+				List<Contact> contacts = teamMap.get(team);
+				replicationList.add(teamNode.getPath());
+				for(Contact contact : contacts){
+					if(contact.getPath() != null && !contact.getPath().equals("")){
+						Node contactNode = teamNode.addNode(contact.getPath(),CQ_PAGE);
+						Node contactContentNode = contactNode.addNode(JCR_CONTENT,CQ_PAGE_CONTENT);
+						
+							contactContentNode.setProperty("cq:scaffolding","/etc/scaffolding/" + councilName + "/contact");
+						
+						contactContentNode.setProperty("sling:resourceType","girlscouts/components/contact-page");
+						contactContentNode.setProperty("jcr:title",contact.getName());
+						contactContentNode.setProperty("title",contact.getJobTitle());
+						contactContentNode.setProperty("phone",contact.getPhone());
+						contactContentNode.setProperty("email",contact.getEmail());
+						contactContentNode.setProperty("team",contact.getTeam());
+						contactContentNode.setProperty("hideInNav", true);
+						replicationList.add(contactNode.getPath());
+					}
+				}
+			}
+    	} catch (RepositoryException e) {
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Critical Error While Writing Data to Repository. Process Aborted" + e.getMessage());
+            return response;
+		}
+    	
+    		
+    	//Upon successful writing try to save the rootNode if not successful abort
+        try{
+        	rootNode.save();
+        } catch(Exception e){
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                "Unable to save Contacts. Process Aborted");
+            	return response;
+        }
+        
+        //Activate contacts 
+        response = staggerActivate(scriptHelper, replicationList, contactDelayInterval, repDelayTimeInMinutes, adminResolver);
+    	
+        if(response == null){
+        	int mins = lineCount / documentDelayInterval;
+        	mins++;
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Contacts updated successfully. The data will finish replicating in approximately " + mins + " minutes.");
+        }
+        
+    	return  response;
+    }
+    
+    public HtmlResponse updateEvents(List<String> headers, String rootPath, String year, CSVReader csvR, SlingScriptHelper scriptHelper, ResourceResolver adminResolver) {
+    	
+    	HtmlResponse response = null;
+    	TagManager tagManager = null;
+    	Node rootNode = null;
+    	String councilName = null;
+    	
+    	HashMap<String, Tag> existingCategories = new HashMap<String, Tag>();
+    	HashMap<String, Tag> existingProgramLevels = new HashMap<String, Tag>();
+    	Pattern colorMatch = Pattern.compile("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
+    	List<Event> eventList = new ArrayList<Event>();
+    	Tag categoriesTag = null;
+    	Tag programLevelTag = null;
+    	List<String> replicationList = new ArrayList();
+    	
+    	//Check for year and root node
+    	if(!year.equals("")){
+	    	Resource rootRes = adminResolver.getResource(rootPath + "/" + year);
+	    	if(rootRes == null){
+	    		rootRes = adminResolver.getResource(rootPath);
+	    		if(rootRes == null){
+	    			response = HtmlStatusResponseHelper.createStatusResponse(true,
+	                        "Root path does not exist. Process aborted");
+	                return response;
+	    		}else{
+	        		Node parentNode = rootRes.adaptTo(Node.class);
+	        		Node newYearNode = null;
+	        		Node newYearContentNode = null;
+	        		try{
+	        			newYearNode = parentNode.addNode(year,CQ_PAGE);
+	        			newYearContentNode = newYearNode.addNode(JCR_CONTENT,CQ_PAGE_CONTENT);
+	        			parentNode.save();
+	        		}catch(Exception e){
+	        			response = HtmlStatusResponseHelper.createStatusResponse(true,
+	                            "Failed to create year node");
+	                    return response;
+	        		}
+	    		}
+	    	}
+	    	
+	    	rootNode = rootRes.adaptTo(Node.class);
+        	
+        	
+        } else{
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Year parameter is mandatory for importing events. Please provide year parameter");
+            return response;
+        }
+    	
+    	rootPath = rootPath + "/" + year;
+    	
+        //Get sets of existing categories + program levels
+        try {
+        	tagManager = adminResolver.adaptTo(TagManager.class);
+			councilName = rootNode.getAncestor(2).getName();
+			String categoriesTagId = councilName + ":categories";
+			String programLevelTagId = councilName + ":program-level";
+			categoriesTag = tagManager.resolve(categoriesTagId);
+			programLevelTag = tagManager.resolve(programLevelTagId);
+			
+			if(categoriesTag != null){
+				Iterator<Tag> listOfChildren = categoriesTag.listChildren();
+				
+				while(listOfChildren.hasNext()){
+					Tag tempTag = listOfChildren.next();
+					existingCategories.put(tempTag.getTitle(), tempTag);
+				}
+				
+			} else{
+				categoriesTag = tagManager.createTag(categoriesTagId, "Categories", "");
+			}
+			
+			if(programLevelTag != null){
+				Iterator<Tag> listOfChildren = programLevelTag.listChildren();
+				while(listOfChildren.hasNext()){
+					Tag tempTag = listOfChildren.next();
+					existingProgramLevels.put(tempTag.getTitle(), tempTag);
+				}
+			} else{
+				programLevelTag = tagManager.createTag(programLevelTagId, "Program Level", "");
+			}
+			
+		} catch (RepositoryException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Unable to access the repository. Critical error. Process aborted");
+        	return response;
+		} catch (AccessControlException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Unable to modify tags. Critical error. Process aborted");
+        	return response;
+		} catch (InvalidTagFormatException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Ivalid tag format. Critical error. Process aborted");
+        	return response;
+		}
+        
+    	//Convert headers to JCR properties
+        headers = this.replaceEventHeaders(headers);
+    	
+    	//Check if file is empty
+        
+    	
+    	//Parse the file line by line
+    	//Convert date + time to single date
+        //Keep track of new tags to be created and activated later
+    	String[] nextLine = null;
+    	int lineCount = 2;
+    	try{
+    		while((nextLine = csvR.readNext()) != null){
+    			List<String> values = new LinkedList<String>(Arrays.asList(nextLine));
+    			clearNullValues(values, headers.size());
+    			Event event = new Event();
+    			int index = 0;
+    			for(String value : values){
+    				String header = headers.get(index);
+    				
+    				if (header.equals(Event.END_DATE)){
+    					event.setEndDate(value);
+    				} else if (header.equals(Event.END_TIME)){
+    					event.setEndTime(value);
+    				} else if (header.equals(Event.START_DATE)){
+    					if(value == null || value.trim().isEmpty()){
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
+    			                    "Missing required field Start Date at line "+lineCount +". Process aborted");
+    			        	return response;
+    					}
+    					event.setStartDate(value);
+    				} else if (header.equals(Event.START_TIME)){
+    					if(value == null || value.trim().isEmpty()){
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
+    			                    "Missing required field Start Time at line "+lineCount +". Process aborted");
+    			        	return response;
+    					}
+    					event.setStartTime(value);
+    				} else if (header.equals(Event.REGISTRATION_OPEN_DATE)){
+    					event.setRegOpenDate(value);
+    				} else if (header.equals(Event.REGISTARTION_OPEN_TIME)){
+    					event.setRegOpenTime(value);
+    				} else if (header.equals(Event.REGISTRATION_CLOSE_DATE)){
+    					event.setRegCloseDate(value);
+    				} else if (header.equals(Event.REGISTRATION_CLOSE_TIME)){
+    					event.setRegCloseTime(value);
+    				} else if (header.equals(Event.COLOR)){
+    					if(colorMatch.matcher(value).matches()){
+    						String truncatedHeader = header.replace("jcr:content/data/", "");
+    						event.addDataPair(truncatedHeader, value);
+    					}else{
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
+    			                    "Color field is in the wrong format at line "+lineCount +". Process aborted");
+    			        	return response;
+    					}
+    				} else if (header.equals(Event.IMAGE)){
+    					event.setImagePath(value);
+    				} else if (header.equals(Event.PATH)){
+    					event.setPath(value);
+    				} else if (header.equals(Event.CATEGORIES)){
+    					List<String> tagTitleList = new LinkedList<String>(Arrays.asList(value.split(";")));
+    					for(String tagTitle : tagTitleList){
+    						Set<String> keys = existingCategories.keySet();
+    						if(!keys.contains(tagTitle)){
+    							existingCategories.put(tagTitle, null);
+    						}
+    					}
+    					event.setCategories(tagTitleList);
+    				} else if (header.equals(Event.PROGRAM_LEVELS)){
+    					List<String> tagTitleList = new LinkedList<String>(Arrays.asList(value.split(";")));
+    					for(String tagTitle : tagTitleList){
+    						Set<String> keys = existingProgramLevels.keySet();
+    						if(!keys.contains(tagTitle)){
+    							existingProgramLevels.put(tagTitle, null);
+    						}
+    					}
+    					event.setProgramLevels(tagTitleList);
+    				} else if (header.equals(Event.TITLE)){
+    					if(value == null || value.trim().isEmpty()){
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
+    			                    "Missing required field Title at line "+lineCount +". Process aborted");
+    			        	return response;
+    					}
+    					event.setTitle(value);
+    				} else if (header.equals(Event.LOCATION_NAME)){
+    					if(value == null || value.trim().isEmpty()){
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
+    			                    "Missing required field Location Name at line "+lineCount +". Process aborted");
+    			        	return response;
+    					}
+    					event.addDataPair(header.replace("jcr:content/data/", ""), value);
+    				} else if (header.equals(Event.TEXT)){
+    					if(value == null || value.trim().isEmpty()){
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
+    			                    "Missing required field Text at line "+lineCount +". Process aborted");
+    			        	return response;
+    					}
+    					event.addDataPair(header.replace("jcr:content/data/", ""), value);
+    				} else{
+    					
+    					if(value.isEmpty()){
+        					index++;
+        					continue;
+        				}
+    					
+    					event.addDataPair(header.replace("jcr:content/data/", ""), value);
+    				}
+    				
+    				index++;
+    			}
+    			
+    			//Convert the date and time + timezone to single date string fields and add to the values map
+    			String message = event.updateDataPairs();
+    			if(message != null){
+    				response = HtmlStatusResponseHelper.createStatusResponse(true,
+    	                    "Content error:  "+message+" at line "+lineCount +". Process aborted");
+    	        	return response;
+    			}
+    			
+    			eventList.add(event);
+    			lineCount++;
+    		}
+    	} catch(IOException e){
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Input/Output error at line "+lineCount +". Process aborted");
+        	return response;
+    	} catch(Exception e){
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "General error at line "+lineCount +". Process aborted");
+        	return response;
+    	}
+    	
+    	
+    	//TODO create 10 new tags one new event    	
+    	//Once the file has been parsed successfully add the events to the repository
+    	//Add and Activate any new tags
+    	try {
+	    	Set<String> tagSet = existingCategories.keySet();
+	    	for(String tagName : tagSet){
+	    		Tag content = existingCategories.get(tagName);
+	    		if(content == null){
+	    			String tagId = councilName + ":categories/" + getJcrName(tagName);
+	    			Tag temp = tagManager.createTag(tagId, tagName, "");
+	    			existingCategories.put(tagName, temp);
+	    		}
+	    	}
+	    	
+	    	tagSet = existingProgramLevels.keySet();
+	    	for(String tagName : tagSet){
+	    		Tag content = existingProgramLevels.get(tagName);
+	    		if(content == null){
+	    			String tagId = councilName + ":program-level/" + getJcrName(tagName);
+	    			Tag temp = tagManager.createTag(tagId, tagName, "");
+	    			existingProgramLevels.put(tagName, temp);
+	    		}
+	    	}
+    	} catch (AccessControlException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Unable to modify tags. Critical error. Process aborted");
+        	return response;
+		} catch (InvalidTagFormatException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Invalid tag format. Critical error. Process aborted");
+        	return response;
+		}
+    	
+    	//Add any events that have a blank path
+    	//Throw error if path of an event is not found
+    	int lineCounter = 2;
+    	try {
+	    	
+	    	for(Event event : eventList){
+	    		Node contentNode = null;
+	    		if(event.getPath() == null || event.getPath().isEmpty()){
+	    			//Create new event node
+	    			String id = event.getStartDate();
+	    			id = id.replaceAll("[^0-9]", "-");
+	    			String eventName = getJcrName(event.title);
+	    			eventName = eventName + "_" + id;
+	    			while(rootNode.hasNode(eventName)){
+	    				eventName = eventName + "1";
+	    			}
+	    			
+	    			Node eventNode = rootNode.addNode(eventName, CQ_PAGE);
+	    			contentNode = eventNode.addNode(JCR_CONTENT, CQ_PAGE_CONTENT);
+	    			contentNode.setProperty("sling:resourceType", "girlscouts/components/event-page");
+	    			contentNode.setProperty(CQ_TEMPLATE, EVENT_TEMPLATE);
+	    			contentNode.setProperty(CQ_SCAFFOLDING, "/etc/scaffolding/" + councilName + "/event");
+	    			event.setPath(eventNode.getPath());
+	    			
+	    			 
+	    		} else{
+	    			//Check if path is correct
+	    			Resource eventResource = adminResolver.getResource(event.getPath() + "/" + JCR_CONTENT);
+	    			if(eventResource != null){
+	    				contentNode = eventResource.adaptTo(Node.class);
+	    					
+	    				
+	    			} else{
+	    				response = HtmlStatusResponseHelper.createStatusResponse(true,
+	    	                    "Path at line "+lineCounter 
+	    	                    +" points to an event that doesn't exist. Fix path or remove altogether if creating new event. Process aborted");
+	    	        	return response;
+	    			}
+	    			
+	    		}
+	    		
+	    		contentNode.setProperty("jcr:title", event.getTitle());
+				
+				//Set the data values
+	    		Node dataNode = null;
+	    		if(contentNode.hasNode("data")){
+	    			dataNode = contentNode.getNode("data");
+	    		} else{
+	    			dataNode = contentNode.addNode("data", NT_UNSTRUCTURED);
+	    		}
+				
+				
+				Map<String, String> valueMap = event.getDataPairs();
+				Set<String> valueKeys = valueMap.keySet();
+				for(String key : valueKeys){
+					dataNode.setProperty(key, valueMap.get(key));
+				}
+				
+				Map<String, Calendar> dateMap = event.getDatePairs();
+				Set<String> dateKeys = dateMap.keySet();
+				for(String key : dateKeys){
+					dataNode.setProperty(key, dateMap.get(key));
+				}
+				Node imageNode = null;
+				if(dataNode.hasNode("image")){
+					imageNode = dataNode.getNode("image");
+				} else{
+					imageNode = dataNode.addNode("image", NT_UNSTRUCTURED);
+				}
+				
+				
+				imageNode.setProperty("path", event.getImagePath());
+				
+				//Set Tags
+				String[] categories = new String[0];
+				String[] programLevels = new String[0];
+				if(event.getCategories() != null){
+					categories = tagListToIdArray(event.getCategories(), existingCategories);
+				}
+				
+				if(event.getProgramLevels() != null){
+					programLevels = tagListToIdArray(event.getProgramLevels(), existingProgramLevels);
+				}
+				
+				String[] allTags = (String[])ArrayUtils.addAll(categories, programLevels);
+				
+				contentNode.setProperty("cq:tags", allTags);
+				
+				replicationList.add(event.getPath());
+	    		
+	    		lineCounter ++;
+	    	}
+	    	
+	    	
+	    	rootNode.save();
+    	} catch (RepositoryException e) {
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Encountered repository error at line "+lineCounter 
+                    +". Process aborted." + e.getMessage());
+        	return response;
+		}
+    	
+    	
+    	response = delayedActivate(rootNode, scriptHelper, replicationList, adminResolver);
+    	
+    	if(response == null){
+        	int mins = lineCounter / documentDelayInterval;
+        	mins++;
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Events updated successfully. The data will replicate overnight.");
+        }
+    	
+    	
+    	return  response;
+    }
+    
+    
+    public HtmlResponse updateFormMetadata(List<String> headers, String rootPath, CSVReader csvR, SlingScriptHelper scriptHelper, ResourceResolver adminResolver){
+    	
+    	HtmlResponse response = null;
+    	List<String> replicationList = new ArrayList<String>();
+    	List<Document> documentList = new ArrayList<Document>();
+    	Node rootNode = null;
+    	
+    	
+    	//Acquire root node. If doesn't exist return error
+    	Resource resource = adminResolver.getResource(rootPath);
+        if(resource!=null) {
+            rootNode = resource.adaptTo(Node.class);
+        } else{
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Root node does not exist. Process aborted");
+        	return response;
+        }
+    	
+    	//Replace headers
+    	headers = this.replaceFormHeaders(headers);
+    	
+    	
+    	//Parse file
+    	
+    	String[] nextLine = null;
+    	int lineCount = 2;
+    	try{
+    		while((nextLine = csvR.readNext()) != null){
+    			List<String> values = new LinkedList<String>(Arrays.asList(nextLine));
+    			clearNullValues(values, headers.size());
+    			Document doc = new Document();
+    			int indexCounter = 0;
+    			for(String value: values){
+    				if(headers.get(indexCounter).equals(Document.TITLE_PROP)){
+    					value = value.replaceAll("\\[", "").replaceAll("\\]", "");
+    					doc.setTitle(value);	
+    				} else if(headers.get(indexCounter).equals(Document.PATH_PROP)){
+    					doc.setPath(value);
+    				} else if(headers.get(indexCounter).equals(Document.TAGS_PROP)){
+    					if(!value.trim().isEmpty()){
+    						value = value.replaceAll("\\[", "").replaceAll("\\]", "");
+    						String[] tagVals = value.split(",");
+    						List<String> taglist = new LinkedList<String>(Arrays.asList(tagVals));
+    						doc.setTags(taglist);
+    					}
+    				} else if(headers.get(indexCounter).equals(Document.DESCRIPTION_PROP)){
+    					value = value.replaceAll("\\[", "").replaceAll("\\]", "");
+    					doc.setDescription(value);
+    				} else{
+    					
+    				}
+    				
+    				
+    				
+    				indexCounter++;
+    			}
+    			
+    			documentList.add(doc);
+    			lineCount++;
+    		}
+    	} catch(IOException e){
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Input/Output error at line "+lineCount +". Process aborted");
+        	return response;
+    	} catch(IllegalArgumentException e){
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Issue with formatting date or time at line "+lineCount +". Process aborted");
+        	return response;
+    	} catch(Exception e){
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "General error at line "+lineCount +". Process aborted");
+        	return response;
+    	}
+    	
+    	int lineCounter = 2;
+    	try {
+	    	//Once file parsed successfully commit changes to memory
+	    	
+	    	for(Document doc : documentList){
+	    		//Check that document exists
+	    		Resource docResource = adminResolver.getResource(doc.getPath());
+	    		if(docResource != null){
+	    			Node docNode = docResource.adaptTo(Node.class);
+	    			Node contentNode = null;
+	    			Node metaDataNode = null;
+	    			
+					if(docNode.hasNode(JCR_CONTENT)){
+						contentNode = docNode.getNode(JCR_CONTENT);
+					} else{
+						contentNode = docNode.addNode(JCR_CONTENT);
+					}
+					
+					if(contentNode.hasNode("metadata")){
+						metaDataNode = contentNode.getNode("metadata");
+					} else{
+						metaDataNode = contentNode.addNode("metadata");
+					}
+					
+					if(metaDataNode.hasProperty(Document.TITLE_PROP)){
+						metaDataNode.getProperty(Document.TITLE_PROP).remove();
+					}
+					
+					if(metaDataNode.hasProperty(Document.DESCRIPTION_PROP)){
+						metaDataNode.getProperty(Document.DESCRIPTION_PROP).remove();
+					}
+					
+					metaDataNode.setProperty(Document.TITLE_PROP, doc.getTitle());
+					metaDataNode.setProperty(Document.DESCRIPTION_PROP, doc.getDescription());
+					if(doc.getTags() != null){
+						metaDataNode.setProperty(Document.TAGS_PROP, (String[])doc.getTags().toArray(new String[0]));
+					}
+					replicationList.add(doc.getPath() + "/jcr:content/metadata");
+	    			
+	    		} else{
+	    			response = HtmlStatusResponseHelper.createStatusResponse(true,
+	                        "Document at line "+lineCounter +" not found. Please check that the path is correct. Process aborted");
+	            	return response;
+	    		}
+	    		
+	    		lineCounter++;
+	    		
+	    	}
+	    	
+	    	rootNode.save();
+    	} catch (RepositoryException e) {
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Document at line "+lineCounter +" encountered issue writing to repository. Process aborted with message: " + e.getMessage());
+        	return response;
+		}
+    	
+    	//Activate contacts 
+        response = staggerActivate(scriptHelper, replicationList, documentDelayInterval, repDelayTimeInMinutes, adminResolver);
+    	
+        if(response == null){
+        	int mins = lineCounter / documentDelayInterval;
+        	mins++;
+        	response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Documents updated successfully. The data will finish replicating in approximately " + mins + " minutes.");
+        }
+    	
+    	return response;
+    }
+    
+    
+    
+    private HtmlResponse delayedActivate(Node rootNode, SlingScriptHelper scriptHelper, List<String> replicationList, ResourceResolver adminResolver){
+    	
+    	HtmlResponse response = null;
+    	
+    	String delayNodeName = PageActivationUtil.getDateRes();
+    	Resource resource = adminResolver.getResource(DELAYED_ACTIVATION_PATH);
+    	if(resource != null){
+    		
+    		try{
+	    		Node delayedParent = resource.adaptTo(Node.class);
+	    		Node delayedNode = delayedParent.addNode(delayNodeName, SLING_FOLDER);
+	    		String[] paths = replicationList.toArray(new String[0]);
+	    		delayedNode.setProperty("activate", true);
+	    		delayedNode.setProperty("crawl", true);
+	    		delayedNode.setProperty("delayActivation", true);
+	    		delayedNode.setProperty("status", "delayed");
+	    		delayedNode.setProperty("pages", paths);
+	    		delayedParent.save();
+    		} catch(RepositoryException e){
+    			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                        "Critical Activation Error. Error while setting up delayed activation");
+            	return response;
+    		}
+    		
+    	} else{
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Critical Activation Error. Delayed activation node is not available");
+        	return response;
+    	}
+    	
+    	
+    	return null;
+    }
+    
+    private HtmlResponse staggerActivate(SlingScriptHelper scriptHelper, List<String> replicationList, int interval, int delayTimeInMinutes, ResourceResolver adminResolver){
+    	 
+    	HtmlResponse response = null;
+    	String wfNodePath = null;
+    	try {
+    		Node parentNode = null;
+	    	Node etcNode = adminResolver.getResource("/etc").adaptTo(Node.class);
+	    	String stagNodeName = PageActivationUtil.getDateRes();
+	    	if(etcNode.hasNode(STAG_ACTIVATION)){
+	    		parentNode = etcNode.getNode(STAG_ACTIVATION);
+	    	} else{
+	    		parentNode = etcNode.addNode(STAG_ACTIVATION);
+	    	}
+	    	
+	    	String[] activations = replicationList.toArray(new String[0]);
+	    	
+	    	Node stagNode = parentNode.addNode(stagNodeName);
+	    	
+	    	stagNode.setProperty("delay", delayTimeInMinutes);
+	    	stagNode.setProperty("interval", interval);
+	    	stagNode.setProperty("state", "intiated");
+	    	stagNode.setProperty("activations", activations);
+	    	etcNode.save();
+	    	
+	    	
+	    	//Kick off the workflow to replicate the created nodes
+	    	WorkflowService wfService = scriptHelper.getService(WorkflowService.class);
+	
+	    	WorkflowSession wfSession = wfService.getWorkflowSession(adminResolver.adaptTo(Session.class));
+	
+	    	WorkflowModel model;
+		
+			model = wfSession.getModel("/etc/workflow/models/staggered-activate/jcr:content/model");
+			wfNodePath = "/etc/" + STAG_ACTIVATION + "/" + stagNodeName;
+
+			WorkflowData data = wfSession.newWorkflowData("JCR_PATH", stagNode.getPath());
+			
+
+			wfSession.startWorkflow(model, data);
+		} catch (WorkflowException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Critical Activation Error. Failed to initiate workflow. Due to error: " + e.getMessage());
+        	return response;
+		} catch (RepositoryException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Critical Activation Error. Failed while accessing repository. Due to error: " + e.getMessage());
+        	return response;
+		}
+       
+        
+        return response;
+    }
+
+    private List<String> replaceEventHeaders(List<String> headers){
+    	if(!headers.isEmpty()){
+    		String allHeaders = headers.remove(0);
+    		for(String header : headers){
+    			allHeaders = allHeaders + "|" + header;
+    		}
+    		
+    		allHeaders = allHeaders.replaceAll("Title","jcr:content/jcr:title")
+			.replaceAll("Start Date","jcr:content/data/start-date")
+			.replaceAll("Start Time","jcr:content/data/start-time")
+			.replaceAll("End Date","jcr:content/data/end-date")
+			.replaceAll("End Time","jcr:content/data/end-time")
+			.replaceAll("Time Zone \\(Only enter if you want timezone to be visible e.g. 10:30 PM EST. See http://joda-time.sourceforge.net/timezones.html for valid IDs\\)","jcr:content/data/timezone")
+			.replaceAll("Registration Open Date","jcr:content/data/regOpen-date")
+			.replaceAll("Registration Open Time","jcr:content/data/regOpen-time")
+			.replaceAll("Registration Close Date","jcr:content/data/regClose-date")
+			.replaceAll("Registration Close Time","jcr:content/data/regClose-time")
+			.replaceAll("Region","jcr:content/data/region")
+			.replaceAll("Location Name","jcr:content/data/locationLabel")
+			.replaceAll("Address","jcr:content/data/address")
+			.replaceAll("Text","jcr:content/data/details")
+			.replaceAll("Search Description","jcr:content/data/srchdisp")
+			.replaceAll("Color","jcr:content/data/color")
+			.replaceAll("Registration","jcr:content/data/register")
+			.replaceAll("Categories","jcr:content/cq:tags-categories")
+			.replaceAll("Program Levels","jcr:content/cq:tags-progLevel")
+			.replaceAll("Path","jcr:path")
+			.replaceAll("Image","jcr:content/data/imagePath")
+			.replaceAll("Program Type","jcr:content/data/progType")
+			.replaceAll("Grades","jcr:content/data/grades")
+			.replaceAll("Girl Fee","jcr:content/data/girlFee")
+			.replaceAll("Adult Fee","jcr:content/data/adultFee")
+			.replaceAll("Minimum Attendance","jcr:content/data/minAttend")
+			.replaceAll("Maximum Attendance","jcr:content/data/maxAttend")
+			.replaceAll("Program Code","jcr:content/data/programCode");
+    		
+    		return new LinkedList<String>(Arrays.asList(allHeaders.split("\\|")));	
+    		
+    	}
+    	
+    	return headers;
+    		
+    	
+    }
+    
+    private List<String> replaceFormHeaders(List<String> headers){
+    	if(!headers.isEmpty()){
+    		String allHeaders = headers.remove(0);
+    		for(String header : headers){
+    			allHeaders = allHeaders + "|" + header;
+    		}
+    		
+    		allHeaders = allHeaders.replaceAll("Title","dc:title")
+    				.replaceAll("Description","dc:description")
+    				.replaceAll("Categories","cq:tags")
+    				.replaceAll("Path","jcr:path");
+    		
+    		return new LinkedList<String>(Arrays.asList(allHeaders.split("\\|")));	
+    		
+    	}
+    	
+    	return headers;
+    		
+    	
+    }
+    private String getJcrName(String title){
+    	if(title != null){
+    		String name = title.toLowerCase().replaceAll("[^A-Za-z0-9]","-");
+    		return name;
+    	} 
+    	
+    	return null;
+    }
+    private String[] tagListToIdArray(List<String> tagNames, Map<String,Tag> map){
+    	String[] result = new String[tagNames.size()];
+    	int i = 0;
+    	for(String tagName : tagNames){
+    		Tag tag = map.get(tagName);
+    		String tagId = tag.getTagID();
+    		result[i] = tagId;
+    		i++;
+    	}
+    	
+    	return result;
+    }
+    
+    private void clearNullValues(List<String> list, int size){
+    	int i = 0;
+    	for(i = 0; i < list.size(); i++){
+    		if(list.get(i) == null){
+    			list.set(i, "");
+    		}else{
+    			String val = list.get(i);
+    			list.set(i, val.trim());
+    		}
+    	}
+    	
+    	for(int j = i; j <size; j++){
+    		list.add("");
     	}
     }
     
-    public void createNewContacts(Node rootNode, HashMap<String,ArrayList<Contact>> contactsToCreate, String councilName, Session session, Replicator replicator) throws Exception{
-    	if(contactsToCreate.size() > 0){
-    		for(String team : contactsToCreate.keySet()){
-    			String teamPath = (team == null || team.equals("")) ? "none" : team;
-    			String teamPathName = teamPath.toLowerCase().replaceAll("[^A-Za-z0-9]","-");
-    			Node teamNode = null;
-    			Node teamContentNode = null;
-    			try{
-    				teamNode = rootNode.addNode(teamPathName,"cq:Page");
-    				teamContentNode = teamNode.addNode("jcr:content","cq:PageContent");
-    				teamContentNode.setProperty("jcr:title",team);
-    			}catch(ItemExistsException e){
-    				try{
-    					teamNode = rootNode.getNode(teamPathName);
-    					teamContentNode = teamNode.getNode("jcr:content");
-    				}catch(Exception e1){
-    					e1.printStackTrace();
-    					break;
-    				}
-    			}
-    			ArrayList<Contact> contacts = contactsToCreate.get(team);
-    			for(Contact contact : contacts){
-    				if(contact.getPath() != null && !contact.getPath().equals("")){
-    					Node contactNode = teamNode.addNode(contact.getPath(),"cq:Page");
-    					Node contactContentNode = contactNode.addNode("jcr:content","cq:PageContent");
-    					contactContentNode.setProperty("cq:scaffolding","/etc/scaffolding/" + councilName + "/contact");
-    					contactContentNode.setProperty("sling:resourceType","girlscouts/components/contact-page");
-    					contactContentNode.setProperty("jcr:title",contact.getName());
-    					contactContentNode.setProperty("title",contact.getJobTitle());
-    					contactContentNode.setProperty("phone",contact.getPhone());
-    					contactContentNode.setProperty("email",contact.getEmail());
-    					contactContentNode.setProperty("team",contact.getTeam());
-    					replicator.replicate(session, ReplicationActionType.ACTIVATE, contactNode.getPath());
-    				}
-    			}
-    			replicator.replicate(session, ReplicationActionType.ACTIVATE, teamNode.getPath());
+    private HtmlResponse backupContacts(SlingScriptHelper scriptHelper, String rootPath, Node rootNode ){
+    	
+    	HtmlResponse response = null;
+    	try{
+	        Packaging packaging = scriptHelper.getService(Packaging.class);
+			//Start by creating a package under the root node, in case we need to roll back
+    		JcrPackageManager jcrPM = packaging.getPackageManager(rootNode.getSession());
+    		String packageName = rootPath.replaceAll("/","-");
+    		GSDateTime gdt = new GSDateTime();
+    		GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyyMMddHHmm");
+    		String dateString = dtfOut.print(gdt);  
+    		if(jcrPM == null){
+    			System.err.println("Null PackageManager");
     		}
-    		replicator.replicate(session, ReplicationActionType.ACTIVATE, rootNode.getPath());
-    	}else{
-    		throw new Exception("Contact Spreadsheet import - Contact Map is empty");
-    	}
+    		JcrPackage jcrP = jcrPM.create("GirlScouts","spreadsheet-prebuild-" + packageName.toLowerCase(), dateString);
+    		JcrPackageDefinition jcrPD = jcrP.getDefinition();
+    		DefaultWorkspaceFilter filter = new DefaultWorkspaceFilter();
+    		PathFilterSet pfs = new PathFilterSet(rootPath);
+    		filter.add(pfs);
+    		jcrPD.setFilter(filter, false);
+    		PrintWriter pkgout = new PrintWriter(System.out);
+    		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
+		}catch(Exception e){
+            response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Failed to create contact backup package");
+            
+            e.printStackTrace();
+            return response;
+		}
+    	
+    	return response;
     }
     
     private class Contact{
@@ -1086,10 +1237,339 @@ public class POST extends SlingAllMethodsServlet {
     	}
     }
     
+    private class Event{
+    	public static final String TITLE = "jcr:content/jcr:title";
+    	public static final String START_DATE = "jcr:content/data/start-date";
+    	public static final String START_TIME = "jcr:content/data/start-time";
+    	public static final String END_DATE = "jcr:content/data/end-date";
+    	public static final String END_TIME = "jcr:content/data/end-time";
+    	public static final String TIME_ZONE = "jcr:content/data/timezone";
+    	public static final String REGISTRATION_OPEN_DATE = "jcr:content/data/regOpen-date";
+    	public static final String REGISTARTION_OPEN_TIME = "jcr:content/data/regOpen-time";
+    	public static final String REGISTRATION_CLOSE_DATE = "jcr:content/data/regClose-date";
+    	public static final String REGISTRATION_CLOSE_TIME = "jcr:content/data/regClose-time";
+    	public static final String REGION = "jcr:content/data/region";
+    	public static final String LOCATION_NAME = "jcr:content/data/locationLabel";
+    	public static final String ADDRESS = "jcr:content/data/address";
+    	public static final String TEXT = "jcr:content/data/details";
+    	public static final String SEARCH_DESCRIPTION = "jcr:content/data/srchdisp";
+    	public static final String COLOR = "jcr:content/data/color";
+    	public static final String REGISTRATION = "jcr:content/data/register";
+    	public static final String CATEGORIES = "jcr:content/cq:tags-categories";
+    	public static final String PROGRAM_LEVELS = "jcr:content/cq:tags-progLevel";
+    	public static final String PATH = "jcr:path";
+    	public static final String IMAGE = "jcr:content/data/imagePath";
+    	public static final String PROGRAM_TYPE = "jcr:content/data/progType";
+    	public static final String GRADES = "jcr:content/data/grades";
+    	public static final String GIRL_FEE = "jcr:content/data/girlFee";
+    	public static final String ADULT_FEE = "jcr:content/data/adultFee";
+    	public static final String MINIMUM_ATTENDANCE = "jcr:content/data/minAttend";
+    	public static final String MAXIMUM_ATTENDANCE = "jcr:content/data/maxAttend";
+    	public static final String PROGRAM_CODE = "jcr:content/data/programCode";
+    	
+    	private String path;
+    	
+    	//Needs to be placed at the jcr:content level
+    	private String title;
+    	
+    	//Dates
+    	private String startDate;
+    	private String startTime;
+    	private String endDate;
+    	private String endTime;
+    	private String regOpenDate;
+    	private String regOpenTime;
+    	private String regCloseDate;
+    	private String regCloseTime;
+    	
+    	//Timezone
+    	private String timezone;
+    	
+    	
+    	//Tags
+    	private List<String> programLevels;
+    	private List<String> categories;
+    	
+    	//Image has special placement
+    	private String imagePath;
+    	
+    	private Map<String, String> dataPairs;
+    	private Map<String, Calendar> datePairs;
+    	
+    	public Event(){
+    		this.dataPairs = new HashMap<String,String>();
+    		this.datePairs = new HashMap<String,Calendar>();
+    		this.startDate = "";
+    		this.startTime = "";
+    		this.regOpenDate = "";
+    		this.regOpenTime = "";
+    		this.regCloseDate = "";
+    		this.regCloseTime = "";
+    		this.endDate = "";
+    		this.endTime = "";
+    		
+    	}
+    	
+    	public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public String getStartDate() {
+			return startDate;
+		}
+
+		public void setStartDate(String startDate) {
+			this.startDate = startDate;
+		}
+		
+		public void setStartTime(String startTime){
+			this.startTime = startTime;
+		}
+
+		public String getEndDate() {
+			return endDate;
+		}
+		
+		public void setEndTime(String endTime){
+			this.endTime = endTime;
+		}
+
+		public void setEndDate(String endDate) {
+			this.endDate = endDate;
+		}
+
+		public String getRegOpenDate() {
+			return regOpenDate;
+		}
+
+		public void setRegOpenDate(String regOpenDate) {
+			this.regOpenDate = regOpenDate;
+		}
+		
+		public void setRegOpenTime(String regOpenTime){
+			this.regOpenTime = regOpenTime;
+		}
+
+		public String getRegCloseDate() {
+			return regCloseDate;
+		}
+
+		public void setRegCloseDate(String regCloseDate) {
+			this.regCloseDate = regCloseDate;
+		}
+		
+		public void setRegCloseTime(String regCloseTime){
+			this.regCloseTime = regCloseTime;
+		}
+
+
+		public List<String> getProgramLevels() {
+			return programLevels;
+		}
+
+		public void setProgramLevels(List<String> programLevels) {
+			this.programLevels = programLevels;
+		}
+
+		public List<String> getCategories() {
+			return categories;
+		}
+
+		public void setCategories(List<String> categories) {
+			this.categories = categories;
+		}
+
+		public String getImagePath() {
+			return imagePath;
+		}
+
+		public void setImagePath(String imagePath) {
+			this.imagePath = imagePath;
+		}
+
+		public Map<String, String> getDataPairs() {
+			return dataPairs;
+		}
+
+		public void addDataPair(String key, String value){
+    		this.dataPairs.put(key, value);
+    	}
+		
+		public Map<String,Calendar> getDatePairs(){
+			return this.datePairs;
+		}
+		
+		public String updateDataPairs(){
+			
+			Calendar start = null;
+			try{
+				start = convertDateAndTime(this.startDate, this.startTime);
+			}  catch(IllegalArgumentException e){
+	    		return "Issue with formatting of start date or time";
+	    	}
+			if(start != null){
+				this.datePairs.put("start", start);
+			}
+		
+			if(!this.endDate.isEmpty() && this.endTime.isEmpty()){
+				return "End Date does not have a correponding End Time";
+			}
+			if(this.endDate.isEmpty() && !this.endTime.isEmpty()){
+				return "End Time does not have a correponding End Date";
+			}
+			
+			Calendar end = null;
+			try{
+				end = convertDateAndTime(this.endDate, this.endTime);
+			}  catch(IllegalArgumentException e){
+	    		return "Issue with formatting of end date or time";
+	    	}
+			if(end != null){
+				this.datePairs.put("end", end);
+			}
+		
+			if(!this.regOpenDate.isEmpty() && this.regOpenTime.isEmpty()){
+				return "Registration Open Date does not have a correponding Registration Open Time";
+			}
+			if(this.regOpenDate.isEmpty() && !this.regOpenTime.isEmpty()){
+				return "Registration Open Time does not have a correponding Registration Open Date";
+			}
+			Calendar regOpen = null;
+			try{
+				regOpen = convertDateAndTime(this.regOpenDate, this.regOpenTime);
+			}  catch(IllegalArgumentException e){
+	    		return "Issue with formatting of registration open date or time";
+	    	}
+			
+			if(regOpen != null){
+				this.datePairs.put("regOpen", regOpen);
+			}
+			
+			
+			if(!this.regCloseDate.isEmpty() && this.regCloseTime.isEmpty()){
+				return "Registration Close Date does not have a correponding Registration Close Time";
+			}
+			if(this.regCloseDate.isEmpty() && !this.regCloseTime.isEmpty()){
+				return "Registration Close Time does not have a correponding Registration Close Date";
+			}
+			Calendar regClose = null;
+			try{
+				regClose = convertDateAndTime(this.regCloseDate, this.regCloseTime);
+			}  catch(IllegalArgumentException e){
+	    		return "Issue with formatting of registration close date or time";
+	    	}
+			
+			if(regClose != null){
+				this.datePairs.put("regClose", regClose);
+			}
+			
+			return null;
+		}
+		
+		private Calendar convertDateAndTime(String date, String time){
+			if(date == null || time == null || date.isEmpty() || time.isEmpty()){
+				return null;
+			}
+			
+			String formatDate = date;
+			String[] dateSplit = date.split("/");
+			if(dateSplit.length == 3){
+				String endYear = dateSplit[2];
+				if(endYear.length() < 4){
+					endYear = "20" + endYear;
+				}
+				formatDate = dateSplit[0] + "/" + dateSplit[1] + "/" + endYear;
+				
+			}
+			
+			String startingFormat = formatDate + "T" + time + " -05:00";
+			GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'hh:mm a Z");
+        	GSDateTime dt = GSDateTime.parse(startingFormat,dtfIn);
+        	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+        	String result = dtfOut.print(dt);
+        	System.out.println("Bulkeditor Converting Starting date format " + startingFormat + " to " + result);
+        	if(this.timezone != null){
+        		GSDateTimeFormatter dtfOutZone = GSDateTimeFormat.forPattern("ZZ");
+        		GSDateTimeZone dtz = GSDateTimeZone.forID(this.timezone);
+			    dt = GSDateTime.parse(result, dtfIn);
+			    dt = dt.withZone(dtz);
+			    String timeZoneOffset = dtfOutZone.print(dt);
+			    //result = result.substring(0,result .lastIndexOf("-")) + timeZoneOffset;
+        	}
+        	
+        	return dt.getCalendar();
+        	//return result;
+        	
+		}
+
+		public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+    	
+    	
+    }
+    
     private class Document{
-    	public static final String FILE_NAME_PROP="pdf:Title";
+
+		public static final String FILE_NAME_PROP="pdf:Title";
     	public static final String TITLE_PROP="dc:title";
     	public static final String DESCRIPTION_PROP="dc:description";
     	public static final String TAGS_PROP="cq:tags";
+    	public static final String PATH_PROP="jcr:path";
+    	
+    	private String title;
+    	private String fileName;
+    	private String description;
+    	private String path;
+    	
+    	public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+
+		private List<String> tags;
+    	
+    	public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public String getFileName() {
+			return fileName;
+		}
+
+		public void setFileName(String fileName) {
+			this.fileName = fileName;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+
+		public List<String> getTags() {
+			return tags;
+		}
+
+		public void setTags(List<String> tags) {
+			this.tags = tags;
+		}
     }
 }

@@ -32,4 +32,18 @@ public class GSJcrSearchProvider {
 		}
 		return result;
 	}
+
+	public QueryResult searchWithOffset(String query, long limit, long offset) {
+		QueryResult result = null;
+		try {
+			QueryManager queryManager = session.getWorkspace().getQueryManager();
+			Query sql2Query = queryManager.createQuery(query, QUERY_LANGUAGE);
+			sql2Query.setLimit(limit);
+			sql2Query.setOffset(offset);
+			return sql2Query.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

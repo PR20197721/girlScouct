@@ -1,5 +1,6 @@
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/gsusa/components/global.jsp" %>
 <%@page session="false" %>
 <%
 String type = properties.get("type", "join");
@@ -44,12 +45,12 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
     <div class="join-redirect-hero hide-for-small">
       <div class="join-redirect-slider">
 <%	    for (String image : images) {
-			int lastDotPos = image.lastIndexOf(".");
-			String img2x = image.substring(0, lastDotPos) + "@2x" + image.substring(lastDotPos);
+			
 %>
-      		<div><img src="<%= image %>" data-at2x="<%= img2x %>" alt="" /></div>
+      		<div><img src="<%= getImageRenditionSrc(resourceResolver, image, "cq5dam.npd.top.") %>" 
+      				data-at2x="<%= getImageRenditionSrc(resourceResolver, image, "cq5dam.npd.top@2x.") %>" alt=""/></div>
 <%    } %>
-      </div>
+      </div> 
       <div class="join-redirect-header">
         <div class="wrapper">
           <div class="wrapper-inner clearfix">

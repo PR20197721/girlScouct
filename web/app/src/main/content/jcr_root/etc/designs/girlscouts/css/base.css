@@ -1411,8 +1411,7 @@ div#eventListWrapper {
   position: relative;
 }
 .styled-select select {
-
-    width: 152px
+  width: 152px;
 }
 ul.searchResultsList li {
     list-style-type: none;
@@ -1423,8 +1422,14 @@ ul.searchResultsList li h2 {
 ul.searchResultsList li h2 a {
   font-size: 1.26rem;
 }
+ul.searchResultsList article * {
+  line-height: 1.29412em; /* 22px, in em for cross-browser (base em is 17px) */
+}
 ul.searchResultsList article p {
-  line-height: 1.12em;
+  margin-bottom: 1.29412em;
+}
+.readmore-js-toggle {
+  padding-bottom: 20px;
 }
 .news-data p {
   margin-bottom: 0;

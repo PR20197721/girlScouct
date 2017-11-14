@@ -574,7 +574,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			}
 			//add data node
 			Node dataNode = JcrUtil.createPath(jcrNode, "data", false, null, "nt:unstructured", session, false);
-			setNodeProperties(id, dataNode, start, payload);
+			setNodeProperties(id, dataNode, start, payload, councilName);
 			session.save();
 		} catch (WCMException e) {
 			e.printStackTrace();
@@ -594,7 +594,31 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		return eventPage.getPath();
 	}
 	
-	private void setNodeProperties(String id, Node dataNode, String start, JSONObject payload) throws RepositoryException, GirlScoutsException {
+	private String translateTimezone(String timezone, String councilName){
+		
+		
+		if(timezone == null){
+			return "";
+		} else if(councilName != null && councilName.equals("girlscoutsaz")){
+			return "MST";
+		} else if(timezone.equals("EST") || timezone.equals("EDT")){
+			return "ET";
+		} else if(timezone.equals("CST") || timezone.equals("CDT")){
+			return "CT";
+		} else if(timezone.equals("MST") || timezone.equals("MDT")){
+			return "MT";
+		} else if(timezone.equals("PST") || timezone.equals("PDT")){
+			return "PT";
+		} else if(timezone.equals("AKST") || timezone.equals("AKDT")){
+			return "AKT";
+		}
+		
+		
+		return timezone;
+	}
+	
+	private void setNodeProperties(String id, Node dataNode, String start, JSONObject payload, String councilName) throws RepositoryException, GirlScoutsException {
+		String inputTimezone = "";
 		dataNode.setProperty("eid", id);
 		dataNode.setProperty("start", start);
 		dataNode.setProperty("address", getString(payload, _address));
@@ -603,7 +627,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		dataNode.setProperty("region", getString(payload, _region));
 		dataNode.setProperty("srchdisp", getString(payload, _description));
 		dataNode.setProperty("memberOnly", getString(payload, _member_only));
-		dataNode.setProperty("timezone", getString(payload, _timezone));
+		inputTimezone = getString(payload, _timezone);
+		dataNode.setProperty("timezone", translateTimezone(inputTimezone, councilName));
 		String registerVal = getString(payload,_register);
 		//they stated that it's always Field NA in Salesforce, we may not need an if case at all
 		//We will keep it for now
@@ -637,7 +662,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			//use default image
 			dataNode.setProperty("image", "/content/dam/girlscouts-shared/images/events/GS_servicemark_602x237.png");
 		} else {
-			dataNode.setProperty("image", imageVal);
+			imageVal = imageVal.replaceAll("https?:\\/\\/www\\.[^\\.]+\\.org", "");
+			dataNode.setProperty("imagePath", imageVal);
 		}
 		String end = getString(payload, _end);
 		if (end != null) {

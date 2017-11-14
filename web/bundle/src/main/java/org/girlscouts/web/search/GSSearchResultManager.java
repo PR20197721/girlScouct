@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.jcr.Node;
+import javax.jcr.RepositoryException;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.RowIterator;
 import javax.jcr.query.Row;
@@ -21,14 +22,19 @@ import org.girlscouts.web.events.search.GSDateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class GSSearchResultManager {
+public final class GSSearchResultManager implements GSSearchResultConstants {
 
     private static final Logger log = LoggerFactory.getLogger(GSSearchResultManager.class);
 
 	private Map<String, GSSearchResult> searchResults;
 
+	private String[] resourceTypeFilters = new String[] { "girlscouts/components/contact-placeholder-page",
+			"girlscouts/components/contact-page" };
+
+	private String[] resourcePathFilters = new String[] { "/contacts/", "/ad-page/", "/resources/" };
+
 	public GSSearchResultManager() {
-		this.searchResults = new HashMap<String, GSSearchResult>();
+		this.searchResults = new LinkedHashMap<String, GSSearchResult>();
 
     }
 
@@ -75,37 +81,19 @@ public final class GSSearchResultManager {
 	}
 
 	public void filter() {
-		GSDateTime today = new GSDateTime();
-		GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 		Set<String> keys = new HashSet<String>();
 		keys.addAll(this.searchResults.keySet());
 		for (String key : keys) {
 			try {
 				GSSearchResult result = this.searchResults.get(key);
 				Node resultNode = result.getResultNode();
-				if (resultNode.hasNode("jcr:content/data")) {
-					Node dataNode = resultNode.getNode("jcr:content/data");
-					if (dataNode.hasProperty("visibleDate")) {
-						try {
-							String visibleDate = dataNode.getProperty("visibleDate").getString();
-							GSDateTime vis = GSDateTime.parse(visibleDate, dtfIn);
-							if (vis.isAfter(today)) {
-								this.searchResults.remove(key);
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					if (dataNode.hasProperty("end")) {
-						try {
-							String endDateString = dataNode.getProperty("end").getString();
-							GSDateTime endDate = GSDateTime.parse(endDateString, dtfIn);
-							if (today.isAfter(endDate)) {
-								this.searchResults.remove(key);
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+				String primaryType = resultNode.getPrimaryNodeType().getName();
+				if (primaryType.equals(NODE_TYPE_CQ_PAGE) && resultNode.hasNode(NODE_JCR_CONTENT)) {
+					Node jcrContentNode = resultNode.getNode(NODE_JCR_CONTENT);
+					if (!jcrContentNode.hasNodes() || isFilterByResourcePath(jcrContentNode)
+							|| isFilterByResourceType(jcrContentNode)
+							|| isFilterByProperty(jcrContentNode)) {
+						this.searchResults.remove(key);
 					}
 				}
 			} catch (Exception e) {
@@ -134,8 +122,71 @@ public final class GSSearchResultManager {
 				}
 				return result;
 			}
-
 		}
+	}
 
+	private boolean isFilterByResourceType(Node jcrContentNode) {
+		try {
+			if (jcrContentNode.hasProperty("sling:resourceType")) {
+				String resourceType = jcrContentNode.getProperty("sling:resourceType").getString();
+				for (String rtFilter : resourceTypeFilters) {
+					if (resourceType.equals(rtFilter)) {
+						return true;
+					}
+				}
+			}
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean isFilterByResourcePath(Node jcrContentNode) {
+		try {
+			String path = jcrContentNode.getPath();
+			for (String rpFilter : resourcePathFilters) {
+				if (path.contains(rpFilter)) {
+					return true;
+				}
+			}
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean isFilterByProperty(Node jcrContentNode) {
+		try {
+			GSDateTime today = new GSDateTime();
+			GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+			if (jcrContentNode.hasNode("data")) {
+				Node dataNode = jcrContentNode.getNode("data");
+				if (dataNode.hasProperty("visibleDate")) {
+					try {
+						String visibleDate = dataNode.getProperty("visibleDate").getString();
+						GSDateTime vis = GSDateTime.parse(visibleDate, dtfIn);
+						if (vis.isAfter(today)) {
+							return true;
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				if (dataNode.hasProperty("end")) {
+					try {
+						String endDateString = dataNode.getProperty("end").getString();
+						GSDateTime endDate = GSDateTime.parse(endDateString, dtfIn);
+						if (today.isAfter(endDate)) {
+							return true;
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

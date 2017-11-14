@@ -67,8 +67,14 @@
                 <additional-css
                     jcr:primaryType="cq:Widget"
                     fieldDescription="e.g. center, left, right. Separated by space. Refresh the page to see the result."
-                    fieldLabel="Additional CSS"
+                    fieldLabel="Additional CSS Class"
                     name="./additionalCss"
+                    xtype="textfield"/>
+                <additional-css-style
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="e.g. display:flex; justify-content:center;"
+                    fieldLabel="Additional CSS Style"
+                    name="./additionalCssStyle"
                     xtype="textfield"/>
             </items>
         </styles>

@@ -25,6 +25,7 @@ String dataExtensionKey = properties.get("dataextensionkey", "");
 
 String mainText = properties.get("heading", "New article alerts!"); 
 String subText = properties.get("description", "Get updates when new content is available."); 
+String source = properties.get("source", "");
 String fieldText = properties.get("emailplaceholder", "Enter your email address here");
 String fieldTextMobile = properties.get("emailplaceholdermobile", "Enter your email!"); 
 String submitButtonText = properties.get("submitbuttontext", "SUBMIT");
@@ -67,7 +68,7 @@ $(document).ready(function(){
 	var dename = '<%= dataExtensionName %>';
 	var dekey = '<%= dataExtensionKey %>';
 	var fieldTextMobile = '<%= fieldTextMobile %>';
-
+	var source = '<%= source.replaceAll("\'", "\\\\'")%>'; 
 	var formID = '#<%= formID %>';
 	
 	$(formID).find('input[name="email"]').keyup(function(event) {
@@ -84,11 +85,11 @@ $(document).ready(function(){
 	    var email = $(this).find('input[name="email"]').val();
 	    
 	    if ($.trim(email).length == 0) {
-		    error(this,"Please enter an email address!");
+	    	errorEmailSignUp(this,"Please enter an email address!");
 		} else if ($.trim(email).length >= 100) {
-			error(this,"Maximum 100 chars!");
+			errorEmailSignUp(this,"Maximum 100 chars!");
 		} else if (!validateEmail(email)) {
-			error(this,"Please enter a valid email address!");
+			errorEmailSignUp(this,"Please enter a valid email address!");
 		} else {
 			if (url.length == 0)
 				alert("Error: API Endpoint is missing!");
@@ -99,7 +100,7 @@ $(document).ready(function(){
 			else if (dekey.length == 0)
 				alert("Error: DataExtension Key is missing!");
 			else
-				post(this, url, email, cid, dename, dekey);
+				post(this, url, email, cid, dename, dekey, source);
 		}
 		
 	});
@@ -111,7 +112,7 @@ $(document).ready(function(){
 	}
 });
 
-function success(form) {
+function successEmailSignUp(form) {
 	$(form).find('.mainText, .subText').hide();
 	$(form).find('.error').hide();
 	$(form).find('input[name="email"]').hide();
@@ -120,7 +121,7 @@ function success(form) {
 	$(form).find('.success').css("display", "inline");
 }
 
-function error(form, message) {
+function errorEmailSignUp(form, message) {
 	$(form).find('.mainText, .subText').hide();
 	$(form).find('.error').show();
 	$(form).find('.error').css("display", "inline");
@@ -136,7 +137,7 @@ function toDefault(form) {
 	$(form).find('input[name="email"]').css("color", "black");
 }
 
-function post(form, url, email, cid, dename, dekey) {
+function post(form, url, email, cid, dename, dekey, source) {
 	//var url = 'http://localhost:4502/campsapi/ajax_camp_result.asp';
 
 	var opts = {
@@ -172,10 +173,11 @@ function post(form, url, email, cid, dename, dekey) {
 			cid: cid, 
 			deName: dename,
 			deKey: dekey,
+			source: source
 			},
 		dataType: 'json', 
 		success: function(data) {
-			process(form, data);
+			processEmailSignUpResult(form, data);
 			}, 
 		error: function(data) {
 			alert("Error: " + data.status + " " + data.statusText);
@@ -186,7 +188,7 @@ function post(form, url, email, cid, dename, dekey) {
 	});
 }
 
-function process(form, data) {
+function processEmailSignUpResult(form, data) {
 	/* Our own status code
     SUCC    Email was successfully added to SFMC data extension
     NAIP    IP address not found in the list of authorized IP addresses
@@ -201,7 +203,7 @@ function process(form, data) {
 	*/
 	
 	if (data.status == 'SUCC') {
-		success(form);
+		successEmailSignUp(form);
 	} else if (data.status == 'NAIP') {
 		alert("IP address not found in the list of authorized IP addresses");
 	} else if (data.status == 'MVCO') {

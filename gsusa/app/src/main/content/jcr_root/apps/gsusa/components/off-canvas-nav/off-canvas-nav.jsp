@@ -4,16 +4,31 @@
                 java.util.ArrayList,
                 javax.jcr.Value,
                 org.apache.sling.api.resource.ResourceResolver,
-                com.day.cq.wcm.api.Page" %>
+                com.day.cq.wcm.api.Page " %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
     final String siteRootPath = currentPage.getAbsoluteParent(2).getPath();
     final String headerNavPath = siteRootPath + "/jcr:content/header/header-nav";
     final String eyebrowNavPath = siteRootPath + "/jcr:content/header/eyebrow-nav";
-    
     final Value[] headerNavValues = resourceResolver.resolve(headerNavPath).adaptTo(Node.class).getProperty("navs").getValues();
-    final Value[] eyebrowNavValues = resourceResolver.resolve(eyebrowNavPath).adaptTo(Node.class).getProperty("navs").getValues();
-    
+
+	// work around the error when there is only one value
+	Value[] eyebrowNavValues = null;
+	Value eyebrowNavValue = null;
+	try {
+	    eyebrowNavValues = resourceResolver.resolve(eyebrowNavPath).adaptTo(Node.class).getProperty("navs").getValues();
+	} catch (Exception e) {
+		try {
+		    eyebrowNavValue = resourceResolver.resolve(eyebrowNavPath).adaptTo(Node.class).getProperty("navs").getValue();
+	    	if(eyebrowNavValue!=null) {
+	    		eyebrowNavValues = new Value[1];
+		    	eyebrowNavValues[0] = eyebrowNavValue;
+		    }
+		} catch (Exception e2) {
+			// no navs found
+	    }
+	}
+
     List<String[]> headerNavs = new ArrayList<String[]>();
     List<String[]> eyebrowNavs = new ArrayList<String[]>();
     
@@ -60,12 +75,13 @@
         }
         
     }
-    
     // eyebrow nav
-    for (int i = 0; i < eyebrowNavValues.length; i++) {
-        String[] nav = eyebrowNavValues[i].getString().split("\\|\\|\\|"); // path, text
-        headerNavs.add(nav);
-    }
+    if(eyebrowNavValues!=null) {
+	    for (int i = 0; i < eyebrowNavValues.length; i++) {
+    	    String[] nav = eyebrowNavValues[i].getString().split("\\|\\|\\|"); // path, text
+        	headerNavs.add(nav);
+	    }
+	}
 
     StringBuilder sb = new StringBuilder();
     sb.append("<nav class=\"right-off-canvas-menu\" tabindex=\"-1\">");
