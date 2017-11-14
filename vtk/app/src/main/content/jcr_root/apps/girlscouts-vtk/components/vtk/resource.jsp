@@ -329,7 +329,7 @@
         String pdfName=null;
         try{ 
             thisPdf = rootPage.adaptTo(Node.class);//path +"/jcr:content/metadata");
-            if( thisPdf==null) return;
+            if( thisPdf==null || thisPdf.getName().endsWith("jcr:content")) return;
 
             pdfName= thisPdf.getProperty("jcr:content/metadata/dc:title").getString();
            }catch(Exception e){e.printStackTrace();}
