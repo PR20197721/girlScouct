@@ -44,8 +44,10 @@
 
 //Adapted from jquery.ellipsis.js
 function truncate(el, lines) {
-	//console.log("truncate: " + el);
+
+	// if 0, display all
 	if (lines == 0) return;
+	
 	var $container = $(el),
 		className = "trunc",
 		$elspan = $('<span class="' + className + '" />'),
@@ -53,6 +55,7 @@ function truncate(el, lines) {
 		currLine = 0,
 		currOffset,
 		containerHeight,
+		containerWidth,
 		setStartEllipAt,
         startEllipAt = 0,
         endEllipAt,
@@ -63,12 +66,7 @@ function truncate(el, lines) {
 	$container.empty().append($elspan);
 	
 	containerHeight = $container.height();
-
-	/*
-	if (containerHeight >= $elspan.height()) { 
-		console.log("cHeight: " + containerHeight + " spanHeight: " + $elspan.height());
-		return; 
-	}*/
+	containerWidth = $container.width();
 	
 	words = $.trim(baseText).split(/\s+/);
 	$elspan.html(spantag + words.join('</span> ' + spantag) + '</span>');
@@ -78,51 +76,40 @@ function truncate(el, lines) {
 			top = $word.position().top;
 		if (top != currOffset) {
 			currOffset = top;
-			currLine += 1;
-			
+			currLine += 1;			
 			if (currLine <= lines) {
 				startEllipAt = i;
 			} else if (currLine > lines) {
 				endEllipAt = i-1;
 				return;
-			}
-			
+			}			
 		}
-		/*
-		if (currLine == lines) {
-			if (startEllipAt == 0) startEllipAt = i;
-			//return false;
-		}
-		if (currLine > lines) {
-			endEllipAt = i-1;
-			return false;
-		}
-		*/
 	};
 	$elspan.find('span').each(setStartEllipByLine);
 
 	function getLastLine(start, end) {
 		var lastline = "";
+		
 		for(var i = 0; i < start; i++) {
 			lastline += words[i] + " ";
 		}
-		lastline += '<span class="' + 'truncline' + '">'; // + words[start];
-		if (endEllipAt != undefined) {
-			for(var i = start; i <= end; i++) {
+		lastline += '<span class="truncline">'; 
+		if (end != undefined) {
+			for(var i = start; i < end; i++) {
 				lastline += words[i] + " ";
 			}
-			lastline += "...";
+			lastline += words[end] + "...";
 		} else {
 			for(var i = start; i < words.length; i++) {
 				lastline += words[i] + " ";
 			}
 		}
 		lastline += "</span>";
-		return lastline;
+		return lastline;			
 	}
+	
 	function updateText(start, end) {		
-
-		console.log("updateText(" + start + ", " + end + ")");
+		//console.log("updateText(" + start + ", " + end + ")");
 		//words[start] = '<span class="' + 'truncline' + '">' + words[start];
 		//if (endEllipAt != undefined) {
 		//	words[endEllipAt] = words[endEllipAt] + '...' + '</span>';
@@ -133,17 +120,12 @@ function truncate(el, lines) {
 		
 		var lastline = getLastLine(start, end);
 		$elspan.html(lastline);		
-		console.log("$container.width(): " + $container.width());
-		console.log("$elspan.width(): " + $elspan.width());	
-		while ($elspan.width() > $container.width()) {
+		
+		while ($elspan.width() > containerWidth) {
 			updateText(start, end-1);
 		}
-		//$elspan.html(lastline);
 	}	
 	if (startEllipAt != null) {
-		console.log("******************");
-		console.log("startEllipAt: " + startEllipAt + " = " + words[startEllipAt]);
-		console.log("endEllipAt: " + endEllipAt + " = " + words[endEllipAt]);
         updateText(startEllipAt, endEllipAt);
     }
 	
@@ -209,13 +191,17 @@ $(document).ready(function() {
 
 			console.log("tfont:" + desktoptitlefont + " sfont: " + desktopsnippetfont);
 			console.log("tlines: " + desktoptitlelines + " slines: " + desktopsnippetfont);
-			
+
+			var startTime = new Date(),
+				endTime;
 			$('.blogfeedtitle').each(function() {
 				truncate(this, desktoptitlelines);
 				});
 			$('.blogfeedsnippet').each(function() {
 				truncate(this, desktopsnippetlines);
 				});
+			endTime = new Date();
+			console.log("Elapased Time: " + (endTime-startTime)/1000);
 			},
 		error: function(jqXHR, status, error) {
 			console.log('GRID BLOG FEED');

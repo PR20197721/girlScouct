@@ -92,25 +92,24 @@
     .trunc,
     .truncline {
       position: relative;
-      //overflow: hidden;
-      //max-width: 100%;
     }
     .truncline {
         display: inline-block;
-        //text-overflow: ellipsis;
         overflow: visible;
         white-space: nowrap;
         word-wrap: normal;
     }
       
     // Small Mobile view
-    @media only screen and (max-width: 480px) {
+    //@media only screen and (max-width: 480px) {
+    @media #{$screen} and (max-width: 480px) {
       .blogfeedsnippet {
-        color: #00AAE5;
+        color: #00AAE5; //cyan
       }  
     }
         
     // Mobile view
+    //@media #{$small-only} {
     @media #{$small-only} {
       .blogfeedimage {
         width: 20%;
