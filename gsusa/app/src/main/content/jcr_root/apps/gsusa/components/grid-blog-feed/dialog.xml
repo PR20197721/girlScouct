@@ -51,7 +51,7 @@
                     	xtype="textfield"/>
                 </items>
             </general>
-            <col3
+            <desktop
                 jcr:primaryType="cq:Panel"
                 title="Desktop">
                 <items jcr:primaryType="cq:WidgetCollection">
@@ -77,23 +77,23 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Title Lines"
                         fieldDescription="Number of lines of Blog title to show"
-                        defaultValue="0"
+                        defaultValue="2"
                         minValue="0"
-                        value="0"
+                        value="2"
                         name="./desktoptitlelines"
                         xtype="numberfield"/>
                     <desktopsnippetlines
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Snippet Lines"
                         fieldDescription="Number of lines of Blog snippet to show"
-                        defaultValue="0"
+                        defaultValue="3"
                         minValue="0" 
-                        value="0"
+                        value="3"
                         name="./desktopsnippetlines"
                         xtype="numberfield"/>
                 </items>
-            </col3>            
-            <col1
+            </desktop>            
+            <mobile
                 jcr:primaryType="cq:Panel"
                 title="Mobile">
                 <items jcr:primaryType="cq:WidgetCollection">
@@ -101,25 +101,25 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Title Font Size"
                         fieldDescription="Font size for Blog title in Mobile view"
-                        defaultValue="2"
+                        defaultValue="16"
                         minValue="1"
-                        value="2"
+                        value="16"
                         name="./mobiletitlefont"
                         xtype="numberfield"/>
                     <mobilesnippetfont
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Snippet Font Size"
                         fieldDescription="Font size for Blog snippet in Mobile view"
-                        defaultValue="2"
+                        defaultValue="12"
                         minValue="1"
-                        value="2"
+                        value="12"
                         name="./mobilesnippetfont"
                         xtype="numberfield"/>
                     <mobiletitlelines
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Title Lines"
                         fieldDescription="Number of lines of Blog title to show"
-                        minValue="1"                        
+                        minValue="0"                        
                         defaultValue="2"
                         value="2"
                         name="./mobiletitlelines"
@@ -128,13 +128,13 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Snippet Lines"
                         fieldDescription="Number of lines of Blog snippet to show"
-                        defaultValue="2"
-                        value="2"
-                        minValue="1"
+                        defaultValue="3"
+                        value="3"
+                        minValue="0"
                         name="./mobilesnippetlines"
                         xtype="numberfield"/>
                 </items>
-            </col1>
+            </mobile>
         </items>
     </items>
 </jcr:root>

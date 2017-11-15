@@ -189,16 +189,43 @@ $(document).ready(function() {
 						
 			blogFeedArea.html(output);
 
-			console.log("tfont:" + desktoptitlefont + " sfont: " + desktopsnippetfont);
-			console.log("tlines: " + desktoptitlelines + " slines: " + desktopsnippetfont);
+			//console.log("tfont:" + desktoptitlefont + " sfont: " + desktopsnippetfont);
+			//console.log("tlines: " + desktoptitlelines + " slines: " + desktopsnippetfont);
 
 			var startTime = new Date(),
 				endTime;
+
+
+			var titlefont, snippetfont, titlelines, snippetlines;
+			
+			var vWidth = $(window).width();
+			var bWidth = $('.blog-feed-area').width();
+			if (bWidth > 768) {		// breakpoint from mobile to tablet
+				titlefont = desktoptitlefont+'px';
+				snippetfont = desktopsnippetfont+'px';
+				titlelines = desktoptitlelines;
+				snippetlines = desktopsnippetlines;
+			} else if (bWidth > 414) {	// tablet
+				titlefont = desktoptitlefont+'px';
+				snippetfont = desktopsnippetfont+'px';
+				titlelines = desktoptitlelines;
+				snippetlines = desktopsnippetlines;
+			} else {
+				titlefont = mobiletitlefont+'px';
+				snippetfont = mobilesnippetfont+'px';
+				titlelines = mobiletitlelines;
+				snippetlines = mobilesnippetlines;
+			}
+			
+			$('.blogfeedtitle').css('font-size', titlefont);
+			$('.blogfeedsnippet').css('font-size', snippetfont);
+			
+			
 			$('.blogfeedtitle').each(function() {
-				truncate(this, desktoptitlelines);
+				truncate(this, titlelines);
 				});
 			$('.blogfeedsnippet').each(function() {
-				truncate(this, desktopsnippetlines);
+				truncate(this, snippetlines);
 				});
 			endTime = new Date();
 			console.log("Elapased Time: " + (endTime-startTime)/1000);
