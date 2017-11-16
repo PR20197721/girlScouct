@@ -379,7 +379,9 @@
             case MEETING:
                 pageContext.setAttribute("YearPlanComponent", "MEETING");
               try { Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
-                      if (meetingPath != null && meetingPath != "") {
+                     
+                    	  if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) && meetingPath != null && meetingPath != ""  ) {
+   			               
                       %>
                       
                       <li id="replaceMeeting"></li>
@@ -400,6 +402,7 @@
 						</li>
                       
 					  <%
+                    	  
                       }
                   } catch (Exception te) {
                     te.printStackTrace();
