@@ -457,7 +457,9 @@ public class PageReplicatorImpl
 					GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(), null,
 							GSEmailAttachment.MimeType.TEXT_PLAIN);
 					attachments.add(attachment);
-					gsEmailService.sendEmail(DEFAULT_COMPLETION_REPORT_SUBJECT, emails, html.toString(), attachments);
+					String reportSubject = "(" + PageActivationUtil.getEnvironment(rr) + ") "
+							+ DEFAULT_COMPLETION_REPORT_SUBJECT;
+					gsEmailService.sendEmail(reportSubject, emails, html.toString(), attachments);
 				} catch (EmailException | MessagingException | IOException e) {
 					e.printStackTrace();
 				}

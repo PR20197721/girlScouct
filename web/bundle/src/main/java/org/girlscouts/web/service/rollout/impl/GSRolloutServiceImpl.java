@@ -526,7 +526,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 	private void sendGSUSANotifications(Node dateRolloutNode, List<String> rolloutLog,
 			List<String> councilNotificationLog, Boolean isTestMode) {
 		Set<String> councils = null;
-		String subject = DEFAULT_NOTIFICATION_SUBJECT;
+		String councilNotificationSubject = DEFAULT_NOTIFICATION_SUBJECT;
 		StringBuffer html = new StringBuffer();
 		html.append(DEFAULT_REPORT_HEAD);
 		html.append("<body>");
@@ -559,9 +559,9 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		}
 		try {
 			if (useTemplate) {
-				subject = PageActivationUtil.getTemplateSubject(templatePath, rr);
+				councilNotificationSubject = PageActivationUtil.getTemplateSubject(templatePath, rr);
 			} else {
-				subject = dateRolloutNode.getProperty(PARAM_EMAIL_SUBJECT).getString();
+				councilNotificationSubject = dateRolloutNode.getProperty(PARAM_EMAIL_SUBJECT).getString();
 			}
 		} catch (Exception e) {
 			log.error("Girlscouts Rollout Service encountered error: ", e);
@@ -600,7 +600,7 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		if (useTemplate) {
 			html.append("<p>An email template is in use. The path to the template is " + templatePath + "</p>");
 		}
-		html.append("<p>The email subject is " + subject + "</p>");
+		html.append("<p>The email subject is " + councilNotificationSubject + "</p>");
 		html.append("<p>The email message is: " + message + "</p>");
 		html.append("<p>The following councils have been selected:</p>");
 		for (String council : councils) {
@@ -625,11 +625,12 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(), null,
 					GSEmailAttachment.MimeType.TEXT_PLAIN);
 			attachments.add(attachment);
+			String reportSubject = "(" + PageActivationUtil.getEnvironment(rr) + ") " + DEFAULT_REPORT_SUBJECT;
 			if (isTestMode) {
 				gsusaEmails = PageActivationUtil.getReportEmails(rr);
-				gsEmailService.sendEmail(DEFAULT_REPORT_SUBJECT, gsusaEmails, html.toString(), attachments);
+				gsEmailService.sendEmail(reportSubject, gsusaEmails, html.toString(), attachments);
 			} else {
-				gsEmailService.sendEmail(DEFAULT_REPORT_SUBJECT, gsusaEmails, html.toString(), attachments);
+				gsEmailService.sendEmail(reportSubject, gsusaEmails, html.toString(), attachments);
 			}
 
 		} catch (Exception e) {

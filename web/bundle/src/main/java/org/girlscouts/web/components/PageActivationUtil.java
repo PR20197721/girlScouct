@@ -420,7 +420,7 @@ public class PageActivationUtil implements PageActivationConstants {
 		try {
 			Resource gsActivationsRes = rr.resolve(PAGE_ACTIVATIONS_PATH);
 			ValueMap vm = ResourceUtil.getValueMap(gsActivationsRes);
-			env = vm.get(PARAM_REPORT_EMAILS, String.class);
+			env = vm.get(PARAM_ENVIRONMENT, String.class);
 		} catch (Exception e) {
 			log.error("PageActivationUtil encountered error: ", e);
 		}

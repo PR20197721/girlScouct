@@ -73,7 +73,7 @@ public interface PageActivationConstants {
 	public static final Pattern BRANCH_PATTERN = Pattern.compile(BRANCH_PATTERN_STR);
 
 	public interface Email {
-		public static final String DEFAULT_REPORT_SUBJECT = "GSUSA Rollout (Production) Report";
+		public static final String DEFAULT_REPORT_SUBJECT = "GSUSA Rollout Report";
 		public static final String DEFAULT_REPORT_ATTACHMENT = "gs_rollout_notifications_log";
 		public static final String DEFAULT_REPORT_GREETING = "Dear Girl Scouts USA User,";
 		public static final String DEFAULT_REPORT_INTRO = "The following is a report for the GSUSA Rollout Workflow (Production).";
