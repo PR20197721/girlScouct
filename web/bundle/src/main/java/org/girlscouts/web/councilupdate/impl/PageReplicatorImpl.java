@@ -29,6 +29,7 @@ import org.girlscouts.web.service.email.GSEmailService;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -316,8 +317,12 @@ public class PageReplicatorImpl
 			try {
 				Map<String, Set<String>> replicatedPagesForDomain = replicate(dateNode, reporter, toDelete.get(domain),
 						toActivate.get(domain));
-				activatedPages.addAll(replicatedPagesForDomain.get(PARAM_ACTIVATED_PAGES));
-				deletedPages.addAll(replicatedPagesForDomain.get(PARAM_DELETED_PAGES));
+				if (replicatedPagesForDomain.containsKey(PARAM_ACTIVATED_PAGES)) {
+					activatedPages.addAll(replicatedPagesForDomain.get(PARAM_ACTIVATED_PAGES));
+				}
+				if (replicatedPagesForDomain.containsKey(PARAM_DELETED_PAGES)) {
+					deletedPages.addAll(replicatedPagesForDomain.get(PARAM_DELETED_PAGES));
+				}
 				reporter.report("Waiting 5 sec for stat file to update before cache build");
 				try {
 					// Wait 5 seconds for stat file to update
@@ -365,7 +370,8 @@ public class PageReplicatorImpl
 				try {
 					reporter.report("Cache may not have built correctly for " + domain);
 					Node detailedReportNode = dateNode.addNode(domain, "nt:unstructured");
-					detailedReportNode.setProperty("message", e.getMessage());
+					detailedReportNode.setProperty("message", String.valueOf(ExceptionUtils.getStackTrace(e)));
+					detailedReportNode.getSession().save();
 				} catch (Exception e1) {
 					log.error("Girlscouts Page Replicator encountered error: ", e1);
 					continue;

@@ -16,7 +16,7 @@
     	<activate
     		jcr:primaryType="cq:Widget"
     		fieldLabel="Activate Pages"
-    		fieldDescription="If unchecked, the pages will not activate automatically when they are rolled out."
+    		fieldDescription="If unchecked, pages will not activate automatically when they are rolled out."
     		name="./activate"
     		value="true"
     		defaultValue="true"
