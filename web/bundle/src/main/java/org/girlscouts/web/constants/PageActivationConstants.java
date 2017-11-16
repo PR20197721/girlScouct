@@ -25,7 +25,7 @@ public interface PageActivationConstants {
 	public static final String COMPLETED_NODE = "completed";
 
 	public static final String PARAM_COUNCILS = "councils";
-	public static final String PARAM_DELAY = "delayActivation";
+	public static final String PARAM_DELAY = "delay";
 	public static final String PARAM_NEW_PAGE = "newPage";
 	public static final String PARAM_CRAWL = "crawl";
 	public static final String PARAM_BREAK_INHERITANCE = "breakInheritance";
@@ -41,6 +41,7 @@ public interface PageActivationConstants {
 	public static final String PARAM_EMAIL_SUBJECT = "subject";
 	public static final String PARAM_EMAIL_MESSAGE = "message";
 	public static final String PARAM_ACTIVATE = "activate";
+	public static final String PARAM_DELETE = "delete";
 	public static final String PARAM_STATUS = "status";
 	public static final String PARAM_SOURCE_PATH = "srcpath";
 	public static final String PARAM_TEST_MODE = "testMode";
@@ -55,6 +56,7 @@ public interface PageActivationConstants {
 	public static final String PARAM_GROUP_SIZE = "groupsize";
 	public static final String PARAM_MINUTES = "minutes";
 	public static final String PARAM_CRAWL_DEPTH = "crawldepth";
+	public static final String PARAM_ENVIRONMENT = "environment";
 	public static final String GS_ROLLOUT_CONFIG = "/etc/msm/rolloutconfigs/gsdefault";
 	public static final String PARAM_CQ_ROLLOUT_CONFIG = "cq:rolloutConfigs";
 	public static final String PARAM_CQ_IS_DEEP = "cq:isDeep";

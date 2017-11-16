@@ -381,7 +381,7 @@ public class PageReplicatorImpl
 		HashMap<String, TreeSet<String>> map = new HashMap <String, TreeSet<String>>();
 		for(String page : pages){
 			try{
-				String domain = getDomain(page);
+				String domain = PageActivationUtil.getCouncilUrl(rr, settingsService, page);
 				TreeSet<String> set;
 				if(map.get(domain) != null){
 					set = map.get(domain);
@@ -398,42 +398,6 @@ public class PageReplicatorImpl
 			}
 		}
 		return map;
-	}
-	
-	protected String getDomain(String path) throws Exception {
-		String mappingPath, homepagePath;
-		Set<String> runmodes = settingsService.getRunModes();
-		if(runmodes.contains("prod")){
-			mappingPath = "/etc/map.publish.prod/http";
-		}else if(runmodes.contains("uat")){
-			mappingPath = "/etc/map.publish.uat/http";
-		}else if(runmodes.contains("stage")){
-			mappingPath = "/etc/map.publish.stage/http";
-		}else if(runmodes.contains("dev")){
-			mappingPath = "/etc/map.publish.dev/http";
-		}else if(runmodes.contains("local")){
-			mappingPath = "/etc/map.publish.local/http";
-		}else{
-			mappingPath = "/etc/map.publish/http";
-		}
-		
-		Resource pageRes = rr.resolve(path);
-		Page pagePage = pageRes.adaptTo(Page.class);
-		Page homePage = pagePage.getAbsoluteParent(2);
-		homepagePath = homePage.getPath() + ".html";
-		
-		Session session = rr.adaptTo(Session.class);
-		QueryManager qm = session.getWorkspace().getQueryManager();
-		String query = "SELECT [sling:match] FROM [sling:Mapping] as s WHERE ISDESCENDANTNODE(s,'" 
-		+ mappingPath + "') AND [sling:internalRedirect]='" + homepagePath + "'";
-	    Query q = qm.createQuery(query, Query.JCR_SQL2); 
-	    QueryResult result = q.execute();
-	    RowIterator rowIt = result.getRows();
-	    String toReturn = rowIt.nextRow().getValue("sling:match").getString();
-	    if(toReturn.endsWith("/$")){
-	    	toReturn = toReturn.substring(0,toReturn.length() - 2);
-	    }
-	    return toReturn;
 	}
 	
 	protected void sendReportEmail(long startTime, long endTime, Boolean delay, Boolean crawl,

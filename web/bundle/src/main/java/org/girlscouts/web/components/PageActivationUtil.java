@@ -321,7 +321,6 @@ public class PageActivationUtil implements PageActivationConstants {
 	}
 	
 	public static String getCouncilUrl(ResourceResolver rr, SlingSettingsService settingsService, String path){
-		
 		String mappingPath, homepagePath;
 		Set<String> runmodes = settingsService.getRunModes();
 		if(runmodes.contains("prod")){
@@ -337,7 +336,6 @@ public class PageActivationUtil implements PageActivationConstants {
 		}else{
 			mappingPath = "/etc/map.publish/http";
 		}
-		
 		Resource pageRes = rr.resolve(path);
 		Page pagePage = pageRes.adaptTo(Page.class);
 		Page homePage = pagePage.getAbsoluteParent(2);
@@ -359,9 +357,7 @@ public class PageActivationUtil implements PageActivationConstants {
 		}catch(RepositoryException e){
 			e.printStackTrace();
 		}
-		
 		return homepagePath.replaceAll("\\.html", "");
-		
 	}
 
 	public static List<String> getCouncilEmails(Node homepage) {
@@ -417,6 +413,18 @@ public class PageActivationUtil implements PageActivationConstants {
 			}
 		}
 		return toAddresses;
+	}
+
+	public static String getEnvironment(ResourceResolver rr) throws RepositoryException {
+		String env = "";
+		try {
+			Resource gsActivationsRes = rr.resolve(PAGE_ACTIVATIONS_PATH);
+			ValueMap vm = ResourceUtil.getValueMap(gsActivationsRes);
+			env = vm.get(PARAM_REPORT_EMAILS, String.class);
+		} catch (Exception e) {
+			log.error("PageActivationUtil encountered error: ", e);
+		}
+		return env;
 	}
 
 	public static String getDateRes() {

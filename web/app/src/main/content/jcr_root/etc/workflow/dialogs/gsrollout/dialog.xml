@@ -22,10 +22,10 @@
     		defaultValue="true"
     		type="checkbox"
     		xtype="selection"/>
-    	<delayActivation
+    	<delay
     		jcr:primaryType="cq:Widget"
     		fieldLabel="Delay Activation to Midnight"
-    		name="./delayActivation"
+    		name="./delay"
     		value="true"
     		defaultValue="true"
     		type="checkbox"
@@ -33,7 +33,7 @@
     		<listeners
         		jcr:primaryType="nt:unstructured"
         		selectionchanged="function(field, value, isChecked) { var panel = field.findParentByType('panel'); var crawl = panel.getComponent('crawl'); isChecked ? crawl.hide() : crawl.show(); }"/>
-    	</delayActivation>
+    	</delay>
     	<crawl
     		jcr:primaryType="cq:Widget"
     		fieldLabel="Crawl Site to Rebuild Cache"

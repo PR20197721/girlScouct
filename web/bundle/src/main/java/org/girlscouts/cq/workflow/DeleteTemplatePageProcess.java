@@ -27,6 +27,8 @@ import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
 import javax.jcr.Value;
+
+import org.girlscouts.web.service.rollout.GSPageDeletionService;
 import org.girlscouts.web.service.rollout.GSRolloutService;
 
 @Component
@@ -44,7 +46,7 @@ public class DeleteTemplatePageProcess implements WorkflowProcess, PageActivatio
 	private ResourceResolverFactory resourceResolverFactory;
 	
 	@Reference
-	private GSRolloutService gsRolloutService;
+	private GSPageDeletionService gsPageDeletionService;
 
 
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
@@ -58,25 +60,9 @@ public class DeleteTemplatePageProcess implements WorkflowProcess, PageActivatio
 						.getResourceResolver(Collections.singletonMap("user.jcr.session", (Object) session));
 				String srcPath = item.getWorkflowData().getPayload().toString();
 				String subject = "", message = "", templatePath = "";
-				Boolean useTemplate = false, delay = false, notify = false, crawl = false, activate = true,
-						newPage = false;
-				try {
-					newPage = ((Value) mdm.get(PARAM_NEW_PAGE)).getBoolean();
-				} catch (Exception e) {
-					log.error("Rollout Workflow encountered error: ", e);
-				}
+				Boolean useTemplate = false, delay = false, notify = false, crawl = false;
 				try {
 					delay = ((Value) mdm.get(PARAM_DELAY)).getBoolean();
-				} catch (Exception e) {
-					log.error("Rollout Workflow encountered error: ", e);
-				}
-				try {
-					useTemplate = ((Value) mdm.get(PARAM_USE_TEMPLATE)).getBoolean();
-				} catch (Exception e) {
-					log.error("Rollout Workflow encountered error: ", e);
-				}
-				try {
-					templatePath = ((Value) mdm.get(PARAM_TEMPLATE_PATH)).getString();
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
@@ -91,17 +77,23 @@ public class DeleteTemplatePageProcess implements WorkflowProcess, PageActivatio
 					log.error("Rollout Workflow encountered error: ", e);
 				}
 				try {
+					useTemplate = ((Value) mdm.get(PARAM_USE_TEMPLATE)).getBoolean();
+				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
+				}
+				try {
+					templatePath = ((Value) mdm.get(PARAM_TEMPLATE_PATH)).getString();
+				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
+				}
+
+				try {
 					subject = ((Value) mdm.get(PARAM_EMAIL_SUBJECT)).getString();
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
 				try {
 					message = ((Value) mdm.get(PARAM_EMAIL_MESSAGE)).getString();
-				} catch (Exception e) {
-					log.error("Rollout Workflow encountered error: ", e);
-				}
-				try {
-					activate = ((Value) mdm.get(PARAM_ACTIVATE)).getBoolean();
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
@@ -115,10 +107,9 @@ public class DeleteTemplatePageProcess implements WorkflowProcess, PageActivatio
 				String[] ips2 = PageActivationUtil.getIps(resourceResolver, 2);
 				dateRolloutNode.setProperty(PARAM_DISPATCHER_IPS + "1", ips1);
 				dateRolloutNode.setProperty(PARAM_DISPATCHER_IPS + "2", ips2);
-				dateRolloutNode.setProperty(PARAM_NEW_PAGE, newPage);
 				dateRolloutNode.setProperty(PARAM_CRAWL, crawl);
 				dateRolloutNode.setProperty(PARAM_DELAY, delay);
-				dateRolloutNode.setProperty(PARAM_ACTIVATE, activate);
+				dateRolloutNode.setProperty(PARAM_DELETE, Boolean.TRUE);
 				dateRolloutNode.setProperty(PARAM_SOURCE_PATH, srcPath);
 				dateRolloutNode.setProperty(PARAM_NOTIFY, notify);
 				dateRolloutNode.setProperty(PARAM_USE_TEMPLATE, useTemplate);
@@ -132,7 +123,7 @@ public class DeleteTemplatePageProcess implements WorkflowProcess, PageActivatio
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							gsRolloutService.rollout(path);
+							gsPageDeletionService.delete(path);
 						}
 					}).start();
 				} catch (Exception e) {

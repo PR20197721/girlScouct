@@ -237,40 +237,44 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 		Session session = rr.adaptTo(Session.class);
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes.getParent(), null, null);
 		while (relationIterator.hasNext()) {
-			LiveRelationship relation = (LiveRelationship) relationIterator.next();
-			String parentPath = relation.getTargetPath();
-			int councilNameIndex = parentPath.indexOf("/", "/content/".length());
-			String councilPath = parentPath.substring(0, councilNameIndex);
-			if (councils.contains(councilPath)) {
-				councils.remove(councilPath);
-				rolloutLog.add("Attempting to roll out a child page of: " + parentPath);
-				Resource parentResource = rr.resolve(parentPath);
-				if (parentResource != null
-						&& !parentResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-					PageManager pageManager = rr.adaptTo(PageManager.class);
-					Page srcPage = (Page) srcRes.adaptTo(Page.class);
-					Page copyPage = pageManager.copy(srcPage, parentPath + "/" + srcPage.getName(), srcPage.getName(),
-							false, true);
-					RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
-					RolloutConfig gsConfig = configMgr.getRolloutConfig(GS_ROLLOUT_CONFIG);
-					LiveRelationship relationship = relationManager.establishRelationship(srcPage, copyPage, true,
-							false, gsConfig);
-					String targetPath = relationship.getTargetPath();
-					cancelInheritance(rr, copyPage.getPath());
-					rolloutManager.rollout(rr, relation, false);
-					session.save();
-					rolloutLog.add("Page " + copyPage.getPath() + " created");
-					rolloutLog.add("Live copy established");
-					if (targetPath.endsWith("/jcr:content")) {
-						targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
+			try {
+				LiveRelationship relation = (LiveRelationship) relationIterator.next();
+				String parentPath = relation.getTargetPath();
+				int councilNameIndex = parentPath.indexOf("/", "/content/".length());
+				String councilPath = parentPath.substring(0, councilNameIndex);
+				if (councils.contains(councilPath)) {
+					councils.remove(councilPath);
+					rolloutLog.add("Attempting to roll out a child page of: " + parentPath);
+					Resource parentResource = rr.resolve(parentPath);
+					if (parentResource != null
+							&& !parentResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+						PageManager pageManager = rr.adaptTo(PageManager.class);
+						Page srcPage = (Page) srcRes.adaptTo(Page.class);
+						Page copyPage = pageManager.copy(srcPage, parentPath + "/" + srcPage.getName(),
+								srcPage.getName(), false, true);
+						RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
+						RolloutConfig gsConfig = configMgr.getRolloutConfig(GS_ROLLOUT_CONFIG);
+						LiveRelationship relationship = relationManager.establishRelationship(srcPage, copyPage, true,
+								false, gsConfig);
+						String targetPath = relationship.getTargetPath();
+						cancelInheritance(rr, copyPage.getPath());
+						rolloutManager.rollout(rr, relation, false);
+						session.save();
+						rolloutLog.add("Page " + copyPage.getPath() + " created");
+						rolloutLog.add("Live copy established");
+						if (targetPath.endsWith("/jcr:content")) {
+							targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
+						}
+						pagesToActivate.add(targetPath);
+						rolloutLog.add("Page added to activation/cache build queue");
+					} else {
+						rolloutLog.add(
+								"No resource can be found to serve as a suitable parent page. In order to roll out to this council, you must roll out the parent of this template page first.");
+						rolloutLog.add("Will NOT rollout to this council");
 					}
-					pagesToActivate.add(targetPath);
-					rolloutLog.add("Page added to activation/cache build queue");
-				} else {
-					rolloutLog.add(
-							"No resource can be found to serve as a suitable parent page. In order to roll out to this council, you must roll out the parent of this template page first.");
-					rolloutLog.add("Will NOT rollout to this council");
 				}
+			} catch (Exception e) {
+				log.error("Girlscouts Rollout Service encountered error: ", e);
 			}
 		}
 
@@ -281,43 +285,61 @@ public class GSRolloutServiceImpl implements GSRolloutService, PageActivationCon
 			throws RepositoryException, WCMException {
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes, null, null);
 		while (relationIterator.hasNext()) {
-			LiveRelationship relation = (LiveRelationship) relationIterator.next();
-			String targetPath = relation.getTargetPath();
-			int councilNameIndex = targetPath.indexOf("/", "/content/".length());
-			String councilPath = targetPath.substring(0, councilNameIndex);
-			if (councils.contains(councilPath)) {
-				rolloutLog.add("Attempting to roll out to: " + targetPath);
-				Resource targetResource = rr.resolve(targetPath);
-				if (targetResource != null
-						&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-					if (!isPageInheritanceBroken(targetResource, rolloutLog)) {
-						validateRolloutConfig(srcRes, targetResource);
-						RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
-						Set<String> srcComponents = getComponents(srcRes);
-						boolean notifyCouncil = isComponentsInheritanceBroken(srcComponents, targetPath, rolloutLog);
-						if (notifyCouncil) {
+			try {
+				LiveRelationship relation = (LiveRelationship) relationIterator.next();
+				String targetPath = relation.getTargetPath();
+				int councilNameIndex = targetPath.indexOf("/", "/content/".length());
+				String councilPath = targetPath.substring(0, councilNameIndex);
+				if (councils.contains(councilPath)) {
+					rolloutLog.add("Attempting to roll out to: " + targetPath);
+					Resource targetResource = rr.resolve(targetPath);
+					if (targetResource != null
+							&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+						if (!isPageInheritanceBroken(targetResource, rolloutLog)) {
+							validateRolloutConfig(srcRes, targetResource);
+							Set<String> srcComponents = getComponents(srcRes);
+							if (isComponentsInheritanceBroken(srcComponents, targetPath, rolloutLog)) {
+								notifyCouncils.add(targetPath);
+							}
+							RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
+							params.isDeep = false;
+							params.master = srcRes.adaptTo(Page.class);
+							params.targets = new String[] { targetPath };
+							params.paragraphs = srcComponents.toArray(new String[srcComponents.size()]);
+							params.trigger = RolloutManager.Trigger.ROLLOUT;
+							params.reset = false;
+							rolloutManager.rollout(params);
+							rolloutLog.add("Rolled out content to page");
+							updatePageTitle(srcRes, targetResource);
+							pagesToActivate.add(targetPath);
+							rolloutLog.add("Page added to activation queue");
+							councils.remove(councilPath);
+						} else {
 							notifyCouncils.add(targetPath);
+							rolloutLog.add(
+									"The page " + targetPath + " has Break Inheritance checked off. Will not roll out");
 						}
-						params.isDeep = false;
-						params.master = srcRes.adaptTo(Page.class);
-						params.targets = new String[] { targetPath };
-						params.paragraphs = srcComponents.toArray(new String[srcComponents.size()]);
-						params.trigger = RolloutManager.Trigger.ROLLOUT;
-						params.reset = false;
-						rolloutManager.rollout(params);
-						rolloutLog.add("Rolled out content to page");
-						pagesToActivate.add(targetPath);
-						rolloutLog.add("Page added to activation queue");
-						councils.remove(councilPath);
 					} else {
-						rolloutLog.add(
-								"The page " + targetPath + " has Break Inheritance checked off. Will not roll out");
+						rolloutLog.add("Resource " + targetPath + " not found.");
+						rolloutLog.add("Will NOT rollout to this page");
 					}
-				} else {
-					rolloutLog.add("Resource " + targetPath + " not found.");
-					rolloutLog.add("Will NOT rollout to this page");
 				}
+			} catch (Exception e) {
+				log.error("Girlscouts Rollout Service encountered error: ", e);
 			}
+		}
+	}
+
+	private void updatePageTitle(Resource srcRes, Resource targetResource) {
+		try {
+			Resource srcContent = srcRes.getChild("jcr:content");
+			Node srcContentNode = srcContent.adaptTo(Node.class);
+			Resource targetContent = targetResource.getChild("jcr:content");
+			Node targetContentNode = targetContent.adaptTo(Node.class);
+			targetContentNode.setProperty("jcr:title", srcContentNode.getProperty("jcr:title").getString());
+			targetContentNode.getSession().save();
+		} catch (Exception e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 	}
 

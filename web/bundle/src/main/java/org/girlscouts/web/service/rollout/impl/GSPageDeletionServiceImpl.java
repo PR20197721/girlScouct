@@ -145,7 +145,7 @@ public class GSPageDeletionServiceImpl
 					Page srcPage = (Page) srcRes.adaptTo(Page.class);
 					if (srcPage != null) {
 						Set<String> pagesToDelete = new HashSet<String>();
-						markLiveRelationshipsForDeletion(councils, srcRes, pagesToDelete, deletionLog, notifyCouncils);
+						selectLiveRelationshipsForDeletion(councils, srcRes, pagesToDelete, deletionLog, notifyCouncils);
 						if (!councils.isEmpty()) {
 							int councilNameIndex = srcPath.indexOf("/", "/content/".length());
 							String srcRelativePath = srcPath.substring(councilNameIndex);
@@ -173,36 +173,40 @@ public class GSPageDeletionServiceImpl
 		}
 	}
 
-	private void markLiveRelationshipsForDeletion(Set<String> councils, Resource srcRes, Set<String> pagesToDelete,
+	private void selectLiveRelationshipsForDeletion(Set<String> councils, Resource srcRes, Set<String> pagesToDelete,
 			List<String> deletionLog, Set<String> notifyCouncils) throws RepositoryException, WCMException {
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes, null, null);
 		while (relationIterator.hasNext()) {
-			LiveRelationship relation = (LiveRelationship) relationIterator.next();
-			String targetPath = relation.getTargetPath();
-			int councilNameIndex = targetPath.indexOf("/", "/content/".length());
-			String councilPath = targetPath.substring(0, councilNameIndex);
-			if (councils.contains(councilPath)) {
-				deletionLog.add("Attempting to queue for deletion: " + targetPath);
-				Resource targetResource = rr.resolve(targetPath);
-				if (targetResource != null
-						&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-					if (!isPageInheritanceBroken(targetResource, deletionLog)) {
-						Set<String> components = getComponents(targetResource);
-						boolean notifyCouncil = isComponentsInheritanceBroken(components, councilPath, deletionLog);
-						if (notifyCouncil) {
-							deletionLog.add("Page " + targetPath + " was not added to deletion queue");
+			try {
+				LiveRelationship relation = (LiveRelationship) relationIterator.next();
+				String targetPath = relation.getTargetPath();
+				int councilNameIndex = targetPath.indexOf("/", "/content/".length());
+				String councilPath = targetPath.substring(0, councilNameIndex);
+				if (councils.contains(councilPath)) {
+					deletionLog.add("Attempting to queue for deletion: " + targetPath);
+					Resource targetResource = rr.resolve(targetPath);
+					if (targetResource != null
+							&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+						if (!isPageInheritanceBroken(targetResource, deletionLog)) {
+							Set<String> components = getComponents(targetResource);
+							boolean notifyCouncil = isComponentsInheritanceBroken(components, councilPath, deletionLog);
+							if (notifyCouncil) {
+								deletionLog.add("Page " + targetPath + " was not added to deletion queue");
+							} else {
+								pagesToDelete.add(targetPath);
+								deletionLog.add("Page " + targetPath + " added to deletion queue");
+								councils.remove(councilPath);
+							}
 						} else {
-							pagesToDelete.add(targetPath);
-							deletionLog.add("Page " + targetPath + " added to deletion queue");
-							councils.remove(councilPath);
+							deletionLog.add("The page has Break Inheritance checked off. Will not delete");
 						}
 					} else {
-						deletionLog.add("The page has Break Inheritance checked off. Will not delete");
+						deletionLog.add("Resource " + targetPath + " not found.");
+						deletionLog.add("Will NOT delete this page");
 					}
-				} else {
-					deletionLog.add("Resource " + targetPath + " not found.");
-					deletionLog.add("Will NOT delete this page");
 				}
+			} catch (Exception e) {
+				log.error("Girlscouts Page Deletion Service encountered error: ", e);
 			}
 		}
 	}
