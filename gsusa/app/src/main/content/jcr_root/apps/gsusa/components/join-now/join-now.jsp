@@ -43,7 +43,7 @@ String wrapper = bgExists || textExists ? "wrapper" : "";
             <form class="formJoin button-form-target hide">
                 <label><%=title%></label>
                 <div>
-                    <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="ZipJoin" placeholder="Enter ZIP Code" />
+                    <input type="tel" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="ZipJoin" placeholder="Enter ZIP Code" />
                 </div>
                 <input type="hidden" name="source" value="<%=source%>">
                 <div>
