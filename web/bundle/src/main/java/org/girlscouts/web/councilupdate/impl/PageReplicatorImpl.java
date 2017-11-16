@@ -171,11 +171,11 @@ public class PageReplicatorImpl
 	
 		PageActivationReporter reporter = new PageActivationReporter(dateRolloutNode, session);
 		reporter.report("Initializing process");
-		Set<String> pages = null;
+		Set<String> pagesToActivate = null;
 		Set<String> pagesToDelete = null;
 		reporter.report("Retrieving page queue");
 		try {
-			pages = PageActivationUtil.getPagesToActivate(dateRolloutNode);
+			pagesToActivate = PageActivationUtil.getPagesToActivate(dateRolloutNode);
 		} catch (Exception e) {
 			reporter.report("Failed to get initial pages to activate count");
 			e.printStackTrace();
@@ -186,8 +186,8 @@ public class PageReplicatorImpl
 			reporter.report("Failed to get initial pages to delete count");
 			e.printStackTrace();
 		}
-		if (pages.isEmpty() && pagesToDelete.isEmpty()) {
-			reporter.report("No pages found in page queue. Will not proceed");
+		if (pagesToActivate.isEmpty() && pagesToDelete.isEmpty()) {
+			reporter.report("No pages found in activate and delete queues. Will not proceed");
 			PageActivationUtil.markReplicationFailed(session, dateRolloutNode);
 			return;
 		}
@@ -195,9 +195,9 @@ public class PageReplicatorImpl
 		Map<String, Set<String>> replicatedPages = new HashMap<String, Set<String>>();
 		HashMap<String, TreeSet<String>> toActivate = new HashMap<String, TreeSet<String>>();
 		HashMap<String, TreeSet<String>> toDelete = new HashMap<String, TreeSet<String>>();
-		reporter.report("Arranging " + pages.size() + " pages by council");
+		reporter.report("Arranging " + pagesToActivate.size() + " pages by council");
 		try {
-			toActivate = groupByCouncil(pages, unmappedPages);
+			toActivate = groupByCouncil(pagesToActivate, unmappedPages);
 		} catch (Exception e) {
 			reporter.report("Failed to group pages to activate by council");
 			PageActivationUtil.markReplicationFailed(session, dateRolloutNode);
