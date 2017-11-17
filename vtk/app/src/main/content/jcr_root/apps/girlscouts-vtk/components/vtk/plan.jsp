@@ -415,7 +415,7 @@ $(function(){
                   ),(this.state.message.display)?React.createElement('p',
                       {className:'__error_message small-only-text-center', style:{}
                       },this.state.message.type+' '+this.state.message.display):null
-                  ),React.createElement('p',{className:'',style:{marginBottom:'6px',textAlign:'center'}},'Change meeting date and time'),
+                  ),React.createElement('p',{className:'',style:{marginBottom:'6px',textAlign:'center'}},'Change meeting date and time')
                 ),
                 React.createElement('div',{className:'row'},
                   React.createElement('div',{className:"__calendar columns small-24 medium-12"},
@@ -458,7 +458,7 @@ $(function(){
                   ),
                   React.createElement('div',{style:{},className:"__second_part"},
                     React.createElement('p',{className:this.state.design.isMobile?'__button_as_mobile':'',onClick:function(){_this.removeMeeting()},style:{}},'Delete Meeting'),
-                    React.createElement('p',{className:this.state.design.isMobile?'__button_as_mobile':'',onClick:function(){_this.seeMoreCalendar()},style:{}},'See more calendar options'),
+                    React.createElement('p',{className:this.state.design.isMobile?'__button_as_mobile':'',onClick:function(){_this.seeMoreCalendar()},style:{}},'See more calendar options')
                   )
                 )
                 )
