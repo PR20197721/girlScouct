@@ -10,18 +10,18 @@
                 jcr:primaryType="cq:Panel"
                 title="General" >
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <desc
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Display Label"
-                        fieldDescription="Display Description"
-                        name="./displayfield"
-                        xtype="displayfield" 
-                        />
                     <url
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Endpoint URL"
                         fieldDescription="URL to retrieve Blog data"
                         name="./url"
+                        xtype="textfield" 
+                        />
+                    <blogurl
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Blog URL"
+                        fieldDescription="URL of Blog to link at the end of See More"
+                        name="./blogurl"
                         xtype="textfield" 
                         />
                     <count
@@ -53,8 +53,23 @@
             </general>
             <desktop
                 jcr:primaryType="cq:Panel"
-                title="Desktop">
+                title="Large">
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <desc
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Large"
+                        fieldDescription="Configuration when placed in wide (more than 500px) places ex. one column, two column, three column"
+                        name="./desktopdisplayfield"
+                        xtype="displayfield" />
+                    <desktopimagesize
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Image Size"
+                        fieldDescription="Font size for Blog title in Desktop view"
+                        defaultValue="15"
+                        minValue="0"
+                        value="15"
+                        name="./desktopimagesize"
+                        xtype="numberfield"/>
                     <desktoptitlefont
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Title Font Size"
@@ -64,6 +79,15 @@
                         value="15"
                         name="./desktoptitlefont"
                         xtype="numberfield"/>
+                    <desktoptitlelineheight
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Line Height"
+                        fieldDescription="Font size for Blog title in Desktop view"
+                        defaultValue="15"
+                        minValue="0"
+                        value="15"
+                        name="./desktoptitlelineheight"
+                        xtype="numberfield"/>
                     <desktopsnippetfont
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Snippet Font Size"
@@ -72,6 +96,15 @@
                         value="12"
                         minValue="0"
                         name="./desktopsnippetfont"
+                        xtype="numberfield"/>
+                    <desktopsnippetlineheight
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Line Height"
+                        fieldDescription="Font size for Blog title in Desktop view"
+                        defaultValue="15"
+                        minValue="0"
+                        value="15"
+                        name="./desktopsnippetlineheight"
                         xtype="numberfield"/>
                     <desktoptitlelines
                         jcr:primaryType="cq:Widget"
@@ -97,6 +130,30 @@
                 jcr:primaryType="cq:Panel"
                 title="Mobile">
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <desc1
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Narrow"
+                        fieldDescription="Configuration when placed in narrow (less than 500px) places ex. mobile, grid column"
+                        name="./mobiledisplayfield"
+                        xtype="displayfield" />
+                    <mobileimagesize
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Image Size"
+                        fieldDescription="in percentage or px"
+                        defaultValue="15"
+                        minValue="0"
+                        value="15"
+                        name="./mobileimagesize"
+                        xtype="numberfield"/>
+                    <mobiletitlelineheight
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Line Height"
+                        fieldDescription="Font size for Blog title in mobile view"
+                        defaultValue="15"
+                        minValue="0"
+                        value="15"
+                        name="./mobiletitlelineheight"
+                        xtype="numberfield"/>
                     <mobiletitlefont
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Title Font Size"
@@ -105,6 +162,15 @@
                         minValue="1"
                         value="16"
                         name="./mobiletitlefont"
+                        xtype="numberfield"/>
+                    <mobilesnippetlineheight
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Snippet Line Height"
+                        fieldDescription="Font size for Blog title in Desktop view"
+                        defaultValue="15"
+                        minValue="0"
+                        value="15"
+                        name="./mobilesnippetlineheight"
                         xtype="numberfield"/>
                     <mobilesnippetfont
                         jcr:primaryType="cq:Widget"
