@@ -1,4 +1,4 @@
-package org.girlscouts.web.councilupdate.impl;
+package org.girlscouts.web.service.replication.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,19 +13,14 @@ import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.query.Query;
-import javax.jcr.query.QueryManager;
-import javax.jcr.query.QueryResult;
-import javax.jcr.query.RowIterator;
 import javax.mail.MessagingException;
 import org.girlscouts.web.components.GSEmailAttachment;
 import org.girlscouts.web.components.PageActivationReporter;
-import org.girlscouts.web.components.PageActivationUtil;
-import org.girlscouts.web.constants.PageActivationConstants;
-import org.girlscouts.web.councilrollout.GirlScoutsNotificationAction;
+import org.girlscouts.web.components.PageReplicationUtil;
+import org.girlscouts.web.constants.PageReplicationConstants;
 import org.girlscouts.web.councilupdate.CacheThread;
-import org.girlscouts.web.councilupdate.PageReplicator;
 import org.girlscouts.web.service.email.GSEmailService;
+import org.girlscouts.web.service.replication.PageReplicator;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +38,6 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.Replicator;
-import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
 import com.day.cq.wcm.msm.api.RolloutManager;
 
@@ -73,7 +67,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 })
 
 public class PageReplicatorImpl
-		implements Runnable, PageReplicator, PageActivationConstants, PageActivationConstants.Email {
+		implements Runnable, PageReplicator, PageReplicationConstants, PageReplicationConstants.Email {
 	
 	private static Logger log = LoggerFactory.getLogger(PageReplicatorImpl.class);
 	@Reference
@@ -86,8 +80,6 @@ public class PageReplicatorImpl
 	protected SlingSettingsService settingsService;
 	@Reference
 	protected GSEmailService gsEmailService;
-	@Reference
-	protected GirlScoutsNotificationAction notificationAction;
 	@Reference
 	protected LiveRelationshipManager relationManager;
 	
@@ -158,6 +150,7 @@ public class PageReplicatorImpl
 			}
 		} catch (Exception e) {
 			log.error("Girlscouts Page Replicator encountered error: ", e);
+			PageReplicationUtil.markReplicationFailed(dateRolloutNode);
 			return;
 		}
 		Boolean delay = false, crawl = false;
@@ -176,20 +169,21 @@ public class PageReplicatorImpl
 		Set<String> pagesToDelete = null;
 		reporter.report("Retrieving page queue");
 		try {
-			pagesToActivate = PageActivationUtil.getPagesToActivate(dateRolloutNode);
+			pagesToActivate = PageReplicationUtil.getPagesToActivate(dateRolloutNode);
 		} catch (Exception e) {
 			reporter.report("Failed to get initial pages to activate count");
 			e.printStackTrace();
 		}
 		try {
-			pagesToDelete = PageActivationUtil.getPagesToDelete(dateRolloutNode);
+			pagesToDelete = PageReplicationUtil.getPagesToDelete(dateRolloutNode);
 		} catch (Exception e) {
 			reporter.report("Failed to get initial pages to delete count");
 			e.printStackTrace();
 		}
 		if (pagesToActivate.isEmpty() && pagesToDelete.isEmpty()) {
 			reporter.report("No pages found in activate and delete queues. Will not proceed");
-			PageActivationUtil.markReplicationFailed(session, dateRolloutNode);
+			PageReplicationUtil.markReplicationComplete(dateRolloutNode);
+			PageReplicationUtil.archive(dateRolloutNode);
 			return;
 		}
 		TreeSet<String> unmappedPages = new TreeSet<String>();
@@ -201,13 +195,13 @@ public class PageReplicatorImpl
 			toActivate = groupByCouncil(pagesToActivate, unmappedPages);
 		} catch (Exception e) {
 			reporter.report("Failed to group pages to activate by council");
-			PageActivationUtil.markReplicationFailed(session, dateRolloutNode);
+			PageReplicationUtil.markReplicationFailed(dateRolloutNode);
 		}
 		try {
 			toDelete = groupByCouncil(pagesToDelete, unmappedPages);
 		} catch (Exception e) {
 			reporter.report("Failed to group pages to delete by council");
-			PageActivationUtil.markReplicationFailed(session, dateRolloutNode);
+			PageReplicationUtil.markReplicationFailed(dateRolloutNode);
 		}
 		if (unmappedPages.size() > 0) {
 			for (String u : unmappedPages) {
@@ -241,8 +235,9 @@ public class PageReplicatorImpl
 			session.save();
 			reporter.report("Moving " + dateRolloutNode.getPath() + " to " + dateRolloutNode.getParent().getPath() + "/"
 					+ COMPLETED_NODE + "/" + dateRolloutNode.getName());
-			PageActivationUtil.archive(dateRolloutNode);
+			PageReplicationUtil.archive(dateRolloutNode);
 			reporter.report("Process completed");
+			return;
 		} catch (Exception e) {
 			log.error("Girlscouts Page Replicator encountered error: ", e);
 		}
@@ -284,20 +279,20 @@ public class PageReplicatorImpl
 		Set<String> councilDomainsSet = new TreeSet<String>();
 		councilDomainsSet.addAll(toActivate.keySet());
 		councilDomainsSet.addAll(toDelete.keySet());
-		int batchSize = PageActivationUtil.getGroupSize(rr);
-		int sleepTime = PageActivationUtil.getMinutes(rr) * 60 * 1000;
-		int depth = PageActivationUtil.getCrawlDepth(rr);
+		int batchSize = PageReplicationUtil.getGroupSize(rr);
+		int sleepTime = PageReplicationUtil.getMinutes(rr) * 60 * 1000;
+		int depth = PageReplicationUtil.getCrawlDepth(rr);
 		int counter = 0;
 		String[] ipsGroupOne = null;
 		String[] ipsGroupTwo = null;
 		reporter.report("Obtaining IP addresses for crawling");
 		try {
-			ipsGroupOne = PageActivationUtil.getIps(rr, 1);
+			ipsGroupOne = PageReplicationUtil.getIps(rr, 1);
 		} catch (Exception e) {
 			reporter.report("Failed to retrieve any dispatcher 1 ips");
 		}
 		try {
-			ipsGroupTwo = PageActivationUtil.getIps(rr, 2);
+			ipsGroupTwo = PageReplicationUtil.getIps(rr, 2);
 		} catch (Exception e) {
 			reporter.report("Failed to retrieve any dispatcher 2 ips");
 		}
@@ -387,7 +382,7 @@ public class PageReplicatorImpl
 		HashMap<String, TreeSet<String>> map = new HashMap <String, TreeSet<String>>();
 		for(String page : pages){
 			try{
-				String domain = PageActivationUtil.getCouncilUrl(rr, settingsService, page);
+				String domain = PageReplicationUtil.getCouncilUrl(rr, settingsService, page);
 				TreeSet<String> set;
 				if(map.get(domain) != null){
 					set = map.get(domain);
@@ -413,7 +408,7 @@ public class PageReplicatorImpl
 			Set<String> activatedPages = replicatedPages.get(PARAM_ACTIVATED_PAGES);
 			Set<String> deletedPages = replicatedPages.get(PARAM_DELETED_PAGES);
 			reporter.report("Retrieving email addresses for report");
-			List<String> emails = PageActivationUtil.getReportEmails(rr);
+			List<String> emails = PageReplicationUtil.getReportEmails(rr);
 			if (emails != null && emails.size() > 0) {
 				StringBuffer html = new StringBuffer();
 				html.append(DEFAULT_COMPLETION_REPORT_HEAD);
@@ -457,7 +452,7 @@ public class PageReplicatorImpl
 					GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(), null,
 							GSEmailAttachment.MimeType.TEXT_PLAIN);
 					attachments.add(attachment);
-					String reportSubject = "(" + PageActivationUtil.getEnvironment(rr) + ") "
+					String reportSubject = "(" + PageReplicationUtil.getEnvironment(rr) + ") "
 							+ DEFAULT_COMPLETION_REPORT_SUBJECT;
 					gsEmailService.sendEmail(reportSubject, emails, html.toString(), attachments);
 				} catch (EmailException | MessagingException | IOException e) {
@@ -486,6 +481,10 @@ public class PageReplicatorImpl
 				reporter.report("Deleting " + pageToDelete);
 				try {
 					replicator.replicate(dateNode.getSession(), ReplicationActionType.DELETE, pageToDelete);
+					Node nodeDelete = rr.resolve(pageToDelete).adaptTo(Node.class);
+					Node parentOfDeletedNode = nodeDelete.getParent();
+					nodeDelete.remove();
+					parentOfDeletedNode.getSession().save();
 					deletedPages.add(pageToDelete);
 				} catch (Exception e) {
 					reporter.report("Failed to delete " + pageToDelete);
@@ -557,9 +556,9 @@ public class PageReplicatorImpl
 				replicationsNode = etcNode.addNode(EVENT_ACTIVATIONS_NODE);
 			}
 			if (replicationsNode != null) {
-				Set<String> pages = PageActivationUtil.getPagesToActivate(replicationsNode);
+				Set<String> pages = PageReplicationUtil.getPagesToActivate(replicationsNode);
 				if (pages != null && !pages.isEmpty()) {
-					String eventsNodeName = "E-" + PageActivationUtil.getDateRes();
+					String eventsNodeName = "E-" + PageReplicationUtil.getDateRes();
 					Node gsDelayedNode = gsDelayedRes.adaptTo(Node.class);
 					eventReplicationNode = gsDelayedNode.addNode(eventsNodeName);
 					eventReplicationNode.setProperty(PARAM_PAGES, pages.toArray(new String[pages.size()]));
@@ -596,7 +595,7 @@ public class PageReplicatorImpl
 				activationTypeNode = activationsNode.addNode(DELAYED_NODE);
 				session.save();
 			}
-			String aggregateNodeName = PageActivationUtil.getDateRes();
+			String aggregateNodeName = PageReplicationUtil.getDateRes();
 			if (activationTypeNode.hasNode(aggregateNodeName)) {
 				dateRolloutNode = activationTypeNode.getNode(aggregateNodeName);
 			} else {
@@ -615,10 +614,10 @@ public class PageReplicatorImpl
 						+ aggregatedRolloutNode.getPath());
 			Set<String> aggregatedPagesToActivate = new TreeSet<String>();
 			Set<String> aggregatedPagesToDelete = new TreeSet<String>();
-			aggregatedPagesToActivate.addAll(PageActivationUtil.getPagesToActivate(aggregatedRolloutNode));
-			aggregatedPagesToDelete.addAll(PageActivationUtil.getPagesToDelete(aggregatedRolloutNode));
-			aggregatedPagesToActivate.addAll(PageActivationUtil.getPagesToActivate(replicationNode));
-			aggregatedPagesToDelete.addAll(PageActivationUtil.getPagesToDelete(replicationNode));
+			aggregatedPagesToActivate.addAll(PageReplicationUtil.getPagesToActivate(aggregatedRolloutNode));
+			aggregatedPagesToDelete.addAll(PageReplicationUtil.getPagesToDelete(aggregatedRolloutNode));
+			aggregatedPagesToActivate.addAll(PageReplicationUtil.getPagesToActivate(replicationNode));
+			aggregatedPagesToDelete.addAll(PageReplicationUtil.getPagesToDelete(replicationNode));
 			aggregatedRolloutNode.setProperty(PARAM_PAGES,
 					aggregatedPagesToActivate.toArray(new String[aggregatedPagesToActivate.size()]));
 			aggregatedRolloutNode.setProperty(PARAM_PAGES_TO_DELETE,

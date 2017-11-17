@@ -2,7 +2,7 @@ package org.girlscouts.web.constants;
 
 import java.util.regex.Pattern;
 
-public interface PageActivationConstants {
+public interface PageReplicationConstants {
 
 	public static final String STATUS_CREATED = "created";
 	public static final String STATUS_AGGREGATED = "aggregated";

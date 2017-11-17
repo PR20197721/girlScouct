@@ -36,7 +36,7 @@ import org.apache.sling.api.servlets.HtmlResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.apache.sling.jcr.resource.JcrResourceResolverFactory;
-import org.girlscouts.web.components.PageActivationUtil;
+import org.girlscouts.web.components.PageReplicationUtil;
 import org.girlscouts.web.events.search.GSDateTime;
 import org.girlscouts.web.events.search.GSDateTimeFormat;
 import org.girlscouts.web.events.search.GSDateTimeFormatter;
@@ -951,7 +951,7 @@ public class POST extends SlingAllMethodsServlet {
     	
     	HtmlResponse response = null;
     	
-    	String delayNodeName = PageActivationUtil.getDateRes();
+    	String delayNodeName = PageReplicationUtil.getDateRes();
     	Resource resource = adminResolver.getResource(DELAYED_ACTIVATION_PATH);
     	if(resource != null){
     		
@@ -988,7 +988,7 @@ public class POST extends SlingAllMethodsServlet {
     	try {
     		Node parentNode = null;
 	    	Node etcNode = adminResolver.getResource("/etc").adaptTo(Node.class);
-	    	String stagNodeName = PageActivationUtil.getDateRes();
+	    	String stagNodeName = PageReplicationUtil.getDateRes();
 	    	if(etcNode.hasNode(STAG_ACTIVATION)){
 	    		parentNode = etcNode.getNode(STAG_ACTIVATION);
 	    	} else{

@@ -45,7 +45,7 @@
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="org.girlscouts.cq.workflow.RolloutProcess"
+                PROCESS="org.girlscouts.cq.workflow.RolloutTemplatePageProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node4>
         <node5

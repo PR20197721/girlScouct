@@ -22,16 +22,16 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.settings.SlingSettingsService;
-import org.girlscouts.web.constants.PageActivationConstants;
+import org.girlscouts.web.constants.PageReplicationConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.WCMException;
 
-public class PageActivationUtil implements PageActivationConstants {
+public class PageReplicationUtil implements PageReplicationConstants {
 
-	private static Logger log = LoggerFactory.getLogger(PageActivationUtil.class);
+	private static Logger log = LoggerFactory.getLogger(PageReplicationUtil.class);
 
 	public static String[] getIps(ResourceResolver rr, int group) {
 		try {
@@ -221,10 +221,19 @@ public class PageActivationUtil implements PageActivationConstants {
 		return notifyCouncils;
 	}
 
-	public static void markReplicationFailed(Session session, Node dateRolloutNode) {
+	public static void markReplicationFailed(Node dateRolloutNode) {
 		try {
 			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_FAILED);
-			session.save();
+			dateRolloutNode.getSession().save();
+		} catch (RepositoryException e) {
+			log.error("PageActivationUtil encountered error: ", e);
+		}
+	}
+
+	public static void markReplicationComplete(Node dateRolloutNode) {
+		try {
+			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETE);
+			dateRolloutNode.getSession().save();
 		} catch (RepositoryException e) {
 			log.error("PageActivationUtil encountered error: ", e);
 		}
@@ -363,24 +372,26 @@ public class PageActivationUtil implements PageActivationConstants {
 	public static List<String> getCouncilEmails(Node homepage) {
 		List<String> toAddresses = new ArrayList<String>();
 		try {
-			Node content = homepage.getNode("jcr:content");
-			String email1 = null;
-			String email2 = null;
-			try {
-				email1 = content.getProperty("email1").getString();
-				if (email1 != null && !email1.isEmpty()) {
-					toAddresses.add(email1);
+			if (homepage.hasNode("jcr:content")) {
+				Node content = homepage.getNode("jcr:content");
+				String email1 = null;
+				String email2 = null;
+				try {
+					email1 = content.getProperty("email1").getString();
+					if (email1 != null && !email1.isEmpty()) {
+						toAddresses.add(email1);
+					}
+				} catch (Exception e) {
+					log.error("PageActivationUtil encountered error: email1=" + email1, e);
 				}
-			} catch (Exception e) {
-				log.error("PageActivationUtil encountered error: email1=" + email1, e);
-			}
-			try {
-				email2 = content.getProperty("email2").getString();
-				if (email2 != null && !email2.isEmpty()) {
-					toAddresses.add(email2);
+				try {
+					email2 = content.getProperty("email2").getString();
+					if (email2 != null && !email2.isEmpty()) {
+						toAddresses.add(email2);
+					}
+				} catch (Exception e) {
+					log.error("PageActivationUtil encountered error: email2=" + email2, e);
 				}
-			} catch (Exception e) {
-				log.error("PageActivationUtil encountered error: email2=" + email2, e);
 			}
 		} catch (RepositoryException e1) {
 			log.error("PageActivationUtil encountered error: ", e1);
