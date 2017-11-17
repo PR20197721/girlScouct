@@ -412,14 +412,14 @@ public class PageReplicatorImpl
 			if (emails != null && emails.size() > 0) {
 				StringBuffer html = new StringBuffer();
 				html.append(DEFAULT_COMPLETION_REPORT_HEAD);
-				html.append("<body><p>The Girl Scouts Activation Process has just finished running.</p>");
+				html.append("<body><p>The Girl Scouts Replication Process has just finished running.</p>");
 				if (delay) {
-					html.append("<p>It was of type - Scheduled Activation</p>");
+					html.append("<p>It was of type - Scheduled Replication</p>");
 				} else {
 					if (crawl) {
-						html.append("<p>It was of type - Immediate Activation with Crawl</p>");
+						html.append("<p>It was of type - Immediate Replication with Crawl</p>");
 					} else {
-						html.append("<p>It was of type - Immediate Activation without Crawl</p>");
+						html.append("<p>It was of type - Immediate Replication without Crawl</p>");
 						;
 					}
 				}

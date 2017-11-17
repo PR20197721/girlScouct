@@ -369,6 +369,25 @@ public class PageReplicationUtil implements PageReplicationConstants {
 		return homepagePath.replaceAll("\\.html", "");
 	}
 
+	public static String generateCouncilNotification(String srcPagePath, String targetPagePath, ValueMap vm,
+			String message,
+			ResourceResolver rr, SlingSettingsService settingsService) {
+		String srcPagePathUrl = getURL(srcPagePath);
+		String councilAuthorPagePath = getURL(targetPagePath);
+		String councilLivePagePath = getCouncilUrl(rr, settingsService, targetPagePath) + "/"
+				+ councilAuthorPagePath.replaceAll("/content/.+?/", "");
+		String html = message.replaceAll("<%template-page%>", srcPagePathUrl)
+				.replaceAll("&lt;%template-page%&gt;", srcPagePathUrl)
+				.replaceAll("<%council-page%>", councilLivePagePath)
+				.replaceAll("&lt;%council-page%&gt;", councilLivePagePath)
+				.replaceAll("<%council-author-page%>", councilAuthorPagePath)
+				.replaceAll("&lt;%council-author-page%&gt;", "https://authornew.girlscouts.org" + councilAuthorPagePath)
+				.replaceAll("<%a", "<a").replaceAll("<%/a>", "</a>").replaceAll("&lt;%a", "<a")
+				.replaceAll("&lt;%/a&gt;", "</a>");
+		html = html.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
+		return html;
+	}
+
 	public static List<String> getCouncilEmails(Node homepage) {
 		List<String> toAddresses = new ArrayList<String>();
 		try {

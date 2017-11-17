@@ -73,15 +73,17 @@ public interface PageReplicationConstants {
 	public static final Pattern BRANCH_PATTERN = Pattern.compile(BRANCH_PATTERN_STR);
 
 	public interface Email {
-		public static final String DEFAULT_REPORT_SUBJECT = "GSUSA Rollout Report";
-		public static final String DEFAULT_REPORT_ATTACHMENT = "gs_rollout_notifications_log";
+		public static final String DEFAULT_ROLLOUT_REPORT_SUBJECT = "GSUSA Rollout Report";
+		public static final String DEFAULT_ROLLOUT_REPORT_ATTACHMENT = "gs_rollout_notifications_log";
+		public static final String DEFAULT_DELETION_REPORT_SUBJECT = "GSUSA Deletion Report";
+		public static final String DEFAULT_DELETION_REPORT_ATTACHMENT = "gs_deletion_notifications_log";
 		public static final String DEFAULT_REPORT_GREETING = "Dear Girl Scouts USA User,";
 		public static final String DEFAULT_REPORT_INTRO = "The following is a report for the GSUSA Rollout Workflow (Production).";
 		public static final String DEFAULT_REPORT_HEAD = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
 				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">"
 				+ "<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
 				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" + "<title>"
-				+ DEFAULT_REPORT_SUBJECT + "</title></head>";
+				+ DEFAULT_ROLLOUT_REPORT_SUBJECT + "</title></head>";
 		public static final String DEFAULT_NOTIFICATION_SUBJECT = "GSUSA Rollout Notification";
 		public static final String DEFAULT_NOTIFICATION_HEAD = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
 				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">"
@@ -94,8 +96,8 @@ public interface PageReplicationConstants {
 				+ "<p>Click <a href='<%council-author-page%>'>here</a> to edit your page.</p>"
 				+ "<p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.</p>";
 
-		public static final String DEFAULT_COMPLETION_REPORT_SUBJECT = "Girl Scouts Activation Process Report";
-		public static final String DEFAULT_COMPLETION_REPORT_ATTACHMENT = "gs_activation_process_log";
+		public static final String DEFAULT_COMPLETION_REPORT_SUBJECT = "Girl Scouts Replication Process Report";
+		public static final String DEFAULT_COMPLETION_REPORT_ATTACHMENT = "gs_replication_process_log";
 		public static final String DEFAULT_COMPLETION_REPORT_HEAD = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
 				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">"
 				+ "<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"

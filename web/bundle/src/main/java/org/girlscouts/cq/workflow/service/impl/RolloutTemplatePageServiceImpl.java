@@ -538,7 +538,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		StringBuffer html = new StringBuffer();
 		html.append(DEFAULT_REPORT_HEAD);
 		html.append("<body>");
-		html.append("<p>" + DEFAULT_REPORT_SUBJECT + "</p>");
+		html.append("<p>" + DEFAULT_ROLLOUT_REPORT_SUBJECT + "</p>");
 		html.append("<p>" + DEFAULT_REPORT_GREETING + "</p>");
 		html.append("<p>" + DEFAULT_REPORT_INTRO + "</p>");
 		Date runtime = new Date();
@@ -629,11 +629,11 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 			}
 			List<String> gsusaEmails = PageReplicationUtil.getGsusaEmails(rr);
 			Set<GSEmailAttachment> attachments = new HashSet<GSEmailAttachment>();
-			String fileName = DEFAULT_REPORT_ATTACHMENT + "_" + dateRolloutNode.getName();
+			String fileName = DEFAULT_ROLLOUT_REPORT_ATTACHMENT + "_" + dateRolloutNode.getName();
 			GSEmailAttachment attachment = new GSEmailAttachment(fileName, logData.toString(), null,
 					GSEmailAttachment.MimeType.TEXT_PLAIN);
 			attachments.add(attachment);
-			String reportSubject = "(" + PageReplicationUtil.getEnvironment(rr) + ") " + DEFAULT_REPORT_SUBJECT;
+			String reportSubject = "(" + PageReplicationUtil.getEnvironment(rr) + ") " + DEFAULT_ROLLOUT_REPORT_SUBJECT;
 			if (isTestMode) {
 				gsusaEmails = PageReplicationUtil.getReportEmails(rr);
 				gsEmailService.sendEmail(reportSubject, gsusaEmails, html.toString(), attachments);
@@ -708,7 +708,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 											.getCouncilEmails(homepage.adaptTo(Node.class));
 									log.error("Girlscouts Rollout Service: sending email to " + branch.substring(9)
 											+ " emails:" + toAddresses.toString());
-									String body = generateCouncilNotification(srcPath, targetPath, valuemap, message);
+									String body = PageReplicationUtil.generateCouncilNotification(srcPath, targetPath,
+											valuemap, message, rr, settingsService);
 									try {
 										if (isTestMode) {
 											councilNotificationLog.add("Notification is running in test mode!");
@@ -751,20 +752,6 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		} catch (Exception e) {
 			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
-	}
-
-	private String generateCouncilNotification(String nationalPage, String councilPage, ValueMap vm, String message) {
-		String html = message.replaceAll("<%template-page%>", PageReplicationUtil.getURL(nationalPage))
-				.replaceAll("&lt;%template-page%&gt;", PageReplicationUtil.getURL(nationalPage))
-				.replaceAll("<%council-page%>", PageReplicationUtil.getCouncilUrl(rr, settingsService, councilPage))
-				.replaceAll("&lt;%council-page%&gt;", PageReplicationUtil.getCouncilUrl(rr, settingsService, councilPage))
-				.replaceAll("<%council-author-page%>", PageReplicationUtil.getURL(councilPage))
-				.replaceAll("&lt;%council-author-page%&gt;",
-						"https://authornew.girlscouts.org" + PageReplicationUtil.getURL(councilPage))
-				.replaceAll("<%a", "<a").replaceAll("<%/a>", "</a>").replaceAll("&lt;%a", "<a")
-				.replaceAll("&lt;%/a&gt;", "</a>");
-		html = html.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
-		return html;
 	}
 
 	private Boolean isGSRolloutConfig(Node pageNode) {
