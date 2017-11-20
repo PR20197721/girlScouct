@@ -10,17 +10,17 @@
                 jcr:primaryType="cq:Panel"
                 title="General" >
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <url
+                    <endpointurl
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Endpoint URL"
                         fieldDescription="URL to retrieve Blog data"
-                        name="./url"
+                        name="./endpointurl"
                         xtype="textfield" 
                         />
                     <blogurl
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Blog URL"
-                        fieldDescription="URL of Blog to link at the end of See More"
+                        fieldDescription="URL of Blog to link See More at the end of feed"
                         name="./blogurl"
                         xtype="textfield" 
                         />
@@ -29,6 +29,8 @@
                         fieldDescription="Specify how many posts to display. Will default to 10 if left blank"
                         fieldLabel="Count"
                         minValue="1"
+                        defaultValue="10"
+                        value="10"
                         name="./count"
                         xtype="numberfield"/>
                     <postid1
@@ -53,63 +55,27 @@
             </general>
             <desktop
                 jcr:primaryType="cq:Panel"
-                title="Large">
-                <items jcr:primaryType="cq:WidgetCollection">
-                    <desc
+                title="Desktop">
+                <items jcr:primaryType="cq:WidgetCollection">                    
+                    <desktopdisplay
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Large"
-                        fieldDescription="Configuration when placed in wide (more than 500px) places ex. one column, two column, three column"
-                        name="./desktopdisplayfield"
+                        value="Styling configuration for desktop view"
+                        hideLabel="true"
+                        name="./desktopdescription"
                         xtype="displayfield" />
                     <desktopimagesize
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Image Size"
-                        fieldDescription="Font size for Blog title in Desktop view"
-                        defaultValue="15"
+                        fieldDescription="In percentage ex. 30"
+                        defaultValue="40"
                         minValue="0"
-                        value="15"
+                        value="40"
                         name="./desktopimagesize"
-                        xtype="numberfield"/>
-                    <desktoptitlefont
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Font Size"
-                        fieldDescription="Font size for Blog title in Desktop view"
-                        defaultValue="15"
-                        minValue="0"
-                        value="15"
-                        name="./desktoptitlefont"
-                        xtype="numberfield"/>
-                    <desktoptitlelineheight
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Line Height"
-                        fieldDescription="Font size for Blog title in Desktop view"
-                        defaultValue="15"
-                        minValue="0"
-                        value="15"
-                        name="./desktoptitlelineheight"
-                        xtype="numberfield"/>
-                    <desktopsnippetfont
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Snippet Font Size"
-                        fieldDescription="Font size for Blog snippet in Desktop view"
-                        defaultValue="12"
-                        value="12"
-                        minValue="0"
-                        name="./desktopsnippetfont"
-                        xtype="numberfield"/>
-                    <desktopsnippetlineheight
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Line Height"
-                        fieldDescription="Font size for Blog title in Desktop view"
-                        defaultValue="15"
-                        minValue="0"
-                        value="15"
-                        name="./desktopsnippetlineheight"
                         xtype="numberfield"/>
                     <desktoptitlelines
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Title Lines"
-                        fieldDescription="Number of lines of Blog title to show"
+                        fieldDescription="Number of lines of Blog title to display. 0 to show all"
                         defaultValue="2"
                         minValue="0"
                         value="2"
@@ -117,12 +83,48 @@
                         xtype="numberfield"/>
                     <desktopsnippetlines
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Snippet Lines"
-                        fieldDescription="Number of lines of Blog snippet to show"
+                        fieldLabel="Description Lines"
+                        fieldDescription="Number of lines of Blog content to display. 0 to show all"
                         defaultValue="3"
                         minValue="0" 
                         value="3"
                         name="./desktopsnippetlines"
+                        xtype="numberfield"/>
+                    <desktoptitlefont
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Font Size"
+                        fieldDescription="Font size for Blog title in Desktop view"
+                        defaultValue="17"
+                        minValue="0"
+                        value="17"
+                        name="./desktoptitlefont"
+                        xtype="numberfield"/>
+                    <desktoptitlelineheight
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Line Height"
+                        fieldDescription="Line height size for Blog title in Desktop view"
+                        defaultValue="21"
+                        minValue="0"
+                        value="21"
+                        name="./desktoptitlelineheight"
+                        xtype="numberfield"/>
+                    <desktopsnippetfont
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Description Font Size"
+                        fieldDescription="Font size for Blog content in Desktop view"
+                        defaultValue="13"
+                        value="13"
+                        minValue="0"
+                        name="./desktopsnippetfont"
+                        xtype="numberfield"/>
+                    <desktopsnippetlineheight
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Description Line Height"
+                        fieldDescription="Line height size for Blog content in Desktop view"
+                        defaultValue="18"
+                        minValue="0"
+                        value="18"
+                        name="./desktopsnippetlineheight"
                         xtype="numberfield"/>
                 </items>
             </desktop>            
@@ -130,61 +132,25 @@
                 jcr:primaryType="cq:Panel"
                 title="Mobile">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <desc1
+                    <mobiledisplay
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Narrow"
-                        fieldDescription="Configuration when placed in narrow (less than 500px) places ex. mobile, grid column"
-                        name="./mobiledisplayfield"
+                        value="Styling configuration for mobile view"
+                        hideLabel="true"
+                        name="./mobiledescription"
                         xtype="displayfield" />
                     <mobileimagesize
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Image Size"
-                        fieldDescription="in percentage or px"
-                        defaultValue="15"
+                        fieldDescription="in percentage"
+                        defaultValue="25"
                         minValue="0"
-                        value="15"
+                        value="25"
                         name="./mobileimagesize"
-                        xtype="numberfield"/>
-                    <mobiletitlelineheight
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Line Height"
-                        fieldDescription="Font size for Blog title in mobile view"
-                        defaultValue="15"
-                        minValue="0"
-                        value="15"
-                        name="./mobiletitlelineheight"
-                        xtype="numberfield"/>
-                    <mobiletitlefont
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Font Size"
-                        fieldDescription="Font size for Blog title in Mobile view"
-                        defaultValue="16"
-                        minValue="1"
-                        value="16"
-                        name="./mobiletitlefont"
-                        xtype="numberfield"/>
-                    <mobilesnippetlineheight
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Snippet Line Height"
-                        fieldDescription="Font size for Blog title in Desktop view"
-                        defaultValue="15"
-                        minValue="0"
-                        value="15"
-                        name="./mobilesnippetlineheight"
-                        xtype="numberfield"/>
-                    <mobilesnippetfont
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Snippet Font Size"
-                        fieldDescription="Font size for Blog snippet in Mobile view"
-                        defaultValue="12"
-                        minValue="1"
-                        value="12"
-                        name="./mobilesnippetfont"
-                        xtype="numberfield"/>
+                        xtype="numberfield"/>                    
                     <mobiletitlelines
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Title Lines"
-                        fieldDescription="Number of lines of Blog title to show"
+                        fieldDescription="Number of lines of Blog title to show. 0 to show all"
                         minValue="0"                        
                         defaultValue="2"
                         value="2"
@@ -192,12 +158,48 @@
                         xtype="numberfield"/>
                     <mobilesnippetlines
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Snippet Lines"
-                        fieldDescription="Number of lines of Blog snippet to show"
+                        fieldLabel="Description Lines"
+                        fieldDescription="Number of lines of Blog content to show. 0 to show all"
                         defaultValue="3"
                         value="3"
                         minValue="0"
                         name="./mobilesnippetlines"
+                        xtype="numberfield"/>
+                    <mobiletitlefont
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Font Size"
+                        fieldDescription="Font size for Blog title in mobile view"
+                        defaultValue="18"
+                        minValue="1"
+                        value="18"
+                        name="./mobiletitlefont"
+                        xtype="numberfield"/>
+                    <mobiletitlelineheight
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Line Height"
+                        fieldDescription="Line height for Blog title in mobile view"
+                        defaultValue="24"
+                        minValue="0"
+                        value="24"
+                        name="./mobiletitlelineheight"
+                        xtype="numberfield"/>
+                    <mobilesnippetfont
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Description Font Size"
+                        fieldDescription="Font size for Blog content in mobile view"
+                        defaultValue="14"
+                        minValue="1"
+                        value="14"
+                        name="./mobilesnippetfont"
+                        xtype="numberfield"/>
+                    <mobilesnippetlineheight
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Description Line Height"
+                        fieldDescription="Line height size for Blog content in mobile view"
+                        defaultValue="19"
+                        minValue="0"
+                        value="19"
+                        name="./mobilesnippetlineheight"
                         xtype="numberfield"/>
                 </items>
             </mobile>

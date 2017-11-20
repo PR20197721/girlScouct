@@ -78,15 +78,14 @@
       overflow: hidden;
     }
     .blogfeedtitle {
-      font-size: rem-calc(15);
-      line-height: rem-calc(20);
+      font-size: rem-calc(17);
+      line-height: rem-calc(21);
     }
     .blogfeedsnippet {
-      font-size: rem-calc(12);
+      font-size: rem-calc(13);
       line-height: rem-calc(18);
       overflow: hidden;
-      //color: $black;
-      color: red;
+      color: $black;
     }
     .trunc,
     .truncline {
@@ -99,7 +98,7 @@
         word-wrap: normal;
     }
     
-    // Tablet view
+    // Mobile view < 768px
     @media #{$small-only} {
       .blogfeedimage {
         width: 25%;
@@ -111,38 +110,15 @@
       }
       .blogfeedtitle {
         font-size: rem-calc(18);
-        line-height: rem-calc(20);
+        line-height: rem-calc(24);
       }
       .blogfeedsnippet {
-        padding-top: rem-calc(10);
-        font-size: rem-calc(14);
-        color: blue;
+        //padding-top: rem-calc(10);
+        font-size: rem-calc(14);        
+        line-height: rem-calc(19);
       }
     }
-    
-    // Mobile view
-    @media #{$screen}
-              and (min-width: 320px)
-              and (max-width: 414px) {
-      .blogfeedimage {
-        width: 30%;
-        padding-bottom: 30%;
-      }
-      .blogfeedcontent {
-        width: 70%;
-        padding-left: rem-calc(10);
-      }
-      .blogfeedtitle {
-        font-size: rem-calc(16);
-        line-height: rem-calc(20);
-      }
-      .blogfeedsnippet {
-        padding-top: rem-calc(10);
-        font-size: rem-calc(12);
-        color: #00AAE5;
-      }
-    }
-    
+        
   } //ul
 }   //.grid-blog-feed
 
