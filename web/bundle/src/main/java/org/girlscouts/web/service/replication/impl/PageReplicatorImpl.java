@@ -382,7 +382,7 @@ public class PageReplicatorImpl
 		HashMap<String, TreeSet<String>> map = new HashMap <String, TreeSet<String>>();
 		for(String page : pages){
 			try{
-				String domain = PageReplicationUtil.getCouncilUrl(rr, settingsService, page);
+				String domain = PageReplicationUtil.getCouncilDomain(rr, settingsService, page);
 				TreeSet<String> set;
 				if(map.get(domain) != null){
 					set = map.get(domain);
