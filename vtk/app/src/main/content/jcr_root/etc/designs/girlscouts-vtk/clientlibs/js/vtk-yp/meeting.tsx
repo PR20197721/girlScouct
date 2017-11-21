@@ -41,7 +41,7 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
 
             <div className="body">
                 <div className="small-24 column">
-                    <div className={(this.props.activities && this.props.activities.length > 0) ? "_text small-text-center small-24  medium-18 column" : "_text small-text-center small-24  medium-21 column"} style={{ fontSize: '14px' }}>
+                    <div className={(this.props.activities && this.props.activities.length > 0) ? "_text small-text-center medium-text-left small-24  medium-18 column" : "_text small-text-center medium-text-left small-24  medium-21 column"} style={{ fontSize: '14px' }}>
                         <div className="truncate">{this.props.name.toUpperCase()}</div>
                         <div className="truncate">{this.props.cat}</div>
                         <div className="truncate">{this.props.blurb}</div>

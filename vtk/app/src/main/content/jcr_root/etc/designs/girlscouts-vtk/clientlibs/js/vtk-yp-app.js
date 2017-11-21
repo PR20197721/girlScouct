@@ -1931,7 +1931,7 @@ var Meeting = /** @class */ (function (_super) {
             React.createElement("div", { className: "arrowGreen show-for-medium-up" }),
             React.createElement("div", { className: "body" },
                 React.createElement("div", { className: "small-24 column" },
-                    React.createElement("div", { className: (this.props.activities && this.props.activities.length > 0) ? "_text small-text-center small-24  medium-18 column" : "_text small-text-center small-24  medium-21 column", style: { fontSize: '14px' } },
+                    React.createElement("div", { className: (this.props.activities && this.props.activities.length > 0) ? "_text small-text-center medium-text-left small-24  medium-18 column" : "_text small-text-center medium-text-left small-24  medium-21 column", style: { fontSize: '14px' } },
                         React.createElement("div", { className: "truncate" }, this.props.name.toUpperCase()),
                         React.createElement("div", { className: "truncate" }, this.props.cat),
                         React.createElement("div", { className: "truncate" }, this.props.blurb)),
