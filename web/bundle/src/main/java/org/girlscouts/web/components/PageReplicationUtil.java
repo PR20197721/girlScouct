@@ -254,38 +254,6 @@ public class PageReplicationUtil implements PageReplicationConstants {
 		}
 	}
 
-	public static String getURL(String path) {
-		if (path.endsWith("/jcr:content")) {
-			path = path.substring(0, path.lastIndexOf('/'));
-		}
-		return path + ".html";
-	}
-
-	public static String getRealUrl(String path, ValueMap vm) {
-		if (path.endsWith("/jcr:content")) {
-			path = path.substring(0, path.lastIndexOf('/'));
-		}
-		if (vm.containsKey("domain") && !vm.get("domain").equals("")) {
-			try {
-				String pagePath = path.substring(path.indexOf("/", path.indexOf("/", path.indexOf("/") + 1) + 1),
-						path.length());
-				return vm.get("domain") + pagePath + ".html";
-			} catch (Exception e) {
-				log.error("PageActivationUtil encountered error: ", e);
-			}
-		}
-		return (path + ".html").replaceFirst("/content/([^/]+)", "https://www.$1.org");
-	}
-
-	public static String getBranch(String path) throws WCMException {
-		Matcher matcher = BRANCH_PATTERN.matcher(path);
-		if (matcher.find()) {
-			return matcher.group();
-		} else {
-			throw new WCMException("Cannot get branch: " + path);
-		}
-	}
-
 	public static List<String> getGsusaEmails(ResourceResolver rr) {
 		List<String> toAddresses = new ArrayList<String>();
 		Resource addressesRes = rr.resolve(GS_REPORTEMAIL_PATH);
@@ -376,54 +344,21 @@ public class PageReplicationUtil implements PageReplicationConstants {
 			} catch (RepositoryException e) {
 				log.error("PageActivationUtil encountered error: ", e);
 			}
-		} else {
-			councilUrl = "page not found";
 		}
 		return councilUrl;
 	}
 
-	public static String getCouncilDomain(ResourceResolver rr, SlingSettingsService settingsService, String path) {
-		String councilDomain = "";
-		if (path != null && path.trim().length() > 0) {
-			Resource pageRes = rr.resolve(path);
-			if (pageRes != null && !pageRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-				Page pagePage = pageRes.adaptTo(Page.class);
-				Page homePage = pagePage.getAbsoluteParent(2);
-				councilDomain = homePage.getPath() + ".html";
-				try {
-					String mappingPath = "";
-					Set<String> runmodes = settingsService.getRunModes();
-					if (runmodes.contains("prod")) {
-						mappingPath = "/etc/map.publish.prod/http";
-					} else if (runmodes.contains("uat")) {
-						mappingPath = "/etc/map.publish.uat/http";
-					} else if (runmodes.contains("stage")) {
-						mappingPath = "/etc/map.publish.stage/http";
-					} else if (runmodes.contains("dev")) {
-						mappingPath = "/etc/map.publish.dev/http";
-					} else if (runmodes.contains("local")) {
-						mappingPath = "/etc/map.publish.local/http";
-					} else {
-						mappingPath = "/etc/map.publish/http";
-					}
-					Session session = rr.adaptTo(Session.class);
-					QueryManager qm = session.getWorkspace().getQueryManager();
-					String query = "SELECT [sling:match] FROM [sling:Mapping] as s WHERE ISDESCENDANTNODE(s,'"
-							+ mappingPath + "') AND [sling:internalRedirect]='" + councilDomain + "'";
-					Query q = qm.createQuery(query, Query.JCR_SQL2);
-					QueryResult result = q.execute();
-					RowIterator rowIt = result.getRows();
-					String mapping = rowIt.nextRow().getValue("sling:match").getString();
-					if (mapping.endsWith("/$")) {
-						mapping = mapping.substring(0, mapping.length() - 2);
-					}
-					councilDomain = mapping;
-				} catch (RepositoryException e) {
-					log.error("PageActivationUtil encountered error: ", e);
-				}
+	public static String getCouncilName(String path) {
+		String councilName = "";
+		try {
+			Matcher matcher = BRANCH_PATTERN.matcher(path);
+			if (matcher.find()) {
+				councilName = matcher.group();
 			}
+		} catch (Exception e) {
+			log.error("PageActivationUtil encountered error: ", e);
 		}
-		return councilDomain;
+		return councilName;
 	}
 
 	public static String getCouncilAuthorUrl(ResourceResolver rr, String path) {
@@ -436,13 +371,12 @@ public class PageReplicationUtil implements PageReplicationConstants {
 		}
 		return councilUrl;
 	}
-	public static String generateCouncilNotification(String srcPagePath, String targetPagePath, ValueMap vm,
-			String message,
+
+	public static String generateCouncilNotification(String srcPagePath, String targetPagePath, String message,
 			ResourceResolver rr, SlingSettingsService settingsService) {
-		String srcPagePathUrl = getURL(srcPagePath);
-		String councilAuthorPagePath = getURL(targetPagePath);
-		String councilLivePagePath = getCouncilLiveUrl(rr, settingsService, targetPagePath) + "/"
-				+ councilAuthorPagePath.replaceAll("/content/.+?/", "");
+		String srcPagePathUrl = srcPagePath + ".html";
+		String councilAuthorPagePath = getCouncilAuthorUrl(rr, targetPagePath);
+		String councilLivePagePath = getCouncilLiveUrl(rr, settingsService, targetPagePath);
 		String html = message.replaceAll("<%template-page%>", srcPagePathUrl)
 				.replaceAll("&lt;%template-page%&gt;", srcPagePathUrl)
 				.replaceAll("<%council-page%>", councilLivePagePath)
