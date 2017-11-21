@@ -79,9 +79,9 @@ YplanTrackState > {
         return (
             <div className="__year-plan-track-row">
               
-                 <div className="columns small-20 small-centered" style={{padding:'0px'}}>
+                 <div className="columns medium-20 small-22 small-centered medium-centered" style={{padding:'0px'}}>
                     <div className="row">
-                        <div className="__year-plan-track columns small-21">
+                        <div className="__year-plan-track columns medium-21 small-24">
                             <div className="table">
                             <div className="cell c16" style={{paddingLeft:'5px'}}>
                                     {this
@@ -119,7 +119,7 @@ YplanTrackState > {
             
                             </div>
                         </div>
-                        <div className="__year-plan-track columns small-3">
+                        <div className="__year-plan-track columns medium-3">
                         </div>
                     </div>
                 </div>
@@ -131,9 +131,10 @@ YplanTrackState > {
                             ? "__meetings"
                             : "__meetings hide"}>
 
-                            <div className="big-arrow-white"></div>
+                        <div className="big-arrow-white show-for-medium-up"></div>
+                        <div className="big-arrow-white-small show-for-small-only"></div>
 
-                            <div className="columns small-20 small-centered">
+                            <div className="columns medium-20 small-22 small-centered medium-centered">
                                 <p>
                                     <b>Year Plan Overview</b>
                                 </p>
@@ -141,18 +142,18 @@ YplanTrackState > {
                                 <h4>{this.state.meetings.name}</h4>
                                 <br />
                     </div>
-                            <div className="columns small-20 small-centered">
+                            <div className="columns medium-20 small-24 medium-centered">
 
                                 <Meetings meetings={this.state.meetings.meetings}/>
 
                                 <br/>
                             </div>
 
-                            <div className = "columns small-20 small-centered" style = {{padding:'0px'}}> 
+                            <div className = "columns medium-20 small-22 small-centered medium-centered" style = {{padding:'0px'}}> 
                                 <div className="row" style={{
                                     backgroundColor: 'transparent'
                                 }}>
-                                    <div className="columns small-21">
+                                    <div className="columns medium-21 small-24">
                                         <div className="table">
                                             <div className="cell c16"></div>
                                             <div
