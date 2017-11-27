@@ -282,8 +282,6 @@ $(document).ready(function() {
 	}
 
 	function addFeed (result) {
-		//var startTime = new Date(),
-		//	endTime;
 		for (var i = 0; i < result.items.length; i++) {
 			var data = result.items[i];
 			var liwrapper = 
@@ -291,9 +289,7 @@ $(document).ready(function() {
 					'<a href="' + data.url + '" target="_blank">' + 
 						'<div class="blogfeedwrapper">' +
 							'<div class="blogfeedimage" style="' + 
-								'background-image:url(\'' + data.image + '\');" ' +
-							'>' +
-								//'<img src="' + data.image + '" />' +
+								'background-image:url(\'' + data.image + '\');" ' + '>' +
 							'</div>' +
 							'<div class="blogfeedcontent">' +
 								'<div class="blogfeedtitle">' + data.title + '</div>' +
@@ -304,8 +300,6 @@ $(document).ready(function() {
 				'</li>';			
 			$blogFeedArea.append(liwrapper);	
 		}
-		//endTime = new Date();
-		//console.log("addFeed() took " + (endTime-startTime)/1000 + " seconds");
 	}
 
 	function styleFeed() {
@@ -323,18 +317,18 @@ $(document).ready(function() {
 			imagesize = desktopimagesize;
 			titlelines = desktoptitlelines;
 			snippetlines = desktopsnippetlines;
-			titlefont = desktoptitlefont+'px';
-			snippetfont = desktopsnippetfont+'px';
-			titlelineheight = desktoptitlelineheight+'px';
-			snippetlineheight = desktopsnippetlineheight+'px';
+			titlefont = desktoptitlefont;
+			snippetfont = desktopsnippetfont;
+			titlelineheight = desktoptitlelineheight;
+			snippetlineheight = desktopsnippetlineheight;
 		} else {
 			imagesize = mobileimagesize;
 			titlelines = mobiletitlelines;
 			snippetlines = mobilesnippetlines;
-			titlefont = mobiletitlefont+'px';
-			snippetfont = mobilesnippetfont+'px';
-			titlelineheight = mobiletitlelineheight+'px';
-			snippetlineheight = mobilesnippetlineheight+'px';
+			titlefont = mobiletitlefont;
+			snippetfont = mobilesnippetfont;
+			titlelineheight = mobiletitlelineheight;
+			snippetlineheight = mobilesnippetlineheight;
 		}
 		
 		$('.blogfeedimage').css({'width': imagesize + '%', 
