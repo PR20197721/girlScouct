@@ -360,18 +360,22 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		try {
 			ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
 			breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
-			rolloutLog.add("Girlscouts Rollout Service: Resource at " + targetResource.getPath()
-					+ " has parameter breakInheritance = " + breakInheritance);
+
 		} catch (Exception e) {
 			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
-		if (!breakInheritance) {
+		if (breakInheritance) {
+			rolloutLog.add("Girlscouts Rollout Service: Resource at " + targetResource.getPath()
+					+ " has parameter breakInheritance = " + breakInheritance);
+		} else {
 			Resource targetResourceContent = targetResource.getChild("jcr:content");
 			try {
 				ValueMap contentProps = ResourceUtil.getValueMap(targetResourceContent);
 				breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
-				rolloutLog.add("Girlscouts Rollout Service: Resource at " + targetResourceContent.getPath()
+				if (breakInheritance) {
+					rolloutLog.add("Girlscouts Rollout Service: Resource at " + targetResourceContent.getPath()
 						+ " has parameter breakInheritance = " + breakInheritance);
+				}
 			} catch (Exception e) {
 				log.error("Girlscouts Rollout Service encountered error: ", e);
 			}

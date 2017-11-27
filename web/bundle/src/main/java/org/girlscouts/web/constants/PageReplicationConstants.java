@@ -69,7 +69,7 @@ public interface PageReplicationConstants {
 	public static final int DEFAULT_CRAWL_WAIT_TIME = 5_000;
 	public static final int DEFAULT_REMORSE_WAIT_TIME = 0;
 
-	public static final String BRANCH_PATTERN_STR = "^(/content/[^/]+)/?";
+	public static final String BRANCH_PATTERN_STR = "^(/content/[^/]+)";
 	public static final Pattern BRANCH_PATTERN = Pattern.compile(BRANCH_PATTERN_STR);
 
 	public interface Email {

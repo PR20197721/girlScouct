@@ -24,6 +24,7 @@ import org.girlscouts.web.service.replication.PageReplicator;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.felix.scr.annotations.Activate;
@@ -276,9 +277,9 @@ public class PageReplicatorImpl
 		Map<String, Set<String>> replicatedPages = new HashMap<String, Set<String>>();
 		Set<String> activatedPages = new TreeSet<String>();
 		Set<String> deletedPages = new TreeSet<String>();
-		Set<String> councilDomainsSet = new TreeSet<String>();
-		councilDomainsSet.addAll(toActivate.keySet());
-		councilDomainsSet.addAll(toDelete.keySet());
+		Set<String> councils = new TreeSet<String>();
+		councils.addAll(toActivate.keySet());
+		councils.addAll(toDelete.keySet());
 		int batchSize = PageReplicationUtil.getGroupSize(rr);
 		int sleepTime = PageReplicationUtil.getMinutes(rr) * 60 * 1000;
 		int depth = PageReplicationUtil.getCrawlDepth(rr);
@@ -296,10 +297,10 @@ public class PageReplicatorImpl
 		} catch (Exception e) {
 			reporter.report("Failed to retrieve any dispatcher 2 ips");
 		}
-		for (String domain : councilDomainsSet) {
+		for (String council : councils) {
 			counter++;
 			reporter.report(
-					"Processing Council " + domain + " [" + counter + " out of " + councilDomainsSet.size() + "]");
+					"Processing Council " + council + " [" + counter + " out of " + councils.size() + "]");
 			if ((counter > batchSize) && (counter % batchSize == 0)) {
 				try {
 					Thread.sleep(sleepTime);
@@ -310,8 +311,8 @@ public class PageReplicatorImpl
 				}
 			}
 			try {
-				Map<String, Set<String>> replicatedPagesForDomain = replicate(dateNode, reporter, toDelete.get(domain),
-						toActivate.get(domain));
+				Map<String, Set<String>> replicatedPagesForDomain = replicate(dateNode, reporter, toDelete.get(council),
+						toActivate.get(council));
 				if (replicatedPagesForDomain.containsKey(PARAM_ACTIVATED_PAGES)) {
 					activatedPages.addAll(replicatedPagesForDomain.get(PARAM_ACTIVATED_PAGES));
 				}
@@ -327,44 +328,50 @@ public class PageReplicatorImpl
 					log.error("Girlscouts Page Replicator encountered error: ", e);
 					break;
 				}
-				reporter.report("Crawling " + domain);
-				for (int l = 0; l < ipsGroupOne.length; l++) {
-					Thread dispatcherIPOneThread = null;
-					Thread dispatcherIPTwoThread = null;
-					ArrayList<String> dispatcher1StatusList = new ArrayList<String>();
-					if (ipsGroupOne[l] != null) {
-						Runnable dispatcherIPOneRunnable = new CacheThread("/", domain, ipsGroupOne[l], "",
-								dispatcher1StatusList, "Dispatcher 1 #" + l + 1, depth);
-						dispatcherIPOneThread = new Thread(dispatcherIPOneRunnable, "dispatcherGroupOneThread" + l);
-						dispatcherIPOneThread.start();
-					}
-					ArrayList<String> dispatcher2StatusList = new ArrayList<String>();
-					if (ipsGroupTwo != null && ipsGroupTwo.length >= l + 1 && ipsGroupTwo[l] != null) {
-						Runnable dispatcherIPTwoRunnable = new CacheThread("/", domain, ipsGroupTwo[l], "",
-								dispatcher2StatusList, "Dispatcher 2 #" + l + 1, depth);
-						dispatcherIPTwoThread = new Thread(dispatcherIPTwoRunnable, "dispatcherGroupTwoThread" + l);
-						dispatcherIPTwoThread.start();
-					}
-					if (dispatcherIPOneThread != null) {
-						dispatcherIPOneThread.join();
-						for (String s : dispatcher1StatusList) {
-							reporter.report(s);
+				String domain = PageReplicationUtil.getCouncilLiveDomain(rr, settingsService, council);
+				if (!StringUtils.isEmpty(domain)) {
+					reporter.report("Crawling " + domain);
+					for (int l = 0; l < ipsGroupOne.length; l++) {
+						Thread dispatcherIPOneThread = null;
+						Thread dispatcherIPTwoThread = null;
+						ArrayList<String> dispatcher1StatusList = new ArrayList<String>();
+						if (ipsGroupOne[l] != null) {
+							Runnable dispatcherIPOneRunnable = new CacheThread("/", domain, ipsGroupOne[l], "",
+									dispatcher1StatusList, "Dispatcher 1 #" + l + 1, depth);
+							dispatcherIPOneThread = new Thread(dispatcherIPOneRunnable, "dispatcherGroupOneThread" + l);
+							dispatcherIPOneThread.start();
+						}
+						ArrayList<String> dispatcher2StatusList = new ArrayList<String>();
+						if (ipsGroupTwo != null && ipsGroupTwo.length >= l + 1 && ipsGroupTwo[l] != null) {
+							Runnable dispatcherIPTwoRunnable = new CacheThread("/", domain, ipsGroupTwo[l], "",
+									dispatcher2StatusList, "Dispatcher 2 #" + l + 1, depth);
+							dispatcherIPTwoThread = new Thread(dispatcherIPTwoRunnable, "dispatcherGroupTwoThread" + l);
+							dispatcherIPTwoThread.start();
+						}
+						if (dispatcherIPOneThread != null) {
+							dispatcherIPOneThread.join();
+							for (String s : dispatcher1StatusList) {
+								reporter.report(s);
+							}
+						}
+						if (dispatcherIPTwoThread != null) {
+							dispatcherIPTwoThread.join();
+							for (String s : dispatcher2StatusList) {
+								reporter.report(s);
+							}
 						}
 					}
-					if (dispatcherIPTwoThread != null) {
-						dispatcherIPTwoThread.join();
-						for (String s : dispatcher2StatusList) {
-							reporter.report(s);
-						}
-					}
+				} else {
+					reporter.report("Did not find live url mapping for " + council);
+					reporter.report("Will not crawl " + council);
 				}
-				toActivate.remove(domain);
+				toActivate.remove(council);
 			} catch (Exception e) {
-				log.error("Girlscouts Page Replicator An error occurred while processing: " + domain);
+				log.error("Girlscouts Page Replicator An error occurred while processing: " + council);
 				log.error("Girlscouts Page Replicator encountered error: ", e);
 				try {
-					reporter.report("Cache may not have built correctly for " + domain);
-					Node detailedReportNode = dateNode.addNode(domain, "nt:unstructured");
+					reporter.report("Cache may not have built correctly for " + council);
+					Node detailedReportNode = dateNode.addNode(council, "nt:unstructured");
 					detailedReportNode.setProperty("message", String.valueOf(ExceptionUtils.getStackTrace(e)));
 					detailedReportNode.getSession().save();
 				} catch (Exception e1) {

@@ -562,8 +562,8 @@ public class DeleteTemplatePageServiceImpl
 									} else {
 										gsEmailService.sendEmail(subject, toAddresses, body);
 									}
-									councilNotificationLog.add("Notification for " + branch.substring(9)
-											+ " council sent to emails:" + toAddresses.toString());
+									councilNotificationLog.add("Notification for " + branch + " council sent to emails:"
+											+ String.valueOf(toAddresses));
 									councilNotificationLog.add("Notification Email Body: \n" + body);
 									try {
 										dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.TRUE);

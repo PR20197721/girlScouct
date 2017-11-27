@@ -16,7 +16,9 @@ import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.RowIterator;
+import javax.jcr.query.Row;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
@@ -306,7 +308,29 @@ public class PageReplicationUtil implements PageReplicationConstants {
 					Page pagePage = pageRes.adaptTo(Page.class);
 					Page homePage = pagePage.getAbsoluteParent(2);
 					String homepagePath = homePage.getPath();
-					councilUrl = homepagePath + "/" + path + ".html";
+					councilUrl = homepagePath + path + ".html";
+					String mappingPath = getCouncilLiveDomain(rr, settingsService, homepagePath);
+					if (!StringUtils.isBlank(mappingPath)) {
+						councilUrl = mappingPath + "/" + path.replaceAll("/content/.+?/", "") + ".html";
+					}
+				} else {
+					councilUrl = "page not found";
+				}
+			} catch (Exception e) {
+				log.error("PageActivationUtil encountered error: ", e);
+			}
+		}
+		return councilUrl;
+	}
+
+	public static String getCouncilLiveDomain(ResourceResolver rr, SlingSettingsService settingsService, String path) {
+		String councilDomain = "";
+		if (path != null && path.trim().length() > 0) {
+			try {
+				Resource pageRes = rr.resolve(path);
+				if (pageRes != null && !pageRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					Page pagePage = pageRes.adaptTo(Page.class);
+					Page sitePage = pagePage.getAbsoluteParent(1);
 					String mappingPath = "";
 					Set<String> runmodes = settingsService.getRunModes();
 					if (runmodes.contains("prod")) {
@@ -325,27 +349,27 @@ public class PageReplicationUtil implements PageReplicationConstants {
 					Session session = rr.adaptTo(Session.class);
 					QueryManager qm = session.getWorkspace().getQueryManager();
 					String query = "SELECT [sling:match] FROM [sling:Mapping] as s WHERE ISDESCENDANTNODE(s,'"
-							+ mappingPath + "') AND [sling:internalRedirect]='" + homepagePath + "'";
-					try {
-						Query q = qm.createQuery(query, Query.JCR_SQL2);
-						QueryResult result = q.execute();
-						RowIterator rowIt = result.getRows();
-						String mapping = rowIt.nextRow().getValue("sling:match").getString();
-						if (mapping.endsWith("/$")) {
-							mapping = mapping.substring(0, mapping.length() - 2);
+							+ mappingPath + "') AND [sling:internalRedirect]='" + sitePage.getPath() + "/en.html'";
+					Query q = qm.createQuery(query, Query.JCR_SQL2);
+					QueryResult result = q.execute();
+					RowIterator rowIt = result.getRows();
+					if (rowIt.hasNext()) {
+						Row row = rowIt.nextRow();
+						Value val = row.getValue("sling:match");
+						if (val != null) {
+							String mapping = val.getString();
+							if (mapping.endsWith("/$")) {
+								mapping = mapping.substring(0, mapping.length() - 2);
+							}
+							councilDomain = mapping;
 						}
-						councilUrl = mapping + "/" + path.replaceAll("/content/.+?/", "") + ".html";
-					} catch (RepositoryException e) {
-						log.error("PageActivationUtil encountered error: ", e);
 					}
-				} else {
-					councilUrl = "page not found";
 				}
-			} catch (RepositoryException e) {
+			} catch (Exception e) {
 				log.error("PageActivationUtil encountered error: ", e);
 			}
 		}
-		return councilUrl;
+		return councilDomain;
 	}
 
 	public static String getCouncilName(String path) {
