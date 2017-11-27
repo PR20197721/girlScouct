@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,6 +45,7 @@ import org.girlscouts.web.events.search.GSDateTimeZone;
 
 import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
 import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.Replicator;
 import com.day.cq.tagging.InvalidTagFormatException;
 import com.day.cq.tagging.Tag;
@@ -87,6 +89,10 @@ public class POST extends SlingAllMethodsServlet {
     private final String SLING_FOLDER = "sling:Folder";
     private final String DELAYED_ACTIVATION_PATH = "/etc/gs-activations/delayed";
     private final String STAG_ACTIVATION = "gs-stag-activation";
+    private final String FORMS_TAG_DOMAIN = "forms_documents";
+    private final String CATEGORIES_TAG_DOMAIN = "categories";
+    private final String PROGRAM_LEVEL_TAG_DOMAIN = "program-level";
+    
     
     
     int contactDelayInterval = 40;
@@ -469,6 +475,7 @@ public class POST extends SlingAllMethodsServlet {
         }
     	
     	rootPath = rootPath + "/" + year;
+    	Replicator replicator = scriptHelper.getService(Replicator.class);
     	
         //Get sets of existing categories + program levels
         try {
@@ -489,6 +496,8 @@ public class POST extends SlingAllMethodsServlet {
 				
 			} else{
 				categoriesTag = tagManager.createTag(categoriesTagId, "Categories", "");
+				replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, categoriesTag.getPath());
+				
 			}
 			
 			if(programLevelTag != null){
@@ -499,6 +508,7 @@ public class POST extends SlingAllMethodsServlet {
 				}
 			} else{
 				programLevelTag = tagManager.createTag(programLevelTagId, "Program Level", "");
+				replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, programLevelTag.getPath());
 			}
 			
 		} catch (RepositoryException e) {
@@ -512,6 +522,10 @@ public class POST extends SlingAllMethodsServlet {
 		} catch (InvalidTagFormatException e) {
 			response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Ivalid tag format. Critical error. Process aborted");
+        	return response;
+		} catch (ReplicationException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Unable to replicate tag, Critical Error. Process aborted.");
         	return response;
 		}
         
@@ -641,14 +655,17 @@ public class POST extends SlingAllMethodsServlet {
     		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Input/Output error at line "+lineCount +". Process aborted");
         	return response;
+    	} catch(NullPointerException e){
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "General error at line "+lineCount +". Process aborted");
+        	throw e;
     	} catch(Exception e){
     		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "General error at line "+lineCount +". Process aborted");
         	return response;
     	}
     	
-    	
-    	//TODO create 10 new tags one new event    	
+    	  	
     	//Once the file has been parsed successfully add the events to the repository
     	//Add and Activate any new tags
     	try {
@@ -658,6 +675,7 @@ public class POST extends SlingAllMethodsServlet {
 	    		if(content == null){
 	    			String tagId = councilName + ":categories/" + getJcrName(tagName);
 	    			Tag temp = tagManager.createTag(tagId, tagName, "");
+	    			replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, temp.getPath());
 	    			existingCategories.put(tagName, temp);
 	    		}
 	    	}
@@ -678,6 +696,14 @@ public class POST extends SlingAllMethodsServlet {
 		} catch (InvalidTagFormatException e) {
 			response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Invalid tag format. Critical error. Process aborted");
+        	return response;
+		} catch (ReplicationException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Unable to replicate newly created tag. Critical error. Process aborted");
+        	return response;
+		} catch (RepositoryException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Unable to replicate newly created tag. Critical error. Process aborted");
         	return response;
 		}
     	
@@ -752,7 +778,7 @@ public class POST extends SlingAllMethodsServlet {
 				}
 				
 				
-				imageNode.setProperty("path", event.getImagePath());
+				imageNode.setProperty("", event.getImagePath());
 				
 				//Set Tags
 				String[] categories = new String[0];
@@ -821,6 +847,7 @@ public class POST extends SlingAllMethodsServlet {
     	
     	
     	//Parse file
+    	Set<String> tagSet = new HashSet<String>();
     	
     	String[] nextLine = null;
     	int lineCount = 2;
@@ -841,6 +868,9 @@ public class POST extends SlingAllMethodsServlet {
     						value = value.replaceAll("\\[", "").replaceAll("\\]", "");
     						String[] tagVals = value.split(",");
     						List<String> taglist = new LinkedList<String>(Arrays.asList(tagVals));
+    						for(String tag : taglist){	
+    							tagSet.add(tag);
+    						}
     						doc.setTags(taglist);
     					}
     				} else if(headers.get(indexCounter).equals(Document.DESCRIPTION_PROP)){
@@ -874,6 +904,56 @@ public class POST extends SlingAllMethodsServlet {
     	
     	int lineCounter = 2;
     	try {
+    		//Once ready to commit changes activate any newly created tags
+    		TagManager tagManager = adminResolver.adaptTo(TagManager.class);
+    		String damName = rootNode.getAncestor(3).getName();
+    		String councilName = getDamCouncilName(damName);
+    		Replicator replicator = scriptHelper.getService(Replicator.class);
+    		for(String tag : tagSet){
+    			if(tag != null && !tag.trim().isEmpty()){
+    				String[] firstSplit = tag.split(":");
+    				if(firstSplit.length == 2){
+    					String cName = firstSplit[0];
+    					String tagBody = firstSplit[1];
+    					if(councilName.equals(cName)){
+    						String[] secondSplit = tagBody.split("/");
+    						if(secondSplit.length == 2){
+    							String tagDomain = secondSplit[0];
+    							String tagName = secondSplit[1];
+    							if(FORMS_TAG_DOMAIN.equals(tagDomain) 
+    									|| CATEGORIES_TAG_DOMAIN.equals(tagDomain)
+    									|| PROGRAM_LEVEL_TAG_DOMAIN.equals(tagDomain)){
+    								if(tagManager.canCreateTag(tag)){
+    									Tag result = tagManager.createTag(tag, tagName, "");
+    									replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, result.getPath());
+    								}
+    							} else{
+    								response = HtmlStatusResponseHelper.createStatusResponse(true,
+    	        		                    "Tag domain for "+tag +" does not match the forms_documents domain. Process aborted");
+    	        		        	return response;
+    							}
+    						} else{
+    							if(tagManager.canCreateTag(tag)){
+	    							response = HtmlStatusResponseHelper.createStatusResponse(true,
+	    	    		                    "Improperly formatted tag "+tag +". Process aborted");
+	    	    		        	return response;
+    							}
+    						}
+    					} else{
+    						response = HtmlStatusResponseHelper.createStatusResponse(true,
+        		                    "Tag "+tag +" does not match the council name. Process aborted");
+        		        	return response;
+    					}
+    				} else{
+    					response = HtmlStatusResponseHelper.createStatusResponse(true,
+    		                    "Improperly formatted tag "+tag +". Process aborted");
+    		        	return response;
+    				}
+    				
+    			}
+    		}
+    		
+    		
 	    	//Once file parsed successfully commit changes to memory
 	    	
 	    	for(Document doc : documentList){
@@ -922,9 +1002,17 @@ public class POST extends SlingAllMethodsServlet {
 	    	}
 	    	
 	    	rootNode.save();
+    	} catch(InvalidTagFormatException e){
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Improperly formatted tag encountered. Process aborted with message: " + e.getMessage());
+        	return response;
     	} catch (RepositoryException e) {
     		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Document at line "+lineCounter +" encountered issue writing to repository. Process aborted with message: " + e.getMessage());
+        	return response;
+		} catch (ReplicationException e) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Encountered issues replicating newly created tags. Process aborted with message: " + e.getMessage());
         	return response;
 		}
     	
@@ -939,6 +1027,37 @@ public class POST extends SlingAllMethodsServlet {
         }
     	
     	return response;
+    }
+    
+    private String getDamCouncilName(String damName){
+    	switch(damName){
+    		case "southern-appalachian":
+    	    	
+        		break;
+    		case "NE_Texas":
+    	    	
+        		break;
+    		case "nc-coastal-pines-images-":
+    	    	
+        		break;
+    		case "wcf-images":
+    	    	
+    			break;
+    		case "oregon-sw-washington-" :
+    			
+    			break;
+    		
+    	}
+    	
+    	
+    	if(damName.contains("girlscouts-")){
+    		return damName.replaceAll("girlscouts-", "");
+    	} 
+    	
+    	
+    	return damName;
+    	
+    	
     }
     
     
