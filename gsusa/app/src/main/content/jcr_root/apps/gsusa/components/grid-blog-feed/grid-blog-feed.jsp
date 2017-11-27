@@ -15,6 +15,7 @@
 	String endpointurl = properties.get("endpointurl", "");
 	String blogurl = properties.get("blogurl", "");
 	String count = properties.get("count", "10");
+	String iconurl = properties.get("iconurl","");
 	String pinID1 = properties.get("postid1","");
 	String pinID2 = properties.get("postid2","");
 	String pinID3 = properties.get("postid3","");
@@ -49,7 +50,9 @@
 	
 %>
 <div id="tag_social_feed_blog" class="feedwrapper clearfix">
-	<div class="iconblogger"><img src="/content/dam/girlscouts-shared/images/Icons/social-media/blogger_64_gray.png" /></div>
+	<div class="blogfeedicon"><!-- img src="/content/dam/girlscouts-shared/images/Icons/social-media/blogger.png"> -->
+		<img src="<%= iconurl %>">
+	</div>
 	<div class="feed-block">
 		<div class="block-area">
 			<div class="blog-feed-image-head-area centered"></div>

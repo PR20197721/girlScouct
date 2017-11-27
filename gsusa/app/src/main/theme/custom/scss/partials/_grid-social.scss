@@ -49,6 +49,14 @@
 
 // Blogger
 .grid-blog-feed {
+  .blogfeedicon {
+    text-align: center;
+    img {
+      padding-top: rem-calc(3);
+      height: rem-calc(50);
+    }
+  }
+  
   ul {
     list-style: none;
     margin-left: 0px;
@@ -61,7 +69,6 @@
     .blogger:first-child .blogfeedwrapper {
       padding-top: 0px;
     }
-    
     .blogfeedimage {
       float: left;
       position: relative;
