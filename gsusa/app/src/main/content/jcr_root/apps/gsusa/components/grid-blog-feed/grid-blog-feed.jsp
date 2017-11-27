@@ -57,7 +57,7 @@
 		<div class="block-area">
 			<div class="blog-feed-image-head-area centered"></div>
 			<ul class="blog-feed-area"></ul>
-			<div class="blog-see-more centered"><a href="<%= blogurl %>" title="see more on blogger">See more</a></div>
+			<div class="blog-see-more centered"><a href="<%= blogurl %>" title="see more on blogger" target="_blank">See more</a></div>
 		</div>
 	</div>
 </div>
