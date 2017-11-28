@@ -185,10 +185,11 @@ public void setDates(JSONObject event, Node node){
 	   			+ "FROM [cq:Page] AS s "
 	   			+ "WHERE ISDESCENDANTNODE([%s]) AND "
 	   				+ "(s.[jcr:content/data/visibleDate] IS NULL OR s.[jcr:content/data/visibleDate] <= CAST('%s' AS DATE)) AND "
-	   				+ "s.[jcr:content/data/start] >= CAST('%s' AS DATE) "
+	   				+ "(s.[jcr:content/data/start] >= CAST('%s' AS DATE) OR s.[jcr:content/data/end] >= CAST('%s' AS DATE)) "
 	   			+ "ORDER BY s.[jcr:content/data/start] ASC";
 	   	String path = currentSite.get("eventPath",String.class);
-	   	String query = String.format(EXPRESSION, path, sql2DateFormat.format(cal.getTime()), sql2DateFormat.format(cal.getTime()));
+	   	String dateAsString = sql2DateFormat.format(cal.getTime());
+	   	String query = String.format(EXPRESSION, path, dateAsString, dateAsString, dateAsString);
 	   	try {
 			GSJcrSearchProvider searchProvider = new GSJcrSearchProvider(slingRequest);
 		 	boolean searchMore = true;
