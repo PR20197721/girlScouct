@@ -13,7 +13,7 @@
 
         //Permission based on SF user_id
         Set<String> allowedReportUsers = new HashSet<String>();
-		allowedReportUsers.add("x005G0000006oBVG");// GS Vanessa
+		allowedReportUsers.add("005G0000006oBVG");// GS Vanessa
 
         if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
             out.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
