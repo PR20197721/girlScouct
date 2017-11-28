@@ -1609,7 +1609,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		}
 	}
 
-	public java.util.List<Activity> searchA1(User user, Troop troop,
+	public java.util.List<Activity> searchA1_retired11282018(User user, Troop troop,
 			String tags, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
 			throws IllegalAccessException, IllegalStateException {
@@ -1700,11 +1700,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			
 			
 			
-			/*
-			if (keywrd != null && !keywrd.trim().equals(""))// && !isTag )
-				sql += " and (contains(child.*, '" + keywrd
-						+ "') or contains(parent.*, '" + keywrd + "')  )";
-			*/				
+			
+							
 			if (keywrd != null && !keywrd.trim().equals(""))
 				sql += " and ( child.* like '%" + keywrd + "%' " +
 						" or parent.* like '%" + keywrd + "%'  )";
@@ -1714,9 +1711,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			sql += regionSql;
 			sql += sqlTags;
 			sql += sqlCat;
-			
-//select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/girlscoutshh/en/sf-events-repository])) and child.start is not null and parent.[jcr:title] is not null  and ( child.* like '%Earth Day%'  or parent.* like '%Earth Day%'  )
-			javax.jcr.query.QueryManager qm = session.getWorkspace()
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.JCR_SQL2);
@@ -1789,6 +1785,223 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 				try {
 					activity.setRegisterUrl(r.getValue("child.register")
+							.getString());
+				} catch (Exception e) {
+					log.error("searchActivity no register url");
+				}
+
+				if (startDate != null && endDate != null) {
+					startDate.setHours(0);
+					endDate.setHours(23);
+
+					if (activity.getDate() != null
+							&& activity.getDate().after(startDate)
+							&& activity.getDate().before(endDate))
+						;
+					else {
+						continue;
+					}
+				}
+
+				toRet.add(activity);
+				i++;
+			
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		return toRet;
+	}
+	
+	public java.util.List<Activity> searchA1(User user, Troop troop,
+			String tags, String cat, String keywrd, java.util.Date startDate,
+			java.util.Date endDate, String region)
+			throws IllegalAccessException, IllegalStateException {
+		
+	
+		java.util.List<Activity> toRet = new java.util.ArrayList();
+		Session session = null;
+
+		if (!userUtil.hasPermission(troop,
+				Permission.PERMISSION_VIEW_MEETING_ID))
+			throw new IllegalAccessException();
+
+		try {
+			session = sessionFactory.getSession();
+
+			String councilStr = councilMapper.getCouncilBranch(troop.getSfCouncil());	 
+			if (councilStr==null || councilStr.trim().equals("") ) councilStr= "/content/gateway";
+			
+			String councilId = null;
+			if (troop.getTroop() != null) {
+				councilId = Integer.toString(troop.getTroop().getCouncilCode());
+			}
+			String branch = councilStr; //councilMapper.getCouncilBranch(councilId);
+			String namespace = branch.replace("/content/", "");
+			branch += "/en";
+			String eventPath = "";
+			try {
+				eventPath = session.getProperty(branch + "/jcr:content/eventPath").getString();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			try{
+				Node homepage = session.getNode(branch + "/jcr:content");
+				if(homepage != null){
+					if(homepage.hasProperty("event-cart")){
+						if("true".equals(homepage.getProperty("event-cart").getString())){
+							namespace = "sf-activities";
+						}
+					}
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			boolean isTag = false;
+			String sqlTags = "";
+			if (tags.equals("|"))
+				tags = "";
+			StringTokenizer t = new StringTokenizer(tags, "|");
+			while (t.hasMoreElements()) {
+				sqlTags += " s.[/jcr:content/cq:tags] like '%" + namespace + ":program-level/" + t.nextToken() + "%' ";
+				if (t.hasMoreElements())
+					sqlTags += " or ";
+				isTag = true;
+			}
+			if (isTag)
+				sqlTags = " and (" + sqlTags + " ) ";
+			String sqlCat = "";
+			if (cat.equals("|"))
+				cat = "";
+			t = new StringTokenizer(cat, "|");
+			while (t.hasMoreElements()) {
+				sqlCat += " s.[/jcr:content/cq:tags] like '%" + namespace + ":categories/" + t.nextToken() + "%' ";
+				if (t.hasMoreElements())
+					sqlCat += " or ";
+				isTag = true;
+			}
+			if (!sqlCat.equals(""))
+				sqlCat = " and (" + sqlCat + " ) ";
+
+			String regionSql = "";
+			if (region != null && !region.trim().equals("")) {
+				regionSql += " and LOWER(/jcr:content/data/region) ='" + region + "'";
+			}
+
+
+			String path = councilStr + "/en/events/"
+					+ VtkUtil.getCurrentGSYear() + "/%";
+			if (!isTag)
+				path = path + "/data";
+			else
+				path = path + "/jcr:content";
+
+			String sql = "select s.*  from [cq:Page] as s where  (isdescendantnode (s, ["
+					+ eventPath
+					+ "])) and s.[/jcr:content/data/start] is not null and s.[/jcr:content/jcr:title] is not null ";
+			
+			
+			
+			
+			if (keywrd != null && !keywrd.trim().equals(""))// && !isTag )
+				sql += " and contains(s.*, '" + keywrd+ "') ";
+			/*				
+			if (keywrd != null && !keywrd.trim().equals(""))
+				sql += " and ( child.* like '%" + keywrd + "%' " +
+						" or parent.* like '%" + keywrd + "%'  )";
+			*/
+			
+			
+			sql += regionSql;
+			sql += sqlTags;
+			sql += sqlCat;
+System.err.println( sql );			
+//select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/girlscoutshh/en/sf-events-repository])) and child.start is not null and parent.[jcr:title] is not null  and ( child.* like '%Earth Day%'  or parent.* like '%Earth Day%'  )
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.JCR_SQL2);
+			int i = 0;
+			QueryResult result = q.execute();
+			for (RowIterator it = result.getRows(); it.hasNext();) {
+				Row r = it.nextRow();
+		System.err.println( r.getPath() );	
+		Node resultNode  = r.getNode();
+		
+				Activity activity = new Activity();
+				activity.setUid("A" + new java.util.Date().getTime() + "_"
+						+ Math.random());
+				activity.setContent(resultNode.getProperty("jcr:content/data/details").getString());
+
+				// convert to EST
+				// TODO: All VTK date is based on server time zone, which is
+				// eastern now.
+				// Event dates in councils may be in a different time zone.
+				// For a temp solution, always force it to eastern time.
+				// e.g. For Texas, 2014-11-06T09:00:00.000-06:00 will be forced
+				// to
+				// 2014-11-06T09:00:00.000-05:00
+				SimpleDateFormat dateFormat = new SimpleDateFormat(
+						"yyyy-MM-dd'T'HH:mm:ss.SSS");
+				try {
+					String eventStartDateStr = resultNode.getProperty("jcr:content/data/start")
+							.getString();
+					Date eventStartDate = dateFormat.parse(eventStartDateStr);
+					activity.setDate(eventStartDate);
+					String eventEndDateStr = resultNode.getProperty("jcr:content/data/end")
+							.getString();
+					Date eventEndDate = dateFormat.parse(eventEndDateStr);
+					activity.setEndDate(eventEndDate);
+				} catch (Exception e) {
+				}
+				// TODO: end of hacking timezone
+
+				if ((activity.getDate().before(new java.util.Date()) && activity
+						.getEndDate() == null)
+						|| (activity.getEndDate() != null && activity
+								.getEndDate().before(new java.util.Date()))) {
+					
+					continue;
+				}
+				try {
+					activity.setLocationName(resultNode.getProperty("jcr:content/data/locationLabel").getString());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				try {
+					activity.setLocationAddress(resultNode.getProperty("jcr:content/data/address")
+							.getString());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				//activity.setName(r.getValue("child.srchdisp").getString());
+				activity.setName(resultNode.getProperty("jcr:content/jcr:title").getString());
+				activity.setType(YearPlanComponentType.ACTIVITY);
+				activity.setId("ACT" + i);
+				if (activity.getDate() != null && activity.getEndDate() == null) {
+					activity.setEndDate(activity.getDate());
+				}
+				activity.setIsEditable(false);
+				try {
+					activity.setRefUid(resultNode.getProperty("jcr:content/jcr:uuid")
+							.getString());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				try {
+					activity.setRegisterUrl(resultNode.getProperty("jcr:content/data/register")
 							.getString());
 				} catch (Exception e) {
 					log.error("searchActivity no register url");
