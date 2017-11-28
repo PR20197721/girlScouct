@@ -11,6 +11,8 @@
 	<%@include file="include/session.jsp"%>
 <%
 
+
+
         //Permission based on SF user_id
         Set<String> allowedReportUsers = new HashSet<String>();
 		allowedReportUsers.add("005G0000006oBVG");// GS Vanessa
@@ -21,7 +23,7 @@
         }else{
 
             out.println("Inconsistancy report started on "+ new java.util.Date() +". Wait for completed time");
-    
+
             List <String> sqls = new ArrayList();
     
             //check all meetings
@@ -35,7 +37,8 @@
     
             javax.jcr.Session s= null;
             try{ 
-                s =(slingRequest.getResourceResolver().adaptTo(Session.class));
+                s = sessionFactory.getSession();
+
                 javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
                 javax.jcr.query.Query q = null;
                 for(String sql : sqls){
@@ -54,9 +57,11 @@
             }catch(Exception eMain){
                 eMain.printStackTrace();
             } finally {
-                if (s != null && s.isLive()) {
-                    //TODO close connection or return to connection pool
-                    //s.logout();
+                try {
+                    if (session != null)
+                        sessionFactory.closeSession(s);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
 
