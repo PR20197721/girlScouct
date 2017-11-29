@@ -27,6 +27,7 @@ import javax.jcr.Session;
 import javax.servlet.ServletException;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
@@ -920,6 +921,8 @@ public class POST extends SlingAllMethodsServlet {
     						if(secondSplit.length == 2){
     							String tagDomain = secondSplit[0];
     							String tagName = secondSplit[1];
+    							tagName = tagName.replaceAll("[^A-Za-z0-9]", " ");
+    							tagName = WordUtils.capitalize(tagName);
     							if(FORMS_TAG_DOMAIN.equals(tagDomain) 
     									|| CATEGORIES_TAG_DOMAIN.equals(tagDomain)
     									|| PROGRAM_LEVEL_TAG_DOMAIN.equals(tagDomain)){
@@ -941,7 +944,7 @@ public class POST extends SlingAllMethodsServlet {
     						}
     					} else{
     						response = HtmlStatusResponseHelper.createStatusResponse(true,
-        		                    "Tag "+tag +" does not match the council name. Process aborted");
+        		                    "Tag "+tag +" does not match the council tag namespace: " + councilName + " Process aborted");
         		        	return response;
     					}
     				} else{
@@ -1030,32 +1033,33 @@ public class POST extends SlingAllMethodsServlet {
     }
     
     private String getDamCouncilName(String damName){
+    	String result = damName;
     	switch(damName){
     		case "southern-appalachian":
-    	    	
+    	    	result = "girlscoutcsa";
         		break;
     		case "NE_Texas":
-    	    	
+    			result = "gsnetx";
         		break;
     		case "nc-coastal-pines-images-":
-    	    	
+    			result = "girlscoutsnccp";
         		break;
     		case "wcf-images":
-    	    	
+    			result = "gswcf";
     			break;
     		case "oregon-sw-washington-" :
-    			
+    			result = "girlscoutosw";
     			break;
     		
     	}
     	
     	
     	if(damName.contains("girlscouts-")){
-    		return damName.replaceAll("girlscouts-", "");
+    		result = damName.replaceAll("girlscouts-", "");
     	} 
     	
     	
-    	return damName;
+    	return result;
     	
     	
     }
