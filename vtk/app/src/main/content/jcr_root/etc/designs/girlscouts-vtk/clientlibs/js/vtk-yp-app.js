@@ -1121,7 +1121,7 @@ var YplanTrack = /** @class */ (function (_super) {
                                     .track
                                     .split('###')[1],
                                 " ",
-                                React.createElement("span", { style: { marginLeft: '12pt', color: '#FAA61A', fontWeight: 'bold' } }, (this.props.isnew == 'isnew') ? 'NEW' : null),
+                                React.createElement("span", { style: { color: '#FAA61A', fontWeight: 'bold' } }, (this.props.isnew == 'isnew') ? ' NEW' : null),
                                 " ",
                                 React.createElement("br", null),
                                 (this.props.first && (________app________ === "brownie" || ________app________ === "daisy" || ________app________ === "junior")) ?
