@@ -291,7 +291,7 @@ function inputLogic(){
               %>
             <div class="row">
 
-              <div class="small-24 medium-8 large-8 columns">
+              <div class="small-24 medium-12 large-12 columns">
                 <label for="sch_keyword" ACCESSKEY="f">Find Activity by:</label>
                 <div class="looking-glass"><input type="text" id="sch_keyword" placeholder="Keywords" value="" onKeyUp="return submitenter(this,event)" /></div>
               </div>
@@ -308,7 +308,7 @@ function inputLogic(){
                   <% } %>
                 </select>
               </div> -->
-              <div class="columns large-10 medium-10 small-24 end date">
+              <div class="columns large-12 medium-12 small-24 end date">
                 <label id="dateTitle" ACCESSKEY="r">Date</label>
                 <div class="small-21 large-9 medium-9 columns">
                   <input type="text" id="sch_startDate" onchange="checkCalendar"  value="" placeholder="From" class="date calendarField"/>
