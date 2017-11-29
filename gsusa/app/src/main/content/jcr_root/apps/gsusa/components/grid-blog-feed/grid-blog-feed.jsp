@@ -34,7 +34,7 @@
 	String mobiletitlelines = properties.get("mobiletitlelines", "");
 	String mobilesnippetlines = properties.get("mobilesnippetlines", "");
 	String mobiletitlefont = properties.get("mobiletitlefont", "");
-	String mobiletitlelineheight = properties.get("mobiletitleheight", "");
+	String mobiletitlelineheight = properties.get("mobiletitlelineheight", "");
 	String mobilesnippetfont = properties.get("mobilesnippetfont", "");
 	String mobilesnippetlineheight = properties.get("mobilesnippetlineheight", "");
 
