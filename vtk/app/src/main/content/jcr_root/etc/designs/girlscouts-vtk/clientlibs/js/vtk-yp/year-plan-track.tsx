@@ -87,7 +87,7 @@ YplanTrackState > {
                                     {this
                                         .props
                                         .track
-                                        .split('###')[1]} <span style={{ marginLeft: '12pt', color: '#FAA61A', fontWeight: 'bold' }}>{(this.props.isnew == 'isnew') ? 'NEW' : null}</span> <br />
+                                        .split('###')[1]} <span style={{ color: '#FAA61A', fontWeight: 'bold' }}>{(this.props.isnew == 'isnew') ? ' NEW' : null}</span> <br />
                                     
                                         {(this.props.first && (________app________ === "brownie" || ________app________ === "daisy" || ________app________ === "junior")) ?
                                         <span>
