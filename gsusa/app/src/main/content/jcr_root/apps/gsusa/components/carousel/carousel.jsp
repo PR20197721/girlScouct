@@ -132,78 +132,103 @@ public  String readUrlFile(String urlString) throws Exception {
 	$(function() {		
 
         var slick = $('.main-slider'),
-            slideButton = $('.main-slider button'),
-            embeds = $('.main-slider iframe'),
-            youtubePlayer = $('.lazyYT > iframe'),
-            vimeoPlayer = $('[id*="vimeoPlayer"]'),
-            underbar = $('.zip-council'),
+            slides = slick.find("[id*='tag_explore_main']"),
+            slideButton = slick.find('> button'),
+            embeds = slick.find('iframe'),
+            underbar = {
+                el: $('.zip-council'),
+                show: function() {
+                    if (this.el.length && $(window).width() > 768) { // Desktop only
+                        this.el.slideDown(1000);
+                    }
+                },
+                hide: function () {
+                    if (this.el.length && $(window).width() > 768) {
+                        this.el.slideUp(0);
+                    }
+                },
+            },
             iframe,
-            player,
+            type,
             i;
 
-
-		function pauseVideoSliderVideosYoutube() {
-            $.each(youtubePlayer, function(i, iframe) {
-                iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-            });
-		}
-		/*
-		function pauseVideoSliderVideosVimeo(){
-			$.each(vimeoPlayer, function (i, val) {
-
-			});
-		}
-		*/
-		slick.on('afterChange', function (event, slick, currentSlide) {
-			pauseVideoSliderVideosYoutube();
-			//pauseVideoSliderVideosVimeo();
-		    <% if(hideZIPCode=="false") { %>
-				underbar.slideDown(1000);
-			<% } %>
-		});
+		/*slick.on('afterChange', function (event, slick, currentSlide) {
+            underbar.show();
+		});*/
 		
         function stopSlider() {
 			if (slick != undefined && slick.slick != undefined) {
 				slick.slick('slickPause');
-				slick.slick('slickSetOption', 'autoplay', false, false);
+                slick.slick('slickSetOption', 'autoplay', false, false);
 				slick.slick('autoPlay',$.noop);
+                underbar.hide();
 			}
 		};
 
         function startSlider() {
 			if (slick != undefined && slick.slick != undefined) {
 				slick.slick('slickPlay');
-				// slick.slick('slickSetOption', 'autoplay', true, false);
-				// slick.slick('autoPlay',$.noop);
+                slick.slick('slickSetOption', 'autoplay', true, false);
+				slick.slick('autoPlay',$.noop);
+                underbar.show();
 			}
 		}
-            
-        // For each slide (Make sure player.js is loaded first)
-        for (i = 0; i < <%=numberOfImages%>; i += 1) {
-
-            iframe = $(embeds[i]);
-
-            // Check for a Vimeo player
-            if (iframe.length > 0 && iframe.attr('id').toLowerCase().indexOf('vimeo') >= 0) {
-
-                // Add listener events
-                player = new Vimeo.Player(iframe);
-
-                player.on('play', function() {
-                    stopSlider();
-                    <% if(hideZIPCode=="false") { %>
-	                    underbar.slideUp(0);
-                    <% } %>
-                });
-
-                slideButton.on('click', function() {
-                    player.unload();
-                    startSlider();
-                });
-            }
+        
+        /*window.addEventListener("onYouTubeIframeAPIReady", function () {
+            console.log("event");
+        });
+        
+        function onYouTubeIframeAPIReady() {
+            console.log("function");
         }
         
-	});
+        window.onYouTubeIframeAPIReady = function () {
+            console.log("window");
+        }*/
+            
+        // For each slide (Make sure player.js is loaded first)
+        for (i = 0; i < slides.length; i += 1) {
+            iframe = $(embeds[i]);
+            type = iframe.attr('id').toLowerCase();
+
+            // Check for a Vimeo player
+            if (iframe.length > 0) { 
+                if (type.indexOf('vimeo') > -1) { // Check for a Vimeo player
+                    // Add listener events
+                    var player = new Vimeo.Player(iframe);
+
+                    player.on('play', function() {
+                        stopSlider();
+                    });
+
+                    slideButton.on('click', function() {
+                        startSlider();
+                        player.unload();
+                    });
+                } else if (type.indexOf('youtube') > -1) { // Check for a YouTube player
+                    // Add listener events
+                    var player = new YT.Player(iframe.attr('id'));
+
+                    player.addEventListener("onReady", function () {
+                        //console.log("Video Loaded");
+                        //console.log(player);
+                        player.addEventListener("onStateChange", function (event) {
+                            //console.log(event.data);
+                            if (event.data == YT.PlayerState.BUFFERING) {
+                                //console.log("Playing");
+                                stopSlider();
+                            }
+                        });
+
+                        slideButton.on('click', function() {
+                            startSlider();
+                            player.stopVideo();
+                        });
+                    });
+                }
+            }
+        }
+    });
 
 
 	var isRetina = (
@@ -226,7 +251,7 @@ public  String readUrlFile(String urlString) throws Exception {
                 %><li id="tag_explore_main_<%=i%>"><% 
                     if (link[i].indexOf("https://www.youtube.com") != -1) { 
                         %><div class="videoWrapper thumbnail">
-                            <div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer<%=i%>" data-ratio="16:9" data-youtube-id="<%=videoId[i]%>" <%=titleYT%>></div>
+                            <iframe id="youtubePlayer<%=i%>" width="100%" height="560" src="<%=link[i]%>" title="<%=title[i]%>" frameborder="0" allowfullscreen></iframe>
                         </div><% 
                     } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {
                         %><div class="videoWrapper">
