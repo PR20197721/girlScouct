@@ -929,6 +929,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
 			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/"+ tagStr + "/%'";
+System.err.println("Sql kafka: "+ sql);			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -936,7 +937,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
-
+System.err.println( "Tag kafal " +r.getPath() );
 				if (r.getPath().startsWith(
 						"/etc/tags/" + tagStr + "/categories")) {
 					String elem = r.getValue("jcr:title").getString();
@@ -1223,6 +1224,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public java.util.Map<String, String> searchRegion(User user, Troop troop,
 			String councilStr) throws IllegalAccessException {
 
+		
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
@@ -1231,6 +1233,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 		java.util.Map<String, String> container = new java.util.TreeMap();
 		Session session = null;
 		Node homepage = null;
+		
+		if( councilStr!=null && !councilStr.startsWith("/content/") )
+			councilStr= "/content/" + councilStr;
+		
 		String repoStr = councilStr + "/en/events-repository";
 		try {
 			session = sessionFactory.getSession();
