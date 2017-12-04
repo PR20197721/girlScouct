@@ -20,7 +20,7 @@ if (path.equals("") || (!zip && !state && !councilName) && WCMMode.fromRequest(r
                     <p>Find the Girl Scout<br/> Council Serving Your Area</p>
                     <section>
                         <div>
-                            <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="zip-code" placeholder="Enter ZIP Code" />
+                            <input type="tel" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="zip-code" placeholder="Enter ZIP Code" />
                         </div>
                         <div>
                             <input type="submit" value="Go" class="button tiny" />
