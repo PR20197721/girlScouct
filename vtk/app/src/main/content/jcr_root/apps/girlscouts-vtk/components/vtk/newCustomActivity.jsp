@@ -210,7 +210,7 @@ function inputLogic(){
     <span class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></span>
   <% } %>
   <h3 class="columns small-21"><%= instruction %></h3>
-  <a class="close-reveal-modal columns small-3" onclick="closeModalPage()"  ><i class="icon-button-circle-cross"></i></a>
+  <a class=" columns small-3" onclick="closeModalPage()"  ><i class="icon-button-circle-cross"></i></a>
 </div>
 
 <div class="tabs-wrapper scroll">
