@@ -1222,7 +1222,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public java.util.Map<String, String> searchRegion(User user, Troop troop,
 			String councilStr) throws IllegalAccessException {
 
-		
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
