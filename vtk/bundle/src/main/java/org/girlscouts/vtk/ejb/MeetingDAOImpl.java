@@ -928,8 +928,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					troop, councilStr);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/"+ tagStr + "/%'";
-System.err.println("Sql kafka: "+ sql);			
+			String sql = "select jcr:title from cq:Tag where jcr:path like '/etc/tags/"+ tagStr + "/%'";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -937,7 +936,7 @@ System.err.println("Sql kafka: "+ sql);
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
-System.err.println( "Tag kafal " +r.getPath() );
+
 				if (r.getPath().startsWith(
 						"/etc/tags/" + tagStr + "/categories")) {
 					String elem = r.getValue("jcr:title").getString();
@@ -1006,8 +1005,7 @@ System.err.println( "Tag kafal " +r.getPath() );
 			session = sessionFactory.getSession();
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			//String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/" + councilStr + "/%'";
-			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/" + councilStr + "%'";
+			String sql = "select jcr:title from cq:Tag where jcr:path like '/etc/tags/" + councilStr + "%'";
 			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
