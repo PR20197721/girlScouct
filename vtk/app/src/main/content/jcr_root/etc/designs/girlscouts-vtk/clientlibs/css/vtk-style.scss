@@ -1474,6 +1474,14 @@
     }
   }
   .browseMeetingAids {
+    .browseMeetingAidsImage{
+      img{
+        max-width: none;
+        width: auto;
+      }
+    }
+
+
     a, p, span, input {
       font-size: 14px;
     }
