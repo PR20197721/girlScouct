@@ -291,24 +291,12 @@ function inputLogic(){
               %>
             <div class="row">
 
-              <div class="small-24 medium-8 large-8 columns">
+              <div class="small-24 medium-12 large-12 columns">
                 <label for="sch_keyword" ACCESSKEY="f">Find Activity by:</label>
                 <div class="looking-glass"><input type="text" id="sch_keyword" placeholder="Keywords" value="" onKeyUp="return submitenter(this,event)" /></div>
               </div>
 
-              <div class="small-24 medium-6 large-6 columns">
-                <label for="sch_region" ACCESSKEY="g">Region</label>
-                <select id="sch_region">
-                  <option value="">Select Region</option>
-                  <% java.util.Iterator itr2= region.keySet().iterator();
-                  while( itr2.hasNext() ){
-                  String str=(String) itr2.next();
-                  %>
-                  <option value="<%= str %>"><%= str %></option>
-                  <% } %>
-                </select>
-              </div>
-              <div class="columns large-10 medium-10 small-24 date">
+              <div class="columns large-12 medium-12 small-24 end date">
                 <label id="dateTitle" ACCESSKEY="r">Date</label>
                 <div class="small-21 large-9 medium-9 columns">
                   <input type="text" id="sch_startDate" onchange="checkCalendar"  value="" placeholder="From" class="date calendarField"/>
@@ -478,7 +466,6 @@ function searchActivities() {
 	var cat=  $.trim(checkAll('sch_cats'));
 	var startDate = $.trim(document.getElementById("sch_startDate").value);
 	var endDate = $.trim(document.getElementById("sch_endDate").value);
-	var region = document.getElementById("sch_region").value;
 	
 	
 	
@@ -501,7 +488,7 @@ function searchActivities() {
         setError("The End Date cannot be less than Start Date"); 
 		return false;
 	}
-	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
+	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' ){
 		var thisMsg = "Please select search criteria.";
                 showError(thisMsg, "#pickActivitySection .errorMsg");
 		return false;
@@ -523,7 +510,7 @@ function searchActivities() {
 			cat:cat,
 			startDate:startDate,
 			endDate:endDate,
-			region:region,
+			region:'',
 			a:Date.now()
 		},
 		success: function(result) {

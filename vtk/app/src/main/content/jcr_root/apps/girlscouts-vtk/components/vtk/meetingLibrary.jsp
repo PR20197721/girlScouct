@@ -965,8 +965,8 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 						 </div>
 					</div>
 					 <div class="column small-24 medium-4">
-									<div style="display:table;;min-height:110px">
-					   <div style="display:table-cell;height:inherit;vertical-align:middle; text-align:center;">
+									<div style="min-height:110px; width:100%">
+					   <div style="height:inherit;vertical-align:middle; text-align:center;width:100%">
 
 						 <%
 				try {

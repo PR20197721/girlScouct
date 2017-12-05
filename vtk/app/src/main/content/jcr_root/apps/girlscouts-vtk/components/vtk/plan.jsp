@@ -264,7 +264,7 @@ $(function(){
 
           }
         },
-        componentDidMount(){
+        componentDidMount: function(){
           var _this = this;
           $('.vtk-calendar-ui-jquery').datepicker({
             minDate: new Date(),

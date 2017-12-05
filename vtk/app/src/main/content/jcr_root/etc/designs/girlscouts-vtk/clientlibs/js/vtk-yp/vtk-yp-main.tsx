@@ -169,8 +169,8 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
         
      return (
             <div>
-                <div>
-                    <div className="columns small-20 small-centered" style={{padding:'0px'}}>
+                <div className="__padding">
+                    <div className="columns small-22 medium-20 small-centered medium-centered" style={{padding:'0px'}}>
                         <h3 className="">{title}</h3>
                         <div className="row">
                             <div className="small-24 medium-18 columns">
@@ -204,13 +204,15 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                     .data
                     .Category.length)?<div style={{ marginBottom: '20px'}}></div>:null}
                     <Header subTitle={bottom.subtitle} title={bottom.title} />                    
-                    <div className="row">
-                        <div className="columns small-20 small-centered">
-                         <div className="columns small-17" style={{ padding: '0px', marginLeft: '-5px' }}><p style={{ marginBottom: '0px'}}>{customizedYearPlanContent.title}</p></div>
+                    <div className="-row">
+                     <div className="columns medium-20 small-22 small-centered medium-centered">
+                        <div> 
+                         <div className="columns small-17 medium-17" style={{ padding: '0px', marginLeft: '-5px' }}><p style={{ marginBottom: '0px'}}>{customizedYearPlanContent.title}</p></div>
                             <div onClick={()=>{
                                 selectPlan('Custom Year Plan', '', this.store.bind(this)); 
-                                }} className="columns small-5 end vtk-yp-link" >{customizedYearPlanContent.linkText}</div>
-                        </div>    
+                                }} className="columns small-7 medium-5 end vtk-yp-link" >{customizedYearPlanContent.linkText}</div>
+                         </div>
+                        </div> 
                  </div>
                 <div style={{ marginBottom: '70px'}}></div>
              </div>
