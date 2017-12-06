@@ -1217,13 +1217,12 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			String level =  (String)itrLevel.next();
 			String id= (String) mLevel.get(level);
 			%>
+ console.log("<%=id%> <%=level%>");       
 			if( document.getElementById("<%= id%>").checked ){
 
 				for(var y = 0; y < <%=level%>.length; y++){
-					document.getElementById(<%=level%>[y]).style.display ='inline';
-				//document.getElementById(<%=level%>[y]).setAttribute('data-v',true);
-
-					document.getElementById(<%=level%>[y]).parentElement.style.display = 'inline';
+                    document.getElementById(<%=level%>[y]).style.display ='inline';
+                    document.getElementById(<%=level%>[y]).parentElement.style.display = 'inline';
 				}
 			}
 			<%
@@ -1241,8 +1240,14 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			  if(typeof <%=tp%> != 'undefined'){
 				for(var y = 0; y < <%=tp%>.length; y++){
 
-					document.getElementById(<%=tp%>[y]).style.display ='inline';
-					document.getElementById(<%=tp%>[y]).parentElement.style.display = 'inline';
+
+
+console.log( "** <%=id%> - <%=tp%> "+<%=tp%>[y]);
+     var isMeetingFound = caca('<%=id%>', <%=tp%>[y]);
+                    if( isMeetingFound ){
+                         document.getElementById(<%=tp%>[y]).style.display ='inline';
+                        document.getElementById(<%=tp%>[y]).parentElement.style.display = 'inline';
+                    }
 
                     <%
                 	String searchNewItem="";
@@ -1275,7 +1280,29 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 
-	
+
+        function caca(mType, cat){
+
+            //level checkboxes checked.Get ids
+
+var levels = document.getElementsByName("_tag_m");
+            for(var x=0;x<levels.length;x++){
+                if( levels[x].checked){ 
+
+;
+var rem = document.querySelectorAll("[id*=';"+ levels[x].id +";"+ mType +";']"), i = 0;
+                    for (; i < rem.length; i++){
+                        if (rem[i].id.indexOf(cat) !=-1) {return true;}
+                    }
+                }//end if level
+            }//edn x for
+            return false;
+        }
+
+
+
+
+
 	function createCustPlan(singleMeetingAdd) {
 
 		var sortedIDs="";
