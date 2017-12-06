@@ -542,7 +542,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	private void sendGSUSANotifications(Node dateRolloutNode, List<String> rolloutLog,
 			List<String> councilNotificationLog, Boolean isTestMode) {
 		Set<String> councils = null;
-		String councilNotificationSubject = DEFAULT_NOTIFICATION_SUBJECT;
+		String councilNotificationSubject = DEFAULT_ROLLOUT_NOTIFICATION_SUBJECT;
 		StringBuffer html = new StringBuffer();
 		html.append(DEFAULT_REPORT_HEAD);
 		html.append("<body>");
@@ -656,8 +656,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog,
 			Boolean isTestMode) {
 		Set<String> notifyCouncils = new TreeSet<String>();
-		String subject = DEFAULT_NOTIFICATION_SUBJECT;
-		String message = "", templatePath = "", srcPath = "";
+		String subject = DEFAULT_ROLLOUT_NOTIFICATION_SUBJECT;
+		String message = DEFAULT_ROLLOUT_NOTIFICATION_MESSAGE, templatePath = "", srcPath = "";
 		Boolean notify = false, useTemplate = false;
 		try {
 			notify = dateRolloutNode.getProperty(PARAM_NOTIFY).getBoolean();

@@ -84,14 +84,25 @@ public interface PageReplicationConstants {
 				+ "<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
 				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" + "<title>"
 				+ DEFAULT_ROLLOUT_REPORT_SUBJECT + "</title></head>";
-		public static final String DEFAULT_NOTIFICATION_SUBJECT = "GSUSA Rollout Notification";
-		public static final String DEFAULT_NOTIFICATION_HEAD = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
+		public static final String DEFAULT_ROLLOUT_NOTIFICATION_SUBJECT = "GSUSA Rollout Notification";
+		public static final String DEFAULT_ROLLOUT_NOTIFICATION_HEAD = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
 				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">"
 				+ "<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
 				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
 				+ "<title>Girl Scouts</title></head>";
-		public static final String DEFAULT_NOTIFICATION_MESSAGE = "<p>Dear Council, </p>"
+		public static final String DEFAULT_ROLLOUT_NOTIFICATION_MESSAGE = "<p>Dear Council, </p>"
 				+ "<p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be <b>discarding</b> your own changes (custom content) that have been made to this page and will <b>immediately</b> receive the new national content.</p>"
+				+ "<p><b>National page URL:</b> <%template-page%></p>" + "<p><b>Your page URL:</b> <%council-page%></p>"
+				+ "<p>Click <a href='<%council-author-page%>'>here</a> to edit your page.</p>"
+				+ "<p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.</p>";
+		public static final String DEFAULT_DELETION_NOTIFICATION_SUBJECT = "GSUSA Deletion Notification";
+		public static final String DEFAULT_DELETION_NOTIFICATION_HEAD = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
+				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">"
+				+ "<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
+				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
+				+ "<title>Girl Scouts</title></head>";
+		public static final String DEFAULT_DELETION_NOTIFICATION_MESSAGE = "<p>Dear Council, </p>"
+				+ "<p>It has been detected that GSUSA has run a workflow in order to delete a template page. Please note that your council has NOT received this push since we have indicated that you have either broken the inheritance or added copy on this page. If you would like to keep this page, you do not need to make any changes. If you do not wish to keep this page, please deactivate and then delete it.</p>"
 				+ "<p><b>National page URL:</b> <%template-page%></p>" + "<p><b>Your page URL:</b> <%council-page%></p>"
 				+ "<p>Click <a href='<%council-author-page%>'>here</a> to edit your page.</p>"
 				+ "<p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.</p>";
