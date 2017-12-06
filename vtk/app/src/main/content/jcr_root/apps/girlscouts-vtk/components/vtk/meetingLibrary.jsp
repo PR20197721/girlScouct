@@ -1211,13 +1211,17 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 	}
 
 	function runFilterType(){
+
+        //levels checkboxes selected
+        var levels = document.getElementsByName("_tag_m");
+
 		<%
 		itrLevel= mLevel.keySet().iterator();
 		while( itrLevel.hasNext()){
 			String level =  (String)itrLevel.next();
 			String id= (String) mLevel.get(level);
 			%>
- console.log("<%=id%> <%=level%>");       
+
 			if( document.getElementById("<%= id%>").checked ){
 
 				for(var y = 0; y < <%=level%>.length; y++){
@@ -1239,14 +1243,10 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			if( document.getElementById("<%= id%>").checked ){
 			  if(typeof <%=tp%> != 'undefined'){
 				for(var y = 0; y < <%=tp%>.length; y++){
-
-
-
-console.log( "** <%=id%> - <%=tp%> "+<%=tp%>[y]);
-     var isMeetingFound = caca('<%=id%>', <%=tp%>[y]);
+    				var isMeetingFound = isMeeting(levels, '<%=id%>', <%=tp%>[y]);
                     if( isMeetingFound ){
                          document.getElementById(<%=tp%>[y]).style.display ='inline';
-                        document.getElementById(<%=tp%>[y]).parentElement.style.display = 'inline';
+                         document.getElementById(<%=tp%>[y]).parentElement.style.display = 'inline';
                     }
 
                     <%
@@ -1278,30 +1278,18 @@ console.log( "** <%=id%> - <%=tp%> "+<%=tp%>[y]);
 
 	}
 
+    function isMeeting(levels, mType, cat){
 
-
-
-        function caca(mType, cat){
-
-            //level checkboxes checked.Get ids
-
-var levels = document.getElementsByName("_tag_m");
-            for(var x=0;x<levels.length;x++){
-                if( levels[x].checked){ 
-
-;
-var rem = document.querySelectorAll("[id*=';"+ levels[x].id +";"+ mType +";']"), i = 0;
-                    for (; i < rem.length; i++){
-                        if (rem[i].id.indexOf(cat) !=-1) {return true;}
+            for(var count=0;count<levels.length;count++){
+                if( levels[count].checked){ 
+					var mIds = document.querySelectorAll("[id*=';"+ levels[count].id +";"+ mType +";']"), i = 0;
+                    for (; i < mIds.length; i++){
+                        if (mIds[i].id.indexOf(cat) !=-1) {return true;}
                     }
                 }//end if level
-            }//edn x for
+            }//edn count for
             return false;
-        }
-
-
-
-
+    }
 
 	function createCustPlan(singleMeetingAdd) {
 
