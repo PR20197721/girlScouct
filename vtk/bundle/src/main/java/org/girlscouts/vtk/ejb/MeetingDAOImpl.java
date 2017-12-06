@@ -1710,6 +1710,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			sql += regionSql;
 			sql += sqlTags;
 			sql += sqlCat;
+			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1748,12 +1749,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 				} catch (Exception e) {
 				}
 				// TODO: end of hacking timezone
-
 				if ((activity.getDate().before(new java.util.Date()) && activity
 						.getEndDate() == null)
 						|| (activity.getEndDate() != null && activity
-								.getEndDate().before(new java.util.Date()))) {
-					
+								.getEndDate().before(new java.util.Date()))) {				
 					continue;
 				}
 				try {
@@ -1790,16 +1789,31 @@ public class MeetingDAOImpl implements MeetingDAO {
 				}
 
 				if (startDate != null && endDate != null) {
+
 					startDate.setHours(0);
 					endDate.setHours(23);
 
-					if (activity.getDate() != null
-							&& activity.getDate().after(startDate)
-							&& activity.getDate().before(endDate))
-						;
-					else {
-						continue;
-					}
+
+					
+					if( activity.getDate() != null && (  //start date
+							activity.getDate().equals(endDate) ||
+							activity.getDate().before(endDate) ) ){
+
+							;
+					}else if( activity.getEndDate() != null && (  //end date
+							 activity.getEndDate().equals(endDate) ||
+							 activity.getEndDate().equals(startDate) ||
+							 activity.getEndDate().before(endDate) && activity.getEndDate().after(startDate)
+							 )
+							 ){
+
+						 ;
+					 }else{
+
+						 continue;
+					 }
+					
+					
 				}
 
 				toRet.add(activity);
