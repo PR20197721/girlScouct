@@ -1269,7 +1269,7 @@
               }
             }
             td {
-              padding:14px;
+              padding:9px;
               border:solid 1px #ccc;
               &:hover {
                 background: #cfefde;
@@ -1289,8 +1289,19 @@
             padding-right: 3px;
           }
         }
+
+        table{
+          tr{
+            td{
+              padding: 9px !important;
+            }
+          }
+        }
       }
     }
+
+
+
     #frmCalElem_1 {
       margin-top:20px;
     }
@@ -1474,6 +1485,14 @@
     }
   }
   .browseMeetingAids {
+    .browseMeetingAidsImage{
+      img{
+        max-width: none;
+        width: auto;
+      }
+    }
+
+
     a, p, span, input {
       font-size: 14px;
     }
