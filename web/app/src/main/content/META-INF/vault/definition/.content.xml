@@ -397,5 +397,10 @@
 	  mode="replace"
 	  root="/etc/importers/gsbulkeditor"
 	  rules="[]"/>
+	  <f76
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/girl-scouts-deletion-workflow"
+            rules="[]"/>
     </filter>
 </jcr:root>
