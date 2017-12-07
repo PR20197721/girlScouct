@@ -30,6 +30,12 @@
                     	fieldLabel="Pin ID"
                     	name="./pin-id"
                     	xtype="textfield"/>
+                    <height
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Height of the component in px"
+                        fieldLabel="Height"
+                        name="./height"
+                        xtype="textfield" />
                 </items>
             </properties>
         </items>

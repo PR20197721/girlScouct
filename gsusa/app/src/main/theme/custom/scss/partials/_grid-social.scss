@@ -6,10 +6,11 @@
 .feedwrapper {
     background-color: $white;
     position: relative;
-    padding-bottom: rem-calc(45);
+    //padding-bottom: rem-calc(45);
     [class^="icon-"],
     [class*=" icon-"] {
         font-size: 50px;
+        //max-height: rem-calc(50);
         display: block;
         color: #797979;
         text-align: center;
@@ -17,8 +18,8 @@
     .feed-block {
         overflow-y: auto;
         overflow-x: hidden;
-        max-height: rem-calc(620);
-        height: rem-calc(570);
+        //max-height: rem-calc(620);
+        //height: rem-calc(570);
         margin: rem-calc(7);        
     }
     .centered {

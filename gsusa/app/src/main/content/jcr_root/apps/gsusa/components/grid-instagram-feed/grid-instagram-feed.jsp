@@ -19,6 +19,7 @@ public String generateId() {
 	String url = properties.get("url", "");
 	int count = properties.get("count",19);
 	String pinID = properties.get("pin-id","");
+	String height = properties.get("height", "0");
 	String uID = generateId();
 	String instaID = "instagramfeed_" + uID;
 %>
