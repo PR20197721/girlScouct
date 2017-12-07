@@ -1373,8 +1373,10 @@ var ModalVtk = (function() {
 
 
 
+
 var initNotes = (function(global, ModalVtk, $) {
     var modal = new ModalVtk(false,true);
+
     var globalMid, userLoginId;
 
     var view = {
@@ -1404,22 +1406,20 @@ var initNotes = (function(global, ModalVtk, $) {
         deleteNote: function(e) {
             e.preventDefault();
 
-            modal.confirm('Warning', 'Are you sure you want to delete this note?', function() {
+            modal.confirm('Warning', 'Are you sure you want to delete this note?', function () {
+
                 rmNote($(e.target).parents('li').data('uid'))
-                    .fail(function(err) {
+                    .done(function (response) {
+                
+                        var x = JSON.parse(response)
+                
+                        if (x) {
+                            checkQuantityNotes($('.vtk-notes_item').length)
+                            interateNotes(thisMeetingNotes.filter(function (note) { return note.uid !==  $(e.target).parents('li').data('uid')}))                      
+                        }
+                    }).fail(function(err) {
                         console.log('error', err)
-                    })
-                    .success(function() {
-                        checkQuantityNotes($('.vtk-notes_item').length)
-                        var req = getNotes(globalMid, userLoginId);
-                        req.then(
-                            function(json) {
-                                interateNotes(json);
-                            },
-                            function(err) {
-                                console.log(err);
-                            })
-                    }).done(function() {
+                    }).always(function() {
                         modal.close();
                     });
             }, function() {
@@ -1644,8 +1644,8 @@ var initNotes = (function(global, ModalVtk, $) {
             }
         },
 
+        newNote: function (note) {
 
-        newNote: function(note) {
             var date = moment(note.createTime);
 
             var dateString = date.format('MM/DD/YYYY');
@@ -2144,15 +2144,14 @@ var initNotes = (function(global, ModalVtk, $) {
 
 
     function getNotes(mid, auid) {
-
-                globalMid = mid;
+        globalMid = mid;
         if (auid) {
             userLoginId = auid;
         }
 
         defer = $.Deferred();
-        console.log('inside getNotes =>>>',thisMeetingNotes)
-        setTimeout(function(){
+
+        setTimeout(function () {
             defer.resolve(thisMeetingNotes?thisMeetingNotes:[])
         },500);
         
