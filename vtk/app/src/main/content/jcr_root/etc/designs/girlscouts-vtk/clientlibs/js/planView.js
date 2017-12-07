@@ -50,7 +50,7 @@ function addCustAgenda(){
 }
 
 
-<!-- TODO: change js name -->
+//<!-- TODO: change js name -->
 function createCustAgendaItem1(mid, time, mPath){
 	var newCustAgendaName = document.getElementById("newCustAgendaName").value;
 	if( $.trim(newCustAgendaName)==''){alert("Please fill agenda name"); return false;}
@@ -261,14 +261,10 @@ function openClose1(div1, div2){
 	}
 }
 
-function updateAttendAchvm(mid){
+function updateAttendAchvm(mid, eventType){
 	
 	var attend = getCheckedCheckboxesFor('attendance');
 	var achn = getCheckedCheckboxesFor('achievement');
-	//var UpdAttendance= document.getElementById('UpdAttendance');
-	//var mid= document.getElementById('mid');
-	console.log( "attend: "+ attend);
-	console.log( "achv: "+ achn);
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -276,7 +272,8 @@ function updateAttendAchvm(mid){
 			act:'UpdAttendance',
 			mid:mid,
 			attendance:attend,
-			achievement:achn
+			achievement:achn,
+			eType:eventType
 		},
 		success: function(result) {
 			console.log("closing...");
@@ -288,6 +285,7 @@ function updateAttendAchvm(mid){
 	return;
 	
 }
+
 
 function getCheckedCheckboxesFor(checkboxName) {
 	var t="";
@@ -333,6 +331,177 @@ function isSafary(){
 	  return false;
 }
 
+function rmMeetingHref(mPath, mDate, ageGroup, meetingName) {
+
+    var rmMeeting = document.getElementById("rmMeeting");
+    var rmMeetingSmall = document.getElementById("rmMeetingSmall");
+    if (rmMeeting != null) {
+        rmMeeting.innerHTML = "<a href=\"#\" onclick=\"rmMeetingWithConf( mPath, mDate, ageGroup, meetingName )\">delete meeting</a>";
+    }
+    if (rmMeetingSmall != null) {
+        mMeetingSmall.innerHTML = "<a href=\"#\" onclick=\"rmMeetingWithConf( mPath, mDate, ageGroup, meetingName )\">delete meeting</a>";
+    }
+
+}
+
+
+					function ____close_Dialog() { 
+						$("#gsDialog").dialog("close")
+					}	
+
+
+
+
+
+
+/*
+config = {
+	content: 'Text inside the dialog',
+	width: default 500,
+	buttons:[{
+		text: "Ok",
+		click: function () {
+			$(this).dialog("close");
+		},}],
+		 headerText:''
+	}
+*/
+
+
+function gsDialog(config) {
+
+	var dislogElement = $('#gsDialog');
+	var classDialog = '__modalWrap';
+	
+	
+	dislogElement.html('<p>' + config.content + "</p>");
+
+
+
+	function resizeDialogo() { 
+		dislogElement.dialog("option", "position", {
+			my: "center",
+			at: "center",
+			of: window
+		});
+
+		if ($(window).width() < config.width) {
+			dislogElement.dialog("option", "width", $(window).width());
+		} else {
+			dislogElement.dialog("option", "width", config.width);
+		}
+	}
+
+
+
+
+	function attachResize() { 
+		window.addEventListener('resize',resizeDialogo);
+	}
+
+
+
+	dislogElement
+		.dialog({
+				dialogClass: classDialog,
+				modal: true,
+				show: 375,
+				draggable: false,
+				width: config.width || 500,
+				resizable: true,
+			buttons: config.buttons,
+			open: function () {
+						$('body').css('overflow', 'hidden');
+
+						$(".ui-dialog-titlebar").html('<div>'+config.headerText+'<i onclick="____close_Dialog()" style="posi' +
+														'tion:absolute;top:0px;right:5px;color:white;" class="icon-button-circle-cross"><' +
+														'/i></div>');
+						$(".ui-dialog-titlebar").show();
+
+				resizeDialogo();
+				
+				attachResize();
+
+				},
+				close: function () {
+					$('body').css('overflow', 'inherit');
+					window.removeEventListener('resize',resizeDialogo);
+				},
+				create: function () {
+					$('.'+classDialog).removeClass('ui-widget ui-widget-content ui-corner-all  ui-dialog-buttons');
+					$('.'+classDialog)
+									.children('.ui-dialog-titlebar')
+									.removeClass('ui-widget-header ui-corner-all');
+					$('.'+classDialog)
+									.children('.ui-dialog-buttonpane')
+									.removeClass('ui-widget-content');
+				}
+		})	
+}
+
+
+
+
+
+function rmMeetingWithConf(mPath, mDate, ageGroup, meetingName) {
+	gsDialog({
+		content: 'You want to delete the ' + ageGroup + ' meeting, "' + meetingName + '"<br /><p style="margin:0px;"><b>NOTE:</b> <span style="color:orange;">Girls must complete all requirements in order to earn a badge. If you delete this meeting, consider deleting the corresponding badge meetings to avoid confusion.</span></p> ',
+		headerText: 'Delete Meeting',
+		buttons : [	{
+					text: "CANCEL",
+					click: function () {
+						$(this).dialog("close");
+					}
+		},
+		{
+					text: "DELETE",
+					click: function () {
+						rmMeetingSingle(  mDate, mPath );
+					}
+			}],
+		width:600
+	})
+}
+
+function rmMeetingSingle(rmDate, mid) {
+
+    $.ajax({
+        url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
+        type: 'POST',
+        data: {
+            act: 'RmMeeting',
+            rmDate: rmDate,
+            mid: mid,
+            a: Date.now()
+        },
+        success: function(result) {
+
+            vtkTrackerPushAction('RemoveMeeting');
+            self.location='/content/girlscouts-vtk/en/vtk.html';
+        }
+    });
+}
+
+function rmMeetingWithConfBlocked(mPath, mDate, ageGroup, meetingName) {
+	
+	gsDialog({
+		content: '<p>The ' + ageGroup + ' meeting, "' + meetingName + '" cannot be deleted. Attendance and/or achievement details for this meeting are recorded for the girls in your troop.</p><p>If you still wish to delete it, you must first uncheck these details in the meeting; however, doing so will result in a permanent loss of this data.</p>',
+		headerText: 'Delete Meeting',
+		buttons : [	{
+					text: "OK",
+					click: function () {
+						$(this).dialog("close");
+					}
+	
+			}],
+		width:600
+	})
+}
+
+function schedChanger(dt) {
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.sched.html?elem='+ dt, false, null, true, false);
+}
+
 var getDataIfModified;
 (function() {
 	var BASE_PATH = '/vtk-data';
@@ -343,6 +512,7 @@ var getDataIfModified;
     	var hash = document.cookie.replace(/(?:(?:^|.*;\s*)troopDataToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     	return hash;
     }
+    
     
     function _getDataIfModified(path, that, success) {
     	var url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;

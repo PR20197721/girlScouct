@@ -88,7 +88,7 @@
 				StringBuilder builder = new StringBuilder();
 				for (Activity activity : activities) {
 					builder.append("<p><b>Activity " + Integer.toString(activity.getActivityNumber()));
-					builder.append(": " + activity.getName() + "</b></p>");
+					builder.append(": " + (activity.getIsOutdoor() ? activity.getName_outdoor() : activity.getName()) + "</b></p>");
 
 					String description = activity.getIsOutdoor() ? activity.getActivityDescription_outdoor() : activity.getActivityDescription() ;
 					
@@ -165,7 +165,10 @@
 		<!-- Title -->
 		<div class="row">
 			<div class="column small-24 small-centered">
-					<h3>Agenda Item: <%=_activity.getName()%></h3>
+					<h3>
+						<div id="__outdoorTitle" style="display: <%=_activity.getIsOutdoor() ? "inline" : "none" %>"><%=_activity.getName_outdoor()%></div>
+						<div id="__indoorTitle"  style="display: <%=_activity.getIsOutdoor() ? "none" : "inline" %>"><%=_activity.getName()%></div>
+					</h3>
 			</div>
 		</div>
 		<!-- End: Title -->
@@ -191,23 +194,31 @@
 		<!--end: Outdoor options-->
         <%}//edn if %>
 
-		</div>
-		<section class="row reset">
-					<div id="__indoor" data-outdoor="isoutdoor_no" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription() %></div>
-			    	<div id="__outdoor" accesskey=""data-outdoor="isoutdoor_yes" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription_outdoor() %></div>
-		</section>
 		
+		<section class="row reset">
+				<div class="small-20 small-centered">
+					<div id="__indoor" data-outdoor="isoutdoor_no" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription() %></div>
+					<div id="__outdoor" accesskey=""data-outdoor="isoutdoor_yes" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription_outdoor() %></div>
+				</div>
+		</section>
+		</div>
 		
 		<script>
 
 		function showIndoor(){
 		    document.getElementById('__outdoor').style.display='none';
 		    document.getElementById('__indoor').style.display='inline';
+		    
+		    document.getElementById('__outdoorTitle').style.display='none';
+		    document.getElementById('__indoorTitle').style.display='inline';
 		}
 
 		function showOutdoor(){
 		    document.getElementById('__outdoor').style.display='inline';
 		    document.getElementById('__indoor').style.display='none';
+		    
+		    document.getElementById('__outdoorTitle').style.display='inline';
+		    document.getElementById('__indoorTitle').style.display='none';
 		}
 
 		     function cngAgendaOutdoor(mid, aPath, isOutdoor){

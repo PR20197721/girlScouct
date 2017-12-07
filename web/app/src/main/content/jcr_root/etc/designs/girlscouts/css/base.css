@@ -20,144 +20,6 @@ Font : Open Sans
 
 
 @font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("trefoilsans-thin.eot");
-  src: local("Trefoil Sans Web Thin"), local("TrefoilSansWeb-Thin"), url("../designs/girlscouts/fonts/trefoilsans-thin.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-thin.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-thin.woff") format("woff");
-  font-weight: 100;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-thinit.eot");
-  src: local("Trefoil Sans Web Thin It"), local("TrefoilSansWeb-ThinIt"), url("../designs/girlscouts/fonts/trefoilsans-thinit.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-thinit.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-thinit.woff") format("woff");
-  font-weight: 100;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-xlight.eot");
-  src: local("Trefoil Sans Web XLight"), local("TrefoilSansWeb-XLight"), url("../designs/girlscouts/fonts/trefoilsans-xlight.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-xlight.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-xlight.woff") format("woff");
-  font-weight: 200;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-xlightit.eot");
-  src: local("Trefoil Sans Web XLight It"), local("TrefoilSansWeb-XLightIt"), url("../designs/girlscouts/fonts/trefoilsans-xlightit.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-xlightit.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-xlightit.woff") format("woff");
-  font-weight: 200;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-light.eot");
-  src: local("Trefoil Sans Web Light"), local("TrefoilSansWeb-Light"), url("../designs/girlscouts/fonts/trefoilsans-light.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-light.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-light.woff") format("woff");
-  font-weight: 300;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-lightit.eot");
-  src: local("Trefoil Sans Web Light It"), local("TrefoilSansWeb-LightIt"), url("../designs/girlscouts/fonts/trefoilsans-lightit.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-lightit.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-lightit.woff") format("woff");
-  font-weight: 300;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-regular.eot");
-  src: local("Trefoil Sans Web Regular"), local("TrefoilSansWeb-Regular"), url("../designs/girlscouts/fonts/trefoilsans-regular.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-regular.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-regularit.eot");
-  src: local("Trefoil Sans Web Regular It"), local("TrefoilSansWeb-RegularIt"), url("../designs/girlscouts/fonts/trefoilsans-regularit.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-regularit.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-regularit.woff") format("woff");
-  font-weight: 500;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-medium.eot");
-  src: local("Trefoil Sans Web Medium"), local("TrefoilSansWeb-Medium"), url("../designs/girlscouts/fonts/trefoilsans-medium.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-medium.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-medium.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-mediumit.eot");
-  src: local("Trefoil Sans Web Medium It"), local("TrefoilSansWeb-MediumIt"), url("../designs/girlscouts/fonts/trefoilsans-mediumit.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-mediumit.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-mediumit.woff") format("woff");
-  font-weight: 500;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-semibold.eot");
-  src: local("Trefoil Sans Web Semibold"), local("TrefoilSansWeb-Semibold"), url("../designs/girlscouts/fonts/trefoilsans-semibold.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-semibold.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-semibold.woff") format("woff");
-  font-weight: 600;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-semiboldit.eot");
-  src: local("Trefoil Sans Web Semibold It"), local("TrefoilSansWeb-SemiboldIt"), url("../designs/girlscouts/fonts/trefoilsans-semiboldit.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-semiboldit.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-semiboldit.woff") format("woff");
-  font-weight: 600;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-bold.eot");
-  src: local("Trefoil Sans Web Bold"), local("TrefoilSansWeb-Bold"), url("../designs/girlscouts/fonts/trefoilsans-bold.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-bold.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-bold.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-boldit.eot");
-  src: local("Trefoil Sans Web Bold It"), local("TrefoilSansWeb-BoldIt"), url("../designs/girlscouts/fonts/trefoilsans-boldit.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-boldit.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-boldit.woff") format("woff");
-  font-weight: 700;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-black.eot");
-  src: local("Trefoil Sans Web Black"), local("TrefoilSansWeb-Black"), url("../designs/girlscouts/fonts/trefoilsans-black.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-black.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-black.woff") format("woff");
-  font-weight: 800;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-blackit.eot");
-  src: local("Trefoil Sans Web Black It"), local("TrefoilSansWeb-BlackIt"), url("../designs/girlscouts/fonts/trefoilsans-blackit.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-blackit.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-blackit.woff") format("woff");
-  font-weight: 800;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-ultra.eot");
-  src: local("Trefoil Sans Web Ultra"), local("TrefoilSansWeb-Ultra"), url("../designs/girlscouts/fonts/trefoilsans-ultrara.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-ultrara.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-ultrara.woff") format("woff");
-  font-weight: 900;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web';
-  src: url("../designs/girlscouts/fonts/trefoilsans-ultrait.eot");
-  src: local("Trefoil Sans Web Ultra It"), local("TrefoilSansWeb-UltraIt"), url("../designs/girlscouts/fonts/trefoilsans-ultrait.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-ultrait.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-ultrait.woff") format("woff");
-  font-weight: 900;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Trefoil Sans Web Nav';
-  src: url("../designs/girlscouts/fonts/trefoilsans-nav.eot");
-  src: local("Trefoil Sans Web Nav"), local("TrefoilSansWebNav"), url("../designs/girlscouts/fonts/trefoilsans-nav.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-nav.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-nav.woff") format("woff");
-  font-weight: 900;
-  font-style: italic;
-}
-
-
-
-
-
-@font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 300;
@@ -194,12 +56,13 @@ html {
 }
 body {
   background-color: #EEEEEF;
-  font-family:"Trefoil Sans Web", "Open Sans", Arial, sans-serif;
+  font-family: "Open Sans", Arial, sans-serif;
 }
 #mainContent h1 {
   margin: 0.2em 0 0.4em 0;
   color: #000000;
 }
+
 h1, h2, h3, h4, h5, h6 {
   color: #000000;
   line-height: 1;
@@ -208,7 +71,7 @@ h1, h2, h3, h4, h5, h6 {
   color: red;
 }
 .bold {
-  font-weight: 600;
+  font-weight: bold;
 }
 a {
   color: #00ae58;
@@ -217,11 +80,6 @@ a {
 a:hover {
   color: green;
 }
-
-.eventsList .rightCol h6 a {
-  font-size: 1rem;
-}
-
 @media only screen and (min-width: 40.063em) {
   /*    .news-image {
         padding: 10px;
@@ -362,7 +220,7 @@ a:hover.menuHighlight {
 #header span {
   color: #FAA61A;
   font-size: 1em;
-  font-weight: 600;
+  font-weight: bold;
   line-height: 1;
 }
 #header a:hover {
@@ -417,7 +275,6 @@ a:hover.menuHighlight {
   overflow: visible;
   display: flex;
   justify-content: center;
-  font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
 }
 #headerBar .inline-list > li {
   margin: 0 20px 0 0;
@@ -432,13 +289,8 @@ a:hover.menuHighlight {
   /* background-color:#063;*/
 }
 #headerBar .global-navigation {
-  padding-left: 42px;
-  font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
+  padding-left: 52px;
 }
-#headerBar .global-navigation ul.inline-list {
-  font-size: 1.125rem;
-}
-
 #headerBar ul.inline-list li {
   line-height: 31px;
 }
@@ -498,7 +350,7 @@ a:hover.menuHighlight {
   padding: 0px;
 }
 #footer a {
-  font-size: 0.9375rem; 
+  font-size: 0.875em;
   font-weight: normal;
   margin: 0px 10px 0px 0px;
   color:#C1EAD4;
@@ -570,7 +422,6 @@ a:hover.menuHighlight {
 
 #mainContent {
   text-align: left;
-  font-size: 1.0625rem;
 }
 /* RIGHT CONTENT */
 
@@ -646,7 +497,7 @@ a:hover.menuHighlight {
 }
 #main .side-nav li.active.current > div > a {
   color: #ffffff;
-  font-weight: 600;
+  font-weight: bold;
 }
 .home-section .feature-icon {
   display: inline-block;
@@ -662,16 +513,15 @@ a:hover.menuHighlight {
   border: 0;
 }
 .home-section h2 {
-  font-size: 1.8125rem;
+  font-size: 1.63em;
   text-transform: uppercase;
 }
 .home-section h2 a {
   color: #414141;
   font-weight: 300;
-  font-size: 1.8125rem;
 }
 .home-section h3 {
-  color: #00ae58;  
+  color: #00ae58;
   font-size: 1.2em;
 }
 .debug {
@@ -766,7 +616,7 @@ input.form-btn, a.form-btn {
   border: 0 none;
   box-shadow: 1px 1px 1px rgba(208, 208, 208, 0.376);
   color: #FFFFFF;
-  font-size: 1.0625rem;
+  font-size: 14px;
   letter-spacing: 1px;
   /*line-height: 34px;*/
 
@@ -946,8 +796,8 @@ td.fc-header-left {
 .emptyrow {
     height: 20px;
 }
-.eyebrow-fontsize > li a {
-    font-size: 0.9375rem;
+.eyebrow-fontsize>li a {
+    font-size: 0.875rem;
 }
 #header .searchField {
     height: 21px;
@@ -963,7 +813,7 @@ td.fc-header-left {
 #header a.link-login {
   color: #FFF;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: bold;
   margin: 0 0 0 10px;
   position: relative;
 }
@@ -1110,10 +960,10 @@ div.textimage.nowrap div.text p {
   height: 14px;
 }
 .breadcrumbCurrent {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
 }
 input.searchField {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   padding: 0.1rem .1rem .1rem .5rem;
 }
 .noLeftPadding {
@@ -1205,13 +1055,13 @@ div.wrapper .row:nth-child(2) {
   }
 }
 #form .event-activity input[type=text] {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   height: 25px;
   padding: 0.4rem;
 }
 #form .title {
   padding: 4px 0px 7px 0px;
-  font-size: 1rem;
+  font-size: 15px;
   color: gray;
 }
 .white-arrow-down {
@@ -1247,9 +1097,6 @@ form#contact-us textarea {
 }
 .forms-documents-search input.searchField {
   text-indent: 8px;
-}
-.forms-documents-search .search, #mainContent .search {
-  line-height: 1.3;
 }
 .findActivityButton {} .formsSearchOptions li {
   padding-bottom: 0;
@@ -1287,7 +1134,6 @@ form#contact-us textarea {
   margin-left: auto !important;
   margin-right: auto !important;
 }
-
 #searchBox {
   text-align: center;
 }
@@ -1338,8 +1184,8 @@ form#contact-us textarea {
   line-height: 1em;
 }
 .eventsList h6 {
-  line-height: 1rem;
-  font-size: 1.125rem;
+  line-height: 1.2em;
+  font-size: 0.9rem;
 }
 .eventsList.eventSection .leftCol {
   margin-bottom: 2em;
@@ -1348,17 +1194,10 @@ form#contact-us textarea {
   float: left;
   background: #ffffff;
   width: 160px;
-  font-size: 1.125rem;
-}
-.eventsList .leftCol b {
-  font-weight: 500;
 }
 .eventsList .rightCol {
   width: 100%;
   padding-left: 160px;
-}
-.eventsList .rightCol p.bold {
-  font-weight: 500;
 }
 .horizontalRule {
   background: url('/etc/designs/girlscouts/images/horizontal-stripe.png') repeat-x center center;
@@ -1370,12 +1209,8 @@ form#contact-us textarea {
   display: block;
   float: left;
   width: 50%;
-  font-size: 0.95rem;
-  padding: 10px 0 0 10px;
-}
-.checkbox-grid span a {
-  font-size: 0.95rem;
-  line-height: 1.2;
+  font-size: 0.9em;
+  padding: 10px 0 0 0;
 }
 .searchBox-Calendar {
   padding-top: 18px;
@@ -1396,7 +1231,7 @@ div#eventListWrapper {
   border: medium none;
   height: 23px;
   padding: 5px 0 5px 5px;
-  font-size: 0.75rem;
+  font-size: 0.7em;
   color: #989898;
   background-color: #ffffff;
 }
@@ -1411,7 +1246,8 @@ div#eventListWrapper {
   position: relative;
 }
 .styled-select select {
-  width: 152px;
+
+    width: 152px
 }
 ul.searchResultsList li {
     list-style-type: none;
@@ -1420,16 +1256,10 @@ ul.searchResultsList li h2 {
   line-height: 0.5em;
 }
 ul.searchResultsList li h2 a {
-  font-size: 1.26rem;
-}
-ul.searchResultsList article * {
-  line-height: 1.29412em; /* 22px, in em for cross-browser (base em is 17px) */
+  font-size: 1.2rem;
 }
 ul.searchResultsList article p {
-  margin-bottom: 1.29412em;
-}
-.readmore-js-toggle {
-  padding-bottom: 20px;
+  line-height: 1.2em;
 }
 .news-data p {
   margin-bottom: 0;
@@ -1437,24 +1267,16 @@ ul.searchResultsList article p {
 .eventListDetail {
   padding: 0;
   line-height: 1.5em;
-  font-size: 1.0625rem;
-}
-.eventListDetail b {
-  font-weight: 500;
 }
 .eventDetailsRegisterLink {
   text-align: left;
   margin-top: 1em;
-}
-div[itemprop="description"] {
-  line-height: 1.5;
 }
 .eventsList.eventSection .eventDetailsRegisterLink a:first-child {
   margin-right: 30px;
 }
 .event-search-facets {
   margin-top: 20px;
-  font-size: 1.0625rem;
 }
 .event-search-facets .search-box-form {
   width: 50%;
@@ -1530,12 +1352,9 @@ div[itemprop="description"] {
 .mainRightBottom {
   margin: 0 !important;
 }
-.calTitle>h6>a {
-  font-size: 0.8rem !important;
-  margin: 0 !important;
-}
 .calTitle>h6 {
-  line-height: 0.7rem;
+  font-size: 0.7rem !important;
+  margin: 0 !important;
 }
 
 .featureSmallHeader table, .featureSmallHeader table td, .featureSmallHeader h2 {
@@ -1563,7 +1382,7 @@ div[itemprop="description"] {
   float: right;
 }
 .fc-header-title h2 {
-  font-size: 1.625rem;
+  font-size: 1.5rem;
 }
 .fc-header td {
   vertical-align: text-top;
@@ -1635,11 +1454,7 @@ form .form_captcha_img {
 }
 form .form_captcha_input {
   height: 40px;
-}
-form .form_field_text,
-form .form_field_select,
-form .form_field_textarea {
-  max-width: 100%;
+
 }
 /*styles for updates list pages */
 .update-list .more-link:after {
@@ -1696,11 +1511,10 @@ padding: 40px 0px 40px 0;
     color: #000;
     cursor: pointer;
     display: block;
-    font-size: 1.1875rem;
-    font-weight: 500;
+    font-size: 1.13rem;
+    font-weight: 600;
     margin: 0;
     padding: 0.63rem;
-    width: 93%;
 }
 .accordion.section dt h6.on {
     color: #fff;
@@ -1724,17 +1538,12 @@ padding: 40px 0px 40px 0;
 }
 .accordion.section dd {
     background: #f8f8f8 none repeat scroll 0 0;
-    overflow: hidden;
-    height: 0;
 }
 .accordion.section .content {
 //    padding: 25px 15px 0;
 }
-.accordion.section dd p, .accordion.section dd p a, .accordion.section dd ol, .accordion.section dd ul, .accordion.section dd li {
-    font-size: 0.9375rem;
-}
-.accordion .content {
-    display: block;
+.accordion.section dd p, .accordion.section dd ol, .accordion.section dd ul, .accordion.section dd li {
+    font-size: 14px;
 }
 
 #main .side-nav li.active li.active > div > a, #main .side-nav li.active.current > div > a {
@@ -1765,8 +1574,7 @@ div.textimage div.image {
     padding: 0.520833%;
     text-align: center;
     color: white;
-    line-height: 1.1em;
-    font-size: 1.0625rem;
+    line-height: 1.5em;
 }
 
 .breaking-news .inner-wrapper a {

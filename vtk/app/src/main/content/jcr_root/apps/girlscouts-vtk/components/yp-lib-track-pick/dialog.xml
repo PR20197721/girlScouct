@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}450"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <props jcr:primaryType="cq:Panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <track
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Select a Year Plan Track"
+                    fieldLabel="Year Plan Track Mapping"
+                    name="./track"
+                    options="/bin/vtk/v1/scaffoldingdata.json?yearplan=yearplan2017"
+                    optionsRoot="yearplan2017"
+                    optionsTextField="title"
+                    optionsValueField="data"
+                    type="select"
+                    xtype="selection"/>
+                <isnew
+                    cq:lastReplicated="{Date}2017-05-18T13:27:58.809-04:00"
+                    cq:lastReplicatedBy="admin"
+                    cq:lastReplicationAction="Activate"
+                    jcr:mixinTypes="[cq:ReplicationStatus]"
+                    jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}true"
+                    defaultValue="isnew"
+                    fieldLabel="Is the year plan new ?"
+                    name="./isnew"
+                    type="radio"
+                    value="isnew"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <isnew
+                            jcr:primaryType="nt:unstructured"
+                            text="This year plan is new."
+                            value="isnew"/>
+                        <notnew
+                            jcr:primaryType="nt:unstructured"
+                            text="This year plan is not new."
+                            value="notnew"/>
+                    </options>
+                </isnew>
+            </items>
+        </props>
+    </items>
+</jcr:root>

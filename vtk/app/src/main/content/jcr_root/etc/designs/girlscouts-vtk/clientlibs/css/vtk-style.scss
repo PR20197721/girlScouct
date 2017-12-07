@@ -699,6 +699,7 @@
         text-transform: uppercase;
         font-size: 24px;
         display: inline-block;
+        padding-right: 40px;
       }
       a,
       [class*=" icon-"],
@@ -948,6 +949,7 @@
     }
   }
   //modals per JQ UI
+  .ui-dialog { z-index: 2000 !important; }
   .ui-dialog.modalWrap {
     padding:0;
     border-radius:0;
@@ -1267,7 +1269,7 @@
               }
             }
             td {
-              padding:14px;
+              padding:9px;
               border:solid 1px #ccc;
               &:hover {
                 background: #cfefde;
@@ -1287,8 +1289,19 @@
             padding-right: 3px;
           }
         }
+
+        table{
+          tr{
+            td{
+              padding: 9px !important;
+            }
+          }
+        }
       }
     }
+
+
+
     #frmCalElem_1 {
       margin-top:20px;
     }
@@ -1472,6 +1485,14 @@
     }
   }
   .browseMeetingAids {
+    .browseMeetingAidsImage{
+      img{
+        max-width: none;
+        width: auto;
+      }
+    }
+
+
     a, p, span, input {
       font-size: 14px;
     }
@@ -2375,6 +2396,13 @@ input[type="file"] {
 }
 
 
+//Rewrite Modal in all circuntances
+.reveal-modal{
+  &.open{
+    z-index: 2000;
+  }
+}
+
 @import 'vtk-button';
 @import 'vtk-archive';
 @import 'vtk-notes';
@@ -2386,3 +2414,4 @@ input[type="file"] {
 @import 'vtk-banner';
 @import 'vtk-react';
 @import 'vtk-troop-tab';
+@import 'vtk-direct-calendar';

@@ -1,4 +1,4 @@
-<!-- PAGE START activity_react2.jsp -->
+,<!-- PAGE START activity_react2.jsp -->
 <%
 String aid = planView.getYearPlanComponent().getUid();
 pageContext.setAttribute("DETAIL_TYPE", "activity");
@@ -33,14 +33,18 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
        return (
                React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"},
 
-                React.createElement("h6", null, "manage communications"),
+                React.createElement("h6", null, "manage communications "),
 
                   React.createElement("ul", {className: "large-block-grid-2 medium-block-grid-2 small-block-grid-2"},
 
 
-                     React.createElement("li", null,
+
                              React.createElement( Emails)
-                   )
+                             ,
+
+                 	        React.createElement(AttendanceAchievement,{data:this.props.data})
+
+
                 )
                  )
                  )
@@ -51,17 +55,56 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
               render: function() {
                   if( activityHelper.permissions!=null && activityHelper.permissions.indexOf('<%= Permission.PERMISSION_SEND_EMAIL_ACT_ID%>')!=-1){
                       return (
+                                                     React.createElement("li", null,
                               React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Activity Reminder Email"}, "Edit/Send Invitation/Reminder"
                               ,  React.createElement(ViewEmailWithPermis)
+                                                    )
                               )
                               )
                   }else{
-                     return( React.createElement("a", {href: "#", title: "view sent emails", "data-reveal-id": "modal_view_sent_emails"}, "Invitation/Reminder"
+                     return( 
+					React.createElement("li", null,
+                         React.createElement("a", {href: "#", title: "view sent emails", "data-reveal-id": "modal_view_sent_emails"}, "Invitation/Reminder"
                       ,React.createElement(ViewEmailNoPermis)
+                    )
                       ))
                   }
               }
             });
+
+          
+          var AttendanceAchievement = React.createClass({displayName: "Attendance and Achievement",
+              render: function() {
+
+                  
+
+                      var isArch =  "false" ;
+                      var mName=this.props.data.name;
+
+                      var txt="";
+
+                      if( activityHelper.attendanceTotal ==null || activityHelper.attendanceTotal==''){
+                             txt+= "0 present" ;
+                      }else{
+
+                              if(activityHelper.attendanceCurrent ==null || activityHelper.attendanceCurrent ==0 ){
+                                txt+="0 present "  ;
+                              }else{
+                                 txt+=activityHelper.attendanceCurrent +" of "+ activityHelper.attendanceTotal +" present ";
+                              }
+
+
+                      }
+                   return (
+                         React.createElement("li", null,
+                          React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%>",  href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?eType=ACTIVITY&mid="+this.props.data.uid+"&isAch="+isArch+"&mName="+this.props.data.name}, "Record Attendance"),
+                            React.createElement("li", null, "(",txt,")")
+                        )
+                      );
+
+              }
+          });
+          
 
           var ViewEmailWithPermis = React.createClass({displayName: "ViewEmailWithPermis",
               render: function() {
@@ -207,7 +250,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
             }
         }
       });
-      React.render(
+      ReactDOM.render(
               React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?reactActivity=x"+getElem(), pollInterval: 10000}),
                 document.getElementById('theActivity')
               );
@@ -264,7 +307,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
               ),
               React.createElement("p", {dangerouslySetInnerHTML: {__html: this.props.data.content}})
             )
-			,React.createElement(ActivityCommunication)
+                              ,React.createElement(ActivityCommunication,{data:this.props.data})
 			)
           );
         }

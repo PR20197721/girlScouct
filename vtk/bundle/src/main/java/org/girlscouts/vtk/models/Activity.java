@@ -2,6 +2,7 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
@@ -54,9 +55,11 @@ public class Activity extends YearPlanComponent implements Serializable {
 	
 	//outdoor info
 	@Field Boolean isOutdoor= false, isOutdoorAvailable=false;
-	@Field String activityDescription_outdoor;
+	@Field String activityDescription_outdoor, name_outdoor;
 	
-	
+	@Bean( autoUpdate = false)  
+	Attendance attendance;
+
 	
 	public String getRegisterUrl() {
 		return registerUrl;
@@ -354,6 +357,25 @@ public class Activity extends YearPlanComponent implements Serializable {
 	public void setIsOutdoorAvailable(Boolean isOutdoorAvailable) {
 		this.isOutdoorAvailable = isOutdoorAvailable;
 	}
+
+	public String getName_outdoor() {
+		return name_outdoor;
+	}
+
+	public void setName_outdoor(String name_outdoor) {
+		this.name_outdoor = name_outdoor;
+	}
+
+	public Attendance getAttendance() {
+		return attendance;
+	}
+
+	public void setAttendance(Attendance attendance) {
+		this.attendance = attendance;
+	}
+
+	
+	
 	
 	
 }

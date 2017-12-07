@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -69,6 +70,9 @@ public class MeetingUtil {
 
 	@Reference
 	private ConnectionFactory connectionFactory;
+	
+	@Reference
+	SessionFactory sessionFactory;
 	
 	//@Reference
 	//CalendarUtil calendarUtil;
@@ -540,14 +544,15 @@ public class MeetingUtil {
 							.getSchedule().getDates());
 
 			long newDate = new java.util.Date().getTime()+5000;
-			if( !troop.getYearPlan().getSchedule().getDates().trim().equals("") )
+			if( !troop.getYearPlan().getSchedule().getDates().trim().equals("") ){
 			  newDate= new CalendarUtil().getNextDate(VtkUtil
 					.getStrCommDelToArrayStr(troop.getYearPlan()
 							.getCalExclWeeksOf()), sched.get(sched.size() - 1)
 					.getTime(), troop.getYearPlan().getCalFreq(), false);
-			sched.add(new java.util.Date(newDate));
-			troop.getYearPlan().getSchedule()
+			  sched.add(new java.util.Date(newDate));
+			  troop.getYearPlan().getSchedule()
 					.setDates(VtkUtil.getArrayDateToLongComDelim(sched));
+			}
 		}
 
 		troop.getYearPlan().setAltered("true");
@@ -1104,18 +1109,11 @@ public class MeetingUtil {
 			dates = dates.substring(0, dates.length() - 1);
 		troop.getYearPlan().getSchedule().setDates(dates);
 
-		/*
-		String exclDates = troop.getYearPlan().getCalExclWeeksOf();
-		exclDates = exclDates == null ? "" : exclDates;
-		if (exclDates.endsWith(",") || exclDates.equals(""))
-			exclDates += FORMAT_MMddYYYY.format(new java.util.Date(dateToRm))
-					+ ",";
-		else
-			exclDates += ","
-					+ FORMAT_MMddYYYY.format(new java.util.Date(dateToRm))
-					+ ",";
-		troop.getYearPlan().setCalExclWeeksOf(exclDates);
-		*/
+		if( "".equals(dates) ){
+			//rm sched. no dates
+			troop.getYearPlan().getSchedule().setDates(null);
+		}
+		
 		troopUtil.updateTroop(user, troop);
 		isRemoved = true;
 		return isRemoved;
@@ -1128,7 +1126,8 @@ public class MeetingUtil {
 		boolean isRmDt = false;
 		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		
-		meetings = VtkUtil.schedMeetings( meetings, troop.getYearPlan().getSchedule().getDates() );
+		if( troop.getYearPlan().getSchedule() !=null )
+			meetings = VtkUtil.schedMeetings( meetings, troop.getYearPlan().getSchedule().getDates() );
 
 		for (int i = 0; i < meetings.size(); i++) {
 			
@@ -1157,6 +1156,13 @@ public class MeetingUtil {
 	public boolean updateAttendance(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) {
 
+		//MEETING or Attendance
+		String eventType = request.getParameter("eType");
+	
+		String YEAR_PLAN_EVENT="meetingEvents";
+		if( eventType!=null && eventType.equals("ACTIVITY") )
+			YEAR_PLAN_EVENT="activities";
+		
 		String mid = request.getParameter("mid");
 		String attendances[] = null;
 		if (request.getParameter("attendance") != null) {
@@ -1171,10 +1177,15 @@ public class MeetingUtil {
 			}
 		}
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				troopDAO, connectionFactory).getContacts(user.getApiConfig(),
+				troopDAO, connectionFactory, sessionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
+		
+		contacts = contacts.stream()
+				.filter(e-> "GIRL".equals(e.getRole().trim().toUpperCase()) )
+				.collect( java.util.stream.Collectors.toList());
+		
 		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
-				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
+				+ troop.getSfTroopId() + "/yearPlan/"+ YEAR_PLAN_EVENT +"/" + mid
 				+ "/attendance";
 		java.util.List<String> Attendances = new java.util.ArrayList<String>();
 		Attendance ATTENDANCES = getAttendance(user, troop, path);
@@ -1234,7 +1245,19 @@ public class MeetingUtil {
 		}
 		ATTENDANCES.setTotal(cTotal);
 		setAttendance(user, troop, mid, ATTENDANCES);
+		
+		if(troop.getYearPlan().getActivities()!=null && troop.getYearPlan().getActivities().size()>0 ){
+			//update activity 
+			Activity _thisActivity = troop.getYearPlan().getActivities().stream()
+			.filter( _activity -> _activity.getPath().equals( path.substring(0, path.lastIndexOf("/")) ) )
+			.findAny()                                    
+	        .orElse(null); 
+			
+			if( _thisActivity !=null )
+				_thisActivity.setAttendance( ATTENDANCES);
+		}
 
+		
 		return false;
 	}
 
@@ -1261,7 +1284,7 @@ public class MeetingUtil {
 
 	public boolean updateAchievement(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) {
-
+					
 		String mid = request.getParameter("mid");
 		String attendances[] = null;
 		if (request.getParameter("achievement") != null) {
@@ -1279,7 +1302,7 @@ public class MeetingUtil {
 		}
 
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				troopDAO, connectionFactory).getContacts(user.getApiConfig(),
+				troopDAO, connectionFactory, sessionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
 		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
@@ -1561,6 +1584,8 @@ public class MeetingUtil {
         }
 	}
 	
-	
+	public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException{
+		return meetingDAO.getOutdoorMeetings( user,  troop);
+	}
 	
 }// edn class

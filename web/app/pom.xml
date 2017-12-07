@@ -39,6 +39,12 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.girlscouts.vtk</groupId>
+      <artifactId>girlscouts-vtk-bundle</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.girlscouts.web</groupId>
       <artifactId>opencsv-wrapper</artifactId>
       <version>${project.version}</version>
