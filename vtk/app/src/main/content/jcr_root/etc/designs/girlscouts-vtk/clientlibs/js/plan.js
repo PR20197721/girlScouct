@@ -1363,9 +1363,7 @@ var ModalVtk = (function() {
 
 
 
-var initNotes = (function(global, ModalVtk, $) {
-
-    debugger;
+var initNotes = (function (global, ModalVtk, $) {
     var modal = new ModalVtk();
     var globalMid, userLoginId;
 
@@ -1405,18 +1403,7 @@ var initNotes = (function(global, ModalVtk, $) {
                 
                         if (x) {
                             checkQuantityNotes($('.vtk-notes_item').length)
-                            interateNotes(thisMeetingNotes.filter(function (note) { return note.uid !==  $(e.target).parents('li').data('uid')}))
-
-
-                            // var req = getNotes(globalMid, userLoginId);
-                            // req.then(
-                            //     function (json) {
-                            //         interateNotes(json);
-                            //     },
-                            //     function (err) {
-                            //         console.log(err);
-                            //     })
-                        
+                            interateNotes(thisMeetingNotes.filter(function (note) { return note.uid !==  $(e.target).parents('li').data('uid')}))                      
                         }
                     }).fail(function(err) {
                         console.log('error', err)
@@ -1644,9 +1631,9 @@ var initNotes = (function(global, ModalVtk, $) {
                 return {}
             }
         },
-        newNote: function(note) {
 
-            debugger;
+        newNote: function (note) {
+
             var date = moment(note.createTime);
 
             var dateString = date.format('MM/DD/YYYY');
@@ -1901,6 +1888,7 @@ var initNotes = (function(global, ModalVtk, $) {
             }
         }
     }
+
     var utility = {
         compileTemplate: function(template) {
             //Create the Dom Element assing the the class and event
@@ -1996,6 +1984,7 @@ var initNotes = (function(global, ModalVtk, $) {
             }
         }
     }
+
     function check_charcount_x(element, e, counter) {
         counter.methods.textChange(element, e.target);
         if (e.which != 8 && element.text().length > 499) {
@@ -2004,7 +1993,7 @@ var initNotes = (function(global, ModalVtk, $) {
     }
 
     function ajaxConnection(ajaxOptions) {
-        debugger;
+
         ajaxOptions.cache = false;
         return $.ajax(ajaxOptions);
     }
@@ -2060,7 +2049,6 @@ var initNotes = (function(global, ModalVtk, $) {
     }
 
     function rmNote(nid) {
- 
         return ajaxConnection({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
             cache: false,
