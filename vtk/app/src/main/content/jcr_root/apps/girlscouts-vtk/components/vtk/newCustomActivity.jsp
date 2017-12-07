@@ -316,7 +316,7 @@ function inputLogic(){
             <div class="row">
               <div class="columns small-24">
                 <label for="sch_lvl" ACCESSKEY="p">Program Level</label>
-                <ul class="small-block-grid-2 large-block-grid-6 medium-block-grid-3 formCheckboxes">
+                <ul class="small-block-grid-1 large-block-grid-4 medium-block-grid-3 formCheckboxes">
                   <% java.util.Iterator itr1= levels.keySet().iterator();
                     int i=0;
                     while( itr1.hasNext() ){
@@ -334,7 +334,7 @@ function inputLogic(){
             <div class="row">
               <div class="columns small-24">
                 <label for="sch_cats" ACCESSKEY="i">Categories</label>
-                <ul class="small-block-grid-2 large-block-grid-6 medium-block-grid-3 formCheckboxes">
+                <ul class="small-block-grid-1 large-block-grid-4 medium-block-grid-3 formCheckboxes">
                   <% java.util.Iterator itr= categories.keySet().iterator();
                   i=0;
                   while( itr.hasNext() ){
@@ -356,7 +356,7 @@ function inputLogic(){
             </div>
 
             <input id="view_activities_button" type="button" value="View Activities" onclick='searchActivities()' class="button btn right inactive-button" />
-
+            <div style="clear:both"></div>
             <div id="searchResults"></div>
           </form>
         </div><!--/pickActivitySection-->
@@ -516,7 +516,8 @@ function searchActivities() {
 		},
 		success: function(result) {
 			$("#searchResults").load('/content/girlscouts-vtk/controllers/vtk.searchActivity.html');
-			vtkTrackerPushAction('SearchActivities');
+      vtkTrackerPushAction('SearchActivities');
+      $("#gsModal").find('.tabs-wrapper.scroll').delay(200).animate({scrollTop: $('#searchResults').offset().top - 50 }, 100);
 		}
 	});
 }
