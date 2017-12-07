@@ -841,7 +841,8 @@ function expiredcheck(ssId, ypId) {
 
 
 //tmp need to replace with original
-function showError(x, y) {}
+function showError(message, domElement) {
+}
 
 function rmTroopInfo() {
 

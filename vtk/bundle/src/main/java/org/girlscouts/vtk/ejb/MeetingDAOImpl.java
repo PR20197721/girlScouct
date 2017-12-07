@@ -928,7 +928,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					troop, councilStr);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/"+ tagStr + "/%'";
+			String sql = "select jcr:title from cq:Tag where jcr:path like '/etc/tags/"+ tagStr + "/%'";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1005,8 +1005,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			session = sessionFactory.getSession();
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			//String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/" + councilStr + "/%'";
-			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/" + councilStr + "%'";
+			String sql = "select jcr:title from cq:Tag where jcr:path like '/etc/tags/" + councilStr + "%'";
 			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -1231,6 +1230,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 		java.util.Map<String, String> container = new java.util.TreeMap();
 		Session session = null;
 		Node homepage = null;
+		
+		if( councilStr!=null && !councilStr.startsWith("/content/") )
+			councilStr= "/content/" + councilStr;
+		
 		String repoStr = councilStr + "/en/events-repository";
 		try {
 			session = sessionFactory.getSession();
@@ -1707,6 +1710,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			sql += regionSql;
 			sql += sqlTags;
 			sql += sqlCat;
+			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1745,12 +1749,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 				} catch (Exception e) {
 				}
 				// TODO: end of hacking timezone
-
 				if ((activity.getDate().before(new java.util.Date()) && activity
 						.getEndDate() == null)
 						|| (activity.getEndDate() != null && activity
-								.getEndDate().before(new java.util.Date()))) {
-					
+								.getEndDate().before(new java.util.Date()))) {				
 					continue;
 				}
 				try {
@@ -1787,16 +1789,31 @@ public class MeetingDAOImpl implements MeetingDAO {
 				}
 
 				if (startDate != null && endDate != null) {
+
 					startDate.setHours(0);
 					endDate.setHours(23);
 
-					if (activity.getDate() != null
-							&& activity.getDate().after(startDate)
-							&& activity.getDate().before(endDate))
-						;
-					else {
-						continue;
-					}
+
+					
+					if( activity.getDate() != null && (  //start date
+							activity.getDate().equals(endDate) ||
+							activity.getDate().before(endDate) ) ){
+
+							;
+					}else if( activity.getEndDate() != null && (  //end date
+							 activity.getEndDate().equals(endDate) ||
+							 activity.getEndDate().equals(startDate) ||
+							 activity.getEndDate().before(endDate) && activity.getEndDate().after(startDate)
+							 )
+							 ){
+
+						 ;
+					 }else{
+
+						 continue;
+					 }
+					
+					
 				}
 
 				toRet.add(activity);

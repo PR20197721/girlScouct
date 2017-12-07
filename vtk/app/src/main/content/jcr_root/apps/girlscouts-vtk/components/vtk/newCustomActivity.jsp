@@ -15,32 +15,29 @@ function disabledButton(boolean){
   }
 }
 
-
-
-
-
-
 function _checkInput(){
   return $('#sch_keyword').val().length >= 3;
 }
 
+function _checkTags(){
+
+  var lvl=  $.trim(checkAll('sch_lvl'));
+  var cat=  $.trim(checkAll('sch_cats'));
+  if( lvl !='' || cat !='')
+       return true;
+  return false;
+
+}
 
 function _checkCalendar(){
 
   return $('#sch_startDate').val() &&  $('#sch_endDate').val();
-  // if($('#sch_startDate').val() &&  $('#sch_endDate').val()){
-  //   disabledButton(false);
-  // }else{
 
-  //   disabledButton(true)
-  // }
 }
 
 
 function inputLogic(){
-
-  console.log((_checkInput() && !_checkCalendar()),(_checkCalendar() && _checkInput()))
-  return (_checkInput() && !_checkCalendar()) || (_checkCalendar() && _checkInput()) || (($('#sch_keyword').val().length == 0 || $('#sch_keyword').val() == "") && _checkCalendar()) ; 
+	return _checkTags() || ((_checkInput() && !_checkCalendar()) || (_checkCalendar() && _checkInput()) || (($('#sch_keyword').val().length == 0 || $('#sch_keyword').val() == "") && _checkCalendar())) ; 
 }
 
 
@@ -279,6 +276,7 @@ function inputLogic(){
           </form>
         </div><!--/create activity-->
 
+
         <div id="pickActivitySection">
           <form id="schFrm">
             <!-- <div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div> -->
@@ -290,6 +288,7 @@ function inputLogic(){
               java.util.Map<String, String> region =search.getRegion();
               %>
             <div class="row">
+
 
               <div class="small-24 medium-12 large-12 columns">
                 <label for="sch_keyword" ACCESSKEY="f">Find Activity by:</label>
@@ -324,12 +323,13 @@ function inputLogic(){
                     i++;
                     String str=(String) itr1.next();
                     %>
-                    <li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"/>
+                    <li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>" onchange="submitenter(this, event)"/>
                     <label for="sch_lvl_<%=i %>"><p><span><%= levels.get(str) %></span></p></label></li>
                   <% } %>
                 </ul>
               </div>
             </div>
+
 
             <div class="row">
               <div class="columns small-24">
@@ -342,7 +342,7 @@ function inputLogic(){
                   String str=(String) itr.next();
                   %>
                   <li>
-                    <input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>
+                    <input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>" onchange="submitenter(this, event)"/>
                     <label class="tty" for="sch_cats_<%=i %>"><p><span><%= categories.get(str) %></span></p></label>
                   </li>
                   <% } %>
@@ -355,7 +355,7 @@ function inputLogic(){
             
             </div>
 
-            <input id="view_activities_button" type="button" value="View Activities" onclick='searchActivities()' class="button btn right inactive-button"/>
+            <input id="view_activities_button" type="button" value="View Activities" onclick='searchActivities()' class="button btn right inactive-button" />
 
             <div id="searchResults"></div>
           </form>
@@ -454,20 +454,21 @@ function checkAll(x) {
 }
 
 function searchActivities() {
-	showError(null, "#pickActivitySection .errorMsg");
+
+    showError(null, "#pickActivitySection .errorMsg");
 	var  keywrd = $.trim(document.getElementById("sch_keyword").value);
 	if( keywrd.length>0 && keywrd.length<3  ){
 		var thisMsg = "Min 3 character search for keyword: "+ keywrd;
                 showError(thisMsg, "#pickActivitySection .errorMsg");
 		return false;
 	}
-	
+
 	var lvl=  $.trim(checkAll('sch_lvl'));
 	var cat=  $.trim(checkAll('sch_cats'));
 	var startDate = $.trim(document.getElementById("sch_startDate").value);
 	var endDate = $.trim(document.getElementById("sch_endDate").value);
-	
-	
+
+
 	
 	if(!isDate(startDate) && startDate != ''){setError("Invalid Start Date");return false;}
     if(!isDate(endDate) && endDate!=''){setError("Invalid End Date");return false;}
@@ -488,7 +489,7 @@ function searchActivities() {
         setError("The End Date cannot be less than Start Date"); 
 		return false;
 	}
-	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' ){
+	if( lvl=='' && cat=='' && keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' ){
 		var thisMsg = "Please select search criteria.";
                 showError(thisMsg, "#pickActivitySection .errorMsg");
 		return false;
@@ -498,7 +499,7 @@ function searchActivities() {
     document.getElementById("dateTitle").style.color = "#FF0000";
     document.getElementById("dateErrorBox").innerHTML = "";
     document.getElementById("dateTitle").style.color = "";
-	
+
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -541,7 +542,7 @@ function isDate(txtDate) {
     
     if (dtArray == null) 
         return false;
-    
+
     //Checks for mm/dd/yyyy format.
     dtMonth = dtArray[1];
     dtDay= dtArray[3];
