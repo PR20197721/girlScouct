@@ -928,7 +928,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 					troop, councilStr);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select jcr:title from cq:Tag where jcr:path like '/etc/tags/"+ tagStr + "/%'";
+			//String sql = "select jcr:title from cq:Tag where jcr:path like '/etc/tags/"+ tagStr + "/%'";
+			String sql = "select jcr:title from cq:Tag where ISDESCENDANTNODE( '/etc/tags/"+ tagStr + "')";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
