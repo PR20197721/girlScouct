@@ -175,27 +175,6 @@ function fixSlickSlideActive() {
         });
     }
 
-    function pauseAllCarouselVideos() {
-        var vimeoPlayer,
-            youtubePlayer,
-            vidPlayer,
-            i;
-
-        for (i = 0; i < 4; i += 1) {
-            vimeoPlayer = $("#vimeoPlayer" + i);
-            youtubePlayer = $("#youtubePlayer" + i);
-            vidPlayer = $(".vid" + i + " video");
-
-            if (vimeoPlayer.length > 0) { // Vimeo
-                vimeoPlayer.api('pause');
-            } else if (youtubePlayer.length > 0) { // YouTube
-                youtubePlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-            } else if (vidPlayer.length > 0) { // Vid
-                vidPlayer.pause();
-            }
-        }
-    }
-
     function document_close_all() {
 
         //Detect ipad
@@ -579,11 +558,7 @@ function fixSlickSlideActive() {
             }
         });
     } //END OF EXPLORER CLICK FUNCTION
-    /*
-    $('.inner-sliders .slide-4').on('afterChange', function (event, slick, currentSlide) {
-        pauseAllCarouselVideos();
-    });
-    */
+
     $('.inner-sliders .inner').on('init reInit afterChange', function (slick, currentSlide, index) {
         var item_length = $('.inner-sliders .inner > .slick-list > .slick-track > li').length - 1;
         if (item_length == index) {
@@ -750,6 +725,111 @@ function fixSlickSlideActive() {
     };
     */
 
+    //
+    //
+    // SLICK VIDEO PLAYER
+    //
+    //
+
+    var slick = $('.slick-slider'),
+        embeds = slick.find('iframe'),
+        underbar = {
+            el: $('.zip-council'),
+            show: function () {
+                if (this.el.length && $(window).width() > 768) { // Desktop only
+                    this.el.slideDown(1000);
+                }
+            },
+            hide: function () {
+                if (this.el.length && $(window).width() > 768) {
+                    this.el.slideUp(0);
+                }
+            }
+        },
+        iframe,
+        i;
+
+    function stopSlider() {
+        if (slick != undefined && slick.slick != undefined) {
+            slick.slick('slickPause');
+            slick.slick('slickSetOption', 'autoplay', false, false);
+            slick.slick('autoPlay', $.noop);
+            underbar.hide();
+        }
+    }
+
+    function startSlider() {
+        if (slick != undefined && slick.slick != undefined) {
+            slick.slick('slickPlay');
+            slick.slick('slickSetOption', 'autoplay', true, false);
+            slick.slick('autoPlay', $.noop);
+            underbar.show();
+        }
+    }
+
+    function createVimeoPlayer(iframe) {
+        // Add listener events
+        var player = new Vimeo.Player(iframe.el);
+
+        player.on('play', function () {
+            stopSlider();
+        });
+
+        slick.on('beforeChange', function (event, slick, currentSlide) {
+            if (iframe.slide.hasClass("slick-active")) { // Trigger only when moving away from potentially active slide
+                startSlider();
+                player.unload();
+            }
+        });
+    }
+
+    function createYTPlayer(iframe) {
+        // Add listener events
+        var player = new YT.Player(iframe.el.attr('id'));
+
+        player.addEventListener("onReady", function () {
+            player.addEventListener("onStateChange", function (event) {
+                if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering to prevent delay before playing
+                    stopSlider();
+                }
+            });
+
+            slick.on('beforeChange', function (event, slick, currentSlide) {
+                if (iframe.slide.hasClass("slick-active")) {
+                    startSlider();
+                    player.stopVideo();
+                }
+            });
+        });
+    }
+
+    function bindPlayer(iframe) {
+        // Create players
+        if (iframe.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
+            createVimeoPlayer(iframe);
+        } else if (iframe.type.indexOf('youtube') > -1) { // Check for a YouTube player
+            if (!YT.Player) {
+                window.onYouTubeIframeAPIReady = function () { // Wait until script loads if it has not already
+                    createYTPlayer(iframe);
+                };
+            } else {
+                createYTPlayer(iframe);
+            }
+        }
+    }
+
+    // For each embed (Make sure player.js is loaded first)
+    for (i = 0; i < embeds.length; i += 1) {
+        iframe = $(embeds[i]);
+        bindPlayer({
+            el: iframe,
+            type: iframe.attr('id').toLowerCase(),
+            slide: iframe.parents(".slick-slide")
+        });
+    }
+    
+    
+
     function hide_show_cookie() {
         $('#meet-cookie-layout section').hide();
         $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
@@ -833,7 +913,7 @@ function fixSlickSlideActive() {
         // Set placeholders
         headerHeight = header.height();
         placeholder.height(headerHeight);
-        
+
         // Set offset
         if (!mobile) { // Desktop header
             header.addClass(fixedClass);
@@ -844,7 +924,7 @@ function fixSlickSlideActive() {
         } else { // Mobile header
             offset = header.offset().top;
         }
-        
+
         // Reset fix
         $(window).trigger("scroll");
     }
@@ -860,7 +940,7 @@ function fixSlickSlideActive() {
         // Set new header
         header = mobile ? mobileHeader : desktopHeader;
         placeholder = mobile ? mobilePlaceholder : desktopPlaceholder;
-        
+
         // Set offset
         setOffset();
     }
@@ -906,37 +986,6 @@ function fixSlickSlideActive() {
 // Helper Functions
 //
 //
-
-function stopSlider() {
-    'use strict';
-    var slick = $('.video-slider-wrapper');
-    if (slick !== undefined && slick.slick !== undefined) {
-        slick.slick('slickPause');
-        slick.slick('slickSetOption', 'autoplay', false, false);
-        slick.slick('autoPlay', $.noop);
-    }
-}
-
-function attachEventPlayer(player) {
-    'use strict';
-    player.on('play', function () {
-        stopSlider();
-    });
-}
-
-function attachListenerToVideoSlider() {
-    'use strict';
-    var iframe,
-        player,
-        i;
-    for (i = 0; i < $('.vid-slide-wrapper iframe').length; i += 1) {
-        iframe = $('.vid-slide-wrapper iframe')[i];
-        if ($(iframe).hasClass("vimeo")) {
-            player = new Vimeo.Player($(iframe));
-            attachEventPlayer(player);
-        }
-    }
-}
 
 // useful utility printer of object properties
 function printObjectProperties(objectToInspect) {

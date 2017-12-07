@@ -158,55 +158,9 @@ public  String readUrlFile(String urlString) throws Exception {
 				  			   <div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>"></div>
 				  			<% } %>
 			  			<% } else { %>
-				  			<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" width="480" height="225" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+				  			<iframe id="<%= urls[3] %>_<%= urls[2] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" width="480" height="225" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
 			  			<% } %>
 		  			</div>
-		  			<script type="text/javascript">
-                        $(function() {
-                            
-                            var slick = $('.video-slider-wrapper'),
-                                vimeoIframe = $(".vimeo"),
-                                vimeoPlayer = [],
-                                youtubePlayer = $('.lazyYT > iframe');
-
-                            function stopSlider() {
-                                if (slick != undefined && slick.slick != undefined) {
-                                    slick.slick('slickPause');
-                                    slick.slick('slickSetOption', 'autoplay', false, false);
-                                    slick.slick('autoPlay', $.noop);
-                                }
-                            }
-
-                            function pauseVideoSliderVideosVimeo() {
-                                $.each(vimeoPlayer, function (i, player) {
-                                    player.unload();
-                                });
-                            };
-
-                            function pauseVideoSliderVideosYoutube() {
-                                $.each(youtubePlayer, function (i, iframe) {
-                                    iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-                                });
-                            }
-
-                            slick.on('afterChange', function (event, slick, currentSlide) {
-                                pauseVideoSliderVideosYoutube();
-                                pauseVideoSliderVideosVimeo();
-                            });
-                            
-                            $.each(vimeoIframe, function (i, iframe) {
-                                
-                                // Create Vimeo player objects
-                                vimeoPlayer.push(new Vimeo.Player(iframe));
-                                
-                                // Add player listeners
-                                vimeoPlayer[i].on('play', function () {
-                                    stopSlider();
-                                });
-                            });
-
-                        });
-                    </script>
 	  			</div>
 			<% } else { %>
 				<div>*** Format not supported ***</div>
