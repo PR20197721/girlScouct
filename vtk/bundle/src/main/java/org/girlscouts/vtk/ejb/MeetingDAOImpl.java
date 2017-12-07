@@ -1250,9 +1250,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 			}
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select region, start, end from cq:Page where jcr:path like '/content/"
-					+ repoStr
-					+ "/%' and region is not null";
+			//String sql = "select region, start, end from cq:Page where jcr:path like '/content/"
+			String sql = "select region, start, end from cq:Page where ISDESCENDANTNODE('"+ repoStr+ 
+					"')  and region is not null";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
