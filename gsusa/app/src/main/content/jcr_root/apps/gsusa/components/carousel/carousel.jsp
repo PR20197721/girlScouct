@@ -95,7 +95,7 @@ public  String readUrlFile(String urlString) throws Exception {
 					videoId[i] = ytId;
 					videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
 					//				link[i] = "https://www.youtube.com/watch?v=" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
-					link[i] = "https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
+					link[i] = "https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent&showinfo=1";
 				} else if (link[i].indexOf("vimeo") != -1) {
 					String vimeoId = extractVimeoId(link[i]);
 					videoId[i] = vimeoId;
@@ -132,7 +132,6 @@ public  String readUrlFile(String urlString) throws Exception {
 	$(function() {		
 
         var slick = $('.main-slider'),
-            slides = slick.find("[id*='tag_explore_main']"),
             slideButton = slick.find('> button'),
             embeds = slick.find('iframe'),
             underbar = {
@@ -149,12 +148,7 @@ public  String readUrlFile(String urlString) throws Exception {
                 },
             },
             iframe,
-            type,
             i;
-
-		/*slick.on('afterChange', function (event, slick, currentSlide) {
-            underbar.show();
-		});*/
 		
         function stopSlider() {
 			if (slick != undefined && slick.slick != undefined) {
@@ -174,59 +168,65 @@ public  String readUrlFile(String urlString) throws Exception {
 			}
 		}
         
-        /*window.addEventListener("onYouTubeIframeAPIReady", function () {
-            console.log("event");
-        });
-        
-        function onYouTubeIframeAPIReady() {
-            console.log("function");
+        function createVimeoPlayer(iframe) {
+            // Add listener events
+            var player = new Vimeo.Player(iframe.el);
+
+            player.on('play', function() {
+                stopSlider();
+            });
+
+            slick.on('beforeChange', function (event, slick, currentSlide) {
+                if (iframe.slide.hasClass("slick-active")) { // Trigger only when moving away from potentially active slide
+                    startSlider();
+                    player.unload();
+                }
+            });
         }
         
-        window.onYouTubeIframeAPIReady = function () {
-            console.log("window");
-        }*/
-            
-        // For each slide (Make sure player.js is loaded first)
-        for (i = 0; i < slides.length; i += 1) {
-            iframe = $(embeds[i]);
-            type = iframe.attr('id').toLowerCase();
+        function createYTPlayer(iframe) {
+            // Add listener events
+            var player = new YT.Player(iframe.el.attr('id'));
 
-            // Check for a Vimeo player
-            if (iframe.length > 0) { 
-                if (type.indexOf('vimeo') > -1) { // Check for a Vimeo player
-                    // Add listener events
-                    var player = new Vimeo.Player(iframe);
-
-                    player.on('play', function() {
+            player.addEventListener("onReady", function () {
+                player.addEventListener("onStateChange", function (event) {
+                    if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering to prevent delay before playing
                         stopSlider();
-                    });
+                    }
+                });
 
-                    slideButton.on('click', function() {
+                slick.on('beforeChange', function (event, slick, currentSlide) {
+                    if (iframe.slide.hasClass("slick-active")) {
                         startSlider();
-                        player.unload();
-                    });
-                } else if (type.indexOf('youtube') > -1) { // Check for a YouTube player
-                    // Add listener events
-                    var player = new YT.Player(iframe.attr('id'));
-
-                    player.addEventListener("onReady", function () {
-                        //console.log("Video Loaded");
-                        //console.log(player);
-                        player.addEventListener("onStateChange", function (event) {
-                            //console.log(event.data);
-                            if (event.data == YT.PlayerState.BUFFERING) {
-                                //console.log("Playing");
-                                stopSlider();
-                            }
-                        });
-
-                        slideButton.on('click', function() {
-                            startSlider();
-                            player.stopVideo();
-                        });
-                    });
+                        player.stopVideo();
+                    }
+                });
+            });
+        }
+        
+        function bindPlayer(iframe) {
+            // Create players
+            if (iframe.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
+                createVimeoPlayer(iframe);
+            } else if (iframe.type.indexOf('youtube') > -1) { // Check for a YouTube player
+                if (!YT.Player) {
+                    window.onYouTubeIframeAPIReady = function () { // Wait until script loads if it has not already
+                        createYTPlayer(iframe);
+                    }
+                } else {
+                    createYTPlayer(iframe);
                 }
             }
+        }
+            
+        // For each embed (Make sure player.js is loaded first)
+        for (i = 0; i < embeds.length; i += 1) {
+            iframe = $(embeds[i]);
+            bindPlayer({
+                el: iframe,
+                type: iframe.attr('id').toLowerCase(),
+                slide: iframe.parents(".slick-slide")
+            });            
         }
     });
 
