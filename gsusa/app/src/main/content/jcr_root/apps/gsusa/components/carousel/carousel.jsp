@@ -127,22 +127,8 @@ public  String readUrlFile(String urlString) throws Exception {
 	request.setAttribute("source7", source7);
 %>
 
-
-<script type="text/javascript">
-	var isRetina = (
-		window.devicePixelRatio > 1 || (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
-	);
-    
-	//this value is used to adjust the speed of the carousel on the first opening page.
-	homeCarouselAutoScroll = <%=homeCarouselAutoscroll%>;
-	homeCarouselTimeDelay = <%=homeCarouselTimeDelay%>;
-	homeCarouselAutoPlaySpeed = <%=homeCarouselAutoPlaySpeed%>;
-</script>
-
-
-
 <div class="hero-feature">
-	<ul class="main-slider"><%
+	<ul class="main-slider" slick-options='{"speed":<%=homeCarouselTimeDelay%>, "autoplay":<%=homeCarouselAutoscroll%>, "autoplaySpeed":<%=homeCarouselAutoPlaySpeed%>}'><%
         for (int i = 0 ; i < numberOfImages; i++) { 
 			if (!tempHidden[i]) {
                 String titleYT = !"".equals(title[i]) ? "data-display-title='true' title='" + title[i] + "'" : "";

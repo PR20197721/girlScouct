@@ -1,6 +1,6 @@
 /*jslint browser: true, eqeq: true*/
 /*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console */
-/*global homeCarouselTimeDelay, homeCarouselAutoScroll, homeCarouselAutoPlaySpeed, videoSliderAuto, videoSliderDelay, shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL, joinRedirectAutoplaySpeed, joinRedirectSpeed */
+/*global shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL, joinRedirectAutoplaySpeed, joinRedirectSpeed */
 
 //
 //
@@ -8,6 +8,11 @@
 // https://google.github.io/styleguide/javascriptguide.xml#Naming
 //
 //
+var isRetina = (
+    window.devicePixelRatio > 1 ||
+    (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
+);
+
 var boundHashForms = {};
 
 function bindSubmitHash(form) {
@@ -446,13 +451,18 @@ function fixSlickSlideActive() {
         });
     }
     */
+    var slickOptions = {};
+    if ($('.main-slider').attr("slick-options")) {
+        slickOptions = JSON.parse($('.main-slider').attr("slick-options"));
+    }
+
     $('.main-slider').slick({
         dots: false,
-        speed: (typeof homeCarouselTimeDelay != 'undefined') ? homeCarouselTimeDelay : 1000,
+        speed: slickOptions.speed || 1000,
         fade: false,
-        autoplay: (typeof homeCarouselAutoScroll != 'undefined') ? homeCarouselAutoScroll : false,
+        autoplay: slickOptions.autoplay || false,
         arrows: true,
-        autoplaySpeed: (typeof homeCarouselAutoPlaySpeed != 'undefined') ? homeCarouselAutoPlaySpeed : 2000,
+        autoplaySpeed: slickOptions.autoplaySpeed || 2000,
         cssEase: 'linear',
         slidesToShow: 1,
         infinite: true,
@@ -641,12 +651,41 @@ function fixSlickSlideActive() {
         imageMap.resize();
     }
 
+    if ($('.video-slider-wrapper').attr("slick-options")) {
+        slickOptions = JSON.parse($('.video-slider-wrapper').attr("slick-options"));
+    }
+
+    function getInternetExplorerVersion() {
+        //Returns the version of Internet Explorer or a -1
+        //(indicating the use of another browser).
+
+        var rv = -1; // Return value assumes failure.
+        if (navigator.appName == 'Microsoft Internet Explorer') {
+            var ua = navigator.userAgent;
+            var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+            if (re.exec(ua) != null) {
+                rv = parseFloat(RegExp.$1);
+            }
+        }
+        return rv;
+    }
+
+    function checkVersion() {
+        var ver = getInternetExplorerVersion();
+
+        if (ver > -1 && ver <= 9.0) {
+            console.log("No auto slide due to browser incompatibility");
+            slickOptions.autoplay = false;
+        }
+    }
+    checkVersion();
+
     $('.video-slider-wrapper').slick({
         dots: false,
         speed: 500,
         fade: false,
-        autoplay: (typeof videoSliderAuto != 'undefined') ? videoSliderAuto : false,
-        autoplaySpeed: (typeof videoSliderDelay != 'undefined') ? videoSliderDelay : 2000,
+        autoplay: slickOptions.autoplay || false,
+        autoplaySpeed: slickOptions.autoplaySpeed || 2000,
         cssEase: 'linear',
         centerMode: true,
         slidesToShow: 1,
@@ -732,6 +771,7 @@ function fixSlickSlideActive() {
     //
 
     var slick = $('.slick-slider'),
+        autoplay = slick.slick('slickGetOption', 'autoplay'),
         embeds = slick.find('iframe'),
         underbar = {
             el: $('.zip-council'),
@@ -759,7 +799,7 @@ function fixSlickSlideActive() {
     }
 
     function startSlider() {
-        if (slick != undefined && slick.slick != undefined) {
+        if (slick != undefined && slick.slick != undefined && autoplay) {
             slick.slick('slickPlay');
             slick.slick('slickSetOption', 'autoplay', true, false);
             slick.slick('autoPlay', $.noop);
@@ -827,8 +867,6 @@ function fixSlickSlideActive() {
             slide: iframe.parents(".slick-slide")
         });
     }
-    
-    
 
     function hide_show_cookie() {
         $('#meet-cookie-layout section').hide();
