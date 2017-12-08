@@ -9,28 +9,66 @@
 	boolean isQuote = properties.get("isQuote", false);
 	boolean hasQuotee = properties.get("hasQuotee", false);
 	String quotee = properties.get("quotee", "");
-	boolean icons = properties.get("icons",false);
+	String textAlignment = properties.get("textalignment", "");
+	String textSize = properties.get("textsize", "");
+	String lineHeight = properties.get("lineheight", "");
+	String textColor = properties.get("textcolor", "");
+	String backgroundColor = properties.get("backgroundcolor", "");
+	String borderColor = properties.get("bordercolor", "");
 %>
-<% if(isQuote){ %>
-<blockquote class="quotes <%= style %>">
-<% }else{ %>
-<blockquote class="<%= style %>">
-<% } %>
-    <%= text %>
+<blockquote class="<% if(isQuote){ %>quotes <%}%><%= style %>" style="
+
+    <% if (backgroundColor.length()>0) { %>
+    	background: #<%=backgroundColor%>;
+    <% } %>
+
+    <% if (borderColor.length()>0) { %>
+    	border-color: #<%=borderColor%>;
+    <% } %>
+
+">
+    <p style="
+
+	<% if(isQuote) { %>
+		padding-top: 4px;
+
+		<% if(hasQuotee) { %>
+			padding-bottom: 8px; 
+	    <% } %>
+    <% } %>
+    
+    <% if (textAlignment.length()>0) { %>
+    	text-align: <%=textAlignment%>;
+    <% } %>
+
+    <% if (textSize.length()>0) { %>
+    	font-size: <%=textSize%>;
+    <% } %>
+    
+    <% if (lineHeight.length()>0) { %>
+    	line-height: <%=lineHeight%>;
+    <% } %>
+
+    <% if (textColor.length()>0) { %>
+    	color: #<%=textColor%>;
+    <% } %>
+
+    "><%= text %></p>
     <% if(isQuote && hasQuotee && !quotee.equals("")){ %>
-    <p class="quotee">&#8212; <%= quotee %></p>
-    <% } else { %>
-    <% } if(icons) { %>
-        <section class="clearfix">
-            <ul class="social-icons inline-list">
-                <li><a href="https://www.facebook.com/GirlScoutsUSA" class="icon-social-facebook"></a></li>
-                <li><a href="https://twitter.com/girlscouts" class="icon-social-twitter-tweet-bird"></a></li>
-                <li><a href="http://instagram.com/girlscouts" class="icon-social-instagram"></a></li>
-            </ul>
-        </section>
-    <% } else { %>
-    	<section>
-	    <ul></ul>
-	    </section>
+    	<p class="quotee" style="
+    	
+	    <% if (textSize.length()>0) { %>
+	    	font-size: <%=textSize%>;
+	    <% } %>
+    
+	    <% if (lineHeight.length()>0) { %>
+    		line-height: <%=lineHeight%>;
+	    <% } %>
+	
+    	<% if (textColor.length()>0) { %>
+	    	color: #<%=textColor%>;
+	    <% } %>
+    	
+    	">&#8212; <%= quotee %></p>
     <% } %>
 </blockquote>

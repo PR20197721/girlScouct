@@ -93,7 +93,8 @@
     form .wrapper {
       margin-top: rem-calc(10);
     }
-    input[type="text"] {
+    input[type="text"],
+    input[type="tel"] {
       float: left;
       width: 48%;
       padding-left: 5px;

@@ -1,4 +1,4 @@
-package apps.wcm.core.components.gsbulkeditor;
+package org.girlscouts.web.servlets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -641,6 +641,10 @@ public class POST extends SlingAllMethodsServlet {
     		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Input/Output error at line "+lineCount +". Process aborted");
         	return response;
+    	} catch(NullPointerException e){
+    		response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "General error at line "+lineCount +". Process aborted");
+        	throw e;
     	} catch(Exception e){
     		response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "General error at line "+lineCount +". Process aborted");

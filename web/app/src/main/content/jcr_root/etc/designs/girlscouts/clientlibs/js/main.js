@@ -40,7 +40,7 @@ function retrieveEvents(){
                 eventIds = eventIds + ",";
             }
             eventIds=eventIds + $eventsCookie.events[i][0];
-            navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
+            navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped + "', '" + $eventsCookie.events[i][3] + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
         }
         navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + eventToSalesforce + eventIds + "\">REGISTER</a></dd></dl></div>";
         $("#appended-event-cart").html(navList);
@@ -65,7 +65,7 @@ function compareEvents(a, b){
     }
 }
 
-function addToCart(name, eventID, href){
+function addToCart(name, eventID, href, register){
     if(eventID == -1){
         console.log("This event has an invalid event ID");
         return -1;
@@ -77,14 +77,14 @@ function addToCart(name, eventID, href){
     if($.cookie("event-cart") != undefined){
         $eventsCookie = JSON.parse($.cookie("event-cart"));
     }else{
-        $eventsCookie = { events : [[eventID + "", nameTrimmed, hrefParsed]] };
+        $eventsCookie = { events : [[eventID + "", nameTrimmed, hrefParsed, register]] };
         console.log("Event added to new cart");
         $.cookie("event-cart", JSON.stringify($eventsCookie), {expires: 7, path : "/"});
         var navList = "<div id=\"event-cart\"><dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class=\"on\">My Activities</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
         for(var i=0; i < $eventsCookie.events.length; i++){
-            navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
+            navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped + "', '" + register + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
         }
-        navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + eventToSalesforce + eventID + "\">REGISTER</a></dd></dl></div>";
+        navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + register + "\">REGISTER</a></dd></dl></div>";
         $("#appended-event-cart").html(navList);
         vtk_accordion();
         return 0;
@@ -111,16 +111,16 @@ function addToCart(name, eventID, href){
             eventIds = eventIds + ",";
         }
         eventIds=eventIds + $eventsCookie.events[i][0];
-        navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped2 + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
+        navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped2 + "', '" + register + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
     }
-    navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + eventToSalesforce + eventIds + "\">REGISTER</a></dd></dl></div>";
+    navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + register + "\">REGISTER</a></dd></dl></div>";
     $("#appended-event-cart").html(navList);
     vtk_accordion();
     return 0;
 }
 
 
-function deleteEvent(eventID, name){
+function deleteEvent(eventID, name, register){
     var nameTrimmed = name.trim();
     var $eventsCookie;
     if($.cookie("event-cart") != undefined){
@@ -142,7 +142,7 @@ function deleteEvent(eventID, name){
                         eventIds = eventIds + ",";
                     }
                     eventIds=eventIds + $eventsCookie.events[i][0];
-                    navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
+                    navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped + "', '" + register + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
                 }
                 navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + eventToSalesforce + eventIds + "\">REGISTER</a></dd></dl></div>";
                 $("#appended-event-cart").html(navList);
@@ -215,22 +215,24 @@ function toggleParsys(s)
 //Girlscouts Event List lazy loading code 
 //GSWP-1173
 function EventLoader(jsonPath, containerObj, loaderObj) {
-	var path = jsonPath+".more.json?offset=";
+	var d = new Date();
+	var path = jsonPath+".more."+(d.getMonth()+1)+d.getDate()+".";
 	var eventsOffset = 0;
 	var monthYearLabel = "";
 	var container = containerObj;
-	var loader = loaderObj;
+	var loader = $("<div>",{"id":"infiniteLoader"}).append($("<p>",{"style":"text-align: center;"}).append("Loading..."));
 	var isMore = true;
 	var isProcessing = false;
 	
+	containerObj.after(loader);
 	loadMoreEvents();
-	bindScroll();
+	addLoadMoreButton();
 	
 	function loadMoreEvents(){
 		if(isMore && !isProcessing){
 			isProcessing = true;
 			loader.show();
-			$.getJSON(path+eventsOffset, function (data) {
+			$.getJSON(path+eventsOffset+".html", function (data) {
 				try{
 					if(parseInt(data.resultCount,10) < 10){
 						isMore=false;
@@ -238,12 +240,14 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 						eventsOffset = parseInt(data.newOffset, 10);
 					}
 					$.each(data.results, function (index, result) {
-						if(monthYearLabel != result.monthYearLabel){
-							monthYearLabel = result.monthYearLabel;
-							container.append("<div class=\"eventsList monthSection\"><div class=\"leftCol\"><b>"+monthYearLabel.toUpperCase()+"</b></div><div class=\"rightCol horizontalRule\">&nbsp;</div></div><br/><br/>");
-						}
+						try{
+							if(monthYearLabel != result.monthYearLabel){
+								monthYearLabel = result.monthYearLabel;
+								container.append("<div class=\"eventsList monthSection\"><div class=\"leftCol\"><b>"+monthYearLabel.toUpperCase()+"</b></div><div class=\"rightCol horizontalRule\">&nbsp;</div></div><br/><br/>");
+							}
+						}catch(err){}
 						container.append(getEventContent(result));
-						container.append("<div class=\"eventsList bottomPadding\"></div>");
+						container.append($("<div>", {"class": "eventsList bottomPadding"}));
 					});
 				}catch(err){}
 				loader.hide();
@@ -253,12 +257,32 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 		}
 	}
 	
+	function addLoadMoreButton(){
+		var $buttonDiv = $("<div>",{"id":"loadMoreEvents"});
+		var $buttonPar = $("<p>",{"style":"text-align: center;"});
+		var $buttonAnchor = $("<a>",{"class":"button", "style":"padding: 0.6rem 2rem; font-size: 0.95em; font-weight:bold;","href":"javascript:;"});
+		$buttonAnchor.click(function(e){
+			e.preventDefault();
+			loadMoreEvents(); 
+			bindScroll();
+			$("#loadMoreEvents").remove();
+		});
+		$buttonAnchor.append("LOAD MORE");
+		$buttonPar.append($buttonAnchor);
+		$buttonDiv.append($buttonPar);
+		container.after($buttonDiv);
+	}
+	
 	function bindScroll(){
-		$(window).scroll(function(){
-          if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-          	loadMoreEvents();
-          }
-  	});
+		$(window).on('scroll', function(){
+			var hT = container.offset().top,
+		       hH = container.outerHeight(),
+		       wH = $(window).height(),
+		       wS = $(this).scrollTop();
+			if(wS > (hT+hH-wH)){
+				loadMoreEvents();
+			}
+		});
 	}
 	
 	function getEventContent(event){
@@ -273,9 +297,6 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 		$rightColDiv.append(getEventDescription(event));
 		$rightColDiv.append(getEventRegistration(event));
 		$eventDiv.append($rightColDiv);
-		var $bottomPaddingDiv = $("<div>", {"class": "eventsList bottomPadding"});
-		$eventDiv.append($rightColDiv);
-		$eventDiv.append($bottomPaddingDiv);
 	return $eventDiv;
 	}
 	
@@ -309,11 +330,15 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 	
 	function getEventDate(event){
 		try{
-			var $p = $("<p>", {"class":"bold"});
-			$p.append("Date: ");
-			$p.append("<span itemprop=\"startDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfStartDate+"\">"+event.formattedStartDate+"</span>");
-			$p.append("<span itemprop=\"stopDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfEndDate+"\">"+event.formattedEndDate+"</span>");
-			return $p;
+			if(event.formattedStartDate != undefined){
+				var $p = $("<p>", {"class":"bold"});
+				$p.append("Date: ");
+				$p.append("<span itemprop=\"startDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfStartDate+"\">"+event.formattedStartDate+"</span>");
+				if(event.formattedEndDate != undefined){
+					$p.append("<span itemprop=\"stopDate\" itemscope=\"\" itemtype=\"http://schema.org/Event\" content=\""+event.utfEndDate+"\">"+event.formattedEndDate+"</span>");
+				}
+				return $p;
+			}
 		}catch(err){}
 	}
 	
@@ -357,22 +382,25 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 	
 	function getEventRegistration(event){
 		try{
-			var eid = -1;
-			var title = "";
-			if(event.eid){
-				eid = event.eid;
+			if(event.includeCart == true){
+				var eid = -1;
+				var title = "";
+				if(event.eid){
+					eid = event.eid;
+				}
+				var $div = $("<div>", {"class":"eventDetailsRegisterLink"});
+				if(event.registerLink){
+					var $registerLink =  $("<a>", {"href":event.registerLink}).append("Register Now");
+					$div.append($registerLink);
+				}
+				title = event.jcr_title;
+				title = title.replace(/"\""/g, "&quot");
+				title = title.replace(/"\'"/g, "\\\\'");
+				var addToCartFunc = "addToCart('"+title+"','"+eid+"','"+event.path+".html', '" + event.registerLink + "'); return false;";
+				var $addToCartLink =  $("<a>", {"onclick":addToCartFunc}).append("Add to MyActivities");
+				$div.append($addToCartLink);
+				return $div;
 			}
-			var $div = $("<div>", {"class":"eventDetailsRegisterLink"});
-			if(event.registerLink){
-				var $registerLink =  $("<a>", {"href":event.registerLink}).append("Register Now");
-				$div.append($registerLink);
-			}
-			title = event.jcr_title;
-			title = title.replace(/"\""/g, "&quot");
-			title = title.replace(/"\'"/g, "\\\\'");
-			var addToCartFunc = "addToCart('"+title+"','"+eid+"','"+event.path+".html'); return false;";
-			var $addToCartLink =  $("<a>", {"onclick":addToCartFunc}).append("Add to MyActivities");
-			$div.append($addToCartLink);
 		}catch(err){}
 	}
 	

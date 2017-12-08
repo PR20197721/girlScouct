@@ -13,7 +13,7 @@
                     </div>
                     <div class="fill"></div>
                     <div class="text">
-                        <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="ZipJoin" placeholder="Enter ZIP Code" />
+                        <input type="tel" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="ZipJoin" placeholder="Enter ZIP Code" />
                     </div>
 				    <input type="hidden" name="source" value="<%= source7 %>">
                     <div class="submit">

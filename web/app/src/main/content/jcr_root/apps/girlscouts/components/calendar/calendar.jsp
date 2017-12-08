@@ -20,12 +20,13 @@ org.girlscouts.web.events.search.*"%>
 	GSDateTime today = new GSDateTime();
 	GSDateTimeFormatter formatter = GSDateTimeFormat.forPattern("yyyy-MM-dd");
 	String evtStartDt = formatter.print(today);
-	try{
-		today = GSDateTime.parse(evtStartDt,formatter);
-		
-	}catch(Exception e){
-		e.printStackTrace();
-	}
+	// Do not reset to midnight. GSWP-1255
+	//try{
+	//	today = GSDateTime.parse(evtStartDt,formatter);
+	//	
+	//}catch(Exception e){
+	//	e.printStackTrace();
+	//}
 	String end ="";
     String location="";
     String detail="";

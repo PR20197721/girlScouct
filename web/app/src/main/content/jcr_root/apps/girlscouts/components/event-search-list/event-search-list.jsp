@@ -24,11 +24,10 @@
 	if(q == null && tags.length == 0 && offset == null && month == null && startdtRange == null && enddtRange == null && year == null){
 		%>
 		<div id="eventListWrapper"></div>
-		<div id="infiniteLoader">Loading...</div>
 		<script>
 			var jsonPath = '<%=resource.getPath()%>';
 			$(document).ready(function() {
-				var eventLoader = new EventLoader(jsonPath, $("#eventListWrapper"), $('#infiniteLoader'));
+				var eventLoader = new EventLoader(jsonPath, $("#eventListWrapper"));
 			});		
 		</script>
 		<%
