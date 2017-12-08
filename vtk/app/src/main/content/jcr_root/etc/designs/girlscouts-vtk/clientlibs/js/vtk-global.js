@@ -38,7 +38,6 @@ var $ = jQuery.noConflict();
   }
 */
 
-
 	function modal_height_on_open() {
 	  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
 			var window_h = $(window).height();
@@ -58,11 +57,10 @@ var $ = jQuery.noConflict();
 	}
 
 	function modal_height_resize() {
-  		var window_h = $(window).height();
-  		var popup_h = (window_h - 75);
+  	var window_h = $(window).height();
+  	var popup_h = (window_h - 75);
 		$('.scroll').css('max-height' , popup_h + 'px');
-		$('.modalWrap').css('max-height', $(window).height() + 'px');
-		$('.ui-dialog').css('left', $(window).width()<920?0:($(window).width() - 920) / 2 )
+		$('.modalWrap').css('max-height' , $(window).height()+'px');
 		//adding a heights to popups with two scrollable content.
 		$('.scroll_2').css('max-height', ($(window).height()-75)-$('.scroll_1').height() + 'px');
 	}
@@ -121,20 +119,15 @@ var $ = jQuery.noConflict();
 //	  $(document).ready(function() {
 	  	 $(document).foundation({
 	  	  reveal : {
-				  animation: 'fade',
+	  	     animation: 'fade',
 	  	     root_element: 'window',
-				 close_on_background_click: false,
-				 opened: function () {
-					var window_h = $(window).height();
-					var popup_h = (window_h - 75);
-					$('#modal_popup').find('.scroll').css('max-height' , popup_h + 'px'); 
-				  },
+	  	     close_on_background_click: false,
 	  	     open: function () {
 	  	     	$('body').css({'overflow':'hidden'});
      		  	if (navigator.userAgent.match(/msie/i) ) {
      		  		// alert(navigator.userAgent.match(/msie/i));
-     	        	add_placeholdersIE9();
-						}
+     	        add_placeholdersIE9();
+     	      }
 	  	     },
 	  	     close: function () {
 	  	     	$('body').css({'overflow':'inherit'})
@@ -202,12 +195,6 @@ var VTKDataWorker;
 		    }
 		}
 		
-		if (typeof VTKDataWorkerShouldSkipNextPoll !== 'undefined' && VTKDataWorkerShouldSkipNextPoll) {
-			VTKDataWorkerShouldSkipNextPoll = false;
-			return;
-		}
-		
-	
         $.ajax({
             url: url,
             dataType: 'json',
@@ -241,98 +228,3 @@ var VTKDataWorker;
     // Expose the function to global namespace
     VTKDataWorker = _VTKDataWorker;
 })();
-
-
-
-/* 	
-	CALL ABND APPEND THE  DOME WITH HTML ELEMENTS AND TRIGGER THE SLIDER
-*/
-
-function callExecuteBannerSlider() {
-	$.ajax({
-		url: '/content/vtkcontent/en/vtk-banner.simple.html',
-		type: 'GET',
-		dataType: 'html',
-		data: {
-			a: Date.now()
-		},
-		success: function (result) {
-			var htmlResults = $(result);
-			var vtkBannerSections = htmlResults.find('.vtk-banner.section')
-		
-		//REMOVE BANNERS THAT ARE DISABLED.
-			vtkBannerSections.each(function (x, y) {
-				if ($(y).find('.vtk-banner-disabled').length) {
-					$(this).remove();
-				}
-			})
-
-			//APPEND TO THE  BANNER
-
-
-				$("#vtk_banner2234").append(htmlResults);
-
-
-							//CLOSE BANNER
-			$('.vtk-banner-button').click(function () {
-				$.ajax({
-					url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
-					dataType: 'html',
-				}).done(function () {
-					$('.vtk-banner-image').slideUp();
-				})
-			});
-
-
-			//VTK BANNER SLIDER SETTING
-			$('.vtk-banner-container').slick({
-				slidesToScroll: 1,
-				adaptiveHeight: true,
-				autoplaySpeed: 10000,
-				autoplay: true,
-			
-			})
-
-			
-
-
-			
-			if ($("#vtk_banner2234").data('cached') === 'no') {
-				$("#vtk_banner2234").show();
-			}
-
-
-			
-
-		}
-	});
-}
-
-function callFoundationModal(e,id) {
-	$(document).foundation();
-	e.preventDefault();
-	console.log('#' + id)
-
-	// $(e.target).trigger('click')
-
-		$('#'+id).foundation('reveal', 'open');
-}
-
-
-
-	function setHeigthPropertiesToBanner(p){
-
-		var image = $(p).find('.banner-image');
-		var scroll = $(p).find('.scroll-banner');
-		var height = $(window).height();
-		var modalwidth = $(p).innerWidth();
-		var	imageHeight = image.height();
-		scroll.css(
-			{
-				'maxHeight':$(window).height()-imageHeight-75+'px',
-				'overflow-y':'auto'
-			}
-		);
-	}
-
-

@@ -5,7 +5,6 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.dao.ContactDAO;
 import org.girlscouts.vtk.models.Achievement;
-import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.ContactExtras;
@@ -75,32 +74,6 @@ public class ContactUtil { // utils should probably be in a separate util folder
 		    	extras.add(extra);
 		    }
 	   } 
-	   
-	   if( troop!=null && troop.getYearPlan()!=null && troop.getYearPlan().getActivities()!=null && troop.getYearPlan().getActivities().size()>0)
-		   extras.addAll( getActivityAttendance(troop.getYearPlan().getActivities(), contact) );
 	   return extras;
   }
-   
-   public  java.util.List<ContactExtras> getActivityAttendance( java.util.List<Activity> activities, Contact contact){
-	   
-	   java.util.List<ContactExtras> extras = new java.util.ArrayList<ContactExtras>();
-	   for(Activity activity: activities){   
-		    ContactExtras extra = new ContactExtras();
-		    Attendance attendance = activity.getAttendance();
-	    
-		    String attendance_users = "";
-		    if( attendance!=null && attendance.getUsers()!=null && !attendance.getUsers().equals("") )
-		    	attendance_users = "," +attendance.getUsers() +","; 	
-		    
-		    if( attendance_users.contains( "," + contact.getId() + "," ) )	    	
-		    	extra.setAttended(true);
-		    
-		    if( extra.isAttended() ){
-		    	extra.setYearPlanComponent(activity);
-		    	extras.add(extra);
-		    }
-		
-	   }
-	   return extras;
-   }
 }

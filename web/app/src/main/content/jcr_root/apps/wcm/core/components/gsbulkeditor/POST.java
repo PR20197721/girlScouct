@@ -75,12 +75,16 @@ public class POST extends SlingAllMethodsServlet {
     public static final String YEAR_PARAM = "year";
 
     public static final String DEFAULT_SEPARATOR = ",";
+    public static final String META_DATA_LOCATION = "/jcr:content/metadata";
+    int repDelayInterval = 10;
+    int repDelayTimeInSeconds = 60;
 
     protected void doPost(SlingHttpServletRequest request,
                           SlingHttpServletResponse response)
             throws ServletException, IOException {
 
         HtmlResponse htmlResponse = null;
+        StringBuilder errorLines = new StringBuilder();
 
         if (request.getRequestParameter(DOCUMENT_PARAM) != null) {
             InputStream in = request.getRequestParameter(DOCUMENT_PARAM).getInputStream();
@@ -272,18 +276,14 @@ public class POST extends SlingAllMethodsServlet {
 	                            String[] nextLine;
 	                            while((nextLine = csvR.readNext()) != null){
 	                                lineRead++;
-	                                try{
-		                                if(performLine(request,nextLine,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate, councilName)) {
-		                                   lineOK++;
-		                                   rootNode.save();
-		                                }
-	                                }catch(Exception e){
-	                                	System.err.println("Line " + (lineRead + 1) + " failed to properly process or save");
-	                                	e.printStackTrace();
+	                                if(performLine(request,nextLine,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate, councilName)) {
+	                                   lineOK++;
+	                                } else{
+	                                	errorLines.append((lineRead +1) +", ");
 	                                }
 	                            }
 	                            
-	                            if(lineOK>0) {
+	                            if(lineOK>0 && lineRead == lineOK) {
                                 	if(importType.equals("contacts")){
     	                                try {
     	                                	replicator = scriptHelper.getService(Replicator.class);
@@ -303,8 +303,15 @@ public class POST extends SlingAllMethodsServlet {
                                 		if(pathsToReplicate.size() > 0){
 	                                		try{
 	                                			replicator = scriptHelper.getService(Replicator.class);
+	                                			int repCount = 0;
 	                                			for(String activatePath : pathsToReplicate){
+	                                				if(repCount >= repDelayInterval){
+	                                					Thread.sleep(1000 * repDelayTimeInSeconds);
+	                                					repCount = 0;
+	                                				}
+	                                				
 	                                				replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, activatePath);
+	                                				repCount++;
 	                                			}
 	                                		}catch(Exception e){
 	                                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
@@ -322,7 +329,7 @@ public class POST extends SlingAllMethodsServlet {
                                 		}
                                 	}
 	                                try {
-	                                	rootNode.save();
+	                                    rootNode.save();
 	                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
 	                                        "Imported " + lineOK + "/" + lineRead + " lines");
 	                                } catch (RepositoryException e) {
@@ -336,8 +343,11 @@ public class POST extends SlingAllMethodsServlet {
 	                                    }
 	                                }
 	                            } else {
+	                            	if(errorLines.length() > 0){
+	                            		errorLines.delete(errorLines.lastIndexOf(","), errorLines.length());
+	                            	}
 	                                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                                    "Imported " + lineOK + "/" + lineRead + " lines");
+	                                    "Imported " + lineOK + "/" + lineRead + " lines. Encountered problems with lines " + errorLines.toString());
 	                            }
 	                        } else {
 	                            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
@@ -369,27 +379,43 @@ public class POST extends SlingAllMethodsServlet {
 
     public boolean performLine(SlingHttpServletRequest request, String[] line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> pathsToReplicate, String councilName) {
     	boolean updated = false;
+    	//Replace special characters
+    	for(String s : line){
+    		System.out.println(s.replaceAll("[\\u2013\\u2014\\u2015]", "-")
+					.replaceAll("[\\u2017]", "_")
+					.replaceAll("[\\u2018\\u2019]","'")
+					.replaceAll("[\\u201C\\u201D]", "\"")
+					.replaceAll("[\\u201D\\u201E]","\"")
+					.replaceAll("[\\u2026]","...")
+					.replaceAll("[\\u2032]","\'")
+					.replaceAll("[\\u2033]","\""));
+    	}
         try {
             int headerSize = headers.size();
             List<String> values = new LinkedList<String>(Arrays.asList(line));
-            values.remove(values.size() - 1);
+            //Not made for files in the current format. Seems to follow older format.
+            //values.remove(values.size() - 1);
             if(values.size() < headerSize) {
-                //completet missing last empty cols
+                //Fill in missing last empty cols
                 for(int i = values.size();i<=headerSize;i++) {
                     values.add("");
                 }
             }
+            //Assign base node?
             Node node = null;
-
+            
+            //Retrieve path of target content
             String path = (pathIndex > -1 ? values.get(pathIndex) : null);
 
+            //If path is not null or empty retrieve the resource represented by the path
             Resource resource = (path==null || path.length()==0 || path.equals(" ") ?
                     null : request.getResourceResolver().getResource(path));
             
+            //If importing contacts create all nodes from scratch
             if(importType.equals("contacts")){
             	node = rootNode;
             }else{
-            
+                
 	            if(resource!=null) {
 	                node = resource.adaptTo(Node.class);
 	            } else {
@@ -772,6 +798,7 @@ public class POST extends SlingAllMethodsServlet {
 		                                    		updatedNode.setProperty(property,val);
 		                                    	}catch(Exception e){
 		                                    		e.printStackTrace();
+		                                    		return false;
 		                                    	}
 	                    					}
 	                    				}else if((property.equals("start") || property.equals("end") || property.equals("regOpen") || property.equals("regClose")) && additional.equals("time")){
@@ -893,11 +920,23 @@ public class POST extends SlingAllMethodsServlet {
 	                	contactsForTeam.add(contact);
 	                }
 	                contactsToCreate.put(contact.getTeam(),contactsForTeam);
-                }else if(importType.equals("documents") || importType.equals("events")){
-                	if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
+                }else if(importType.equals("events")){
+                	//Disabled for the time being
+                	/*if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
                 		if(node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
                 			pathsToReplicate.add(node.getPath());
                 		}
+                	} */
+                }
+                else if(importType.equals("documents")){
+                	if(node.hasProperty("jcr:content/cq:lastReplicationAction") && node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
+    
+                		String metaPath = path + META_DATA_LOCATION;
+                		Resource metaResource = request.getResourceResolver().getResource(metaPath);
+                        if(metaResource!=null) {
+                        	pathsToReplicate.add(metaPath);
+                        }
+                   
                 	}
                 }
                 updated = true;
@@ -905,6 +944,9 @@ public class POST extends SlingAllMethodsServlet {
         } catch (RepositoryException e) {
         	e.printStackTrace();
             return false;
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	return false;
         }
         return updated;
     }

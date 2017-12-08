@@ -1,0 +1,56 @@
+.main-section .button,
+.main-section button {
+  text-transform: uppercase;
+  padding-top: rem-calc(7);
+  padding-bottom: rem-calc(8);
+  &.tiny {
+    padding-top: rem-calc(11);
+    padding-bottom: rem-calc(11);
+  }
+}
+.button.arrow {
+    white-space: nowrap;
+    padding-left: rem-calc(10);
+    z-index: 2;
+    margin: 0;
+    width: 100%;
+    &:after {
+      content: "";
+      position: absolute;
+      display: block;
+      border-style: solid;
+      border-color: transparent transparent transparent $white;
+      border-width: 0.71429rem;
+      top: 50%;
+      right: 0;
+      margin-top: -0.71429rem;
+    }
+}
+#more {
+  display: block;
+  line-height: 1;
+  text-align: center;
+  &:after {
+    content: "";
+    border-width: rem-calc(7);
+    border-color: #00AE58 transparent transparent transparent;
+    border-style: solid;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: rem-calc(10);
+  }
+}
+.reveal-modal {
+  .close-reveal-modal {
+    color: $primary-color;
+    font-weight: normal;
+    position: static;
+    float: right;
+	  z-index: 1;
+  }
+  .button {
+    padding: rem-calc(5 10);
+    text-transform: uppercase;
+    display: block;
+  }
+}

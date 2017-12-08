@@ -31,6 +31,11 @@
 	                    fieldLabel="Review and Publish Line 2"
 	                    name="./reviewandpublish2"
 	                    xtype="textfield"/>
+					<troop-back-info
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Troop Leader Bank Info Line 1"
+	                    name="./troopbankinfo"
+	                    xtype="textfield"/>
 					<TL-Income-Expense-Instruction
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="TL Income Expense Instruction"
@@ -41,20 +46,10 @@
 	                    fieldLabel="TL Message about parent view"
 	                    name="./messageabout"
 	                    xtype="textfield"/>
-					<TL-preview-instruction-1
+					<TL-preview-instruction
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="TL preview instruction"
-	                    name="./tlpreviewinst1"
-	                    xtype="textfield"/>
-					<TL-preview-instruction-2
-	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="TL preview instruction"
-	                    name="./tlpreviewinst2"
-	                    xtype="textfield"/>
-					<document-attachments
-	                    jcr:primaryType="cq:Widget"
-	                    fieldLabel="Document Attachments"
-	                    name="./documentattachments"
+	                    name="./tlpreviewinst"
 	                    xtype="textfield"/>
                 </items>
             </properties>

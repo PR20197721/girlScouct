@@ -167,6 +167,11 @@
                   <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
                 <% } else {%>
                   <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
+                    
+                    <%                   
+                    if( !futureMeetings.contains(meeting.getId().toLowerCase() )  && reAddMeetings.contains( meeting.getId().toLowerCase() ) ){%>
+                         <a onclick="cngMeeting('<%=meeting.getPath()%>')">Re-add meeting</a>
+                    <%} %>
                 <% }%>
               </td>
           		<td>

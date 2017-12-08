@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Camping Services"
+        hideInNav="{Boolean}true"/>
+    <jennifer-morgan/>
+    <kevin-brown/>
+    <larry-crouch/>
+    <ron-burgundy/>
+    <rick-larouge/>
+    <erik-horn/>
+    <kathy-cooper/>
+    <hannah-cho/>
+    <brooke-caufield/>
+</jcr:root>

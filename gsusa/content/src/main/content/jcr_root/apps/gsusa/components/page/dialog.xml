@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="400"
+    stateful="false"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tabs jcr:primaryType="cq:TabPanel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <basic
+                    jcr:primaryType="cq:Widget"
+                    path="/apps/gsusa/components/page/tab_basic.infinity.json"
+                    xtype="cqinclude"/>
+                <advanced
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_advanced.infinity.json"
+                    xtype="cqinclude"/>
+                <image
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_image.infinity.json"
+                    xtype="cqinclude"/>
+                <cloudservices
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_cloudservices.infinity.json"
+                    xtype="cqinclude"/>
+                <blueprint
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_blueprint.infinity.json"
+                    xtype="cqinclude"/>
+                <livecopy
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_livecopy.infinity.json"
+                    xtype="cqinclude"/>
+                <gsusa
+                    jcr:primaryType="cq:Widget"
+                    title="Girl Scouts USA">
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <global-srch-landing-page
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Global Search Landing Page"
+                            name="./globalLanding"
+                            xtype="dynamicPathField"/>
+                        <is-cookie-page
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Cookie pages have special headers, footers and third column."
+                            fieldLabel="Is Cookie Page"
+                            name="./isCookiePage"
+                            type="radio"
+                            xtype="selection">
+                            <options jcr:primaryType="cq:WidgetCollection">
+                                <derived
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Derived"
+                                    value="derived"/>
+                                <true
+                                    jcr:primaryType="nt:unstructured"
+                                    text="True"
+                                    value="true"/>
+                                <false
+                                    jcr:primaryType="nt:unstructured"
+                                    text="False"
+                                    value="false"/>
+                            </options>
+                        </is-cookie-page>
+                        <is-content-hub
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Article pages in content hub follows different logic for the left navigation"
+                            fieldLabel="Is Content Hub Repository"
+                            name="./isContentHub"
+                            type="radio"
+                            defaultValue="derived"
+                            value="derived"
+                            xtype="selection">
+                            <options jcr:primaryType="cq:WidgetCollection">
+                                <derived
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Derived"
+                                    value="derived"/>
+                                <true
+                                    jcr:primaryType="nt:unstructured"
+                                    text="True"
+                                    value="true"/>
+                                <false
+                                    jcr:primaryType="nt:unstructured"
+                                    text="False"
+                                    value="false"/>
+                            </options>
+                        </is-content-hub>
+                        <ogtitle
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:title"
+                            fieldDescription="Default: SEO Title"
+                            name="./ogTitle"/>
+                        <ogsitename
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:site_name"
+                            fieldDescription="Default: Girl Scouts of the USA"
+                            value="Girl Scouts of the USA"
+                            defaultValue="Girl Scouts of the USA"
+                            name="./ogSiteName"/>
+                        <ogurl
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:url"
+                            name="./ogUrl"/>
+                        <ogdescription
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:description"
+                            name="./ogDescription"/>
+                        <ogimage
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:image"
+                            rootPath="/content/dam/girlscouts-gsusa"
+                            xtype="pathfield"
+                            name="./ogImage"/>
+                        <fbappid
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="fb:app_id"
+                            fieldDescription="Default: 419540344831322 "
+                            name="./fbAppId"/>
+                    </items>
+                </gsusa>
+            </items>
+        </tabs>
+    </items>
+</jcr:root>

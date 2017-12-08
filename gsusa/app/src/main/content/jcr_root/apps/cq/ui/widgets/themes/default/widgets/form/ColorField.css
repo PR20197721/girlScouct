@@ -1,0 +1,4 @@
+#CQ .x-form-field-wrap .x-form-color-trigger {
+    background:transparent url("../../widgets/form/ColorField/color-trigger.gif") no-repeat 0 0;
+    cursor:pointer; 
+}

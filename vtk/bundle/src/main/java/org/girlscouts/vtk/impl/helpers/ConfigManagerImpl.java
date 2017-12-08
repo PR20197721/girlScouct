@@ -43,12 +43,12 @@ import org.osgi.service.component.ComponentContext;
 		@Property(name = "vtkApiContactUri", label = "vtkApiContactUri", description = "vtkApiContactUri"),
 		@Property(name = "vtkApiTroopLeadersUri", label = "vtkApiTroopLeadersUri", description = "vtkApiTroopLeadersUri"),
 		
-		@Property(name = "vtkHolidays", cardinality = Integer.MAX_VALUE, label = "vtkHolidays", description = "vtkHolidays"),
+		@Property(name = "vtkHolidays", label = "vtkHolidays", description = "vtkHolidays"),
 
 		@Property(name = "startShowingArchiveCmd", label = "startShowingArchiveCmd", description = "startShowingArchiveCmd"),
 		@Property(name = "isDemoSite", label = "isDemoSite", description = "isDemoSite"),
 		@Property(name = "DEMO_CRON_EMAIL", label = "DEMO_CRON_EMAIL", description = "DEMO_CRON_EMAIL"),
-		@Property(name = "gsFinanceYearCutoffDate", label = "gsFinanceYearCutoffDate", description = "gsFinanceYearCutoffDate"),
+
 		@Property(name = "allowParentAccess", label = "allowParentAccess", description = "allowParentAccess") })
 		
 

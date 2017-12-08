@@ -47,7 +47,7 @@
                 StringBuilder builder = new StringBuilder();
                 for (Activity activity : activities) {
                     builder.append("<p><b>Activity " + Integer.toString(activity.getActivityNumber()));
-                    builder.append(": " + (activity.getIsOutdoor() ? activity.getName_outdoor() : activity.getName()) + "</b></p>");
+                    builder.append(": " + activity.getName() + "</b></p>");
 
                     String description = activity.getIsOutdoor() ? activity.getActivityDescription_outdoor() :  activity.getActivityDescription();
                     if (!description.contains("Time Allotment")) {

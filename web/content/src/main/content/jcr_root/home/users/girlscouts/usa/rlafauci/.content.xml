@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+    cq:lastModified="{Date}2014-05-08T15:31:48.111-04:00"
+    cq:lastModifiedBy="admin"
+    jcr:mixinTypes="[rep:AccessControllable]"
+    jcr:primaryType="rep:User"
+    jcr:uuid="3f0bd981-568b-3946-b6dd-61e4020493d6"
+    rep:password="\{SHA-256}8652a359be6ec126-1000-34d41ba7abae04ef933f912e8a687dacda03e12952b7c5bd9405530af4b66872"
+    rep:principalName="rlafauci">
+    <preferences
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="cq:Preferences"/>
+    <profile
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="cq/security/components/profile"
+        email="richlafauci@gmail.com"
+        familyName="LaFauci"
+        givenName="Richard"/>
+</jcr:root>

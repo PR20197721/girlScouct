@@ -20,7 +20,6 @@ import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
 
 import org.apache.commons.beanutils.BeanComparator;
-import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -73,9 +72,12 @@ import com.day.cq.search.result.SearchResult;
 @Service(value = MeetingDAO.class)
 public class MeetingDAOImpl implements MeetingDAO {
 	private final Logger log = LoggerFactory.getLogger("vtk");
+	
+	//public static Map<String,Long> resourceCountMap = new HashMap<String,Long>();
+	public static Map resourceCountMap = new HashMap();
 	public static final String RESOURCE_COUNT_MAP_AGE = "RESOURCE_COUNT_MAP_AGE";
 	public static final long MAX_CACHE_AGE_MS = 3600000; // 1 hour in ms
-	public static Map resourceCountMap = new PassiveExpiringMap(MAX_CACHE_AGE_MS);
+//	public static final long MAX_CACHE_AGE_MS = 60000; // 1 minute in ms
 
 	@Reference
 	private SessionFactory sessionFactory;
@@ -175,9 +177,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		if (user != null
 				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_VIEW_MEETING_ID)  && !userUtil.hasPermission(troop,
-								Permission.PERMISSION_VIEW_REPORT_ID )
-				)
+						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
 		Meeting meeting = null;
@@ -187,8 +187,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
-			classes.add(Attendance.class);
-			
 			classes.add(JcrCollectionHoldString.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
@@ -223,13 +221,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 					if( gActivity.getIsOutdoorAvailable() )
 					 for(int y=0;y<meeting.getActivities().size();y++){
 						Activity activity = meeting.getActivities().get(y);
-						
-						//if meeting is custom and outdoor activity name in meeting lib is modified, change custom activity outdoor name
-						if(  activity.getName().equals(gActivity.getName()) ){ 
-							activity.setName_outdoor( gActivity.getName_outdoor());
-						}
-						
+
 						if( !activity.getIsOutdoorAvailable() && activity.getName().equals(gActivity.getName()) ){
+			
 							activity.setIsOutdoorAvailable(true);
 							activity.setActivityDescription_outdoor( gActivity.getActivityDescription_outdoor() );
 						}
@@ -328,14 +322,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			if (meeting == null)
 				meeting = getMeeting(user, troop, meetingEvent.getRefId());
-			
-			String newPath = troop.getPath() + "/lib/meetings/" + meeting.getId() + "_" + Math.random();
-			if( meetingEvent.getRefId().contains("/lib/meetings/") ){ 			
-				newPath = meetingEvent.getRefId();
-				ocm.remove(meeting);			
-				ocm.save();
-			}
-					
+			String newPath = troop.getPath() + "/lib/meetings/"
+					+ meeting.getId() + "_" + Math.random();
 			if (!session.itemExists(troop.getPath() + "/lib/meetings/")) {
 				ocm.insert(new JcrNode(troop.getPath() + "/lib"));
 				ocm.insert(new JcrNode(troop.getPath() + "/lib/meetings"));
@@ -928,8 +916,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					troop, councilStr);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			//String sql = "select jcr:title from cq:Tag where jcr:path like '/etc/tags/"+ tagStr + "/%'";
-			String sql = "select jcr:title from cq:Tag where ISDESCENDANTNODE( '/etc/tags/"+ tagStr + "')";
+			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/"+ tagStr + "/%'";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1006,7 +993,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			session = sessionFactory.getSession();
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select jcr:title from cq:Tag where jcr:path like '/etc/tags/" + councilStr + "%'";
+			//String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/" + councilStr + "/%'";
+			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/" + councilStr + "%'";
 			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -1175,7 +1163,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				//activity.setName(r.getValue("child.srchdisp").getString());
+				activity.setName(r.getValue("child.srchdisp").getString());
 				activity.setName(r.getValue("parent.jcr:title").getString());
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT" + i);
@@ -1231,10 +1219,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 		java.util.Map<String, String> container = new java.util.TreeMap();
 		Session session = null;
 		Node homepage = null;
-		
-		if( councilStr!=null && !councilStr.startsWith("/content/") )
-			councilStr= "/content/" + councilStr;
-		
 		String repoStr = councilStr + "/en/events-repository";
 		try {
 			session = sessionFactory.getSession();
@@ -1250,9 +1234,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 			}
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			//String sql = "select region, start, end from cq:Page where jcr:path like '/content/"
-			String sql = "select region, start, end from cq:Page where ISDESCENDANTNODE('"+ repoStr+ 
-					"')  and region is not null";
+			String sql = "select region, start, end from cq:Page where jcr:path like '/content/"
+					+ repoStr
+					+ "/%' and region is not null";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1613,7 +1597,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 		}
 	}
 
-	
 	public java.util.List<Activity> searchA1(User user, Troop troop,
 			String tags, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
@@ -1666,7 +1649,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				tags = "";
 			StringTokenizer t = new StringTokenizer(tags, "|");
 			while (t.hasMoreElements()) {
-				sqlTags += " s.[/jcr:content/cq:tags] like '%" + namespace + ":program-level/" + t.nextToken() + "%' ";
+				sqlTags += " parent.[cq:tags] like '%" + namespace + ":program-level/" + t.nextToken() + "%' ";
 				if (t.hasMoreElements())
 					sqlTags += " or ";
 				isTag = true;
@@ -1678,7 +1661,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				cat = "";
 			t = new StringTokenizer(cat, "|");
 			while (t.hasMoreElements()) {
-				sqlCat += " s.[/jcr:content/cq:tags] like '%" + namespace + ":categories/" + t.nextToken() + "%' ";
+				sqlCat += " parent.[cq:tags] like '%" + namespace + ":categories/" + t.nextToken() + "%' ";
 				if (t.hasMoreElements())
 					sqlCat += " or ";
 				isTag = true;
@@ -1688,7 +1671,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			String regionSql = "";
 			if (region != null && !region.trim().equals("")) {
-				regionSql += " and LOWER(/jcr:content/data/region) ='" + region + "'";
+				regionSql += " and LOWER(child.region) ='" + region + "'";
 			}
 
 
@@ -1699,19 +1682,28 @@ public class MeetingDAOImpl implements MeetingDAO {
 			else
 				path = path + "/jcr:content";
 
-			String sql = "select s.*  from [cq:Page] as s where  (isdescendantnode (s, ["
+			String sql = "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["
 					+ eventPath
-					+ "])) and s.[/jcr:content/data/start] is not null and s.[/jcr:content/jcr:title] is not null ";
+					+ "])) and child.start is not null and parent.[jcr:title] is not null ";
 			
 			
 			
+			/*
 			if (keywrd != null && !keywrd.trim().equals(""))// && !isTag )
-				sql += " and contains(s.*, '" + keywrd+ "') ";
+				sql += " and (contains(child.*, '" + keywrd
+						+ "') or contains(parent.*, '" + keywrd + "')  )";
+			*/				
+			if (keywrd != null && !keywrd.trim().equals(""))
+				sql += " and ( child.* like '%" + keywrd + "%' " +
+						" or parent.* like '%" + keywrd + "%'  )";
+			
+			
 			
 			sql += regionSql;
 			sql += sqlTags;
 			sql += sqlCat;
 			
+//select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/girlscoutshh/en/sf-events-repository])) and child.start is not null and parent.[jcr:title] is not null  and ( child.* like '%Earth Day%'  or parent.* like '%Earth Day%'  )
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1720,13 +1712,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
-		
-				Node resultNode  = r.getNode();
+				Value v[] = r.getValues();
 		
 				Activity activity = new Activity();
 				activity.setUid("A" + new java.util.Date().getTime() + "_"
 						+ Math.random());
-				activity.setContent(resultNode.getProperty("jcr:content/data/details").getString());
+				activity.setContent(r.getValue("child.details").getString());
 
 				// convert to EST
 				// TODO: All VTK date is based on server time zone, which is
@@ -1739,36 +1730,38 @@ public class MeetingDAOImpl implements MeetingDAO {
 				SimpleDateFormat dateFormat = new SimpleDateFormat(
 						"yyyy-MM-dd'T'HH:mm:ss.SSS");
 				try {
-					String eventStartDateStr = resultNode.getProperty("jcr:content/data/start")
+					String eventStartDateStr = r.getValue("child.start")
 							.getString();
 					Date eventStartDate = dateFormat.parse(eventStartDateStr);
 					activity.setDate(eventStartDate);
-					String eventEndDateStr = resultNode.getProperty("jcr:content/data/end")
+					String eventEndDateStr = r.getValue("child.end")
 							.getString();
 					Date eventEndDate = dateFormat.parse(eventEndDateStr);
 					activity.setEndDate(eventEndDate);
 				} catch (Exception e) {
 				}
 				// TODO: end of hacking timezone
+
 				if ((activity.getDate().before(new java.util.Date()) && activity
 						.getEndDate() == null)
 						|| (activity.getEndDate() != null && activity
-								.getEndDate().before(new java.util.Date()))) {				
+								.getEndDate().before(new java.util.Date()))) {
+					
 					continue;
 				}
 				try {
-					activity.setLocationName(resultNode.getProperty("jcr:content/data/locationLabel").getString());
+					activity.setLocationName(r.getValue("child.locationLabel").getString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				try {
-					activity.setLocationAddress(resultNode.getProperty("jcr:content/data/address")
+					activity.setLocationAddress(r.getValue("child.address")
 							.getString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
-				activity.setName(resultNode.getProperty("jcr:content/jcr:title").getString());
+				activity.setName(r.getValue("child.srchdisp").getString());
+				activity.setName(r.getValue("parent.jcr:title").getString());
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT" + i);
 				if (activity.getDate() != null && activity.getEndDate() == null) {
@@ -1776,45 +1769,30 @@ public class MeetingDAOImpl implements MeetingDAO {
 				}
 				activity.setIsEditable(false);
 				try {
-					activity.setRefUid(resultNode.getProperty("jcr:content/jcr:uuid")
+					activity.setRefUid(r.getValue("parent.jcr:uuid")
 							.getString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 				try {
-					activity.setRegisterUrl(resultNode.getProperty("jcr:content/data/register")
+					activity.setRegisterUrl(r.getValue("child.register")
 							.getString());
 				} catch (Exception e) {
 					log.error("searchActivity no register url");
 				}
 
 				if (startDate != null && endDate != null) {
-
 					startDate.setHours(0);
 					endDate.setHours(23);
 
-
-					
-					if( activity.getDate() != null && (  //start date
-							activity.getDate().equals(endDate) ||
-							activity.getDate().before(endDate) ) ){
-
-							;
-					}else if( activity.getEndDate() != null && (  //end date
-							 activity.getEndDate().equals(endDate) ||
-							 activity.getEndDate().equals(startDate) ||
-							 activity.getEndDate().before(endDate) && activity.getEndDate().after(startDate)
-							 )
-							 ){
-
-						 ;
-					 }else{
-
-						 continue;
-					 }
-					
-					
+					if (activity.getDate() != null
+							&& activity.getDate().after(startDate)
+							&& activity.getDate().before(endDate))
+						;
+					else {
+						continue;
+					}
 				}
 
 				toRet.add(activity);
@@ -2601,9 +2579,15 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public java.util.Collection<bean_resource> getResourceData(User user, Troop troop, String _path)
 			throws IllegalAccessException { 
 		
-		int count = 0;	
+		int count = 0;
+		
 		if (resourceCountMap.containsKey(_path)) {
-			return (java.util.Collection<bean_resource>)resourceCountMap.get(_path);
+			// it contains the key
+			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
+				// return cache
+				
+				return (java.util.Collection<bean_resource>)resourceCountMap.get(_path);
+			}
 		}
 		
 		java.util.Map <String, bean_resource>dictionary =null;
@@ -2694,6 +2678,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 		
 				
 		resourceCountMap.put(_path, dictionary.values());
+		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
+
+		
 		return dictionary.values();
 	}
 	
@@ -2705,7 +2692,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 		}
 		
 		if (resourceCountMap.containsKey(path)) {
-				return ((Integer)resourceCountMap.get(path)).intValue();	
+			// it contains the key
+			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
+				// return cache
+			
+				return ((Integer)resourceCountMap.get(path)).intValue();
+			}
 		}
 		
 		
@@ -2743,6 +2735,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		
 				
 		resourceCountMap.put(path, count);
+		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 		return count;
 	}
 	
@@ -2750,7 +2743,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException {
 		if (resourceCountMap.containsKey(path)) {
+			// it contains the key
+			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
+				// return cache
+			
 				return ((Long)resourceCountMap.get(path)).intValue();
+			}
 		}
 			
 		long count = 0;
@@ -2772,7 +2770,8 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 			count = (long) result.getNodes().getSize();
 				
 			resourceCountMap.put(path, count);
-		
+			resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -2809,6 +2808,7 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 		
 		
 		
+		
 String xmlDescriptor = 
 
 
@@ -2825,8 +2825,6 @@ String xmlDescriptor =
 "<field-descriptor fieldName=\"blurb\" jcrName=\"blurb\"/>"+
 "<field-descriptor fieldName=\"cat\" jcrName=\"cat\"/>"+
 "<field-descriptor fieldName=\"catTags\" jcrName=\"catTags\"/>"+
-"<field-descriptor fieldName=\"catTagsAlt\" jcrName=\"catTagsAlt\"/>"+
-"<field-descriptor fieldName=\"meetingPlanTypeAlt\" jcrName=\"meetingPlanTypeAlt\"/>"+
 "<field-descriptor fieldName=\"meetingPlanType\" jcrName=\"meetingPlanType\"/>"+
 
 
@@ -2834,7 +2832,8 @@ String xmlDescriptor =
 InputStream[] in = new InputStream[1];
 in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 		 
-
+		 
+		 
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session, in);//(session,mapper);
 		QueryManager queryManager = ocm.getQueryManager();
 		Field field = new Meeting().getClass().getDeclaredField("activities");
@@ -2847,7 +2846,6 @@ in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 		if (meetings != null)
 			Collections.sort(meetings, comp);
 	
-
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
@@ -2858,7 +2856,6 @@ in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 			ex.printStackTrace();
 		}
 	}
-
 	return meetings;
 	
 
@@ -3173,42 +3170,5 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 	return notes;
 }
 
-	//get all meetings with at least 1 outdoor agenda
-	public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException{
-		if (user != null
-				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_LOGIN_ID))
-			throw new IllegalAccessException();
-		Set<String> outdoorMeetings = new java.util.HashSet();
-		Session session = null;
-		try {
-			session = sessionFactory.getSession();
-			String sql ="select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and isOutdoorAvailable=true and ocm_classname='org.girlscouts.vtk.models.Activity'";		
-			javax.jcr.query.QueryManager qm = session.getWorkspace()
-					.getQueryManager();
-			javax.jcr.query.Query q = qm.createQuery(sql,
-					javax.jcr.query.Query.SQL);
-			QueryResult result = q.execute();
-
-			for (RowIterator it = result.getRows(); it.hasNext();) {
-				Row r = it.nextRow();
-				String path =r.getPath(); 
-				String pathElements[] = path.split("/");
-				if(pathElements!=null && pathElements.length>5){				
-					outdoorMeetings.add( pathElements[6] );
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
-					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		return outdoorMeetings;
-	}
 
 }// edn class

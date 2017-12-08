@@ -1,0 +1,56 @@
+/*
+ * Copyright 1997-2009 Day Management AG
+ * Barfuesserplatz 6, 4001 Basel, Switzerland
+ * All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Day Management AG, ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Day.
+ */
+
+#CQ .cq-image-unprocessed {
+    color: #880000;
+    font-size: smaller;
+    white-space: normal;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+#CQ .cq-image-placeholder {
+    background: url( "../../placeholders/img.png" ) no-repeat scroll 50% 50%;
+    width: 74px;
+    height: 74px;
+}
+
+#CQ .cq-image-canvas {
+    background-color: #ffffff;
+}
+
+#CQ .cq-image-icon-clear {
+    background: url( "../../icons/16x16/clear.png" ) left no-repeat !important;
+}
+
+#CQ .cq-image-icon-rotate {
+    background: url( "../../icons/16x16/rotate.png" ) left no-repeat !important;
+}
+
+#CQ .cq-image-icon-info {
+    background: url( "../../icons/16x16/information.png" ) left no-repeat !important;
+}
+
+#CQ .cq-smartimage-refinfo {
+    color:#000000;
+}
+
+#CQ .cq-smartimage-refinfo a {
+    text-decoration:underline;
+    color:#000000;
+}
+
+#CQ .cq-smartimage-editlock.cq-dialog-editlock {
+    top:-1px;
+    margin-left:6px;
+    margin-right:2px;
+}

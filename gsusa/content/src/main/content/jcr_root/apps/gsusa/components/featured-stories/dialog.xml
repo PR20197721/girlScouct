@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Header Navigation"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Number of Stories"
+                    	name="./number"
+                    	value="6"
+                    	defaultValue="6"
+                    	type="select"
+                    	xtype="selection">
+                    	<options jcr:primaryType="cq:WidgetCollection">
+	                    	<zero
+	                    		jcr:primaryType="nt:unstructured"
+	                    		text="0"
+	                    		value="0"/>
+                    		<one
+                                jcr:primaryType="nt:unstructured"
+                                text="1"
+                                value="1"/>
+                            <two
+                                jcr:primaryType="nt:unstructured"
+                                text="2"
+                                value="2"/>
+                            <three
+                                jcr:primaryType="nt:unstructured"
+                                text="3"
+                                value="3"/>
+                            <four
+                                jcr:primaryType="nt:unstructured"
+                                text="4"
+                                value="4"/>
+                            <five
+                                jcr:primaryType="nt:unstructured"
+                                text="5"
+                                value="5"/>
+                            <six
+                                jcr:primaryType="nt:unstructured"
+                                text="6"
+                                value="6"/>
+                    	</options>
+                    </title>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

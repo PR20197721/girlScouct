@@ -76,9 +76,6 @@ public class ReplicationManager {
         // Add /vtk(year)
         String yearPlanBase = vtkUtil._getYearPlanBase(null, null);
         monitorPaths.add(yearPlanBase);
-        // Add /vtk(previous year)
-        String previousYear = Integer.toString(vtkUtil.getCurrentGSYear() - 1);
-        monitorPaths.add("/vtk" + previousYear + "/");
         // Add /content/dam/girlscouts-vtk/troop-data(year)
         monitorPaths.add(Constants.DAM_PATH + year);
 

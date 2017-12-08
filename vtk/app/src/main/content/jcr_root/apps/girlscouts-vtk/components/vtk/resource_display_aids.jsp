@@ -6,28 +6,8 @@
                 Page categoryPage = manager.getPage(categoryParam);
 
                 if (categoryPage != null) {
-
-                       if ( categoryPage.getProperties().get("type", "").equals("meetingAidsLike")) {
-
-
-                           %> <table width="90%" align="center" class="browseMeetingAids">
-                            <tr>
-                                <th colspan="3"><%=categoryPage.getTitle()%></th>
-                            </tr><%
-
-                            Resource r1 = resourceResolver.resolve(categoryPage.getProperties().get("refPath", ""));
-
-							StringBuilder builder = new StringBuilder();
-                            Iterator<Resource> resIter = r1.listChildren();
-                            while (resIter.hasNext()) {
-                                Resource resPage = resIter.next();
-                                displayAllChildren_pdf_fmt(resPage, builder, xssAPI);
-                            }
-            				%><%=builder.toString()%><%
-                            %></table><%
-
-
-                       }else if ( categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
+            	
+                    if ( categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
         %><table width="90%" align="center" class="browseMeetingAids">
             <tr>
                 <th colspan="3">Meeting Aids</th>
@@ -38,8 +18,11 @@
                                 Iterator<Resource> iter = levelMeetingsRoot.listChildren();
                                 while (iter.hasNext()) {                 	
                                     Resource meetingResource = iter.next();
-                                     String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
+                     //System.err.println("TESTERX: "+ meetingResource.getPath());             
+                                    String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
+                     //System.err.println("TESTERX: "+ meetingId);              
                                     meetingId= meetingId.replace("/","");
+                     //System.err.println("TESTERXY: "+ meetingId);             
                                     java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId);//meeting.getId());                            
                                     for(int i=0;i<lresources.size();i++){      
                                         org.girlscouts.vtk.models.Asset la = lresources.get(i);

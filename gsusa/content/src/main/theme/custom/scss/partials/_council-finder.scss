@@ -1,0 +1,79 @@
+.council-map {
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.council-finder {
+  .block-grid {
+    list-style: none;
+    margin-left: 0;
+    @media #{$medium-up} {
+      @include block-grid(3);
+    }
+    li {
+      @media #{$small-only} {
+        margin-bottom: rem-calc(20);
+    }
+      form {
+        border: solid 1px #ccc;
+      }
+    }
+    p {
+      padding: rem-calc(5 10);
+    }
+    h6 {
+      background: $primary-color;
+      padding: rem-calc(5 10);
+      color: $white;
+      margin: 0;
+    }
+    section {
+      width: 95%;
+      margin: 0 auto rem-calc(10);
+      select,
+      input[type="text"] {
+        margin: 0;
+        width: 78%;
+        float: left;
+        margin: rem-calc(0 4 0 0);
+        @media #{$small-only} {
+          min-width: 30%;
+          //width: 93%;
+        }
+      }
+      .button.tiny {
+        vertical-align: top;
+        margin-bottom: 0;
+        padding: rem-calc(10 9 12 10);
+      }
+    }
+  }
+}
+.council-finder-results #results-area {
+  .button {
+    padding: rem-calc(5 10);
+    margin-right: rem-calc(5);
+  }
+  p {
+    margin: 0;
+  }
+  section {
+    margin-bottom: rem-calc(15);
+  }
+  ul {
+    list-style: none;
+    li {
+      border-bottom: solid 1px #ccc;
+      margin-bottom: rem-calc(20);
+      padding-bottom: rem-calc(20);
+      &:last-child {
+        border: none;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+}

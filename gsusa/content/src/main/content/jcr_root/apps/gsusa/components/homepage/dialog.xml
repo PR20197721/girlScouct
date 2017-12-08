@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="400"
+    stateful="false"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tabs jcr:primaryType="cq:TabPanel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <basic
+                    jcr:primaryType="cq:Widget"
+                    path="/apps/gsusa/components/page/tab_basic.infinity.json"
+                    xtype="cqinclude"/>
+                <advanced
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_advanced.infinity.json"
+                    xtype="cqinclude"/>
+                <image
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_image.infinity.json"
+                    xtype="cqinclude"/>
+                <cloudservices
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_cloudservices.infinity.json"
+                    xtype="cqinclude"/>
+                <blueprint
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_blueprint.infinity.json"
+                    xtype="cqinclude"/>
+                <livecopy
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_livecopy.infinity.json"
+                    xtype="cqinclude"/>
+                <gsusa
+                    jcr:primaryType="cq:Widget"
+                    title="Girl Scouts USA">
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <global-srch-landing-page
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Global Search Landing Page"
+                            name="./globalLanding"
+                            xtype="dynamicPathField"/>
+                        <content-hub-parent-page
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Content Hub Parent Page"
+                            name="./contenthubparentpage"
+                            xtype="dynamicPathField"/>
+                        <addthis-id
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="AddThis ID"
+                            name="./addThisId"/>
+                        <ogtitle
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:title"
+                            fieldDescription="Default: SEO Title"
+                            name="./ogTitle"/>
+                        <ogsitename
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:site_name"
+                            value="Girl Scouts of the USA"
+                            defaultValue="Girl Scouts of the USA"
+                            fieldDescription="Default: Girl Scouts of the USA"
+                            name="./ogSiteName"/>
+                        <ogurl
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:url"
+                            name="./ogUrl"/>
+                        <ogdescription
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:description"
+                            name="./ogDescription"/>
+                        <ogimage
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:image"
+                            rootPath="/content/dam/girlscouts-gsusa"
+                            xtype="pathfield"
+                            name="./ogImage"/>
+                        <facebook-id
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Facebook ID"
+                            fieldDescription="Default Facebook ID for the Site"
+                            name="./facebookId"/>
+                    </items>
+                </gsusa>
+            </items>
+        </tabs>
+    </items>
+</jcr:root>

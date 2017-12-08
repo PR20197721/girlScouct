@@ -63,16 +63,9 @@ if (troop.getYearPlan() != null) {
 					<div id="calMng">
 						<%
 						  if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
-    							if( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size() <=0 ){
-                                    %>
-                                    <div>
-                                        <p>The calendar function is not available as there are no meetings in your Year Plan</p>
-                                        <div style="float:right;"><button class="btn right" name=""  onclick="doMeetingLib(true)">ADD A MEETING</button></div>
-                                    </div>
-                                    <%
-                                }else{
-									%><%@include file="include/calendarAlterStartDate.jsp"%><%
-                                }
+						%>
+							<%@include file="include/calendarAlterStartDate.jsp"%>
+						<%
 						    } else {
 						%>
 							<%@include file="include/calList.jsp"%>

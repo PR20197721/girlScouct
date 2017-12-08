@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-06-06T06:58:07.156-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-06-06T15:42:18.796-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/girlscouts-usa/event"
+        cq:tags="[]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="2014 Girl Scout Night for Carolina Mudcats"
+        jcr:uuid="7de6af23-3427-44d7-aee3-3b8eba106618"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            details="&lt;p>The Carolina Mudcats would like to invite all Girl Scouts for a fun night out at Five County Stadium with their friends and family! Be sure to arrive early to be a part of Pre-Game Question &amp;amp; Answer Session with Mudcats Coaches and Player (4:30pm) and the Field Parade to join the Mudcats players for the National Anthem (5:45pm)&lt;/p>&#xa;&lt;p>&lt;a href=&quot;https://www.nccoastalpines.org/sites/default/files/files/2014_girl_scout_flyer_mudcats.pdf&quot; target=&quot;_blank&quot;>Register This Event&lt;/a>&lt;br>&#xa;&lt;/p>&#xa;"
+            locationLabel="Five County Stadium, Zebulon, NC-Wake County"
+            srchdisp="The Carolina Mudcats would like to invite all Girl Scouts for a fun night out a Five County Stadium with their friends and family!"
+            start="{Date}2014-07-12T18:00:00.000-04:00">
+            <image
+                jcr:lastModified="{Date}2014-06-06T06:58:07.153-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="cq:CalendarEvent"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/girlscouts-shared/en/upcoming_events"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

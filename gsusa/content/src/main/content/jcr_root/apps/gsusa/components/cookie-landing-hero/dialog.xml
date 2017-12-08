@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Cookie Landing Hero">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <text
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Text"
+                        fieldDescription="Text above the cookie finder field"
+                        name="./text"
+                        xtype="textarea"/>
+                    <result-page
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Result page that will show the cookie booths"
+                        fieldLabel="Result Page"
+                        name="./resultPage"
+                        rootPath="/content/gsusa"
+                        xtype="pathfield"/>
+                    <facebook-link
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Facebook Link"
+                        name="./facebookLink"/>
+                    <images
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Images for the slider"
+                        fieldLabel="Images"
+                        name="./images"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="nt:unstructured"
+                            rootPath="/content/dam"
+                            xtype="pathfield"/>
+                    </images>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

@@ -1,0 +1,54 @@
+.header {
+  a {
+    color: $white;
+    &:hover {
+      color: #FAA61A;
+    }
+  }
+  .top-header {
+    padding-top: rem-calc(22);		// giving more padding -pbae
+    padding-bottom: rem-calc(22);	// giving more padding -pbae
+    background: $primary-color;
+    color: $white;
+//putting it outside for cq author mode
+//    .search-form {
+//      float: right;
+//    }
+  }
+  .logo-section {
+    @include grid-column(6);
+    padding-left: rem-calc(22);
+    @media #{$small-only} {
+      margin: 0 auto;
+      float: none;
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .utility {
+    @include grid-column(18);
+    * {
+      font-size: rem-calc(14);
+    }
+    .float-right {
+      float: right;
+    }
+  }
+  .eyebrow-nav {
+    padding-left: 0.35714rem;
+    padding-right: 0.35714rem;
+    float: right;
+    .inline-list {
+      li {
+        margin-left: 1.0rem;
+        font-size: rem-calc(14);
+        .hide {
+          display: none;
+        }
+      }
+      li:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}

@@ -42,7 +42,7 @@ System.err.println("test3");
 						String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
 					%>
 						<tr>
-							<td width="30%" class="browseMeetingAidsImage">
+							<td width="40">
 								<% if (assetImage != null) { %>	
 									<img src="<%= assetImage %>" width="40" height="40" border="0"/>
 								<% } %>

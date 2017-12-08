@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:exif="http://ns.adobe.com/exif/1.0/" xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/" xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stEvt="http://ns.adobe.com/xap/1.0/sType/ResourceEvent#" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="dam:Asset">
+    <jcr:content
+        jcr:lastModified="{Date}2014-05-27T15:11:50.930-04:00"
+        jcr:lastModifiedBy="admin"
+        jcr:primaryType="dam:AssetContent">
+        <metadata
+            dam:Bitsperpixel="{Long}24"
+            dam:DateTime="{Date}2014-01-24T12:06:10.000-05:00"
+            dam:ExifOffset="{Long}164"
+            dam:extracted="{Date}2014-05-27T15:11:45.875-04:00"
+            dam:Fileformat="JPEG"
+            dam:JpgFromRawLength="{Long}12248"
+            dam:JpgFromRawStart="{Long}302"
+            dam:MIMEtype="image/jpeg"
+            dam:Numberofimages="{Long}1"
+            dam:Numberoftextualcomments="{Long}0"
+            dam:OtherImageLength="{Long}12248"
+            dam:OtherImageStart="{Long}302"
+            dam:Physicalheightindpi="{Long}300"
+            dam:Physicalheightininches="{Double}3.109999895095825"
+            dam:Physicalwidthindpi="{Long}300"
+            dam:Physicalwidthininches="{Double}2.3333332538604736"
+            dam:Progressive="no"
+            dam:sha1="fc81f8cb1989178e2dc7de54b6c60acc9cfec055"
+            dam:size="{Long}930626"
+            dc:format="image/jpeg"
+            exif:ExifImageLength="{Long}933"
+            exif:ExifImageWidth="{Long}700"
+            exif:PixelXDimension="{Double}300.0"
+            exif:PixelYDimension="{Double}300.0"
+            jcr:mixinTypes="[cq:Taggable]"
+            jcr:primaryType="nt:unstructured"
+            photoshop:ColorMode="3"
+            photoshop:DocumentAncestors="[48EE503F2F3D329C4AB244AB8EF2EADC]"
+            photoshop:ICCProfile="sRGB IEC61966-2.1"
+            tiff:Compression="{Long}6"
+            tiff:ImageLength="{Long}933"
+            tiff:ImageWidth="{Long}700"
+            tiff:Orientation="{Long}1"
+            tiff:ResolutionUnit="{Long}2"
+            tiff:XResolution="{Double}300.0"
+            tiff:YResolution="{Double}300.0"
+            xmp:CreateDate="{Date}2013-02-18T22:11:52.000-05:00"
+            xmp:CreatorTool="Adobe Photoshop CS5 Macintosh"
+            xmp:MetadataDate="{Date}2014-01-24T15:06:10.000-05:00"
+            xmp:ModifyDate="{Date}2014-01-24T15:06:10.000-05:00"
+            xmpMM:DocumentID="xmp.did:01801174072068119DBE9BF247D85321"
+            xmpMM:InstanceID="xmp.iid:A6C25A969D206811871FA9FEB1DD55B6"
+            xmpMM:OriginalDocumentID="xmp.did:01801174072068119DBE9BF247D85321">
+            <xmpMM:DerivedFrom
+                jcr:primaryType="nt:unstructured"
+                stRef:documentID="xmp.did:01801174072068119DBE9BF247D85321"
+                stRef:instanceID="xmp.iid:A5C25A969D206811871FA9FEB1DD55B6"
+                stRef:originalDocumentID="xmp.did:01801174072068119DBE9BF247D85321"
+                newRendition="{Boolean}true"/>
+            <photoshop:TextLayers
+                jcr:primaryType="nt:unstructured"
+                isXMPArray="{Boolean}true"
+                newRendition="{Boolean}true"
+                xmpArrayType="rdf:Bag">
+                <_x0031_
+                    jcr:primaryType="nt:unstructured"
+                    photoshop:LayerName="How To Sell More Girl Scout Cookies!"
+                    photoshop:LayerText="How To Sell More Girl Scout Cookies!"
+                    newRendition="{Boolean}true"/>
+                <_x0032_
+                    jcr:primaryType="nt:unstructured"
+                    photoshop:LayerName="and Troop Cookie Mom (TCM) Tips!"
+                    photoshop:LayerText="and Troop Cookie Mom (TCM) Tips!"
+                    newRendition="{Boolean}true"/>
+            </photoshop:TextLayers>
+            <xmpMM:History
+                jcr:primaryType="nt:unstructured"
+                isXMPArray="{Boolean}true"
+                newRendition="{Boolean}true"
+                xmpArrayType="rdf:Seq">
+                <_x0031_
+                    jcr:primaryType="nt:unstructured"
+                    stEvt:action="created"
+                    stEvt:instanceID="xmp.iid:01801174072068119DBE9BF247D85321"
+                    stEvt:softwareAgent="Adobe Photoshop CS5 Macintosh"
+                    stEvt:when="{Date}2013-02-18T22:11:52.000-05:00"
+                    newRendition="{Boolean}true"/>
+                <_x0032_
+                    jcr:primaryType="nt:unstructured"
+                    stEvt:action="saved"
+                    stEvt:changed="/"
+                    stEvt:instanceID="xmp.iid:09801174072068119DBE9BF247D85321"
+                    stEvt:softwareAgent="Adobe Photoshop CS5 Macintosh"
+                    stEvt:when="{Date}2013-02-18T22:31:44.000-05:00"
+                    newRendition="{Boolean}true"/>
+                <_x0033_
+                    jcr:primaryType="nt:unstructured"
+                    stEvt:action="saved"
+                    stEvt:changed="/"
+                    stEvt:instanceID="xmp.iid:A5C25A969D206811871FA9FEB1DD55B6"
+                    stEvt:softwareAgent="Adobe Photoshop CS5 Macintosh"
+                    stEvt:when="{Date}2014-01-24T15:06:10.000-05:00"
+                    newRendition="{Boolean}true"/>
+                <_x0034_
+                    jcr:primaryType="nt:unstructured"
+                    stEvt:action="converted"
+                    stEvt:parameters="from application/vnd.adobe.photoshop to image/jpeg"
+                    newRendition="{Boolean}true"/>
+                <_x0035_
+                    jcr:primaryType="nt:unstructured"
+                    stEvt:action="derived"
+                    stEvt:parameters="converted from application/vnd.adobe.photoshop to image/jpeg"
+                    newRendition="{Boolean}true"/>
+                <_x0036_
+                    jcr:primaryType="nt:unstructured"
+                    stEvt:action="saved"
+                    stEvt:changed="/"
+                    stEvt:instanceID="xmp.iid:A6C25A969D206811871FA9FEB1DD55B6"
+                    stEvt:softwareAgent="Adobe Photoshop CS5 Macintosh"
+                    stEvt:when="{Date}2014-01-24T15:06:10.000-05:00"
+                    newRendition="{Boolean}true"/>
+            </xmpMM:History>
+        </metadata>
+        <related jcr:primaryType="nt:unstructured"/>
+        <renditions/>
+    </jcr:content>
+</jcr:root>

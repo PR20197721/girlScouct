@@ -1,0 +1,13 @@
+/*!
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+#CQ html,#CQ body,#CQ div,#CQ dl,#CQ dt,#CQ dd,#CQ ul,#CQ ol,#CQ li,#CQ h1,#CQ h2,#CQ h3,#CQ h4,#CQ h5,#CQ h6,#CQ pre,#CQ form,#CQ fieldset,#CQ input,#CQ p,#CQ blockquote,#CQ th,#CQ td{margin:0;padding:0;}#CQ img,#CQ body,#CQ html{border:0;}#CQ address,#CQ caption,#CQ cite,#CQ code,#CQ dfn,#CQ em,#CQ strong,#CQ th,#CQ var{font-style:normal;font-weight:normal;}#CQ ol,#CQ ul {list-style:none;}#CQ caption,#CQ th {text-align:left;}#CQ h1,#CQ h2,#CQ h3,#CQ h4,#CQ h5,#CQ h6{font-size:100%;}#CQ q:before,#CQ q:after{content:'';}
+
+.ext-forced-border-box, .ext-forced-border-box #CQ * {
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
