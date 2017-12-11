@@ -139,7 +139,7 @@ ga('create', 'UA-2646810-36', 'auto', {'name': 'vtkTracker'});
 <%
 	boolean isProd = false;
 	for (String runMode : sling.getService(SlingSettingsService.class).getRunModes()) {
-		if ("prod".equals(selector)) isProd = true;
+		if ("prod".equals(runMode)) isProd = true;
 	}
 	if (isProd) { // begin prod walkme
 %>
