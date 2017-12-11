@@ -23,16 +23,25 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
 
     public render(): JSX.Element {
 
-        return (<div className="meeting">
-            <div className="square">
-                <p>Meeting</p>
-                <p className='postion'>{this.props.idx+1}</p>
-            </div>
-            <div className="arrowGreen"></div>
-            <div className="body">
+        return (<div className="meeting">  
+                <div className="square-small show-for-small-only">
+                    <p>Meeting</p>
+                    <p className='postion'>{this.props.idx+1}</p>
+                </div>
+                <div className="arrowGreen-small show-for-small-only"></div>
 
+
+                <div className="square show-for-medium-up">
+                    <p>Meeting</p>
+                    <p className='postion'>{this.props.idx+1}</p>
+                </div>
+                <div className="arrowGreen show-for-medium-up"></div>
+
+           
+
+            <div className="body">
                 <div className="small-24 column">
-                    <div className={(this.props.activities && this.props.activities.length > 0) ? "_text small-24  medium-18 column" : "_text small-24  medium-21 column"} style={{ fontSize: '14px' }}>
+                    <div className={(this.props.activities && this.props.activities.length > 0) ? "_text small-text-center medium-text-left small-24  medium-18 column" : "_text small-text-center medium-text-left small-24  medium-21 column"} style={{ fontSize: '14px' }}>
                         <div className="truncate">{this.props.name.toUpperCase()}</div>
                         <div className="truncate">{this.props.cat}</div>
                         <div className="truncate">{this.props.blurb}</div>
@@ -40,20 +49,16 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
 
 
                     {(this.props.activities && this.props.activities.length > 0) ?
-                        <div className="small-24 medium-3 column" style={{ textAlign: "center" }}>
+                        <div className="small-24 medium-3 column small-text-center" style={{ textAlign: "center" }}>
                             {(this.props.activities && this.props.activities.length > 0) ? <img src={tree} style={{ 'width': '60px', 'height': '60px' }} alt="" /> : null}
                         </div> : null}
                     
                     
-                    <div className="small-24 medium-3 column" style={{ textAlign: 'center' }}>
+                    <div className="small-24 medium-3 column small-text-center" style={{ textAlign: 'center' }}>
                         <img src={"/content/dam/girlscouts-vtk/local/icon/meetings/" + this.props.id + ".png"} style={{ 'width': '60px', 'height': '60px' }} alt="" /> 
                     </div>
                          
                 </div>
-
-
-
-
             </div>         
         </div>);
     }

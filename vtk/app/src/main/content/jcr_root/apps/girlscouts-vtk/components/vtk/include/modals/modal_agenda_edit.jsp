@@ -194,12 +194,14 @@
 		<!--end: Outdoor options-->
         <%}//edn if %>
 
-		</div>
-		<section class="row reset">
-					<div id="__indoor" data-outdoor="isoutdoor_no" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription() %></div>
-			    	<div id="__outdoor" accesskey=""data-outdoor="isoutdoor_yes" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription_outdoor() %></div>
-		</section>
 		
+		<section class="row reset">
+				<div class="small-20 small-centered">
+					<div id="__indoor" data-outdoor="isoutdoor_no" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription() %></div>
+					<div id="__outdoor" accesskey=""data-outdoor="isoutdoor_yes" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription_outdoor() %></div>
+				</div>
+		</section>
+		</div>
 		
 		<script>
 

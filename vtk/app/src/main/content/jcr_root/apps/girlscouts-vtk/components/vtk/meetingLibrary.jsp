@@ -965,8 +965,8 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 						 </div>
 					</div>
 					 <div class="column small-24 medium-4">
-									<div style="display:table;;min-height:110px">
-					   <div style="display:table-cell;height:inherit;vertical-align:middle; text-align:center;">
+									<div style="min-height:110px; width:100%">
+					   <div style="height:inherit;vertical-align:middle; text-align:center;width:100%">
 
 						 <%
 				try {
@@ -1211,19 +1211,22 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 	}
 
 	function runFilterType(){
+
+        //levels checkboxes selected
+        var levels = document.getElementsByName("_tag_m");
+
 		<%
 		itrLevel= mLevel.keySet().iterator();
 		while( itrLevel.hasNext()){
 			String level =  (String)itrLevel.next();
 			String id= (String) mLevel.get(level);
 			%>
+
 			if( document.getElementById("<%= id%>").checked ){
 
 				for(var y = 0; y < <%=level%>.length; y++){
-					document.getElementById(<%=level%>[y]).style.display ='inline';
-				//document.getElementById(<%=level%>[y]).setAttribute('data-v',true);
-
-					document.getElementById(<%=level%>[y]).parentElement.style.display = 'inline';
+                    document.getElementById(<%=level%>[y]).style.display ='inline';
+                    document.getElementById(<%=level%>[y]).parentElement.style.display = 'inline';
 				}
 			}
 			<%
@@ -1240,9 +1243,11 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			if( document.getElementById("<%= id%>").checked ){
 			  if(typeof <%=tp%> != 'undefined'){
 				for(var y = 0; y < <%=tp%>.length; y++){
-
-					document.getElementById(<%=tp%>[y]).style.display ='inline';
-					document.getElementById(<%=tp%>[y]).parentElement.style.display = 'inline';
+    				var isMeetingFound = isMeeting(levels, '<%=id%>', <%=tp%>[y]);
+                    if( isMeetingFound ){
+                         document.getElementById(<%=tp%>[y]).style.display ='inline';
+                         document.getElementById(<%=tp%>[y]).parentElement.style.display = 'inline';
+                    }
 
                     <%
                 	String searchNewItem="";
@@ -1273,9 +1278,19 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 	}
 
+    function isMeeting(levels, mType, cat){
 
+            for(var count=0;count<levels.length;count++){
+                if( levels[count].checked){ 
+					var mIds = document.querySelectorAll("[id*=';"+ levels[count].id +";"+ mType +";']"), i = 0;
+                    for (; i < mIds.length; i++){
+                        if (mIds[i].id.indexOf(cat) !=-1) {return true;}
+                    }
+                }//end if level
+            }//edn count for
+            return false;
+    }
 
-	
 	function createCustPlan(singleMeetingAdd) {
 
 		var sortedIDs="";

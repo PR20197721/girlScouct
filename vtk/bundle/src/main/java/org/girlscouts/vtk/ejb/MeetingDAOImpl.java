@@ -928,7 +928,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 					troop, councilStr);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/"+ tagStr + "/%'";
+			//String sql = "select jcr:title from cq:Tag where jcr:path like '/etc/tags/"+ tagStr + "/%'";
+			String sql = "select jcr:title from cq:Tag where ISDESCENDANTNODE( '/etc/tags/"+ tagStr + "')";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1005,8 +1006,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			session = sessionFactory.getSession();
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			//String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/" + councilStr + "/%'";
-			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/" + councilStr + "%'";
+			String sql = "select jcr:title from cq:Tag where jcr:path like '/etc/tags/" + councilStr + "%'";
 			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -1231,6 +1231,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 		java.util.Map<String, String> container = new java.util.TreeMap();
 		Session session = null;
 		Node homepage = null;
+		
+		if( councilStr!=null && !councilStr.startsWith("/content/") )
+			councilStr= "/content/" + councilStr;
+		
 		String repoStr = councilStr + "/en/events-repository";
 		try {
 			session = sessionFactory.getSession();
@@ -1246,9 +1250,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 			}
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select region, start, end from cq:Page where jcr:path like '/content/"
-					+ repoStr
-					+ "/%' and region is not null";
+			//String sql = "select region, start, end from cq:Page where jcr:path like '/content/"
+			String sql = "select region, start, end from cq:Page where ISDESCENDANTNODE('"+ repoStr+ 
+					"')  and region is not null";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1609,6 +1613,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		}
 	}
 
+	
 	public java.util.List<Activity> searchA1(User user, Troop troop,
 			String tags, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
@@ -1661,7 +1666,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				tags = "";
 			StringTokenizer t = new StringTokenizer(tags, "|");
 			while (t.hasMoreElements()) {
-				sqlTags += " parent.[cq:tags] like '%" + namespace + ":program-level/" + t.nextToken() + "%' ";
+				sqlTags += " s.[/jcr:content/cq:tags] like '%" + namespace + ":program-level/" + t.nextToken() + "%' ";
 				if (t.hasMoreElements())
 					sqlTags += " or ";
 				isTag = true;
@@ -1673,7 +1678,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				cat = "";
 			t = new StringTokenizer(cat, "|");
 			while (t.hasMoreElements()) {
-				sqlCat += " parent.[cq:tags] like '%" + namespace + ":categories/" + t.nextToken() + "%' ";
+				sqlCat += " s.[/jcr:content/cq:tags] like '%" + namespace + ":categories/" + t.nextToken() + "%' ";
 				if (t.hasMoreElements())
 					sqlCat += " or ";
 				isTag = true;
@@ -1683,7 +1688,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			String regionSql = "";
 			if (region != null && !region.trim().equals("")) {
-				regionSql += " and LOWER(child.region) ='" + region + "'";
+				regionSql += " and LOWER(/jcr:content/data/region) ='" + region + "'";
 			}
 
 
@@ -1694,28 +1699,19 @@ public class MeetingDAOImpl implements MeetingDAO {
 			else
 				path = path + "/jcr:content";
 
-			String sql = "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["
+			String sql = "select s.*  from [cq:Page] as s where  (isdescendantnode (s, ["
 					+ eventPath
-					+ "])) and child.start is not null and parent.[jcr:title] is not null ";
+					+ "])) and s.[/jcr:content/data/start] is not null and s.[/jcr:content/jcr:title] is not null ";
 			
 			
 			
-			/*
 			if (keywrd != null && !keywrd.trim().equals(""))// && !isTag )
-				sql += " and (contains(child.*, '" + keywrd
-						+ "') or contains(parent.*, '" + keywrd + "')  )";
-			*/				
-			if (keywrd != null && !keywrd.trim().equals(""))
-				sql += " and ( child.* like '%" + keywrd + "%' " +
-						" or parent.* like '%" + keywrd + "%'  )";
-			
-			
+				sql += " and contains(s.*, '" + keywrd+ "') ";
 			
 			sql += regionSql;
 			sql += sqlTags;
 			sql += sqlCat;
 			
-//select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/girlscoutshh/en/sf-events-repository])) and child.start is not null and parent.[jcr:title] is not null  and ( child.* like '%Earth Day%'  or parent.* like '%Earth Day%'  )
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1724,12 +1720,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
-				Value v[] = r.getValues();
+		
+				Node resultNode  = r.getNode();
 		
 				Activity activity = new Activity();
 				activity.setUid("A" + new java.util.Date().getTime() + "_"
 						+ Math.random());
-				activity.setContent(r.getValue("child.details").getString());
+				activity.setContent(resultNode.getProperty("jcr:content/data/details").getString());
 
 				// convert to EST
 				// TODO: All VTK date is based on server time zone, which is
@@ -1742,38 +1739,36 @@ public class MeetingDAOImpl implements MeetingDAO {
 				SimpleDateFormat dateFormat = new SimpleDateFormat(
 						"yyyy-MM-dd'T'HH:mm:ss.SSS");
 				try {
-					String eventStartDateStr = r.getValue("child.start")
+					String eventStartDateStr = resultNode.getProperty("jcr:content/data/start")
 							.getString();
 					Date eventStartDate = dateFormat.parse(eventStartDateStr);
 					activity.setDate(eventStartDate);
-					String eventEndDateStr = r.getValue("child.end")
+					String eventEndDateStr = resultNode.getProperty("jcr:content/data/end")
 							.getString();
 					Date eventEndDate = dateFormat.parse(eventEndDateStr);
 					activity.setEndDate(eventEndDate);
 				} catch (Exception e) {
 				}
 				// TODO: end of hacking timezone
-
 				if ((activity.getDate().before(new java.util.Date()) && activity
 						.getEndDate() == null)
 						|| (activity.getEndDate() != null && activity
-								.getEndDate().before(new java.util.Date()))) {
-					
+								.getEndDate().before(new java.util.Date()))) {				
 					continue;
 				}
 				try {
-					activity.setLocationName(r.getValue("child.locationLabel").getString());
+					activity.setLocationName(resultNode.getProperty("jcr:content/data/locationLabel").getString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				try {
-					activity.setLocationAddress(r.getValue("child.address")
+					activity.setLocationAddress(resultNode.getProperty("jcr:content/data/address")
 							.getString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				//activity.setName(r.getValue("child.srchdisp").getString());
-				activity.setName(r.getValue("parent.jcr:title").getString());
+				
+				activity.setName(resultNode.getProperty("jcr:content/jcr:title").getString());
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT" + i);
 				if (activity.getDate() != null && activity.getEndDate() == null) {
@@ -1781,30 +1776,45 @@ public class MeetingDAOImpl implements MeetingDAO {
 				}
 				activity.setIsEditable(false);
 				try {
-					activity.setRefUid(r.getValue("parent.jcr:uuid")
+					activity.setRefUid(resultNode.getProperty("jcr:content/jcr:uuid")
 							.getString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 				try {
-					activity.setRegisterUrl(r.getValue("child.register")
+					activity.setRegisterUrl(resultNode.getProperty("jcr:content/data/register")
 							.getString());
 				} catch (Exception e) {
 					log.error("searchActivity no register url");
 				}
 
 				if (startDate != null && endDate != null) {
+
 					startDate.setHours(0);
 					endDate.setHours(23);
 
-					if (activity.getDate() != null
-							&& activity.getDate().after(startDate)
-							&& activity.getDate().before(endDate))
-						;
-					else {
-						continue;
-					}
+
+					
+					if( activity.getDate() != null && (  //start date
+							activity.getDate().equals(endDate) ||
+							activity.getDate().before(endDate) ) ){
+
+							;
+					}else if( activity.getEndDate() != null && (  //end date
+							 activity.getEndDate().equals(endDate) ||
+							 activity.getEndDate().equals(startDate) ||
+							 activity.getEndDate().before(endDate) && activity.getEndDate().after(startDate)
+							 )
+							 ){
+
+						 ;
+					 }else{
+
+						 continue;
+					 }
+					
+					
 				}
 
 				toRet.add(activity);

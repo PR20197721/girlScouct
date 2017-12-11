@@ -841,7 +841,8 @@ function expiredcheck(ssId, ypId) {
 
 
 //tmp need to replace with original
-function showError(x, y) {}
+function showError(message, domElement) {
+}
 
 function rmTroopInfo() {
 
@@ -1229,14 +1230,19 @@ function resetYear() {
 
 var ModalVtk = (function() {
 
-    function Modal(name) {
+    function Modal(name,booleanCancel) {
 
         var modalName = name || new Date().getTime();
+        var xIcon = booleanCancel || false;
 
-        var $main_modal_wrap, $main_modal, $gray_modal = [];
+        var $main_modal_wrap, $main_modal, $gray_modal , $xButton= [];
+
+
 
         function init() {
-            var $a = $('<div class="vtk-js-modal_wrap '+modalName+'"><div class="vtk-js-modal" style=""><div class="vtk-js-modal_head"><div class="vtk-js-modal_title"></div></div><div class="vtk-js-modal_body"></div></div>');
+            var t = booleanCancel ? '<div class="vtk-js-modal-x"><i class="icon-button-circle-cross"></i></div>' : '';
+            var $a = $('<div class="vtk-js-modal_wrap ' + modalName + '"><div class="vtk-js-modal" style=""><div class="vtk-js-modal_head"><div class="vtk-js-modal_title"></div>' +
+                 t +'</div><div class="vtk-js-modal_body"></div></div>');
             var $b = $('<div class="vtk-gray-modal" style=""></div></div>');
 
 
@@ -1251,6 +1257,8 @@ var ModalVtk = (function() {
             $main_modal_wrap = $('.vtk-js-modal_wrap.'+modalName);
             $main_modal = $main_modal_wrap.children('.vtk-js-modal');
             $gray_modal = $('.vtk-gray-modal');
+            $xButton = booleanCancel ? $('.vtk-js-modal-x') : [];
+
 
         }
 
@@ -1317,13 +1325,15 @@ var ModalVtk = (function() {
         function confirm(msg, desc, okCallBack, cancelCallBack) {
             _preOpen(true);
             _centerModal();
-
+            debugger;
             $main_modal.find('.vtk-js-modal_title').html(msg);
             $main_modal.find('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class="vtk-js-modal_button_action vtk-js-modal_ok_action">Ok</div><div class="vtk-js-modal_button_action vtk-js-modal_cancel_action">Cancel</div></div>')
 
             $main_modal.find('.vtk-js-modal_ok_action').on('click', okCallBack);
             $main_modal.find('.vtk-js-modal_cancel_action').on('click', cancelCallBack);
-
+            if (booleanCancel) { 
+                $xButton.on('click', cancelCallBack);
+            }
 
 
         }
@@ -1363,8 +1373,10 @@ var ModalVtk = (function() {
 
 
 
+
 var initNotes = (function(global, ModalVtk, $) {
-    var modal = new ModalVtk();
+    var modal = new ModalVtk(false,true);
+
     var globalMid, userLoginId;
 
     var view = {
@@ -1394,22 +1406,20 @@ var initNotes = (function(global, ModalVtk, $) {
         deleteNote: function(e) {
             e.preventDefault();
 
-            modal.confirm('Warning', 'Are you sure you want to delete this note?', function() {
+            modal.confirm('Warning', 'Are you sure you want to delete this note?', function () {
+
                 rmNote($(e.target).parents('li').data('uid'))
-                    .fail(function(err) {
+                    .done(function (response) {
+                
+                        var x = JSON.parse(response)
+                
+                        if (x) {
+                            checkQuantityNotes($('.vtk-notes_item').length)
+                            interateNotes(thisMeetingNotes.filter(function (note) { return note.uid !==  $(e.target).parents('li').data('uid')}))                      
+                        }
+                    }).fail(function(err) {
                         console.log('error', err)
-                    })
-                    .success(function() {
-                        checkQuantityNotes($('.vtk-notes_item').length)
-                        var req = getNotes(globalMid, userLoginId);
-                        req.then(
-                            function(json) {
-                                interateNotes(json);
-                            },
-                            function(err) {
-                                console.log(err);
-                            })
-                    }).done(function() {
+                    }).always(function() {
                         modal.close();
                     });
             }, function() {
@@ -1634,8 +1644,8 @@ var initNotes = (function(global, ModalVtk, $) {
             }
         },
 
+        newNote: function (note) {
 
-        newNote: function(note) {
             var date = moment(note.createTime);
 
             var dateString = date.format('MM/DD/YYYY');
@@ -2134,15 +2144,14 @@ var initNotes = (function(global, ModalVtk, $) {
 
 
     function getNotes(mid, auid) {
-
-                globalMid = mid;
+        globalMid = mid;
         if (auid) {
             userLoginId = auid;
         }
 
         defer = $.Deferred();
-        console.log('inside getNotes =>>>',thisMeetingNotes)
-        setTimeout(function(){
+
+        setTimeout(function () {
             defer.resolve(thisMeetingNotes?thisMeetingNotes:[])
         },500);
         
