@@ -517,7 +517,8 @@ function searchActivities() {
 		success: function(result) {
 			$("#searchResults").load('/content/girlscouts-vtk/controllers/vtk.searchActivity.html');
       vtkTrackerPushAction('SearchActivities');
-      $("#gsModal").find('.tabs-wrapper.scroll').delay(200).animate({scrollTop: $('#searchResults').offset().top - 50 }, 100);
+      var top = $('#searchResults').position().top + $("#gsModal").find(".tabs-wrapper.scroll").position().top;
+      $("#gsModal").find('.tabs-wrapper.scroll').delay(200).animate({scrollTop:  top + 50 }, 100);
 		}
 	});
 }
