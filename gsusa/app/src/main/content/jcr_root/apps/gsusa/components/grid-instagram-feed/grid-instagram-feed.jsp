@@ -26,9 +26,10 @@ public String generateId() {
 	String desktopHeight = properties.get("desktopheight", "");
 	String mobileHeight = properties.get("mobileheight", "");
 %>
+ 
 <style>
 #tag_social_feed_instagram {
-	<% if (desktopHeight != "0") { %>
+	<% if (!desktopHeight.equals("0")) { %>
 	max-height:<%= desktopHeight %>px;
 	height:<%= desktopHeight %>px;
 	<% } %>
@@ -36,7 +37,7 @@ public String generateId() {
 }
 @media (max-width: 768px) {
 #tag_social_feed_instagram {
-	<% if (mobileHeight != "0") { %>
+	<% if (!mobileHeight.equals("0")) { %>
 	max-height:<%= mobileHeight %>px;
 	height:<%= mobileHeight %>px;
 	<% } %>

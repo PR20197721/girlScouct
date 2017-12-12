@@ -21,6 +21,7 @@
 	String pinID3 = properties.get("postid3","");
 	
 	// Desktop Tab 
+	String desktopHeight = properties.get("desktopheight", "0");
 	String desktopimagesize = properties.get("desktopimagesize", "");
 	String desktoptitlelines = properties.get("desktoptitlelines", "");
 	String desktopsnippetlines = properties.get("desktopsnippetlines", "");
@@ -29,7 +30,8 @@
 	String desktopsnippetfont = properties.get("desktopsnippetfont", "");
 	String desktopsnippetlineheight = properties.get("desktopsnippetlineheight", "");
 	
-	// Mobile Tab 
+	// Mobile Tab 	
+	String mobileHeight = properties.get("mobileheight", "0");
 	String mobileimagesize = properties.get("mobileimagesize", "");
 	String mobiletitlelines = properties.get("mobiletitlelines", "");
 	String mobilesnippetlines = properties.get("mobilesnippetlines", "");
@@ -50,9 +52,20 @@
 	
 %>
 <style>
-.blog-feed-area {
-	background-color:green;
+#tag_social_feed_blog {
+	<% if (!desktopHeight.equals("0")) { %>
+	max-height:<%= desktopHeight %>px;
+	height:<%= desktopHeight %>px;
+	<% } %>
+	overflow: auto;
 }
+@media (max-width: 768px) {
+#tag_social_feed_blog {
+	<% if (!mobileHeight.equals("0")) { %>
+	max-height:<%= mobileHeight %>px;
+	height:<%= mobileHeight %>px;
+	<% } %>
+}}
 </style>
 
 

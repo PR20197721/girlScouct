@@ -73,6 +73,12 @@
                         hideLabel="true"
                         name="./desktopdescription"
                         xtype="displayfield" />
+                    <desktopheight
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
+                        fieldLabel="Desktop Height"
+                        name="./desktopheight"
+                        xtype="numberfield" />
                     <desktopimagesize
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Image Size"
@@ -144,7 +150,13 @@
                         defaultValue=""
                         hideLabel="true"
                         name="./mobiledescription"
-                        xtype="displayfield" />
+                        xtype="displayfield" />                    
+                    <mobileheight
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
+                        fieldLabel="Mobile Height"
+                        name="./mobileheight"
+                        xtype="numberfield" />
                     <mobileimagesize
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Image Size"

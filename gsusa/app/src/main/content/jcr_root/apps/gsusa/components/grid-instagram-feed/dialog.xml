@@ -32,13 +32,13 @@
                     	xtype="textfield"/>
                     <desktopheight
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Height of the component in px"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
                         fieldLabel="Desktop Height"
                         name="./desktopheight"
                         xtype="numberfield" />
                     <mobileheight
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Height of the component in px"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
                         fieldLabel="Mobile Height"
                         name="./mobileheight"
                         xtype="numberfield" />
