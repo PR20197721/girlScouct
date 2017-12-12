@@ -49,6 +49,13 @@
 	}
 	
 %>
+<style>
+.blog-feed-area {
+	background-color:green;
+}
+</style>
+
+
 <div id="tag_social_feed_blog" class="feedwrapper clearfix">
 	<div class="blogfeedicon"><!-- img src="/content/dam/girlscouts-shared/images/Icons/social-media/blogger.png"> -->
 		<img src="<%= iconurl %>">
