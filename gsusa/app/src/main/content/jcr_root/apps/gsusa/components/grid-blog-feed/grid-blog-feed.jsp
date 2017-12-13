@@ -21,7 +21,7 @@
 	String pinID3 = properties.get("postid3","");
 	
 	// Desktop Tab 
-	String desktopHeight = properties.get("desktopheight", "0");
+	String desktopheight = properties.get("desktopheight", "0");
 	String desktopimagesize = properties.get("desktopimagesize", "");
 	String desktoptitlelines = properties.get("desktoptitlelines", "");
 	String desktopsnippetlines = properties.get("desktopsnippetlines", "");
@@ -31,7 +31,7 @@
 	String desktopsnippetlineheight = properties.get("desktopsnippetlineheight", "");
 	
 	// Mobile Tab 	
-	String mobileHeight = properties.get("mobileheight", "0");
+	String mobileheight = properties.get("mobileheight", "0");
 	String mobileimagesize = properties.get("mobileimagesize", "");
 	String mobiletitlelines = properties.get("mobiletitlelines", "");
 	String mobilesnippetlines = properties.get("mobilesnippetlines", "");
@@ -53,19 +53,34 @@
 %>
 <style>
 #tag_social_feed_blog {
-	<% if (!desktopHeight.equals("0")) { %>
-	max-height:<%= desktopHeight %>px;
-	height:<%= desktopHeight %>px;
+	<% if (!desktopheight.equals("0")) { %>
+	max-height:<%= desktopheight %>px;
+	height:<%= desktopheight %>px;
 	<% } %>
 	overflow: auto;
 }
+.blogfeedimage		{width:<%= desktopimagesize %>%;
+					 padding-bottom:<%= desktopimagesize %>%;}
+.blogfeedcontent	{width:calc(100% - <%= desktopimagesize %>%);}
+.blogfeedtitle		{font-size:<%= desktoptitlefont %>;
+					 line-height:<%= desktoptitlelineheight %>;}
+.blogfeedsnippet	{font-size:<%= desktopsnippetfont %>;
+					 line-height:<%= desktopsnippetlineheight %>;}
 @media (max-width: 768px) {
 #tag_social_feed_blog {
-	<% if (!mobileHeight.equals("0")) { %>
-	max-height:<%= mobileHeight %>px;
-	height:<%= mobileHeight %>px;
+	<% if (!mobileheight.equals("0")) { %>
+	max-height:<%= mobileheight %>px;
+	height:<%= mobileheight %>px;
 	<% } %>
-}}
+}
+.blogfeedimage		{width:<%= mobileimagesize %>%;
+					 padding-bottom:<%= mobileimagesize %>%;}
+.blogfeedcontent	{width:calc(100% - <%= mobileimagesize %>%);}
+.blogfeedtitle		{font-size:<%= mobiletitlefont %>;
+					 line-height:<%= mobiletitlelineheight %>;}
+.blogfeedsnippet	{font-size:<%= mobilesnippetfont %>;
+					 line-height:<%= mobilesnippetlineheight %>;}
+}
 </style>
 
 
@@ -188,21 +203,10 @@ $(document).ready(function() {
 	var pinPost2 = '<%= pinID2 %>';
 	var pinPost3 = '<%= pinID3 %>';
 
-	var desktopimagesize = '<%= desktopimagesize %>';
 	var desktoptitlelines = '<%= desktoptitlelines %>';
 	var desktopsnippetlines  = '<%= desktopsnippetlines %>';
-	var desktoptitlefont = '<%= desktoptitlefont %>';
-	var desktopsnippetfont = '<%= desktopsnippetfont %>';
-	var desktoptitlelineheight = '<%= desktoptitlelineheight %>';
-	var desktopsnippetlineheight = '<%= desktopsnippetlineheight %>';
-
-	var mobileimagesize = '<%= mobileimagesize %>';
 	var mobiletitlelines = '<%= mobiletitlelines %>';
 	var mobilesnippetlines = '<%= mobilesnippetlines %>';
-	var mobiletitlefont = '<%= mobiletitlefont %>';
-	var mobilesnippetfont = '<%= mobilesnippetfont %>';
-	var mobiletitlelineheight = '<%= mobiletitlelineheight %>';
-	var mobilesnippetlineheight = '<%= mobilesnippetlineheight %>';
 
 	var $blogFeedArea = $(".blog-feed-area");
 	
@@ -327,37 +331,18 @@ $(document).ready(function() {
 		//	endTime;
 		
 		var imagesize, 
-			titlelines, snippetlines, 
-			titlefont, snippetfont, 
-			titlelineheight, snippetlineheight;
+			titlelines, snippetlines; 
 		
 		var feedWidth = $('.blog-feed-area').width();
 		
 		if ($(window).width() > 768) {		// 768 breakpoint for mobile and desktop
-			imagesize = desktopimagesize;
 			titlelines = desktoptitlelines;
 			snippetlines = desktopsnippetlines;
-			titlefont = desktoptitlefont;
-			snippetfont = desktopsnippetfont;
-			titlelineheight = desktoptitlelineheight;
-			snippetlineheight = desktopsnippetlineheight;
 		} else {
-			imagesize = mobileimagesize;
 			titlelines = mobiletitlelines;
 			snippetlines = mobilesnippetlines;
-			titlefont = mobiletitlefont;
-			snippetfont = mobilesnippetfont;
-			titlelineheight = mobiletitlelineheight;
-			snippetlineheight = mobilesnippetlineheight;
 		}
-		
-		$('.blogfeedimage').css({'width': imagesize + '%', 
-								 'padding-bottom': imagesize + '%'});
-		$('.blogfeedcontent').css('width', 100-imagesize + '%');
-		$('.blogfeedtitle').css({'font-size': titlefont,
-								 'line-height': titlelineheight});
-		$('.blogfeedsnippet').css({'font-size': snippetfont,
-								   'line-height': snippetlineheight});
+
 		//console.log("feed");
 		//endTime = new Date();
 		//console.log("styleFeed() took " + (endTime-startTime)/1000 + " seconds");
