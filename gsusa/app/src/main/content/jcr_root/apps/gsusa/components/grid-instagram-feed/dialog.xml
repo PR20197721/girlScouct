@@ -18,10 +18,10 @@
                         xtype="textfield"/>
                     <count
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Specify a limit for how many images will appear. Will default to 19 if left blank"
+                        fieldDescription="Specify a limit for how many images will appear. 20 max."
                         fieldLabel="Picture Count"
                         minValue="1"
-                        maxValue="19"
+                        maxValue="20"
                         name="./count"
                         xtype="numberfield"/>
                     <pin-id
@@ -30,6 +30,18 @@
                     	fieldLabel="Pin ID"
                     	name="./pin-id"
                     	xtype="textfield"/>
+                    <desktopheight
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
+                        fieldLabel="Desktop Height"
+                        name="./desktopheight"
+                        xtype="numberfield" />
+                    <mobileheight
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
+                        fieldLabel="Mobile Height"
+                        name="./mobileheight"
+                        xtype="numberfield" />
                 </items>
             </properties>
         </items>
