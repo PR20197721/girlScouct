@@ -10,26 +10,6 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <url
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription="URL that fetches feed"
-                        fieldLabel="Endpoint URL"
-                        name="./url"
-                        xtype="textfield"/>
-                    <count
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription="Specify a limit for how many images will appear. 20 max."
-                        fieldLabel="Picture Count"
-                        minValue="1"
-                        maxValue="20"
-                        name="./count"
-                        xtype="numberfield"/>
-                    <pin-id
-                    	jcr:primaryType="cq:Widget"
-                    	fieldDescription="If you would like to pin an image to the top of the feed, enter its post id here."
-                    	fieldLabel="Pin ID"
-                    	name="./pin-id"
-                    	xtype="textfield"/>
                     <desktopheight
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Height of the component in px. Enter blank or 0 to show all"
