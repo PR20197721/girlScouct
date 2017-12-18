@@ -14,13 +14,25 @@
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Height of the component in px. Enter blank or 0 to show all"
                         fieldLabel="Desktop Height"
+                        defaultValue="600"
+                        value="600"
                         name="./desktopheight"
                         xtype="numberfield" />
                     <mobileheight
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Height of the component in px. Enter blank or 0 to show all"
                         fieldLabel="Mobile Height"
+                        defaultValue="300"
+                        value="300"
                         name="./mobileheight"
+                        xtype="numberfield" />
+                    <count
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Number of Tweets"
+                        fieldDescription="Number of Tweets to show. Max 20."
+                        defaultValue="10"
+                        value="10"
+                        name="./count"
                         xtype="numberfield" />
                 </items>
             </properties>
