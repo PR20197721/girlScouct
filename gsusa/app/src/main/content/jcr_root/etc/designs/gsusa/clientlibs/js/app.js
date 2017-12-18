@@ -161,7 +161,8 @@ function fixSlickSlideActive() {
         lastAfterSlick = null,
         carouselSliderPropogate = true,
         ImageMap,
-        imageMap;
+        imageMap,
+        slickOptions = {};
 
     if (navigator.userAgent.indexOf("Trident\/7") != -1 && parseFloat($.browser.version) >= 11) {
         isIE11 = true;
@@ -451,7 +452,6 @@ function fixSlickSlideActive() {
         });
     }
     */
-    var slickOptions = {};
     if ($('.main-slider').attr("slick-options")) {
         slickOptions = JSON.parse($('.main-slider').attr("slick-options"));
     }
@@ -659,10 +659,12 @@ function fixSlickSlideActive() {
         //Returns the version of Internet Explorer or a -1
         //(indicating the use of another browser).
 
-        var rv = -1; // Return value assumes failure.
+        var rv = -1, // Return value assumes failure.
+            ua,
+            re;
         if (navigator.appName == 'Microsoft Internet Explorer') {
-            var ua = navigator.userAgent;
-            var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+            ua = navigator.userAgent;
+            re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
             if (re.exec(ua) != null) {
                 rv = parseFloat(RegExp.$1);
             }
@@ -770,41 +772,22 @@ function fixSlickSlideActive() {
     //
     //
 
-    var slick = $('.slick-slider'),
-        autoplay = slick.slick('slickGetOption', 'autoplay'),
-        embeds = slick.find('iframe'),
-        underbar = {
-            el: $('.zip-council'),
-            show: function () {
-                if (this.el.length && $(window).width() > 768) { // Desktop only
-                    this.el.slideDown(1000);
-                }
-            },
-            hide: function () {
-                if (this.el.length && $(window).width() > 768) {
-                    this.el.slideUp(0);
-                }
-            }
-        },
-        iframe,
-        i;
-
-    function stopSlider() {
-        if (slick != undefined && slick.slick != undefined) {
-            slick.slick('slickPause');
-            slick.slick('slickSetOption', 'autoplay', false, false);
-            slick.slick('autoPlay', $.noop);
-            underbar.hide();
+    function stopSlider(iframe) {
+        if (iframe.slick && iframe.slick.slick && iframe.autoplay) {
+            iframe.slick.slick('slickPause');
+            iframe.slick.slick('slickSetOption', 'autoplay', false, false);
+            iframe.slick.slick('autoPlay', $.noop);
         }
+        iframe.underbar.hide();
     }
 
-    function startSlider() {
-        if (slick != undefined && slick.slick != undefined && autoplay) {
-            slick.slick('slickPlay');
-            slick.slick('slickSetOption', 'autoplay', true, false);
-            slick.slick('autoPlay', $.noop);
-            underbar.show();
+    function startSlider(iframe) {
+        if (iframe.slick && iframe.slick.slick && iframe.autoplay) {
+            iframe.slick.slick('slickPlay');
+            iframe.slick.slick('slickSetOption', 'autoplay', true, false);
+            iframe.slick.slick('autoPlay', $.noop);
         }
+        iframe.underbar.show();
     }
 
     function createVimeoPlayer(iframe) {
@@ -812,12 +795,12 @@ function fixSlickSlideActive() {
         var player = new Vimeo.Player(iframe.el);
 
         player.on('play', function () {
-            stopSlider();
+            stopSlider(iframe);
         });
 
-        slick.on('beforeChange', function (event, slick, currentSlide) {
+        iframe.slick.on('beforeChange', function (event, slick, currentSlide) {
             if (iframe.slide.hasClass("slick-active")) { // Trigger only when moving away from potentially active slide
-                startSlider();
+                startSlider(iframe);
                 player.unload();
             }
         });
@@ -830,13 +813,13 @@ function fixSlickSlideActive() {
         player.addEventListener("onReady", function () {
             player.addEventListener("onStateChange", function (event) {
                 if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering to prevent delay before playing
-                    stopSlider();
+                    stopSlider(iframe);
                 }
             });
 
-            slick.on('beforeChange', function (event, slick, currentSlide) {
+            iframe.slick.on('beforeChange', function (event, slick, currentSlide) {
                 if (iframe.slide.hasClass("slick-active")) {
-                    startSlider();
+                    startSlider(iframe);
                     player.stopVideo();
                 }
             });
@@ -858,15 +841,39 @@ function fixSlickSlideActive() {
         }
     }
 
-    // For each embed (Make sure player.js is loaded first)
-    for (i = 0; i < embeds.length; i += 1) {
-        iframe = $(embeds[i]);
-        bindPlayer({
-            el: iframe,
-            type: iframe.attr('id').toLowerCase(),
-            slide: iframe.parents(".slick-slide")
-        });
-    }
+    $('.slick-slider').each(function () {
+        var slick = $(this),
+            autoplay = slick.slick('slickGetOption', 'autoplay'),
+            embeds = slick.find('iframe'),
+            underbar = {
+                el: slick.parent().find('.zip-council'),
+                show: function () {
+                    if (this.el.length && $(window).width() > 768) { // Desktop only
+                        this.el.slideDown(1000);
+                    }
+                },
+                hide: function () {
+                    if (this.el.length && $(window).width() > 768) {
+                        this.el.slideUp(0);
+                    }
+                }
+            },
+            iframe,
+            i;
+
+        // For each embed (Make sure player.js is loaded first)
+        for (i = 0; i < embeds.length; i += 1) {
+            iframe = $(embeds[i]);
+            bindPlayer({
+                el: iframe,
+                type: iframe.attr('id').toLowerCase(),
+                slick: slick,
+                autoplay: autoplay,
+                slide: iframe.parents(".slick-slide"),
+                underbar: underbar
+            });
+        }
+    });
 
     function hide_show_cookie() {
         $('#meet-cookie-layout section').hide();
@@ -932,91 +939,93 @@ function fixSlickSlideActive() {
     // Sticky Nav
     //
     //
-    var desktopHeader = $(".header"),
-        mobileHeader = $(".tab-bar"),
-        header,
-        headerHeight,
-        desktopPlaceholder = $(".header-placeholder"),
-        mobilePlaceholder = $(".tab-bar-placeholder"),
-        placeholder,
-        trigger = false,
-        fixed = false,
-        fixedClass = "sticky-nav-fixed",
-        offset = 0,
-        desktopStickyOffset = 0,
-        MEDIUM_ONLY = 768,
-        mobile = $(window).width() <= MEDIUM_ONLY;
+    (function () {
+        var desktopHeader = $(".header"),
+            mobileHeader = $(".tab-bar"),
+            header,
+            headerHeight,
+            desktopPlaceholder = $(".header-placeholder"),
+            mobilePlaceholder = $(".tab-bar-placeholder"),
+            placeholder,
+            trigger = false,
+            fixed = false,
+            fixedClass = "sticky-nav-fixed",
+            offset = 0,
+            desktopStickyOffset = 0,
+            MEDIUM_ONLY = 768,
+            mobile = $(window).width() <= MEDIUM_ONLY;
 
-    function setOffset() {
-        // Set placeholders
-        headerHeight = header.height();
-        placeholder.height(headerHeight);
+        function setOffset() {
+            // Set placeholders
+            headerHeight = header.height();
+            placeholder.height(headerHeight);
 
-        // Set offset
-        if (!mobile) { // Desktop header
-            header.addClass(fixedClass);
-            desktopStickyOffset = headerHeight - header.height(); // Change header to sticky and change back to get height difference
-            header.removeClass(fixedClass);
-
-            offset = header.offset().top + desktopStickyOffset;
-        } else { // Mobile header
-            offset = header.offset().top;
-        }
-
-        // Reset fix
-        $(window).trigger("scroll");
-    }
-
-    function switchHeader() {
-        // Unfix previous header
-        if (header && placeholder) {
-            header.removeClass(fixedClass);
-            placeholder.hide();
-            fixed = false;
-        }
-
-        // Set new header
-        header = mobile ? mobileHeader : desktopHeader;
-        placeholder = mobile ? mobilePlaceholder : desktopPlaceholder;
-
-        // Set offset
-        setOffset();
-    }
-
-    if ($(".header.sticky-nav").length) {
-        // On load
-        switchHeader();
-
-        // Reset offset on resize
-        $(window).on("resize", function () {
-            if ($(window).width() > MEDIUM_ONLY === mobile) { // Trigger once when the breakpoint is passed
-                mobile = !mobile;
-                //console.log("Mobile is: " + mobile);
-                switchHeader();
-            }
-            if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
-                //console.log("Old height: " + headerHeight);
-                //console.log("New height: " + header.height());
-                setOffset();
-            }
-        });
-
-        // Sticky header
-        $(window).on("scroll", function () {
-            trigger = $(window).scrollTop() > offset;
-            if (trigger && !fixed) { // Trigger once to fix header
-                fixed = true;
+            // Set offset
+            if (!mobile) { // Desktop header
                 header.addClass(fixedClass);
-                placeholder.show();
-                //console.log("fixed");
-            } else if (!trigger && fixed) { // Trigger once to unfix header
-                fixed = false;
+                desktopStickyOffset = headerHeight - header.height(); // Change header to sticky and change back to get height difference
+                header.removeClass(fixedClass);
+
+                offset = header.offset().top + desktopStickyOffset;
+            } else { // Mobile header
+                offset = header.offset().top;
+            }
+
+            // Reset fix
+            $(window).trigger("scroll");
+        }
+
+        function switchHeader() {
+            // Unfix previous header
+            if (header && placeholder) {
                 header.removeClass(fixedClass);
                 placeholder.hide();
-                //console.log("static");
+                fixed = false;
             }
-        });
-    }
+
+            // Set new header
+            header = mobile ? mobileHeader : desktopHeader;
+            placeholder = mobile ? mobilePlaceholder : desktopPlaceholder;
+
+            // Set offset
+            setOffset();
+        }
+
+        if ($(".header.sticky-nav").length) {
+            // On load
+            switchHeader();
+
+            // Reset offset on resize
+            $(window).on("resize", function () {
+                if ($(window).width() > MEDIUM_ONLY === mobile) { // Trigger once when the breakpoint is passed
+                    mobile = !mobile;
+                    //console.log("Mobile is: " + mobile);
+                    switchHeader();
+                }
+                if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
+                    //console.log("Old height: " + headerHeight);
+                    //console.log("New height: " + header.height());
+                    setOffset();
+                }
+            });
+
+            // Sticky header
+            $(window).on("scroll", function () {
+                trigger = $(window).scrollTop() > offset;
+                if (trigger && !fixed) { // Trigger once to fix header
+                    fixed = true;
+                    header.addClass(fixedClass);
+                    placeholder.show();
+                    //console.log("fixed");
+                } else if (!trigger && fixed) { // Trigger once to unfix header
+                    fixed = false;
+                    header.removeClass(fixedClass);
+                    placeholder.hide();
+                    //console.log("static");
+                }
+            });
+        }
+    }());
 }(jQuery));
 
 //
