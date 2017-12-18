@@ -2,7 +2,8 @@
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <cq:includeClientLib js="video" />
 <%@page import="org.apache.sling.commons.json.*, 
-                java.io.*, java.util.regex.*, 
+                java.io.*, 
+                java.util.regex.*,
                 java.net.*, 
                 org.apache.sling.api.request.RequestDispatcherOptions, 
                 com.day.cq.wcm.api.components.IncludeOptions, 
@@ -11,9 +12,9 @@
 <%!
 public String extractYTId(String ytUrl) {
 	String vId = null;
-	Pattern pattern = Pattern.compile(".*(?:youtu.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
+	Pattern pattern = Pattern.compile(".*(?:youtu\\.be\\/|v\\/|u\\/w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
 	Matcher matcher = pattern.matcher(ytUrl);
-	if (matcher.matches()){
+	if (matcher.find()){
 		vId = matcher.group(1);
 	}
 	return vId;
@@ -23,7 +24,7 @@ public String extractVimeoId(String vimeoUrl) {
 	String vId = null;
 	Pattern pattern = Pattern.compile(".*(?:vimeo.com.*/)(\\d+)");
 	Matcher matcher = pattern.matcher(vimeoUrl);
-	if (matcher.matches()){
+	if (matcher.find()){
 		vId = matcher.group(1);
 	}
 	return vId;
@@ -90,11 +91,10 @@ public  String readUrlFile(String urlString) throws Exception {
 			try{
 
 				//now check if the link is youtube/vimeo
-				if (link[i].indexOf("youtube") != -1) {
+				if (link[i].indexOf("youtu") != -1) { // Needs to be "youtu" to account for "youtu.be" links
 					String ytId = extractYTId(link[i]);
 					videoId[i] = ytId;
 					videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
-					//				link[i] = "https://www.youtube.com/watch?v=" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
 					link[i] = "https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent&showinfo=1";
 				} else if (link[i].indexOf("vimeo") != -1) {
 					String vimeoId = extractVimeoId(link[i]);

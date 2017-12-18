@@ -10,7 +10,7 @@
 
 <%!
 public String[] extract(String url){
-	if (url.indexOf("youtube") != -1) {
+	if (url.indexOf("youtu") != -1) { // Needs to be "youtu" to account for "youtu.be" links
 		String ytid = extractYTId(url);
 		return new String[]{"https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent" , "https://i1.ytimg.com/vi/" + ytid +"/mqdefault.jpg", "youtube", generateId(), ytid};
 	} else if (url.indexOf("vimeo") != -1) {
@@ -33,9 +33,9 @@ public String[] extract(String url){
 
 public String extractYTId(String ytUrl) {
 	String vId = null;
-	Pattern pattern = Pattern.compile(".*(?:youtu.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
+	Pattern pattern = Pattern.compile(".*(?:youtu\\.be\\/|v\\/|u\\/w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
 	Matcher matcher = pattern.matcher(ytUrl);
-	if (matcher.matches()){
+	if (matcher.find()){
 		vId = matcher.group(1);
 	}
 	return vId;
@@ -45,7 +45,7 @@ public String extractVimeoId(String vimeoUrl) {
 	String vId = null;
 	Pattern pattern = Pattern.compile(".*(?:vimeo.com.*/)(\\d+)");
 	Matcher matcher = pattern.matcher(vimeoUrl);
-	if (matcher.matches()){
+	if (matcher.find()){
 		vId = matcher.group(1);
 	}
 	return vId;
