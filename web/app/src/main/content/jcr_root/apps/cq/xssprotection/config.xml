@@ -117,6 +117,13 @@ http://www.w3.org/TR/html401/struct/global.html
 	-->
 
 	<common-attributes>
+		<!-- For the download attribute so browser will directly download assets. -->
+		<attribute name="download">
+			<regexp-list>
+   				<regexp value="[a-zA-Z0-9-_\$]+" />
+			</regexp-list>
+		</attbribute>
+
 		<!-- Fix RTE "open in new window" functionality -->
         <!-- http://helpx.adobe.com/experience-manager/kb/target-attribut-issue-tag.html -->
         <attribute name="target">
@@ -740,6 +747,9 @@ http://www.w3.org/TR/html401/struct/global.html
 		<!-- Anchor and anchor related tags -->
 
 		<tag name="a" action="validate">
+			<!-- For the download attribute so browsers will download assets directly. -->
+			<attribute name="download" />
+
 			<!-- Fix RTE "open in new window" functionality -->
         	<!-- http://helpx.adobe.com/experience-manager/kb/target-attribut-issue-tag.html -->
             <attribute name="target" />

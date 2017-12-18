@@ -15,8 +15,9 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.web.components.PageActivationUtil;
-import org.girlscouts.web.constants.PageActivationConstants;
+import org.girlscouts.cq.workflow.service.DeleteTemplatePageService;
+import org.girlscouts.web.components.PageReplicationUtil;
+import org.girlscouts.web.constants.PageReplicationConstants;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,24 +28,24 @@ import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
 import javax.jcr.Value;
-import org.girlscouts.web.service.rollout.GSRolloutService;
+
 
 @Component
 @Service
-public class RolloutProcess implements WorkflowProcess, PageActivationConstants {
-	@Property(value = "Roll out a page if it is the source page of a live copy, and then activate target pages.")
+public class DeleteTemplatePageProcess implements WorkflowProcess, PageReplicationConstants {
+	@Property(value = "De-Activate all live copies of a source page, and then Delete live copies and source page.")
 	static final String DESCRIPTION = Constants.SERVICE_DESCRIPTION;
 	@Property(value = "Girl Scouts")
 	static final String VENDOR = Constants.SERVICE_VENDOR;
-	@Property(value = "Girl Scouts Roll out Process")
+	@Property(value = "Girl Scouts Delete template page process")
 	static final String LABEL = "process.label";
-    private static Logger log = LoggerFactory.getLogger(RolloutProcess.class);
+    private static Logger log = LoggerFactory.getLogger(DeleteTemplatePageProcess.class);
     
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
 	
 	@Reference
-	private GSRolloutService gsRolloutService;
+	private DeleteTemplatePageService gsPageDeletionService;
 
 
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
@@ -58,25 +59,9 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 						.getResourceResolver(Collections.singletonMap("user.jcr.session", (Object) session));
 				String srcPath = item.getWorkflowData().getPayload().toString();
 				String subject = "", message = "", templatePath = "";
-				Boolean useTemplate = false, delay = false, notify = false, crawl = false, activate = true,
-						newPage = false;
-				try {
-					newPage = ((Value) mdm.get(PARAM_NEW_PAGE)).getBoolean();
-				} catch (Exception e) {
-					log.error("Rollout Workflow encountered error: ", e);
-				}
+				Boolean useTemplate = false, delay = false, notify = false, crawl = false;
 				try {
 					delay = ((Value) mdm.get(PARAM_DELAY)).getBoolean();
-				} catch (Exception e) {
-					log.error("Rollout Workflow encountered error: ", e);
-				}
-				try {
-					useTemplate = ((Value) mdm.get(PARAM_USE_TEMPLATE)).getBoolean();
-				} catch (Exception e) {
-					log.error("Rollout Workflow encountered error: ", e);
-				}
-				try {
-					templatePath = ((Value) mdm.get(PARAM_TEMPLATE_PATH)).getString();
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
@@ -91,6 +76,17 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 					log.error("Rollout Workflow encountered error: ", e);
 				}
 				try {
+					useTemplate = ((Value) mdm.get(PARAM_USE_TEMPLATE)).getBoolean();
+				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
+				}
+				try {
+					templatePath = ((Value) mdm.get(PARAM_TEMPLATE_PATH)).getString();
+				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
+				}
+
+				try {
 					subject = ((Value) mdm.get(PARAM_EMAIL_SUBJECT)).getString();
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
@@ -100,25 +96,19 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
-				try {
-					activate = ((Value) mdm.get(PARAM_ACTIVATE)).getBoolean();
-				} catch (Exception e) {
-					log.error("Rollout Workflow encountered error: ", e);
-				}
 				Node dateRolloutNode = getDateRolloutNode(session, resourceResolver, delay);
 				Set<String> sortedCouncils = new TreeSet<String>();
 				sortedCouncils.addAll(councils);
 				dateRolloutNode.setProperty(PARAM_COUNCILS, sortedCouncils.toArray(new String[sortedCouncils.size()]));
-				String[] emails = PageActivationUtil.getEmails(resourceResolver);
+				String[] emails = PageReplicationUtil.getEmails(resourceResolver);
 				dateRolloutNode.setProperty(PARAM_REPORT_EMAILS, emails);
-				String[] ips1 = PageActivationUtil.getIps(resourceResolver, 1);
-				String[] ips2 = PageActivationUtil.getIps(resourceResolver, 2);
+				String[] ips1 = PageReplicationUtil.getIps(resourceResolver, 1);
+				String[] ips2 = PageReplicationUtil.getIps(resourceResolver, 2);
 				dateRolloutNode.setProperty(PARAM_DISPATCHER_IPS + "1", ips1);
 				dateRolloutNode.setProperty(PARAM_DISPATCHER_IPS + "2", ips2);
-				dateRolloutNode.setProperty(PARAM_NEW_PAGE, newPage);
 				dateRolloutNode.setProperty(PARAM_CRAWL, crawl);
 				dateRolloutNode.setProperty(PARAM_DELAY, delay);
-				dateRolloutNode.setProperty(PARAM_ACTIVATE, activate);
+				dateRolloutNode.setProperty(PARAM_DELETE, Boolean.TRUE);
 				dateRolloutNode.setProperty(PARAM_SOURCE_PATH, srcPath);
 				dateRolloutNode.setProperty(PARAM_NOTIFY, notify);
 				dateRolloutNode.setProperty(PARAM_USE_TEMPLATE, useTemplate);
@@ -132,7 +122,7 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							gsRolloutService.rollout(path);
+							gsPageDeletionService.delete(path);
 						}
 					}).start();
 				} catch (Exception e) {
@@ -151,7 +141,7 @@ public class RolloutProcess implements WorkflowProcess, PageActivationConstants 
 		Node etcNode = etcRes.adaptTo(Node.class);
 		Node activationsNode = null;
 		Node activationTypeNode = null;
-		String date = PageActivationUtil.getDateRes();
+		String date = PageReplicationUtil.getDateRes();
 		if (etcNode.hasNode(PAGE_ACTIVATIONS_NODE)) {
 			activationsNode = etcNode.getNode(PAGE_ACTIVATIONS_NODE);
 		} else {

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/default"
+        cq:lastModified="{Date}2016-11-10T14:41:09.866-05:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:description="Deactivate all live sync pages of source page, then delete live sync pages and delete source page."
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts Template Page Deletion out Workflow"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <dialog
+                jcr:created="{Date}2016-11-10T11:37:16.568-05:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2016-11-10T11:37:16.568-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Council Selection"
+                sling:resourceType="cq/workflow/components/model/dialog">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    DIALOG_PATH="/etc/workflow/dialogs/gsdeletetemplatepage/dialog"
+                    PARTICIPANT="content-analysts"/>
+            </dialog>
+            <_x0031_
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="cq/flow/components/parsys">
+                <process
+                    jcr:created="{Date}2016-11-10T14:35:25.338-05:00"
+                    jcr:createdBy="admin"
+                    jcr:description="Deactivate all live sync pages of source page, then delete live sync pages and delete source page."
+                    jcr:lastModified="{Date}2016-11-10T14:38:14.046-05:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    jcr:title="Deactivate and Delete template page"
+                    sling:resourceType="cq/workflow/components/model/process">
+                    <metaData
+                        jcr:primaryType="nt:unstructured"
+                        PROCESS="org.girlscouts.cq.workflow.DeleteTemplatePageProcess"
+                        PROCESS_AUTO_ADVANCE="true"/>
+                </process>
+            </_x0031_>
+        </flow>
+        <model/>
+        <image
+            jcr:lastModified="{Date}2014-07-01T15:30:45.520-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

@@ -1,39 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
-    title="GS Rollout - Council Selection Dialog"
+    title="GS Deletion - Council Selection Dialog"
     xtype="dialog">
     <items jcr:primaryType="cq:WidgetCollection">
-    	<newPage
-    		jcr:primaryType="cq:Widget"
-    		fieldLabel="New Page"
-    		fieldDescription="If checked new live sync page will be created on council site."
-    		name="./newPage"
-    		value="false"
-    		defaultValue="false"
-    		type="checkbox"
-    		xtype="selection"/>
-    	<activate
-    		jcr:primaryType="cq:Widget"
-    		fieldLabel="Activate Pages"
-    		fieldDescription="If unchecked, pages will not activate automatically when they are rolled out."
-    		name="./activate"
-    		value="true"
-    		defaultValue="true"
-    		type="checkbox"
-    		xtype="selection"/>
     	<delay
     		jcr:primaryType="cq:Widget"
-    		fieldLabel="Delay Activation to Midnight"
+    		fieldLabel="Delay Deletion to Midnight"
     		name="./delay"
     		value="true"
     		defaultValue="true"
     		type="checkbox"
-    		xtype="selection">
-    		<listeners
-        		jcr:primaryType="nt:unstructured"
-        		selectionchanged="function(field, value, isChecked) { var panel = field.findParentByType('panel'); var crawl = panel.getComponent('crawl'); isChecked ? crawl.hide() : crawl.show(); }"/>
-    	</delay>
+    		xtype="selection"/>
     	<crawl
     		jcr:primaryType="cq:Widget"
     		fieldLabel="Crawl Site to Rebuild Cache"
@@ -41,7 +19,6 @@
     		value="true"
     		defaultValue="true"
     		type="checkbox"
-    		hidden="{Boolean}true"
     		itemId="crawl"
     		xtype="selection"/>
         <councils
@@ -92,16 +69,16 @@
        		jcr:primaryType="cq:Widget"
        		fieldLabel="Email Subject"
        		name="./subject"
-       		defaultValue="GSUSA Rollout Notification"
-       		value="GSUSA Rollout Notification"
+       		defaultValue="GSUSA Deletion Notification"
+       		value="GSUSA Deletion Notification"
        		xtype="textfield"/>
         <message
             jcr:primaryType="cq:Widget"
             fieldLabel="Custom Message"
             height="{Long}300"
             name="./message"
-            defaultValue="&lt;p&gt;Dear Council, &lt;/p&gt;&#xA;&lt;p&gt;It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b&gt;discarding&lt;/b&gt; your own changes (custom content) that have been made to this page and will &lt;b&gt;immediately&lt;/b&gt; receive the new national content.&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;National page URL:&lt;/b&gt; &lt;%template-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;Your page URL:&lt;/b&gt; &lt;%council-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;Click &lt;%a href='&lt;%council-author-page%&gt;'&gt;here&lt;%/a&gt; to edit your page.&lt;/p&gt;&lt;p&gt;Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p&gt;"
-        	value="&lt;p&gt;Dear Council, &lt;/p&gt;&#xA;&lt;p&gt;It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b&gt;discarding&lt;/b&gt; your own changes (custom content) that have been made to this page and will &lt;b&gt;immediately&lt;/b&gt; receive the new national content.&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;National page URL:&lt;/b&gt; &lt;%template-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;Your page URL:&lt;/b&gt; &lt;%council-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;Click &lt;%a href='&lt;%council-author-page%&gt;'&gt;here&lt;%/a&gt; to edit your page.&lt;/p&gt;&lt;p&gt;Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p&gt;"
+            defaultValue="&lt;p&gt;Dear Council, &lt;/p&gt;&#xA;&lt;p&gt;It has been detected that GSUSA has run a workflow in order to delete a template page. Please note that your council has NOT received this push since we have indicated that you have either broken the inheritance or added copy on this page. If you would like to keep this page, you do not need to make any changes. If you do not wish to keep this page, please deactivate and then delete it.&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;National page URL:&lt;/b&gt; &lt;%template-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;Your page URL:&lt;/b&gt; &lt;%council-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;Click &lt;%a href='&lt;%council-author-page%&gt;'&gt;here&lt;%/a&gt; to edit your page.&lt;/p&gt;&lt;p&gt;Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p&gt;"
+        	value="&lt;p&gt;Dear Council, &lt;/p&gt;&#xA;&lt;p&gt;It has been detected that GSUSA has run a workflow in order to delete a template page. Please note that your council has NOT received this push since we have indicated that you have either broken the inheritance or added copy on this page. If you would like to keep this page, you do not need to make any changes. If you do not wish to keep this page, please deactivate and then delete it.&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;National page URL:&lt;/b&gt; &lt;%template-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;Your page URL:&lt;/b&gt; &lt;%council-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;Click &lt;%a href='&lt;%council-author-page%&gt;'&gt;here&lt;%/a&gt; to edit your page.&lt;/p&gt;&lt;p&gt;Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p&gt;"
             xtype="richtext">
             <rtePlugins jcr:primaryType="nt:unstructured">
                 <links jcr:primaryType="nt:unstructured">
