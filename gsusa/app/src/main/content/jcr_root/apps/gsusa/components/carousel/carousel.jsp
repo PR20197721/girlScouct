@@ -129,13 +129,13 @@ public  String readUrlFile(String urlString) throws Exception {
 
 <div class="hero-feature">
 	<ul class="main-slider" slick-options='{"speed":<%=homeCarouselTimeDelay%>, "autoplay":<%=homeCarouselAutoscroll%>, "autoplaySpeed":<%=homeCarouselAutoPlaySpeed%>}'><%
-        for (int i = 0 ; i < numberOfImages; i++) { 
+        for (int i = 0; i < numberOfImages; i++) { 
 			if (!tempHidden[i]) {
-                String titleYT = !"".equals(title[i]) ? "data-display-title='true' title='" + title[i] + "'" : "";
-                %><li id="tag_explore_main_<%=i%>"><% 
+                String titleYT = !"".equals(title[i]) ? "title[i]" : "";
+                %><li id="tag_explore_main_<%=i%>"><%
                     if (link[i].indexOf("https://www.youtube.com") != -1) { 
-                        %><div class="videoWrapper thumbnail">
-                            <iframe id="youtubePlayer<%=i%>" width="100%" height="560" src="<%=link[i]%>" title="<%=title[i]%>" frameborder="0" allowfullscreen></iframe>
+                        %><div class="videoWrapper">
+                            <iframe id="youtubePlayer<%=i%>" width="100%" height="560" src="<%=link[i]%>" title="<%=title[i]%>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                         </div><% 
                     } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {
                         %><div class="videoWrapper">
@@ -150,7 +150,7 @@ public  String readUrlFile(String urlString) throws Exception {
             } 
 		}
     %></ul><%
-    if(hideZIPCode=="false") {
+    if (hideZIPCode == "false") {
         %><cq:include path="zip-council" resourceType="gsusa/components/zip-council" /><%
     }
 %></div>

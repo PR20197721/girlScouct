@@ -80,66 +80,46 @@ public  String readUrlFile(String urlString) throws Exception {
 		}
 	}
 }
-    %>
-    
-    <%
-    final int timedelay = properties.get("timedelay", 2000);
-	final boolean autoscroll = properties.get("autoscroll", false);
-    %>
-<script>
-    var youtubeIDs = [];
-</script>
-<%
-	//TODO: Optimize following javascript
-	String[] links = properties.get("links", String[].class);
-	if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>
-<p> Video Slider - Please select at least one link to display</p>
-<% }else {
+    
+<%
+final int timedelay = properties.get("timedelay", 2000);
+final boolean autoscroll = properties.get("autoscroll", false);
+String[] links = properties.get("links", String[].class);
+
+if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
+   %><p> Video Slider - Please select at least one link to display</p><% 
+} else {
 	%><div class="video-slider-wrapper" slick-options='{"autoplay":<%=autoscroll%>, "autoplaySpeed":<%=timedelay%>}'><%
-	String alt = "";
-	String[] urls = null;
-	for (int i = 0; i < links.length; i++) {
-	    String[] split = links[i].split("\\|\\|\\|");
-	    String title = split.length >= 1 ? split[0] : "";
-	    String path = split.length >= 2 ? split[1] : "";
-		if(resourceResolver.resolve(path).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-			urls = extract(path);
-			if(urls.length >= 4){
-				%><div>
-					<%if(urls.length == 5){
-						%>
-						<script>
-                            var ytid = '<%= urls[4] %>',
-                                id = '<%= urls[3] %>';
-                            youtubeIDs.push([ytid, id]);
-						</script>
-						<%
-					} %>
-					<div class="show-for-small thumbnail">
-						<a href="<%= path %>" target="_blank" title="video thumbnail">
-							<img src="<%= urls[1] %>" />
-						</a>
-					</div>
-				  	<div class="vid-slide-wrapper show-for-medium-up">
-				  		<% if(urls.length == 5) { %>
-				  			<% if(!title.equals("")){ %>
-				  			   <div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>" data-display-title="true" title="<%= title %>"></div>
-				  			<% } else { %>
-				  			   <div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>"></div>
-				  			<% } %>
-			  			<% } else { %>
-				  			<iframe id="<%= urls[3] %>_<%= urls[2] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" width="480" height="225" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
-			  			<% } %>
-		  			</div>
-	  			</div>
-			<% } else { %>
-				<div>*** Format not supported ***</div>
-			<% }
-		} else {
-			alt = "Image slider " + i; %>
-			<div><img src="<%= path %>" alt="<%= alt %>" /></div>
-	<% }
-	}
+        String[] urls = null;
+        for (int i = 0; i < links.length; i++) {
+            String[] split = links[i].split("\\|\\|\\|");
+            String title = split.length >= 1 ? split[0] : "";
+            String path = split.length >= 2 ? split[1] : "";
+            if (resourceResolver.resolve(path).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+                urls = extract(path);
+                if (urls.length >= 4) {
+                    %><div>
+                        <div class="show-for-small thumbnail">
+                            <a href="<%= path %>" target="_blank" title="video thumbnail">
+                                <img src="<%= urls[1] %>" />
+                            </a>
+                        </div>
+                        <div class="vid-slide-wrapper show-for-medium-up"><%
+                            if(urls.length == 5) {
+                                %><iframe class="lazyYT" data-id="<%=urls[3]%>" data-youtube-id="<%=urls[4]%>" id="youtubePlayer<%=i%>" width="100%" height="560" src="" title="" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><%
+                            } else {
+                                %><iframe id="<%=urls[3]%>_<%=urls[2]%>" class="<%=urls[2]%>" src="<%=urls[0]%>" width="480" height="225" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe><%
+                            }
+                        %></div>
+                    </div><%
+                } else {
+                    %><div>*** Format not supported ***</div><%
+                }
+            } else {
+                %><div><img src="<%=path%>" alt="Image slider <%=i%>" /></div><%
+            }
+        }
 	%></div><%
-	}%>
+}
+%>
