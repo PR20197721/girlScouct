@@ -92,7 +92,8 @@ public final class GSSearchResultManager implements GSSearchResultConstants {
 					Node jcrContentNode = resultNode.getNode(NODE_JCR_CONTENT);
 					if (!jcrContentNode.hasNodes() || isFilterByResourcePath(jcrContentNode)
 							|| isFilterByResourceType(jcrContentNode)
-							|| isFilterByProperty(jcrContentNode)) {
+							|| isFilterByProperty(jcrContentNode)
+							|| jcrContentNode.hasProperty("hideInSearch")) {
 						this.searchResults.remove(key);
 					}
 				}
