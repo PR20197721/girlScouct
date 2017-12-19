@@ -106,7 +106,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		if (!dateRolloutRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
 			String srcPath = "", templatePath = "";
-			Boolean notify = false, activate = true, delay = false, useTemplate = false, newPage = false;
+			Boolean notify = false, activate = false, delay = false, useTemplate = false, newPage = false;
 			Set<String> councils = null;
 			Set<String> notifyCouncils = new TreeSet<String>();
 			List<String> rolloutLog = new ArrayList<String>();
