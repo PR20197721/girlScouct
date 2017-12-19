@@ -208,6 +208,13 @@ text-align: center;
     z-index:1;
 
 
+    @media (max-width: 430px) {
+        padding: 20px 0 0 0px;
+        margin-left:-185px;
+        bottom:0px;
+    }
+
+
 }
 
 .list-of-categories,.main-filter{

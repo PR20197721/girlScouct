@@ -1209,7 +1209,7 @@ try{
             ObjectMapper mapper = new ObjectMapper();
             out.println(mapper.writeValueAsString(note));
         }else if( request.getParameter("rmNote") != null ){         
-             out.println("{vtkresp:"+ meetingUtil.rmNote(user, troop, request.getParameter("nid"))+"}");
+             out.println("{\"vtkresp\":"+ meetingUtil.rmNote(user, troop, request.getParameter("nid"))+"}");
         }else if( request.getParameter("editNote") != null ){  
             out.println("{vtkresp:"+ meetingUtil.editNote(user, troop,request.getParameter("nid"), request.getParameter("msg") )+"}");
         }else if( request.getParameter("getNotes") != null ){

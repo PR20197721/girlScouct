@@ -15,32 +15,29 @@ function disabledButton(boolean){
   }
 }
 
-
-
-
-
-
 function _checkInput(){
   return $('#sch_keyword').val().length >= 3;
 }
 
+function _checkTags(){
+
+  var lvl=  $.trim(checkAll('sch_lvl'));
+  var cat=  $.trim(checkAll('sch_cats'));
+  if( lvl !='' || cat !='')
+       return true;
+  return false;
+
+}
 
 function _checkCalendar(){
 
   return $('#sch_startDate').val() &&  $('#sch_endDate').val();
-  // if($('#sch_startDate').val() &&  $('#sch_endDate').val()){
-  //   disabledButton(false);
-  // }else{
 
-  //   disabledButton(true)
-  // }
 }
 
 
 function inputLogic(){
-
-  console.log((_checkInput() && !_checkCalendar()),(_checkCalendar() && _checkInput()))
-  return (_checkInput() && !_checkCalendar()) || (_checkCalendar() && _checkInput()) || (($('#sch_keyword').val().length == 0 || $('#sch_keyword').val() == "") && _checkCalendar()) ; 
+	return _checkTags() || ((_checkInput() && !_checkCalendar()) || (_checkCalendar() && _checkInput()) || (($('#sch_keyword').val().length == 0 || $('#sch_keyword').val() == "") && _checkCalendar())) ; 
 }
 
 
@@ -210,7 +207,7 @@ function inputLogic(){
     <span class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></span>
   <% } %>
   <h3 class="columns small-21"><%= instruction %></h3>
-  <a class="close-reveal-modal columns small-3" onclick="closeModalPage()"  ><i class="icon-button-circle-cross"></i></a>
+  <a class=" columns small-3" onclick="closeModalPage()"  ><i class="icon-button-circle-cross"></i></a>
 </div>
 
 <div class="tabs-wrapper scroll">
@@ -279,6 +276,7 @@ function inputLogic(){
           </form>
         </div><!--/create activity-->
 
+
         <div id="pickActivitySection">
           <form id="schFrm">
             <!-- <div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div> -->
@@ -291,24 +289,13 @@ function inputLogic(){
               %>
             <div class="row">
 
-              <div class="small-24 medium-8 large-8 columns">
+
+              <div class="small-24 medium-12 large-12 columns">
                 <label for="sch_keyword" ACCESSKEY="f">Find Activity by:</label>
                 <div class="looking-glass"><input type="text" id="sch_keyword" placeholder="Keywords" value="" onKeyUp="return submitenter(this,event)" /></div>
               </div>
 
-              <div class="small-24 medium-6 large-6 columns">
-                <label for="sch_region" ACCESSKEY="g">Region</label>
-                <select id="sch_region">
-                  <option value="">Select Region</option>
-                  <% java.util.Iterator itr2= region.keySet().iterator();
-                  while( itr2.hasNext() ){
-                  String str=(String) itr2.next();
-                  %>
-                  <option value="<%= str %>"><%= str %></option>
-                  <% } %>
-                </select>
-              </div>
-              <div class="columns large-10 medium-10 small-24 date">
+              <div class="columns large-12 medium-12 small-24 end date">
                 <label id="dateTitle" ACCESSKEY="r">Date</label>
                 <div class="small-21 large-9 medium-9 columns">
                   <input type="text" id="sch_startDate" onchange="checkCalendar"  value="" placeholder="From" class="date calendarField"/>
@@ -329,24 +316,25 @@ function inputLogic(){
             <div class="row">
               <div class="columns small-24">
                 <label for="sch_lvl" ACCESSKEY="p">Program Level</label>
-                <ul class="small-block-grid-2 large-block-grid-6 medium-block-grid-3 formCheckboxes">
+                <ul class="small-block-grid-1 large-block-grid-4 medium-block-grid-3 formCheckboxes">
                   <% java.util.Iterator itr1= levels.keySet().iterator();
                     int i=0;
                     while( itr1.hasNext() ){
                     i++;
                     String str=(String) itr1.next();
                     %>
-                    <li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"/>
+                    <li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>" onchange="submitenter(this, event)"/>
                     <label for="sch_lvl_<%=i %>"><p><span><%= levels.get(str) %></span></p></label></li>
                   <% } %>
                 </ul>
               </div>
             </div>
 
+
             <div class="row">
               <div class="columns small-24">
                 <label for="sch_cats" ACCESSKEY="i">Categories</label>
-                <ul class="small-block-grid-2 large-block-grid-6 medium-block-grid-3 formCheckboxes">
+                <ul class="small-block-grid-1 large-block-grid-4 medium-block-grid-3 formCheckboxes">
                   <% java.util.Iterator itr= categories.keySet().iterator();
                   i=0;
                   while( itr.hasNext() ){
@@ -354,7 +342,7 @@ function inputLogic(){
                   String str=(String) itr.next();
                   %>
                   <li>
-                    <input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>
+                    <input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>" onchange="submitenter(this, event)"/>
                     <label class="tty" for="sch_cats_<%=i %>"><p><span><%= categories.get(str) %></span></p></label>
                   </li>
                   <% } %>
@@ -367,8 +355,8 @@ function inputLogic(){
             
             </div>
 
-            <input id="view_activities_button" type="button" value="View Activities" onclick='searchActivities()' class="button btn right inactive-button"/>
-
+            <input id="view_activities_button" type="button" value="View Activities" onclick='searchActivities()' class="button btn right inactive-button" />
+            <div style="clear:both"></div>
             <div id="searchResults"></div>
           </form>
         </div><!--/pickActivitySection-->
@@ -466,21 +454,21 @@ function checkAll(x) {
 }
 
 function searchActivities() {
-	showError(null, "#pickActivitySection .errorMsg");
+
+    showError(null, "#pickActivitySection .errorMsg");
 	var  keywrd = $.trim(document.getElementById("sch_keyword").value);
 	if( keywrd.length>0 && keywrd.length<3  ){
 		var thisMsg = "Min 3 character search for keyword: "+ keywrd;
                 showError(thisMsg, "#pickActivitySection .errorMsg");
 		return false;
 	}
-	
+
 	var lvl=  $.trim(checkAll('sch_lvl'));
 	var cat=  $.trim(checkAll('sch_cats'));
 	var startDate = $.trim(document.getElementById("sch_startDate").value);
 	var endDate = $.trim(document.getElementById("sch_endDate").value);
-	var region = document.getElementById("sch_region").value;
-	
-	
+
+
 	
 	if(!isDate(startDate) && startDate != ''){setError("Invalid Start Date");return false;}
     if(!isDate(endDate) && endDate!=''){setError("Invalid End Date");return false;}
@@ -501,7 +489,7 @@ function searchActivities() {
         setError("The End Date cannot be less than Start Date"); 
 		return false;
 	}
-	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
+	if( lvl=='' && cat=='' && keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' ){
 		var thisMsg = "Please select search criteria.";
                 showError(thisMsg, "#pickActivitySection .errorMsg");
 		return false;
@@ -511,7 +499,7 @@ function searchActivities() {
     document.getElementById("dateTitle").style.color = "#FF0000";
     document.getElementById("dateErrorBox").innerHTML = "";
     document.getElementById("dateTitle").style.color = "";
-	
+
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -523,12 +511,14 @@ function searchActivities() {
 			cat:cat,
 			startDate:startDate,
 			endDate:endDate,
-			region:region,
+			region:'',
 			a:Date.now()
 		},
 		success: function(result) {
 			$("#searchResults").load('/content/girlscouts-vtk/controllers/vtk.searchActivity.html');
-			vtkTrackerPushAction('SearchActivities');
+      vtkTrackerPushAction('SearchActivities');
+      var top = $('#searchResults').position().top + $("#gsModal").find(".tabs-wrapper.scroll").position().top;
+      $("#gsModal").find('.tabs-wrapper.scroll').delay(200).animate({scrollTop:  top + 50 }, 100);
 		}
 	});
 }
@@ -554,7 +544,7 @@ function isDate(txtDate) {
     
     if (dtArray == null) 
         return false;
-    
+
     //Checks for mm/dd/yyyy format.
     dtMonth = dtArray[1];
     dtDay= dtArray[3];

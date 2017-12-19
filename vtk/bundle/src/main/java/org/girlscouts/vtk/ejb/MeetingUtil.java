@@ -544,14 +544,15 @@ public class MeetingUtil {
 							.getSchedule().getDates());
 
 			long newDate = new java.util.Date().getTime()+5000;
-			if( !troop.getYearPlan().getSchedule().getDates().trim().equals("") )
+			if( !troop.getYearPlan().getSchedule().getDates().trim().equals("") ){
 			  newDate= new CalendarUtil().getNextDate(VtkUtil
 					.getStrCommDelToArrayStr(troop.getYearPlan()
 							.getCalExclWeeksOf()), sched.get(sched.size() - 1)
 					.getTime(), troop.getYearPlan().getCalFreq(), false);
-			sched.add(new java.util.Date(newDate));
-			troop.getYearPlan().getSchedule()
+			  sched.add(new java.util.Date(newDate));
+			  troop.getYearPlan().getSchedule()
 					.setDates(VtkUtil.getArrayDateToLongComDelim(sched));
+			}
 		}
 
 		troop.getYearPlan().setAltered("true");
@@ -1108,18 +1109,11 @@ public class MeetingUtil {
 			dates = dates.substring(0, dates.length() - 1);
 		troop.getYearPlan().getSchedule().setDates(dates);
 
-		/*
-		String exclDates = troop.getYearPlan().getCalExclWeeksOf();
-		exclDates = exclDates == null ? "" : exclDates;
-		if (exclDates.endsWith(",") || exclDates.equals(""))
-			exclDates += FORMAT_MMddYYYY.format(new java.util.Date(dateToRm))
-					+ ",";
-		else
-			exclDates += ","
-					+ FORMAT_MMddYYYY.format(new java.util.Date(dateToRm))
-					+ ",";
-		troop.getYearPlan().setCalExclWeeksOf(exclDates);
-		*/
+		if( "".equals(dates) ){
+			//rm sched. no dates
+			troop.getYearPlan().getSchedule().setDates(null);
+		}
+		
 		troopUtil.updateTroop(user, troop);
 		isRemoved = true;
 		return isRemoved;

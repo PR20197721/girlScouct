@@ -1,6 +1,7 @@
 <%@page import="org.girlscouts.vtk.auth.models.ApiConfig,
                 org.girlscouts.vtk.helpers.CouncilMapper,
-                com.day.cq.wcm.api.components.IncludeOptions" %>
+                com.day.cq.wcm.api.components.IncludeOptions,
+                org.apache.sling.settings.SlingSettingsService" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/body.jsp -->
     
@@ -137,8 +138,8 @@ ga('create', 'UA-2646810-36', 'auto', {'name': 'vtkTracker'});
 
 <%
 	boolean isProd = false;
-	for (String selector : slingRequest.getRequestPathInfo().getSelectors()) {
-		if ("prod".equals(selector)) isProd = true;
+	for (String runMode : sling.getService(SlingSettingsService.class).getRunModes()) {
+		if ("prod".equals(runMode)) isProd = true;
 	}
 	if (isProd) { // begin prod walkme
 %>

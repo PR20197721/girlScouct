@@ -441,10 +441,9 @@ public class CalendarUtil {
 	}
 
 	public boolean isEventPastGSYear(User user, Troop troop) {
-
 		if (troop.getYearPlan() == null
 				|| troop.getYearPlan().getSchedule() == null
-				|| troop.getYearPlan().getSchedule().equals(""))
+				|| troop.getYearPlan().getSchedule().getDates()==null || "".equals(troop.getYearPlan().getSchedule().getDates() ))
 			return true;
 
 		boolean isPast = false;
