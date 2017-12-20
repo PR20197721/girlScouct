@@ -2,7 +2,10 @@
 com.day.cq.wcm.api.WCMMode,
 com.day.cq.wcm.api.PageManager,
 org.apache.sling.api.resource.ValueMap, 
-com.day.cq.wcm.api.WCMMode" %>
+com.day.cq.wcm.api.WCMMode,
+java.util.Set,
+java.util.HashSet,
+java.util.Arrays" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@page session="false" %>
@@ -30,7 +33,8 @@ if (!tempAdCount.isEmpty()) {
 %>
 <%
 boolean customized = properties.get("customized", false);
-String[] adPages = properties.get("pages", String[].class);
+String[] adPages = properties.get("pages", new String[] {});
+String[] excludedPages = properties.get("excludedPages", new String[] {});
 
 if(customized){
 	if (adPages!=null) {
@@ -61,6 +65,8 @@ if(customized){
 
 //by default show all start
 else{
+
+    Set<String> excludedSet = new HashSet<String>(Arrays.asList(excludedPages));
     String rootPath = properties.get("path", "");
     if (rootPath.isEmpty()) {
         rootPath = currentSite.get("adsPath", "");
@@ -78,7 +84,7 @@ else{
             int renderCount = 0;
             while(iter.hasNext() && adCount > 0) {
                 Page currentAd = iter.next();
-                if(isAd(currentAd)) {
+                if(isAd(currentAd) && !excludedSet.contains(currentAd.getPath())) {
                     request.setAttribute(AD_ATTR, currentAd);
                     %>
                     <div class="hide-for-small">
