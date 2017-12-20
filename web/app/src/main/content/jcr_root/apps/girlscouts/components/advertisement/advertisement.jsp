@@ -37,21 +37,23 @@ if(customized){
     	for(String itemUrl : adPages){
             if(adCount > 0){
                 try{
-                	Page currentAd = resourceResolver.getResource(itemUrl).adaptTo(Page.class);
-                    if(isAd(currentAd)) {
-						request.setAttribute(AD_ATTR, currentAd);
-        				%>
-                        <div class="hide-for-small">
-                        <cq:include script="display-ad.jsp"/>
-                        </div>
-                        <div class="show-for-small">
-                        <div class="small-12 columns">
-                        <% request.setAttribute(AD_ATTR, currentAd); %>
-                        <cq:include script="display-ad.jsp"/>
-                        </div>
-                        </div>
-                        <% 
-                        adCount--;
+                	if(resourceResolver.getResource(itemUrl)!=null) {
+	                	Page currentAd = resourceResolver.getResource(itemUrl).adaptTo(Page.class);
+    	                if(isAd(currentAd)) {
+							request.setAttribute(AD_ATTR, currentAd);
+        					%>
+                	        <div class="hide-for-small">
+                    	    <cq:include script="display-ad.jsp"/>
+                        	</div>
+	                        <div class="show-for-small">
+    	                    <div class="small-12 columns">
+        	                <% request.setAttribute(AD_ATTR, currentAd); %>
+            	            <cq:include script="display-ad.jsp"/>
+                	        </div>
+                    	    </div>
+                        	<% 
+	                        adCount--;
+    	                }
                     }
               	}catch(Exception e){ e.printStackTrace();}
             }else{ break;}
