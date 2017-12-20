@@ -119,6 +119,7 @@ div.carousel {
         }
     }
     .main-slider {
+        position: relative;
         .thumbnail a {
             display: block;
             position: relative;
@@ -179,12 +180,11 @@ div.carousel {
         }
         button:not(.ytp-button) {
             height: 6.625rem;
-            margin-bottom: 0;
-            margin-top: -3.3125rem;
+            margin: 0;
+            transform: translateY(-50%);
             background: rgba(0, 0, 0, 0.5);
             width: 3rem;
             @media #{$small-only} {
-                margin-top: -5.375rem;
                 width: 2rem;
             }
         }
@@ -602,8 +602,8 @@ div.carousel {
 .video-slider {
     margin-top: rem-calc(18);
     @media #{$small-only} {
-        width: 100vw;
-        margin-left: -5vw;
+        //width: 100vw;
+        //margin-left: -5vw;
     }
     iframe {
         position: absolute;
@@ -681,12 +681,9 @@ div.carousel {
             display: block;
         }
         height: rem-calc(106);
-        margin-bottom: 0;
-        margin-top: rem-calc(-53);
-        background: rgba(0,
-        0,
-        0,
-        0.5);
+        margin: 0;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
         width: rem-calc(48);
         &:hover,
         &:focus {

@@ -166,16 +166,15 @@ function fixSlickSlideActive() {
         SlickPlayer,
         Underbar;
 
-    
     if (navigator.userAgent.indexOf("Trident\/7") != -1 && parseFloat($.browser.version) >= 11) {
         isIE11 = true;
     }
-    
+
     // YouTube API loaded
-    function YTloaded () {
+    function YTloaded() {
         return YT && YT.Player;
     }
-    
+
     if (YTloaded()) {
         $(window).trigger("YTloaded");
     } else {
@@ -712,7 +711,7 @@ function fixSlickSlideActive() {
         responsive: [{
             breakpoint: 480,
             settings: {
-                arrows: false,
+                //arrows: false,
                 centerMode: true,
                 centerPadding: '30px'
             }
@@ -895,10 +894,12 @@ function fixSlickSlideActive() {
     };
 
     Underbar.prototype.isFocused = function () {
-        return this.input.is(":focus");
+        if (this.input.length) {
+            return this.input.is(":focus");
+        }
     };
 
-    // For each embed (Make sure player.js is loaded first)
+    // For each embed, create player events (Make sure player.js is loaded first)
     $('.slick-slider').each(function () {
         var slick = $(this),
             autoplay = slick.slick('slickGetOption', 'autoplay'),
