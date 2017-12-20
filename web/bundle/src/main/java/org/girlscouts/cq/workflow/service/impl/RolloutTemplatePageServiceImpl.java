@@ -106,7 +106,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		if (!dateRolloutRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
 			String srcPath = "", templatePath = "";
-			Boolean notify = false, activate = true, delay = false, useTemplate = false, newPage = false;
+			Boolean notify = false, activate = false, delay = false, useTemplate = false, newPage = false;
 			Set<String> councils = null;
 			Set<String> notifyCouncils = new TreeSet<String>();
 			List<String> rolloutLog = new ArrayList<String>();
@@ -250,8 +250,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes.getParent(), null, null);
 		while (relationIterator.hasNext()) {
 			try {
-				LiveRelationship relation = (LiveRelationship) relationIterator.next();
-				String parentPath = relation.getTargetPath();
+				LiveRelationship parentRelation = (LiveRelationship) relationIterator.next();
+				String parentPath = parentRelation.getTargetPath();
 				int councilNameIndex = parentPath.indexOf("/", "/content/".length());
 				String councilPath = parentPath.substring(0, councilNameIndex);
 				if (councils.contains(councilPath)) {
@@ -266,11 +266,12 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 								srcPage.getName(), false, true);
 						RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
 						RolloutConfig gsConfig = configMgr.getRolloutConfig(GS_ROLLOUT_CONFIG);
-						LiveRelationship relationship = relationManager.establishRelationship(srcPage, copyPage, true,
+						LiveRelationship newPageRelationship = relationManager.establishRelationship(srcPage, copyPage,
+								true,
 								false, gsConfig);
-						String targetPath = relationship.getTargetPath();
+						String targetPath = newPageRelationship.getTargetPath();
 						cancelInheritance(rr, copyPage.getPath());
-						rolloutManager.rollout(rr, relation, false);
+						rolloutManager.rollout(rr, newPageRelationship, false);
 						session.save();
 						rolloutLog.add("Page " + copyPage.getPath() + " created");
 						rolloutLog.add("Live copy established");

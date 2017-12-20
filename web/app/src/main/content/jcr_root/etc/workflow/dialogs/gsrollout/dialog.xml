@@ -9,8 +9,8 @@
     		fieldLabel="New Page"
     		fieldDescription="If checked new live sync page will be created on council site."
     		name="./newPage"
-    		value="false"
-    		defaultValue="false"
+    		value="{Boolean}false"
+    		defaultValue="{Boolean}false"
     		type="checkbox"
     		xtype="selection"/>
     	<activate
@@ -18,16 +18,16 @@
     		fieldLabel="Activate Pages"
     		fieldDescription="If unchecked, pages will not activate automatically when they are rolled out."
     		name="./activate"
-    		value="true"
-    		defaultValue="true"
+    		value="{Boolean}true"
+    		defaultValue="{Boolean}false"
     		type="checkbox"
     		xtype="selection"/>
     	<delay
     		jcr:primaryType="cq:Widget"
     		fieldLabel="Delay Activation to Midnight"
     		name="./delay"
-    		value="true"
-    		defaultValue="true"
+    		value="{Boolean}true"
+    		defaultValue="{Boolean}false"
     		type="checkbox"
     		xtype="selection">
     		<listeners
@@ -39,7 +39,7 @@
     		fieldLabel="Crawl Site to Rebuild Cache"
     		name="./crawl"
     		value="true"
-    		defaultValue="true"
+    		defaultValue="{Boolean}false"
     		type="checkbox"
     		hidden="{Boolean}true"
     		itemId="crawl"
@@ -80,12 +80,12 @@
             	}));
             }"/>
         </councils>
-        <donotsend
+        <notify
         	jcr:primaryType="cq:Widget"
         	fieldLabel="Notify Councils"
         	name="./notify"
         	value="true"
-    		defaultValue="true"
+        	defaultValue="false"
         	type="checkbox"
         	xtype="selection"/>
        	<subject

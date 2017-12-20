@@ -58,7 +58,7 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 						.getResourceResolver(Collections.singletonMap("user.jcr.session", (Object) session));
 				String srcPath = item.getWorkflowData().getPayload().toString();
 				String subject = "", message = "", templatePath = "";
-				Boolean useTemplate = false, delay = false, notify = false, crawl = false, activate = true,
+				Boolean useTemplate = false, delay = false, notify = false, crawl = false, activate = false,
 						newPage = false;
 				try {
 					newPage = ((Value) mdm.get(PARAM_NEW_PAGE)).getBoolean();
