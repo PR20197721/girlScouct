@@ -31,7 +31,7 @@ public final class GSSearchResultManager implements GSSearchResultConstants {
 	private String[] resourceTypeFilters = new String[] { "girlscouts/components/contact-placeholder-page",
 			"girlscouts/components/contact-page" };
 
-	private String[] resourcePathFilters = new String[] { "/contacts/", "/ad-page/", "/resources/" };
+	private String[] resourcePathFilters = new String[] { "/contacts/", "/ad-page/", "/resources/", "/email-templates/" };
 
 	public GSSearchResultManager() {
 		this.searchResults = new LinkedHashMap<String, GSSearchResult>();
@@ -92,7 +92,8 @@ public final class GSSearchResultManager implements GSSearchResultConstants {
 					Node jcrContentNode = resultNode.getNode(NODE_JCR_CONTENT);
 					if (!jcrContentNode.hasNodes() || isFilterByResourcePath(jcrContentNode)
 							|| isFilterByResourceType(jcrContentNode)
-							|| isFilterByProperty(jcrContentNode)) {
+							|| isFilterByProperty(jcrContentNode)
+							|| jcrContentNode.hasProperty("hideInSearch")) {
 						this.searchResults.remove(key);
 					}
 				}
