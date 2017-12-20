@@ -100,14 +100,14 @@ if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                 urls = extract(path);
                 if (urls.length >= 4) {
                     %><div>
-                        <div class="show-for-small thumbnail">
+                        <%--<div class="show-for-small thumbnail">
                             <a href="<%= path %>" target="_blank" title="video thumbnail">
                                 <img src="<%= urls[1] %>" />
                             </a>
-                        </div>
-                        <div class="vid-slide-wrapper show-for-medium-up"><%
-                            if(urls.length == 5) {
-                                %><iframe class="lazyYT" data-id="<%=urls[3]%>" data-youtube-id="<%=urls[4]%>" id="youtubePlayer<%=i%>" width="100%" height="560" src="" title="" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><%
+                        </div>--%>
+                        <div class="vid-slide-wrapper"><%
+                            if (urls.length == 5) {
+                                %><iframe id="<%=urls[3]%>_<%=urls[2]%>" class="<%=urls[2]%>" src="<%=urls[0]%>" title="<%=title%>" width="480" height="225" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><%
                             } else {
                                 %><iframe id="<%=urls[3]%>_<%=urls[2]%>" class="<%=urls[2]%>" src="<%=urls[0]%>" width="480" height="225" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe><%
                             }

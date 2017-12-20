@@ -17,7 +17,6 @@ cqformfix.js
 brick-by-brick.js
 handlebars.min.js
 moment.min.js
-lazyYT.js
 
 datepicker.min.js
 datepicker.en.js
