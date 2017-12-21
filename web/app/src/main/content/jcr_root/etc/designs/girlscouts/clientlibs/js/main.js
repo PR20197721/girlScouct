@@ -415,7 +415,7 @@ $(document).ready(function() {
 		            if(maxSize > -1){
 		                size = this.files[0].size;
 		                if(maxSize * 1000000 < size){
-		                	alert("Error", "File size cannot be larger than "+maxSize+" MB.");
+		                	alert("File size cannot be larger than "+maxSize+" MB.");
 		                	$(this).val('');
 		                }
 					}
