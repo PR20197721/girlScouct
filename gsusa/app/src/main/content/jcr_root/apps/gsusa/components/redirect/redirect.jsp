@@ -53,10 +53,22 @@
                 final boolean isWCMModeDisabledParameter = wcmModeParam != null && "disabled".equals(wcmModeParam);
                 String redirectPath;
 
+				// forward the querystring that came from original request
+				String queryString = slingRequest.getQueryString();
+				if (queryString == null) {
+					queryString = "";
+				} else {
+					if (location.indexOf("?") > -1) {
+						queryString = "&" + queryString;
+					} else {
+						queryString = "?" + queryString;
+					}
+				}
+
                 if (protocolIndex > -1 && (queryIndex == -1 || queryIndex > protocolIndex)) {
-                    redirectPath = location;
+                    redirectPath = location + queryString;
                 } else {
-                    redirectPath = request.getContextPath() + location + ".html";
+                    redirectPath = request.getContextPath() + location + ".html" + queryString;
                 }
 
                 if (isWCMModeDisabledParameter) {
