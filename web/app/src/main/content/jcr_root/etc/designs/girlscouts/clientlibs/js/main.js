@@ -415,11 +415,7 @@ $(document).ready(function() {
 		            if(maxSize > -1){
 		                size = this.files[0].size;
 		                if(maxSize * 1000000 < size){
-		                	CQ.Ext.Msg.show({
-		            			title: "File is too large", 
-		            			msg: "File size cannot be larger than "+maxSize+" MB.",
-		            			buttons: CQ.Ext.Msg.OK
-		            			});
+		                	alert("Error", "File size cannot be larger than "+maxSize+" MB.");
 		                	$(this).val('');
 		                }
 					}
