@@ -77,7 +77,7 @@
 </div>
 <!--[if gt IE 8]><!-->
 <!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be authorable-->
-<%-- <cq:include script="small-screen-menus"/> --%>
+<cq:include script="small-screen-menus"/>
 <!--<![endif]-->
 <%
 	String cookiePlaceholderPath = currentPage.getContentResource().getPath();

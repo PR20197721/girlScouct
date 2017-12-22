@@ -376,10 +376,19 @@ a:hover.menuHighlight {
 }
 #header a:hover.signout {
   color: #c00;
-}/*why is this breaking AEM 6.3 edit mode?
+}
+
+#header .eyebrow-container {
+  overflow: auto;
+} 
 #header ul {
   float: right;
-}*/
+}
+
+#header ul::after{
+  clear:both;
+}
+
 #header ul li {
   font-size: 1.0em;
 }
