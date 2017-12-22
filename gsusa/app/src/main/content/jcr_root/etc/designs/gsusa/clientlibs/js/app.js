@@ -1,6 +1,6 @@
 /*jslint browser: true, eqeq: true*/
 /*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console */
-/*global homeCarouselTimeDelay, homeCarouselAutoScroll, homeCarouselAutoPlaySpeed, videoSliderAuto, videoSliderDelay, shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL, joinRedirectAutoplaySpeed, joinRedirectSpeed */
+/*global shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL, joinRedirectAutoplaySpeed, joinRedirectSpeed */
 
 //
 //
@@ -8,6 +8,11 @@
 // https://google.github.io/styleguide/javascriptguide.xml#Naming
 //
 //
+var isRetina = (
+    window.devicePixelRatio > 1 ||
+    (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
+);
+
 var boundHashForms = {};
 
 function bindSubmitHash(form) {
@@ -156,10 +161,26 @@ function fixSlickSlideActive() {
         lastAfterSlick = null,
         carouselSliderPropogate = true,
         ImageMap,
-        imageMap;
+        imageMap,
+        slickOptions = {},
+        SlickPlayer,
+        Underbar;
 
     if (navigator.userAgent.indexOf("Trident\/7") != -1 && parseFloat($.browser.version) >= 11) {
         isIE11 = true;
+    }
+
+    // YouTube API loaded
+    function YTloaded() {
+        return YT && YT.Player;
+    }
+
+    if (YTloaded()) {
+        $(window).trigger("YTloaded");
+    } else {
+        window.onYouTubeIframeAPIReady = function () {
+            $(window).trigger("YTloaded");
+        };
     }
 
     //add height to the content for the footer to be always at the bottom.
@@ -173,27 +194,6 @@ function fixSlickSlideActive() {
         $(".join-volunteer").css({
             "min-height": "initial"
         });
-    }
-
-    function pauseAllCarouselVideos() {
-        var vimeoPlayer,
-            youtubePlayer,
-            vidPlayer,
-            i;
-
-        for (i = 0; i < 4; i += 1) {
-            vimeoPlayer = $("#vimeoPlayer" + i);
-            youtubePlayer = $("#youtubePlayer" + i);
-            vidPlayer = $(".vid" + i + " video");
-
-            if (vimeoPlayer.length > 0) { // Vimeo
-                vimeoPlayer.api('pause');
-            } else if (youtubePlayer.length > 0) { // YouTube
-                youtubePlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-            } else if (vidPlayer.length > 0) { // Vid
-                vidPlayer.pause();
-            }
-        }
     }
 
     function document_close_all() {
@@ -467,13 +467,17 @@ function fixSlickSlideActive() {
         });
     }
     */
+    if ($('.main-slider').attr("slick-options")) {
+        slickOptions = JSON.parse($('.main-slider').attr("slick-options"));
+    }
+
     $('.main-slider').slick({
         dots: false,
-        speed: (typeof homeCarouselTimeDelay != 'undefined') ? homeCarouselTimeDelay : 1000,
+        speed: slickOptions.speed || 1000,
         fade: false,
-        autoplay: (typeof homeCarouselAutoScroll != 'undefined') ? homeCarouselAutoScroll : false,
+        autoplay: slickOptions.autoplay || false,
         arrows: true,
-        autoplaySpeed: (typeof homeCarouselAutoPlaySpeed != 'undefined') ? homeCarouselAutoPlaySpeed : 2000,
+        autoplaySpeed: slickOptions.autoplaySpeed || 2000,
         cssEase: 'linear',
         slidesToShow: 1,
         infinite: true,
@@ -579,11 +583,7 @@ function fixSlickSlideActive() {
             }
         });
     } //END OF EXPLORER CLICK FUNCTION
-    /*
-    $('.inner-sliders .slide-4').on('afterChange', function (event, slick, currentSlide) {
-        pauseAllCarouselVideos();
-    });
-    */
+
     $('.inner-sliders .inner').on('init reInit afterChange', function (slick, currentSlide, index) {
         var item_length = $('.inner-sliders .inner > .slick-list > .slick-track > li').length - 1;
         if (item_length == index) {
@@ -666,12 +666,43 @@ function fixSlickSlideActive() {
         imageMap.resize();
     }
 
+    if ($('.video-slider-wrapper').attr("slick-options")) {
+        slickOptions = JSON.parse($('.video-slider-wrapper').attr("slick-options"));
+    }
+
+    function getInternetExplorerVersion() {
+        //Returns the version of Internet Explorer or a -1
+        //(indicating the use of another browser).
+
+        var rv = -1, // Return value assumes failure.
+            ua,
+            re;
+        if (navigator.appName == 'Microsoft Internet Explorer') {
+            ua = navigator.userAgent;
+            re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+            if (re.exec(ua) != null) {
+                rv = parseFloat(RegExp.$1);
+            }
+        }
+        return rv;
+    }
+
+    function checkVersion() {
+        var ver = getInternetExplorerVersion();
+
+        if (ver > -1 && ver <= 9.0) {
+            console.log("No auto slide due to browser incompatibility");
+            slickOptions.autoplay = false;
+        }
+    }
+    checkVersion();
+
     $('.video-slider-wrapper').slick({
         dots: false,
         speed: 500,
         fade: false,
-        autoplay: (typeof videoSliderAuto != 'undefined') ? videoSliderAuto : false,
-        autoplaySpeed: (typeof videoSliderDelay != 'undefined') ? videoSliderDelay : 2000,
+        autoplay: slickOptions.autoplay || false,
+        autoplaySpeed: slickOptions.autoplaySpeed || 2000,
         cssEase: 'linear',
         centerMode: true,
         slidesToShow: 1,
@@ -680,7 +711,7 @@ function fixSlickSlideActive() {
         responsive: [{
             breakpoint: 480,
             settings: {
-                arrows: false,
+                //arrows: false,
                 centerMode: true,
                 centerPadding: '30px'
             }
@@ -743,20 +774,146 @@ function fixSlickSlideActive() {
                 }]*/
         });
     }
-    /*
-    window.onYouTubeIframeAPIReady = function() {
-        loadYoutubeAPI();
-        $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
-    };
-    */
-    function loadYTScript() {
-        if (typeof (YT) == 'undefined' || typeof (YT.Player) == 'undefined') {
-            var tag = document.createElement('script'),
-                firstScriptTag = document.getElementsByTagName('script')[0];
-            tag.src = "https://www.youtube.com/iframe_api";
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    //
+    //
+    // SLICK VIDEO PLAYER
+    //
+    //
+
+    SlickPlayer = function (params) {
+        var self = this; // Lexical closure
+
+        self.iframe = params.iframe;
+        self.slick = params.slick;
+        self.autoplay = params.autoplay;
+        self.playing = false;
+        self.type = self.iframe.attr('id').toLowerCase();
+        self.underbar = params.underbar;
+
+        // Underbar events
+        self.underbar.input.on("focus", function () {
+            self.stopSlider();
+        }).on("focusout", function () {
+            self.startSlider();
+        });
+
+        // Create players
+        if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
+            self.createVimeoPlayer();
+        } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
+            if (YTloaded()) {
+                self.createYTPlayer();
+            } else {
+                $(window).on("YTloaded", function () { // Wait until script loads if it has not already
+                    self.createYTPlayer();
+                });
+            }
         }
-    }
+    };
+
+    SlickPlayer.prototype.stopSlider = function () {
+        if (this.autoplay) {
+            this.slick.slick('slickPause');
+            this.slick.slick('slickSetOption', 'autoplay', false, false);
+            this.slick.slick('autoPlay', $.noop);
+        }
+        if (!this.underbar.isFocused()) {
+            this.underbar.hide();
+        }
+    };
+
+    SlickPlayer.prototype.startSlider = function () {
+        if (this.autoplay) {
+            this.slick.slick('slickPlay');
+            this.slick.slick('slickSetOption', 'autoplay', true, false);
+            this.slick.slick('autoPlay', $.noop);
+        }
+        if (!this.underbar.isFocused()) {
+            this.underbar.show();
+        }
+    };
+
+    SlickPlayer.prototype.createVimeoPlayer = function () {
+        // Add listener events
+        var self = this;
+        self.player = new Vimeo.Player(self.iframe);
+
+        self.player.on('play', function () {
+            self.stopSlider();
+            self.playing = true;
+        });
+
+        self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+            if (self.playing) { // Trigger only when moving away from potentially active slide
+                self.startSlider();
+                self.player.unload();
+                self.playing = false;
+            }
+        });
+    };
+
+    SlickPlayer.prototype.createYTPlayer = function () {
+        // Add listener events
+        var self = this;
+        self.player = new YT.Player(self.iframe.attr('id'));
+
+        self.player.addEventListener("onReady", function () {
+            self.player.addEventListener("onStateChange", function (event) {
+                if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering to prevent delay before playing
+                    self.stopSlider();
+                    self.playing = true;
+                }
+            });
+
+            self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+                if (self.playing) {
+                    self.startSlider();
+                    self.player.stopVideo();
+                    self.playing = false;
+                }
+            });
+        });
+    };
+
+    Underbar = function (el) {
+        this.el = el;
+        this.input = el.find('input').eq(0);
+    };
+
+    Underbar.prototype.show = function () {
+        if (this.el.length && $(window).width() > 768) { // Desktop only
+            this.el.slideDown(1000);
+        }
+    };
+
+    Underbar.prototype.hide = function () {
+        if (this.el.length && $(window).width() > 768) {
+            this.el.slideUp(0);
+        }
+    };
+
+    Underbar.prototype.isFocused = function () {
+        if (this.input.length) {
+            return this.input.is(":focus");
+        }
+    };
+
+    // For each embed, create player events (Make sure player.js is loaded first)
+    $('.slick-slider').each(function () {
+        var slick = $(this),
+            autoplay = slick.slick('slickGetOption', 'autoplay'),
+            underbar = new Underbar(slick.parent().find('.zip-council').eq(0));
+
+        slick.find("iframe").each(function () {
+            new SlickPlayer({
+                iframe: $(this),
+                slick: slick,
+                autoplay: autoplay,
+                underbar: underbar
+            });
+        });
+    });
 
     function hide_show_cookie() {
         $('#meet-cookie-layout section').hide();
@@ -774,8 +931,6 @@ function fixSlickSlideActive() {
     //join_now();
     shop_rotator();
     welcome_cookie_slider();
-    loadYTScript();
-    $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
     //camp_finder();
     $(window).resize(function () {
         small_screens();
@@ -823,91 +978,93 @@ function fixSlickSlideActive() {
     // Sticky Nav
     //
     //
-    var desktopHeader = $(".header"),
-        mobileHeader = $(".tab-bar"),
-        header,
-        headerHeight,
-        desktopPlaceholder = $(".header-placeholder"),
-        mobilePlaceholder = $(".tab-bar-placeholder"),
-        placeholder,
-        trigger = false,
-        fixed = false,
-        fixedClass = "sticky-nav-fixed",
-        offset = 0,
-        desktopStickyOffset = 0,
-        MEDIUM_ONLY = 768,
-        mobile = $(window).width() <= MEDIUM_ONLY;
+    (function () {
+        var desktopHeader = $(".header"),
+            mobileHeader = $(".tab-bar"),
+            header,
+            headerHeight,
+            desktopPlaceholder = $(".header-placeholder"),
+            mobilePlaceholder = $(".tab-bar-placeholder"),
+            placeholder,
+            trigger = false,
+            fixed = false,
+            fixedClass = "sticky-nav-fixed",
+            offset = 0,
+            desktopStickyOffset = 0,
+            MEDIUM_ONLY = 768,
+            mobile = $(window).width() <= MEDIUM_ONLY;
 
-    function setOffset() {
-        // Set placeholders
-        headerHeight = header.height();
-        placeholder.height(headerHeight);
-        
-        // Set offset
-        if (!mobile) { // Desktop header
-            header.addClass(fixedClass);
-            desktopStickyOffset = headerHeight - header.height(); // Change header to sticky and change back to get height difference
-            header.removeClass(fixedClass);
+        function setOffset() {
+            // Set placeholders
+            headerHeight = header.height();
+            placeholder.height(headerHeight);
 
-            offset = header.offset().top + desktopStickyOffset;
-        } else { // Mobile header
-            offset = header.offset().top;
-        }
-        
-        // Reset fix
-        $(window).trigger("scroll");
-    }
-
-    function switchHeader() {
-        // Unfix previous header
-        if (header && placeholder) {
-            header.removeClass(fixedClass);
-            placeholder.hide();
-            fixed = false;
-        }
-
-        // Set new header
-        header = mobile ? mobileHeader : desktopHeader;
-        placeholder = mobile ? mobilePlaceholder : desktopPlaceholder;
-        
-        // Set offset
-        setOffset();
-    }
-
-    if ($(".header.sticky-nav").length) {
-        // On load
-        switchHeader();
-
-        // Reset offset on resize
-        $(window).on("resize", function () {
-            if ($(window).width() > MEDIUM_ONLY === mobile) { // Trigger once when the breakpoint is passed
-                mobile = !mobile;
-                //console.log("Mobile is: " + mobile);
-                switchHeader();
-            }
-            if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
-                //console.log("Old height: " + headerHeight);
-                //console.log("New height: " + header.height());
-                setOffset();
-            }
-        });
-
-        // Sticky header
-        $(window).on("scroll", function () {
-            trigger = $(window).scrollTop() > offset;
-            if (trigger && !fixed) { // Trigger once to fix header
-                fixed = true;
+            // Set offset
+            if (!mobile) { // Desktop header
                 header.addClass(fixedClass);
-                placeholder.show();
-                //console.log("fixed");
-            } else if (!trigger && fixed) { // Trigger once to unfix header
-                fixed = false;
+                desktopStickyOffset = headerHeight - header.height(); // Change header to sticky and change back to get height difference
+                header.removeClass(fixedClass);
+
+                offset = header.offset().top + desktopStickyOffset;
+            } else { // Mobile header
+                offset = header.offset().top;
+            }
+
+            // Reset fix
+            $(window).trigger("scroll");
+        }
+
+        function switchHeader() {
+            // Unfix previous header
+            if (header && placeholder) {
                 header.removeClass(fixedClass);
                 placeholder.hide();
-                //console.log("static");
+                fixed = false;
             }
-        });
-    }
+
+            // Set new header
+            header = mobile ? mobileHeader : desktopHeader;
+            placeholder = mobile ? mobilePlaceholder : desktopPlaceholder;
+
+            // Set offset
+            setOffset();
+        }
+
+        if ($(".header.sticky-nav").length) {
+            // On load
+            switchHeader();
+
+            // Reset offset on resize
+            $(window).on("resize", function () {
+                if ($(window).width() > MEDIUM_ONLY === mobile) { // Trigger once when the breakpoint is passed
+                    mobile = !mobile;
+                    //console.log("Mobile is: " + mobile);
+                    switchHeader();
+                }
+                if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
+                    //console.log("Old height: " + headerHeight);
+                    //console.log("New height: " + header.height());
+                    setOffset();
+                }
+            });
+
+            // Sticky header
+            $(window).on("scroll", function () {
+                trigger = $(window).scrollTop() > offset;
+                if (trigger && !fixed) { // Trigger once to fix header
+                    fixed = true;
+                    header.addClass(fixedClass);
+                    placeholder.show();
+                    //console.log("fixed");
+                } else if (!trigger && fixed) { // Trigger once to unfix header
+                    fixed = false;
+                    header.removeClass(fixedClass);
+                    placeholder.hide();
+                    //console.log("static");
+                }
+            });
+        }
+    }());
 }(jQuery));
 
 //
@@ -915,37 +1072,6 @@ function fixSlickSlideActive() {
 // Helper Functions
 //
 //
-
-function stopSlider() {
-    'use strict';
-    var slick = $('.video-slider-wrapper');
-    if (slick !== undefined && slick.slick !== undefined) {
-        slick.slick('slickPause');
-        slick.slick('slickSetOption', 'autoplay', false, false);
-        slick.slick('autoPlay', $.noop);
-    }
-}
-
-function attachEventPlayer(player) {
-    'use strict';
-    player.on('play', function () {
-        stopSlider();
-    });
-}
-
-function attachListenerToVideoSlider() {
-    'use strict';
-    var iframe,
-        player,
-        i;
-    for (i = 0; i < $('.vid-slide-wrapper iframe').length; i += 1) {
-        iframe = $('.vid-slide-wrapper iframe')[i];
-        if ($(iframe).hasClass("vimeo")) {
-            player = new Vimeo.Player($(iframe));
-            attachEventPlayer(player);
-        }
-    }
-}
 
 // useful utility printer of object properties
 function printObjectProperties(objectToInspect) {

@@ -24,25 +24,3 @@
 			</section>
 		</div>
 	</div>
-	
-	<script>
-		$('#findCouncilByZip').on('focus', 'input', function() {
-			
-			var slick = $('.main-slider');
-			if (slick != undefined && slick.slick != undefined) {
-				slick.slick('slickPause');
-				slick.slick('slickSetOption', 'autoplay', false, false);
-				slick.slick('autoPlay',$.noop);
-			}
-		});
-		
-		$('#findCouncilByZip').on('focusout', 'input', function() {
-			var slick = $('.main-slider');
-			if (slick != undefined && slick.slick != undefined) {
-				slick.slick('slickSetOption', 'autoplay', true, true);
-				slick.slick('slickPlay');
-				slick.slick('autoPlay',$.noop);
-				
-			}
-		});
-	</script>

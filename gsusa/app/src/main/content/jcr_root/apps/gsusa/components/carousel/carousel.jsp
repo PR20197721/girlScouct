@@ -2,7 +2,8 @@
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <cq:includeClientLib js="video" />
 <%@page import="org.apache.sling.commons.json.*, 
-                java.io.*, java.util.regex.*, 
+                java.io.*, 
+                java.util.regex.*,
                 java.net.*, 
                 org.apache.sling.api.request.RequestDispatcherOptions, 
                 com.day.cq.wcm.api.components.IncludeOptions, 
@@ -11,9 +12,9 @@
 <%!
 public String extractYTId(String ytUrl) {
 	String vId = null;
-	Pattern pattern = Pattern.compile(".*(?:youtu.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
+	Pattern pattern = Pattern.compile(".*(?:youtu\\.be\\/|v\\/|u\\/w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
 	Matcher matcher = pattern.matcher(ytUrl);
-	if (matcher.matches()){
+	if (matcher.find()){
 		vId = matcher.group(1);
 	}
 	return vId;
@@ -23,7 +24,7 @@ public String extractVimeoId(String vimeoUrl) {
 	String vId = null;
 	Pattern pattern = Pattern.compile(".*(?:vimeo.com.*/)(\\d+)");
 	Matcher matcher = pattern.matcher(vimeoUrl);
-	if (matcher.matches()){
+	if (matcher.find()){
 		vId = matcher.group(1);
 	}
 	return vId;
@@ -90,12 +91,11 @@ public  String readUrlFile(String urlString) throws Exception {
 			try{
 
 				//now check if the link is youtube/vimeo
-				if (link[i].indexOf("youtube") != -1) {
+				if (link[i].indexOf("youtu") != -1) { // Needs to be "youtu" to account for "youtu.be" links
 					String ytId = extractYTId(link[i]);
 					videoId[i] = ytId;
 					videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
-					//				link[i] = "https://www.youtube.com/watch?v=" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
-					link[i] = "https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
+					link[i] = "https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent&showinfo=1";
 				} else if (link[i].indexOf("vimeo") != -1) {
 					String vimeoId = extractVimeoId(link[i]);
 					videoId[i] = vimeoId;
@@ -127,140 +127,32 @@ public  String readUrlFile(String urlString) throws Exception {
 	request.setAttribute("source7", source7);
 %>
 
-
-<script type="text/javascript">
-	$(function() {		
-
-        var slick = $('.main-slider'),
-            slideButton = $('.main-slider button'),
-            embeds = $('.main-slider iframe'),
-            youtubePlayer = $('.lazyYT > iframe'),
-            vimeoPlayer = $('[id*="vimeoPlayer"]'),
-            underbar = $('.zip-council'),
-            iframe,
-            player,
-            i;
-
-
-		function pauseVideoSliderVideosYoutube() {
-            $.each(youtubePlayer, function(i, iframe) {
-                iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-            });
-		}
-		/*
-		function pauseVideoSliderVideosVimeo(){
-			$.each(vimeoPlayer, function (i, val) {
-
-			});
-		}
-		*/
-		slick.on('afterChange', function (event, slick, currentSlide) {
-			pauseVideoSliderVideosYoutube();
-			//pauseVideoSliderVideosVimeo();
-		    <% if(hideZIPCode=="false") { %>
-				underbar.slideDown(1000);
-			<% } %>
-		});
-		
-        function stopSlider() {
-			if (slick != undefined && slick.slick != undefined) {
-				slick.slick('slickPause');
-				slick.slick('slickSetOption', 'autoplay', false, false);
-				slick.slick('autoPlay',$.noop);
-			}
-		};
-
-        function startSlider() {
-			if (slick != undefined && slick.slick != undefined) {
-				slick.slick('slickPlay');
-				// slick.slick('slickSetOption', 'autoplay', true, false);
-				// slick.slick('autoPlay',$.noop);
-			}
-		}
-            
-        // For each slide (Make sure player.js is loaded first)
-        for (i = 0; i < <%=numberOfImages%>; i += 1) {
-
-            iframe = $(embeds[i]);
-
-            // Check for a Vimeo player
-            if (iframe.length > 0 && iframe.attr('id').toLowerCase().indexOf('vimeo') >= 0) {
-
-                // Add listener events
-                player = new Vimeo.Player(iframe);
-
-                player.on('play', function() {
-                    stopSlider();
-                    <% if(hideZIPCode=="false") { %>
-	                    underbar.slideUp(0);
-                    <% } %>
-                });
-
-                slideButton.on('click', function() {
-                    player.unload();
-                    startSlider();
-                });
-            }
-        }
-        
-	});
-
-
-	var isRetina = (
-		window.devicePixelRatio > 1 || (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
-	);
-
-	//this value is used to adjust the speed of the carousel on the first opening page.
-	homeCarouselAutoScroll = <%=homeCarouselAutoscroll%>;
-	homeCarouselTimeDelay = <%=homeCarouselTimeDelay%>;
-	homeCarouselAutoPlaySpeed = <%=homeCarouselAutoPlaySpeed%>;
-</script>
-
-
-
 <div class="hero-feature">
-	<ul class="main-slider">
-		<% for (int i = 0 ; i < numberOfImages; i++) { 
-			if (!tempHidden[i]) { %>
-		<li id="tag_explore_main_<%=i%>">
-			<% 
-				if (link[i].indexOf("https://www.youtube.com") != -1) { %>
-					<div class="videoWrapper show-for-small thumbnail">
-						<iframe id="youtubePlayer<%=i%>" width="100%" height="560" src="<%=link[i]%>" frameborder="0" allowfullscreen></iframe>
-					</div>
-						
-					<div class="show-for-medium-up">
-					<% if(!"".equals(title[i])){ %>
-						<div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer<%=i%>" data-ratio="16:9" data-youtube-id="<%= videoId[i]%>" data-display-title="true" title="<%=title[i]%>"></div>
-		  			<% } else { %>
-			  			<div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer<%=i%>" data-ratio="16:9" data-youtube-id="<%= videoId[i]%>"></div>
-		  			<% } %>
-					</div>
-			<% } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {%>
-
-					<div class="videoWrapper"><iframe id="vimeoPlayer<%=i%>" src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
-
-			<% } else {%>
-
-					<a href="<%=link[i]%>" title="<%=title[i]%>" <%=openInNewWindow[i]%>>
-						<img src="<%= getImageRenditionSrc(resourceResolver, imagePath[i], "cq5dam.npd.top.")%>" alt="<%= alt[i] %>" class="slide-thumb tag_explore_image_hero_<%=i%>"/>
-					</a>
-
-			<% }%>
-
-		</li>
-		<% } 
+	<ul class="main-slider" slick-options='{"speed":<%=homeCarouselTimeDelay%>, "autoplay":<%=homeCarouselAutoscroll%>, "autoplaySpeed":<%=homeCarouselAutoPlaySpeed%>}'><%
+        for (int i = 0; i < numberOfImages; i++) { 
+			if (!tempHidden[i]) {
+                String titleYT = !"".equals(title[i]) ? "title[i]" : "";
+                %><li id="tag_explore_main_<%=i%>"><%
+                    if (link[i].indexOf("https://www.youtube.com") != -1) { 
+                        %><div class="videoWrapper">
+                            <iframe id="youtubePlayer<%=i%>" width="100%" height="560" src="<%=link[i]%>" title="<%=title[i]%>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                        </div><% 
+                    } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {
+                        %><div class="videoWrapper">
+                            <iframe id="vimeoPlayer<%=i%>" src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                        </div><%
+                    } else {
+                        %><a href="<%=link[i]%>" title="<%=title[i]%>" <%=openInNewWindow[i]%>>
+                            <img src="<%= getImageRenditionSrc(resourceResolver, imagePath[i], "cq5dam.npd.top.")%>" alt="<%=alt[i]%>" class="slide-thumb tag_explore_image_hero_<%=i%>"/>
+                        </a><%
+                    }
+                %></li><%
+            } 
 		}
-		%>
-	</ul>
+    %></ul><%
+    if (hideZIPCode == "false") {
+        %><cq:include path="zip-council" resourceType="gsusa/components/zip-council" /><%
+    }
+%></div>
 
-    <% if(hideZIPCode=="false") { %>
-		<cq:include path="zip-council" resourceType="gsusa/components/zip-council" />
-	<% } %>
-
-
-
-</div>
-<%
-	request.removeAttribute("source7");
-%>
+<%request.removeAttribute("source7");%>
