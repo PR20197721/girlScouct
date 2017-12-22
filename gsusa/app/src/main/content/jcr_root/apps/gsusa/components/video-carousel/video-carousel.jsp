@@ -12,9 +12,9 @@
 <%!
 public String extractYTId(String ytUrl) {
 	String vId = null;
-	Pattern pattern = Pattern.compile(".*(?:youtu\\.be\\/|v\\/|u\\/w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
+	Pattern pattern = Pattern.compile(".*(?:youtu.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
 	Matcher matcher = pattern.matcher(ytUrl);
-	if (matcher.find()){
+	if (matcher.matches()){
 		vId = matcher.group(1);
 	}
 	return vId;
@@ -24,7 +24,7 @@ public String extractVimeoId(String vimeoUrl) {
 	String vId = null;
 	Pattern pattern = Pattern.compile(".*(?:vimeo.com.*/)(\\d+)");
 	Matcher matcher = pattern.matcher(vimeoUrl);
-	if (matcher.find()){
+	if (matcher.matches()){
 		vId = matcher.group(1);
 	}
 	return vId;
@@ -73,7 +73,7 @@ public void addVideoNode(String videoPath, String videoName) {
 for (int i = 0 ; i < 4; i++ ){
 	if ("link".equals(videoType5[i])) {
 		String link = properties.get("videoLink5" + i, "");
-		if (link.indexOf("youtu") != -1) { // Needs to be "youtu" to account for "youtu.be" links
+		if (link.indexOf("youtube") != -1) {
 			String ytId = extractYTId(link);
 			videoId[i] = ytId;
 			videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
