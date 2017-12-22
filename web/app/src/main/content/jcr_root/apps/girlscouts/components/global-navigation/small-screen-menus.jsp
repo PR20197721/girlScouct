@@ -5,26 +5,31 @@
 <%
 final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
    String currPath = currentPage.getPath();  
-   String[] links = properties.get("links", String[].class);
-   request.setAttribute("globalNavigation", links);
-  
-   int levelDepth = 0;
-   String insertAfter="";
-   String currTitle = currentPage.getTitle();
-   String eventPath = currentSite.get("eventPath", String.class);
-   String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
-   String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
-
-   // TODO: Manu: please fix
-   String eventGrandParent = null;
-   try {
-       eventGrandParent = currentPage.getParent().getParent().getPath();
-   } catch (Exception e) {}
-
-   String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
-   String eventDisplUnder = currentSite.get("eventPath", String.class);
-   boolean levelFlag = true;
-   String contentResourceType="";
+   String headerPath = (String)request.getAttribute("headerPath");
+   Resource globalNav = resourceResolver.resolve(headerPath="/global-nav");
+   if(globalNav != null){
+   	   ValueMap globalNavProps = gloabalNav.getValueMap();
+	   String[] links = globalNavProps.get("links", String[].class);
+	   request.setAttribute("globalNavigation", links);
+	  
+	   int levelDepth = 0;
+	   String insertAfter="";
+	   String currTitle = currentPage.getTitle();
+	   String eventPath = currentSite.get("eventPath", String.class);
+	   String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
+	   String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
+	
+	   // TODO: Manu: please fix
+	   String eventGrandParent = null;
+	   try {
+	       eventGrandParent = currentPage.getParent().getParent().getPath();
+	   } catch (Exception e) {}
+	
+	   String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
+	   String eventDisplUnder = currentSite.get("eventPath", String.class);
+	   boolean levelFlag = true;
+	   String contentResourceType="";
+   }
 %>
 <%!
  
