@@ -83,4 +83,5 @@
     <filter root="/apps/cq/tagging"/>
     <filter root="/etc/importers/gsbulkeditor"/>
     <filter root="/etc/clientlibs/foundation/abacus/source/abacus.js"/>
+    <filter root="/libs/wcm/core/content/siteadmin/actions/activate/menu/cancelScheduledActivation"/>
 </workspaceFilter>
