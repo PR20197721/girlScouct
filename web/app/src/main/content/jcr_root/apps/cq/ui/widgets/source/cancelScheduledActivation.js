@@ -23,7 +23,8 @@
 				        fn: function(){location.reload()}
 				    });
 				}, {
-					state: "ABORTED"
+					state: "ABORTED",
+					terminateComment: "Terminated using siteadmin dropdown menu."
 				})
 			} else {
 				CQ.Ext.Msg.show({
