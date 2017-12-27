@@ -252,7 +252,7 @@
                     cls="cq-siteadmin-activate-later"
                     conditions="[CQ.wcm.SiteAdmin.hasAnySelection,CQ.wcm.SiteAdmin.notLocked]"
                     context="[toolbar]"
-                    handler="CQ.wcm.SiteAdmin.scheduleForActivation"
+                    handler="CQ.wcm.SiteAdmin.cancelScheduledActivation"
                     privileges="[replicate]"
                     target="CQ.wcm.SiteAdmin.getMultipleTargetsFromList"
                     text="Cancel Scheduled Activation"/>

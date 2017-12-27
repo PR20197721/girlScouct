@@ -81,6 +81,7 @@
     <filter root="/apps/granite/core/content/cug-template-login"/>
     <filter root="/apps/cq/gui/components/siteadmin/admin/pagecard"/>
     <filter root="/apps/cq/tagging"/>
+    <filter root="/apps/cq/ui"/>
     <filter root="/etc/importers/gsbulkeditor"/>
     <filter root="/etc/clientlibs/foundation/abacus/source/abacus.js"/>
     <filter root="/libs/wcm/core/content/siteadmin/actions/activate/menu/cancelScheduledActivation"/>
