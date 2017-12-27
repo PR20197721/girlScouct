@@ -24,6 +24,13 @@ CQ.wcm.SiteAdmin.cancelScheduledActivation = function() {
 			}, {
 				state: "ABORTED"
 			})
+		} else {
+			CQ.Ext.Msg.show({
+		        title: CQ.I18n.getMessage('Cancellation'),
+		        msg: CQ.I18n.getMessage('There is no scheduled activation of this page.'),
+		        buttons: CQ.Ext.Msg.OK,
+		        icon: CQ.Ext.Msg.WARNING
+		    });
 		}
 	});
 }
