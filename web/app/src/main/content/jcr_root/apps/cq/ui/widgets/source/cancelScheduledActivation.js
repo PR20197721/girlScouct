@@ -24,7 +24,7 @@
 				    });
 				}, {
 					state: "ABORTED",
-					terminateComment: "Terminated using siteadmin dropdown menu."
+					terminateComment: "Scheduled " + action + " canceled using siteadmin dropdown menu."
 				})
 			} else {
 				CQ.Ext.Msg.show({
