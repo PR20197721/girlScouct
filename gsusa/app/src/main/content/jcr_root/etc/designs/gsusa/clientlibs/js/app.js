@@ -790,6 +790,7 @@ function fixSlickSlideActive() {
         self.playing = false;
         self.type = self.iframe.attr('id').toLowerCase();
         self.underbar = params.underbar;
+        self.placeholder = self.iframe.siblings(".vid-placeholder");
 
         // Underbar events
         self.underbar.input.on("focus", function () {
@@ -798,17 +799,33 @@ function fixSlickSlideActive() {
             self.startSlider();
         });
 
-        // Create players
-        if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
-            self.createVimeoPlayer();
-        } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
-            if (YTloaded()) {
-                self.createYTPlayer();
-            } else {
-                $(window).on("YTloaded", function () { // Wait until script loads if it has not already
-                    self.createYTPlayer();
-                });
-            }
+        self.placeholder.on("click", function () {
+            self.stopSlider();
+            self.placeholder.hide();
+            self.playing = true;
+            self.createPlayer();
+        });
+    };
+
+    SlickPlayer.prototype.createPlayer = function () {
+        var self = this;
+
+        if (!self.iframe.attr("src")) { // If not instantiated
+            self.iframe.attr("src", self.iframe.attr("data-src")); // Assign embed url
+
+            self.iframe.on("load", function () { // Create video player on load
+                if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
+                    self.createVimeoPlayer();
+                } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
+                    if (YTloaded()) {
+                        self.createYTPlayer();
+                    } else {
+                        $(window).on("YTloaded", function () { // Wait until API script loads if it has not already
+                            self.createYTPlayer();
+                        });
+                    }
+                }
+            });
         }
     };
 
@@ -839,17 +856,23 @@ function fixSlickSlideActive() {
         var self = this;
         self.player = new Vimeo.Player(self.iframe);
 
-        self.player.on('play', function () {
-            self.stopSlider();
-            self.playing = true;
-        });
+        self.player.on("loaded", function () {
+            /*self.player.on('play', function () {
+                self.stopSlider();
+                self.playing = true;
+            });*/
+            self.placeholder.on("click", function () {
+                self.player.play();
+            }).trigger("click");
 
-        self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-            if (self.playing) { // Trigger only when moving away from potentially active slide
-                self.startSlider();
-                self.player.unload();
-                self.playing = false;
-            }
+            self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+                if (self.playing) { // Trigger only when moving away from potentially active slide
+                    self.startSlider();
+                    self.player.unload();
+                    self.placeholder.show();
+                    self.playing = false;
+                }
+            });
         });
     };
 
@@ -859,17 +882,21 @@ function fixSlickSlideActive() {
         self.player = new YT.Player(self.iframe.attr('id'));
 
         self.player.addEventListener("onReady", function () {
-            self.player.addEventListener("onStateChange", function (event) {
+            /*self.player.addEventListener("onStateChange", function (event) {
                 if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering to prevent delay before playing
                     self.stopSlider();
                     self.playing = true;
                 }
-            });
+            });*/
+            self.placeholder.on("click", function () {
+                self.player.playVideo();
+            }).trigger("click");
 
             self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
                 if (self.playing) {
                     self.startSlider();
                     self.player.stopVideo();
+                    self.placeholder.show();
                     self.playing = false;
                 }
             });
