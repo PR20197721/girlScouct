@@ -60,6 +60,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	String title[] = new String[numberOfImages];
 	String alt[] = new String[numberOfImages];
 	String link[] = new String[numberOfImages];
+    String sourceLink[] = new String[numberOfImages];
 	String imagePath[] = new String[numberOfImages];
 	String target[] = new String[numberOfImages];
 	String openInNewWindow[] = new String[numberOfImages];
@@ -76,6 +77,7 @@ public  String readUrlFile(String urlString) throws Exception {
 			link[i] = split.length >= 3 ? split[2] : "";
 			imagePath[i] = split.length >= 4 ? split[3] : "";
 			target[i] = "";
+            sourceLink[i] = link[i];
 			if (split.length >= 5 && Boolean.parseBoolean(split[4])) {
 				openInNewWindow[i] = "target=\"_blank\"";
 			} else {
@@ -131,15 +133,20 @@ public  String readUrlFile(String urlString) throws Exception {
 	<ul class="main-slider" slick-options='{"speed":<%=homeCarouselTimeDelay%>, "autoplay":<%=homeCarouselAutoscroll%>, "autoplaySpeed":<%=homeCarouselAutoPlaySpeed%>}'><%
         for (int i = 0; i < numberOfImages; i++) { 
 			if (!tempHidden[i]) {
-                String titleYT = !"".equals(title[i]) ? "title[i]" : "";
                 %><li id="tag_explore_main_<%=i%>"><%
                     if (link[i].indexOf("https://www.youtube.com") != -1) { 
                         %><div class="videoWrapper">
-                            <iframe id="youtubePlayer<%=i%>" width="100%" height="560" src="<%=link[i]%>" title="<%=title[i]%>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <iframe id="youtubePlayer<%=i%>" width="100%" height="560" data-src="<%=link[i]%>" title="<%=title[i]%>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="video thumbnail">
+                                <img src="<%=videoThumbNail[i]%>" />
+                            </a>
                         </div><% 
                     } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {
                         %><div class="videoWrapper">
-                            <iframe id="vimeoPlayer<%=i%>" src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <iframe id="vimeoPlayer<%=i%>" data-src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="video thumbnail">
+                                <img src="<%=videoThumbNail[i]%>" />
+                            </a>
                         </div><%
                     } else {
                         %><a href="<%=link[i]%>" title="<%=title[i]%>" <%=openInNewWindow[i]%>>

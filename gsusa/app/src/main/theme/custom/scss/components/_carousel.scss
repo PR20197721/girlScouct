@@ -54,6 +54,9 @@ $slick-next-character: "\f138";
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            @media #{$small-only} {
+                opacity: 1;
+            }
         }
         &:hover:after {
             opacity: 1;
