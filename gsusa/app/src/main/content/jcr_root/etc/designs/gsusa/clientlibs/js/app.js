@@ -777,7 +777,7 @@ function fixSlickSlideActive() {
 
     //
     //
-    // SLICK VIDEO PLAYER
+    // SLICK CAROUSEL VIDEO PLAYER
     //
     //
 
@@ -786,6 +786,7 @@ function fixSlickSlideActive() {
 
         self.iframe = params.iframe;
         self.slick = params.slick;
+        self.arrows = params.arrows;
         self.autoplay = params.autoplay;
         self.playing = false;
         self.type = self.iframe.attr('id').toLowerCase();
@@ -801,6 +802,7 @@ function fixSlickSlideActive() {
 
         self.placeholder.on("click", function () {
             self.stopSlider();
+            self.arrows.addClass("show");
             self.placeholder.hide();
             self.playing = true;
             self.createPlayer();
@@ -869,6 +871,7 @@ function fixSlickSlideActive() {
                 if (self.playing) { // Trigger only when moving away from potentially active slide
                     self.startSlider();
                     self.player.unload();
+                    self.arrows.removeClass("show");
                     self.placeholder.show();
                     self.playing = false;
                 }
@@ -896,6 +899,7 @@ function fixSlickSlideActive() {
                 if (self.playing) {
                     self.startSlider();
                     self.player.stopVideo();
+                    self.arrows.removeClass("show");
                     self.placeholder.show();
                     self.playing = false;
                 }
@@ -929,6 +933,7 @@ function fixSlickSlideActive() {
     // For each embed, create player events (Make sure player.js is loaded first)
     $('.slick-slider').each(function () {
         var slick = $(this),
+            arrows = slick.find(".slick-next, .slick-prev"),
             autoplay = slick.slick('slickGetOption', 'autoplay'),
             underbar = new Underbar(slick.parent().find('.zip-council').eq(0));
 
@@ -936,6 +941,7 @@ function fixSlickSlideActive() {
             new SlickPlayer({
                 iframe: $(this),
                 slick: slick,
+                arrows: arrows,
                 autoplay: autoplay,
                 underbar: underbar
             });

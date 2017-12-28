@@ -15,9 +15,9 @@ $slick-next-character: "\f138";
 // $slick-opacity-not-active: 0.25 !default;
 // UNIVERSAL SLICK SETTINGS
 .slick-slide {
-    // Prevent user interaction with inactive slides
     position: relative;
     &:after {
+        // Prevent user interaction with inactive slides
         display: block;
         content: "";
         position: absolute;
@@ -31,6 +31,7 @@ $slick-next-character: "\f138";
         display: none;
     }
     .vid-placeholder {
+        // Video thumbnail
         display: block;
         position: absolute;
         top: 0;
@@ -43,6 +44,7 @@ $slick-next-character: "\f138";
             height: 100%;
         }
         &:after {
+            // Play button
             content: "\25B6";
             font-size: 50px;
             font-family: Arial, sans-serif;
@@ -60,6 +62,19 @@ $slick-next-character: "\f138";
         }
         &:hover:after {
             opacity: 1;
+        }
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .main-slider,
+    .video-slider-wrapper {
+        .slick-prev,
+        .slick-next {
+            display: none !important;
+            &.show {
+                display: inline-block !important;
+            }
         }
     }
 }
