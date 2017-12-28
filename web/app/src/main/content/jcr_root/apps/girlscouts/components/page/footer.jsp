@@ -26,7 +26,8 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 		<%
 			request.setAttribute("noLink", true);
 		%>
-		<cq:include path="<%= logoPath + "/logo"%>" resourceType="girlscouts/components/logo" />
+		<cq:include script="/apps/girlscouts/components/logo/mobile.jsp" />
+		<%-- <cq:include path="<%= logoPath + "/logo"%>" resourceType="girlscouts/components/logo" />--%>
 	</div>
 </div>
 
