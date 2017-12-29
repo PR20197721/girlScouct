@@ -250,7 +250,7 @@
                 <cancelScheduledActivation
                     jcr:primaryType="nt:unstructured"
                     cls="cq-siteadmin-activate-later"
-                    conditions="[CQ.wcm.SiteAdmin.hasAnySelection,CQ.wcm.SiteAdmin.notLocked]"
+                    conditions="[CQ.wcm.SiteAdmin.hasAnySelection]"
                     context="[toolbar]"
                     handler="CQ.wcm.SiteAdmin.cancelScheduledActivation"
                     privileges="[replicate]"
@@ -288,7 +288,7 @@
                 <cancelScheduledDeactivation
                     jcr:primaryType="nt:unstructured"
                     cls="cq-siteadmin-activate-later"
-                    conditions="[CQ.wcm.SiteAdmin.hasAnySelection,CQ.wcm.SiteAdmin.notLocked]"
+                    conditions="[CQ.wcm.SiteAdmin.hasAnySelection]"
                     context="[toolbar]"
                     handler="CQ.wcm.SiteAdmin.cancelScheduledDeactivation"
                     privileges="[replicate]"
