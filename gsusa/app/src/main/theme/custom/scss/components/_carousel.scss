@@ -14,6 +14,14 @@ $slick-next-character: "\f138";
 // $slick-opacity-on-hover: 1 !default;
 // $slick-opacity-not-active: 0.25 !default;
 // UNIVERSAL SLICK SETTINGS
+.slick-slider {
+    &.dragging {
+        .slick-active:after {
+            display: block;
+        }
+    }
+}
+
 .slick-slide {
     position: relative;
     &:after {

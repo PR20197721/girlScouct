@@ -930,8 +930,8 @@ function fixSlickSlideActive() {
         }
     };
 
-    // For each embed, create player events (Make sure player.js is loaded first)
     $('.slick-slider').each(function () {
+        // For each embed, create player events (Make sure player.js is loaded first)
         var slick = $(this),
             arrows = slick.find(".slick-next, .slick-prev"),
             autoplay = slick.slick('slickGetOption', 'autoplay'),
@@ -946,6 +946,11 @@ function fixSlickSlideActive() {
                 underbar: underbar
             });
         });
+    }).on('swipeMove', function (event) {
+        // Disable mouse/click events for slides when swiping (prevent videos from playing after swipe)
+        $(this).addClass("dragging");
+    }).on('swipeEnd', function (event) {
+        $(this).removeClass("dragging");
     });
 
     function hide_show_cookie() {
