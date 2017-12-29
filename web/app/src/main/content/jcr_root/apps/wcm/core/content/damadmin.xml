@@ -265,6 +265,15 @@
                     privileges="[replicate]"
                     target="CQ.wcm.SiteAdmin.getMultipleTargetsFromList"
                     text="Activate Later..."/>
+                <cancelScheduledActivation
+                    jcr:primaryType="nt:unstructured"
+                    cls="cq-siteadmin-activate-later"
+                    conditions="[CQ.wcm.SiteAdmin.hasAnySelection,CQ.wcm.SiteAdmin.notLocked]"
+                    context="[toolbar]"
+                    handler="CQ.wcm.SiteAdmin.cancelScheduledActivation"
+                    privileges="[replicate]"
+                    target="CQ.wcm.SiteAdmin.getMultipleTargetsFromList"
+                    text="Cancel Scheduled Activation"/>
             </menu>
         </activate>
         <deactivate
@@ -294,6 +303,15 @@
                     privileges="[replicate]"
                     target="CQ.wcm.SiteAdmin.getMultipleTargetsFromList"
                     text="Deactivate Later..."/>
+                <cancelScheduledDeactivation
+                    jcr:primaryType="nt:unstructured"
+                    cls="cq-siteadmin-activate-later"
+                    conditions="[CQ.wcm.SiteAdmin.hasAnySelection,CQ.wcm.SiteAdmin.notLocked]"
+                    context="[toolbar]"
+                    handler="CQ.wcm.SiteAdmin.cancelScheduledDeactivation"
+                    privileges="[replicate]"
+                    target="CQ.wcm.SiteAdmin.getMultipleTargetsFromList"
+                    text="Cancel Scheduled Deactivation"/>
             </menu>
         </deactivate>
         <workflow
