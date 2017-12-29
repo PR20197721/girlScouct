@@ -107,9 +107,9 @@ if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                         </div>--%>
                         <div class="vid-slide-wrapper"><%
                             if (urls.length == 5) {
-                                %><iframe id="<%=urls[3]%>_<%=urls[2]%>" class="<%=urls[2]%>" data-src="<%=urls[0]%>" title="<%=title%>" width="480" height="225" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><%
+                                %><iframe id="<%=urls[3]%>_<%=urls[2]%>" class="vid-player" data-src="<%=urls[0]%>" title="<%=title%>" width="480" height="225" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><%
                             } else {
-                                %><iframe id="<%=urls[3]%>_<%=urls[2]%>" class="<%=urls[2]%>" data-src="<%=urls[0]%>" width="480" height="225" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe><%
+                                %><iframe id="<%=urls[3]%>_<%=urls[2]%>" class="vid-player" data-src="<%=urls[0]%>" width="480" height="225" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe><%
                             }
                             %><a class="vid-placeholder" data-href="<%=path%>" target="_blank" title="video thumbnail">
                                 <img src="<%=urls[1]%>" />

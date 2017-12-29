@@ -804,6 +804,7 @@ function fixSlickSlideActive() {
             self.stopSlider();
             self.arrows.addClass("show");
             self.placeholder.hide();
+            self.iframe.show();
             self.playing = true;
             self.createPlayer();
         });
@@ -873,6 +874,7 @@ function fixSlickSlideActive() {
                     self.player.unload();
                     self.arrows.removeClass("show");
                     self.placeholder.show();
+                    self.iframe.hide();
                     self.playing = false;
                 }
             });
@@ -901,6 +903,7 @@ function fixSlickSlideActive() {
                     self.player.stopVideo();
                     self.arrows.removeClass("show");
                     self.placeholder.show();
+                    self.iframe.hide();
                     self.playing = false;
                 }
             });

@@ -136,14 +136,14 @@ public  String readUrlFile(String urlString) throws Exception {
                 %><li id="tag_explore_main_<%=i%>"><%
                     if (link[i].indexOf("https://www.youtube.com") != -1) { 
                         %><div class="videoWrapper">
-                            <iframe id="youtubePlayer<%=i%>" width="100%" height="560" data-src="<%=link[i]%>" title="<%=title[i]%>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <iframe id="youtubePlayer<%=i%>" class="vid-player" width="100%" height="560" data-src="<%=link[i]%>" title="<%=title[i]%>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                             <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="video thumbnail">
                                 <img src="<%=videoThumbNail[i]%>" />
                             </a>
                         </div><% 
                     } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {
                         %><div class="videoWrapper">
-                            <iframe id="vimeoPlayer<%=i%>" data-src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <iframe id="vimeoPlayer<%=i%>" class="vid-player" data-src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                             <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="video thumbnail">
                                 <img src="<%=videoThumbNail[i]%>" />
                             </a>
