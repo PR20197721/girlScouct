@@ -18,13 +18,13 @@ public String[] extract(String url){
 			if (!"".equals(jsonOutput)) {
 				JSONObject json = new JSONObject(jsonOutput);
 				if (json != null) {
-                    JSONObject obj = json.getJSONArray("items").getJSONObject(0).getJSONObject("snippet");
+                    JSONObject snippet = json.getJSONArray("items").getJSONObject(0).getJSONObject("snippet");
 					return new String[] {
                         "https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent", 
-                        (String)obj.getJSONObject("thumbnails").getJSONObject("medium").getString("url"), // standard
+                        snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url"), // standard
                         "youtube", 
                         generateId(),
-                        (String)obj.getString("title")
+                        snippet.getString("title")
                     };
 				}
 			}
@@ -39,13 +39,13 @@ public String[] extract(String url){
 				JSONArray json = new JSONArray(jsonOutput);
 				if (!json.isNull(0)) {
                     String id = generateId();
-                    JSONObject obj = json.getJSONObject(0);
+                    JSONObject snippet = json.getJSONObject(0);
 					return new String[] {
                         "https://player.vimeo.com/video/"+ vimeoId + "?api=1&player_id=" + id, 
-                        (String)obj.getString("thumbnail_large"), 
+                        snippet.getString("thumbnail_large"), 
                         "vimeo", 
                         id, 
-                        (String)obj.getString("title")
+                        snippet.getString("title")
                     };
 				}
 			}
