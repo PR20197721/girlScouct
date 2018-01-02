@@ -45,7 +45,7 @@ gsusa.components.TitlePathWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         });
         this.add(this.hiddenField);
         
-        this.add(new CQ.Ext.form.Label({text: "Video Title (Youtube Only)"}));
+        this.add(new CQ.Ext.form.Label({text: "Video Title"}));
         this.titleField = new CQ.Ext.form.TextField({
             listeners: {
                 change: {
