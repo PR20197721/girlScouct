@@ -21,7 +21,8 @@ public String[] extract(String url){
 				JSONArray json = new JSONArray(jsonOutput);
 				if (!json.isNull(0)) {
 					String id = generateId();
-					return new String[]{"https://player.vimeo.com/video/"+ vimeoId + "?api=1&player_id=" + id, (String)json.getJSONObject(0).getString("thumbnail_large"), "vimeo", id};
+                    JSONObject obj = json.getJSONObject(0);
+					return new String[]{"https://player.vimeo.com/video/"+ vimeoId + "?api=1&player_id=" + id, (String)obj.getString("thumbnail_large"), "vimeo", id, (String)obj.getString("title")};
 				}
 			}
 		} catch (Exception e) {
@@ -94,24 +95,17 @@ if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
         String[] urls = null;
         for (int i = 0; i < links.length; i++) {
             String[] split = links[i].split("\\|\\|\\|");
-            String title = split.length >= 1 ? split[0] : "";
             String path = split.length >= 2 ? split[1] : "";
             if (resourceResolver.resolve(path).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
                 urls = extract(path);
                 if (urls.length >= 4) {
+                    String title = split.length >= 1 ? split[0] : "";
+                    title = !"".equals(title) ? title : urls[4];
                     %><div>
-                        <%--<div class="show-for-small thumbnail">
-                            <a href="<%= path %>" target="_blank" title="video thumbnail">
-                                <img src="<%= urls[1] %>" />
-                            </a>
-                        </div>--%>
-                        <div class="vid-slide-wrapper"><%
-                            if (urls.length == 5) {
-                                %><iframe id="<%=urls[3]%>_<%=urls[2]%>" class="vid-player" data-src="<%=urls[0]%>" title="<%=title%>" width="480" height="225" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><%
-                            } else {
-                                %><iframe id="<%=urls[3]%>_<%=urls[2]%>" class="vid-player" data-src="<%=urls[0]%>" width="480" height="225" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe><%
-                            }
-                            %><a class="vid-placeholder" data-href="<%=path%>" target="_blank" title="video thumbnail">
+                        <div class="vid-slide-wrapper">
+                            <iframe id="<%=urls[3]%>_<%=urls[2]%>" class="vid-player" data-src="<%=urls[0]%>" width="480" height="225" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <a class="vid-placeholder" data-href="<%=path%>" target="_blank" title="video thumbnail">
+                                <p><%=title%></p>
                                 <img src="<%=urls[1]%>" />
                             </a>
                         </div>
