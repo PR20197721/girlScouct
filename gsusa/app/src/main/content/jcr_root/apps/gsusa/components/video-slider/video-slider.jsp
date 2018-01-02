@@ -11,18 +11,42 @@
 <%!
 public String[] extract(String url){
 	if (url.indexOf("youtu") != -1) { // Needs to be "youtu" to account for "youtu.be" links
-		String ytid = extractYTId(url);
-		return new String[]{"https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent" , "https://i1.ytimg.com/vi/" + ytid +"/mqdefault.jpg", "youtube", generateId(), ytid};
+        try {
+			String ytid = extractYTId(url);
+			String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + ytid + "&key=AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y"); // Getting 403, check restrictions: AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I
+            // Get a sample response here: https://developers.google.com/youtube/v3/docs/videos/list
+			if (!"".equals(jsonOutput)) {
+				JSONObject json = new JSONObject(jsonOutput);
+				if (json != null) {
+                    JSONObject obj = json.getJSONArray("items").getJSONObject(0).getJSONObject("snippet");
+					return new String[] {
+                        "https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent", 
+                        (String)obj.getJSONObject("thumbnails").getJSONObject("medium").getString("url"), // standard
+                        "youtube", 
+                        generateId(),
+                        (String)obj.getString("title")
+                    };
+				}
+			}
+		} catch (Exception e) {
+			return new String[0];
+		}
 	} else if (url.indexOf("vimeo") != -1) {
-		try{
+		try {
 			String vimeoId = extractVimeoId(url);
 			String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
 			if (!"".equals(jsonOutput)) {
 				JSONArray json = new JSONArray(jsonOutput);
 				if (!json.isNull(0)) {
-					String id = generateId();
+                    String id = generateId();
                     JSONObject obj = json.getJSONObject(0);
-					return new String[]{"https://player.vimeo.com/video/"+ vimeoId + "?api=1&player_id=" + id, (String)obj.getString("thumbnail_large"), "vimeo", id, (String)obj.getString("title")};
+					return new String[] {
+                        "https://player.vimeo.com/video/"+ vimeoId + "?api=1&player_id=" + id, 
+                        (String)obj.getString("thumbnail_large"), 
+                        "vimeo", 
+                        id, 
+                        (String)obj.getString("title")
+                    };
 				}
 			}
 		} catch (Exception e) {
@@ -98,7 +122,7 @@ if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
             String path = split.length >= 2 ? split[1] : "";
             if (resourceResolver.resolve(path).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
                 urls = extract(path);
-                if (urls.length >= 4) {
+                if (urls.length > 4) {
                     String title = split.length >= 1 ? split[0] : "";
                     title = !"".equals(title) ? title : urls[4];
                     %><div>
