@@ -157,12 +157,12 @@ function fixSlickSlideActive() {
     $(document).foundation();
 
     var isIE11 = false,
+        isNewerThanIE9 = true,
         homepageScrollTopPos,
         lastAfterSlick = null,
         carouselSliderPropogate = true,
         ImageMap,
         imageMap,
-        slickOptions = {},
         SlickPlayer,
         Underbar;
 
@@ -171,15 +171,15 @@ function fixSlickSlideActive() {
     }
 
     // YouTube API loaded
-    function YTloaded() {
+    function ytLoaded() {
         return YT && YT.Player;
     }
 
-    if (YTloaded()) {
-        $(window).trigger("YTloaded");
+    if (ytLoaded()) {
+        $(window).trigger("ytLoaded");
     } else {
         window.onYouTubeIframeAPIReady = function () {
-            $(window).trigger("YTloaded");
+            $(window).trigger("ytLoaded");
         };
     }
 
@@ -349,6 +349,41 @@ function fixSlickSlideActive() {
         });*/
     }
 
+    (function getInternetExplorerVersion() {
+        //Returns the version of Internet Explorer or a -1
+        //(indicating the use of another browser).
+
+        var rv = -1, // Return value assumes failure.
+            ua,
+            re;
+        if (navigator.appName == 'Microsoft Internet Explorer') {
+            ua = navigator.userAgent;
+            re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+            if (re.exec(ua) != null) {
+                rv = parseFloat(RegExp.$1);
+            }
+        }
+        if (rv > -1 && rv <= 9.0) {
+            console.log("No auto slide due to browser incompatibility");
+            isNewerThanIE9 = false;
+        }
+        return rv;
+    }());
+
+    function getSlickOptions(el) {
+        var jsonData = el.attr("slick-options"),
+            options;
+        if (jsonData) {
+            options = JSON.parse(jsonData);
+            if (!isNewerThanIE9) {
+                options.autoplay = false;
+            }
+            return options;
+        } else {
+            return {};
+        }
+    }
+
     $('.shop-slider').slick({
         dots: false,
         infinite: false,
@@ -467,29 +502,30 @@ function fixSlickSlideActive() {
         });
     }
     */
-    if ($('.main-slider').attr("slick-options")) {
-        slickOptions = JSON.parse($('.main-slider').attr("slick-options"));
-    }
 
-    $('.main-slider').slick({
-        dots: false,
-        speed: slickOptions.speed || 1000,
-        fade: false,
-        autoplay: slickOptions.autoplay || false,
-        arrows: true,
-        autoplaySpeed: slickOptions.autoplaySpeed || 2000,
-        cssEase: 'linear',
-        slidesToShow: 1,
-        infinite: true,
-        responsive: [{
-            breakpoint: 480,
-            settings: {
-                arrows: true,
-                centerMode: true,
-                centerPadding: '30px'
-            }
-        }]
+    $('.main-slider').each(function () {
+        var slickOptions = getSlickOptions($(this));
+        $(this).slick({
+            dots: false,
+            speed: slickOptions.speed || 1000,
+            fade: false,
+            autoplay: slickOptions.autoplay || false,
+            arrows: true,
+            autoplaySpeed: slickOptions.autoplaySpeed || 2000,
+            cssEase: 'linear',
+            slidesToShow: 1,
+            infinite: true,
+            responsive: [{
+                breakpoint: 480,
+                settings: {
+                    arrows: true,
+                    centerMode: true,
+                    centerPadding: '30px'
+                }
+            }]
+        });
     });
+
     $(".article-carousel .article-slider").slick({
         lazyLoad: 'ondemand',
         slidesToShow: 3,
@@ -666,56 +702,28 @@ function fixSlickSlideActive() {
         imageMap.resize();
     }
 
-    if ($('.video-slider-wrapper').attr("slick-options")) {
-        slickOptions = JSON.parse($('.video-slider-wrapper').attr("slick-options"));
-    }
-
-    function getInternetExplorerVersion() {
-        //Returns the version of Internet Explorer or a -1
-        //(indicating the use of another browser).
-
-        var rv = -1, // Return value assumes failure.
-            ua,
-            re;
-        if (navigator.appName == 'Microsoft Internet Explorer') {
-            ua = navigator.userAgent;
-            re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-            if (re.exec(ua) != null) {
-                rv = parseFloat(RegExp.$1);
-            }
-        }
-        return rv;
-    }
-
-    function checkVersion() {
-        var ver = getInternetExplorerVersion();
-
-        if (ver > -1 && ver <= 9.0) {
-            console.log("No auto slide due to browser incompatibility");
-            slickOptions.autoplay = false;
-        }
-    }
-    checkVersion();
-
-    $('.video-slider-wrapper').slick({
-        dots: false,
-        speed: 500,
-        fade: false,
-        autoplay: slickOptions.autoplay || false,
-        autoplaySpeed: slickOptions.autoplaySpeed || 2000,
-        cssEase: 'linear',
-        centerMode: true,
-        slidesToShow: 1,
-        centerPadding: '100px',
-        touchMove: true,
-        responsive: [{
-            breakpoint: 480,
-            settings: {
-                //arrows: false,
-                centerMode: true,
-                centerPadding: '30px'
-            }
-        }]
+    $('.video-slider-wrapper').each(function () {
+        var slickOptions = getSlickOptions($(this));
+        $(this).slick({
+            dots: false,
+            speed: 500,
+            fade: false,
+            autoplay: slickOptions.autoplay || false,
+            autoplaySpeed: slickOptions.autoplaySpeed || 2000,
+            cssEase: 'linear',
+            centerMode: true,
+            slidesToShow: 1,
+            centerPadding: '100px',
+            touchMove: true,
+            responsive: [{
+                breakpoint: 480,
+                settings: {
+                    arrows: true,
+                    centerMode: true,
+                    centerPadding: '30px'
+                }
+            }]
+        });
     });
 
     $('.join-redirect-slider').slick({
@@ -819,10 +827,10 @@ function fixSlickSlideActive() {
             if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
                 self.createVimeoPlayer();
             } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
-                if (YTloaded()) {
+                if (ytLoaded()) {
                     self.createYTPlayer();
                 } else {
-                    $(window).on("YTloaded", function () { // Wait until API script loads if it has not already
+                    $(window).on("ytLoaded", function () { // Wait until API script loads if it has not already
                         self.createYTPlayer();
                     });
                 }
