@@ -55,13 +55,10 @@ $slick-next-character: "\f138";
             position: absolute;
             margin: 10px;
             padding: 5px 10px;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.75);
             display: inline-block;
             border-radius: 5px;
             z-index: 2;
-            @media #{$small-only} {
-                background: rgba(255, 255, 255, 1);
-            }
         }
         img {
             position: absolute;
@@ -92,7 +89,7 @@ $slick-next-character: "\f138";
             left: 50%;
             transform: translate(-50%, -50%);
             @media #{$small-only} {
-                opacity: .5;
+                opacity: 1;
             }
         }
         &:hover:after {
@@ -116,8 +113,6 @@ $slick-next-character: "\f138";
         .slick-prev,
         .slick-next {
             display: none !important;
-            width: rem-calc(32);
-            height: rem-calc(106);
             &.show {
                 display: inline-block !important;
             }
