@@ -60,6 +60,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	String title[] = new String[numberOfImages];
 	String alt[] = new String[numberOfImages];
 	String link[] = new String[numberOfImages];
+    String sourceLink[] = new String[numberOfImages];
 	String imagePath[] = new String[numberOfImages];
 	String target[] = new String[numberOfImages];
 	String openInNewWindow[] = new String[numberOfImages];
@@ -76,6 +77,7 @@ public  String readUrlFile(String urlString) throws Exception {
 			link[i] = split.length >= 3 ? split[2] : "";
 			imagePath[i] = split.length >= 4 ? split[3] : "";
 			target[i] = "";
+            sourceLink[i] = link[i];
 			if (split.length >= 5 && Boolean.parseBoolean(split[4])) {
 				openInNewWindow[i] = "target=\"_blank\"";
 			} else {
@@ -92,10 +94,19 @@ public  String readUrlFile(String urlString) throws Exception {
 
 				//now check if the link is youtube/vimeo
 				if (link[i].indexOf("youtu") != -1) { // Needs to be "youtu" to account for "youtu.be" links
-					String ytId = extractYTId(link[i]);
-					videoId[i] = ytId;
-					videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
-					link[i] = "https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent&showinfo=1";
+					String ytid = extractYTId(link[i]);
+					videoId[i] = ytid;
+                    String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + ytid + "&key=AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y"); // Getting 403, check restrictions: AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I
+                    // Get a sample response here: https://developers.google.com/youtube/v3/docs/videos/list					
+                    if (!"".equals(jsonOutput)) {
+						JSONObject json = new JSONObject(jsonOutput);
+				        if (json != null) {
+                            JSONObject snippet = json.getJSONArray("items").getJSONObject(0).getJSONObject("snippet");
+							videoThumbNail[i] = snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url"); // standard
+                            title[i] = !"".equals(title[i]) ? title[i] : snippet.getString("title");
+						}
+					}
+					link[i] = "https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
 				} else if (link[i].indexOf("vimeo") != -1) {
 					String vimeoId = extractVimeoId(link[i]);
 					videoId[i] = vimeoId;
@@ -103,7 +114,9 @@ public  String readUrlFile(String urlString) throws Exception {
 					if (!"".equals(jsonOutput)) {
 						JSONArray json = new JSONArray(jsonOutput);
 						if (!json.isNull(0)) {
-							videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
+                            JSONObject snippet = json.getJSONObject(0);
+							videoThumbNail[i] = snippet.getString("thumbnail_large");
+                            title[i] = !"".equals(title[i]) ? title[i] : snippet.getString("title");
 						}
 					}
 					link[i] = "https://player.vimeo.com/video/" + vimeoId + "?api=1&player_id=" + "vimeoPlayer" + i ;
@@ -131,15 +144,22 @@ public  String readUrlFile(String urlString) throws Exception {
 	<ul class="main-slider" slick-options='{"speed":<%=homeCarouselTimeDelay%>, "autoplay":<%=homeCarouselAutoscroll%>, "autoplaySpeed":<%=homeCarouselAutoPlaySpeed%>}'><%
         for (int i = 0; i < numberOfImages; i++) { 
 			if (!tempHidden[i]) {
-                String titleYT = !"".equals(title[i]) ? "title[i]" : "";
                 %><li id="tag_explore_main_<%=i%>"><%
                     if (link[i].indexOf("https://www.youtube.com") != -1) { 
                         %><div class="videoWrapper">
-                            <iframe id="youtubePlayer<%=i%>" width="100%" height="560" src="<%=link[i]%>" title="<%=title[i]%>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <iframe id="youtubePlayer<%=i%>" class="vid-player" data-src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="video thumbnail">
+                                <p><%=title[i]%></p>
+                                <img src="<%=videoThumbNail[i]%>" />
+                            </a>
                         </div><% 
                     } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {
                         %><div class="videoWrapper">
-                            <iframe id="vimeoPlayer<%=i%>" src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <iframe id="vimeoPlayer<%=i%>" class="vid-player" data-src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="video thumbnail">
+                                <p><%=title[i]%></p>
+                                <img src="<%=videoThumbNail[i]%>" />
+                            </a>
                         </div><%
                     } else {
                         %><a href="<%=link[i]%>" title="<%=title[i]%>" <%=openInNewWindow[i]%>>

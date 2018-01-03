@@ -777,7 +777,7 @@ function fixSlickSlideActive() {
 
     //
     //
-    // SLICK VIDEO PLAYER
+    // SLICK CAROUSEL VIDEO PLAYER
     //
     //
 
@@ -786,10 +786,13 @@ function fixSlickSlideActive() {
 
         self.iframe = params.iframe;
         self.slick = params.slick;
+        self.arrows = params.arrows;
         self.autoplay = params.autoplay;
+        self.slide = self.iframe.parents(".slick-slide").eq(0);
         self.playing = false;
         self.type = self.iframe.attr('id').toLowerCase();
         self.underbar = params.underbar;
+        self.placeholder = self.iframe.siblings(".vid-placeholder");
 
         // Underbar events
         self.underbar.input.on("focus", function () {
@@ -798,16 +801,31 @@ function fixSlickSlideActive() {
             self.startSlider();
         });
 
-        // Create players
-        if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
-            self.createVimeoPlayer();
-        } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
-            if (YTloaded()) {
-                self.createYTPlayer();
-            } else {
-                $(window).on("YTloaded", function () { // Wait until script loads if it has not already
+        self.placeholder.on("click", function () {
+            self.stopSlider();
+            self.slide.addClass("playing");
+            self.arrows.addClass("show");
+            self.playing = true;
+            self.createPlayer();
+        });
+    };
+
+    SlickPlayer.prototype.createPlayer = function () {
+        var self = this;
+
+        if (!self.iframe.attr("src")) { // If not instantiated
+            self.iframe.attr("src", self.iframe.attr("data-src")); // Assign embed url
+
+            if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
+                self.createVimeoPlayer();
+            } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
+                if (YTloaded()) {
                     self.createYTPlayer();
-                });
+                } else {
+                    $(window).on("YTloaded", function () { // Wait until API script loads if it has not already
+                        self.createYTPlayer();
+                    });
+                }
             }
         }
     };
@@ -839,17 +857,25 @@ function fixSlickSlideActive() {
         var self = this;
         self.player = new Vimeo.Player(self.iframe);
 
-        self.player.on('play', function () {
-            self.stopSlider();
-            self.playing = true;
-        });
+        self.player.on("loaded", function () {
+            /*self.player.on('play', function () {
+                self.stopSlider();
+                self.playing = true;
+            });*/
 
-        self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-            if (self.playing) { // Trigger only when moving away from potentially active slide
-                self.startSlider();
-                self.player.unload();
-                self.playing = false;
-            }
+            self.placeholder.on("click", function () {
+                self.player.play();
+            }).trigger("click");
+
+            self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+                if (self.playing) { // Trigger only when moving away from potentially active slide
+                    self.startSlider();
+                    self.player.unload();
+                    self.slide.removeClass("playing");
+                    self.arrows.removeClass("show");
+                    self.playing = false;
+                }
+            });
         });
     };
 
@@ -859,17 +885,22 @@ function fixSlickSlideActive() {
         self.player = new YT.Player(self.iframe.attr('id'));
 
         self.player.addEventListener("onReady", function () {
-            self.player.addEventListener("onStateChange", function (event) {
+            /*self.player.addEventListener("onStateChange", function (event) {
                 if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering to prevent delay before playing
                     self.stopSlider();
                     self.playing = true;
                 }
-            });
+            });*/
+            self.placeholder.on("click", function () {
+                self.player.playVideo();
+            }).trigger("click");
 
             self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
                 if (self.playing) {
                     self.startSlider();
                     self.player.stopVideo();
+                    self.slide.removeClass("playing");
+                    self.arrows.removeClass("show");
                     self.playing = false;
                 }
             });
@@ -899,9 +930,10 @@ function fixSlickSlideActive() {
         }
     };
 
-    // For each embed, create player events (Make sure player.js is loaded first)
     $('.slick-slider').each(function () {
+        // For each embed, create player events (Make sure player.js is loaded first)
         var slick = $(this),
+            arrows = slick.find(".slick-next, .slick-prev"),
             autoplay = slick.slick('slickGetOption', 'autoplay'),
             underbar = new Underbar(slick.parent().find('.zip-council').eq(0));
 
@@ -909,10 +941,16 @@ function fixSlickSlideActive() {
             new SlickPlayer({
                 iframe: $(this),
                 slick: slick,
+                arrows: arrows,
                 autoplay: autoplay,
                 underbar: underbar
             });
         });
+    }).on('swipeMove', function (event) {
+        // Disable mouse/click events for slides when swiping (prevent videos from playing after swipe)
+        $(this).addClass("dragging");
+    }).on('swipeEnd', function (event) {
+        $(this).removeClass("dragging");
     });
 
     function hide_show_cookie() {

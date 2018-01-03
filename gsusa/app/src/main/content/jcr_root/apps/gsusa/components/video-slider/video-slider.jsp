@@ -11,17 +11,42 @@
 <%!
 public String[] extract(String url){
 	if (url.indexOf("youtu") != -1) { // Needs to be "youtu" to account for "youtu.be" links
-		String ytid = extractYTId(url);
-		return new String[]{"https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent" , "https://i1.ytimg.com/vi/" + ytid +"/mqdefault.jpg", "youtube", generateId(), ytid};
+        try {
+			String ytid = extractYTId(url);
+			String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + ytid + "&key=AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y"); // Getting 403, check restrictions: AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I
+            // Get a sample response here: https://developers.google.com/youtube/v3/docs/videos/list
+			if (!"".equals(jsonOutput)) {
+				JSONObject json = new JSONObject(jsonOutput);
+				if (json != null) {
+                    JSONObject snippet = json.getJSONArray("items").getJSONObject(0).getJSONObject("snippet");
+					return new String[] {
+                        "https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent", 
+                        snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url"), // standard
+                        "youtube", 
+                        generateId(),
+                        snippet.getString("title")
+                    };
+				}
+			}
+		} catch (Exception e) {
+			return new String[0];
+		}
 	} else if (url.indexOf("vimeo") != -1) {
-		try{
+		try {
 			String vimeoId = extractVimeoId(url);
 			String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
 			if (!"".equals(jsonOutput)) {
 				JSONArray json = new JSONArray(jsonOutput);
 				if (!json.isNull(0)) {
-					String id = generateId();
-					return new String[]{"https://player.vimeo.com/video/"+ vimeoId + "?api=1&player_id=" + id, (String)json.getJSONObject(0).getString("thumbnail_large"), "vimeo", id};
+                    String id = generateId();
+                    JSONObject snippet = json.getJSONObject(0);
+					return new String[] {
+                        "https://player.vimeo.com/video/"+ vimeoId + "?api=1&player_id=" + id, 
+                        snippet.getString("thumbnail_large"), 
+                        "vimeo", 
+                        id, 
+                        snippet.getString("title")
+                    };
 				}
 			}
 		} catch (Exception e) {
@@ -94,24 +119,20 @@ if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
         String[] urls = null;
         for (int i = 0; i < links.length; i++) {
             String[] split = links[i].split("\\|\\|\\|");
-            String title = split.length >= 1 ? split[0] : "";
             String path = split.length >= 2 ? split[1] : "";
             if (resourceResolver.resolve(path).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
                 urls = extract(path);
-                if (urls.length >= 4) {
+                if (urls.length > 4) {
+                    String title = split.length >= 1 ? split[0] : "";
+                    title = !"".equals(title) ? title : urls[4];
                     %><div>
-                        <%--<div class="show-for-small thumbnail">
-                            <a href="<%= path %>" target="_blank" title="video thumbnail">
-                                <img src="<%= urls[1] %>" />
+                        <div class="vid-slide-wrapper">
+                            <iframe id="<%=urls[3]%>_<%=urls[2]%>" class="vid-player" data-src="<%=urls[0]%>" width="480" height="225" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <a class="vid-placeholder" data-href="<%=path%>" target="_blank" title="video thumbnail">
+                                <p><%=title%></p>
+                                <img src="<%=urls[1]%>" />
                             </a>
-                        </div>--%>
-                        <div class="vid-slide-wrapper"><%
-                            if (urls.length == 5) {
-                                %><iframe id="<%=urls[3]%>_<%=urls[2]%>" class="<%=urls[2]%>" src="<%=urls[0]%>" title="<%=title%>" width="480" height="225" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><%
-                            } else {
-                                %><iframe id="<%=urls[3]%>_<%=urls[2]%>" class="<%=urls[2]%>" src="<%=urls[0]%>" width="480" height="225" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe><%
-                            }
-                        %></div>
+                        </div>
                     </div><%
                 } else {
                     %><div>*** Format not supported ***</div><%
