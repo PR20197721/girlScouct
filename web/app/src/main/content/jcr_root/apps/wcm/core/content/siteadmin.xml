@@ -16,7 +16,7 @@
     historyTitle="Recently used pages"
     iconClass="siteadmin"
     id="cq-siteadmin"
-    jsLibs="[cq.wcm.admin]"
+    jsLibs="[cq.wcm.admin,girlscouts.wcm.admin]"
     noSearch="{Boolean}true"
     skipEarlyAutoExpandCheck="{Boolean}false"
     tabTitle="Websites"
