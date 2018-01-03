@@ -84,6 +84,4 @@
     <filter root="/apps/cq/ui"/>
     <filter root="/etc/importers/gsbulkeditor"/>
     <filter root="/etc/clientlibs/foundation/abacus/source/abacus.js"/>
-    <filter root="/libs/wcm/core/content/siteadmin/actions/activate/menu/cancelScheduledActivation"/>
-    <filter root="/libs/wcm/core/content/siteadmin/actions/deactivate/menu/cancelScheduledDeactivation"/>
 </workspaceFilter>
