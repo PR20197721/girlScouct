@@ -788,6 +788,7 @@ function fixSlickSlideActive() {
         self.slick = params.slick;
         self.arrows = params.arrows;
         self.autoplay = params.autoplay;
+        self.slide = self.iframe.parents(".slick-slide").eq(0);
         self.playing = false;
         self.type = self.iframe.attr('id').toLowerCase();
         self.underbar = params.underbar;
@@ -802,9 +803,8 @@ function fixSlickSlideActive() {
 
         self.placeholder.on("click", function () {
             self.stopSlider();
+            self.slide.addClass("playing");
             self.arrows.addClass("show");
-            self.placeholder.hide();
-            self.iframe.show();
             self.playing = true;
             self.createPlayer();
         });
@@ -816,19 +816,17 @@ function fixSlickSlideActive() {
         if (!self.iframe.attr("src")) { // If not instantiated
             self.iframe.attr("src", self.iframe.attr("data-src")); // Assign embed url
 
-            self.iframe.on("load", function () { // Create video player on load
-                if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
-                    self.createVimeoPlayer();
-                } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
-                    if (YTloaded()) {
+            if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
+                self.createVimeoPlayer();
+            } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
+                if (YTloaded()) {
+                    self.createYTPlayer();
+                } else {
+                    $(window).on("YTloaded", function () { // Wait until API script loads if it has not already
                         self.createYTPlayer();
-                    } else {
-                        $(window).on("YTloaded", function () { // Wait until API script loads if it has not already
-                            self.createYTPlayer();
-                        });
-                    }
+                    });
                 }
-            });
+            }
         }
     };
 
@@ -864,6 +862,7 @@ function fixSlickSlideActive() {
                 self.stopSlider();
                 self.playing = true;
             });*/
+
             self.placeholder.on("click", function () {
                 self.player.play();
             }).trigger("click");
@@ -872,9 +871,8 @@ function fixSlickSlideActive() {
                 if (self.playing) { // Trigger only when moving away from potentially active slide
                     self.startSlider();
                     self.player.unload();
+                    self.slide.removeClass("playing");
                     self.arrows.removeClass("show");
-                    self.placeholder.show();
-                    self.iframe.hide();
                     self.playing = false;
                 }
             });
@@ -901,9 +899,8 @@ function fixSlickSlideActive() {
                 if (self.playing) {
                     self.startSlider();
                     self.player.stopVideo();
+                    self.slide.removeClass("playing");
                     self.arrows.removeClass("show");
-                    self.placeholder.show();
-                    self.iframe.hide();
                     self.playing = false;
                 }
             });
