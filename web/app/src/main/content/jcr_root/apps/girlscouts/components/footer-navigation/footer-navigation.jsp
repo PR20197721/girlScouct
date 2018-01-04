@@ -1,12 +1,41 @@
-<%@ page import="com.day.cq.wcm.api.WCMMode" %>
+<%@ page import="com.day.cq.wcm.api.WCMMode,javax.jcr.Node,javax.jcr.NodeIterator,java.util.List,java.util.ArrayList" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
-  String[] links = properties.get("links", String[].class);
-  String[] socialIcons = properties.get("socialIcons", String[].class);
+    List<String> linksList = new ArrayList<String>();
+	List<String> socialList = new ArrayList<String>();
+    if(currentNode.hasNode("footerLinks")){
+		Node footerLinks = currentNode.getNode("footerLinks");
+    	NodeIterator iter = footerLinks.getNodes();
+    	while(iter.hasNext()){
+			Node linkNode = iter.nextNode();
+            if(linkNode.hasProperty("linkTitle") && linkNode.hasProperty("url")){
+				String title = linkNode.getProperty("linkTitle").getString();
+                String url = linkNode.getProperty("url").getString();
+                linksList.add(title + "|||" + url);
+            }
+
+		}
+	}
+	if(currentNode.hasNode("socialMediaLinks")){
+		Node socialLinks = currentNode.getNode("socialMediaLinks");
+    	NodeIterator iter = socialLinks.getNodes();
+    	while(iter.hasNext()){
+			Node socialNode = iter.nextNode();
+            if(socialNode.hasProperty("icon") && socialNode.hasProperty("url")){
+				String icon = socialNode.getProperty("icon").getString();
+                String url = socialNode.getProperty("url").getString();
+                socialList.add(url + "|||" + icon);
+            }
+
+		}
+	}
+  String[] links = linksList.toArray(new String[0]);
+  String[] socialIcons = socialList.toArray(new String[0]);
 %>
 <div class="columns large-16 medium-16 small-19 small-centered large-uncentered medium-uncentered">
   <ul>
+
   <% 
     if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
       %> ##### Footer Navigation Placeholder ##### <% }

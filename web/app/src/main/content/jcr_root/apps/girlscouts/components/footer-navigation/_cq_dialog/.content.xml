@@ -10,9 +10,9 @@
             sling:resourceType="granite/ui/components/foundation/layouts/tabs"
             type="nav"/>
         <items jcr:primaryType="nt:unstructured">
-            <first
+            <links
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Multi-Field"
+                jcr:title="Links"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
@@ -22,16 +22,35 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <multi
+                            <children
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/multifield"
-                                fieldLabel="Links">
-                                <field/>
-                            </multi>
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                composite="true"
+                                fieldDescription="Click Add to add a link to footer"
+                                fieldLabel="Footer Links">
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                                    class="coral-Table--bordered"
+                                    name="./footerLinks">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <title
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                            fieldLabel="Link Title"
+                                            name="linkTitle"/>
+                                        <url
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                            fieldLabel="Link"
+                                            name="url"/>
+                                    </items>
+                                </field>
+                            </children>
                         </items>
                     </columns>
                 </items>
-            </first>
+            </links>
             <social
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Social Media Icons"
@@ -44,12 +63,31 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <multi
+                            <children
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/multifield"
-                                fieldLabel="Links">
-                                <field/>
-                            </multi>
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                composite="true"
+                                fieldDescription="Click 'Add' to add an accordion"
+                                fieldLabel="Accordions">
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                                    class="coral-Table--bordered"
+                                    name="./socialMediaLinks">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <url
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                            fieldLabel="Link"
+                                            name="url"/>
+                                        <icon
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="/libs/granite/ui/components/coral/foundation/form/pathfield"
+                                            fieldLabel="Icon"
+                                            name="icon"/>
+                                    </items>
+                                </field>
+                            </children>
                         </items>
                     </columns>
                 </items>
