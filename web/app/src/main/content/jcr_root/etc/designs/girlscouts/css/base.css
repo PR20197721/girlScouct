@@ -365,6 +365,7 @@ a:hover.menuHighlight {
   font-weight: 600;
   line-height: 1;
 }
+
 #header a:hover {
   color: #FAA61A;
 }
@@ -376,15 +377,25 @@ a:hover.menuHighlight {
 #header a:hover.signout {
   color: #c00;
 }
+
+#header .eyebrow-container {
+  overflow: auto;
+} 
 #header ul {
   float: right;
 }
+
+#header ul::after{
+  clear:both;
+}
+
 #header ul li {
   font-size: 1.0em;
 }
 #header > .large-6 {
   padding: 0.72916667% 0 0 0;
 }
+
 #header .message {
   text-align: right;
 }

@@ -7,5 +7,5 @@
     <cq:listeners
         jcr:primaryType="cq:EditListenersConfig"
         afteredit="REFRESH_SELF"
-        afterinsert="REFRESH_INSERT"/>
+        afterinsert="REFRESH_INSERTED"/>
 </jcr:root>

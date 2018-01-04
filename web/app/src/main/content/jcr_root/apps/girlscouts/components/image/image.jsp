@@ -19,31 +19,35 @@
     com.day.cq.wcm.api.components.DropTarget,
     org.girlscouts.web.gsusa.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
 %><%@include file="/libs/foundation/global.jsp"%><%
-    Image image = new Image(resource);
-    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
-
-    //drop target css class = dd prefix + name of the drop target in the edit config
-    image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
-    image.loadStyleData(currentStyle);
-    image.setSelector(".img"); // use image script
-    image.setDoctype(Doctype.fromRequest(request));
-    
-	Boolean newWindow = properties.get("./newWindow", false);
-
-    // add design information if not default (i.e. for reference paras)
-    if (!currentDesign.equals(resourceDesign)) {
-        image.setSuffix(currentDesign.getId());
-    }
-    String divId = "cq-image-jsp-" + resource.getPath();
-    %><div id="<%= divId %>"><% 
-        if(!newWindow) { 
-        image.draw(out); 
-    	}
-		else { %>
-			<%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
-		<%
-		}
-	%></div><%
-    %><cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
-    
+	String divId = "cq-image-jsp-" + resource.getPath();
+	%><div id="<%= divId %>"><%
+	    Image image = new Image(resource);
+	  	try{
+		    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
+		
+		    //drop target css class = dd prefix + name of the drop target in the edit config
+		    image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
+		    image.loadStyleData(currentStyle);
+		    image.setSelector(".img"); // use image script
+		    image.setDoctype(Doctype.fromRequest(request));
+		    
+			Boolean newWindow = properties.get("./newWindow", false);
+		
+		    // add design information if not default (i.e. for reference paras)
+		    if (!currentDesign.equals(resourceDesign)) {
+		        image.setSuffix(currentDesign.getId());
+		    }
+		     
+		    if(!newWindow) { 
+		       image.draw(out); 
+		   	} else { %>
+				<%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
+				<%
+			}
+	  	}catch (Exception e){
+	  		
+	  	}
+		%>
+	</div>
+	<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
     <%@include file="/libs/foundation/components/image/tracking-js.jsp"%>
