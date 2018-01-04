@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2018-01-03T16:36:19.867-05:00"
+        cq:lastModified="{Date}2018-01-04T17:46:34.363-05:00"
         cq:lastModifiedBy="admin"
         cq:tags="[workflow:dam,workflow:wcm]"
         cq:template="/libs/cq/workflow/templates/model"
@@ -70,6 +70,35 @@
                     PROCESS_AUTO_ADVANCE="true"
                     THUMBNAILS="[48:48,140:100,319:319]"/>
             </commandlineprocess>
+            <process_129754515
+                jcr:created="{Date}2018-01-04T17:45:45.645-05:00"
+                jcr:createdBy="admin"
+                jcr:description="Image &amp; document thumbnails"
+                jcr:lastModified="{Date}2018-01-04T17:46:34.335-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Thumbnail creation"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="com.day.cq.dam.core.process.CreateThumbnailProcess"
+                    PROCESS_ARGS="\[140:100],[48:48],[319:319]"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process_129754515>
+            <process_167102041
+                jcr:created="{Date}2018-01-04T17:41:49.328-05:00"
+                jcr:createdBy="admin"
+                jcr:description="We try to set video mime type here to fix the bug in cq5.6"
+                jcr:lastModified="{Date}2018-01-04T17:44:56.949-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="NPS Video mime type fix"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="/etc/workflow/scripts/gsusa/set-video-mimetype.ecma"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process_167102041>
             <process3
                 jcr:description="Create web enabled video formats"
                 jcr:primaryType="nt:unstructured"
