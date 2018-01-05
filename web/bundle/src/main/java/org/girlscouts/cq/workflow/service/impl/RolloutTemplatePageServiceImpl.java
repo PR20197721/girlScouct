@@ -2,9 +2,11 @@ package org.girlscouts.cq.workflow.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -520,6 +522,37 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 				}
 			}
 		}
+	}
+
+	private Map<String, Set<String>> getComponentRelations(Resource srcRes) {
+		Map<String, Set<String>> componentRelationsMap = new HashMap<String, Set<String>>();
+		Set<String> srcComponents = getComponents(srcRes);
+		if (srcComponents != null && srcComponents.size() > 0) {
+			for (String component : srcComponents) {
+				Resource componentRes = rr.resolve(component);
+				if (componentRes != null
+						&& !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					System.err.println("*********Looking up relations for " + componentRes);
+					try {
+						final LiveRelationshipManager relationManager = rr.adaptTo(LiveRelationshipManager.class);
+						// System.err.println("relationManager
+						// "+relationManager);
+						RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes, null, null);
+						if (relationIterator.hasNext()) {
+							Set<String> componentRelations = new TreeSet<String>();
+							while (relationIterator.hasNext()) {
+								LiveRelationship relation = (LiveRelationship) relationIterator.next();
+								String relationPath = relation.getTargetPath();
+								componentRelations.add(relationPath);
+							}
+							componentRelationsMap.put(component, componentRelations);
+						}
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
+		return componentRelationsMap;
 	}
 
 	/**
