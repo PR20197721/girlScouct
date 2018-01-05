@@ -299,6 +299,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 			List<String> rolloutLog, Set<String> notifyCouncils)
 			throws RepositoryException, WCMException {
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes, null, null);
+		Map<String, Set<String>> componentRelationsMap = getComponentRelations(srcRes, rolloutLog);
 		while (relationIterator.hasNext()) {
 			try {
 				LiveRelationship relation = (LiveRelationship) relationIterator.next();
@@ -317,8 +318,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 									"The page " + targetPath + " has Break Inheritance checked off. Will not roll out");
 						} else {
 							validateRolloutConfig(srcRes, targetResource);
-							Set<String> srcComponents = getComponents(srcRes);
-							if (isComponentsInheritanceBroken(srcComponents, targetPath, rolloutLog)) {
+							Set<String> srcComponents = componentRelationsMap.keySet();
+							if (isComponentsInheritanceBroken(srcComponents, componentRelationsMap, targetPath,
+									rolloutLog)) {
 								notifyCouncils.add(targetPath);
 							}
 							RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
@@ -422,14 +424,15 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		return null;
 	}
 
-	private boolean isComponentsInheritanceBroken(Set<String> components, String targetPath, List<String> rolloutLog) {
+	private boolean isComponentsInheritanceBroken(Set<String> components,
+			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> rolloutLog) {
 		boolean inheritanceBroken = false;
 		if (components != null && components.size() > 0) {
-			Set<String> brokenComponents = new HashSet<String>();
-			for (String component : components) {
-				if (isInheritanceBroken(targetPath, component, rolloutLog)) {
+			Set<String> removeComponents = new HashSet<String>();
+			for (String component : componentRelationsMap.keySet()) {
+				if (isInheritanceBroken(targetPath, componentRelationsMap, component, rolloutLog)) {
 					inheritanceBroken = true;
-					brokenComponents.add(component);
+					removeComponents.add(component);
 					log.error(
 							"Girlscouts Rollout Service: Council {} has broken inheritance with template component at {}. Removing from RolloutParams.",
 							targetPath, component);
@@ -437,20 +440,18 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 							+ " has broken inheritance with template component at " + component + ".");
 				}
 			}
-			components.removeAll(brokenComponents);
+			components.removeAll(removeComponents);
 		}
 		return inheritanceBroken;
 	}
 
-	private boolean isInheritanceBroken(String targetPath, String component, List<String> rolloutLog) {
+	private boolean isInheritanceBroken(String targetPath, Map<String, Set<String>> componentRelationsMap,
+			String component, List<String> rolloutLog) {
 		Resource componentRes = rr.resolve(component);
 		if (componentRes != null && !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			try {
-				RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes, null, null);
 				boolean relationShipExists = false;
-				while (relationIterator.hasNext()) {
-					LiveRelationship relation = (LiveRelationship) relationIterator.next();
-					String relationPath = relation.getTargetPath();
+				for (String relationPath : componentRelationsMap.get(component)) {
 					if (relationPath.startsWith(targetPath)) {
 						relationShipExists = true;
 						Resource targetComponentRes = rr.resolve(relationPath);
@@ -492,7 +493,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 							+ " does not have live sync relationship for " + component);
 					return true;
 				}
-			} catch (WCMException e1) {
+			} catch (Exception e1) {
 				log.error("Girlscouts Rollout Service encountered error: ", e1);
 			}
 		}
@@ -524,7 +525,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		}
 	}
 
-	private Map<String, Set<String>> getComponentRelations(Resource srcRes) {
+	private Map<String, Set<String>> getComponentRelations(Resource srcRes, List<String> rolloutLog) {
 		Map<String, Set<String>> componentRelationsMap = new HashMap<String, Set<String>>();
 		Set<String> srcComponents = getComponents(srcRes);
 		if (srcComponents != null && srcComponents.size() > 0) {
@@ -532,11 +533,10 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 				Resource componentRes = rr.resolve(component);
 				if (componentRes != null
 						&& !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-					System.err.println("*********Looking up relations for " + componentRes);
+					log.error("Girlscouts Rollout Service: Looking up relations for {}.", componentRes);
+					rolloutLog.add("Girlscouts Rollout Service: Looking up relations for " + componentRes + ".");
 					try {
 						final LiveRelationshipManager relationManager = rr.adaptTo(LiveRelationshipManager.class);
-						// System.err.println("relationManager
-						// "+relationManager);
 						RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes, null, null);
 						if (relationIterator.hasNext()) {
 							Set<String> componentRelations = new TreeSet<String>();
