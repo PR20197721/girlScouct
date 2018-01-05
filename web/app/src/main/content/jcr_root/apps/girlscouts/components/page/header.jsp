@@ -57,8 +57,6 @@
 	        			</div>
 	      			</div>
 	      			<div class="row hide srch-box collapse">
-	        			<% setCssClasses("small-22 columns hide srch-box", request); %>
-	          			<%-- <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" /> --%>
 	          			<cq:include script="/apps/girlscouts/components/search-box/mobile.jsp" />
 	        			<div class="small-2 columns">
 	          				<a class="right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="22" height="28" alt="right side menu hamburger icon"/></a>
