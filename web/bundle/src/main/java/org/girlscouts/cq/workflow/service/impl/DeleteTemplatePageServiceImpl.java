@@ -2,9 +2,11 @@ package org.girlscouts.cq.workflow.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -211,6 +213,7 @@ public class DeleteTemplatePageServiceImpl
 	private void selectLiveRelationshipsForDeletion(Set<String> councils, Resource srcRes, Set<String> pagesToDelete,
 			List<String> deletionLog, Set<String> notifyCouncils) throws RepositoryException, WCMException {
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes, null, null);
+		Map<String, Set<String>> componentRelationsMap = getComponentRelations(srcRes, deletionLog);
 		while (relationIterator.hasNext()) {
 			try {
 				LiveRelationship relation = (LiveRelationship) relationIterator.next();
@@ -224,8 +227,9 @@ public class DeleteTemplatePageServiceImpl
 							&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 						councils.remove(councilPath);
 						if (!isPageInheritanceBroken(targetResource, deletionLog)) {
-							Set<String> components = getComponents(srcRes);
-							if (!isComponentsInheritanceBroken(components, targetPath, deletionLog)) {
+							Set<String> srcComponents = componentRelationsMap.keySet();
+							if (!isComponentsInheritanceBroken(srcComponents, componentRelationsMap, targetPath,
+									deletionLog)) {
 								pagesToDelete.add(targetPath);
 								deletionLog.add("Page " + targetPath + " added to deletion queue");
 							} else {
@@ -270,14 +274,15 @@ public class DeleteTemplatePageServiceImpl
 	}
 
 
-	private boolean isComponentsInheritanceBroken(Set<String> components, String targetPath, List<String> deletionLog) {
+	private boolean isComponentsInheritanceBroken(Set<String> components,
+			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> deletionLog) {
 		boolean inheritanceBroken = false;
 		if (components != null && components.size() > 0) {
-			Set<String> brokenComponents = new HashSet<String>();
-			for (String component : components) {
-				if (isInheritanceBroken(targetPath, component, deletionLog)) {
+			Set<String> brokenInheritanceComponents = new HashSet<String>();
+			for (String component : componentRelationsMap.keySet()) {
+				if (isInheritanceBroken(targetPath, componentRelationsMap, component, deletionLog)) {
 					inheritanceBroken = true;
-					brokenComponents.add(component);
+					brokenInheritanceComponents.add(component);
 					log.error(
 							"Girlscouts Page Deletion Service: Council {} has broken inheritance with template component at {}. Removing from RolloutParams.",
 							targetPath, component);
@@ -285,20 +290,18 @@ public class DeleteTemplatePageServiceImpl
 							+ " has broken inheritance with template component at " + component + ".");
 				}
 			}
-			components.removeAll(brokenComponents);
+			components.removeAll(brokenInheritanceComponents);
 		}
 		return inheritanceBroken;
 	}
 
-	private boolean isInheritanceBroken(String targetPath, String component, List<String> rolloutLog) {
+	private boolean isInheritanceBroken(String targetPath, Map<String, Set<String>> componentRelationsMap,
+			String component, List<String> deletionLog) {
 		Resource componentRes = rr.resolve(component);
 		if (componentRes != null && !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			try {
-				RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes, null, null);
 				boolean relationShipExists = false;
-				while (relationIterator.hasNext()) {
-					LiveRelationship relation = (LiveRelationship) relationIterator.next();
-					String relationPath = relation.getTargetPath();
+				for (String relationPath : componentRelationsMap.get(component)) {
 					if (relationPath.startsWith(targetPath)) {
 						relationShipExists = true;
 						Resource targetComponentRes = rr.resolve(relationPath);
@@ -314,7 +317,7 @@ public class DeleteTemplatePageServiceImpl
 												log.error(
 														"Girlscouts Page Deletion Service: Component at {} has mixinType {}",
 														relationPath, mixinType.getName());
-												rolloutLog.add("Girlscouts Page Deletion Service: Component at "
+												deletionLog.add("Girlscouts Page Deletion Service: Component at "
 														+ relationPath + " has mixinType " + mixinType.getName());
 												return true;
 											}
@@ -326,7 +329,7 @@ public class DeleteTemplatePageServiceImpl
 							}
 						} else {
 							log.error("Girlscouts Page Deletion Service: Component at {} is not found.", relationPath);
-							rolloutLog
+							deletionLog
 									.add("Girlscouts Page Deletion Service: Component at " + relationPath
 											+ " is not found.");
 							return true;
@@ -337,11 +340,11 @@ public class DeleteTemplatePageServiceImpl
 					log.error(
 							"Girlscouts Page Deletion Service: Source Site Component {} does not have live sync relationship for {}.",
 							component, targetPath);
-					rolloutLog.add("Girlscouts Page Deletion Service: Council " + targetPath
+					deletionLog.add("Girlscouts Page Deletion Service: Council " + targetPath
 							+ " does not have live sync relationship for " + component);
 					return true;
 				}
-			} catch (WCMException e1) {
+			} catch (Exception e1) {
 				log.error("Girlscouts Page Deletion Service encountered error: ", e1);
 			}
 		}
@@ -371,6 +374,36 @@ public class DeleteTemplatePageServiceImpl
 				}
 			}
 		}
+	}
+
+	private Map<String, Set<String>> getComponentRelations(Resource srcRes, List<String> deletionLog) {
+		Map<String, Set<String>> componentRelationsMap = new HashMap<String, Set<String>>();
+		Set<String> srcComponents = getComponents(srcRes);
+		if (srcComponents != null && srcComponents.size() > 0) {
+			for (String component : srcComponents) {
+				Resource componentRes = rr.resolve(component);
+				if (componentRes != null
+						&& !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					log.error("Girlscouts Page Deletion Service: Looking up relations for {}.", componentRes);
+					deletionLog.add("Girlscouts Page Deletion Service: Looking up relations for " + componentRes + ".");
+					try {
+						final LiveRelationshipManager relationManager = rr.adaptTo(LiveRelationshipManager.class);
+						RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes, null, null);
+						if (relationIterator.hasNext()) {
+							Set<String> componentRelations = new TreeSet<String>();
+							while (relationIterator.hasNext()) {
+								LiveRelationship relation = (LiveRelationship) relationIterator.next();
+								String relationPath = relation.getTargetPath();
+								componentRelations.add(relationPath);
+							}
+							componentRelationsMap.put(component, componentRelations);
+						}
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
+		return componentRelationsMap;
 	}
 
 	private void sendGSUSANotifications(Node dateRolloutNode, List<String> rolloutLog,
