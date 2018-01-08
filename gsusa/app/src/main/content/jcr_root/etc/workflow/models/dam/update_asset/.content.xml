@@ -2,14 +2,16 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2016-11-14T13:22:22.881-05:00"
+        cq:lastModified="{Date}2018-01-04T17:46:34.363-05:00"
         cq:lastModifiedBy="admin"
-        cq:tags="[workflow:dam]"
+        cq:tags="[workflow:dam,workflow:wcm]"
         cq:template="/libs/cq/workflow/templates/model"
+        cq:workflowDetailsPage="/mnt/overlay/dam/gui/content/s7dam/jobmonitoring/encodingjobdetails.html${item}?item=${payload}"
         jcr:description="This workflow manages the update of assets"
         jcr:primaryType="cq:PageContent"
         jcr:title="DAM Update Asset"
-        sling:resourceType="cq/workflow/components/pages/model">
+        sling:resourceType="cq/workflow/components/pages/model"
+        transient="true">
         <flow
             jcr:primaryType="nt:unstructured"
             sling:resourceType="foundation/components/parsys">
@@ -22,13 +24,13 @@
                     jcr:primaryType="nt:unstructured"
                     PROCESS="com.day.cq.dam.core.process.GateKeeperProcess"
                     PROCESS_ARGS=""
-                    PROCESS_AUTO_ADVANCE="false"/>
+                    PROCESS_AUTO_ADVANCE="true"/>
             </process>
             <metadataprocessorpro
-                jcr:created="{Date}2016-03-15T16:41:56.250-04:00"
+                jcr:created="{Date}2014-07-08T18:32:21.880+05:30"
                 jcr:createdBy="admin"
                 jcr:description="A process to extract and import metadata, create references and apply processing profile, if the payload of the step is an asset or part of an asset."
-                jcr:lastModified="{Date}2016-03-15T16:41:56.250-04:00"
+                jcr:lastModified="{Date}2014-07-08T18:32:21.880+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Metadata Processor"
@@ -38,99 +40,6 @@
                     PROCESS="com.day.cq.dam.core.process.MetadataProcessorProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </metadataprocessorpro>
-            <imageinfos7damopproc
-                jcr:created="{Date}2016-03-15T16:42:24.237-04:00"
-                jcr:createdBy="admin"
-                jcr:description="Dynamic Media On-Premise process to extract Image Info"
-                jcr:lastModified="{Date}2016-03-15T16:42:24.237-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Dynamic Media On-Premise extract image info"
-                sling:resourceType="dam/components/s7dam/imageinfos7damopprocess">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.s7dam.onprem.process.S7damExtractImageInfoProcess"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </imageinfos7damopproc>
-            <csss7damopprocess
-                jcr:created="{Date}2016-03-15T16:42:33.226-04:00"
-                jcr:createdBy="admin"
-                jcr:description="Dynamic Media On-Premise process to write out CSS assets to s7dam nfs mount for use with Scene7 Image Server."
-                jcr:lastModified="{Date}2016-03-15T16:42:33.226-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Dynamic Media On-Premise Process CSS"
-                sling:resourceType="dam/components/s7dam/csss7damopprocess">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.s7dam.onprem.process.S7damCssProcess"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </csss7damopprocess>
-            <process_1205006279
-                jcr:created="{Date}2016-03-15T16:42:57.249-04:00"
-                jcr:createdBy="admin"
-                jcr:description="Generates the optimized cqdam.pyramid.tiff rendition for Dynamic Imaging if Dynamic Media is enabled."
-                jcr:lastModified="{Date}2016-03-15T16:43:18.883-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Create PTIFF Rendition (Dynamic Media)"
-                sling:resourceType="cq/workflow/components/model/process">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.adobe.cq.dam.s7imaging.impl.is.CreatePTIFFProcess"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </process_1205006279>
-            <process_587383605
-                jcr:created="{Date}2016-03-15T16:43:30.748-04:00"
-                jcr:createdBy="admin"
-                jcr:description="Extracts video poster frame"
-                jcr:lastModified="{Date}2016-03-15T16:43:55.122-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="FFmpeg thumbnails"
-                sling:resourceType="cq/workflow/components/model/process">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.video.FFMpegThumbnailProcess"
-                    PROCESS_ARGS="count:4,index:2,[140:100],[48:48],[319:319]"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </process_587383605>
-            <process0
-                jcr:description="Extracts XMP, DC, etc. for all.formats"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Metadata extraction"
-                sling:resourceType="cq/workflow/components/model/process">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.core.process.ExtractMetadataProcess"
-                    PROCESS_ARGS=""
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </process0>
-            <process_6
-                jcr:created="{Date}2015-05-20T14:22:33.823-04:00"
-                jcr:createdBy="admin"
-                jcr:description="We try to set video mime type here to fix the bug in cq5.6"
-                jcr:lastModified="{Date}2015-05-20T16:08:44.631-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="NPS Video mime type fix"
-                sling:resourceType="cq/workflow/components/model/process">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="/etc/workflow/scripts/gsusa/set-video-mimetype.ecma"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </process_6>
-            <process1
-                jcr:description="Image &amp; document thumbnails"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Thumbnail creation"
-                sling:resourceType="cq/workflow/components/model/process">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.core.process.CreateThumbnailProcess"
-                    PROCESS_ARGS="\[140:100],[48:48],[319:319]"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </process1>
             <process2
                 jcr:description="Extracts video poster frame"
                 jcr:primaryType="nt:unstructured"
@@ -142,36 +51,69 @@
                     PROCESS_ARGS="count:4,index:2,[140:100],[48:48],[319:319]"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process2>
+            <commandlineprocess
+                jcr:created="{Date}2013-10-16T14:43:22.402Z"
+                jcr:createdBy="admin"
+                jcr:description="Generate thumbnails for eps files using image magick"
+                jcr:lastModified="{Date}2013-10-16T14:44:52.938Z"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="EPS thumbnails (powered by ImageMagick)"
+                sling:resourceType="dam/components/workflow/commandlineprocess"
+                PROCESS="com.day.cq.dam.core.process.CommandLineProcess"
+                PROCESS_AUTO_ADVANCE="true">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    COMMANDS="convert -define jpeg:size=319x319 ${filename} -thumbnail 319x319 cq5dam.thumbnail.319.319.png"
+                    MIME_TYPES="[image/eps,image/x-eps,application/postscript,application/eps,application/x-eps]"
+                    PROCESS="com.day.cq.dam.core.process.CommandLineProcess"
+                    PROCESS_AUTO_ADVANCE="true"
+                    THUMBNAILS="[48:48,140:100,319:319]"/>
+            </commandlineprocess>
+            <process_129754515
+                jcr:created="{Date}2018-01-04T17:45:45.645-05:00"
+                jcr:createdBy="admin"
+                jcr:description="Image &amp; document thumbnails"
+                jcr:lastModified="{Date}2018-01-04T17:46:34.335-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Thumbnail creation"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="com.day.cq.dam.core.process.CreateThumbnailProcess"
+                    PROCESS_ARGS="\[140:100],[48:48],[319:319]"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process_129754515>
+            <process_167102041
+                jcr:created="{Date}2018-01-04T17:41:49.328-05:00"
+                jcr:createdBy="admin"
+                jcr:description="We try to set video mime type here to fix the bug in cq5.6"
+                jcr:lastModified="{Date}2018-01-04T17:44:56.949-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="NPS Video mime type fix"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="/etc/workflow/scripts/gsusa/set-video-mimetype.ecma"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process_167102041>
             <process3
                 jcr:description="Create web enabled video formats"
-                jcr:lastModified="{Date}2015-05-20T11:05:21.625-04:00"
-                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="FFmpeg transcoding"
                 sling:resourceType="cq/workflow/components/model/process">
                 <metaData
                     jcr:primaryType="nt:unstructured"
                     PROCESS="com.day.cq.dam.video.FFMpegTranscodeProcess"
-                    PROCESS_ARGS="profile:firefoxhq,profile:hq,profile:flv"
+                    PROCESS_ARGS="profile:firefoxhq,profile:hq,profile:flv,profile:iehq"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process3>
-            <process4
-                jcr:description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-                jcr:lastModified="{Date}2015-07-22T22:02:50.208-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Web enabled rendition 1280x1280"
-                sling:resourceType="cq/workflow/components/model/process">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                    PROCESS_ARGS="dimension:1280:1280,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </process4>
-            <or
-                jcr:created="{Date}2015-07-20T19:20:30.742-04:00"
+            <or_1373816584
+                jcr:created="{Date}2018-01-03T16:18:30.354-05:00"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2015-07-20T19:21:02.951-04:00"
+                jcr:lastModified="{Date}2018-01-03T16:18:30.354-05:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="cq/workflow/components/model/or"
@@ -182,160 +124,220 @@
                 <_x0031_
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="cq/flow/components/parsys">
-                    <process_1
-                        jcr:created="{Date}2015-07-20T20:49:37.440-04:00"
+                    <createwebenabledimag
+                        jcr:created="{Date}2018-01-03T16:01:11.989-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="Creates the &quot;top@2x&quot; retina rendition."
-                        jcr:lastModified="{Date}2015-07-24T18:29:52.128-04:00"
+                        jcr:description="Creates the &quot;top@2x&quot; retina rendition.&#xa;A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:03:20.682-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Top Retina Rendition"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="1920"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:1920:1920,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_1>
-                    <process_0
-                        jcr:created="{Date}2015-07-20T19:44:07.689-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="88"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="1920"/>
+                    </createwebenabledimag>
+                    <createwebenabledimag_352090718
+                        jcr:created="{Date}2018-01-03T16:01:49.497-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="Creates the Web &quot;top&quot; rendition."
-                        jcr:lastModified="{Date}2015-07-24T18:30:02.309-04:00"
+                        jcr:description="Creates the Web &quot;top&quot; rendition.&#xa;A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:04:17.357-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Top Rendition"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="960"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:960:960,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_0>
-                    <process_5
-                        jcr:created="{Date}2015-07-20T20:53:02.027-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="88"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="960"/>
+                    </createwebenabledimag_352090718>
+                    <createwebenabledimag_1174423628
+                        jcr:created="{Date}2018-01-03T16:01:52.220-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="Creates the &quot;right&quot; rendition."
-                        jcr:lastModified="{Date}2015-07-22T22:00:47.184-04:00"
+                        jcr:description="Creates the &quot;right&quot; rendition.&#xa;A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:05:01.978-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Right Rendition"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="920"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:230:920,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_5>
-                    <process_8
-                        jcr:created="{Date}2015-07-20T20:53:07.363-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="88"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="230"/>
+                    </createwebenabledimag_1174423628>
+                    <createwebenabledimag_1997594892
+                        jcr:created="{Date}2018-01-03T16:01:54.745-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="Creates the &quot;right@2x&quot; retina rendition."
-                        jcr:lastModified="{Date}2015-07-22T22:00:57.265-04:00"
+                        jcr:description="Creates the &quot;right@2x&quot; retina rendition.&#xa;A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:07:17.474-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Right Retina Rendition"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="1840"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:460:1840,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_8>
-                    <process_7
-                        jcr:created="{Date}2015-07-20T20:53:05.660-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="88"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="460"/>
+                    </createwebenabledimag_1997594892>
+                    <createwebenabledimag_2122970261
+                        jcr:created="{Date}2018-01-03T16:01:57.211-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="Creates the &quot;middle&quot; rendition."
-                        jcr:lastModified="{Date}2015-07-22T22:01:06.969-04:00"
+                        jcr:description="Creates the &quot;middle&quot; rendition.&#xa;A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:07:59.714-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Middle Rendition"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="510"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:510:510,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_7>
-                    <process_6
-                        jcr:created="{Date}2015-07-20T20:53:04.166-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="88"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="510"/>
+                    </createwebenabledimag_2122970261>
+                    <createwebenabledimag_1744887088
+                        jcr:created="{Date}2018-01-03T16:02:00.296-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="Creates the &quot;middle@2x&quot; retina rendition."
-                        jcr:lastModified="{Date}2015-07-22T22:01:18.909-04:00"
+                        jcr:description="Creates the &quot;middle@2x&quot; retina rendition.&#xa;A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:08:42.414-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Middle Retina Rendition"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="1020"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:1020:1020,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_6>
-                    <process_9
-                        jcr:created="{Date}2015-07-20T20:53:28.730-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="88"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="1020"/>
+                    </createwebenabledimag_1744887088>
+                    <createwebenabledimag_1228549697
+                        jcr:created="{Date}2018-01-03T16:02:02.226-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="Creates the &quot;left&quot; rendition."
-                        jcr:lastModified="{Date}2015-07-22T22:01:28.222-04:00"
+                        jcr:description="Creates the &quot;left&quot; rendition.&#xa;A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:09:30.070-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Left Rendition"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="760"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:190:760,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_9>
-                    <process_3
-                        jcr:created="{Date}2015-07-20T20:53:26.572-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="88"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="190"/>
+                    </createwebenabledimag_1228549697>
+                    <createwebenabledimag_1382150511
+                        jcr:created="{Date}2018-01-03T16:02:04.799-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="Creates the &quot;left@2x&quot; retina rendition."
-                        jcr:lastModified="{Date}2015-07-22T22:01:47.816-04:00"
+                        jcr:description="Creates the &quot;left@2x&quot; retina rendition.&#xa;A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:10:09.507-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Left Retina Rendition"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="1520"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:380:1520,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_3>
-                    <process_4
-                        jcr:created="{Date}2015-07-20T20:52:59.708-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="88"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="380"/>
+                    </createwebenabledimag_1382150511>
+                    <createwebenabledimag_1451054906
+                        jcr:created="{Date}2018-01-03T16:02:13.777-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="Creates the &quot;web&quot; rendition."
-                        jcr:lastModified="{Date}2015-07-22T22:01:57.169-04:00"
+                        jcr:description="Creates the &quot;web&quot; rendition.&#xa;A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:10:51.073-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Hero Rendition"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="375"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:750:375,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_4>
-                    <process_2
-                        jcr:created="{Date}2015-07-20T20:52:48.770-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="88"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="750"/>
+                    </createwebenabledimag_1451054906>
+                    <createwebenabledimag_716992199
+                        jcr:created="{Date}2018-01-03T16:02:16.232-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="Creates the &quot;hero@2x&quot; retina rendition."
-                        jcr:lastModified="{Date}2015-07-22T22:02:07.582-04:00"
+                        jcr:description="Creates the &quot;hero@2x&quot; retina rendition.&#xa;A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:11:42.289-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Hero Retina Rendition"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="750"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:1500:750,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_2>
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="88"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="1500"/>
+                    </createwebenabledimag_716992199>
                     <process
-                        jcr:created="{Date}2015-07-20T19:38:43.372-04:00"
+                        jcr:created="{Date}2018-01-03T16:34:06.841-05:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2016-11-14T11:28:07.326-05:00"
+                        jcr:lastModified="{Date}2018-01-03T16:35:30.603-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Rendition Renaming"
@@ -350,130 +352,178 @@
                 <_x0032_
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="cq/flow/components/parsys">
-                    <process
-                        jcr:created="{Date}2014-06-06T12:12:39.884-04:00"
+                    <createwebenabledimag
+                        jcr:created="{Date}2018-01-03T16:12:53.149-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-                        jcr:lastModified="{Date}2015-07-22T21:59:34.573-04:00"
+                        jcr:description="A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:13:41.006-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web enabled rendition 520x520"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="520"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:520:520,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process>
-                    <process_3
-                        jcr:created="{Date}2016-03-15T15:23:47.924-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="90"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="520"/>
+                    </createwebenabledimag>
+                    <createwebenabledimag_2003639497
+                        jcr:created="{Date}2018-01-03T16:13:52.881-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-                        jcr:lastModified="{Date}2016-03-15T15:24:18.574-04:00"
+                        jcr:description="A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:14:21.996-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web enabled retina rendition 520x520"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="1040"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:1040:1040,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_3>
-                    <process_0
-                        jcr:created="{Date}2014-06-06T12:12:52.994-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="90"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="1040"/>
+                    </createwebenabledimag_2003639497>
+                    <createwebenabledimag_734563116
+                        jcr:created="{Date}2018-01-03T16:14:33.444-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-                        jcr:lastModified="{Date}2015-07-22T21:59:45.751-04:00"
+                        jcr:description="A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:14:52.152-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web enabled rendition 400x400"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="400"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:400:400,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_0>
-                    <process_4
-                        jcr:created="{Date}2016-03-15T15:24:24.226-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="90"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="400"/>
+                    </createwebenabledimag_734563116>
+                    <createwebenabledimag_532258698
+                        jcr:created="{Date}2018-01-03T16:15:02.604-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-                        jcr:lastModified="{Date}2016-03-15T15:24:55.372-04:00"
+                        jcr:description="A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:15:21.943-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web enabled retina rendition 400x400"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="800"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:800:800,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_4>
-                    <process_1
-                        jcr:created="{Date}2014-06-06T12:13:01.834-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="90"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="800"/>
+                    </createwebenabledimag_532258698>
+                    <createwebenabledimag_697002807
+                        jcr:created="{Date}2018-01-03T16:15:36.556-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-                        jcr:lastModified="{Date}2015-07-22T21:59:56.534-04:00"
+                        jcr:description="A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:15:56.235-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web enabled rendition 240x240"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="240"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:240:240,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_1>
-                    <process_5
-                        jcr:created="{Date}2016-03-15T15:25:12.690-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="90"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="240"/>
+                    </createwebenabledimag_697002807>
+                    <createwebenabledimag_1526135751
+                        jcr:created="{Date}2018-01-03T16:16:04.956-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-                        jcr:lastModified="{Date}2016-03-15T15:25:32.254-04:00"
+                        jcr:description="A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:16:21.834-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web enabled retina rendition 240x240"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="480"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:480:480,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_5>
-                    <process_2
-                        jcr:created="{Date}2014-06-06T12:17:32.189-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="90"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="480"/>
+                    </createwebenabledimag_1526135751>
+                    <createwebenabledimag_83826430
+                        jcr:created="{Date}2018-01-03T16:16:25.542-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-                        jcr:lastModified="{Date}2015-07-22T22:00:12.399-04:00"
+                        jcr:description="A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:16:55.066-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web enabled rendition 120x80"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="80"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:120:80,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_2>
-                    <process_6
-                        jcr:created="{Date}2016-03-15T15:25:35.524-04:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="90"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="120"/>
+                    </createwebenabledimag_83826430>
+                    <createwebenabledimag_977741707
+                        jcr:created="{Date}2018-01-03T16:16:57.462-05:00"
                         jcr:createdBy="admin"
-                        jcr:description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-                        jcr:lastModified="{Date}2016-03-15T15:25:50.338-04:00"
+                        jcr:description="A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                        jcr:lastModified="{Date}2018-01-03T16:17:21.791-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web enabled retina rendition 120x80"
-                        sling:resourceType="cq/workflow/components/model/process">
+                        sling:resourceType="dam/components/workflow/createwebenabledimage"
+                        PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
+                            HEIGHT="160"
+                            MIME_TYPE="image/jpeg"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:240:160,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_6>
-                    <process_1929871098
-                        jcr:created="{Date}2016-11-14T13:22:09.655-05:00"
+                            PROCESS_AUTO_ADVANCE="true"
+                            QUALITY="90"
+                            SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                            WIDTH="240"/>
+                    </createwebenabledimag_977741707>
+                    <process
+                        jcr:created="{Date}2018-01-03T16:35:06.230-05:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2016-11-14T13:22:22.854-05:00"
+                        jcr:lastModified="{Date}2018-01-03T16:36:19.844-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Rendition Renaming"
@@ -483,19 +533,24 @@
                             PROCESS="org.girlscouts.web.gsusa.workflow.NPDRendtionRenameProcess"
                             PROCESS_ARGS="original:original"
                             PROCESS_AUTO_ADVANCE="true"/>
-                    </process_1929871098>
+                    </process>
                 </_x0032_>
-            </or>
-            <process5
-                jcr:description="InDesign Media Extraction"
-                jcr:lastModified="{Date}2011-09-30T17:59:34.788+08:00"
+            </or_1373816584>
+            <inddmediaextractproc
+                jcr:created="{Date}2013-12-11T17:28:35.496+05:30"
+                jcr:createdBy="admin"
+                jcr:description="Indesign Media Extraction"
+                jcr:lastModified="{Date}2014-09-02T16:21:06.847+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Media Extraction"
                 sling:resourceType="dam/components/workflow/inddmediaextractprocess"
+                advanceOnTimeout="true"
                 EXTERNAL_PROCESS="com.day.cq.dam.indd.process.INDDMediaExtractProcess"
+                period="10"
                 PROCESS_ARGS="test"
-                PROCESS_AUTO_ADVANCE="true">
+                PROCESS_AUTO_ADVANCE="true"
+                timeout="3600">
                 <metaData
                     jcr:primaryType="nt:unstructured"
                     advanceOnTimeout="true"
@@ -503,25 +558,11 @@
                     libPath="/etc/dam/indesign/scripts/cq-lib.jsx"
                     linkPath="/Links"
                     period="10"
+                    PROCESS_ARGS="test"
                     PROCESS_AUTO_ADVANCE="true"
-                    scriptPaths="[/etc/dam/indesign/scripts/ThumbnailExport.jsx,/etc/dam/indesign/scripts/XHTMLExport.jsx,/etc/dam/indesign/scripts/IDMLExport.jsx]"
+                    scriptPaths="[/etc/dam/indesign/scripts/ThumbnailExport.jsx,/etc/dam/indesign/scripts/XHTMLExport.jsx,/etc/dam/indesign/scripts/IDMLExport.jsx,/etc/dam/indesign/scripts/JPEGPagesExport.jsx,/etc/dam/indesign/scripts/XMLExport.jsx,/etc/dam/indesign/scripts/PDFExport.jsx]"
                     timeout="3600"/>
-            </process5>
-            <process_0
-                jcr:created="{Date}2011-09-30T15:44:14.978+08:00"
-                jcr:createdBy="admin"
-                jcr:description="This step will check for the thumbnail existence. It will create new thumbnails from thumbnail.jpg rendition"
-                jcr:lastModified="{Date}2011-09-30T17:16:44.986+08:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="INDD Verify Thumbnail"
-                sling:resourceType="cq/workflow/components/model/process">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.indd.process.INDDCreateThumbnailProcess"
-                    PROCESS_ARGS="\[140:100],[48:48],[319:319]"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </process_0>
+            </inddmediaextractproc>
             <process6
                 jcr:description="InDesign Page Extraction"
                 jcr:primaryType="nt:unstructured"
@@ -530,63 +571,95 @@
                 <metaData
                     jcr:primaryType="nt:unstructured"
                     extractionHandler="com.day.cq.dam.indd.impl.idml.IDMLExtractionHandler"
-                    pageDesign="/etc/designs/geometrixx"
-                    pageTemplate="/apps/geometrixx/templates/contentpage"
+                    pageDesign=""
+                    pageTemplate=""
                     pageTitle="IDML Extraction"
                     PROCESS="com.day.cq.dam.indd.process.INDDPageExtractProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process6>
-            <videoproxyprocess_831204867
-                jcr:created="{Date}2016-08-26T11:30:29.754-04:00"
+            <createpdfpreviewproc
+                jcr:created="{Date}2015-09-30T08:01:38.950-07:00"
                 jcr:createdBy="admin"
-                jcr:description="Uploads and processes videos through the Adobe Dynamic Media Video Service."
-                jcr:lastModified="{Date}2016-08-26T11:30:29.754-04:00"
+                jcr:description="Rasterize PDF and Adobe Illustrator documents to a preview image rendition"
+                jcr:lastModified="{Date}2015-09-30T08:28:18.537-07:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Dynamic Media Video Service Process"
-                sling:resourceType="dam/components/s7dam/videoproxyprocess">
+                jcr:title="Rasterize PDF/AI Image Preview Rendition"
+                sling:resourceType="dam/components/workflow/createpdfpreviewprocess"
+                PROCESS="com.day.cq.dam.core.process.CreatePdfPreviewProcess"
+                PROCESS_AUTO_ADVANCE="true">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    advanceOnTimeout="true"
-                    EXTERNAL_PROCESS="com.day.cq.dam.s7dam.common.process.VideoProxyServiceProcess"
-                    period="30"
-                    PROCESS_ARGS="test"
+                    MAX_HEIGHT="2048"
+                    MAX_WIDTH="2048"
+                    MIME_TYPES="[application/pdf,application/postscript,application/illustrator]"
+                    PROCESS="com.day.cq.dam.core.process.CreatePdfPreviewProcess"
                     PROCESS_AUTO_ADVANCE="true"
-                    timeout="3600"/>
-            </videoproxyprocess_831204867>
+                    RESOLUTION="72"/>
+            </createpdfpreviewproc>
+            <dmimageprocess
+                jcr:created="{Date}2015-09-28T17:50:46.962-07:00"
+                jcr:createdBy="admin"
+                jcr:description="Processes assets for use with Dynamic Media Image Services"
+                jcr:lastModified="{Date}2015-09-28T17:50:46.962-07:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Dynamic Media Process Image Assets"
+                sling:resourceType="dam/components/s7imaging/dmimageprocess">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    CONFIGS="[140:100:false,48:48:false,319:319:false]"
+                    HEIGHT="1280"
+                    MIME_TYPE="image/jpeg"
+                    PROCESS="com.adobe.cq.dam.dm.process.workflow.DMImageProcess"
+                    PROCESS_AUTO_ADVANCE="true"
+                    QUALITY="90"
+                    WIDTH="1280"/>
+            </dmimageprocess>
             <thumbnailprocess
-                jcr:created="{Date}2016-03-15T17:17:03.177-04:00"
+                jcr:created="{Date}2014-07-15T00:55:55.869+05:30"
                 jcr:createdBy="admin"
                 jcr:description="This process will create one or more thumbnails for the asset, create web enabled rendition and update folder thumbnail."
-                jcr:lastModified="{Date}2016-03-15T17:17:03.177-04:00"
+                jcr:lastModified="{Date}2016-08-04T20:18:39.069+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Process Thumbnails"
-                sling:resourceType="dam/components/workflow/thumbnailprocess">
+                sling:resourceType="dam/components/workflow/thumbnailprocess"
+                PROCESS="com.day.cq.dam.core.process.ThumbnailProcess"
+                PROCESS_AUTO_ADVANCE="true">
                 <metaData
                     jcr:primaryType="nt:unstructured"
+                    CONFIGS="[140:100:false,48:48:false,319:319:false]"
+                    CREATE_FPO_MIMETYPES="[image/pjpeg,image/jpeg,image/jpg,image/gif,image/x-png,image/tiff,image/png,application/x-photoshop,application/photoshop,image/vnd.adobe.photoshop,application/vnd.adobe.photoshop,image/bmp,image/x-tiff]"
+                    FPO_QUALITY="10"
+                    HEIGHT="1280"
+                    MIME_TYPE="image/jpeg"
+                    MIMETYPE="image/jpeg"
                     PROCESS="com.day.cq.dam.core.process.ThumbnailProcess"
-                    PROCESS_AUTO_ADVANCE="true"/>
+                    PROCESS_AUTO_ADVANCE="true"
+                    QUALITY="90"
+                    SKIP="[audio/mpeg,video/(.*)]"
+                    WIDTH="1280"/>
             </thumbnailprocess>
-            <applyimageprofilepro
-                jcr:created="{Date}2016-03-15T17:17:17.164-04:00"
+            <deleteimagepreviewpr
+                jcr:created="{Date}2015-09-22T08:51:54.114-07:00"
                 jcr:createdBy="admin"
-                jcr:description="Dynamic Media On-Premise apply image profile"
-                jcr:lastModified="{Date}2016-03-15T17:17:17.164-04:00"
+                jcr:description="Process to delete the image preview rendition"
+                jcr:lastModified="{Date}2015-09-22T08:51:54.114-07:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Dynamic Media On-Premise Apply Image Profile"
-                sling:resourceType="dam/components/workflow/applyimageprofileprocess">
+                jcr:title="Delete Image Preview Rendition"
+                sling:resourceType="dam/components/workflow/deleteimagepreviewprocess">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.s7dam.onprem.process.ApplyImageProfileProcess"
+                    PROCESS="com.day.cq.dam.core.process.DeleteImagePreviewProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
-            </applyimageprofilepro>
-            <productassetuploadpr
-                jcr:created="{Date}2016-03-15T17:17:26.980-04:00"
+            </deleteimagepreviewpr>
+            <productassetuploadprocess
+                jcr:created="{Date}2014-03-13T16:50:00.000Z"
                 jcr:createdBy="admin"
                 jcr:description="This process will extract and upload the product assets"
-                jcr:lastModified="{Date}2016-03-15T17:17:26.980-04:00"
+                jcr:lastModified="{Date}2014-03-13T16:50:00.000Z"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Product Asset Upload"
@@ -595,22 +668,54 @@
                     jcr:primaryType="nt:unstructured"
                     PROCESS="com.day.cq.dam.pim.impl.sourcing.upload.process.ProductAssetsUploadProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
-            </productassetuploadpr>
-            <process_1
-                jcr:description="Apply metadata template to uploaded assets"
+            </productassetuploadprocess>
+            <damupdateassetworkflowcompletedprocess
+                jcr:description="This process will send DamEvent.Type.DAM_UPDATE_ASSET_WORKFLOW_COMPLETED event when DAM update asset workflow is completed"
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Apply Metadata Template"
-                sling:resourceType="cq/workflow/components/model/process">
+                jcr:title="DAM Update Asset Workflow Completed"
+                sling:resourceType="dam/components/workflow/damupdateassetworkflowcompletedprocess">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.core.process.ApplyMetadataTemplateProcess"
+                    PROCESS="com.day.cq.dam.core.impl.process.DamUpdateAssetWorkflowCompletedProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
-            </process_1>
-            <process_2
-                jcr:created="{Date}2015-09-14T15:13:23.610-04:00"
+            </damupdateassetworkflowcompletedprocess>
+            <sendtransientworkflowcompletedemailprocess
+                jcr:description="This process will send email based on an email template to current user when a transient workflow is completed"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Send Transient Workflow Completed Email"
+                sling:resourceType="dam/components/workflow/sendtransientworkflowcompletedemailprocess">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="com.day.cq.dam.core.impl.process.SendTransientWorkflowCompletedEmailProcess"
+                    PROCESS_AUTO_ADVANCE="true"
+                    templatePath="/etc/dam/workflow/notification/email/transientworkflowcompleted/en.txt"/>
+            </sendtransientworkflowcompletedemailprocess>
+            <createwebenabledimag
+                jcr:created="{Date}2018-01-03T15:57:08.120-05:00"
+                jcr:createdBy="admin"
+                jcr:description="A process to create a web enabled representation from an asset. Provides various configuration arguments."
+                jcr:lastModified="{Date}2018-01-03T16:00:28.577-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Web enabled rendition 1280x1280"
+                sling:resourceType="dam/components/workflow/createwebenabledimage"
+                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                PROCESS_AUTO_ADVANCE="true">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    HEIGHT="1280"
+                    MIME_TYPE="image/jpeg"
+                    PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                    PROCESS_AUTO_ADVANCE="true"
+                    QUALITY="90"
+                    SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                    WIDTH="1280"/>
+            </createwebenabledimag>
+            <process_1971748466
+                jcr:created="{Date}2018-01-03T16:28:34.169-05:00"
                 jcr:createdBy="admin"
                 jcr:description="remove jcr:title and dc:title ending with &quot;.docx&quot; for pdf files."
-                jcr:lastModified="{Date}2015-09-14T15:15:17.140-04:00"
+                jcr:lastModified="{Date}2018-01-03T16:33:51.528-05:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="metadata title update"
@@ -619,7 +724,7 @@
                     jcr:primaryType="nt:unstructured"
                     PROCESS="/etc/workflow/scripts/girlscouts/remove-docx-title.ecma"
                     PROCESS_AUTO_ADVANCE="true"/>
-            </process_2>
+            </process_1971748466>
         </flow>
         <model/>
     </jcr:content>
