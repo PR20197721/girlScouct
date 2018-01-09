@@ -158,6 +158,7 @@ function fixSlickSlideActive() {
 
     var isIE11 = false,
         isNewerThanIE9 = true,
+        MEDIUM_ONLY = 768,
         homepageScrollTopPos,
         lastAfterSlick = null,
         carouselSliderPropogate = true,
@@ -171,7 +172,7 @@ function fixSlickSlideActive() {
     }
 
     function isMobile() { //https://stackoverflow.com/questions/19291873/window-width-not-the-same-as-media-query
-        return Modernizr.mq('(max-width: 768px)');
+        return Modernizr.mq('(max-width: ' + MEDIUM_ONLY + 'px)');
     }
 
     // YouTube API loaded
@@ -397,7 +398,7 @@ function fixSlickSlideActive() {
         slidesToShow: 3,
         slidesToScroll: 1,
         responsive: [{
-            breakpoint: 768,
+            breakpoint: MEDIUM_ONLY,
             settings: {
                 slidesToShow: 1
             }
@@ -441,7 +442,7 @@ function fixSlickSlideActive() {
                     try {
                         gsusa.functions.ToggleParsysAll.toggleAll(true);
                     } catch (ignore) {}
-                    if ($(window).width() <= 768) {
+                    if (isMobile()) {
                         /*
                         $(".off-canvas-wrap").css({
                             'position': 'fixed'
@@ -470,7 +471,7 @@ function fixSlickSlideActive() {
                 });
                 //closing the section by clicking on the cross
                 target.find('.icon-cross').on("click", function (e) {
-                    if ($(window).width() <= 768) {
+                    if (isMobile()) {
                         window.scrollTo(0, homepageScrollTopPos); // go back to previous window Y position
                     }
                     target.removeClass("shown");
@@ -669,7 +670,7 @@ function fixSlickSlideActive() {
     }
 
     function small_screens() {
-        if ($(window).width() < 769) {
+        if (isMobile()) {
             $('.overlay').hide();
             $(".hero-text .button").hide();
         } else {
@@ -756,7 +757,7 @@ function fixSlickSlideActive() {
             autoplaySpeed: (typeof shoptimedelay != 'undefined') ? shoptimedelay : 2000,
             slidesToScroll: 1
                 /*responsive: [{
-                    breakpoint: 768,
+                    breakpoint: MEDIUM_ONLY,
                     settings: {
                         slidesToShow: 1
                     }
@@ -779,7 +780,7 @@ function fixSlickSlideActive() {
             slidesToScroll: 1,
             fade: true
                 /*responsive: [{
-                    breakpoint: 768,
+                    breakpoint: MEDIUM_ONLY,
                     settings: {
                         slidesToShow: 1
                     }
@@ -928,13 +929,13 @@ function fixSlickSlideActive() {
     };
 
     Underbar.prototype.show = function () {
-        if (this.el.length && $(window).width() > 768) { // Desktop only
+        if (this.el.length && !isMobile()) { // Desktop only
             this.el.slideDown(1000);
         }
     };
 
     Underbar.prototype.hide = function () {
-        if (this.el.length && $(window).width() > 768) {
+        if (this.el.length && !isMobile()) {
             this.el.slideUp(0);
         }
     };
@@ -989,7 +990,7 @@ function fixSlickSlideActive() {
         small_screens();
     });
     $(window).resize(function (event) {
-        //if($(window).width() > 768) {
+        //if(!isMobile()) {
         //  iframeClick();
         //} else {
         $("iframe").off("mouseenter mouseleave");
@@ -1044,8 +1045,7 @@ function fixSlickSlideActive() {
             fixedClass = "sticky-nav-fixed",
             offset = 0,
             desktopStickyOffset = 0,
-            MEDIUM_ONLY = 768,
-            mobile = $(window).width() <= MEDIUM_ONLY;
+            mobile = isMobile();
 
         function setOffset() {
             // Set placeholders
@@ -1089,7 +1089,7 @@ function fixSlickSlideActive() {
 
             // Reset offset on resize
             $(window).on("resize", function () {
-                if ($(window).width() > MEDIUM_ONLY === mobile) { // Trigger once when the breakpoint is passed
+                if (!isMobile() === mobile) { // Trigger once when the breakpoint is passed
                     mobile = !mobile;
                     //console.log("Mobile is: " + mobile);
                     switchHeader();
