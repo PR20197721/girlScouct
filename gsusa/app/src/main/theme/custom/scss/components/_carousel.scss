@@ -51,6 +51,7 @@ $slick-next-character: "\f138";
         width: 100%;
         height: 100%;
         z-index: 100;
+        overflow: hidden;
         p {
             position: absolute;
             margin: 10px;
@@ -65,38 +66,59 @@ $slick-next-character: "\f138";
         }
         img {
             position: absolute;
-            top: 0;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
-            height: 100%;
+            transform: translate(-50%, -50%);
+            width: 100%;
             z-index: 1;
         }
-        &:hover, 
+        &:hover,
         &:focus {
             color: #00AE58;
             p {
                 background: rgba(255, 255, 255, 1);
             }
         }
-        &:after {
-            // Play button
-            content: "\25B6";
-            font-size: 50px;
-            font-family: Arial, sans-serif;
-            color: #fff;
-            opacity: .7;
-            z-index: 101;
-            text-shadow: 0 0 60px rgba(0, 0, 0, .8);
+        &:before {
+            // Play button box
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            content: "";
+            width: rem-calc(65);
+            height: rem-calc(40);
+            border-radius: rem-calc(5);
+            background-color: rgb(23, 35, 34);
+            opacity: .75;
+            z-index: 101;
             @media #{$small-only} {
                 opacity: .5;
             }
         }
+        &:after {
+            // Play button triangle
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            content: "";
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 0 10px 18px;
+            border-color: transparent transparent transparent #ffffff;
+            color: #fff;
+            opacity: .75;
+            z-index: 102;
+            @media #{$small-only} {
+                opacity: .5;
+            }
+        }
+        &:hover:before,
         &:hover:after {
             opacity: 1;
+            background-color: rgb(0, 174, 88);
         }
     }
     &.playing {
