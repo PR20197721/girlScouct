@@ -21,7 +21,7 @@ public String[] extract(String url){
                     JSONObject snippet = json.getJSONArray("items").getJSONObject(0).getJSONObject("snippet");
 					return new String[] {
                         "https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent", 
-                        snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url"), // standard
+                        snippet.getJSONObject("thumbnails").getJSONObject("high").getString("url"), // default, medium
                         "youtube", 
                         generateId(),
                         snippet.getString("title")

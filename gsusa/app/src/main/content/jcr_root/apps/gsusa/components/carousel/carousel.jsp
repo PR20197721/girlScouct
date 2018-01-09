@@ -102,7 +102,7 @@ public  String readUrlFile(String urlString) throws Exception {
 						JSONObject json = new JSONObject(jsonOutput);
 				        if (json != null) {
                             JSONObject snippet = json.getJSONArray("items").getJSONObject(0).getJSONObject("snippet");
-							videoThumbNail[i] = snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url"); // standard
+							videoThumbNail[i] = snippet.getJSONObject("thumbnails").getJSONObject("high").getString("url"); // default, medium
                             title[i] = !"".equals(title[i]) ? title[i] : snippet.getString("title");
 						}
 					}
