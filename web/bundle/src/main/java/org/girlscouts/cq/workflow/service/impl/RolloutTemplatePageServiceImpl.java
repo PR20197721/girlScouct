@@ -286,6 +286,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 						rolloutLog.add(
 								"No resource can be found to serve as a suitable parent page. In order to roll out to this council, you must roll out the parent of this template page first.");
 						rolloutLog.add("Will NOT rollout to this council");
+						notifyCouncils.add(parentPath);
 					}
 				}
 			} catch (Exception e) {
