@@ -863,14 +863,13 @@ function fixSlickSlideActive() {
     SlickPlayer.prototype.createVimeoPlayer = function () {
         // Add listener events
         var self = this;
-        self.player = new Vimeo.Player(self.iframe);
+        self.player = new Vimeo.Player(self.iframe.attr('id'));
 
         self.player.on("loaded", function () {
             /*self.player.on('play', function () {
                 self.stopSlider();
                 self.playing = true;
             });*/
-
             self.placeholder.on("click", function () {
                 self.player.play();
             }).trigger("click");
