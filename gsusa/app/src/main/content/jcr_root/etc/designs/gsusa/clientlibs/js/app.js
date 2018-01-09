@@ -1,5 +1,5 @@
 /*jslint browser: true, eqeq: true*/
-/*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console */
+/*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console, Modernizr */
 /*global shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL, joinRedirectAutoplaySpeed, joinRedirectSpeed */
 
 //
@@ -168,6 +168,10 @@ function fixSlickSlideActive() {
 
     if (navigator.userAgent.indexOf("Trident\/7") != -1 && parseFloat($.browser.version) >= 11) {
         isIE11 = true;
+    }
+
+    function isMobile() { //https://stackoverflow.com/questions/19291873/window-width-not-the-same-as-media-query
+        return Modernizr.mq('(max-width: 768px)');
     }
 
     // YouTube API loaded
@@ -871,7 +875,9 @@ function fixSlickSlideActive() {
                 self.playing = true;
             });*/
             self.placeholder.on("click", function () {
-                self.player.play();
+                if (!isMobile()) {
+                    self.player.play();
+                }
             }).trigger("click");
 
             self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
@@ -899,7 +905,9 @@ function fixSlickSlideActive() {
                 }
             });*/
             self.placeholder.on("click", function () {
-                self.player.playVideo();
+                if (!isMobile()) {
+                    self.player.playVideo();
+                }
             }).trigger("click");
 
             self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
