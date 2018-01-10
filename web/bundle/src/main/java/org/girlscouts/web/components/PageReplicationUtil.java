@@ -16,22 +16,24 @@ import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.RowIterator;
+import javax.jcr.query.Row;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.settings.SlingSettingsService;
-import org.girlscouts.web.constants.PageActivationConstants;
+import org.girlscouts.web.constants.PageReplicationConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.WCMException;
 
-public class PageActivationUtil implements PageActivationConstants {
+public class PageReplicationUtil implements PageReplicationConstants {
 
-	private static Logger log = LoggerFactory.getLogger(PageActivationUtil.class);
+	private static Logger log = LoggerFactory.getLogger(PageReplicationUtil.class);
 
 	public static String[] getIps(ResourceResolver rr, int group) {
 		try {
@@ -185,11 +187,23 @@ public class PageActivationUtil implements PageActivationConstants {
 		return pages;
 	}
 
-	public static Set<String> getPages(Node n) throws RepositoryException {
+	public static Set<String> getPagesToActivate(Node n) throws RepositoryException {
 		Set<String> pages = new HashSet<String>();
 		if (n.hasProperty(PARAM_PAGES)) {
 			pages = new HashSet<String>();
 			Value[] values = n.getProperty(PARAM_PAGES).getValues();
+			for (Value value : values) {
+				pages.add(value.getString());
+			}
+		}
+		return pages;
+	}
+
+	public static Set<String> getPagesToDelete(Node n) throws RepositoryException {
+		Set<String> pages = new HashSet<String>();
+		if (n.hasProperty(PARAM_PAGES_TO_DELETE)) {
+			pages = new HashSet<String>();
+			Value[] values = n.getProperty(PARAM_PAGES_TO_DELETE).getValues();
 			for (Value value : values) {
 				pages.add(value.getString());
 			}
@@ -209,10 +223,19 @@ public class PageActivationUtil implements PageActivationConstants {
 		return notifyCouncils;
 	}
 
-	public static void markActivationFailed(Session session, Node dateRolloutNode) {
+	public static void markReplicationFailed(Node dateRolloutNode) {
 		try {
 			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_FAILED);
-			session.save();
+			dateRolloutNode.getSession().save();
+		} catch (RepositoryException e) {
+			log.error("PageActivationUtil encountered error: ", e);
+		}
+	}
+
+	public static void markReplicationComplete(Node dateRolloutNode) {
+		try {
+			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETE);
+			dateRolloutNode.getSession().save();
 		} catch (RepositoryException e) {
 			log.error("PageActivationUtil encountered error: ", e);
 		}
@@ -230,38 +253,6 @@ public class PageActivationUtil implements PageActivationConstants {
 			session.save();
 		} catch (RepositoryException e) {
 			log.error("PageActivationUtil encountered error: ", e);
-		}
-	}
-
-	public static String getURL(String path) {
-		if (path.endsWith("/jcr:content")) {
-			path = path.substring(0, path.lastIndexOf('/'));
-		}
-		return path + ".html";
-	}
-
-	public static String getRealUrl(String path, ValueMap vm) {
-		if (path.endsWith("/jcr:content")) {
-			path = path.substring(0, path.lastIndexOf('/'));
-		}
-		if (vm.containsKey("domain") && !vm.get("domain").equals("")) {
-			try {
-				String pagePath = path.substring(path.indexOf("/", path.indexOf("/", path.indexOf("/") + 1) + 1),
-						path.length());
-				return vm.get("domain") + pagePath + ".html";
-			} catch (Exception e) {
-				log.error("PageActivationUtil encountered error: ", e);
-			}
-		}
-		return (path + ".html").replaceFirst("/content/([^/]+)", "https://www.$1.org");
-	}
-
-	public static String getBranch(String path) throws WCMException {
-		Matcher matcher = BRANCH_PATTERN.matcher(path);
-		if (matcher.find()) {
-			return matcher.group();
-		} else {
-			throw new WCMException("Cannot get branch: " + path);
 		}
 	}
 
@@ -308,71 +299,143 @@ public class PageActivationUtil implements PageActivationConstants {
 		return isTestMode;
 	}
 	
-	public static String getCouncilUrl(ResourceResolver rr, SlingSettingsService settingsService, String path){
-		
-		String mappingPath, homepagePath;
-		Set<String> runmodes = settingsService.getRunModes();
-		if(runmodes.contains("prod")){
-			mappingPath = "/etc/map.publish.prod/http";
-		}else if(runmodes.contains("uat")){
-			mappingPath = "/etc/map.publish.uat/http";
-		}else if(runmodes.contains("stage")){
-			mappingPath = "/etc/map.publish.stage/http";
-		}else if(runmodes.contains("dev")){
-			mappingPath = "/etc/map.publish.dev/http";
-		}else if(runmodes.contains("local")){
-			mappingPath = "/etc/map.publish.local/http";
-		}else{
-			mappingPath = "/etc/map.publish/http";
+	public static String getCouncilLiveUrl(ResourceResolver rr, SlingSettingsService settingsService, String path) {
+		String councilUrl = "";
+		if (path != null && path.trim().length() > 0) {
+			try {
+				Resource pageRes = rr.resolve(path);
+				if (pageRes != null && !pageRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					Page pagePage = pageRes.adaptTo(Page.class);
+					Page homePage = pagePage.getAbsoluteParent(2);
+					String homepagePath = homePage.getPath();
+					councilUrl = homepagePath + path + ".html";
+					String mappingPath = getCouncilLiveDomain(rr, settingsService, homepagePath);
+					if (!StringUtils.isBlank(mappingPath)) {
+						councilUrl = mappingPath + "/" + path.replaceAll("/content/.+?/", "") + ".html";
+					}
+				} else {
+					councilUrl = "page not found";
+				}
+			} catch (Exception e) {
+				log.error("PageActivationUtil encountered error: ", e);
+			}
 		}
-		
-		Resource pageRes = rr.resolve(path);
-		Page pagePage = pageRes.adaptTo(Page.class);
-		Page homePage = pagePage.getAbsoluteParent(2);
-		homepagePath = homePage.getPath() + ".html";
-		
-		Session session = rr.adaptTo(Session.class);
-		try{
-			QueryManager qm = session.getWorkspace().getQueryManager();
-			String query = "SELECT [sling:match] FROM [sling:Mapping] as s WHERE ISDESCENDANTNODE(s,'" 
-			+ mappingPath + "') AND [sling:internalRedirect]='" + homepagePath + "'";
-		    Query q = qm.createQuery(query, Query.JCR_SQL2); 
-		    QueryResult result = q.execute();
-		    RowIterator rowIt = result.getRows();
-		    String toReturn = rowIt.nextRow().getValue("sling:match").getString();
-		    if(toReturn.endsWith("/$")){
-		    	toReturn = toReturn.substring(0,toReturn.length() - 2);
-		    }
-		    return toReturn;
-		}catch(RepositoryException e){
-			e.printStackTrace();
+		return councilUrl;
+	}
+
+	public static String getCouncilLiveDomain(ResourceResolver rr, SlingSettingsService settingsService, String path) {
+		String councilDomain = "";
+		if (path != null && path.trim().length() > 0) {
+			try {
+				Resource pageRes = rr.resolve(path);
+				if (pageRes != null && !pageRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					Page pagePage = pageRes.adaptTo(Page.class);
+					Page sitePage = pagePage.getAbsoluteParent(1);
+					String mappingPath = "";
+					Set<String> runmodes = settingsService.getRunModes();
+					if (runmodes.contains("prod")) {
+						mappingPath = "/etc/map.publish.prod/http";
+					} else if (runmodes.contains("uat")) {
+						mappingPath = "/etc/map.publish.uat/http";
+					} else if (runmodes.contains("stage")) {
+						mappingPath = "/etc/map.publish.stage/http";
+					} else if (runmodes.contains("dev")) {
+						mappingPath = "/etc/map.publish.dev/http";
+					} else if (runmodes.contains("local")) {
+						mappingPath = "/etc/map.publish.local/http";
+					} else {
+						mappingPath = "/etc/map.publish/http";
+					}
+					Session session = rr.adaptTo(Session.class);
+					QueryManager qm = session.getWorkspace().getQueryManager();
+					String query = "SELECT [sling:match] FROM [sling:Mapping] as s WHERE ISDESCENDANTNODE(s,'"
+							+ mappingPath + "') AND [sling:internalRedirect]='" + sitePage.getPath() + "/en.html'";
+					Query q = qm.createQuery(query, Query.JCR_SQL2);
+					QueryResult result = q.execute();
+					RowIterator rowIt = result.getRows();
+					if (rowIt.hasNext()) {
+						Row row = rowIt.nextRow();
+						Value val = row.getValue("sling:match");
+						if (val != null) {
+							String mapping = val.getString();
+							if (mapping.endsWith("/$")) {
+								mapping = mapping.substring(0, mapping.length() - 2);
+							}
+							councilDomain = mapping;
+						}
+					}
+				}
+			} catch (Exception e) {
+				log.error("PageActivationUtil encountered error: ", e);
+			}
 		}
-		
-		return homepagePath.replaceAll("\\.html", "");
-		
+		return councilDomain;
+	}
+
+	public static String getCouncilName(String path) {
+		String councilName = "";
+		try {
+			Matcher matcher = BRANCH_PATTERN.matcher(path);
+			if (matcher.find()) {
+				councilName = matcher.group();
+			}
+		} catch (Exception e) {
+			log.error("PageActivationUtil encountered error: ", e);
+		}
+		return councilName;
+	}
+
+	public static String getCouncilAuthorUrl(ResourceResolver rr, String path) {
+		String councilUrl = "";
+		if (path != null && path.trim().length() > 0) {
+			Resource pageRes = rr.resolve(path);
+			if (pageRes != null && !pageRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+				councilUrl = path + ".html";
+			}
+		}
+		return councilUrl;
+	}
+
+	public static String generateCouncilNotification(String srcPagePath, String targetPagePath, String message,
+			ResourceResolver rr, SlingSettingsService settingsService) {
+		String srcPagePathUrl = srcPagePath + ".html";
+		String councilAuthorPagePath = getCouncilAuthorUrl(rr, targetPagePath);
+		String councilLivePagePath = getCouncilLiveUrl(rr, settingsService, targetPagePath);
+		String html = message.replaceAll("<%template-page%>", srcPagePathUrl)
+				.replaceAll("&lt;%template-page%&gt;", srcPagePathUrl)
+				.replaceAll("<%council-page%>", councilLivePagePath)
+				.replaceAll("&lt;%council-page%&gt;", councilLivePagePath)
+				.replaceAll("<%council-author-page%>", councilAuthorPagePath)
+				.replaceAll("&lt;%council-author-page%&gt;", "https://authornew.girlscouts.org" + councilAuthorPagePath)
+				.replaceAll("<%a", "<a").replaceAll("<%/a>", "</a>").replaceAll("&lt;%a", "<a")
+				.replaceAll("&lt;%/a&gt;", "</a>");
+		html = html.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
+		return html;
 	}
 
 	public static List<String> getCouncilEmails(Node homepage) {
 		List<String> toAddresses = new ArrayList<String>();
 		try {
-			Node content = homepage.getNode("jcr:content");
-			String email1 = null;
-			String email2 = null;
-			try {
-				email1 = content.getProperty("email1").getString();
-				if (email1 != null && !email1.isEmpty()) {
-					toAddresses.add(email1);
+			if (homepage.hasNode("jcr:content")) {
+				Node content = homepage.getNode("jcr:content");
+				String email1 = null;
+				String email2 = null;
+				try {
+					email1 = content.getProperty("email1").getString();
+					if (email1 != null && !email1.isEmpty()) {
+						toAddresses.add(email1);
+					}
+				} catch (Exception e) {
+					log.error("PageActivationUtil encountered error: email1=" + email1, e);
 				}
-			} catch (Exception e) {
-				log.error("PageActivationUtil encountered error: email1=" + email1, e);
-			}
-			try {
-				email2 = content.getProperty("email2").getString();
-				if (email2 != null && !email2.isEmpty()) {
-					toAddresses.add(email2);
+				try {
+					email2 = content.getProperty("email2").getString();
+					if (email2 != null && !email2.isEmpty()) {
+						toAddresses.add(email2);
+					}
+				} catch (Exception e) {
+					log.error("PageActivationUtil encountered error: email2=" + email2, e);
 				}
-			} catch (Exception e) {
-				log.error("PageActivationUtil encountered error: email2=" + email2, e);
 			}
 		} catch (RepositoryException e1) {
 			log.error("PageActivationUtil encountered error: ", e1);
@@ -405,6 +468,18 @@ public class PageActivationUtil implements PageActivationConstants {
 			}
 		}
 		return toAddresses;
+	}
+
+	public static String getEnvironment(ResourceResolver rr) throws RepositoryException {
+		String env = "";
+		try {
+			Resource gsActivationsRes = rr.resolve(PAGE_ACTIVATIONS_PATH);
+			ValueMap vm = ResourceUtil.getValueMap(gsActivationsRes);
+			env = vm.get(PARAM_ENVIRONMENT, String.class);
+		} catch (Exception e) {
+			log.error("PageActivationUtil encountered error: ", e);
+		}
+		return env;
 	}
 
 	public static String getDateRes() {

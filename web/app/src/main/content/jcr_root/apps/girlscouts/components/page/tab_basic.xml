@@ -33,6 +33,13 @@
                     name="./hideInNav"
                     type="checkbox"
                     xtype="selection"/>
+                <hideinsearch
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Hide in Search"
+                    inputValue="true"
+                    name="./hideInSearch"
+                    type="checkbox"
+                    xtype="selection"/>
                 <breakinheritance
                 	jcr:primaryType="cq:Widget"
                 	fieldLabel="Block Rollouts for this page"

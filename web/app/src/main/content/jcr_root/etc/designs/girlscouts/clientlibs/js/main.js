@@ -404,4 +404,23 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 		}catch(err){}
 	}
 	
-}	
+}
+
+$(document).ready(function() {
+	$("input:hidden[name='file-upload-max-size']").each(function(index) {
+		var maxSize = parseInt($(this).val(), 10);
+		if(maxSize > -1){
+			$(this).closest("form").find("input:file").change(function() {
+				if(typeof this.files[0] !== 'undefined'){
+		            if(maxSize > -1){
+		                size = this.files[0].size;
+		                if(maxSize * 1000000 < size){
+		                	alert("File size cannot be larger than "+maxSize+" MB.");
+		                	$(this).val('');
+		                }
+					}
+				}
+			});
+		}
+	});
+});

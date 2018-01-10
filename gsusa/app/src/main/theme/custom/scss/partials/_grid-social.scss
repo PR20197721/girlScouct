@@ -6,10 +6,11 @@
 .feedwrapper {
     background-color: $white;
     position: relative;
-    padding-bottom: rem-calc(45);
+    //padding-bottom: rem-calc(45);
     [class^="icon-"],
     [class*=" icon-"] {
         font-size: 50px;
+        //max-height: rem-calc(50);
         display: block;
         color: #797979;
         text-align: center;
@@ -17,8 +18,8 @@
     .feed-block {
         overflow-y: auto;
         overflow-x: hidden;
-        max-height: rem-calc(620);
-        height: rem-calc(570);
+        //max-height: rem-calc(620);
+        //height: rem-calc(570);
         margin: rem-calc(7);        
     }
     .centered {
@@ -72,25 +73,16 @@
     .blogfeedimage {
       float: left;
       position: relative;
-      width: 39%;
-      padding-bottom: 39%;
       background-position:center center;
       background-repeat: no-repeat;
       background-size: cover;
     }
     .blogfeedcontent {
       float: left;
-      width: 61%;
       padding: rem-calc(0 8);
       overflow: hidden;
     }
-    .blogfeedtitle {
-      font-size: rem-calc(17);
-      line-height: rem-calc(21);
-    }
     .blogfeedsnippet {
-      font-size: rem-calc(13);
-      line-height: rem-calc(18);
       overflow: hidden;
       color: $black;
     }
@@ -107,22 +99,8 @@
     
     // Mobile view < 768px
     @media #{$small-only} {
-      .blogfeedimage {
-        width: 25%;
-        padding-bottom: 25%;
-      }
       .blogfeedcontent {
-        width: 75%;
         padding-left: rem-calc(10);
-      }
-      .blogfeedtitle {
-        font-size: rem-calc(18);
-        line-height: rem-calc(24);
-      }
-      .blogfeedsnippet {
-        //padding-top: rem-calc(10);
-        font-size: rem-calc(14);        
-        line-height: rem-calc(19);
       }
     }
         

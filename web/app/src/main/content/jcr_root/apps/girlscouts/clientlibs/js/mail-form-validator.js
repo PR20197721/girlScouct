@@ -49,3 +49,13 @@ function isConfirmationEmailSet(){
 	}
 	return false;
 }
+
+CQ.Ext.apply(CQ.Ext.form.VTypes, {
+	fileUploadSizeLimitValidator : function(v, f) {
+		if(v != null && v.trim().length > 0){
+			return CQ.Ext.form.VTypes.digits(v);
+		}else{
+			return true;
+		}
+	}
+});

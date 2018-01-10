@@ -19,9 +19,31 @@ public String generateId() {
 	String url = properties.get("url", "");
 	int count = properties.get("count",19);
 	String pinID = properties.get("pin-id","");
+	String height = properties.get("height", "0");
 	String uID = generateId();
 	String instaID = "instagramfeed_" + uID;
+	
+	String desktopHeight = properties.get("desktopheight", "");
+	String mobileHeight = properties.get("mobileheight", "");
 %>
+ 
+<style>
+#tag_social_feed_instagram {
+	<% if (!desktopHeight.equals("0")) { %>
+	max-height:<%= desktopHeight %>px;
+	height:<%= desktopHeight %>px;
+	<% } %>
+	overflow: auto;
+}
+@media (max-width: 768px) {
+#tag_social_feed_instagram {
+	<% if (!mobileHeight.equals("0")) { %>
+	max-height:<%= mobileHeight %>px;
+	height:<%= mobileHeight %>px;
+	<% } %>
+}}
+</style>
+
 <div id="tag_social_feed_instagram" class="feedwrapper clearfix">
 	<div id="<%= instaID %>" >
 		<span class="icon-social-instagram"></span>

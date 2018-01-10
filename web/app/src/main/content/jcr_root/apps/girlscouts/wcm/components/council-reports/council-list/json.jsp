@@ -1,5 +1,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page import="java.util.Iterator,
+	java.util.Map,java.util.TreeMap,
 	org.apache.sling.commons.json.io.*" %>
 
 <%
@@ -10,23 +11,28 @@ JSONWriter writer = new JSONWriter(response.getWriter());
 PageManager pm = resourceResolver.adaptTo(PageManager.class);
 Resource content = resourceResolver.resolve("/content");
 Iterator<Resource> contentChildren = content.listChildren();
-writer.array();
+Map<String,String> sortedSites = new TreeMap<String,String>();
 while (contentChildren.hasNext()){
 	Resource thisRes = contentChildren.next();
 	Page thisPage = thisRes.adaptTo(Page.class);
 	if(null != thisPage){
 		if(thisPage.hasChild("en") && !thisPage.getPath().endsWith("girlscouts-template")){
-			Page enPage = pm.getPage(thisPage.getPath() + "/en");
-			if(enPage.getTitle() != null){		
-				writer.object();
-				writer.key("value");
-				writer.value(thisPage.getPath());
-				writer.key("text");
-				writer.value(thisPage.getTitle());
-				writer.endObject();
+			if(thisPage.getTitle() != null){
+				sortedSites.put(thisPage.getTitle(), thisPage.getPath());
+			}else{
+				sortedSites.put(thisPage.getName(), thisPage.getPath());
 			}
 		}
 	}
+}
+writer.array();
+for(Map.Entry<String,String> entry : sortedSites.entrySet()){
+	writer.object();
+	writer.key("text");
+	writer.value(entry.getKey());
+	writer.key("value");
+	writer.value(entry.getValue());
+	writer.endObject();
 }
 writer.endArray();
 %>

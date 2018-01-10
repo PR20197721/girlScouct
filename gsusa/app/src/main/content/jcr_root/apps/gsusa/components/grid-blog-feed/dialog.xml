@@ -20,7 +20,9 @@
                     <blogurl
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Blog URL"
-                        fieldDescription="URL of Blog to link See More at the end of feed"
+                        fieldDescription="URL of Blog to link See More at the end of feed. http://blog.girlscouts.org"
+                        defaultValue="http://blog.girlscouts.org"
+                        value="http://blog.girlscouts.org"
                         name="./blogurl"
                         xtype="textfield" 
                         />
@@ -38,7 +40,8 @@
                         fieldLabel="Icon URL"
                         fieldDescription="Path of icon"
                         name="./iconurl"
-                        xtype="textfield" />
+                        rootPath="/content/dam"
+                        xtype="pathfield" />
                     <postid1
                     	jcr:primaryType="cq:Widget"
                     	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
@@ -65,11 +68,17 @@
                 <items jcr:primaryType="cq:WidgetCollection">                    
                     <desktopdisplay
                         jcr:primaryType="cq:Widget"
-                        value="Styling configuration for desktop view where width of the page is greater than 768px"
+                        value="Styling configuration for desktop view where width of the page is greater than 768px. Please refresh page if style hasn't updated."
                         defaultValue=""
                         hideLabel="true"
                         name="./desktopdescription"
                         xtype="displayfield" />
+                    <desktopheight
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
+                        fieldLabel="Desktop Height"
+                        name="./desktopheight"
+                        xtype="numberfield" />
                     <desktopimagesize
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Image Size"
@@ -137,11 +146,17 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <mobiledisplay
                         jcr:primaryType="cq:Widget"
-                        value="Styling configuration for mobile view"
+                        value="Styling configuration for mobile view. Please refresh page if style hasn't updated."
                         defaultValue=""
                         hideLabel="true"
                         name="./mobiledescription"
-                        xtype="displayfield" />
+                        xtype="displayfield" />                    
+                    <mobileheight
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
+                        fieldLabel="Mobile Height"
+                        name="./mobileheight"
+                        xtype="numberfield" />
                     <mobileimagesize
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Image Size"
