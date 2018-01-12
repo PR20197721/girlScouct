@@ -159,6 +159,7 @@ function fixSlickSlideActive() {
     var isIE11 = false,
         isNewerThanIE9 = true,
         MEDIUM_ONLY = 768,
+        mobile = false,
         homepageScrollTopPos,
         lastAfterSlick = null,
         carouselSliderPropogate = true,
@@ -174,6 +175,14 @@ function fixSlickSlideActive() {
     function isMobile() { //https://stackoverflow.com/questions/19291873/window-width-not-the-same-as-media-query
         return Modernizr.mq('(max-width: ' + MEDIUM_ONLY + 'px)');
     }
+    mobile = isMobile();
+    $(window).on("resize", function () {
+        if (isMobile() === !mobile) { // Trigger once when the breakpoint is passed
+            mobile = !mobile;
+            $(window).trigger("breakpoint");
+            //console.log("Mobile is: " + mobile);
+        }
+    });
 
     // YouTube API loaded
     function ytLoaded() {
@@ -442,7 +451,7 @@ function fixSlickSlideActive() {
                     try {
                         gsusa.functions.ToggleParsysAll.toggleAll(true);
                     } catch (ignore) {}
-                    if (isMobile()) {
+                    if (mobile) {
                         /*
                         $(".off-canvas-wrap").css({
                             'position': 'fixed'
@@ -471,7 +480,7 @@ function fixSlickSlideActive() {
                 });
                 //closing the section by clicking on the cross
                 target.find('.icon-cross').on("click", function (e) {
-                    if (isMobile()) {
+                    if (mobile) {
                         window.scrollTo(0, homepageScrollTopPos); // go back to previous window Y position
                     }
                     target.removeClass("shown");
@@ -670,7 +679,7 @@ function fixSlickSlideActive() {
     }
 
     function small_screens() {
-        if (isMobile()) {
+        if (mobile) {
             $('.overlay').hide();
             $(".hero-text .button").hide();
         } else {
@@ -796,10 +805,10 @@ function fixSlickSlideActive() {
 
     SlickPlayer = function (params) {
         var self = this; // Lexical closure
-
+        
         self.iframe = params.iframe;
         self.slick = params.slick;
-        self.arrows = params.arrows;
+        //self.arrows = params.arrows;
         self.autoplay = params.autoplay;
         self.slide = self.iframe.parents(".slick-slide").eq(0);
         self.playing = false;
@@ -813,14 +822,19 @@ function fixSlickSlideActive() {
         }).on("focusout", function () {
             self.startSlider();
         });
-
+        
         self.placeholder.on("click", function () {
             self.stopSlider();
             self.slide.addClass("playing");
-            self.arrows.addClass("show");
+            //self.arrows.addClass("show");
             self.playing = true;
             self.createPlayer();
         });
+        
+        if (mobile) {
+            self.slide.addClass("playing");
+            self.createPlayer();
+        }
     };
 
     SlickPlayer.prototype.createPlayer = function () {
@@ -876,7 +890,7 @@ function fixSlickSlideActive() {
                 self.playing = true;
             });*/
             self.placeholder.on("click", function () {
-                if (!isMobile()) {
+                if (!mobile) {
                     self.player.play();
                 }
             }).trigger("click");
@@ -885,9 +899,11 @@ function fixSlickSlideActive() {
                 if (self.playing) { // Trigger only when moving away from potentially active slide
                     self.startSlider();
                     self.player.unload();
-                    self.slide.removeClass("playing");
-                    self.arrows.removeClass("show");
                     self.playing = false;
+                    if (!mobile) {
+                        self.slide.removeClass("playing");
+                        //self.arrows.removeClass("show");
+                    }
                 }
             });
         });
@@ -906,7 +922,7 @@ function fixSlickSlideActive() {
                 }
             });*/
             self.placeholder.on("click", function () {
-                if (!isMobile()) {
+                if (!mobile) {
                     self.player.playVideo();
                 }
             }).trigger("click");
@@ -915,9 +931,11 @@ function fixSlickSlideActive() {
                 if (self.playing) {
                     self.startSlider();
                     self.player.stopVideo();
-                    self.slide.removeClass("playing");
-                    self.arrows.removeClass("show");
                     self.playing = false;
+                    if (!mobile) {
+                        self.slide.removeClass("playing");
+                        //self.arrows.removeClass("show");
+                    }
                 }
             });
         });
@@ -929,13 +947,13 @@ function fixSlickSlideActive() {
     };
 
     Underbar.prototype.show = function () {
-        if (this.el.length && !isMobile()) { // Desktop only
+        if (this.el.length && !mobile) { // Desktop only
             this.el.slideDown(1000);
         }
     };
 
     Underbar.prototype.hide = function () {
-        if (this.el.length && !isMobile()) {
+        if (this.el.length && !mobile) {
             this.el.slideUp(0);
         }
     };
@@ -990,7 +1008,7 @@ function fixSlickSlideActive() {
         small_screens();
     });
     $(window).resize(function (event) {
-        //if(!isMobile()) {
+        //if(!mobile) {
         //  iframeClick();
         //} else {
         $("iframe").off("mouseenter mouseleave");
@@ -1044,8 +1062,7 @@ function fixSlickSlideActive() {
             fixed = false,
             fixedClass = "sticky-nav-fixed",
             offset = 0,
-            desktopStickyOffset = 0,
-            mobile = isMobile();
+            desktopStickyOffset = 0;
 
         function setOffset() {
             // Set placeholders
@@ -1086,14 +1103,14 @@ function fixSlickSlideActive() {
         if ($(".header.sticky-nav").length) {
             // On load
             switchHeader();
+            
+            // Change header for desktop vs. mobile
+            $(window).on("breakpoint", function () {
+                switchHeader();
+            });
 
             // Reset offset on resize
             $(window).on("resize", function () {
-                if (!isMobile() === mobile) { // Trigger once when the breakpoint is passed
-                    mobile = !mobile;
-                    //console.log("Mobile is: " + mobile);
-                    switchHeader();
-                }
                 if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
                     //console.log("Old height: " + headerHeight);
                     //console.log("New height: " + header.height());
