@@ -11,8 +11,64 @@
             sling:resourceType="granite/ui/components/foundation/layouts/tabs"
             type="nav"/>
         <items jcr:primaryType="nt:unstructured">
-            <regular-image/>
-            <small-screen-image/>
+	        <regular-tab jcr:primaryType="nt:unstructured"
+                jcr:title="Regular Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                	<columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./regular/fileName"
+                                fileReferenceParameter="./regular/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./regular/file"
+                                title="Upload Image Asset" 
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>      
+	                    </items>
+                	</columns>
+                </items>
+        	</regular-tab>
+        	<small-screen-tab jcr:primaryType="nt:unstructured"
+                jcr:title="Small Screen Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                	<columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./small/fileName"
+                                fileReferenceParameter="./small/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./small/file"
+                                title="Upload Image Asset" 
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>      
+	                    </items>
+                	</columns>
+                </items>
+        	</small-screen-tab>
             <advanced
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Advanced"
@@ -44,11 +100,15 @@
                                 <width
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./regular/width"/>
+                                    name="./regular/width"
+                                    fieldLabel="width"
+                                    value="188"/>
                                 <height
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./regular/height"/>
+                                    name="./regular/height"
+                                    fieldLabel="height"
+                                    value="73"/>
                             </regular-size>
                             <small-screen-size
                                 jcr:primaryType="nt:unstructured"
@@ -57,11 +117,15 @@
                                 <width
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./small/width"/>
+                                    name="./small/width"
+                                    fieldLabel="width"
+                                    value="38"/>
                                 <height
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./small/height"/>
+                                    name="./small/height"
+                                    fieldLabel="height"
+                                    value="38"/>
                             </small-screen-size>
                         </items>
                     </columns>
