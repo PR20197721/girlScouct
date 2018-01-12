@@ -141,6 +141,26 @@
 	                jcr:primaryType="nt:unstructured"
 	                features="[paste-plaintext,paste-wordhtml]"/>
 	        </rtePlugins>
+	        <specialCharsConfig jcr:primaryType="nt:unstructured">
+		        <chars jcr:primaryType="nt:unstructured">
+		            <em-dash
+		                jcr:primaryType="nt:unstructured"
+		                entity="&amp;#8212;"/>
+		            <copyright
+		                jcr:primaryType="nt:unstructured"
+		                entity="&amp;#169;"/>
+		            <registered
+		                jcr:primaryType="nt:unstructured"
+		                entity="&amp;#174;"/>
+		            <trademark
+		                jcr:primaryType="nt:unstructured"
+		                entity="&amp;#8482;"/>
+		            <horizontal-rule
+		                jcr:primaryType="nt:unstructured"
+		                displayEntity="HR"
+		                entity="&lt;hr>"/>
+		        </chars>
+		    </specialCharsConfig>
         </config>
     </cq:inplaceEditing>
 </jcr:root>
