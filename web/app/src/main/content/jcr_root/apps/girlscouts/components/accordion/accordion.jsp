@@ -29,7 +29,7 @@ javax.jcr.Node" %>
 				if (accordion.hasProperty("nameField")) {
 					nameField = accordion.getProperty("nameField").getString();
 				}
-            	String parsys = accordion.getName() + "_parsys_" + idField;
+            	String parsys = "accordion_parsys_" + accordion.getName();
             	script.append("window."+parsys+" = new toggleParsys(\""+accordion.getPath()+"/" + parsys+"\");");
             	script.append("window."+parsys+".hideParsys();");
             	%><dt style="clear:both" id="<%=achorField%>" data-target="<%=parsys%>"><h6><%=nameField%></dt>
