@@ -796,6 +796,23 @@ function fixSlickSlideActive() {
                 }]*/
         });
     }
+    
+    $.fn.lazyLoad = function () {
+        var self = this,
+            attr = {
+                "src": "data-src",
+                "href": "data-href"
+            },
+            src;
+        
+        for (src in attr) {
+            if (attr.hasOwnProperty(src) && (!self.attr(src) || self.attr(src) === "") && self.attr(attr[src])) {
+                self.attr(src, self.attr(attr[src]));
+            }
+        }
+        
+        return self;
+    };
 
     //
     //
@@ -860,7 +877,7 @@ function fixSlickSlideActive() {
         var self = this;
 
         if (!self.iframe.attr("src")) { // If player not instantiated
-            self.iframe.attr("src", self.iframe.attr("data-src")); // Assign embed url
+            self.iframe.lazyLoad(); // Assign embed url
 
             // Instantiate player
             if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
@@ -896,7 +913,7 @@ function fixSlickSlideActive() {
         var self = this;
 
         self.placeholder.on("click", function () {
-            if (!mobile) {
+            if (!mobile) { // Browsers will block playback on mobile anyway, prevent Vimeo bug by manually preventing
                 self.playVideo();
             }
         }).trigger("click");
