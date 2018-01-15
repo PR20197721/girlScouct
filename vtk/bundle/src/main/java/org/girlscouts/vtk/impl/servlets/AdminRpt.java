@@ -24,7 +24,6 @@ import org.girlscouts.vtk.ejb.YearPlanUtil;
 @Properties({
 	@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
 	@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "csv"),
-	@Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "admin_reports_downloadable"),
 	@Property(name="label", value="Girl Scouts VTK Admin Report"),
 	@Property(name="description", value="Girl Scouts VTK Admin Report Download"),
 	@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET")
@@ -72,7 +71,6 @@ public class AdminRpt extends SlingSafeMethodsServlet {
 				ageGroups.add("cadette");
 				ageGroups.add("senior");
 				ageGroups.add("ambassador");
-				ageGroups.add("multi-level");
 				if (request.getParameter("cid") != null) {
 					cid = (String) request.getParameter("cid");
 				}

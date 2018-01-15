@@ -4,7 +4,7 @@
             Join Today
             <form class="formJoin button-form-target hide">
                 <div>
-                    <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="ZipJoin" placeholder="Enter ZIP Code" />
+                    <input type="tel" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="ZipJoin" placeholder="Enter ZIP Code" />
                 </div>
                 <input type="hidden" name="source" value="mobile-footer">
                 <div>
@@ -18,7 +18,7 @@
             Volunteer Today
             <form class="formVol button-form-target hide">
                 <div>
-                    <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="ZipVolunteer" placeholder="Enter ZIP Code" />
+                    <input type="tel" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="ZipVolunteer" placeholder="Enter ZIP Code" />
                 </div>
                 <input type="hidden" name="source" value="mobile-footer">
                 <div>

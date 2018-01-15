@@ -3,8 +3,6 @@ target/
 
 /.settings/
 
-/gsusa/app/src/main/content/jcr_root/etc/designs/gsusa/clientlibs/css/app.css
-
 /web/bundle/.classpath
 
 /web/content/src/main/content/jcr_root/apps/girlscouts/install/
@@ -32,7 +30,6 @@ target/
 
 /web/app/bin/
 
-<<<<<<< HEAD
 /vtk/app/bin/
 
 /vtk/ical4j-wrapper/target
@@ -44,15 +41,8 @@ target/
 /vtk/api-bundle/bin/
 
 /vtk/replication-bundle/bin/
-=======
->>>>>>> RC
 
 bin/
 /target
 
 vtk/app/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css/vtk-style.css
-vtk/app/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css/.sass-cache/
-vtk/googleInject-wrapper/target/classes/META-INF/MANIFEST.MF
-
-
-gsusa/app/src/main/content/jcr_root/etc/designs/gsusa/clientlibs/css/app.css

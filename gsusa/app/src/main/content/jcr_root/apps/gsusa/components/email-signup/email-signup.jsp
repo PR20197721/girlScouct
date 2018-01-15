@@ -85,11 +85,11 @@ $(document).ready(function(){
 	    var email = $(this).find('input[name="email"]').val();
 	    
 	    if ($.trim(email).length == 0) {
-		    error(this,"Please enter an email address!");
+	    	errorEmailSignUp(this,"Please enter an email address!");
 		} else if ($.trim(email).length >= 100) {
-			error(this,"Maximum 100 chars!");
+			errorEmailSignUp(this,"Maximum 100 chars!");
 		} else if (!validateEmail(email)) {
-			error(this,"Please enter a valid email address!");
+			errorEmailSignUp(this,"Please enter a valid email address!");
 		} else {
 			if (url.length == 0)
 				alert("Error: API Endpoint is missing!");
@@ -112,7 +112,7 @@ $(document).ready(function(){
 	}
 });
 
-function success(form) {
+function successEmailSignUp(form) {
 	$(form).find('.mainText, .subText').hide();
 	$(form).find('.error').hide();
 	$(form).find('input[name="email"]').hide();
@@ -121,7 +121,7 @@ function success(form) {
 	$(form).find('.success').css("display", "inline");
 }
 
-function error(form, message) {
+function errorEmailSignUp(form, message) {
 	$(form).find('.mainText, .subText').hide();
 	$(form).find('.error').show();
 	$(form).find('.error').css("display", "inline");
@@ -177,7 +177,7 @@ function post(form, url, email, cid, dename, dekey, source) {
 			},
 		dataType: 'json', 
 		success: function(data) {
-			process(form, data);
+			processEmailSignUpResult(form, data);
 			}, 
 		error: function(data) {
 			alert("Error: " + data.status + " " + data.statusText);
@@ -188,7 +188,7 @@ function post(form, url, email, cid, dename, dekey, source) {
 	});
 }
 
-function process(form, data) {
+function processEmailSignUpResult(form, data) {
 	/* Our own status code
     SUCC    Email was successfully added to SFMC data extension
     NAIP    IP address not found in the list of authorized IP addresses
@@ -203,7 +203,7 @@ function process(form, data) {
 	*/
 	
 	if (data.status == 'SUCC') {
-		success(form);
+		successEmailSignUp(form);
 	} else if (data.status == 'NAIP') {
 		alert("IP address not found in the list of authorized IP addresses");
 	} else if (data.status == 'MVCO') {

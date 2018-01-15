@@ -11,70 +11,70 @@
                 jcr:primaryType="cq:Panel"
                 title="Main Content">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <url
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="false"
-                        defaultValue=""
-                        fieldDescription="API url to send email info"
-                        fieldLabel="API Endpoint"
-                        name="./url"
-                        xtype="textfield"/>
-                    <heading
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="New article alerts!"
-                        fieldDescription=""
-                        fieldLabel="Heading"
-                        name="./heading"
-                        xtype="textfield"/>
-                    <description
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="Get updates when new content is available."
-                        fieldDescription=""
-                        fieldLabel="Description"
-                        name="./description"
-                        xtype="textfield"/>
-                    <source
-                        jcr:primaryType="cq:Widget"
-                        defaultValue=""
-                        fieldDescription="Originating source in 300 or less characters"
-                        fieldLabel="Source"
-                        name="./source"
-                        xtye="textfield"/>
-                    <emailplaceholder
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="Enter your email address here"
-                        fieldDescription=""
-                        fieldLabel="Email Placeholder"
-                        name="./emailplaceholder"
-                        xtype="textfield"/>
-                    <emailplaceholdermobile
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="Enter your email!"
-                        fieldDescription="For mobile 320px and limit 25 chars"
-                        fieldLabel="Email Placeholder Mobile"
-                        name="./emailplaceholdermobile"
-                        xtype="textfield"/>
-                    <submitbuttontext
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="SUBMIT"
-                        fieldDescription=""
-                        fieldLabel="Submit Text"
-                        name="./submitbuttontext"
-                        xtype="textfield"/>
-                    <topborder
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription="Check to apply border at top of the component"
-                        fieldLabel="Top Border"
-                        name="./topborder"
-                        type="checkbox"
-                        xtype="selection"/>
-                    <bottomborder
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription="Check to apply border at top of the component"
-                        fieldLabel="Bottom Border"
-                        name="./bottomborder"
-                        type="checkbox"
-                        xtype="selection"/>
+                	<url
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="API Endpoint"
+                		fieldDescription="API url to send email info"
+                		defaultValue=""
+                		allowBlank="false"
+                		name="./url"
+                		xtype="textfield"/>
+                	<heading
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Heading"
+                		fieldDescription=""
+                		defaultValue="New article alerts!"
+                		name="./heading"
+                		xtype="textfield"/>
+                	<description
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Description"
+                		fieldDescription=""
+                		defaultValue="Get updates when new content is available."
+                		name="./description"
+                		xtype="textfield"/>
+                	<source 
+                	    jcr:primaryType="cq:Widget"
+                	    fieldLabel="Source"
+                	    fieldDescription="Originating source in 300 or less characters"
+                	    defaultValue=""
+                	    name="./source"
+                	    xtye="textfield" />
+                	<emailplaceholder
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Email Placeholder"
+                		fieldDescription=""
+                		defaultValue="Enter your email address here"
+                		name="./emailplaceholder"
+                		xtype="textfield"/>
+                	<emailplaceholdermobile
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Email Placeholder Mobile"
+                		fieldDescription="For mobile 320px and limit 25 chars"
+                		defaultValue="Enter your email!"
+                		name="./emailplaceholdermobile"
+                		xtype="textfield"/>
+                	<submitbuttontext
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Submit Text"
+                		fieldDescription=""
+                		defaultValue="SUBMIT"
+                		name="./submitbuttontext"
+                		xtype="textfield"/>
+                	<topborder
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Top Border"
+	                    fieldDescription="Check to apply border at top of the component"
+	                    name="./topborder"
+	                    type="checkbox"
+	            		xtype="selection"/>
+	            	<bottomborder
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Bottom Border"
+	                    fieldDescription="Check to apply border at top of the component"
+	                    name="./bottomborder"
+	                    type="checkbox"
+	            		xtype="selection"/>       
                 </items>
             </maincontent>
             <submission
@@ -162,24 +162,24 @@
                 jcr:primaryType="cq:Panel"
                 title="SFMC">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <councilid
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription="3 digit Council ID"
-                        fieldLabel="Council ID"
-                        name="./cid"
-                        xtype="textfield"/>
-                    <dataextensionname
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription=""
-                        fieldLabel="Data Extension Name"
-                        name="./dataextensionname"
-                        xtype="textfield"/>
-                    <dataextensionkey
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription=""
-                        fieldLabel="Data Extension Key"
-                        name="./dataextensionkey"
-                        xtype="textfield"/>
+                	<councilid
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Council ID"
+                		fieldDescription="3 digit Council ID"
+                		name="./cid"
+                		xtype="textfield"/>
+                	<dataextensionname
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Data Extension Name"
+                		fieldDescription=""
+                		name="./dataextensionname"
+                		xtype="textfield"/>
+                	<dataextensionkey
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Data Extension Key"
+                		fieldDescription=""
+                		name="./dataextensionkey"
+                		xtype="textfield"/>      
                 </items>
             </sfmc>
         </items>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <properties
+                jcr:primaryType="cq:Panel"
+                title="Properties">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <url
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="URL that fetches feed"
+						fieldLabel="Endpoint URL"
+						name="./url"
+						xtype="textfield"/>
+					<count
+					    jcr:primaryType="cq:Widget"
+					    fieldDescription="Specify a limit for how many images will appear. Will default to 19 if left blank"
+						fieldLabel="Picture Count"
+						minValue="1"
+						maxValue="19"
+ 						name="./count"
+						xtype="numberfield"/>
+					<pin-id
+						jcr:primaryType="cq:Widget"
+						fieldDescription="If you would like to pin an image to the top of the feed, enter its post id here. ex. BdQBjA13DYg in www.instagram.com/p/BdQBjA13DYg/"
+						fieldLabel="Pin ID"
+						name="./pin-id"
+						xtype="textfield"/>
+                    <desktopheight
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
+                        fieldLabel="Desktop Height"
+                        name="./desktopheight"
+                        xtype="numberfield" />
+                    <mobileheight
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
+                        fieldLabel="Mobile Height"
+                        name="./mobileheight"
+                        xtype="numberfield" />
+                </items>
+            </properties>
+        </items>
+    </items>
+</jcr:root>

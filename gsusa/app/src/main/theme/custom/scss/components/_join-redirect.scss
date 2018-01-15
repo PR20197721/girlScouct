@@ -68,7 +68,8 @@
               width: rem-calc(214);
               margin: 0 auto;
             }
-            input[type="text"] {
+            input[type="text"],
+            input[type="tel"] {
               float: left;
               width: 100%;
               padding-left: rem-calc(10);

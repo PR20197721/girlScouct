@@ -265,6 +265,15 @@
                     privileges="[replicate]"
                     target="CQ.wcm.SiteAdmin.getMultipleTargetsFromList"
                     text="Activate Later..."/>
+                <cancelScheduledActivation
+                    jcr:primaryType="nt:unstructured"
+                    cls="cq-siteadmin-activate-later"
+                    conditions="[CQ.wcm.SiteAdmin.hasAnySelection]"
+                    context="[toolbar]"
+                    handler="CQ.wcm.SiteAdmin.cancelScheduledActivation"
+                    privileges="[replicate]"
+                    target="CQ.wcm.SiteAdmin.getMultipleTargetsFromList"
+                    text="Cancel Scheduled Activation"/>
             </menu>
         </activate>
         <deactivate
@@ -294,6 +303,15 @@
                     privileges="[replicate]"
                     target="CQ.wcm.SiteAdmin.getMultipleTargetsFromList"
                     text="Deactivate Later..."/>
+                <cancelScheduledDeactivation
+                    jcr:primaryType="nt:unstructured"
+                    cls="cq-siteadmin-activate-later"
+                    conditions="[CQ.wcm.SiteAdmin.hasAnySelection]"
+                    context="[toolbar]"
+                    handler="CQ.wcm.SiteAdmin.cancelScheduledDeactivation"
+                    privileges="[replicate]"
+                    target="CQ.wcm.SiteAdmin.getMultipleTargetsFromList"
+                    text="Cancel Scheduled Deactivation"/>
             </menu>
         </deactivate>
         <workflow
@@ -395,6 +413,16 @@
                     text="Delete Metadata Template"/>
             </menu>
         </tools>
+        <downloadReferences
+            jcr:primaryType="nt:unstructured"
+            cls="cq-damadmin-download-references"
+            conditions="[CQ.wcm.SiteAdmin.hasSingleListSelection, CQ.wcm.SiteAdmin.notLocked]"
+            context="[contextmenu]"
+            handler="function(data,event){&#xa;&#x9;try{&#xa;&#x9;&#x9;var path = data.baseAction.path;&#xa;&#x9;&#x9;if(path != null){&#xa;&#x9;&#x9;&#x9;path = '/apps/test/components/references.html?path='+ path;&#xa;&#x9;&#x9;&#x9;window.open(path, 'report', '');&#xa;&#x9;&#x9;}&#xa;&#x9;}catch(err){&#xa;&#x9;}&#xa;}"
+            iconCls="cq-damadmin-open-icon"
+            privileges="[replicate]"
+            target="CQ.wcm.SiteAdmin.getTargetFromList"
+            text="Download References Report"/>
     </actions>
     <search
         jcr:primaryType="nt:unstructured"

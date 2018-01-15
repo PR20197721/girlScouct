@@ -285,63 +285,13 @@ git branch "root" is the latest n greatest, while "master" is what's in prod
 
 there are 3 sites: gsusa, vtk, and web
 
+To deploy vtk to DEV:
+
 cd web; mvn clean install
 cd vtk; mvn clean install
-cd gsusa; man clean install
-
-To deploy to local instance:
-./deploy.sh
-
-
-To deploy vtk to DEV:
 ./deployDev.sh
-
 (if needed) flush the dispatcher cache:
 	ssh npUser@54.83.199.114
 	sudo ./flushCache
 
 see your handiwork at https://girlscouts-dev2.adobecqms.net/content/girlscouts-vtk/en/vtk.home.html
-
-
-
-### AEM 5.6--> 6.1 protocol
-- Install 5.6 repository and migrate to Oak and latest AEM 6.1 with patches.
-- Delete org.jsoup bundle
-- Delete all vtk and web bundles (GS 1.0.0-SNAPSHOT bundles)
-- Deploy VTKAEM61 code for gsusa, web, and vtk
-- Check /system/console/bundles and make sure not "Installed" or non active bundles
-- SSH to server and change sling.properties to correct setting (e.g.run.modes=author,prod)
-- VTK configs (add to git)
-(- Create a package of etc/tags from production author, install on new environment author and publish)
-
-- Create and install package for search indexes in tools/search-indexes and upload/deploy via package manager
-	cd tools/search-indexes;jar -cvf indexes.zip *
-- Activate the indexes to publishers.
-- Shut down CQ and clear all indexes.  To do this, you need to wipe out the following items.  Be careful or you will destroy the repository! Some of these indexes will not be recreated because they are left-overs from 5.6.
-	1) /crx-quickstart/repository/workspaces/crx.default/index
-	2) /crx-quickstart/repository/workspaces/crx.default/index*.tar
-	3) /crx-quickstart/repository/version/index*.tar
-	4) /crx-quickstart/repository/tarJournal/index*.tar
-	5) /crx-quickstart/repository/repository/index
-        6) /crx-quickstart/repository/index
-Next, start AEM and then bulk rebuild indexes here: /libs/granite/operations/content/diagnosis/tool.html/_granite_oakindexmanager
-
-For the publisher, this interface doesn't exist so you need to go to crxde lite and set reindex to true at oak:index node. (I did not try this yet...)
-
-- Clear all slow and popular queries: /system/console/jmx/org.apache.jackrabbit.oak%3Aid%3D17%2Cname%3D%22Oak+Query+Statistics%22%2Ctype%3D%22QueryStat%22
-
-- [Not necessary if clearing search indexes ] Initiate reindex event on the index manager: e.g. http://52.71.87.139:4502/libs/granite/operations/content/diagnosis/tool.html/_granite_oakindexmanager
-	monitor error.log until indexing is complete.  Logs will look like: 
-	17.03.2016 11:13:56.055 *INFO* [pool-8-thread-3] org.apache.jackrabbit.oak.plugins.index.IndexUpdate Reindexing Traversed #330000 /vtk2015/240/troops/701G0000001SMrwIAG/yearPlan/meetingEvents/M1442370378517_0.29561873898985525/assets/A1443655079279_0.897137985611192
-
-Remove all old log files
-Disable replication workflow
-Disable image renditions workflow
-
-Restart AEM
-- Install script in tools/scripts/aem61-upgrade/prototype-content-20160301.zip
-
-- Disable VTK replication agents
-- Install vtk package on publishers
-- Update user privileges for this package /useradmin.html (add full for vtk2015)
-

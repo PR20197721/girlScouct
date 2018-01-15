@@ -173,8 +173,7 @@ public class CouncilRpt {
 					ageGroup = "cadette";
 				else if (libPath.contains("ambassador"))
 					ageGroup = "ambassador";
-				else if (libPath.contains("multi-level"))
-					ageGroup = "multi-level";
+
 				CouncilRptBean crb = new CouncilRptBean();
 				crb.setYearPlanName(yearPlanName);
 				crb.setAltered(isAltered);

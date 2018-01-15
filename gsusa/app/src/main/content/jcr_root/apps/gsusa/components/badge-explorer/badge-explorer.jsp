@@ -78,7 +78,7 @@ class BadgeComparator implements Comparator<Resource>{
         right: 0;
         bottom: 0;
         left: 0;
-        z-index: 101;
+        z-index: 2001;
     }
 
     .modal-overlay {
@@ -88,7 +88,7 @@ class BadgeComparator implements Comparator<Resource>{
         right: 0;
         bottom: 0;
         left: 0;
-        z-index: 102;
+        z-index: 2002;
     }
 
     .modal-open:checked ~ .modal-wrap:before,
@@ -114,7 +114,7 @@ class BadgeComparator implements Comparator<Resource>{
         width: 100%;
         min-height: 400px;
         height: 1px; /* For Firefox */
-        z-index: 103;
+        z-index: 2003;
         padding: 10px;
     }
     

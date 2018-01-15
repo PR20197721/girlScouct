@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <properties
+                jcr:primaryType="cq:Panel"
+                title="Properties">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <desktopheight
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
+                        fieldLabel="Desktop Height"
+                        defaultValue="600"
+                        value="600"
+                        name="./desktopheight"
+                        xtype="numberfield" />
+                    <mobileheight
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Height of the component in px. Enter blank or 0 to show all"
+                        fieldLabel="Mobile Height"
+                        defaultValue="300"
+                        value="300"
+                        name="./mobileheight"
+                        xtype="numberfield" />
+                    <count
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Number of Tweets"
+                        fieldDescription="Number of Tweets to show. Max 20."
+                        defaultValue="10"
+                        value="10"
+                        name="./count"
+                        xtype="numberfield" />
+                </items>
+            </properties>
+        </items>
+    </items>
+</jcr:root>

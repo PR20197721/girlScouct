@@ -32,15 +32,15 @@
                         xtype="textfield"/>
                     <tags
                         jcr:primaryType="cq:Widget"
-                        defaultValue="NASA"
                         fieldLabel="Tag"
                         name="./tag"
+                        defaultValue="NASA"
                         xtype="textfield"/>
                     <flag
                         jcr:primaryType="cq:Widget"
-                        defaultValue="VIDEO"
                         fieldLabel="Flag"
                         name="./flag"
+                        defaultValue="VIDEO"
                         xtype="textfield"/>
                 </items>
             </tab1>

@@ -54,7 +54,7 @@ public class Activity extends YearPlanComponent implements Serializable {
 	
 	//outdoor info
 	@Field Boolean isOutdoor= false, isOutdoorAvailable=false;
-	@Field String activityDescription_outdoor, name_outdoor;
+	@Field String activityDescription_outdoor;
 	
 	
 	
@@ -353,14 +353,6 @@ public class Activity extends YearPlanComponent implements Serializable {
 
 	public void setIsOutdoorAvailable(Boolean isOutdoorAvailable) {
 		this.isOutdoorAvailable = isOutdoorAvailable;
-	}
-
-	public String getName_outdoor() {
-		return name_outdoor;
-	}
-
-	public void setName_outdoor(String name_outdoor) {
-		this.name_outdoor = name_outdoor;
 	}
 	
 	

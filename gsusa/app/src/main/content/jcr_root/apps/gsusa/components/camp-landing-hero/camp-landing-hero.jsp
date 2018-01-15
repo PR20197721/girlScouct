@@ -33,7 +33,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == "")) {
                         <label for="zip-code"><%=text%></label>
                         <div class="form-wrapper clearfix">
                             <div>
-                                <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" class="zip-code" name="zip-code" placeholder="ZIP Code" />
+                                <input type="tel" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" class="zip-code" name="zip-code" placeholder="ZIP Code" />
                             </div>
                             <div>
                                 <input type="submit" class="link-arrow" value="Go >" />

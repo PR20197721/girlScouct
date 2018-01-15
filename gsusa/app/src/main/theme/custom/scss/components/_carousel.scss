@@ -322,7 +322,8 @@ div.carousel {
                         font-weight: 500;
                         margin-right: rem-calc(5);
                     }
-                    [type="text"] {
+                    [type="text"],
+                    [type="tel"] {
                         padding-left: rem-calc(5);
                         font-size: rem-calc(20);
                         width: 100%;
@@ -334,7 +335,8 @@ div.carousel {
                         -o-transition: outline-color 0.15s linear, background 0.15s linear;
                         transition: outline-color 0.15s linear, background 0.15s linear;
                     }
-                    [type="text"]:focus {
+                    [type="text"]:focus,
+                    [type="tel"]:focus {
                         outline-color: #999999;
                         outline-offset: 0;
                     }
@@ -751,6 +753,7 @@ div.carousel {
                             }
                         }
                         [type="text"],
+                        [type="tel"],
                         [type="submit"] {
                             width: 100%;
                             margin: 0;
@@ -811,11 +814,13 @@ div.carousel {
                 }
             }
             [type="text"],
+            [type="tel"],
             [type="submit"] {
                 width: 100%;
                 margin: 0;
             }
-            input[type="text"] {
+            input[type="text"],
+            input[type="tel"] {
                 padding-left: rem-calc(10);
                 font-size: rem-calc(18);
             }
