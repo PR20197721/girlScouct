@@ -833,10 +833,10 @@ function fixSlickSlideActive() {
         self.playing = false;
 
         // Set config from component
-        self.config.thumbnail.desktop = false;
-        self.config.thumbnail.mobile = true;
+        self.config.thumbnail.desktop = true;
+        self.config.thumbnail.mobile = false;
         self.config.link.desktop = false;
-        self.config.link.mobile = true;
+        self.config.link.mobile = false;
 
         // Lazy load thumbnail and link if used
         if (self.config.thumbnail.desktop || self.config.thumbnail.mobile) {
@@ -865,11 +865,6 @@ function fixSlickSlideActive() {
                 self.play();
             }
         });
-
-        // Load video right away if no thumbnail
-        if (!self.config.thumbnail.isActive()) {
-            self.createPlayer();
-        }
     };
 
     SlickPlayer.prototype.playVideo = function () {}; // Wrapper for API call
@@ -896,6 +891,7 @@ function fixSlickSlideActive() {
             this.slick.addClass("thumbnail");
         } else {
             this.slick.removeClass("thumbnail");
+            this.createPlayer(); // Load video right away if no thumbnail
         }
     };
 
