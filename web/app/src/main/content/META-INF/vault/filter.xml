@@ -2,10 +2,9 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/girlscouts"/>
     <filter root="/apps/foundation"/>
-    <filter root="/apps/wcm/core/components"/>
-    <filter root="/apps/wcm/core/content/damadmin"/>
-    <filter root="/apps/wcm/msm"/>
-    <filter root="/apps/wcm/scaffolding"/>
+    <filter root="/apps/wcm">
+        <exclude pattern="/apps/wcm/core/content/damadmin-resources2"/>
+    </filter>
     <filter root="/apps/cq/xssprotection"/>
     <filter root="/apps/dam"/>
     <filter root="/etc/council-rollout"/>
