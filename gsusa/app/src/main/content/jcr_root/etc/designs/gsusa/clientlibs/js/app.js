@@ -830,8 +830,7 @@ function fixSlickSlideActive() {
         self.underbar = params.underbar;
         self.placeholder = self.iframe.siblings(".vid-placeholder");
         self.thumbnail = self.placeholder.find("img");
-        //self.playVideo = function () {}; // Wrapper for API call
-        //self.unloadVideo = function () {}; // Wrapper for API call
+        self.playing = false;
 
         // Set config from component
         self.config.thumbnail.desktop = true;
@@ -939,7 +938,7 @@ function fixSlickSlideActive() {
 
             // Unload event
             self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-                if (self.isPlaying()) {
+                if (self.playing) {
                     self.unload();
                 }
             });
@@ -955,16 +954,16 @@ function fixSlickSlideActive() {
             self.playVideo();
         }
         self.slick.addClass("playing");
+        self.playing = true;
     };
-    SlickPlayer.prototype.isPlaying = function () {
-        return this.slick.hasClass("playing");
-    };
+    
     SlickPlayer.prototype.unload = function () {
         var self = this;
 
         self.startSlider();
         self.unloadVideo();
         self.slick.removeClass("playing");
+        self.playing = false;
     };
 
     SlickPlayer.prototype.createVimeoPlayer = function () {
