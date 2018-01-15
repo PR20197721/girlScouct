@@ -150,7 +150,7 @@ public  String readUrlFile(String urlString) throws Exception {
                             <iframe id="youtubePlayer<%=i%>" class="vid-player" data-src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                             <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="<%=title[i]%>">
                                 <p><%=title[i]%></p>
-                                <img src="<%=videoThumbNail[i]%>" />
+                                <img data-src="<%=videoThumbNail[i]%>" />
                             </a>
                         </div><% 
                     } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {
@@ -158,7 +158,7 @@ public  String readUrlFile(String urlString) throws Exception {
                             <iframe id="vimeoPlayer<%=i%>" class="vid-player" data-src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                             <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="<%=title[i]%>">
                                 <p><%=title[i]%></p>
-                                <img src="<%=videoThumbNail[i]%>" />
+                                <img data-src="<%=videoThumbNail[i]%>" />
                             </a>
                         </div><%
                     } else {

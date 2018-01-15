@@ -130,7 +130,7 @@ if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                             <iframe id="<%=urls[3]%>_<%=urls[2]%>" class="vid-player" data-src="<%=urls[0]%>" width="480" height="225" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                             <a class="vid-placeholder" data-href="<%=path%>" target="_blank" title="<%=title%>">
                                 <p><%=title%></p>
-                                <img src="<%=urls[1]%>" />
+                                <img data-src="<%=urls[1]%>" />
                             </a>
                         </div>
                     </div><%

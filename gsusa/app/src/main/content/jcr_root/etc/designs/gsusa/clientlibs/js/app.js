@@ -830,8 +830,11 @@ function fixSlickSlideActive() {
         self.type = self.iframe.attr('id').toLowerCase();
         self.underbar = params.underbar;
         self.placeholder = self.iframe.siblings(".vid-placeholder");
+        self.thumbnail = self.placeholder.find("img");
         self.playVideo = function () {};
         self.unloadVideo = function () {};
+        
+        self.thumbnail.lazyLoad();
 
         // Underbar events
         self.underbar.input.on("focus", function () {
