@@ -65,7 +65,6 @@ $('.formVol, .formHeaderVolunteer').submit(function (event) {
             spinner.stop(spinner_div);
 			ga('send', 'pageview', '/gsrecruitmentcampaign/volunteer/zipcode_entered'+"/"+zipValue);
         
-            submit_facebook_conversion_pixel("volunteer/"+"homepage");
             //put delay so that google analytics and facebook conversion pixel registers successfully
             window.setTimeout("redirect_to_council('"+result[2]+"')",1500);
         } else {
@@ -83,24 +82,3 @@ $('.formVol, .formHeaderVolunteer').submit(function (event) {
 function redirect_to_council(url) {
     parent.window.location = url;
 }
-
-function submit_facebook_conversion_pixel(src) {
-    facebookTrackingSendClick();
-}
-
-function facebookTrackingSendClick() {
-    // because image based version didn't fire well, below is using the full javascript
-    var _fbq = window._fbq || (window._fbq = []);
-    if (!_fbq.loaded) {
-    var fbds = document.createElement('script');
-        fbds.async = true;
-	fbds.src = '//connect.facebook.net/en_US/fbds.js';
-    	var s = document.getElementsByTagName('script')[0];
-	s.parentNode.insertBefore(fbds, s);
-        _fbq.loaded = true;
-    }
-    window._fbq = window._fbq || [];
-    window._fbq.push(['track', '6012336501089', {'value':'0.00','currency':'USD'}]);
-}
-
-
