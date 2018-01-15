@@ -833,7 +833,7 @@ function fixSlickSlideActive() {
         self.playing = false;
 
         // Set config from component
-        self.config.thumbnail.desktop = true;
+        self.config.thumbnail.desktop = false;
         self.config.thumbnail.mobile = true;
         self.config.link.desktop = false;
         self.config.link.mobile = true;
@@ -841,6 +841,10 @@ function fixSlickSlideActive() {
         // Lazy load thumbnail and link if used
         if (self.config.thumbnail.desktop || self.config.thumbnail.mobile) {
             self.thumbnail.lazyLoad();
+            self.toggleThumbnail();
+            $(window).on("breakpoint", function () {
+                self.toggleThumbnail();
+            });
         }
         if (self.config.link.desktop || self.config.link.mobile) {
             self.placeholder.lazyLoad();
@@ -884,6 +888,14 @@ function fixSlickSlideActive() {
             isActive: function () {
                 return (this.desktop && !mobile) || (this.mobile && mobile);
             }
+        }
+    };
+    
+    SlickPlayer.prototype.toggleThumbnail = function () {
+        if (this.config.thumbnail.isActive()) {
+            this.slick.addClass("thumbnail");
+        } else {
+            this.slick.removeClass("thumbnail");
         }
     };
 
@@ -932,7 +944,7 @@ function fixSlickSlideActive() {
             self.iframe.on("play", function () {
                 if (!self.config.thumbnail.isActive()) {
                     self.play();
-                    console.log("play");
+                    //console.log("play");
                 }
             });
 

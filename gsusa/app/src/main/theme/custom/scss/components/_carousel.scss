@@ -20,6 +20,21 @@ $slick-next-character: "\f138";
             display: block;
         }
     }
+    &.thumbnail {
+        .vid-placeholder {
+            display: block;
+            &:before,
+            &:after {
+                display: block;
+            }
+        }
+    }
+    &:not(.thumbnail) {
+        .vid-player {
+            visibility: visible;
+            z-index: 200;
+        }
+    }
     &.playing {
         .slick-active {
             .vid-player {
@@ -51,6 +66,7 @@ $slick-next-character: "\f138";
         z-index: 300;
     }
     &.slick-active:after {
+        // Allow user interaction with active slide
         display: none;
     }
     .vid-player {
@@ -59,7 +75,7 @@ $slick-next-character: "\f138";
     }
     .vid-placeholder {
         // Video thumbnail
-        display: block;
+        display: none;
         position: absolute;
         top: 0;
         left: 0;
@@ -96,6 +112,7 @@ $slick-next-character: "\f138";
         }
         &:before {
             // Play button box
+            display: none;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -113,6 +130,7 @@ $slick-next-character: "\f138";
         }
         &:after {
             // Play button triangle
+            display: none;
             position: absolute;
             top: 50%;
             left: 50%;
