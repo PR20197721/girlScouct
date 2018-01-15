@@ -20,6 +20,21 @@ $slick-next-character: "\f138";
             display: block;
         }
     }
+    &.playing {
+        .slick-active {
+            .vid-player {
+                visibility: visible;
+                z-index: 1000;
+            }
+            .vid-placeholder {
+                display: none;
+            }
+        }
+        .slick-prev,
+        .slick-next {
+            display: inline-block !important;
+        }
+    }
 }
 
 .slick-slide {
@@ -121,15 +136,6 @@ $slick-next-character: "\f138";
             background-color: rgb(0, 174, 88);
         }
     }
-    &.playing {
-        .vid-player {
-            visibility: visible;
-            z-index: 1000;
-        }
-        .vid-placeholder {
-            display: none;
-        }
-    }
 }
 
 @media only screen and (max-width: 480px) {
@@ -137,12 +143,8 @@ $slick-next-character: "\f138";
     .video-slider-wrapper {
         .slick-prev,
         .slick-next {
-            display: none !important;
             width: rem-calc(32);
             height: rem-calc(106);
-            &.show {
-                display: inline-block !important;
-            }
         }
     }
 }

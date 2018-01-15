@@ -825,9 +825,7 @@ function fixSlickSlideActive() {
 
         self.iframe = params.iframe;
         self.slick = params.slick;
-        self.arrows = params.arrows;
         self.autoplay = params.autoplay;
-        self.slide = self.iframe.parents(".slick-slide").eq(0);
         self.playing = false;
         self.type = self.iframe.attr('id').toLowerCase();
         self.underbar = params.underbar;
@@ -844,8 +842,7 @@ function fixSlickSlideActive() {
 
         self.placeholder.on("click", function () {
             self.stopSlider();
-            self.slide.addClass("playing");
-            self.arrows.addClass("show");
+            self.slick.addClass("playing");
             self.playing = true;
             self.createPlayer();
         });
@@ -925,10 +922,7 @@ function fixSlickSlideActive() {
         self.startSlider();
         self.unloadVideo();
         self.playing = false;
-        if (!mobile) {
-            self.slide.removeClass("playing");
-            self.arrows.removeClass("show");
-        }
+        self.slick.removeClass("playing");
     };
 
     SlickPlayer.prototype.createVimeoPlayer = function () {
@@ -1005,7 +999,6 @@ function fixSlickSlideActive() {
     $('.slick-slider').each(function () {
         // For each embed, create player events (Make sure player.js is loaded first)
         var slick = $(this),
-            arrows = slick.find(".slick-next, .slick-prev"),
             autoplay = slick.slick('slickGetOption', 'autoplay'),
             underbar = new Underbar(slick.parent().find('.zip-council').eq(0));
 
@@ -1013,7 +1006,6 @@ function fixSlickSlideActive() {
             new SlickPlayer({
                 iframe: $(this),
                 slick: slick,
-                arrows: arrows,
                 autoplay: autoplay,
                 underbar: underbar
             });
