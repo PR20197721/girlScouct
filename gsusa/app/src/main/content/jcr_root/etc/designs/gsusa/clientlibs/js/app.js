@@ -177,7 +177,7 @@ function fixSlickSlideActive() {
     }
     mobile = isMobile();
     $(window).on("resize", function () {
-        if (isMobile() === !mobile) { // Trigger once when the breakpoint is passed
+        if (isMobile() !== mobile) { // Trigger once when the breakpoint is passed
             mobile = !mobile;
             $(window).trigger("breakpoint");
             //console.log("Mobile is: " + mobile);
@@ -796,7 +796,7 @@ function fixSlickSlideActive() {
                 }]*/
         });
     }
-    
+
     $.fn.lazyLoad = function () {
         var self = this,
             attr = {
@@ -804,13 +804,13 @@ function fixSlickSlideActive() {
                 "href": "data-href"
             },
             src;
-        
+
         for (src in attr) {
             if (attr.hasOwnProperty(src) && (!self.attr(src) || self.attr(src) === "") && self.attr(attr[src])) {
                 self.attr(src, self.attr(attr[src]));
             }
         }
-        
+
         return self;
     };
 
@@ -826,15 +826,26 @@ function fixSlickSlideActive() {
         self.iframe = params.iframe;
         self.slick = params.slick;
         self.autoplay = params.autoplay;
-        self.playing = false;
         self.type = self.iframe.attr('id').toLowerCase();
         self.underbar = params.underbar;
         self.placeholder = self.iframe.siblings(".vid-placeholder");
         self.thumbnail = self.placeholder.find("img");
-        self.playVideo = function () {};
-        self.unloadVideo = function () {};
-        
-        self.thumbnail.lazyLoad();
+        //self.playVideo = function () {}; // Wrapper for API call
+        //self.unloadVideo = function () {}; // Wrapper for API call
+
+        // Set config from component
+        self.config.thumbnail.desktop = true;
+        self.config.thumbnail.mobile = true;
+        self.config.link.desktop = false;
+        self.config.link.mobile = true;
+
+        // Lazy load thumbnail and link if used
+        if (self.config.thumbnail.desktop || self.config.thumbnail.mobile) {
+            self.thumbnail.lazyLoad();
+        }
+        if (self.config.link.desktop || self.config.link.mobile) {
+            self.placeholder.lazyLoad();
+        }
 
         // Underbar events
         self.underbar.input.on("focus", function () {
@@ -843,12 +854,38 @@ function fixSlickSlideActive() {
             self.startSlider();
         });
 
-        self.placeholder.on("click", function () {
-            self.stopSlider();
-            self.slick.addClass("playing");
-            self.playing = true;
-            self.createPlayer();
+        // Placeholder events
+        self.placeholder.on("click", function (event) {
+            if (!self.config.link.isActive()) { // If using the thumbnail as a lazyload placeholder
+                event.preventDefault(); // Prevent anchor tag from opening link
+                event.stopPropagation();
+                self.play();
+            }
         });
+
+        // Load video right away if no thumbnail
+        if (!self.config.thumbnail.isActive()) {
+            self.createPlayer();
+        }
+    };
+
+    SlickPlayer.prototype.playVideo = function () {}; // Wrapper for API call
+    SlickPlayer.prototype.unloadVideo = function () {}; // Wrapper for API call
+    SlickPlayer.prototype.config = { // Determine how player behaves
+        thumbnail: {
+            desktop: false,
+            mobile: false,
+            isActive: function () {
+                return (this.desktop && !mobile) || (this.mobile && mobile);
+            }
+        },
+        link: {
+            desktop: false,
+            mobile: false,
+            isActive: function () {
+                return (this.desktop && !mobile) || (this.mobile && mobile);
+            }
+        }
     };
 
     SlickPlayer.prototype.stopSlider = function () {
@@ -857,7 +894,7 @@ function fixSlickSlideActive() {
             this.slick.slick('slickSetOption', 'autoplay', false, false);
             this.slick.slick('autoPlay', $.noop);
         }
-        if (!this.underbar.isFocused()) {
+        if (!this.underbar.isFocused() && !this.config.link.isActive()) {
             this.underbar.hide();
         }
     };
@@ -868,7 +905,7 @@ function fixSlickSlideActive() {
             this.slick.slick('slickSetOption', 'autoplay', true, false);
             this.slick.slick('autoPlay', $.noop);
         }
-        if (!this.underbar.isFocused()) {
+        if (!this.underbar.isFocused() && !this.config.link.isActive()) {
             this.underbar.show();
         }
     };
@@ -891,18 +928,18 @@ function fixSlickSlideActive() {
                     });
                 }
             }
-            
+
             // Play event
             self.iframe.on("play", function () {
-                //self.play();
-                //self.stopSlider();
-                //self.playing = true;
-                console.log("play");
+                if (!self.config.thumbnail.isActive()) {
+                    self.play();
+                    console.log("play");
+                }
             });
 
             // Unload event
             self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-                if (self.playing) {
+                if (self.isPlaying()) {
                     self.unload();
                 }
             });
@@ -912,19 +949,21 @@ function fixSlickSlideActive() {
     SlickPlayer.prototype.play = function () {
         var self = this;
 
-        self.placeholder.on("click", function () {
-            if (!mobile) { // Browsers will block playback on mobile anyway, prevent Vimeo bug by manually preventing
-                self.playVideo();
-            }
-        }).trigger("click");
+        self.createPlayer();
+        self.stopSlider();
+        if (!mobile) { // Browsers will block playback on mobile anyway, prevent Vimeo bug by manually preventing
+            self.playVideo();
+        }
+        self.slick.addClass("playing");
     };
-
+    SlickPlayer.prototype.isPlaying = function () {
+        return this.slick.hasClass("playing");
+    };
     SlickPlayer.prototype.unload = function () {
         var self = this;
 
         self.startSlider();
         self.unloadVideo();
-        self.playing = false;
         self.slick.removeClass("playing");
     };
 
@@ -945,9 +984,11 @@ function fixSlickSlideActive() {
             self.player.on('play', function () {
                 self.iframe.trigger("play");
             });
-            
+
             // Play
-            self.play();
+            if (self.config.thumbnail.isActive()) {
+                self.play();
+            }
         });
     };
 
@@ -963,16 +1004,18 @@ function fixSlickSlideActive() {
             self.unloadVideo = function () {
                 self.player.stopVideo();
             };
-            
+
             // Listener events
             self.player.addEventListener("onStateChange", function (event) {
                 if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering event to prevent delay before triggering play state
                     self.iframe.trigger("play");
                 }
             });
-            
+
             // Play
-            self.play();
+            if (self.config.thumbnail.isActive()) {
+                self.play();
+            }
         });
     };
 

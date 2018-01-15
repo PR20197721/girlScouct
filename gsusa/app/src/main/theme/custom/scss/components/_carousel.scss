@@ -24,7 +24,7 @@ $slick-next-character: "\f138";
         .slick-active {
             .vid-player {
                 visibility: visible;
-                z-index: 1000;
+                z-index: 200;
             }
             .vid-placeholder {
                 display: none;
@@ -48,7 +48,7 @@ $slick-next-character: "\f138";
         bottom: 0;
         left: 0;
         right: 0;
-        z-index: 200;
+        z-index: 300;
     }
     &.slick-active:after {
         display: none;
