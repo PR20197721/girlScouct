@@ -69,6 +69,17 @@ $slick-next-character: "\f138";
         // Allow user interaction with active slide
         display: none;
     }
+    .videoWrapper,
+    .vid-slide-wrapper {
+        &:after {
+            display: block;
+            content: "Loading Video...";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
     .vid-player {
         visibility: hidden;
         z-index: -1;
