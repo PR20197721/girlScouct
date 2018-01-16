@@ -5,12 +5,13 @@
 <div id="right-canvas-menu"> 
 	<ul class="side-nav" style="padding:0px; background-color:#6b6b6b;"> 
 <%
+    
 final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
 String headerPath = (String)request.getAttribute("headerPath");
 Resource globalNav = resourceResolver.resolve(headerPath+"/global-nav");
 if(globalNav != null){
 	ValueMap globalNavProps = globalNav.getValueMap();
-	String[] links = globalNavProps.get("links", String[].class);
+	String[] links = (String[])(request.getAttribute("links"));
 	request.setAttribute("globalNavigation", links);
 	for (int i = 0; i < links.length; i++) {
 	        String[] values = links[i].split("\\|\\|\\|");

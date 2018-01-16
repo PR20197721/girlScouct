@@ -61,6 +61,7 @@ public boolean hasVisibleChildren(Page page){
 }
 %>
 <%
+   
 final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
 //Force currentPage from request
 Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
@@ -70,7 +71,32 @@ if (newCurrentPage != null) {
 
 Boolean displaySecondaryNavFlyOut = properties.get("displaySecondaryNavFlyOut", Boolean.FALSE);
 String flyoutClass = displaySecondaryNavFlyOut ? "flyout-nav" : "";
-String[] links = properties.get("links", String[].class);
+
+List<String> linksList = new ArrayList<String>();
+if(currentNode.hasNode("links")){
+	Node links = currentNode.getNode("links");
+    NodeIterator iter = links.getNodes();
+    while(iter.hasNext()){
+		Node linkNode = iter.nextNode();
+    	if(linkNode.hasProperty("large") && linkNode.hasProperty("url") 
+           && linkNode.hasProperty("medium")  && linkNode.hasProperty("small") ){
+			String url = linkNode.getProperty("url").getString();
+        	String large = linkNode.getProperty("large").getString();
+            String medium = linkNode.getProperty("medium").getString();
+            String small = linkNode.getProperty("small").getString();
+
+			String clazz = "";
+            if(linkNode.hasProperty("class")){
+                clazz = linkNode.getProperty("class").getString();
+            }
+
+        	linksList.add(large + "|||" + url + "|||" + clazz + "|||" + medium + "|||" + small);
+    	}
+
+	}
+}
+String[] links = linksList.toArray(new String[0]);
+request.setAttribute("links", links);
 if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>##### Global Navigation #####<%
 } else if (links != null){

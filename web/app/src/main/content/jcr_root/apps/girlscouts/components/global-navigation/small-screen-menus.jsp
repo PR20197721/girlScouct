@@ -78,7 +78,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
   		Resource globalNav = resourceResolver.resolve(headerPath+"/global-nav");
   		if(globalNav != null){
   	   		ValueMap globalNavProps = globalNav.getValueMap();
-   			String[] links = globalNavProps.get("links", String[].class);
+  	   		String[] links = (String[])(request.getAttribute("links"));
    			request.setAttribute("globalNavigation", links);
    			String insertAfter="";
    			String currTitle = currentPage.getTitle();
