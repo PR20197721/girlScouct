@@ -10,6 +10,7 @@
 <%
 String currPath = currentPage.getPath();
 String[] links = (String[])(request.getAttribute("links"));
+if(links != null){
 for (int i = 0; i < links.length; i++) {
      String[] values = links[i].split("\\|\\|\\|");
      String label = values[0];
@@ -25,6 +26,7 @@ for (int i = 0; i < links.length; i++) {
      	<li>
      <% } %>
 		<div><a <%= clazz %> href="<%= path %>"<%= newWindow %>><%= label %></a></div></li>
- <% } %>
+ <% } 
+}%>
 </ul>
 </div>
