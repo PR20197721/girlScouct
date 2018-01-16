@@ -833,7 +833,7 @@ function fixSlickSlideActive() {
         self.playing = false;
 
         // Set config from component
-        self.config.thumbnail.desktop = true;
+        self.config.thumbnail.desktop = false;
         self.config.thumbnail.mobile = false;
         self.config.link.desktop = false;
         self.config.link.mobile = false;
@@ -845,6 +845,8 @@ function fixSlickSlideActive() {
             $(window).on("breakpoint", function () {
                 self.toggleThumbnail();
             });
+        } else {
+            self.createPlayer(); // Load video right away if no thumbnail
         }
         if (self.config.link.desktop || self.config.link.mobile) {
             self.placeholder.lazyLoad();
