@@ -130,18 +130,26 @@ public  String readUrlFile(String urlString) throws Exception {
 	}
 
 	String source7 = properties.get("source7", "not_set");
-	String homeCarouselAutoscroll = properties.get("homecarouselautoscroll", "false");
-	String homeCarouselTimeDelay = properties.get("homecarouseltimedelay", "1000");
-	String homeCarouselAutoPlaySpeed = properties.get("homecarouselautoplayspeed", "2000");
 	String blogBgImage = properties.get("blogbgimage", "");
 	String hideZIPCode = properties.get("hideZIPCode", "false");
+    
+    JSONObject slickOptions = new JSONObject();
+    slickOptions.put("speed", properties.get("homecarouseltimedelay", 1000));
+    slickOptions.put("autoplay", properties.get("homecarouselautoscroll", false));
+    slickOptions.put("autoplaySpeed", properties.get("homecarouselautoplayspeed", 2000));
+    
+    JSONObject playerConfig = new JSONObject();
+    playerConfig.put("thumbnailDesktop", properties.get("thumbnailDesktop", false));
+    playerConfig.put("thumbnailMobile", properties.get("thumbnailMobile", false));
+    playerConfig.put("linkDesktop", properties.get("linkDesktop", false));
+    playerConfig.put("linkMobile", properties.get("linkMobile", false));
 
 	//passing this to another jsp
 	request.setAttribute("source7", source7);
 %>
 
 <div class="hero-feature">
-	<ul class="main-slider" slick-options='{"speed":<%=homeCarouselTimeDelay%>, "autoplay":<%=homeCarouselAutoscroll%>, "autoplaySpeed":<%=homeCarouselAutoPlaySpeed%>}'><%
+	<ul class="main-slider" slick-options='<%=slickOptions.toString()%>' player-config='<%=playerConfig.toString()%>'><%
         for (int i = 0; i < numberOfImages; i++) { 
 			if (!tempHidden[i]) {
                 %><li id="tag_explore_main_<%=i%>"><%

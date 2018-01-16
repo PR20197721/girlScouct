@@ -384,18 +384,21 @@ function fixSlickSlideActive() {
         return rv;
     }());
 
-    function getSlickOptions(el) {
-        var jsonData = el.attr("slick-options"),
-            options;
+    function getJSONFromAttr(el, attr) {
+        var jsonData = el.attr(attr);
         if (jsonData) {
-            options = JSON.parse(jsonData);
-            if (!isNewerThanIE9) {
-                options.autoplay = false;
-            }
-            return options;
+            return JSON.parse(jsonData);
         } else {
             return {};
         }
+    }
+
+    function getSlickOptions(el) {
+        var options = getJSONFromAttr(el, "slick-options");
+        if (!isNewerThanIE9) {
+            options.autoplay = false;
+        }
+        return options;
     }
 
     $('.shop-slider').slick({
@@ -834,10 +837,10 @@ function fixSlickSlideActive() {
         self.playing = false;
 
         // Set config from component
-        self.config.thumbnail.desktop = true;
-        self.config.thumbnail.mobile = false;
-        self.config.link.desktop = false;
-        self.config.link.mobile = false;
+        self.config.thumbnail.desktop = params.config.thumbnailDesktop || false;
+        self.config.thumbnail.mobile = params.config.thumbnailMobile || false;
+        self.config.link.desktop = params.config.linkDesktop || false;
+        self.config.link.mobile = params.config.linkMobile || false;
 
         // Lazy load thumbnail and link if used
         if (self.config.thumbnail.desktop || self.config.thumbnail.mobile) {
@@ -1054,18 +1057,21 @@ function fixSlickSlideActive() {
         }
     };
 
+    // Instantiate SlickPlayers and Underbars
     $('.slick-slider').each(function () {
         // For each embed, create player events (Make sure player.js is loaded first)
         var slick = $(this),
             autoplay = slick.slick('slickGetOption', 'autoplay'),
-            underbar = new Underbar(slick.parent().find('.zip-council').eq(0));
+            underbar = new Underbar(slick.parent().find('.zip-council').eq(0)),
+            config = getJSONFromAttr(slick, "player-config");
 
         slick.find("iframe").each(function () {
             new SlickPlayer({
                 iframe: $(this),
                 slick: slick,
                 autoplay: autoplay,
-                underbar: underbar
+                underbar: underbar,
+                config: config
             });
         });
     }).on('swipeMove', function (event) {
