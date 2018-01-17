@@ -489,6 +489,14 @@ $cursor-text-value: text !default;
       vertical-align: middle;
     }
 
+    @media only screen and (max-width: 500px) {
+      #rightContent .image.parbase.section,
+      #rightContent .image.cq-analyzable.parbase.section {
+        display: flex;
+        justify-content: center;
+      }
+    }
+
     //
     // Global resets for forms
     //
