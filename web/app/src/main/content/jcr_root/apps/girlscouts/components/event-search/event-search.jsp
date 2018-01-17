@@ -38,19 +38,21 @@
    		includeCart = true;
    	}
    }
-   if(includeCart){
-	   searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region,path,"sf-activities");
-   }else{
-   		searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region,path,currentPage.getAbsoluteParent(1).getName());
-   }
    Map<String,List<FacetsInfo>> facetsAndTags =  searchQuery.getFacets();
-   SearchResultsInfo searchResultsInfo = searchQuery.getSearchResultsInfo();
-   SearchResult searchResults = searchResultsInfo.getSearchResults();
-
-   List<String> results = searchResultsInfo.getResults();
-   long hitCounts = searchResultsInfo.getHitCounts();
-   
+   SearchResultsInfo searchResultsInfo = null;
+   SearchResult searchResults = null;
+   if(path != null){
+	   if(includeCart){
+		   searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region,path,"sf-activities");
+	   }else{
+	   		searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region,path,currentPage.getAbsoluteParent(1).getName());
+	   }
+	   searchResultsInfo = searchQuery.getSearchResultsInfo();
+	   searchResults = searchResultsInfo.getSearchResults();
+   }
+  // List<String> results = searchResultsInfo.getResults();
+  // long hitCounts = searchResultsInfo.getHitCounts();  
    request.setAttribute("searchResults", searchResults);
    request.setAttribute("facetsAndTags", facetsAndTags);
-   request.setAttribute("eventresults", searchQuery.getSearchResultsInfo());
+   request.setAttribute("eventresults", searchResultsInfo);
 %>
