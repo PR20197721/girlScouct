@@ -33,6 +33,13 @@
                     name="./hideInNav"
                     type="checkbox"
                     xtype="selection"/>
+                <hideinsearch
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Hide in Search"
+                    inputValue="true"
+                    name="./hideInSearch"
+                    type="checkbox"
+                    xtype="selection"/>
                 <breakinheritance
                     jcr:primaryType="cq:Widget"
                     fieldDescription="Rejects all GSUSA content rollouts for this page. If you want to sync individual components with national content, you will need to unlock and relock them"

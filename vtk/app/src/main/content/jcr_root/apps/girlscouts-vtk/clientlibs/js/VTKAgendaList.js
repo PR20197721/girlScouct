@@ -71,7 +71,6 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 			    	
 			    	field.outdoorDescriptionField.el.dom.name = path + 'activityDescription_outdoor';
                 	field.numberField.setValue(index++);
-                	field.outdoorNameField.el.dom.name = path + 'name_outdoor';
                 }
             }, this);
         }, this);
@@ -116,8 +115,7 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 	        			"duration": child.duration,
 	        			"description": child.activityDescription,
 	        			"isOutdoorAvailable": child.isOutdoorAvailable,
-	        			"activityDescription_outdoor": child.activityDescription_outdoor,
-	        			"name_outdoor": child.name_outdoor
+	        			"activityDescription_outdoor": child.activityDescription_outdoor
 	        		});
 	        	}
 	        }

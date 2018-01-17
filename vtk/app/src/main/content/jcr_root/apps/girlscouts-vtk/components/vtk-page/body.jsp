@@ -1,6 +1,7 @@
 <%@page import="org.girlscouts.vtk.auth.models.ApiConfig,
                 org.girlscouts.vtk.helpers.CouncilMapper,
-                com.day.cq.wcm.api.components.IncludeOptions" %>
+                com.day.cq.wcm.api.components.IncludeOptions,
+                org.apache.sling.settings.SlingSettingsService" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/body.jsp -->
     
@@ -109,8 +110,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			</div>
 		</div>
 		 <div id="gsModal"></div>
-
-		 <div id="gsDialog"></div>
 		 
 		 <!--  script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script -->
 		 <!--  script src="http://fb.me/react-0.12.1.js"></script -->
@@ -135,6 +134,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 ga('create', 'UA-2646810-36', 'auto', {'name': 'vtkTracker'});
 </script>
 
+<%
+	boolean isProd = false;
+	for (String runMode : sling.getService(SlingSettingsService.class).getRunModes()) {
+		if ("prod".equals(runMode)) isProd = true;
+	}
+	if (isProd) { // begin prod walkme
+%>
+<script type="text/javascript">(function() {var walkme = document.createElement('script'); walkme.type = 'text/javascript'; walkme.async = true; walkme.src = 'https://cdn.walkme.com/users/b932d7eea0fd45f6bce2b56b3b01f72e/walkme_b932d7eea0fd45f6bce2b56b3b01f72e_https.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(walkme, s); window._walkmeConfig =
+{smartLoad:true}
+; })();</script>
+<%
+	} else { // end prod walkme and begin test walkme
+%>
+<script type="text/javascript">(function() {var walkme = document.createElement('script'); walkme.type = 'text/javascript'; walkme.async = true; walkme.src = 'https://cdn.walkme.com/users/b932d7eea0fd45f6bce2b56b3b01f72e/test/walkme_b932d7eea0fd45f6bce2b56b3b01f72e_https.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(walkme, s); window._walkmeConfig =
+{smartLoad:true}
+; })();</script>
+<%
+	} // end test walkme
+%>
 
 <% 
 

@@ -3,17 +3,14 @@ function loadMeetings() {
     $("#yearPlanMeetings").load(url, resizeWindow);
 }
 
-function x(planId, planPath, confirmMsg, planName, isMeetingLib) {
+function x(planId, planPath, confirmMsg, planName) {
 
-	 x1_1(planPath, planName,isMeetingLib);
-	 
-		/*
-	 if (confirmMsg != null && confirmMsg != '') {
+    if (confirmMsg != null && confirmMsg != '') {
 
         if (!confirm(confirmMsg)) {
             return;
         } else {
-            x1_1(planPath, planName,isMeetingLib);
+            x1_1(planPath, planName);
         }
     } else {
 
@@ -26,39 +23,41 @@ function x(planId, planPath, confirmMsg, planName, isMeetingLib) {
                 if (!confirm("Are You Sure? You will lose customizations that you have made")) {
                     return;
                 } else {
-                    x1_1(planPath, planName,isMeetingLib);
+                    x1_1(planPath, planName);
                 }
             } else {
-                x1_1(planPath, planName,isMeetingLib);
+                x1_1(planPath, planName);
             }
             vtkTrackerPushAction('ChangeYearPlan');
         });
 
     }
+    /*
+    check_charcount.log(4);
+
+    $.ajax({
+        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
+        cache: false
+    }).done(function( html ) {
+        //loadMeetings();
+        location.reload();
+    });
     */
-	 
-  
 }
 
-function x1_1(planPath, planName, isMeetingLib) {
-	
-	if( isMeetingLib ){
-		loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
-	}else{
-	
-	    $.ajax({
-	        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser=" + planPath + "&addYearPlanName=" + planName,
-	        cache: false
-	    }).done(function(html) {
-	        //loadMeetings();
-	        if (html != null && $.trim(html) != "") {
-	            alert($.trim(html));
-	            return;
-	        }
-	        vtkTrackerPushAction('CreateYearPlan');
-	        location.reload();
-	    });
-	}
+function x1_1(planPath, planName) {
+    $.ajax({
+        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser=" + planPath + "&addYearPlanName=" + planName,
+        cache: false
+    }).done(function(html) {
+        //loadMeetings();
+        if (html != null && $.trim(html) != "") {
+            alert($.trim(html));
+            return;
+        }
+        vtkTrackerPushAction('CreateYearPlan');
+        location.reload();
+    });
 }
 
 
@@ -167,13 +166,6 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
     // });
 }
 
-function execIfIsFirefox() { 
-    var top__ = parseInt($(document).scrollTop());
-    if (! !~ navigator.userAgent.toLowerCase().indexOf('firefox')) {
-            $(document).scrollTop(0);
-    }
-}
-
 function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 
     var wWidth = $(window).width();
@@ -199,11 +191,14 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
             open: function() {
 
                 $('.scroll').css('max-height', ($(window).height() - 75) + 'px');
-
-
                 
+
+
                 $("body").css({ overflow: 'hidden' });
-               
+                // $(".modalWrap").css({
+                //  'max-height': $(window).height() + 'px !important',
+                //  'height': $(window).height() + 'px !important'
+                //  });
                 if (!showTitle) {
                     $(".ui-dialog-titlebar").hide();
                 } else {
@@ -216,8 +211,6 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
                         placeholder_IE9();
                     }
                 }
-
-                execIfIsFirefox();
             },
             close: function() {
                 $("body").css({ overflow: 'inherit' });
@@ -243,8 +236,6 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
                 }
                 $("body").css({ overflow: 'hidden' });
                 placeholder_IE9();
-
-                execIfIsFirefox();
             },
             close: function() {
                 $("body").css({ overflow: 'inherit' });
@@ -281,45 +272,23 @@ function placeholder_IE9() {
     }
 }
 
-var yesPlan = (function () {
- 
-    var _auto = true;
-
-    function _block() {
-               document.getElementById('yearPlanMeetings').style.display = 'block';
-        document.getElementById('yearPlanSelection_').style.display = 'none';
-
+function yesPlan() {
+    if (document.getElementById('yearPlanMeetings').style.display == 'none') {
+        document.getElementById('yearPlanMeetings').style.display = 'block';
+        document.getElementById('yearPlanSelection').style.display = 'none';
+        document.getElementById('showHideReveal').innerHTML = 'SEE YEAR PLAN LIBRARY';
+        // document.getElementById('arrowDirection').innerHTML='&#9660;';
         $('#showHideReveal').toggleClass('open').addClass('close');
         $("#empty-yp-directions").show();
-    }
-    function _none() {
-       document.getElementById('yearPlanMeetings').style.display = 'none';
-        document.getElementById('yearPlanSelection_').style.display = 'block';
+    } else {
+        document.getElementById('yearPlanMeetings').style.display = 'none';
+        document.getElementById('yearPlanSelection').style.display = 'block';
+        document.getElementById('showHideReveal').innerHTML = 'YEAR PLAN LIBRARY';
+        // document.getElementById('arrowDirection').innerHTML='&#9650;';
         $('#showHideReveal').removeClass('close').addClass('open');
         $("#empty-yp-directions").hide();
-        
     }
-    function click() {
-        _auto = false;
-        _logic()
-    }
-    function auto() {
-
-        if (_auto){
-            _logic()
-            _auto = false;
-        }    
-    }
-    function _logic() {
-        if (document.getElementById('yearPlanMeetings').style.display == 'none') {
-            _block();
-        } else {
-            _none();
-        }
-    }
-    return {click: click, auto: auto}
-})();
-
+}
 
 function addLocation() {
 
@@ -799,8 +768,10 @@ function expiredcheck(ssId, ypId) {
         dataType: 'json',
         cache: false
     }).done(function(obj) {
-        
-       
+        //console.log("**"+html+"**");
+        //var obj = jQuery.parseJSON(html );
+        console.log("/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=" + ssId + "&ypid=" + ypId + "&d=");
+        console.log("*** " + (obj.yp_cng == 'true'));
 
         if (obj.yp_cng == 'true') {
             //alert("reloading...");
@@ -957,43 +928,38 @@ function printRelogin(reloginSelect) {
     }
 }
 
-function chgYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName, isMeetingLib) {
-	
+function chgYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName) {
     if (isYearPlan) {
-        if (planName == yearPlanName) {
+        if (planName === yearPlanName) {
             confirmMsg = "Are you sure to reset the yearplan?";
         }
     }
-    x(planId, planPath, confirmMsg, planName, isMeetingLib);
+    x(planId, planPath, confirmMsg, planName);
 };
 
-
-function createBlankYearPlan() {
-   
-    $.ajax({
-        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids=",
-        cache: false
-    }).done(function( html ) {
-  	  vtkTrackerPushAction('CreateCustomYearPlan');
-  	  location.reload();
-    });
-  }
-
-
-function chgCustYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName, isBlankYearPlan) {
-	
-	if (isYearPlan) {
-        if (planName == yearPlanName) {
+function chgCustYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName) {
+    if (isYearPlan) {
+        if (planName === yearPlanName) {
             confirmMsg = "Are you sure to reset the yearplan?";
         }
     }
 
-  
-    if( isBlankYearPlan ){
-    	createBlankYearPlan();
-    }else{
-    	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
-    }
+    // doMeetingLib(false);
+    //"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html",
+    // $('#gsModal').foundation('reveal', 'open', {
+    //     url: "/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html",
+    //     data: {
+    //         newCustYr: true
+    //     },
+
+    //     success: function(data) {
+    //         var min_height = $('#sortable1').height() - 71;
+    //         $("#sortable2").css('min-height', min_height);
+    //     }
+    // });
+    
+    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
+
 };
 
 function getCngYearPlan() {
@@ -1018,10 +984,10 @@ function replaceMeetingHref(mPath, mDate) {
     var replaceMeeting = document.getElementById("replaceMeeting");
     var replaceMeetingSmall = document.getElementById("replaceMeetingSmall");
     if (replaceMeeting != null) {
-        replaceMeeting.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "&isReplaceMeeting=true', false, null, true)\">replace this meeting</a>";
+        replaceMeeting.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "', false, null, true)\">replace this meeting</a>";
     }
     if (replaceMeetingSmall != null) {
-        replaceMeetingSmall.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "&isReplaceMeeting=true', false, null, true)\">replace this meeting</a>";
+        replaceMeetingSmall.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "', false, null, true)\">replace this meeting</a>";
     }
 
 }
@@ -2159,6 +2125,7 @@ var initNotes = (function(global, ModalVtk, $) {
     }
 
 
+    
     $(function() {
         var editormain = Object.create(editor);
         var countermain = Object.create(counter);
@@ -2199,7 +2166,3 @@ var initNotes = (function(global, ModalVtk, $) {
     };
 
 })(this, ModalVtk, $);
-
-
-
-

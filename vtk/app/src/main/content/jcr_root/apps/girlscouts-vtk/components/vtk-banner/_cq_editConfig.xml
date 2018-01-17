@@ -3,4 +3,5 @@
     cq:actions="[text:VTK Banner,-,edit,delete]"
     cq:disableTargeting="{Boolean}true"
     cq:layout="editbar"
-    jcr:primaryType="cq:EditConfig"/>
+    jcr:primaryType="cq:EditConfig">
+</jcr:root>

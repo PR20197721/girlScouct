@@ -1,37 +1,41 @@
-<?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>org.girlscouts.tools</groupId>
   <artifactId>vtk-meeting-loader</artifactId>
-  <version>1.0</version>
+  <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
+
   <name>vtk-meeting-loader</name>
   <url>http://maven.apache.org</url>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  <repositories>
-    <repository>
-      <id>adobe</id>
-      <name>Adobe Public Repository</name>
-      <url>http://repo.adobe.com/nexus/content/groups/public/</url>
-      <layout>default</layout>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>adobe</id>
-      <name>Adobe Public Repository</name>
-      <url>http://repo.adobe.com/nexus/content/groups/public/</url>
-      <layout>default</layout>
-    </pluginRepository>
-  </pluginRepositories>
+
+    <repositories>
+        <repository>
+            <id>adobe</id>
+            <name>Adobe Public Repository</name>
+            <url>http://repo.adobe.com/nexus/content/groups/public/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>adobe</id>
+            <name>Adobe Public Repository</name>
+            <url>http://repo.adobe.com/nexus/content/groups/public/</url>
+            <layout>default</layout>
+        </pluginRepository>
+    </pluginRepositories>
+
   <dependencies>
     <dependency>
-      <groupId>org.girlscouts.vtk</groupId>
-      <artifactId>girlscouts-vtk-bundle</artifactId>
-      <version>1.0-SNAPSHOT</version>
+        <groupId>org.girlscouts.vtk</groupId>
+    	<artifactId>girlscouts-vtk-bundle</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -44,65 +48,67 @@
       <artifactId>jackrabbit-ocm</artifactId>
       <version>1.5.3</version>
     </dependency>
-    <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi-ooxml</artifactId>
-      <version>3.10-FINAL</version>
-    </dependency>
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>3.10-FINAL</version>
+</dependency>
     <dependency>
       <groupId>javax.jcr</groupId>
       <artifactId>jcr</artifactId>
       <version>2.0</version>
     </dependency>
-    <dependency>
-      <groupId>org.apache.jackrabbit</groupId>
-      <artifactId>jackrabbit-jcr-commons</artifactId>
-      <version>2.8.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jackrabbit</groupId>
-      <artifactId>jackrabbit-jcr2dav</artifactId>
-      <version>2.3.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.7</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.7</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.sling</groupId>
-      <artifactId>org.apache.sling.api</artifactId>
-      <version>2.2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpmime</artifactId>
-      <version>4.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jsoup</groupId>
-      <artifactId>jsoup</artifactId>
-      <version>1.7.3</version>
-    </dependency>
-    <dependency>
-      <groupId>com.day.cq</groupId>
-      <artifactId>cq-commons</artifactId>
-      <version>5.6.4</version>
-    </dependency>
-    <dependency>
-      <groupId>com.day.commons</groupId>
-      <artifactId>day-commons-text</artifactId>
-      <version>1.1.8</version>
-    </dependency>
+<dependency>
+    <groupId>org.apache.jackrabbit</groupId>
+    <artifactId>jackrabbit-jcr-commons</artifactId>
+    <version>2.8.0</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.jackrabbit</groupId>
+    <artifactId>jackrabbit-jcr2dav</artifactId>
+    <version>2.3.0</version>
+</dependency>
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.7</version>
+</dependency>
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-log4j12</artifactId>
+    <version>1.7.7</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.sling</groupId>
+    <artifactId>org.apache.sling.api</artifactId>
+    <version>2.2.0</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.0.1</version>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpmime</artifactId>
+    <version>4.0.1</version>
+</dependency>
+<dependency>
+    <groupId>org.jsoup</groupId>
+    <artifactId>jsoup</artifactId>
+    <version>1.7.3</version>
+</dependency>
+<dependency>
+    <groupId>com.day.cq</groupId>
+    <artifactId>cq-commons</artifactId>
+    <version>5.6.4</version>
+</dependency>
+<dependency>
+    <groupId>com.day.commons</groupId>
+    <artifactId>day-commons-text</artifactId>
+    <version>1.1.8</version>
+</dependency>
+
   </dependencies>
 </project>

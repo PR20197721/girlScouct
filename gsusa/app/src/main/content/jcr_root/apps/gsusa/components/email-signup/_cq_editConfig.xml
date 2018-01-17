@@ -4,8 +4,8 @@
     cq:disableTargeting="{Boolean}true"
     jcr:primaryType="cq:EditConfig">
     <cq:listeners
-        jcr:primaryType="cq:EditListenersConfig"
-        afterdelete="REFRESH_PAGE"
-        afteredit="REFRESH_PAGE"
-        afterinsert="REFRESH_PAGE"/>
+		jcr:primaryType="cq:EditListenersConfig"
+		afterdelete="REFRESH_PAGE"
+		afteredit="REFRESH_PAGE"
+		afterinsert="REFRESH_PAGE"/>
 </jcr:root>

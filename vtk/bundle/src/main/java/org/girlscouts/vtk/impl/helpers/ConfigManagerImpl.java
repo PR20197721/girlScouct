@@ -48,7 +48,7 @@ import org.osgi.service.component.ComponentContext;
 		@Property(name = "startShowingArchiveCmd", label = "startShowingArchiveCmd", description = "startShowingArchiveCmd"),
 		@Property(name = "isDemoSite", label = "isDemoSite", description = "isDemoSite"),
 		@Property(name = "DEMO_CRON_EMAIL", label = "DEMO_CRON_EMAIL", description = "DEMO_CRON_EMAIL"),
-		@Property(name = "gsFinanceYearCutoffDate", label = "gsFinanceYearCutoffDate", description = "gsFinanceYearCutoffDate"),
+
 		@Property(name = "allowParentAccess", label = "allowParentAccess", description = "allowParentAccess") })
 		
 

@@ -36,11 +36,11 @@ public class Meeting extends YearPlanComponent implements Serializable {
 
 	
 	@Field
-	private String meetingPlanType, meetingPlanTypeAlt;
+	private String meetingPlanType;
 	
 	
 	@Field
-	private String catTags, catTagsAlt;
+	private String catTags;
 	
 	
 	
@@ -173,22 +173,6 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	
 
 	
-	public String getCatTagsAlt() {
-		return catTagsAlt;
-	}
-
-	public void setCatTagsAlt(String catTagsAlt) {
-		this.catTagsAlt = catTagsAlt;
-	}
-
-	public String getMeetingPlanTypeAlt() {
-		return meetingPlanTypeAlt;
-	}
-
-	public void setMeetingPlanTypeAlt(String meetingPlanTypeAlt) {
-		this.meetingPlanTypeAlt = meetingPlanTypeAlt;
-	}
-
 	public static Object getStaticValue(final String className, final String fieldName) throws SecurityException, NoSuchFieldException, ClassNotFoundException,
     IllegalArgumentException, IllegalAccessException {
 

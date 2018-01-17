@@ -60,14 +60,11 @@ public class SearchUtils {
 		return searchResultsInfo;	
 	}
 	public static List<Hit> performContentSearch(Map<String, String> map, SlingHttpServletRequest slingRequest, QueryBuilder builder) {
-System.err.println("********* tata  SQL start.. ");
-
 		PredicateGroup predicateGroup = PredicateGroup.create(map);
 		Query query = builder.createQuery(predicateGroup,slingRequest.getResourceResolver().adaptTo(Session.class));
 		//query.setExcerpt(true); // MZ: Fix server down 08/09/2016
 		SearchResult searchResults=query.getResult();
 		java.util.List<Hit> hits = searchResults.getHits();
-System.err.println("********* tata  SQL end.. ");
 		return hits;
    }
 }

@@ -69,4 +69,5 @@
 %>
     </div><%
     LayoutHelper.printDescription(FormsHelper.getDescription(resource, ""), out);
+    LayoutHelper.printErrors(slingRequest, name, out);
 %>
