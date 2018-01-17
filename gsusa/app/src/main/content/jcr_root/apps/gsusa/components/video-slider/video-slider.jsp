@@ -115,10 +115,8 @@ slickOptions.put("autoplay", properties.get("autoscroll", false));
 slickOptions.put("autoplaySpeed", properties.get("timedelay", 2000));
    
 JSONObject playerConfig = new JSONObject();
-playerConfig.put("thumbnailDesktop", properties.get("thumbnailDesktop", false));
-playerConfig.put("thumbnailMobile", properties.get("thumbnailMobile", false));
-playerConfig.put("linkDesktop", properties.get("linkDesktop", false));
-playerConfig.put("linkMobile", properties.get("linkMobile", false));
+playerConfig.put("desktop", properties.get("videoConfigDesktop", "default")); // Values are: "default", "thumbnail", "link"
+playerConfig.put("mobile", properties.get("videoConfigMobile", "default")); // Values are: "default", "thumbnail", "link"
 
 if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
    %><p> Video Slider - Please select at least one link to display</p><% 

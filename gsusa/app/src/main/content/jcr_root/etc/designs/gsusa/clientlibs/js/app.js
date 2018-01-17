@@ -837,10 +837,32 @@ function fixSlickSlideActive() {
         self.playing = false;
 
         // Set config from component
-        self.config.thumbnail.desktop = params.config.thumbnailDesktop || false;
-        self.config.thumbnail.mobile = params.config.thumbnailMobile || false;
-        self.config.link.desktop = params.config.linkDesktop || false;
-        self.config.link.mobile = params.config.linkMobile || false;
+        switch (params.config.desktop) {
+        case "thumbnail":
+            self.config.thumbnail.desktop = true;
+            self.config.link.desktop = false;
+            break;
+        case "link":
+            self.config.thumbnail.desktop = true;
+            self.config.link.desktop = true;
+            break;
+        default:
+            self.config.thumbnail.desktop = false;
+            self.config.link.desktop = false;
+        }
+        switch (params.config.mobile) {
+        case "thumbnail":
+            self.config.thumbnail.mobile = true;
+            self.config.link.mobile = false;
+            break;
+        case "link":
+            self.config.thumbnail.mobile = true;
+            self.config.link.mobile = true;
+            break;
+        default:
+            self.config.thumbnail.mobile = false;
+            self.config.link.mobile = false;
+        }
 
         // Lazy load thumbnail and link if used
         if (self.config.thumbnail.desktop || self.config.thumbnail.mobile) {

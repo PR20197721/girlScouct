@@ -139,10 +139,8 @@ public  String readUrlFile(String urlString) throws Exception {
     slickOptions.put("autoplaySpeed", properties.get("homecarouselautoplayspeed", 2000));
     
     JSONObject playerConfig = new JSONObject();
-    playerConfig.put("thumbnailDesktop", properties.get("thumbnailDesktop", false));
-    playerConfig.put("thumbnailMobile", properties.get("thumbnailMobile", false));
-    playerConfig.put("linkDesktop", properties.get("linkDesktop", false));
-    playerConfig.put("linkMobile", properties.get("linkMobile", false));
+    playerConfig.put("desktop", properties.get("videoConfigDesktop", "default")); // Values are: "default", "thumbnail", "link"
+    playerConfig.put("mobile", properties.get("videoConfigMobile", "default")); // Values are: "default", "thumbnail", "link"
 
 	//passing this to another jsp
 	request.setAttribute("source7", source7);
