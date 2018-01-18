@@ -823,146 +823,132 @@ function fixSlickSlideActive() {
     // SLICK CAROUSEL VIDEO PLAYER
     //
     //
+    SlickPlayer = {
+        init: function (params) {
+            var self = this; // Lexical closure
 
-    SlickPlayer = function (params) {
-        var self = this; // Lexical closure
+            self.iframe = params.iframe;
+            self.slick = params.slick;
+            self.autoplay = params.autoplay;
+            self.type = self.iframe.attr('id').toLowerCase();
+            self.underbar = params.underbar;
+            self.placeholder = self.iframe.siblings(".vid-placeholder");
+            self.thumbnail = self.placeholder.find("img");
 
-        self.iframe = params.iframe;
-        self.slick = params.slick;
-        self.autoplay = params.autoplay;
-        self.type = self.iframe.attr('id').toLowerCase();
-        self.underbar = params.underbar;
-        self.placeholder = self.iframe.siblings(".vid-placeholder");
-        self.thumbnail = self.placeholder.find("img");
-        self.playing = false;
+            // Set config from component
+            switch (params.config.desktop) {
+            case "thumbnail":
+                self.config.thumbnail.desktop = true;
+                self.config.link.desktop = false;
+                break;
+            case "link":
+                self.config.thumbnail.desktop = true;
+                self.config.link.desktop = true;
+                break;
+            default:
+                self.config.thumbnail.desktop = false;
+                self.config.link.desktop = false;
+            }
+            switch (params.config.mobile) {
+            case "thumbnail":
+                self.config.thumbnail.mobile = true;
+                self.config.link.mobile = false;
+                break;
+            case "link":
+                self.config.thumbnail.mobile = true;
+                self.config.link.mobile = true;
+                break;
+            default:
+                self.config.thumbnail.mobile = false;
+                self.config.link.mobile = false;
+            }
 
-        // Set config from component
-        switch (params.config.desktop) {
-        case "thumbnail":
-            self.config.thumbnail.desktop = true;
-            self.config.link.desktop = false;
-            break;
-        case "link":
-            self.config.thumbnail.desktop = true;
-            self.config.link.desktop = true;
-            break;
-        default:
-            self.config.thumbnail.desktop = false;
-            self.config.link.desktop = false;
-        }
-        switch (params.config.mobile) {
-        case "thumbnail":
-            self.config.thumbnail.mobile = true;
-            self.config.link.mobile = false;
-            break;
-        case "link":
-            self.config.thumbnail.mobile = true;
-            self.config.link.mobile = true;
-            break;
-        default:
-            self.config.thumbnail.mobile = false;
-            self.config.link.mobile = false;
-        }
-
-        // Lazy load thumbnail and link if used
-        if (self.config.thumbnail.desktop || self.config.thumbnail.mobile) {
-            self.thumbnail.lazyLoad();
-            self.toggleThumbnail();
-            $(window).on("breakpoint", function () {
+            // Lazy load thumbnail and link if used
+            if (self.config.thumbnail.desktop || self.config.thumbnail.mobile) {
+                self.thumbnail.lazyLoad();
                 self.toggleThumbnail();
+                $(window).on("breakpoint", function () {
+                    self.toggleThumbnail();
+                });
+            } else {
+                self.createPlayer(); // Load video right away if no thumbnail
+            }
+            if (self.config.link.desktop || self.config.link.mobile) {
+                self.placeholder.lazyLoad();
+            }
+
+            // Underbar events
+            self.underbar.input.on("focus", function () {
+                self.stopSlider();
+            }).on("focusout", function () {
+                self.startSlider();
             });
-        } else {
-            self.createPlayer(); // Load video right away if no thumbnail
-        }
-        if (self.config.link.desktop || self.config.link.mobile) {
-            self.placeholder.lazyLoad();
-        }
 
-        // Underbar events
-        self.underbar.input.on("focus", function () {
-            self.stopSlider();
-        }).on("focusout", function () {
-            self.startSlider();
-        });
-
-        // Placeholder events
-        self.placeholder.on("click", function (event) {
-            if (!self.config.link.isActive()) { // If using the thumbnail as a lazyload placeholder
-                event.preventDefault(); // Prevent anchor tag from opening link
-                event.stopPropagation();
-                self.play();
-            }
-        });
-    };
-
-    SlickPlayer.prototype.playVideo = function () {}; // Wrapper for API call
-    SlickPlayer.prototype.unloadVideo = function () {}; // Wrapper for API call
-    SlickPlayer.prototype.config = { // Determine how player behaves
-        thumbnail: { // If there is a thumbnail, do not interact with the player until the user requests it
-            desktop: false,
-            mobile: false,
-            isActive: function () {
-                return (this.desktop && !mobile) || (this.mobile && mobile);
-            }
+            // Placeholder events
+            self.placeholder.on("click", function (event) {
+                if (!self.config.link.isActive()) { // If using the thumbnail as a lazyload placeholder
+                    event.preventDefault(); // Prevent anchor tag from opening link
+                    event.stopPropagation();
+                    self.play();
+                }
+            });
         },
-        link: { // If the thumbnail opens the video in a new tab, there is no need to interact with the player
-            desktop: false,
-            mobile: false,
-            isActive: function () {
-                return (this.desktop && !mobile) || (this.mobile && mobile);
-            }
-        }
-    };
-
-    SlickPlayer.prototype.toggleThumbnail = function () {
-        if (this.config.thumbnail.isActive()) {
-            this.slick.addClass("thumbnail");
-        } else {
-            this.slick.removeClass("thumbnail");
-            this.createPlayer(); // Load video right away if no thumbnail
-        }
-    };
-
-    SlickPlayer.prototype.stopSlider = function () {
-        if (this.autoplay) {
-            this.slick.slick('slickPause');
-            this.slick.slick('slickSetOption', 'autoplay', false, false);
-            this.slick.slick('autoPlay', $.noop);
-        }
-        if (!this.underbar.isFocused() && !this.config.link.isActive()) {
-            this.underbar.hide();
-        }
-    };
-
-    SlickPlayer.prototype.startSlider = function () {
-        if (this.autoplay) {
-            this.slick.slick('slickPlay');
-            this.slick.slick('slickSetOption', 'autoplay', true, false);
-            this.slick.slick('autoPlay', $.noop);
-        }
-        if (!this.underbar.isFocused() && !this.config.link.isActive()) {
-            this.underbar.show();
-        }
-    };
-
-    SlickPlayer.prototype.createPlayer = function () {
-        var self = this;
-
-        if (!self.iframe.attr("src")) { // If player not instantiated
-            self.iframe.lazyLoad(); // Assign embed url
-
-            // Instantiate player
-            if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
-                self.createVimeoPlayer();
-            } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
-                if (ytLoaded()) {
-                    self.createYTPlayer();
-                } else {
-                    $(window).on("ytLoaded", function () { // Wait until API script loads if it has not already
-                        self.createYTPlayer();
-                    });
+        playing: false,
+        playVideo: function () {}, // Wrapper for API call
+        unloadVideo: function () {}, // Wrapper for API call
+        config: { // Determine how player behaves
+            thumbnail: { // If there is a thumbnail, do not interact with the player until the user requests it
+                desktop: false,
+                mobile: false,
+                isActive: function () {
+                    return (this.desktop && !mobile) || (this.mobile && mobile);
+                }
+            },
+            link: { // If the thumbnail opens the video in a new tab, there is no need to interact with the player
+                desktop: false,
+                mobile: false,
+                isActive: function () {
+                    return (this.desktop && !mobile) || (this.mobile && mobile);
                 }
             }
+        },
+        toggleThumbnail: function () {
+            if (this.config.thumbnail.isActive()) {
+                this.slick.addClass("thumbnail");
+            } else {
+                this.slick.removeClass("thumbnail");
+                this.createPlayer(); // Load video right away if no thumbnail
+            }
+        },
+        stopSlider: function () {
+            if (this.autoplay) {
+                this.slick.slick('slickPause');
+                this.slick.slick('slickSetOption', 'autoplay', false, false);
+                this.slick.slick('autoPlay', $.noop);
+            }
+            if (!this.underbar.isFocused() && !this.config.link.isActive()) {
+                this.underbar.hide();
+            }
+        },
+        startSlider: function () {
+            if (this.autoplay) {
+                this.slick.slick('slickPlay');
+                this.slick.slick('slickSetOption', 'autoplay', true, false);
+                this.slick.slick('autoPlay', $.noop);
+            }
+            if (!this.underbar.isFocused() && !this.config.link.isActive()) {
+                this.underbar.show();
+            }
+        },
+        createPlayer: function () {
+            var self = this;
+
+            if (self.iframe.attr("src")) { // Prevent player reinstantiation 
+                return;
+            }
+
+            // Assign embed url
+            self.iframe.lazyLoad();
 
             // Load event
             self.iframe.on("playerLoad", function () {
@@ -984,99 +970,108 @@ function fixSlickSlideActive() {
                     self.unload();
                 }
             });
-        }
-    };
 
-    SlickPlayer.prototype.play = function () {
-        var self = this;
-
-        self.createPlayer(); // Load player if not already loaded
-        self.stopSlider();
-        if (!mobile) { // Browsers will block programmatic playback on mobile anyway, prevent Vimeo bug by manually prohibiting
-            self.playVideo();
-        }
-        self.slick.addClass("playing");
-        self.playing = true;
-    };
-
-    SlickPlayer.prototype.unload = function () {
-        var self = this;
-
-        self.startSlider();
-        self.unloadVideo();
-        self.slick.removeClass("playing");
-        self.playing = false;
-    };
-
-    SlickPlayer.prototype.createVimeoPlayer = function () {
-        var self = this;
-        self.player = new Vimeo.Player(self.iframe.attr('id'));
-
-        self.player.on("loaded", function () {
-            // State functions
-            self.playVideo = function () {
-                self.player.play();
-            };
-            self.unloadVideo = function () {
-                self.player.unload();
-            };
-
-            // Listener events
-            self.player.on('play', function () {
-                self.iframe.trigger("play");
-            });
-
-            // Load
-            self.iframe.trigger("playerLoad");
-        });
-    };
-
-    SlickPlayer.prototype.createYTPlayer = function () {
-        var self = this;
-        self.player = new YT.Player(self.iframe.attr('id'));
-
-        self.player.addEventListener("onReady", function () {
-            // State functions
-            self.playVideo = function () {
-                self.player.playVideo();
-            };
-            self.unloadVideo = function () {
-                self.player.stopVideo();
-            };
-
-            // Listener events
-            self.player.addEventListener("onStateChange", function (event) {
-                if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering event to prevent delay before triggering play state
-                    self.iframe.trigger("play");
+            // Instantiate player
+            if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
+                self.createVimeoPlayer();
+            } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
+                if (ytLoaded()) {
+                    self.createYTPlayer();
+                } else {
+                    $(window).on("ytLoaded", function () { // Wait until API script loads if it has not already
+                        self.createYTPlayer();
+                    });
                 }
+            }
+        },
+        play: function () {
+            var self = this;
+
+            self.createPlayer(); // Load player if not already loaded
+            self.stopSlider();
+            if (!mobile) { // Browsers will block programmatic playback on mobile anyway, prevent Vimeo bug by manually prohibiting
+                self.playVideo();
+            }
+            self.slick.addClass("playing");
+            self.playing = true;
+        },
+        unload: function () {
+            var self = this;
+
+            self.startSlider();
+            self.unloadVideo();
+            self.slick.removeClass("playing");
+            self.playing = false;
+        },
+        createVimeoPlayer: function () {
+            var self = this;
+            self.player = new Vimeo.Player(self.iframe.attr('id'));
+
+            self.player.on("loaded", function () {
+                // State functions
+                self.playVideo = function () {
+                    self.player.play();
+                };
+                self.unloadVideo = function () {
+                    self.player.unload();
+                };
+
+                // Listener events
+                self.player.on('play', function () {
+                    self.iframe.trigger("play");
+                });
+
+                // Load
+                self.iframe.trigger("playerLoad");
             });
+        },
+        createYTPlayer: function () {
+            var self = this;
+            self.player = new YT.Player(self.iframe.attr('id'));
 
-            // Load
-            self.iframe.trigger("playerLoad");
-        });
-    };
+            self.player.addEventListener("onReady", function () {
+                // State functions
+                self.playVideo = function () {
+                    self.player.playVideo();
+                };
+                self.unloadVideo = function () {
+                    self.player.stopVideo();
+                };
 
-    Underbar = function (el) {
-        this.el = el;
-        this.input = el.find('input').eq(0);
-    };
+                // Listener events
+                self.player.addEventListener("onStateChange", function (event) {
+                    if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering event to prevent delay before triggering play state
+                        self.iframe.trigger("play");
+                    }
+                });
 
-    Underbar.prototype.show = function () {
-        if (this.el.length && !mobile) { // Desktop only
-            this.el.slideDown(1000);
+                // Load
+                self.iframe.trigger("playerLoad");
+            });
         }
     };
 
-    Underbar.prototype.hide = function () {
-        if (this.el.length && !mobile) {
-            this.el.slideUp(0);
+    Underbar = {
+        init: function (el) {
+            this.el = el;
+            this.input = el.find('input');
+        },
+        show: function () {
+            if (this.el.length && !mobile) { // Desktop only
+                this.el.slideDown(1000);
+            }
+        },
+        hide: function () {
+            if (this.el.length && !mobile) {
+                this.el.slideUp(0);
+            }
+        },
+        isFocused: function () {
+            if (this.input.length) {
+                return this.input.is(":focus");
+            }
         }
-    };
 
-    Underbar.prototype.isFocused = function () {
-        if (this.input.length) {
-            return this.input.is(":focus");
-        }
     };
 
     // Instantiate SlickPlayers and Underbars
@@ -1084,11 +1079,12 @@ function fixSlickSlideActive() {
         // For each embed, create player events (Make sure player.js is loaded first)
         var slick = $(this),
             autoplay = slick.slick('slickGetOption', 'autoplay'),
-            underbar = new Underbar(slick.parent().find('.zip-council').eq(0)),
+            underbar = Object.create(Underbar),
             config = getJSONFromAttr(slick, "player-config");
+        underbar.init(slick.parent().find('.zip-council'));
 
         slick.find("iframe").each(function () {
-            new SlickPlayer({
+            Object.create(SlickPlayer).init({
                 iframe: $(this),
                 slick: slick,
                 autoplay: autoplay,
