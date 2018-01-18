@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:mixinTypes="[sling:VanityPath]"
+        jcr:primaryType="nt:unstructured"
+        jcr:title="AEM Sites"
+        sling:resourceType="granite/ui/components/shell/collectionpage"
+        sling:vanityOrder="{Long}301"
+        sling:vanityPath="/sites"
+        consoleId="cq-sites"
+        modeGroup="cq-siteadmin-admin-childpages"
+        omnisearchLocationPath="/libs/granite/omnisearch/content/metadata/site"
+        pageURITemplate="/sites.html{+id}"
+        targetCollection=".cq-siteadmin-admin-childpages">
+        <redirector/>
+        <head/>
+        <views/>
+        <breadcrumbs/>
+        <actions jcr:primaryType="nt:unstructured">
+            <primary/>
+            <secondary jcr:primaryType="nt:unstructured">
+                <analyticsTimeframe/>
+                <create
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/pulldown"
+                    text="Create"
+                    variant="primary">
+                    <items jcr:primaryType="nt:unstructured">
+                        <createpage/>
+                        <createsite/>
+                        <createlivecopy/>
+                        <createlaunch/>
+                        <createlanguagecopy/>
+                        <createcatalog/>
+                        <createfolder/>
+                        <createcsvexport/>
+                        <scaffolding action="foundation.link" activeCondition="site.scaffolding" jcr:primaryType="nt:unstructured" relScope="collection" sling:resourceType="wcm/core/components/scaffolding-actions"/>
+                    </items>
+                </create>
+            </secondary>
+            <selection/>
+        </actions>
+        <rails/>
+    </jcr:content>
+    <properties/>
+    <folderproperties/>
+    <createcsvexport/>
+    <createlaunchwizard/>
+    <createlivecopywizard/>
+    <createlanguagecopywizard/>
+    <createpagewizard/>
+    <createsitewizard/>
+    <createtemplatewizard/>
+    <movepagewizard/>
+    <publishpagewizard/>
+    <unpublishpagewizard/>
+    <promotelaunchwizard/>
+    <editlivecopywizard/>
+    <templates/>
+    <publishtemplatewizard/>
+    <unpublishtemplatewizard/>
+    <components/>
+    <pagecolumnpreview/>
+    <diffresources/>
+    <versionhistory/>
+</jcr:root>
