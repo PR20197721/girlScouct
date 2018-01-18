@@ -96,7 +96,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				if (link[i].indexOf("youtu") != -1) { // Needs to be "youtu" to account for "youtu.be" links
 					String ytid = extractYTId(link[i]);
 					videoId[i] = ytid;
-                    String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + ytid + "&key=AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y"); // Getting 403, check restrictions: AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I
+                    String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + ytid + "&key=AIzaSyBLliIIeCT9fzRuejc64WpZN1OJXVu0hsI"); // Use for local testing: AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y
                     // Get a sample response here: https://developers.google.com/youtube/v3/docs/videos/list					
                     if (!"".equals(jsonOutput)) {
 						JSONObject json = new JSONObject(jsonOutput);
