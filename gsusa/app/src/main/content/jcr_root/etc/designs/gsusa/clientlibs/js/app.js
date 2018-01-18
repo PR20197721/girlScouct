@@ -836,6 +836,18 @@ function fixSlickSlideActive() {
             self.thumbnail = self.placeholder.find("img");
 
             // Set config from component
+            self.config = { // Determine how player behaves
+                thumbnail: { // If there is a thumbnail, do not interact with the player until the user requests it
+                    desktop: false,
+                    mobile: false,
+                    isActive: self.isActive
+                },
+                link: { // If the thumbnail opens the video in a new tab, there is no need to interact with the player
+                    desktop: false,
+                    mobile: false,
+                    isActive: self.isActive
+                }
+            };
             switch (params.config.desktop) {
             case "thumbnail":
                 self.config.thumbnail.desktop = true;
@@ -845,9 +857,6 @@ function fixSlickSlideActive() {
                 self.config.thumbnail.desktop = true;
                 self.config.link.desktop = true;
                 break;
-            default:
-                self.config.thumbnail.desktop = false;
-                self.config.link.desktop = false;
             }
             switch (params.config.mobile) {
             case "thumbnail":
@@ -858,9 +867,6 @@ function fixSlickSlideActive() {
                 self.config.thumbnail.mobile = true;
                 self.config.link.mobile = true;
                 break;
-            default:
-                self.config.thumbnail.mobile = false;
-                self.config.link.mobile = false;
             }
 
             // Lazy load thumbnail and link if used
@@ -896,21 +902,8 @@ function fixSlickSlideActive() {
         playing: false,
         playVideo: function () {}, // Wrapper for API call
         unloadVideo: function () {}, // Wrapper for API call
-        config: { // Determine how player behaves
-            thumbnail: { // If there is a thumbnail, do not interact with the player until the user requests it
-                desktop: false,
-                mobile: false,
-                isActive: function () {
-                    return (this.desktop && !mobile) || (this.mobile && mobile);
-                }
-            },
-            link: { // If the thumbnail opens the video in a new tab, there is no need to interact with the player
-                desktop: false,
-                mobile: false,
-                isActive: function () {
-                    return (this.desktop && !mobile) || (this.mobile && mobile);
-                }
-            }
+        isActive: function () {
+            return (this.desktop && !mobile) || (this.mobile && mobile);
         },
         toggleThumbnail: function () {
             if (this.config.thumbnail.isActive()) {
