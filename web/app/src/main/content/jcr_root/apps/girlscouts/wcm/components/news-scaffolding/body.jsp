@@ -56,7 +56,7 @@
             %>Please define the target path and a template in the page properties of this scaffolding.<br></body><%
             return;
         } else {
-            %>Create pages below <a href="<%= contentPath %>.html"><%= contentPath %></a><ul id="linklist"></ul><%
+            %>Create pages below <a href="/editor.html<%= contentPath %>.html"><%= contentPath %></a><ul id="linklist"></ul><%
         }
     }
     %><br>
@@ -289,7 +289,7 @@
                         } else {
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
                             var title = contentPath;
-                            var html = "<li><a href='"+ CQ.HTTP.externalize(contentPath + ".html")+"'>"+title+"</a></li>";
+                            var html = "<li><a href='/editor.html"+ CQ.HTTP.externalize(contentPath + ".html")+"'>"+title+"</a></li>";
                             CQ.Ext.DomHelper.append("linklist", html);
                             frm.reset();
                             window.scrollTo(0,0);

@@ -124,7 +124,7 @@
                 parentPath = browseDialog.getSelectedPath();
                 browseDialog.hide();
                 myForm.getForm().url = CQ.HTTP.externalize(parentPath + "/*");
-                document.getElementById("parentpath").innerHTML = CQ.shared.XSS.getXSSValue(parentPath);
+                document.getElementById("parentpath").innerHTML = "/editor.html"+CQ.shared.XSS.getXSSValue(parentPath);
             }
         });
         browseDialog.show();
@@ -346,7 +346,7 @@
                         } else {
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
                             var title = contentPath;
-                            var html = "<li><a href='"+ CQ.shared.XSS.getXSSValue(url) + "'>" + CQ.shared.XSS.getXSSValue(title) + "</a></li>";
+                            var html = "<li><a href='/editor.html"+ CQ.shared.XSS.getXSSValue(url) + "'>" + CQ.shared.XSS.getXSSValue(title) + "</a></li>";
                             CQ.Ext.DomHelper.append("linklist", html);
                             frm.reset();
                             window.scrollTo(0,0);

@@ -17,7 +17,7 @@ try{
 					Iterator<Resource> scaffoldingPages = councilScaffolding.listChildren();
 					while(scaffoldingPages.hasNext()){
 						Resource scaffoldingPage = scaffoldingPages.next();
-						String scaffoldingURI = "/cf#"+scaffoldingPage.getPath()+".html";
+						String scaffoldingURI = scaffoldingPage.getPath()+".html";
 						String buttonName = "Create " +scaffoldingPage.getName().substring(0, 1).toUpperCase() + scaffoldingPage.getName().substring(1);
 						%>
 						<a is="coral-anchorlist-item" 

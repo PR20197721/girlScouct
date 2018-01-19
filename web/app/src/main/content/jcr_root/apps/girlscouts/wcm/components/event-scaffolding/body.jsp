@@ -101,7 +101,7 @@ properties of this scaffolding.
 	        	System.err.println("Event bulkeditor - could not determine path");
 	        }
 %>Create pages below
-<a href="<%=contentPath%>.html"><%=contentPath%></a>
+<a href="/editor.html<%=contentPath%>.html"><%=contentPath%></a>
 <ul id="linklist"></ul>
 <%
 	}
@@ -339,7 +339,7 @@ properties of this scaffolding.
                         } else if((startDate < endDate) | endDate == ""){
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
                             var title = contentPath;
-                            var html = "<li><a href='"+ CQ.HTTP.externalize(contentPath + ".html")+"'>"+title+"</a></li>";
+                            var html = "<li><a href='/editor.html"+ CQ.HTTP.externalize(contentPath + ".html")+"'>"+title+"</a></li>";
                             CQ.Ext.DomHelper.append("linklist", html);
                             frm.reset();
                             window.scrollTo(0,0);
