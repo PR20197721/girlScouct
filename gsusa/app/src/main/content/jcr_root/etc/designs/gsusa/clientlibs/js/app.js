@@ -1,5 +1,5 @@
 /*jslint browser: true, eqeq: true*/
-/*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console */
+/*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console, Modernizr */
 /*global shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL, joinRedirectAutoplaySpeed, joinRedirectSpeed */
 
 //
@@ -158,6 +158,8 @@ function fixSlickSlideActive() {
 
     var isIE11 = false,
         isNewerThanIE9 = true,
+        MEDIUM_ONLY = 768,
+        mobile = false,
         homepageScrollTopPos,
         lastAfterSlick = null,
         carouselSliderPropogate = true,
@@ -169,6 +171,18 @@ function fixSlickSlideActive() {
     if (navigator.userAgent.indexOf("Trident\/7") != -1 && parseFloat($.browser.version) >= 11) {
         isIE11 = true;
     }
+
+    function isMobile() { //https://stackoverflow.com/questions/19291873/window-width-not-the-same-as-media-query
+        return Modernizr.mq('(max-width: ' + MEDIUM_ONLY + 'px)');
+    }
+    mobile = isMobile();
+    $(window).on("resize", function () {
+        if (isMobile() !== mobile) { // Trigger once when the breakpoint is passed
+            mobile = !mobile;
+            $(window).trigger("breakpoint");
+            //console.log("Mobile is: " + mobile);
+        }
+    });
 
     // YouTube API loaded
     function ytLoaded() {
@@ -370,18 +384,21 @@ function fixSlickSlideActive() {
         return rv;
     }());
 
-    function getSlickOptions(el) {
-        var jsonData = el.attr("slick-options"),
-            options;
+    function getJSONFromAttr(el, attr) {
+        var jsonData = el.attr(attr);
         if (jsonData) {
-            options = JSON.parse(jsonData);
-            if (!isNewerThanIE9) {
-                options.autoplay = false;
-            }
-            return options;
+            return JSON.parse(jsonData);
         } else {
             return {};
         }
+    }
+
+    function getSlickOptions(el) {
+        var options = getJSONFromAttr(el, "slick-options");
+        if (!isNewerThanIE9) {
+            options.autoplay = false;
+        }
+        return options;
     }
 
     $('.shop-slider').slick({
@@ -393,7 +410,7 @@ function fixSlickSlideActive() {
         slidesToShow: 3,
         slidesToScroll: 1,
         responsive: [{
-            breakpoint: 768,
+            breakpoint: MEDIUM_ONLY,
             settings: {
                 slidesToShow: 1
             }
@@ -437,7 +454,7 @@ function fixSlickSlideActive() {
                     try {
                         gsusa.functions.ToggleParsysAll.toggleAll(true);
                     } catch (ignore) {}
-                    if ($(window).width() <= 768) {
+                    if (mobile) {
                         /*
                         $(".off-canvas-wrap").css({
                             'position': 'fixed'
@@ -466,7 +483,7 @@ function fixSlickSlideActive() {
                 });
                 //closing the section by clicking on the cross
                 target.find('.icon-cross').on("click", function (e) {
-                    if ($(window).width() <= 768) {
+                    if (mobile) {
                         window.scrollTo(0, homepageScrollTopPos); // go back to previous window Y position
                     }
                     target.removeClass("shown");
@@ -665,7 +682,7 @@ function fixSlickSlideActive() {
     }
 
     function small_screens() {
-        if ($(window).width() < 769) {
+        if (mobile) {
             $('.overlay').hide();
             $(".hero-text .button").hide();
         } else {
@@ -752,7 +769,7 @@ function fixSlickSlideActive() {
             autoplaySpeed: (typeof shoptimedelay != 'undefined') ? shoptimedelay : 2000,
             slidesToScroll: 1
                 /*responsive: [{
-                    breakpoint: 768,
+                    breakpoint: MEDIUM_ONLY,
                     settings: {
                         slidesToShow: 1
                     }
@@ -775,7 +792,7 @@ function fixSlickSlideActive() {
             slidesToScroll: 1,
             fade: true
                 /*responsive: [{
-                    breakpoint: 768,
+                    breakpoint: MEDIUM_ONLY,
                     settings: {
                         slidesToShow: 1
                     }
@@ -783,47 +800,171 @@ function fixSlickSlideActive() {
         });
     }
 
+    $.fn.lazyLoad = function () {
+        var self = this,
+            attr = {
+                "src": "data-src",
+                "href": "data-href"
+            },
+            src;
+
+        for (src in attr) {
+            if (attr.hasOwnProperty(src) && (!self.attr(src) || self.attr(src) === "") && self.attr(attr[src])) {
+                // If the key is undefined or empty and the value exists, set the key to the value
+                self.attr(src, self.attr(attr[src]));
+            }
+        }
+
+        return self;
+    };
+
     //
     //
     // SLICK CAROUSEL VIDEO PLAYER
     //
     //
+    SlickPlayer = {
+        init: function (params) {
+            var self = this; // Lexical closure
 
-    SlickPlayer = function (params) {
-        var self = this; // Lexical closure
+            self.iframe = params.iframe;
+            self.slick = params.slick;
+            self.autoplay = params.autoplay;
+            self.type = self.iframe.attr('id').toLowerCase();
+            self.underbar = params.underbar;
+            self.placeholder = self.iframe.siblings(".vid-placeholder");
+            self.thumbnail = self.placeholder.find("img");
 
-        self.iframe = params.iframe;
-        self.slick = params.slick;
-        self.arrows = params.arrows;
-        self.autoplay = params.autoplay;
-        self.slide = self.iframe.parents(".slick-slide").eq(0);
-        self.playing = false;
-        self.type = self.iframe.attr('id').toLowerCase();
-        self.underbar = params.underbar;
-        self.placeholder = self.iframe.siblings(".vid-placeholder");
+            // Set config from component
+            self.config = { // Determine how player behaves
+                thumbnail: { // If there is a thumbnail, do not interact with the player until the user requests it
+                    desktop: false,
+                    mobile: false,
+                    isActive: self.isActive
+                },
+                link: { // If the thumbnail opens the video in a new tab, there is no need to interact with the player
+                    desktop: false,
+                    mobile: false,
+                    isActive: self.isActive
+                }
+            };
+            switch (params.config.desktop) {
+            case "thumbnail":
+                self.config.thumbnail.desktop = true;
+                self.config.link.desktop = false;
+                break;
+            case "link":
+                self.config.thumbnail.desktop = true;
+                self.config.link.desktop = true;
+                break;
+            }
+            switch (params.config.mobile) {
+            case "thumbnail":
+                self.config.thumbnail.mobile = true;
+                self.config.link.mobile = false;
+                break;
+            case "link":
+                self.config.thumbnail.mobile = true;
+                self.config.link.mobile = true;
+                break;
+            }
 
-        // Underbar events
-        self.underbar.input.on("focus", function () {
-            self.stopSlider();
-        }).on("focusout", function () {
-            self.startSlider();
-        });
+            // Lazy load thumbnail and link if used
+            if (self.config.thumbnail.desktop || self.config.thumbnail.mobile) {
+                self.thumbnail.lazyLoad();
+                self.toggleThumbnail();
+                $(window).on("breakpoint", function () {
+                    self.toggleThumbnail();
+                });
+            } else {
+                self.createPlayer(); // Load video right away if no thumbnail
+            }
+            if (self.config.link.desktop || self.config.link.mobile) {
+                self.placeholder.lazyLoad();
+            }
 
-        self.placeholder.on("click", function () {
-            self.stopSlider();
-            self.slide.addClass("playing");
-            self.arrows.addClass("show");
-            self.playing = true;
-            self.createPlayer();
-        });
-    };
+            // Underbar events
+            self.underbar.input.on("focus", function () {
+                self.stopSlider();
+            }).on("focusout", function () {
+                self.startSlider();
+            });
 
-    SlickPlayer.prototype.createPlayer = function () {
-        var self = this;
+            // Placeholder events
+            self.placeholder.on("click", function (event) {
+                if (!self.config.link.isActive()) { // If using the thumbnail as a lazyload placeholder
+                    event.preventDefault(); // Prevent anchor tag from opening link
+                    event.stopPropagation();
+                    self.play();
+                }
+            });
+        },
+        playing: false,
+        playVideo: function () {}, // Wrapper for API call
+        unloadVideo: function () {}, // Wrapper for API call
+        isActive: function () {
+            return (this.desktop && !mobile) || (this.mobile && mobile);
+        },
+        toggleThumbnail: function () {
+            if (this.config.thumbnail.isActive()) {
+                this.slick.addClass("thumbnail");
+            } else {
+                this.slick.removeClass("thumbnail");
+                this.createPlayer(); // Load video right away if no thumbnail
+            }
+        },
+        stopSlider: function () {
+            if (this.autoplay) {
+                this.slick.slick('slickPause');
+                this.slick.slick('slickSetOption', 'autoplay', false, false);
+                this.slick.slick('autoPlay', $.noop);
+            }
+            if (!this.underbar.isFocused() && !this.config.link.isActive()) {
+                this.underbar.hide();
+            }
+        },
+        startSlider: function () {
+            if (this.autoplay) {
+                this.slick.slick('slickPlay');
+                this.slick.slick('slickSetOption', 'autoplay', true, false);
+                this.slick.slick('autoPlay', $.noop);
+            }
+            if (!this.underbar.isFocused() && !this.config.link.isActive()) {
+                this.underbar.show();
+            }
+        },
+        createPlayer: function () {
+            var self = this;
 
-        if (!self.iframe.attr("src")) { // If not instantiated
-            self.iframe.attr("src", self.iframe.attr("data-src")); // Assign embed url
+            if (self.iframe.attr("src")) { // Prevent player reinstantiation 
+                return;
+            }
 
+            // Assign embed url
+            self.iframe.lazyLoad();
+
+            // Load event
+            self.iframe.on("playerLoad", function () {
+                if (self.config.thumbnail.isActive()) { // If using thumbnail for lazy load, call play functions when thumbnail is clicked
+                    self.play();
+                }
+            });
+
+            // Play event
+            self.iframe.on("play", function () {
+                if (!self.config.thumbnail.isActive()) { // If not using a thumbnail for lazy load, call play functions when video is played
+                    self.play();
+                }
+            });
+
+            // Unload event
+            self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+                if (self.playing) {
+                    self.unload();
+                }
+            });
+
+            // Instantiate player
             if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
                 self.createVimeoPlayer();
             } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
@@ -835,123 +976,113 @@ function fixSlickSlideActive() {
                     });
                 }
             }
-        }
-    };
+        },
+        play: function () {
+            var self = this;
 
-    SlickPlayer.prototype.stopSlider = function () {
-        if (this.autoplay) {
-            this.slick.slick('slickPause');
-            this.slick.slick('slickSetOption', 'autoplay', false, false);
-            this.slick.slick('autoPlay', $.noop);
-        }
-        if (!this.underbar.isFocused()) {
-            this.underbar.hide();
-        }
-    };
+            self.createPlayer(); // Load player if not already loaded
+            self.stopSlider();
+            if (!mobile) { // Browsers will block programmatic playback on mobile anyway, prevent Vimeo bug by manually prohibiting
+                self.playVideo();
+            }
+            self.slick.addClass("playing");
+            self.playing = true;
+        },
+        unload: function () {
+            var self = this;
 
-    SlickPlayer.prototype.startSlider = function () {
-        if (this.autoplay) {
-            this.slick.slick('slickPlay');
-            this.slick.slick('slickSetOption', 'autoplay', true, false);
-            this.slick.slick('autoPlay', $.noop);
-        }
-        if (!this.underbar.isFocused()) {
-            this.underbar.show();
-        }
-    };
+            self.startSlider();
+            self.unloadVideo();
+            self.slick.removeClass("playing");
+            self.playing = false;
+        },
+        createVimeoPlayer: function () {
+            var self = this;
+            self.player = new Vimeo.Player(self.iframe.attr('id'));
 
-    SlickPlayer.prototype.createVimeoPlayer = function () {
-        // Add listener events
-        var self = this;
-        self.player = new Vimeo.Player(self.iframe);
-
-        self.player.on("loaded", function () {
-            /*self.player.on('play', function () {
-                self.stopSlider();
-                self.playing = true;
-            });*/
-
-            self.placeholder.on("click", function () {
-                self.player.play();
-            }).trigger("click");
-
-            self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-                if (self.playing) { // Trigger only when moving away from potentially active slide
-                    self.startSlider();
+            self.player.on("loaded", function () {
+                // State functions
+                self.playVideo = function () {
+                    self.player.play();
+                };
+                self.unloadVideo = function () {
                     self.player.unload();
-                    self.slide.removeClass("playing");
-                    self.arrows.removeClass("show");
-                    self.playing = false;
-                }
+                };
+
+                // Listener events
+                self.player.on('play', function () {
+                    self.iframe.trigger("play");
+                });
+
+                // Load
+                self.iframe.trigger("playerLoad");
             });
-        });
-    };
+        },
+        createYTPlayer: function () {
+            var self = this;
+            self.player = new YT.Player(self.iframe.attr('id'));
 
-    SlickPlayer.prototype.createYTPlayer = function () {
-        // Add listener events
-        var self = this;
-        self.player = new YT.Player(self.iframe.attr('id'));
-
-        self.player.addEventListener("onReady", function () {
-            /*self.player.addEventListener("onStateChange", function (event) {
-                if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering to prevent delay before playing
-                    self.stopSlider();
-                    self.playing = true;
-                }
-            });*/
-            self.placeholder.on("click", function () {
-                self.player.playVideo();
-            }).trigger("click");
-
-            self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-                if (self.playing) {
-                    self.startSlider();
+            self.player.addEventListener("onReady", function () {
+                // State functions
+                self.playVideo = function () {
+                    self.player.playVideo();
+                };
+                self.unloadVideo = function () {
                     self.player.stopVideo();
-                    self.slide.removeClass("playing");
-                    self.arrows.removeClass("show");
-                    self.playing = false;
-                }
+                };
+
+                // Listener events
+                self.player.addEventListener("onStateChange", function (event) {
+                    if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering event to prevent delay before triggering play state
+                        self.iframe.trigger("play");
+                    }
+                });
+
+                // Load
+                self.iframe.trigger("playerLoad");
             });
-        });
-    };
-
-    Underbar = function (el) {
-        this.el = el;
-        this.input = el.find('input').eq(0);
-    };
-
-    Underbar.prototype.show = function () {
-        if (this.el.length && $(window).width() > 768) { // Desktop only
-            this.el.slideDown(1000);
         }
     };
 
-    Underbar.prototype.hide = function () {
-        if (this.el.length && $(window).width() > 768) {
-            this.el.slideUp(0);
+    Underbar = {
+        init: function (el) {
+            this.el = el;
+            this.input = el.find('input');
+        },
+        show: function () {
+            if (this.el.length && !mobile) { // Desktop only
+                this.el.slideDown(1000);
+            }
+        },
+        hide: function () {
+            if (this.el.length && !mobile) {
+                this.el.slideUp(0);
+            }
+        },
+        isFocused: function () {
+            if (this.input.length) {
+                return this.input.is(":focus");
+            }
         }
+
     };
 
-    Underbar.prototype.isFocused = function () {
-        if (this.input.length) {
-            return this.input.is(":focus");
-        }
-    };
-
+    // Instantiate SlickPlayers and Underbars
     $('.slick-slider').each(function () {
         // For each embed, create player events (Make sure player.js is loaded first)
         var slick = $(this),
-            arrows = slick.find(".slick-next, .slick-prev"),
             autoplay = slick.slick('slickGetOption', 'autoplay'),
-            underbar = new Underbar(slick.parent().find('.zip-council').eq(0));
+            underbar = Object.create(Underbar),
+            config = getJSONFromAttr(slick, "player-config");
+        underbar.init(slick.parent().find('.zip-council'));
 
         slick.find("iframe").each(function () {
-            new SlickPlayer({
+            Object.create(SlickPlayer).init({
                 iframe: $(this),
                 slick: slick,
-                arrows: arrows,
                 autoplay: autoplay,
-                underbar: underbar
+                underbar: underbar,
+                config: config
             });
         });
     }).on('swipeMove', function (event) {
@@ -982,7 +1113,7 @@ function fixSlickSlideActive() {
         small_screens();
     });
     $(window).resize(function (event) {
-        //if($(window).width() > 768) {
+        //if(!mobile) {
         //  iframeClick();
         //} else {
         $("iframe").off("mouseenter mouseleave");
@@ -1036,9 +1167,7 @@ function fixSlickSlideActive() {
             fixed = false,
             fixedClass = "sticky-nav-fixed",
             offset = 0,
-            desktopStickyOffset = 0,
-            MEDIUM_ONLY = 768,
-            mobile = $(window).width() <= MEDIUM_ONLY;
+            desktopStickyOffset = 0;
 
         function setOffset() {
             // Set placeholders
@@ -1080,13 +1209,13 @@ function fixSlickSlideActive() {
             // On load
             switchHeader();
 
+            // Change header for desktop vs. mobile
+            $(window).on("breakpoint", function () {
+                switchHeader();
+            });
+
             // Reset offset on resize
             $(window).on("resize", function () {
-                if ($(window).width() > MEDIUM_ONLY === mobile) { // Trigger once when the breakpoint is passed
-                    mobile = !mobile;
-                    //console.log("Mobile is: " + mobile);
-                    switchHeader();
-                }
                 if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
                     //console.log("Old height: " + headerHeight);
                     //console.log("New height: " + header.height());
@@ -1228,3 +1357,23 @@ function seeMoreScale() {
         }
     });
 }
+
+
+$(document).ready(function() {
+	$("input:hidden[name='file-upload-max-size']").each(function(index) {
+		var maxSize = parseInt($(this).val(), 10);
+		if(maxSize > -1){
+			$(this).closest("form").find("input:file").change(function() {
+				if(typeof this.files[0] !== 'undefined'){
+		            if(maxSize > -1){
+		                size = this.files[0].size;
+		                if(maxSize * 1000000 < size){
+		                	alert("File size cannot be larger than "+maxSize+" MB.");
+		                	$(this).val('');
+		                }
+					}
+				}
+			});
+		}
+	});
+});

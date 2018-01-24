@@ -13,15 +13,15 @@ public String[] extract(String url){
 	if (url.indexOf("youtu") != -1) { // Needs to be "youtu" to account for "youtu.be" links
         try {
 			String ytid = extractYTId(url);
-			String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + ytid + "&key=AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y"); // Getting 403, check restrictions: AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I
-            // Get a sample response here: https://developers.google.com/youtube/v3/docs/videos/list
-			if (!"".equals(jsonOutput)) {
+			String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + ytid + "&key=AIzaSyBLliIIeCT9fzRuejc64WpZN1OJXVu0hsI"); // Use for local testing: AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y
+			// Get a sample response here: https://developers.google.com/youtube/v3/docs/videos/list
+            if (!"".equals(jsonOutput)) {
 				JSONObject json = new JSONObject(jsonOutput);
 				if (json != null) {
                     JSONObject snippet = json.getJSONArray("items").getJSONObject(0).getJSONObject("snippet");
 					return new String[] {
                         "https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent", 
-                        snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url"), // standard
+                        snippet.getJSONObject("thumbnails").getJSONObject("high").getString("url"), // default, medium
                         "youtube", 
                         generateId(),
                         snippet.getString("title")
@@ -108,14 +108,20 @@ public  String readUrlFile(String urlString) throws Exception {
 %>
     
 <%
-final int timedelay = properties.get("timedelay", 2000);
-final boolean autoscroll = properties.get("autoscroll", false);
 String[] links = properties.get("links", String[].class);
+
+JSONObject slickOptions = new JSONObject();
+slickOptions.put("autoplay", properties.get("autoscroll", false));
+slickOptions.put("autoplaySpeed", properties.get("timedelay", 2000));
+   
+JSONObject playerConfig = new JSONObject();
+playerConfig.put("desktop", properties.get("videoConfigDesktop", "default")); // Values are: "default", "thumbnail", "link"
+playerConfig.put("mobile", properties.get("videoConfigMobile", "default")); // Values are: "default", "thumbnail", "link"
 
 if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
    %><p> Video Slider - Please select at least one link to display</p><% 
 } else {
-	%><div class="video-slider-wrapper" slick-options='{"autoplay":<%=autoscroll%>, "autoplaySpeed":<%=timedelay%>}'><%
+	%><div class="video-slider-wrapper" slick-options='<%=slickOptions.toString()%>' player-config='<%=playerConfig.toString()%>'><%
         String[] urls = null;
         for (int i = 0; i < links.length; i++) {
             String[] split = links[i].split("\\|\\|\\|");
@@ -128,9 +134,9 @@ if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                     %><div>
                         <div class="vid-slide-wrapper">
                             <iframe id="<%=urls[3]%>_<%=urls[2]%>" class="vid-player" data-src="<%=urls[0]%>" width="480" height="225" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                            <a class="vid-placeholder" data-href="<%=path%>" target="_blank" title="video thumbnail">
+                            <a class="vid-placeholder" data-href="<%=path%>" target="_blank" title="<%=title%>">
                                 <p><%=title%></p>
-                                <img src="<%=urls[1]%>" />
+                                <img data-src="<%=urls[1]%>" />
                             </a>
                         </div>
                     </div><%

@@ -96,13 +96,13 @@ public  String readUrlFile(String urlString) throws Exception {
 				if (link[i].indexOf("youtu") != -1) { // Needs to be "youtu" to account for "youtu.be" links
 					String ytid = extractYTId(link[i]);
 					videoId[i] = ytid;
-                    String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + ytid + "&key=AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y"); // Getting 403, check restrictions: AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I
+                    String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + ytid + "&key=AIzaSyBLliIIeCT9fzRuejc64WpZN1OJXVu0hsI"); // Use for local testing: AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y
                     // Get a sample response here: https://developers.google.com/youtube/v3/docs/videos/list					
                     if (!"".equals(jsonOutput)) {
 						JSONObject json = new JSONObject(jsonOutput);
 				        if (json != null) {
                             JSONObject snippet = json.getJSONArray("items").getJSONObject(0).getJSONObject("snippet");
-							videoThumbNail[i] = snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url"); // standard
+							videoThumbNail[i] = snippet.getJSONObject("thumbnails").getJSONObject("high").getString("url"); // default, medium
                             title[i] = !"".equals(title[i]) ? title[i] : snippet.getString("title");
 						}
 					}
@@ -130,35 +130,41 @@ public  String readUrlFile(String urlString) throws Exception {
 	}
 
 	String source7 = properties.get("source7", "not_set");
-	String homeCarouselAutoscroll = properties.get("homecarouselautoscroll", "false");
-	String homeCarouselTimeDelay = properties.get("homecarouseltimedelay", "1000");
-	String homeCarouselAutoPlaySpeed = properties.get("homecarouselautoplayspeed", "2000");
 	String blogBgImage = properties.get("blogbgimage", "");
 	String hideZIPCode = properties.get("hideZIPCode", "false");
+    
+    JSONObject slickOptions = new JSONObject();
+    slickOptions.put("speed", properties.get("homecarouseltimedelay", 1000));
+    slickOptions.put("autoplay", properties.get("homecarouselautoscroll", false));
+    slickOptions.put("autoplaySpeed", properties.get("homecarouselautoplayspeed", 2000));
+    
+    JSONObject playerConfig = new JSONObject();
+    playerConfig.put("desktop", properties.get("videoConfigDesktop", "default")); // Values are: "default", "thumbnail", "link"
+    playerConfig.put("mobile", properties.get("videoConfigMobile", "default")); // Values are: "default", "thumbnail", "link"
 
 	//passing this to another jsp
 	request.setAttribute("source7", source7);
 %>
 
 <div class="hero-feature">
-	<ul class="main-slider" slick-options='{"speed":<%=homeCarouselTimeDelay%>, "autoplay":<%=homeCarouselAutoscroll%>, "autoplaySpeed":<%=homeCarouselAutoPlaySpeed%>}'><%
+	<ul class="main-slider" slick-options='<%=slickOptions.toString()%>' player-config='<%=playerConfig.toString()%>'><%
         for (int i = 0; i < numberOfImages; i++) { 
 			if (!tempHidden[i]) {
                 %><li id="tag_explore_main_<%=i%>"><%
                     if (link[i].indexOf("https://www.youtube.com") != -1) { 
                         %><div class="videoWrapper">
                             <iframe id="youtubePlayer<%=i%>" class="vid-player" data-src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                            <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="video thumbnail">
+                            <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="<%=title[i]%>">
                                 <p><%=title[i]%></p>
-                                <img src="<%=videoThumbNail[i]%>" />
+                                <img data-src="<%=videoThumbNail[i]%>" />
                             </a>
                         </div><% 
                     } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {
                         %><div class="videoWrapper">
                             <iframe id="vimeoPlayer<%=i%>" class="vid-player" data-src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                            <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="video thumbnail">
+                            <a class="vid-placeholder" data-href="<%=sourceLink[i]%>" target="_blank" title="<%=title[i]%>">
                                 <p><%=title[i]%></p>
-                                <img src="<%=videoThumbNail[i]%>" />
+                                <img data-src="<%=videoThumbNail[i]%>" />
                             </a>
                         </div><%
                     } else {
