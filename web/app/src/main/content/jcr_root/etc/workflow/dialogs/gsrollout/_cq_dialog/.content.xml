@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="GirlScouts Page Rollout Dialog"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+        <items jcr:primaryType="nt:unstructured">
+            <columns
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <items jcr:primaryType="nt:unstructured">
+                    <newPage
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                        fieldDescription="If checked new live sync page will be created on council site."
+                        name="./newPage"
+                        text="New Page"
+                        uncheckedValue="false"
+                        value="false"/>
+                    <activate
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                        checked="true"
+                        fieldDescription="If unchecked, pages will not activate automatically when they are rolled out."
+                        name="./activate"
+                        text="Activate Pages"
+                        uncheckedValue="false"
+                        value="true"/>
+                    <delay
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                        checked="true"
+                        name="./delay"
+                        text="Delay Activation to Midnight"
+                        uncheckedValue="false"
+                        value="true"/>
+                    <crawl
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                        checked="true"
+                        name="./crawl"
+                        text="Crawl Site to Rebuild Cache"
+                        uncheckedValue="false"
+                        value="true"/>
+                    <councils/>
+                    <notify
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                        checked="true"
+                        name="./notify"
+                        text="Notify Councils"
+                        uncheckedValue="false"
+                        value="true"/>
+                    <subject
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/textfield"
+                        fieldLabel="Email Subject"
+                        name="./subject"
+                        value="GSUSA Rollout Notification"/>
+                    <message 
+                    	jcr:primaryType="nt:unstructured"
+					    defaultValue="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b>discarding&lt;/b> your own changes (custom content) that have been made to this page and will &lt;b>immediately&lt;/b> receive the new national content.&lt;/p>&#xa;&lt;p>&lt;b>National page URL:&lt;/b> &lt;%template-page%>&lt;/p>&#xa;&lt;p>&lt;b>Your page URL:&lt;/b> &lt;%council-page%>&lt;/p>&#xa;&lt;p>Click &lt;%a href='&lt;%council-author-page%>'>here&lt;%/a> to edit your page.&lt;/p>&lt;p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p>"
+					    fieldLabel="Custom Message"
+					    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+					    useFixedInlineToolbar="true"
+					    customStart="false"
+					    height="{Long}300"
+					    name="./message"
+					    value="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b>discarding&lt;/b> your own changes (custom content) that have been made to this page and will &lt;b>immediately&lt;/b> receive the new national content.&lt;/p>&#xa;&lt;p>&lt;b>National page URL:&lt;/b> &lt;%template-page%>&lt;/p>&#xa;&lt;p>&lt;b>Your page URL:&lt;/b> &lt;%council-page%>&lt;/p>&#xa;&lt;p>Click &lt;%a href='&lt;%council-author-page%>'>here&lt;%/a> to edit your page.&lt;/p>&lt;p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p>">
+					    <rtePlugins jcr:primaryType="nt:unstructured">
+						           <links jcr:primaryType="nt:unstructured">
+						               <linkDialogConfig
+						                   jcr:primaryType="nt:unstructured"
+						                   height="{Long}316">
+						                   <linkAttributes jcr:primaryType="cq:WidgetCollection">
+						                       <linkAdvanced
+						                           jcr:primaryType="cq:Widget"
+						                           collapsed="{Boolean}true"
+						                           collapsible="{Boolean}true"
+						                           inputValue="advanced"
+						                           name="./linkdialog/cq:adhocLinkTrackingTab"
+						                           title="Link tracking"
+						                           xtype="dialogfieldset">
+						                           <items jcr:primaryType="cq:WidgetCollection">
+						                               <enable
+						                                   jcr:primaryType="nt:unstructured"
+						                                   attribute="enabletracking"
+						                                   fieldDescription="override analytics framework settings"
+						                                   fieldLabel="Custom link tracking"
+						                                   name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+						                                   xtype="checkbox">
+						                                   <listeners
+						                                       jcr:primaryType="nt:unstructured"
+						                                       check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+						                               </enable>
+						                               <events
+						                                   jcr:primaryType="nt:unstructured"
+						                                   attribute="adhocevents"
+						                                   fieldDescription="e.g.: event2, event7"
+						                                   fieldLabel="Include SiteCatalyst events"
+						                                   name="./linkdialog/cq:adhocLinkTrackingEvents"
+						                                   xtype="textfield"/>
+						                               <evars
+						                                   jcr:primaryType="nt:unstructured"
+						                                   attribute="adhocevars"
+						                                   fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+						                                   fieldLabel="Include SiteCatalyst variables"
+						                                   name="./linkdialog/cq:adhocLinkTrackingEvars"
+						                                   xtype="textfield"/>
+						                           </items>
+						                       </linkAdvanced>
+						                   </linkAttributes>
+						               </linkDialogConfig>
+						           </links>
+						           <misctools
+						               jcr:primaryType="nt:unstructured"
+						               features="*"/>
+						           <findreplace
+						               jcr:primaryType="nt:unstructured"
+						               features="*"/>
+						           <format
+						               jcr:primaryType="nt:unstructured"
+						               features="*"/>
+						           <keys
+						               jcr:primaryType="nt:unstructured"
+						               features="*"/>
+						           <justify
+						               jcr:primaryType="nt:unstructured"
+						               features="*"/>
+						           <lists
+						               jcr:primaryType="nt:unstructured"
+						               features="*"/>
+						           <paraformat
+						               jcr:primaryType="nt:unstructured"
+						               features="*">
+						               <formats jcr:primaryType="cq:WidgetCollection">
+						                   <p
+						                       jcr:primaryType="nt:unstructured"
+						                       description="Paragraph"
+						                       tag="p"/>
+						                   <h1
+						                       jcr:primaryType="nt:unstructured"
+						                       description="Header 1"
+						                       tag="h1"/>
+						                   <h2
+						                       jcr:primaryType="nt:unstructured"
+						                       description="Header 2"
+						                       tag="h2"/>
+						                   <h3
+						                       jcr:primaryType="nt:unstructured"
+						                       description="Header 3"
+						                       tag="h3"/>
+						                   <h4
+						                       jcr:primaryType="nt:unstructured"
+						                       description="Header 4"
+						                       tag="h4"/>
+						                   <h5
+						                       jcr:primaryType="nt:unstructured"
+						                       description="Header 5"
+						                       tag="h5"/>
+						                   <h6
+						                       jcr:primaryType="nt:unstructured"
+						                       description="Header 6"
+						                       tag="h6"/>
+						               </formats>
+						           </paraformat>
+						           <spellcheck
+						               jcr:primaryType="nt:unstructured"
+						               features="*"/>
+						           <styles
+						               jcr:primaryType="nt:unstructured"
+						               features="*"/>
+						           <subsuperscript
+						               jcr:primaryType="nt:unstructured"
+						               features="*"/>
+						           <table
+						               jcr:primaryType="nt:unstructured"
+						               features="*"/>
+						           <undo
+						               jcr:primaryType="nt:unstructured"
+						               features="*"/>
+						           <edit
+						               jcr:primaryType="nt:unstructured"
+						               features="[paste-plaintext,paste-wordhtml]"/>
+						       </rtePlugins>
+						       <specialCharsConfig jcr:primaryType="nt:unstructured">
+						        <chars jcr:primaryType="nt:unstructured">
+						            <em-dash
+						                jcr:primaryType="nt:unstructured"
+						                entity="&amp;#8212;"/>
+						            <copyright
+						                jcr:primaryType="nt:unstructured"
+						                entity="&amp;#169;"/>
+						            <registered
+						                jcr:primaryType="nt:unstructured"
+						                entity="&amp;#174;"/>
+						            <trademark
+						                jcr:primaryType="nt:unstructured"
+						                entity="&amp;#8482;"/>
+						            <horizontal-rule
+						                jcr:primaryType="nt:unstructured"
+						                displayEntity="HR"
+						                entity="&lt;hr>"/>
+						        </chars>
+						    </specialCharsConfig>
+                                <uiSettings jcr:primaryType="nt:unstructured">
+                                    <cui jcr:primaryType="nt:unstructured">
+                                        <inline
+                                            jcr:primaryType="nt:unstructured"
+                                            toolbar="[format#bold,format#italic,format#underline,#justify,#lists,links#modifylink,links#unlink,#paraformat]">
+                                            <popovers jcr:primaryType="nt:unstructured">
+                                                <justify
+                                                    jcr:primaryType="nt:unstructured"
+                                                    items="[justify#justifyleft,justify#justifycenter,justify#justifyright]"
+                                                    ref="justify"/>
+                                                <lists
+                                                    jcr:primaryType="nt:unstructured"
+                                                    items="[lists#unordered,lists#ordered,lists#outdent,lists#indent]"
+                                                    ref="lists"/>
+                                                <paraformat
+                                                    jcr:primaryType="nt:unstructured"
+                                                    items="paraformat:getFormats:paraformat-pulldown"
+                                                    ref="paraformat"/>
+                                            </popovers>
+                                        </inline>
+                                        <dialogFullScreen
+                                            jcr:primaryType="nt:unstructured"
+                                            toolbar="[format#bold,format#italic,format#underline,justify#justifyleft,justify#justifycenter,justify#justifyright,lists#unordered,lists#ordered,lists#outdent,lists#indent,links#modifylink,links#unlink,table#createoredit,#paraformat,image#imageProps]">
+                                            <popovers jcr:primaryType="nt:unstructured">
+                                                <paraformat
+                                                    jcr:primaryType="nt:unstructured"
+                                                    items="paraformat:getFormats:paraformat-pulldown"
+                                                    ref="paraformat"/>
+                                            </popovers>
+                                        </dialogFullScreen>
+                                        <tableEditOptions
+                                            jcr:primaryType="nt:unstructured"
+                                            toolbar="[table#insertcolumn-before,table#insertcolumn-after,table#removecolumn,-,table#insertrow-before,table#insertrow-after,table#removerow,-,table#mergecells-right,table#mergecells-down,table#mergecells,table#splitcell-horizontal,table#splitcell-vertical,-,table#selectrow,table#selectcolumn,-,table#ensureparagraph,-,table#modifytableandcell,table#removetable,-,undo#undo,undo#redo,-,table#exitTableEditing,-]"/>
+                                    </cui>
+                                </uiSettings>
+                    </message>
+                    <usetemplate
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                        checked="false"
+                        name="./useTemplate"
+                        text="Use Email Template (Message AND Subject)"
+                        uncheckedValue="false"
+                        value="true"/>
+                    <usetemplate-delete
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/hidden"
+                        name="./useTemplate@Delete"
+                        value="{Boolean}true"/>
+                    <template
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                        fieldLabel="Email Template"
+                        name="./template"/>
+                </items>
+            </columns>
+        </items>
+    </content>
+</jcr:root>
