@@ -7,7 +7,7 @@
     description="Roll out the national content to the council site and activate both the source and the target page."
     title="Girl Scouts Roll out Workflow">
     <metaData
-        cq:lastModified="{Long}1516649047460"
+        cq:lastModified="{Long}1517001817592"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
@@ -29,7 +29,7 @@
         <node2
             jcr:primaryType="cq:WorkflowNode"
             description="Roll out the source page and activate both the source and the target page."
-            title="Double click to enter title."
+            title="Production Roll Out and Activate"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
