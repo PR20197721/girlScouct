@@ -38,7 +38,7 @@
    		includeCart = true;
    	}
    }
-   Map<String,List<FacetsInfo>> facetsAndTags =  searchQuery.getFacets();
+   
    SearchResultsInfo searchResultsInfo = null;
    SearchResult searchResults = null;
    if(path != null){
@@ -50,6 +50,7 @@
 	   searchResultsInfo = searchQuery.getSearchResultsInfo();
 	   searchResults = searchResultsInfo.getSearchResults();
    }
+   Map<String,List<FacetsInfo>> facetsAndTags =  searchQuery.getFacets();
   // List<String> results = searchResultsInfo.getResults();
   // long hitCounts = searchResultsInfo.getHitCounts();  
    request.setAttribute("searchResults", searchResults);
