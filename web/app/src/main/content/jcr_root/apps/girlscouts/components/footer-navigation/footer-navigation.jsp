@@ -10,9 +10,19 @@
     	while(iter.hasNext()){
 			Node linkNode = iter.nextNode();
             if(linkNode.hasProperty("linkTitle") && linkNode.hasProperty("url")){
-				String title = linkNode.getProperty("linkTitle").getString();
+				String inString = "";
+                String title = linkNode.getProperty("linkTitle").getString();
                 String url = linkNode.getProperty("url").getString();
-                linksList.add(title + "|||" + url);
+				inString = inString + title + "|||" + url;
+                if(linkNode.hasProperty("class")){
+					inString = inString + "|||" + linkNode.getProperty("class").getString();
+                }else{
+					inString = inString + "|||";
+                }
+                if(linkNode.hasProperty("openInNew")){
+					inString = inString + "|||" + String.valueOf(linkNode.getProperty("newWindow").getBoolean());
+                }
+                linksList.add(inString);
             }
 
 		}
@@ -23,9 +33,14 @@
     	while(iter.hasNext()){
 			Node socialNode = iter.nextNode();
             if(socialNode.hasProperty("icon") && socialNode.hasProperty("url")){
-				String icon = socialNode.getProperty("icon").getString();
+				String inString = "";
+                String icon = socialNode.getProperty("icon").getString();
                 String url = socialNode.getProperty("url").getString();
-                socialList.add(url + "|||" + icon);
+                inString = inString + url + "|||" + icon;
+                if(socialNode.hasProperty("openInNew")){
+					inString = inString + "|||" + String.valueOf(socialNode.getProperty("newWindow").getBoolean());
+                }
+                socialList.add(inString);
             }
 
 		}
