@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     title="GS Rollout - Council Selection Dialog"
     xtype="dialog">
     <items jcr:primaryType="cq:WidgetCollection">
-    	<newPage
-    		jcr:primaryType="cq:Widget"
-    		fieldLabel="New Page"
-    		fieldDescription="If checked new live sync page will be created on council site."
-    		name="./newPage"
-    		value="{Boolean}false"
-    		defaultValue="{Boolean}false"
-    		type="checkbox"
-    		xtype="selection"/>
-    	<activate
-    		jcr:primaryType="cq:Widget"
-    		fieldLabel="Activate Pages"
-    		fieldDescription="If unchecked, pages will not activate automatically when they are rolled out."
-    		name="./activate"
-    		value="{Boolean}true"
-    		defaultValue="{Boolean}false"
-    		type="checkbox"
-    		xtype="selection"/>
-    	<delay
-    		jcr:primaryType="cq:Widget"
-    		fieldLabel="Delay Activation to Midnight"
-    		name="./delay"
-    		value="{Boolean}true"
-    		defaultValue="{Boolean}false"
-    		type="checkbox"
-    		xtype="selection">
-    		<listeners
-        		jcr:primaryType="nt:unstructured"
-        		selectionchanged="function(field, value, isChecked) { var panel = field.findParentByType('panel'); var crawl = panel.getComponent('crawl'); isChecked ? crawl.hide() : crawl.show(); }"/>
-    	</delay>
-    	<crawl
-    		jcr:primaryType="cq:Widget"
-    		fieldLabel="Crawl Site to Rebuild Cache"
-    		name="./crawl"
-    		value="true"
-    		defaultValue="{Boolean}false"
-    		type="checkbox"
-    		hidden="{Boolean}true"
-    		itemId="crawl"
-    		xtype="selection"/>
+        <newPage
+            jcr:primaryType="cq:Widget"
+            defaultValue="{Boolean}false"
+            fieldDescription="If checked new live sync page will be created on council site."
+            fieldLabel="New Page"
+            name="./newPage"
+            type="checkbox"
+            value="{Boolean}false"
+            xtype="selection"/>
+        <activate
+            jcr:primaryType="cq:Widget"
+            defaultValue="{Boolean}false"
+            fieldDescription="If unchecked, pages will not activate automatically when they are rolled out."
+            fieldLabel="Activate Pages"
+            name="./activate"
+            type="checkbox"
+            value="{Boolean}true"
+            xtype="selection"/>
+        <delay
+            jcr:primaryType="cq:Widget"
+            defaultValue="{Boolean}false"
+            fieldLabel="Delay Activation to Midnight"
+            name="./delay"
+            type="checkbox"
+            value="{Boolean}true"
+            xtype="selection">
+            <listeners
+                jcr:primaryType="nt:unstructured"
+                selectionchanged="function(field, value, isChecked) { var panel = field.findParentByType('panel'); var crawl = panel.getComponent('crawl'); isChecked ? crawl.hide() : crawl.show(); }"/>
+        </delay>
+        <crawl
+            jcr:primaryType="cq:Widget"
+            defaultValue="{Boolean}false"
+            fieldLabel="Crawl Site to Rebuild Cache"
+            hidden="{Boolean}true"
+            itemId="crawl"
+            name="./crawl"
+            type="checkbox"
+            value="true"
+            xtype="selection"/>
         <councils
             jcr:primaryType="cq:Widget"
             fieldLabel="Councils"
@@ -52,56 +52,31 @@
             type="checkbox"
             xtype="selection">
             <listeners
-            	jcr:primaryType="nt:unstructured"
-            	beforerender="function(){  
-            		var chkboxes = this;
-            		var chkboxlist = chkboxes.items.items;
-            		this.insert(0, new CQ.Ext.Button({
-	                'text':'Select/Deselect All',
-                	handler : function(){
-                		var selecting = false;
-                    	CQ.Ext.each(chkboxlist, function(c){
-							if(c.getXType() == 'checkbox'){
-								if(c.getValue() == false){
-									selecting = true;
-								}
-							}
-						});
-						CQ.Ext.each(chkboxlist, function(c){
-							if (c.setValue) { 
-								if(selecting){
-									c.setValue('true'); 
-								}else{
-									c.setValue('false');
-								}
-							} 
-						return true; } );
-                	}
-            	}));
-            }"/>
+                jcr:primaryType="nt:unstructured"
+                beforerender="function(){                 var chkboxes = this;               var chkboxlist = chkboxes.items.items;               this.insert(0, new CQ.Ext.Button({                  'text':'Select/Deselect All',                  handler : function(){                   var selecting = false;                      CQ.Ext.each(chkboxlist, function(c){        if(c.getXType() == 'checkbox'){         if(c.getValue() == false){          selecting = true;         }        }       });       CQ.Ext.each(chkboxlist, function(c){        if (c.setValue) {          if(selecting){          c.setValue('true');          }else{          c.setValue('false');         }        }        return true; } );                  }              }));             }"/>
         </councils>
         <notify
-        	jcr:primaryType="cq:Widget"
-        	fieldLabel="Notify Councils"
-        	name="./notify"
-        	value="true"
-        	defaultValue="false"
-        	type="checkbox"
-        	xtype="selection"/>
-       	<subject
-       		jcr:primaryType="cq:Widget"
-       		fieldLabel="Email Subject"
-       		name="./subject"
-       		defaultValue="GSUSA Rollout Notification"
-       		value="GSUSA Rollout Notification"
-       		xtype="textfield"/>
+            jcr:primaryType="cq:Widget"
+            defaultValue="false"
+            fieldLabel="Notify Councils"
+            name="./notify"
+            type="checkbox"
+            value="true"
+            xtype="selection"/>
+        <subject
+            jcr:primaryType="cq:Widget"
+            defaultValue="GSUSA Rollout Notification"
+            fieldLabel="Email Subject"
+            name="./subject"
+            value="GSUSA Rollout Notification"
+            xtype="textfield"/>
         <message
             jcr:primaryType="cq:Widget"
+            defaultValue="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b>discarding&lt;/b> your own changes (custom content) that have been made to this page and will &lt;b>immediately&lt;/b> receive the new national content.&lt;/p>&#xa;&lt;p>&lt;b>National page URL:&lt;/b> &lt;%template-page%>&lt;/p>&#xa;&lt;p>&lt;b>Your page URL:&lt;/b> &lt;%council-page%>&lt;/p>&#xa;&lt;p>Click &lt;%a href='&lt;%council-author-page%>'>here&lt;%/a> to edit your page.&lt;/p>&lt;p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p>"
             fieldLabel="Custom Message"
             height="{Long}300"
             name="./message"
-            defaultValue="&lt;p&gt;Dear Council, &lt;/p&gt;&#xA;&lt;p&gt;It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b&gt;discarding&lt;/b&gt; your own changes (custom content) that have been made to this page and will &lt;b&gt;immediately&lt;/b&gt; receive the new national content.&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;National page URL:&lt;/b&gt; &lt;%template-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;Your page URL:&lt;/b&gt; &lt;%council-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;Click &lt;%a href='&lt;%council-author-page%&gt;'&gt;here&lt;%/a&gt; to edit your page.&lt;/p&gt;&lt;p&gt;Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p&gt;"
-        	value="&lt;p&gt;Dear Council, &lt;/p&gt;&#xA;&lt;p&gt;It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b&gt;discarding&lt;/b&gt; your own changes (custom content) that have been made to this page and will &lt;b&gt;immediately&lt;/b&gt; receive the new national content.&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;National page URL:&lt;/b&gt; &lt;%template-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;Your page URL:&lt;/b&gt; &lt;%council-page%&gt;&lt;/p&gt;&#xA;&lt;p&gt;Click &lt;%a href='&lt;%council-author-page%&gt;'&gt;here&lt;%/a&gt; to edit your page.&lt;/p&gt;&lt;p&gt;Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p&gt;"
+            value="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b>discarding&lt;/b> your own changes (custom content) that have been made to this page and will &lt;b>immediately&lt;/b> receive the new national content.&lt;/p>&#xa;&lt;p>&lt;b>National page URL:&lt;/b> &lt;%template-page%>&lt;/p>&#xa;&lt;p>&lt;b>Your page URL:&lt;/b> &lt;%council-page%>&lt;/p>&#xa;&lt;p>Click &lt;%a href='&lt;%council-author-page%>'>here&lt;%/a> to edit your page.&lt;/p>&lt;p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p>"
             xtype="richtext">
             <rtePlugins jcr:primaryType="nt:unstructured">
                 <links jcr:primaryType="nt:unstructured">
@@ -243,18 +218,18 @@
                 </chars>
             </specialCharsConfig>
         </message>
-       	<usetemplate
-       		jcr:primaryType="cq:Widget"
-       		fieldLabel="Use Email Template (Message AND Subject)"
-       		name="./useTemplate"
-       		value="false"
-    		defaultValue="false"
-       		type="checkbox"
-       		xtype="selection"/>
-       	<template
-       		jcr:primaryType="cq:Widget"
-       		fieldLabel="Email Template"
-       		name="./template"
-       		xtype="pathfield"/>
+        <usetemplate
+            jcr:primaryType="cq:Widget"
+            defaultValue="false"
+            fieldLabel="Use Email Template (Message AND Subject)"
+            name="./useTemplate"
+            type="checkbox"
+            value="false"
+            xtype="selection"/>
+        <template
+            jcr:primaryType="cq:Widget"
+            fieldLabel="Email Template"
+            name="./template"
+            xtype="pathfield"/>
     </items>
 </jcr:root>
