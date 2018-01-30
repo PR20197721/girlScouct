@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+	xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+	xmlns:nt="http://www.jcp.org/jcr/nt/1.0" jcr:primaryType="nt:unstructured">
+	<links jcr:primaryType="nt:unstructured">
+		<linkDialogConfig jcr:primaryType="nt:unstructured"
+			height="{Long}316">
+			<linkAttributes jcr:primaryType="cq:WidgetCollection">
+				<linkAdvanced jcr:primaryType="cq:Widget" collapsed="{Boolean}true"
+					collapsible="{Boolean}true" inputValue="advanced"
+					name="./linkdialog/cq:adhocLinkTrackingTab" title="Link tracking"
+					xtype="dialogfieldset">
+					<items jcr:primaryType="cq:WidgetCollection">
+						<enable jcr:primaryType="nt:unstructured" attribute="enabletracking"
+							fieldDescription="override analytics framework settings"
+							fieldLabel="Custom link tracking" name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+							xtype="checkbox">
+							<listeners jcr:primaryType="nt:unstructured"
+								check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}" />
+						</enable>
+						<events jcr:primaryType="nt:unstructured" attribute="adhocevents"
+							fieldDescription="e.g.: event2, event7" fieldLabel="Include SiteCatalyst events"
+							name="./linkdialog/cq:adhocLinkTrackingEvents" xtype="textfield" />
+						<evars jcr:primaryType="nt:unstructured" attribute="adhocevars"
+							fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+							fieldLabel="Include SiteCatalyst variables" name="./linkdialog/cq:adhocLinkTrackingEvars"
+							xtype="textfield" />
+					</items>
+				</linkAdvanced>
+			</linkAttributes>
+		</linkDialogConfig>
+	</links>
+	<misctools jcr:primaryType="nt:unstructured" features="*" />
+	<findreplace jcr:primaryType="nt:unstructured" features="*" />
+	<format jcr:primaryType="nt:unstructured" features="*" />
+	<keys jcr:primaryType="nt:unstructured" features="*" />
+	<justify jcr:primaryType="nt:unstructured" features="*" />
+	<lists jcr:primaryType="nt:unstructured" features="*" />
+	<paraformat jcr:primaryType="nt:unstructured" features="*">
+		<formats jcr:primaryType="cq:WidgetCollection">
+			<p jcr:primaryType="nt:unstructured" description="Paragraph" tag="p" />
+			<h1 jcr:primaryType="nt:unstructured" description="Header 1" tag="h1" />
+			<h2 jcr:primaryType="nt:unstructured" description="Header 2" tag="h2" />
+			<h3 jcr:primaryType="nt:unstructured" description="Header 3" tag="h3" />
+			<h4 jcr:primaryType="nt:unstructured" description="Header 4" tag="h4" />
+			<h5 jcr:primaryType="nt:unstructured" description="Header 5" tag="h5" />
+			<h6 jcr:primaryType="nt:unstructured" description="Header 6" tag="h6" />
+		</formats>
+	</paraformat>
+	<spellcheck jcr:primaryType="nt:unstructured" features="*" />
+	<styles jcr:primaryType="nt:unstructured" features="*" />
+	<subsuperscript jcr:primaryType="nt:unstructured"
+		features="*" />
+	<table jcr:primaryType="nt:unstructured" features="*" />
+	<undo jcr:primaryType="nt:unstructured" features="*" />
+	<edit jcr:primaryType="nt:unstructured" features="[paste-plaintext,paste-wordhtml]" />
+</jcr:root>
