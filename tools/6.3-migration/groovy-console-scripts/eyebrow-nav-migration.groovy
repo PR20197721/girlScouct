@@ -28,37 +28,59 @@ if (result != null) {
 			    }
 			     println("**************************************************************************************")
 			     println(linksNode.getPath())
-			    
-			     Value[] values = node.getProperty("links").getValues()
-                 println("Processing eyebrow-nav with " + values.length + " values")
-                    
-                 for(int i = 0; i < values.length; i++){
-                    String linkSet = values[i].getString()
-                    println(linkSet);
-                    String[] linkProperties = linkSet.split("\\|\\|\\|");
-                    Node itemNode = null
-                    if(!linksNode.hasNode("item" + i)){
-                        itemNode = linksNode.addNode("item" + i, "nt:unstructured")
-                    } else{
-                        itemNode = linksNode.getNode("item" + i);
-                    }
-                    String linkTitle = linkProperties[0]
-                    String url = linkProperties.length >= 2 ? linkProperties[1] : ""
-                    String clazz = linkProperties.length >= 3 ? " "+ linkProperties[2] : ""
-                    String newWindow = linkProperties.length >=4 ? " "+linkProperties[3] : ""
-                    String suppress = linkProperties.length >=5 ? " "+linkProperties[4] : ""
-                    itemNode.setProperty("newWindow", Boolean.parseBoolean(newWindow))
-                    itemNode.setProperty("suppress", Boolean.parseBoolean(suppress))
-                    itemNode.setProperty("linkTitle", linkTitle)
-                    itemNode.setProperty("class", clazz)
-                    itemNode.setProperty("url", url)
-                        
-                        
-                }
-			        
+			     try{
+				     Value[] values = node.getProperty("links").getValues()
+	                 println("Processing eyebrow-nav with " + values.length + " values")
+	                    
+	                 for(int i = 0; i < values.length; i++){
+	                    String linkSet = values[i].getString()
+	                    println(linkSet);
+	                    String[] linkProperties = linkSet.split("\\|\\|\\|");
+	                    Node itemNode = null
+	                    if(!linksNode.hasNode("item" + i)){
+	                        itemNode = linksNode.addNode("item" + i, "nt:unstructured")
+	                    } else{
+	                        itemNode = linksNode.getNode("item" + i);
+	                    }
+	                    String linkTitle = linkProperties[0]
+	                    String url = linkProperties.length >= 2 ? linkProperties[1] : ""
+	                    String clazz = linkProperties.length >= 3 ? " "+ linkProperties[2] : ""
+	                    String newWindow = linkProperties.length >=4 ? " "+linkProperties[3] : ""
+	                    String suppress = linkProperties.length >=5 ? " "+linkProperties[4] : ""
+	                    itemNode.setProperty("newWindow", Boolean.parseBoolean(newWindow))
+	                    itemNode.setProperty("suppress", Boolean.parseBoolean(suppress))
+	                    itemNode.setProperty("linkTitle", linkTitle)
+	                    itemNode.setProperty("class", clazz)
+	                    itemNode.setProperty("url", url)
+	                        
+	                        
+	                }
+			     }catch(Exception e1){
+					 try{
+						 Value value = node.getProperty("links").getValue()
+						 String linkSet = value.getString()
+						 println(linkSet);
+						 String[] linkProperties = linkSet.split("\\|\\|\\|");
+						 Node itemNode = null
+						 if(!linksNode.hasNode("item" + i)){
+							 itemNode = linksNode.addNode("item" + i, "nt:unstructured")
+						 } else{
+							 itemNode = linksNode.getNode("item" + i);
+						 }
+						 String linkTitle = linkProperties[0]
+						 String url = linkProperties.length >= 2 ? linkProperties[1] : ""
+						 String clazz = linkProperties.length >= 3 ? " "+ linkProperties[2] : ""
+						 String newWindow = linkProperties.length >=4 ? " "+linkProperties[3] : ""
+						 String suppress = linkProperties.length >=5 ? " "+linkProperties[4] : ""
+						 itemNode.setProperty("newWindow", Boolean.parseBoolean(newWindow))
+						 itemNode.setProperty("suppress", Boolean.parseBoolean(suppress))
+						 itemNode.setProperty("linkTitle", linkTitle)
+						 itemNode.setProperty("class", clazz)
+						 itemNode.setProperty("url", url)
+					 }catch(Exception e2){}
+				 }			        
 			    save()
-			        println("saved converted content")
-			    
+			        println("saved converted content")			    
 			}
 			
 		}
