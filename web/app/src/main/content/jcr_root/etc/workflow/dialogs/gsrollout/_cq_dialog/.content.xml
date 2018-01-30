@@ -29,7 +29,7 @@
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="true" name="./crawl" text="Crawl Site to Rebuild Cache"
 						uncheckedValue="false" value="true" />
-<!-- 					<councils /> -->
+					<councils />
 					<notify jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="true" name="./notify" text="Notify Councils"
@@ -53,9 +53,6 @@
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" name="./useTemplate" text="Use Email Template (Message AND Subject)"
 						uncheckedValue="false" value="true" />
-					<usetemplate-delete jcr:primaryType="nt:unstructured"
-						sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
-						name="./useTemplate@Delete" value="{Boolean}true" />
 					<template jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
 						fieldLabel="Email Template" name="./template" />
