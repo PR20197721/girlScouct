@@ -17,19 +17,21 @@ try{
 					Iterator<Resource> scaffoldingPages = councilScaffolding.listChildren();
 					while(scaffoldingPages.hasNext()){
 						Resource scaffoldingPage = scaffoldingPages.next();
-						String scaffoldingURI = scaffoldingPage.getPath()+".html";
-						String buttonName = "Create " +scaffoldingPage.getName().substring(0, 1).toUpperCase() + scaffoldingPage.getName().substring(1);
-						%>
-						<a is="coral-anchorlist-item" 
-						class="foundation-collection-action coral-Link coral-BasicList-item coral-AnchorList-item" 
-						href="<%=scaffoldingURI%>" icon="news" tabindex="0">
-							<div class=" coral-BasicList-item-outerContainer" handle="outerContainer">
-							  <div class=" coral-BasicList-item-contentContainer" handle="contentContainer">
-							  	<coral-list-item-content class="coral-BasicList-item-content"><%=buttonName %></coral-list-item-content> 
-							  </div>
-							</div>
-						</a>
-						<%
+						if(scaffoldingPage.isResourceType("cq:Page")){
+							String scaffoldingURI = scaffoldingPage.getPath()+".html";
+							String buttonName = "Create " +scaffoldingPage.getName().substring(0, 1).toUpperCase() + scaffoldingPage.getName().substring(1);
+							%>
+							<a is="coral-anchorlist-item" 
+							class="foundation-collection-action coral-Link coral-BasicList-item coral-AnchorList-item" 
+							href="<%=scaffoldingURI%>" icon="news" tabindex="0">
+								<div class=" coral-BasicList-item-outerContainer" handle="outerContainer">
+								  <div class=" coral-BasicList-item-contentContainer" handle="contentContainer">
+								  	<coral-list-item-content class="coral-BasicList-item-content"><%=buttonName %></coral-list-item-content> 
+								  </div>
+								</div>
+							</a>
+							<%
+						}
 					}
 				%>
 			</div>
