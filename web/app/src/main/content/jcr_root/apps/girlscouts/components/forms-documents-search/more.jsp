@@ -1,5 +1,6 @@
-<%@ page import="org.girlscouts.web.search.formsdocuments.FormsDocumentsSearch, java.util.Map,java.util.List,org.girlscouts.web.events.search.SearchResultsInfo, org.girlscouts.web.events.search.FacetsInfo,com.day.cq.search.result.Hit, org.girlscouts.web.search.DocHit,java.util.HashSet,java.util.*"%> 
-<%@ page import="javax.jcr.query.*,
+<%@ page import="java.util.List, 
+				java.util.*,
+				javax.jcr.query.*,
                 javax.jcr.*,
                 com.day.cq.wcm.api.WCMMode,
 				java.util.HashMap, 
@@ -7,28 +8,10 @@
 				org.girlscouts.web.search.GSSearchResult, 
 				org.girlscouts.web.search.GSSearchResultManager,
 				org.girlscouts.web.search.GSJcrSearchProvider" %>
-
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>    
-<cq:defineObjects/>
+<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>     
 <%!
-public String getValue(Row r, String column) throws ItemNotFoundException, RepositoryException {
-    String toRet="";
-    try{
-        if( r==null) return "";
-        Value val = r.getValue(column);
-        if (val == null) {
-            return "";
-        }
-        String strVal = val.getString();
-        if (strVal == null) {
-            return "";
-        }
-        return  strVal.trim();
-    }catch(Exception exx){System.err.println("tata: "+column); exx.printStackTrace();}
-    return "";
-}
 public String addTagsClause(String query, List<String> tags, boolean isPage){
 	if(tags != null && tags.size() >0){
 		query+=" AND (";
@@ -67,21 +50,15 @@ try{
 	offset=Integer.parseInt(offsetParam);
 }catch(Exception e){}
 
-String PAGES_EXPRESSION = 	"SELECT [jcr:score], [/jcr:content/cq:tags], [excerpt(/renditions/original/jcr:content/jcr:data)], " +
-								"[jcr:content/renditions/original/jcr:content/jcr:data], [jcr:path],[jcr:content/metadata/dc:title], "+
-								"[jcr:content/jcr:title],[jcr:content/metadata/dc:description] "+
+String PAGES_EXPRESSION = 	"SELECT [jcr:score], [jcr:path], [jcr:primaryType] "+
 							"FROM [cq:Page] "+
 							"WHERE ISDESCENDANTNODE([%s])";
 
-String ASSETS_EXPRESSION = "SELECT [jcr:score], [/jcr:content/metadata/cq:tags], [excerpt(/renditions/original/jcr:content/jcr:data)], " +
-								"[jcr:content/renditions/original/jcr:content/jcr:data], [jcr:path],[jcr:content/metadata/dc:title], "+
-								"[jcr:content/jcr:title],[jcr:content/metadata/dc:description] "+
+String ASSETS_EXPRESSION = "SELECT [jcr:score], [jcr:path], [jcr:primaryType] "+
 							"FROM [dam:Asset] "+
 							"WHERE ISDESCENDANTNODE([%s])";
 
-String SHARED_ASSETS_EXPRESSION = 	"SELECT [jcr:score], [/jcr:content/metadata/cq:tags], [excerpt(/renditions/original/jcr:content/jcr:data)], " +
-										"[jcr:content/renditions/original/jcr:content/jcr:data], [jcr:path],[jcr:content/metadata/dc:title], "+
-										"[jcr:content/jcr:title],[jcr:content/metadata/dc:description] "+
+String SHARED_ASSETS_EXPRESSION = 	"SELECT [jcr:score], [jcr:path], [jcr:primaryType] "+
 									"FROM [dam:Asset] "+
 									"WHERE ISDESCENDANTNODE([%s])";
 
