@@ -102,7 +102,7 @@ public final class GSSearchResult implements GSSearchResultConstants {
 				}
 				title = this.resultNode.getProperty(PROPERTY_DC_TITLE).getString();
 			}
-			if (StringUtils.isEmpty(title)) {
+			if (StringUtils.isBlank(title)) {
 				log.info("Cannot get the title. Use node name instead.");
 				title = this.resultNode.getName();
 			}
