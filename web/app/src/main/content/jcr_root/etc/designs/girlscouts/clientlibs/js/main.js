@@ -435,13 +435,12 @@ function FormsDocsLoader(jsonPath, containerObj, query, tags) {
 				try{
 					if(parseInt(data.resultCount,10) < 10){
 						isMore=false;
-						//$("#loadMore").remove();
+						$("#loadMore").remove();
 					} else {
 						offset = parseInt(data.newOffset, 10);
 					}
 					$.each(data.results, function (index, result) {
 						container.append($("<br/>"));
-						//container.append(getContent(result));
 						try{
 							if(result.extension && result.extension!='html'){
 								var $span = $("<span>", {"class": "icon type_"+result.extension});
@@ -463,6 +462,7 @@ function FormsDocsLoader(jsonPath, containerObj, query, tags) {
 								container.append("<div>"+result.excerpt+"</div>");
 							}
 						}catch(err){}
+						container.append("<!--"+result.score+"-->");
 						container.append($("<br/>"));
 					});
 				}catch(err){}

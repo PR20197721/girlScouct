@@ -23,7 +23,12 @@ public final class GSSearchResult implements GSSearchResultConstants {
 	private final Row row;
 
 	public GSSearchResult(Row row) throws RepositoryException {
-		this.score = row.getValue("jcr:score").getDouble();
+		Value score = row.getValue("jcr:score");
+		if (row.getValue("jcr:score") != null) {
+			this.score = score.getDouble();
+		} else {
+			this.score = new Double(0);
+		}
 		this.resultNode = getPageOrAsset(row.getNode());
 		if (this.resultNode != null) {
 			this.path = this.resultNode.getPath();
