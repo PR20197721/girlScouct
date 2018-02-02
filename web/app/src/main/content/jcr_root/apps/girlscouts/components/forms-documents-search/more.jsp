@@ -22,9 +22,9 @@ public String addTagsClause(String query, List<String> tags, boolean isPage){
 				query+=" OR";
 			}
 			if(isPage){
-				query+=" [jcr:content/cq:tags]='"+tag+"'";
+				query+=" s.[jcr:content/cq:tags]='"+tag+"'";
 			}else{
-				query+=" [jcr:content/metadata/cq:tags]='"+tag+"'";
+				query+=" s.[jcr:content/metadata/cq:tags]='"+tag+"'";
 			}
 			
 		}
@@ -34,7 +34,7 @@ public String addTagsClause(String query, List<String> tags, boolean isPage){
 }
 public String addContainsClause(String query, String searchText){
 	if(searchText != null && searchText.trim().length() >0){
-		query+=" AND contains(*, '"+searchText+"')";
+		query+=" AND CONTAINS(s.*, '"+searchText+"')";
 	}
 	return query;
 }
@@ -46,21 +46,22 @@ int resultCount = 0;
 String q = request.getParameter("q");
 String offsetParam = request.getParameter("offset");
 String[] tags = request.getParameterValues("tags");
+String pagePath = properties.get("./form-document-path", "");
 try{
 	offset=Integer.parseInt(offsetParam);
 }catch(Exception e){}
 
 String PAGES_EXPRESSION = 	"SELECT [jcr:score], [jcr:path], [jcr:primaryType] "+
-							"FROM [cq:Page] "+
+							"FROM [cq:Page] as s "+
 							"WHERE ISDESCENDANTNODE([%s])";
 
 String ASSETS_EXPRESSION = "SELECT [jcr:score], [jcr:path], [jcr:primaryType] "+
-							"FROM [dam:Asset] "+
+							"FROM [dam:Asset] as s "+
 							"WHERE ISDESCENDANTNODE([%s])";
 
 String SHARED_ASSETS_EXPRESSION = 	"SELECT [jcr:score], [jcr:path], [jcr:primaryType] "+
-									"FROM [dam:Asset] "+
-									"WHERE ISDESCENDANTNODE([%s])";
+									"FROM [dam:Asset] as s "+
+									"WHERE ISDESCENDANTNODE([/content/dam/girlscouts-shared/en/documents])"; 
 
 
 q = q==null ? "" : q.trim();
@@ -111,7 +112,7 @@ if(specialCouncils.containsKey(councilName)){
 if((q!=null && q.length()>0) || (tagSet != null && tagSet.size()>0)){
 	try{
 		GSJcrSearchProvider searchProvider = new GSJcrSearchProvider(slingRequest);
-		String pagesQuery = String.format(PAGES_EXPRESSION, damPath, q);
+		String pagesQuery = String.format(PAGES_EXPRESSION, pagePath, q);
 		String assetsQuery = String.format(ASSETS_EXPRESSION, damPath, q);
 		String sharedAssetsQuery = String.format(SHARED_ASSETS_EXPRESSION, damPath, q); 
 		pagesQuery = addTagsClause(pagesQuery, tagSet, true);
@@ -120,15 +121,19 @@ if((q!=null && q.length()>0) || (tagSet != null && tagSet.size()>0)){
 		assetsQuery = addContainsClause(assetsQuery, q);
 		sharedAssetsQuery = addTagsClause(sharedAssetsQuery, tagSet, false);
 		sharedAssetsQuery = addContainsClause(sharedAssetsQuery, q);
-		gsResultManager.add(searchProvider.search(pagesQuery));
-		gsResultManager.add(searchProvider.search(assetsQuery));
+		if(pagePath != null && pagePath.length() != 0){
+			gsResultManager.add(searchProvider.search(pagesQuery));
+		}
+		if(damPath != null && damPath.length() != 0){
+			gsResultManager.add(searchProvider.search(assetsQuery));
+		}
 		gsResultManager.add(searchProvider.search(sharedAssetsQuery));
 		gsResultManager.filter();	
 	}catch(Exception e){
 		e.printStackTrace();
 	}
 }
-List<GSSearchResult> queryResults = gsResultManager.getResults();
+List<GSSearchResult> queryResults = gsResultManager.getResultsSortedByScore();
 if(offset <=queryResults.size()){
 	for(int i=offset; i<queryResults.size();i++){
 		GSSearchResult qResult=queryResults.get(i);
