@@ -64,7 +64,7 @@ if (suffix != null) {
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
 Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
 %>
-<div id="formsDocsListWrapper" class="expandable">
+<div class="expandable">
 	<div class="programLevel">
     	<form action="<%=formAction%>" method="get" name="frm" onsubmit="return checkLen()">
 	        <div id="searchBox" class="baseDiv">
@@ -110,6 +110,7 @@ Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequ
 		%><div><b><a target="_blank" href="<%= redirectUrl %>">Document Bulk Editor</a></b></div><%
 	}
 	if((q!=null && !q.isEmpty()) ||  (tags != null)){ %>
+		<div class="search" id="formsDocsListWrapper"></div>
 		<script>
 			var tags = new Array();
 			<%
