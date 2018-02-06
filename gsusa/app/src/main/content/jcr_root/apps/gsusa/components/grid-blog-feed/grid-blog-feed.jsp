@@ -215,7 +215,7 @@ $(document).ready(function() {
 	
 	if (displaySampleFeed === true) {
 		console.log("SAMPLE: " + displaySampleFeed);
-		var result1 =  { items: [{
+		var sampleBlog =  { items: [{
 				url: "http://blog.girlscouts.org",
 				title: "This Is A Sample Blog Feed!",
 				id: "6847912407976159730",
@@ -277,8 +277,12 @@ $(document).ready(function() {
 				content: "November is Native American Indian Heritage Month! Throughout the month, we celebrate Native Americans’ diverse cultures and traditions and highlight the many contributions they’ve made throughout history—and at Girl Scouts, we of course especially focus on the Native American heroines. All month long, join Girl Scouts as we honor the amazing G.I.R.L. (Go-getter, Innovator, Risk-taker, Leader)™ spirit of Native American culture. The Go-GettersSacagswea Image via Library of CongressSacagaweaDuring the Lewis and Clark Expedition, Sacagawea served as a guide and interpreter whose mission was to find a water route through North America and explore the uncharted West. During this journey of more than two years, she interpreted the Mandan and Sho"
 			}]
 		};	
-		
-		addFeed(result1);
+
+		if (textOnly == "true") {
+			addFeedTextOnly(sampleBlog);
+		} else {
+			addFeed(sampleBlog);
+		}
 		styleFeed();
 		trimFeed();
 		
@@ -296,8 +300,11 @@ $(document).ready(function() {
 			success: function(result) {
 				console.log('GRIDBLOG');
 				$blogFeedArea.empty();
-				
-				addFeed(result);
+				if (textOnly == "true") {
+					addFeedTextOnly(result);
+				} else {
+					addFeed(result);
+				}
 				styleFeed();
 				trimFeed();			
 				},
@@ -330,7 +337,6 @@ $(document).ready(function() {
 		}
 	}
 
-	/*
 	function addFeedTextOnly (result) {
 		for (var i = 0; i < result.items.length; i++) {
 			var data = result.items[i];
@@ -338,7 +344,7 @@ $(document).ready(function() {
 				'<li class="blogger">' + 
 					'<a href="' + data.url + '" target="_blank">' + 
 						'<div class="blogfeedwrapper">' +
-							'<div class="blogfeedcontent">' +
+							'<div>' +
 								'<div class="blogfeedtitle">' + data.title + '</div>' +
 								'<div class="blogfeedsnippet">' + data.content + '</div>' +
 							'</div>' +
@@ -347,7 +353,7 @@ $(document).ready(function() {
 				'</li>';			
 			$blogFeedArea.append(liwrapper);	
 		}
-	}*/
+	}
 
 	function styleFeed() {
 		//var startTime = new Date(),
