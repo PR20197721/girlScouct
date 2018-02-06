@@ -19,6 +19,7 @@
 	String pinID1 = properties.get("postid1","");
 	String pinID2 = properties.get("postid2","");
 	String pinID3 = properties.get("postid3","");
+	boolean textonly = "true".equals(properties.get("textonly", "false"));
 	
 	// Desktop Tab 
 	String desktopheight = properties.get("desktopheight", "0");
@@ -202,6 +203,8 @@ $(document).ready(function() {
 	var pinPost1 = '<%= pinID1 %>';
 	var pinPost2 = '<%= pinID2 %>';
 	var pinPost3 = '<%= pinID3 %>';
+	var textOnly = '<%= textonly %>';
+	console.log("textonly: " + textOnly);
 
 	var desktoptitlelines = '<%= desktoptitlelines %>';
 	var desktopsnippetlines  = '<%= desktopsnippetlines %>';
@@ -212,7 +215,7 @@ $(document).ready(function() {
 	
 	if (displaySampleFeed === true) {
 		console.log("SAMPLE: " + displaySampleFeed);
-		var result1 =  { items: [{
+		var sampleBlog =  { items: [{
 				url: "http://blog.girlscouts.org",
 				title: "This Is A Sample Blog Feed!",
 				id: "6847912407976159730",
@@ -274,8 +277,12 @@ $(document).ready(function() {
 				content: "November is Native American Indian Heritage Month! Throughout the month, we celebrate Native Americans’ diverse cultures and traditions and highlight the many contributions they’ve made throughout history—and at Girl Scouts, we of course especially focus on the Native American heroines. All month long, join Girl Scouts as we honor the amazing G.I.R.L. (Go-getter, Innovator, Risk-taker, Leader)™ spirit of Native American culture. The Go-GettersSacagswea Image via Library of CongressSacagaweaDuring the Lewis and Clark Expedition, Sacagawea served as a guide and interpreter whose mission was to find a water route through North America and explore the uncharted West. During this journey of more than two years, she interpreted the Mandan and Sho"
 			}]
 		};	
-		
-		addFeed(result1);
+
+		if (textOnly == "true") {
+			addFeedTextOnly(sampleBlog);
+		} else {
+			addFeed(sampleBlog);
+		}
 		styleFeed();
 		trimFeed();
 		
@@ -293,7 +300,11 @@ $(document).ready(function() {
 			success: function(result) {
 				console.log('GRIDBLOG');
 				$blogFeedArea.empty();
-				addFeed(result);
+				if (textOnly == "true") {
+					addFeedTextOnly(result);
+				} else {
+					addFeed(result);
+				}
 				styleFeed();
 				trimFeed();			
 				},
@@ -316,6 +327,24 @@ $(document).ready(function() {
 								'background-image:url(\'' + data.image + '\');" ' + '>' +
 							'</div>' +
 							'<div class="blogfeedcontent">' +
+								'<div class="blogfeedtitle">' + data.title + '</div>' +
+								'<div class="blogfeedsnippet">' + data.content + '</div>' +
+							'</div>' +
+						'</div>' + 
+					'</a>' + 
+				'</li>';			
+			$blogFeedArea.append(liwrapper);	
+		}
+	}
+
+	function addFeedTextOnly (result) {
+		for (var i = 0; i < result.items.length; i++) {
+			var data = result.items[i];
+			var liwrapper = 
+				'<li class="blogger">' + 
+					'<a href="' + data.url + '" target="_blank">' + 
+						'<div class="blogfeedwrapper">' +
+							'<div>' +
 								'<div class="blogfeedtitle">' + data.title + '</div>' +
 								'<div class="blogfeedsnippet">' + data.content + '</div>' +
 							'</div>' +
