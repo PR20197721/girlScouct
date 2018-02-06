@@ -19,6 +19,7 @@
 	String pinID1 = properties.get("postid1","");
 	String pinID2 = properties.get("postid2","");
 	String pinID3 = properties.get("postid3","");
+	boolean textonly = "true".equals(properties.get("textonly", "false"));
 	
 	// Desktop Tab 
 	String desktopheight = properties.get("desktopheight", "0");
@@ -202,6 +203,8 @@ $(document).ready(function() {
 	var pinPost1 = '<%= pinID1 %>';
 	var pinPost2 = '<%= pinID2 %>';
 	var pinPost3 = '<%= pinID3 %>';
+	var textOnly = '<%= textonly %>';
+	console.log("textonly: " + textOnly);
 
 	var desktoptitlelines = '<%= desktoptitlelines %>';
 	var desktopsnippetlines  = '<%= desktopsnippetlines %>';
@@ -293,6 +296,7 @@ $(document).ready(function() {
 			success: function(result) {
 				console.log('GRIDBLOG');
 				$blogFeedArea.empty();
+				
 				addFeed(result);
 				styleFeed();
 				trimFeed();			
@@ -325,6 +329,25 @@ $(document).ready(function() {
 			$blogFeedArea.append(liwrapper);	
 		}
 	}
+
+	/*
+	function addFeedTextOnly (result) {
+		for (var i = 0; i < result.items.length; i++) {
+			var data = result.items[i];
+			var liwrapper = 
+				'<li class="blogger">' + 
+					'<a href="' + data.url + '" target="_blank">' + 
+						'<div class="blogfeedwrapper">' +
+							'<div class="blogfeedcontent">' +
+								'<div class="blogfeedtitle">' + data.title + '</div>' +
+								'<div class="blogfeedsnippet">' + data.content + '</div>' +
+							'</div>' +
+						'</div>' + 
+					'</a>' + 
+				'</li>';			
+			$blogFeedArea.append(liwrapper);	
+		}
+	}*/
 
 	function styleFeed() {
 		//var startTime = new Date(),
