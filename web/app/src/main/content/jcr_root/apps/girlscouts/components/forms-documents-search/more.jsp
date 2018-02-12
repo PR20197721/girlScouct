@@ -145,7 +145,7 @@ if(offset <=queryResults.size()){
 	 		result.put("title", qResult.getTitle());
 	 		result.put("score", qResult.getScore());
 	 		String url = path;
-	 		if("cq:Page".equals(resultNode.getPrimaryNodeType())){
+	 		if("cq:Page".equals(resultNode.getPrimaryNodeType().getName())){
 	 			url+=".html";
 	 		}
 	 		result.put("url", url);
