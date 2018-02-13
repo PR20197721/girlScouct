@@ -2,8 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
 	xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
 	xmlns:nt="http://www.jcp.org/jcr/nt/1.0" jcr:primaryType="cq:Widget"
-	sling:resourceType="granite/ui/components/coral/foundation/form/nestedcheckboxlist"
-	name="./councils">
+	sling:resourceType="granite/ui/components/coral/foundation/form/nestedcheckboxlist">
 	<items jcr:primaryType="nt:unstructured">
 		<level1 jcr:primaryType="nt:unstructured"
 			sling:resourceSuperType="granite/ui/components/coral/foundation/form/checkbox"
@@ -14,458 +13,458 @@
 					<girlscoutsccs jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="GS of Central California South"
-						uncheckedValue="false" value="/content/girlscoutsccs" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsccs" />
 					<gsctx jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts Central Texas" uncheckedValue="false"
+						checked="false" text="Girl Scouts Central Texas" uncheckedValue="false" name="./councils"
 						value="/content/gsctx" />
 					<gsdakotahorizons jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts Dakota Horizons" uncheckedValue="false"
+						checked="false" text="Girl Scouts Dakota Horizons" uncheckedValue="false" name="./councils"
 						value="/content/gsdakotahorizons" />
 					<girlscoutsdiamonds jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts Diamonds of Arkansas, Oklahoma and Texas"
-						uncheckedValue="false" value="/content/girlscoutsdiamonds" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsdiamonds" />
 					<girlscouts-future jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts Future" uncheckedValue="false"
+						checked="false" text="Girl Scouts Future" uncheckedValue="false" name="./councils"
 						value="/content/girlscouts-future" />
 					<gateway jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts Gateway" uncheckedValue="false"
+						checked="false" text="Girl Scouts Gateway" uncheckedValue="false" name="./councils"
 						value="/content/gateway" />
 					<girlscoutshs jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts Heart Of The South"
-						uncheckedValue="false" value="/content/girlscoutshs" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutshs" />
 					<girlscoutshcc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts Heart of Central California"
-						uncheckedValue="false" value="/content/girlscoutshcc" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutshcc" />
 					<gshnj jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts Heart of New Jersey"
-						uncheckedValue="false" value="/content/gshnj" />
+						uncheckedValue="false" name="./councils" value="/content/gshnj" />
 					<gshpa jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts Heart of Pennsylvania"
-						uncheckedValue="false" value="/content/gshpa" />
+						uncheckedValue="false" name="./councils" value="/content/gshpa" />
 					<girlscoutshh jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts Heart of the Hudson"
-						uncheckedValue="false" value="/content/girlscoutshh" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutshh" />
 					<hngirlscouts jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts Hornets' Nest" uncheckedValue="false"
+						checked="false" text="Girl Scouts Hornets' Nest" uncheckedValue="false" name="./councils"
 						value="/content/hngirlscouts" />
 					<girlscoutsnccp jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts NC Coastal Pines"
-						uncheckedValue="false" value="/content/girlscoutsnccp" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsnccp" />
 					<gsnetx jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts Northeast Texas" uncheckedValue="false"
+						checked="false" text="Girl Scouts Northeast Texas" uncheckedValue="false" name="./councils"
 						value="/content/gsnetx" />
 					<girlscoutsp2p jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts Peaks to Piedmont"
-						uncheckedValue="false" value="/content/girlscoutsp2p" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsp2p" />
 					<sdgirlscouts jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts San Diego" uncheckedValue="false"
+						checked="false" text="Girl Scouts San Diego" uncheckedValue="false" name="./councils"
 						value="/content/sdgirlscouts" />
 					<gssn jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts Sierra Nevada" uncheckedValue="false"
+						checked="false" text="Girl Scouts Sierra Nevada" uncheckedValue="false" name="./councils"
 						value="/content/gssn" />
 					<girlscoutcsa jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts Southern Appalachians"
-						uncheckedValue="false" value="/content/girlscoutcsa" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutcsa" />
 					<girlscoutsnv jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts Southern Nevada" uncheckedValue="false"
+						checked="false" text="Girl Scouts Southern Nevada" uncheckedValue="false" name="./councils"
 						value="/content/girlscoutsnv" />
 					<girlscoutsnebraska jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts Spirit of Nebraska"
-						uncheckedValue="false" value="/content/girlscoutsnebraska" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsnebraska" />
 					<gswcf jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts West Central Florida"
-						uncheckedValue="false" value="/content/gswcf" />
+						uncheckedValue="false" name="./councils" value="/content/gswcf" />
 					<gswestok jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts Western Oklahoma"
-						uncheckedValue="false" value="/content/gswestok" />
+						uncheckedValue="false" name="./councils" value="/content/gswestok" />
 					<gswpa jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts Western Pennsylvania"
-						uncheckedValue="false" value="/content/gswpa" />
+						uncheckedValue="false" name="./councils" value="/content/gswpa" />
 					<girlscoutsalaska jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Alaska" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Alaska" uncheckedValue="false" name="./councils"
 						value="/content/girlscoutsalaska" />
 					<gsbadgerland jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Badgerland Wisconsin"
-						uncheckedValue="false" value="/content/gsbadgerland" />
+						uncheckedValue="false" name="./councils" value="/content/gsbadgerland" />
 					<bdgsc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Black Diamond"
-						uncheckedValue="false" value="/content/bdgsc" />
+						uncheckedValue="false" name="./councils" value="/content/bdgsc" />
 					<girlscoutsccc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of California's Central Coast"
-						uncheckedValue="false" value="/content/girlscoutsccc" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsccc" />
 					<cgspr jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Caribe" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Caribe" uncheckedValue="false" name="./councils"
 						value="/content/cgspr" />
 					<getyourgirlpower jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Central Illinois"
-						uncheckedValue="false" value="/content/getyourgirlpower" />
+						uncheckedValue="false" name="./councils" value="/content/getyourgirlpower" />
 					<girlscoutsindiana jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Central Indiana"
-						uncheckedValue="false" value="/content/girlscoutsindiana" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsindiana" />
 					<gscm jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Central Maryland"
-						uncheckedValue="false" value="/content/gscm" />
+						uncheckedValue="false" name="./councils" value="/content/gscm" />
 					<gscsnj jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Central and Southern New Jersey"
-						uncheckedValue="false" value="/content/gscsnj" />
+						uncheckedValue="false" name="./councils" value="/content/gscsnj" />
 					<gscwm jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Central and Western Massachusetts"
-						uncheckedValue="false" value="/content/gscwm" />
+						uncheckedValue="false" name="./councils" value="/content/gscwm" />
 					<citrus-gs jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Citrus" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Citrus" uncheckedValue="false" name="./councils"
 						value="/content/citrus-gs" />
 					<gsccc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Colonial Coast"
-						uncheckedValue="false" value="/content/gsccc" />
+						uncheckedValue="false" name="./councils" value="/content/gsccc" />
 					<girlscoutsofcolorado jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Colorado" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Colorado" uncheckedValue="false" name="./councils"
 						value="/content/girlscoutsofcolorado" />
 					<gsofct jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Connecticut" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Connecticut" uncheckedValue="false" name="./councils"
 						value="/content/gsofct" />
 					<girlscoutstoday jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Eastern Iowa and Western Illinois"
-						uncheckedValue="false" value="/content/girlscoutstoday" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutstoday" />
 					<girlscoutseasternmass jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Eastern Massachusetts"
-						uncheckedValue="false" value="/content/girlscoutseasternmass" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutseasternmass" />
 					<girlscoutsem jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Eastern Missouri"
-						uncheckedValue="false" value="/content/girlscoutsem" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsem" />
 					<gseok jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Eastern Oklahoma"
-						uncheckedValue="false" value="/content/gseok" />
+						uncheckedValue="false" name="./councils" value="/content/gseok" />
 					<gsep jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Eastern Pennsylvania"
-						uncheckedValue="false" value="/content/gsep" />
+						uncheckedValue="false" name="./councils" value="/content/gsep" />
 					<girlscoutsesc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Eastern South Carolina"
-						uncheckedValue="false" value="/content/girlscoutsesc" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsesc" />
 					<gsewni jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Eastern Washington and Northern Idaho"
-						uncheckedValue="false" value="/content/gsewni" />
+						uncheckedValue="false" name="./councils" value="/content/gsewni" />
 					<gscfp jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Florida Panhandle"
-						uncheckedValue="false" value="/content/gscfp" />
+						uncheckedValue="false" name="./councils" value="/content/gscfp" />
 					<girlscoutsatl jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Greater Atlanta"
-						uncheckedValue="false" value="/content/girlscoutsatl" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsatl" />
 					<girlscoutsgcnwi jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Greater Chicago and Northwest Indiana"
-						uncheckedValue="false" value="/content/girlscoutsgcnwi" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsgcnwi" />
 					<girlscoutsiowa jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Greater Iowa" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Greater Iowa" uncheckedValue="false" name="./councils"
 						value="/content/girlscoutsiowa" />
 					<girlscoutsla jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Greater Los Angeles"
-						uncheckedValue="false" value="/content/girlscoutsla" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsla" />
 					<gsgms jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Greater Mississippi"
-						uncheckedValue="false" value="/content/gsgms" />
+						uncheckedValue="false" name="./councils" value="/content/gsgms" />
 					<girlscoutsnyc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Greater New York"
-						uncheckedValue="false" value="/content/girlscoutsnyc" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsnyc" />
 					<gsgst jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Greater South Texas"
-						uncheckedValue="false" value="/content/gsgst" />
+						uncheckedValue="false" name="./councils" value="/content/gsgst" />
 					<girlscoutsgwm jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Green and White Mountains"
-						uncheckedValue="false" value="/content/girlscoutsgwm" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsgwm" />
 					<gsgcf jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Gulfcoast Florida"
-						uncheckedValue="false" value="/content/gsgcf" />
+						uncheckedValue="false" name="./councils" value="/content/gsgcf" />
 					<girlscouts-hawaii jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Hawaii" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Hawaii" uncheckedValue="false" name="./councils"
 						value="/content/girlscouts-hawaii" />
 					<gshg jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Historic Georgia"
-						uncheckedValue="false" value="/content/gshg" />
+						uncheckedValue="false" name="./councils" value="/content/gshg" />
 					<kansasgirlscouts jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Kansas Heartland"
-						uncheckedValue="false" value="/content/kansasgirlscouts" />
+						uncheckedValue="false" name="./councils" value="/content/kansasgirlscouts" />
 					<gskentuckiana jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Kentuckiana" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Kentuckiana" uncheckedValue="false" name="./councils"
 						value="/content/gskentuckiana" />
 					<gskentucky jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Kentucky's Wilderness Road"
-						uncheckedValue="false" value="/content/gskentucky" />
+						uncheckedValue="false" name="./councils" value="/content/gskentucky" />
 					<gsle jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Louisiana East"
-						uncheckedValue="false" value="/content/gsle" />
+						uncheckedValue="false" name="./councils" value="/content/gsle" />
 					<gslpg jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Louisiana Pines to the Gulf"
-						uncheckedValue="false" value="/content/gslpg" />
+						uncheckedValue="false" name="./councils" value="/content/gslpg" />
 					<girlscoutsofmaine jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Maine" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Maine" uncheckedValue="false" name="./councils"
 						value="/content/girlscoutsofmaine" />
 					<gsmanitou jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Manitou" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Manitou" uncheckedValue="false" name="./councils"
 						value="/content/gsmanitou" />
 					<gsmists jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Michigan Shore to Shore"
-						uncheckedValue="false" value="/content/gsmists" />
+						uncheckedValue="false" name="./councils" value="/content/gsmists" />
 					<gslakesandpines jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Minnesota and Wisconsin Lakes and Pines"
-						uncheckedValue="false" value="/content/gslakesandpines" />
+						uncheckedValue="false" name="./councils" value="/content/gslakesandpines" />
 					<gsmw jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Montana &amp; Wyoming"
-						uncheckedValue="false" value="/content/gsmw" />
+						uncheckedValue="false" name="./councils" value="/content/gsmw" />
 					<gsksmo jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of NE Kansas &amp; NW Missouri"
-						uncheckedValue="false" value="/content/gsksmo" />
+						uncheckedValue="false" name="./councils" value="/content/gsksmo" />
 					<gsnypenn jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of NYPENN Pathways"
-						uncheckedValue="false" value="/content/gsnypenn" />
+						uncheckedValue="false" name="./councils" value="/content/gsnypenn" />
 					<gsnc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Nassau County"
-						uncheckedValue="false" value="/content/gsnc" />
+						uncheckedValue="false" name="./councils" value="/content/gsnc" />
 					<gscnc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Nation's Capital"
-						uncheckedValue="false" value="/content/gscnc" />
+						uncheckedValue="false" name="./councils" value="/content/gscnc" />
 					<nmgirlscouts jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of New Mexico Trails"
-						uncheckedValue="false" value="/content/nmgirlscouts" />
+						uncheckedValue="false" name="./councils" value="/content/nmgirlscouts" />
 					<gsneo jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of North East Ohio"
-						uncheckedValue="false" value="/content/gsneo" />
+						uncheckedValue="false" name="./councils" value="/content/gsneo" />
 					<girlscoutsnca jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of North-Central Alabama"
-						uncheckedValue="false" value="/content/girlscoutsnca" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsnca" />
 					<gsney jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Northeastern New York "
-						uncheckedValue="false" value="/content/gsney" />
+						uncheckedValue="false" name="./councils" value="/content/gsney" />
 					<gsnorcal jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Northern California"
-						uncheckedValue="false" value="/content/gsnorcal" />
+						uncheckedValue="false" name="./councils" value="/content/gsnorcal" />
 					<girlscoutsni jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Northern Illinois"
-						uncheckedValue="false" value="/content/girlscoutsni" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsni" />
 					<girlscoutsnorthernindiana-michiana
 						jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Northern Indiana Michiana"
-						uncheckedValue="false" value="/content/girlscoutsnorthernindiana-michiana" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsnorthernindiana-michiana" />
 					<gsnnj jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Northern New Jersey"
-						uncheckedValue="false" value="/content/gsnnj" />
+						uncheckedValue="false" name="./councils" value="/content/gsnnj" />
 					<gsoh jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Ohio's Heartland"
-						uncheckedValue="false" value="/content/gsoh" />
+						uncheckedValue="false" name="./councils" value="/content/gsoh" />
 					<girlscoutsoc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Orange County"
-						uncheckedValue="false" value="/content/girlscoutsoc" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsoc" />
 					<girlscoutsosw jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Oregon and SW Washington"
-						uncheckedValue="false" value="/content/girlscoutsosw" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsosw" />
 					<girlscoutsrv jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of River Valleys"
-						uncheckedValue="false" value="/content/girlscoutsrv" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsrv" />
 					<gssgc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of San Gorgonio" uncheckedValue="false"
+						checked="false" text="Girl Scouts of San Gorgonio" uncheckedValue="false" name="./councils"
 						value="/content/gssgc" />
 					<gssjc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of San Jacinto" uncheckedValue="false"
+						checked="false" text="Girl Scouts of San Jacinto" uncheckedValue="false" name="./councils"
 						value="/content/gssjc" />
 					<girlscouts-ssc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Silver Sage" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Silver Sage" uncheckedValue="false" name="./councils"
 						value="/content/girlscouts-ssc" />
 					<gssc-mm jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of South Carolina Mountains to Midlands"
-						uncheckedValue="false" value="/content/gssc-mm" />
+						uncheckedValue="false" name="./councils" value="/content/gssc-mm" />
 					<gssef jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Southeast Florida"
-						uncheckedValue="false" value="/content/gssef" />
+						uncheckedValue="false" name="./councils" value="/content/gssef" />
 					<gssem jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Southeastern Michigan"
-						uncheckedValue="false" value="/content/gssem" />
+						uncheckedValue="false" name="./councils" value="/content/gssem" />
 					<gssne jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Southeastern New England"
-						uncheckedValue="false" value="/content/gssne" />
+						uncheckedValue="false" name="./councils" value="/content/gssne" />
 					<girlscoutssa jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Southern Alabama"
-						uncheckedValue="false" value="/content/girlscoutssa" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutssa" />
 					<girlscoutssoaz jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Southern Arizona"
-						uncheckedValue="false" value="/content/girlscoutssoaz" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutssoaz" />
 					<gsofsi jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Southern Illinois"
-						uncheckedValue="false" value="/content/gsofsi" />
+						uncheckedValue="false" name="./councils" value="/content/gsofsi" />
 					<girlscouts-gssi jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Southwest Indiana"
-						uncheckedValue="false" value="/content/girlscouts-gssi" />
+						uncheckedValue="false" name="./councils" value="/content/girlscouts-gssi" />
 					<girlscouts-swtx jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Southwest Texas"
-						uncheckedValue="false" value="/content/girlscouts-swtx" />
+						uncheckedValue="false" name="./councils" value="/content/girlscouts-swtx" />
 					<gssc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Suffolk County"
-						uncheckedValue="false" value="/content/gssc" />
+						uncheckedValue="false" name="./councils" value="/content/gssc" />
 					<gs-top jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Texas Oklahoma Plains"
-						uncheckedValue="false" value="/content/gs-top" />
+						uncheckedValue="false" name="./councils" value="/content/gs-top" />
 					<girlscoutsfl jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Tropical Florida"
-						uncheckedValue="false" value="/content/girlscoutsfl" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsfl" />
 					<gsutah jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Utah" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Utah" uncheckedValue="false" name="./councils"
 						value="/content/gsutah" />
 					<gsvsc jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Virginia Skyline"
-						uncheckedValue="false" value="/content/gsvsc" />
+						uncheckedValue="false" name="./councils" value="/content/gsvsc" />
 					<gswny jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Western New York"
-						uncheckedValue="false" value="/content/gswny" />
+						uncheckedValue="false" name="./councils" value="/content/gswny" />
 					<gswo jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Western Ohio" uncheckedValue="false"
+						checked="false" text="Girl Scouts of Western Ohio" uncheckedValue="false" name="./councils"
 						value="/content/gswo" />
 					<girlscoutsww jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Western Washington"
-						uncheckedValue="false" value="/content/girlscoutsww" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsww" />
 					<gswise jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Wisconsin Southeast"
-						uncheckedValue="false" value="/content/gswise" />
+						uncheckedValue="false" name="./councils" value="/content/gswise" />
 					<gscb jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of the Chesapeake Bay"
-						uncheckedValue="false" value="/content/gscb" />
+						uncheckedValue="false" name="./councils" value="/content/gscb" />
 					<comgirlscouts jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of the Commonwealth of Virginia"
-						uncheckedValue="false" value="/content/comgirlscouts" />
+						uncheckedValue="false" name="./councils" value="/content/comgirlscouts" />
 					<gsdsw jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false"
 						text="Girl Scouts of the Desert Southwest - Southern New Mexico &amp; West Texas"
-						uncheckedValue="false" value="/content/gsdsw" />
+						uncheckedValue="false" name="./councils" value="/content/gsdsw" />
 					<jerseyshoregirlscouts jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of the Jersey Shore"
-						uncheckedValue="false" value="/content/jerseyshoregirlscouts" />
+						uncheckedValue="false" name="./councils" value="/content/jerseyshoregirlscouts" />
 					<girlscoutsmoheartland jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of the Missouri Heartland"
-						uncheckedValue="false" value="/content/girlscoutsmoheartland" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsmoheartland" />
 					<gsnwgl jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of the Northwestern Great Lakes"
-						uncheckedValue="false" value="/content/gsnwgl" />
+						uncheckedValue="false" name="./councils" value="/content/gsnwgl" />
 					<girlscoutsaz jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts–Arizona Cactus-Pine"
-						uncheckedValue="false" value="/content/girlscoutsaz" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsaz" />
 					<juliettegordonlowbirthplace
 						jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Juliette Gordon Low Birthplace"
-						uncheckedValue="false" value="/content/juliettegordonlowbirthplace" />
+						uncheckedValue="false" name="./councils" value="/content/juliettegordonlowbirthplace" />
 					<usagso jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="USA Girl Scouts Overseas" uncheckedValue="false"
+						checked="false" text="USA Girl Scouts Overseas" uncheckedValue="false" name="./councils"
 						value="/content/usagso" />
 					<usagson jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="USA Girl Scouts Overseas(NEW)"
-						uncheckedValue="false" value="/content/usagson" />
+						uncheckedValue="false" name="./councils" value="/content/usagson" />
 				</items>
 			</sublist>
 		</level1>

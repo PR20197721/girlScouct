@@ -80,13 +80,15 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	private LiveRelationshipManager relationManager;
 	@Reference
 	private PageReplicator pageReplicator;
-	
+
 	private ResourceResolver rr;
 	
 	@Activate
 	private void activate(ComponentContext context) {
 		try {
-			rr = resolverFactory.getAdministrativeResourceResolver(null);
+			Map<String, Object> serviceParams = new HashMap<String, Object>();
+			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflowService");
+			rr = resolverFactory.getServiceResourceResolver(serviceParams);
 		} catch (LoginException e) {
 			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
