@@ -10,8 +10,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.zip.ZipEntry;
@@ -181,7 +183,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		ftp = new FTPSClient(false);
 		ftp.setDefaultTimeout(TIME_OUT_IN_MS);
 		try {
-			rr= resolverFactory.getAdministrativeResourceResolver(null);
+			Map<String, Object> serviceParams = new HashMap<String, Object>();
+			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+			rr = resolverFactory.getServiceResourceResolver(serviceParams);
 		} catch (LoginException e) {
 			log.error("GSActivities:: Encountered login error", e);
 		}

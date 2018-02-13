@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,7 +66,9 @@ public class GSEmailServiceImpl implements GSEmailService {
 	@Activate
 	private void activate(ComponentContext context) {
 		try {
-			rr = resolverFactory.getAdministrativeResourceResolver(null);
+			Map<String, Object> serviceParams = new HashMap<String, Object>();
+			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+			rr = resolverFactory.getServiceResourceResolver(serviceParams);
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}

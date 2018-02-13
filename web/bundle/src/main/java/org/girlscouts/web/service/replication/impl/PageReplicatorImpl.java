@@ -89,7 +89,9 @@ public class PageReplicatorImpl
 	@Activate
 	private void activate(ComponentContext context) {
 		try {
-			rr= resolverFactory.getAdministrativeResourceResolver(null);
+			Map<String, Object> serviceParams = new HashMap<String, Object>();
+			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+			rr = resolverFactory.getServiceResourceResolver(serviceParams);
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}

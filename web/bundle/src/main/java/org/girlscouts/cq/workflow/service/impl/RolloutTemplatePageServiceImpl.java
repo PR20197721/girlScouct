@@ -87,7 +87,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	private void activate(ComponentContext context) {
 		try {
 			Map<String, Object> serviceParams = new HashMap<String, Object>();
-			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflowService");
+			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
 			rr = resolverFactory.getServiceResourceResolver(serviceParams);
 		} catch (LoginException e) {
 			log.error("Girlscouts Rollout Service encountered error: ", e);
