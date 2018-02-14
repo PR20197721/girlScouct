@@ -4,22 +4,22 @@
     <!-- ====================================================================== -->
     <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
-
+	<parent>
+	    <groupId>org.girlscouts.aem</groupId>
+	    <artifactId>girlscouts-aem</artifactId>
+	    <version>2.0-SNAPSHOT</version>
+	</parent>
+	<!-- ====================================================================== -->
+    <!-- P R O P E R T I E S -->
+    <!-- ====================================================================== -->
     <groupId>org.girlscouts.gsactivities</groupId>
     <artifactId>gsactivities</artifactId>
-    <version>2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
     <name>GS Activities - Reactor Project</name>
     <description>Maven Multimodule project for GS Activities.</description>
-
     <prerequisites>
         <maven>3.0.2</maven>
     </prerequisites>
-
-    <!-- ====================================================================== -->
-    <!-- P R O P E R T I E S -->
-    <!-- ====================================================================== -->
     <properties>
         <crx.host>localhost</crx.host>
         <crx.port>4502</crx.port>
