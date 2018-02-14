@@ -23,7 +23,7 @@
                 sling:resourceType="cq/workflow/components/model/dialog">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    DIALOG_PATH="/etc/workflow/dialogs/gsdeletetemplatepage/dialog"
+                    DIALOG_PATH="/etc/workflow/dialogs/gsdeletetemplatepage/cq:dialog"
                     PARTICIPANT="content-analysts"/>
             </dialog>
             <_x0031_

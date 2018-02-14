@@ -63,7 +63,18 @@
                         fieldLabel="Email Subject"
                         name="./subject"
                         value="GSUSA Deletion Notification"/>
-                    <message/>
+                    <message jcr:primaryType="nt:unstructured"
+						defaultValue="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>It has been detected that GSUSA has run a workflow in order to delete a template page. Please note that your council has NOT received this push since we have indicated that you have either broken the inheritance or added copy on this page. If you would like to keep this page, you do not need to make any changes. If you do not wish to keep this page, please deactivate and then delete it.&lt;/p>&#xa;&lt;p>&lt;b>National page URL:&lt;/b> &lt;%template-page%>&lt;/p>&#xa;&lt;p>&lt;b>Your page URL:&lt;/b> &lt;%council-page%>&lt;/p>&#xa;&lt;p>Click &lt;%a href='&lt;%council-author-page%>'>here&lt;%/a> to edit your page.&lt;/p>&lt;p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p>"
+						fieldLabel="Custom Message" sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+						useFixedInlineToolbar="true" customStart="false" height="{Long}300" name="./message"
+						value="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>It has been detected that GSUSA has run a workflow in order to delete a template page. Please note that your council has NOT received this push since we have indicated that you have either broken the inheritance or added copy on this page. If you would like to keep this page, you do not need to make any changes. If you do not wish to keep this page, please deactivate and then delete it.&lt;/p>&#xa;&lt;p>&lt;b>National page URL:&lt;/b> &lt;%template-page%>&lt;/p>&#xa;&lt;p>&lt;b>Your page URL:&lt;/b> &lt;%council-page%>&lt;/p>&#xa;&lt;p>Click &lt;%a href='&lt;%council-author-page%>'>here&lt;%/a> to edit your page.&lt;/p>&lt;p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p>">
+						<rtePlugins jcr:primaryType="nt:unstructured"
+									sling:resourceSuperType="girlscouts/components/richtext-config/rtePlugins" />
+						<specialCharsConfig jcr:primaryType="nt:unstructured"
+							sling:resourceSuperType="girlscouts/components/richtext-config/specialCharsConfig" />
+						<uiSettings jcr:primaryType="nt:unstructured"
+							sling:resourceSuperType="girlscouts/components/richtext-config/uiSettings" />
+					</message>
                     <usetemplate
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
