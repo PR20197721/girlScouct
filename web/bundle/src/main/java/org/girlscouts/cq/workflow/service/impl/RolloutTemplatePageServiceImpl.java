@@ -429,9 +429,13 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 
 	private void filterInheritedComponents(Set<String> inheritedComponents, Set<String> notInheritedComponents,
 			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> rolloutLog) {
+		log.error("Girlscouts Rollout Service: Filtering inherited components for {}.", targetPath);
+		rolloutLog.add("Girlscouts Rollout Service: Filtering inherited components for " + targetPath + ".");
 		Set<String> srcComponents = componentRelationsMap.keySet();
 		if (srcComponents != null && srcComponents.size() > 0) {
 			for (String component : srcComponents) {
+				log.error("Girlscouts Rollout Service: Checking inheritance for {}.", component);
+				rolloutLog.add("Girlscouts Rollout Service: Checking inheritance for " + component + ".");
 				if (isInheritanceBroken(targetPath, componentRelationsMap, component, rolloutLog)) {
 					notInheritedComponents.add(component);
 					log.error(
