@@ -65,6 +65,7 @@ $slick-next-character: "\f138";
         right: 0;
         z-index: 300;
     }
+    &.slick-center:after,
     &.slick-active:after {
         // Allow user interaction with active slide
         display: none;
