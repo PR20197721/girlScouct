@@ -227,14 +227,16 @@ public class DeleteTemplatePageServiceImpl
 							&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 						councils.remove(councilPath);
 						if (!isPageInheritanceBroken(targetResource, deletionLog)) {
-							Set<String> srcComponents = componentRelationsMap.keySet();
-							if (!isComponentsInheritanceBroken(srcComponents, componentRelationsMap, targetPath,
-									deletionLog)) {
-								pagesToDelete.add(targetPath);
-								deletionLog.add("Page " + targetPath + " added to deletion queue");
-							} else {
+							Set<String> inheritedComponents = new HashSet<String>();
+							Set<String> notInheritedComponents = new HashSet<String>();
+							filterInheritedComponents(inheritedComponents, notInheritedComponents,
+									componentRelationsMap, targetPath, deletionLog);
+							if (notInheritedComponents.size() > 0) {
 								notifyCouncils.add(targetPath);
 								deletionLog.add("Page " + targetPath + " was not added to deletion queue");
+							} else {
+								pagesToDelete.add(targetPath);
+								deletionLog.add("Page " + targetPath + " added to deletion queue");
 							}
 						} else {
 							notifyCouncils.add(targetPath);
@@ -273,26 +275,23 @@ public class DeleteTemplatePageServiceImpl
 		return false;
 	}
 
-
-	private boolean isComponentsInheritanceBroken(Set<String> components,
-			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> deletionLog) {
-		boolean inheritanceBroken = false;
-		if (components != null && components.size() > 0) {
-			Set<String> brokenInheritanceComponents = new HashSet<String>();
-			for (String component : componentRelationsMap.keySet()) {
-				if (isInheritanceBroken(targetPath, componentRelationsMap, component, deletionLog)) {
-					inheritanceBroken = true;
-					brokenInheritanceComponents.add(component);
+	private void filterInheritedComponents(Set<String> inheritedComponents, Set<String> notInheritedComponents,
+			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> rolloutLog) {
+		Set<String> srcComponents = componentRelationsMap.keySet();
+		if (srcComponents != null && srcComponents.size() > 0) {
+			for (String component : srcComponents) {
+				if (isInheritanceBroken(targetPath, componentRelationsMap, component, rolloutLog)) {
+					notInheritedComponents.add(component);
 					log.error(
-							"Girlscouts Page Deletion Service: Council {} has broken inheritance with template component at {}. Removing from RolloutParams.",
+							"Girlscouts Rollout Service: Council {} has broken inheritance with template component at {}. Removing from RolloutParams.",
 							targetPath, component);
-					deletionLog.add("Girlscouts Page Deletion Service: Council " + targetPath
+					rolloutLog.add("Girlscouts Rollout Service: Council " + targetPath
 							+ " has broken inheritance with template component at " + component + ".");
+				} else {
+					inheritedComponents.add(component);
 				}
 			}
-			components.removeAll(brokenInheritanceComponents);
 		}
-		return inheritanceBroken;
 	}
 
 	private boolean isInheritanceBroken(String targetPath, Map<String, Set<String>> componentRelationsMap,

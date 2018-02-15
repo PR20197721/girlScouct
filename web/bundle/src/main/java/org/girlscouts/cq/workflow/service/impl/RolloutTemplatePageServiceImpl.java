@@ -319,16 +319,18 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 									"The page " + targetPath + " has Break Inheritance checked off. Will not roll out");
 						} else {
 							validateRolloutConfig(srcRes, targetResource);
-							Set<String> srcComponents = componentRelationsMap.keySet();
-							if (isComponentsInheritanceBroken(srcComponents, componentRelationsMap, targetPath,
-									rolloutLog)) {
+							Set<String> inheritedComponents = new HashSet<String>();
+							Set<String> notInheritedComponents = new HashSet<String>();
+							filterInheritedComponents(inheritedComponents, notInheritedComponents,
+									componentRelationsMap, targetPath, rolloutLog);
+							if (notInheritedComponents.size() > 0) {
 								notifyCouncils.add(targetPath);
 							}
 							RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
 							params.isDeep = false;
 							params.master = srcRes.adaptTo(Page.class);
 							params.targets = new String[] { targetPath };
-							params.paragraphs = srcComponents.toArray(new String[srcComponents.size()]);
+							params.paragraphs = inheritedComponents.toArray(new String[inheritedComponents.size()]);
 							params.trigger = RolloutManager.Trigger.ROLLOUT;
 							params.reset = false;
 							rolloutManager.rollout(params);
@@ -425,25 +427,23 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		return null;
 	}
 
-	private boolean isComponentsInheritanceBroken(Set<String> components,
+	private void filterInheritedComponents(Set<String> inheritedComponents, Set<String> notInheritedComponents,
 			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> rolloutLog) {
-		boolean inheritanceBroken = false;
-		if (components != null && components.size() > 0) {
-			Set<String> removeComponents = new HashSet<String>();
-			for (String component : componentRelationsMap.keySet()) {
+		Set<String> srcComponents = componentRelationsMap.keySet();
+		if (srcComponents != null && srcComponents.size() > 0) {
+			for (String component : srcComponents) {
 				if (isInheritanceBroken(targetPath, componentRelationsMap, component, rolloutLog)) {
-					inheritanceBroken = true;
-					removeComponents.add(component);
+					notInheritedComponents.add(component);
 					log.error(
 							"Girlscouts Rollout Service: Council {} has broken inheritance with template component at {}. Removing from RolloutParams.",
 							targetPath, component);
 					rolloutLog.add("Girlscouts Rollout Service: Council " + targetPath
 							+ " has broken inheritance with template component at " + component + ".");
+				} else {
+					inheritedComponents.add(component);
 				}
 			}
-			components.removeAll(removeComponents);
 		}
-		return inheritanceBroken;
 	}
 
 	private boolean isInheritanceBroken(String targetPath, Map<String, Set<String>> componentRelationsMap,
