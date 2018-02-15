@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-	jcr:primaryType="cq:Widget"
-	componentId="fileUploadSizeLimit"
-	fieldDescription="Enter value to restrict file upload size limit. (e.g. &quot;10&quot; = upload file size cannot be larger than 10MB)"
-	fieldLabel="File Upload Size Limit"
-	name="./fileUploadSizeLimit"
-	xtype="textfield"
-	vtype="fileUploadSizeLimitValidator" 
-	vtypeText="This value should be in a numeric format">
-</jcr:root>
+    jcr:primaryType="cq:Widget"
+    componentId="fileUploadSizeLimit"
+    fieldDescription="Enter value to restrict file upload size limit. (e.g. &quot;10&quot; = upload file size cannot be larger than 10MB)"
+    fieldLabel="File Upload Size Limit"
+    name="./fileUploadSizeLimit"
+    vtype="fileUploadSizeLimitValidator"
+    vtypeText="This value should be in a numeric format"
+    xtype="textfield"/>

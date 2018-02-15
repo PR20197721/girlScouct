@@ -51,9 +51,10 @@ java.util.Collections,java.util.Comparator" %>
   // assign new iterator  
   images = imageList.iterator();
 
-	
+	System.out.println("About to create slideshow images");	
 	for(int i=1; i<slideShowCount+1;i++){
         imgName = "";
+        System.out.println("Writing hero slideshow image. Slideshow count is: " + slideShowCount + " i is: " + i);
 		if(images.hasNext()){
 			Resource imgResource = images.next();
 			imagePath = imgResource.getPath();
@@ -65,14 +66,12 @@ java.util.Collections,java.util.Comparator" %>
 		<% 	//path = imgName;
 		}
 		else{
-           	String path = "Image_" + new Date().getTime()+blank_number;//new slide-show-image component created with empty image.
-            blank_number++;
+
 			%>
 			<div>        
-				<cq:include path="<%=path%>" resourceType="girlscouts/components/hero-slideshow-images"/>  
+				<cq:include path="Image_test" resourceType="girlscouts/components/hero-slideshow-images"/>  
 			</div> 
-			<%  //path = "";
-			imgName="";
+			<%
 		}%>
 		
 	<%}%>

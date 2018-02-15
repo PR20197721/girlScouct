@@ -63,6 +63,7 @@
     final ValueMap props = ResourceUtil.getValueMap(resource);
 
     String path = props.get(FormsConstants.START_PROPERTY_ACTION_PATH, "");
+System.out.println("GSSTORE path is: " + path);
     // create a default path if no path is specified:
     // For example if the form is at /content/geometrixx/en/formpage
     // then the default path is /content/usergenerated/content/geometrixx/en/formpage
@@ -125,6 +126,7 @@
             break;
         }
     }
+	System.out.println("GSSTORE path2 is: " + path);
     request.setAttribute(FormsConstants.REQUEST_ATTR_WORKFLOW_PAYLOAD_PATH, path);
 
     // If a workflow model was specified, store it in

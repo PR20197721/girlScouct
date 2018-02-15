@@ -101,13 +101,14 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <display-nav-fly-out
+                            <display-flyout
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="Will create a secondary navigation flyout when user hovers over top nav link."
                                 name="./displaySecondaryNavFlyOut"
-                                text="Display Secondary Navigation Flyout"/>
-                            <display-nav-fly-out-delete
+                                text="Display Secondary Navigation Flyout"
+                                value="{Boolean}true"/>
+                            <display-flyout-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./displaySecondaryNavFlyOut@Delete"

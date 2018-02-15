@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <form
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Form"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <redirect
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                fieldLabel="Thank You Page"
+                                name="./redirect"
+                                required="{Boolean}true"/>
+                            <workflowmodel
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                emptyOption="{Boolean}true"
+                                fieldDescription="Whether a workflow should be started with the stored content as payload."
+                                fieldLabel="Start Workflow"
+                                name="./workflowModel">
+                                <datasource
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="core/wcm/components/form/container/v1/datasource/workflowmodel"/>
+                                <granite:data
+                                    jcr:primaryType="nt:unstructured"
+                                    cq-dialog-dropdown-showhide-target=".cmp-workflow-title"/>
+                            </workflowmodel>
+                        </items>
+                    </columns>
+                </items>
+            </form>
+            <advanced
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Advanced"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <common-fields
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Common Configuration"
+                                sling:resourceType="granite/ui/components/foundation/form/fieldset">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <actions
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/select"
+                                        class="cq-dialog-dropdown-showhide"
+                                        cq-dialog-dropdown-showhide-target=".gs-hide-show"
+                                        fieldLabel="Actions"
+                                        name="./actionType">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <mail
+                                                jcr:primaryType="nt:unstructured"
+                                                text="Send Mail"
+                                                value="girlscouts/components/form/actions/gsmail"/>
+                                            <spiceworks
+                                                jcr:primaryType="nt:unstructured"
+                                                gstargetvalue="spiceworks"
+                                                text="Spiceworks"
+                                                value="girlscouts/components/form/actions/spiceworks"/>
+                                            <store-content
+                                                jcr:primaryType="nt:unstructured"
+                                                text="Store Content"
+                                                value="girlscouts/components/form/actions/gsstore"/>
+                                            <web-to-case
+                                                jcr:primaryType="nt:unstructured"
+                                                text="Web To Case"
+                                                value="girlscouts/components/form/actions/web-to-case"/>
+                                            <web-to-lead
+                                                jcr:primaryType="nt:unstructured"
+                                                text="Web To Lead"
+                                                value="girlscouts/components/form/actions/web-to-lead"/>
+                                        </items>
+                                    </actions>
+                                    <form-identifier
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldLabel="Form Identifier"
+                                        name="./formid"
+                                        required="{Boolean}true"/>
+                                    <load-path
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldLabel="Load Path"/>
+                                    <client-validation
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                        fieldDescription="Check the box to enable selection.（If not checked, all ads displayed by default)"
+                                        name="./clientValidation"
+                                        text="Client Validation"
+                                        uncheckedValue="false"
+                                        value="true"/>
+                                    <client-validation-type
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                        name="./clientValidation@TypeHint"
+                                        value="Boolean"/>
+                                    <validation-resource-type
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldLabel="Validation Resource Type"
+                                        name="./validationRT"/>
+                                </items>
+                            </common-fields>
+                            <action-config
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Action Configuration"
+                                sling:resourceType="granite/ui/components/foundation/form/fieldset">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <gsmail
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title=" "
+                                        sling:resourceType="granite/ui/components/foundation/container"
+                                        showhidetargetvalue="girlscouts/components/form/actions/gsmail">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <upload-limit
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                fieldDescription="Enter value to restrict file upload size limit. (e.g. 10 = upload file size cannot be larger than 10MB)"
+                                                fieldLabel="File Upload Size Limit"
+                                                name="./fileUploadSizeLimit"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks"/>
+                                            <request-url-field
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldLabel="Request URL"
+                                                name="./requestURL"
+                                                wrapperClass="hide gs-hide-show web-to-case"/>
+                                            <cw-rw
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                fieldLabel="cw / rw"
+                                                name="./cwrw"
+                                                wrapperClass="hide gs-hide-show web-to-case">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <cw
+                                                        jcr:primaryType="nt:unstructured"
+                                                        text="cw (customer care web to case)"
+                                                        value="cw"/>
+                                                    <rw
+                                                        jcr:primaryType="nt:unstructured"
+                                                        text="rw (registration web to case)"
+                                                        value="rw"/>
+                                                </items>
+                                            </cw-rw>
+                                            <content-path
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                                fieldLabel="Content Path"
+                                                name="./action"
+                                                storecontent="field"
+                                                wrapperClass="hide gs-hide-show gsstore"/>
+                                            <from-email
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldLabel="From Email"
+                                                name="./from"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks"/>
+                                            <to-email
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldLabel="Mail To Email"
+                                                name="./mailto"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks"/>
+                                            <cc
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldLabel="CC"
+                                                name="./cc"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks"/>
+                                            <bcc
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldLabel="BCC"
+                                                name="./bcc"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks"/>
+                                            <subject
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldLabel="Subject"
+                                                name="./subject"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks"/>
+                                            <confirmation-bcc
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldDescription="The recipient of the confirmation email will not see email addresses entered here"
+                                                fieldLabel="Confirmation BCC"
+                                                name="./confirmationmailto"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>
+                                            <confirmation-from-email
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldLabel="Confirmation From Email"
+                                                name="./confirmationFrom"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>
+                                            <confirmation-subject
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldLabel="Confirmation Subject"
+                                                name="./confirmationSubject"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>
+                                            <email-template
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldLabel="Path To Email Template"
+                                                name="./templatePath"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>
+                                            <new-window
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                fieldDescription="By default, confirmation emails will be sent to email addresses entered into any fields starting with 'email-confirmation'. You can add a number at the end for multiple confirmation fields."
+                                                name="./disableConfirmation"
+                                                text="Disable Confirmation Emails"
+                                                value="{Boolean}true"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>
+                                            <disable-conf-emails-delete
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                name="./disableConfirmation@Delete"
+                                                value="{Boolean}true"/>
+                                            <campaign-id
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldLabel="Campaign ID"
+                                                name="./campaignID"
+                                                wrapperClass="hide gs-hide-show web-to-lead"/>
+                                        </items>
+                                        <layout
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/layouts/collapsible"/>
+                                    </gsmail>
+                                </items>
+                            </action-config>
+                        </items>
+                    </columns>
+                </items>
+            </advanced>
+        </items>
+    </content>
+</jcr:root>

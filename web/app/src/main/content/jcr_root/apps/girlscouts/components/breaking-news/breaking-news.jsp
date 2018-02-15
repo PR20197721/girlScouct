@@ -1,4 +1,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%@ page import="org.apache.sling.settings.SlingSettingsService,
+				 java.util.Set"%><%
+%>
 <%
 	String message = properties.get("message","");
 	String url = properties.get("url","");
@@ -12,62 +15,76 @@
 	if(thumbnail != null) {
 		filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
 	}
-%>
-<%
-	if(!newstype.equals("None")) {
+
+
+	if(!newstype.equals("Nonewstype")) {
 		if(!bgcolor.equals("") && newstype.equals("Text")) {
-%>
-			<div class="inner-wrapper" style="background-color:#<%=bgcolor%>">
-<%	
+
+			%><div class="inner-wrapper" style="background-color:#<%=bgcolor%>"><%
+	
 		} else if (newstype.equals("Image")) {
-%>
-			<div class="inner-wrapper" style="padding: 0;">
-<%		} else {
-%>
-			<div class="inner-wrapper">
-<%		}
+
+			%><div class="inner-wrapper" style="padding: 0;"><%
+		} else {
+
+			%><div class="inner-wrapper"><%
+		}
 
 		if(newstype.equals("Image")) {
 			if(!filePath.equals("")) {
 				if(!url.equals("")) {
-%>
-					<a href="<%= url %>" <% if(url.substring(0,4).equals("http")) { %> target="_blank" <% } %>>
-<% 
+
+					if(url.substring(0,4).equals("http")) {
+   						%><a href="<%=url %>" target="_blank"><% 
+					} else{
+    					%><a href="<%=url %>"><% 
+					}
+ 
 				}
-%>
-				<img src="<%= filePath %>" alt="<%=alert%> <%=message%>" title="<%=alert%> <%=message%>" style="max-width:100%;" class="thumbnail"/>
-<%
+
+				%><img src="<%= filePath %>" alt="<%=alert%> <%=message%>" title="<%=alert%> <%=message%>" style="max-width:100%;" class="thumbnail"/><%
+
 				if(!url.equals("")) {
-%>
-					</a>
-<% 
+
+					%></a><%
+ 
 				}
 			}
 		}
 
 		if(newstype.equals("Text")) {
 			if(!url.equals("")) {
-%>
-				<a href="<%= url %>" title="<%= message %>" <% if(url.substring(0,4).equals("http")) { %> target="_blank" <% } %>>
-<% 
+				if(url.substring(0,4).equals("http")) {
+   					%><a href="<%=url %>" target="_blank"><% 
+				} else{
+    				%><a href="<%=url %>"><% 
+				}
 			}
 			if(!textcolor.equals("")) {
-%>
-				<strong style="color:#<%=textcolor%>"><%= alert %></strong> <span style="color:#<%=textcolor%>"><%= message %></span>
-<%
+
+				%><strong style="color:#<%=textcolor%>"><%= alert %></strong> <span style="color:#<%=textcolor%>"><%= message %></span><%
+
 			} else {
-%>
-				<strong><%= alert %></strong> <span><%= message %></span>
-<%			
+
+				%><strong><%= alert %></strong> <span><%= message %></span><%
+			
 			}
 			if(!url.equals("")) {
-%>
-				</a>
-<%
+
+				%></a><%
+
 			}
 		}
+
+			%></div><%
+			
+    } 
+	Set<String> runModes = sling.getService(SlingSettingsService.class).getRunModes();
+    if (runModes.contains("author")) {
+        %><p align="center">####BREAKING NEWS PLACEHOLDER CLICK TO EDIT</p><%
+    }
+
+
+
 %>
-			</div>
-<%			
-	}
-%>
+

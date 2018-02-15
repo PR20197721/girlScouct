@@ -27,7 +27,9 @@
                  com.day.cq.wcm.foundation.forms.FieldHelper,
                  com.day.cq.wcm.foundation.forms.FormsHelper,
                  com.day.cq.wcm.foundation.forms.FieldDescription,
+				 org.apache.sling.settings.SlingSettingsService,
                  java.util.Iterator,
+				 java.util.Set,
                  org.apache.sling.scripting.jsp.util.JspSlingHttpServletResponseWrapper, com.day.cq.wcm.foundation.Placeholder"%><%
 %><cq:setContentBundle/>
 <cq:include script="abacus.jsp"/><%
@@ -38,8 +40,9 @@
     %><%= Placeholder.getDefaultPlaceholder(slingRequest, "Form Start", "") %><%
     componentContext.setDecorate(true);
     // check if we have validation erros
-
-    if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	Set<String> runModes = sling.getService(SlingSettingsService.class).getRunModes();
+    if (runModes.contains("author")) {
+        System.out.println("WCMMODE is edit");
 	 	Resource formStartResource = resource;
 	    ValueMap vm = properties;
 	    StringBuilder sb = new StringBuilder();
@@ -47,7 +50,9 @@
 	    sb.append("/etc/importers/bulkeditor.html?rootPath=");
 	    String actionPath = (String)vm.get("action", "");
 	    String actionType = (String)vm.get("actionType", "");
+        System.out.println("ACTION PATH" + actionPath);
 	    if ((actionPath.trim().length() != 0) && (actionType.trim().endsWith("store"))) {
+            System.out.println("<p>Action is GSSTORE</p>");
 	    
 	    %>
 	        <style>
