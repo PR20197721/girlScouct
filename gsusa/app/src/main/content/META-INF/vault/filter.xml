@@ -42,4 +42,5 @@
     <filter root="/libs/cq/ui/widgets/source/widgets/wcm/Sidekick-original.js"/>
     <filter root="/libs/cq/ui/widgets/source/widgets/wcm/SiteAdminSearchPanel.js"/>
     <filter root="/libs/cq/ui/widgets/source/widgets/wcm/SiteAdminSearchPanel-original.js"/>
+    <filter root="/libs/cq/inbox/gui/components/inbox/dialoginjection/render"/>
 </workspaceFilter>

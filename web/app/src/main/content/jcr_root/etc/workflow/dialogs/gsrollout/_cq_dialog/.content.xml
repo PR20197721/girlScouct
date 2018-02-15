@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
 	xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-	xmlns:nt="http://www.jcp.org/jcr/nt/1.0" jcr:primaryType="nt:unstructured"
+	xmlns:nt="http://www.jcp.org/jcr/nt/1.0" jcr:primaryType="nt:unstructured" 	
+	extraClientlibs="[cq.authoring.rte.coralui3,rte.coralui3]"
 	jcr:title="GirlScouts Page Rollout Dialog" sling:resourceType="cq/gui/components/authoring/dialog">
 	<content jcr:primaryType="nt:unstructured"
-		sling:resourceType="granite/ui/components/coral/foundation/container">
-		<layout jcr:primaryType="nt:unstructured"
-			sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns" />
+		sling:resourceType="granite/ui/components/foundation/container">
+		<layout jcr:primaryType="nt:unstructured" margin="false"
+			sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns" />
 		<items jcr:primaryType="nt:unstructured">
 			<columns jcr:primaryType="nt:unstructured"
-				sling:resourceType="granite/ui/components/coral/foundation/container">
+				sling:resourceType="granite/ui/components/foundation/container">
 				<items jcr:primaryType="nt:unstructured">
 					<newPage jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						fieldDescription="If checked new live sync page will be created on council site."
-						name="./newPage" text="New Page" uncheckedValue="false" value="false" />
+						name="./newPage" text="New Page" uncheckedValue="false" value="true" checked="false"/>
 					<activate jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="true"
@@ -37,18 +38,18 @@
 					<subject jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
 						fieldLabel="Email Subject" name="./subject" value="GSUSA Rollout Notification" />
-<!-- 					<message jcr:primaryType="nt:unstructured" -->
-<!-- 						defaultValue="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b>discarding&lt;/b> your own changes (custom content) that have been made to this page and will &lt;b>immediately&lt;/b> receive the new national content.&lt;/p>&#xa;&lt;p>&lt;b>National page URL:&lt;/b> &lt;%template-page%>&lt;/p>&#xa;&lt;p>&lt;b>Your page URL:&lt;/b> &lt;%council-page%>&lt;/p>&#xa;&lt;p>Click &lt;%a href='&lt;%council-author-page%>'>here&lt;%/a> to edit your page.&lt;/p>&lt;p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p>" -->
-<!-- 						fieldLabel="Custom Message" sling:resourceType="cq/gui/components/authoring/dialog/richtext" -->
-<!-- 						useFixedInlineToolbar="true" name="./message" -->
-<!-- 						value="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b>discarding&lt;/b> your own changes (custom content) that have been made to this page and will &lt;b>immediately&lt;/b> receive the new national content.&lt;/p>&#xa;&lt;p>&lt;b>National page URL:&lt;/b> &lt;%template-page%>&lt;/p>&#xa;&lt;p>&lt;b>Your page URL:&lt;/b> &lt;%council-page%>&lt;/p>&#xa;&lt;p>Click &lt;%a href='&lt;%council-author-page%>'>here&lt;%/a> to edit your page.&lt;/p>&lt;p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p>"> -->
-<!-- 						<rtePlugins jcr:primaryType="nt:unstructured" -->
-<!-- 							sling:resourceSuperType="girlscouts/components/richtext-config/rtePlugins" /> -->
-<!-- 						<specialCharsConfig jcr:primaryType="nt:unstructured" -->
-<!-- 							sling:resourceSuperType="girlscouts/components/richtext-config/specialCharsConfig" /> -->
-<!-- 						<uiSettings jcr:primaryType="nt:unstructured" -->
-<!-- 							sling:resourceSuperType="girlscouts/components/richtext-config/uiSettings" /> -->
-<!-- 					</message> -->
+					<message jcr:primaryType="nt:unstructured"
+						defaultValue="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b>discarding&lt;/b> your own changes (custom content) that have been made to this page and will &lt;b>immediately&lt;/b> receive the new national content.&lt;/p>&#xa;&lt;p>&lt;b>National page URL:&lt;/b> &lt;%template-page%>&lt;/p>&#xa;&lt;p>&lt;b>Your page URL:&lt;/b> &lt;%council-page%>&lt;/p>&#xa;&lt;p>Click &lt;%a href='&lt;%council-author-page%>'>here&lt;%/a> to edit your page.&lt;/p>&lt;p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p>"
+						fieldLabel="Custom Message" sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+						useFixedInlineToolbar="true" customStart="false" height="{Long}300" name="./message"
+						value="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b>discarding&lt;/b> your own changes (custom content) that have been made to this page and will &lt;b>immediately&lt;/b> receive the new national content.&lt;/p>&#xa;&lt;p>&lt;b>National page URL:&lt;/b> &lt;%template-page%>&lt;/p>&#xa;&lt;p>&lt;b>Your page URL:&lt;/b> &lt;%council-page%>&lt;/p>&#xa;&lt;p>Click &lt;%a href='&lt;%council-author-page%>'>here&lt;%/a> to edit your page.&lt;/p>&lt;p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p>">
+						<rtePlugins jcr:primaryType="nt:unstructured"
+									sling:resourceSuperType="girlscouts/components/richtext-config/rtePlugins" />
+						<specialCharsConfig jcr:primaryType="nt:unstructured"
+							sling:resourceSuperType="girlscouts/components/richtext-config/specialCharsConfig" />
+						<uiSettings jcr:primaryType="nt:unstructured"
+							sling:resourceSuperType="girlscouts/components/richtext-config/uiSettings" />
+					</message>
 					<usetemplate jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" name="./useTemplate" text="Use Email Template (Message AND Subject)"

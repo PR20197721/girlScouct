@@ -2,6 +2,7 @@ package org.girlscouts.web.councilupdate.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Date;
@@ -73,7 +74,9 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		Dictionary configs = context.getProperties();
 		this.pagesPath=OsgiUtil.toString(configs.get(PAGEPATH), null);
 		try {
-			rr= resolverFactory.getAdministrativeResourceResolver(null);
+			Map<String, Object> serviceParams = new HashMap<String, Object>();
+			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+			rr = resolverFactory.getServiceResourceResolver(serviceParams);
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}
