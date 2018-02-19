@@ -70,79 +70,81 @@ else if(imageNode!=null){
 	if(imgNode.hasProperty("height")){
 		width = imgNode.getProperty("height").getString();
 	}
-    if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("regular")){
-        classes = "hide-for-small hide-for-medium";
-
-		if(imgNode.hasProperty("fileReference")){
-			largePath = imgNode.getProperty("fileReference").getString();
+	if(imgNode.hasProperty("imagesize")){
+	    if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("regular")){
+	        classes = "hide-for-small hide-for-medium";
+	
+			if(imgNode.hasProperty("fileReference")){
+				largePath = imgNode.getProperty("fileReference").getString();
+				%>
+				<div>
+	                <%if(spplacement!=null && spplacement.equalsIgnoreCase("right")){ 
+	                	imgTag = displayRendition(resourceResolver, largePath, "cq5dam.web.665.365", classes, BREAKPOINT_MAX_LARGE,alt,null);
+	            	}else{
+	                	imgTag=displayRendition(resourceResolver, largePath, "cq5dam.web.960.420",classes, BREAKPOINT_MAX_LARGE,alt,null); 
+	            	}
+	            	if(imgTag!=null && !imgTag.isEmpty()){
+	                		if("true".equals(newWindow)){
+	                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
+	                        } else{
+								%><a href="<%=linkUrl%>"><%=imgTag%></a><%
+	                        }
+	            	}else if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+	                %><%=getPlaceHolderText("Not able to find the image: "+largePath,classes)%>
+	                <%}%>
+				</div> 
+			<%}else if(WCMMode.fromRequest(request) == WCMMode.EDIT) {
 			%>
-			<div>
-                <%if(spplacement!=null && spplacement.equalsIgnoreCase("right")){ 
-                	imgTag = displayRendition(resourceResolver, largePath, "cq5dam.web.665.365", classes, BREAKPOINT_MAX_LARGE,alt,null);
-            	}else{
-                	imgTag=displayRendition(resourceResolver, largePath, "cq5dam.web.960.420",classes, BREAKPOINT_MAX_LARGE,alt,null); 
-            	}
-            	if(imgTag!=null && !imgTag.isEmpty()){
-                		if("true".equals(newWindow)){
-                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
-                        } else{
-							%><a href="<%=linkUrl%>"><%=imgTag%></a><%
-                        }
-            	}else if(WCMMode.fromRequest(request) == WCMMode.EDIT){
-                %><%=getPlaceHolderText("Not able to find the image: "+largePath,classes)%>
-                <%}%>
-			</div> 
-		<%}else if(WCMMode.fromRequest(request) == WCMMode.EDIT) {
-		%>
-                <%=getPlaceHolderText("Please click to add regular sized image.",classes)%>
-		<% }
-	}
-	if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("medium")){
-        classes = "show-for-medium";
-
-		if(imgNode.hasProperty("fileReference")){
-			mediumPath = imgNode.getProperty("fileReference").getString();
-         %>  
-			<div>    
-					<%imgTag = displayRendition(resourceResolver, mediumPath, "cq5dam.web.720.420", classes, BREAKPOINT_MAX_MEDIUM,alt,null);
-                    if(imgTag!=null && !imgTag.isEmpty()){
-
-                        if("true".equals(newWindow)){
-                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
-                        } else{
-							%><a href="<%=linkUrl%>"><%=imgTag%></a><%
-                        }
-            		}else if(WCMMode.fromRequest(request) == WCMMode.EDIT){
-                        %><%=getPlaceHolderText("Not able to find the image: "+mediumPath,classes)%>
-                    <%}%>
-			</div> 
-	<%}else if(WCMMode.fromRequest(request) == WCMMode.EDIT) {
-		%>
-			<%=getPlaceHolderText("Please click to add medium screen sized image.",classes)%>
-			
-		<%}
-	}
-	if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("small")){
-        classes = "show-for-small";
-		if(imgNode.hasProperty("fileReference")){
-			smallPath = imgNode.getProperty("fileReference").getString();
-		%>  
-			 <div>
-					<%imgTag = displayRendition(resourceResolver, smallPath, "cq5dam.web.320.400", classes, BREAKPOINT_MAX_SMALL,alt,null);
-                    if(imgTag!=null && !imgTag.isEmpty()){
-                        if("true".equals(newWindow)){
-                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
-                        } else{
-							%><a href="<%=linkUrl%>"><%=imgTag%></a><%
-                        }
-            		}else if(WCMMode.fromRequest(request) == WCMMode.EDIT){
-                        %><%=getPlaceHolderText("Not able to find the image: "+smallPath, classes)%>
-                    <%}%>
-			</div>  
+	                <%=getPlaceHolderText("Please click to add regular sized image.",classes)%>
+			<% }
+		}
+		if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("medium")){
+	        classes = "show-for-medium";
+	
+			if(imgNode.hasProperty("fileReference")){
+				mediumPath = imgNode.getProperty("fileReference").getString();
+	         %>  
+				<div>    
+						<%imgTag = displayRendition(resourceResolver, mediumPath, "cq5dam.web.720.420", classes, BREAKPOINT_MAX_MEDIUM,alt,null);
+	                    if(imgTag!=null && !imgTag.isEmpty()){
+	
+	                        if("true".equals(newWindow)){
+	                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
+	                        } else{
+								%><a href="<%=linkUrl%>"><%=imgTag%></a><%
+	                        }
+	            		}else if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+	                        %><%=getPlaceHolderText("Not able to find the image: "+mediumPath,classes)%>
+	                    <%}%>
+				</div> 
 		<%}else if(WCMMode.fromRequest(request) == WCMMode.EDIT) {
 			%>
- 				<%=getPlaceHolderText("Please click to add small screen sized image.", classes)%>
-		<% }
+				<%=getPlaceHolderText("Please click to add medium screen sized image.",classes)%>
+				
+			<%}
+		}
+		if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("small")){
+	        classes = "show-for-small";
+			if(imgNode.hasProperty("fileReference")){
+				smallPath = imgNode.getProperty("fileReference").getString();
+			%>  
+				 <div>
+						<%imgTag = displayRendition(resourceResolver, smallPath, "cq5dam.web.320.400", classes, BREAKPOINT_MAX_SMALL,alt,null);
+	                    if(imgTag!=null && !imgTag.isEmpty()){
+	                        if("true".equals(newWindow)){
+	                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
+	                        } else{
+								%><a href="<%=linkUrl%>"><%=imgTag%></a><%
+	                        }
+	            		}else if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+	                        %><%=getPlaceHolderText("Not able to find the image: "+smallPath, classes)%>
+	                    <%}%>
+				</div>  
+			<%}else if(WCMMode.fromRequest(request) == WCMMode.EDIT) {
+				%>
+	 				<%=getPlaceHolderText("Please click to add small screen sized image.", classes)%>
+			<% }
+		}
 	}
 %>   
 <% }  

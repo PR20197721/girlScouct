@@ -84,7 +84,7 @@
                             <regular-size
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
-                                fieldLabel="Regular Size">
+                                fieldLabel="Regular Size">                            
                                 <width
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
@@ -94,19 +94,6 @@
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
                                     name="./regular/height"/>
                             </regular-size>
-                            <small-screen-size
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
-                                fieldLabel="Small Screen Size">
-                                <width
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./small/width"/>
-                                <height
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./small/height"/>
-                            </small-screen-size>
                             <medium-screen-size
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
@@ -120,6 +107,19 @@
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
                                     name="./medium/height"/>
                             </medium-screen-size>
+                            <small-screen-size
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
+                                fieldLabel="Small Screen Size">
+                                <width
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                    name="./small/width"/>
+                                <height
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                    name="./small/height"/>
+                            </small-screen-size>
                             <newWindow
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
@@ -146,6 +146,8 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
+                        	<imagesize jcr:primaryType="nt:unstructured" name="./regular/imagesize"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="regular" />
                             <file
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
@@ -176,6 +178,8 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
+                        	<imagesize jcr:primaryType="nt:unstructured" name="./medium/imagesize"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="medium" />
                             <file
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
@@ -206,6 +210,8 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
+                        	<imagesize jcr:primaryType="nt:unstructured" name="./small/imagesize"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="small" />
                             <file
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
