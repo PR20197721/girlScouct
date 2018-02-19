@@ -10,7 +10,103 @@
             jcr:primaryType="nt:unstructured"
             sling:resourceType="granite/ui/components/foundation/layouts/tabs"
             type="nav"/>
-        <items jcr:primaryType="nt:unstructured">
+        <items jcr:primaryType="nt:unstructured">         
+            <regular-image
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Regular Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                        	<imagesize jcr:primaryType="nt:unstructured" name="./regular/imagesize"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="regular" />
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./regular/fileName"
+                                fileReferenceParameter="./regular/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./regular/file"
+                                title="Upload Image Asset"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </regular-image>
+            <medium-screen-image
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Medium Screen Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                        	<imagesize jcr:primaryType="nt:unstructured" name="./medium/imagesize"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="medium" />
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./medium/fileName"
+                                fileReferenceParameter="./medium/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./medium/file"
+                                title="Upload Image Asset"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </medium-screen-image>
+            <small-screen-image
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Small Screen Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                        	<imagesize jcr:primaryType="nt:unstructured" name="./small/imagesize"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="small" />
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./small/fileName"
+                                fileReferenceParameter="./small/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./small/file"
+                                title="Upload Image Asset"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </small-screen-image>
             <advanced
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Advanced"
@@ -134,102 +230,6 @@
                     </columns>
                 </items>
             </advanced>
-            <regular-image
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Regular Image"
-                sling:resourceType="granite/ui/components/foundation/container">
-                <layout
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
-                <items jcr:primaryType="nt:unstructured">
-                    <columns
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/container">
-                        <items jcr:primaryType="nt:unstructured">
-                        	<imagesize jcr:primaryType="nt:unstructured" name="./regular/imagesize"
-                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="regular" />
-                            <file
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-                                autoStart="{Boolean}false"
-                                class="cq-droptarget"
-                                fieldLabel="Image asset"
-                                fileNameParameter="./regular/fileName"
-                                fileReferenceParameter="./regular/fileReference"
-                                mimeTypes="[image]"
-                                multiple="{Boolean}false"
-                                name="./regular/file"
-                                title="Upload Image Asset"
-                                uploadUrl="${suffix.path}"
-                                useHTML5="{Boolean}true"/>
-                        </items>
-                    </columns>
-                </items>
-            </regular-image>
-            <medium-screen-image
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Medium Screen Image"
-                sling:resourceType="granite/ui/components/foundation/container">
-                <layout
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
-                <items jcr:primaryType="nt:unstructured">
-                    <columns
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/container">
-                        <items jcr:primaryType="nt:unstructured">
-                        	<imagesize jcr:primaryType="nt:unstructured" name="./medium/imagesize"
-                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="medium" />
-                            <file
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-                                autoStart="{Boolean}false"
-                                class="cq-droptarget"
-                                fieldLabel="Image asset"
-                                fileNameParameter="./medium/fileName"
-                                fileReferenceParameter="./medium/fileReference"
-                                mimeTypes="[image]"
-                                multiple="{Boolean}false"
-                                name="./medium/file"
-                                title="Upload Image Asset"
-                                uploadUrl="${suffix.path}"
-                                useHTML5="{Boolean}true"/>
-                        </items>
-                    </columns>
-                </items>
-            </medium-screen-image>
-            <small-screen-image
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Small Screen Image"
-                sling:resourceType="granite/ui/components/foundation/container">
-                <layout
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
-                <items jcr:primaryType="nt:unstructured">
-                    <columns
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/container">
-                        <items jcr:primaryType="nt:unstructured">
-                        	<imagesize jcr:primaryType="nt:unstructured" name="./small/imagesize"
-                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="small" />
-                            <file
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-                                autoStart="{Boolean}false"
-                                class="cq-droptarget"
-                                fieldLabel="Image asset"
-                                fileNameParameter="./small/fileName"
-                                fileReferenceParameter="./small/fileReference"
-                                mimeTypes="[image]"
-                                multiple="{Boolean}false"
-                                name="./small/file"
-                                title="Upload Image Asset"
-                                uploadUrl="${suffix.path}"
-                                useHTML5="{Boolean}true"/>
-                        </items>
-                    </columns>
-                </items>
-            </small-screen-image>
         </items>
     </content>
 </jcr:root>

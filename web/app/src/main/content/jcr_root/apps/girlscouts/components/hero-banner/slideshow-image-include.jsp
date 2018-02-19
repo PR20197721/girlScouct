@@ -43,7 +43,7 @@ java.util.Collections,java.util.Comparator" %>
         }
       } catch (Exception e) {
     	e.printStackTrace(); 
-      }
+      } 
       return sortOrder1.compareToIgnoreCase(sortOrder2);
     }
   });
@@ -59,17 +59,19 @@ java.util.Collections,java.util.Comparator" %>
 			Resource imgResource = images.next();
 			imagePath = imgResource.getPath();
 			imgName = imgResource.getName();
+			slingRequest.setAttribute("hero-banner-path", imagePath );
 			%>
 			<div>        
-				<cq:include path="<%=imagePath%>" resourceType="girlscouts/components/hero-slideshow-images"/>  
+				<cq:include script="/apps/girlscouts/components/hero-banner/slideshow-image.jsp" />  
 			</div> 
 		<% 	//path = imgName;
 		}
 		else{
-			String placeHolderName = "placeholder-image_"+i;
+			String placeHolderName = resource.getPath()+"/hero_banner_"+i;
+			slingRequest.setAttribute("hero-banner-path", placeHolderName );
 			%>
 			<div>        
-				<cq:include path="<%=placeHolderName%>" resourceType="girlscouts/components/hero-slideshow-images"/>  
+				<cq:include script="/apps/girlscouts/components/hero-banner/slideshow-image.jsp" />  
 			</div> 
 			<%
 		}%>
