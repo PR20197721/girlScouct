@@ -3,8 +3,18 @@ java.util.Map,java.util.HashMap,java.util.Iterator,com.day.cq.wcm.api.WCMMode,
 org.apache.sling.commons.json.JSONArray,org.apache.sling.commons.json.JSONException,com.day.cq.dam.api.Asset" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<%!
+    public String getPlaceHolderText(String text, String classes){
+    	String placeHolder = "<div style=\"text-align:center; height:500px;\" class=\""+classes+" \" >"+ 
+        					 "<p style=\"text-align: center\">"+text+"</p>"+"</div>";
+		return placeHolder;
+	};
+
+%>  
 <%
-   Node imageNode = resource.adaptTo(Node.class);
+   String heroBannerPath = (String)slingRequest.getAttribute("hero-banner-path");
+   Resource imageResource = resourceResolver.resolve(heroBannerPath);
+   Node imageNode = imageResource.adaptTo(Node.class);
    String largePath = "";
    String smallPath ="";
    String mediumPath ="";
@@ -19,7 +29,7 @@ else if(imageNode!=null){
 	
 	String spplacement = (String)request.getAttribute("sbplacement");
 
-	Iterator<Resource> images = resource.listChildren();
+	Iterator<Resource> images = imageResource.listChildren();
 	String alt = "";
 	String linkUrl = "";
 	String sortOrder = "";
