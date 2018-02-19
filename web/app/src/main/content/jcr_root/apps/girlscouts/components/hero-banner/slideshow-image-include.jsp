@@ -42,7 +42,7 @@ java.util.Collections,java.util.Comparator" %>
           sortOrder2 = node2.getProperty("sortOrder").getString();
         }
       } catch (Exception e) {
-    	e.printStackTrace();
+    	e.printStackTrace(); 
       }
       return sortOrder1.compareToIgnoreCase(sortOrder2);
     }
@@ -66,10 +66,10 @@ java.util.Collections,java.util.Comparator" %>
 		<% 	//path = imgName;
 		}
 		else{
-
+			String placeHolderName = "placeholder-image_"+i;
 			%>
 			<div>        
-				<cq:include path="Image_test" resourceType="girlscouts/components/hero-slideshow-images"/>  
+				<cq:include path="<%=placeHolderName%>" resourceType="girlscouts/components/hero-slideshow-images"/>  
 			</div> 
 			<%
 		}%>

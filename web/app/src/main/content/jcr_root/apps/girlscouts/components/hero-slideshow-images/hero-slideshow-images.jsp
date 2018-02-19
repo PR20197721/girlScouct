@@ -20,8 +20,7 @@ org.apache.sling.commons.json.JSONArray,org.apache.sling.commons.json.JSONExcept
    String newWindow = "";
    
    Resource rendition=null;
-  
-if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
+if ((null==imageNode) && (WCMMode.fromRequest(request) == WCMMode.EDIT || WCMMode.fromRequest(request) == WCMMode.PREVIEW)) {
     %><%=getPlaceHolderText("Click edit above and select number of slides. Then click here to add images to slides.","")%>
    <% }
 else if(imageNode!=null){

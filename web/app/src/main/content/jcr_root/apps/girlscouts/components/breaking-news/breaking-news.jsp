@@ -82,7 +82,7 @@
 			
     } 
     %>
-		<div data-emptytext="<%=component.getName()%>" class="cq-placeholder">
+		<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder">
 		</div>
     <%
 
