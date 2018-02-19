@@ -37,7 +37,7 @@ String[] adPages = properties.get("pages", new String[] {});
 String[] excludedPages = properties.get("excludedPages", new String[] {});
 
 if(customized){
-	if (adPages!=null) {
+	if (adPages!=null && adPages.length>0) {
     	for(String itemUrl : adPages){
             if(adCount > 0){
                 try{
@@ -62,6 +62,8 @@ if(customized){
               	}catch(Exception e){ e.printStackTrace();}
             }else{ break;}
         }
+	}else{
+		%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
 	}
 }
 
