@@ -1,6 +1,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@ page import="org.apache.sling.settings.SlingSettingsService,
-				 java.util.Set"%><%
+				 java.util.Set,
+				 com.day.cq.wcm.api.WCMMode"%><%
 %>
 <%
 	String message = properties.get("message","");
@@ -16,6 +17,7 @@
 		filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
 	}
 
+	Set<String> runModes = sling.getService(SlingSettingsService.class).getRunModes();
 
 	if(!newstype.equals("Nonewstype")) {
 		if(!bgcolor.equals("") && newstype.equals("Text")) {
@@ -49,7 +51,7 @@
 					%></a><%
  
 				}
-			}
+            } 
 		}
 
 		if(newstype.equals("Text")) {
@@ -79,10 +81,12 @@
 			%></div><%
 			
     } 
-	Set<String> runModes = sling.getService(SlingSettingsService.class).getRunModes();
-    if (runModes.contains("author")) {
-        %><p align="center">####BREAKING NEWS PLACEHOLDER CLICK TO EDIT</p><%
-    }
+    %>
+		<div data-emptytext="<%=component.getName()%>" class="cq-placeholder">
+		</div>
+    <%
+
+
 
 
 
