@@ -2,6 +2,7 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>
 <%
 String cssClasses = properties.get("cssClasses", "");
 
