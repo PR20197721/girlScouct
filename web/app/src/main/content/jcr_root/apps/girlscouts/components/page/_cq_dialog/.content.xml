@@ -73,6 +73,17 @@
                                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                                 name="./hideInNav@Delete"
                                                 value="{Boolean}true"/>
+                                            <hideinsearch
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                                name="./hideInSearch"
+                                                text="Hide in Search"
+                                                value="true"/>
+                                            <hideinsearch-delete
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                name="./hideInSearch@Delete"
+                                                value="{Boolean}true"/>
                                             <breakinheritance
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
