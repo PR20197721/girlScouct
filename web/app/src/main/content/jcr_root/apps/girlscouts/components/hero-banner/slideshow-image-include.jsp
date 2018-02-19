@@ -77,3 +77,8 @@ java.util.Collections,java.util.Comparator" %>
 		}%>
 		
 	<%}%>
+
+	<div class="slide-show-target"></div>
+	<script>
+		SlideShowManager.init("slide-show-target");
+	</script>
