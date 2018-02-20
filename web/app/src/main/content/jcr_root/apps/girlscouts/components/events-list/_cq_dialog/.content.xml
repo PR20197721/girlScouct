@@ -75,15 +75,18 @@
                                     <start
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="/libs/granite/ui/components/foundation/form/radio"
+                                        checked="{Boolean}true"
                                         name="./filter"
                                         renderReadOnly="{Boolean}true"
-                                        text="Starting Date: displays events that start after current date"/>
+                                        text="Starting Date: displays events that start after current date"
+                                        value="start"/>
                                     <end
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="/libs/granite/ui/components/foundation/form/radio"
                                         name="./filter"
                                         renderReadOnly="{Boolean}true"
-                                        text="Ending Date: displays events that end after current date"/>
+                                        text="Ending Date: displays events that end after current date"
+                                        value="end"/>
                                 </items>
                             </filter>
                         </items>
