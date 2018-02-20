@@ -10,7 +10,6 @@
                 com.day.cq.search.PredicateGroup,
                 com.day.cq.search.result.SearchResult"  %>
 <%@page session="false" %>
-
 <%
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 Map<String, String> map = new HashMap<String, String>();
@@ -31,5 +30,4 @@ if (hasHeader) {// contains cookie) {
 %>
 	<cq:include path="mobile-cookie-header" resourceType="girlscouts/components/standalone-cookie-header" />
 <%
-}
-%>
+}else{%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%} %>
