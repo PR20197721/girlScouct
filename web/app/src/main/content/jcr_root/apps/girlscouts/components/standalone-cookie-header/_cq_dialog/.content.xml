@@ -26,13 +26,8 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="The right section of the header will be delicated to sharing. Check this when the header is on top of the page"
-                                name="./shareSection"
+                                name="./shareSection" uncheckedValue="false" value="true"
                                 text="Right Share Section"/>
-                            <sharesection-delete
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./shareSection@Delete"
-                                value="{Boolean}true"/>
                             <icon/>
                             <sharetext
                                 jcr:primaryType="nt:unstructured"
