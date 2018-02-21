@@ -8,8 +8,8 @@
 String[] links = properties.get("links", String[].class);
 String freqTitle = properties.get("freq-title","");
 String path = "";
-if ((freqTitle == null && links == null) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	%>##### Frequently Access Forms #####<%
+if (freqTitle == null && links == null) {
+	%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
 }else {%>
      <div class="row">
        <div class="small-24 large-24 medium-24 columns">

@@ -30,9 +30,8 @@ if(currentNode.hasNode("links")){
 }
 String[] links = linksList.toArray(new String[0]);
 request.setAttribute("links", links);
-if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	%>##### Eyebrow Navigation #####
-<%
+if (links == null || links.length == 0) {
+	%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
 } else if (links != null){
     %><div class="eyebrow-container">
 		    <ul class="inline-list eyebrow-fontsize">
