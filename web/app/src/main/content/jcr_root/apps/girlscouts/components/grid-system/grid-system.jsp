@@ -25,6 +25,7 @@
                     com.day.cq.wcm.foundation.ParagraphSystem" %><%
 %><%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>
 <%
     String gridStyle = "";
 	String itemStyle = "";
