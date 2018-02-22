@@ -6,7 +6,7 @@
                 javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, 
                 com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,
                 org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,
-                java.util.Collections"
+                java.util.Collections, javax.jcr.Node"
                 %>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
@@ -22,62 +22,62 @@
 <%
     }
 
-
+    String formAction = currentPage.getPath()+".advanced.html";
+    request.setAttribute("formAction", formAction);
     Set <String> regions = new HashSet<String>();
     SearchResultsInfo srchResults = (SearchResultsInfo)request.getAttribute("eventresults");
-    List<String> sresults = srchResults.getResults();
-    List<String> setOfRegions = srchResults.getRegion();
-    for(String result: sresults){
-        Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
-        try{
-            Node propNode = node.getNode("jcr:content/data");
-            if(propNode.hasProperty("region"))
-                {
-                  regions.add(propNode.getProperty("region").getString());
-            
-                 }
-        }catch(Exception e){}
-    }  
-    List<String> sortList = new ArrayList<String>(regions);
-    Collections.sort(sortList);
+    if(srchResults != null){
+	    List<String> sresults = srchResults.getResults();
+	    List<String> setOfRegions = srchResults.getRegion();
+	    for(String result: sresults){
+	        Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
+	        try{
+	            Node propNode = node.getNode("jcr:content/data");
+	            if(propNode.hasProperty("region"))
+	                {
+	                  regions.add(propNode.getProperty("region").getString());
+	            
+	                 }
+	        }catch(Exception e){}
+	    }  
+	    List<String> sortList = new ArrayList<String>(regions);
+	    Collections.sort(sortList);
+	    facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
+	    String homepagePath = currentPage.getAbsoluteParent(2).getPath();
+	    //String REGIONS = currentSite.get("locationsPath", homepagePath + "/locations");
+	    String YEARS = currentSite.get("eventPath", homepagePath + "/events");
+	    long RESULTS_PER_PAGE = Long.parseLong(properties.get("resultsPerPage", "10"));
+	    String[] tags = request.getParameterValues("tags");
+	    HashSet<String> set = new HashSet<String>();
+	    if(tags!=null) {
+	        set = new HashSet<String>();
+	        for (String words : tags){
+	            set.add(words);
+	        }
+	    }
+	    String year=request.getParameter("year");
+	    String month = request.getParameter("month");
+	    String startdtRange = request.getParameter("startdtRange");
+	    String enddtRange = request.getParameter("enddtRange");
+	    String region = "";
+	    try{
+	    	region = request.getParameter("regions");
+	    }catch(Exception e){}
+	   
+	    ArrayList<String> years = new ArrayList<String>();
+	    Iterator<Page> yrs= resourceResolver.getResource(YEARS).adaptTo(Page.class).listChildren();
+	   
+	    if(properties.get("formaction", String.class)!=null && properties.get("formaction", String.class).length()>0){
+	        formAction = properties.get("formaction", String.class);
+	    }
+	    while(yrs.hasNext()) {
+	        years.add(yrs.next().getTitle());
+	    }
+	    SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
+	    List<String> results = srchInfo.getResults();
+	    String m = request.getParameter("m"); 
+	    String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
    
-    facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
-    String homepagePath = currentPage.getAbsoluteParent(2).getPath();
-    //String REGIONS = currentSite.get("locationsPath", homepagePath + "/locations");
-    String YEARS = currentSite.get("eventPath", homepagePath + "/events");
-    long RESULTS_PER_PAGE = Long.parseLong(properties.get("resultsPerPage", "10"));
-    String[] tags = request.getParameterValues("tags");
-    HashSet<String> set = new HashSet<String>();
-    if(tags!=null) {
-        set = new HashSet<String>();
-        for (String words : tags){
-            set.add(words);
-        }
-    }
-    String year=request.getParameter("year");
-    String month = request.getParameter("month");
-    String startdtRange = request.getParameter("startdtRange");
-    String enddtRange = request.getParameter("enddtRange");
-    String region = "";
-    try{
-    	region = request.getParameter("regions");
-    }catch(Exception e){}
-   
-    ArrayList<String> years = new ArrayList<String>();
-    Iterator<Page> yrs= resourceResolver.getResource(YEARS).adaptTo(Page.class).listChildren();
-    String formAction = currentPage.getPath()+".advanced.html";
-    if(properties.get("formaction", String.class)!=null && properties.get("formaction", String.class).length()>0){
-        formAction = properties.get("formaction", String.class);
-    }
-    while(yrs.hasNext()) {
-        years.add(yrs.next().getTitle());
-    }
-    SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
-    List<String> results = srchInfo.getResults();
-    request.setAttribute("formAction", formAction);
-    String m = request.getParameter("m"); 
-    String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
-  
 %>
 
 <script>
@@ -309,4 +309,4 @@ function isDate(txtDate)
 
 </script>
 </div>
-
+<% } %>

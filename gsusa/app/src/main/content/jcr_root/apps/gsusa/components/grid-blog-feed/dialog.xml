@@ -60,6 +60,13 @@
                     	fieldLabel="Post ID 3"
                     	name="./postid3"
                     	xtype="textfield"/>
+                    <textonly
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Text Only"
+                    	fieldDescription="Check to display text only and not show images"
+                    	name="./textonly"
+                    	type="checkbox"
+                    	xtype="selection" />
                 </items>
             </general>
             <desktop

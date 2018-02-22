@@ -214,7 +214,7 @@ function toggleParsys(s)
 
 //Girlscouts Event List lazy loading code 
 //GSWP-1173
-function EventLoader(jsonPath, containerObj, loaderObj) {
+function EventLoader(jsonPath, containerObj) {
 	var d = new Date();
 	var path = jsonPath+".more."+(d.getMonth()+1)+d.getDate()+".";
 	var eventsOffset = 0;
@@ -405,7 +405,219 @@ function EventLoader(jsonPath, containerObj, loaderObj) {
 	}
 	
 }
+//Girlscouts Forms and Documents search lazy loading code 
+//GSWP-1166
+function FormsDocsLoader(jsonPath, containerObj, query, tags) {
+	var path = jsonPath+".more";
+	var q = query;
+	var tags = tags;
+	var offset = 0;
+	var container = containerObj;
+	var loader = $("<div>",{"id":"infiniteLoader"}).append($("<p>",{"style":"text-align: center;"}).append("Loading..."));
+	var isMore = true;
+	var isProcessing = false;
+	
+	containerObj.after(loader);
+	loadMore();
+	addLoadMoreButton();
+	
+	function loadMore(){
+		if(isMore && !isProcessing){
+			isProcessing = true;
+			loader.show();
+			var url = path + "?q="+q+"&offset="+ offset;
+			if(tags != null && tags.length > 0){
+				for (i = 0; i < tags.length; i++) { 
+					url += "&tags="+tags[i];
+				}
+			}
+			$.getJSON(url, function (data) {
+				try{
+					if(parseInt(data.resultCount,10) < 10){
+						isMore=false;
+						$("#loadMore").remove();
+					} else {
+						offset = parseInt(data.newOffset, 10);
+					}
+					$.each(data.results, function (index, result) {
+						container.append($("<br/>"));
+						try{
+							if(result.extension && result.extension!='html'){
+								var $span = $("<span>", {"class": "icon type_"+result.extension});
+								$span.append("<img src=\"/etc/designs/default/0.gif\" alt=\"*\"/>");
+								container.append($span);
+							}
+						}catch(err){}
+						try{
+							var newWindow="";
+							if(result.extension != "html"){
+								newWindow=" target=\"_blank\"";
+							}
+							container.append("<a href=\""+result.url+"\""+newWindow+">"+result.title+"</a>");
+						}catch(err){}
+						try{
+							if(result.description){
+								container.append("<div>"+result.description+"</div>");
+							}else{
+								container.append("<div>"+result.excerpt+"</div>");
+							}
+						}catch(err){}
+						container.append("<!--"+result.score+"-->");
+						container.append($("<br/>"));
+					});
+				}catch(err){}
+				loader.hide();
+				isProcessing = false;
+			});
+		}
+	}
+	function addLoadMoreButton(){
+		var $buttonDiv = $("<div>",{"id":"loadMore"});
+		var $buttonPar = $("<p>",{"style":"text-align: center;"});
+		var $buttonAnchor = $("<a>",{"class":"button", "style":"padding: 0.6rem 2rem; font-size: 0.95em; font-weight:bold;","href":"javascript:;"});
+		$buttonAnchor.click(function(e){
+			e.preventDefault();
+			loadMore(); 
+			bindScroll();
+			$("#loadMore").remove();
+		});
+		$buttonAnchor.append("LOAD MORE");
+		$buttonPar.append($buttonAnchor);
+		$buttonDiv.append($buttonPar);
+		container.after($buttonDiv);
+	}
+	function bindScroll(){
+		$(window).on('scroll', function(){
+			var hT = container.offset().top,
+		       hH = container.outerHeight(),
+		       wH = $(window).height(),
+		       wS = $(this).scrollTop();
+			if(wS > (hT+hH-wH)){
+				loadMore();
+			}
+		});
+	}
+}
 
+//Girlscouts News List lazy loading code 
+//GSWP-1212
+function NewsLoader(jsonPath, containerObj, renderedFeatureNews) {
+	var d = new Date();
+	var path = jsonPath+".more."+(d.getMonth()+1)+d.getDate()+".";
+	var newssOffset = 0;
+	var monthYearLabel = "";
+	var container = containerObj;
+	var loader = $("<div>",{"id":"infiniteLoader"}).append($("<p>",{"style":"text-align: center;"}).append("Loading..."));
+	var isMore = true;
+	var isProcessing = false;
+	var newsCount = renderedFeatureNews;
+	
+	containerObj.on("child_added", function(){
+		setReadMore();
+	});
+	containerObj.after(loader);
+	loadMoreEvents();
+	addLoadMoreButton();
+	
+	function loadMoreEvents(){
+		if(isMore && !isProcessing){
+			isProcessing = true;
+			loader.show();
+			$.getJSON(path+newssOffset+".html", function (data) {
+				try{
+					if(parseInt(data.resultCount,10) < 10){
+						isMore=false;
+					} else {
+						newssOffset = parseInt(data.newOffset, 10);
+					}
+					$.each(data.results, function (index, result) {
+						try{
+							containerObj.append(getNewsLi(result));
+							newsCount++;
+						}catch(e){};
+					});
+				}catch(err){}
+				loader.hide();
+				isProcessing = false;
+				containerObj.trigger('child_added');
+				if(newsCount == 0){
+					containerObj.replaceWith("<div class=\"row\"><div class=\"small-24 large-24 medium-24 columns\"><h4>News Component Empty:</h4><h5>No News Available</h5></div></div>");
+				}
+			});
+			
+		}
+	}
+	
+	function addLoadMoreButton(){
+		var $buttonDiv = $("<div>",{"id":"loadMoreEvents"});
+		var $buttonPar = $("<p>",{"style":"text-align: center;"});
+		var $buttonAnchor = $("<a>",{"class":"button", "style":"padding: 0.6rem 2rem; font-size: 0.95em; font-weight:bold;","href":"javascript:;"});
+		$buttonAnchor.click(function(e){
+			e.preventDefault();
+			loadMoreEvents(); 
+			bindScroll();
+			$("#loadMoreEvents").remove();
+		});
+		$buttonAnchor.append("LOAD MORE");
+		$buttonPar.append($buttonAnchor);
+		$buttonDiv.append($buttonPar);
+		container.after($buttonDiv);
+	}
+	
+	function bindScroll(){
+		$(window).on('scroll', function(){
+			var hT = container.offset().top,
+		       hH = container.outerHeight(),
+		       wH = $(window).height(),
+		       wS = $(this).scrollTop(); 
+			if(wS > (hT+hH-wH)){
+				loadMoreEvents();
+			}
+		});
+	}
+	function getNewsLi(result){
+		try{
+			var $newsLi = $("<li>", {"itemtype":"http://schema.org/ListItem","itemscope":"", "itemprop":"itemListElement"});
+			var $a = $("<a>", {"itemprop":"name"}).append(result.title);
+			if(result.externalUrl != null && result.externalUrl.length > 0){
+				$a.attr("href",result.externalUrl);
+				$a.attr("target","_blank");
+			}else{
+				$a.attr("href",result.url);
+				$a.attr("target","_self");
+			}
+			$newsLi.append($("<h2>").append($a));
+			if(result.date != null && result.date.length > 0){
+				var $date = $("<span>",{"itemprop":"datePublished", "content":result.date}).append(result.date);
+				$newsLi.append($date.append("<br/>"));
+			}
+			var $article = $("<article>",{"class":"newsArticle","itemprop":"description"}).append(result.text);
+			$newsLi.append($article);
+			return $newsLi;
+		}catch(e){}
+	}
+	
+	function setReadMore(){
+		try{
+			var p =$(".searchResultsList article p").first();
+			var lineHeight = Number($(p).css("line-height").match(/\d+/g)[0]); // Match digits within string (ignore "px")
+			$(".searchResultsList article").readmore({
+				speed: 75,
+				maxHeight: lineHeight * 6, // line-height of content * 6 visible lines
+				heightMargin: 16,
+				moreLink: '<a href="#">Read more</a>',
+				lessLink: '<a href="#">Close</a>',
+				embedCSS: true,
+				sectionCSS: 'display: block; width: 100%;',
+				expandedClass: 'readmore-js-expanded',
+				collapsedClass: 'readmore-js-collapsed'
+			});
+		}catch(e){
+			
+		}
+	}
+}
+	
 $(document).ready(function() {
 	$("input:hidden[name='file-upload-max-size']").each(function(index) {
 		var maxSize = parseInt($(this).val(), 10);

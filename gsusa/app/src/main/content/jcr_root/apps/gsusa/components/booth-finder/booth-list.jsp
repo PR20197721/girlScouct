@@ -6,7 +6,7 @@
 -->
 <h4>Booth Locations near you:</h4>
 <p>The nearest location is {{env.nearestDistance}} miles away from {{env.zip}}.</p>
-<form class="sort-form clearfix">
+<form action="<%=slingRequest.getRequestURI() %>" class="sort-form clearfix">
     <section>
         <label>Radius:</label>
         <select name="radius" onchange="this.form.submit()">
