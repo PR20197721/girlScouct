@@ -1,7 +1,7 @@
 
 <%@include file="/libs/foundation/global.jsp"%>
 <%@ page import="com.day.cq.tagging.TagManager,org.apache.sling.commons.json.*,java.util.ArrayList,java.util.HashSet, java.util.Locale,java.util.Arrays,java.util.Iterator,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,
-org.girlscouts.web.events.search.*"%>
+org.girlscouts.web.events.search.*, javax.jcr.Node"%>
 
 
 <%@include file="/libs/foundation/global.jsp"%>
@@ -206,29 +206,25 @@ org.girlscouts.web.events.search.*"%>
 		year = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[1],"UTF-8")));
 	}catch(Exception e){}
    }
-
-SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
-if(null==srchInfo) {
-%>
-<cq:include path="content/middle/par/event-search" resourceType="girlscouts/components/event-search" />
-<%  
-}
-srchInfo =  (SearchResultsInfo)request.getAttribute("eventresults");
-String jsonEvents = getJsonEvents(srchInfo.getResults(),resourceResolver);
-%>
-
-
-<div id="fullcalendar"></div>
-<script>
-$(document).ready(function(){
-	calendarDisplay(<%=month%>,<%=year%>,<%=jsonEvents%>);
-
-	// iOS touch fix
-	var plat = navigator.platform;
-	if( plat.indexOf("iPad") != -1 || plat.indexOf("iPhone") != -1 || plat.indexOf("iPod") != -1 ) {
-		$(".fc-event-title").bind('touchend', function() {
-			$(this).click();
-		});
-	}
-}); 
-</script>
+	%>
+	<cq:include path="content/middle/par/event-search" resourceType="girlscouts/components/event-search" />
+	<%  
+	SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
+	if(null != srchInfo) {
+		String jsonEvents = getJsonEvents(srchInfo.getResults(),resourceResolver);
+		%>
+		<div id="fullcalendar"></div>
+		<script>
+		$(document).ready(function(){
+			calendarDisplay(<%=month%>,<%=year%>,<%=jsonEvents%>);
+		
+			// iOS touch fix
+			var plat = navigator.platform;
+			if( plat.indexOf("iPad") != -1 || plat.indexOf("iPhone") != -1 || plat.indexOf("iPod") != -1 ) {
+				$(".fc-event-title").bind('touchend', function() {
+					$(this).click();
+				});
+			}
+		}); 
+		</script>
+	<%} %>

@@ -33,6 +33,22 @@ public class GSJcrSearchProvider {
 		return result;
 	}
 
+	public QueryResult search(String query) {
+		QueryResult result = null;
+		try {
+			QueryManager queryManager = session.getWorkspace().getQueryManager();
+			Query sql2Query = queryManager.createQuery(query, QUERY_LANGUAGE);
+			long startTime = System.nanoTime();
+			result = sql2Query.execute();
+			long endTime = System.nanoTime();
+			double duration = (endTime - startTime) / 1000000;
+			System.err.println("Execution of : " + query + " took " + duration + " milliseconds");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	public QueryResult searchWithOffset(String query, long limit, long offset) {
 		QueryResult result = null;
 		try {

@@ -27,7 +27,6 @@
   SearchResult results = query.getResult();
   java.util.List <Hit> resultsHits = results.getHits();
   request.setAttribute("results", results);
- 
   %>
   
   

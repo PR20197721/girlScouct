@@ -3,6 +3,8 @@
     text-transform: uppercase;
     padding-top: rem-calc(7);
     padding-bottom: rem-calc(8);
+    padding-left: rem-calc(20);
+    padding-right: rem-calc(20);
     &.tiny {
         padding-top: rem-calc(11);
         padding-bottom: rem-calc(11);
@@ -13,11 +15,11 @@
     font-size: rem-calc(20);
     font-weight: 300;
     white-space: nowrap;
-    padding-left: rem-calc(10);
+    /* padding-left: rem-calc(10); */
     z-index: 2;
     margin: 0;
     width: 100%;
-    &:after {
+    /* &:after {
         content: "";
         position: absolute;
         display: block;
@@ -27,7 +29,7 @@
         top: 50%;
         right: 0;
         margin-top: -0.71429rem;
-    }
+    } */
 }
 
 #more {
