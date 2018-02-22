@@ -8,7 +8,7 @@ javax.jcr.Node" %>
 <%@page import="java.util.Date, com.day.cq.wcm.api.WCMMode" %>
 <%
    	Resource children = resource.getChild("children");
-	if (!children.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+	if (children != null && !children.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 		Iterator<Resource>	items = children.listChildren(); 
 		if(items != null && items.hasNext()){
 			%>
@@ -49,7 +49,9 @@ javax.jcr.Node" %>
 			}
 			%></dl><%
 		}else{
-			%><p>**Edit this component to add accordions**</p><%
+			%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
 		}
+	}else{
+		%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
 	}
 %>
