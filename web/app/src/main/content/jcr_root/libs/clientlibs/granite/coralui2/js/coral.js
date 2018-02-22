@@ -73502,6 +73502,20 @@ window["Coral"]["templates"]["Multifield"]["item"] = (function anonymous(data_0
                             var afterDragElement = $item.index(ITEM_TAG_NAME) > $dragElement.index(ITEM_TAG_NAME);
                             $item.css('top', afterDragElement ? '-' + itemReorderedTop : '');
                         }
+
+                        // Scroll while dragging offscreen
+                        var container = $dragElement.parents(".cq-dialog-content"),
+                            containerTop = container.offset().top,
+                            containerBottom = containerTop + container.height(),
+                            mouseTop = event.detail.pageY;
+
+                        if (mouseTop < containerTop) {
+                            //console.log("above");
+                            container[0].scrollTop -= 2;
+                        } else if (mouseTop > containerBottom && container[0].scrollTop < (container.find("> .coral-TabPanel-content").height() - $dragElement.height())) { // Don't scroll past the bottom
+                            //console.log("below");
+                            container[0].scrollTop += 2;
+                        }
                     }
                 });
             }
