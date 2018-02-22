@@ -29,7 +29,7 @@
             for( var i=0; i < 8; i++ ){
                 id += possible.charAt(Math.floor(Math.random() * possible.length));
             }
-            el.val(id);
+            $(el).val(id);
         }
     }
     function setRemoveButtonMessage(el){
