@@ -53,14 +53,7 @@
     }
   });
   
-  %>
-  
-	<% if(WCMMode.fromRequest(request) == WCMMode.EDIT){ %>
-		<script>
-			SlideShowManager.setEditMode(true);
-		</script>
-	<% } %>
-	
+  %>	
    <div class="slide-show-target">
   <% 
 

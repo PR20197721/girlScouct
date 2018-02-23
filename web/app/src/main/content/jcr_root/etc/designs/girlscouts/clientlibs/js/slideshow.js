@@ -86,6 +86,7 @@ var SlideShowManager = (function(){
 	var target = null;
 	var currentSize = null;
 	var editMode = false;
+	var elementsAdded = 0;
 	
 	var _elements = {
 		small: [],
@@ -133,9 +134,14 @@ var SlideShowManager = (function(){
 		}
 		
 		var imageElement = $('<img>')
-			.attr('src', elementConfig.text)
 			.attr('alt', elementConfig.alt)
 			.attr('width', elementConfig.width + 'px');
+		
+		if(elementsAdded++ < 1){
+			imageElement.attr('src', elementConfig.text);
+		}else{
+			imageElement.attr('data-lazy', elementConfig.text);
+		}
 		
 		if(elementConfig.linkUrl){
 			var anchorTag = $('<a>').attr('href', elementConfig.linkUrl);
@@ -149,22 +155,17 @@ var SlideShowManager = (function(){
 			element.append(imageElement);
 		}
 		
-		return $('#' + elementConfig.targetDiv).append(element);
+		return $('#' + elementConfig.targetDiv).empty().append(element);
 	}
 	
 	function createDisplay(){
 
 		var elementsToDisplay = _elements[currentSize];
-		// var output = $();
 		
 		for(var i = 0; i < elementsToDisplay.length; i++){
 			// Create the individual display elements before adding to page.
-			//output = output.add(createSlideElement(elementsToDisplay[i]));
 			createSlideElement(elementsToDisplay[i]);
 		}
-		
-		// Append everything to the page.
-		//target.append(output);
 		
 		// Initialize Slick Slider.
 		createSlick(target);
@@ -184,13 +185,10 @@ var SlideShowManager = (function(){
 		})
 	}
 	
-	function _setEditMode(newEditMode){
-		editMode = !!newEditMode;
-	}
-	
-	function _init(targetClass){
+	function _init(targetClass, setupInEditMode){
 		
 		// Setup the initial display.
+		editMode = !!setupInEditMode;
 		target = $('.' + targetClass);
 		currentSize = determineSize();
 		createDisplay();
@@ -201,9 +199,7 @@ var SlideShowManager = (function(){
 			var newSize = determineSize();
 			if(newSize != currentSize){
 				currentSize = newSize;
-				$('<div>').addClass(targetClass).insertAfter(target);
-				target.remove();
-				target = $('.' + targetClass);
+				elementsAdded = 0;
 				createDisplay();
 			}
 		}, 500);
@@ -211,8 +207,7 @@ var SlideShowManager = (function(){
 	
 	return {
 		addElementSet: _addElementSet,
-		init: _init,
-		setEditMode: _setEditMode
+		init: _init
 	};
 	
 })();
