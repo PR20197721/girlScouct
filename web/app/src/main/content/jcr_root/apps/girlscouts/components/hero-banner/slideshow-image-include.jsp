@@ -1,7 +1,12 @@
  <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-<%@page import="java.util.Random,java.util.List,java.util.ArrayList,java.util.Date,
-java.util.Collections,java.util.Comparator" %>
+<%@page import="java.util.Random,
+				java.util.List,
+				java.util.ArrayList,
+				java.util.Date,
+				java.util.Collections,
+				java.util.Comparator,
+				com.day.cq.wcm.api.WCMMode" %>
  <%!
    int slideShowCount=0;
    //int timer = 0;
@@ -42,43 +47,54 @@ java.util.Collections,java.util.Comparator" %>
           sortOrder2 = node2.getProperty("sortOrder").getString();
         }
       } catch (Exception e) {
-    	e.printStackTrace(); 
-      } 
+    	e.printStackTrace();
+      }
       return sortOrder1.compareToIgnoreCase(sortOrder2);
     }
   });
+  
+  %>
+  
+	<% if(WCMMode.fromRequest(request) == WCMMode.EDIT){ %>
+		<script>
+			SlideShowManager.setEditMode(true);
+		</script>
+	<% } %>
+	
+   <div class="slide-show-target">
+  <% 
 
   // assign new iterator  
   images = imageList.iterator();
-
-	System.out.println("About to create slideshow images");	
 	for(int i=1; i<slideShowCount+1;i++){
         imgName = "";
-        System.out.println("Writing hero slideshow image. Slideshow count is: " + slideShowCount + " i is: " + i);
 		if(images.hasNext()){
 			Resource imgResource = images.next();
 			imagePath = imgResource.getPath();
 			imgName = imgResource.getName();
-			slingRequest.setAttribute("hero-banner-path", imagePath );
 			%>
-			<div>        
-				<cq:include script="/apps/girlscouts/components/hero-banner/slideshow-image.jsp" />  
+			<div>
+				<div>
+					<cq:include path="<%=imagePath%>" resourceType="girlscouts/components/hero-slideshow-images"/>  
+				</div>
 			</div> 
 		<% 	//path = imgName;
 		}
 		else{
-			String placeHolderName = resource.getPath()+"/hero_banner_"+i;
-			slingRequest.setAttribute("hero-banner-path", placeHolderName );
+           	String path = "Image_" + new Date().getTime()+blank_number;//new slide-show-image component created with empty image.
+            blank_number++;
 			%>
 			<div>        
-				<cq:include script="/apps/girlscouts/components/hero-banner/slideshow-image.jsp" />  
+				<div>
+					<cq:include path="<%=path%>" resourceType="girlscouts/components/hero-slideshow-images"/>  
+				</div>
 			</div> 
-			<%
+			<%  //path = "";
+			imgName="";
 		}%>
 		
 	<%}%>
-
-	<div class="slide-show-target"></div>
+	</div>
 	<script>
-		SlideShowManager.init("slide-show-target");
+		SlideShowManager.init("slide-show-target", <%= WCMMode.fromRequest(request) == WCMMode.EDIT %>);
 	</script>

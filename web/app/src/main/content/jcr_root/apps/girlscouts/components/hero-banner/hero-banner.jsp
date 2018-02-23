@@ -49,8 +49,3 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT){
 	<% }else{%>
 	 <cq:include script="default-sboard-rendition.jsp"/>
 <%} %>
- <% if("true".equals(editFlag)){ %>
- 	<script>
- 		SlideShowManager.setEditMode(true);
- 	</script>
- <% } %>

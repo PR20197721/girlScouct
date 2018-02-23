@@ -3,6 +3,7 @@
 				java.util.Iterator,com.day.cq.wcm.api.WCMMode,
 				java.util.List,
 				java.util.ArrayList,
+				java.util.Random,
 				org.apache.sling.commons.json.JSONArray,
 				org.apache.sling.commons.json.JSONException,
 				com.google.gson.Gson,
@@ -74,8 +75,11 @@
 		}
    }
 %>
-
+<%
+	String slideShowElementId = "SlideShowElement_" + new Random().nextInt(10000) + 1000;
+%>
+<div id="<%= slideShowElementId %>"></div>
 <script>
-	SlideShowManager.addElementSet(<%= new Gson().toJson(slideShowElements) %>);
+	SlideShowManager.addElementSet(<%= new Gson().toJson(slideShowElements) %>, "<%= slideShowElementId %>");
 </script>
 

@@ -93,7 +93,7 @@ var SlideShowManager = (function(){
 		regular: []
 	};
 	
-	function _addElementSet(newElements){
+	function _addElementSet(newElements, targetDiv){
 		if(!newElements){
 			return;
 		}
@@ -102,6 +102,7 @@ var SlideShowManager = (function(){
 				if(_elements[newElements[i].size] == null){
 					_elements[newElements[i].size] = [];
 				}
+				newElements[i].targetDiv = targetDiv;
 				_elements[newElements[i].size].push(newElements[i]);
 			}catch(err){
 				console.warn('Bad element size: "small", "medium", "normal" supported.', err);
@@ -122,44 +123,56 @@ var SlideShowManager = (function(){
 		}
 	}
 	
+	function createSlideElement(elementConfig){
+		var element = $('<div>').addClass('slide-show-element');
+		
+		// Append raw html (probably message).
+		if(elementConfig.text[0] != '/'){
+			element.append(elementConfig.text)
+			return element;
+		}
+		
+		var imageElement = $('<img>')
+			.attr('src', elementConfig.text)
+			.attr('alt', elementConfig.alt)
+			.attr('width', elementConfig.width + 'px');
+		
+		if(elementConfig.linkUrl){
+			var anchorTag = $('<a>').attr('href', elementConfig.linkUrl);
+			
+			// Open non-relative links in new window.
+			if(elementConfig.forceNewWindow){
+				anchorTag.attr('target', '_new');
+			}
+			element.append(anchorTag.append(imageElement));
+		}else{
+			element.append(imageElement);
+		}
+		
+		return $('#' + elementConfig.targetDiv).append(element);
+	}
+	
 	function createDisplay(){
 
 		var elementsToDisplay = _elements[currentSize];
-		var output = $();
+		// var output = $();
 		
-		// Create the individual display elements.
 		for(var i = 0; i < elementsToDisplay.length; i++){
-			var element = $('<div>').addClass('slide-show-element');
-			
-			// Append raw html (probably message).
-			if(elementsToDisplay[i].text[0] != '/'){
-				output.append(element.append(elementsToDisplay[i].text));
-				continue;
-			}
-			
-			var imageElement = $('<img>')
-				.attr('src', elementsToDisplay[i].text)
-				.attr('alt', elementsToDisplay[i].alt)
-				.attr('width', elementsToDisplay[i].width + 'px');
-			
-			if(elementsToDisplay[i].linkUrl){
-				var anchorTag = $('<a>').attr('href', elementsToDisplay[i].linkUrl);
-				
-				// Open non-relative links in new window.
-				if(elementsToDisplay[i].forceNewWindow){
-					anchorTag.attr('target', '_new');
-				}
-				element.append(anchorTag.append(imageElement));
-			}else{
-				element.append(imageElement);
-			}
-			
-			output = output.add(element);
+			// Create the individual display elements before adding to page.
+			//output = output.add(createSlideElement(elementsToDisplay[i]));
+			createSlideElement(elementsToDisplay[i]);
 		}
 		
 		// Append everything to the page.
-		target.append(output).slick({
-		    autoplay: editMode,
+		//target.append(output);
+		
+		// Initialize Slick Slider.
+		createSlick(target);
+	}
+	
+	function createSlick(target){
+		target.slick({
+		    autoplay: !editMode,
 		    autoplaySpeed: 6000,
 		    arrows: true,
 		    dots: false,
@@ -168,8 +181,11 @@ var SlideShowManager = (function(){
 		    slidesToShow: 1,
 		    slidesToScroll: 1,
 		    lazyLoad: 'ondemand'
-		});
-		
+		})
+	}
+	
+	function _setEditMode(newEditMode){
+		editMode = !!newEditMode;
 	}
 	
 	function _init(targetClass){
@@ -191,10 +207,6 @@ var SlideShowManager = (function(){
 				createDisplay();
 			}
 		}, 500);
-	}
-	
-	function _setEditMode(mode){
-		editMode = mode;
 	}
 	
 	return {
