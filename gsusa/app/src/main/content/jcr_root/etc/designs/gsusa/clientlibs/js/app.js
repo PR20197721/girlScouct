@@ -1,6 +1,6 @@
 /*jslint browser: true, eqeq: true*/
-/*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console */
-/*global homeCarouselTimeDelay, homeCarouselAutoScroll, homeCarouselAutoPlaySpeed, videoSliderAuto, videoSliderDelay, shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL, joinRedirectAutoplaySpeed, joinRedirectSpeed */
+/*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console, Modernizr */
+/*global shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL, joinRedirectAutoplaySpeed, joinRedirectSpeed */
 
 //
 //
@@ -8,6 +8,11 @@
 // https://google.github.io/styleguide/javascriptguide.xml#Naming
 //
 //
+var isRetina = (
+    window.devicePixelRatio > 1 ||
+    (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
+);
+
 var boundHashForms = {};
 
 function bindSubmitHash(form) {
@@ -152,14 +157,44 @@ function fixSlickSlideActive() {
     $(document).foundation();
 
     var isIE11 = false,
+        isNewerThanIE9 = true,
+        MEDIUM_ONLY = 768,
+        mobile = false,
         homepageScrollTopPos,
         lastAfterSlick = null,
         carouselSliderPropogate = true,
         ImageMap,
-        imageMap;
+        imageMap,
+        SlickPlayer,
+        Underbar;
 
     if (navigator.userAgent.indexOf("Trident\/7") != -1 && parseFloat($.browser.version) >= 11) {
         isIE11 = true;
+    }
+
+    function isMobile() { //https://stackoverflow.com/questions/19291873/window-width-not-the-same-as-media-query
+        return Modernizr.mq('(max-width: ' + MEDIUM_ONLY + 'px)');
+    }
+    mobile = isMobile();
+    $(window).on("resize", function () {
+        if (isMobile() !== mobile) { // Trigger once when the breakpoint is passed
+            mobile = !mobile;
+            $(window).trigger("breakpoint");
+            //console.log("Mobile is: " + mobile);
+        }
+    });
+
+    // YouTube API loaded
+    function ytLoaded() {
+        return YT && YT.Player;
+    }
+
+    if (ytLoaded()) {
+        $(window).trigger("ytLoaded");
+    } else {
+        window.onYouTubeIframeAPIReady = function () {
+            $(window).trigger("ytLoaded");
+        };
     }
 
     //add height to the content for the footer to be always at the bottom.
@@ -173,27 +208,6 @@ function fixSlickSlideActive() {
         $(".join-volunteer").css({
             "min-height": "initial"
         });
-    }
-
-    function pauseAllCarouselVideos() {
-        var vimeoPlayer,
-            youtubePlayer,
-            vidPlayer,
-            i;
-
-        for (i = 0; i < 4; i += 1) {
-            vimeoPlayer = $("#vimeoPlayer" + i);
-            youtubePlayer = $("#youtubePlayer" + i);
-            vidPlayer = $(".vid" + i + " video");
-
-            if (vimeoPlayer.length > 0) { // Vimeo
-                vimeoPlayer.api('pause');
-            } else if (youtubePlayer.length > 0) { // YouTube
-                youtubePlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-            } else if (vidPlayer.length > 0) { // Vid
-                vidPlayer.pause();
-            }
-        }
     }
 
     function document_close_all() {
@@ -349,6 +363,44 @@ function fixSlickSlideActive() {
         });*/
     }
 
+    (function getInternetExplorerVersion() {
+        //Returns the version of Internet Explorer or a -1
+        //(indicating the use of another browser).
+
+        var rv = -1, // Return value assumes failure.
+            ua,
+            re;
+        if (navigator.appName == 'Microsoft Internet Explorer') {
+            ua = navigator.userAgent;
+            re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+            if (re.exec(ua) != null) {
+                rv = parseFloat(RegExp.$1);
+            }
+        }
+        if (rv > -1 && rv <= 9.0) {
+            console.log("No auto slide due to browser incompatibility");
+            isNewerThanIE9 = false;
+        }
+        return rv;
+    }());
+
+    function getJSONFromAttr(el, attr) {
+        var jsonData = el.attr(attr);
+        if (jsonData) {
+            return JSON.parse(jsonData);
+        } else {
+            return {};
+        }
+    }
+
+    function getSlickOptions(el) {
+        var options = getJSONFromAttr(el, "slick-options");
+        if (!isNewerThanIE9) {
+            options.autoplay = false;
+        }
+        return options;
+    }
+
     $('.shop-slider').slick({
         dots: false,
         infinite: false,
@@ -358,7 +410,7 @@ function fixSlickSlideActive() {
         slidesToShow: 3,
         slidesToScroll: 1,
         responsive: [{
-            breakpoint: 768,
+            breakpoint: MEDIUM_ONLY,
             settings: {
                 slidesToShow: 1
             }
@@ -402,7 +454,7 @@ function fixSlickSlideActive() {
                     try {
                         gsusa.functions.ToggleParsysAll.toggleAll(true);
                     } catch (ignore) {}
-                    if ($(window).width() <= 768) {
+                    if (mobile) {
                         /*
                         $(".off-canvas-wrap").css({
                             'position': 'fixed'
@@ -431,7 +483,7 @@ function fixSlickSlideActive() {
                 });
                 //closing the section by clicking on the cross
                 target.find('.icon-cross').on("click", function (e) {
-                    if ($(window).width() <= 768) {
+                    if (mobile) {
                         window.scrollTo(0, homepageScrollTopPos); // go back to previous window Y position
                     }
                     target.removeClass("shown");
@@ -467,25 +519,30 @@ function fixSlickSlideActive() {
         });
     }
     */
-    $('.main-slider').slick({
-        dots: false,
-        speed: (typeof homeCarouselTimeDelay != 'undefined') ? homeCarouselTimeDelay : 1000,
-        fade: false,
-        autoplay: (typeof homeCarouselAutoScroll != 'undefined') ? homeCarouselAutoScroll : false,
-        arrows: true,
-        autoplaySpeed: (typeof homeCarouselAutoPlaySpeed != 'undefined') ? homeCarouselAutoPlaySpeed : 2000,
-        cssEase: 'linear',
-        slidesToShow: 1,
-        infinite: true,
-        responsive: [{
-            breakpoint: 480,
-            settings: {
-                arrows: true,
-                centerMode: true,
-                centerPadding: '30px'
-            }
-        }]
+
+    $('.main-slider').each(function () {
+        var slickOptions = getSlickOptions($(this));
+        $(this).slick({
+            dots: false,
+            speed: slickOptions.speed || 1000,
+            fade: false,
+            autoplay: slickOptions.autoplay || false,
+            arrows: true,
+            autoplaySpeed: slickOptions.autoplaySpeed || 2000,
+            cssEase: 'linear',
+            slidesToShow: 1,
+            infinite: true,
+            responsive: [{
+                breakpoint: 480,
+                settings: {
+                    arrows: true,
+                    centerMode: true,
+                    centerPadding: '30px'
+                }
+            }]
+        });
     });
+
     $(".article-carousel .article-slider").slick({
         lazyLoad: 'ondemand',
         slidesToShow: 3,
@@ -579,11 +636,7 @@ function fixSlickSlideActive() {
             }
         });
     } //END OF EXPLORER CLICK FUNCTION
-    /*
-    $('.inner-sliders .slide-4').on('afterChange', function (event, slick, currentSlide) {
-        pauseAllCarouselVideos();
-    });
-    */
+
     $('.inner-sliders .inner').on('init reInit afterChange', function (slick, currentSlide, index) {
         var item_length = $('.inner-sliders .inner > .slick-list > .slick-track > li').length - 1;
         if (item_length == index) {
@@ -629,7 +682,7 @@ function fixSlickSlideActive() {
     }
 
     function small_screens() {
-        if ($(window).width() < 769) {
+        if (mobile) {
             $('.overlay').hide();
             $(".hero-text .button").hide();
         } else {
@@ -666,25 +719,28 @@ function fixSlickSlideActive() {
         imageMap.resize();
     }
 
-    $('.video-slider-wrapper').slick({
-        dots: false,
-        speed: 500,
-        fade: false,
-        autoplay: (typeof videoSliderAuto != 'undefined') ? videoSliderAuto : false,
-        autoplaySpeed: (typeof videoSliderDelay != 'undefined') ? videoSliderDelay : 2000,
-        cssEase: 'linear',
-        centerMode: true,
-        slidesToShow: 1,
-        centerPadding: '100px',
-        touchMove: true,
-        responsive: [{
-            breakpoint: 480,
-            settings: {
-                arrows: false,
-                centerMode: true,
-                centerPadding: '30px'
-            }
-        }]
+    $('.video-slider-wrapper').each(function () {
+        var slickOptions = getSlickOptions($(this));
+        $(this).slick({
+            dots: false,
+            speed: 500,
+            fade: false,
+            autoplay: slickOptions.autoplay || false,
+            autoplaySpeed: slickOptions.autoplaySpeed || 2000,
+            cssEase: 'linear',
+            centerMode: true,
+            slidesToShow: 1,
+            centerPadding: '100px',
+            touchMove: true,
+            responsive: [{
+                breakpoint: 480,
+                settings: {
+                    arrows: true,
+                    centerMode: true,
+                    centerPadding: '30px'
+                }
+            }]
+        });
     });
 
     $('.join-redirect-slider').slick({
@@ -713,7 +769,7 @@ function fixSlickSlideActive() {
             autoplaySpeed: (typeof shoptimedelay != 'undefined') ? shoptimedelay : 2000,
             slidesToScroll: 1
                 /*responsive: [{
-                    breakpoint: 768,
+                    breakpoint: MEDIUM_ONLY,
                     settings: {
                         slidesToShow: 1
                     }
@@ -736,27 +792,305 @@ function fixSlickSlideActive() {
             slidesToScroll: 1,
             fade: true
                 /*responsive: [{
-                    breakpoint: 768,
+                    breakpoint: MEDIUM_ONLY,
                     settings: {
                         slidesToShow: 1
                     }
                 }]*/
         });
     }
-    /*
-    window.onYouTubeIframeAPIReady = function() {
-        loadYoutubeAPI();
-        $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
-    };
-    */
-    function loadYTScript() {
-        if (typeof (YT) == 'undefined' || typeof (YT.Player) == 'undefined') {
-            var tag = document.createElement('script'),
-                firstScriptTag = document.getElementsByTagName('script')[0];
-            tag.src = "https://www.youtube.com/iframe_api";
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    $.fn.lazyLoad = function () {
+        var self = this,
+            attr = {
+                "src": "data-src",
+                "href": "data-href"
+            },
+            src;
+
+        for (src in attr) {
+            if (attr.hasOwnProperty(src) && (!self.attr(src) || self.attr(src) === "") && self.attr(attr[src])) {
+                // If the key is undefined or empty and the value exists, set the key to the value
+                self.attr(src, self.attr(attr[src]));
+            }
         }
-    }
+
+        return self;
+    };
+
+    //
+    //
+    // SLICK CAROUSEL VIDEO PLAYER
+    //
+    //
+    SlickPlayer = {
+        init: function (params) {
+            var self = this; // Lexical closure
+
+            self.iframe = params.iframe;
+            self.slick = params.slick;
+            self.autoplay = params.autoplay;
+            self.type = self.iframe.attr('id').toLowerCase();
+            self.underbar = params.underbar;
+            self.placeholder = self.iframe.siblings(".vid-placeholder");
+            self.thumbnail = self.placeholder.find("img");
+
+            // Set config from component
+            self.config = { // Determine how player behaves
+                thumbnail: { // If there is a thumbnail, do not interact with the player until the user requests it
+                    desktop: false,
+                    mobile: false,
+                    isActive: self.isActive
+                },
+                link: { // If the thumbnail opens the video in a new tab, there is no need to interact with the player
+                    desktop: false,
+                    mobile: false,
+                    isActive: self.isActive
+                }
+            };
+            switch (params.config.desktop) {
+            case "thumbnail":
+                self.config.thumbnail.desktop = true;
+                self.config.link.desktop = false;
+                break;
+            case "link":
+                self.config.thumbnail.desktop = true;
+                self.config.link.desktop = true;
+                break;
+            }
+            switch (params.config.mobile) {
+            case "thumbnail":
+                self.config.thumbnail.mobile = true;
+                self.config.link.mobile = false;
+                break;
+            case "link":
+                self.config.thumbnail.mobile = true;
+                self.config.link.mobile = true;
+                break;
+            }
+
+            // Lazy load thumbnail and link if used
+            if (self.config.thumbnail.desktop || self.config.thumbnail.mobile) {
+                self.thumbnail.lazyLoad();
+                self.toggleThumbnail();
+                $(window).on("breakpoint", function () {
+                    self.toggleThumbnail();
+                });
+            } else {
+                self.createPlayer(); // Load video right away if no thumbnail
+            }
+            if (self.config.link.desktop || self.config.link.mobile) {
+                self.placeholder.lazyLoad();
+            }
+
+            // Underbar events
+            self.underbar.input.on("focus", function () {
+                self.stopSlider();
+            }).on("focusout", function () {
+                self.startSlider();
+            });
+
+            // Placeholder events
+            self.placeholder.on("click", function (event) {
+                if (!self.config.link.isActive()) { // If using the thumbnail as a lazyload placeholder
+                    event.preventDefault(); // Prevent anchor tag from opening link
+                    event.stopPropagation();
+                    self.play();
+                }
+            });
+        },
+        playing: false,
+        playVideo: function () {}, // Wrapper for API call
+        unloadVideo: function () {}, // Wrapper for API call
+        isActive: function () {
+            return (this.desktop && !mobile) || (this.mobile && mobile);
+        },
+        toggleThumbnail: function () {
+            if (this.config.thumbnail.isActive()) {
+                this.slick.addClass("thumbnail");
+            } else {
+                this.slick.removeClass("thumbnail");
+                this.createPlayer(); // Load video right away if no thumbnail
+            }
+        },
+        stopSlider: function () {
+            if (this.autoplay) {
+                this.slick.slick('slickPause');
+                this.slick.slick('slickSetOption', 'autoplay', false, false);
+                this.slick.slick('autoPlay', $.noop);
+            }
+            if (!this.underbar.isFocused() && !this.config.link.isActive()) {
+                this.underbar.hide();
+            }
+        },
+        startSlider: function () {
+            if (this.autoplay) {
+                this.slick.slick('slickPlay');
+                this.slick.slick('slickSetOption', 'autoplay', true, false);
+                this.slick.slick('autoPlay', $.noop);
+            }
+            if (!this.underbar.isFocused() && !this.config.link.isActive()) {
+                this.underbar.show();
+            }
+        },
+        createPlayer: function () {
+            var self = this;
+
+            if (self.iframe.attr("src")) { // Prevent player reinstantiation 
+                return;
+            }
+
+            // Assign embed url
+            self.iframe.lazyLoad();
+
+            // Load event
+            self.iframe.on("playerLoad", function () {
+                if (self.config.thumbnail.isActive()) { // If using thumbnail for lazy load, call play functions when thumbnail is clicked
+                    self.play();
+                }
+            });
+
+            // Play event
+            self.iframe.on("play", function () {
+                if (!self.config.thumbnail.isActive()) { // If not using a thumbnail for lazy load, call play functions when video is played
+                    self.play();
+                }
+            });
+
+            // Unload event
+            self.slick.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+                if (self.playing) {
+                    self.unload();
+                }
+            });
+
+            // Instantiate player
+            if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
+                self.createVimeoPlayer();
+            } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
+                if (ytLoaded()) {
+                    self.createYTPlayer();
+                } else {
+                    $(window).on("ytLoaded", function () { // Wait until API script loads if it has not already
+                        self.createYTPlayer();
+                    });
+                }
+            }
+        },
+        play: function () {
+            var self = this;
+
+            self.createPlayer(); // Load player if not already loaded
+            self.stopSlider();
+            if (!mobile) { // Browsers will block programmatic playback on mobile anyway, prevent Vimeo bug by manually prohibiting
+                self.playVideo();
+            }
+            self.slick.addClass("playing");
+            self.playing = true;
+        },
+        unload: function () {
+            var self = this;
+
+            self.startSlider();
+            self.unloadVideo();
+            self.slick.removeClass("playing");
+            self.playing = false;
+        },
+        createVimeoPlayer: function () {
+            var self = this;
+            self.player = new Vimeo.Player(self.iframe.attr('id'));
+
+            self.player.on("loaded", function () {
+                // State functions
+                self.playVideo = function () {
+                    self.player.play();
+                };
+                self.unloadVideo = function () {
+                    self.player.unload();
+                };
+
+                // Listener events
+                self.player.on('play', function () {
+                    self.iframe.trigger("play");
+                });
+
+                // Load
+                self.iframe.trigger("playerLoad");
+            });
+        },
+        createYTPlayer: function () {
+            var self = this;
+            self.player = new YT.Player(self.iframe.attr('id'));
+
+            self.player.addEventListener("onReady", function () {
+                // State functions
+                self.playVideo = function () {
+                    self.player.playVideo();
+                };
+                self.unloadVideo = function () {
+                    self.player.stopVideo();
+                };
+
+                // Listener events
+                self.player.addEventListener("onStateChange", function (event) {
+                    if (event.data == YT.PlayerState.BUFFERING) { // Bind to buffering event to prevent delay before triggering play state
+                        self.iframe.trigger("play");
+                    }
+                });
+
+                // Load
+                self.iframe.trigger("playerLoad");
+            });
+        }
+    };
+
+    Underbar = {
+        init: function (el) {
+            this.el = el;
+            this.input = el.find('input');
+        },
+        show: function () {
+            if (this.el.length && !mobile) { // Desktop only
+                this.el.slideDown(1000);
+            }
+        },
+        hide: function () {
+            if (this.el.length && !mobile) {
+                this.el.slideUp(0);
+            }
+        },
+        isFocused: function () {
+            if (this.input.length) {
+                return this.input.is(":focus");
+            }
+        }
+
+    };
+
+    // Instantiate SlickPlayers and Underbars
+    $('.slick-slider').each(function () {
+        // For each embed, create player events (Make sure player.js is loaded first)
+        var slick = $(this),
+            autoplay = slick.slick('slickGetOption', 'autoplay'),
+            underbar = Object.create(Underbar),
+            config = getJSONFromAttr(slick, "player-config");
+        underbar.init(slick.parent().find('.zip-council'));
+
+        slick.find("iframe").each(function () {
+            Object.create(SlickPlayer).init({
+                iframe: $(this),
+                slick: slick,
+                autoplay: autoplay,
+                underbar: underbar,
+                config: config
+            });
+        });
+    }).on('swipeMove', function (event) {
+        // Disable mouse/click events for slides when swiping (prevent videos from playing after swipe)
+        $(this).addClass("dragging");
+    }).on('swipeEnd', function (event) {
+        $(this).removeClass("dragging");
+    });
 
     function hide_show_cookie() {
         $('#meet-cookie-layout section').hide();
@@ -774,14 +1108,12 @@ function fixSlickSlideActive() {
     //join_now();
     shop_rotator();
     welcome_cookie_slider();
-    loadYTScript();
-    $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
     //camp_finder();
     $(window).resize(function () {
         small_screens();
     });
     $(window).resize(function (event) {
-        //if($(window).width() > 768) {
+        //if(!mobile) {
         //  iframeClick();
         //} else {
         $("iframe").off("mouseenter mouseleave");
@@ -823,91 +1155,91 @@ function fixSlickSlideActive() {
     // Sticky Nav
     //
     //
-    var desktopHeader = $(".header"),
-        mobileHeader = $(".tab-bar"),
-        header,
-        headerHeight,
-        desktopPlaceholder = $(".header-placeholder"),
-        mobilePlaceholder = $(".tab-bar-placeholder"),
-        placeholder,
-        trigger = false,
-        fixed = false,
-        fixedClass = "sticky-nav-fixed",
-        offset = 0,
-        desktopStickyOffset = 0,
-        MEDIUM_ONLY = 768,
-        mobile = $(window).width() <= MEDIUM_ONLY;
+    (function () {
+        var desktopHeader = $(".header"),
+            mobileHeader = $(".tab-bar"),
+            header,
+            headerHeight,
+            desktopPlaceholder = $(".header-placeholder"),
+            mobilePlaceholder = $(".tab-bar-placeholder"),
+            placeholder,
+            trigger = false,
+            fixed = false,
+            fixedClass = "sticky-nav-fixed",
+            offset = 0,
+            desktopStickyOffset = 0;
 
-    function setOffset() {
-        // Set placeholders
-        headerHeight = header.height();
-        placeholder.height(headerHeight);
-        
-        // Set offset
-        if (!mobile) { // Desktop header
-            header.addClass(fixedClass);
-            desktopStickyOffset = headerHeight - header.height(); // Change header to sticky and change back to get height difference
-            header.removeClass(fixedClass);
+        function setOffset() {
+            // Set placeholders
+            headerHeight = header.height();
+            placeholder.height(headerHeight);
 
-            offset = header.offset().top + desktopStickyOffset;
-        } else { // Mobile header
-            offset = header.offset().top;
-        }
-        
-        // Reset fix
-        $(window).trigger("scroll");
-    }
-
-    function switchHeader() {
-        // Unfix previous header
-        if (header && placeholder) {
-            header.removeClass(fixedClass);
-            placeholder.hide();
-            fixed = false;
-        }
-
-        // Set new header
-        header = mobile ? mobileHeader : desktopHeader;
-        placeholder = mobile ? mobilePlaceholder : desktopPlaceholder;
-        
-        // Set offset
-        setOffset();
-    }
-
-    if ($(".header.sticky-nav").length) {
-        // On load
-        switchHeader();
-
-        // Reset offset on resize
-        $(window).on("resize", function () {
-            if ($(window).width() > MEDIUM_ONLY === mobile) { // Trigger once when the breakpoint is passed
-                mobile = !mobile;
-                //console.log("Mobile is: " + mobile);
-                switchHeader();
-            }
-            if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
-                //console.log("Old height: " + headerHeight);
-                //console.log("New height: " + header.height());
-                setOffset();
-            }
-        });
-
-        // Sticky header
-        $(window).on("scroll", function () {
-            trigger = $(window).scrollTop() > offset;
-            if (trigger && !fixed) { // Trigger once to fix header
-                fixed = true;
+            // Set offset
+            if (!mobile) { // Desktop header
                 header.addClass(fixedClass);
-                placeholder.show();
-                //console.log("fixed");
-            } else if (!trigger && fixed) { // Trigger once to unfix header
-                fixed = false;
+                desktopStickyOffset = headerHeight - header.height(); // Change header to sticky and change back to get height difference
+                header.removeClass(fixedClass);
+
+                offset = header.offset().top + desktopStickyOffset;
+            } else { // Mobile header
+                offset = header.offset().top;
+            }
+
+            // Reset fix
+            $(window).trigger("scroll");
+        }
+
+        function switchHeader() {
+            // Unfix previous header
+            if (header && placeholder) {
                 header.removeClass(fixedClass);
                 placeholder.hide();
-                //console.log("static");
+                fixed = false;
             }
-        });
-    }
+
+            // Set new header
+            header = mobile ? mobileHeader : desktopHeader;
+            placeholder = mobile ? mobilePlaceholder : desktopPlaceholder;
+
+            // Set offset
+            setOffset();
+        }
+
+        if ($(".header.sticky-nav").length) {
+            // On load
+            switchHeader();
+
+            // Change header for desktop vs. mobile
+            $(window).on("breakpoint", function () {
+                switchHeader();
+            });
+
+            // Reset offset on resize
+            $(window).on("resize", function () {
+                if (Math.abs(header.height() - headerHeight) > 1) { // Trigger once when the height changes
+                    //console.log("Old height: " + headerHeight);
+                    //console.log("New height: " + header.height());
+                    setOffset();
+                }
+            });
+
+            // Sticky header
+            $(window).on("scroll", function () {
+                trigger = $(window).scrollTop() > offset;
+                if (trigger && !fixed) { // Trigger once to fix header
+                    fixed = true;
+                    header.addClass(fixedClass);
+                    placeholder.show();
+                    //console.log("fixed");
+                } else if (!trigger && fixed) { // Trigger once to unfix header
+                    fixed = false;
+                    header.removeClass(fixedClass);
+                    placeholder.hide();
+                    //console.log("static");
+                }
+            });
+        }
+    }());
 }(jQuery));
 
 //
@@ -915,37 +1247,6 @@ function fixSlickSlideActive() {
 // Helper Functions
 //
 //
-
-function stopSlider() {
-    'use strict';
-    var slick = $('.video-slider-wrapper');
-    if (slick !== undefined && slick.slick !== undefined) {
-        slick.slick('slickPause');
-        slick.slick('slickSetOption', 'autoplay', false, false);
-        slick.slick('autoPlay', $.noop);
-    }
-}
-
-function attachEventPlayer(player) {
-    'use strict';
-    player.on('play', function () {
-        stopSlider();
-    });
-}
-
-function attachListenerToVideoSlider() {
-    'use strict';
-    var iframe,
-        player,
-        i;
-    for (i = 0; i < $('.vid-slide-wrapper iframe').length; i += 1) {
-        iframe = $('.vid-slide-wrapper iframe')[i];
-        if ($(iframe).hasClass("vimeo")) {
-            player = new Vimeo.Player($(iframe));
-            attachEventPlayer(player);
-        }
-    }
-}
 
 // useful utility printer of object properties
 function printObjectProperties(objectToInspect) {
@@ -1056,3 +1357,23 @@ function seeMoreScale() {
         }
     });
 }
+
+
+$(document).ready(function() {
+	$("input:hidden[name='file-upload-max-size']").each(function(index) {
+		var maxSize = parseInt($(this).val(), 10);
+		if(maxSize > -1){
+			$(this).closest("form").find("input:file").change(function() {
+				if(typeof this.files[0] !== 'undefined'){
+		            if(maxSize > -1){
+		                size = this.files[0].size;
+		                if(maxSize * 1000000 < size){
+		                	alert("File size cannot be larger than "+maxSize+" MB.");
+		                	$(this).val('');
+		                }
+					}
+				}
+			});
+		}
+	});
+});

@@ -3,11 +3,9 @@
 <%@page session="false" %>
 <%
 String path = properties.get("path","");
-if((path.isEmpty() || !path.endsWith(".swf") )&& WCMMode.fromRequest(request) == WCMMode.EDIT){
-		%> Please select a .swf file  <%	
-}
-
-else{
+if(path.isEmpty() || !path.endsWith(".swf")){
+		%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%	
+}else{
 	String width = properties.get("width","100%");
 	String height = properties.get("height","100%");
 	String scale = properties.get("scale","default");

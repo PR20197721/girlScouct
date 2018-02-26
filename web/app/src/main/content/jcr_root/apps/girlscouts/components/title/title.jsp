@@ -18,11 +18,9 @@
     {
        title = currentPage.getTitle();
     }    
-  if (title==null && WCMMode.fromRequest(request) == WCMMode.EDIT)
+  if (title==null)
   {
-  %>
-     ##### Please Enter Title ######.
-  <% }else
+  %><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><% }else
   {
 	  String type = properties.get("type", String.class);
     // Get Type -

@@ -5,8 +5,9 @@
 	String html = properties.get("html", "");
 	String javascript = properties.get("javascript","");
 
-    if (html.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-		%>##### Embedded Flash #####<%
+    if (html.isEmpty()) {
+		%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>
+		 <script><%= javascript %></script><%
     } else {
         // Mike Z. We need this extra div because of a CQ bug on iframe.
         // It is trying to correct iframe height but in a wrong way.

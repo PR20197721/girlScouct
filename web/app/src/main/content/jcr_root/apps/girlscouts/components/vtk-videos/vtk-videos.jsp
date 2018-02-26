@@ -9,8 +9,8 @@
 	String tag = properties.get("tag", "");
 	String flag = "VIDEO";
 
-    if ( "".equals(name) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-		%>##### VTK VIDEOS FOR NASA #####<%
+    if ( "".equals(name)) {
+		%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
     } else {
         %><div class="vtk-video-container">
         <p>

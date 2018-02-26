@@ -6,7 +6,7 @@
         org.apache.sling.api.resource.ResourceUtil" %>
         <%@page import="com.day.cq.wcm.api.WCMMode" %>
         
-     
+<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>     
 <%
   	String title = properties.get("title", String.class);
 	if(title == null || title.trim().length() == 0){
@@ -17,11 +17,5 @@
 	} 
   	if(title != null && title.trim().length() > 0){
        %><h1><%=title.trim()%></h1><% 
-  	}else{
-	  	if (WCMMode.fromRequest(request) == WCMMode.EDIT){
-		  %>
-		     <h1> Please Enter  Title </h1>
-		  <%
-	  	}
   	}
 %>

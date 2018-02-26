@@ -52,8 +52,8 @@
   <ul>
 
   <% 
-    if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-      %> ##### Footer Navigation Placeholder ##### <% }
+    if (links == null || links.length == 0) {
+      %><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><% }
       else {
         for (int i = 0; i < links.length; i++) {
           String[] values = links[i].split("\\|\\|\\|");
