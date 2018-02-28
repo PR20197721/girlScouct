@@ -181,12 +181,12 @@ if ((links == null || links.length == 0)) {
                     %><li class="<%=hasChildren%><%=activeStatus%>">
                         <a class="show-for-large-up menu <%=clazz%>" href="<%=path%>"><%=label%></a>
                         <a class="show-for-medium-only menu <%=clazz%>" href="<%=path%>"><%=mLabel%></a><%
-                        try{
-                            if(flyPage != null){
-                                String flyRight = (i < links.length/2) ? " right" : "";
+                        try {
+                            if (flyPage != null) {
+                                String flyRight = (i <= links.length/2) ? " right" : "";
                                 out.print(buildFlyOutMenu(flyPage, flyRight));
                             }
-                        }catch (Exception e){}
+                        } catch (Exception e) {}
                     %></li><%
                 }
         	}
