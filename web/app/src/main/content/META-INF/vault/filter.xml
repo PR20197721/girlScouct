@@ -2,7 +2,10 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/girlscouts"/>
     <filter root="/apps/foundation"/>
-    <filter root="/apps/wcm"/>
+    <filter root="/apps/wcm/core/components"/>
+    <filter root="/apps/wcm/core/content/damadmin"/>
+    <filter root="/apps/wcm/msm"/>
+    <filter root="/apps/wcm/scaffolding"/>
     <filter root="/apps/cq/xssprotection"/>
     <filter root="/apps/dam"/>
     <filter root="/etc/council-rollout"/>
@@ -85,4 +88,5 @@
     <filter root="/etc/importers/gsbulkeditor"/>
     <filter root="/etc/clientlibs/foundation/abacus/source/abacus.js"/>
     <filter root="/libs/clientlibs/granite/coralui2/css/coral.css"/>
+    <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/girlscouts-badge"/>
 </workspaceFilter>

@@ -419,31 +419,43 @@ a:hover.menuHighlight {
 #headerBar {
   background-color: #009447;
   margin-top: 20px;
+  position: relative;
 }
 #headerBar > div {
   /*padding: 3px 10px 0px 10px;*/
 }
 #headerBar ul.inline-list {
-  margin: 0 auto;
   overflow: visible;
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
+  width: 100%;
+  margin: 0;
 }
 #headerBar .inline-list > li {
   margin: 0 20px 0 0;
   padding: 0;
 }
 #headerBar .inline-list > li:last-child {
-  padding-right: 0;
-/*  float: right;*/
-  margin-right: 0;
+  margin-right: 30px;
+}
+@media only screen and (min-width: 60.063em) {
+    #headerBar .inline-list > li:last-child {
+      margin-right: 0;
+    }
 }
 #headerBar li:hover {
   /* background-color:#063;*/
 }
+#headerBar .inline-list > li > a {
+    padding: 3px 0;
+}
 #headerBar .global-navigation {
-  padding-left: 42px;
+  margin: 0;
+  width: 100%;
+  padding: 0 20px;
   font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
 }
 #headerBar .global-navigation ul.inline-list {
@@ -451,16 +463,29 @@ a:hover.menuHighlight {
 }
 
 #headerBar ul.inline-list li {
-  line-height: 31px;
+  line-height: normal;
+  min-height: 31px;
+  display: flex;
+  align-items: center;
 }
 #headerBar .small-search-hamburger.show-for-medium {
-  margin-top:6px;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+}
+#headerBar .small-search-hamburger.show-for-medium > a {
+	position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
 }
 #headerBar .inline-list .f-dropdown {
   margin-top: 0;
   box-shadow: 0px 2px 3px #666;
   right: 0;
-  top:31px !important;
+  top: 100% !important;
   left: auto !important;
   display: none;
   width: 150px;
@@ -481,7 +506,6 @@ a:hover.menuHighlight {
 }
 #headerBar .inline-list li.on {
   background-color: #fff;
-  margin: 0;
   position: relative;
 }
 #headerBar .inline-list li.on a {
@@ -1090,7 +1114,7 @@ div.textimage.nowrap div.text p {
     padding-right:0;
 }*/
 #headerBar .small-search-hamburger.show-for-medium {
-  margin-top:6px;
+  /*margin-top:6px;*/
 }
 #header .srch-box .small-2 {
   text-align: right;

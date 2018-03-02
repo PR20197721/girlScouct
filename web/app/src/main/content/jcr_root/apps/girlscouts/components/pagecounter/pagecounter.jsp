@@ -74,21 +74,24 @@
 		return arrayList;
 	}
 	
-	void processFilterPaths(String[] list) {		
-		for (int i = 0; i < list.length; i++) {
-			String[] values = list[i].split("\\|\\|\\|");
-			String label = values[0];
-			String path = values.length > 1 ? values[1] : ""; 
-			String page = values.length > 2 ? values[2] : "";
-			String subdir = values.length > 3 ? values [3] : "";
-			
-			if (page.equals("true")) {
-				exceptionPages.add(path.trim());
+	void processFilterPaths(Node filtersNode) {	
+		try {
+			NodeIterator iterator = filtersNode.getNodes();
+			while(iterator.hasNext()){
+				try {
+					Node filter = iterator.nextNode();
+					String pageOnly = filter.getProperty("pageOnly").getString();
+					String subDirOnly = filter.getProperty("subDirOnly").getString();
+					String path = filter.getProperty("path").getString();
+					if (pageOnly.equals("true")) {
+						exceptionPages.add(path.trim());
+					}
+					if (subDirOnly.equals("true")) {
+						exceptionDirectories.add(path.trim());
+					}
+				}catch(Exception e){}
 			}
-			if (subdir.equals("true")) {
-				exceptionDirectories.add(path.trim());
-			}			
-		}		
+		}catch(Exception e){}
 	}
 	
 	void processOverridePaths(String[] list) {
@@ -331,21 +334,21 @@
 	// Retrieve paths set by homepage component in en/jcr:content to set as defaults
 	
 	ValueMap enProperties = en.getProperties();
-	
+	Node node = resource.adaptTo(Node.class);
+	Node filtersNode = null;
+	if(node.hasNode("filters")){
+		filtersNode = node.getNode("filters");
+	}
 	String resourceTypes = properties.get("resourceTypes", "");
-	String[] filters = properties.get("paths", String[].class);
 	String[] overridePaths = properties.get("overrides", String[].class);
 	
-	String nodePath = resource.getPath(); //top.getPath() + "/en/jcr:content/content/middle/par/pagecounter";
-	Node node = resourceResolver.getResource(nodePath).adaptTo(Node.class);
 		
-	
 	if (resourceTypes.isEmpty()) {
 		resourceTypes = RESOURCE_TYPES;
 		node.setProperty("resourceTypes", resourceTypes);
 		node.getSession().save();
 	}
-	if ((filters == null) || (filters.length == 0)) {		
+	if (filtersNode == null || !filtersNode.hasNodes()) {		
 		
 		String eventRepoURL = enProperties.get("eventPath", "");		
 		String eventCalendarURL = enProperties.get("calendarPath", "");
@@ -388,16 +391,34 @@
 	        }
 					
 		}
-		
-		// Save the properties		
-		filters = new String[defaultValues.size()];
-		defaultValues.toArray(filters);  
-		node.setProperty("paths", filters);
-		node.getSession().save();
+		if(!node.hasNode("filters")){
+			filtersNode = node.addNode("filters", "nt:unstructured");
+	    }else{
+	    	filtersNode = node.getNode("filters");
+	    }
+		for(int i = 0; i < defaultValues.size(); i++){
+			try{
+				String filter = defaultValues.get(i);
+	            String[] filterProperties = filter.split("\\|\\|\\|");
+				Node itemNode = null;
+	            if(!filtersNode.hasNode("item" + i)){
+	                itemNode = filtersNode.addNode("item" + i, "nt:unstructured");
+	            } else{
+	                itemNode = filtersNode.getNode("item" + i);
+	            }	            
+	            itemNode.setProperty("label", filterProperties[0]);
+	            itemNode.setProperty("path", filterProperties[1]);
+	            itemNode.setProperty("pageOnly", filterProperties[2]);
+	            itemNode.setProperty("subDirOnly", filterProperties[3]);  
+	            filtersNode.getSession().save();
+			}catch(Exception e){
+				
+			}
+		}
 	}
 	
 	countedResourceTypes = listToArray(resourceTypes);	
-	processFilterPaths(filters);
+	processFilterPaths(filtersNode);
 	processOverridePaths(overridePaths);
 
 	// These pages belong to council template pages 

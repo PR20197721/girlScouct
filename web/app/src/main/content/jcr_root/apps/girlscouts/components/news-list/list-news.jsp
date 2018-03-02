@@ -6,39 +6,31 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@include file="newsHelper.jsp"%>
-
-
-
 <%
-  SearchResult results = (SearchResult)request.getAttribute("results");
-  java.util.List <Hit> resultsHits = results.getHits();
-  Format formatter = new SimpleDateFormat("dd MMM yyyy");
-  List  list = (List)request.getAttribute("list"); 
-  String start = (String) request.getAttribute("start");
-  String title = "";
-  String description="";
-  String text="";
-  String imgPath="";
-  DateFormat inFormatter = new SimpleDateFormat("MM/dd/yy");
-  String date="", date_yyyyMMdd="";
-  String str = "";
-  String external_url = "";
-  int strP = 0;
-  Set<String> featureNews = (HashSet)request.getAttribute("featureNews");
-  
- %>
-<%
- int newsRendered = 0;
- if (!list.isEmpty()){
-	   	%>
-	   	<div class="row">
+ 	SearchResult results = (SearchResult)request.getAttribute("results");
+  	java.util.List <Hit> resultsHits = results.getHits();
+	Format formatter = new SimpleDateFormat("dd MMM yyyy");
+	List  list = (List)request.getAttribute("list"); 
+	String start = (String) request.getAttribute("start");
+	String title = "";
+	String description="";
+	String text="";
+	String imgPath="";
+	DateFormat inFormatter = new SimpleDateFormat("MM/dd/yy");
+	String date="", date_yyyyMMdd="";
+	String str = "";
+	String external_url = "";
+	int strP = 0;
+	Set<String> featureNews = (HashSet)request.getAttribute("featureNews"); 
+	int newsRendered = 0;
+	if (!list.isEmpty()){%>
+		<div class="row">
 	   	   <div class="small-24 large-24 medium-24 columns">
 	   	      <h5>Featured News</h5>
 	   	   </div>
 	   	</div>  
-	   	
 	   	<ul class="searchResultsList" itemscope itemtype="http://schema.org/BreadcrumbList">
-		<%
+			<%
 	    	Iterator<Page> items = list.getPages();
 	    	String listItemClass = null;
 	    	while (items.hasNext()){
@@ -57,75 +49,14 @@
 				request.setAttribute("date_yyyyMMdd",date_yyyyMMdd);
 				request.setAttribute("text",text);
 				request.setAttribute("external_url",external_url);
-				
-			%>
-           <%}%>
-           
-	       <cq:include script="news-list-render.jsp"/> <% newsRendered++; %> 
-	       
-	    
-	<%}%>
-    </ul>
- 
- 
- 
- 
- 
- <ul class="searchResultsList" itemscope itemtype="http://schema.org/BreadcrumbList">
- <%
-  for(Hit hit:resultsHits)
-  {
-  	Node content = hit.getNode(); 
-	Node contentNode = content.getNode("jcr:content");
-	title=getTitle(contentNode);
-	date=getDate(contentNode);
-	date_yyyyMMdd = getDate_yyyyMMdd(contentNode);
-	external_url=genLink(resourceResolver,getExternalUrl(contentNode));
-	text = getText(contentNode);
-	request.setAttribute("path",hit.getPath());
-	request.setAttribute("title",title);
-	request.setAttribute("date",date);
-	request.setAttribute("date_yyyyMMdd",date_yyyyMMdd);
-	request.setAttribute("text",text);
-	request.setAttribute("external_url",external_url);
-	if(!featureNews.contains(hit.getPath())){
-	%>
-	
-	<cq:include script="news-list-render.jsp"/> <% newsRendered++; %> 
-
-	
-	<%}
-  }
- %></ul><%
-
-	if(newsRendered == 0){ %>
-
-		<div class="row">
-	   	   <div class="small-24 large-24 medium-24 columns">
-               <h4>News Component Empty:</h4>
-              	<h5>No News Available</h5>
-	   	   </div>
-	   	</div>
-<%
-	}
-
-
-%>
-
-<script>
-var lineHeight = Number($(".searchResultsList article p").css("line-height").match(/\d+/g)[0]); // Match digits within string (ignore "px")
-$(".searchResultsList article").readmore({
-	speed: 75,
-	maxHeight: lineHeight * 6, // line-height of content * 6 visible lines
-	heightMargin: 16,
-	moreLink: '<a href="#">Read more</a>',
-	lessLink: '<a href="#">Close</a>',
-	embedCSS: true,
-	sectionCSS: 'display: block; width: 100%;',
-	expandedClass: 'readmore-js-expanded',
-	collapsedClass: 'readmore-js-collapsed'
-});
-</script>
-
-
-
+			}%>
+	       <cq:include script="news-list-render.jsp"/> <% newsRendered++; %> 	    	
+    	</ul>
+    <%}%>
+	<ul id="newsListWrapper" class="searchResultsList" itemscope itemtype="http://schema.org/BreadcrumbList"></ul>
+	<script>
+		var jsonPath = '<%=resource.getPath()%>';
+		$(document).ready(function() {
+			var newsLoader = new NewsLoader(jsonPath, $("#newsListWrapper"), <%=newsRendered%>);
+		});		
+	</script>
