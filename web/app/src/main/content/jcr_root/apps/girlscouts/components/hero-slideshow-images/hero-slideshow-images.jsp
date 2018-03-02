@@ -8,7 +8,9 @@
 				org.apache.sling.commons.json.JSONException,
 				com.google.gson.Gson,
 				com.day.cq.dam.api.Asset,
-				org.girlscouts.web.dto.SlideShowElement" 
+				org.girlscouts.web.dto.SlideShowElement,
+				org.girlscouts.web.video.util.VIDEO_TYPE,
+				org.girlscouts.web.video.util.VideoUtil" 
 %>
 
 <%@include file="/libs/foundation/global.jsp"%>
@@ -23,8 +25,12 @@
 
 %>  
 <%
+	String slideShowElementId = "SlideShowElement_" + new Random().nextInt(10000) + 1000;
+%>
+<div id="<%= slideShowElementId %>"></div>
+<%
 
-	List<SlideShowElement> slideShowElements = new ArrayList<SlideShowElement>();
+	List<Object> slideShowElements = new ArrayList<Object>();
    
 	Node imageNode = resource.adaptTo(Node.class);
 	Asset assets=null;
@@ -59,26 +65,45 @@
 		}
 		String imgPath = "";
 		Rendition rendition;
+		List<String> missingImageSizes = new ArrayList<String>();
+		missingImageSizes.add("small");
+		missingImageSizes.add("medium");
+		missingImageSizes.add("regular");
 		while(images.hasNext()){
 			Node imgNode = images.next().adaptTo(Node.class);
 			String imageSize = imgNode.getProperty("imagesize").getString();
+			
+			if(imgNode.hasProperty("videoUrl")){
+				String videoUrl = imgNode.getProperty("videoUrl").getString();
+				
+				// Add videos separate.
+				VIDEO_TYPE videoType = VIDEO_TYPE.detect(videoUrl);
+				if(videoType != VIDEO_TYPE.NONE){
+					slideShowElements.add(VideoUtil.getVideo(videoUrl, imageSize));
+					missingImageSizes.remove(imageSize);
+					continue;
+				}
+			}
+			
 			if(imgNode.hasProperty("fileReference")){
-				rendition = getImageAsset(resourceResolver, imgNode.getProperty("fileReference").getString()).getRendition(new PrefixRenditionPicker("cq5dam.web.1280.1280"));
+				String fileReference = imgNode.getProperty("fileReference").getString();
+				
+				rendition = getImageAsset(resourceResolver, fileReference).getRendition(new PrefixRenditionPicker("cq5dam.web.1280.1280"));
            		if(rendition != null){
            			slideShowElements.add(new SlideShowElement(rendition.getPath(), linkUrl, alt, imageSize, "true".equals(newWindow)));
            		}else{
-           			slideShowElements.add(new SlideShowElement(getPlaceHolderText("Not able to find the image: " + imgNode.getProperty("fileReference").getString(), ""), "", "", imageSize, false));
+           			slideShowElements.add(new SlideShowElement(getPlaceHolderText("Not able to find the image: " + fileReference, ""), "", "", imageSize, false));
            		}
+ 				missingImageSizes.remove(imageSize);
 			}else if(WCMMode.fromRequest(request) == WCMMode.EDIT) {
 				slideShowElements.add(new SlideShowElement(getPlaceHolderText("Please click to add regular sized image.", ""), "", "", imageSize, false));
+ 				missingImageSizes.remove(imageSize);
  			}
 		}
+		missingImageSizes.forEach(missingSize -> slideShowElements.add(new SlideShowElement("MISSING", "", "", missingSize, false)));
    }
 %>
-<%
-	String slideShowElementId = "SlideShowElement_" + new Random().nextInt(10000) + 1000;
-%>
-<div id="<%= slideShowElementId %>"></div>
+
 <script>
 	SlideShowManager.addElementSet(<%= new Gson().toJson(slideShowElements) %>, "<%= slideShowElementId %>");
 </script>

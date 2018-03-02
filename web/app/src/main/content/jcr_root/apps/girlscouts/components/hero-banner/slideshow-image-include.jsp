@@ -54,7 +54,7 @@
   });
   
   %>	
-   <div class="slide-show-target">
+   <div class="slide-show-target"></div>
   <% 
 
   // assign new iterator  
@@ -87,7 +87,6 @@
 		}%>
 		
 	<%}%>
-	</div>
 	<script>
 		SlideShowManager.init("slide-show-target", <%= WCMMode.fromRequest(request) == WCMMode.EDIT %>);
 	</script>
