@@ -1,0 +1,1 @@
+js/metadata-editor-rte.js
