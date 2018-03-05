@@ -62,7 +62,7 @@ public class VideoUtil {
 		}
 	}
 	
-	// TODO: Would be nice to put some caching around this...
+	// TODO: Would be very nice to put some caching around this...
 	public static Video getVideo(String videoLocation, String imageSize) {
 		VIDEO_TYPE type = VIDEO_TYPE.detect(videoLocation);
 		if(type == VIDEO_TYPE.YOUTUBE) {
@@ -107,8 +107,8 @@ public class VideoUtil {
 		String title = "";
 		String thumbnail = "";
 		
-		String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + youtubeId + "&key=AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y"); // Use for local testing: AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y
-        //String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + youtubeId + "&key=AIzaSyBLliIIeCT9fzRuejc64WpZN1OJXVu0hsI"); // Use for local testing: AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y
+		//String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + youtubeId + "&key=AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y"); // Use for local testing: AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y
+        String jsonOutput = readUrlFile("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + youtubeId + "&key=AIzaSyBLliIIeCT9fzRuejc64WpZN1OJXVu0hsI"); // Use for local testing: AIzaSyBMs9oY1vT7DuNXAkGuKk2-5ScGMprtN-Y
         
         // Get a sample response here: https://developers.google.com/youtube/v3/docs/videos/list					
         if (!"".equals(jsonOutput)) {
