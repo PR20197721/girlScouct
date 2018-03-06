@@ -77,23 +77,23 @@ String googleMapsAPI = properties.get("mapAPI", "AIzaSyDWhROdret3d0AGaTTZrYeFH8h
 		  		"lng"	: parseFloat(parseFloat(longitude).toFixed(6)) 
 		  	};
 			//console.log(myLatLng);		  	
-			resultsMap.setCenter(myLatLng);
 			var marker = new google.maps.Marker({
 				map: resultsMap,
 				zoom: 8,
 				position: myLatLng
 			});
+			resultsMap.setCenter(myLatLng); 
 			
 	  } else {
 	  
 	    	geocoder.geocode({'address': address}, function(results, status) {
     		    if (status === google.maps.GeocoderStatus.OK) {
-		          resultsMap.setCenter(results[0].geometry.location);
         		  var marker = new google.maps.Marker({
     		        map: resultsMap,
 		            zoom: 8,
         		    position: results[0].geometry.location
     		      });
+		          resultsMap.setCenter(results[0].geometry.location);
 
     		      // save the lat/long
 				  var formData = {
