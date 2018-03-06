@@ -19,6 +19,8 @@ String facebookId = currentSite.get("facebookId", "");
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 response.setHeader("Pragma", "no-cache");
 response.setHeader("Expires", "0");
+String address1 = request.getParameter("Address1");
+address1 = address1 ==null ? "" : address1;
 String address2 = request.getParameter("Address2");
 address2 = address2 ==null ? "" : address2;
 String address = request.getParameter("Address1") +" " + address2 + " " + 
@@ -27,6 +29,14 @@ String zip = (String)request.getParameter("queryZip");
 zip = (zip ==null ? "" : zip);
 String councilName= (String)request.getParameter("CouncilName");
 councilName= councilName== null ? "" : councilName;
+
+String addressZip = (String)request.getParameter("ZipCode");
+addressZip = (addressZip ==null ? "" : addressZip);
+String latitudeData= (String)request.getParameter("Latitude");
+latitudeData= latitudeData== null ? "0" : latitudeData;
+String longitudeData= (String)request.getParameter("Longitude");
+longitudeData= longitudeData== null ? "0" : longitudeData;
+
 
 String dateStart = request.getParameter("DateStart");
 try {
@@ -55,20 +65,56 @@ String googleMapsAPI = properties.get("mapAPI", "AIzaSyDWhROdret3d0AGaTTZrYeFH8h
       geocoder = new google.maps.Geocoder;
       setTimeout(function(){ doIt(); }, 1000);
     }
+
     function codeAddress( resultsMap, geocoder) {
       var address = "<%=address%>";
-      geocoder.geocode({'address': address}, function(results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
-          resultsMap.setCenter(results[0].geometry.location);
-          var marker = new google.maps.Marker({
-            map: resultsMap,
-            zoom: 8,
-            position: results[0].geometry.location
-          });
-        } else {
-        console.log('Geocode was not successful for the following reason: ' + status);
-        }
-      });
+      var latitude = "<%=latitudeData%>";
+      var longitude = "<%=longitudeData%>";
+
+	  if(latitude.length > 0 && longitude.length > 0) {
+		  	var myLatLng = {
+		  		"lat"	: parseFloat(parseFloat(latitude).toFixed(6)), 
+		  		"lng"	: parseFloat(parseFloat(longitude).toFixed(6)) 
+		  	};
+			//console.log(myLatLng);		  	
+			resultsMap.setCenter(myLatLng);
+			var marker = new google.maps.Marker({
+				map: resultsMap,
+				zoom: 8,
+				position: myLatLng
+			});
+			
+	  } else {
+	  
+	    	geocoder.geocode({'address': address}, function(results, status) {
+    		    if (status === google.maps.GeocoderStatus.OK) {
+		          resultsMap.setCenter(results[0].geometry.location);
+        		  var marker = new google.maps.Marker({
+    		        map: resultsMap,
+		            zoom: 8,
+        		    position: results[0].geometry.location
+    		      });
+
+    		      // save the lat/long
+				  var formData = {
+				    "a1" : "<%=address1%>",
+					"z"	 : "<%=addressZip%>",
+					"lat": results[0].geometry.location.lat().toFixed(6),
+					"long": results[0].geometry.location.lng().toFixed(6)
+				  };
+				  //console.log(formData);
+				  $.ajax({
+  					method: "POST",
+					url: "/cookiesapi/booth_list_geo_insert.asp",
+					data: formData
+				  });
+    		      
+		        } else {
+	    	    	console.log('Geocode was not successful for the following reason: ' + status);
+	    	    }
+	    	});
+	  }
+	  
       map.addListener('click', function() {
         window.open("http://maps.google.com/maps/dir/<%= zip%>/<%= URLEncoder.encode(address) %>");
       });
