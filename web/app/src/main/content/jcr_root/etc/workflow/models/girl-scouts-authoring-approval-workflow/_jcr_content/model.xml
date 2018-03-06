@@ -7,8 +7,8 @@
     description="No Description"
     title="Girl Scouts Authoring Approval Workflow">
     <metaData
-        cq:lastModified="{Long}1459894280053"
-        cq:lastModifiedBy="dlubin"
+        cq:lastModified="{Long}1520353511924"
+        cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         tags="system,wcm"/>
     <nodes jcr:primaryType="nt:unstructured">
@@ -66,7 +66,7 @@
             type="DYNAMIC_PARTICIPANT">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                DYNAMIC_PARTICIPANT="/etc/workflow/scripts/girlscouts/get-participant.ecma"/>
+                DYNAMIC_PARTICIPANT="org.girlscouts.cq.workflow.service.impl.GirlScoutsReviewerParticipantsStepChooserImpl"/>
         </node5>
         <node6
             jcr:primaryType="cq:WorkflowNode"
@@ -126,16 +126,6 @@
         </node12>
         <node13
             jcr:primaryType="cq:WorkflowNode"
-            description="Roll out the source page and activate the target page."
-            title="Rollout page content"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="org.girlscouts.cq.workflow.RolloutTemplatePageProcess"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node13>
-        <node14
-            jcr:primaryType="cq:WorkflowNode"
             description="Sends an email based on an email template"
             title="Send Email to Initiator"
             type="PROCESS">
@@ -144,8 +134,8 @@
                 PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
                 PROCESS_AUTO_ADVANCE="true"
                 templatePath="/etc/workflow/notification/email/default/approval.txt"/>
-        </node14>
-        <node15
+        </node13>
+        <node14
             jcr:primaryType="cq:WorkflowNode"
             description="Reject page and does not publish to either publishing instances."
             title="Reject Page"
@@ -154,8 +144,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="/etc/workflow/scripts/noop.ecma"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node15>
-        <node16
+        </node14>
+        <node15
             jcr:primaryType="cq:WorkflowNode"
             description="Sends a rejection email back to the individual who initiated the workflow."
             title="Send Email to Initiator"
@@ -165,8 +155,8 @@
                 PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
                 PROCESS_AUTO_ADVANCE="true"
                 templatePath="/etc/workflow/notification/email/default/reject.txt"/>
-        </node16>
-        <node17
+        </node15>
+        <node16
             jcr:primaryType="cq:WorkflowNode"
             description="Unlocks the payload"
             title="Unlock Page"
@@ -175,8 +165,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.adobe.granite.workflow.core.process.UnlockProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node17>
-        <node18
+        </node16>
+        <node17
             jcr:primaryType="cq:WorkflowNode"
             description="Sends an email based on an email template"
             title="Send Completion Email to Reviewers"
@@ -186,8 +176,8 @@
                 PROCESS="org.girlscouts.cq.workflow.CustomGroupEmailProcess"
                 PROCESS_AUTO_ADVANCE="true"
                 templatePath="/etc/workflow/notification/email/default/completion.txt"/>
-        </node18>
-        <node19
+        </node17>
+        <node18
             jcr:primaryType="cq:WorkflowNode"
             description="Sends an email based on an email template"
             title="Send Completion Email to Initiator"
@@ -197,13 +187,13 @@
                 PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
                 PROCESS_AUTO_ADVANCE="true"
                 templatePath="/etc/workflow/notification/email/default/completion.txt"/>
-        </node19>
-        <node20
+        </node18>
+        <node19
             jcr:primaryType="cq:WorkflowNode"
             title="End"
             type="END">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node20>
+        </node19>
     </nodes>
     <transitions jcr:primaryType="nt:unstructured">
         <node0_x0023_node1
@@ -295,48 +285,48 @@
             to="node13">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node10_x0023_node13>
-        <node13_x0023_node14
+        <node13_x0023_node7
             jcr:primaryType="cq:WorkflowTransition"
             from="node13"
-            rule=""
-            to="node14">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node13_x0023_node14>
-        <node14_x0023_node7
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node14"
             to="node7">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node14_x0023_node7>
-        <node6_x0023_node15
+        </node13_x0023_node7>
+        <node6_x0023_node14
             jcr:primaryType="cq:WorkflowTransition"
             from="node6"
             rule=""
-            to="node15">
+            to="node14">
             <metaData
                 jcr:primaryType="nt:unstructured"
                 isDefault="false"/>
-        </node6_x0023_node15>
-        <node15_x0023_node16
+        </node6_x0023_node14>
+        <node14_x0023_node15
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node14"
+            rule=""
+            to="node15">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node14_x0023_node15>
+        <node15_x0023_node7
             jcr:primaryType="cq:WorkflowTransition"
             from="node15"
-            rule=""
-            to="node16">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node15_x0023_node16>
-        <node16_x0023_node7
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node16"
             to="node7">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node16_x0023_node7>
-        <node7_x0023_node17
+        </node15_x0023_node7>
+        <node7_x0023_node16
             jcr:primaryType="cq:WorkflowTransition"
             from="node7"
             rule=""
+            to="node16">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node7_x0023_node16>
+        <node16_x0023_node17
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node16"
+            rule=""
             to="node17">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node7_x0023_node17>
+        </node16_x0023_node17>
         <node17_x0023_node18
             jcr:primaryType="cq:WorkflowTransition"
             from="node17"
@@ -347,15 +337,8 @@
         <node18_x0023_node19
             jcr:primaryType="cq:WorkflowTransition"
             from="node18"
-            rule=""
             to="node19">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node18_x0023_node19>
-        <node19_x0023_node20
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node19"
-            to="node20">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node19_x0023_node20>
     </transitions>
 </jcr:root>

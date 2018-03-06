@@ -3,8 +3,8 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/default"
-        cq:lastModified="{Date}2016-04-05T18:11:14.666-04:00"
-        cq:lastModifiedBy="dlubin"
+        cq:lastModified="{Date}2018-03-06T11:25:09.573-05:00"
+        cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-06-11T17:05:45.519-04:00"
         cq:lastReplicatedBy="admin"
         cq:lastReplicationAction="Activate"
@@ -82,14 +82,14 @@
             <dynamic_participant
                 jcr:created="{Date}2014-06-11T16:30:07.421-04:00"
                 jcr:createdBy="hanke"
-                jcr:lastModified="{Date}2014-06-25T11:31:40.640-04:00"
-                jcr:lastModifiedBy="reviewer-1"
+                jcr:lastModified="{Date}2018-03-06T11:25:09.557-05:00"
+                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Approve or Reject Page"
                 sling:resourceType="cq/workflow/components/model/dynamic_participant">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    DYNAMIC_PARTICIPANT="/etc/workflow/scripts/girlscouts/get-participant.ecma"/>
+                    DYNAMIC_PARTICIPANT="org.girlscouts.cq.workflow.service.impl.GirlScoutsReviewerParticipantsStepChooserImpl"/>
             </dynamic_participant>
             <or
                 jcr:created="{Date}2014-06-13T12:05:57.064-04:00"
@@ -164,20 +164,6 @@
                             </process>
                         </_x0032_>
                     </and>
-                    <process_1847258135
-                        jcr:created="{Date}2016-04-05T18:06:59.310-04:00"
-                        jcr:createdBy="dlubin"
-                        jcr:description="Roll out the source page and activate the target page."
-                        jcr:lastModified="{Date}2016-04-05T18:08:13.060-04:00"
-                        jcr:lastModifiedBy="dlubin"
-                        jcr:primaryType="nt:unstructured"
-                        jcr:title="Rollout page content"
-                        sling:resourceType="cq/workflow/components/model/process">
-                        <metaData
-                            jcr:primaryType="nt:unstructured"
-                            PROCESS="org.girlscouts.cq.workflow.RolloutTemplatePageProcess"
-                            PROCESS_AUTO_ADVANCE="true"/>
-                    </process_1847258135>
                     <customsendemailproce
                         jcr:created="{Date}2016-04-05T18:07:01.854-04:00"
                         jcr:createdBy="dlubin"

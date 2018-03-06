@@ -112,9 +112,10 @@
       <artifactId>jsoup</artifactId>
       <version>1.7.3</version>
     </dependency> 
-        
-    
-    
+    <dependency>
+	    <groupId>org.osgi</groupId>
+	    <artifactId>osgi.cmpn</artifactId>
+	</dependency>     
   </dependencies>
   <!-- ====================================================================== -->
   <!-- B U I L D D E F I N I T I O N -->

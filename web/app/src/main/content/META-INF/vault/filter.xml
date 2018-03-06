@@ -87,4 +87,5 @@
     <filter root="/apps/cq/ui"/>
     <filter root="/etc/importers/gsbulkeditor"/>
     <filter root="/etc/clientlibs/foundation/abacus/source/abacus.js"/>
+    <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/girlscouts-badge"/>
 </workspaceFilter>

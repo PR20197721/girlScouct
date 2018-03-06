@@ -111,10 +111,10 @@
 
 .flyout-nav>li>a:hover,
 .flyout-nav>li.active>a {
-    //color: #01a850;
+    /*color: #01a850;*/
 }
 
-.flyout-nav>li.has-children>a:after {
+.flyout-nav>li.has-children:before {
     /* Hover triangle */
     content: "";
     width: 0;
@@ -125,13 +125,13 @@
     -webkit-transform: rotate(360deg);
     position: absolute;
     left: 50%;
-    bottom: -13px;
-    /* 8px top + 5px border */
-    margin-left: -8px;
+    transform: translate(-50%, 5px);
+    top: 100%;
     display: none;
+    z-index: 1000;
 }
 
-.flyout-nav>li.has-children:hover>a:after {
+.flyout-nav>li.has-children:hover:before {
     display: block;
 }
 
@@ -156,8 +156,7 @@
 }
 
 .flyout-nav>li.has-children:hover .fly-down {
-    top: 31px;
-    /* 26px top + 5px border */
+    top: 100%;
     opacity: 1;
 }
 
@@ -167,7 +166,7 @@
         top: -999999px;
         opacity: 0;
     }
-    .flyout-nav>li.has-children:hover>a:after {
+    .flyout-nav>li.has-children:hover:before {
         display: none;
     }
 }
