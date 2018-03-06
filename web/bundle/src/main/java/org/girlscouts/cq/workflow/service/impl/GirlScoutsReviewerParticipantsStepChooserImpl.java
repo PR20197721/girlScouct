@@ -33,18 +33,26 @@ public class GirlScoutsReviewerParticipantsStepChooserImpl implements Participan
 			throws WorkflowException {
 		String participant = "administrators";
 		ResourceResolver rr = null;
+		log.error("ParticipantsStepReviewerChooserImpl: ");
+		System.err.println("ParticipantsStepReviewerChooserImpl: ");
 		try {
 			Workflow wf = workItem.getWorkflow();
 			WorkflowData workflowData = wf.getWorkflowData();
 			if (workflowData.getPayloadType() == "JCR_PATH") {
 				String path = workflowData.getPayload().toString();
+				log.error("ParticipantsStepReviewerChooserImpl: path=" + path);
+				System.err.println("ParticipantsStepReviewerChooserImpl: path=" + path);
 				Map<String, Object> serviceParams = new HashMap<String, Object>();
 				serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
 				rr = resolverFactory.getServiceResourceResolver(serviceParams);
 				Resource res = rr.resolve(path);
+				log.error("ParticipantsStepReviewerChooserImpl: resource=" + res);
+				System.err.println("ParticipantsStepReviewerChooserImpl: resource=" + res);
 				Node node = res.adaptTo(Node.class);
 				path = node.getAncestor(2).getName();
 				participant = path + "-reviewers";
+				log.error("ParticipantsStepReviewerChooserImpl: participant=" + participant);
+				System.err.println("ParticipantsStepReviewerChooserImpl participant=" + participant);
 			}
 		} catch (Exception e) {
 			log.error("Error ocurred in ParticipantsStepReviewerChooserImpl: ", e);
