@@ -47,7 +47,8 @@ try {
 	log.error("Error parsing start date.");
 }
 
-String googleMapsAPI = properties.get("mapAPI", "AIzaSyDWhROdret3d0AGaTTZrYeFH8hP5SIbmzw");
+//String googleMapsAPI = properties.get("mapAPI", "AIzaSyDWhROdret3d0AGaTTZrYeFH8hP5SIbmzw");	// 1M Google MAPS API Grant
+String googleMapsAPI = properties.get("mapAPI", "AIzaSyCQ1pG4dKsTrA8mqAo-0qwAI0I8AaoWdiE");		// Free Version
 
 %>
 <html>
