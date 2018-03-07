@@ -346,8 +346,9 @@
                         } else {
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
                             var title = contentPath;
-                            var html = "<li><a href='/editor.html"+ CQ.shared.XSS.getXSSValue(url) + "'>" + CQ.shared.XSS.getXSSValue(title) + "</a></li>";
-                            CQ.Ext.DomHelper.append("linklist", html);
+                            var link = "/editor.html"+ CQ.HTTP.externalize(contentPath + ".html");
+                            var $a = $("<a>", {"href":link}).on("click", function(){window.top.location=link;}).append(title);
+                            $("#linklist").append($("<li>").append($a));
                             frm.reset();
                             window.scrollTo(0,0);
                             frm.findField(0).focus();
