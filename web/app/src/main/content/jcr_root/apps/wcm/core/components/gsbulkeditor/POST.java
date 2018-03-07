@@ -58,13 +58,13 @@ import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.Workflow;
 import com.day.cq.workflow.exec.WorkflowData;
 import com.day.cq.workflow.model.WorkflowModel;
-import org.apache.jackrabbit.vault.fs.api.PathFilterSet;
-import org.apache.jackrabbit.vault.fs.config.DefaultWorkspaceFilter;
-import org.apache.jackrabbit.vault.packaging.JcrPackage;
-import org.apache.jackrabbit.vault.packaging.JcrPackageDefinition;
-import org.apache.jackrabbit.vault.packaging.JcrPackageManager;
-import org.apache.jackrabbit.vault.packaging.Packaging;
-import org.apache.jackrabbit.vault.util.DefaultProgressListener;
+import com.day.jcr.vault.fs.api.PathFilterSet;
+import com.day.jcr.vault.fs.config.DefaultWorkspaceFilter;
+import com.day.jcr.vault.packaging.JcrPackage;
+import com.day.jcr.vault.packaging.JcrPackageDefinition;
+import com.day.jcr.vault.packaging.JcrPackageManager;
+import com.day.jcr.vault.packaging.Packaging;
+import com.day.jcr.vault.util.DefaultProgressListener;
 import com.opencsv.CSVReader;
 
 /**
