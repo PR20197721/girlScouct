@@ -48,7 +48,7 @@
   String[] links = linksList.toArray(new String[0]);
   String[] socialIcons = socialList.toArray(new String[0]);
 %>
-<div class="columns large-16 medium-16 small-19 small-centered large-uncentered medium-uncentered">
+<div class="columns large-12 medium-12 small-19 small-centered large-uncentered medium-uncentered">
   <ul>
 
   <% 
@@ -68,7 +68,7 @@
   } %>
   </ul>
 </div>
-<div class="columns large-8 medium-8">
+<div class="columns large-12 medium-12">
   <ul>
   <% if (socialIcons != null) { 
     for (String settingStr : socialIcons) {
