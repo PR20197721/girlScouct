@@ -18,7 +18,7 @@ try{
 					while(scaffoldingPages.hasNext()){
 						Resource scaffoldingPage = scaffoldingPages.next();
 						if(scaffoldingPage.isResourceType("cq:Page")){
-							String scaffoldingURI = "/cf#"+scaffoldingPage.getPath()+".html?wcmmode=disabled";
+							String scaffoldingURI = "/cf#"+scaffoldingPage.getPath()+".html";
 							String buttonName = "Create " +scaffoldingPage.getName().substring(0, 1).toUpperCase() + scaffoldingPage.getName().substring(1);
 							%>
 							<a is="coral-anchorlist-item" 
