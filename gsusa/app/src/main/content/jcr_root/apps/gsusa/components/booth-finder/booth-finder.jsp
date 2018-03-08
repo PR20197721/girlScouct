@@ -142,18 +142,20 @@ BoothFinder.prototype.processResult = function(result) {
 		result.env.nearestDistance = nearestDistance;
 	} else {
 		templateId = result.council.PreferredPath.toLowerCase(); // e.g. path1
-		setTimeout(function(){ 
-			var radiusEmpty = getParameterByName('radius');
-			var dateEmpty = getParameterByName('date');
-			var sortByEmpty = getParameterByName('sortBy');
-			if (!radiusEmpty) radiusEmpty = 50;
-			if (!dateEmpty) dateEmpty = 60;
-			if (!sortByEmpty) sortByEmpty = 'distance'
-			$('select[name="radius"]').val(radiusEmpty);
-			$('select[name="date"]').val(dateEmpty);
-			$('select[name="sortBy"]').val(sortByEmpty);
-			$('#emptyForm').show();
-		}, 1000);
+		if(templateId == 'path1' || templateId == 'path2') {
+			setTimeout(function() { 
+				var radiusEmpty = getParameterByName('radius');
+				var dateEmpty = getParameterByName('date');
+				var sortByEmpty = getParameterByName('sortBy');
+				if (!radiusEmpty) radiusEmpty = 50;
+				if (!dateEmpty) dateEmpty = 60;
+				if (!sortByEmpty) sortByEmpty = 'distance'
+				$('select[name="radius"]').val(radiusEmpty);
+				$('select[name="date"]').val(dateEmpty);
+				$('select[name="sortBy"]').val(sortByEmpty);
+				$('#emptyForm').show();
+			}, 1000);
+		}
 	}
 
 	// "Contact local council" form data
