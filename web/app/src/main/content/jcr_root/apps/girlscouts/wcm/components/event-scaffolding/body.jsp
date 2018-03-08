@@ -335,7 +335,7 @@ properties of this scaffolding.
                         var contentPath = resp.result["Path"];
                         if (isUpdate) {
                             //CQ.Ext.Msg.alert("Success", "Updated " + contentPath);
-                            CQ.Util.reload(CQ.WCM.getContentWindow(), CQ.HTTP.externalize(contentPath + ".html"));
+                            CQ.Util.reload(CQ.WCM.getTopWindow(), CQ.HTTP.externalize("/editor.html"+contentPath + ".html"));
                         } else if((startDate < endDate) | endDate == ""){
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
                             var title = contentPath;                            
@@ -399,5 +399,15 @@ properties of this scaffolding.
 				myForm.getForm().findField(0).focus();
 				window.scrollTo(0, 0);
 			});
+    CQ.Ext.onReady(function(){
+        var top = CQ.WCM.getTopWindow();
+        if (top.CQ.WCM.isSidekickReady()) {
+            top.CQ.WCM.getSidekick().destroy();
+        } else {
+            top.CQ.WCM.on("sidekickready", function(sidekick) {
+                sidekick.destroy();
+            });
+        }
+    });
 </script><% } catch(Exception e) { e.printStackTrace();} %>
 </body>
