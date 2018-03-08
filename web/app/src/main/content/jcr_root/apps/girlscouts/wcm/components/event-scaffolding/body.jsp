@@ -45,10 +45,10 @@
 			isUpdate = true;
 		}
 	%>
-	contentPath =
+	<!--   contentPath =
 	<%=contentPath%>
 	scaffoldPath =
-	<%=scaffoldPath%>
+	<%=scaffoldPath%>-->
 
 	<h1><%=currentPage.getTitle()%></h1>
 	<%
@@ -338,9 +338,10 @@ properties of this scaffolding.
                             CQ.Util.reload(CQ.WCM.getContentWindow(), CQ.HTTP.externalize(contentPath + ".html"));
                         } else if((startDate < endDate) | endDate == ""){
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
-                            var title = contentPath;
-                            var html = "<li><a href='/editor.html"+ CQ.HTTP.externalize(contentPath + ".html")+"'>"+title+"</a></li>";
-                            CQ.Ext.DomHelper.append("linklist", html);
+                            var title = contentPath;                            
+                            var link = "/editor.html"+ CQ.HTTP.externalize(contentPath + ".html");
+                            var $a = $("<a>", {"href":link}).on("click", function(){window.top.location=link;}).append(title);
+                            $("#linklist").append($("<li>").append($a));
                             frm.reset();
                             window.scrollTo(0,0);
                             frm.findField(0).focus();

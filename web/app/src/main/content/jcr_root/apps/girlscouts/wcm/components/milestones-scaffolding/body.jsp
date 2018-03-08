@@ -35,8 +35,10 @@
             isUpdate = true;
         }
     %>
-    contentPath = <%= contentPath %>
-    scaffoldPath = <%= scaffoldPath %>
+    	<!--   contentPath =
+	<%=contentPath%>
+	scaffoldPath =
+	<%=scaffoldPath%>-->
 
     <h1><%= currentPage.getTitle() %></h1><%
     if (!isUpdate) {
@@ -277,8 +279,9 @@
                         } else {
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
                             var title = contentPath;
-                            var html = "<li><a href='/editor.html"+ CQ.HTTP.externalize(contentPath + ".html")+"'>"+title+"</a></li>";
-                            CQ.Ext.DomHelper.append("linklist", html);
+                            var link = "/editor.html"+ CQ.HTTP.externalize(contentPath + ".html");
+                            var $a = $("<a>", {"href":link}).on("click", function(){window.top.location=link;}).append(title);
+                            $("#linklist").append($("<li>").append($a));
                             frm.reset();
                             window.scrollTo(0,0);
                             frm.findField(0).focus();
