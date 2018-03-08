@@ -20,3 +20,5 @@ pagecounter.js
 global-link-widget.js
 icon-picker.js
 mail-form-validator.js
+GSBulkEditor.js
+GSBulkEditorForm.js
