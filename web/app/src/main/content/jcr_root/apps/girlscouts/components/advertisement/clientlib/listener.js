@@ -10,12 +10,12 @@
                 	$multifield.find("input").prop( "disabled", false );
                 	$multifield.find("button").prop( "disabled", false );
                 }else{
-                	$multifield.find("input").prop("disabled", true );
+                	$multifield.find("input").prop( "disabled", true );
                 	$multifield.find("button").prop( "disabled", true );
                 }
             });
             var $isCustomizedChecked = $("input[type='checkbox'][name='./customized']").is(':checked');
-            if(!$isCustomizedChecked){
+            if($isCustomizedChecked){
             	$multifield.find("input").prop( "disabled", true );
             	$multifield.find("button").prop( "disabled", true );
             }
