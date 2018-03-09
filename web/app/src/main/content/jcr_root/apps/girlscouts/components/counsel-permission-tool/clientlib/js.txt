@@ -1,0 +1,2 @@
+vue.js
+counsel_permission.js
