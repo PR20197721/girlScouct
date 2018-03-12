@@ -118,7 +118,10 @@
                                 sling:resourceType="granite/ui/components/foundation/form/textarea"
                                 fieldLabel="Spring Board Details"
                                 name="./firstsbdesc"/>
-                            <first-sb-link/>
+                            <first-sb-link jcr:primaryType="nt:unstructured"
+                             	sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                fieldLabel="Spring Board Url"
+                                name="./firstsburl"/>
                             <first-sb-new-window
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
@@ -161,7 +164,10 @@
                                 sling:resourceType="granite/ui/components/foundation/form/textarea"
                                 fieldLabel="Spring Board Details"
                                 name="./secondsbdesc"/>
-                            <second-sb-link/>
+                            <second-sb-link jcr:primaryType="nt:unstructured"
+                             	sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                fieldLabel="Spring Board Url"
+                                name="./secondsburl"/>
                             <second-sb-new-window
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
