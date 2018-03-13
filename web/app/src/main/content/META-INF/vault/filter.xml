@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/apps/girlscouts"/>
-    <filter root="/apps/clientlibs/granite/coralui2/css/coral.css"/>
-    <filter root="/apps/clientlibs/granite/coralui2/js/coral.js"/>
+	<filter root="/apps/clientlibs/granite/coralui2"/>
     <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>
     <filter root="/apps/cq/tagging"/>
     <filter root="/apps/cq/ui/widgets/source/form/rte/plugins/LinkPlugin.js"/>
     <filter root="/apps/cq/xssprotection"/>
     <filter root="/apps/dam"/>
     <filter root="/apps/foundation"/>
+    <filter root="/apps/girlscouts"/>
     <filter root="/apps/granite/core/components"/>
     <filter root="/apps/granite/core/content/cug-dxp-login"/>
     <filter root="/apps/granite/core/content/cug-future-login"/>
