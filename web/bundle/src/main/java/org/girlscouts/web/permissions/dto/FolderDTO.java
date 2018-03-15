@@ -1,4 +1,6 @@
-package org.girlscouts.web.permissions;
+package org.girlscouts.web.permissions.dto;
+
+import org.girlscouts.web.permissions.CounselFolder;
 
 public class FolderDTO {
 

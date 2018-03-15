@@ -1,4 +1,4 @@
-package org.girlscouts.web.permissions;
+package org.girlscouts.web.permissions.dto;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -6,6 +6,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.jcr.RepositoryException;
+
+import org.girlscouts.web.permissions.Counsel;
+import org.girlscouts.web.permissions.CounselFolder;
 
 public class CounselDTO {
 	

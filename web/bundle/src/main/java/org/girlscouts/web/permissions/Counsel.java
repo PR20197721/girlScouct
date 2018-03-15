@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.jcr.Node;
-import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.nodetype.NodeType;
 
 import org.apache.jackrabbit.api.JackrabbitSession;
 import org.apache.jackrabbit.api.security.user.Authorizable;
@@ -24,29 +22,16 @@ public class Counsel {
 
 	private final String name;
 	private final Session adminSession;
-	private final Node node;
 	
 	private UserManager userManager = null;
-	private final List<CounselFolder> counselFolders;
+	private List<CounselFolder> counselFolders;
 	private Optional<String> overrideDamDirectory;
-	
 	private Optional<Authorizable> reviewersGroup, authorsGroup;
 	
-	/*
-	 * AccessControlList acl = AccessControlUtils.getAccessControlList(adminSession, BASE_COUNSEL_PATH)
-	 */
-	
-	public Counsel(Node potentialNode, Session session) {
-		// Base Info
-		String counselName;
-		try {
-			counselName = potentialNode.getName();
-		} catch (RepositoryException e) {
-			counselName = "unknown";
-		}
+	public Counsel(Session session, String counselName, Optional<List<CounselFolder>> folderList) {
+
 		this.adminSession = session;
 		this.name = counselName;
-		this.node = potentialNode;
 		
 		// Override DAM Directory
 		try {
@@ -71,45 +56,30 @@ public class Counsel {
 		}
 		
 		// Counsel Folders (with permission rules)
-		List<CounselFolder> folders = new ArrayList<CounselFolder>(4);
-		folders.add(new CounselFolder(DIRECTORY_CONFIG.CONTENT, getContentDirectoryPath(), session, reviewersGroup, authorsGroup));
-		folders.add(new CounselFolder(DIRECTORY_CONFIG.DAM, getDamDirectoryPath(), session, reviewersGroup, authorsGroup));
-		folders.add(new CounselFolder(DIRECTORY_CONFIG.DESIGNS, getDesignsDirectoryPath(), session, reviewersGroup, authorsGroup));
-		folders.add(new CounselFolder(DIRECTORY_CONFIG.SCAFFOLDING, getScaffoldingDirectoryPath(), session, reviewersGroup, authorsGroup));
-		folders.add(new CounselFolder(DIRECTORY_CONFIG.TAGS, getTagsDirectoryPath(), session, reviewersGroup, authorsGroup));
+		setCounselFolders(folderList.orElseGet(() -> getDefaultFolderList(session)));
 		
-		// Add the common folders.
-		DIRECTORY_CONFIG.GS_COMMON_FOLDER_LIST
-			.stream()
-			.map(cmnFldr -> new CounselFolder(DIRECTORY_CONFIG.GS_COMMON_FOLDERS, cmnFldr, session, reviewersGroup, authorsGroup))
-			.forEach(folders::add);
-		
-		
-		this.counselFolders = folders;
 	}
 	
-	public boolean hasDamDirectory() {
-		return hasDirectory(getDamDirectoryPath());
+	public Counsel(Node potentialNode, Session session) {
+		this(session, getNodeName(potentialNode), Optional.empty());
 	}
 	
-	public boolean hasDesignsDirectory() {
-		return hasDirectory(getDesignsDirectoryPath());
+	private List<CounselFolder> getDefaultFolderList(Session session){
+		List<CounselFolder> folders = new ArrayList<CounselFolder>(6);
+		folders.add(new CounselFolder(DirectoryConfig.CONTENT, getContentDirectoryPath(), session, reviewersGroup, authorsGroup));
+		folders.add(new CounselFolder(DirectoryConfig.DAM, getDamDirectoryPath(), session, reviewersGroup, authorsGroup));
+		folders.add(new CounselFolder(DirectoryConfig.GROUP, getGroupDirectoryPath(), session, reviewersGroup, authorsGroup));
+		folders.add(new CounselFolder(DirectoryConfig.DESIGNS, getDesignsDirectoryPath(), session, reviewersGroup, authorsGroup));
+		folders.add(new CounselFolder(DirectoryConfig.SCAFFOLDING, getScaffoldingDirectoryPath(), session, reviewersGroup, authorsGroup));
+		folders.add(new CounselFolder(DirectoryConfig.TAGS, getTagsDirectoryPath(), session, reviewersGroup, authorsGroup));
+		return folders;
 	}
 	
-	public boolean hasScaffoldingDirectory() {
-		return hasDirectory(getScaffoldingDirectoryPath());
-	}
-	
-	public boolean hasTagsDirectory() {
-		return hasDirectory(getTagsDirectoryPath());
-	}
-	
-	public boolean hasDirectory(String directory) {
+	private static String getNodeName(Node potentialNode) {
 		try {
-			Node node = adminSession.getNode(directory);
-			return node != null && node.getPrimaryNodeType().toString().equals(NodeType.NT_FOLDER);
+			return potentialNode.getName();
 		} catch (RepositoryException e) {
-			return false;
+			return "unknown";
 		}
 	}
 	
@@ -131,6 +101,10 @@ public class Counsel {
 	
 	public String getTagsDirectoryPath() {
 		return "/etc/tags/" + getName();
+	}
+	
+	public String getGroupDirectoryPath() {
+		return "/home/groups/" + getName();
 	}
 	
 	public Optional<Authorizable> getReviewersGroup() {
@@ -168,16 +142,16 @@ public class Counsel {
 		return counselFolders;
 	}
 
-	public Node getNode() {
-		return node;
-	}
-
 	public Optional<String> getOverrideDamDirectory() {
 		return overrideDamDirectory;
 	}
 
 	public void setOverrideDamDirectory(Optional<String> overrideDamDirectory) {
 		this.overrideDamDirectory = overrideDamDirectory;
+	}
+	
+	public void setCounselFolders(List<CounselFolder> counselFolders) {
+		this.counselFolders = counselFolders;
 	}
 		
 }

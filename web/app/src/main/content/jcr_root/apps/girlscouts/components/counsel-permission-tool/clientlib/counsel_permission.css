@@ -118,6 +118,36 @@
     animation-timing-function: linear;
 }
 
+.FixitButtonReason {
+    display: inline-block;
+    font-size: 14px;
+    color: #777;
+    width: 210px;
+}
+
+.FolderRow:nth-of-type(1){
+    border-top: 1px dashed;
+    margin-top: 20px;
+}
+
+p.PermissionExplanation {
+    font-size: 0.8em;
+    line-height: 1.2em;
+    margin-bottom: 0;
+    margin-top: 10px;
+    background-color: #ffffc0;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    transform: scale(1, 0);
+    transition-duration: 500ms;
+}
+
+p.PermissionExplanation.Active {
+    transform: scale(1, 1);
+}
+
+
 /* Glow pulse animation for the Fix button */
 @keyframes pulse-fix{
     0% {

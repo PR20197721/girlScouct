@@ -7,9 +7,126 @@ $(function(){
 		// First off get the data!
 		$.ajax('/bin/utils/counsel_permission_status').then(function(initialServerData){
 			serverData = initialServerData;
+
+			// Ensure server data has all the components at least.
+            if(!serverData.counsels){
+				serverData.counsels = [];
+                console.warn("No Counsel Data returned!!");
+            }
+            if(!serverData.availableFolders){
+				serverData.availableFolders = [];
+                console.warn("No available folders returned!!");
+            }
+            if(!serverData.deniedDamFolders){
+            		serverData.deniedDamFolders = [];
+            		console.warn("No denied dam folders returned!");
+            }
+            
+            // Setup the counsel list.
+            serverData.counselList = [];
+
 			new Vue({
 				el: '#CounselPermissionToolWrapper',
-				data: serverData
+				data: serverData,
+				computed: {
+					counselsToFix: function(){
+						var returner = [];
+						for(var i = 0; i < this.counselList.length; i++){
+							if(!this.counselList[i].damFolderOk){
+								returner.push(this.counselList[i]);
+							}
+						}
+						return returner;
+					},
+					needsDefaultDamPermissionRemoval: function(){
+						return this.damPermissionSetting == 'Allowed' || this.damPermissionSetting == 'Both';
+					},
+					needsDefaultDamPermissionAddition: function(){
+						return this.damPermissionSetting != 'Denied' && this.damPermissionSetting != 'Both';
+					},
+					removeDamPermissionsText: function(){
+						return this.needsDefaultDamPermissionRemoval ? "Not Removed" : "Removed!";
+					},
+					addDamPermissionsText: function(){
+						return this.needsDefaultDamPermissionAddition ? "Not Added" : "Added!";
+					},
+					removeExplicitPermissionsText: function(){
+						return this.deniedDamFolders.length > 0 ? (this.deniedDamFolders.length + " Denys") : "Removed!";
+					}
+				},
+				methods: {
+					registerCounsel: function(newCounsel){
+						this.counselList.push(newCounsel);
+					},
+					removeDefaultDamPermissions: function(){
+						if(!this.needsDefaultDamPermissionRemoval){
+							return;
+						}
+						
+						$.ajax('/bin/utils/counsel_permission_remove_default_dam_permissions', {
+							data: {
+								inputData: JSON.stringify({
+									requestedFolders: ['/content/dam'],
+									pathOverride: false,
+									reviewerGroupName: 'gs-reviewers',
+									authorGroupName: 'gs-authors',
+									counselName: 'common-counsel'
+								})
+							}
+						}).then(function(responseJson){
+							ServerDataManager.setServerData(responseJson);
+						}, function(){
+							alert('Failed!');
+						});
+					},
+					addDefaultDamPermissions: function(){
+						if(!this.needsDefaultDamPermissionAddition || this.needsDefaultDamPermissionRemoval){
+							return;
+						}
+						
+						$.ajax('/bin/utils/counsel_permission_update_deny_default_dam_permissions', {
+							data: {
+								inputData: JSON.stringify({
+									requestedFolders: ['/content/dam'],
+									pathOverride: false,
+									reviewerGroupName: 'gs-reviewers',
+									authorGroupName: 'gs-authors',
+									counselName: 'common-counsel'
+								})
+							}
+						}).then(function(responseJson){
+							ServerDataManager.setServerData(responseJson);
+						}, function(){
+							alert('Failed!');
+						});
+					},
+					removeCounselDenials: function(){
+						if(this.deniedDamFolders.length < 1 || this.needsDefaultDamPermissionAddition){
+							return;
+						}					
+						
+						var damFolderPaths = [];
+						for(var i = 0; i < this.deniedDamFolders.length; i++){
+							damFolderPaths.push(this.deniedDamFolders[i].path);
+						}	
+						
+						$.ajax('/bin/utils/counsel_permission_update_remove_counsel_dam_denial_nodes', {
+							data: {
+								inputData: JSON.stringify({
+									requestedFolders: damFolderPaths,
+									pathOverride: false,
+									reviewerGroupName: 'gs-reviewers',
+									authorGroupName: 'gs-authors',
+									counselName: 'common-counsel'
+								})
+							}
+						}).then(function(responseJson){
+							ServerDataManager.setServerData(responseJson);
+						}, function(){
+							alert('Failed!');
+						});
+					}
+				}
 			});
 		});
 		
@@ -22,6 +139,12 @@ $(function(){
 				if(newData && newData.availableFolders){
 					serverData.availableFolders = newData.availableFolders;
 				}
+				if(newData && newData.damPermissionSetting){
+					serverData.damPermissionSetting = newData.damPermissionSetting;
+				}
+				if(newData && newData.deniedDamFolders){
+					serverData.deniedDamFolders = newData.deniedDamFolders;
+				}
 			}
 		}
 	
@@ -30,6 +153,10 @@ $(function(){
 	Vue.component('counsel-state', {
 		template: '#CounselTemplate',
 		props: ['name', 'reviewerName', 'authorName', 'folders', 'availableFolders'],
+		data: function(){
+			// Represents if the Dam folder is fixed (or if it's not fixable)
+			return {damFolderOk: this.name == 'common-counsel'}
+		},
 		computed: {
 			missingReviewer: function(){
 				return this.reviewerName == 'UNKNOWN';
@@ -37,6 +164,9 @@ $(function(){
 			missingAuthor: function(){
 				return this.authorName == 'UNKNOWN';
 			}
+		},
+		created: function(){
+			this.$parent.registerCounsel(this);
 		}
 	});
 	
@@ -44,7 +174,11 @@ $(function(){
 		template: '#FolderTemplate',
 		props: ['path', 'hasUserGroups', 'counselName', 'exists', 'correctAuthorPermissions', 'correctReviewerPermissions', 'availableFolders', 'reviewerName', 'authorName'],
 		data: function(){
-			return {selectedFolderPath : this.path, fixing: false}
+			return {
+				selectedFolderPath : this.path, 
+				fixing: false,
+				isDamFolder: this.path.indexOf('/content/dam') > -1
+			}
 		},
 		computed: {
 			folderPath: function(){
@@ -72,23 +206,36 @@ $(function(){
 				
 				this.fixing = true;
 				var thisVm = this;
-				$.ajax('/bin/utils/counsel_permission_update', {
+				$.ajax('/bin/utils/counsel_permission_update_add_missing_rights', {
 					data: {
-						path: this.selectedFolderPath,
-						pathOverride: !!(this.selectedFolderPath != this.path),
-						reviewerGroup: this.reviewerName,
-						authorGroup: this.authorName,
-						counsel: this.counselName
+						inputData: JSON.stringify({
+							requestedFolders: [this.selectedFolderPath],
+							pathOverride: !!(this.selectedFolderPath != this.path),
+							reviewerGroupName: this.reviewerName,
+							authorGroupName: this.authorName,
+							counselName: this.counselName
+						})
 					}
 				}).then(function(responseJson){
 					ServerDataManager.setServerData(responseJson);
 					thisVm.fixing = false;
+					thisVm.checkDamFolderOk();
 				}, function(){
 					thisVm.fixing = false;
 					alert('Failed!');
 				});
 				
+			},
+			checkDamFolderOk: function(){
+				Vue.nextTick($.proxy(function(){
+					if(this.isDamFolder && (!this.ableToFix || !this.needsFixing)){
+						this.$emit('dam-folder-ok');
+					}
+				}, this));
 			}
+		},
+		created: function(){
+			this.checkDamFolderOk();
 		}
 	});
 	
