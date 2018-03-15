@@ -1,0 +1,159 @@
+.FolderRow > div {
+	display: inline-block;
+    margin: 10px 2px;
+}
+
+.CounselRow > div {
+	display: inline-block;
+}
+
+.CounselRow div.FolderRow {
+	display: block;
+}
+
+.FolderPath {
+    width: 475px;
+}
+
+.FolderExists {
+    width: 100px;
+}
+
+.PermissionsCheck {
+    width: 105px;
+}
+
+.FolderRow{
+    border-bottom: 1px dashed #ddd;
+}
+
+.FolderRowHeader{
+    font-weight: bold;
+    border-bottom: 3px solid #aaa;
+    margin-bottom: 5px;
+}
+
+.PermissionsOK, .PermissionsBad {
+    border: 2px solid #999;
+    transition-duration: 1000ms;
+}
+
+.PermissionsOK {
+    background-color: #98e898;
+    transform: rotate3d(0, 1, 0, 0deg);
+}
+
+.PermissionsBad {
+    background-color: #ffd079;
+    transform: rotate3d(0, 1, 0, 360deg);
+}
+
+.FolderExists, .PermissionsCheck{
+    margin: 2px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.CounselInfoWrapper > div {
+	display: inline-block;
+}
+
+.CounselInfoBlock {
+    padding-right:  15px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background-color: white;
+    padding: 5px;
+    margin-right: 15px;
+}
+
+.CounselInfoWrapper {
+    padding-top: 20px;
+}
+
+.CounselName, .ReviewerName, .AuthorName{
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.CounselRow{
+    background-color: #eee;
+    padding: 10px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    border: 1px solid #999;
+    box-shadow: 3px 3px 3px #bbb;
+}
+.FixitButton {
+    padding: 5px 10px;
+    margin: 6px;
+    border: 1px solid;
+    border-radius: 8px;
+    transition-duration: 500ms;
+    width: 80px;
+    text-align: center;
+    margin-left: 20px;
+}
+
+.FolderRow div.FixitButton {
+    margin: 6px;
+    margin-left: 20px;
+}
+
+.FixButtonInactive {
+    background-color: #ccc;
+    box-shadow: 0px 0px 2px 2px #ccc;
+    border-color: #aaa;
+    cursor: crosshair;
+}
+
+.FixButtonActive {
+    background-color: #ff7272;
+    border-color: #d66363;
+    cursor: pointer;
+    animation-name: pulse-fix;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+}
+
+.FixitButtonReason {
+    display: inline-block;
+    font-size: 14px;
+    color: #777;
+    width: 210px;
+}
+
+.FolderRow:nth-of-type(1){
+    border-top: 1px dashed;
+    margin-top: 20px;
+}
+
+p.PermissionExplanation {
+    font-size: 0.8em;
+    line-height: 1.2em;
+    margin-bottom: 0;
+    margin-top: 10px;
+    background-color: #ffffc0;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    transform: scale(1, 0);
+    transition-duration: 500ms;
+}
+
+p.PermissionExplanation.Active {
+    transform: scale(1, 1);
+}
+
+
+/* Glow pulse animation for the Fix button */
+@keyframes pulse-fix{
+    0% {
+        box-shadow: 0px 0px -10px #d82323;
+    }
+    100%{
+        box-shadow: 0px 0px 20px #d82323;
+    }
+}

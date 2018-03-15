@@ -108,7 +108,7 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 
     public void track(String path) {
 	synchronized (statMap) {
-	    Long count = statMap.containsKey(path) ? statMap.get(path) : 0;
+	    Long count = statMap.containsKey(path) ? statMap.get(path) : 0L;
 	    statMap.put(path, count + 1);
 	}
     }
