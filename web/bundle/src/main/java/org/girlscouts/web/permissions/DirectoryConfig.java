@@ -17,7 +17,7 @@ public enum DirectoryConfig {
 	), 
 		
 	DAM (
-		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE},
+		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.REPLICATE},
 		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.REPLICATE}
 	), 
 	
