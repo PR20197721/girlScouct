@@ -29,7 +29,9 @@
                             <column
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/container">
-                                <items jcr:primaryType="nt:unstructured">
+                                <items
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:hideChildren="[moretitles]">
                                     <title
                                         jcr:primaryType="nt:unstructured"
                                         jcr:title="Title"
@@ -38,7 +40,7 @@
                                             <title
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                                fieldLabel="Title Mod"
+                                                fieldLabel="Title"
                                                 name="./jcr:title"/>
                                             <seoTitle
                                                 jcr:primaryType="nt:unstructured"
@@ -98,6 +100,61 @@
                                                 value="{Boolean}true"/>
                                         </items>
                                     </title>
+                                    <moretitles
+                                        cq:showOnCreate="{Boolean}true"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="More Titles and Description"
+                                        sling:resourceType="granite/ui/components/foundation/form/fieldset">
+                                        <items
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:hideChildren="[pagetitle,navigationtitle]">
+                                            <subtitle
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                                allowBulkEdit="{Boolean}true"
+                                                cq-msm-lockable="subtitle"
+                                                fieldLabel="Subtitle"
+                                                name="./subtitle"
+                                                renderReadOnly="{Boolean}true"/>
+                                            <description
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/textarea"
+                                                allowBulkEdit="{Boolean}true"
+                                                cq-msm-lockable="jcr:description"
+                                                fieldLabel="Description"
+                                                name="./jcr:description"
+                                                renderReadOnly="{Boolean}true"/>
+                                        </items>
+                                    </moretitles>
+                                    <vanityurl
+                                        cq:showOnCreate="{Boolean}false"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Vanity URL"
+                                        sling:resourceType="granite/ui/components/foundation/form/fieldset">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <vanitypath
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/multifield"
+                                                cq-msm-lockable="sling:vanityPath"
+                                                fieldDescription="The vanity url format is /content/councilpath/vaintypath Replace councilname with your council path and the vanitypath with the desired vanity url. For example for Girlscouts North East Texas a join vanity url is /content/gsnetx/join"
+                                                fieldLabel="Vanity URL"
+                                                renderReadOnly="{Boolean}true">
+                                                <field
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    name="./sling:vanityPath"
+                                                    required="{Boolean}true"/>
+                                            </vanitypath>
+                                            <redirectVanityURL
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                                cq-msm-lockable="./sling:redirect"
+                                                name="./sling:redirect"
+                                                renderReadOnly="{Boolean}true"
+                                                text="Redirect Vanity URL"
+                                                value="true"/>
+                                        </items>
+                                    </vanityurl>
                                 </items>
                             </column>
                         </items>
