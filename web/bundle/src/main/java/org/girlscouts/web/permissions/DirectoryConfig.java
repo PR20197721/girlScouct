@@ -33,7 +33,7 @@ public enum DirectoryConfig {
 	
 	TAGS(
 		new Permission[] {Permission.READ},
-		new Permission[] {Permission.READ}
+		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.READ_ACL}
 	), 
 	
 	GROUP(
