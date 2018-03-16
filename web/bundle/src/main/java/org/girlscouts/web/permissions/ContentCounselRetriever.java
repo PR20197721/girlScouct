@@ -76,15 +76,17 @@ public class ContentCounselRetriever {
 		predicateMap.put("path", BASE_COUNSEL_PATH);
 		predicateMap.put("path.flat", "true");
 		predicateMap.put("type", "cq:Page");
-		
+				
 		com.day.cq.search.Query query = (com.day.cq.search.Query) queryBuilder.createQuery(PredicateGroup.create(predicateMap), adminSession);
+		
+		query.setHitsPerPage(200);
 		SearchResult queryResult = query.getResult();
+		
         Iterator<Node> nodes = queryResult.getNodes();
 		
         while(nodes.hasNext()) {
         		Node node = nodes.next();
         		String nodeName = node.getName();
-
         		// Exclude vtk and usa.
         		if(!Stream.of(IGNORED_DAM_FOLDERS).anyMatch(nodeName.toLowerCase()::contains)) {
         			
@@ -93,7 +95,6 @@ public class ContentCounselRetriever {
         			counselList.add(new Counsel(node, adminSession));
         		}
 		}
-        
 	}
 	
 	public List<FolderDTO> getExplicitlyDeniedDamFolders() throws CounselPermissionModificationException{
@@ -232,8 +233,11 @@ public class ContentCounselRetriever {
 		predicateMap.put("path.flat", "true");
 		predicateMap.put("type", "sling:orderedFolder");
 		
-		SearchResult result = (queryBuilder.createQuery(PredicateGroup.create(predicateMap), adminSession)).getResult();
-		Iterator<Node> nodes = result.getNodes();
+		com.day.cq.search.Query query = (com.day.cq.search.Query) queryBuilder.createQuery(PredicateGroup.create(predicateMap), adminSession);
+		query.setHitsPerPage(200);
+		SearchResult queryResult = query.getResult();
+		
+		Iterator<Node> nodes = queryResult.getNodes();
         
         // Get a list dam folders used by other counsels to exclude.
         List<String> usedDamFolders = new ArrayList<>();

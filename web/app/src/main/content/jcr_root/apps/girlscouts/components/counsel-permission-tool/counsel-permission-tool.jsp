@@ -2,7 +2,11 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 
 <%@taglib prefix="ui" uri="http://www.adobe.com/taglibs/granite/ui/1.0" %>
-<ui:includeClientLib categories="counsel.permissions.tool" />
+<%-- <ui:includeClientLib categories="counsel.permissions.tool" /> --%>
+<script src="/apps/girlscouts/components/counsel-permission-tool/clientlib.js"></script>
+<link rel="stylesheet" type="text/css" href="/apps/girlscouts/components/counsel-permission-tool/clientlib.css"></link>
+
+    
 <div>
 	<%-- Template represents counsel block. --%>
 	<script type="text/x-template" id="CounselTemplate">
