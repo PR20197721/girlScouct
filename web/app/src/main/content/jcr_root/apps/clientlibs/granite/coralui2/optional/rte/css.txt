@@ -1,5 +1,0 @@
-# com.adobe.granite.ui.coralui-3.0.122-CQ630-B0009 - 20171109-1605
-
-#base=./css
-
-cui-rte.css

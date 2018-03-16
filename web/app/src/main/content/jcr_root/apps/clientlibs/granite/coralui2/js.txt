@@ -1,9 +1,0 @@
-#base=js
-
-jquery-message.js
-jquery-validator.js
-
-coral.js
-validations.js
-CUI.FileChunkedUpload.js
-init.js
