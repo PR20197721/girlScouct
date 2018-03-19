@@ -69,7 +69,8 @@
                                 fieldLabel="Items">
                                 <field
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/textfield"/>
+                                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                    name="./options"/>
                             </multiValues>
                             <multiValuePath
                                 jcr:primaryType="nt:unstructured"
@@ -98,7 +99,8 @@
                                 fieldLabel="Default Values">
                                 <field
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/textfield"/>
+                                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                    name="./defaultValue"/>
                             </value>
                         </items>
                     </columns>

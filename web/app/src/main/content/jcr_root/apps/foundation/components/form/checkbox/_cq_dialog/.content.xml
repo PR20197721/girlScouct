@@ -55,11 +55,16 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/multifield"
                                 fieldDescription="Enter values in the form {value}={text}."
-                                fieldLabel="Items"
-                                name="./options">
+                                fieldLabel="Items">
                                 <field
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/textfield"/>
+                                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                    name="./options"/>
+                                <field-type
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                    name="./options@TypeHint"
+                                    value="String"/>
                             </multiValues>
                             <multiValuePath
                                 jcr:primaryType="nt:unstructured"
