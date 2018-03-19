@@ -34,11 +34,20 @@
     final boolean hideTitle = properties.get("hideTitle", false);
     final String width = properties.get("width", String.class);
     final String confirmationEmail = properties.get("confirmationemail", String.class);
-    final int rows = xssAPI.getValidInteger(properties.get("rows", String.class), 1);
-    final int cols = xssAPI.getValidInteger(properties.get("cols", String.class), 35);
+    int rows = xssAPI.getValidInteger(properties.get("rows", String.class), 1);
+    int cols = xssAPI.getValidInteger(properties.get("cols", String.class), 35);
 	//c.w add maxlength attribute to input text
-    final String maxlength = properties.get("maxlength", String.class);
+    int maxlength = xssAPI.getValidInteger(properties.get("maxlength", String.class), 35);
     String[] values = FormsHelper.getValues(slingRequest, resource);
+	if(rows < 1){
+		rows = 1;
+	}
+	if(cols < 1){
+		cols = 35;
+	}
+	if(maxlength < 1){
+		maxlength = 35;
+	}
     if (values == null) {
         values = new String[]{""};
     }
@@ -78,9 +87,9 @@
                             %>value="<%= xssAPI.encodeForHTMLAttr(value) %>" <%
                             %>size="<%= cols %>" <%
                             %>value="<%= maxlength %>" <%
-                            if(maxlength!=null){
-                            	%>maxlength="<%=xssAPI.getValidInteger(maxlength, 5)%>" <%
-                        	}
+
+                            %>maxlength="<%= maxlength%>" <%
+
                             if (width != null) {
                                 %>style="width:<%= xssAPI.getValidInteger(width, 100) %>px;" <%
                             }
