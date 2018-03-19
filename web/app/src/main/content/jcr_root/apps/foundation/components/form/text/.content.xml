@@ -3,4 +3,4 @@
     jcr:primaryType="cq:Component"
     jcr:title="Text Field"
     allowedParents="[*/parsys]"
-    componentGroup="Girl Scouts Form"/>
+    componentGroup=".hidden"/>
