@@ -60,7 +60,7 @@
 	$(document).ready(function() {
 		var scriptTag = document.createElement("script");
 		scriptTag.type = "text/javascript"
-		scriptTag.src="http://connect.facebook.net/en_US/all.js";
+		scriptTag.src="//connect.facebook.net/en_US/all.js";
 		scriptTag.async = true;
 		document.getElementsByTagName("head")[0].appendChild(scriptTag);
 
@@ -97,7 +97,7 @@
 	function get_bitly_short_url(long_url, login, api_key, func)
 	{
 	    $.getJSON(
-        	"http://api.bitly.com/v3/shorten?callback=?",
+        	"//api.bitly.com/v3/shorten?callback=?",
 	        ({
       	    "apiKey": api_key,
           	"login": login,
@@ -117,7 +117,7 @@
 
 	$(document).ready(function() {
 		get_bitly_short_url(bitly_long_url, bitly_login, bitly_api_key, function(short_url) {
-			var bitly_twitter_url = "https://twitter.com/share?text=<%=tweetText%>&url=" + short_url;
+			var bitly_twitter_url = "//twitter.com/share?text=<%=tweetText%>&url=" + short_url;
 			$("a.icon-social-twitter-tweet-bird").attr("href",bitly_twitter_url);
 		});
 	});
