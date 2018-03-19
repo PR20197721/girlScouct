@@ -97,7 +97,7 @@
 	function get_bitly_short_url(long_url, login, api_key, func)
 	{
 	    $.getJSON(
-        	"//api.bitly.com/v3/shorten?callback=?",
+        	"//api-ssl.bitly.com/v3/shorten?callback=?",
 	        ({
       	    "apiKey": api_key,
           	"login": login,
