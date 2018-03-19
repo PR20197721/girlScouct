@@ -3,6 +3,7 @@
 	<filter root="/apps/clientlibs/granite/coralui2"/>
     <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>
     <filter root="/apps/cq/tagging"/>
+    <filter root="/apps/cq/inbox"/>
     <filter root="/apps/cq/ui/widgets/source/form/rte/plugins/LinkPlugin.js"/>
     <filter root="/apps/cq/xssprotection"/>
     <filter root="/apps/dam"/>

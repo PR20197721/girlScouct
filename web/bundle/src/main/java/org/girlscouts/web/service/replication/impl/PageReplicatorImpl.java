@@ -84,18 +84,13 @@ public class PageReplicatorImpl
 	@Reference
 	protected LiveRelationshipManager relationManager;
 	
-	protected ResourceResolver rr;
+	protected Map<String, Object> serviceParams;
 	
 	@Activate
 	private void activate(ComponentContext context) {
-		try {
-			Map<String, Object> serviceParams = new HashMap<String, Object>();
-			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-			rr = resolverFactory.getServiceResourceResolver(serviceParams);
-		} catch (LoginException e) {
-			e.printStackTrace();
-		}
-		log.info("Girlscouts Page Replication Service Deactivated.");
+		Map<String, Object> serviceParams = new HashMap<String, Object>();
+		serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+		log.info("Girlscouts Page Replicator Activated.");
 	}
 
 	@Override
@@ -105,40 +100,50 @@ public class PageReplicatorImpl
 			log.error("Publisher instance - will not execute Page Replicator");
 			return;
 		}
-
-		List<Node> queuedReplications = queueDelayedReplications();
-		if (queuedReplications != null) {
-			List<Node> replicationsToCrawl = new ArrayList<Node>();
-			for (Node dateRolloutNode : queuedReplications) {
-				Boolean crawl = true;
-				try {
-					crawl = dateRolloutNode.getProperty(PARAM_CRAWL).getBoolean();
-					if (crawl) {
-						replicationsToCrawl.add(dateRolloutNode);
-					} else {
-						processReplicationNode(dateRolloutNode);
+		ResourceResolver rr = null;
+		try {
+			rr = resolverFactory.getServiceResourceResolver(serviceParams);
+			List<Node> queuedReplications = queueDelayedReplications(rr);
+			if (queuedReplications != null) {
+				List<Node> replicationsToCrawl = new ArrayList<Node>();
+				for (Node dateRolloutNode : queuedReplications) {
+					Boolean crawl = true;
+					try {
+						crawl = dateRolloutNode.getProperty(PARAM_CRAWL).getBoolean();
+						if (crawl) {
+							replicationsToCrawl.add(dateRolloutNode);
+						} else {
+							processReplicationNode(dateRolloutNode, rr);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
+				}
+				if (!replicationsToCrawl.isEmpty()) {
+					try {
+						if (replicationsToCrawl.size() > 1) {
+							aggregateReplicateCrawl(replicationsToCrawl, rr);
+						} else {
+							processReplicationNode(replicationsToCrawl.get(0), rr);
+						}
+					} catch (RepositoryException e) {
+						e.printStackTrace();
+					}
 				}
 			}
-			if (!replicationsToCrawl.isEmpty()) {
-				try {
-					if (replicationsToCrawl.size() > 1) {
-						aggregateReplicateCrawl(replicationsToCrawl);
-					} else {
-						processReplicationNode(replicationsToCrawl.get(0));
-					}
-				} catch (RepositoryException e) {
-					e.printStackTrace();
-				}
+		} catch (LoginException e) {
+			log.error("Girlscouts PageReplicatorImpl encountered error: ", e);
+		} finally {
+			try {
+				rr.close();
+			} catch (Exception e) {
 			}
 		}
 		log.error("Finished PageReplicatorImpl");
 	}
 
 	@Override
-	public void processReplicationNode(Node dateRolloutNode) throws RepositoryException {
+	public void processReplicationNode(Node dateRolloutNode, ResourceResolver rr) throws RepositoryException {
 		long begin = System.currentTimeMillis();
 		Session session = dateRolloutNode.getSession();
 		try {
@@ -213,15 +218,15 @@ public class PageReplicatorImpl
 		}
 		if (toActivate.size() > 0 || toDelete.size() > 0) {
 			if (crawl) {
-				replicatedPages = replicateAndCrawl(toActivate, toDelete, dateRolloutNode, reporter);
+				replicatedPages = replicateAndCrawl(toActivate, toDelete, dateRolloutNode, reporter, rr);
 			} else {
-				replicatedPages = replicatePages(toActivate, toDelete, dateRolloutNode, reporter);
+				replicatedPages = replicatePages(toActivate, toDelete, dateRolloutNode, reporter, rr);
 			}
 		}
 		long end = System.currentTimeMillis();
 		reporter.report("Sending report email");
 		try {
-			sendReportEmail(begin, end, delay, crawl, replicatedPages, dateRolloutNode, reporter);
+			sendReportEmail(begin, end, delay, crawl, replicatedPages, dateRolloutNode, reporter, rr);
 			reporter.report("Report email delivered");
 		} catch (Exception e) {
 			reporter.report("Unable to send report email");
@@ -255,7 +260,7 @@ public class PageReplicatorImpl
 
 	protected Map<String, Set<String>> replicatePages(HashMap<String, TreeSet<String>> toActivate,
 			HashMap<String, TreeSet<String>> toDelete, Node dateNode,
-			PageActivationReporter reporter) {
+			PageActivationReporter reporter, ResourceResolver rr) {
 		reporter.report("Replicating all pages immediately");
 		Map<String, Set<String>> replicatedPages = new HashMap<String, Set<String>>();
 		Set<String> activatedPages = new TreeSet<String>();
@@ -265,7 +270,7 @@ public class PageReplicatorImpl
 		councilDomainsSet.addAll(toDelete.keySet());
 		for (String domain : councilDomainsSet) {
 			Map<String, Set<String>> replicatedPagesForDomain = replicate(dateNode, reporter,
-					toDelete.get(domain), toActivate.get(domain));
+					toDelete.get(domain), toActivate.get(domain), rr);
 			activatedPages.addAll(replicatedPagesForDomain.get(PARAM_ACTIVATED_PAGES));
 			deletedPages.addAll(replicatedPagesForDomain.get(PARAM_DELETED_PAGES));
 		}
@@ -275,7 +280,8 @@ public class PageReplicatorImpl
 	}
 
 	protected Map<String, Set<String>> replicateAndCrawl(HashMap<String, TreeSet<String>> toActivate,
-			HashMap<String, TreeSet<String>> toDelete, Node dateNode, PageActivationReporter reporter) {
+			HashMap<String, TreeSet<String>> toDelete, Node dateNode, PageActivationReporter reporter,
+			ResourceResolver rr) {
 		Map<String, Set<String>> replicatedPages = new HashMap<String, Set<String>>();
 		Set<String> activatedPages = new TreeSet<String>();
 		Set<String> deletedPages = new TreeSet<String>();
@@ -314,7 +320,7 @@ public class PageReplicatorImpl
 			}
 			try {
 				Map<String, Set<String>> replicatedPagesForDomain = replicate(dateNode, reporter, toDelete.get(council),
-						toActivate.get(council));
+						toActivate.get(council), rr);
 				if (replicatedPagesForDomain.containsKey(PARAM_ACTIVATED_PAGES)) {
 					activatedPages.addAll(replicatedPagesForDomain.get(PARAM_ACTIVATED_PAGES));
 				}
@@ -412,7 +418,7 @@ public class PageReplicatorImpl
 	
 	protected void sendReportEmail(long startTime, long endTime, Boolean delay, Boolean crawl,
 			Map<String, Set<String>> replicatedPages,
-			Node dateNode, PageActivationReporter reporter) throws RepositoryException {
+			Node dateNode, PageActivationReporter reporter, ResourceResolver rr) throws RepositoryException {
 		if (replicatedPages.size() > 0) {
 			Set<String> activatedPages = replicatedPages.get(PARAM_ACTIVATED_PAGES);
 			Set<String> deletedPages = replicatedPages.get(PARAM_DELETED_PAGES);
@@ -474,7 +480,7 @@ public class PageReplicatorImpl
 	}
 
 	private Map<String, Set<String>> replicate(Node dateNode, PageActivationReporter reporter,
-			TreeSet<String> pagesToDelete, TreeSet<String> pagesToActivate) {
+			TreeSet<String> pagesToDelete, TreeSet<String> pagesToActivate, ResourceResolver rr) {
 		Map<String, Set<String>> replicatedPages = new HashMap<String, Set<String>>();
 		if (pagesToDelete != null && !pagesToDelete.isEmpty()) {
 			Set<String> deletedPages = new TreeSet<String>();
@@ -520,7 +526,7 @@ public class PageReplicatorImpl
 		return replicatedPages;
 	}
 
-	private List<Node> queueDelayedReplications() {
+	private List<Node> queueDelayedReplications(ResourceResolver rr) {
 		List<Node> activations = null;
 		Session session = rr.adaptTo(Session.class);
 		Resource gsDelayedRes = rr.resolve(PAGE_ACTIVATIONS_PATH + "/" + DELAYED_NODE);
@@ -545,7 +551,7 @@ public class PageReplicatorImpl
 				e1.printStackTrace();
 			}
 			try {
-				activations.add(getEventsReplicationNode(gsDelayedRes));
+				activations.add(getEventsReplicationNode(gsDelayedRes, rr));
 			} catch (Exception e) {
 				log.error("Girlscouts Page Replicator encountered error: ", e);
 			}
@@ -553,7 +559,7 @@ public class PageReplicatorImpl
 		return activations;
 	}
 
-	private Node getEventsReplicationNode(Resource gsDelayedRes) throws RepositoryException {
+	private Node getEventsReplicationNode(Resource gsDelayedRes, ResourceResolver rr) throws RepositoryException {
 		Node eventReplicationNode = null;
 		try {
 			Resource etcRes = rr.resolve("/etc");
@@ -585,7 +591,7 @@ public class PageReplicatorImpl
 		return eventReplicationNode;
 	}
 
-	private Node getAggregateDateRolloutNode() throws RepositoryException {
+	private Node getAggregateDateRolloutNode(ResourceResolver rr) throws RepositoryException {
 		Node dateRolloutNode = null;
 		try {
 			Session session = rr.adaptTo(Session.class);
@@ -641,11 +647,12 @@ public class PageReplicatorImpl
 		}
 	}
 
-	private void aggregateReplicateCrawl(List<Node> replicationsToCrawl) throws RepositoryException {
+	private void aggregateReplicateCrawl(List<Node> replicationsToCrawl, ResourceResolver rr)
+			throws RepositoryException {
 		if (replicationsToCrawl != null && !replicationsToCrawl.isEmpty()) {
 			log.error("Girlscouts Page Replicator: Aggregating " + replicationsToCrawl.size()
 					+ " nodes to activate and crawl.");
-			Node aggregatedRolloutNode = getAggregateDateRolloutNode();
+			Node aggregatedRolloutNode = getAggregateDateRolloutNode(rr);
 			aggregatedRolloutNode.setProperty(PARAM_CRAWL, Boolean.TRUE);
 			aggregatedRolloutNode.setProperty(PARAM_DELAY, Boolean.TRUE);
 			aggregatedRolloutNode.setProperty(PARAM_STATUS, STATUS_CREATED);
@@ -654,7 +661,7 @@ public class PageReplicatorImpl
 				aggregate(activationNode, aggregatedRolloutNode);
 			}
 			aggregatedRolloutNode.getSession().save();
-			processReplicationNode(aggregatedRolloutNode);
+			processReplicationNode(aggregatedRolloutNode, rr);
 		}
 	}
 

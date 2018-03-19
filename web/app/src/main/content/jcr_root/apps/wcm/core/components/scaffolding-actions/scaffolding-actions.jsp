@@ -23,8 +23,8 @@ try{
 							%>
 							<a is="coral-anchorlist-item" 
 							class="foundation-collection-action coral-Link coral-BasicList-item coral-AnchorList-item" 
-							href="<%=scaffoldingURI%>" icon="news" tabindex="0">
-								<div class=" coral-BasicList-item-outerContainer" handle="outerContainer">
+							href="<%=scaffoldingURI%>" target="_blank" icon="news" tabindex="0">
+								<div class="coral-BasicList-item-outerContainer" handle="outerContainer">
 								  <div class=" coral-BasicList-item-contentContainer" handle="contentContainer">
 								  	<coral-list-item-content class="coral-BasicList-item-content"><%=buttonName %></coral-list-item-content> 
 								  </div>
