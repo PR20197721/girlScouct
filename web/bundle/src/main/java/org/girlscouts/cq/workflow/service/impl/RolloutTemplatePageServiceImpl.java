@@ -80,18 +80,14 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	private LiveRelationshipManager relationManager;
 	@Reference
 	private PageReplicator pageReplicator;
-
-	private ResourceResolver rr;
 	
+	private Map<String, Object> serviceParams;
+
 	@Activate
 	private void activate(ComponentContext context) {
-		try {
-			Map<String, Object> serviceParams = new HashMap<String, Object>();
-			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-			rr = resolverFactory.getServiceResourceResolver(serviceParams);
-		} catch (LoginException e) {
-			log.error("Girlscouts Rollout Service encountered error: ", e);
-		}
+		serviceParams = new HashMap<String, Object>();
+		serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+		log.info("Girlscouts Rollout Service Activated.");
 	}
 
 	@Override
@@ -105,133 +101,143 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		} catch (InterruptedException e) {
 			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
-		Session session = rr.adaptTo(Session.class);
-		Resource dateRolloutRes = rr.resolve(path);
-		if (!dateRolloutRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-			Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
-			String srcPath = "", templatePath = "";
-			Boolean notify = false, activate = false, delay = false, useTemplate = false, newPage = false;
-			Set<String> councils = null;
-			Set<String> notifyCouncils = new TreeSet<String>();
-			List<String> rolloutLog = new ArrayList<String>();
-			try {
-				dateRolloutNode.setProperty(PARAM_STATUS, STATUS_PROCESSING);
-				session.save();
+		ResourceResolver rr = null;
+		try {
+			rr = resolverFactory.getServiceResourceResolver(serviceParams);
+			Session session = rr.adaptTo(Session.class);
+			Resource dateRolloutRes = rr.resolve(path);
+			if (!dateRolloutRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+				Node dateRolloutNode = dateRolloutRes.adaptTo(Node.class);
+				String srcPath = "", templatePath = "";
+				Boolean notify = false, activate = false, delay = false, useTemplate = false, newPage = false;
+				Set<String> councils = null;
+				Set<String> notifyCouncils = new TreeSet<String>();
+				List<String> rolloutLog = new ArrayList<String>();
 				try {
-					srcPath = dateRolloutNode.getProperty(PARAM_SOURCE_PATH).getString();
-				} catch (Exception e) {
-					log.error("Girlscouts Rollout Service encountered error: ", e);
-				}
-				try {
-					newPage = dateRolloutNode.getProperty(PARAM_NEW_PAGE).getBoolean();
-				} catch (Exception e) {
-					log.error("Girlscouts Rollout Service encountered error: ", e);
-				}
-				try {
-					notify = dateRolloutNode.getProperty(PARAM_NOTIFY).getBoolean();
-				} catch (Exception e) {
-					log.error("Girlscouts Rollout Service encountered error: ", e);
-				}
-				try {
-					activate = dateRolloutNode.getProperty(PARAM_ACTIVATE).getBoolean();
-				} catch (Exception e) {
-					log.error("Girlscouts Rollout Service encountered error: ", e);
-				}
-				try {
-					delay = dateRolloutNode.getProperty(PARAM_DELAY).getBoolean();
-				} catch (Exception e) {
-					log.error("Girlscouts Rollout Service encountered error: ", e);
-				}
-				try {
-					useTemplate = dateRolloutNode.getProperty(PARAM_USE_TEMPLATE).getBoolean();
-				} catch (Exception e) {
-					log.error("Girlscouts Rollout Service encountered error: ", e);
-				}
-				try {
-					templatePath = dateRolloutNode.getProperty(PARAM_TEMPLATE_PATH).getString();
-				} catch (Exception e) {
-					log.error("Girlscouts Rollout Service encountered error: ", e);
-				}
-				if (useTemplate && (templatePath == null || templatePath.trim().length() == 0)) {
-					log.error("Rollout Error - Use Template checked, but no template provided. Cancelling.");
-					PageReplicationUtil.markReplicationFailed(dateRolloutNode);
-					return;
-				}
-				councils = PageReplicationUtil.getCouncils(dateRolloutNode);
-				Resource srcRes = rr.resolve(srcPath);
-				if (relationManager.isSource(srcRes)) {
-					Page srcPage = (Page) srcRes.adaptTo(Page.class);
-					if (srcPage != null) {
-						Set<String> pages = new HashSet<String>();
-						if (newPage) {
-							processNewLiveRelationships(councils, srcRes, pages, rolloutLog, notifyCouncils);
-						} else {
-							processExistingLiveRelationships(councils, srcRes, pages, rolloutLog, notifyCouncils);
-						}
-
-						if (!councils.isEmpty()) {
-							int councilNameIndex = srcPath.indexOf("/", "/content/".length());
-							String srcRelativePath = srcPath.substring(councilNameIndex);
-							for (String council : councils) {
-								notifyCouncils.add(council + srcRelativePath);
-								log.error("Failed to rollout for {} council", council);
-								rolloutLog.add("Failed to rollout for " + council + " council");
-							}
-						}
-						dateRolloutNode.setProperty(PARAM_PAGES,
-								pages.toArray(new String[pages.size()]));
-						dateRolloutNode.setProperty(PARAM_NOTIFY_COUNCILS,
-								notifyCouncils.toArray(new String[notifyCouncils.size()]));
-						session.save();
-					} else {
-						log.error("Resource is not a page. Quit. " + srcPath);
+					dateRolloutNode.setProperty(PARAM_STATUS, STATUS_PROCESSING);
+					session.save();
+					try {
+						srcPath = dateRolloutNode.getProperty(PARAM_SOURCE_PATH).getString();
+					} catch (Exception e) {
+						log.error("Girlscouts Rollout Service encountered error: ", e);
+					}
+					try {
+						newPage = dateRolloutNode.getProperty(PARAM_NEW_PAGE).getBoolean();
+					} catch (Exception e) {
+						log.error("Girlscouts Rollout Service encountered error: ", e);
+					}
+					try {
+						notify = dateRolloutNode.getProperty(PARAM_NOTIFY).getBoolean();
+					} catch (Exception e) {
+						log.error("Girlscouts Rollout Service encountered error: ", e);
+					}
+					try {
+						activate = dateRolloutNode.getProperty(PARAM_ACTIVATE).getBoolean();
+					} catch (Exception e) {
+						log.error("Girlscouts Rollout Service encountered error: ", e);
+					}
+					try {
+						delay = dateRolloutNode.getProperty(PARAM_DELAY).getBoolean();
+					} catch (Exception e) {
+						log.error("Girlscouts Rollout Service encountered error: ", e);
+					}
+					try {
+						useTemplate = dateRolloutNode.getProperty(PARAM_USE_TEMPLATE).getBoolean();
+					} catch (Exception e) {
+						log.error("Girlscouts Rollout Service encountered error: ", e);
+					}
+					try {
+						templatePath = dateRolloutNode.getProperty(PARAM_TEMPLATE_PATH).getString();
+					} catch (Exception e) {
+						log.error("Girlscouts Rollout Service encountered error: ", e);
+					}
+					if (useTemplate && (templatePath == null || templatePath.trim().length() == 0)) {
+						log.error("Rollout Error - Use Template checked, but no template provided. Cancelling.");
 						PageReplicationUtil.markReplicationFailed(dateRolloutNode);
 						return;
 					}
-				} else {
-					log.error("Not a live copy source page. Quit. " + srcPath);
+					councils = PageReplicationUtil.getCouncils(dateRolloutNode);
+					Resource srcRes = rr.resolve(srcPath);
+					if (relationManager.isSource(srcRes)) {
+						Page srcPage = (Page) srcRes.adaptTo(Page.class);
+						if (srcPage != null) {
+							Set<String> pages = new HashSet<String>();
+							if (newPage) {
+								processNewLiveRelationships(councils, srcRes, pages, rolloutLog, notifyCouncils, rr);
+							} else {
+								processExistingLiveRelationships(councils, srcRes, pages, rolloutLog, notifyCouncils,
+										rr);
+							}
+
+							if (!councils.isEmpty()) {
+								int councilNameIndex = srcPath.indexOf("/", "/content/".length());
+								String srcRelativePath = srcPath.substring(councilNameIndex);
+								for (String council : councils) {
+									notifyCouncils.add(council + srcRelativePath);
+									log.error("Failed to rollout for {} council", council);
+									rolloutLog.add("Failed to rollout for " + council + " council");
+								}
+							}
+							dateRolloutNode.setProperty(PARAM_PAGES, pages.toArray(new String[pages.size()]));
+							dateRolloutNode.setProperty(PARAM_NOTIFY_COUNCILS,
+									notifyCouncils.toArray(new String[notifyCouncils.size()]));
+							session.save();
+						} else {
+							log.error("Resource is not a page. Quit. " + srcPath);
+							PageReplicationUtil.markReplicationFailed(dateRolloutNode);
+							return;
+						}
+					} else {
+						log.error("Not a live copy source page. Quit. " + srcPath);
+						PageReplicationUtil.markReplicationFailed(dateRolloutNode);
+						return;
+					}
+				} catch (Exception e) {
+					log.error("Girlscouts Rollout Service encountered error: ", e);
 					PageReplicationUtil.markReplicationFailed(dateRolloutNode);
 					return;
 				}
-			} catch (Exception e) {
-				log.error("Girlscouts Rollout Service encountered error: ", e);
-				PageReplicationUtil.markReplicationFailed(dateRolloutNode);
-				return;
-			}
-			List<String> councilNotificationLog = new ArrayList<String>();
-			Boolean isTestMode = PageReplicationUtil.isTestMode(rr);
-			try {
-				if (notify && notifyCouncils.size() > 0) {
-					sendCouncilNotifications(dateRolloutNode, councilNotificationLog, isTestMode);
-				} else {
-					dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.FALSE);
-				}
-			} catch (Exception e) {
-				log.error("Girlscouts Rollout Service encountered error: ", e);
-			}
-			try {
-				sendGSUSANotifications(dateRolloutNode, rolloutLog, councilNotificationLog, isTestMode);
-			} catch (Exception e) {
-				log.error("Girlscouts Rollout Service encountered error: ", e);
-			}
-			try {
-				if (activate) {
-					if (delay) {
-						dateRolloutNode.setProperty(PARAM_STATUS, STATUS_DELAYED);
-						session.save();
+				List<String> councilNotificationLog = new ArrayList<String>();
+				Boolean isTestMode = PageReplicationUtil.isTestMode(rr);
+				try {
+					if (notify && notifyCouncils.size() > 0) {
+						sendCouncilNotifications(dateRolloutNode, councilNotificationLog, isTestMode, rr);
 					} else {
-						pageReplicator.processReplicationNode(dateRolloutNode);
+						dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.FALSE);
 					}
-				} else {
-					dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETE);
-					PageReplicationUtil.archive(dateRolloutNode);
+				} catch (Exception e) {
+					log.error("Girlscouts Rollout Service encountered error: ", e);
 				}
+				try {
+					sendGSUSANotifications(dateRolloutNode, rolloutLog, councilNotificationLog, isTestMode, rr);
+				} catch (Exception e) {
+					log.error("Girlscouts Rollout Service encountered error: ", e);
+				}
+				try {
+					if (activate) {
+						if (delay) {
+							dateRolloutNode.setProperty(PARAM_STATUS, STATUS_DELAYED);
+							session.save();
+						} else {
+							pageReplicator.processReplicationNode(dateRolloutNode, rr);
+						}
+					} else {
+						dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETE);
+						PageReplicationUtil.archive(dateRolloutNode);
+					}
+				} catch (Exception e) {
+					PageReplicationUtil.markReplicationFailed(dateRolloutNode);
+					log.error("Girlscouts Rollout Service encountered error: ", e);
+				}
+			}
+		} catch (LoginException e) {
+			log.error("Girlscouts Rollout Service encountered error: ", e);
+		} finally {
+			try {
+				rr.close();
 			} catch (Exception e) {
-				PageReplicationUtil.markReplicationFailed(dateRolloutNode);
-				log.error("Girlscouts Rollout Service encountered error: ", e);
 			}
 		}
-
 	}
 
 	private boolean isPublisher() {
@@ -248,7 +254,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	}
 
 	private void processNewLiveRelationships(Set<String> councils, Resource srcRes, Set<String> pagesToActivate,
-			List<String> rolloutLog, Set<String> notifyCouncils)
+			List<String> rolloutLog, Set<String> notifyCouncils, ResourceResolver rr)
 			throws RepositoryException, WCMException {
 		Session session = rr.adaptTo(Session.class);
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes.getParent(), null, null);
@@ -299,10 +305,10 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	}
 
 	private void processExistingLiveRelationships(Set<String> councils, Resource srcRes, Set<String> pagesToActivate,
-			List<String> rolloutLog, Set<String> notifyCouncils)
+			List<String> rolloutLog, Set<String> notifyCouncils, ResourceResolver rr)
 			throws RepositoryException, WCMException {
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes, null, null);
-		Map<String, Set<String>> componentRelationsMap = getComponentRelations(srcRes, rolloutLog);
+		Map<String, Set<String>> componentRelationsMap = getComponentRelations(srcRes, rolloutLog, rr);
 		while (relationIterator.hasNext()) {
 			try {
 				LiveRelationship relation = (LiveRelationship) relationIterator.next();
@@ -323,7 +329,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 							validateRolloutConfig(srcRes, targetResource);
 							Set<String> srcComponents = componentRelationsMap.keySet();
 							if (isComponentsInheritanceBroken(srcComponents, componentRelationsMap, targetPath,
-									rolloutLog)) {
+									rolloutLog, rr)) {
 								notifyCouncils.add(targetPath);
 							}
 							RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
@@ -428,12 +434,13 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	}
 
 	private boolean isComponentsInheritanceBroken(Set<String> components,
-			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> rolloutLog) {
+			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> rolloutLog,
+			ResourceResolver rr) {
 		boolean inheritanceBroken = false;
 		if (components != null && components.size() > 0) {
 			Set<String> removeComponents = new HashSet<String>();
 			for (String component : componentRelationsMap.keySet()) {
-				if (isInheritanceBroken(targetPath, componentRelationsMap, component, rolloutLog)) {
+				if (isInheritanceBroken(targetPath, componentRelationsMap, component, rolloutLog, rr)) {
 					inheritanceBroken = true;
 					removeComponents.add(component);
 					log.error(
@@ -449,7 +456,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	}
 
 	private boolean isInheritanceBroken(String targetPath, Map<String, Set<String>> componentRelationsMap,
-			String component, List<String> rolloutLog) {
+			String component, List<String> rolloutLog, ResourceResolver rr) {
 		Resource componentRes = rr.resolve(component);
 		if (componentRes != null && !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 			try {
@@ -528,7 +535,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		}
 	}
 
-	private Map<String, Set<String>> getComponentRelations(Resource srcRes, List<String> rolloutLog) {
+	private Map<String, Set<String>> getComponentRelations(Resource srcRes, List<String> rolloutLog,
+			ResourceResolver rr) {
 		Map<String, Set<String>> componentRelationsMap = new HashMap<String, Set<String>>();
 		Set<String> srcComponents = getComponents(srcRes);
 		if (srcComponents != null && srcComponents.size() > 0) {
@@ -577,7 +585,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	}
 
 	private void sendGSUSANotifications(Node dateRolloutNode, List<String> rolloutLog,
-			List<String> councilNotificationLog, Boolean isTestMode) {
+			List<String> councilNotificationLog, Boolean isTestMode, ResourceResolver rr) {
 		Set<String> councils = null;
 		String councilNotificationSubject = DEFAULT_ROLLOUT_NOTIFICATION_SUBJECT;
 		StringBuffer html = new StringBuffer();
@@ -691,7 +699,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	}
 	
 	private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog,
-			Boolean isTestMode) {
+			Boolean isTestMode, ResourceResolver rr) {
 		Set<String> notifyCouncils = new TreeSet<String>();
 		String subject = DEFAULT_ROLLOUT_NOTIFICATION_SUBJECT;
 		String message = DEFAULT_ROLLOUT_NOTIFICATION_MESSAGE, templatePath = "", srcPath = "";
