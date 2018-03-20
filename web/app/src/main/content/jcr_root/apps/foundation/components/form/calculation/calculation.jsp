@@ -70,13 +70,7 @@
             int i = 0;
             for (String value : values) {
                 %><div id="<%= xssAPI.encodeForHTMLAttr(name) %>_<%= i %>_wrapper" class="form_rightcol_wrapper"><%=prefix%><%
-                if (readOnly) {
-                    if (value.length() == 0) {
-                        // at least display a space otherwise layout may break
-                        value = " ";
-                    }
-                    %><%= new TextFormat().format(value) %><%
-                } else {
+                
                     String currentId = i == 0 ? id : id + "-" + i;
                     if (rows == 1) {
                         %><input class="<%= FormsHelper.getCss(properties, "form_field form_field_text" + (multiValued ? " form_field_multivalued" : "" )) %>" <%
@@ -87,6 +81,9 @@
                             if (width != null) {
                                 %>style="width:<%= xssAPI.getValidInteger(width, 100) %>px;" <%
                             }
+                            if(readOnly){
+                                %> readonly <%
+                            }
                             %>onkeydown="<%= mrChangeHandler %>" ><%
                     } else {
                         %><textarea class="<%= FormsHelper.getCss(properties, "form_field form_field_textarea") %>" <%
@@ -95,6 +92,9 @@
                             %>rows="<%= rows %>" cols="<%= cols %>" <%
                             if (width != null) {
                                 %>style="width:<%= xssAPI.getValidInteger(width, 100) %>px;" <%
+                            }
+                            if(readOnly){
+                                %> readonly <%
                             }
                             %>onkeydown="<%= mrChangeHandler %>" ><%= xssAPI.encodeForHTML(value) %></textarea><%
                     }
@@ -111,7 +111,7 @@
                                                     }
                                                     %>></span><%
                     }
-                }
+                
                 i++;
                 %></div><%
             }
