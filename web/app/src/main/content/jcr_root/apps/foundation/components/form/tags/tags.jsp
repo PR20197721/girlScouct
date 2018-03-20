@@ -21,7 +21,7 @@
         com.day.cq.wcm.foundation.forms.FormsConstants,
         com.day.cq.wcm.foundation.forms.FormsHelper,
         com.day.cq.wcm.foundation.forms.LayoutHelper,
-        com.day.cq.widget.HtmlLibraryManager,
+        com.adobe.granite.ui.clientlibs.HtmlLibraryManager,
         org.apache.sling.api.resource.ResourceResolver,
         com.day.cq.i18n.I18n,
 		java.util.ResourceBundle" %><%
