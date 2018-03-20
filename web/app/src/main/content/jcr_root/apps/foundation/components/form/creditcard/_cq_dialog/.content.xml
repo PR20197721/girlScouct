@@ -60,6 +60,7 @@
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./readOnly@Delete"
                                 value="{Boolean}true"/>
+                            <showhide/>
                         </items>
                     </columns>
                 </items>
@@ -121,32 +122,36 @@
                                     <required
                                         jcr:primaryType="nt:unstructured"
                                         jcr:title="Required"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/nestedcheckboxlist"
-                                        name="./required">
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/nestedcheckboxlist">
                                         <items jcr:primaryType="nt:unstructured">
                                             <credit-card-type
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                name="./required"
                                                 text="Credit Card Type"
                                                 value="credit-card-type"/>
                                             <primary-account-number
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                name="./required"
                                                 text="Credit Card Number"
                                                 value="primary-account-number"/>
                                             <name-on-card
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                name="./required"
                                                 text="Name On Card"
                                                 value="name-on-card"/>
                                             <expiration-date
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                name="./required"
                                                 text="Expiration Date"
                                                 value="expiration-date"/>
                                             <ccv
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                name="./required"
                                                 text="Security Card"
                                                 value="ccv"/>
                                         </items>

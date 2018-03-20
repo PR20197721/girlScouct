@@ -66,6 +66,7 @@
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Prefix"
                                 name="./prefix"/>
+                            <showhide/>
                         </items>
                     </columns>
                 </items>
@@ -120,7 +121,7 @@
                                 fieldLabel="Constraint"
                                 name="./constraintType">
                                 <items jcr:primaryType="nt:unstructured">
-                                	<none
+                                    <none
                                         jcr:primaryType="nt:unstructured"
                                         text=""
                                         value=""/>
