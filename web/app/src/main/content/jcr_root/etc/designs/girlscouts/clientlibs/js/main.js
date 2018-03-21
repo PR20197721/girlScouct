@@ -164,72 +164,48 @@ function deleteEvent(eventID, name, register){
 
 
 
-function toggleParsys(s, name)
+function toggleParsys(s)
 {
     var componentPath = s;
-    var parsysName = name;
-    var editablesReady = new $.Deferred();
-	$(document).on('cq-editables-loaded', function(event, editablesObject){ 
-		editablesReady.resolve(editablesObject.editables); 
-	});
-	
-	function findEditable(){
-		var returner = new $.Deferred();
-		editablesReady.then(function(editables){
-			// Find the editable that contains this parsys but not any other editables.
-			for(var i = 0; i < editables.length; i++){
-				// Check first if we contain other editables:
-				if($(editables[i].overlay.dom).find('[data-type="Editable"]').length > 0){
-					continue;
-				}
-				
-				// Check to see if we contain the parsys.
-				if($('#' + parsysName).find($(editables[i].dom)).length > 0){
-					returner.resolve(editables[i]);
-				}
-				
-			}
-			returner.reject(null);
-		});
-		return returner;
-	}
 
-    this.toggle = function()  {
-	    	if (componentPath) {
-	    		try{
-	    			
-	    			findEditable().then(edb => $(edb.dom).toggle());
-	    			
-//	    			var parsysNumber = componentPath.substring(componentPath.lastIndexOf("jcr:content"));
-//    				editablesReady.then((editables) => editables.filter(nd => nd.path.indexOf(parsysNumber) > -1).forEach(item => $(item.dom).toggle()))
-	    		} catch (err){
-	    			console.warn("couldn't toggle parsys");
-	    		}
-	    }
-    };
+    this.toggle = function()
+    {
+    	if (componentPath)
+        {
+    		var parsysComp = CQ.WCM.getEditable(componentPath);
 
-    this.hideParsys = function() {
-        if (componentPath) {
-        		try{
-        			findEditable().then(edb => $(edb.dom).hide());
-//				var parsysNumber = componentPath.substring(componentPath.lastIndexOf("/"));
-//    				editablesReady.then((editables) => editables.filter(nd => nd.path.indexOf(parsysNumber) > -1).forEach(item => $(item.dom).hide()))
-	    		} catch (err){
-				console.warn("couldn't hide parsys");
-			}
+    		if(parsysComp.hidden == true){
+    			parsysComp.show();
+    		}
+    		else{
+    			parsysComp.hide();
+    		}
         }
     };
 
-    this.showParsys = function() {
-        if (componentPath) {
-        		try{ 
+    this.hideParsys = function()
+    {
+        if (componentPath)
+        {
+            var parsysComp = CQ.WCM.getEditable(componentPath);
 
-        			findEditable().then(edb => $(edb.dom).show());
-//        			var parsysNumber = componentPath.substring(componentPath.lastIndexOf("/"));
-//    				editablesReady.then((editables) => editables.filter(nd => nd.path.indexOf(parsysNumber) > -1).forEach(item => $(item.dom).show()))
-	    		} catch (err){
-	    			console.warn("couldn't show parsys");
-	    		}
+            if (parsysComp)
+            {
+                parsysComp.hide();
+            }
+        }
+    };
+
+    this.showParsys = function()
+    {
+        if (componentPath)
+        {
+            var parsysComp = CQ.WCM.getEditable(componentPath);
+
+            if (parsysComp)
+            {
+                parsysComp.show();
+            }
         }
     };
 
