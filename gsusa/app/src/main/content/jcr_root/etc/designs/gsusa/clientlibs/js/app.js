@@ -186,7 +186,11 @@ function fixSlickSlideActive() {
 
     // YouTube API loaded
     function ytLoaded() {
-        return YT && YT.Player;
+        return window['YT'] && YT.Player;
+    }
+    
+    function vimeoLoaded(){
+    		return window['Vimeo'] && Vimeo.Player;
     }
 
     if (ytLoaded()) {
@@ -195,6 +199,18 @@ function fixSlickSlideActive() {
         window.onYouTubeIframeAPIReady = function () {
             $(window).trigger("ytLoaded");
         };
+    }
+    
+    if (vimeoLoaded()) {
+        $(window).trigger("vimeoLoaded");
+    } else {
+    		// Vimeo doesn't provide a callback so we need to poll.
+    		var vimeoIntervalId = window.setInterval(function(){
+    			if(vimeoLoaded()){
+    		        $(window).trigger("vimeoLoaded");
+    		        window.clearInterval(vimeoIntervalId);
+    			}
+    		}, 100);
     }
 
     //add height to the content for the footer to be always at the bottom.
@@ -818,6 +834,22 @@ function fixSlickSlideActive() {
         return self;
     };
 
+
+	var vimeoPlayerLoadStarted = false;
+	function loadVimeoPlayer(){
+		if(!vimeoPlayerLoadStarted){
+			$.getScript('https://player.vimeo.com/api/player.js', {cache: true});
+			vimeoPlayerLoadStarted = true;
+		}
+	}
+	
+	var youtubePlayerLoadStarted = false;
+	function loadYoutubePlayer(){
+		if(!youtubePlayerLoadStarted){
+			$.getScript('https://www.youtube.com/iframe_api', {cache: true});
+			youtubePlayerLoadStarted = true;
+		}
+	}
     //
     //
     // SLICK CAROUSEL VIDEO PLAYER
@@ -966,8 +998,16 @@ function fixSlickSlideActive() {
 
             // Instantiate player
             if (self.type.indexOf('vimeo') > -1) { // Check for a Vimeo player
-                self.createVimeoPlayer();
+            		loadVimeoPlayer();
+	        		if(vimeoLoaded()){
+	    	            self.createVimeoPlayer();
+	        		}else {
+	        			$(window).on('vimeoLoaded', function(){
+	        	            self.createVimeoPlayer();
+	        			});
+	        		}
             } else if (self.type.indexOf('youtube') > -1) { // Check for a YouTube player
+            		loadYoutubePlayer();
                 if (ytLoaded()) {
                     self.createYTPlayer();
                 } else {
