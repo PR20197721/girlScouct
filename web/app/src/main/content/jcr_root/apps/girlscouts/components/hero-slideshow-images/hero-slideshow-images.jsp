@@ -37,7 +37,10 @@
 	String newWindow = "";
 		  
 	if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	    	slideShowElements.add(new SlideShowElement(getPlaceHolderText("Click edit above and select number of slides. Then click here to add images to slides.",""), "", "", "none", false));
+    		slideShowElements.add(new SlideShowElement(getPlaceHolderText("Click edit above and select number of slides. Then click here to add images to slides.",""), "", "", "regular", false));
+    		slideShowElements.add(new SlideShowElement(getPlaceHolderText("Click edit above and select number of slides. Then click here to add images to slides.",""), "", "", "medium", false));
+	    	slideShowElements.add(new SlideShowElement(getPlaceHolderText("Click edit above and select number of slides. Then click here to add images to slides.",""), "", "", "small", false));
+
 	} else if(imageNode!=null){
 		
 		String spplacement = (String)request.getAttribute("sbplacement");
@@ -95,10 +98,7 @@
            			slideShowElements.add(new SlideShowElement(getPlaceHolderText("Not able to find the image: " + fileReference, ""), "", "", imageSize, false));
            		}
  				missingImageSizes.remove(imageSize);
-			}else if(WCMMode.fromRequest(request) == WCMMode.EDIT) {
-				slideShowElements.add(new SlideShowElement(getPlaceHolderText("Please click to add regular sized image.", ""), "", "", imageSize, false));
- 				missingImageSizes.remove(imageSize);
- 			}
+			}
 		}
 		missingImageSizes.forEach(missingSize -> slideShowElements.add(new SlideShowElement("MISSING", "", "", missingSize, false)));
    }

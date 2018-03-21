@@ -19,7 +19,7 @@
     $(document).on("dialog-success", function() {
 		var $resourceType = $("coral-dialog-content").find("[name='./sling:resourceType']").val();
         if("girlscouts/components/hero-banner" == $resourceType){
-        	window.location.reload(false);
+        		window.location.reload(false);
         }
 
 	});

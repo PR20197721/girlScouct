@@ -52,11 +52,11 @@
       return sortOrder1.compareToIgnoreCase(sortOrder2);
     }
   });
-  
-  %>	
-   <div class="slide-show-target"></div>
-  <% 
-
+%>
+	<script>
+		SlideShowManager.removeAll();
+	</script>
+<%
   // assign new iterator  
   images = imageList.iterator();
 	for(int i=1; i<slideShowCount+1;i++){
@@ -87,6 +87,7 @@
 		}%>
 		
 	<%}%>
+   <div class="slide-show-target"></div>
 	<script>
 		SlideShowManager.init("slide-show-target", <%= WCMMode.fromRequest(request) == WCMMode.EDIT %>);
 	</script>

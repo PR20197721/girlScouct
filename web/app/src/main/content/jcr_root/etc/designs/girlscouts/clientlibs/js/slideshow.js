@@ -499,7 +499,7 @@ var SlideShowManager = (function(){
 		// Append raw html (probably message).
 		if(elementConfig.text[0] != '/'){
 			element.append(elementConfig.text)
-			return element;
+			return $('#' + elementConfig.targetDiv).empty().append(element);
 		}
 		
 		var imageElement = $('<img>')
@@ -583,8 +583,8 @@ var SlideShowManager = (function(){
 						'padding' : '5px',
 						'border': '1px solid grey'
 					})
-					.text('Slide Show Element #' + i)
-					.insertAfter(newElement);
+					.text('Slide Show Element #' + (i + 1))
+					.insertBefore(newElement);
 				
 				target.append(newElement);
 			}else{
@@ -632,6 +632,9 @@ var SlideShowManager = (function(){
 		}
 	}
 	
+	function _removeAll(){
+		_elements = [];
+	}
 	function reset(){
 		elementsAdded = 0;
 		videoElements = [];
@@ -668,7 +671,8 @@ var SlideShowManager = (function(){
 	
 	return {
 		addElementSet: _addElementSet,
-		init: _init
+		init: _init,
+		removeAll: _removeAll
 	};
 	
 })();
