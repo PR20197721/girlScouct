@@ -30,7 +30,7 @@ javax.jcr.Node" %>
 					nameField = accordion.getProperty("nameField").getString();
 				}
             	String parsys = "accordion_parsys_" + accordion.getName();
-            	script.append("window."+parsys+" = new toggleParsys(\""+accordion.getPath()+"/" + parsys+"\");");
+            	script.append("window."+parsys+" = new toggleParsys(\""+accordion.getPath()+"/" + parsys+"\", \"" + resource.getPath() + "/" + parsys + "\");");
             	script.append("window."+parsys+".hideParsys();");
             	%><dt style="clear:both" id="<%=achorField%>" data-target="<%=parsys%>"><h6><%=nameField%></dt>
             	<dd class="accordion-navigation">
@@ -43,7 +43,9 @@ javax.jcr.Node" %>
 			if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 	            %>
 	        	<script>
+	        	$(function(){
 	        	<%=script.toString()%>
+	        	});
 	        	</script>
 	        	<%
 			}

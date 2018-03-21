@@ -141,9 +141,5 @@
 	});
 	</script>
 	<!-- END GA Tracking -->
-        
-    <!-- Video players -->
-    <!-- TODO - Check for videos and add conditionally -->
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="https://player.vimeo.com/api/player.js"></script>
+
 </head>
