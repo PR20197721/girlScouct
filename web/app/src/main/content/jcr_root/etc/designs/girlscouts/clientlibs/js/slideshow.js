@@ -499,7 +499,11 @@ var SlideShowManager = (function(){
 		// Append raw html (probably message).
 		if(elementConfig.text[0] != '/'){
 			element.append(elementConfig.text)
+<<<<<<< HEAD
 			return $('#' + elementConfig.targetDiv).empty().append(element);
+=======
+			return element;
+>>>>>>> d2b13d9f5a6b35bf4dba9e4e839b4da58ba847cb
 		}
 		
 		var imageElement = $('<img>')
@@ -583,8 +587,13 @@ var SlideShowManager = (function(){
 						'padding' : '5px',
 						'border': '1px solid grey'
 					})
+<<<<<<< HEAD
 					.text('Slide Show Element #' + (i + 1))
 					.insertBefore(newElement);
+=======
+					.text('Slide Show Element #' + i)
+					.insertAfter(newElement);
+>>>>>>> d2b13d9f5a6b35bf4dba9e4e839b4da58ba847cb
 				
 				target.append(newElement);
 			}else{
@@ -632,10 +641,13 @@ var SlideShowManager = (function(){
 		}
 	}
 	
+<<<<<<< HEAD
 	function _removeAll(){
 		_elements = [];
 	}
 	
+=======
+>>>>>>> d2b13d9f5a6b35bf4dba9e4e839b4da58ba847cb
 	function reset(){
 		elementsAdded = 0;
 		videoElements = [];
@@ -672,8 +684,12 @@ var SlideShowManager = (function(){
 	
 	return {
 		addElementSet: _addElementSet,
+<<<<<<< HEAD
 		init: _init,
 		removeAll: _removeAll
+=======
+		init: _init
+>>>>>>> d2b13d9f5a6b35bf4dba9e4e839b4da58ba847cb
 	};
 	
 })();

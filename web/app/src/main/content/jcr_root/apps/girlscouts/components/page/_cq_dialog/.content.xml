@@ -29,9 +29,7 @@
                             <column
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/container">
-                                <items
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:hideChildren="[moretitles]">
+                                <items jcr:primaryType="nt:unstructured">
                                     <title
                                         jcr:primaryType="nt:unstructured"
                                         jcr:title="Title"
@@ -42,6 +40,14 @@
                                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                                 fieldLabel="Title"
                                                 name="./jcr:title"/>
+                                            <pagename
+                                                cq:hideOnEdit="{Boolean}true"
+                                                cq:showOnCreate="{Boolean}true"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                                fieldLabel="Name"
+                                                name="pageName"
+                                                validation="admin.pagename"/>
                                             <seoTitle
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
@@ -49,6 +55,7 @@
                                                 fieldLabel="SEO Title"
                                                 name="./seoTitle"/>
                                             <tags
+                                                cq:showOnCreate="{Boolean}false"
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/autocomplete"
                                                 fieldLabel="Tags/Keywords"
@@ -101,13 +108,29 @@
                                         </items>
                                     </title>
                                     <moretitles
-                                        cq:showOnCreate="{Boolean}true"
+                                        cq:showOnCreate="{Boolean}false"
                                         jcr:primaryType="nt:unstructured"
                                         jcr:title="More Titles and Description"
                                         sling:resourceType="granite/ui/components/foundation/form/fieldset">
-                                        <items
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:hideChildren="[pagetitle,navigationtitle]">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <pagetitle
+                                                cq:showOnCreate="{Boolean}false"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                                allowBulkEdit="{Boolean}true"
+                                                cq-msm-lockable="pageTitle"
+                                                fieldLabel="Page Title"
+                                                name="./pageTitle"
+                                                renderReadOnly="{Boolean}true"/>
+                                            <navigationtitle
+                                                cq:showOnCreate="{Boolean}false"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                                allowBulkEdit="{Boolean}true"
+                                                cq-msm-lockable="navTitle"
+                                                fieldLabel="Navigation Title"
+                                                name="./navTitle"
+                                                renderReadOnly="{Boolean}true"/>
                                             <subtitle
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
