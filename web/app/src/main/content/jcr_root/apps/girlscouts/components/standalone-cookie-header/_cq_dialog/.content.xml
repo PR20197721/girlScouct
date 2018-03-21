@@ -133,7 +133,7 @@
             </image>
             <mobileimage
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Image"
+                jcr:title="Mobile Image"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
