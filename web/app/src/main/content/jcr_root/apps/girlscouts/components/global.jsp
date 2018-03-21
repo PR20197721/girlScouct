@@ -74,53 +74,94 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 }
 %>
 <%!
-public String displayRendition(ResourceResolver rr, String imagePath, String renditionStr, String additionalCss, int imageWidth,String altString,String titleString) {
-	if (renditionStr == null) return null;
-	StringBuffer returnImage = new StringBuffer("<img ");
+public String getImageRenditionSrc(ResourceResolver rr, String imagePath, String renditionStr) {
+	if (renditionStr == null) return imagePath;
+	StringBuffer returnImage = new StringBuffer("");
 	try {
 		Resource imgResource = rr.resolve(imagePath);
 		ValueMap properties = imgResource.adaptTo(ValueMap.class);
-		if(properties == null) return "";
 		
 		String fileReference = properties.get("fileReference", "");
 		Asset asset;
 		if (!fileReference.isEmpty()) {
-		    // fileRefence. Assuming this resource is an image component instance.
 			asset = rr.resolve(fileReference).adaptTo(Asset.class);
-
 		} else {
-		    // fileRefence empty. Assuming this resource is a DAM asset.
-		    asset = imgResource.adaptTo(Asset.class);
+			asset = imgResource.adaptTo(Asset.class);
 		}
-		if(asset == null) return "";
+
 		boolean isOriginal = false;
+		Rendition rendition = asset.getRendition(new PrefixRenditionPicker(renditionStr));
+		if (rendition == null) {
+			isOriginal = true;
+			rendition = asset.getOriginal();
+		}
+		
+		returnImage.append(rendition.getPath());
+	} catch (Exception e) {
+		log.error("Cannot include an image rendition: " + imagePath + "|" + renditionStr);
+		return "";
+	}
+	return returnImage.toString();
+}
+%>
+<%!
+public Asset getImageAsset(ResourceResolver rr, String imagePath){
+
+	Resource imgResource = rr.resolve(imagePath);
+	ValueMap properties = imgResource.adaptTo(ValueMap.class);
+	if(properties == null) {
+		return null;
+	}
+	
+	String fileReference = properties.get("fileReference", "");
+	Asset asset;
+	if (!fileReference.isEmpty()) {
+	    // fileRefence. Assuming this resource is an image component instance.
+		asset = rr.resolve(fileReference).adaptTo(Asset.class);
+	} else {
+	    // fileRefence empty. Assuming this resource is a DAM asset.
+	    asset = imgResource.adaptTo(Asset.class);
+	}
+	if(asset == null) {
+		return null;
+	}
+	return asset;
+}
+%>
+<%!
+public String displayRendition(ResourceResolver rr, String imagePath, String renditionStr, String additionalCss, int imageWidth,String altString,String titleString) {
+	if (renditionStr == null) return null;
+	StringBuffer returnImage = new StringBuffer("<img ");
+	try {
+		boolean isOriginal = false;
+		Asset asset = getImageAsset(rr, imagePath);
 		Rendition rendition = asset.getRendition(new PrefixRenditionPicker(renditionStr));
 		if (rendition == null) {
 		    isOriginal = true;
 		    rendition = asset.getOriginal();
 		}
 		String src = "src=\"" + rendition.getPath() + "\" ";
-    if(altString==null || altString.isEmpty()){
-      altString="image description unavailable";
+	    if(altString==null || altString.isEmpty()){
+			altString="image description unavailable";
 		}
-    String alt = "alt=\"" + altString + "\" ";
-    String title = "";
-    if(titleString!=null && !titleString.isEmpty()){
-        title= "title=\"" + titleString + "\" ";
+	    String alt = "alt=\"" + altString + "\" ";
+	    String title = "";
+	    if(titleString!=null && !titleString.isEmpty()){
+	        title= "title=\"" + titleString + "\" ";
 		}
 		String width = "";
 		String height = "";
-                if (imageWidth > 0) {
-                    width = "width=\"" + imageWidth + "\" ";
-                } else {
+        if (imageWidth > 0) {
+            width = "width=\"" + imageWidth + "\" ";
+        } else {
 			if (isOriginal) {
 			    String[] renditionParams = renditionStr.split("\\.");
 			    if (renditionParams.length >= 4) {
-				width = "width=\"" + renditionParams[2] + "\" ";
-				height = "height=\"" + renditionParams[3] + "\" ";
+					width = "width=\"" + renditionParams[2] + "\" ";
+					height = "height=\"" + renditionParams[3] + "\" ";
 			    }
 			}
-                }
+        }
 		
 		String css = "";
 		if (additionalCss != null) {
@@ -138,7 +179,7 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 		return "";
 	}
 	returnImage.append("/>");
-        return returnImage.toString();
+    return returnImage.toString();
 }
 %>
 <%!
