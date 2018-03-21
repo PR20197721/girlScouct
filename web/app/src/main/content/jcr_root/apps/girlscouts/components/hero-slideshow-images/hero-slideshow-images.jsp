@@ -1,141 +1,110 @@
 <%@page import="com.day.cq.wcm.foundation.Image,java.util.List,
-java.util.Map,java.util.HashMap,java.util.Iterator,com.day.cq.wcm.api.WCMMode,
-org.apache.sling.commons.json.JSONArray,org.apache.sling.commons.json.JSONException,com.day.cq.dam.api.Asset" %>
+				java.util.Map,java.util.HashMap,
+				java.util.Iterator,com.day.cq.wcm.api.WCMMode,
+				java.util.List,
+				java.util.ArrayList,
+				java.util.Random,
+				org.apache.sling.commons.json.JSONArray,
+				org.apache.sling.commons.json.JSONException,
+				com.google.gson.Gson,
+				com.day.cq.dam.api.Asset,
+				org.girlscouts.web.dto.SlideShowElement,
+				org.girlscouts.web.video.util.VIDEO_TYPE,
+				org.girlscouts.web.video.util.VideoUtil" 
+%>
+
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-<%
-   Node imageNode = resource.adaptTo(Node.class);
-   String largePath = "";
-   String smallPath ="";
-   String mediumPath ="";
-   Asset assets=null;
-   String newWindow = "";
-   
-   Resource rendition=null;
-if ((null==imageNode) && (WCMMode.fromRequest(request) == WCMMode.EDIT || WCMMode.fromRequest(request) == WCMMode.PREVIEW)) {
-    %><%=getPlaceHolderText("Click edit above and select number of slides. Then click here to add images to slides.","")%>
-   <% }
-else if(imageNode!=null){
-	
-	String spplacement = (String)request.getAttribute("sbplacement");
 
-	Iterator<Resource> images = resource.listChildren();
-	String alt = "";
-	String linkUrl = "";
-	String sortOrder = "";
-	
-	if(imageNode.hasProperty("newWindow")){
-		newWindow = imageNode.getProperty("newWindow").getString();
+<%!
+    public String getPlaceHolderText(String text, String classes){
+    		String placeHolder = "<div style=\"text-align:center; height:500px;\" class=\""+classes+" \" >"+ 
+        					 "<p style=\"text-align: center\">"+text+"</p>"+"</div>";
+		return placeHolder;
 	}
-	if(null==newWindow || "".equals(newWindow)){
-		newWindow = "false";
-	}
+
+%>  
+<%
+	String slideShowElementId = "SlideShowElement_" + new Random().nextInt(10000) + 1000;
+%>
+<div id="<%= slideShowElementId %>"></div>
+<%
+
+	List<Object> slideShowElements = new ArrayList<Object>();
+   
+	Node imageNode = resource.adaptTo(Node.class);
+	Asset assets=null;
+	String newWindow = "";
+		  
+	if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	    	slideShowElements.add(new SlideShowElement(getPlaceHolderText("Click edit above and select number of slides. Then click here to add images to slides.",""), "", "", "none", false));
+	} else if(imageNode!=null){
+		
+		String spplacement = (String)request.getAttribute("sbplacement");
 	
-	if(imageNode.hasProperty("alt")){
+		Iterator<Resource> images = resource.listChildren();
+		String alt = "";
+		String linkUrl = "";
+		String sortOrder = "";
+		
+		if(imageNode.hasProperty("newWindow")){
+			newWindow = imageNode.getProperty("newWindow").getString();
+		}
+		if(null==newWindow || "".equals(newWindow)){
+			newWindow = "false";
+		}
+		
+		if(imageNode.hasProperty("alt")){
 			alt = imageNode.getProperty("alt").getString();
-	}
-	if(imageNode.hasProperty("linkURL")){
+		}
+		if(imageNode.hasProperty("linkURL")){
 			linkUrl = imageNode.getProperty("linkURL").getString();
 			if (!linkUrl.contains("://")) { // If it is not external link
 			    linkUrl += ".html";
 			}
-	}
-	if(imageNode.hasProperty("sortOrder")){
-			sortOrder = imageNode.getProperty("sortOrder").getString();
-	}
- 	int i =0;
-  String imgPath = "";
-  while(images.hasNext()){  
-	  
-	Node imgNode = images.next().adaptTo(Node.class);
-	String width = "960";
-	String height="";
-	String imgTag = "";
-    String classes = "";
-	if(imgNode.hasProperty("width")){
-		width = imgNode.getProperty("width").getString();
-	}
-	if(imgNode.hasProperty("height")){
-		width = imgNode.getProperty("height").getString();
-	}
-	if(imgNode.hasProperty("imagesize")){
-	    if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("regular")){
-	        classes = "hide-for-small hide-for-medium";
-	
-			if(imgNode.hasProperty("fileReference")){
-				largePath = imgNode.getProperty("fileReference").getString();
-				%>
-				<div>
-	                <%if(spplacement!=null && spplacement.equalsIgnoreCase("right")){ 
-	                	imgTag = displayRendition(resourceResolver, largePath, "cq5dam.web.665.365", classes, BREAKPOINT_MAX_LARGE,alt,null);
-	            	}else{
-	                	imgTag=displayRendition(resourceResolver, largePath, "cq5dam.web.960.420",classes, BREAKPOINT_MAX_LARGE,alt,null); 
-	            	}
-	            	if(imgTag!=null && !imgTag.isEmpty()){
-	                		if("true".equals(newWindow)){
-	                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
-	                        } else{
-								%><a href="<%=linkUrl%>"><%=imgTag%></a><%
-	                        }
-	            	}else if(WCMMode.fromRequest(request) == WCMMode.EDIT || WCMMode.fromRequest(request) == WCMMode.PREVIEW){
-	                %><%=getPlaceHolderText("Not able to find the image: "+largePath,classes)%>
-	                <%}%>
-				</div> 
-			<%}else if(WCMMode.fromRequest(request) == WCMMode.EDIT || WCMMode.fromRequest(request) == WCMMode.PREVIEW) {
-			%>
-	                <%=getPlaceHolderText("Please click to add regular sized image.",classes)%>
-			<% }
 		}
-		if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("medium")){
-	        classes = "show-for-medium";
-	
-			if(imgNode.hasProperty("fileReference")){
-				mediumPath = imgNode.getProperty("fileReference").getString();
-	         %>  
-				<div>    
-						<%imgTag = displayRendition(resourceResolver, mediumPath, "cq5dam.web.720.420", classes, BREAKPOINT_MAX_MEDIUM,alt,null);
-	                    if(imgTag!=null && !imgTag.isEmpty()){
-	
-	                        if("true".equals(newWindow)){
-	                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
-	                        } else{
-								%><a href="<%=linkUrl%>"><%=imgTag%></a><%
-	                        }
-	            		}else if(WCMMode.fromRequest(request) == WCMMode.EDIT || WCMMode.fromRequest(request) == WCMMode.PREVIEW){
-	                        %><%=getPlaceHolderText("Not able to find the image: "+mediumPath,classes)%>
-	                    <%}%>
-				</div> 
-		<%}else if(WCMMode.fromRequest(request) == WCMMode.EDIT || WCMMode.fromRequest(request) == WCMMode.PREVIEW) {
-			%>
-				<%=getPlaceHolderText("Please click to add medium screen sized image.",classes)%>
+		String imgPath = "";
+		Rendition rendition;
+		List<String> missingImageSizes = new ArrayList<String>();
+		missingImageSizes.add("small");
+		missingImageSizes.add("medium");
+		missingImageSizes.add("regular");
+		while(images.hasNext()){
+			Node imgNode = images.next().adaptTo(Node.class);
+			String imageSize = imgNode.getProperty("imagesize").getString();
+			
+			if(imgNode.hasProperty("videoUrl")){
+				String videoUrl = imgNode.getProperty("videoUrl").getString();
 				
-			<%}
-		}
-		if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("small")){
-	        classes = "show-for-small";
+				// Add videos separate.
+				VIDEO_TYPE videoType = VIDEO_TYPE.detect(videoUrl);
+				if(videoType != VIDEO_TYPE.NONE){
+					slideShowElements.add(VideoUtil.getVideo(videoUrl, imageSize));
+					missingImageSizes.remove(imageSize);
+					continue;
+				}
+			}
+			
 			if(imgNode.hasProperty("fileReference")){
-				smallPath = imgNode.getProperty("fileReference").getString();
-			%>  
-				 <div>
-						<%imgTag = displayRendition(resourceResolver, smallPath, "cq5dam.web.320.400", classes, BREAKPOINT_MAX_SMALL,alt,null);
-	                    if(imgTag!=null && !imgTag.isEmpty()){
-	                        if("true".equals(newWindow)){
-	                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
-	                        } else{
-								%><a href="<%=linkUrl%>"><%=imgTag%></a><%
-	                        }
-	            		}else if(WCMMode.fromRequest(request) == WCMMode.EDIT || WCMMode.fromRequest(request) == WCMMode.PREVIEW){
-	                        %><%=getPlaceHolderText("Not able to find the image: "+smallPath, classes)%>
-	                    <%}%>
-				</div>  
-			<%}else if(WCMMode.fromRequest(request) == WCMMode.EDIT || WCMMode.fromRequest(request) == WCMMode.PREVIEW){
-				%>
-	 				<%=getPlaceHolderText("Please click to add small screen sized image.", classes)%>
-			<% }
+				String fileReference = imgNode.getProperty("fileReference").getString();
+				
+				rendition = getImageAsset(resourceResolver, fileReference).getRendition(new PrefixRenditionPicker("cq5dam.web.1280.1280"));
+           		if(rendition != null){
+           			slideShowElements.add(new SlideShowElement(rendition.getPath(), linkUrl, alt, imageSize, "true".equals(newWindow)));
+           		}else{
+           			slideShowElements.add(new SlideShowElement(getPlaceHolderText("Not able to find the image: " + fileReference, ""), "", "", imageSize, false));
+           		}
+ 				missingImageSizes.remove(imageSize);
+			}else if(WCMMode.fromRequest(request) == WCMMode.EDIT) {
+				slideShowElements.add(new SlideShowElement(getPlaceHolderText("Please click to add regular sized image.", ""), "", "", imageSize, false));
+ 				missingImageSizes.remove(imageSize);
+ 			}
 		}
-	}
-%>   
-<% }  
-   }//else
-    %>
-  
+		missingImageSizes.forEach(missingSize -> slideShowElements.add(new SlideShowElement("MISSING", "", "", missingSize, false)));
+   }
+%>
+
+<script>
+	SlideShowManager.addElementSet(<%= new Gson().toJson(slideShowElements) %>, "<%= slideShowElementId %>");
+</script>
+
