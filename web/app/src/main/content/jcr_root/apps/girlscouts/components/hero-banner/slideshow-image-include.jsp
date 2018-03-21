@@ -7,6 +7,10 @@
 				java.util.Collections,
 				java.util.Comparator,
 				com.day.cq.wcm.api.WCMMode" %>
+				
+<cq:includeClientLib categories="hero.slidshow.main"/>
+			
+				
  <%!
    int slideShowCount=0;
    //int timer = 0;
