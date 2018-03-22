@@ -152,7 +152,7 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
                                                 name="./required"
-                                                text="Security Card"
+                                                text="Security Code"
                                                 value="ccv"/>
                                         </items>
                                     </required>
