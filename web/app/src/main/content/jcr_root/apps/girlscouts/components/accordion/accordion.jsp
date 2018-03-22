@@ -30,9 +30,9 @@ javax.jcr.Node" %>
 					nameField = accordion.getProperty("nameField").getString();
 				}
             	String parsys = "accordion_parsys_" + accordion.getName();
-            	script.append("window."+parsys+" = new toggleParsys(\""+accordion.getPath()+"/" + parsys+"\", \"" + resource.getPath() + "/" + parsys + "\");");
-            	script.append("window."+parsys+".hideParsys();");
-            	%><dt style="clear:both" id="<%=achorField%>" data-target="<%=parsys%>"><h6><%=nameField%></dt>
+            	script.append("window['" +resource.getPath() + "/" + parsys + "'] = new toggleParsys(\"" + resource.getPath() + "/" + parsys + "\");");
+            	script.append("window['" +resource.getPath() + "/" + parsys + "'].hideParsys();");
+            	%><dt style="clear:both" id="<%=achorField%>" data-target="<%=resource.getPath() + "/" + parsys %>"><h6><%=nameField%></dt>
             	<dd class="accordion-navigation">
             		<div class="content" id="<%=parsys%>">
             			<cq:include path="<%=parsys%>" resourceType="foundation/components/parsys" />

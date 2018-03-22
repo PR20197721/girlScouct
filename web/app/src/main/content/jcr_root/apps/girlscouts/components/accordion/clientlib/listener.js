@@ -51,3 +51,87 @@
         });
     }
 })(document, Granite.$, Granite.author);
+
+// Pass the cq-editables-loaded event to the main content frame for use in hiding / showing parsys.
+(function(){
+	$(document).on('cq-editables-loaded', function(editablesObject){ 
+	    var contentWindow = $('#ContentFrame')[0].contentWindow;
+	    contentWindow.$(contentWindow.document).trigger('cq-editables-loaded', editablesObject);
+	});
+})();
+
+
+// Makes accordions usable during Author.
+(function(){
+	
+	function fixAccordionOverlays(){
+		var graniteEditables = Granite.author.editables;
+        var editableArr = graniteEditables.filter((itm) => itm.type == 'girlscouts/components/accordion');
+        
+        var allEditableDoms = $();
+        var allEditableOverlays = $();
+        for(var i = 0; i < editableArr.length; i++){
+            var editable = editableArr[i];
+            allEditableDoms = allEditableDoms.add($(editable.dom))
+            allEditableOverlays = allEditableOverlays.add($(editable.overlay.dom));
+        }
+        var editableOverlaysAndParentsDoms = allEditableOverlays.add(allEditableOverlays.parents('[data-type="Editable"]'));
+	    $('#OverlayWrapper').css({maxHeight: 1});
+        
+        var editableAndParents = graniteEditables.filter((itm) => editableOverlaysAndParentsDoms.toArray().filter(eapd => eapd == itm.overlay.dom[0]).length > 0);
+        for(var i = 0; i < editableAndParents.length; i++){
+            var editable = editableAndParents[i];
+            if(!editable.getAreaOverride){
+                editable.getAreaOverride = true;
+                editable.getArea = function(){
+                    
+                    if (!this.onPage() ) {
+                        return null;
+                    }
+                    
+                    if (!this.dom[0].getBoundingClientRect) {
+                        return {top: 0, left: 0, width: 0, height: 0};
+                    }
+                    
+                    var rect = this.dom[0].getBoundingClientRect();
+                    var finalWidth = rect.width - 50 < 0 ? 0 : rect.width - 70;
+                    
+                    return {
+                        top: rect.top,
+                        left: rect.left,
+                        width: finalWidth,
+                        height: rect.height
+                    };
+                }
+            }
+        }
+        
+        for(var i = 0; i < editableArr.length; i++){
+            var editable = editableArr[i];
+            var overlay = editable.overlay.dom;
+            var overlayWidth = editable.dom.outerWidth(true);
+            if(overlayWidth > 0){
+                overlay.add(overlay.parents('[data-type="Editable"]').not(allEditableDoms)).css({width: (overlayWidth - 70) + 'px'});
+            }
+        }
+	}
+
+	// Check for new accordions as the page changes.
+	$(document).on('cq-editables-loaded cq-editables-loaded cq-editor-loaded', function(){ 
+		// Check to be sure we have all the dom objects.
+		for(var editable of Granite.author.editables){
+			try{
+				if(!editable.dom || !editable.overlay || !editable.overlay.dom){
+					return;
+				}
+			}catch(err){
+				// Something didn't exist.
+				return;
+			}
+		}
+		
+		// All the dom is present so we can fix the overlays now.
+	    fixAccordionOverlays();
+	});
+
+})();
