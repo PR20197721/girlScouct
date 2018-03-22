@@ -161,9 +161,6 @@ function deleteEvent(eventID, name, register){
     return -1;
 }
 
-
-
-
 function toggleParsys(name)
 {
 	

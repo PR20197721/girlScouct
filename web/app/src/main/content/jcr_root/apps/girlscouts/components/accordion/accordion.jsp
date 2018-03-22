@@ -43,9 +43,7 @@ javax.jcr.Node" %>
 			if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 	            %>
 	        	<script>
-	        	$(function(){
 	        	<%=script.toString()%>
-	        	});
 	        	</script>
 	        	<%
 			}
