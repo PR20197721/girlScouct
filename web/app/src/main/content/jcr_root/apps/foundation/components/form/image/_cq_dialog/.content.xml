@@ -55,7 +55,7 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./readOnly"
-                                text="Read Only"
+                                text="Only show value"
                                 value="true"/>
                             <readonly-delete
                                 jcr:primaryType="nt:unstructured"
