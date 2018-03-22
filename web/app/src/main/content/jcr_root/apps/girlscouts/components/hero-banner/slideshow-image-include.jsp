@@ -8,7 +8,7 @@
 				java.util.Comparator,
 				com.day.cq.wcm.api.WCMMode" %>
 				
-<cq:includeClientLib categories="girlscouts.components.slideshow"/>
+<cq:includeClientLib categories="girlscouts.components.hero-banner"/>
 			
 				
  <%!
