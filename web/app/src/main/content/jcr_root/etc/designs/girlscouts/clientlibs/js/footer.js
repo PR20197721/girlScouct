@@ -15,7 +15,8 @@ var resizeWindow = function (e) {
     $('#main.content').css('padding-bottom', '');
     if (targetMainHeight > 0) {
         $('.vtk-body #main .row.content').first().css('padding-bottom', targetMainHeight + "px");
-        $('#main.content').css('padding-bottom', targetMainHeight + "px");
+        // per GSDO-808 - this line over-stretches short pages in AEM 6.3 
+        //$('#main.content').css('padding-bottom', targetMainHeight + "px");
     }
     // else {
     //  $('.vtk-body #main .row.content').css('padding-bottom','');
