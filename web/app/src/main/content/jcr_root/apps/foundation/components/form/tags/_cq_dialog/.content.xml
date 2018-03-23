@@ -154,12 +154,10 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <namespaces
+							<namespaces
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                fieldDescription="Leave empty to allow all namespaces."
-                                name="./namespaces"
-                                text="Allowed Namespaces"/>
+                                sling:resourceType="granite/ui/components/coral/foundation/form/hidden"                                
+                                name="./namespaces-placeholder"/>
                             <width
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
