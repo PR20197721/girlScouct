@@ -397,36 +397,38 @@ var SlideShowManager = (function(){
 	    return null;
 	}
 
-	var target = null;
+	var target = {};
 	var currentSize = null;
 	var editMode = false;
-	var elementsAdded = 0;
-	var videoElements = [];
+	var elementsAdded = {};
+	var videoElements = {};
+	var slideShowPaths = [];
 	
-	var _elements = {
-		small: [],
-		medium: [],
-		regular: []
-	};
+	var _elements = {};
 	
-	function addElement(newElement, targetDiv){
+	function addElement(newElement, slideShowPath, targetDiv){
 		try{
-			if(_elements[newElement.size] == null){
-				_elements[newElement.size] = [];
+			if(!_elements[slideShowPath]){
+				_elements[slideShowPath] = {};
+			}
+			
+			if(_elements[slideShowPath][newElement.size] == null){
+				_elements[slideShowPath][newElement.size] = [];
 			}
 			newElement.targetDiv = targetDiv;
-			_elements[newElement.size].push(newElement);
+			newElement.slideShowPath = slideShowPath;
+			_elements[slideShowPath][newElement.size].push(newElement);
 		}catch(err){
 			console.warn('Bad element size: "small", "medium", "normal" supported.', err);
 		}
 	}
 	
-	function _addElementSet(newElements, targetDiv){
+	function _addElementSet(newElements, slideShowPath, targetDiv){
 		if(!newElements){
 			return;
 		}
 		for(var i = 0; i < newElements.length; i++){
-			addElement(newElements[i], targetDiv);
+			addElement(newElements[i], slideShowPath, targetDiv);
 		}
 	}
 	
@@ -482,7 +484,12 @@ var SlideShowManager = (function(){
 		var nonUnderbar = Object.create(Underbar);
 		nonUnderbar.init($());
 		
-		videoElements.push({
+		// Create video elements arr if needed
+		if(videoElements[elementConfig.slideShowPath] == undefined){
+			videoElements[elementConfig.slideShowPath] = [];
+		}
+		
+		videoElements[elementConfig.slideShowPath].push({
 			iframe: iframe,
 			autoplay: true,
 			underbar: nonUnderbar
@@ -506,7 +513,11 @@ var SlideShowManager = (function(){
 			.attr('alt', elementConfig.alt)
 			.attr('width', elementConfig.width + 'px');
 		
-		if(elementsAdded++ < 1){
+		if(elementsAdded[elementConfig.slideShowTarget] == undefined){
+			elementsAdded[elementConfig.slideShowTarget] = 0;
+		}
+		
+		if(elementsAdded[elementConfig.slideShowTarget]++ < 1){
 			imageElement.attr('src', elementConfig.text);
 		}else{
 			imageElement.attr('data-lazy', elementConfig.text);
@@ -533,18 +544,23 @@ var SlideShowManager = (function(){
 		'regular' : ['medium', 'small']
 	};
 	
-	function findBestElementsToDisplay(size){
+	function findBestElementsToDisplay(size, slideShowPath){
 		
 		// Slice to duplicate list and not modify original.
-		var returner = _elements[currentSize].slice();
+		var returner;
+		if(_elements[slideShowPath][currentSize]){
+			returner = _elements[slideShowPath][currentSize].slice();
+		}else{
+			returner = [];
+		}
 		
 		// traverse the fallbacks looking for the first viable option.
 		var fallBackList = fallBackPriority[size];
 		for(var i = 0; i < returner.length; i++){
 			if(returner[i].text == 'MISSING'){
 				for(var j = 0; j < fallBackList.length; j++){
-					if(_elements[fallBackList[j]][i].text != 'MISSING'){
-						returner[i] = _elements[fallBackList[j]][i];
+					if(_elements[slideShowPath][fallBackList[j]][i].text != 'MISSING'){
+						returner[i] = _elements[slideShowPath][fallBackList[j]][i];
 						break;
 					}
 				}
@@ -557,10 +573,10 @@ var SlideShowManager = (function(){
 		return returner;
 	}
 	
-	function createDisplay(reinit){
+	function createDisplay(reinit, slideShowPath){
 
-		var elementsToDisplay = findBestElementsToDisplay(currentSize);
-		target.removeClass('slick-initialized slick-slider').empty();
+		var elementsToDisplay = findBestElementsToDisplay(currentSize, slideShowPath);
+		target[slideShowPath].removeClass('slick-initialized slick-slider').empty();
 		
 		for(var i = 0; i < elementsToDisplay.length; i++){
 			// Create the individual display elements before adding to page.
@@ -586,21 +602,21 @@ var SlideShowManager = (function(){
 					.text('Slide Show Element #' + (i + 1))
 					.insertBefore(newElement);
 				
-				target.append(newElement);
+				target[slideShowPath].append(newElement);
 			}else{
-				target.append(newElement);
+				target[slideShowPath].append(newElement);
 			}
 		}
 		
 		if(reinit){
-			target.slickPause();
+			target[slideShowPath].slickPause();
 		}
 		
 		// Initialize Slick Slider.
-		createSlick(target, reinit);
+		createSlick(target[slideShowPath], slideShowPath);
 	}
 		
-	function createSlick(target){
+	function createSlick(target, slideShowPath){
 		target.slick({
 		    autoplay: !editMode,
 		    autoplaySpeed: 6000,
@@ -610,7 +626,7 @@ var SlideShowManager = (function(){
 		    infinite: true,
 		    slidesToShow: 1,
 		    slidesToScroll: 1,
-		    lazyLoad: 'ondemand',
+		    lazyLoad: 'progressive',
 		    
 		    onBeforeChange: function(){
 		    		if(this == target[0].slick){
@@ -620,34 +636,45 @@ var SlideShowManager = (function(){
 		});
 		
 		// Start up the slick players.
-		for(var i = 0; i < videoElements.length; i++){
-			Object.create(SlickPlayer).init({
-                iframe: videoElements[i].iframe,
-                slick: target,
-                autoplay: videoElements[i].autoplay,
-                underbar: videoElements[i].underbar,
-                //config: {desktop: 'thumbnail', mobile: 'thumbnail'}
-                config: {desktop: 'default', mobile: 'default'}
-            });
+		if(videoElements[slideShowPath] != undefined){
+			for(var i = 0; i < videoElements[slideShowPath].length; i++){
+				Object.create(SlickPlayer).init({
+	                iframe: videoElements[slideShowPath][i].iframe,
+	                slick: target,
+	                autoplay: videoElements[slideShowPath][i].autoplay,
+	                underbar: videoElements[slideShowPath][i].underbar,
+	                //config: {desktop: 'thumbnail', mobile: 'thumbnail'}
+	                config: {desktop: 'default', mobile: 'default'}
+	            });
+			}
 		}
 	}
 	
-	function _removeAll(){
-		_elements = [];
-	}
-	function reset(){
-		elementsAdded = 0;
-		videoElements = [];
-		createDisplay(true);
+	function _removeAll(slideShowPath){
+		_elements[slideShowPath] = [];
 	}
 	
-	function _init(targetClass, setupInEditMode){
+	function reset(){
+		elementsAdded = {};
+		videoElements = {};
+		for(var i = 0; i < slideShowPaths.length; i++){
+			createDisplay(true, slideShowPaths[i]);
+		}
+	}
+	
+	
+	function _init(targetClass, slideShowPath, setupInEditMode){
+		
+		if(slideShowPaths.indexOf(slideShowPath) > -1){
+			slideShowPaths.splice(slideShowPaths.indexOf(slideShowPaths), 1);
+		}
+		slideShowPaths.push(slideShowPath)
 		
 		// Setup the initial display.
 		editMode = !!setupInEditMode;
-		target = $('.' + targetClass);
+		target[slideShowPath] = $('.' + targetClass + '[data-slide-show-path="' + slideShowPath + '"]');
 		currentSize = determineSize();
-		createDisplay();
+		createDisplay(false, slideShowPath);
 		
 		// Listen for window size changes and orientation changes to re-init.
 		// Listen for edit vs preview mode changing to re-init.
