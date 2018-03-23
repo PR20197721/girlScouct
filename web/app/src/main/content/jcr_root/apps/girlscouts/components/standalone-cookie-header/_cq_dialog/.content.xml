@@ -51,7 +51,7 @@
                                 value="https://www.facebook.com/GirlScoutCookieProgram/"/>
                             <icon
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="acs-commons/components/authoring/graphiciconselect"
+                                sling:resourceType="girlscouts/components/graphiciconselect"
                                 defaultValue="icon-social-facebook"
                                 fieldLabel="Icon"
                                 name="./icon"
