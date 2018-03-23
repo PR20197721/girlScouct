@@ -403,6 +403,7 @@ var SlideShowManager = (function(){
 	var elementsAdded = {};
 	var videoElements = {};
 	var slideShowPaths = [];
+	var slideShowTimerConfigs = {};
 	
 	var _elements = {};
 	
@@ -619,7 +620,7 @@ var SlideShowManager = (function(){
 	function createSlick(target, slideShowPath){
 		target.slick({
 		    autoplay: !editMode,
-		    autoplaySpeed: 6000,
+		    autoplaySpeed: slideShowTimerConfigs[slideShowPath],
 		    arrows: true,
 		    dots: false,
 		    fade: true,
@@ -663,7 +664,8 @@ var SlideShowManager = (function(){
 	}
 	
 	
-	function _init(targetClass, slideShowPath, setupInEditMode){
+	function _init(targetClass, slideShowPath, setupInEditMode, slideShowTimer){
+		slideShowTimerConfigs[slideShowPath] = slideShowTimer;
 		
 		if(slideShowPaths.indexOf(slideShowPath) > -1){
 			slideShowPaths.splice(slideShowPaths.indexOf(slideShowPaths), 1);
