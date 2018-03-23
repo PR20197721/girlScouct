@@ -1,2 +1,0 @@
-#base=js
-admin.js
