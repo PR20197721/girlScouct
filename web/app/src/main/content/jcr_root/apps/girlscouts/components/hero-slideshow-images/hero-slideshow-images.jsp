@@ -105,6 +105,6 @@
 %>
 
 <script>
-	SlideShowManager.addElementSet(<%= new Gson().toJson(slideShowElements) %>, "<%= slideShowElementId %>");
+	SlideShowManager.addElementSet(<%= new Gson().toJson(slideShowElements) %>, '<%= resource.getParent().getPath() + "_slideshow" %>', "<%= slideShowElementId %>");
 </script>
 

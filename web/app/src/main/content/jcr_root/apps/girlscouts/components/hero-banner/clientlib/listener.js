@@ -21,7 +21,6 @@
         if("girlscouts/components/hero-banner" == $resourceType){
         		window.location.reload(false);
         }
-
 	});
 
 

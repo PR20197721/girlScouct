@@ -58,7 +58,7 @@
   });
 %>
 	<script>
-		SlideShowManager.removeAll();
+		SlideShowManager.removeAll('<%= resource.getPath() + "_slideshow" %>');
 	</script>
 <%
   // assign new iterator  
@@ -91,7 +91,7 @@
 		}%>
 		
 	<%}%>
-   <div class="slide-show-target"></div>
+   <div class="slide-show-target" data-slide-show-path="<%= resource.getPath() + "_slideshow" %>"></div>
 	<script>
-		SlideShowManager.init("slide-show-target", <%= WCMMode.fromRequest(request) == WCMMode.EDIT %>);
+		SlideShowManager.init("slide-show-target", '<%= resource.getPath() + "_slideshow" %>', <%= WCMMode.fromRequest(request) == WCMMode.EDIT %>);
 	</script>
