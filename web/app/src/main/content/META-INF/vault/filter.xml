@@ -17,6 +17,7 @@
     <filter root="/apps/wcm"/>
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/girlscouts-badge"/>
     <filter root="/content/girlscouts-shared"/>
+    <filter root="/etc/clientlibs/girlscouts"/>
     <filter root="/etc/clientlibs/foundation/abacus/source/abacus.js"/>
     <filter root="/etc/council-report"/>
     <filter root="/etc/council-rollout"/>
