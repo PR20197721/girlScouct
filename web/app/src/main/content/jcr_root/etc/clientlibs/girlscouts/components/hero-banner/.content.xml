@@ -4,4 +4,4 @@
     jcr:primaryType="cq:ClientLibraryFolder"
     sling:resourceType="widgets/clientlib"
     categories="[girlscouts.components.hero-banner]"
-    dependencies="[apps.girlscouts.ext.jquery]"/>
+    dependencies="[apps.girlscouts.ext.jquery, common.util.readcookie, common.util.toggleparsys]"/>

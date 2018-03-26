@@ -117,7 +117,7 @@
 	}
 
 	// Check for new accordions as the page changes.
-	$(document).on('cq-editables-loaded cq-editables-loaded cq-editor-loaded', function(){ 
+	$(document).on('cq-editables-loaded cq-editables-loaded cq-editor-loaded cq-layer-activated', function(){ 
 		// Check to be sure we have all the dom objects.
 		for(var editable of Granite.author.editables){
 			try{

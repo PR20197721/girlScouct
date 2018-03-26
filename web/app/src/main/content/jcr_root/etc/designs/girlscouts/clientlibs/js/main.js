@@ -161,55 +161,6 @@ function deleteEvent(eventID, name, register){
     return -1;
 }
 
-function toggleParsys(name)
-{
-	
-    var editablesReady = new $.Deferred();
-    
-	$(document).on('cq-editables-loaded', function(event, editablesObject){ 
-		editablesReady.resolve(editablesObject.editables); 
-	});
-	
-	function findEditable(){
-
-		var returner = new $.Deferred();
-		editablesReady.then(function(editables){
-			try{
-				returner.resolve(editables.filter(etb => etb.path == name)[0]);
-			}catch(err){
-				returner.reject(err);
-			}
-		});
-		return returner;
-	}
-
-    this.toggle = function()  {
-    		try{
-    			findEditable().then(edb => $(edb.dom).toggle());
-    		} catch (err){
-    			console.warn("couldn't toggle parsys");
-    		}
-    };
-
-    this.hideParsys = function() {
-    		try{
-    			findEditable().then(edb => $(edb.dom).hide());
-    		} catch (err){
-			console.warn("couldn't hide parsys");
-		}
-    };
-
-    this.showParsys = function() {
-    		try{ 
-    			findEditable().then(edb => $(edb.dom).show());
-    		} catch (err){
-    			console.warn("couldn't show parsys");
-    		}
-    };
-
-    return this;
-};
-
 //Girlscouts Event List lazy loading code 
 //GSWP-1173
 function EventLoader(jsonPath, containerObj) {

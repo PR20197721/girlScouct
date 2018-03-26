@@ -7,7 +7,9 @@
 %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp"%>
+
 <cq:includeClientLib categories="common.components.accordion"/>
+
 <%
    	Resource children = resource.getChild("children");
 
@@ -34,30 +36,21 @@
 				}
 	            	String parsys = "accordion_parsys_" + accordion.getName();
 	            	String parsysIdentifier = resource.getPath() + "/" + parsys;
-	            	script.append("window['" + parsysIdentifier + "'] = new toggleParsys(\"" + parsysIdentifier + "\");");
-	            	script.append("window['" + parsysIdentifier + "'].hideParsys();");
             	%>
-            	<dt class="accordionComponentHeader" style="clear:both" id="<%=achorField%>" data-target="<%=resource.getPath() + "/" + parsys %>">
-            		<h6 class="accordionComponentLabel"><%=nameField%></h6>
-            		<div class="accordionComponentSwitch"></div>
-            	</dt>
-            	<dd class="accordion-navigation">
-            		<div class="content" id="<%=parsys%>">
-            			<cq:include path="<%=parsys%>" resourceType="foundation/components/parsys" />
-            		</div>
-            	</dd>
-		<%  
+	            	<dt class="accordionComponentHeader" style="clear:both" id="<%=achorField%>" data-parsys-identifier="<%=parsysIdentifier %>" >
+	            		<h6 class="accordionComponentLabel"><%=nameField%></h6>
+	            		<div class="accordionComponentSwitch"></div>
+	            	</dt>
+	            	<dd class="accordion-navigation">
+	            		<div class="content" id="<%=parsys%>">
+	            			<cq:include path="<%=parsys%>" resourceType="foundation/components/parsys" />
+	            		</div>
+	            	</dd>
+			<%		
 			}
-			if(WCMMode.fromRequest(request) == WCMMode.EDIT){
-		%>
-        	<script>
-        		<%=script.toString()%>
-        	</script>
-        	<%
-			}
-		%>
-		</dl>
-	<%
+			%>
+			</dl>
+		<%
 		}else{
 	%>
 		<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>
