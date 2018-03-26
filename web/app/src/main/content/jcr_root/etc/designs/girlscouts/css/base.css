@@ -1843,7 +1843,7 @@ div.textimage div.image {
 	width: 100%;
 	height: 100%;
 }
-.slick-slide:before {
+.videoWrapper:before {
     display: block;
     content: "";
     position: absolute;

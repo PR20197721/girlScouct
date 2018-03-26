@@ -21,9 +21,6 @@ String cssClasses = properties.get("cssClasses", "");
  request.setAttribute("SsbNewWindow", properties.get("secondsbnewwindow","false"));
  request.setAttribute("sbplacement",properties.get("spplacement",""));
 
-
-
-
 %>
 <%!
   int timer = 0;
@@ -40,6 +37,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT){
 <% 
    String sbplacement = properties.get("spplacement","");
    timer = Integer.parseInt(properties.get("slideshowtimer", "6000"));
+   request.setAttribute("HeroBannerTimer", timer);
   
 %>
 <%

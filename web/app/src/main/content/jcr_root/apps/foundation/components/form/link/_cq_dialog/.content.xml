@@ -14,40 +14,40 @@
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Title and Text"
                 sling:resourceType="granite/ui/components/foundation/container">
-            	<layout
+                <layout
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
                 <items jcr:primaryType="nt:unstructured">
-                	<columns
+                    <columns
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-			                <name
-			                    jcr:primaryType="nt:unstructured"
-			                    sling:resourceType="granite/ui/components/foundation/form/textfield"
-			                    fieldLabel="Element Name"
-			                    name="./name"
-			                    required="{Boolean}false"/>
-			                <title
-			                    jcr:primaryType="nt:unstructured"
-			                    sling:resourceType="granite/ui/components/foundation/form/textfield"
-			                    fieldLabel="Title"
-			                    name="./jcr:title"/>
-			                <hidetitle
-			                    jcr:primaryType="nt:unstructured"
-			                    sling:resourceType="granite/ui/components/foundation/form/checkbox"
-			                    name="./hideTitle"
-			                    text="Hide Title"
-			                    value="true"
-			                    uncheckedValue="false"/>
-			                <description
-			                    jcr:primaryType="nt:unstructured"
-			                    sling:resourceType="granite/ui/components/foundation/form/textfield"
-			                    fieldLabel="Description"
-			                    name="./jcr:description"/>
-	                    </items>
-	            	</columns>
-            	</items>
+                            <name
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                fieldLabel="Element Name"
+                                name="./name"
+                                required="{Boolean}true"/>
+                            <title
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Title"
+                                name="./jcr:title"/>
+                            <hidetitle
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./hideTitle"
+                                text="Hide Title"
+                                uncheckedValue="false"
+                                value="true"/>
+                            <description
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Description"
+                                name="./jcr:description"/>
+                        </items>
+                    </columns>
+                </items>
             </first>
             <second
                 jcr:primaryType="nt:unstructured"
@@ -87,20 +87,20 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./required"
                                 text="Required"
-                                value="true"
-                                uncheckedValue="false"/>
+                                uncheckedValue="false"
+                                value="true"/>
                             <requiredMessage
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textarea"
                                 fieldLabel="Required Message"
                                 name="./requiredMessage"/>
-                             <constraintType
+                            <constraintType
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/select"
                                 fieldLabel="Constraint"
                                 name="./constraintType">
                                 <items jcr:primaryType="nt:unstructured">
-                                	<none
+                                    <none
                                         jcr:primaryType="nt:unstructured"
                                         text=""
                                         value=""/>
@@ -154,7 +154,7 @@
                                         value="gsusa/components/customFormConstraint/zipcode"/>
                                 </items>
                             </constraintType>
-                            <constraintMessage 
+                            <constraintMessage
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textarea"
                                 fieldLabel="Constraint Message"
