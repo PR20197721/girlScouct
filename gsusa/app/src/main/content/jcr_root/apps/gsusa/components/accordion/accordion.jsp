@@ -7,6 +7,7 @@
 %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp"%>
+<cq:includeClientLib categories="common.components.accordion"/>
 <%
    	Resource children = resource.getChild("children");
 
@@ -14,7 +15,7 @@
 		Iterator<Resource>	items = children.listChildren(); 
 		if(items != null && items.hasNext()){
 			%>
-			<dl class="accordion" data-accordion>
+			<dl class="accordion accordionComponent" data-accordion>
 			<%
 			StringBuilder script = new StringBuilder();
 			while(items.hasNext()){
@@ -36,7 +37,10 @@
 	            	script.append("window['" + parsysIdentifier + "'] = new toggleParsys(\"" + parsysIdentifier + "\");");
 	            	script.append("window['" + parsysIdentifier + "'].hideParsys();");
             	%>
-            	<dt style="clear:both" id="<%=achorField%>" data-target="<%=resource.getPath() + "/" + parsys %>"><h6><%=nameField%></h6></dt>
+            	<dt class="accordionComponentHeader" style="clear:both" id="<%=achorField%>" data-target="<%=resource.getPath() + "/" + parsys %>">
+            		<h6 class="accordionComponentLabel"><%=nameField%></h6>
+            		<div class="accordionComponentSwitch"></div>
+            	</dt>
             	<dd class="accordion-navigation">
             		<div class="content" id="<%=parsys%>">
             			<cq:include path="<%=parsys%>" resourceType="foundation/components/parsys" />
