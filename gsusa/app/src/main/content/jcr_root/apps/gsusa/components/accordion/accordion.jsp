@@ -1,68 +1,67 @@
-<%--
-
-  Accordion component.
-
-  Generates an HTML accordion object
-
---%>
-<%@page import="com.day.cq.wcm.api.WCMMode" %>
+<%@page import="	com.day.cq.wcm.api.WCMMode, 
+				org.apache.sling.api.resource.Resource, 
+				java.util.Iterator,
+				java.util.Date,
+				java.lang.StringBuilder,  
+				javax.jcr.Node" 
+%>
 <%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/girlscouts/components/global.jsp"%>
-<%@page import="java.util.Date,
-				com.day.cq.wcm.api.WCMMode" %>
+<%@include file="/apps/gsusa/components/global.jsp"%>
 <%
-    if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	   %><cq:includeClientLib categories="apps.gsusa.authoring" /><%
-	}
-	String[] namesAndAnchors = properties.get("children", String[].class);
-	String[] children = null;
-	String[] anchors = null;
-	String[] accIds = null;
-	if(namesAndAnchors != null && namesAndAnchors.length > 0){
-		children = new String[namesAndAnchors.length];
-		anchors = new String[namesAndAnchors.length];
-		accIds = new String[namesAndAnchors.length];
-		for(int i =0; i < namesAndAnchors.length; i++){
-			String[] split = namesAndAnchors[i].split("\\|\\|\\|");
-			children[i] = split.length >= 1 ? split[0] : "";
-            anchors[i] = split.length >= 2 ? split[1] : "";
-            accIds[i] = split.length >= 3 ? split[2] : "" + i;
-		}
-	}
-	if(children == null){
-        %><p>**Edit this component to add accordions**</p><%
-	}
-	else{
-		String[] ids = new String[children.length];
-        %>
-            <dl class="accordion" data-accordion><%
-            for (int i=0; i<children.length; i++){
-            	String parsys = resource.getName() + "_parsys_" + accIds[i];
-            	ids[i] = parsys;
-            	%><dt style="clear:both" id="<%=anchors[i]%>" data-target="<%=parsys%>"><h6><%=children[i]%></dt>
+   	Resource children = resource.getChild("children");
+
+	if (children != null && !children.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+		Iterator<Resource>	items = children.listChildren(); 
+		if(items != null && items.hasNext()){
+			%>
+			<dl class="accordion" data-accordion>
+			<%
+			StringBuilder script = new StringBuilder();
+			while(items.hasNext()){
+				Node accordion = items.next().adaptTo(Node.class);
+				String achorField = "";
+				String idField = "";
+				String nameField = "";
+				if (accordion.hasProperty("achorField")) {
+					achorField = accordion.getProperty("achorField").getString();
+				}
+				if (accordion.hasProperty("idField")) {
+					idField = accordion.getProperty("idField").getString();
+				}
+				if (accordion.hasProperty("nameField")) {
+					nameField = accordion.getProperty("nameField").getString();
+				}
+	            	String parsys = "accordion_parsys_" + accordion.getName();
+	            	String parsysIdentifier = resource.getPath() + "/" + parsys;
+	            	script.append("window['" + parsysIdentifier + "'] = new toggleParsys(\"" + parsysIdentifier + "\");");
+	            	script.append("window['" + parsysIdentifier + "'].hideParsys();");
+            	%>
+            	<dt style="clear:both" id="<%=achorField%>" data-target="<%=resource.getPath() + "/" + parsys %>"><h6><%=nameField%></h6></dt>
             	<dd class="accordion-navigation">
             		<div class="content" id="<%=parsys%>">
             			<cq:include path="<%=parsys%>" resourceType="foundation/components/parsys" />
             		</div>
             	</dd>
-            	<%
-            }
-            %></dl>
-            <%
-            if(WCMMode.fromRequest(request) == WCMMode.EDIT){
-            %>
-        <script>
-        	CQ.WCM.on("editablesready", function(){
+		<%  
+			}
+			if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+		%>
+        	<script>
+        		<%=script.toString()%>
+        	</script>
         	<%
-        		for(int i=0; i<ids.length; i++){
-        	%>
-    			window.<%= ids[i] %> = new toggleParsys("<%= resource.getPath() + "/" + ids[i] %>");
-    			window.<%= ids[i] %>.hideParsys();
-        	<%
-				}
-			%>
-        	});
-        	</script><%
-            }
+			}
+		%>
+		</dl>
+	<%
+		}else{
+	%>
+		<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>
+	<%
+		}
+	}else{
+%>
+	<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>
+<%
 	}
 %>
