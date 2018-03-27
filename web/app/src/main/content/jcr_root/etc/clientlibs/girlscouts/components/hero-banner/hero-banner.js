@@ -386,23 +386,13 @@ var SlideShowManager = (function(){
 
 	};
 	
-	function readCookie(name) {
-	    var nameEQ = name + "=";
-	    var ca = document.cookie.split(';');
-	    for(var i=0;i < ca.length;i++) {
-	        var c = ca[i];
-	        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-	        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-	    }
-	    return null;
-	}
-
 	var target = {};
 	var currentSize = null;
 	var editMode = false;
 	var elementsAdded = {};
 	var videoElements = {};
 	var slideShowPaths = [];
+	var slideShowTimerConfigs = {};
 	
 	var _elements = {};
 	
@@ -619,7 +609,7 @@ var SlideShowManager = (function(){
 	function createSlick(target, slideShowPath){
 		target.slick({
 		    autoplay: !editMode,
-		    autoplaySpeed: 6000,
+		    autoplaySpeed: slideShowTimerConfigs[slideShowPath],
 		    arrows: true,
 		    dots: false,
 		    fade: true,
@@ -663,7 +653,8 @@ var SlideShowManager = (function(){
 	}
 	
 	
-	function _init(targetClass, slideShowPath, setupInEditMode){
+	function _init(targetClass, slideShowPath, setupInEditMode, slideShowTimer){
+		slideShowTimerConfigs[slideShowPath] = slideShowTimer;
 		
 		if(slideShowPaths.indexOf(slideShowPath) > -1){
 			slideShowPaths.splice(slideShowPaths.indexOf(slideShowPaths), 1);

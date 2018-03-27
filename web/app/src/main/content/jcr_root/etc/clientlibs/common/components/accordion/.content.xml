@@ -3,5 +3,5 @@
     jcr:mixinTypes="[mix:lockable]"
     jcr:primaryType="cq:ClientLibraryFolder"
     sling:resourceType="widgets/clientlib"
-    categories="[girlscouts.components.hero-banner]"
-    dependencies="[apps.girlscouts.ext.jquery, common.util.readcookie, common.util.toggleparsys]"/>
+    categories="[common.components.accordion]"
+    dependencies="[common.util.readcookie, common.util.toggleparsys]"/>

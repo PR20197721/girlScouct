@@ -161,57 +161,6 @@ function deleteEvent(eventID, name, register){
     return -1;
 }
 
-
-
-
-function toggleParsys(s)
-{
-    var componentPath = s;
-
-    this.toggle = function()
-    {
-    	if (componentPath)
-        {
-    		var parsysComp = CQ.WCM.getEditable(componentPath);
-
-    		if(parsysComp.hidden == true){
-    			parsysComp.show();
-    		}
-    		else{
-    			parsysComp.hide();
-    		}
-        }
-    };
-
-    this.hideParsys = function()
-    {
-        if (componentPath)
-        {
-            var parsysComp = CQ.WCM.getEditable(componentPath);
-
-            if (parsysComp)
-            {
-                parsysComp.hide();
-            }
-        }
-    };
-
-    this.showParsys = function()
-    {
-        if (componentPath)
-        {
-            var parsysComp = CQ.WCM.getEditable(componentPath);
-
-            if (parsysComp)
-            {
-                parsysComp.show();
-            }
-        }
-    };
-
-    return this;
-};
-
 //Girlscouts Event List lazy loading code 
 //GSWP-1173
 function EventLoader(jsonPath, containerObj) {
