@@ -91,7 +91,8 @@
 			if(imgNode.hasProperty("fileReference")){
 				String fileReference = imgNode.getProperty("fileReference").getString();
 				
-				rendition = getImageAsset(resourceResolver, fileReference).getRendition(new PrefixRenditionPicker("cq5dam.web.1280.1280"));
+				Asset imageAsset = getImageAsset(resourceResolver, fileReference);
+				rendition = imageAsset != null ? imageAsset.getRendition(new PrefixRenditionPicker("cq5dam.web.1280.1280")) : null;
            		if(rendition != null){
            			slideShowElements.add(new SlideShowElement(rendition.getPath(), linkUrl, alt, imageSize, "true".equals(newWindow)));
            		}else{
