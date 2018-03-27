@@ -9,7 +9,7 @@ window.AccordionWidgetManager = (function(window, document, $){
 		var show = !$(this).data('accordion-element-shown');
 
 		// Get the target content elements.
-		var contentElement = $(this).next('.accordion-navigation').find('.content');
+		var contentElement = $(this).next('.accordion-navigation').children('.content');
 		
 		// Fix the classes.
 		headerElements.add(contentElements).removeClass('on accordionHeaderShown').data('accordion-element-shown', false);

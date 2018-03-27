@@ -7,6 +7,9 @@
 %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+
+<cq:includeClientLib categories="common.components.accordion"/>
+
 <%
    	Resource children = resource.getChild("children");
 
@@ -14,46 +17,40 @@
 		Iterator<Resource>	items = children.listChildren(); 
 		if(items != null && items.hasNext()){
 			%>
-			<dl class="accordion" data-accordion>
+			<dl class="accordion accordionComponent" data-accordion>
 			<%
-				StringBuilder script = new StringBuilder();
-				while(items.hasNext()){
-					Node accordion = items.next().adaptTo(Node.class);
-					String achorField = "";
-					String idField = "";
-					String nameField = "";
-					if (accordion.hasProperty("achorField")) {
-						achorField = accordion.getProperty("achorField").getString();
-					}
-					if (accordion.hasProperty("idField")) {
-						idField = accordion.getProperty("idField").getString();
-					}
-					if (accordion.hasProperty("nameField")) {
-						nameField = accordion.getProperty("nameField").getString();
-					}
-		            	String parsys = "accordion_parsys_" + accordion.getName();
-		            	String parsysIdentifier = resource.getPath() + "/" + parsys;
-		            	script.append("window['" + parsysIdentifier + "'] = new toggleParsys(\"" + parsysIdentifier + "\");");
-		            	script.append("window['" + parsysIdentifier + "'].hideParsys();");
-	            	%>
-	            	<dt style="clear:both" id="<%=achorField%>" data-target="<%=resource.getPath() + "/" + parsys %>"><h6><%=nameField%></h6></dt>
+			StringBuilder script = new StringBuilder();
+			while(items.hasNext()){
+				Node accordion = items.next().adaptTo(Node.class);
+				String achorField = "";
+				String idField = "";
+				String nameField = "";
+				if (accordion.hasProperty("achorField")) {
+					achorField = accordion.getProperty("achorField").getString();
+				}
+				if (accordion.hasProperty("idField")) {
+					idField = accordion.getProperty("idField").getString();
+				}
+				if (accordion.hasProperty("nameField")) {
+					nameField = accordion.getProperty("nameField").getString();
+				}
+	            	String parsys = "accordion_parsys_" + accordion.getName();
+	            	String parsysIdentifier = resource.getPath() + "/" + parsys;
+            	%>
+	            	<dt class="accordionComponentHeader" style="clear:both" id="<%=achorField%>" data-parsys-identifier="<%=parsysIdentifier %>" >
+	            		<h6 class="accordionComponentLabel"><%=nameField%></h6>
+	            		<div class="accordionComponentSwitch"></div>
+	            	</dt>
 	            	<dd class="accordion-navigation">
 	            		<div class="content" id="<%=parsys%>">
 	            			<cq:include path="<%=parsys%>" resourceType="foundation/components/parsys" />
 	            		</div>
 	            	</dd>
-			<%  
-				}
-				if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+			<%		
+			}
 			%>
-	        	<script>
-	        		<%=script.toString()%>
-	        	</script>
-	        	<%
-				}
-			%>
-		</dl>
-	<%
+			</dl>
+		<%
 		}else{
 	%>
 		<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>
