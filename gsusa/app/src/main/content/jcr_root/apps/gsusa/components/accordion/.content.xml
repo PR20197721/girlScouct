@@ -4,4 +4,5 @@
     jcr:description="Alternative Accordion - Designed for Cookies Site"
     jcr:primaryType="cq:Component"
     jcr:title="Accordion"
+    sling:resourceSuperType="girlscouts-common/components/accordion"
     componentGroup="GSUSA"/>

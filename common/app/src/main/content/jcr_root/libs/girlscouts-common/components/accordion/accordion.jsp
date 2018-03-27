@@ -6,7 +6,6 @@
 				javax.jcr.Node" 
 %>
 <%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/gsusa/components/global.jsp"%>
 
 <cq:includeClientLib categories="common.components.accordion"/>
 

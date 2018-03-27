@@ -56,7 +56,11 @@ window.AccordionWidgetManager = (function(window, document, $){
 			isEdit = readCookie('wcmmode') == 'edit';
 		}catch(err){}
 		
-		if(isEdit && window.toggleParsys){
+		var toggleParsysExists = false;
+		try{
+			toggleParsysExists = !!TouchUI.Utils.ToggleParsys;
+		}catch(er){}
+		if(isEdit && toggleParsysExists){
 			headerElements.each(function(){
 				var parsysIdentifier = $(this).data('parsys-identifier');
 				var toggleParsys;
@@ -80,7 +84,7 @@ window.AccordionWidgetManager = (function(window, document, $){
 		
 	}
 	
-	function init(){		
+	function init(){	
 		$('.accordionComponent').filter(function(){
 			return !$(this).data('accordion-initialized');
 		}).each(function(){
