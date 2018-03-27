@@ -29,9 +29,7 @@ window.AccordionWidgetManager = (function(window, document, $){
 		var activeToggleParsys = $(this).data('toggle-parsys');
 		if(activeToggleParsys){
 			if(show){
-				//contentElement.promise().then(function(){
-					activeToggleParsys.showParsys();
-				//});
+				activeToggleParsys.showParsys();
 			}else{
 				activeToggleParsys.hideParsys();
 			}
