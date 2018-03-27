@@ -39,6 +39,7 @@
 	            	<dt class="accordionComponentHeader" style="clear:both" id="<%=achorField%>" data-parsys-identifier="<%=parsysIdentifier %>" >
 	            		<h6 class="accordionComponentLabel"><%=nameField%></h6>
 	            		<div class="accordionComponentSwitch"></div>
+	            		<div class="clr" style="clear:both"></div>
 	            	</dt>
 	            	<dd class="accordion-navigation">
 	            		<div class="content" id="<%=parsys%>">

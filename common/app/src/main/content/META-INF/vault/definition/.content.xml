@@ -20,7 +20,7 @@
         <f0
             jcr:primaryType="nt:folder"
             mode="replace"
-            root="/libs/girlscouts-common"
+            root="/apps/girlscouts-common"
             rules="[]"/>
     </filter>
 </jcr:root>

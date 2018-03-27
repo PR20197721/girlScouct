@@ -58,7 +58,7 @@
             <embedded>
               <groupId>${project.groupId}</groupId>
               <artifactId>girlscouts-common-bundle</artifactId>
-              <target>/libs/common/install</target>
+              <target>/apps/common/install</target>
             </embedded>
           </embeddeds>
           <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
