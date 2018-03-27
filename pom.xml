@@ -359,6 +359,7 @@
     </pluginRepository>
   </pluginRepositories>
   <modules>
+  	<module>common</module>
     <module>web</module>
     <module>gsusa</module>
     <module>gsactivities</module>
