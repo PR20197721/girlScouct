@@ -219,7 +219,7 @@
                                                 wrapperClass="hide gs-hide-show gsmail spiceworks"/>
                                             <confirmation-bcc
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/foundation/form/multifield"
+                                                sling:resourceType="granite/ui/components/coral//foundation/form/multifield"
                                                 fieldDescription="The recipient of the confirmation email will not see email addresses entered here"
                                                 fieldLabel="Confirmation BCC"
                                                 wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case">
