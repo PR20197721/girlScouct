@@ -1,0 +1,14 @@
+.fadeAwayField {
+	opacity: 0;
+	max-height: 0px;
+	transition-duration: 500ms;
+}
+.fadeAwayField.fieldAvailable, .fadeAwayField.fieldAvailable {
+	opacity: 1;
+	max-height: 100px;
+}
+
+.coral-Form--vertical .coral-Form-fieldwrapper--singleline.fadeAwayField .coral-Form-field.coral-Checkbox,
+.coral-Form--vertical .coral-Form-fieldwrapper--singleline.fadeAwayField .coral-Form-field.coral-Radio {
+	float: none;
+}

@@ -4,7 +4,7 @@
 %><%@include file="/libs/foundation/global.jsp"%><%
 %><%@page session="false" %>
 <%
-	String text = properties.get("text", "Please enter your quote.");
+	String text = properties.get("text", "<p>Please enter your quote.</p>");
 	String style = properties.get("style", "bg-color fuchsia");
 	boolean isQuote = properties.get("isQuote", false);
 	boolean hasQuotee = properties.get("hasQuotee", false);
@@ -27,7 +27,7 @@
     <% } %>
 
 ">
-    <p style="
+    <div style="
 
 	<% if(isQuote) { %>
 		padding-top: 4px;
@@ -53,7 +53,7 @@
     	color: #<%=textColor%>;
     <% } %>
 
-    "><%= text %></p>
+    "><%= text %></div>
     <% if(isQuote && hasQuotee && !quotee.equals("")){ %>
     	<p class="quotee" style="
     	
