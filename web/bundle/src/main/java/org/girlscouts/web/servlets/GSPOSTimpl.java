@@ -24,24 +24,37 @@ import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.text.WordUtils;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.api.servlets.HtmlResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.jcr.api.SlingRepository;
-import org.apache.sling.jcr.resource.JcrResourceResolverFactory;
+
 import org.girlscouts.web.components.PageReplicationUtil;
 import org.girlscouts.web.events.search.GSDateTime;
 import org.girlscouts.web.events.search.GSDateTimeFormat;
 import org.girlscouts.web.events.search.GSDateTimeFormatter;
 import org.girlscouts.web.events.search.GSDateTimeZone;
+import org.osgi.service.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
 import com.day.cq.replication.ReplicationActionType;
@@ -54,22 +67,30 @@ import com.day.cq.wcm.api.Page;
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowService;
 import com.day.cq.workflow.WorkflowSession;
-import com.day.cq.workflow.exec.Workflow;
 import com.day.cq.workflow.exec.WorkflowData;
 import com.day.cq.workflow.model.WorkflowModel;
-import org.apache.jackrabbit.vault.fs.api.PathFilterSet;
-import org.apache.jackrabbit.vault.fs.config.DefaultWorkspaceFilter;
-import org.apache.jackrabbit.vault.packaging.JcrPackage;
-import org.apache.jackrabbit.vault.packaging.JcrPackageDefinition;
-import org.apache.jackrabbit.vault.packaging.JcrPackageManager;
-import org.apache.jackrabbit.vault.packaging.Packaging;
-import org.apache.jackrabbit.vault.util.DefaultProgressListener;
+import com.day.jcr.vault.fs.api.PathFilterSet;
+import com.day.jcr.vault.fs.config.DefaultWorkspaceFilter;
+import com.day.jcr.vault.packaging.JcrPackage;
+import com.day.jcr.vault.packaging.JcrPackageDefinition;
+import com.day.jcr.vault.packaging.JcrPackageManager;
+import com.day.jcr.vault.packaging.Packaging;
+import com.day.jcr.vault.util.DefaultProgressListener;
 import com.opencsv.CSVReader;
 
 /**
  * Servers as base for image servlets
  */
-public class POST extends SlingAllMethodsServlet {
+
+@Component(metatype = true, label = "GS Bulkeditor POST Servlet",
+description = "Assists with bulkeditor performance")
+@Service
+@Properties({
+@Property(name = "sling.servlet.methods", value = "POST"),
+@Property(name = "service.description", value = "Bulk editor post servlet")
+}) 
+ 
+public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST { 
     public static final String DOCUMENT_PARAM = "document";
     public static final String INSERTEDRESOURCETYPE_PARAM = "insertedResourceType";
     public static final String ROOTPATH_PARAM = "./rootPath";
@@ -93,13 +114,37 @@ public class POST extends SlingAllMethodsServlet {
     private final String CATEGORIES_TAG_DOMAIN = "categories";
     private final String PROGRAM_LEVEL_TAG_DOMAIN = "program-level";
     
+
+    @Reference 
+	private Replicator replicator;
     
+	@Reference
+	private ResourceResolverFactory resolverFactory;
     
     int contactDelayInterval = 40;
     int documentDelayInterval = 10;
     int repDelayTimeInMinutes = 1;
+    
+    private Map<String, Object> serviceParams;
+    
+    private static Logger log = LoggerFactory.getLogger(GSPOSTimpl.class);
+    private ResourceResolver rr = null;
 
-    protected void doPost(SlingHttpServletRequest request,
+	@Activate
+	private void activate(ComponentContext context) {
+		try {
+			serviceParams = new HashMap<String, Object>();
+			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+			
+			rr = resolverFactory.getServiceResourceResolver(serviceParams);
+		} catch (LoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		log.info("Girlscouts Rollout Service Activated.");
+	}
+
+    public void doPost(SlingHttpServletRequest request,
                           SlingHttpServletResponse response)
             throws ServletException, IOException {
 
@@ -145,7 +190,7 @@ public class POST extends SlingAllMethodsServlet {
 
             try {
                 admin = repo.loginAdministrative(null);
-                ResourceResolver adminResolver = scriptHelper.getService(JcrResourceResolverFactory.class).getResourceResolver(admin);
+                ResourceResolver adminResolver = rr;
                 
 	            if(rootPath!=null) {
 	                Node rootNode = null;
@@ -207,6 +252,9 @@ public class POST extends SlingAllMethodsServlet {
 		                    	} catch(Exception e){
 		                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
 			                                "General Exception occured while processing content: " + e.getMessage());
+		                			throw e;
+		                		} finally {
+		                			//adminResolver.close();
 		                		}
 		                            
 		                       
@@ -311,6 +359,12 @@ public class POST extends SlingAllMethodsServlet {
 	    		
 	    		List<Contact> contactList = teamMap.get(contact.getTeam());
 	    		if(contactList != null){
+	    			for(Contact check: contactList) {
+	    				String tempPath = contact.getPath();
+	    				if(tempPath.equals(check.getPath())) {
+	    					contact.setPath(tempPath + "_1");
+	    				}
+	    			}
 	    			contactList.add(contact);
 	    		} else{
 	    			List<Contact> newList = new ArrayList<Contact>();
@@ -339,12 +393,12 @@ public class POST extends SlingAllMethodsServlet {
             if(rootNode.getProperty("jcr:content/sling:resourceType").getString().equals("girlscouts/components/contact-placeholder-page")){
             	Page rootPage = resource.adaptTo(Page.class);
             	Iterator<Page> oldChildren = rootPage.listChildren();
-            	Replicator replicator = scriptHelper.getService(Replicator.class);
             	while(oldChildren.hasNext()){
             		Page child = oldChildren.next();
             		replicator.replicate(rootNode.getSession(), ReplicationActionType.DELETE, child.getPath());
             		Resource childRes = adminResolver.getResource(child.getPath());
             		Node childNode = childRes.adaptTo(Node.class);
+            		log.error("#########DELETED CONTACTS NODE CHILD NODE PATH IS: " + childNode.getPath());
             		childNode.remove();
             	}
             }
@@ -398,7 +452,7 @@ public class POST extends SlingAllMethodsServlet {
 			}
     	} catch (RepositoryException e) {
     		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Critical Error While Writing Data to Repository. Process Aborted" + e.getMessage());
+                    "Critical Error While Writing Data to Repository. Process Aborted" + e.getMessage() + " With exception: " + e.getClass().getName());
             return response;
 		}
     	
@@ -475,7 +529,7 @@ public class POST extends SlingAllMethodsServlet {
         }
     	
     	rootPath = rootPath + "/" + year;
-    	Replicator replicator = scriptHelper.getService(Replicator.class);
+    
     	
         //Get sets of existing categories + program levels
         try {
@@ -575,15 +629,6 @@ public class POST extends SlingAllMethodsServlet {
     					event.setRegCloseDate(value);
     				} else if (header.equals(Event.REGISTRATION_CLOSE_TIME)){
     					event.setRegCloseTime(value);
-    				} else if (header.equals(Event.COLOR)){
-    					if(colorMatch.matcher(value).matches()){
-    						String truncatedHeader = header.replace("jcr:content/data/", "");
-    						event.addDataPair(truncatedHeader, value);
-    					}else{
-    						response = HtmlStatusResponseHelper.createStatusResponse(true,
-    			                    "Color field is in the wrong format at line "+lineCount +". Process aborted");
-    			        	return response;
-    					}
     				} else if (header.equals(Event.IMAGE)){
     					event.setImagePath(value);
     				} else if (header.equals(Event.PATH)){
@@ -778,7 +823,7 @@ public class POST extends SlingAllMethodsServlet {
 				}
 				
 				
-				imageNode.setProperty("", event.getImagePath());
+				imageNode.setProperty("fileReference", event.getImagePath());
 				
 				//Set Tags
 				String[] categories = new String[0];
@@ -908,7 +953,7 @@ public class POST extends SlingAllMethodsServlet {
     		TagManager tagManager = adminResolver.adaptTo(TagManager.class);
     		String damName = rootNode.getAncestor(3).getName();
     		String councilName = getDamCouncilName(damName);
-    		Replicator replicator = scriptHelper.getService(Replicator.class);
+    		
     		for(String tag : tagSet){
     			if(tag != null && !tag.trim().isEmpty()){
     				String[] firstSplit = tag.split(":");
@@ -920,6 +965,8 @@ public class POST extends SlingAllMethodsServlet {
     						if(secondSplit.length == 2){
     							String tagDomain = secondSplit[0];
     							String tagName = secondSplit[1];
+    							tagName = tagName.replaceAll("[^A-Za-z0-9]", " ");
+    							tagName = WordUtils.capitalize(tagName);
     							if(FORMS_TAG_DOMAIN.equals(tagDomain) 
     									|| CATEGORIES_TAG_DOMAIN.equals(tagDomain)
     									|| PROGRAM_LEVEL_TAG_DOMAIN.equals(tagDomain)){
@@ -941,7 +988,7 @@ public class POST extends SlingAllMethodsServlet {
     						}
     					} else{
     						response = HtmlStatusResponseHelper.createStatusResponse(true,
-        		                    "Tag "+tag +" does not match the council name. Process aborted");
+        		                    "Tag "+tag +" does not match the council tag namespace: " + councilName + " Process aborted");
         		        	return response;
     					}
     				} else{
@@ -1030,32 +1077,33 @@ public class POST extends SlingAllMethodsServlet {
     }
     
     private String getDamCouncilName(String damName){
+    	String result = damName;
     	switch(damName){
     		case "southern-appalachian":
-    	    	
+    	    	result = "girlscoutcsa";
         		break;
     		case "NE_Texas":
-    	    	
+    			result = "gsnetx";
         		break;
     		case "nc-coastal-pines-images-":
-    	    	
+    			result = "girlscoutsnccp";
         		break;
     		case "wcf-images":
-    	    	
+    			result = "gswcf";
     			break;
     		case "oregon-sw-washington-" :
-    			
+    			result = "girlscoutosw";
     			break;
     		
     	}
     	
     	
     	if(damName.contains("girlscouts-")){
-    		return damName.replaceAll("girlscouts-", "");
+    		result = damName.replaceAll("girlscouts-", "");
     	} 
     	
     	
-    	return damName;
+    	return result;
     	
     	
     }
@@ -1275,7 +1323,7 @@ public class POST extends SlingAllMethodsServlet {
     		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
 		}catch(Exception e){
             response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Failed to create contact backup package");
+                    "Failed to create contact backup package due to " + e.getClass().getName() + " with message " + e.getMessage());
             
             e.printStackTrace();
             return response;
