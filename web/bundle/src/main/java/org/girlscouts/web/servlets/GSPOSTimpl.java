@@ -254,7 +254,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 			                                "General Exception occured while processing content: " + e.getMessage());
 		                			throw e;
 		                		} finally {
-		                			adminResolver.close();
+		                			//adminResolver.close();
 		                		}
 		                            
 		                       
@@ -359,6 +359,12 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	    		
 	    		List<Contact> contactList = teamMap.get(contact.getTeam());
 	    		if(contactList != null){
+	    			for(Contact check: contactList) {
+	    				String tempPath = contact.getPath();
+	    				if(tempPath.equals(check.getPath())) {
+	    					contact.setPath(tempPath + "_1");
+	    				}
+	    			}
 	    			contactList.add(contact);
 	    		} else{
 	    			List<Contact> newList = new ArrayList<Contact>();
@@ -392,6 +398,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
             		replicator.replicate(rootNode.getSession(), ReplicationActionType.DELETE, child.getPath());
             		Resource childRes = adminResolver.getResource(child.getPath());
             		Node childNode = childRes.adaptTo(Node.class);
+            		log.error("#########DELETED CONTACTS NODE CHILD NODE PATH IS: " + childNode.getPath());
             		childNode.remove();
             	}
             }
@@ -445,7 +452,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 			}
     	} catch (RepositoryException e) {
     		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Critical Error While Writing Data to Repository. Process Aborted" + e.getMessage());
+                    "Critical Error While Writing Data to Repository. Process Aborted" + e.getMessage() + " With exception: " + e.getClass().getName());
             return response;
 		}
     	
@@ -1316,7 +1323,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
 		}catch(Exception e){
             response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Failed to create contact backup package");
+                    "Failed to create contact backup package due to " + e.getClass().getName() + " with message " + e.getMessage());
             
             e.printStackTrace();
             return response;
