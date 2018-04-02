@@ -60,7 +60,7 @@ String googleMapsAPI = properties.get("mapAPI", "AIzaSyCQ1pG4dKsTrA8mqAo-0qwAI0I
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
-        center: {lat: -34.397, lng: 150.644}
+        center: {lat: -0.000, lng: 150.000}
       });
 
       geocoder = new google.maps.Geocoder;
@@ -124,6 +124,19 @@ String googleMapsAPI = properties.get("mapAPI", "AIzaSyCQ1pG4dKsTrA8mqAo-0qwAI0I
       codeAddress(map, geocoder);
       google.maps.event.trigger(map, 'resize');
       google.maps.event.trigger(map, 'center');
+
+	  // to correct gray box issue on chrome and chrome mobile      
+      $('#map').css('visibility','hidden');
+     // $('#map').css('overflow','auto');      
+      setTimeout(function(){
+      	$('#map').css('position','absolute');
+      	setTimeout(function(){
+      		$('#map').css('position','relative');
+      		$('#map').css('visibility','visible');
+		}, 500);
+      }, 500);
+      
+      
     }
     function LoadGoogle(){
       if(typeof google != 'undefined' && google && google.load){
