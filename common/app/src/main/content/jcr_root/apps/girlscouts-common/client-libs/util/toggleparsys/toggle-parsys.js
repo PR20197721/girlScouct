@@ -14,7 +14,9 @@ window.TouchUI.Utils.ToggleParsys = function(name) {
 		var returner = new $.Deferred();
 		editablesReady.then(function(editables){
 			try{
-				returner.resolve(editables.filter(etb => etb.path == name)[0]);
+				returner.resolve(editables.filter(function(etb){
+					return etb.path == name;
+				})[0]);
 			}catch(err){
 				returner.reject(err);
 			}
@@ -24,7 +26,9 @@ window.TouchUI.Utils.ToggleParsys = function(name) {
 
     function _toggle(){
     		try{
-    			findEditable().then(edb => $(edb.dom).toggle());
+    			findEditable().then(function(edb){
+    				$(edb.dom).toggle();
+    			});
     		} catch (err){
     			console.warn("couldn't toggle parsys");
     		}
@@ -32,7 +36,9 @@ window.TouchUI.Utils.ToggleParsys = function(name) {
 
     function _hideParsys(){
     		try{
-    			findEditable().then(edb => $(edb.dom).hide());
+    			findEditable().then(function(edb){
+    				$(edb.dom).hide();
+    			});
     		} catch (err){
 			console.warn("couldn't hide parsys");
 		}
@@ -40,7 +46,9 @@ window.TouchUI.Utils.ToggleParsys = function(name) {
 
     function _showParsys(){
     		try{ 
-    			findEditable().then(edb => $(edb.dom).show());
+    			findEditable().then(function(edb){
+    				$(edb.dom).show();
+    			});
     		} catch (err){
     			console.warn("couldn't show parsys");
     		}

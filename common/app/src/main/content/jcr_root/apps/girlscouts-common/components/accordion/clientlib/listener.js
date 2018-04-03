@@ -66,7 +66,10 @@
 	
 	function fixAccordionOverlays(){
 		var graniteEditables = Granite.author.editables;
-        var editableArr = graniteEditables.filter((itm) => itm.type.indexOf('/components/accordion') > -1);
+        
+        var editableArr = graniteEditables.filter(function(itm){
+        		return;
+        });
         
         var allEditableDoms = $();
         var allEditableOverlays = $();
@@ -78,7 +81,12 @@
         var editableOverlaysAndParentsDoms = allEditableOverlays.add(allEditableOverlays.parents('[data-type="Editable"]'));
 	    $('#OverlayWrapper').css({maxHeight: 1});
         
-        var editableAndParents = graniteEditables.filter((itm) => editableOverlaysAndParentsDoms.toArray().filter(eapd => eapd == itm.overlay.dom[0]).length > 0);
+        var editableAndParents = graniteEditables.filter(function(itm){
+        		return editableOverlaysAndParentsDoms.toArray().filter(function(eapd){
+        			return eapd == itm.overlay.dom[0];
+        		});
+        });
+        
         for(var i = 0; i < editableAndParents.length; i++){
             var editable = editableAndParents[i];
             if(!editable.getAreaOverride){
@@ -114,12 +122,13 @@
                 overlay.add(overlay.parents('[data-type="Editable"]').not(allEditableDoms)).css({width: (overlayWidth - 70) + 'px'});
             }
         }
-	}
+	};
 
 	// Check for new accordions as the page changes.
 	$(document).on('cq-editables-loaded cq-editables-loaded cq-editor-loaded cq-layer-activated', function(){ 
 		// Check to be sure we have all the dom objects.
-		for(var editable of Granite.author.editables){
+		for(var i = 0; i < Granite.author.editables.length; i++){
+            var editable = Granite.author.editables[i];
 			try{
 				if(!editable.dom || !editable.overlay || !editable.overlay.dom){
 					return;
@@ -129,7 +138,7 @@
 				return;
 			}
 		}
-		
+
 		// All the dom is present so we can fix the overlays now.
 	    fixAccordionOverlays();
 	});
