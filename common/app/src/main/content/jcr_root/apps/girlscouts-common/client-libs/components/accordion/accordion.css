@@ -18,22 +18,20 @@ dt.accordionHeaderShown > h6.accordionComponentLabel{
     float: right;
     width: 0;
     height: 0;
+    border-bottom: 10px solid transparent;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid #00ae58;
+    border-top: 10px solid #00ae58;
     margin: 17px 10px;
     transition-duration: 500ms;
-    transition-properties: border-bottom transform;
+    transition-properties: border-top transform;
 }
 
 .accordionHeaderShown > .accordionComponentSwitch {
-    border-bottom: 10px solid white;
+    border-top: 10px solid white;
     transform: rotate(180deg);
 }
 
-.accordionComponentHeader:hover .accordionComponentSwitch{
-    transform: scale(1.5);
-}
 .accordionComponentHeader.accordionHeaderShown:hover .accordionComponentSwitch{
-    transform: rotate(180deg) scale(1.5);
+    transform: rotate(180deg);
 }
