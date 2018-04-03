@@ -1,8 +1,10 @@
 <%@page import="	com.day.cq.wcm.api.WCMMode, 
+				org.apache.commons.lang3.StringUtils,
 				org.apache.sling.api.resource.Resource, 
 				java.util.Iterator,
 				java.util.Date,
 				java.lang.StringBuilder,  
+				javax.jcr.PathNotFoundException,
 				javax.jcr.Node" 
 %>
 <%@include file="/libs/foundation/global.jsp"%>
@@ -11,6 +13,12 @@
 
 <%
    	Resource children = resource.getChild("children");
+
+	String accordionIndex = "";
+	String accordionName = resource.getName();
+	if(accordionName.contains("_") && accordionName.length() > accordionName.indexOf('_') + 1){
+		accordionIndex = accordionName.substring(accordionName.indexOf('_') + 1);
+	}
 
 	if (children != null && !children.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 		Iterator<Resource>	items = children.listChildren(); 
@@ -33,7 +41,22 @@
 				if (accordion.hasProperty("nameField")) {
 					nameField = accordion.getProperty("nameField").getString();
 				}
-	            	String parsys = "accordion_parsys_" + accordion.getName();
+	            	String parsys = "accordion";
+	            	if(!StringUtils.isBlank(accordionIndex)){
+	            		parsys += "_" + accordionIndex;
+	            	}
+	            	parsys += "_parsys_";
+	            	
+	            	// Check if the node exists for the index.  Otherwise fallback to the ID if available.
+	            	try{
+	            		resource.adaptTo(Node.class).getNode(parsys + accordion.getName());
+		            	parsys += accordion.getName();
+	            	}catch(PathNotFoundException pnfe){
+	 	            	if(!StringUtils.isBlank(idField)){
+	 	            		parsys += idField;
+	 	            	}
+	            	}
+	            	
 	            	String parsysIdentifier = resource.getPath() + "/" + parsys;
             	%>
 	            	<dt class="accordionComponentHeader" style="clear:both" id="<%=achorField%>" data-parsys-identifier="<%=parsysIdentifier %>" >
