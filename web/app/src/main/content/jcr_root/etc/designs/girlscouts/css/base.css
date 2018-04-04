@@ -1587,8 +1587,12 @@ div[itemprop="description"] {
 
 #ui-datepicker-div {
   background-color: #eeeeee;
-  padding: 10px;
-  border: 1px solid #959595;
+  /*padding: 10px;
+  border: 1px solid #959595;*/
+}
+
+.ui-datepicker-header, .ui-datepicker-calendar{
+    margin:10px;
 }
 
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
