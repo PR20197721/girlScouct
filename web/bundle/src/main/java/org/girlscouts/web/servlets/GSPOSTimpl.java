@@ -406,7 +406,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
             //If deleting the contacts does not work create an error and exit method
         }catch(Exception e){
             response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Failed to delete original contact data. Process Aborted");
+                    "Failed to delete original contact data. Process Aborted due to error: " + e.getMessage());
             return response;
         }
     	
@@ -916,7 +916,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     						List<String> taglist = new LinkedList<String>(Arrays.asList(tagVals));
     						List<String> cleanList = new ArrayList<String>();
     						for(String tag : taglist){
-    							if(tag.contains("girlscoutcsa:forms_documents")) {
+    							if(tag.contains(":forms_documents")) {
     								tagSet.add(tag);
     								cleanList.add(tag);
     							}
