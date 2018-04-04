@@ -138,6 +138,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 			
 			rr = resolverFactory.getServiceResourceResolver(serviceParams);
 		} catch (LoginException e) {
+			log.error("Failed to acquire service due to: " + e.getMessage());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -913,10 +914,14 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     						value = value.replaceAll("\\[", "").replaceAll("\\]", "");
     						String[] tagVals = value.split(",");
     						List<String> taglist = new LinkedList<String>(Arrays.asList(tagVals));
-    						for(String tag : taglist){	
-    							tagSet.add(tag);
+    						List<String> cleanList = new ArrayList<String>();
+    						for(String tag : taglist){
+    							if(tag.contains("girlscoutcsa:forms_documents")) {
+    								tagSet.add(tag);
+    								cleanList.add(tag);
+    							}
     						}
-    						doc.setTags(taglist);
+    						doc.setTags(cleanList);
     					}
     				} else if(headers.get(indexCounter).equals(Document.DESCRIPTION_PROP)){
     					value = value.replaceAll("\\[", "").replaceAll("\\]", "");
