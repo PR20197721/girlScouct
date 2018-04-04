@@ -1,0 +1,2 @@
+base=.
+html2canvas.min.js

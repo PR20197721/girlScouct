@@ -1,0 +1,99 @@
+.PdfBadgeGridInner {
+    width: 700px;
+}
+
+.BadgePdfHeaderTitle {
+    font-size: 3em;
+    color: #bbb;
+}
+
+.BadgePdfHeader{
+    clear: both;
+    display: flex;
+    justify-content: space-between;
+}
+
+.BadgePdfHeader{
+    background-color: #23ae57;
+    font-size: 1.5em;
+    color: white;
+}
+.BadgePdfHeader .BadgePdfImageColumn{
+    background-color: #23ae57;
+}
+
+.BadgePdfHeader .BadgePdfImageColumn, .BadgePdfHeader .BadgePdfDescriptionColumn{
+    padding: 5px;
+}
+
+.BadgeExplorerElementPdfComponent{
+    clear: both;
+    border-bottom: 2px solid #bbb;
+    display: flex;
+    justify-content: space-between;
+}
+
+.BadgePdfImageColumn{
+    width: 25%;
+    padding: 10px;
+    background-color: #eee;
+}
+
+.BadgePdfDescriptionColumn{
+    width: 71%;
+}
+
+.BadgePdfTitle{
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 10px;
+}
+
+.BadgeRankLevel, .BadgeSubjectMatter{
+    text-align: center;
+}
+
+.BadgePdfDescription{
+    padding-top: 10px;
+}
+
+.BadgePdfDescription p, .BadgePdfDescription ol{
+    font-size: 1em;
+    line-height: 1.3em;
+}
+
+.BadgePdfGetContainer {
+    background-color: #24ae57;
+    display: inline-block;
+    padding: 3px 10px;
+    margin: 0 0 20px 0;
+}
+
+.BadgePdfGetContainer a{
+    color: white;
+}
+
+/* Controls */
+ul.dropdown{
+	float: left;
+}
+.CreateBadgePdfButton{
+	float: left;
+}
+.tags{
+	clear: both;
+}
+
+.CreateBadgePdfButton {
+    float: left;
+    margin-left: 20px;
+    padding: 2px;
+    width: 200px;
+    text-align: center;
+    background-color: #1c9346;
+    color: white;
+    font-size: 1.1em;
+    border: 1px solid #146b33;
+    cursor: pointer;
+}

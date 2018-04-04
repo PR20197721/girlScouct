@@ -4,10 +4,12 @@
 	java.util.List,
 	java.util.ArrayList,
 	java.util.Comparator,
-	java.util.Collections"%>
+	java.util.Collections,
+	org.girlscouts.web.badges.dto.BadgeDTO"%>
 <%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/girlscouts/components/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
 <cq:defineObjects />
+
 <%!
 class BadgeComparator implements Comparator<Resource>{
 	
@@ -87,7 +89,7 @@ class BadgeComparator implements Comparator<Resource>{
 								}
 								filterClassBuilder.append("\"");
 							}
-							sb.append("<div class=\"badge-block\" "+filterClassBuilder.toString()+">");
+							sb.append("<div class=\"badge-block\" "+filterClassBuilder.toString()+" data-badge-info='" + new BadgeDTO(badge, props).toJson() + "'>");
 								sb.append("<div class=\"badge-content\">");
                                     sb.append("<div class=\"badge-body\">");
                                         sb.append("<label class=\"badge-image-wrapper\" for=\""+modalId+"\">");
@@ -143,4 +145,5 @@ class BadgeComparator implements Comparator<Resource>{
 	}
 %>
 
+<%@ include file="pdf-templates/pdf-template-wrapper.jsp" %>
 <cq:includeClientLib categories="apps.gsusa.components.badge-explorer"/>
