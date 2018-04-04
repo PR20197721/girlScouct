@@ -41,10 +41,19 @@ if (result != null) {
     			    }
 			        println("creating "+itemNode.getPath())
 			        if(accordion.contains("|||")){
-			            String[] childValues = accordion.split("|||")
-			            itemNode.setProperty("nameField",childValues[0])
-			            itemNode.setProperty("anchorField",childValues[1])
-			            itemNode.setProperty("idField",childValues[2])
+    			        		List tokens = accordion.tokenize( '|||' )
+    			            itemNode.setProperty("nameField",tokens.get(0))
+    			            if(tokens.size() > 1){
+	    			            if(accordion.contains("||||||")){
+	    			                // indicates that there was no anchor, but had an ID field.
+	    			            		itemNode.setProperty("idField",tokens.get(1))
+	    			            } else{
+	    			            		itemNode.setProperty("anchorField",tokens.get(1))
+		    			            if(tokens.size() > 2){
+		    			            		itemNode.setProperty("idField",tokens.get(2))
+		    			           	}
+	    			            }
+    			           	}
 			        }else{
 			            itemNode.setProperty("nameField",accordion)
 			        }
@@ -81,10 +90,19 @@ if (result != null) {
     			        println("creating "+itemNode.getPath())
     			        String accordion = children[i].getString()
     			        if(accordion.contains("|||")){
-    			            String[] childValues = accordion.split("|||")
-    			            itemNode.setProperty("nameField",childValues[0])
-    			            itemNode.setProperty("anchorField",childValues[1])
-    			            itemNode.setProperty("idField",childValues[2])
+    			        		List tokens = accordion.tokenize( '|||' )
+    			            itemNode.setProperty("nameField",tokens.get(0))
+    			            if(tokens.size() > 1){
+	    			            if(accordion.contains("||||||")){
+	    			                // indicates that there was no anchor, but had an ID field.
+	    			            		itemNode.setProperty("idField",tokens.get(1))
+	    			            } else{
+	    			            		itemNode.setProperty("anchorField",tokens.get(1))
+		    			            if(tokens.size() > 2){
+		    			            		itemNode.setProperty("idField",tokens.get(2))
+		    			           	}
+	    			            }
+    			           	}
     			        }else{
     			            itemNode.setProperty("nameField",accordion)
     			        }

@@ -26,12 +26,18 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./isHidden"
+                                value="true"
                                 text="Hide Breadcrumb?"/>
                             <hidden-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./isHidden@Delete"
                                 value="{Boolean}true"/>
+							<hidden-type
+							    jcr:primaryType="nt:unstructured"
+							    sling:resourceType="granite/ui/components/foundation/form/hidden"
+							    name="./isHidden@TypeHint"
+							    value="Boolean"/>
                             <breadcrumb-root
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/select"

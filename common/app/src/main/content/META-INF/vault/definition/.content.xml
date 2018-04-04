@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:vlt="http://www.day.com/jcr/vault/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:created="{Date}2017-03-27T10:01:11.509-04:00"
+    jcr:createdBy="admin"
+    jcr:description="GirlScouts Common App Package"
+    jcr:lastModified="{Date}2017-03-27T10:01:11.509-04:00"
+    jcr:lastModifiedBy="admin"
+    jcr:primaryType="vlt:PackageDefinition"
+    buildCount="1"
+    builtWith="Adobe CQ-5.6.0.20130125"
+    group="GirlScouts"
+    lastUnwrapped="{Date}2017-03-27T10:01:11.509-04:00"
+    lastUnwrappedBy="admin"
+    lastWrapped="{Date}2017-03-27T10:01:11.509-04:00"
+    lastWrappedBy="admin"
+    name="girlscouts-common-content"
+    version="1.0-SNAPSHOT">
+    <thumbnail.png/>
+    <filter jcr:primaryType="nt:unstructured">
+        <f0
+            jcr:primaryType="nt:folder"
+            mode="replace"
+            root="/apps/girlscouts-common"
+            rules="[]"/>
+    </filter>
+</jcr:root>

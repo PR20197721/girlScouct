@@ -1,0 +1,474 @@
+/* Begin Controls CSS */
+.hide {
+    display: none !important;
+}
+/*
+*
+* https://codepen.io/Tont/pen/hdsev
+*
+*/
+.dropdown {
+       text-align: left;
+       display: table;
+       table-layout: fixed;
+       margin: 0;
+       max-width: 405px;
+       /* 190+25+190 */
+    width: 100%;
+    padding: 0;
+    color: #222;
+    margin-bottom: 12px;
+}
+
+.dropdown * {
+    font-size: 13px;
+    -webkit-user-select: none;
+    /* Chrome, Opera, Safari */
+    -moz-user-select: none;
+    /* Firefox 2+ */
+    -ms-user-select: none;
+    /* IE 10+ */
+    user-select: none;
+    /* Standard syntax */
+}
+
+.dropdown > li {
+    display: table-cell;
+    list-style-type: none;
+    position: relative;
+    background-color: whitesmoke;
+    width: 100%;
+    max-width: 190px;
+    height: 28px;
+    vertical-align: middle;
+}
+
+.dropdown > li.divider {
+    width: 25px;
+    background: none;
+}
+
+.dropdown label,
+.dropdown input[type="checkbox"] + label {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0 12px;
+    line-height: 28px;
+    transition: background 0.3s;
+    cursor: pointer;
+    color: #222;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dropdown > li > label {
+    font-weight: bold;
+    border: 1px solid darkgray;
+    line-height: 26px;
+}
+
+.dropdown > li > label:hover,
+.dropdown > li > input:checked ~ label {
+    //background-color: gainsboro;
+}
+
+.dropdown > li > label:after {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 50%;
+    right: 10px;
+    margin-top: -2px;
+    width: 0;
+    height: 0;
+    border-top: 4px solid black;
+    border-bottom: 0 solid black;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    transition: border-bottom .1s, border-top .1s .1s;
+}
+
+.dropdown input:checked ~ label:after {
+    border-top: 0 solid black;
+    border-bottom: 4px solid black;
+    transition: border-top .1s, border-bottom .1s .1s;
+}
+
+.dropdown input {
+    display: none;
+}
+/* Submenu */
+
+.dropdown input:checked ~ .submenu {
+    max-height: 300px;
+    transition: max-height 0.5s ease-in;
+}
+
+.dropdown .submenu {
+    z-index: 10;
+    margin-top: -1px;
+    overflow: hidden;
+    position: absolute;
+    min-width: 100%;
+    max-height: 0;
+    transition: max-height 0.5s ease-out;
+}
+
+.dropdown .submenu ul {
+    padding: 0;
+    list-style-type: none;
+    background-color: whitesmoke;
+    box-shadow: 0 0 1px gainsboro;
+    border: 1px solid darkgray;
+    margin: 0;
+}
+
+.dropdown .submenu li label:hover {
+    background-color: gainsboro;
+    outline: 1px solid darkgray;
+}
+
+.dropdown .submenu li input:checked ~ label {
+    font-weight: bold;
+}
+
+.dropdown .submenu .divider {
+    margin: 12px;
+    border-top: 1px solid black;
+}
+/*
+*
+* Tags
+*
+*/
+
+.tags {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 20px;
+    min-height: 24px;
+}
+
+.tags label {
+    display: inline-block;
+    font-size: 11px;
+    cursor: pointer;
+    color: #60af79;
+    margin-right: 12px;
+}
+
+.tags label:before {
+    content: "\00d7"; /* "Times" CSS symbol */
+    font-size: 16px;
+    margin-right: 3px;
+    color: darkgray;
+}
+/* End Controls CSS */
+
+/* Begin Tiles CSS */
+.hide {
+    display: none !important;
+}    
+/*
+*
+* https://www.felipefialho.com/css-components/#component-modal 
+*
+*/
+.modal {
+    position: absolute;
+}
+
+.modal .btn-close,
+.modal .badge-image,
+.modal .btn-get {
+    -webkit-user-select: none;
+    /* Chrome, Opera, Safari */
+    -moz-user-select: none;
+    /* Firefox 2+ */
+    -ms-user-select: none;
+    /* IE 10+ */
+    user-select: none;
+    /* Standard syntax */
+}
+
+.modal .btn-close {
+    color: #bababa;
+    cursor: pointer;
+    font-size: 20px;
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    text-decoration: none;
+}
+
+.modal .btn-close:hover,
+.modal .btn-close:focus {
+    color: #999;
+}
+
+.modal-wrap:before {
+    content: '';
+    display: none;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2001;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2002;
+}
+
+.modal-open:checked ~ .modal-wrap:before,
+.modal-open:checked ~ .modal-wrap .modal-overlay {
+    display: block;
+}
+
+.modal-open:checked ~ .modal-wrap .modal-dialog {
+    transform: translate(-50%, -50%);
+    top: 48%;
+}
+
+.modal-dialog {
+    display: table;
+    background-color: #dbdcde;
+    border: #555 solid 1px;
+    position: fixed;
+    left: 50%;
+    top: -100%;
+    transform: translate(-50%, -150%);
+    transition: transform .6s ease-in-out;
+    max-width: 466px;
+    width: 100%;
+    min-height: 400px;
+    height: 1px; /* For Firefox */
+    z-index: 2003;
+    padding: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+    .modal-dialog {
+        display: none;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        padding: 0;
+        transform: none;
+        transition: none;
+        border: none;
+        height: 100%;
+        max-width: 100%;
+        min-height: 1px;
+        height: auto;
+    }
+    .modal-open:checked ~ .modal-wrap .modal-dialog {
+        transform: none;
+        display: block;
+        top: 0;
+    }
+}
+
+.modal-body {
+    display: table-cell;
+    position: relative;
+    background-color: #f7f8f9;
+    width: 100%;
+    height: 100%;
+    padding: 28px 23px 50px 23px; /* 50px = wrapper 30px + btn-get 20px */
+}
+
+.modal-body * {
+    font-size: 14px;
+    line-height: normal;
+}
+
+.modal-body p,
+.modal-body ol,
+.modal-body ul {
+    margin-bottom: 14px; /* Match font size */
+    color: #222;
+}
+
+.modal .title {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.modal .badge-image {
+    height: auto;
+    max-width: 120px;
+    float: right;
+    padding: 0;
+    margin-right: -5px;
+}
+
+@media only screen and (max-width: 767px) {
+    .modal-body {
+        display: table;
+        padding-bottom: 65px; /* 65px = wrapper 30px + btn-get 20px + margin 15px */
+    }
+    
+    .modal .header {
+        display: table-row;
+    }
+    
+    .modal .description-wrapper {
+        display: table-row;
+        height: 100%;
+    }
+    
+    .modal .description {
+        display: block;
+        display: -moz-groupbox; /* For Firefox Mobile */
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    .modal .badge-image {
+        float: none;
+        margin: 0 auto;
+        display: block;
+        margin-bottom: 20px;
+    }
+}
+
+.modal .btn-get-wrapper {
+    position: absolute;
+    left: 0;
+    bottom: 20px;
+    width: 100%;
+}
+
+.modal .btn-get {
+    display: block;
+    width: 125px;
+    line-height: 30px;
+    text-align: center;
+    margin: 0 auto;
+    background-color: #00AE58;
+    color: #fefefe;
+    text-decoration: none;
+}
+
+/*
+*
+* Badge Grid
+*
+*/
+
+.badge-grid {
+    margin: -1.3%; 
+    text-align: left;
+    margin-bottom: 50px;
+}
+
+.badge-block {
+    position: relative;
+    margin: 1.3%; /* 10px at 770px container width */
+    display: inline-block;
+    width: 164px;
+    background-color: #dbdcde;
+    vertical-align: middle; /* To remove inline-block bottom spacing */
+    padding: 10px;
+}
+
+.badge-content {
+    width: 100%;
+    background-color: #f8f8f8;
+    text-align: center;
+}
+
+.badge-body {
+    width: 100%;
+    position: relative;
+}
+
+.badge-body:before {
+    content: '';
+    display: block;
+    padding-top: 100%; /* 1:1 aspect ratio */
+}
+
+.badge-image-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.badge-image-body {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.badge-image-inner {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+
+.badge-image {
+    width: 100%;
+    padding: 5px;
+}
+
+.badge-title-wrapper {
+    display: table;
+    width: 100%;
+    min-height: 38px;
+    height: 1px; /* For Firefox */
+    cursor: pointer;
+    background-color: white;
+    border-top: 2px solid #dbdcde;
+}
+
+.badge-title-body {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    padding: 0 5px;
+}
+
+.badge-title {
+    font-size: 12px;
+    font-weight: 600;
+    display: block;
+    color: #222;
+    line-height: 1.2em;
+}
+
+/* 3 Column - Tablet */
+@media only screen and (min-width: 521px) and (max-width: 945px) {
+    .badge-block {
+        width: 30.7%;
+    }
+}
+
+/* 2 Column - Mobile */
+@media only screen and (min-width: 0px) and (max-width: 520px) {
+    .badge-grid {
+        margin: -3.045%;
+    }
+    
+    .badge-block {
+        width: 43.9%;
+        margin: 3.045%; /* 10px at 320px container with */
+    }
+}
+
+/* End Tiles CSS */
