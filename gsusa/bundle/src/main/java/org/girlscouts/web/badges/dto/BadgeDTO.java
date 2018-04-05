@@ -1,5 +1,7 @@
 package org.girlscouts.web.badges.dto;
 
+import com.day.cq.dam.api.Asset;
+import com.day.cq.dam.api.Rendition;
 import com.google.gson.Gson;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +40,15 @@ public class BadgeDTO {
 		
 		title = props.get("dc:title",String.class);
 		link = props.get("dc:description",String.class);
-		image = badge.getPath();
+		
+		Asset asset = badge.adaptTo(Asset.class);
+		Rendition regRendition = asset.getRendition("cq5dam.thumbnail.319.319.png");
+		if(regRendition != null && regRendition.getPath() != null){
+			image = regRendition.getPath();
+		}else{
+			image = badge.getPath();
+		}
+		
 		description = props.get("adobe_dam:restrictions",String.class);
 		
 	}

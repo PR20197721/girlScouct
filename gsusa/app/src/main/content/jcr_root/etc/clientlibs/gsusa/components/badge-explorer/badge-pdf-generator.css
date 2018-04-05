@@ -97,3 +97,6 @@ ul.dropdown{
     border: 1px solid #146b33;
     cursor: pointer;
 }
+.CanvasImageOutputArea img{
+	display: block;
+}

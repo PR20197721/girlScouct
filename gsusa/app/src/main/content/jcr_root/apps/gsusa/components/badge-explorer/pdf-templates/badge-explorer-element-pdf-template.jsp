@@ -1,4 +1,4 @@
-<div class="BadgeExplorerElementPdfComponent">
+<div class="BadgeExplorerElementPdfComponent canvasOutputElement">
 	<div class="BadgePdfImageColumn">
 		<img :src="image" />
 		<div class="BadgePdfTitle">{{title}}</div>

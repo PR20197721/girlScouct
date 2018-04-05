@@ -48,19 +48,57 @@ window.BadgePdfGenerator = (function(window, $, document){
 		
 		// Write the elements to the page then resolve the returner after the pdf has been created.
 		return Vue.nextTick().then(function(){
-			html2pdf(target[0], {
-				margin: 0.5,
-				filename: 'SelectedBadges.pdf',
-				image: {type: 'jpeg', quality: 0.98},
-				html2canvas: {
-					dpi: 192, 
-					letterRendering: true
-				},
-				jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'},
-				enableLinks: true
+//			html2pdf(target[0], {
+//				margin: 0.5,
+//				filename: 'SelectedBadges.pdf',
+//				image: {type: 'jpeg', quality: 0.98},
+//				html2canvas: {
+//					dpi: 192, 
+//					letterRendering: true,
+//					imageTimeout: 30000 // 30 seconds.
+//				},
+//				jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'},
+//				enableLinks: true
+//			});
+//			html2canvas(target[0]).then(function(canvas) {
+//			    document.body.appendChild(canvas);
+//			});
+			
+			// Create an area for all the images to go in.
+			$('.CanvasImageOutputArea').remove();
+			var canvasImageOutputArea = $('<div>').addClass('CanvasImageOutputArea');
+						
+			var canvasOutputElements = target.find('.canvasOutputElement');
+			
+			// recursive function to process all elements.
+			processCanvasElement(canvasOutputElements, 0, []).then(function(processedImages){
+				var doc = new jsPDF();
+				doc.addImage(imgData, 'JPEG', 15, 40, 180, 160)
 			});
+			
+			// Append everything to the body to make sure it all displays.
+			// $('body').append(canvasImageOutputArea);
+			
+			// 
+			
 		});
 	};
+	
+	function processCanvasElement(canvasOutputElements, index, images){
+		if(index == canvasOutputElements.length){
+			return new $.Deferred().resolve(images);
+		}
+		return html2canvas(canvasOutputElements[index], {
+			y: $(canvasOutputElements[index]).offset().top - 20
+		}).then(function(canvas) {
+			var width = $(canvasOutputElements[index]).outerWidth(true);
+			var height = $(canvasOutputElements[index]).outerHeight(true);
+			var image = new Image(width, height);
+			image.src = canvas.toDataURL("image/png");
+			images.push[image];
+			return processCanvasElement(canvasOutputElements, index +1, images);
+		});
+	}
 	
 	function _generateBadgePdf(targetElement){
 		// Possible click function is called before initialization.
