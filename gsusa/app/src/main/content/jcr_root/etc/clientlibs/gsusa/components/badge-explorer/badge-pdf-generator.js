@@ -48,54 +48,66 @@ window.BadgePdfGenerator = (function(window, $, document){
 		
 		// Write the elements to the page then resolve the returner after the pdf has been created.
 		return Vue.nextTick().then(function(){
-//			html2pdf(target[0], {
-//				margin: 0.5,
-//				filename: 'SelectedBadges.pdf',
-//				image: {type: 'jpeg', quality: 0.98},
-//				html2canvas: {
-//					dpi: 192, 
-//					letterRendering: true,
-//					imageTimeout: 30000 // 30 seconds.
-//				},
-//				jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'},
-//				enableLinks: true
-//			});
-//			html2canvas(target[0]).then(function(canvas) {
-//			    document.body.appendChild(canvas);
-//			});
-			
 			// Create an area for all the images to go in.
 			$('.CanvasImageOutputArea').remove();
-			var canvasImageOutputArea = $('<div>').addClass('CanvasImageOutputArea');
+			var canvasImageOutputArea = $('<div>').addClass('CanvasImageOutputArea').appendTo('body');
 						
 			var canvasOutputElements = target.find('.canvasOutputElement');
 			
-			// recursive function to process all elements.
-			processCanvasElement(canvasOutputElements, 0, []).then(function(processedImages){
-				var doc = new jsPDF();
-				doc.addImage(imgData, 'JPEG', 15, 40, 180, 160)
-			});
-			
-			// Append everything to the body to make sure it all displays.
-			// $('body').append(canvasImageOutputArea);
-			
-			// 
-			
+			processCanvasElement(canvasOutputElements, 0, []).then(createPdfFromImages);
 		});
 	};
+
+	var MARGIN = 0.12; // 0.5"
+	function createPdfFromImages(processedImages){
+		
+		var doc = new jsPDF({format: 'letter', unit: 'in'});
+		var headerElements = processedImages.splice(0, 3);
+		var totalHeaderHeight = appendHeaderElements(headerElements, doc);
+		
+		var heightAvailablePerPage = 2.52; // 10.5" - 0.5" for footer margin.
+		
+		var currentTop = totalHeaderHeight;
+		for(var i = 0; i < processedImages.length; i++){
+			var imageHeight = (processedImages[i].height / 400);
+			if(currentTop + imageHeight > heightAvailablePerPage){
+				doc.addPage();
+				appendHeaderElements(headerElements, doc);
+				currentTop = totalHeaderHeight;
+			}
+			doc.addImage(processedImages[i].src, 'PNG', MARGIN, currentTop, (processedImages[i].width / 400),  imageHeight);
+			currentTop += imageHeight;
+		}
+		doc.save('BadgesReport.pdf');
+	}
 	
+	function appendHeaderElements(headerElements, doc){
+		var currentTop = MARGIN;
+		for(var i = 0; i < headerElements.length; i++){
+			var elementHeight = (headerElements[i].height / 400);
+			doc.addImage(headerElements[i].src, 'PNG', MARGIN, currentTop, (headerElements[i].width / 400), elementHeight);
+			currentTop += elementHeight;
+		}
+		return currentTop;
+	}
+
+	// recursive function to process all elements.
 	function processCanvasElement(canvasOutputElements, index, images){
 		if(index == canvasOutputElements.length){
 			return new $.Deferred().resolve(images);
 		}
 		return html2canvas(canvasOutputElements[index], {
-			y: $(canvasOutputElements[index]).offset().top - 20
+			y: $(canvasOutputElements[index]).offset().top - 30,
+			dpi: 192,
+			letterRendering: true
 		}).then(function(canvas) {
 			var width = $(canvasOutputElements[index]).outerWidth(true);
 			var height = $(canvasOutputElements[index]).outerHeight(true);
+			
 			var image = new Image(width, height);
-			image.src = canvas.toDataURL("image/png");
-			images.push[image];
+			image.src = canvas.toDataURL();
+			images.push(image);
+			$('.CanvasImageOutputArea').append(image);
 			return processCanvasElement(canvasOutputElements, index +1, images);
 		});
 	}
