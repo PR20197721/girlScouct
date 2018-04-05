@@ -125,18 +125,21 @@
 
 <ul class="inline-list">
     <li id="toolbox_1" class="addthis_toolbox">
-      <a class="icon-social-facebook" onclick="postToFeed<%= uniqueID %>(); return false;"></a>
+      <a class="addthis_button_linkedin icon-social-linkedin"><!-- <span></span> --></a>
     </li>
     <li id="toolbox_2" class="addthis_toolbox">
-      <a class="icon-social-twitter-tweet-bird" target="_blank"></a>
+      <a class="icon-social-facebook" onclick="postToFeed<%= uniqueID %>(); return false;"></a>
     </li>
     <li id="toolbox_3" class="addthis_toolbox">
-          <a class="addthis_button_pinterest icon-social-pinterest"><!-- <span></span> --></a>
+      <a class="icon-social-twitter-tweet-bird" target="_blank"></a>
     </li>
     <li id="toolbox_4" class="addthis_toolbox">
-          <a class="addthis_button_email icon-mail"><!-- <span></span> --></a>
+          <a class="addthis_button_pinterest icon-social-pinterest"><!-- <span></span> --></a>
     </li>
     <li id="toolbox_5" class="addthis_toolbox">
+          <a class="addthis_button_email icon-mail"><!-- <span></span> --></a>
+    </li>
+    <li id="toolbox_6" class="addthis_toolbox">
         <a class="addthis_button_print icon-printer"><!-- <span></span> --></a>
     </li>
 
