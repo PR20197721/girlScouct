@@ -1,3 +1,40 @@
+window.BadgePdfLoadingWidget = (function(){
+	
+	var overlay = $('<div>').addClass('BadgePdfProgressOverlay').hide().appendTo('body');
+	
+	var infoContainerOuter = $('<div>').addClass('BadgePdfProgressInfoContainerOuter').hide().appendTo('body');
+	var infoContainerInner = $('<div>').addClass('BadgePdfProgressInfoContainerInner').appendTo(infoContainerOuter);
+	var messageContainer = $('<div>').addClass('BadgePdfProgressMessageContainer').appendTo(infoContainerInner);
+	var loadingBarOuter = $('<div>').addClass('BadgePdfProgressBarOuter').appendTo(infoContainerInner);
+	var loadingBarInner = $('<div>').addClass('BadgePdfProgressBarInner').appendTo(loadingBarOuter);
+	
+	function _updateProgress(progressPercent, message){
+		loadingBarInner.css({maxWidth: loadingBarOuter.width() * progressPercent});
+		if(message){
+			_setMessage(message);
+		}
+	}
+	
+	function _setMessage(message){
+		messageContainer.text(message);
+	}
+	
+	function _show(){
+		overlay.add(infoContainerOuter).show();
+	}
+	
+	function _hide(){
+		overlay.add(infoContainerOuter).hide();
+	}
+	
+	return{
+		show: _show,
+		hide: _hide,
+		setMessage: _setMessage,
+		updateProgress: _updateProgress
+	}
+})();
+
 window.BadgePdfGenerator = (function(window, $, document){
 	
 	var defaultElementInitialized = new $.Deferred();
@@ -13,15 +50,14 @@ window.BadgePdfGenerator = (function(window, $, document){
 	};
 		
 	function removeBadgeGrid(target){
-		if(currentVue){
-			// Break down in case we add any state data later.
-			//currentVue.destroy();
-		}
 		target.empty();
 	};
 	
 	function createPdf(target){
 		target = $(target);
+		
+		BadgePdfLoadingWidget.show();
+		BadgePdfLoadingWidget.updateProgress(0.01, 'Collecting Badge Information...');
 		
 		// Clean out any previous runs.
 		removeBadgeGrid(target);
@@ -50,6 +86,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 		return Vue.nextTick().then(function(){
 			// Create an area for all the images to go in.
 			$('.CanvasImageOutputArea').remove();
+			$('iframe').attr('data-html2canvas-ignore', true);
 			var canvasImageOutputArea = $('<div>').addClass('CanvasImageOutputArea').appendTo('body');
 						
 			var canvasOutputElements = target.find('.canvasOutputElement');
@@ -68,6 +105,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 		var heightAvailablePerPage = 2.52; // 10.5" - 0.5" for footer margin.
 		
 		var currentTop = totalHeaderHeight;
+		BadgePdfLoadingWidget.updateProgress(1, 'Finalizing...');
 		for(var i = 0; i < processedImages.length; i++){
 			var imageHeight = (processedImages[i].height / 400);
 			if(currentTop + imageHeight > heightAvailablePerPage){
@@ -78,6 +116,11 @@ window.BadgePdfGenerator = (function(window, $, document){
 			doc.addImage(processedImages[i].src, 'PNG', MARGIN, currentTop, (processedImages[i].width / 400),  imageHeight);
 			currentTop += imageHeight;
 		}
+
+		BadgePdfLoadingWidget.hide();
+		BadgePdfLoadingWidget.updateProgress(0, '');
+		removeBadgeGrid($('.PdfBadgeGridContainer'));
+		
 		doc.save('BadgesReport.pdf');
 	}
 	
@@ -96,14 +139,15 @@ window.BadgePdfGenerator = (function(window, $, document){
 		if(index == canvasOutputElements.length){
 			return new $.Deferred().resolve(images);
 		}
+		BadgePdfLoadingWidget.updateProgress(((index + 1) /canvasOutputElements.length ), 'Processing Badge: ' + (index + 1) + ' of ' + canvasOutputElements.length );
 		return html2canvas(canvasOutputElements[index], {
 			y: $(canvasOutputElements[index]).offset().top - 30,
 			dpi: 192,
-			letterRendering: true
+			letterRendering: true,
+			removeContainer: false
 		}).then(function(canvas) {
 			var width = $(canvasOutputElements[index]).outerWidth(true);
 			var height = $(canvasOutputElements[index]).outerHeight(true);
-			
 			var image = new Image(width, height);
 			image.src = canvas.toDataURL();
 			images.push(image);
