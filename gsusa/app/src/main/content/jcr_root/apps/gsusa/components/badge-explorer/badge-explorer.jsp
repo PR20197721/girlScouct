@@ -10,7 +10,7 @@
 <cq:defineObjects />
 <%!
 class BadgeComparator implements Comparator<Resource>{
-	
+
 	public int compare(Resource badge1, Resource badge2){
 		try{
 			if(badge1 != null && badge2 != null){
@@ -19,7 +19,7 @@ class BadgeComparator implements Comparator<Resource>{
 				String b1Name = b1ValMap.get("dc:title", String.class);
 				String b2Name = b2ValMap.get("dc:title", String.class);
 				return b1Name.compareTo(b2Name);
-			}	
+			}
 		}catch (Exception e){
 			System.err.println("Error occured while comparing "+badge1+" and "+badge2);
 			e.printStackTrace();
@@ -31,10 +31,10 @@ class BadgeComparator implements Comparator<Resource>{
 <style>
     .hide {
         display: none !important;
-    }    
+    }
     /*
     *
-    * https://www.felipefialho.com/css-components/#component-modal 
+    * https://www.felipefialho.com/css-components/#component-modal
     *
     */
     .modal {
@@ -117,7 +117,7 @@ class BadgeComparator implements Comparator<Resource>{
         z-index: 2003;
         padding: 10px;
     }
-    
+
     @media only screen and (max-width: 767px) {
         .modal-dialog {
             display: none;
@@ -149,7 +149,7 @@ class BadgeComparator implements Comparator<Resource>{
         height: 100%;
         padding: 28px 23px 50px 23px; /* 50px = wrapper 30px + btn-get 20px */
     }
-    
+
     .modal-body * {
         font-size: 14px;
         line-height: normal;
@@ -161,7 +161,7 @@ class BadgeComparator implements Comparator<Resource>{
         margin-bottom: 14px; /* Match font size */
         color: #222;
     }
-    
+
     .modal .title {
         font-weight: 500;
         font-size: 16px;
@@ -174,22 +174,22 @@ class BadgeComparator implements Comparator<Resource>{
         padding: 0;
         margin-right: -5px;
     }
-    
+
     @media only screen and (max-width: 767px) {
         .modal-body {
             display: table;
             padding-bottom: 65px; /* 65px = wrapper 30px + btn-get 20px + margin 15px */
         }
-        
+
         .modal .header {
             display: table-row;
         }
-        
+
         .modal .description-wrapper {
             display: table-row;
             height: 100%;
         }
-        
+
         .modal .description {
             display: block;
             display: -moz-groupbox; /* For Firefox Mobile */
@@ -223,7 +223,7 @@ class BadgeComparator implements Comparator<Resource>{
         color: #fefefe;
         text-decoration: none;
     }
-    
+
     /*
     *
     * Badge Grid
@@ -231,7 +231,7 @@ class BadgeComparator implements Comparator<Resource>{
     */
 
     .badge-grid {
-        margin: -1.3%; 
+        margin: -1.3%;
         text-align: left;
         margin-bottom: 50px;
     }
@@ -251,18 +251,18 @@ class BadgeComparator implements Comparator<Resource>{
         background-color: #f8f8f8;
         text-align: center;
     }
-    
+
     .badge-body {
         width: 100%;
         position: relative;
     }
-    
+
     .badge-body:before {
         content: '';
         display: block;
         padding-top: 100%; /* 1:1 aspect ratio */
     }
-    
+
     .badge-image-wrapper {
         position: absolute;
         top: 0;
@@ -270,13 +270,13 @@ class BadgeComparator implements Comparator<Resource>{
         left: 0;
         right: 0;
     }
-    
+
     .badge-image-body {
         display: table;
         width: 100%;
         height: 100%;
     }
-    
+
     .badge-image-inner {
         display: table-cell;
         vertical-align: middle;
@@ -288,7 +288,7 @@ class BadgeComparator implements Comparator<Resource>{
         width: 100%;
         padding: 5px;
     }
-    
+
     .badge-title-wrapper {
         display: table;
         width: 100%;
@@ -298,7 +298,7 @@ class BadgeComparator implements Comparator<Resource>{
         background-color: white;
         border-top: 2px solid #dbdcde;
     }
-    
+
     .badge-title-body {
         display: table-cell;
         vertical-align: middle;
@@ -313,20 +313,68 @@ class BadgeComparator implements Comparator<Resource>{
         color: #222;
         line-height: 1.2em;
     }
-    
+
+		.badge-grid.createPdfPreview {
+			background: rgba(255,255,0,0.3);
+		}
+
+		.badge-block.selected {
+			background-color: #cc3333;
+		}
+
+    #pdfPreview {
+      align-items: center;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      flex-flow: column;
+      height: 100%;
+      justify-content: center;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+    #pdfPreview .modal {
+      position: relative;
+
+    }
+    #pdfPreview .modal-overlay {
+        display: block;
+        position: static;
+    }
+    #pdfPreview .modal-dialog {
+        height: auto;
+        left: 0;
+        max-width: auto;
+        min-height: 0;
+        position: static;
+        top: 0;
+        transform: none;
+        transition: none;
+        width: 100%;
+    }
+    #pdfPreview .modal .btn-close,
+    #pdfPreview .modal .btn-get-wrapper {
+      display: none;
+    }
+    #pdfPreview .modal-body {
+      padding: 28px 23px;
+      height: auto;
+    }
+
     /* 3 Column - Tablet */
     @media only screen and (min-width: 521px) and (max-width: 945px) {
         .badge-block {
             width: 30.7%;
         }
     }
-    
+
     /* 2 Column - Mobile */
     @media only screen and (min-width: 0px) and (max-width: 520px) {
         .badge-grid {
             margin: -3.045%;
         }
-        
+
         .badge-block {
             width: 43.9%;
             margin: 3.045%; /* 10px at 320px container with */
@@ -335,7 +383,7 @@ class BadgeComparator implements Comparator<Resource>{
 </style>
 <%
 	/************************** Badge List Component ************************
-	** This components lists badges under badges directory 
+	** This components lists badges under badges directory
 	**
 	*************************************************************************/
 
@@ -347,7 +395,7 @@ class BadgeComparator implements Comparator<Resource>{
 		for(String path : paths){
 			if(path != null && path.trim().length() > 0){
 				try{
-					Resource content = resourceResolver.getResource(path);	
+					Resource content = resourceResolver.getResource(path);
 					if(content != null && content.hasChildren()){
 						Iterable<Resource> badges = content.getChildren();
 						List<Resource> sortedBadgeList = new ArrayList<Resource>();
@@ -448,6 +496,9 @@ class BadgeComparator implements Comparator<Resource>{
 	}
 %>
 
+// TODO - point to local instance instead of CDN
+<script src="https://cdn.rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
 <script>
     $(document).ready(function () {
         var badges = $(".badge-block"),
@@ -493,7 +544,7 @@ class BadgeComparator implements Comparator<Resource>{
             filter = $(this).html();
             filterSets[filter].dropdown.click(); // Close dropdown
         });
-        
+
         $(document).on("click", function(event) {
             var target = $(event.target),
                 dropdown = target.closest(".dropdown > li");
@@ -501,7 +552,7 @@ class BadgeComparator implements Comparator<Resource>{
                 $(".dropdown > li > input[type='checkbox']").prop("checked", false);
             }
         });*/
-        
+
         // Close dropdown if open on click
         $(document).on("click", function() {
             submenu.each(function () {
@@ -543,6 +594,63 @@ class BadgeComparator implements Comparator<Resource>{
                 badges.showBadge();
             }
 
+        });
+
+				// select some badges, click 'create PDF' to send all selected badges
+				// to a PDF preview that you can then save/print
+				$(".badge-block").on("click", function(e) {
+          e.preventDefault();
+					// highlight the badge = apply a class
+					$(this).toggleClass("selected");
+				});
+
+        var selectedModals = {};
+				$('.create-pdf').on('click', function() {
+
+					// collect all the selected badges in one object
+					selectedModals = $('.badge-block.selected .modal');
+          $('<div/>', {
+            'id':'pdfPreview',
+            'class':'modal-page'
+          }).appendTo('body')
+          .append(selectedModals)
+          .show();
+        });
+
+        // TODO
+        // figure out how to dismiss the pdfPreview
+        // send the preview to html2pdf plugin
+        // style all the modals in preview to same width, etc.
+        if ($('#pdfPreview')) {
+          var container = $('#pdfPreview');
+          alert('pdfPreview exists');
+          $(container).on('click', function(e) {
+            alert('click');
+            // if the target of the click isn't the container nor a descendant of the container
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+              container.remove();
+            }
+          });
+        };
+        $('#printPDF').on("click", function () {
+          html2pdf($("#pdfPreview")[0], {
+              filename: "GirlScoutsBadgeExplorer.pdf",
+              enableLinks: true,
+              image: {
+                  type: "jpeg",
+                  quality: 1
+              },
+              html2canvas: {
+                  dpi: 300,
+                  letterRendering: true,
+                  useCORS: true
+              },
+              jsPDF: {
+                  unit: 'in',
+                  format: 'letter',
+                  orientation: 'portrait'
+              }
+          });
         });
     }());
 </script>
