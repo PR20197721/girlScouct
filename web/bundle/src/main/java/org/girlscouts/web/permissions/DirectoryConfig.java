@@ -61,7 +61,8 @@ public enum DirectoryConfig {
 			"/content/dam/all_icons",
 			"/etc/designs/girlscouts-usa-green",
 			"/etc/designs/girlscouts-usa-blue",
-			"/etc/designs/girlscouts"
+			"/etc/designs/girlscouts",
+			"/etc/workflow/models"
 		).collect(Collectors.toList());
 	
 	public final static String GS_COMMON_AUTHOR_GROUP_FOLDER = "/home/groups/girlscouts-usa/gs-authors";

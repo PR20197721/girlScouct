@@ -1587,8 +1587,12 @@ div[itemprop="description"] {
 
 #ui-datepicker-div {
   background-color: #eeeeee;
-  padding: 10px;
-  border: 1px solid #959595;
+  /*padding: 10px;
+  border: 1px solid #959595;*/
+}
+
+.ui-datepicker-header, .ui-datepicker-calendar{
+    margin:10px;
 }
 
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
@@ -1739,23 +1743,6 @@ padding: 40px 0px 40px 0;
 }
 .accordion.section dt h6.on {
     color: #fff;
-}
-.accordion.section dt h6::before {
-    border-color: #00ae58 transparent transparent;
-    border-style: solid;
-    border-width: 0.63rem;
-    content: "";
-    display: block;
-    left: auto;
-    margin-left: 0.31rem;
-    margin-top: -0.31rem;
-    position: absolute;
-    right: 0.63rem;
-    top: 50%;
-}
-.accordion.section dt h6.on::before {
-    border-color: transparent transparent #fff;
-    margin-top: -0.94rem;
 }
 .accordion.section dd {
     background: #f8f8f8 none repeat scroll 0 0;

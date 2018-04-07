@@ -97,6 +97,7 @@ div.wrapper .row:nth-child(2) {
 .accordion.section dt h6.on {
   color: #fff;
 }
+/*
 .accordion.section dt h6:before {
   border-style: solid;
   content: "";
@@ -110,6 +111,7 @@ div.wrapper .row:nth-child(2) {
   right: 0.63rem;
   margin-top: -0.31rem;
 }
+*/
 .accordion.section dt h6.on:before {
   border-color: transparent transparent #fff;
   margin-top: -0.94rem;

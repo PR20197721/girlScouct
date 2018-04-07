@@ -7,7 +7,7 @@
 	java.util.Collections" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-<cq:includeClientLib categories="apps.girlscouts" />
+<cq:includeClientLib categories="apps.girlscouts.components.event-search-list" />
 <cq:defineObjects/>
 <%
 	String q = request.getParameter("q");

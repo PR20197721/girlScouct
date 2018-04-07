@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'JollyFont';
-	src: url('/etc/designs/girlscouts/fonts/JollyFont.eot');
+	src: url('/etc/designs/girlscouts/fonts/JollyFont.eot'); 
     src: 	url('/etc/designs/girlscouts/fonts/JollyFont.eot') format('embedded-opentype'), 
 		    url('/etc/designs/girlscouts/fonts/JollyFont.woff2') format('woff2'),
 		    url('/etc/designs/girlscouts/fonts/JollyFont.woff') format('woff'), 

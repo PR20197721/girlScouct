@@ -5,6 +5,7 @@
 %><%@include file="/libs/foundation/global.jsp"%>
 <cq:include script="init.jsp"/> 
 <cq:include script="news-search.jsp"/>
+<cq:includeClientLib categories="apps.girlscouts.components.news-list" />
     <%
      if(properties.containsKey("isonhomepage") && properties.get("isonhomepage").equals("true")){%>
     	  <cq:include script="feature-news.jsp"/>
