@@ -163,5 +163,18 @@ ul.dropdown{
 	background-color: green;
 	background: linear-gradient(to right, #1d976c, #93f9b9);
 	transition-property: max-width;
-	transition-duration: 2s;
+	transition-duration: 200ms;
+}
+
+.PdfBadgeGridContainer {
+    width: 100%;
+    overflow: hidden;
+}
+
+.CanvasImageOutputArea {
+    width: 100%;
+    overflow: hidden;
+}
+.CanvasImageOutputArea img {
+    max-width: none;
 }

@@ -87,11 +87,27 @@ window.BadgePdfGenerator = (function(window, $, document){
 			// Create an area for all the images to go in.
 			$('.CanvasImageOutputArea').remove();
 			$('iframe').attr('data-html2canvas-ignore', true);
-			var canvasImageOutputArea = $('<div>').addClass('CanvasImageOutputArea').appendTo('body');
-						
-			var canvasOutputElements = target.find('.canvasOutputElement');
 			
-			processCanvasElement(canvasOutputElements, 0, []).then(createPdfFromImages);
+			var canvasImageOutputArea = $('<div>').addClass('CanvasImageOutputArea').appendTo('body');
+			$('footer').hide();
+			
+			var cssApplied = new Promise(function(resolve, reject){
+				var cssAppliedInterval = window.setInterval(function(){
+					if(target.find('.PdfBadgeGridInner').width() == 720){
+						window.clearInterval(cssAppliedInterval);
+						resolve();
+					}
+				}, 50);
+			})
+						
+			cssApplied.then(function(){
+				var canvasOutputElements = target.find('.canvasOutputElement');
+				
+				processCanvasElement(canvasOutputElements, 0, []).then(function(images){
+					createPdfFromImages(images);
+					removeBadgeGrid(target);
+				});
+			})
 		});
 	};
 
@@ -107,28 +123,29 @@ window.BadgePdfGenerator = (function(window, $, document){
 		var currentTop = totalHeaderHeight;
 		BadgePdfLoadingWidget.updateProgress(1, 'Finalizing...');
 		for(var i = 0; i < processedImages.length; i++){
-			var imageHeight = (processedImages[i].height / 400);
+			//var imageHeight = (processedImages[i].height / 400) * (window.devicePixelRatio || 1);
+			var imageHeight = processedImages[i].height / 400;
 			if(currentTop + imageHeight > heightAvailablePerPage){
 				doc.addPage();
 				appendHeaderElements(headerElements, doc);
 				currentTop = totalHeaderHeight;
 			}
-			doc.addImage(processedImages[i].src, 'PNG', MARGIN, currentTop, (processedImages[i].width / 400),  imageHeight);
+			doc.addImage(processedImages[i].src, 'JPEG', MARGIN, currentTop, (processedImages[i].width / 400),  imageHeight);
 			currentTop += imageHeight;
 		}
 
 		BadgePdfLoadingWidget.hide();
 		BadgePdfLoadingWidget.updateProgress(0, '');
-		removeBadgeGrid($('.PdfBadgeGridContainer'));
 		
 		doc.save('BadgesReport.pdf');
+		$('footer').show();
 	}
 	
 	function appendHeaderElements(headerElements, doc){
 		var currentTop = MARGIN;
 		for(var i = 0; i < headerElements.length; i++){
 			var elementHeight = (headerElements[i].height / 400);
-			doc.addImage(headerElements[i].src, 'PNG', MARGIN, currentTop, (headerElements[i].width / 400), elementHeight);
+			doc.addImage(headerElements[i].src, 'JPEG', MARGIN, currentTop, (headerElements[i].width / 400), elementHeight);
 			currentTop += elementHeight;
 		}
 		return currentTop;
@@ -139,9 +156,14 @@ window.BadgePdfGenerator = (function(window, $, document){
 		if(index == canvasOutputElements.length){
 			return new $.Deferred().resolve(images);
 		}
-		BadgePdfLoadingWidget.updateProgress(((index + 1) /canvasOutputElements.length ), 'Processing Badge: ' + (index + 1) + ' of ' + canvasOutputElements.length );
+
+		BadgePdfLoadingWidget.updateProgress((index + 1) /canvasOutputElements.length);
+		if(index > 2){
+			BadgePdfLoadingWidget.setMessage('Processing Badge: ' + (index - 2) + ' of ' + (canvasOutputElements.length - 3));
+		}
+		
+		
 		return html2canvas(canvasOutputElements[index], {
-			y: $(canvasOutputElements[index]).offset().top - 30,
 			dpi: 192,
 			letterRendering: true,
 			removeContainer: false
@@ -149,9 +171,9 @@ window.BadgePdfGenerator = (function(window, $, document){
 			var width = $(canvasOutputElements[index]).outerWidth(true);
 			var height = $(canvasOutputElements[index]).outerHeight(true);
 			var image = new Image(width, height);
-			image.src = canvas.toDataURL();
+			image.src = canvas.toDataURL('image/jpeg', 0.9);
 			images.push(image);
-			$('.CanvasImageOutputArea').append(image);
+			//$('.CanvasImageOutputArea').append(image);
 			return processCanvasElement(canvasOutputElements, index +1, images);
 		});
 	}
@@ -176,6 +198,8 @@ window.BadgePdfGenerator = (function(window, $, document){
 	function init(){
 		pdfBadgeGridContainer = $("<div>").addClass('PdfBadgeGridContainer');
 		pdfBadgeGridContainer.appendTo('body');
+		$('#mainGSLogoPrint').attr('data-html2canvas-ignore', true);
+		$('body link[rel="stylesheet"]').detach().appendTo('head');
 		defaultElementInitialized.resolve(pdfBadgeGridContainer);
 	};
 
