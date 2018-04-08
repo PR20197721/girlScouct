@@ -97,14 +97,14 @@ window.BadgePdfGenerator = (function(window, $, document){
 						window.clearInterval(cssAppliedInterval);
 						resolve();
 					}
-				}, 50);
-			})
+				}, 500);
+			});
 						
 			cssApplied.then(function(){
 				var canvasOutputElements = target.find('.canvasOutputElement');
 				
 				processCanvasElement(canvasOutputElements, 0, []).then(function(images){
-					createPdfFromImages(images);
+					createPdfFromImages(images, selectedBadges);
 					removeBadgeGrid(target);
 				});
 			})
@@ -112,7 +112,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 	};
 
 	var MARGIN = 0.12; // 0.5"
-	function createPdfFromImages(processedImages){
+	function createPdfFromImages(processedImages, selectedBadges){
 		
 		var doc = new jsPDF({format: 'letter', unit: 'in'});
 		var headerElements = processedImages.splice(0, 3);
@@ -131,7 +131,9 @@ window.BadgePdfGenerator = (function(window, $, document){
 				currentTop = totalHeaderHeight;
 			}
 			doc.addImage(processedImages[i].src, 'JPEG', MARGIN, currentTop, (processedImages[i].width / 400),  imageHeight);
+			doc.link(0.56, (currentTop + imageHeight - 0.13), 0.3275, 0.075, {url: selectedBadges[i].link});
 			currentTop += imageHeight;
+
 		}
 
 		BadgePdfLoadingWidget.hide();
@@ -161,7 +163,6 @@ window.BadgePdfGenerator = (function(window, $, document){
 		if(index > 2){
 			BadgePdfLoadingWidget.setMessage('Processing Badge: ' + (index - 2) + ' of ' + (canvasOutputElements.length - 3));
 		}
-		
 		
 		return html2canvas(canvasOutputElements[index], {
 			dpi: 192,
