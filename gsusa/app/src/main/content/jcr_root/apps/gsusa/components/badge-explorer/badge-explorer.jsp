@@ -10,6 +10,7 @@
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <cq:defineObjects />
 
+<%@ include file="pdf-templates/pdf-template-wrapper.jsp" %>
 <%!
 class BadgeComparator implements Comparator<Resource>{
 	
@@ -144,6 +145,4 @@ class BadgeComparator implements Comparator<Resource>{
 		out.print("Please set at least one valid path to badges.");
 	}
 %>
-
-<%@ include file="pdf-templates/pdf-template-wrapper.jsp" %>
 <cq:includeClientLib categories="apps.gsusa.components.badge-explorer"/>
