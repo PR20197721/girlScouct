@@ -65,7 +65,6 @@ import com.day.jcr.vault.packaging.JcrPackageDefinition;
 import com.day.jcr.vault.packaging.JcrPackageManager;
 import com.day.jcr.vault.packaging.Packaging;
 import com.day.jcr.vault.util.DefaultProgressListener;
-import com.opencsv.CSVReader;
 import org.girlscouts.web.servlets.GSPOST;
 
 /**
