@@ -18,7 +18,7 @@ dt.accordionHeaderShown > h6.accordionComponentLabel{
     float: right;
     width: 0;
     height: 0;
-    border-bottom: 10px solid transparent;
+    border-bottom: 0px solid transparent;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-top: 10px solid #00ae58;

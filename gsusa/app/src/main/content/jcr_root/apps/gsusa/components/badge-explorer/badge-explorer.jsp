@@ -10,7 +10,7 @@
 <cq:defineObjects />
 <%!
 class BadgeComparator implements Comparator<Resource>{
-	
+
 	public int compare(Resource badge1, Resource badge2){
 		try{
 			if(badge1 != null && badge2 != null){
@@ -19,7 +19,7 @@ class BadgeComparator implements Comparator<Resource>{
 				String b1Name = b1ValMap.get("dc:title", String.class);
 				String b2Name = b2ValMap.get("dc:title", String.class);
 				return b1Name.compareTo(b2Name);
-			}	
+			}
 		}catch (Exception e){
 			System.err.println("Error occured while comparing "+badge1+" and "+badge2);
 			e.printStackTrace();
@@ -30,7 +30,7 @@ class BadgeComparator implements Comparator<Resource>{
 %>
 <%
 	/************************** Badge List Component ************************
-	** This components lists badges under badges directory 
+	** This components lists badges under badges directory
 	**
 	*************************************************************************/
 
@@ -42,7 +42,7 @@ class BadgeComparator implements Comparator<Resource>{
 		for(String path : paths){
 			if(path != null && path.trim().length() > 0){
 				try{
-					Resource content = resourceResolver.getResource(path);	
+					Resource content = resourceResolver.getResource(path);
 					if(content != null && content.hasChildren()){
 						Iterable<Resource> badges = content.getChildren();
 						List<Resource> sortedBadgeList = new ArrayList<Resource>();

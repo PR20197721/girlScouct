@@ -5,7 +5,7 @@
 				java.util.HashMap" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-<cq:includeClientLib categories="apps.girlscouts" />
+<cq:includeClientLib categories="apps.girlscouts.components.forms-documents-search" />
 <cq:defineObjects/>
 <script>
     function checkLen(){
