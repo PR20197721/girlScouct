@@ -12,8 +12,11 @@
 package org.girlscouts.web.servlets;
 
 import com.day.cq.mailer.MailService;
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
+import com.day.cq.wcm.foundation.forms.FormsConstants;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 import com.google.common.collect.Lists;
 
@@ -52,6 +55,8 @@ import java.io.IOException;
 import java.util.*;
 
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
+
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.io.BufferedInputStream;
@@ -59,6 +64,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.jcr.Node;
+import javax.jcr.RepositoryException;
 import javax.activation.FileDataSource;
 
 /**
@@ -90,6 +96,12 @@ public class GSStoreServlet
     @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL_UNARY)
     protected volatile MailService mailService;
 
+    @Reference
+	private ResourceResolverFactory resolverFactory;
+    
+    @Reference 
+	private Replicator replicator;
+    
     @Property(value = {
             "/content",
             "/home"
@@ -98,6 +110,8 @@ public class GSStoreServlet
             description = "List of paths under which servlet will only accept requests.")
     private static final String PROPERTY_RESOURCE_WHITELIST = "resource.whitelist";
     private String[] resourceWhitelist;
+    
+    private static Logger log = LoggerFactory.getLogger(GSStoreServlet.class);
 
     @Property(value = {
             "/content/usergenerated"
@@ -106,6 +120,7 @@ public class GSStoreServlet
             description = "List of paths under which servlet will reject requests.")
     private static final String PROPERTY_RESOURCE_BLACKLIST = "resource.blacklist";
     private String[] resourceBlacklist;
+    private Map<String, Object> serviceParams;
 
     protected void activate(ComponentContext componentContext) {
         Dictionary<String, Object> properties = componentContext.getProperties();
@@ -195,17 +210,55 @@ public class GSStoreServlet
             }
             builder.append(request.getRequestURI());
             
+            serviceParams = new HashMap<String, Object>();
+			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+			log.error("####################Before aqcuiring resource resolver");
+			ResourceResolver rr = resolverFactory.getServiceResourceResolver(serviceParams);
+			
+            
             String contentPath = (String)request.getAttribute("contentPath");
-            if(!("").equals(contentPath)){
-            	request.getRequestDispatcher(contentPath).include(request,response);
+            log.error("####################Content path is: " + contentPath);
+            if(contentPath != null && !contentPath.isEmpty()) {
+            		Node contentBaseNode = null;
+            		Resource contentResource = rr.getResource(contentPath);
+            		if(contentResource == null) {
+            			contentBaseNode = this.getFormStorageNode(rr.getResource("/content/usergenrated").adaptTo(Node.class), contentPath);
+            		} else {
+            			contentBaseNode = contentResource.adaptTo(Node.class);
+            		}
+            		Date now = new Date();
+            		Random rand = new Random();
+            		String nodeId = now.getTime() + "_" + rand.nextInt(50);
+            		Node submissionNode = contentBaseNode.addNode(nodeId, "sling:Folder");
+            		
+            		Enumeration<String> names = request.getParameterNames();
+            		while(names.hasMoreElements()) {
+            			String n = names.nextElement();
+            			if(!n.contains(":") && !n.equals("_charset_")) {
+            				String val = request.getParameter(n);
+            				log.error("Name is: " + n + " Val: " + val);
+            				submissionNode.setProperty(n,val);
+            			}
+            			
+            		}
+            		log.error("Submission Node path is: " + submissionNode.getPath());
+            		submissionNode.save();
+            		
+            		replicator.replicate(contentBaseNode.getSession(), ReplicationActionType.INTERNAL_POLL, submissionNode.getPath());
+            		
             }
+            	
+           
 
             // let's get all parameters first and sort them alphabetically!
             final List<String> contentNamesList = new ArrayList<String>();
-            final Iterator<String> names = FormsHelper.getContentRequestParameterNames(request);
-            while (names.hasNext()) {
-                final String name = names.next();
-                contentNamesList.add(name);
+            final Enumeration<String> names = request.getParameterNames();
+            while (names.hasMoreElements()) {
+                final String name = names.nextElement();
+                if(!name.equals("_charset_") && !name.contains(":")) {
+                		contentNamesList.add(name);
+                }
+                
             }
             Collections.sort(contentNamesList);
             
@@ -401,6 +454,23 @@ public class GSStoreServlet
     	}
     	
     	return html;
+    }
+    
+    private Node getFormStorageNode(Node node, String path) throws RepositoryException {
+    		Node rootNode = node;
+    		String relativePath = path.replaceAll("/content/usergenerated/", "");
+    		String[] subNames = relativePath.split("/");
+    		for(int i = 0; i < subNames.length; i++) {
+    			String temp = subNames[i];
+    			if(rootNode.hasNode(temp)){
+    				rootNode = rootNode.getNode(temp);
+    			} else {
+    				Node tempNode = rootNode.addNode(temp, "sling:Folder");
+    				rootNode = tempNode;
+    				
+    			}
+    		}
+    		return rootNode;
     }
     
     public String getRenditionPath(String imgPath){
