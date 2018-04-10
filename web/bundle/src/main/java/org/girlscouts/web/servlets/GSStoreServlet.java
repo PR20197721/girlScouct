@@ -12,8 +12,11 @@
 package org.girlscouts.web.servlets;
 
 import com.day.cq.mailer.MailService;
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
+import com.day.cq.wcm.foundation.forms.FormsConstants;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 import com.google.common.collect.Lists;
 
@@ -52,6 +55,8 @@ import java.io.IOException;
 import java.util.*;
 
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
+
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.io.BufferedInputStream;
@@ -59,6 +64,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.jcr.Node;
+import javax.jcr.RepositoryException;
 import javax.activation.FileDataSource;
 
 /**
@@ -90,6 +96,12 @@ public class GSStoreServlet
     @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL_UNARY)
     protected volatile MailService mailService;
 
+    @Reference
+	private ResourceResolverFactory resolverFactory;
+    
+    @Reference 
+	private Replicator replicator;
+    
     @Property(value = {
             "/content",
             "/home"
@@ -98,6 +110,8 @@ public class GSStoreServlet
             description = "List of paths under which servlet will only accept requests.")
     private static final String PROPERTY_RESOURCE_WHITELIST = "resource.whitelist";
     private String[] resourceWhitelist;
+    
+    private static Logger log = LoggerFactory.getLogger(GSStoreServlet.class);
 
     @Property(value = {
             "/content/usergenerated"
@@ -106,6 +120,7 @@ public class GSStoreServlet
             description = "List of paths under which servlet will reject requests.")
     private static final String PROPERTY_RESOURCE_BLACKLIST = "resource.blacklist";
     private String[] resourceBlacklist;
+    private Map<String, Object> serviceParams;
 
     protected void activate(ComponentContext componentContext) {
         Dictionary<String, Object> properties = componentContext.getProperties();
@@ -195,42 +210,65 @@ public class GSStoreServlet
             }
             builder.append(request.getRequestURI());
             
+            serviceParams = new HashMap<String, Object>();
+			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+			log.error("####################Before aqcuiring resource resolver");
+			ResourceResolver rr = resolverFactory.getServiceResourceResolver(serviceParams);
+			
+            
             String contentPath = (String)request.getAttribute("contentPath");
-            if(!("").equals(contentPath)){
-            	request.getRequestDispatcher(contentPath).include(request,response);
+            log.error("####################Content path is: " + contentPath);
+            if(contentPath != null && !contentPath.isEmpty()) {
+            		Node contentBaseNode = null;
+            		Resource contentResource = rr.getResource(contentPath);
+            		if(contentResource == null) {
+            			contentBaseNode = this.getFormStorageNode(rr.getResource("/content/usergenrated").adaptTo(Node.class), contentPath);
+            		} else {
+            			contentBaseNode = contentResource.adaptTo(Node.class);
+            		}
+            		Date now = new Date();
+            		Random rand = new Random();
+            		String nodeId = now.getTime() + "_" + rand.nextInt(50);
+            		Node submissionNode = contentBaseNode.addNode(nodeId, "sling:Folder");
+            		
+            		Enumeration<String> names = request.getParameterNames();
+            		while(names.hasMoreElements()) {
+            			String n = names.nextElement();
+            			if(!n.contains(":") && !n.equals("_charset_")) {
+            				RequestParameter param = request.getRequestParameter(n);
+            				if(param.getContentType() == null) {
+            					String val = param.getString();
+            			
+            					submissionNode.setProperty(n,val);
+            				}
+            			}
+            			
+            		}
+            		log.error("Submission Node path is: " + submissionNode.getPath());
+            		submissionNode.save();
+            		
+            		replicator.replicate(contentBaseNode.getSession(), ReplicationActionType.INTERNAL_POLL, submissionNode.getPath());
+            		
             }
+            	
+           
 
             // let's get all parameters first and sort them alphabetically!
             final List<String> contentNamesList = new ArrayList<String>();
-            final Iterator<String> names = FormsHelper.getContentRequestParameterNames(request);
-            while (names.hasNext()) {
-                final String name = names.next();
-                contentNamesList.add(name);
+            final Enumeration<String> names = request.getParameterNames();
+            while (names.hasMoreElements()) {
+                final String name = names.nextElement();
+                if(!name.equals("_charset_") && !name.contains(":")) {
+                		contentNamesList.add(name);
+                }
+                
             }
             Collections.sort(contentNamesList);
             
             List<String> confirmationEmailAddresses = new ArrayList<String>();
             final List<String> namesList = new ArrayList<String>();
-            final Iterator<Resource> fields = FormsHelper.getFormElements(request.getResource());
-            while (fields.hasNext()) {
-                final Resource field = fields.next();
-                final FieldDescription[] descs = FieldHelper.getFieldDescriptions(request, field);
-                for (final FieldDescription desc : descs) {
-                    // remove from content names list
-                    contentNamesList.remove(desc.getName());
-                    if (!desc.isPrivate()) {
-                        namesList.add(desc.getName());
-                    }
-                    ValueMap childProperties = ResourceUtil.getValueMap(field);
-                	if(childProperties.get("confirmationemail",false)){
-                    		final String[] pValues = request.getParameterValues(desc.getName());
-                            for (final String v : pValues) {
-                            	confirmationEmailAddresses.add(v);
-                            }
-                		}
-                    }
-                }
-                namesList.addAll(contentNamesList);
+            
+            namesList.addAll(contentNamesList);
   
                 // now add form fields to message
             // and uploads as attachments
@@ -240,7 +278,8 @@ public class GSStoreServlet
                 if (rp == null) {
                     //see Bug https://bugs.day.com/bugzilla/show_bug.cgi?id=35744
                     logger.debug("skipping form element {} from mail content because it's not in the request", name);
-                } else if (rp.isFormField()) {
+                } else if (rp.isFormField() && rp.getContentType() == null) {
+                		
                     final String[] pValues = request.getParameterValues(name);
                     for (final String v : pValues) {
                     	if(null == formFields.get(name)){
@@ -263,7 +302,8 @@ public class GSStoreServlet
             	final HtmlEmail confEmail;
             	confEmail = new HtmlEmail();
                 confEmail.setCharset("utf-8");
-                String confBody = getTemplate(request, values, formFields, confEmail, request.getResourceResolver());
+                String confBody = getTemplate(request, values, formFields, confEmail, rr);
+                log.error("###########CONF BODY" + confBody);
                 if(!("").equals(confBody)){
                     confEmail.setHtmlMsg(confBody);
                     // mailto
@@ -327,13 +367,21 @@ public class GSStoreServlet
     		Resource templateResource = resourceResolver.resolve(templatePath);
     		Resource dataResource = templateResource.getChild("jcr:content/data");
     		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
-    		String parsed = parseHtml(templateProps.get("content",""), formFields, confEmail, rr);
+    		String base =  "The following fields and values were submitted for form: " + request.getParameter(":formid") +  " <br/>";
+    		for(String key: formFields.keySet()) {
+    			List<String> lvalues = formFields.get(key);
+    			String valstring = "";
+    			for(String lval : lvalues) {
+    				valstring = valstring.concat(lval + " ");
+    			}
+    			base = base.concat(" Name: " + key + " Value: " + valstring + " <br/>");
+    		}
     		String head = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + 
     				"<html xmlns=\"http://www.w3.org/1999/xhtml\">" + 
     				"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" +
     				"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
     				"<title>Girl Scouts</title></head>";
-    		String html = head + "<body>" + parsed + "</body></html>";
+    		String html = head + "<body>" + base + "</body></html>";
     		return html;
     	}catch(Exception e){
     		logger.error("No valid template found for " + request.getResource().getPath());
@@ -401,6 +449,23 @@ public class GSStoreServlet
     	}
     	
     	return html;
+    }
+    
+    private Node getFormStorageNode(Node node, String path) throws RepositoryException {
+    		Node rootNode = node;
+    		String relativePath = path.replaceAll("/content/usergenerated/", "");
+    		String[] subNames = relativePath.split("/");
+    		for(int i = 0; i < subNames.length; i++) {
+    			String temp = subNames[i];
+    			if(rootNode.hasNode(temp)){
+    				rootNode = rootNode.getNode(temp);
+    			} else {
+    				Node tempNode = rootNode.addNode(temp, "sling:Folder");
+    				rootNode = tempNode;
+    				
+    			}
+    		}
+    		return rootNode;
     }
     
     public String getRenditionPath(String imgPath){
