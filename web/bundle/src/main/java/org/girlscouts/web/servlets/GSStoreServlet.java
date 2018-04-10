@@ -235,9 +235,12 @@ public class GSStoreServlet
             		while(names.hasMoreElements()) {
             			String n = names.nextElement();
             			if(!n.contains(":") && !n.equals("_charset_")) {
-            				String val = request.getParameter(n);
-            				log.error("Name is: " + n + " Val: " + val);
-            				submissionNode.setProperty(n,val);
+            				RequestParameter param = request.getRequestParameter(n);
+            				if(param.getContentType() == null) {
+            					String val = param.getString();
+            			
+            					submissionNode.setProperty(n,val);
+            				}
             			}
             			
             		}
@@ -264,26 +267,8 @@ public class GSStoreServlet
             
             List<String> confirmationEmailAddresses = new ArrayList<String>();
             final List<String> namesList = new ArrayList<String>();
-            final Iterator<Resource> fields = FormsHelper.getFormElements(request.getResource());
-            while (fields.hasNext()) {
-                final Resource field = fields.next();
-                final FieldDescription[] descs = FieldHelper.getFieldDescriptions(request, field);
-                for (final FieldDescription desc : descs) {
-                    // remove from content names list
-                    contentNamesList.remove(desc.getName());
-                    if (!desc.isPrivate()) {
-                        namesList.add(desc.getName());
-                    }
-                    ValueMap childProperties = ResourceUtil.getValueMap(field);
-                	if(childProperties.get("confirmationemail",false)){
-                    		final String[] pValues = request.getParameterValues(desc.getName());
-                            for (final String v : pValues) {
-                            	confirmationEmailAddresses.add(v);
-                            }
-                		}
-                    }
-                }
-                namesList.addAll(contentNamesList);
+            
+            namesList.addAll(contentNamesList);
   
                 // now add form fields to message
             // and uploads as attachments
@@ -293,7 +278,8 @@ public class GSStoreServlet
                 if (rp == null) {
                     //see Bug https://bugs.day.com/bugzilla/show_bug.cgi?id=35744
                     logger.debug("skipping form element {} from mail content because it's not in the request", name);
-                } else if (rp.isFormField()) {
+                } else if (rp.isFormField() && rp.getContentType() == null) {
+                		
                     final String[] pValues = request.getParameterValues(name);
                     for (final String v : pValues) {
                     	if(null == formFields.get(name)){
@@ -316,7 +302,8 @@ public class GSStoreServlet
             	final HtmlEmail confEmail;
             	confEmail = new HtmlEmail();
                 confEmail.setCharset("utf-8");
-                String confBody = getTemplate(request, values, formFields, confEmail, request.getResourceResolver());
+                String confBody = getTemplate(request, values, formFields, confEmail, rr);
+                log.error("###########CONF BODY" + confBody);
                 if(!("").equals(confBody)){
                     confEmail.setHtmlMsg(confBody);
                     // mailto
@@ -380,13 +367,21 @@ public class GSStoreServlet
     		Resource templateResource = resourceResolver.resolve(templatePath);
     		Resource dataResource = templateResource.getChild("jcr:content/data");
     		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
-    		String parsed = parseHtml(templateProps.get("content",""), formFields, confEmail, rr);
+    		String base =  "The following fields and values were submitted for form: " + request.getParameter(":formid") +  " <br/>";
+    		for(String key: formFields.keySet()) {
+    			List<String> lvalues = formFields.get(key);
+    			String valstring = "";
+    			for(String lval : lvalues) {
+    				valstring = valstring.concat(lval + " ");
+    			}
+    			base = base.concat(" Name: " + key + " Value: " + valstring + " <br/>");
+    		}
     		String head = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + 
     				"<html xmlns=\"http://www.w3.org/1999/xhtml\">" + 
     				"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" +
     				"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
     				"<title>Girl Scouts</title></head>";
-    		String html = head + "<body>" + parsed + "</body></html>";
+    		String html = head + "<body>" + base + "</body></html>";
     		return html;
     	}catch(Exception e){
     		logger.error("No valid template found for " + request.getResource().getPath());

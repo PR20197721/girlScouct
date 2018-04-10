@@ -46,7 +46,12 @@
     %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
     <cq:defineObjects/><sling:defineObjects/><%
     final ValueMap props = ResourceUtil.getValueMap(resource);
+    
+    String[] bcc = props.get("confirmationmailto", new String[0]);
+    String disableConfirmation = props.get("disableConfirmation", "");
     String path = props.get(FormsConstants.START_PROPERTY_ACTION_PATH, "");
+    slingRequest.setAttribute("disableConfirmation",disableConfirmation);
+    slingRequest.setAttribute("confirmationmailto",bcc);
     slingRequest.setAttribute("contentPath",path);
     FormsHelper.setForwardPath(slingRequest, resource.getPath() + ".gsstore.html");
     FormsHelper.setRedirectToReferrer(request, true);
