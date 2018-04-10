@@ -62,7 +62,13 @@ public enum DirectoryConfig {
 			"/etc/designs/girlscouts-usa-green",
 			"/etc/designs/girlscouts-usa-blue",
 			"/etc/designs/girlscouts",
-			"/etc/workflow/models"
+			"/etc/workflow/models",
+			
+			// VTK
+			"/content/vtkcontent/en/resources2",
+			"/content/vtk-resources2",
+			"/content/dam-resources2"
+			
 		).collect(Collectors.toList());
 	
 	public final static String GS_COMMON_AUTHOR_GROUP_FOLDER = "/home/groups/girlscouts-usa/gs-authors";
