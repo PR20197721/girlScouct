@@ -199,6 +199,22 @@
                                 fieldDescription="Drop files or pages from the Content Finder"
                                 fieldLabel="Link to"
                                 name="./linkURL"/>
+                            <newWindow
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./newWindow"
+                                value="true"
+                                text="Open In New Window"/>
+                            <newwindow-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./newWindow@Delete"
+                                value="{Boolean}true"/>
+							<newwindow-type
+							    jcr:primaryType="nt:unstructured"
+							    sling:resourceType="granite/ui/components/foundation/form/hidden"
+							    name="./isHidden@TypeHint"
+							    value="Boolean"/>
                             <regular-size
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
@@ -238,16 +254,6 @@
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
                                     name="./small/height"/>
                             </small-screen-size>
-                            <newWindow
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                name="./newWindow"
-                                text="Open In New Window"/>
-                            <newwindow-delete
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./newWindow@Delete"
-                                value="{Boolean}true"/>
                         </items>
                     </columns>
                 </items>
