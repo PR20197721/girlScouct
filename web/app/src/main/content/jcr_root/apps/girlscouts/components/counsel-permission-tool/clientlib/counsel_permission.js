@@ -41,8 +41,14 @@ $(function(){
 					needsDefaultDamPermissionRemoval: function(){
 						return this.damPermissionSetting == 'Allowed' || this.damPermissionSetting == 'Both';
 					},
+					needsDefaultVtkResourcesPermissionRemoval: function(){
+						return this.vtkResourcesPermissionSetting == 'Allowed' || this.vtkResourcesPermissionSetting == 'Both';
+					},
 					needsDefaultDamPermissionAddition: function(){
 						return this.damPermissionSetting != 'Denied' && this.damPermissionSetting != 'Both';
+					},
+					needsDefaultVtkResourcesPermissionAddition: function(){
+						return this.vtkResourcesPermissionSetting != 'Denied' && this.vtkResourcesPermissionSetting != 'Both';
 					},
 					removeDamPermissionsText: function(){
 						return this.needsDefaultDamPermissionRemoval ? "Not Removed" : "Removed!";
@@ -79,6 +85,27 @@ $(function(){
 							alert('Failed!');
 						});
 					},
+					removeDefaultVtkResourcesPermissions: function(){
+						if(!this.needsDefaultVtkResourcesPermissionRemoval){
+							return;
+						}
+						
+						$.ajax('/bin/utils/counsel_permission_remove_default_dam_permissions', {
+							data: {
+								inputData: JSON.stringify({
+									requestedFolders: ['/content/vtk-resources2'],
+									pathOverride: false,
+									reviewerGroupName: 'gs-reviewers',
+									authorGroupName: 'gs-authors',
+									counselName: 'common-counsel'
+								})
+							}
+						}).then(function(responseJson){
+							ServerDataManager.setServerData(responseJson);
+						}, function(){
+							alert('Failed!');
+						});
+					},
 					addDefaultDamPermissions: function(){
 						if(!this.needsDefaultDamPermissionAddition || this.needsDefaultDamPermissionRemoval){
 							return;
@@ -88,6 +115,27 @@ $(function(){
 							data: {
 								inputData: JSON.stringify({
 									requestedFolders: ['/content/dam'],
+									pathOverride: false,
+									reviewerGroupName: 'gs-reviewers',
+									authorGroupName: 'gs-authors',
+									counselName: 'common-counsel'
+								})
+							}
+						}).then(function(responseJson){
+							ServerDataManager.setServerData(responseJson);
+						}, function(){
+							alert('Failed!');
+						});
+					},
+					addDefaultVtkResourcesPermissions: function(){
+						if(!this.needsDefaultVtkResourcesPermissionAddition || this.needsDefaultVtkResourcesPermissionRemoval){
+							return;
+						}
+						
+						$.ajax('/bin/utils/counsel_permission_update_deny_default_dam_permissions', {
+							data: {
+								inputData: JSON.stringify({
+									requestedFolders: ['/content/vtk-resources2'],
 									pathOverride: false,
 									reviewerGroupName: 'gs-reviewers',
 									authorGroupName: 'gs-authors',
@@ -144,6 +192,9 @@ $(function(){
 				}
 				if(newData && newData.deniedDamFolders){
 					serverData.deniedDamFolders = newData.deniedDamFolders;
+				}
+				if(newData && newData.vtkResourcesPermissionSetting){
+					serverData.vtkResourcesPermissionSetting = newData.vtkResourcesPermissionSetting;
 				}
 			}
 		}

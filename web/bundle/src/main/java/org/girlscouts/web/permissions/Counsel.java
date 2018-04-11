@@ -65,13 +65,15 @@ public class Counsel {
 	}
 	
 	private List<CounselFolder> getDefaultFolderList(Session session){
-		List<CounselFolder> folders = new ArrayList<CounselFolder>(6);
+		List<CounselFolder> folders = new ArrayList<CounselFolder>(7);
 		folders.add(new CounselFolder(DirectoryConfig.CONTENT, getContentDirectoryPath(), session, reviewersGroup, authorsGroup));
 		folders.add(new CounselFolder(DirectoryConfig.DAM, getDamDirectoryPath(), session, reviewersGroup, authorsGroup));
 		folders.add(new CounselFolder(DirectoryConfig.GROUP, getGroupDirectoryPath(), session, reviewersGroup, authorsGroup));
 		folders.add(new CounselFolder(DirectoryConfig.DESIGNS, getDesignsDirectoryPath(), session, reviewersGroup, authorsGroup));
 		folders.add(new CounselFolder(DirectoryConfig.SCAFFOLDING, getScaffoldingDirectoryPath(), session, reviewersGroup, authorsGroup));
 		folders.add(new CounselFolder(DirectoryConfig.TAGS, getTagsDirectoryPath(), session, reviewersGroup, authorsGroup));
+		folders.add(new CounselFolder(DirectoryConfig.VTK_RESOURCES, getVtkResourcesDirectoryPath(), session, reviewersGroup, authorsGroup));
+		folders.add(new CounselFolder(DirectoryConfig.VTK_DAM, getVtkDamDirectoryPath(), session, reviewersGroup, authorsGroup));
 		return folders;
 	}
 	
@@ -81,6 +83,14 @@ public class Counsel {
 		} catch (RepositoryException e) {
 			return "unknown";
 		}
+	}
+	
+	public String getVtkResourcesDirectoryPath() {
+		return "/content/vtk-resources2/" + getName();
+	}
+	
+	public String getVtkDamDirectoryPath() {
+		return "/content/dam-resources2/girlscouts-" + getName();
 	}
 	
 	public String getContentDirectoryPath() {

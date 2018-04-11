@@ -15,7 +15,17 @@ public enum DirectoryConfig {
 		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.READ_ACL},
 		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.READ_ACL, Permission.REPLICATE}
 	), 
-		
+	
+	VTK_RESOURCES(
+		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.READ_ACL},
+		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.READ_ACL, Permission.REPLICATE}
+	), 
+	
+	VTK_DAM(
+		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.REPLICATE},
+		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.REPLICATE}
+	),
+	
 	DAM (
 		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.REPLICATE},
 		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.REPLICATE}
@@ -65,9 +75,7 @@ public enum DirectoryConfig {
 			"/etc/workflow/models",
 			
 			// VTK
-			"/content/vtkcontent/en/resources2",
-			"/content/vtk-resources2",
-			"/content/dam-resources2"
+			"/content/vtkcontent/en/resources2"
 			
 		).collect(Collectors.toList());
 	

@@ -35,12 +35,14 @@ public class ContentCounselRetriever {
 	
 	public static final String BASE_COUNSEL_PATH = "/content";
 	public static final String BASE_DAM_PATH = "/content/dam";
+	public static final String VTK_RESOURCES_PATH = "/content/vtk-resources2";
 	public static final String[] IGNORED_DAM_FOLDERS = new String[] {"vtk", "usa", "demo", "we-retail", ":"};
 	
 	private List<Counsel> counselList = null;
 	private List<FolderDTO> availableDamFolders = null;
 	private List<FolderDTO> explicitlyDeniedDamFolders = null;
 	private String damRootNodeState = null;
+	private String vtkResourcesPermissionSetting = null;
 	private final Session adminSession;
 	private final QueryBuilder queryBuilder;
 	
@@ -157,18 +159,28 @@ public class ContentCounselRetriever {
 	public String getDamRootDirectoryPermissionStatus() throws CounselPermissionModificationException{
 		if(damRootNodeState == null) {
 			try {
-				loadDamRootDirectoryPermissionStatus();
+				damRootNodeState = loadRootDirectoryPermissionStatus(BASE_DAM_PATH);
 			}catch (RepositoryException re) {
 				damRootNodeState = "None";
-				throw new CounselPermissionModificationException("Couldn't Dam Root Node Status.", re);
 			}
 		}
 		return damRootNodeState;
 	}
 	
-	private void loadDamRootDirectoryPermissionStatus() throws PathNotFoundException, RepositoryException {
+	public String getVtkResourcesDirectoryPermissionStatus() throws CounselPermissionModificationException{
+		if(vtkResourcesPermissionSetting == null) {
+			try {
+				vtkResourcesPermissionSetting = loadRootDirectoryPermissionStatus(VTK_RESOURCES_PATH);
+			}catch (RepositoryException re) {
+				vtkResourcesPermissionSetting = "None";
+			}
+		}
+		return vtkResourcesPermissionSetting;
+	}
+	
+	private String loadRootDirectoryPermissionStatus(String directoryPath) throws PathNotFoundException, RepositoryException {
 		
-		Node damPolicyNode = adminSession.getNode(BASE_DAM_PATH + "/rep:policy");
+		Node damPolicyNode = adminSession.getNode(directoryPath + "/rep:policy");
 		NodeIterator damPolicyNodeIterator = damPolicyNode.getNodes();
 
 		boolean hasExplicitPermission = false, hasExplicitDeny = false;
@@ -202,13 +214,13 @@ public class ContentCounselRetriever {
 		}
 		
 		if(hasExplicitPermission && hasExplicitDeny) {
-			damRootNodeState = "Both";
+			return "Both";
 		}else if(hasExplicitPermission) {
-			damRootNodeState = "Allowed";
+			return "Allowed";
 		}else if(hasExplicitDeny) {
-			damRootNodeState = "Denied";
+			return "Denied";
 		}else {
-			damRootNodeState = "None";
+			return "None";
 		}
 	}
 	
@@ -279,6 +291,7 @@ public class ContentCounselRetriever {
 			returner.put("availableFolders", getAvailableDamFolders());
 			returner.put("deniedDamFolders", getExplicitlyDeniedDamFolders());
 			returner.put("damPermissionSetting", getDamRootDirectoryPermissionStatus());
+			returner.put("vtkResourcesPermissionSetting", getVtkResourcesDirectoryPermissionStatus());
 		} catch (JSONException e) {
 			throw new CounselPermissionModificationException("Unable to serialize to json.", e);
 		}
@@ -296,6 +309,13 @@ public class ContentCounselRetriever {
 	public void setDamRootNodeState(String damRootNodeState) {
 		this.damRootNodeState = damRootNodeState;
 	}
-	
+
+	public String getVtkResourcesPermissionSetting() {
+		return vtkResourcesPermissionSetting;
+	}
+
+	public void setVtkResourcesPermissionSetting(String vtkResourcesPermissionSetting) {
+		this.vtkResourcesPermissionSetting = vtkResourcesPermissionSetting;
+	}
 	
 }

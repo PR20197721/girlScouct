@@ -100,6 +100,19 @@
 					<div class="FixitButtonReason" v-if="needsDefaultDamPermissionRemoval">Remove Default Allow Permissions for Common Group First.</div>
 				</div>
 				<div class="FolderRow">
+					<p class="PermissionExplanation" :class="{Active : needsDefaultVtkResourcesPermissionRemoval}">This will remove the <b>ace:Grant</b> permission on /content/resources2 for the gs-authors and gs-reviewers groups.</p>
+					<div class="FolderPath">Remove Allowed Root VTK Resources2 Permissions for common groups?</div>
+					<div class="PermissionsCheck" :class="{PermissionsOK : !needsDefaultVtkResourcesPermissionRemoval, PermissionsBad : needsDefaultVtkResourcesPermissionRemoval}">{{removeDamPermissionsText}}</div>
+					<div class="FixitButton FixButtonActive" v-if="needsDefaultVtkResourcesPermissionRemoval" @click="removeDefaultVtkResourcesPermissions">Fix!</div>
+				</div>
+				<div class="FolderRow">
+					<p class="PermissionExplanation" :class="{Active : (!needsDefaultVtkResourcesPermissionRemoval && needsDefaultVtkResourcesPermissionAddition)}">This will add the <b>ace:Deny</b> permission on /content/resources2 for the gs-authors and gs-reviewers groups.</p>
+					<div class="FolderPath">Default Deny Root VTK Resources2 for common user?</div>
+					<div class="PermissionsCheck" :class="{PermissionsOK : !needsDefaultVtkResourcesPermissionAddition, PermissionsBad : needsDefaultVtkResourcesPermissionAddition}">{{addDamPermissionsText}}</div>
+					<div class="FixitButton" v-if="needsDefaultVtkResourcesPermissionAddition" :class="{FixButtonActive : !needsDefaultVtkResourcesPermissionRemoval, FixButtonInactive : needsDefaultVtkResourcesPermissionRemoval}" @click="addDefaultVtkResourcesPermissions">Fix!</div>
+					<div class="FixitButtonReason" v-if="needsDefaultVtkResourcesPermissionRemoval">Remove Default Allow Permissions for Common Group First.</div>
+				</div>
+				<div class="FolderRow">
 					<p class="PermissionExplanation" :class="{Active : (!needsDefaultDamPermissionRemoval && !needsDefaultDamPermissionAddition && deniedDamFolders.length > 0)}">This will remove all of the <b>ace:Deny</b> permission for the counsel folders under /content/dam/* for the gs-authors and gs-reviewers groups.</p>
 					<div class="FolderPath">{{deniedDamFolders.length}} counsels-permissions are still explicitly denied.<span v-if="deniedDamFolders.length > 0">  Remove?</span></div>
 					<div class="PermissionsCheck" :class="{PermissionsOK : deniedDamFolders.length < 1, PermissionsBad : deniedDamFolders.length > 0}">{{removeExplicitPermissionsText}}</div>
