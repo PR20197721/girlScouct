@@ -1,71 +1,32 @@
 package org.girlscouts.web.gsusa.wcm.foundation;
 
-import javax.jcr.Node;
-
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.girlscouts.web.wcm.foundation.GSRenditionPicker;
+import org.girlscouts.web.wcm.foundation.RetinaImage;
 
-import com.day.cq.dam.api.Asset;
-import com.day.cq.dam.api.Rendition;
-import com.day.cq.wcm.foundation.WCMRenditionPicker;
+import com.day.cq.dam.api.RenditionPicker;
 
-public class Image extends com.day.cq.wcm.foundation.Image {
-    private static Logger log = LoggerFactory.getLogger(Image.class);
-    private static final String DEFAULT_RENDITION = "cq5dam.web.1280.1280";
+/*
+ * Overrides base by supplying a different rendition picker to translate to GSUSA style renditions.
+ */
+public class Image extends org.girlscouts.web.wcm.foundation.Image {
 
-    public Image(Resource resource) {
-        super(resource);
-    }
-
-    protected Resource getReferencedResource(String path) {
-        String resourcePath = getResource().getPath();
-
-        String CONTENT_MATCH = "jcr:content/content/";
-        String imageStem = resourcePath.substring(resourcePath.indexOf(CONTENT_MATCH) + CONTENT_MATCH.length());
-        String imageVar = imageStem.substring(0, imageStem.indexOf("/"));
-        ResourceResolver rr = getResourceResolver();
-        if ("middle".equals(imageVar)) {
-            Node node = getResource().adaptTo(Node.class);
-            String resourceType = "three-column-page";
-            try {
-                while (!node.getPrimaryNodeType().getName().equals("cq:PageContent")) {
-                    node = node.getParent();
-                }
-                resourceType = node.getProperty("sling:resourceType").getString();
-                resourceType = resourceType.substring(resourceType.lastIndexOf("/") + 1);
-            } catch (Exception e) {
-                log.warn("Cannot get resourceType.");
-            }
-            
-            if ("two-column-page".equals(resourceType)) {
-                imageVar = "hero";
-            } else if ("page".equals(resourceType) || "homepage".equals(resourceType)) {
-                imageVar = "top";
-            }
+	public Image(Resource resource) {
+		super(resource);
+	}
+	
+	@Override
+	public RenditionPicker getRenditionPicker(String imageVar) {
+	    	if (getCropRect() != null) {
+            return new GSRenditionPicker(DEFAULT_RENDITION);
+        } else {
+            String[] targetRenditions = null;
+	    	    	if (this.getClass().equals(RetinaImage.class)) {
+    	       		targetRenditions = new String[]{"cq5dam.npd." + imageVar + "@2x", DEFAULT_RENDITION};
+	    	    	} else {
+	    	    		targetRenditions = new String[]{"cq5dam.npd." + imageVar, DEFAULT_RENDITION};
+	    	    	}
+        		return new GSRenditionPicker(targetRenditions);
         }
-        
-        String[] targetRenditions = null;
-    	if (this.getClass() == RetinaImage.class) {
-       		targetRenditions = new String[]{"cq5dam.npd." + imageVar + "@2x", DEFAULT_RENDITION};
-    	} else {
-    		targetRenditions = new String[]{"cq5dam.npd." + imageVar, DEFAULT_RENDITION};
-    	}
-
-        Resource res = rr.getResource(path);
-        if (res != null) {
-            if (res.adaptTo(Asset.class) != null) {
-                Rendition rendition = null;
-                if (getCropRect() != null) {
-                    rendition = ((Asset)res.adaptTo(Asset.class)).getRendition(new GSRenditionPicker(DEFAULT_RENDITION));
-                } else {
-
-                	rendition = ((Asset)res.adaptTo(Asset.class)).getRendition(new GSRenditionPicker(targetRenditions));
-                }
-                res = null != rendition ? (Resource)rendition.adaptTo(Resource.class) : null;
-            }
-        }
-        return res;
-    }
+	}
 }

@@ -12,5 +12,15 @@
             <required>true</required>
   			<rtexprvalue>true</rtexprvalue>
         </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>selector</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
 </taglib>
