@@ -75,7 +75,7 @@ public enum DirectoryConfig {
 			"/etc/workflow/models",
 			
 			// VTK
-			"/content/vtkcontent/en/resources2"
+			"/content/vtkcontent/en/resources2",
 			"/content/dam-resources2/girlscouts-vtkcontent"
 			
 		).collect(Collectors.toList());
