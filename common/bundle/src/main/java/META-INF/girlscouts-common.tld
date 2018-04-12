@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" version="2.1">
+    <tlib-version>1.0.0-SNAPSHOT</tlib-version>
+    <short-name>gsc</short-name>
+    <uri>https://girlscouts.org/girlscouts-common/taglib</uri>
+    <tag>
+        <name>image</name>
+        <tag-class>org.girlscouts.common.taglib.html.ImageTag</tag-class>
+        <info>Creates image tag using the Day Commons Image Implementation.</info>
+        <attribute>
+            <name>relativePath</name>
+            <required>true</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

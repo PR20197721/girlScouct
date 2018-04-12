@@ -17,8 +17,12 @@
   <packaging>content-package</packaging>
   <name>Girl Scouts Common App Package</name>
   <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>girlscouts-common-bundle</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
-  <!-- Torquebox rubygem repo only for gsusa content project -->
   <repositories>
   </repositories>
   <build>
@@ -41,6 +45,13 @@
         </configuration>
       </plugin>
       <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.6.1</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>com.day.jcr.vault</groupId>
         <artifactId>content-package-maven-plugin</artifactId>
         <extensions>true</extensions>
@@ -57,8 +68,26 @@
           <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.day.jcr.vault</groupId>
+        <artifactId>content-package-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <group>org.girlscouts.web.common</group>
+          <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
+          <embeddeds>
+            <embedded>
+              <groupId>${project.groupId}</groupId>
+              <artifactId>girlscouts-common-bundle</artifactId>
+              <target>/apps/girlscouts-common/install</target>
+            </embedded>
+          </embeddeds>
+          <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+  
   <profiles>
     <profile>
       <id>autoInstallPackage</id>
@@ -106,4 +135,5 @@
       </build>
     </profile>
   </profiles>
+  
 </project>
