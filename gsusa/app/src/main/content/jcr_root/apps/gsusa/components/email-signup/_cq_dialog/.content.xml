@@ -10,6 +10,7 @@
             sling:resourceType="granite/ui/components/foundation/layouts/tabs"
             type="nav"/>
         <items jcr:primaryType="nt:unstructured">
+        
             <maincontent
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Main Content"
@@ -41,7 +42,14 @@
                                 fieldDescription=""
                                 fieldLabel="Description"
                                 name="./description"/>
-                            <source/>
+                            <source
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Originating source in 300 or less characters"
+                                fieldLabel="Source"
+    							   defaultValue=""
+                                name="./source"
+                                required="false"/>
                             <emailplaceholder
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
@@ -86,6 +94,7 @@
                     </columns>
                 </items>
             </maincontent>
+            
             <submission
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Submission"
@@ -132,8 +141,69 @@
                     </columns>
                 </items>
             </submission>
-            <iconimage/>
-            <thankyouimage/>
+            
+            <icon-image
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Icon Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+            		<layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+               	<items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+						<file
+							jcr:primaryType="nt:unstructured"
+							sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+							autoStart="{Boolean}false"
+							class="cq-droptarget"
+							fieldLabel="Image asset"
+    						fileNameParameter="./iconimage/image/fileName"
+    						fileReferenceParameter="./iconimage/image/fileReference"
+							mimeTypes="[image]"
+							multiple="{Boolean}false"
+    						name="./iconimage/image/file"
+    						title="Icon Image"
+							uploadUrl="${suffix.path}"
+							useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </icon-image>
+ 
+            <thankyou-image
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Thankyou Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+            		<layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+               	<items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+							<file
+								jcr:primaryType="nt:unstructured"
+								sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+								autoStart="{Boolean}false"
+								class="cq-droptarget"
+								fieldLabel="Image asset"
+	    						fileNameParameter="./thankyouimage/fileName"
+	    						fileReferenceParameter="./thankyouimage/fileReference"
+								mimeTypes="[image]"
+								multiple="{Boolean}false"
+	    						name="./thankyouimage/file"
+	    						title="Thank You Image"
+								uploadUrl="${suffix.path}"
+								useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </thankyou-image>
+            
             <sfmc
                 jcr:primaryType="nt:unstructured"
                 jcr:title="SFMC"
@@ -168,6 +238,8 @@
                     </columns>
                 </items>
             </sfmc>
+        
+        
         </items>
     </content>
 </jcr:root>

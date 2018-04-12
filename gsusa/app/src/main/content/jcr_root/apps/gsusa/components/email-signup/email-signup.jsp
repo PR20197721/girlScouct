@@ -1,6 +1,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
-<%@page import="com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.Placeholder, java.util.Random"  %>
+<%@page import="com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.Placeholder, java.util.Random, com.day.cq.wcm.foundation.Image"  %>
 <%@page session="false" %>
 
 <%!
@@ -43,7 +43,12 @@ String formID = "email_" + generateId();
 boolean topBorder = properties.get("topborder", false);
 boolean bottomBorder = properties.get("bottomborder", false);
 		
-Resource iconImage = resource.getChild("iconimage");
+Resource iconImage = null;
+Resource iconImageWrapper = resource.getChild("iconimage");
+if(iconImageWrapper != null){
+	iconImage = iconImageWrapper.getChild("image");
+}
+
 String iconPath = "";
 if(iconImage != null) {
 	iconPath = ((ValueMap)iconImage.adaptTo(ValueMap.class)).get("fileReference", "");
@@ -261,7 +266,18 @@ function validateEmail(email) {
 	    <div class="wrapper-inner clearfix">
 	      <form class="email-form" name="submit-email" id="<%= formID %>">
 	        <div class="left-image">
-	          <img src="<%= iconPath %>">
+	        	  	<% 
+	        	  		if(iconImage != null){
+		        	  		Image iconImageWriter = new Image(iconImage);
+		        	  		iconImageWriter.setSelector(".img"); 
+		        	  		iconImageWriter.draw(out);
+	        	  		}
+	        	  		if(iconImage != null){
+		        	  		Image iconImageWriter = new Image(resource);
+		        	  		iconImageWriter.setSelector("iconimage.img"); 
+		        	  		iconImageWriter.draw(out);
+	        	  		}
+        			%>
 	        </div>
 	        <div class="right-form">
 	          <div class="text">
