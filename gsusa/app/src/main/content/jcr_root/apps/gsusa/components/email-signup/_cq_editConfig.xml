@@ -25,6 +25,16 @@
 	                    imageMap=""
 	                    imageRotate=""/>
                 </iconimage>
+                <thankyouimage
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/image">
+	                <image
+	                    jcr:primaryType="nt:unstructured"
+	                    sling:resourceType="foundation/components/image"
+	                    imageCrop=""
+	                    imageMap=""
+	                    imageRotate=""/>
+                </thankyouimage>
             </parameters>
         </image>
     </cq:dropTargets>

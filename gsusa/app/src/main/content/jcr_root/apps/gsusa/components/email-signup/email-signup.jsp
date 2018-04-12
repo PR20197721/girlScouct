@@ -49,18 +49,11 @@ if(iconImageWrapper != null){
 	iconImage = iconImageWrapper.getChild("image");
 }
 
-String iconPath = "";
-if(iconImage != null) {
-	iconPath = ((ValueMap)iconImage.adaptTo(ValueMap.class)).get("fileReference", "");
+Resource thankyouImage = null;
+Resource thankyouImageWrapper = resource.getChild("thankyouimage");
+if(thankyouImageWrapper != null){
+	thankyouImage = thankyouImageWrapper.getChild("image");
 }
-Resource thankyouImage = resource.getChild("thankyouimage");
-String thankyouPath = "";
-if (thankyouImage != null) {
-	thankyouPath = ((ValueMap)thankyouImage.adaptTo(ValueMap.class)).get("fileReference", "");
-}
-
-
-
 
 %>
 
@@ -272,11 +265,6 @@ function validateEmail(email) {
 		        	  		iconImageWriter.setSelector(".img"); 
 		        	  		iconImageWriter.draw(out);
 	        	  		}
-	        	  		if(iconImage != null){
-		        	  		Image iconImageWriter = new Image(resource);
-		        	  		iconImageWriter.setSelector("iconimage.img"); 
-		        	  		iconImageWriter.draw(out);
-	        	  		}
         			%>
 	        </div>
 	        <div class="right-form">
@@ -291,7 +279,12 @@ function validateEmail(email) {
 	          <div class="form-wrapper clearfix">
 	            <input type="text" placeholder="<%= fieldText %>" maxlength="100" title="email address" class="email" name="email">
 	            <input type="submit" class="submit-button" value="<%= submitButtonText %>"/>
-	            <img class="success" src="<%= thankyouPath %>"> 
+	            <%
+    	  				Image thankyouImageWriter = new Image(thankyouImage);
+	            		thankyouImageWriter.addCssClass("success");
+	            		thankyouImageWriter.setSelector(".img"); 
+	        	  		thankyouImageWriter.draw(out);
+	            %>
 	          </div>	          
 	        </div>            
 	      </form>
