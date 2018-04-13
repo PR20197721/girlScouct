@@ -45,6 +45,7 @@ import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.auth.core.AuthUtil;
 import org.apache.sling.commons.osgi.OsgiUtil;
+import org.apache.sling.settings.SlingSettingsService;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,6 +99,9 @@ public class GSStoreServlet
 
     @Reference
 	private ResourceResolverFactory resolverFactory;
+    
+    @Reference(policy=ReferencePolicy.STATIC)
+    private SlingSettingsService slingSettings;
     
     @Reference 
 	private Replicator replicator;
@@ -254,9 +258,16 @@ public class GSStoreServlet
             		}
             		log.error("Submission Node path is: " + submissionNode.getPath());
             		submissionNode.save();
-            		
-            		replicator.replicate(contentBaseNode.getSession(), ReplicationActionType.INTERNAL_POLL, submissionNode.getPath());
-            		
+            		Set<String> runmodes = slingSettings.getRunModes();
+            		boolean isPublish = false;
+            		for(String mode : runmodes) {
+            			if(mode.equalsIgnoreCase("publish")) {
+            				isPublish = true;
+            			}
+            		}
+            		if(isPublish) {
+            			replicator.replicate(contentBaseNode.getSession(), ReplicationActionType.INTERNAL_POLL, submissionNode.getPath());
+            		}
             }
             	
            
