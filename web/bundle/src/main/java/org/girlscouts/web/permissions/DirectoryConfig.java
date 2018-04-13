@@ -50,6 +50,11 @@ public enum DirectoryConfig {
 		new Permission[] {Permission.READ},
 		new Permission[] {Permission.READ}
 	),
+	
+	USER_GENERATED(
+		new Permission[] {Permission.READ},
+		new Permission[] {Permission.READ}
+	),
 		
 	GS_COMMON_FOLDERS(
 		new Permission[] {Permission.READ},
