@@ -1,5 +1,5 @@
 /*!
- * html2canvas 1.0.0-alpha.10 <https://html2canvas.hertzen.com>
+ * html2canvas 1.0.0-alpha.11 <https://html2canvas.hertzen.com>
  * Copyright (c) 2018 Niklas von Hertzen <https://hertzen.com>
  * Released under MIT License
  */
@@ -341,6 +341,91 @@ var TRANSPARENT = exports.TRANSPARENT = new Color([0, 0, 0, 0]);
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.calculateLengthFromValueWithUnit = exports.LENGTH_TYPE = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _NodeContainer = __webpack_require__(3);
+
+var _NodeContainer2 = _interopRequireDefault(_NodeContainer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var LENGTH_WITH_UNIT = /([\d.]+)(px|r?em|%)/i;
+
+var LENGTH_TYPE = exports.LENGTH_TYPE = {
+    PX: 0,
+    PERCENTAGE: 1
+};
+
+var Length = function () {
+    function Length(value) {
+        _classCallCheck(this, Length);
+
+        this.type = value.substr(value.length - 1) === '%' ? LENGTH_TYPE.PERCENTAGE : LENGTH_TYPE.PX;
+        var parsedValue = parseFloat(value);
+        if (true && isNaN(parsedValue)) {
+            console.error('Invalid value given for Length: "' + value + '"');
+        }
+        this.value = isNaN(parsedValue) ? 0 : parsedValue;
+    }
+
+    _createClass(Length, [{
+        key: 'isPercentage',
+        value: function isPercentage() {
+            return this.type === LENGTH_TYPE.PERCENTAGE;
+        }
+    }, {
+        key: 'getAbsoluteValue',
+        value: function getAbsoluteValue(parentLength) {
+            return this.isPercentage() ? parentLength * (this.value / 100) : this.value;
+        }
+    }], [{
+        key: 'create',
+        value: function create(v) {
+            return new Length(v);
+        }
+    }]);
+
+    return Length;
+}();
+
+exports.default = Length;
+
+
+var getRootFontSize = function getRootFontSize(container) {
+    var parent = container.parent;
+    return parent ? getRootFontSize(parent) : parseFloat(container.style.font.fontSize);
+};
+
+var calculateLengthFromValueWithUnit = exports.calculateLengthFromValueWithUnit = function calculateLengthFromValueWithUnit(container, value, unit) {
+    switch (unit) {
+        case 'px':
+        case '%':
+            return new Length(value + unit);
+        case 'em':
+        case 'rem':
+            var length = new Length(value);
+            length.value *= unit === 'em' ? parseFloat(container.style.font.fontSize) : getRootFontSize(container);
+            return length;
+        default:
+            // TODO: handle correctly if unknown unit is used
+            return new Length('0');
+    }
+};
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.parseBoundCurves = exports.calculatePaddingBoxPath = exports.calculateBorderBoxPath = exports.parsePathForBorder = exports.parseDocumentSize = exports.calculateContentBox = exports.calculatePaddingBox = exports.parseBounds = exports.Bounds = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -541,91 +626,6 @@ var getCurvePoints = function getCurvePoints(x, y, r1, r2, position) {
 };
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.calculateLengthFromValueWithUnit = exports.LENGTH_TYPE = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _NodeContainer = __webpack_require__(3);
-
-var _NodeContainer2 = _interopRequireDefault(_NodeContainer);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var LENGTH_WITH_UNIT = /([\d.]+)(px|r?em|%)/i;
-
-var LENGTH_TYPE = exports.LENGTH_TYPE = {
-    PX: 0,
-    PERCENTAGE: 1
-};
-
-var Length = function () {
-    function Length(value) {
-        _classCallCheck(this, Length);
-
-        this.type = value.substr(value.length - 1) === '%' ? LENGTH_TYPE.PERCENTAGE : LENGTH_TYPE.PX;
-        var parsedValue = parseFloat(value);
-        if (true && isNaN(parsedValue)) {
-            console.error('Invalid value given for Length: "' + value + '"');
-        }
-        this.value = isNaN(parsedValue) ? 0 : parsedValue;
-    }
-
-    _createClass(Length, [{
-        key: 'isPercentage',
-        value: function isPercentage() {
-            return this.type === LENGTH_TYPE.PERCENTAGE;
-        }
-    }, {
-        key: 'getAbsoluteValue',
-        value: function getAbsoluteValue(parentLength) {
-            return this.isPercentage() ? parentLength * (this.value / 100) : this.value;
-        }
-    }], [{
-        key: 'create',
-        value: function create(v) {
-            return new Length(v);
-        }
-    }]);
-
-    return Length;
-}();
-
-exports.default = Length;
-
-
-var getRootFontSize = function getRootFontSize(container) {
-    var parent = container.parent;
-    return parent ? getRootFontSize(parent) : parseFloat(container.style.font.fontSize);
-};
-
-var calculateLengthFromValueWithUnit = exports.calculateLengthFromValueWithUnit = function calculateLengthFromValueWithUnit(container, value, unit) {
-    switch (unit) {
-        case 'px':
-        case '%':
-            return new Length(value + unit);
-        case 'em':
-        case 'rem':
-            var length = new Length(value);
-            length.value *= unit === 'em' ? parseFloat(container.style.font.fontSize) : getRootFontSize(container);
-            return length;
-        default:
-            // TODO: handle correctly if unknown unit is used
-            return new Length('0');
-    }
-};
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -686,7 +686,7 @@ var _wordBreak = __webpack_require__(44);
 
 var _zIndex = __webpack_require__(45);
 
-var _Bounds = __webpack_require__(1);
+var _Bounds = __webpack_require__(2);
 
 var _Input = __webpack_require__(21);
 
@@ -919,7 +919,7 @@ var _Color = __webpack_require__(0);
 
 var _Color2 = _interopRequireDefault(_Color);
 
-var _Length = __webpack_require__(2);
+var _Length = __webpack_require__(1);
 
 var _Length2 = _interopRequireDefault(_Length);
 
@@ -931,7 +931,7 @@ var _Vector = __webpack_require__(7);
 
 var _Vector2 = _interopRequireDefault(_Vector);
 
-var _Bounds = __webpack_require__(1);
+var _Bounds = __webpack_require__(2);
 
 var _padding = __webpack_require__(17);
 
@@ -1649,9 +1649,9 @@ var testBase64 = function testBase64(document, src) {
         };
 
         if (img.complete === true) {
-//            setTimeout(function () {
-//                onload();
-//            }, 500);
+            setTimeout(function () {
+                onload();
+            }, 500);
         }
     });
 };
@@ -2461,6 +2461,7 @@ var CanvasRenderer = function () {
     }, {
         key: 'getTarget',
         value: function getTarget() {
+            this.canvas.getContext('2d').setTransform(1, 0, 0, 1, 0, 0);
             return Promise.resolve(this.canvas);
         }
     }, {
@@ -2706,7 +2707,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.parsePadding = exports.PADDING_SIDES = undefined;
 
-var _Length = __webpack_require__(2);
+var _Length = __webpack_require__(1);
 
 var _Length2 = _interopRequireDefault(_Length);
 
@@ -2847,11 +2848,11 @@ var _Color = __webpack_require__(0);
 
 var _Color2 = _interopRequireDefault(_Color);
 
-var _Length = __webpack_require__(2);
+var _Length = __webpack_require__(1);
 
 var _Length2 = _interopRequireDefault(_Length);
 
-var _Bounds = __webpack_require__(1);
+var _Bounds = __webpack_require__(2);
 
 var _TextBounds = __webpack_require__(22);
 
@@ -2955,7 +2956,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.parseTextBounds = exports.TextBounds = undefined;
 
-var _Bounds = __webpack_require__(1);
+var _Bounds = __webpack_require__(2);
 
 var _textDecoration = __webpack_require__(11);
 
@@ -3346,14 +3347,12 @@ var _Logger2 = _interopRequireDefault(_Logger);
 
 var _Window = __webpack_require__(28);
 
-var _Bounds = __webpack_require__(1);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var html2canvas = function html2canvas(element, conf) {
     var config = conf || {};
     var logger = new _Logger2.default(typeof config.logging === 'boolean' ? config.logging : true);
-    logger.log('html2canvas ' + "1.0.0-alpha.10");
+    logger.log('html2canvas ' + "1.0.0-alpha.11");
 
     if (true && typeof config.onrendered === 'function') {
         logger.error('onrendered option is deprecated, html2canvas returns a Promise with the canvas as the value');
@@ -3364,17 +3363,6 @@ var html2canvas = function html2canvas(element, conf) {
         return Promise.reject('Provided element is not within a Document');
     }
     var defaultView = ownerDocument.defaultView;
-
-    var scrollX = defaultView.pageXOffset;
-    var scrollY = defaultView.pageYOffset;
-
-    var isDocument = element.tagName === 'HTML' || element.tagName === 'BODY';
-
-    var _ref = isDocument ? (0, _Bounds.parseDocumentSize)(ownerDocument) : (0, _Bounds.parseBounds)(element, scrollX, scrollY),
-        width = _ref.width,
-        height = _ref.height,
-        left = _ref.left,
-        top = _ref.top;
 
     var defaultOptions = {
         async: true,
@@ -3388,10 +3376,6 @@ var html2canvas = function html2canvas(element, conf) {
         scale: defaultView.devicePixelRatio || 1,
         target: new _CanvasRenderer2.default(config.canvas),
         useCORS: false,
-        x: left,
-        y: top,
-        width: Math.ceil(width),
-        height: Math.ceil(height),
         windowWidth: defaultView.innerWidth,
         windowHeight: defaultView.innerHeight,
         scrollX: defaultView.pageXOffset,
@@ -3445,7 +3429,7 @@ var _Feature = __webpack_require__(10);
 
 var _Feature2 = _interopRequireDefault(_Feature);
 
-var _Bounds = __webpack_require__(1);
+var _Bounds = __webpack_require__(2);
 
 var _Clone = __webpack_require__(54);
 
@@ -3479,25 +3463,38 @@ var renderElement = exports.renderElement = function renderElement(element, opti
                 return cloner.resourceLoader.ready();
             }).then(function () {
                 var renderer = new _ForeignObjectRenderer2.default(cloner.documentElement);
+
+                var defaultView = ownerDocument.defaultView;
+                var scrollX = defaultView.pageXOffset;
+                var scrollY = defaultView.pageYOffset;
+
+                var isDocument = element.tagName === 'HTML' || element.tagName === 'BODY';
+
+                var _ref = isDocument ? (0, _Bounds.parseDocumentSize)(ownerDocument) : (0, _Bounds.parseBounds)(element, scrollX, scrollY),
+                    width = _ref.width,
+                    height = _ref.height,
+                    left = _ref.left,
+                    top = _ref.top;
+
                 return renderer.render({
                     backgroundColor: backgroundColor,
                     logger: logger,
                     scale: options.scale,
-                    x: options.x,
-                    y: options.y,
-                    width: options.width,
-                    height: options.height,
+                    x: typeof options.x === 'number' ? options.x : left,
+                    y: typeof options.y === 'number' ? options.y : top,
+                    width: typeof options.width === 'number' ? options.width : Math.ceil(width),
+                    height: typeof options.height === 'number' ? options.height : Math.ceil(height),
                     windowWidth: options.windowWidth,
                     windowHeight: options.windowHeight,
                     scrollX: options.scrollX,
                     scrollY: options.scrollY
                 });
             });
-        }(new _Clone.DocumentCloner(element, options, logger, true, renderElement)) : (0, _Clone.cloneWindow)(ownerDocument, windowBounds, element, options, logger, renderElement).then(function (_ref) {
-            var _ref2 = _slicedToArray(_ref, 3),
-                container = _ref2[0],
-                clonedElement = _ref2[1],
-                resourceLoader = _ref2[2];
+        }(new _Clone.DocumentCloner(element, options, logger, true, renderElement)) : (0, _Clone.cloneWindow)(ownerDocument, windowBounds, element, options, logger, renderElement).then(function (_ref2) {
+            var _ref3 = _slicedToArray(_ref2, 3),
+                container = _ref3[0],
+                clonedElement = _ref3[1],
+                resourceLoader = _ref3[2];
 
             if (true) {
                 logger.log('Document cloned, using computed rendering');
@@ -3516,16 +3513,28 @@ var renderElement = exports.renderElement = function renderElement(element, opti
                     logger.log('Starting renderer');
                 }
 
+                var defaultView = clonedDocument.defaultView;
+                var scrollX = defaultView.pageXOffset;
+                var scrollY = defaultView.pageYOffset;
+
+                var isDocument = clonedElement.tagName === 'HTML' || clonedElement.tagName === 'BODY';
+
+                var _ref4 = isDocument ? (0, _Bounds.parseDocumentSize)(ownerDocument) : (0, _Bounds.parseBounds)(clonedElement, scrollX, scrollY),
+                    width = _ref4.width,
+                    height = _ref4.height,
+                    left = _ref4.left,
+                    top = _ref4.top;
+
                 var renderOptions = {
                     backgroundColor: backgroundColor,
                     fontMetrics: fontMetrics,
                     imageStore: imageStore,
                     logger: logger,
                     scale: options.scale,
-                    x: options.x,
-                    y: options.y,
-                    width: options.width,
-                    height: options.height
+                    x: typeof options.x === 'number' ? options.x : left,
+                    y: typeof options.y === 'number' ? options.y : top,
+                    width: typeof options.width === 'number' ? options.width : Math.ceil(width),
+                    height: typeof options.height === 'number' ? options.height : Math.ceil(height)
                 };
 
                 if (Array.isArray(options.target)) {
@@ -3828,7 +3837,7 @@ exports.parseBorderRadius = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _Length = __webpack_require__(2);
+var _Length = __webpack_require__(1);
 
 var _Length2 = _interopRequireDefault(_Length);
 
@@ -4092,7 +4101,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.parseMargin = undefined;
 
-var _Length = __webpack_require__(2);
+var _Length = __webpack_require__(1);
 
 var _Length2 = _interopRequireDefault(_Length);
 
@@ -4250,7 +4259,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.parseTransform = undefined;
 
-var _Length = __webpack_require__(2);
+var _Length = __webpack_require__(1);
 
 var _Length2 = _interopRequireDefault(_Length);
 
@@ -5261,7 +5270,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Bounds = __webpack_require__(1);
+var _Bounds = __webpack_require__(2);
 
 var _Font = __webpack_require__(25);
 
@@ -5604,7 +5613,7 @@ var _Color = __webpack_require__(0);
 
 var _Color2 = _interopRequireDefault(_Color);
 
-var _Length = __webpack_require__(2);
+var _Length = __webpack_require__(1);
 
 var _Length2 = _interopRequireDefault(_Length);
 
@@ -6081,7 +6090,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Bounds = __webpack_require__(1);
+var _Bounds = __webpack_require__(2);
 
 var _Proxy = __webpack_require__(26);
 
@@ -6170,11 +6179,6 @@ var DocumentCloner = exports.DocumentCloner = function () {
         key: 'inlineFonts',
         value: function inlineFonts(document) {
             var _this2 = this;
-            
-            if(window.html2CanvasFontsInlined){
-            		return Promise.resolve([]);
-            }
-            window.html2CanvasFontsInlined = true;
 
             return Promise.all(Array.from(document.styleSheets).map(function (sheet) {
                 if (sheet.href) {
@@ -6287,7 +6291,15 @@ var DocumentCloner = exports.DocumentCloner = function () {
 
             if (node instanceof HTMLStyleElement && node.sheet && node.sheet.cssRules) {
                 var css = [].slice.call(node.sheet.cssRules, 0).reduce(function (css, rule) {
-                    return css + rule.cssText;
+                    try {
+                        if (rule && rule.cssText) {
+                            return css + rule.cssText;
+                        }
+                        return css;
+                    } catch (err) {
+                        _this3.logger.log('Unable to access cssText property', rule.name);
+                        return css;
+                    }
                 }, '');
                 var style = node.cloneNode(false);
                 style.textContent = css;
@@ -6542,36 +6554,26 @@ var getIframeDocumentElement = function getIframeDocumentElement(node, options) 
     }
 };
 
-var cloneIframeContainer = null;
 var createIframeContainer = function createIframeContainer(ownerDocument, bounds) {
-	if (!cloneIframeContainer || (window.top.document !== ownerDocument)) {
-	    var tempCloneIframeContainer = ownerDocument.createElement('iframe');
-	    tempCloneIframeContainer.className = 'html2canvas-container';
-	    tempCloneIframeContainer.style.visibility = 'hidden';
-	    tempCloneIframeContainer.style.position = 'fixed';
-	    tempCloneIframeContainer.style.left = '-10000px';
-	    tempCloneIframeContainer.style.top = '0px';
-	    tempCloneIframeContainer.style.border = '0';
-	    tempCloneIframeContainer.width = bounds.width.toString();
-	    tempCloneIframeContainer.height = bounds.height.toString();
-	    tempCloneIframeContainer.scrolling = 'no'; // ios won't scroll without it
-	    tempCloneIframeContainer.setAttribute(IGNORE_ATTRIBUTE, 'true');
-	    
-	    if(ownerDocument === window.top.document){
-	    		cloneIframeContainer = tempCloneIframeContainer;
-	    }
-	    
-	    if (!ownerDocument.body) {
-	    		console.error("You caused it!");
-	        return Promise.reject( true ? 'Body element not found in Document that is getting rendered' : '');
-	    }
-	
-	    ownerDocument.body.appendChild(tempCloneIframeContainer);
-	    return Promise.resolve(tempCloneIframeContainer);
-	}else{
-	    return Promise.resolve(cloneIframeContainer);
-	}
+    var cloneIframeContainer = ownerDocument.createElement('iframe');
 
+    cloneIframeContainer.className = 'html2canvas-container';
+    cloneIframeContainer.style.visibility = 'hidden';
+    cloneIframeContainer.style.position = 'fixed';
+    cloneIframeContainer.style.left = '-10000px';
+    cloneIframeContainer.style.top = '0px';
+    cloneIframeContainer.style.border = '0';
+    cloneIframeContainer.width = bounds.width.toString();
+    cloneIframeContainer.height = bounds.height.toString();
+    cloneIframeContainer.scrolling = 'no'; // ios won't scroll without it
+    cloneIframeContainer.setAttribute(IGNORE_ATTRIBUTE, 'true');
+    if (!ownerDocument.body) {
+        return Promise.reject( true ? 'Body element not found in Document that is getting rendered' : '');
+    }
+
+    ownerDocument.body.appendChild(cloneIframeContainer);
+
+    return Promise.resolve(cloneIframeContainer);
 };
 
 var iframeLoader = function iframeLoader(cloneIframeContainer) {
@@ -6579,31 +6581,14 @@ var iframeLoader = function iframeLoader(cloneIframeContainer) {
     var documentClone = cloneWindow.document;
 
     return new Promise(function (resolve, reject) {
-    	
-    		function readyListeneriFrame() {
+        cloneWindow.onload = cloneIframeContainer.onload = documentClone.onreadystatechange = function () {
             var interval = setInterval(function () {
                 if (documentClone.body.childNodes.length > 0 && documentClone.readyState === 'complete') {
                     clearInterval(interval);
                     resolve(cloneIframeContainer);
-                    window.html2canvasWindowLoaded = true;
                 }
             }, 50);
-        }
-    		
-    		if(window.html2canvasWindowLoaded){
-    			readyListeneriFrame();
-    		}else{
-    			if(cloneWindow.onload){
-    				var oldOnLoad = cloneWindow.onload;
-    				cloneWindow.onload = cloneIframeContainer.onload = documentClone.onreadystatechange = function(){
-    					oldOnLoad();
-    					readyListeneriFrame();
-    				};
-    			}else{
-    				cloneWindow.onload = cloneIframeContainer.onload = documentClone.onreadystatechange = readyListeneriFrame;
-    			}
-    	        // cloneWindow.onload = cloneIframeContainer.onload = documentClone.onreadystatechange = readyListeneriFrame;
-    		}
+        };
     });
 };
 
@@ -6640,24 +6625,12 @@ var cloneWindow = exports.cloneWindow = function cloneWindow(ownerDocument, boun
             }) : result : Promise.reject( true ? 'Error finding the ' + referenceElement.nodeName + ' in the cloned document' : '');
         });
 
-        if(!window.html2canvasCloneExists){
-            documentClone.open();
-            documentClone.write(serializeDoctype(document.doctype) + '<html></html>');
-            // Chrome scrolls the parent document for some reason after the write to the cloned window???
-            restoreOwnerScroll(referenceElement.ownerDocument, scrollX, scrollY);
-            
-            documentClone.replaceChild(documentClone.adoptNode(cloner.documentElement), documentClone.documentElement);
-            //documentClone.replaceChild(documentClone.adoptNode(cloner.documentElement), documentClone.documentElement);
-            window.html2canvasCloneExists = true;
-            documentClone.close();
-        }
-        else{
-        		
-        		documentClone.body.parentNode.replaceChild(documentClone.adoptNode(cloner.documentElement.getElementsByTagName('body')[0]), documentClone.body);
-        	
-        		//documentClone.replaceChild(documentClone.adoptNode(cloner.documentElement.getElementsByTagName('body')[0]), documentClone.body);
-        		//documentClone.body.replaceWith(cloner.documentElement.getElementsByTagName('body')[0]); // Works.
-        }
+        documentClone.open();
+        documentClone.write(serializeDoctype(document.doctype) + '<html></html>');
+        // Chrome scrolls the parent document for some reason after the write to the cloned window???
+        restoreOwnerScroll(referenceElement.ownerDocument, scrollX, scrollY);
+        documentClone.replaceChild(documentClone.adoptNode(cloner.documentElement), documentClone.documentElement);
+        documentClone.close();
 
         return iframeLoad;
     });
@@ -6731,6 +6704,10 @@ var ResourceLoader = function () {
             var _this = this;
 
             if (this.hasResourceInCache(src)) {
+                return src;
+            }
+            if (isBlobImage(src)) {
+                this.cache[src] = _loadImage(src, this.options.imageTimeout || 0);
                 return src;
             }
 
@@ -6845,9 +6822,9 @@ var ResourceLoader = function () {
                     img.src = src;
                     if (img.complete === true) {
                         // Inline XML images may fail to parse, throwing an Error later on
-//                        setTimeout(function () {
-//                            resolve(img);
-//                        }, 500);
+                        setTimeout(function () {
+                            resolve(img);
+                        }, 500);
                     }
                     if (_this4.options.imageTimeout) {
                         var timeout = _this4.options.imageTimeout;
@@ -6932,6 +6909,9 @@ var isInlineImage = function isInlineImage(src) {
 var isInlineBase64Image = function isInlineBase64Image(src) {
     return INLINE_BASE64.test(src);
 };
+var isBlobImage = function isBlobImage(src) {
+    return src.substr(0, 4) === 'blob';
+};
 
 var isSVG = function isSVG(src) {
     return src.substr(-3).toLowerCase() === 'svg' || INLINE_SVG.test(src);
@@ -6947,9 +6927,9 @@ var _loadImage = function _loadImage(src, timeout) {
         img.src = src;
         if (img.complete === true) {
             // Inline XML images may fail to parse, throwing an Error later on
-//            setTimeout(function () {
-//                resolve(img);
-//            }, 500);
+            setTimeout(function () {
+                resolve(img);
+            }, 500);
         }
         if (timeout) {
             setTimeout(function () {

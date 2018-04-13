@@ -164,13 +164,20 @@ window.BadgePdfGenerator = (function(window, $, document){
 		return html2canvas(canvasOutputElements[index], {
 			dpi: 192,
 			letterRendering: true,
-			removeContainer: false
+            scale: 1
 		}).then(function(canvas) {
 			var width = $(canvasOutputElements[index]).outerWidth(true);
 			var height = $(canvasOutputElements[index]).outerHeight(true);
 			var image = new Image(width, height);
 			image.src = canvas.toDataURL('image/jpeg', 0.9);
 			images.push(image);
+			
+			var imageTestContainer = $('.ImageTestContainer');
+			if(imageTestContainer.length < 1){
+				imageTestContainer = $('<div>').addClass('ImageTestContainer').appendTo('body');
+			}
+			imageTestContainer.append(image);
+			
 			return processCanvasElement(canvasOutputElements, index +1, images);
 		});
 	};
