@@ -75,11 +75,6 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 text="Send Mail"
                                                 value="girlscouts/components/form/actions/gsmail"/>
-                                            <spiceworks
-                                                jcr:primaryType="nt:unstructured"
-                                                gstargetvalue="spiceworks"
-                                                text="Spiceworks"
-                                                value="girlscouts/components/form/actions/spiceworks"/>
                                             <store-content
                                                 jcr:primaryType="nt:unstructured"
                                                 text="Store Content"
@@ -171,7 +166,20 @@
                                                 fieldLabel="Content Path *"
                                                 name="./action"
                                                 storecontent="field"
-                                                wrapperClass="hide gs-hide-show gsstore"/>
+                                                wrapperClass="hide gs-hide-show gsstore gsmail"/>
+                                            <store-content
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                fieldDescription="By default, confirmation emails will be sent to email addresses entered into any fields starting with 'email-confirmation'. You can add a number at the end for multiple confirmation fields."
+                                                name="./storeContent"
+                                                text="Store Email Content"
+                                                value="{Boolean}true"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks"/>
+                                            <store-content-delete
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                name="./disableConfirmation@Delete"
+                                                value="{Boolean}true"/>
                                             <from-email
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
@@ -250,14 +258,14 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
                                                 fieldDescription="By default, confirmation emails will be sent to email addresses entered into any fields starting with 'email-confirmation'. You can add a number at the end for multiple confirmation fields."
-                                                name="./disableConfirmation"
+                                                name="./disableConfirmationEmails"
                                                 text="Disable Confirmation Emails"
                                                 value="{Boolean}true"
                                                 wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>
                                             <disable-conf-emails-delete
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                                name="./disableConfirmation@Delete"
+                                                name="./disableConfirmationEmails@Delete"
                                                 value="{Boolean}true"/>
                                             <campaign-id
                                                 jcr:primaryType="nt:unstructured"

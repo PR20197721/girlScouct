@@ -55,7 +55,8 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./confirmationemail"
-                                text="Send Confirmation Email to this Field"/>
+                                text="Send Confirmation Email to this Field"
+                                value="{Boolean}true"/>
                             <confirmationemail-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

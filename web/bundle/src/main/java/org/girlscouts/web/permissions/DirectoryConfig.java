@@ -15,7 +15,17 @@ public enum DirectoryConfig {
 		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.READ_ACL},
 		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.READ_ACL, Permission.REPLICATE}
 	), 
-		
+	
+	VTK_RESOURCES(
+		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.READ_ACL},
+		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.READ_ACL, Permission.REPLICATE}
+	), 
+	
+	VTK_DAM(
+		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.REPLICATE},
+		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.REPLICATE}
+	),
+	
 	DAM (
 		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.REPLICATE},
 		new Permission[] {Permission.READ, Permission.LOCK, Permission.MODIFY, Permission.MODIFY_SELF, Permission.CREATE, Permission.DELETE, Permission.REPLICATE}
@@ -62,7 +72,12 @@ public enum DirectoryConfig {
 			"/etc/designs/girlscouts-usa-green",
 			"/etc/designs/girlscouts-usa-blue",
 			"/etc/designs/girlscouts",
-			"/etc/workflow/models"
+			"/etc/workflow/models",
+			
+			// VTK
+			"/content/vtkcontent/en/resources2",
+			"/content/dam-resources2/girlscouts-vtkcontent"
+			
 		).collect(Collectors.toList());
 	
 	public final static String GS_COMMON_AUTHOR_GROUP_FOLDER = "/home/groups/girlscouts-usa/gs-authors";

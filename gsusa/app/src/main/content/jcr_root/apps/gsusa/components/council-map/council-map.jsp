@@ -5,9 +5,9 @@
 String path = properties.get("path","");
 String imgPath = properties.get("imgPath","/content/dam/girlscouts-gsusa/images/misc/council-map.gif");
 
-if((path.equals("") || imgPath.equals("")) && WCMMode.fromRequest(request) == WCMMode.EDIT){
+if(path.equals("") || imgPath.equals("")){
 %>
-<p>Please select the results page</p>
+<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"><p>Please select the results page</p></div>
 <%
 }else if(!path.equals("") && !imgPath.equals("")){
 %>

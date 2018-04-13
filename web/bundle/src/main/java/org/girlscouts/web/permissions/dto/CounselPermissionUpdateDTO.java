@@ -5,6 +5,7 @@ public class CounselPermissionUpdateDTO {
 	private Boolean pathOverride;
 	private String reviewerGroupName, authorGroupName, counselName;
 	private String[] requestedFolders;
+	private Boolean allowRoot;
 	
 	public Boolean getPathOverride() {
 		return pathOverride;
@@ -44,6 +45,14 @@ public class CounselPermissionUpdateDTO {
 	
 	public void setRequestedFolders(String[] requestedFolders) {
 		this.requestedFolders = requestedFolders;
+	}
+
+	public Boolean getAllowRoot() {
+		return allowRoot;
+	}
+
+	public void setAllowRoot(Boolean allowRoot) {
+		this.allowRoot = allowRoot;
 	}
 
 }

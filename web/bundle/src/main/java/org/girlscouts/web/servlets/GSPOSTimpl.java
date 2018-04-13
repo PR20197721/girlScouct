@@ -1326,7 +1326,12 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     		jcrPD.setFilter(filter, false);
     		PrintWriter pkgout = new PrintWriter(System.out);
     		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
-		}catch(Exception e){
+		} catch(ItemExistsException ie) {
+			response = HtmlStatusResponseHelper.createStatusResponse(true,
+                    "Failed to create contact backup package due to recent run of contacts bulkeditor. Please try again in two minutes");
+			return response;
+		}
+    		catch(Exception e){
             response = HtmlStatusResponseHelper.createStatusResponse(true,
                     "Failed to create contact backup package due to " + e.getClass().getName() + " with message " + e.getMessage());
             

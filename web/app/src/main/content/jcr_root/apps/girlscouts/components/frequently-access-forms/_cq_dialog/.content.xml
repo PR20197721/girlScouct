@@ -25,9 +25,7 @@
                             <multi
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/multifield"
-                                fieldLabel="Links">
-                                <field/>
-                            </multi>
+                                fieldLabel="Links"/>
                         </items>
                     </columns>
                 </items>
