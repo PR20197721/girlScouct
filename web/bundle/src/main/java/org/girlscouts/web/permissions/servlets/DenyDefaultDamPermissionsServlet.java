@@ -19,9 +19,19 @@ public class DenyDefaultDamPermissionsServlet extends CounselPermissionActionSer
 
 	@Override
 	public List<CounselPermissionUpdate> getUpdates(){
-		List<CounselPermissionUpdate> returner = new ArrayList<>(2);
+		List<CounselPermissionUpdate> returner = new ArrayList<>(4);
 		returner.add((dto, tool) -> tool.denyRights(dto.getRequestedFolders()[0], CounselFolder.Role.AUTHOR, CounselFolder.Permission.READ));
 		returner.add((dto, tool) -> tool.denyRights(dto.getRequestedFolders()[0], CounselFolder.Role.REVIEWER, CounselFolder.Permission.READ));
+		returner.add((dto, tool) -> {
+			if(dto.getAllowRoot()) {
+				tool.addRights(dto.getRequestedFolders()[0], CounselFolder.Role.REVIEWER, CounselFolder.Permission.READ_SELF);
+			}
+		});
+		returner.add((dto, tool) -> {
+			if(dto.getAllowRoot()) {
+				tool.addRights(dto.getRequestedFolders()[0], CounselFolder.Role.AUTHOR, CounselFolder.Permission.READ_SELF);
+			}
+		});
 		return returner;
 	}
 

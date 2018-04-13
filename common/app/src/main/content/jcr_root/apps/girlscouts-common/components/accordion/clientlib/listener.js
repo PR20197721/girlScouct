@@ -68,7 +68,7 @@
 		var graniteEditables = Granite.author.editables;
         
         var editableArr = graniteEditables.filter(function(itm){
-        		return;
+        		return itm.type.indexOf('components/accordion') > -1;
         });
         
         var allEditableDoms = $();
@@ -82,10 +82,10 @@
 	    $('#OverlayWrapper').css({maxHeight: 1});
         
         var editableAndParents = graniteEditables.filter(function(itm){
-        		return editableOverlaysAndParentsDoms.toArray().filter(function(eapd){
-        			return eapd == itm.overlay.dom[0];
-        		});
-        });
+	    		return !!editableOverlaysAndParentsDoms.toArray().filter(function(eapd){
+	    			return eapd == itm.overlay.dom[0];
+	    		}).length;
+	    });
         
         for(var i = 0; i < editableAndParents.length; i++){
             var editable = editableAndParents[i];

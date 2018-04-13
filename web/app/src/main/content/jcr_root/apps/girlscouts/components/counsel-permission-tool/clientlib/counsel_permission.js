@@ -139,7 +139,8 @@ $(function(){
 									pathOverride: false,
 									reviewerGroupName: 'gs-reviewers',
 									authorGroupName: 'gs-authors',
-									counselName: 'common-counsel'
+									counselName: 'common-counsel',
+									allowRoot: true
 								})
 							}
 						}).then(function(responseJson){

@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
+import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
@@ -159,7 +160,7 @@ public class ContentCounselRetriever {
 	public String getDamRootDirectoryPermissionStatus() throws CounselPermissionModificationException{
 		if(damRootNodeState == null) {
 			try {
-				damRootNodeState = loadRootDirectoryPermissionStatus(BASE_DAM_PATH);
+				damRootNodeState = loadRootDirectoryPermissionStatus(BASE_DAM_PATH, false);
 			}catch (RepositoryException re) {
 				damRootNodeState = "None";
 			}
@@ -170,7 +171,7 @@ public class ContentCounselRetriever {
 	public String getVtkResourcesDirectoryPermissionStatus() throws CounselPermissionModificationException{
 		if(vtkResourcesPermissionSetting == null) {
 			try {
-				vtkResourcesPermissionSetting = loadRootDirectoryPermissionStatus(VTK_RESOURCES_PATH);
+				vtkResourcesPermissionSetting = loadRootDirectoryPermissionStatus(VTK_RESOURCES_PATH, true);
 			}catch (RepositoryException re) {
 				vtkResourcesPermissionSetting = "None";
 			}
@@ -178,7 +179,7 @@ public class ContentCounselRetriever {
 		return vtkResourcesPermissionSetting;
 	}
 	
-	private String loadRootDirectoryPermissionStatus(String directoryPath) throws PathNotFoundException, RepositoryException {
+	private String loadRootDirectoryPermissionStatus(String directoryPath, boolean allowSelf) throws PathNotFoundException, RepositoryException {
 		
 		Node damPolicyNode = adminSession.getNode(directoryPath + "/rep:policy");
 		NodeIterator damPolicyNodeIterator = damPolicyNode.getNodes();
@@ -199,14 +200,29 @@ public class ContentCounselRetriever {
 							
 							// Found a valid read permission for author / reviewer.  Check the type to see if it's a grant or deny\
 							String nodeType = damPolicyChild.getPrimaryNodeType().toString();
+
+							String restrictions = "";
+							if(damPolicyChild.hasNode("rep:restrictions")) {
+								Node restrictionsNode = damPolicyChild.getNode("rep:restrictions");
+								if(restrictionsNode.hasProperty("rep:glob")) {
+									Property restrictionsProperty = restrictionsNode.getProperty("rep:glob");
+									if(restrictionsProperty != null) {
+										restrictions = restrictionsProperty.getString();
+									}
+								}
+							}
+							
 							if(nodeType.equals("rep:GrantACE")) {
-								hasExplicitPermission = true;
+								if(allowSelf && "\"\"".equals(restrictions)) {
+									// Don't break here if we are allowing self.
+									continue;
+								}else {
+									hasExplicitPermission = true;
+								}
 							}else if(nodeType.equals("rep:DenyACE")) {
 								hasExplicitDeny = true;
 							}
 							
-							// We found our permission, break out.
-							break;
 						}
 					}
 				}

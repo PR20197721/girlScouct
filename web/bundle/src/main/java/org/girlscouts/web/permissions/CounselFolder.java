@@ -28,6 +28,7 @@ public class CounselFolder {
 	
 	public enum Permission { 
 		READ(new String[] {"jcr:read"}), 
+		READ_SELF(new String[] {"jcr:read"}, getRestrictionMap("rep:glob", "\"\"")),
 		LOCK(new String[] {"jcr:lockManagement"}), 
 		MODIFY(new String[] {"jcr:lockManagement", "jcr:modifyProperties", "jcr:versionManagement"}), 
 		MODIFY_SELF(new String[] {"jcr:addChildNodes", "jcr:nodeTypeManagement", "jcr:removeChildNodes", "jcr:removeNode"}, getRestrictionMap("rep:glob", "*/jcr:content*")), 
