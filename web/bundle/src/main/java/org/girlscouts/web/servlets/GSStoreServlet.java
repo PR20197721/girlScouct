@@ -222,7 +222,7 @@ public class GSStoreServlet
             		Node contentBaseNode = null;
             		Resource contentResource = rr.getResource(contentPath);
             		if(contentResource == null) {
-            			contentBaseNode = this.getFormStorageNode(rr.getResource("/content/usergenrated").adaptTo(Node.class), contentPath);
+            			contentBaseNode = getFormStorageNode(rr.getResource("/content/usergenerated").adaptTo(Node.class), contentPath);
             		} else {
             			contentBaseNode = contentResource.adaptTo(Node.class);
             		}
@@ -234,14 +234,22 @@ public class GSStoreServlet
             		Enumeration<String> names = request.getParameterNames();
             		while(names.hasMoreElements()) {
             			String n = names.nextElement();
+            			log.error("################PARAM NAME IS: " + n);
+            			
             			if(!n.contains(":") && !n.equals("_charset_")) {
             				RequestParameter param = request.getRequestParameter(n);
             				if(param.getContentType() == null) {
             					String val = param.getString();
             			
             					submissionNode.setProperty(n,val);
+            				} else {
+            					if(param.getSize() > 0) {
+            						String val = param.getFileName();
+            						submissionNode.setProperty(n, val);
+            					}
             				}
             			}
+            			
             			
             		}
             		log.error("Submission Node path is: " + submissionNode.getPath());
@@ -273,12 +281,13 @@ public class GSStoreServlet
                 // now add form fields to message
             // and uploads as attachments
             Map<String, List<String>> formFields = new HashMap<String,List<String>>();
+            final List<RequestParameter> attachments = new ArrayList<RequestParameter>();
             for (final String name : namesList) {
                 final RequestParameter rp = request.getRequestParameter(name);
                 if (rp == null) {
                     //see Bug https://bugs.day.com/bugzilla/show_bug.cgi?id=35744
                     logger.debug("skipping form element {} from mail content because it's not in the request", name);
-                } else if (rp.isFormField() && rp.getContentType() == null) {
+                } else if (rp.isFormField()) {
                 		
                     final String[] pValues = request.getParameterValues(name);
                     for (final String v : pValues) {
@@ -290,6 +299,9 @@ public class GSStoreServlet
                     		formFields.get(name).add(v);
                     	}
                     }
+                } else if(rp.getSize() > 0) {
+                		log.error("Attachments: " + rp.getFileName());
+                		attachments.add(rp);
                 } else {
                     //ignore
                 }
@@ -302,7 +314,7 @@ public class GSStoreServlet
             	final HtmlEmail confEmail;
             	confEmail = new HtmlEmail();
                 confEmail.setCharset("utf-8");
-                String confBody = getTemplate(request, values, formFields, confEmail, rr);
+                String confBody = getTemplate(request, values, formFields, confEmail, rr, attachments);
                 log.error("###########CONF BODY" + confBody);
                 if(!("").equals(confBody)){
                     confEmail.setHtmlMsg(confBody);
@@ -327,6 +339,12 @@ public class GSStoreServlet
                     if (this.logger.isDebugEnabled()) {
                         this.logger.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
                                 new Object[]{confFromAddress, confirmationEmailAddresses, confSubject, confBody});
+                    }
+                    if(!attachments.isEmpty()) {
+                    		for(RequestParameter rp : attachments) {
+                    			final ByteArrayDataSource ea = new ByteArrayDataSource(rp.getInputStream(), rp.getContentType());
+                    			confEmail.attach(ea, rp.getFileName(), rp.getFileName());
+                    		}
                     }
                     localService.sendEmail(confEmail);
                 }else{
@@ -360,21 +378,29 @@ public class GSStoreServlet
         response.setStatus(status);
     }
 
-    public String getTemplate(SlingHttpServletRequest request, ValueMap values, Map<String,List<String>> formFields, HtmlEmail confEmail, ResourceResolver rr){
+    public String getTemplate(SlingHttpServletRequest request, ValueMap values, Map<String,List<String>> formFields, HtmlEmail confEmail, ResourceResolver rr, List<RequestParameter> attachments){
     	try{
     		String templatePath = values.get(TEMPLATE_PATH_PROPERTY, "/content/girlscouts-template/en/email-templates/default-template");
     		ResourceResolver resourceResolver = request.getResourceResolver();
     		Resource templateResource = resourceResolver.resolve(templatePath);
     		Resource dataResource = templateResource.getChild("jcr:content/data");
     		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
-    		String base =  "The following fields and values were submitted for form: " + request.getParameter(":formid") +  " <br/>";
+    		String base =  "The following fields and values were submitted for form: " + request.getParameter(":formid") +  "<br/> \n";
     		for(String key: formFields.keySet()) {
     			List<String> lvalues = formFields.get(key);
     			String valstring = "";
     			for(String lval : lvalues) {
     				valstring = valstring.concat(lval + " ");
     			}
-    			base = base.concat(" Name: " + key + " Value: " + valstring + " <br/>");
+    			base = base.concat(" Name: " + key + " Value: " + valstring + "<br/> \n");
+    			
+    			
+    		}
+    		if(!attachments.isEmpty()) {
+				base = base.concat("<br/> \n Attachments: <br/>\n");
+				for(RequestParameter rp : attachments) {
+					base = base.concat(rp.getFileName() + " <br/> \n");
+				}
     		}
     		String head = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + 
     				"<html xmlns=\"http://www.w3.org/1999/xhtml\">" + 

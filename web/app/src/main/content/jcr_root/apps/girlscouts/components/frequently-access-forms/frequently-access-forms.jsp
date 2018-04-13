@@ -1,11 +1,13 @@
-<%@page import="org.apache.commons.lang3.StringUtils"%>
-<%@ page import="com.day.cq.wcm.api.WCMMode, javax.jcr.Node,javax.jcr.NodeIterator,java.util.List,java.util.ArrayList" %>
+<%@ page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%><%
 %><%@include file="/libs/foundation/global.jsp"%>
+
+
 <%
-Node links = currentNode.getNode("links");
+String[] links = properties.get("links", String[].class);
 String freqTitle = properties.get("freq-title","");
+String path = "";
 if (freqTitle == null && links == null) {
 	%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
 }else {%>
@@ -17,34 +19,37 @@ if (freqTitle == null && links == null) {
 	 <div class="row">
 	   <div class="small-24 large-24 medium-24 columns">
 	    <div class="checkbox-grid">
-			<%
-			if(currentNode.hasNode("links")){				
-				NodeIterator iter = links.getNodes();
-			    while(iter.hasNext()){
-			    	String href = "";
-					Node linkNode = iter.nextNode();
-		    		String pdfTitle = linkNode.hasProperty("pdfTitle") ? linkNode.getProperty("pdfTitle").getString() : "";
-					String externalLink = linkNode.hasProperty("externalLink") ? linkNode.getProperty("externalLink").getString() : "";
-					String path = linkNode.hasProperty("path") ? linkNode.getProperty("path").getString() : "";
-					Boolean newWindow = linkNode.hasProperty("newWindow") ? linkNode.getProperty("newWindow").getBoolean() : Boolean.FALSE;
-					String target = newWindow ? "target=\"_self\"" :"target=\"_blank\"";
-					if(!externalLink.isEmpty()){
-						href = externalLink;
-					}
-					if(!StringUtils.isBlank(path)){
-						href = genLink(resourceResolver, path);						
-					}
-					%> <span><a href="<%= href %>" <%=target%>> <%= pdfTitle %></a></span><%
-			    }
+	   
+	  
+	<%
+	
+	if(links!=null){
+		for (int i = 0; i < links.length; i++) {
+	 		String[] values = links[i].split("\\|\\|\\|");
+			String label = values[0];
+			String externalLink = values.length>=2? values[1] : "" ;
+			String internalLink = values.length>=3 ? values[2] : "";
+			String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ? " target=\"_blank\"" : "";
+			if(!externalLink.isEmpty()){
+				path = externalLink;
 			}
-			%>
+			if(!internalLink.isEmpty()){
+				path = genLink(resourceResolver, internalLink);
+				
+			}
+		%>
+			<span><a href="<%= path %>" <%=newWindow%>><%= label %></a></span><%
+		}
+	}%>
 	    </div>
-	   </div>	 
+	   </div>
+	 
 	 </div> 
 	 <div class="row">
 	 	<div class="small-24 large-24 medium-24 columns">&nbsp;</div>
 	 </div>
 <%	
 }
+
 %>
 
