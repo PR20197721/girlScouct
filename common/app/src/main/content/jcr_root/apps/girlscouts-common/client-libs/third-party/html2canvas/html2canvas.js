@@ -6179,6 +6179,11 @@ var DocumentCloner = exports.DocumentCloner = function () {
         key: 'inlineFonts',
         value: function inlineFonts(document) {
             var _this2 = this;
+            
+            if(window.html2CanvasFontsInlined){
+            		return Promise.resolve([]);
+            }
+            window.html2CanvasFontsInlined = true;
 
             return Promise.all(Array.from(document.styleSheets).map(function (sheet) {
                 if (sheet.href) {
@@ -6554,41 +6559,66 @@ var getIframeDocumentElement = function getIframeDocumentElement(node, options) 
     }
 };
 
+var cloneIframeContainer = null;
 var createIframeContainer = function createIframeContainer(ownerDocument, bounds) {
-    var cloneIframeContainer = ownerDocument.createElement('iframe');
-
-    cloneIframeContainer.className = 'html2canvas-container';
-    cloneIframeContainer.style.visibility = 'hidden';
-    cloneIframeContainer.style.position = 'fixed';
-    cloneIframeContainer.style.left = '-10000px';
-    cloneIframeContainer.style.top = '0px';
-    cloneIframeContainer.style.border = '0';
-    cloneIframeContainer.width = bounds.width.toString();
-    cloneIframeContainer.height = bounds.height.toString();
-    cloneIframeContainer.scrolling = 'no'; // ios won't scroll without it
-    cloneIframeContainer.setAttribute(IGNORE_ATTRIBUTE, 'true');
-    if (!ownerDocument.body) {
-        return Promise.reject( true ? 'Body element not found in Document that is getting rendered' : '');
-    }
-
-    ownerDocument.body.appendChild(cloneIframeContainer);
-
-    return Promise.resolve(cloneIframeContainer);
+	if (!cloneIframeContainer || (window.top.document !== ownerDocument)) {
+	    var tempCloneIframeContainer = ownerDocument.createElement('iframe');
+	    tempCloneIframeContainer.className = 'html2canvas-container';
+	    tempCloneIframeContainer.style.visibility = 'hidden';
+	    tempCloneIframeContainer.style.position = 'fixed';
+	    tempCloneIframeContainer.style.left = '-10000px';
+	    tempCloneIframeContainer.style.top = '0px';
+	    tempCloneIframeContainer.style.border = '0';
+	    tempCloneIframeContainer.width = bounds.width.toString();
+	    tempCloneIframeContainer.height = bounds.height.toString();
+	    tempCloneIframeContainer.scrolling = 'no'; // ios won't scroll without it
+	    tempCloneIframeContainer.setAttribute(IGNORE_ATTRIBUTE, 'true');
+	    
+	    if(ownerDocument === window.top.document){
+	    		cloneIframeContainer = tempCloneIframeContainer;
+	    }
+	    
+	    if (!ownerDocument.body) {
+	    		console.error("You caused it!");
+	        return Promise.reject( true ? 'Body element not found in Document that is getting rendered' : '');
+	    }
+	
+	    ownerDocument.body.appendChild(tempCloneIframeContainer);
+	    return Promise.resolve(tempCloneIframeContainer);
+	}else{
+	    return Promise.resolve(cloneIframeContainer);
+	}
 };
 
 var iframeLoader = function iframeLoader(cloneIframeContainer) {
     var cloneWindow = cloneIframeContainer.contentWindow;
     var documentClone = cloneWindow.document;
 
-    return new Promise(function (resolve, reject) {
-        cloneWindow.onload = cloneIframeContainer.onload = documentClone.onreadystatechange = function () {
+    return new Promise(function (resolve, reject) {    	
+		function readyListeneriFrame() {
             var interval = setInterval(function () {
                 if (documentClone.body.childNodes.length > 0 && documentClone.readyState === 'complete') {
                     clearInterval(interval);
                     resolve(cloneIframeContainer);
+                    window.html2canvasWindowLoaded = true;
                 }
             }, 50);
-        };
+        }
+		
+		if(window.html2canvasWindowLoaded){
+			readyListeneriFrame();
+		}else{
+			if(cloneWindow.onload){
+				var oldOnLoad = cloneWindow.onload;
+				cloneWindow.onload = cloneIframeContainer.onload = documentClone.onreadystatechange = function(){
+					oldOnLoad();
+					readyListeneriFrame();
+				};
+			}else{
+				cloneWindow.onload = cloneIframeContainer.onload = documentClone.onreadystatechange = readyListeneriFrame;
+			}
+		}
+
     });
 };
 
@@ -6624,13 +6654,33 @@ var cloneWindow = exports.cloneWindow = function cloneWindow(ownerDocument, boun
                 return result;
             }) : result : Promise.reject( true ? 'Error finding the ' + referenceElement.nodeName + ' in the cloned document' : '');
         });
+        
+        
+        if(!window.html2canvasCloneExists){
+            documentClone.open();
+            documentClone.write(serializeDoctype(document.doctype) + '<html></html>');
+            // Chrome scrolls the parent document for some reason after the write to the cloned window???
+            restoreOwnerScroll(referenceElement.ownerDocument, scrollX, scrollY);
+            
+            documentClone.replaceChild(documentClone.adoptNode(cloner.documentElement), documentClone.documentElement);
+            //documentClone.replaceChild(documentClone.adoptNode(cloner.documentElement), documentClone.documentElement);
+            window.html2canvasCloneExists = true;
+            documentClone.close();
+        }
+        else{
+        		
+        		documentClone.body.parentNode.replaceChild(documentClone.adoptNode(cloner.documentElement.getElementsByTagName('body')[0]), documentClone.body);
+        	
+        		//documentClone.replaceChild(documentClone.adoptNode(cloner.documentElement.getElementsByTagName('body')[0]), documentClone.body);
+        		//documentClone.body.replaceWith(cloner.documentElement.getElementsByTagName('body')[0]); // Works.
+        }
 
-        documentClone.open();
-        documentClone.write(serializeDoctype(document.doctype) + '<html></html>');
-        // Chrome scrolls the parent document for some reason after the write to the cloned window???
-        restoreOwnerScroll(referenceElement.ownerDocument, scrollX, scrollY);
-        documentClone.replaceChild(documentClone.adoptNode(cloner.documentElement), documentClone.documentElement);
-        documentClone.close();
+//        documentClone.open();
+//        documentClone.write(serializeDoctype(document.doctype) + '<html></html>');
+//        // Chrome scrolls the parent document for some reason after the write to the cloned window???
+//        restoreOwnerScroll(referenceElement.ownerDocument, scrollX, scrollY);
+//        documentClone.replaceChild(documentClone.adoptNode(cloner.documentElement), documentClone.documentElement);
+//        documentClone.close();
 
         return iframeLoad;
     });

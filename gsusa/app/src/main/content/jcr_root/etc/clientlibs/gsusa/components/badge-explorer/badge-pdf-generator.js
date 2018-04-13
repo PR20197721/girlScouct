@@ -42,6 +42,9 @@ window.BadgePdfGenerator = (function(window, $, document){
 	
 	var defaultElementInitialized = new $.Deferred();
 	var pdfBadgeGridContainer;
+	
+	var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+	var safariStagingImages = $();
 
 	/*
 	 * Creates the default container appends to the body.
@@ -164,6 +167,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 		return html2canvas(canvasOutputElements[index], {
 			dpi: 192,
 			letterRendering: true,
+			removeContainer: false,
             scale: 1
 		}).then(function(canvas) {
 			var width = $(canvasOutputElements[index]).outerWidth(true);
@@ -172,12 +176,16 @@ window.BadgePdfGenerator = (function(window, $, document){
 			image.src = canvas.toDataURL('image/jpeg', 0.9);
 			images.push(image);
 			
-			var imageTestContainer = $('.ImageTestContainer');
-			if(imageTestContainer.length < 1){
-				imageTestContainer = $('<div>').addClass('ImageTestContainer').appendTo('body');
+			// Safari will distort images that haven't been on the screen yet.
+			if(is_safari){
+				var imageTestContainer = $('.ImageTestContainer');
+				if(imageTestContainer.length < 1){
+					imageTestContainer = $('<div>').addClass('ImageTestContainer').appendTo('body');
+					safariStagingImages = safariStagingImages.add(imageTestContainer)
+				}
+				imageTestContainer.append(image);
 			}
-			imageTestContainer.append(image);
-			
+
 			return processCanvasElement(canvasOutputElements, index +1, images);
 		});
 	};
@@ -205,7 +213,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 		var doc = new jsPDF({format: 'letter', unit: 'in'});
 		var headerElements = processedImages.splice(0, 3);
 		var totalHeaderHeight = appendHeaderElements(headerElements, doc);
-		
+
 		var currentTop = totalHeaderHeight;
 		BadgePdfLoadingWidget.updateProgress(1, 'Finalizing...');
 		for(var i = 0; i < processedImages.length; i++){
@@ -225,6 +233,11 @@ window.BadgePdfGenerator = (function(window, $, document){
 		
 		doc.save('BadgesReport.pdf');
 		$('footer').show();
+
+		if(is_safari){
+			safariStagingImages.remove();
+			safariStagingImages = $();
+		}
 	};
 
 	// Init on dom load.
