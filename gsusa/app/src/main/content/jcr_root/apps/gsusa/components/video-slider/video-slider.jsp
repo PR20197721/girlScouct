@@ -5,7 +5,9 @@
 				java.util.regex.*,
 				java.net.*,
 				java.util.Random,
-				com.day.cq.wcm.api.WCMMode" %>
+				com.day.cq.wcm.api.WCMMode,
+				java.util.ArrayList,
+				java.util.List" %>
 <%@page session="false" %>
 
 <%!
@@ -108,7 +110,38 @@ public  String readUrlFile(String urlString) throws Exception {
 %>
     
 <%
-String[] links = properties.get("links", String[].class);
+
+ List<String> linksList = new ArrayList<String>();
+	if(currentNode.hasNode("carouselList")){
+        Node links = currentNode.getNode("carouselList");
+        NodeIterator iter = links.getNodes();
+        while(iter.hasNext()){
+            Node linkNode = iter.nextNode();
+            String title = "";
+            if(linkNode.hasProperty("title")){
+                title = linkNode.getProperty("title").getString();
+            }
+
+            String imagepath = "";
+            if(linkNode.hasProperty("imagepath")){
+                imagepath = linkNode.getProperty("imagepath").getString();
+            }
+
+
+			String listItem = title + "|||" + imagepath;
+            linksList.add(listItem);
+
+    
+        }
+	}
+
+
+String[] links = new String[0];
+if(!linksList.isEmpty()){
+	links = linksList.toArray(new String[0]);
+} else{
+	links = properties.get("links", String[].class);
+}
 
 JSONObject slickOptions = new JSONObject();
 slickOptions.put("autoplay", properties.get("autoscroll", false));
