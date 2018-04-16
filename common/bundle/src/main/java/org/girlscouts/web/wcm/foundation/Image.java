@@ -9,18 +9,18 @@ import org.slf4j.LoggerFactory;
 
 import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.api.Rendition;
+import com.day.cq.dam.api.RenditionPicker;
 
 public class Image extends com.day.cq.wcm.foundation.Image {
 	
 	private static Logger log = LoggerFactory.getLogger(Image.class);
-	private static final String DEFAULT_RENDITION = "cq5dam.web.1280.1280";
+	protected static final String DEFAULT_RENDITION = "cq5dam.web.1280.1280";
 	
 	public Image(Resource resource) {
         super(resource);
     }
 	
-	protected Resource getReferencedResource(String path)
-	{
+	protected Resource getReferencedResource(String path) {
 		String resourcePath = getResource().getPath();
 
         String CONTENT_MATCH = "jcr:content/content/";
@@ -46,27 +46,33 @@ public class Image extends com.day.cq.wcm.foundation.Image {
                 imageVar = "top";
             }
         }
-        
-        String[] targetRenditions = null;
-    	if (this.getClass() == RetinaImage.class) {
-       		targetRenditions = new String[]{"cq5dam.npd." + imageVar + "@2x", DEFAULT_RENDITION};
-    	} else {
-    		targetRenditions = new String[]{"cq5dam.npd." + imageVar, DEFAULT_RENDITION};
-    	}
 
         Resource res = rr.getResource(path);
         if (res != null) {
             if (res.adaptTo(Asset.class) != null) {
                 Rendition rendition = null;
                 if (getCropRect() != null) {
-                    rendition = ((Asset)res.adaptTo(Asset.class)).getRendition(new GSRenditionPicker(DEFAULT_RENDITION));
+                    rendition = ((Asset)res.adaptTo(Asset.class)).getRendition(getRenditionPicker(imageVar));
                 } else {
-
-                	rendition = ((Asset)res.adaptTo(Asset.class)).getRendition(new GSRenditionPicker(targetRenditions));
+                		rendition = ((Asset)res.adaptTo(Asset.class)).getRendition(getRenditionPicker(imageVar));
                 }
                 res = null != rendition ? (Resource)rendition.adaptTo(Resource.class) : null;
             }
         }
         return res;
+	}
+	
+	public RenditionPicker getRenditionPicker(String imageVar) {
+	    	if (getCropRect() != null) {
+            return new GSRenditionPicker(DEFAULT_RENDITION);
+        } else {
+            String[] targetRenditions = null;
+	    	    	if (this.getClass().equals(RetinaImage.class)) {
+	    	       		targetRenditions = new String[]{"cq5dam.npd." + imageVar + "@2x", DEFAULT_RENDITION};
+	    	    	} else {
+	    	    		targetRenditions = new String[]{"cq5dam.npd." + imageVar, DEFAULT_RENDITION};
+	    	    	}
+        		return new GSRenditionPicker(targetRenditions);
+        }
 	}
 }

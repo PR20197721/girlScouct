@@ -1,6 +1,5 @@
 package org.girlscouts.web.wcm.foundation;
 
-
 import java.util.List;
 
 import org.apache.jackrabbit.util.Text;
@@ -80,8 +79,8 @@ public class GSRenditionPicker implements RenditionPicker {
 	{
 		List<Rendition> renditions = asset.getRenditions();
         for (String targetRendition : targetRenditions) {
-        	String councilRendition = this.getCouncilAnalog(targetRendition);
-        	for (Rendition rendition: renditions) {
+	        	String councilRendition = this.getCouncilAnalog(targetRendition);
+	        	for (Rendition rendition: renditions) {
                 if (Text.getName(rendition.getPath()).startsWith(councilRendition)) {
 					return rendition;
                 }
