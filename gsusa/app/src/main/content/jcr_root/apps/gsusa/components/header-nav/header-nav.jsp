@@ -4,80 +4,71 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%
-	final String[] navs = properties.get("navs", String[].class);
-	List<String> labels = new ArrayList<String>();
-	List<String> mediumLabels = new ArrayList<String>();
-	List<String> smallLabels = new ArrayList<String>();
-	List<String> links = new ArrayList<String>();
-
-	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
-
-	StringBuilder sb = new StringBuilder();
-	
+if(currentNode.hasNode("navs")){
+	Node navs = currentNode.getNode("navs");
+    NodeIterator iter = navs.getNodes();
+    List<String> labels = new ArrayList<String>();
+    List<String> mediumLabels = new ArrayList<String>();
+    List<String> smallLabels = new ArrayList<String>();
+    List<String> links = new ArrayList<String>();
+    String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
+	StringBuilder sb = new StringBuilder();	
 	request.setAttribute("fromHeaderNav", "true");
-	if (navs != null) {
-%>
+	%>
 	<nav class="top-bar show-for-medium-up columns small-24" data-topbar role="navigation">
 		<section class="top-bar-section">
 			<ul>
-<%
-		for (int i = 0; i < navs.length; i++) {
-			String[] split = navs[i].split("\\|\\|\\|");
-			String label = split.length >= 1 ? split[0] : "";
-			String link = split.length >= 2 ? split[1] : "";
-			String mediumLabel = split.length >= 4 ? split[3] : label;
-			boolean hideInDesktop = split.length >= 6 ? Boolean.parseBoolean(split[5]) : false;
-			boolean openInNewWindow = split.length >= 9 ? Boolean.parseBoolean(split[8]) : false;
-			String target = "";
-			int headerNavTabindex = 40 + i;
-			String activeClass = "";
-
-			mediumLabel = mediumLabel.isEmpty() ? label : mediumLabel;
-
-			if (openInNewWindow) { 
-				target = "target=\"_blank\"";
-			}
-						
-			String topPath = rePath(split[1],4);
-						
-			Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
-			if(!resourceResolver.resolve(link).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-				if (linkPage != null && !link.contains(".html")) {
-					link += ".html";
-				}
+			<%
+		    while(iter.hasNext()){
+				Node linkNode = iter.nextNode();
+				String largeLabel = linkNode.hasProperty("large-label") ? linkNode.getProperty("large-label").getString() : "";
+				String mediumLabel = linkNode.hasProperty("medium-label") ? linkNode.getProperty("medium-label").getString() : "";
+				String smallLabel = linkNode.hasProperty("small-label") ? linkNode.getProperty("small-label").getString() : "";
+				String clazz = linkNode.hasProperty("class") ? linkNode.getProperty("class").getString() : "";
+				String path = linkNode.hasProperty("path") ? linkNode.getProperty("path").getString() : "";
+				Boolean hideInDesktop = linkNode.hasProperty("hide-in-desktop") ? linkNode.getProperty("hide-in-desktop").getBoolean() : false;
+				Boolean hideInMobile = linkNode.hasProperty("hide-in-mobile") ? linkNode.getProperty("hide-in-mobile").getBoolean() : false;
+				Boolean rootLandingPage = linkNode.hasProperty("root-landing-page") ? linkNode.getProperty("root-landing-page").getBoolean() : false;
+				Boolean newWindow = linkNode.hasProperty("new-window") ? linkNode.getProperty("new-window").getBoolean() : false;
 				
-				// if (currentPage.getPath().startsWith(linkPage.getPath() + "/")) {
-				if (currentPage.getPath().startsWith(topPath)) {
-					activeClass = "active";					
+				mediumLabel = mediumLabel.isEmpty() ? largeLabel : mediumLabel;
+				
+				String target = newWindow ? "target=\"_blank\"" : "target=\"_self\"";
+				long headerNavTabindex = 40 + iter.getPosition();
+				String topPath = rePath(path,4);
+				String activeClass = "";
+				Page linkPage = resourceResolver.resolve(path).adaptTo(Page.class);
+				if(!resourceResolver.resolve(path).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					if (linkPage != null && !path.contains(".html")) {
+						path += ".html";
+					}
+					if (currentPage.getPath().startsWith(topPath)) {
+						activeClass = "active";					
+					}
 				}
-			}
-
-			if (!label.isEmpty() && !hideInDesktop) {
-				if (activeClass.equals("")) { %>
-					<li id="tag_topnav_<%= linkifyString(label, 25)%>">
-				<% } else {%>
-					<li id="tag_topnav_<%= linkifyString(label, 25)%>" class="<%=activeClass%>">
-				<%}
-%>
-                 <% if (link.indexOf("http:") != -1 || link.indexOf("https:") != -1) { %>
-                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
-                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
-                 <% } else { %>
-                   <a <%= target %> class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
-                   <a <%= target %> class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
-                 <% } %>
-			  </li>
-<%
-			}
-		}
-%>
+				if (!largeLabel.isEmpty() && !hideInDesktop) {
+					if (activeClass.equals("")) { %>
+						<li id="tag_topnav_<%= linkifyString(largeLabel, 25)%>">
+					<% } else {%>
+						<li id="tag_topnav_<%= linkifyString(largeLabel, 25)%>" class="<%=activeClass%>">
+					<%}
+					if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) { %>
+	                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-large-up" href="<%= path %>" title="<%= largeLabel %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
+	                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
+	                <% } else { %>
+	                   <a <%= target %> class="show-for-large-up" href="<%= path %>" title="<%= path %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
+	                   <a <%= target %> class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
+	                <% } %>
+				  </li>
+				<%
+				}
+		    }
+			%>
 			</ul>
 		</section>
 		<%= sb.toString() %>
 	</nav>
-
-
-<!-- OFF CANVAS MENU BAR -->
+	<!-- OFF CANVAS MENU BAR -->
 	<nav class="tab-bar hide-for-medium-up"><%
         String imgAlt = properties.get("imageAlt", "");
         String headerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/header-nav";  
@@ -105,34 +96,28 @@
 		</section>
 	</nav>
     <div class="tab-bar-placeholder"></div>
-<!-- END NAV.TAB-BAR HIDE-FOR-LARGE-UP -->
+	<!-- END NAV.TAB-BAR HIDE-FOR-LARGE-UP -->
 
 	<!--  OFF CANVAS -->
-	<cq:include path="./off-canvas-nav" resourceType="gsusa/components/off-canvas-nav" />
+	<%-- <cq:include path="./off-canvas-nav" resourceType="gsusa/components/off-canvas-nav" />--%>
 <%
 	request.removeAttribute("fromHeaderNav");
-
-	} else if (WCMMode.fromRequest(request) == WCMMode.EDIT){
+} else if (WCMMode.fromRequest(request) == WCMMode.EDIT){
 		%>Double click here to edit header navigation.<%
-	}
+}
 %>
 
 <%! 
-
 	public String rePath(String path, int level) {
-		
 		String[] array = path.split("/");
-		level++;
-		
+		level++;	
 		if ((level > array.length) || (level <= 0)) {
 			level = array.length;
 		}
-		
 		StringBuilder newPath = new StringBuilder();    	
 		for (int i = 1; i < level; i++) {    		
 			newPath.append("/"+array[i]);	    		
 		}  	    	
-		
 		return newPath.toString();
 	}
 
