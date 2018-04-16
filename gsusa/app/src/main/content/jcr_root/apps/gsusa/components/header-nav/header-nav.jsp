@@ -20,48 +20,52 @@ if(currentNode.hasNode("navs")){
 			<ul>
 			<%
 		    while(iter.hasNext()){
-				Node linkNode = iter.nextNode();
-				String largeLabel = linkNode.hasProperty("large-label") ? linkNode.getProperty("large-label").getString() : "";
-				String mediumLabel = linkNode.hasProperty("medium-label") ? linkNode.getProperty("medium-label").getString() : "";
-				String smallLabel = linkNode.hasProperty("small-label") ? linkNode.getProperty("small-label").getString() : "";
-				String clazz = linkNode.hasProperty("class") ? linkNode.getProperty("class").getString() : "";
-				String path = linkNode.hasProperty("path") ? linkNode.getProperty("path").getString() : "";
-				Boolean hideInDesktop = linkNode.hasProperty("hide-in-desktop") ? linkNode.getProperty("hide-in-desktop").getBoolean() : false;
-				Boolean hideInMobile = linkNode.hasProperty("hide-in-mobile") ? linkNode.getProperty("hide-in-mobile").getBoolean() : false;
-				Boolean rootLandingPage = linkNode.hasProperty("root-landing-page") ? linkNode.getProperty("root-landing-page").getBoolean() : false;
-				Boolean newWindow = linkNode.hasProperty("new-window") ? linkNode.getProperty("new-window").getBoolean() : false;
-				
-				mediumLabel = mediumLabel.isEmpty() ? largeLabel : mediumLabel;
-				
-				String target = newWindow ? "target=\"_blank\"" : "target=\"_self\"";
-				long headerNavTabindex = 40 + iter.getPosition();
-				String topPath = rePath(path,4);
-				String activeClass = "";
-				Page linkPage = resourceResolver.resolve(path).adaptTo(Page.class);
-				if(!resourceResolver.resolve(path).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-					if (linkPage != null && !path.contains(".html")) {
-						path += ".html";
+		    	try{
+					Node linkNode = iter.nextNode();
+					String largeLabel = linkNode.hasProperty("large-label") ? linkNode.getProperty("large-label").getString() : "";
+					String mediumLabel = linkNode.hasProperty("medium-label") ? linkNode.getProperty("medium-label").getString() : "";
+					String smallLabel = linkNode.hasProperty("small-label") ? linkNode.getProperty("small-label").getString() : "";
+					String clazz = linkNode.hasProperty("class") ? linkNode.getProperty("class").getString() : "";
+					String path = linkNode.hasProperty("path") ? linkNode.getProperty("path").getString() : "";
+					Boolean hideInDesktop = linkNode.hasProperty("hide-in-desktop") ? linkNode.getProperty("hide-in-desktop").getBoolean() : false;
+					Boolean hideInMobile = linkNode.hasProperty("hide-in-mobile") ? linkNode.getProperty("hide-in-mobile").getBoolean() : false;
+					Boolean rootLandingPage = linkNode.hasProperty("root-landing-page") ? linkNode.getProperty("root-landing-page").getBoolean() : false;
+					Boolean newWindow = linkNode.hasProperty("new-window") ? linkNode.getProperty("new-window").getBoolean() : false;
+					
+					mediumLabel = mediumLabel.isEmpty() ? largeLabel : mediumLabel;
+					
+					String target = newWindow ? "target=\"_blank\"" : "target=\"_self\"";
+					long headerNavTabindex = 40 + iter.getPosition();
+					String topPath = rePath(path,4);
+					String activeClass = "";
+					Page linkPage = resourceResolver.resolve(path).adaptTo(Page.class);
+					if(!resourceResolver.resolve(path).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+						if (linkPage != null && !path.contains(".html")) {
+							path += ".html";
+						}
+						if (currentPage.getPath().startsWith(topPath)) {
+							activeClass = "active";					
+						}
 					}
-					if (currentPage.getPath().startsWith(topPath)) {
-						activeClass = "active";					
+					if (!largeLabel.isEmpty() && !hideInDesktop) {
+						if (activeClass.equals("")) { %>
+							<li id="tag_topnav_<%= linkifyString(largeLabel, 25)%>">
+						<% } else {%>
+							<li id="tag_topnav_<%= linkifyString(largeLabel, 25)%>" class="<%=activeClass%>">
+						<%}
+						if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) { %>
+		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-large-up" href="<%= path %>" title="<%= largeLabel %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
+		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
+		                <% } else { %>
+		                   <a <%= target %> class="show-for-large-up" href="<%= path %>" title="<%= path %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
+		                   <a <%= target %> class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
+		                <% } %>
+					  </li>
+					<%
 					}
-				}
-				if (!largeLabel.isEmpty() && !hideInDesktop) {
-					if (activeClass.equals("")) { %>
-						<li id="tag_topnav_<%= linkifyString(largeLabel, 25)%>">
-					<% } else {%>
-						<li id="tag_topnav_<%= linkifyString(largeLabel, 25)%>" class="<%=activeClass%>">
-					<%}
-					if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) { %>
-	                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-large-up" href="<%= path %>" title="<%= largeLabel %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
-	                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
-	                <% } else { %>
-	                   <a <%= target %> class="show-for-large-up" href="<%= path %>" title="<%= path %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
-	                   <a <%= target %> class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
-	                <% } %>
-				  </li>
-				<%
-				}
+		    	}catch(Exception e){
+		    		e.printStackTrace();
+		    	}
 		    }
 			%>
 			</ul>
@@ -99,7 +103,7 @@ if(currentNode.hasNode("navs")){
 	<!-- END NAV.TAB-BAR HIDE-FOR-LARGE-UP -->
 
 	<!--  OFF CANVAS -->
-	<%-- <cq:include path="./off-canvas-nav" resourceType="gsusa/components/off-canvas-nav" />--%>
+	<cq:include path="./off-canvas-nav" resourceType="gsusa/components/off-canvas-nav" />
 <%
 	request.removeAttribute("fromHeaderNav");
 } else if (WCMMode.fromRequest(request) == WCMMode.EDIT){
