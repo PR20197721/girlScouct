@@ -15,7 +15,7 @@
   <!-- ====================================================================== -->
   <artifactId>girlscouts-bundle</artifactId>
   <packaging>bundle</packaging>
-  <name>Girl Scouts USA Bundle</name>
+  <name>Girl Scouts Web Bundle</name>
   <repositories>
     <repository>
       <id>project.local</id>
@@ -73,10 +73,10 @@
       <artifactId>jcr</artifactId>
     </dependency>
 	<dependency>
-    <groupId>com.day.jcr.vault</groupId>
-    <artifactId>com.day.jcr.vault</artifactId>
-    <version>2.4.0</version>
-    <scope>provided</scope>
+	    <groupId>com.day.jcr.vault</groupId>
+	    <artifactId>com.day.jcr.vault</artifactId>
+	    <version>2.4.0</version>
+	    <scope>provided</scope>
 	</dependency>
     <dependency>
       <groupId>com.day.cq</groupId>
@@ -156,9 +156,9 @@
             <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
             <Import-Package>
               !com.google.common.reflect,
-	      !org.apache.avalon.framework.logger,
-	      !org.apache.log,
-              *
+		      !org.apache.avalon.framework.logger,
+		      !org.apache.log,
+	          *
             </Import-Package>
             <!-- Recursively embed dependency jars -->
             <Embed-Transitive>true</Embed-Transitive>

@@ -58,6 +58,7 @@
   </profiles>
   <!-- Remember to add sub module to the changeVersion profile above as well -->
   <modules>
+    <module>bundle</module>
     <module>app</module>
   </modules>
 </project>

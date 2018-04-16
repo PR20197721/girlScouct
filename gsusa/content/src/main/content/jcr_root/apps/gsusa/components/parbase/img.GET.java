@@ -30,7 +30,7 @@ import com.day.cq.wcm.api.WCMMode;
 import com.day.cq.wcm.commons.AbstractImageServlet;
 //import com.day.cq.wcm.foundation.Image;
 import org.girlscouts.web.gsusa.wcm.foundation.Image;
-import org.girlscouts.web.gsusa.wcm.foundation.RetinaImage;
+import org.girlscouts.web.wcm.foundation.RetinaImage;
 import com.day.image.Layer;
 
 /**
