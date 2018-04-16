@@ -7,7 +7,9 @@
                 java.net.*, 
                 org.apache.sling.api.request.RequestDispatcherOptions, 
                 com.day.cq.wcm.api.components.IncludeOptions, 
-                org.apache.sling.jcr.api.SlingRepository" %>
+                org.apache.sling.jcr.api.SlingRepository,
+				java.util.ArrayList,
+				java.util.List" %>
 <%@page session="false" %>
 <%!
 public String extractYTId(String ytUrl) {
@@ -52,7 +54,50 @@ public  String readUrlFile(String urlString) throws Exception {
 
 %>
 <%
-	final String[] carouselList = properties.get("carouselList", String[].class);
+    List<String> linksList = new ArrayList<String>();
+	if(currentNode.hasNode("carouselList")){
+        Node links = currentNode.getNode("carouselList");
+        NodeIterator iter = links.getNodes();
+        while(iter.hasNext()){
+            Node linkNode = iter.nextNode();
+            if(linkNode.hasProperty("title") 
+               && linkNode.hasProperty("imagepath")){
+                String title = linkNode.getProperty("title").getString();
+                String imagepath = linkNode.getProperty("imagepath").getString();
+
+                String link = "";
+                if(linkNode.hasProperty("link")){
+                    link = linkNode.getProperty("link").getString();
+                }
+
+                String alt = "";
+                if(linkNode.hasProperty("alt")){
+                    alt = linkNode.getProperty("alt").getString();
+                }
+
+                String newWindow = "";
+                if(linkNode.hasProperty("newWindow")){
+                    newWindow = linkNode.getProperty("newWindow").getString();
+                }
+
+                String tempHidden = "";
+                if(linkNode.hasProperty("tempHidden")){
+                    tempHidden = linkNode.getProperty("tempHidden").getString();
+                }
+
+				String listItem = title + "|||" + alt + "|||" + link + "|||" + imagepath + "|||" + newWindow + "|||" + tempHidden;
+                linksList.add(listItem);
+            }
+    
+        }
+	}
+	String[] carouselList = new String[0];
+	if(!linksList.isEmpty()){
+		carouselList = linksList.toArray(new String[0]);
+    } else{
+		carouselList = properties.get("carouselList", String[].class);
+    }
+
 	int numberOfImages = 0;
 	if (carouselList != null) {
 		numberOfImages = carouselList.length;

@@ -23,13 +23,63 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <text/>
-                            <multi
+                            <children
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/multifield"
-                                fieldLabel="Images/Videos">
-                                <field/>
-                            </multi>
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                composite="true"
+                                fieldDescription="Click Add to add a link to eyebrow nav"
+                                fieldLabel="Links">
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                                    class="coral-Table--bordered"
+                                    name="./carouselList">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <title
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                            fieldLabel="Title"
+                                            name="title"/>
+                                        <imagepath
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                            fieldLabel="Image Path"
+                                            name="imagepath"/>
+                                        <url
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                            fieldLabel="Link"
+                                            name="link"/>
+                                        <alt
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                            fieldLabel="Alt"
+                                            name="alt"/>
+                                        <newWindow
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                            name="newWindow"
+                                            text="Open In New Window"
+                                            value="true"/>
+                                        <newwindow-delete
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                            name="newWindow@Delete"
+                                            value="{Boolean}true"/>
+                                        <tempHidden
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                            name="tempHidden"
+                                            text="Temporarily Hidden"
+                                            value="true"/>
+                                        <tempHidden-delete
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                            name="tempHidden@Delete"
+                                            value="{Boolean}true"/>
+                                    </items>
+                                </field>
+                            </children>
                         </items>
                     </columns>
                 </items>
@@ -124,6 +174,72 @@
                                 max="10000"
                                 min="20"
                                 name="./homecarouselautoplayspeed"/>
+                            <desktop-section
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Video Player Config (Desktop)"
+                                sling:resourceType="granite/ui/components/foundation/form/fieldset">
+                                <layout
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                                <items jcr:primaryType="nt:unstructured">
+                                    <video-player-config-desktop
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Video Player Config (Desktop)"
+                                        sling:resourceType="granite/ui/components/foundation/form/radiogroup"
+                                        name="./videoConfigDesktop">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <nothumbnail
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/radio"
+                                                text="No Thumbnail (Default)"
+                                                value="default"/>
+                                            <thumbnail
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/radio"
+                                                text="Thumbnail (Lazy Load)"
+                                                value="thumbnail"/>
+                                            <opennewtab
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/radio"
+                                                text="Open in new tab"
+                                                value="link"/>
+                                        </items>
+                                    </video-player-config-desktop>
+                                </items>
+                            </desktop-section>
+                            <mobile-section
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Video Player Config (Mobile)"
+                                sling:resourceType="granite/ui/components/foundation/form/fieldset">
+                                <layout
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                                <items jcr:primaryType="nt:unstructured">
+                                    <video-player-config-mobile
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Video Player Config (Mobile)"
+                                        sling:resourceType="granite/ui/components/foundation/form/radiogroup"
+                                        name="./videoConfigMobile">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <nothumbnail
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/radio"
+                                                text="No Thumbnail (Default)"
+                                                value="default"/>
+                                            <thumbnail
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/radio"
+                                                text="Thumbnail (Lazy Load)"
+                                                value="thumbnail"/>
+                                            <opennewtab
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/radio"
+                                                text="Open in new tab"
+                                                value="link"/>
+                                        </items>
+                                    </video-player-config-mobile>
+                                </items>
+                            </mobile-section>
                         </items>
                     </columns>
                 </items>
@@ -144,7 +260,8 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./hideZIPCode"
-                                text="Hide ZIPCode"/>
+                                text="Hide ZIPCode"
+                                value="{Boolean}true"/>
                             <hidezipcode-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
