@@ -67,7 +67,7 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
 	$(document).ready(function() {
 		var scriptTag = document.createElement("script");
 		scriptTag.type = "text/javascript"
-		scriptTag.src="http://connect.facebook.net/en_US/all.js";
+		scriptTag.src="//connect.facebook.net/en_US/all.js";
 		scriptTag.async = true;
 		document.getElementsByTagName("head")[0].appendChild(scriptTag);
 

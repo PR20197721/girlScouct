@@ -43,7 +43,7 @@
 	String ogDescription = properties.get("ogDescription", "");
 	String ogImage = properties.get("ogImage", "");
 	if("".equals(ogImage)){
-		String pageImagePath = currentPage.getPath() + "jcr:content/image";
+		String pageImagePath = currentPage.getPath() + "/jcr:content/image";
 	    Session session = (Session)resourceResolver.adaptTo(Session.class);
 	    if (session.nodeExists(pageImagePath)) {
 	    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
