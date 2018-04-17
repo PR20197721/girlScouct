@@ -236,6 +236,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 			try {
 				rr.close();
 			} catch (Exception e) {
+
 			}
 		}
 	}
@@ -246,8 +247,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		}
 		return false;
 	}
-	
-	
+
 	@Deactivate
 	private void deactivate(ComponentContext componentContext) {
 		log.info("GS Page Rollout Service Deactivated.");
@@ -277,8 +277,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 						RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
 						RolloutConfig gsConfig = configMgr.getRolloutConfig(GS_ROLLOUT_CONFIG);
 						LiveRelationship newPageRelationship = relationManager.establishRelationship(srcPage, copyPage,
-								true,
-								false, gsConfig);
+								true, false, gsConfig);
 						String targetPath = newPageRelationship.getTargetPath();
 						cancelInheritance(rr, copyPage.getPath());
 						rolloutManager.rollout(rr, newPageRelationship, false);
@@ -330,7 +329,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 							Set<String> inheritedComponents = new HashSet<String>();
 							Set<String> notInheritedComponents = new HashSet<String>();
 							filterInheritedComponents(inheritedComponents, notInheritedComponents,
-									componentRelationsMap, targetPath, rolloutLog);
+									componentRelationsMap, targetPath, rolloutLog, rr);
 							if (notInheritedComponents.size() > 0) {
 								notifyCouncils.add(targetPath);
 							}
@@ -390,7 +389,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 				breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
 				if (breakInheritance) {
 					rolloutLog.add("Girlscouts Rollout Service: Resource at " + targetResourceContent.getPath()
-						+ " has parameter breakInheritance = " + breakInheritance);
+							+ " has parameter breakInheritance = " + breakInheritance);
 				}
 			} catch (Exception e) {
 				log.error("Girlscouts Rollout Service encountered error: ", e);
@@ -436,7 +435,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 	}
 
 	private void filterInheritedComponents(Set<String> inheritedComponents, Set<String> notInheritedComponents,
-			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> rolloutLog) {
+			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> rolloutLog,
+			ResourceResolver rr) {
 		log.error("Girlscouts Rollout Service: Filtering inherited components for {}.", targetPath);
 		rolloutLog.add("Girlscouts Rollout Service: Filtering inherited components for " + targetPath + ".");
 		Set<String> srcComponents = componentRelationsMap.keySet();
@@ -444,7 +444,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 			for (String component : srcComponents) {
 				log.error("Girlscouts Rollout Service: Checking inheritance for {}.", component);
 				rolloutLog.add("Girlscouts Rollout Service: Checking inheritance for " + component + ".");
-				if (isInheritanceBroken(targetPath, componentRelationsMap, component, rolloutLog)) {
+				if (isInheritanceBroken(targetPath, componentRelationsMap, component, rolloutLog, rr)) {
 					notInheritedComponents.add(component);
 					log.error(
 							"Girlscouts Rollout Service: Council {} has broken inheritance with template component at {}. Removing from RolloutParams.",
@@ -468,8 +468,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 					if (relationPath.startsWith(targetPath)) {
 						relationShipExists = true;
 						Resource targetComponentRes = rr.resolve(relationPath);
-						if (targetComponentRes != null && !targetComponentRes.getResourceType()
-								.equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+						if (targetComponentRes != null
+								&& !targetComponentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 							try {
 								Node componentNode = targetComponentRes.adaptTo(Node.class);
 								if (componentNode != null) {
@@ -700,9 +700,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
 	}
-	
-	private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog,
-			Boolean isTestMode, ResourceResolver rr) {
+
+	private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog, Boolean isTestMode,
+			ResourceResolver rr) {
 		Set<String> notifyCouncils = new TreeSet<String>();
 		String subject = DEFAULT_ROLLOUT_NOTIFICATION_SUBJECT;
 		String message = DEFAULT_ROLLOUT_NOTIFICATION_MESSAGE, templatePath = "", srcPath = "";
@@ -761,8 +761,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 									// get the email addresses configured in
 									// page properties of the council's homepage
 									Page homepage = rr.resolve(branch + "/en").adaptTo(Page.class);
-									toAddresses = PageReplicationUtil
-											.getCouncilEmails(homepage.adaptTo(Node.class));
+									toAddresses = PageReplicationUtil.getCouncilEmails(homepage.adaptTo(Node.class));
 									log.error("Girlscouts Rollout Service: sending email to " + branch.substring(9)
 											+ " emails:" + toAddresses.toString());
 									String body = PageReplicationUtil.generateCouncilNotification(srcPath, targetPath,
@@ -793,7 +792,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 									} catch (RepositoryException e1) {
 										log.error("Girlscouts Rollout Service encountered error: ", e1);
 									}
-									councilNotificationLog.add("Failed to send notification for " + String.valueOf(branch)
+									councilNotificationLog
+											.add("Failed to send notification for " + String.valueOf(branch)
 													+ " council to emails:" + String.valueOf(toAddresses));
 								}
 							}
