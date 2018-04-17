@@ -212,6 +212,7 @@ public class DeleteTemplatePageServiceImpl
 			try {
 				rr.close();
 			} catch (Exception e) {
+
 			}
 		}
 
@@ -238,7 +239,7 @@ public class DeleteTemplatePageServiceImpl
 							Set<String> inheritedComponents = new HashSet<String>();
 							Set<String> notInheritedComponents = new HashSet<String>();
 							filterInheritedComponents(inheritedComponents, notInheritedComponents,
-									componentRelationsMap, targetPath, deletionLog);
+									componentRelationsMap, targetPath, deletionLog, rr);
 							if (notInheritedComponents.size() > 0) {
 								notifyCouncils.add(targetPath);
 								deletionLog.add("Page " + targetPath + " was not added to deletion queue");
@@ -254,12 +255,12 @@ public class DeleteTemplatePageServiceImpl
 						deletionLog.add("Resource " + targetPath + " not found.");
 						deletionLog.add("Will NOT delete this page");
 					}
-				}
+					}
 			} catch (Exception e) {
 				log.error("Girlscouts Page Deletion Service encountered error: ", e);
 			}
+			}
 		}
-	}
 
 	private boolean isPageInheritanceBroken(Resource targetResource, List<String> deletionLog) {
 		try {
@@ -281,14 +282,15 @@ public class DeleteTemplatePageServiceImpl
 			log.error("Girlscouts Page Deletion Service encountered error: ", e);
 		}
 		return false;
-	}
+		}
 
 	private void filterInheritedComponents(Set<String> inheritedComponents, Set<String> notInheritedComponents,
-			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> rolloutLog) {
+			Map<String, Set<String>> componentRelationsMap, String targetPath, List<String> rolloutLog,
+			ResourceResolver rr) {
 		Set<String> srcComponents = componentRelationsMap.keySet();
 		if (srcComponents != null && srcComponents.size() > 0) {
 			for (String component : srcComponents) {
-				if (isInheritanceBroken(targetPath, componentRelationsMap, component, rolloutLog)) {
+				if (isInheritanceBroken(targetPath, componentRelationsMap, component, rolloutLog, rr)) {
 					notInheritedComponents.add(component);
 					log.error(
 							"Girlscouts Rollout Service: Council {} has broken inheritance with template component at {}. Removing from RolloutParams.",
@@ -299,8 +301,8 @@ public class DeleteTemplatePageServiceImpl
 					inheritedComponents.add(component);
 				}
 			}
+			}
 		}
-	}
 
 	private boolean isInheritanceBroken(String targetPath, Map<String, Set<String>> componentRelationsMap,
 			String component, List<String> deletionLog, ResourceResolver rr) {
@@ -329,20 +331,19 @@ public class DeleteTemplatePageServiceImpl
 												return true;
 											}
 										}
+										}
 									}
-								}
 							} catch (RepositoryException e) {
 								log.error("Girlscouts Page Deletion Service encountered error: ", e);
 							}
 						} else {
 							log.error("Girlscouts Page Deletion Service: Component at {} is not found.", relationPath);
-							deletionLog
-									.add("Girlscouts Page Deletion Service: Component at " + relationPath
-											+ " is not found.");
+							deletionLog.add("Girlscouts Page Deletion Service: Component at " + relationPath
+									+ " is not found.");
 							return true;
 						}
+						}
 					}
-				}
 				if (!relationShipExists) {
 					log.error(
 							"Girlscouts Page Deletion Service: Source Site Component {} does not have live sync relationship for {}.",
@@ -354,9 +355,9 @@ public class DeleteTemplatePageServiceImpl
 			} catch (Exception e1) {
 				log.error("Girlscouts Page Deletion Service encountered error: ", e1);
 			}
-		}
+			}
 		return false;
-	}
+		}
 
 	private Set<String> getComponents(Resource srcRes) {
 		Set<String> components = null;
@@ -380,8 +381,8 @@ public class DeleteTemplatePageServiceImpl
 					traverseNodeForComponents(it.next(), components);
 				}
 			}
+			}
 		}
-	}
 
 	private Map<String, Set<String>> getComponentRelations(Resource srcRes, List<String> deletionLog,
 			ResourceResolver rr) {
@@ -407,12 +408,12 @@ public class DeleteTemplatePageServiceImpl
 							componentRelationsMap.put(component, componentRelations);
 						}
 					} catch (Exception e) {
+						}
 					}
 				}
 			}
-		}
 		return componentRelationsMap;
-	}
+		}
 
 	private void sendGSUSANotifications(Node dateRolloutNode, List<String> rolloutLog,
 			List<String> councilNotificationLog, Boolean isTestMode, ResourceResolver rr) {
@@ -471,12 +472,12 @@ public class DeleteTemplatePageServiceImpl
 				templatePath = dateRolloutNode.getProperty(PARAM_TEMPLATE_PATH).getString();
 			} catch (Exception e) {
 				log.error("Girlscouts Page Deletion Service encountered error: ", e);
-			}
+				}
 			try {
 				srcPath = dateRolloutNode.getProperty(PARAM_SOURCE_PATH).getString();
 			} catch (Exception e) {
 				log.error("Girlscouts Page Deletion Service encountered error: ", e);
-			}
+				}
 			try {
 				councils = PageReplicationUtil.getCouncils(dateRolloutNode);
 			} catch (Exception e) {
@@ -529,8 +530,8 @@ public class DeleteTemplatePageServiceImpl
 		}
 	}
 
-	private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog,
-			Boolean isTestMode, ResourceResolver rr) {
+	private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog, Boolean isTestMode,
+			ResourceResolver rr) {
 		Set<String> notifyCouncils = new TreeSet<String>();
 		String subject = DEFAULT_DELETION_NOTIFICATION_SUBJECT;
 		String message = DEFAULT_DELETION_NOTIFICATION_MESSAGE, templatePath = "", srcPath = "";
@@ -623,15 +624,15 @@ public class DeleteTemplatePageServiceImpl
 									councilNotificationLog.add("Failed to send notification for " + branch
 											+ " council to emails:" + String.valueOf(toAddresses));
 								}
+								}
 							}
 						}
 					}
 				}
-			}
 		} catch (Exception e) {
 			log.error("Girlscouts Page Deletion Service encountered error: ", e);
 		}
-	}
+		}
 
 
 
@@ -647,4 +648,4 @@ public class DeleteTemplatePageServiceImpl
 		return false;
 	}
 
-}
+	}
