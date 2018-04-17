@@ -47,6 +47,7 @@ String q = request.getParameter("q");
 String offsetParam = request.getParameter("offset");
 String[] tags = request.getParameterValues("tags");
 String pagePath = properties.get("./form-document-path", "");
+String damPath = properties.get("./srchLocation", "");
 try{
 	offset=Integer.parseInt(offsetParam);
 }catch(Exception e){}
@@ -74,40 +75,41 @@ if (tags != null) {
 JSONObject json = new JSONObject();
 List<JSONObject> formsAndDocs = new ArrayList<JSONObject>();
 GSSearchResultManager gsResultManager = new GSSearchResultManager();
-String damPath = "#";
-HashMap<String,String> specialCouncils = new HashMap<String,String>();
-specialCouncils.put("gateway","gateway");
-specialCouncils.put("girlscoutcsa","southern-appalachian");
-specialCouncils.put("gsnetx","NE_Texas");
-specialCouncils.put("girlscoutsnccp","nc-coastal-pines-images-");
-specialCouncils.put("gswcf","wcf-images");
-specialCouncils.put("gssem","gssem");
-specialCouncils.put("gssjc","gssjc");
-specialCouncils.put("gswestok","gswestok");
-specialCouncils.put("girlscoutsaz","girlscoutsaz");
-specialCouncils.put("kansasgirlscouts","kansasgirlscouts");
-specialCouncils.put("gssnv","gssnv");
-specialCouncils.put("gswo","gswo");
-specialCouncils.put("girlscoutsosw","oregon-sw-washington-");
-specialCouncils.put("gskentuckiana","gskentuckiana");
-specialCouncils.put("girlscouts-dxp","dxp");
-specialCouncils.put("gssn","gssn");
-specialCouncils.put("gsneo","gsneo");
-specialCouncils.put("usagso","usagso");
-specialCouncils.put("girlscoutsofcolorado","girlscoutsofcolorado");
-specialCouncils.put("girlscoutstoday","girlscoutstoday");
-specialCouncils.put("gsbadgerland","gsbadgerland");
-specialCouncils.put("girlscoutsoc","girlscoutsoc");
-specialCouncils.put("gscsnj","gscsnj");
-
-damPath = "/content/dam/";
-Page rootPage = homepage.getAbsoluteParent(1);
-String rootPagePath = rootPage.getPath();
-String councilName = rootPagePath.substring(rootPagePath.lastIndexOf("/")+1,rootPagePath.length());
-if(specialCouncils.containsKey(councilName)){
-	damPath = damPath + specialCouncils.get(councilName);
-}else{
-	damPath = damPath + "girlscouts-" + councilName;
+if("".equals(damPath)){
+	HashMap<String,String> specialCouncils = new HashMap<String,String>();
+	specialCouncils.put("gateway","gateway");
+	specialCouncils.put("girlscoutcsa","southern-appalachian");
+	specialCouncils.put("girlscouts-future","girlscouts-future");
+	specialCouncils.put("girlscoutsaz","girlscoutsaz");
+	specialCouncils.put("girlscoutsnccp","nc-coastal-pines-images-");
+	specialCouncils.put("girlscoutsnv","gssnv");
+	specialCouncils.put("girlscoutsoc","girlscoutsoc");
+	specialCouncils.put("girlscoutsofcolorado","girlscoutsofcolorado");
+	specialCouncils.put("girlscoutsosw","oregon-sw-washington-");
+	specialCouncils.put("girlscoutstoday","girlscoutstoday");
+	specialCouncils.put("gsbadgerland","gsbadgerland");
+	specialCouncils.put("gscsnj","gscsnj");
+	specialCouncils.put("gskentuckiana","gskentuckiana");
+	specialCouncils.put("gsneo","gsneo");
+	specialCouncils.put("gsnetx","NE_Texas");
+	specialCouncils.put("gssem","gssem");
+	specialCouncils.put("gssjc","gssjc");
+	specialCouncils.put("gssn","gssn");
+	specialCouncils.put("gswcf","wcf-images");
+	specialCouncils.put("gswestok","gswestok");
+	specialCouncils.put("gswo","gswo");
+	specialCouncils.put("kansasgirlscouts","kansasgirlscouts");
+	specialCouncils.put("usagso","usagso");
+	specialCouncils.put("girlscouts-dxp","dxp");
+	damPath = "/content/dam/";
+	Page rootPage = homepage.getAbsoluteParent(1);
+	String rootPagePath = rootPage.getPath();
+	String councilName = rootPagePath.substring(rootPagePath.lastIndexOf("/")+1,rootPagePath.length());
+	if(specialCouncils.containsKey(councilName)){
+		damPath = damPath + specialCouncils.get(councilName) + "/documents";
+	}else{
+		damPath = damPath + "girlscouts-" + councilName + "/documents";
+	}
 }
 if((q!=null && q.length()>0) || (tagSet != null && tagSet.size()>0)){
 	try{
