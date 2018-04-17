@@ -1,3 +1,0 @@
-js/taginfo.js
-js/taginfo_events.js
-js/tagrefs.js

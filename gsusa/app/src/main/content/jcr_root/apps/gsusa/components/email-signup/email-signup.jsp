@@ -1,7 +1,8 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
-<%@page import="com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.Placeholder, java.util.Random"  %>
+<%@page import="com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.Placeholder, java.util.Random, com.day.cq.wcm.foundation.Image"  %>
 <%@page session="false" %>
+<%@ taglib prefix="gsc" uri="https://girlscouts.org/girlscouts-common/taglib"%>
 
 <%!
 public String generateId() {
@@ -42,20 +43,6 @@ String formID = "email_" + generateId();
 
 boolean topBorder = properties.get("topborder", false);
 boolean bottomBorder = properties.get("bottomborder", false);
-		
-Resource iconImage = resource.getChild("iconimage");
-String iconPath = "";
-if(iconImage != null) {
-	iconPath = ((ValueMap)iconImage.adaptTo(ValueMap.class)).get("fileReference", "");
-}
-Resource thankyouImage = resource.getChild("thankyouimage");
-String thankyouPath = "";
-if (thankyouImage != null) {
-	thankyouPath = ((ValueMap)thankyouImage.adaptTo(ValueMap.class)).get("fileReference", "");
-}
-
-
-
 
 %>
 
@@ -261,7 +248,7 @@ function validateEmail(email) {
 	    <div class="wrapper-inner clearfix">
 	      <form class="email-form" name="submit-email" id="<%= formID %>">
 	        <div class="left-image">
-	          <img src="<%= iconPath %>">
+				<gsc:image relativePath="iconimage/image" />
 	        </div>
 	        <div class="right-form">
 	          <div class="text">
@@ -275,7 +262,7 @@ function validateEmail(email) {
 	          <div class="form-wrapper clearfix">
 	            <input type="text" placeholder="<%= fieldText %>" maxlength="100" title="email address" class="email" name="email">
 	            <input type="submit" class="submit-button" value="<%= submitButtonText %>"/>
-	            <img class="success" src="<%= thankyouPath %>"> 
+				<gsc:image relativePath="thankyouimage/image" styleClass="success"/>
 	          </div>	          
 	        </div>            
 	      </form>

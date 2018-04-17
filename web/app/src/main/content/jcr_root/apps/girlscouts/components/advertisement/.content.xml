@@ -3,4 +3,4 @@
     jcr:description="Allows an Advertisement to be displayed on a page"
     jcr:primaryType="cq:Component"
     jcr:title="Advertisement"
-    componentGroup="Girl Scouts"/>
+    componentGroup=".hidden"/>

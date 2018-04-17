@@ -61,7 +61,7 @@ String ASSETS_EXPRESSION = "SELECT [jcr:score], [jcr:path], [jcr:primaryType] "+
 
 String SHARED_ASSETS_EXPRESSION = 	"SELECT [jcr:score], [jcr:path], [jcr:primaryType] "+
 									"FROM [dam:Asset] as s "+
-									"WHERE ISDESCENDANTNODE([/content/dam/girlscouts-shared/en/documents])"; 
+									"WHERE ISDESCENDANTNODE([/content/dam/girlscouts-shared/documents])"; 
 
 
 q = q==null ? "" : q.trim();

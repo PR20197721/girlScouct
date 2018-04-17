@@ -34,8 +34,14 @@
     final boolean hideTitle = properties.get("hideTitle", false);
     final String width = properties.get("width", String.class);
     final String confirmationEmail = properties.get("confirmationemail", String.class);
-    final int rows = xssAPI.getValidInteger(properties.get("rows", String.class), 1);
-    final int cols = xssAPI.getValidInteger(properties.get("cols", String.class), 35);
+    int rows = xssAPI.getValidInteger(properties.get("rows", String.class), 1);
+    int cols = xssAPI.getValidInteger(properties.get("cols", String.class), 35);
+	if(rows < 1){
+		rows = 1;
+	}
+	if(cols < 1){
+		cols = 35;
+	}
     String[] values = FormsHelper.getValues(slingRequest, resource);
     if (values == null) {
         values = new String[]{""};

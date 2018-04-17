@@ -23,7 +23,7 @@
         org.apache.sling.api.resource.ResourceResolver,
         java.net.URI,
         java.net.URISyntaxException,
-        com.day.cq.widget.HtmlLibraryManager,
+        com.adobe.granite.ui.clientlibs.HtmlLibraryManager,
 		java.util.ResourceBundle,
 		com.day.cq.i18n.I18n" %><%!
 

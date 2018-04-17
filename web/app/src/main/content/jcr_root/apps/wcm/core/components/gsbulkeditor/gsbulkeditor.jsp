@@ -32,7 +32,7 @@
 <head>
     <title>CQ5 BulkEditor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <cq:includeClientLib categories="cq.wcm.edit,cq.security,cq.tagging"/><%
+    <cq:includeClientLib categories="cq.wcm.edit,cq.security,cq.tagging,apps.girlscouts.authoring"/><%
         //accepted parameters: if name is null, short name is read from request.
         //search root path
         String rootPath = getString(request,"rootPath","rp");

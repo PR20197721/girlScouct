@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:unstructured"
-    sling:resourceType="cq/gui/components/authoring/dialog">
+    sling:resourceType="cq/gui/components/authoring/dialog"
+    height="{Long}620"
+    width="{Long}650">
     <content
         jcr:primaryType="nt:unstructured"
         sling:resourceType="granite/ui/components/foundation/container">
@@ -26,9 +28,14 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="The right section of the header will be delicated to sharing. Check this when the header is on top of the page"
-                                name="./shareSection" uncheckedValue="false" value="true"
-                                text="Right Share Section"/>
-                            <icon/>
+                                name="./shareSection"
+                                text="Right Share Section"
+                                value="{Boolean}true"/>
+                            <sharesection-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./shareSection@Delete"
+                                value="{Boolean}true"/>
                             <sharetext
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
@@ -42,6 +49,18 @@
                                 fieldLabel="Link in the share section"
                                 name="./sharelink"
                                 value="https://www.facebook.com/GirlScoutCookieProgram/"/>
+                            <icon
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="girlscouts/components/graphiciconselect"
+                                defaultValue="icon-social-facebook"
+                                fieldLabel="Icon"
+                                name="./icon"
+                                value="icon-social-facebook">
+                                <datasource
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="acs-commons/components/utilities/genericlist/datasource"
+                                    path="/etc/iconlists/girlscouts-icons"/>
+                            </icon>
                         </items>
                     </columns>
                 </items>
@@ -84,8 +103,66 @@
                     </columns>
                 </items>
             </maincontent>
-            <image/>
-            <mobileimage/>
+            <image
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./thumbnail/fileName"
+                                fileReferenceParameter="./thumbnail/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./file"
+                                title="Image"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </image>
+            <mobileimage
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Mobile Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./mobileimage/fileName"
+                                fileReferenceParameter="./mobileimage/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./mobilefile"
+                                title="Image"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </mobileimage>
         </items>
     </content>
 </jcr:root>

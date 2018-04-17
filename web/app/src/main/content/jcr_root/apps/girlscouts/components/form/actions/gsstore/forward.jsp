@@ -44,98 +44,14 @@
 
     %><%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
     %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
-    <cq:defineObjects/><sling:defineObjects/><%!
-
-    AccessControlList getAcl(AccessControlManager acMgr, String path) throws RepositoryException {
-        AccessControlPolicyIterator it = acMgr.getApplicablePolicies(path);
-        while (it.hasNext()) {
-            AccessControlPolicy p = it.nextAccessControlPolicy();
-            if (p instanceof AccessControlList) {
-                return (AccessControlList) p;
-            }
-        }
-        return null;
-    }
-
-    %><%
-
-    final SlingRepository repository = sling.getService(SlingRepository.class);
+    <cq:defineObjects/><sling:defineObjects/><%
     final ValueMap props = ResourceUtil.getValueMap(resource);
-
+    
+    String[] bcc = props.get("confirmationmailto", new String[0]);
+    String disableConfirmation = props.get("disableConfirmation", "");
     String path = props.get(FormsConstants.START_PROPERTY_ACTION_PATH, "");
-System.out.println("GSSTORE path is: " + path);
-    // create a default path if no path is specified:
-    // For example if the form is at /content/geometrixx/en/formpage
-    // then the default path is /content/usergenerated/content/geometrixx/en/formpage
-    if ( path.length() == 0 ) {
-        final String pagePath = currentPage.getPath();
-        final int pos = pagePath.indexOf('/', 1);
-        path = pagePath.substring(0, pos + 1) + "usergenerated/content" + pagePath.substring(pos) + "/*";
-    }
-
-    // If path ends with / or /*, compute a unique name ourselves for the node to create,
-    // so that we can pass it to StartWorkflowPostProcessor. Sling might create ancestor
-    // nodes of that one if they don't exist yet, so it's hard for the processor to
-    // compute the right payload path without this
-    for(String suffix : new String [] { "/", "/*" }) {
-        if(path.endsWith(suffix)) {
-            final String uniqueId = System.currentTimeMillis() + "_" + uniqueIdCounter.addAndGet(1);
-            path = path.substring(0, path.length() - suffix.length() + 1) + uniqueId;
-            Session userSession = slingRequest.getResourceResolver().adaptTo(Session.class);
-            if (CollabUtil.canAddNode(userSession, path)) {
-                // Create the parent node beforehand and set "formPath" and "sling:resourceType"
-                // on it to allow bulk editor and forms payload summary respectively.
-                final Session adminSession = repository.loginAdministrative(null);
-                try {
-                    final Node node = JcrUtil.createPath(path, "sling:Folder", adminSession);
-                    final Node parent = node.getParent();
-                    parent.setProperty("formPath", request.getParameter(FormsConstants.REQUEST_PROPERTY_FORM_START));
-                    parent.setProperty("sling:resourceType", "foundation/components/form/actions/showbulkeditor");
-                    adminSession.save();
-                    // Now change anonymous user permissions before forward
-                    // This is needed since we deligate the save (forward) to sling
-                    final UserManager userManager = sling.getService(UserManagerFactory.class).createUserManager(adminSession);
-                    final AccessControlManager acMgr = adminSession.getAccessControlManager();
-                    final AccessControlList acl = getAcl(acMgr, path);
-                    // if found, and if current session does not have appropriate privileges...
-                    // ...add an entry for 'this' principal to allow modify properties...
-                    // ... assign it to the newly created path (this policy will be revoked in cleanup action)
-                    if (acl != null) {
-                    	final Privilege[] privileges = new Privilege[] {acMgr.privilegeFromName(Privilege.JCR_ALL)};
-                    	if (!userSession.getAccessControlManager().hasPrivileges(path, privileges)) {
-                            acl.addAccessControlEntry(userManager.get(userSession.getUserID()).getPrincipal(), privileges);
-                            acMgr.setPolicy(path, acl);
-                            request.setAttribute("cq.form.temp.policy",acl);
-                    	}
-                    } else {
-                    	log.error("No applicable policies found for {}", path);
-                    }
-                } catch (Exception e) {
-                    log.error("Failed to create path or set permissions.", e);
-                } finally {
-                    if (adminSession != null) {
-	                	if (adminSession.hasPendingChanges()) {
-	                        adminSession.save();
-	                	}
-                        adminSession.logout();
-                    }
-                }
-            } else {
-                log.error("User does not have add_node permissions on {}", path);
-            }
-            break;
-        }
-    }
-	System.out.println("GSSTORE path2 is: " + path);
-    request.setAttribute(FormsConstants.REQUEST_ATTR_WORKFLOW_PAYLOAD_PATH, path);
-
-    // If a workflow model was specified, store it in
-    // a request attribute for the StartWorkflowPostProcessor
-    final String model = props.get(FormsConstants.START_PROPERTY_WORKFLOW_MODEL, null);
-    if(model != null) {
-        request.setAttribute(FormsConstants.REQUEST_ATTR_WORKFLOW_PATH, model);
-    }
-
+    slingRequest.setAttribute("disableConfirmation",disableConfirmation);
+    slingRequest.setAttribute("confirmationmailto",bcc);
     slingRequest.setAttribute("contentPath",path);
     FormsHelper.setForwardPath(slingRequest, resource.getPath() + ".gsstore.html");
     FormsHelper.setRedirectToReferrer(request, true);

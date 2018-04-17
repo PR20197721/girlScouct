@@ -50,8 +50,9 @@
 	    sb.append("/etc/importers/bulkeditor.html?rootPath=");
 	    String actionPath = (String)vm.get("action", "");
 	    String actionType = (String)vm.get("actionType", "");
+        String storeContent = (String)vm.get("storeContent", "false");
         System.out.println("ACTION PATH" + actionPath);
-	    if ((actionPath.trim().length() != 0) && (actionType.trim().endsWith("store"))) {
+	    if ((actionPath.trim().length() != 0) && (actionType.trim().endsWith("store") || (actionType.trim().endsWith("mail") && storeContent.equals("true")))) {
             System.out.println("<p>Action is GSSTORE</p>");
 	    
 	    %>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:ClientLibraryFolder"
+    categories="[cq.authoring.editor.sites.page,cq.authoring.editor.page]"
+    dependencies="[cq.authoring.editor.core]"
+    embed="[cq.authoring.editor.page.core,cq.authoring.editor.page.init,cq.authoring.editor.plugin.annotate,cq.authoring.msm.commons,cq.authoring.editor.hook,cq.authoring.editor.plugin.cfm,cq.authoring.editor.plugin.foundation,cq.authoring.editor.plugin.manuscript,cq.authoring.editor.plugin.dps,cq.personalization.touchui.core,cq.personalization.audience.management,cq.f.js,cq.tsdk,cq.personalization.tsdk.audiencepicker.helper,cq.personalization.target.msm,cq.authoring.testandtarget.target.targeteddialog,cq.authoring.editor.plugin.target,cq.authoring.editor.hook.assetfinder,cq.authoring.editor.plugin.designimporter,cq.authoring.editor.plugin.msm,cq.authoring.editor.plugin.commerce,cq.authoring.editor.plugin.segment,cq.mcm.campaign.touch,cq.authoring.editor.plugin.campaign,cq.authoring.editor.targeteditor,cq.authoring.editor.plugin.mobile,cq.authoring.editor.plugin.screens,cq.authoring.editor.plugin.activitymap,cq.authoring.editor.sites.page.hook,cq.authoring.editor.plugin.experiencefragments,cq.inbox.gui.commons,cq.authoring.statusbar.workflow]"/>

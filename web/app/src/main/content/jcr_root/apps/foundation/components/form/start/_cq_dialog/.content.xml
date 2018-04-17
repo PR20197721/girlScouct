@@ -75,11 +75,6 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 text="Send Mail"
                                                 value="girlscouts/components/form/actions/gsmail"/>
-                                            <spiceworks
-                                                jcr:primaryType="nt:unstructured"
-                                                gstargetvalue="spiceworks"
-                                                text="Spiceworks"
-                                                value="girlscouts/components/form/actions/spiceworks"/>
                                             <store-content
                                                 jcr:primaryType="nt:unstructured"
                                                 text="Store Content"
@@ -168,34 +163,62 @@
                                             <content-path
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
-                                                fieldLabel="Content Path"
+                                                fieldLabel="Content Path *"
                                                 name="./action"
                                                 storecontent="field"
-                                                wrapperClass="hide gs-hide-show gsstore"/>
+                                                wrapperClass="hide gs-hide-show gsstore gsmail"/>
+                                            <store-content
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                fieldDescription="By default, confirmation emails will be sent to email addresses entered into any fields starting with 'email-confirmation'. You can add a number at the end for multiple confirmation fields."
+                                                name="./storeContent"
+                                                text="Store Email Content"
+                                                value="{Boolean}true"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks"/>
+                                            <store-content-delete
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                name="./disableConfirmation@Delete"
+                                                value="{Boolean}true"/>
                                             <from-email
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                fieldLabel="From Email"
+                                                fieldLabel="From Email *"
                                                 name="./from"
                                                 wrapperClass="hide gs-hide-show gsmail spiceworks"/>
                                             <to-email
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                fieldLabel="Mail To Email"
-                                                name="./mailto"
-                                                wrapperClass="hide gs-hide-show gsmail spiceworks"/>
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                class="hide gs-hide-show gsmail spiceworks"
+                                                fieldLabel="Mail To Email *"
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks mailto">
+                                                <field
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    name="./mailto"/>
+                                            </to-email>
                                             <cc
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                class="hide gs-hide-show gsmail spiceworks"
                                                 fieldLabel="CC"
-                                                name="./cc"
-                                                wrapperClass="hide gs-hide-show gsmail spiceworks"/>
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks">
+                                                <field
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    name="./cc"/>
+                                            </cc>
                                             <bcc
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                class="hide gs-hide-show gsmail spiceworks"
                                                 fieldLabel="BCC"
-                                                name="./bcc"
-                                                wrapperClass="hide gs-hide-show gsmail spiceworks"/>
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks">
+                                                <field
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    name="./bcc"/>
+                                            </bcc>
                                             <subject
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
@@ -204,11 +227,15 @@
                                                 wrapperClass="hide gs-hide-show gsmail spiceworks"/>
                                             <confirmation-bcc
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                sling:resourceType="granite/ui/components/coral//foundation/form/multifield"
                                                 fieldDescription="The recipient of the confirmation email will not see email addresses entered here"
                                                 fieldLabel="Confirmation BCC"
-                                                name="./confirmationmailto"
-                                                wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>
+                                                wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case">
+                                                <field
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    name="./confirmationmailto"/>
+                                            </confirmation-bcc>
                                             <confirmation-from-email
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
@@ -223,22 +250,22 @@
                                                 wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>
                                             <email-template
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                                 fieldLabel="Path To Email Template"
                                                 name="./templatePath"
                                                 wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>
-                                            <new-window
+                                            <disable-conf-emails
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
                                                 fieldDescription="By default, confirmation emails will be sent to email addresses entered into any fields starting with 'email-confirmation'. You can add a number at the end for multiple confirmation fields."
-                                                name="./disableConfirmation"
+                                                name="./disableConfirmationEmails"
                                                 text="Disable Confirmation Emails"
                                                 value="{Boolean}true"
                                                 wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>
                                             <disable-conf-emails-delete
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                                name="./disableConfirmation@Delete"
+                                                name="./disableConfirmationEmails@Delete"
                                                 value="{Boolean}true"/>
                                             <campaign-id
                                                 jcr:primaryType="nt:unstructured"

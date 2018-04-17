@@ -14,12 +14,12 @@
                     jcr:primaryType="nt:unstructured"
                     path="/libs/foundation/components/form/defaults/items.infinity.json"
                     xtype="cqinclude"/>
-				<confirmationemail
-                	jcr:primaryType="cq:Widget"
-                	fieldLabel="Send Confirmation Email"
-                	name="./confirmationemail"
-                	type="checkbox"
-                	xtype="selection"/>
+                <confirmationemail
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Send Confirmation Email"
+                    name="./confirmationemail"
+                    type="checkbox"
+                    xtype="selection"/>
                 <multivalue
                     jcr:primaryType="cq:Widget"
                     boxLabel="Property is multi value"

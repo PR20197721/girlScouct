@@ -29,7 +29,7 @@
   <div class="row collapse">
   <h2 class="columns large-24 medium-24"><a href="<%= linkTitle %>"><%= title %></a></h2>
 	<% /*for images to display left and right but on small always on top of text.*/%>
-		<% if (properties.get("imageOnLeft", "off").equals("on")) { %>
+		<% if (properties.get("imageOnLeft", false)) { %>
 		<div class="large-11 medium-11 small-22 column">
 			<cq:include script="image.jsp" />
 		</div>

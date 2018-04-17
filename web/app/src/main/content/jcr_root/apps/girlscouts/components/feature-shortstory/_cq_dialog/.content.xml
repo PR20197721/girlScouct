@@ -31,7 +31,7 @@
                                 required="{Boolean}false"/>
                             <pathfield
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                 fieldLabel="Title Link"
                                 name="./pathfield"
                                 required="{Boolean}false"/>
@@ -40,13 +40,31 @@
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./textIsRich"
                                 value="true"/>
-                            <text/>
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                customStart="false"
+                                fieldLabel="Text"
+                                height="{Long}300"
+                                name="./shortdesc"
+                                useFixedInlineToolbar="true">
+                                <rtePlugins
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts/components/richtext-config/rtePlugins"/>
+                                <specialCharsConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts/components/richtext-config/specialCharsConfig"/>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts/components/richtext-config/uiSettings"/>
+                            </text>
                             <imageOnLeft
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="The story images is by default on the right. Check this to display it on the left."
                                 name="./imageOnLeft"
-                                text="Image On Left"/>
+                                text="Image On Left"
+                                value="{Boolean}true"/>
                             <imageonleft-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -56,7 +74,8 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./isspringboard"
-                                text="Spring Broad Display"/>
+                                text="Spring Broad Display"
+                                value="{Boolean}true"/>
                             <springboard-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -66,8 +85,66 @@
                     </columns>
                 </items>
             </tab1>
-            <featureiconimage/>
-            <image/>
+            <image
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./image/fileName"
+                                fileReferenceParameter="./image/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./image/file"
+                                title="Upload Image Asset"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </image>
+            <featureiconimage
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Featured Icon Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./featureiconimage/fileName"
+                                fileReferenceParameter="./featureiconimage/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./featureiconimage/file"
+                                title="Upload Image Asset"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </featureiconimage>
             <advanced
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Image Properties"

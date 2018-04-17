@@ -28,9 +28,9 @@ from Adobe Systems Incorporated.
                   org.apache.sling.api.resource.ValueMap,
                   com.adobe.granite.xss.XSSAPI,
                   com.day.cq.i18n.I18n,
-                  com.day.cq.widget.HtmlLibrary,
-                  com.day.cq.widget.HtmlLibraryManager,
-                  com.day.cq.widget.LibraryType,
+                  com.adobe.granite.ui.clientlibs.HtmlLibrary, 
+                  com.adobe.granite.ui.clientlibs.HtmlLibraryManager,
+                  com.adobe.granite.ui.clientlibs.LibraryType,
                   org.apache.sling.auth.core.AuthUtil"%><%
 %><%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0"%><%
 %><%@ taglib prefix="ui" uri="http://www.adobe.com/taglibs/granite/ui/1.0" %><%--

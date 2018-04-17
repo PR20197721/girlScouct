@@ -342,12 +342,13 @@
                         }
                         if (isUpdate) {
                             //CQ.Ext.Msg.alert("Success", "Updated " + contentPath);
-                            CQ.Util.reload(CQ.WCM.getContentWindow(), url);
+                            CQ.Util.reload(CQ.WCM.getTopWindow(), "/editor.html"+url);
                         } else {
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
                             var title = contentPath;
-                            var html = "<li><a href='/editor.html"+ CQ.shared.XSS.getXSSValue(url) + "'>" + CQ.shared.XSS.getXSSValue(title) + "</a></li>";
-                            CQ.Ext.DomHelper.append("linklist", html);
+                            var link = "/editor.html"+ CQ.HTTP.externalize(contentPath + ".html");
+                            var $a = $("<a>", {"href":link}).on("click", function(){window.top.location=link;}).append(title);
+                            $("#linklist").append($("<li>").append($a));
                             frm.reset();
                             window.scrollTo(0,0);
                             frm.findField(0).focus();
@@ -371,6 +372,16 @@
         myForm.fireEvent("activate", myForm);
         myForm.getForm().findField(0).focus();
         window.scrollTo(0,0);
+    });
+    CQ.Ext.onReady(function(){
+        var top = CQ.WCM.getTopWindow();
+        if (top.CQ.WCM.isSidekickReady()) {
+            top.CQ.WCM.getSidekick().destroy();
+        } else {
+            top.CQ.WCM.on("sidekickready", function(sidekick) {
+                sidekick.destroy();
+            });
+        }
     });
 </script>
 </body>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <first
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Title and Text"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <name
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                fieldLabel="Element Name"
+                                name="./name"
+                                required="{Boolean}true"/>
+                            <title
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Title"
+                                name="./jcr:title"/>
+                            <hidetitle
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./hideTitle"
+                                text="Hide Title"
+                                uncheckedValue="false"
+                                value="true"/>
+                            <description
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Description"
+                                name="./jcr:description"/>
+                        </items>
+                    </columns>
+                </items>
+            </first>
+            <second
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Initial Values"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <value
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Default Value"
+                                name="./defaultValue"/>
+                        </items>
+                    </columns>
+                </items>
+            </second>
+            <fourth
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Constraints"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <required
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./required"
+                                text="Required"
+                                uncheckedValue="false"
+                                value="true"/>
+                            <requiredMessage
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textarea"
+                                fieldLabel="Required Message"
+                                name="./requiredMessage"/>
+                            <constraintType
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/select"
+                                fieldLabel="Constraint"
+                                name="./constraintType">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <none
+                                        jcr:primaryType="nt:unstructured"
+                                        text=""
+                                        value=""/>
+                                    <ccv
+                                        jcr:primaryType="nt:unstructured"
+                                        text="CCV (Credit Card Verification)"
+                                        value="foundation/components/form/constraints/ccv"/>
+                                    <currencyAmount
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Currency Amount"
+                                        value="girlscouts/components/form/constraints/currencyAmount"/>
+                                    <date
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Date"
+                                        value="foundation/components/form/constraints/date"/>
+                                    <email-no-whitespace
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Email No Whitespace"
+                                        value="girlscouts/components/form/constraints/email-no-whitespace"/>
+                                    <luhn
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Credit Card Number (Luhn Algorithm) Validator"
+                                        value="foundation/components/form/constraints/luhn"/>
+                                    <max-length-1500
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Max Length 1500"
+                                        value="gsusa/components/customFormConstraint/maxlength1500"/>
+                                    <max-length-2000
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Max Length 2000"
+                                        value="gsusa/components/customFormConstraint/maxlength"/>
+                                    <month-numeric
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Month (numeric)"
+                                        value="foundation/components/form/constraints/datenumericmonth"/>
+                                    <name-no-umlauts
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Name (no umlauts)"
+                                        value="foundation/components/form/constraints/name"/>
+                                    <numeric-no-whitespace
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Numeric (no white space)"
+                                        value="girlscouts/components/form/constraints/numeric-no-whitespace"/>
+                                    <numericYear
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Year"
+                                        value="foundation/components/form/constraints/dateyear"/>
+                                    <zipcode
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Zip Code"
+                                        value="gsusa/components/customFormConstraint/zipcode"/>
+                                </items>
+                            </constraintType>
+                            <constraintMessage
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textarea"
+                                fieldLabel="Constraint Message"
+                                name="./constraintMessage"/>
+                        </items>
+                    </columns>
+                </items>
+            </fourth>
+            <five
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Styling"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <width
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Width in pixels"
+                                name="./width"/>
+                            <target
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="HTML link target"
+                                name="./target"/>
+                        </items>
+                    </columns>
+                </items>
+            </five>
+        </items>
+    </content>
+</jcr:root>
