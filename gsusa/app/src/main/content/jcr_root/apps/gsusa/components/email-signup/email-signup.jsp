@@ -2,7 +2,7 @@
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%@page import="com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.Placeholder, java.util.Random, com.day.cq.wcm.foundation.Image"  %>
 <%@page session="false" %>
-<%@ taglib prefix="gsc" uri="https://girlscouts.org/girlscouts-common/taglib"%>
+<%@ taglib prefix="gsusa" uri="https://girlscouts.org/gsusa/taglib"%>
 
 <%!
 public String generateId() {
@@ -248,7 +248,7 @@ function validateEmail(email) {
 	    <div class="wrapper-inner clearfix">
 	      <form class="email-form" name="submit-email" id="<%= formID %>">
 	        <div class="left-image">
-				<gsc:image relativePath="iconimage/image" />
+				<gsusa:image relativePath="iconimage/image" />
 	        </div>
 	        <div class="right-form">
 	          <div class="text">
@@ -262,7 +262,7 @@ function validateEmail(email) {
 	          <div class="form-wrapper clearfix">
 	            <input type="text" placeholder="<%= fieldText %>" maxlength="100" title="email address" class="email" name="email">
 	            <input type="submit" class="submit-button" value="<%= submitButtonText %>"/>
-				<gsc:image relativePath="thankyouimage/image" styleClass="success"/>
+				<gsusa:image relativePath="thankyouimage/image" styleClass="success"/>
 	          </div>	          
 	        </div>            
 	      </form>

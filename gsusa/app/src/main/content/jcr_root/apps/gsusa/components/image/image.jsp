@@ -1,4 +1,4 @@
-<%@page session="false"%><%--
+<%--
   Copyright 1997-2008 Day Management AG
   Barfuesserplatz 6, 4001 Basel, Switzerland
   All Rights Reserved.
@@ -15,38 +15,31 @@
 
   Draws an image. 
 
---%><%@ page import="com.day.cq.commons.Doctype,
-    com.day.cq.wcm.api.components.DropTarget,
-    org.girlscouts.web.gsusa.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
-%><%@include file="/libs/foundation/global.jsp"%><%
-    Image image = new Image(resource);
-    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
+--%>
 
-    //drop target css class = dd prefix + name of the drop target in the edit config
-    image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
-    image.loadStyleData(currentStyle);
-    image.setSelector(".img"); // use image script
-    image.setDoctype(Doctype.fromRequest(request));
+<%@ page session="false" %>
+<%@ page import="com.day.cq.wcm.api.components.DropTarget" %>
+<%@ include file="/libs/foundation/global.jsp" %>
+<%@ taglib prefix="gsusa" uri="https://girlscouts.org/gsusa/taglib" %>
 
-	Boolean newWindow = properties.get("./newWindow", false);
+<%
+	
 	String additionalCssStyle = properties.get("./additionalCssStyle", "");
 	String style = "";
 	if(additionalCssStyle.length() > 0) {
 		style = "style=\""+additionalCssStyle+"\"";
 	}
-
+	
+	String styleClass = DropTarget.CSS_CLASS_PREFIX + "image " + properties.get("./additionalCss", "");
+	
     // add design information if not default (i.e. for reference paras)
+    String suffix = null;
     if (!currentDesign.equals(resourceDesign)) {
-        image.setSuffix(currentDesign.getId());
+    		suffix = currentDesign.getId();
     }
-    String divId = "cq-image-jsp-" + resource.getPath();
-    %><div id="<%= divId %>" <%=style%> ><% 
-        if(!newWindow) { 
-        image.draw(out); 
-    	}
-		else { %>
-			<%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
-		<%
-		}
-	%></div><%
-    %><cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
+%>
+
+<div id="<%= "cq-image-jsp-" + resource.getPath() %>" <%=style%> >
+	<gsusa:image relativePath='' styleClass='<%=styleClass %>' suffix='<%= suffix %>' newWindow='<%= properties.get("./newWindow", false) %>' />
+</div>
+<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>

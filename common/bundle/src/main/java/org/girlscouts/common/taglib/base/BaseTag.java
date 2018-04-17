@@ -18,9 +18,8 @@ import com.day.cq.wcm.api.designer.Style;
 /*
  * Adds functionality for page attributes usually provided by Adobe's "global.jsp"
  */
+@SuppressWarnings("serial")
 public class BaseTag extends TagSupport{
-	
-	private static final long serialVersionUID = 1L;
 	
 	public SlingHttpServletRequest getRequest() {
 		return (SlingHttpServletRequest) pageContext.getAttribute("slingRequest");
@@ -68,6 +67,10 @@ public class BaseTag extends TagSupport{
 	
 	public Style getCurrentStyle() {
 		return (Style) pageContext.getAttribute("currentStyle");
+	}
+	
+	public boolean isGSUSA() {
+		return false;
 	}
 	
 }

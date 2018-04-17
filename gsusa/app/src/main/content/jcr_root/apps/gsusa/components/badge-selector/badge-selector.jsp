@@ -56,7 +56,9 @@ if (tagPaths != null && tagPaths.length > 0) {
                 %></li><%
             }
         }
-    %></ul><%
+    %></ul>
+    <div class="CreateBadgePdfButton" onclick="BadgePdfGenerator.generateBadgePdf();" id="CreateBadgeButon">CREATE PDF</div>
+<%
     sb.append("</div>");
     out.print(String.valueOf(sb));
 } else {

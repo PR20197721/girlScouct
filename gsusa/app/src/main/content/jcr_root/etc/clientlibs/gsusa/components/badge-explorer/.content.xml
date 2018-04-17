@@ -8,5 +8,5 @@
     jcr:primaryType="cq:ClientLibraryFolder"
     sling:resourceType="widgets/clientlib"
     categories="[apps.gsusa.components.badge-explorer]"
-    dependencies="[]"/>
-    <!--  TODO: Add jquery requirment once jQuery is in a unified clientlib -->
+    dependencies="[common.thirdparty.framework.vuejs, common.util.dom-utils, common.thirdparty.jspdf, common.thirdparty.html2canvas]"/>
+    <!--  TODO: Add jquery requirement once jQuery is in a unified clientlib -->
