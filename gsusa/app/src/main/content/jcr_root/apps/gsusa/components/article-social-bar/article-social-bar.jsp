@@ -60,7 +60,7 @@
 	$(document).ready(function() {
 		var scriptTag = document.createElement("script");
 		scriptTag.type = "text/javascript"
-		scriptTag.src="http://connect.facebook.net/en_US/all.js";
+		scriptTag.src="//connect.facebook.net/en_US/all.js";
 		scriptTag.async = true;
 		document.getElementsByTagName("head")[0].appendChild(scriptTag);
 
@@ -97,7 +97,7 @@
 	function get_bitly_short_url(long_url, login, api_key, func)
 	{
 	    $.getJSON(
-        	"http://api.bitly.com/v3/shorten?callback=?",
+        	"//api-ssl.bitly.com/v3/shorten?callback=?",
 	        ({
       	    "apiKey": api_key,
           	"login": login,
@@ -117,7 +117,7 @@
 
 	$(document).ready(function() {
 		get_bitly_short_url(bitly_long_url, bitly_login, bitly_api_key, function(short_url) {
-			var bitly_twitter_url = "https://twitter.com/share?text=<%=tweetText%>&url=" + short_url;
+			var bitly_twitter_url = "//twitter.com/share?text=<%=tweetText%>&url=" + short_url;
 			$("a.icon-social-twitter-tweet-bird").attr("href",bitly_twitter_url);
 		});
 	});
@@ -125,18 +125,21 @@
 
 <ul class="inline-list">
     <li id="toolbox_1" class="addthis_toolbox">
-      <a class="icon-social-facebook" onclick="postToFeed<%= uniqueID %>(); return false;"></a>
+      <a class="addthis_button_linkedin icon-social-linkedin"><!-- <span></span> --></a>
     </li>
     <li id="toolbox_2" class="addthis_toolbox">
-      <a class="icon-social-twitter-tweet-bird" target="_blank"></a>
+      <a class="icon-social-facebook" onclick="postToFeed<%= uniqueID %>(); return false;"></a>
     </li>
     <li id="toolbox_3" class="addthis_toolbox">
-          <a class="addthis_button_pinterest icon-social-pinterest"><!-- <span></span> --></a>
+      <a class="icon-social-twitter-tweet-bird" target="_blank"></a>
     </li>
     <li id="toolbox_4" class="addthis_toolbox">
-          <a class="addthis_button_email icon-mail"><!-- <span></span> --></a>
+          <a class="addthis_button_pinterest icon-social-pinterest"><!-- <span></span> --></a>
     </li>
     <li id="toolbox_5" class="addthis_toolbox">
+          <a class="addthis_button_email icon-mail"><!-- <span></span> --></a>
+    </li>
+    <li id="toolbox_6" class="addthis_toolbox">
         <a class="addthis_button_print icon-printer"><!-- <span></span> --></a>
     </li>
 

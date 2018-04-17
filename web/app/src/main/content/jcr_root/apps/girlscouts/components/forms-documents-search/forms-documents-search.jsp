@@ -66,7 +66,7 @@ Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequ
 %>
 <div class="expandable">
 	<div class="programLevel">
-    	<form action="<%=formAction%>" method="get" name="frm" onsubmit="return checkLen()">
+    	<form action="<%=xssAPI.encodeForHTMLAttr(formAction) %>" method="get" name="frm" onsubmit="return checkLen()">
 	        <div id="searchBox" class="baseDiv">
 	            <input type="text" name="q" id="frmSrch" class="searchField formsAndDocuments" placeholder="<%=placeHolder%>" value="<%=escapedQueryForAttr%>" />
 	        </div>
@@ -116,10 +116,10 @@ Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequ
 			<%
 			if(tags != null){
 				for (String tag : tags){%>
-					tags.push('<%=tag%>');
+					tags.push('<%=xssAPI.encodeForJSString(tag) %>');
 			   	<% }
 		   	}%>
-		   	var q = "<%=q%>";
+		   	var q = "<%=xssAPI.encodeForJSString(q)%>";
 			var jsonPath = '<%=resource.getPath()%>';
 			$(document).ready(function() {
 				var formsDocsLoader = new FormsDocsLoader(jsonPath, $("#formsDocsListWrapper"),q , tags);
