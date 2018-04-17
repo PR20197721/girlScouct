@@ -100,7 +100,6 @@
                         maxValue="10000"
                         minValue="20"
                         name="./homecarouselautoplayspeed"
-                        fieldDescription="Default: 2000, Min: 20, Max: 10000"
                         xtype="numberfield">
                     </autoplayspeed>
                     <radioDesktop

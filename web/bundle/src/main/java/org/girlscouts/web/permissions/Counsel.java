@@ -65,7 +65,7 @@ public class Counsel {
 	}
 	
 	private List<CounselFolder> getDefaultFolderList(Session session){
-		List<CounselFolder> folders = new ArrayList<CounselFolder>(7);
+		List<CounselFolder> folders = new ArrayList<CounselFolder>();
 		folders.add(new CounselFolder(DirectoryConfig.CONTENT, getContentDirectoryPath(), session, reviewersGroup, authorsGroup));
 		folders.add(new CounselFolder(DirectoryConfig.DAM, getDamDirectoryPath(), session, reviewersGroup, authorsGroup));
 		folders.add(new CounselFolder(DirectoryConfig.GROUP, getGroupDirectoryPath(), session, reviewersGroup, authorsGroup));
