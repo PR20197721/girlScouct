@@ -9,85 +9,39 @@
 <%
     final String siteRootPath = currentPage.getAbsoluteParent(2).getPath();
     final String headerNavPath = siteRootPath + "/jcr:content/header/header-nav";
-    final String eyebrowNavPath = siteRootPath + "/jcr:content/header/eyebrow-nav";
-    final Value[] headerNavValues = resourceResolver.resolve(headerNavPath).adaptTo(Node.class).getProperty("navs").getValues();
-
-	// work around the error when there is only one value
-	Value[] eyebrowNavValues = null;
-	Value eyebrowNavValue = null;
-	try {
-	    eyebrowNavValues = resourceResolver.resolve(eyebrowNavPath).adaptTo(Node.class).getProperty("navs").getValues();
-	} catch (Exception e) {
-		try {
-		    eyebrowNavValue = resourceResolver.resolve(eyebrowNavPath).adaptTo(Node.class).getProperty("navs").getValue();
-	    	if(eyebrowNavValue!=null) {
-	    		eyebrowNavValues = new Value[1];
-		    	eyebrowNavValues[0] = eyebrowNavValue;
-		    }
-		} catch (Exception e2) {
-			// no navs found
-	    }
-	}
-
-    List<String[]> headerNavs = new ArrayList<String[]>();
-    List<String[]> eyebrowNavs = new ArrayList<String[]>();
-    
-    int found = -1;
-    boolean[] rootLandingPageList = new boolean[headerNavValues.length];
-    
-    // find in global nav then
-    for (int i = 0; i < headerNavValues.length; i++) {
-        String[] nav = headerNavValues[i].getString().split("\\|\\|\\|"); // path, text
-        
-        if (nav.length < 2) {
-            continue;
-        }
-
-        // Take small label. If not available, use medium label instead, otherwise large.
-        String label = nav.length >= 5 ? nav[4] : "";
-        if (label.isEmpty()) {
-            label = nav.length >= 4 ? nav[3] : label;
-        }
-        if (label.isEmpty()) {
-            label = nav[0];
-        }
-        nav[0] = label;
-
-	    rootLandingPageList[i] = nav.length >= 8 ? Boolean.parseBoolean(nav[7]) : false;
-		boolean hideInMobile = nav.length >= 7 ? Boolean.parseBoolean(nav[6]) : false;
-		if(!hideInMobile) {
-	       	headerNavs.add(nav);
-        
-    	    String topPath = nav[1];
-        
-	        //if external, then nav starts with http
-    	    if (nav[1].startsWith("http")) {
-        		continue;
-	        } else {
-    	    	// rePath restrings nav[1] up to level 4 which is the top menu
-        		// /content/gsusa/en/topmenu
-	        	topPath = rePath(nav[1],4);
-    	    }
-
-	        if (currentPage.getPath().startsWith(topPath) && found == -1) { // if current page belong to this branch
-    	        found = i;
-        	}
-        }
-        
+    final String eyebrowNavPath = siteRootPath + "/jcr:content/header/eyebrow-nav";    
+    NodeIterator headerNavs = null;
+    NodeIterator eyebrowNavs = null;
+    final Node headerNav = resourceResolver.resolve(headerNavPath).adaptTo(Node.class);
+    if(headerNav != null && headerNav.hasNode("navs")){
+    	headerNavs = headerNav.getNode("navs").getNodes();    	 			
     }
-    // eyebrow nav
-    if(eyebrowNavValues!=null) {
-	    for (int i = 0; i < eyebrowNavValues.length; i++) {
-    	    String[] nav = eyebrowNavValues[i].getString().split("\\|\\|\\|"); // path, text
-        	headerNavs.add(nav);
-	    }
+    final Node eyebrowNav = resourceResolver.resolve(eyebrowNavPath).adaptTo(Node.class);    	
+	if(eyebrowNav != null && eyebrowNav.hasNode("navs")){
+		eyebrowNavs = eyebrowNav.getNode("navs").getNodes();
 	}
-
-    StringBuilder sb = new StringBuilder();
+	StringBuilder sb = new StringBuilder();
     sb.append("<nav class=\"right-off-canvas-menu\" tabindex=\"-1\">");
-    buildTopMenu(headerNavs, currentPage.getPath(), resourceResolver, sb, found, rootLandingPageList);
-    buildTopMenu(eyebrowNavs, currentPage.getPath(), resourceResolver, sb, -1, null);
-    sb.append("</nav>");
+    if(headerNavs != null && headerNavs.getSize() > 0){
+    	sb.append("<ul class=\"off-canvas-list\">");
+    	while(headerNavs.hasNext()){
+    		Node nav = headerNavs.nextNode();    		
+			Boolean hideInMobile = nav.hasProperty("hide-in-mobile") ? nav.getProperty("hide-in-mobile").getBoolean() : false;			
+			if(!hideInMobile) {				
+				buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb);
+			}
+    	}
+    	sb.append("</ul>");
+    }
+	if(eyebrowNavs != null && eyebrowNavs.getSize() > 0){
+		sb.append("<ul class=\"off-canvas-list\">");
+		while(eyebrowNavs.hasNext()){
+			Node nav = eyebrowNavs.nextNode();    
+			buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb);
+    	}
+		sb.append("</ul>");
+    }    
+	sb.append("</nav>");
 %>
 
 <%= sb.toString() %>
@@ -96,43 +50,52 @@
     
 
 <%!
-    public void buildTopMenu(List<String[]> navs, String currentPath, ResourceResolver rr, StringBuilder sb, int found, boolean[] rootLandingPageList) {
-        int count = 0;
-        sb.append("<ul class=\"off-canvas-list\">");
-        for (String[] nav : navs) {
-            if (count == found) {
-            	sb.append("<li class=\"active\" tabindex=\"-1\">");
-                /**
-                This should not happen since this is top menu and top page always calls on 
-                its first child page
-            	if (currentPath.equals(nav[1])) {
-                	sb.append("<li class=\"active current\" tabindex=\"-1\">");
-                } else {
-                	sb.append("<li class=\"active\" tabindex=\"-1\">");
-                }
-                **/
-            } else {
-                sb.append("<li tabindex=\"-1\">");
-            }
-            if (nav[1].indexOf("http:") != -1 || nav[1].indexOf("https:") != -1) {
-                sb.append("<a x-cq-linkchecker=\"skip\" href=\"" + genLink(rr, nav[1]) + "\" title=\"" + nav[0] + "\" tabindex=\"-1\">" + nav[0] + "</a>");
-            } else {
-                sb.append("<a href=\"" + genLink(rr, nav[1]) + "\" title=\"" + nav[0] + "\" tabindex=\"-1\">" + nav[0] + "</a>");
-            }
-            if (count == found) {
-                String topMenuPath = nav[1].substring(0,nav[1].lastIndexOf("/"));
-                if(rootLandingPageList != null && rootLandingPageList[count]) {
-            		topMenuPath = nav[1];	// if root page is landing page then no need to get one above
-            	}
-                Page topMenuPathPage = rr.resolve(topMenuPath).adaptTo(Page.class);
-                buildMenu(topMenuPathPage, currentPath, sb);
-            }
-            sb.append("</li>");  
-                
-            count++;
-        }
-        sb.append("</ul>");
-    }
+	public void buildTopMenu(Node nav, String currentPath, ResourceResolver rr, StringBuilder sb) {
+		try{
+			String label = nav.hasProperty("label") ? nav.getProperty("label").getString() : "";
+			String largeLabel = nav.hasProperty("large-label") ? nav.getProperty("large-label").getString() : "";
+			String mediumLabel = nav.hasProperty("medium-label") ? nav.getProperty("medium-label").getString() : "";
+			String smallLabel = nav.hasProperty("small-label") ? nav.getProperty("small-label").getString() : "";		
+			String path = nav.hasProperty("path") ? nav.getProperty("path").getString() : "";			
+			Boolean rootLandingPage = nav.hasProperty("root-landing-page") ? nav.getProperty("root-landing-page").getBoolean() : false;
+			Boolean newWindow = nav.hasProperty("new-window") ? nav.getProperty("new-window").getBoolean() : false;
+			if(!smallLabel.isEmpty()){
+				label = smallLabel;
+			}else{
+				if(!mediumLabel.isEmpty()){
+					label = mediumLabel;
+				}else{
+					if(!largeLabel.isEmpty()){
+						label = largeLabel;
+					}
+				}
+			}
+			String target = newWindow ? "target=\"_blank\"" : "target=\"_self\"";
+			boolean active = currentPath.startsWith(rePath(path,4));
+			if (active) {
+				sb.append("<li class=\"active\" tabindex=\"-1\">");
+			}else{
+				sb.append("<li tabindex=\"-1\">");
+			}
+			if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) {
+		        sb.append("<a x-cq-linkchecker=\"skip\" href=\"" + genLink(rr, path) + "\" title=\"" +label + "\" tabindex=\"-1\" "+target+">" + label + "</a>");
+		    } else {
+		        sb.append("<a href=\"" + genLink(rr, path) + "\" title=\"" + label + "\" tabindex=\"-1\" "+target+">" + label + "</a>");
+		    }
+			if (active) {
+				String topMenuPath = path.substring(0,path.lastIndexOf("/"));
+	            if(rootLandingPage) {
+	        		topMenuPath = path;	// if root page is landing page then no need to get one above
+	        	}
+	            Page topMenuPathPage = rr.resolve(topMenuPath).adaptTo(Page.class);
+	            buildMenu(topMenuPathPage, currentPath, sb);
+			}
+			sb.append("</li>");  
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
 
     public String genLink(ResourceResolver rr, String link) {
         // This is a Page resource but yet not end with ".html": append ".html"

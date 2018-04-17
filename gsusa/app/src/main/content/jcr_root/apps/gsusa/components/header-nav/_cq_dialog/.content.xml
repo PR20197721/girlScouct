@@ -6,59 +6,92 @@
         jcr:primaryType="nt:unstructured"
         sling:resourceType="granite/ui/components/foundation/container">
         <layout
-            jcr:primaryType="nt:unstructured"
-            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
-            type="nav"/>
-        <items jcr:primaryType="nt:unstructured">
-            <first
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Multi-Field"
-                sling:resourceType="granite/ui/components/foundation/container">
-                <layout
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
-                <items jcr:primaryType="nt:unstructured">
-                    <columns
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/container">
-                        <items jcr:primaryType="nt:unstructured">
-                            <multi
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/multifield"
-                                fieldLabel="Links">
-                                <field/>
-                            </multi>
-                        </items>
-                    </columns>
-                </items>
-            </first>
-            <options
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Options"
-                sling:resourceType="granite/ui/components/foundation/container">
-                <layout
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
-                <items jcr:primaryType="nt:unstructured">
-                    <columns
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/container">
-                        <items jcr:primaryType="nt:unstructured">
-                            <display-sticky-nav
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                fieldDescription="Will display a sticky nav when scrolling down the page."
-                                name="./displayStickyNav"
-                                text="Display Sticky Navigation"/>
-                            <display-sticky-nav-delete
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./displayStickyNav@Delete"
-                                value="{Boolean}true"/>
-                        </items>
-                    </columns>
-                </items>
-            </options>
-        </items>
+	        jcr:primaryType="nt:unstructured"
+	        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+	    <items jcr:primaryType="nt:unstructured">
+			<main
+                 jcr:primaryType="nt:unstructured"
+                 sling:resourceType="granite/ui/components/foundation/container">
+                 <layout
+			        jcr:primaryType="nt:unstructured"
+			        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                 <items jcr:primaryType="nt:unstructured">
+                     <display-sticky-nav
+                         jcr:primaryType="nt:unstructured"
+                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                         fieldDescription="Will display a sticky nav when scrolling down the page."
+                         name="./displayStickyNav"
+                         text="Display Sticky Navigation"/>
+                      <multi
+	                      jcr:primaryType="nt:unstructured"
+	                      sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+	                      composite="true"
+	                      fieldLabel="Links">
+	                      <field
+	                          jcr:primaryType="nt:unstructured"
+	                          sling:resourceType="granite/ui/components/coral/foundation/container"
+	                          class="coral-Table--bordered" 
+	                          name="./navs">
+	                          <items jcr:primaryType="nt:unstructured">
+	                              <large-label
+	                                  jcr:primaryType="nt:unstructured"
+	                                  sling:resourceType="granite/ui/components/foundation/form/textfield"
+	                                  fieldLabel="Large Label"
+	                                  name="large-label"/>
+	                              <medium-label
+	                                  jcr:primaryType="nt:unstructured"
+	                                  sling:resourceType="granite/ui/components/foundation/form/textfield"
+	                                  fieldLabel="Medium Label"
+	                                  name="medium-label"/>
+	                              <small-label
+	                                  jcr:primaryType="nt:unstructured"
+	                                  sling:resourceType="granite/ui/components/foundation/form/textfield"
+	                                  fieldLabel="Small Label"
+	                                  name="small-label"/>
+	                              <path
+	                                  jcr:primaryType="nt:unstructured"
+	                                  sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+	                                  fieldLabel="Path"
+	                                  name="path"/>
+	                              <class
+	                                  jcr:primaryType="nt:unstructured"
+	                                  sling:resourceType="granite/ui/components/foundation/form/textfield"
+	                                  fieldDescription="Put CSS class here to add to link"
+	                                  fieldLabel="Class"
+	                                  name="class"/>
+	                              <hide-in-desktop
+		                          		jcr:primaryType="nt:unstructured"
+		                                sling:resourceType="granite/ui/components/foundation/form/checkbox"		                                
+		                                name="hide-in-desktop"
+		                                text="Hide in Desktop"
+		                                uncheckedValue="{Boolean}false"
+		                                value="{Boolean}true"/>
+		                          <hide-in-mobile
+		                          		jcr:primaryType="nt:unstructured"
+		                                sling:resourceType="granite/ui/components/foundation/form/checkbox"		                                
+		                                name="hide-in-mobile"
+		                                text="Hide in Mobile"
+		                                uncheckedValue="{Boolean}false"
+		                                value="{Boolean}true"/>
+		                          <root-landing-page
+		                          		jcr:primaryType="nt:unstructured"
+		                                sling:resourceType="granite/ui/components/foundation/form/checkbox"		                                
+		                                name="root-landing-page"
+		                                text="Root Landing Page"
+		                                uncheckedValue="{Boolean}false"
+		                                value="{Boolean}true"/>
+		                          <new-window
+		                          		jcr:primaryType="nt:unstructured"
+		                                sling:resourceType="granite/ui/components/foundation/form/checkbox"		                                
+		                                name="new-window"
+		                                text="Open in new window"
+		                                uncheckedValue="{Boolean}false"
+		                                value="{Boolean}true"/>
+	                          </items>
+	                      </field>
+	                  </multi>	                     	                           
+                 </items>
+            </main>	    	
+		</items>
     </content>
 </jcr:root>
