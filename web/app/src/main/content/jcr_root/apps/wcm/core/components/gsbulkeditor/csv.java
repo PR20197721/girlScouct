@@ -37,7 +37,7 @@ import org.apache.jackrabbit.value.ValueHelper;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.text.Text;

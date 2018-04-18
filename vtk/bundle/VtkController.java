@@ -627,7 +627,7 @@ public class VtkController {
 								.getMeetingInfo()
 								.put("meeting short description",
 										new JcrCollectionHoldString(
-												org.apache.commons.lang.StringEscapeUtils
+												org.apache.commons.lang3.StringEscapeUtils
 														.unescapeHtml(_meeting
 																.getMeetingInfo()
 																.getMeetingInfo() // fixme - refactor

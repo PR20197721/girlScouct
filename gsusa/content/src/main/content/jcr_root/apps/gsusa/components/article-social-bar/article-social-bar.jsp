@@ -1,5 +1,5 @@
 <%@page import="java.net.URLEncoder,
-        org.apache.commons.lang.StringEscapeUtils,
+        org.apache.commons.lang3.StringEscapeUtils,
         com.day.cq.commons.Externalizer,
         org.apache.sling.api.SlingHttpServletRequest"%>
 <%@include file="/libs/foundation/global.jsp"%><%

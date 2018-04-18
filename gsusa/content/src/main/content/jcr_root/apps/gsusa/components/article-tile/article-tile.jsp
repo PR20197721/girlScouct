@@ -9,7 +9,7 @@
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%
 %><%@page session="false" %>
-<%@page import="javax.jcr.Node, org.apache.commons.lang.StringEscapeUtils, javax.jcr.Value, com.day.cq.tagging.TagManager, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag"%>
+<%@page import="javax.jcr.Node, org.apache.commons.lang3.StringEscapeUtils, javax.jcr.Value, com.day.cq.tagging.TagManager, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag"%>
 <%
   	String articlePath = (String)request.getAttribute("articlePath");
 	if (articlePath == null) {

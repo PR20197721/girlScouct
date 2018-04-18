@@ -37,7 +37,7 @@
             <Bundle-SymbolicName>org.girlscouts.vtk.ical4j-wrapper</Bundle-SymbolicName>
             <Import-Package>
                             net.fortuna.ical4j.*;resolution:=optional,
-                            org.apache.commons.lang.*,
+                            org.apache.commons.lang3.*,
                             org.apache.commons.logging,*;resolution:=optional
                         </Import-Package>
             <Export-Package>net.fortuna.ical4j.*</Export-Package>

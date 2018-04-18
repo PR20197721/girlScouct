@@ -19,7 +19,7 @@
                   com.adobe.granite.workflow.WorkflowSession,
                   com.adobe.granite.workflow.exec.WorkItem,
                   com.adobe.granite.workflow.metadata.MetaDataMap,
-                  org.apache.commons.lang.StringUtils,
+                  org.apache.commons.lang3.StringUtils,
                   org.apache.sling.api.resource.Resource,
                   org.apache.sling.api.resource.ResourceUtil, com.adobe.granite.workflow.PayloadMap, com.adobe.granite.workflow.exec.WorkflowData" %><%
 %><%@include file="/libs/granite/ui/global.jsp" %><%
