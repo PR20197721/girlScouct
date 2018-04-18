@@ -94,13 +94,13 @@ window.BadgePdfGenerator = (function(window, $, document){
 		
 		// Normalize the description with real html.
 		var selectedBadges = [].concat(getSelectedBadges());
-		for(var i = 0; i < selectedBadges.length; i++){
-			try{
-				if(DomUtils.htmlDecode(selectedBadges[i].description)){
-					selectedBadges[i].description = DomUtils.htmlDecode(selectedBadges[i].description);
-				}
-			}catch(err){}
-		}
+//		for(var i = 0; i < selectedBadges.length; i++){
+//			try{
+//				if(DomUtils.htmlDecode(selectedBadges[i].description)){
+//					selectedBadges[i].description = DomUtils.htmlDecode(selectedBadges[i].description);
+//				}
+//			}catch(err){}
+//		}
 		
 		// Create the dom for the PDF.
 		var id = 'PdfBadgeGrid_' + Math.floor(Math.random() * Math.floor(1000));
@@ -139,17 +139,15 @@ window.BadgePdfGenerator = (function(window, $, document){
 			})
 		});
 	};
-	
-	/*
-	 * Returns a list of badge JSON data based on what is currently visible in the UI.
-	 */
+
+	var currentSelectedBadges = [];
 	function getSelectedBadges(){
-		var returner = [];
-		$('.badge-grid .badge-block').not('.hide').each(function(){
-			returner.push($(this).data('badge-info'));
-		});
-		return returner;
+		return currentSelectedBadges;
 	};
+	
+	function _setSelectedBadges(newSelectedBadges){
+		currentSelectedBadges = newSelectedBadges;
+	}
 
 	/*
 	 * Recursive function to process badge elements one at a time and turn them into image strings.
@@ -247,7 +245,8 @@ window.BadgePdfGenerator = (function(window, $, document){
 	 * Only expose method to generate badge pdf.  Other functions are inter-reliant.
 	 */
 	return {
-		generateBadgePdf : _generateBadgePdf
+		generateBadgePdf : _generateBadgePdf,
+		setSelectedBadges : _setSelectedBadges
 	};
 	
 })(window, $, document);

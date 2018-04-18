@@ -1,0 +1,111 @@
+.BadgeSelectorModal{
+    position: relative;
+    padding: 10px 0 45px 10px;
+    opacity: 0.3;
+    transition-duration: 700ms;
+    transition-property: opacity;
+}
+
+.CloseBadgeSelector {
+    position: absolute;
+    right: 15px;
+    top: 0;
+    font-size: 2em;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.AddAllPdfOuter {
+    height: 30px;
+    width: 30px;
+}
+
+.AddAllPdfCircleSelected {
+	transform: scale(0);
+	opacity: 0;
+	transition-duration: 500ms;
+	transition-property: transform opacity;
+    transform-origin: center;
+}
+
+.AddAllPdfCircleSelected.selected {
+	transform: scale(1);
+	opacity: 1;
+}
+
+.BadgeSelectionContainer {
+    padding-top: 45px;
+}
+
+.BadgeSelectedOverlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #1c9245;
+    background-color: rgba(232, 232, 232, 0.8);
+}
+
+.BadgeSelectedOverlay i{
+    font-size: 110px;
+}
+
+.AddAllPdfContainer {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-left: 8px;
+}
+
+.AddAllPdfContainer span {
+    padding-left: 5px;
+}
+
+.BadgeSelectorModal .CreateBadgePdfButton{
+    margin-left: 10px;
+}
+
+.CreateBadgePdfButton {
+    flex-grow: 1;
+    margin-left: 10px;
+    margin-right: 10px;
+    max-height: 30px;
+    min-width: 175px;
+    width: auto;
+}
+
+.BadgeSelectionOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: #282828;
+	background-size:16px 16px;
+	opacity: 0.2;
+	z-index: 3;
+}
+
+.tags {
+    min-width: 100%;
+}
+
+.BadgeSelectorModal h1 {
+    max-width: calc(100% - 34px);
+}
+
+.badge-selector.section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 610px;
+}
+
+.badge-focus-grid {
+    position: relative;
+}
+
+.BadgeSelectorModal h1 {
+    max-width: calc(100% - 34px);
+}

@@ -1,4 +1,5 @@
-base=.
+#base=.
 badge-explorer-components.js
 badge-pdf-generator.js
+badge-selector-window.js
 badge-explorer.js

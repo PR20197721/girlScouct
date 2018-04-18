@@ -1,3 +1,4 @@
-base=.
+#base=.
 badge-pdf-generator.css
 badge-explorer.css
+badge-selector-window.css
