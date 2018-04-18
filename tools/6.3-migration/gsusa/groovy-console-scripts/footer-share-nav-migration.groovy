@@ -5,7 +5,7 @@ import javax.jcr.query.*
 
 String QUERY_LANGUAGE = "JCR-SQL2";
 String PATH = "/content";
-String RESOURCE_TYPE = 'gsusa/components/footer-nav';
+String RESOURCE_TYPE = 'gsusa/components/footer-share';
 
 String EXPRESSION = "SELECT s.[jcr:path] "+
                     "FROM [nt:unstructured] AS s "+
@@ -19,18 +19,18 @@ if (result != null) {
 		while (rowIter.hasNext()) {
 			Row row = rowIter.nextRow()
 			Node node = row.getNode()
-			if(node.hasProperty("navs") ){
+			if(node.hasProperty("socialIcons") ){
 			    Node linksNode = null;
-			    if(!node.hasNode("navs")){
-			        linksNode = node.addNode("navs", "nt:unstructured");
+			    if(!node.hasNode("socialIcons")){
+			        linksNode = node.addNode("socialIcons", "nt:unstructured");
 			    }else{
-			        linksNode = node.getNode("navs");
+			        linksNode = node.getNode("socialIcons");
 			    }
 			     println("**************************************************************************************")
 			     println(linksNode.getPath())
 			     try{
-				     Value[] values = node.getProperty("navs").getValues()
-	                 println("Processing footer-nav with " + values.length + " values")
+				     Value[] values = node.getProperty("socialIcons").getValues()
+	                 println("Processing footer-share with " + values.length + " values")
 	                    
 	                 for(int i = 0; i < values.length; i++){
 	                    String linkSet = values[i].getString()
@@ -42,12 +42,12 @@ if (result != null) {
 	                    } else{
 	                        itemNode = linksNode.getNode("item" + i);
 	                    }						
-	                    String label = linkProperties[0]
-	                    String path = linkProperties.length >= 2 ? linkProperties[1] : ""
-	                    String clazz = linkProperties.length >= 3 ? linkProperties[2] : ""
-	                    itemNode.setProperty("label", label)
-	                    itemNode.setProperty("class", clazz)
-	                    itemNode.setProperty("path", path)
+	                    String name = linkProperties[0]
+	                    String url = linkProperties.length >= 2 ? linkProperties[1] : ""
+	                    String iconPath = linkProperties.length >= 3 ? linkProperties[2] : ""
+	                    itemNode.setProperty("name", name)
+	                    itemNode.setProperty("url", url)
+	                    itemNode.setProperty("icon-path", iconPath)
 	                        
 	                        
 	                }
@@ -63,12 +63,12 @@ if (result != null) {
 						 } else{
 							 itemNode = linksNode.getNode("item" + i);
 						 }
-						String label = linkProperties[0]
-	                    String path = linkProperties.length >= 2 ? linkProperties[1] : ""
-	                    String clazz = linkProperties.length >= 3 ? linkProperties[2] : ""
-	                    itemNode.setProperty("label", label)
-	                    itemNode.setProperty("class", clazz)
-	                    itemNode.setProperty("path", path)
+						String name = linkProperties[0]
+	                    String url = linkProperties.length >= 2 ? linkProperties[1] : ""
+	                    String iconPath = linkProperties.length >= 3 ? linkProperties[2] : ""
+	                    itemNode.setProperty("name", name)
+	                    itemNode.setProperty("url", url)
+	                    itemNode.setProperty("icon-path", iconPath)
 					 }catch(Exception e2){}
 				 }			        
 			    save()

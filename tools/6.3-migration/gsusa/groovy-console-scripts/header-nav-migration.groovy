@@ -30,7 +30,7 @@ if (result != null) {
 			     println(linksNode.getPath())
 				 try{
 				     Value[] values = node.getProperty("navs").getValues()
-	                 println("Processing global-nav with " + values.length + " values")
+	                 println("Processing header-nav with " + values.length + " values")
 	                    
 	                 for(int i = 0; i < values.length; i++){
 	                    String linkSet = values[i].getString()
