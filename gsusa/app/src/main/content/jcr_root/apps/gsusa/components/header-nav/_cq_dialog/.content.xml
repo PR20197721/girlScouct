@@ -21,6 +21,8 @@
                          sling:resourceType="granite/ui/components/foundation/form/checkbox"
                          fieldDescription="Will display a sticky nav when scrolling down the page."
                          name="./displayStickyNav"
+                         uncheckedValue="{Boolean}false"
+		                 value="{Boolean}true"
                          text="Display Sticky Navigation"/>
                       <multi
 	                      jcr:primaryType="nt:unstructured"

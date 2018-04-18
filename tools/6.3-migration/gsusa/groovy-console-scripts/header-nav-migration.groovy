@@ -53,14 +53,14 @@ if (result != null) {
 						Boolean newWindow = linkProperties.length >=9 ? Boolean.parseBoolean(linkProperties[8]) : false
 	                    
 	                    itemNode.setProperty("large-label", lLabel)
-						 itemNode.setProperty("medium-label", mLabel)
-						 itemNode.setProperty("small-label", sLabel)
-						 itemNode.setProperty("class", clazz)
-						 itemNode.setProperty("path", path)
-						 itemNode.setProperty("hide-in-desktop", hideInDesktop)
-						 itemNode.setProperty("hide-in-mobile", hideInMobile)
-						 itemNode.setProperty("root-landing-page", rootLandingPage)
-						 itemNode.setProperty("new-window", newWindow)
+						itemNode.setProperty("medium-label", mLabel)
+						itemNode.setProperty("small-label", sLabel)
+						itemNode.setProperty("class", clazz)
+						itemNode.setProperty("path", path)
+						itemNode.setProperty("hide-in-desktop", hideInDesktop)
+						itemNode.setProperty("hide-in-mobile", hideInMobile)
+						itemNode.setProperty("root-landing-page", rootLandingPage)
+						itemNode.setProperty("new-window", newWindow)
 	                }				        
 				    save()
 				    println("saved converted content")
