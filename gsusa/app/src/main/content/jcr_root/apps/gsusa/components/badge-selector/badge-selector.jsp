@@ -16,7 +16,7 @@ if (tagPaths != null && tagPaths.length > 0) {
     TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
     StringBuilder sb = new StringBuilder();
     sb.append("<div class=\"tags\">");
-    %><ul class="dropdown"><%
+    %><ul class="dropdown" style="display: none;"><%
         int dropDwnCnt = 0;
         for (String tagPath : tagPaths) {
             Tag dropdownTag = tagManager.resolve(tagPath);

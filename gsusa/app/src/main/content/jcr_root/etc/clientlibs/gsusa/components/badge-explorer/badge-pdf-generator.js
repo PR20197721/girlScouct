@@ -43,7 +43,6 @@ window.BadgePdfGenerator = (function(window, $, document){
 	var defaultElementInitialized = new $.Deferred();
 	var pdfBadgeGridContainer;
 	
-	var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 	var safariStagingImages = $();
 
 	/*
@@ -94,13 +93,6 @@ window.BadgePdfGenerator = (function(window, $, document){
 		
 		// Normalize the description with real html.
 		var selectedBadges = [].concat(getSelectedBadges());
-//		for(var i = 0; i < selectedBadges.length; i++){
-//			try{
-//				if(DomUtils.htmlDecode(selectedBadges[i].description)){
-//					selectedBadges[i].description = DomUtils.htmlDecode(selectedBadges[i].description);
-//				}
-//			}catch(err){}
-//		}
 		
 		// Create the dom for the PDF.
 		var id = 'PdfBadgeGrid_' + Math.floor(Math.random() * Math.floor(1000));
@@ -175,14 +167,12 @@ window.BadgePdfGenerator = (function(window, $, document){
 			images.push(image);
 			
 			// Safari will distort images that haven't been on the screen yet.
-			if(is_safari){
-				var imageTestContainer = $('.ImageTestContainer');
-				if(imageTestContainer.length < 1){
-					imageTestContainer = $('<div>').addClass('ImageTestContainer').appendTo('body');
-					safariStagingImages = safariStagingImages.add(imageTestContainer)
-				}
-				imageTestContainer.append(image);
+			var imageTestContainer = $('.ImageTestContainer');
+			if(imageTestContainer.length < 1){
+				imageTestContainer = $('<div>').addClass('ImageTestContainer').appendTo('body');
+				safariStagingImages = safariStagingImages.add(imageTestContainer)
 			}
+			imageTestContainer.append(image);
 
 			return processCanvasElement(canvasOutputElements, index +1, images);
 		});
@@ -232,10 +222,8 @@ window.BadgePdfGenerator = (function(window, $, document){
 		doc.save('BadgesReport.pdf');
 		$('footer').show();
 
-		if(is_safari){
-			safariStagingImages.remove();
-			safariStagingImages = $();
-		}
+		safariStagingImages.remove();
+		safariStagingImages = $();
 	};
 
 	// Init on dom load.

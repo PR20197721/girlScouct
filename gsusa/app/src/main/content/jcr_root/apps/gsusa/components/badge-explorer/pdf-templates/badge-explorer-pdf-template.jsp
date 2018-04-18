@@ -6,5 +6,5 @@
 		<div class="BadgePdfImageColumn">Badge</div>
 		<div class="BadgePdfDescriptionColumn">DESCRIPTION</div>
 	</div>
-	<badge-explorer-element-pdf v-bind="badge" @toggleSelection v-for="(badge, index) in badgeData"/>
+	<badge-explorer-element-pdf v-bind="badge" v-for="(badge, index) in badgeData"/>
 </div>

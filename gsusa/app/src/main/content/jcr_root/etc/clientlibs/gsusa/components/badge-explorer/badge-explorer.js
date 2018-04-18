@@ -1,4 +1,6 @@
 $(document).ready(function () {
+	$('.dropdown').show();
+	
     var badges = $(".badge-block"),
         filterSets = {},
         filter,
