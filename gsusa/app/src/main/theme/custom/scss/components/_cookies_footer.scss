@@ -9,19 +9,20 @@
     color: $white;
     display: inline-block;
     float: left;
-    width: 49%;
     line-height: 1%;
     height: 100%;
     span {
       visibility: hidden;
     }
-    &.apple-download {
-      // background: url("../images/itunes-app-store-logo.png") no-repeat 0 0 /contain transparent;
-    }
-    &.google-play-download {
-      // background: url("../images/android_google_play_logo.png") no-repeat 0 0 /contain transparent;
-      float: right;
-    }
+  }
+  .google-play-download{
+  	margin-left: 5px;
+  }
+  .apple-download {
+  	margin-right: 5px;
+  }
+  .AppStoreContainer{
+  	display: flex;
   }
   .get-updates,
   .install-app {

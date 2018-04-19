@@ -32,5 +32,20 @@
             <required>false</required>
   			<rtexprvalue>true</rtexprvalue>
         </attribute>
+        <attribute>
+            <name>href</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>description</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>alt</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
 </taglib>

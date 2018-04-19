@@ -10,14 +10,15 @@ import org.girlscouts.web.wcm.foundation.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.commons.ImageResource;
 import com.day.cq.wcm.foundation.Placeholder;
 
 @SuppressWarnings("serial")
 public class ImageTag extends BaseMarkupTag {
 	private static Logger log = LoggerFactory.getLogger(Image.class);
 	
-	private String relativePath, selector, suffix;
-	private Boolean newWindow;
+	private String relativePath, selector, suffix, href, description, alt;
+	private Boolean newWindow = false;
 
 	@Override
 	public int doEndTag() throws JspException {   
@@ -34,8 +35,12 @@ public class ImageTag extends BaseMarkupTag {
 	    // Passed properties.
 		image.addCssClass(getStyleClass());
 		image.setSelector(Optional.ofNullable(getSelector()).orElse(".img"));
-		Optional.ofNullable(getSuffix()).ifPresent(image::setSuffix);
+		//Optional.ofNullable(getHref()).ifPresent(image::setHref);
+		Optional.ofNullable(getHref()).ifPresent(href -> image.set(ImaageResource.PN_LINK_URL, href));
 		
+		Optional.ofNullable(getSuffix()).ifPresent(image::setSuffix);
+		Optional.ofNullable(getDescription()).ifPresent(image::setDescription);
+		Optional.ofNullable(getAlt()).ifPresent(image::setAlt);
 		try {
 			if(getNewWindow()) {
 				pageContext.getOut().write(image.getString().replace("<a ", "<a target=\"_blank\""));
@@ -89,12 +94,39 @@ public class ImageTag extends BaseMarkupTag {
 		this.newWindow = newWindow;
 	}
 
+	public String getHref() {
+		return href;
+	}
+
+	public void setHref(String href) {
+		this.href = href;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getAlt() {
+		return alt;
+	}
+
+	public void setAlt(String alt) {
+		this.alt = alt;
+	}
+
 	@Override
 	public void release() {
 		this.relativePath = null;
 		this.selector = null;
 		this.suffix = null;
-		this.newWindow = null;
+		this.newWindow = false;
+		this.href = null;
+		this.description = null;
+		this.alt = null;
 	}
 	
 }
