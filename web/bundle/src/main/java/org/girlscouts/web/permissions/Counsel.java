@@ -65,7 +65,7 @@ public class Counsel {
 	}
 	
 	private List<CounselFolder> getDefaultFolderList(Session session){
-		List<CounselFolder> folders = new ArrayList<CounselFolder>(7);
+		List<CounselFolder> folders = new ArrayList<CounselFolder>();
 		folders.add(new CounselFolder(DirectoryConfig.CONTENT, getContentDirectoryPath(), session, reviewersGroup, authorsGroup));
 		folders.add(new CounselFolder(DirectoryConfig.DAM, getDamDirectoryPath(), session, reviewersGroup, authorsGroup));
 		folders.add(new CounselFolder(DirectoryConfig.GROUP, getGroupDirectoryPath(), session, reviewersGroup, authorsGroup));
@@ -74,6 +74,8 @@ public class Counsel {
 		folders.add(new CounselFolder(DirectoryConfig.TAGS, getTagsDirectoryPath(), session, reviewersGroup, authorsGroup));
 		folders.add(new CounselFolder(DirectoryConfig.VTK_RESOURCES, getVtkResourcesDirectoryPath(), session, reviewersGroup, authorsGroup));
 		folders.add(new CounselFolder(DirectoryConfig.VTK_DAM, getVtkDamDirectoryPath(), session, reviewersGroup, authorsGroup));
+		folders.add(new CounselFolder(DirectoryConfig.USER_GENERATED, getUserGeneratedDirectoryPath(), session, reviewersGroup, authorsGroup));
+		
 		return folders;
 	}
 	
@@ -83,6 +85,10 @@ public class Counsel {
 		} catch (RepositoryException e) {
 			return "unknown";
 		}
+	}
+	
+	public String getUserGeneratedDirectoryPath() {
+		return "/content/usergenerated/" + getName();
 	}
 	
 	public String getVtkResourcesDirectoryPath() {

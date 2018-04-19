@@ -100,7 +100,52 @@
                         maxValue="10000"
                         minValue="20"
                         name="./homecarouselautoplayspeed"
-                        xtype="numberfield"/>
+                        xtype="numberfield">
+                    </autoplayspeed>
+                    <radioDesktop
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Video Player Config (Desktop)"
+                        name="./videoConfigDesktop"
+                        defaultValue="default"
+                        type="radio"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <default
+                                jcr:primaryType="nt:unstructured"
+                                text="No thumbnail (Default)"
+                                value="default"/>
+                            <thumbnail
+                                jcr:primaryType="nt:unstructured"
+                                text="Thumbnail (Lazy load)"
+                                value="thumbnail"/>
+                            <link
+                                jcr:primaryType="nt:unstructured"
+                                text="Open in new tab"
+                                value="link"/>
+                        </options>
+                    </radioDesktop>
+                    <radioMobile
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Video Player Config (Mobile)"
+                        name="./videoConfigMobile"
+                        defaultValue="default"
+                        type="radio"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <default
+                                jcr:primaryType="nt:unstructured"
+                                text="No thumbnail (Default)"
+                                value="default"/>
+                            <thumbnail
+                                jcr:primaryType="nt:unstructured"
+                                text="Thumbnail (Lazy load)"
+                                value="thumbnail"/>
+                            <link
+                                jcr:primaryType="nt:unstructured"
+                                text="Open in new tab"
+                                value="link"/>
+                        </options>
+                    </radioMobile>
                 </items>
             </tab2>
             <tab7

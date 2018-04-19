@@ -6,9 +6,10 @@
 -->
 <h4>Booth Locations near you:</h4>
 <p>The nearest location is {{env.nearestDistance}} miles away from {{env.zip}}.</p>
-<form action="<%=slingRequest.getRequestURI() %>" class="sort-form clearfix">
+<b>Select distance, date, and sorting method to filter your results:</b>
+<form action="<%=slingRequest.getRequestURI() %>" class="sort-form clearfix" style="margin-top: 0.7rem;">
     <section>
-        <label>Radius:</label>
+        <label>Distance:</label>
         <select name="radius" onchange="this.form.submit()">
             <option value="1">1 miles</option>
             <option value="5">5 miles</option>
@@ -31,7 +32,6 @@
             <!-- default -->
             <option value="60" selected>2 months</option>
             <option value="90">3 months</option>
-            <option value="all">all</option>
         </select>
     </section>
     <section>

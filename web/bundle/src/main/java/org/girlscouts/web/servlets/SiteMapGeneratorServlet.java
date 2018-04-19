@@ -7,7 +7,7 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.xml.stream.*;
 
-import org.apache.commons.lang.time.FastDateFormat;
+import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.felix.scr.annotations.*;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.sling.api.*;

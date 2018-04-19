@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" version="2.1">
+    <tlib-version>1.0.0-SNAPSHOT</tlib-version>
+    <short-name>gsc</short-name>
+    <uri>https://girlscouts.org/girlscouts-common/taglib</uri>
+    <tag>
+        <name>image</name>
+        <tag-class>org.girlscouts.common.taglib.html.ImageTag</tag-class>
+        <info>Creates image tag using the Day Commons Image Implementation.</info>
+        <attribute>
+            <name>relativePath</name>
+            <required>true</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>selector</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>newWindow</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>suffix</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>href</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>description</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>alt</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

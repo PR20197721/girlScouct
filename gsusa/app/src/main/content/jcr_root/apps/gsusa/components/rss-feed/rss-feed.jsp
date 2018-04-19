@@ -28,7 +28,7 @@
 	java.util.Calendar,
 	org.apache.sling.api.SlingHttpServletRequest,
 	org.apache.sling.api.scripting.SlingBindings,
-	org.apache.commons.lang.StringUtils
+	org.apache.commons.lang3.StringUtils
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>

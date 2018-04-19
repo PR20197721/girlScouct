@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root 
+	xmlns:sling="http://sling.apache.org/jcr/sling/1.0" 
+	xmlns:cq="http://www.day.com/jcr/cq/1.0" 
+	xmlns:jcr="http://www.jcp.org/jcr/1.0" 
+	xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+	
     cq:actions="[edit]"
     cq:dialogMode="floating"
     cq:disableTargeting="{Boolean}true"
-    jcr:primaryType="cq:EditConfig"/>
+    jcr:primaryType="cq:EditConfig">
+    <cq:dropTargets jcr:primaryType="nt:unstructured">
+        <image
+            jcr:primaryType="cq:DropTargetConfig"
+            accept="[image/.*]"
+            groups="[media]"
+            propertyName="./image/fileReference">
+            <parameters
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image">
+                <googleicon
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/image">
+	                <image
+	                    jcr:primaryType="nt:unstructured"
+	                    sling:resourceType="foundation/components/image"
+	                    imageCrop=""
+	                    imageMap=""
+	                    imageRotate=""/>
+                </googleicon>
+                <appleicon
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/image">
+	                <image
+	                    jcr:primaryType="nt:unstructured"
+	                    sling:resourceType="foundation/components/image"
+	                    imageCrop=""
+	                    imageMap=""
+	                    imageRotate=""/>
+                </appleicon>
+            </parameters>
+        </image>
+    </cq:dropTargets>    
+</jcr:root>

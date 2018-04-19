@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanComparator;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.felix.scr.annotations.*;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.ejb.UserUtil;

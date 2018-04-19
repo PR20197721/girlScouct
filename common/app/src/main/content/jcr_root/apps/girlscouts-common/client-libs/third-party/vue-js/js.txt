@@ -1,0 +1,2 @@
+base=.
+vue.min.js

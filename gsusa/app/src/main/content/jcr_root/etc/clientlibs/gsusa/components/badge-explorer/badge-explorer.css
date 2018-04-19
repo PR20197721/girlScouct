@@ -68,11 +68,6 @@
     line-height: 26px;
 }
 
-.dropdown > li > label:hover,
-.dropdown > li > input:checked ~ label {
-    //background-color: gainsboro;
-}
-
 .dropdown > li > label:after {
     content: "";
     position: absolute;

@@ -71,6 +71,9 @@
                         xtype="hidden"/>
                 </items>
             </background-image>
+            
+            
+            
             <tab2
                 jcr:primaryType="cq:Panel"
                 title="Advanced Settings">

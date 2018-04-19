@@ -28,7 +28,7 @@
 %><%@ page import="com.day.cq.wcm.foundation.forms.FieldDescription,
                    com.day.cq.wcm.foundation.forms.FieldHelper,
                    com.day.cq.wcm.foundation.forms.FormsHelper,
-                   org.apache.commons.lang.StringUtils,
+                   org.apache.commons.lang3.StringUtils,
                    com.day.cq.wcm.foundation.forms.FormsConstants,
                    java.util.Locale, java.util.ResourceBundle,
                    com.day.cq.i18n.I18n" %><%

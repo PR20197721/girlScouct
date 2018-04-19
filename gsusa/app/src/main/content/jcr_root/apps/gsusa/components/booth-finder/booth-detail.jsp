@@ -19,6 +19,8 @@ String facebookId = currentSite.get("facebookId", "");
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 response.setHeader("Pragma", "no-cache");
 response.setHeader("Expires", "0");
+String address1 = request.getParameter("Address1");
+address1 = address1 ==null ? "" : address1;
 String address2 = request.getParameter("Address2");
 address2 = address2 ==null ? "" : address2;
 String address = request.getParameter("Address1") +" " + address2 + " " + 
@@ -27,6 +29,14 @@ String zip = (String)request.getParameter("queryZip");
 zip = (zip ==null ? "" : zip);
 String councilName= (String)request.getParameter("CouncilName");
 councilName= councilName== null ? "" : councilName;
+
+String addressZip = (String)request.getParameter("ZipCode");
+addressZip = (addressZip ==null ? "" : addressZip);
+String latitudeData= (String)request.getParameter("Latitude");
+latitudeData= latitudeData== null ? "0" : latitudeData;
+String longitudeData= (String)request.getParameter("Longitude");
+longitudeData= longitudeData== null ? "0" : longitudeData;
+
 
 String dateStart = request.getParameter("DateStart");
 try {
@@ -37,7 +47,8 @@ try {
 	log.error("Error parsing start date.");
 }
 
-String googleMapsAPI = properties.get("mapAPI", "AIzaSyDWhROdret3d0AGaTTZrYeFH8hP5SIbmzw");
+//String googleMapsAPI = properties.get("mapAPI", "AIzaSyDWhROdret3d0AGaTTZrYeFH8hP5SIbmzw");	// 1M Google MAPS API Grant
+String googleMapsAPI = properties.get("mapAPI", "AIzaSyCQ1pG4dKsTrA8mqAo-0qwAI0I8AaoWdiE");		// Free Version
 
 %>
 <html>
@@ -49,26 +60,62 @@ String googleMapsAPI = properties.get("mapAPI", "AIzaSyDWhROdret3d0AGaTTZrYeFH8h
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
-        center: {lat: -34.397, lng: 150.644}
+        center: {lat: -0.000, lng: 150.000}
       });
 
       geocoder = new google.maps.Geocoder;
       setTimeout(function(){ doIt(); }, 1000);
     }
+
     function codeAddress( resultsMap, geocoder) {
       var address = "<%=address%>";
-      geocoder.geocode({'address': address}, function(results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
-          resultsMap.setCenter(results[0].geometry.location);
-          var marker = new google.maps.Marker({
-            map: resultsMap,
-            zoom: 8,
-            position: results[0].geometry.location
-          });
-        } else {
-        console.log('Geocode was not successful for the following reason: ' + status);
-        }
-      });
+      var latitude = "<%=latitudeData%>";
+      var longitude = "<%=longitudeData%>";
+
+	  if(latitude.length > 0 && longitude.length > 0) {
+		  	var myLatLng = {
+		  		"lat"	: parseFloat(parseFloat(latitude).toFixed(6)), 
+		  		"lng"	: parseFloat(parseFloat(longitude).toFixed(6)) 
+		  	};
+			//console.log(myLatLng);		  	
+			var marker = new google.maps.Marker({
+				map: resultsMap,
+				zoom: 8,
+				position: myLatLng
+			});
+			resultsMap.setCenter(myLatLng); 
+			
+	  } else {
+	  
+	    	geocoder.geocode({'address': address}, function(results, status) {
+    		    if (status === google.maps.GeocoderStatus.OK) {
+        		  var marker = new google.maps.Marker({
+    		        map: resultsMap,
+		            zoom: 8,
+        		    position: results[0].geometry.location
+    		      });
+		          resultsMap.setCenter(results[0].geometry.location);
+
+    		      // save the lat/long
+				  var formData = {
+				    "a1" : "<%=address1%>",
+					"z"	 : "<%=addressZip%>",
+					"lat": results[0].geometry.location.lat().toFixed(6),
+					"long": results[0].geometry.location.lng().toFixed(6)
+				  };
+				  //console.log(formData);
+				  $.ajax({
+  					method: "POST",
+					url: "/cookiesapi/booth_list_geo_insert.asp",
+					data: formData
+				  });
+    		      
+		        } else {
+	    	    	console.log('Geocode was not successful for the following reason: ' + status);
+	    	    }
+	    	});
+	  }
+	  
       map.addListener('click', function() {
         window.open("http://maps.google.com/maps/dir/<%= zip%>/<%= URLEncoder.encode(address) %>");
       });
@@ -77,6 +124,19 @@ String googleMapsAPI = properties.get("mapAPI", "AIzaSyDWhROdret3d0AGaTTZrYeFH8h
       codeAddress(map, geocoder);
       google.maps.event.trigger(map, 'resize');
       google.maps.event.trigger(map, 'center');
+
+	  // to correct gray box issue on chrome and chrome mobile      
+      $('#map').css('visibility','hidden');
+     // $('#map').css('overflow','auto');      
+      setTimeout(function(){
+      	$('#map').css('position','absolute');
+      	setTimeout(function(){
+      		$('#map').css('position','relative');
+      		$('#map').css('visibility','visible');
+		}, 500);
+      }, 500);
+      
+      
     }
     function LoadGoogle(){
       if(typeof google != 'undefined' && google && google.load){
@@ -144,7 +204,7 @@ String googleMapsAPI = properties.get("mapAPI", "AIzaSyDWhROdret3d0AGaTTZrYeFH8h
 	$(document).ready(function() {
 		var scriptTag = document.createElement("script");
 		scriptTag.type = "text/javascript"
-		scriptTag.src="http://connect.facebook.net/en_US/all.js";
+		scriptTag.src="//connect.facebook.net/en_US/all.js";
 		scriptTag.async = true;
 		document.getElementsByTagName("head")[0].appendChild(scriptTag);
 

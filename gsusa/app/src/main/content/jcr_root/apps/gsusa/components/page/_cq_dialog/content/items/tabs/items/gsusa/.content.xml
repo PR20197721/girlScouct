@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Girl Scouts USA"
+    sling:resourceType="granite/ui/components/foundation/section">
+    <layout
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+        margin="{Boolean}false"/>
+    <items jcr:primaryType="nt:unstructured">
+    	<column
+        	jcr:primaryType="nt:unstructured"
+        	sling:resourceType="granite/ui/components/foundation/container">
+            <items jcr:primaryType="nt:unstructured">
+            	<global-srch-landing-page
+                    jcr:primaryType="nt:unstructured"
+                    fieldLabel="Global Search Landing Page"
+                    name="./globalLanding"
+                    sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"/>							        
+		        <is-cookie-page
+		            jcr:primaryType="nt:unstructured"
+		            fieldDescription="Cookie pages have special headers, footers and third column."
+		            fieldLabel="Is Cookie Page"
+		            name="./isCookiePage"
+		            sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup">
+		            <items jcr:primaryType="nt:unstructured">
+		                <derived
+		                    jcr:primaryType="nt:unstructured"
+		                    text="Derived"
+		                    value="derived"/>
+		                <true
+		                    jcr:primaryType="nt:unstructured"
+		                    text="True"
+		                    value="true"/>
+		                <false
+		                    jcr:primaryType="nt:unstructured"
+		                    text="False"
+		                    value="false"/>
+		            </items>
+		        </is-cookie-page>
+		        <is-content-hub
+		            jcr:primaryType="nt:unstructured"
+		            defaultValue="derived"
+		            fieldDescription="Article pages in content hub follows different logic for the left navigation"
+		            fieldLabel="Is Content Hub Repository"
+		            name="./isContentHub"
+		            sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup"
+		            value="derived">
+		            <items jcr:primaryType="nt:unstructured">
+		                <derived
+		                    jcr:primaryType="nt:unstructured"
+		                    text="Derived"
+		                    value="derived"/>
+		                <true
+		                    jcr:primaryType="nt:unstructured"
+		                    text="True"
+		                    value="true"/>
+		                <false
+		                    jcr:primaryType="nt:unstructured"
+		                    text="False"
+		                    value="false"/>
+		            </items>
+		        </is-content-hub>
+		        <ogtitle
+		            jcr:primaryType="nt:unstructured"
+		            fieldDescription="Default: SEO Title"
+		            fieldLabel="og:title"
+		            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+		            name="./ogTitle"/>
+		        <ogsitename
+		            jcr:primaryType="nt:unstructured"
+		            defaultValue="Girl Scouts of the USA"
+		            fieldDescription="Default: Girl Scouts of the USA"
+		            fieldLabel="og:site_name"
+		            name="./ogSiteName"
+		            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+		            value="Girl Scouts of the USA"/>
+		        <ogurl
+		            jcr:primaryType="nt:unstructured"
+		            fieldLabel="og:url"
+		            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+		            name="./ogUrl"/>
+		        <ogdescription
+		            jcr:primaryType="nt:unstructured"
+		            fieldLabel="og:description"
+		            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+		            name="./ogDescription"/>
+		        <ogimage
+		            jcr:primaryType="nt:unstructured"
+		            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+		            fieldLabel="og:image"
+		            name="./ogImage"
+		            rootPath="/content/dam/girlscouts-gsusa"/>
+		        <fbappid
+		            jcr:primaryType="nt:unstructured"
+		            fieldDescription="Default: 419540344831322 "
+		            fieldLabel="fb:app_id"
+		            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+		            name="./fbAppId"/>
+		        <openInNewWindow
+		            jcr:primaryType="nt:unstructured"
+		            defaultValue="false"
+		            fieldDescription="Left nav only"
+		            text="Open in new window"
+		            name="./openInNewWindow"
+		            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+		            value="{Boolean}true"
+		            uncheckedValue="{Boolean}false"/>
+			</items>
+    	</column>
+    </items>					    
+</jcr:root>

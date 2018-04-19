@@ -312,7 +312,6 @@
   color: #FFFFFF;
   display: inline-block;
   float: left;
-  width: 49%;
   line-height: 1%;
   height: 100%;
 }
@@ -321,7 +320,7 @@
   visibility: hidden;
 }
 /* line 21, ../../../../../../../theme/custom/scss/components/_cookies_footer.scss */
-.cookie-footer a.google-play-download {
+.cookie-footer .google-play-download {
   float: right;
 }
 /* line 26, ../../../../../../../theme/custom/scss/components/_cookies_footer.scss */
@@ -334,7 +333,7 @@
 @media only screen and (min-width: 49em) {
   /* line 26, ../../../../../../../theme/custom/scss/components/_cookies_footer.scss */
   .cookie-footer .get-updates,
-  .cookie-footer .install-app {
+  .cookie-footer .install-block {
     width: 48.8%;
     float: left;
     height: 9.5rem;

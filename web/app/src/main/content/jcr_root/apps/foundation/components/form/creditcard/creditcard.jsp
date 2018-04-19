@@ -30,7 +30,7 @@
 		java.util.ArrayList,
 		java.util.List,
 		java.util.ResourceBundle,
-		org.apache.commons.lang.StringUtils,
+		org.apache.commons.lang3.StringUtils,
 		com.day.cq.wcm.foundation.forms.FormsConstants,
 		com.adobe.cq.commerce.api.CommerceService,
 		org.apache.commons.collections.CollectionUtils" %><%

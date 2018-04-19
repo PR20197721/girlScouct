@@ -1,45 +1,39 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp"%>
-
-<%
-  	String[] socialIcons = properties.get("socialIcons", String[].class);
-	
-	if (WCMMode.fromRequest(request) == WCMMode.EDIT && socialIcons == null) {
-%>
-		<li>Please click to edit the footer share component</li>
 <% 
-	}
-%>
-
-<ul class="inline-list">
-  <% if (socialIcons != null) { 
-    for (String settingStr : socialIcons) {
-      String[] settings = settingStr.split("\\|\\|\\|");
-      if (settings.length < 3) {
-          %><li> Please input a valid name/url/icon path. </li> <%
-          continue;
-      }
-      String name = settings[0].trim();
-	  if ("".equals(name)) {
-		  %><li> Name is empty. </li> <%
-		  continue;
-	  }
-      String url = settings[1].trim();
-      if ("".equals(name)) {
-		  %><li> URL is empty. </li> <%
-		  continue;
-	  }
-      String iconPath = settings[2].trim();
-      if ("".equals(name)) {
-		  %><li> Icon Path is empty. </li> <%
-		  continue;
-	  }
-      String iconClass = settings.length >= 4 ? " "+ settings[3] : "";
-      
-      
+if(currentNode.hasNode("socialIcons")){	
+	Node links = currentNode.getNode("socialIcons");
+    NodeIterator iter = links.getNodes();
     %>
-    <li><a id="tag_social-icon_<%=name.toLowerCase()%>" target="_blank" href="<%= url %>"><img alt="<%=name%>" title="<%=name%>" src="<%= iconPath %>"/></a></li>
-    <% 
-    } 
-  } %>
-</ul>
+	<ul class="inline-list">
+		<%
+    	while(iter.hasNext()){
+    		Node linkNode = iter.nextNode();
+			String name = linkNode.hasProperty("name") ? linkNode.getProperty("name").getString():"";
+			String url = linkNode.hasProperty("url") ? linkNode.getProperty("url").getString():"";
+			String iconPath = linkNode.hasProperty("icon-path") ? linkNode.getProperty("icon-path").getString():"";
+			if (iconPath.isEmpty()) {
+				%><li> Please input a valid name/url/icon path. </li> <%
+				continue;
+		     }		      
+			 if (name.isEmpty()) {
+				%><li> Name is empty. </li> <%
+				continue;
+			 }
+		     if (url.isEmpty()) {
+				%><li> URL is empty. </li> <%
+				continue;
+			 }
+		     %>
+		     <li><a id="tag_social-icon_<%=name.toLowerCase()%>" target="_blank" href="<%= url %>"><img alt="<%=name%>" title="<%=name%>" src="<%= iconPath %>"/></a></li>
+		     <%
+    	}
+		%>
+	</ul>
+	<%
+}else{
+	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+		%><li>Please click to edit the footer share component</li><% 
+	}
+}
+%>

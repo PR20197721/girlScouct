@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:primaryType="cq:Widget"
-    defaultValue=""
-    hideLabel="true"
-    name="./desktopdescription"
-    value="Styling configuration for desktop view where width of the page is greater than 768px. Please refresh page if style hasn't updated."
-    xtype="displayfield"/>

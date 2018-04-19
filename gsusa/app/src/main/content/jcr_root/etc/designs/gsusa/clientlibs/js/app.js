@@ -61,10 +61,13 @@ function bindSubmitHash(form) {
         }
 
         // Redirect to the results page while maintaining query
-        window.location = form.redirectUrl + ".html" + window.location.search + "#" + hash;
         if (form.currentUrl == form.redirectUrl) {
+            location.hash = hash;
             window.location.reload();
+        }else{
+            window.location.replace(form.redirectUrl + ".html" + window.location.search + "#" + hash);
         }
+
         form.submitted = true;
         return false;
     });
