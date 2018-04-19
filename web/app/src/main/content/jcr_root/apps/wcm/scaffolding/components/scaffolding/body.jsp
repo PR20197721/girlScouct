@@ -371,6 +371,16 @@
         myForm.fireEvent("activate", myForm);
         myForm.getForm().findField(0).focus();
         window.scrollTo(0,0);
+        CQ.Ext.onReady(function(){ 
+            var top = CQ.WCM.getTopWindow(); 
+            if (top.CQ.WCM.isSidekickReady()) { 
+                top.CQ.WCM.getSidekick().destroy(); 
+            } else { 
+                top.CQ.WCM.on("sidekickready", function(sidekick) { 
+                    sidekick.destroy(); 
+                }); 
+            } 
+        }); 
     });
 </script>
 </body>
