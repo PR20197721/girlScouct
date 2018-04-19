@@ -35,7 +35,6 @@
                                 fieldLabel="Description"
                                 name="./description"
                                 value="The official Girl Scout Cookie Finder App"/>
-                                
                         </items>
                     </columns>
                 </items>
@@ -100,7 +99,7 @@
                                 sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
                                 autoStart="{Boolean}false"
                                 class="cq-droptarget"
-                                fieldLabel="Icon"
+                                fieldLabel="Background Image"
                                 fileNameParameter="./googleicon/fileName"
                                 fileReferenceParameter="./googleicon/fileReference"
                                 mimeTypes="[image]"
