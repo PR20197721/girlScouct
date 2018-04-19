@@ -93,7 +93,8 @@
                                 fieldLabel="Default Values">
                                 <field
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/textfield"/>
+                                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                    name="./defaultValue"/>
                             </value>
                         </items>
                     </columns>

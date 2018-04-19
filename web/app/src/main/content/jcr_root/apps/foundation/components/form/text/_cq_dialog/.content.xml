@@ -191,7 +191,7 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./showcharcount"
                                 text="Show Char Count"
-                                value="false"/>
+                                value="true"/>
                             <showcharcount-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

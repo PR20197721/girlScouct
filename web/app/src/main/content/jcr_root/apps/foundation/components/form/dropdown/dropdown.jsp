@@ -38,13 +38,8 @@ final boolean required = FormsHelper.isRequired(resource);
 final boolean hideTitle = properties.get("hideTitle", false);
 final String title = FormsHelper.getTitle(resource, i18n.get("Selection"));
 
-final List<String> values = FormsHelper.getValuesAsList(slingRequest, resource);
-/*
-%><%=values.size()%><%
-for (String v : values) {
-    %><=%v%><%
-}
-*/
+List<String> values = FormsHelper.getValuesAsList(slingRequest, resource);
+
 
 Map<String, String> displayValues = FormsHelper.getOptions(slingRequest, resource);
 if (displayValues == null) {
@@ -57,18 +52,23 @@ if (displayValues == null) {
 final String classes = FormsHelper.getCss(properties, "form_field form_field_select");
 final String multiSelect = FormsHelper.hasMultiSelection(resource) ? "multiple='multiple'" : "";
 final String w = properties.get("width", "");
+final String h = properties.get("height", "");
 final String width = w.length() > 0 ? "style='width:" + w + "px;'" : "";
+final String height = h.length() > 0 ? "style='height:" + h + "px;'" : "";
 final String firstOption = displayValues.entrySet().iterator().next().getKey();
+if(values.size() == 0){
+	values.add(firstOption);
+}
 
 %><div class="form_row"><% 
     LayoutHelper.printTitle(id, title, required, hideTitle, out); 
     %><div class="form_rightcol"><%
-        %><select class="<%=classes%>" id="<%=id%>" name="<%=name%>" <%=multiSelect%> <%=width%>><%
+        %><select class="<%=classes%>" id="<%=id%>" name="<%=name%>" <%=multiSelect%> <%=width%> <%=height%>><%
             for (String key : displayValues.keySet()) {
                 final String v = key;
                 final String t = displayValues.get(key);
                 //final String s = values.contains(v) ? "selected" : "";
-                final String s = v == firstOption ? "selected" : "";
+                final String s = values.contains(v) ? "selected" : "";
 
                 %><option value="<%=v%>" <%=s%>><%=t%></option><%
             }
