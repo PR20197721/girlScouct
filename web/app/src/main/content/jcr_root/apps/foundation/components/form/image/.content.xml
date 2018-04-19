@@ -3,4 +3,4 @@
     jcr:primaryType="cq:Component"
     jcr:title="Image Upload"
     allowedParents="[*/parsys]"
-    componentGroup="Girl Scouts Form"/>
+    componentGroup=".hidden"/>

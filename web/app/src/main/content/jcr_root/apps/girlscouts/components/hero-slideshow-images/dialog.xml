@@ -27,19 +27,19 @@
                     value="regular"
                     xtype="hidden"/>
                 <items jcr:primaryType="cq:WidgetCollection">
-               <text
-                   jcr:primaryType="cq:Widget"
-                   text="If you have a video URL, please put it in the Video URL field and leave the image empty"
-                   xtype="label"/>
-                <Source
-                    jcr:primaryType="cq:Widget"
-                    defaultValue="not_set"
-                    fieldDescription="Vimeo or Youtube Video URL"
-                    fieldLabel="Video URL"
-                    name="./videoUrl"
-                    value="not_set"
-                    xtype="textfield"/>
-               </items>
+                    <text
+                        jcr:primaryType="cq:Widget"
+                        text="If you have a video URL, please put it in the Video URL field and leave the image empty"
+                        xtype="label"/>
+                    <Source
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="not_set"
+                        fieldDescription="Vimeo or Youtube Video URL"
+                        fieldLabel="Video URL"
+                        name="./videoUrl"
+                        value="not_set"
+                        xtype="textfield"/>
+                </items>
             </items>
         </regular-image>
         <medium-screen-image

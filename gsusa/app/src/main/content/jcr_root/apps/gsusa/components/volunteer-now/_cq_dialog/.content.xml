@@ -51,7 +51,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="Default: false"
                                 name="./showverticalrule"
-                                text="Show Vertical Rule"/>
+                                text="Show Vertical Rule"
+                                value="{Boolean}true"/>
                             <showverticalrule-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

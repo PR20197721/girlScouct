@@ -10,7 +10,7 @@
             jcr:primaryType="nt:unstructured"
             sling:resourceType="granite/ui/components/foundation/layouts/tabs"
             type="nav"/>
-        <items jcr:primaryType="nt:unstructured">         
+        <items jcr:primaryType="nt:unstructured">
             <regular-image
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Regular Image"
@@ -23,33 +23,33 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                        		<imagesize jcr:primaryType="nt:unstructured" name="./regular/imagesize"
-                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="regular" />
-		                     <file
-		                          jcr:primaryType="nt:unstructured"
-		                          sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-		                          autoStart="{Boolean}false"
-		                          class="cq-droptarget"
-		                          fieldLabel="Image asset"
-		                          fileNameParameter="./regular/fileName"
-		                          fileReferenceParameter="./regular/fileReference"
-		                          mimeTypes="[image]"
-		                          multiple="{Boolean}false"
-		                          name="./regular/file"
-		                          title="Upload Image Asset"
-		                          uploadUrl="${suffix.path}"
-		                          useHTML5="{Boolean}true"/>
-		                          
-	                          <video-url
-	                                jcr:primaryType="nt:unstructured"
-	                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-	                    			   fieldDescription="Vimeo or Youtube Video URL"
-	                                fieldLabel="Video URL"
-	                                name="./regular/videoUrl"/>
-                                
-                                
-            				</items>
-                		</columns>
+                            <imagesize
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./regular/imagesize"
+                                value="regular"/>
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./regular/fileName"
+                                fileReferenceParameter="./regular/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./regular/file"
+                                title="Upload Image Asset"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                            <video-url
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Vimeo or Youtube Video URL"
+                                fieldLabel="Video URL"
+                                name="./regular/videoUrl"/>
+                        </items>
+                    </columns>
                 </items>
             </regular-image>
             <medium-screen-image
@@ -64,8 +64,11 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                        	<imagesize jcr:primaryType="nt:unstructured" name="./medium/imagesize"
-                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="medium" />
+                            <imagesize
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./medium/imagesize"
+                                value="medium"/>
                             <file
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
@@ -80,12 +83,12 @@
                                 title="Upload Image Asset"
                                 uploadUrl="${suffix.path}"
                                 useHTML5="{Boolean}true"/>
-	                          <video-url
-	                                jcr:primaryType="nt:unstructured"
-	                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-	                    			   fieldDescription="Vimeo or Youtube Video URL"
-	                                fieldLabel="Video URL"
-	                                name="./medium/videoUrl"/>
+                            <video-url
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Vimeo or Youtube Video URL"
+                                fieldLabel="Video URL"
+                                name="./medium/videoUrl"/>
                         </items>
                     </columns>
                 </items>
@@ -102,8 +105,11 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                        	<imagesize jcr:primaryType="nt:unstructured" name="./small/imagesize"
-                                    sling:resourceType="granite/ui/components/foundation/form/hidden" value="small" />
+                            <imagesize
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./small/imagesize"
+                                value="small"/>
                             <file
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
@@ -118,13 +124,12 @@
                                 title="Upload Image Asset"
                                 uploadUrl="${suffix.path}"
                                 useHTML5="{Boolean}true"/>
-                                
-	                          <video-url
-	                                jcr:primaryType="nt:unstructured"
-	                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-	                    			   fieldDescription="Vimeo or Youtube Video URL"
-	                                fieldLabel="Video URL"
-	                                name="./small/videoUrl"/>
+                            <video-url
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Vimeo or Youtube Video URL"
+                                fieldLabel="Video URL"
+                                name="./small/videoUrl"/>
                         </items>
                     </columns>
                 </items>
@@ -201,24 +206,25 @@
                                 name="./linkURL"/>
                             <newWindow
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                checked="{Boolean}true"
                                 name="./newWindow"
-                                value="true"
-                                text="Open In New Window"/>
+                                text="Open In New Window"
+                                value="true"/>
                             <newwindow-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./newWindow@Delete"
                                 value="{Boolean}true"/>
-							<newwindow-type
-							    jcr:primaryType="nt:unstructured"
-							    sling:resourceType="granite/ui/components/foundation/form/hidden"
-							    name="./isHidden@TypeHint"
-							    value="Boolean"/>
+                            <newwindow-type
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./isHidden@TypeHint"
+                                value="Boolean"/>
                             <regular-size
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
-                                fieldLabel="Regular Size">                            
+                                fieldLabel="Regular Size">
                                 <width
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"

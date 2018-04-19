@@ -35,9 +35,16 @@
     final String id = FormsHelper.getFieldId(slingRequest, resource);
     final boolean required = FormsHelper.isRequired(resource);
     final boolean hideTitle = properties.get("hideTitle", false);
+	final String[] initialValues = properties.get("defaultValue", new String[0]);
     final String title = FormsHelper.getTitle(resource, i18n.get("Selection"));
 
-    final List<String> values = FormsHelper.getValuesAsList(slingRequest, resource);
+    List<String> values = FormsHelper.getValuesAsList(slingRequest, resource);
+
+	if(values.size() == 0){
+        for(int i = 0; i < initialValues.length; i++){
+			values.add(initialValues[i]);
+        }
+	}
 
     Map<String, String> displayValues = FormsHelper.getOptions(slingRequest, resource);
     if (displayValues == null) {
