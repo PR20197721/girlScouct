@@ -1,4 +1,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/gsusa/components/global.jsp" %>
+<%@ taglib prefix="gsusa" uri="https://girlscouts.org/gsusa/taglib" %>
 
 <%
 String callToActionName = properties.get("callToActionName", "Join Now");
@@ -9,10 +11,13 @@ String source = properties.get("source", "not_set");
 
 String text = properties.get("text", "");
 String bg = "";
+String fileName = "";
 try {
     bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
+    fileName = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileName", "");
 } catch (Exception e) {}
-boolean bgExists = !bg.equals("");
+
+boolean bgExists = !bg.equals("") || !fileName.equals("");
 boolean textExists = !text.equals("");
 
 String classes = "";
@@ -29,11 +34,9 @@ String wrapper = bgExists || textExists ? "wrapper" : "";
 %>
 
 <div class="standalone-join join-volunteer-block <%=classes%> <%=border%>" style="<%=styles%>"><%
-    if (bgExists) { 
-        slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
-        %><cq:include path="bg" resourceType="gsusa/components/image"/><%
-        slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE);
-    } else if (textExists) {
+    if (bgExists) { %> 
+    		<gsusa:image relativePath="bg" />
+    <%} else if (textExists) {
         %><h5><%=mainTitle%></h5>
        <p><%=text%></p><%
     }

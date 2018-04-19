@@ -54,7 +54,6 @@
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./showverticalrule@Delete"
                                 value="{Boolean}true"/>
-                            <text/>
                             <isRichTextFlag
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -64,8 +63,37 @@
                     </columns>
                 </items>
             </tab1>
-            <background-image/>
             <tab2
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Background Image"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <bgImage
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Icon"
+    							   fileNameParameter="./bg/fileName"
+                                fileReferenceParameter="./bg/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./bg/file"
+                                title="Upload Image Asset"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </tab2>
+            <tab3
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Advanced Settings"
                 sling:resourceType="granite/ui/components/foundation/container">
@@ -83,6 +111,7 @@
                                 fieldDescription="Default is 210px"
                                 fieldLabel="Max Width (in px)"
                                 min="{Long}0"
+                                defaultValue=""
                                 name="./maxWidth"/>
                             <source
                                 jcr:primaryType="nt:unstructured"
@@ -94,7 +123,7 @@
                         </items>
                     </columns>
                 </items>
-            </tab2>
+            </tab3>
         </items>
     </content>
 </jcr:root>
