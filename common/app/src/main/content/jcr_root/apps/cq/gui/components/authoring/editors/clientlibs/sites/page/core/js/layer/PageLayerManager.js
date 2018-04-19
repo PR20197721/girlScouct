@@ -121,8 +121,8 @@
                 }               
                 // 03-08-2018 commenting this out to force classic ui 
                 // ns.ContentFrame.load(location.replace(".html", ".scaffolding.html"));
-                //window.top.location = "/cf#"+location.replace(".html", ".scaffolding.html");
-                window.open("/cf#"+location.replace(".html", ".scaffolding.html"));
+                window.top.location = "/cf#"+location.replace(".html", ".scaffolding.html");
+                //window.open("/cf#"+location.replace(".html", ".scaffolding.html"));
                 // Avoid activating the layer now
                 // It will be activated later when its content will be available in the content frame
                 // activateLayer = false;
