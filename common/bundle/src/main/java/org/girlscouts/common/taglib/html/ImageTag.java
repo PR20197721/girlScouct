@@ -36,7 +36,7 @@ public class ImageTag extends BaseMarkupTag {
 		image.addCssClass(getStyleClass());
 		image.setSelector(Optional.ofNullable(getSelector()).orElse(".img"));
 		//Optional.ofNullable(getHref()).ifPresent(image::setHref);
-		Optional.ofNullable(getHref()).ifPresent(href -> image.set(ImaageResource.PN_LINK_URL, href));
+		Optional.ofNullable(getHref()).ifPresent(href -> image.set(ImageResource.PN_LINK_URL, href));
 		
 		Optional.ofNullable(getSuffix()).ifPresent(image::setSuffix);
 		Optional.ofNullable(getDescription()).ifPresent(image::setDescription);
