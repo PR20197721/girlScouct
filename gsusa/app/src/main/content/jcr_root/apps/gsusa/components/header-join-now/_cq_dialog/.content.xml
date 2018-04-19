@@ -27,12 +27,9 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./isJoinHidden"
+                                uncheckedValue="{Boolean}false"
+		                 		value="{Boolean}true"
                                 text="Hide Join?"/>
-                            <chkbox-delete
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./isJoinHidden@Delete"
-                                value="{Boolean}true"/>
                             <outerBtnName
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
