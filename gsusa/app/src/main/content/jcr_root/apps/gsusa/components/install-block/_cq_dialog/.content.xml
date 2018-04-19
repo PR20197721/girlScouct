@@ -53,17 +53,16 @@
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <icon
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="girlscouts/components/graphiciconselect"
-                                defaultValue="icon-social-facebook"
-                                fieldLabel="Icon"
-                                name="./icon"
-                                value="icon-social-facebook">
-                                <datasource
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="acs-commons/components/utilities/genericlist/datasource"
-                                    path="/etc/iconlists/girlscouts-icons"/>
-                            </icon>
+								jcr:primaryType="nt:unstructured"
+								sling:resourceType = "girlscouts-common/components/icon-picker"       									
+								fieldLabel="Icon"
+								name = "./icon">
+								<datasource 
+									jcr:primaryType="nt:unstructured" 
+									sortby="text" 
+									type="icons" 
+									sling:resourceType="girlscouts-common/components/datasource"/>
+							</icon>
                             <picker
 		                        jcr:primaryType="nt:unstructured"
 		                        sling:resourceType="granite/ui/components/foundation/form/colorpicker"
