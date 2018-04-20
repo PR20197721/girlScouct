@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.servlet.jsp.JspException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.girlscouts.web.wcm.foundation.Image;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import com.day.cq.wcm.foundation.Placeholder;
 public class ImageTag extends BaseMarkupTag {
 	private static Logger log = LoggerFactory.getLogger(Image.class);
 	
-	private String relativePath, selector, suffix, href, description, alt;
+	private String relativePath, selector, suffix, href, description, alt, title;
 	private Boolean newWindow = false;
 
 	@Override
@@ -33,24 +34,34 @@ public class ImageTag extends BaseMarkupTag {
 	    image.loadStyleData(getCurrentStyle());
 		
 	    // Passed properties.
-		image.addCssClass(getStyleClass());
 		image.setSelector(Optional.ofNullable(getSelector()).orElse(".img"));
-		//Optional.ofNullable(getHref()).ifPresent(image::setHref);
-		Optional.ofNullable(getHref()).ifPresent(href -> image.set(ImageResource.PN_LINK_URL, href));
 		
+		Optional.ofNullable(getStyleClass()).ifPresent(image::addCssClass);
+		Optional.ofNullable(getHref()).ifPresent(href -> image.set(ImageResource.PN_LINK_URL, href));
+		Optional.ofNullable(getTitle()).ifPresent(image::setTitle);
 		Optional.ofNullable(getSuffix()).ifPresent(image::setSuffix);
 		Optional.ofNullable(getDescription()).ifPresent(image::setDescription);
 		Optional.ofNullable(getAlt()).ifPresent(image::setAlt);
 		try {
-			if(getNewWindow()) {
-				pageContext.getOut().write(image.getString().replace("<a ", "<a target=\"_blank\""));
-			}else {
-				image.draw(pageContext.getOut());
-			}
+			pageContext.getOut().write(writeWithAttributes(image));
 		} catch (IOException e) {
 			log.error("Unable to write image", e);
 		}
 	    return EVAL_PAGE;
+	}
+	
+	public String writeWithAttributes(Image image) {
+		String output = image.getString();
+		if(getNewWindow()) {
+			output = image.getString().replace("<a ", "<a target=\"_blank\"");
+		}
+		if(StringUtils.isNotBlank(getStyleId())) {
+			output = output.replace("<img ", "<img id=\"" + getStyleId() + "\" ");
+		}
+		if(StringUtils.isNotBlank(getAriaLabel())) {
+			output = output.replace("<img ", "<img aria-label=\"" + getAriaLabel() + "\" ");
+		}
+		return output;
 	}
 	
 	// Overide with specific Image implementations.
@@ -118,8 +129,17 @@ public class ImageTag extends BaseMarkupTag {
 		this.alt = alt;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	@Override
 	public void release() {
+		super.release();
 		this.relativePath = null;
 		this.selector = null;
 		this.suffix = null;

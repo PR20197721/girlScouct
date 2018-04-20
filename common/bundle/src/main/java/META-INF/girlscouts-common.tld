@@ -18,6 +18,11 @@
   			<rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
+            <name>styleId</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
             <name>selector</name>
             <required>false</required>
   			<rtexprvalue>true</rtexprvalue>
@@ -44,6 +49,16 @@
         </attribute>
         <attribute>
             <name>alt</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>title</name>
+            <required>false</required>
+  			<rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>ariaLabel</name>
             <required>false</required>
   			<rtexprvalue>true</rtexprvalue>
         </attribute>
