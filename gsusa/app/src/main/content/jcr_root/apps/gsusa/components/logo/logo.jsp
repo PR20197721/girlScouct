@@ -1,28 +1,20 @@
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/gsusa/components/global.jsp" %>
+<%@ taglib prefix="gsusa" uri="https://girlscouts.org/gsusa/taglib" %>
+
 
 <%
-String imgAlt = properties.get("imageAlt", "");
-String imgPath = "";
-String retinaImgPath = null;
-try {
-    imgPath = ((ValueMap)resource.getChild("image").adaptTo(ValueMap.class)).get("fileReference", "");
-    retinaImgPath = imgPath.replaceAll("\\.(jpg|png|gif|bmp)$", "@2x\\.$1");
-    %><img src="<%= imgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  data-at2x="<%=retinaImgPath%>" id="mainGSLogo"/><%
-} catch (Exception e) {}
-
-String headerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/header-nav";   
-ValueMap headerNavProps = resourceResolver.resolve(headerNavPath).adaptTo(ValueMap.class);
-Boolean sticky = false;
-try {
-    sticky = headerNavProps.get("displayStickyNav", false);
-    if (sticky) {
-        String stickyImgPath = "";
-        try {
-            stickyImgPath = ((ValueMap)resource.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
-            %><div class="logo">
-                <img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
-            </div><%
-        } catch (Exception e) {}
-   }
-} catch(Exception e) {}
+	String imgAlt = properties.get("imageAlt", "");
+%>
+	<gsusa:image relativePath="image" styleId="mainGSLogo" alt="<%=imgAlt%>" title="<%=imgAlt%>" />
+<%
+	String headerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/header-nav";   
+	ValueMap headerNavProps = resourceResolver.resolve(headerNavPath).adaptTo(ValueMap.class);
+	try {
+	    if (headerNavProps.get("displayStickyNav", false)) {
+	        %><div class="logo">
+				<gsusa:image relativePath="stickyNavImage" styleClass="sticky-nav-GS-logo" alt="<%=imgAlt%>" title="<%=imgAlt%>" />
+	        </div><%
+	   }
+	} catch(Exception e) {}
 %>

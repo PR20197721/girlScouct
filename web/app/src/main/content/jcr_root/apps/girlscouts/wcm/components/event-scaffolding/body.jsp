@@ -335,7 +335,7 @@ properties of this scaffolding.
                         var contentPath = resp.result["Path"];
                         if (isUpdate) {
                             //CQ.Ext.Msg.alert("Success", "Updated " + contentPath);
-                            CQ.Util.reload(CQ.WCM.getTopWindow(), CQ.HTTP.externalize("/editor.html"+contentPath + ".html"));
+                            CQ.Util.reload(CQ.WCM.getTopWindow(), CQ.HTTP.externalize("/editor.html"+contentPath + ".html?wcmmode=EDIT"));
                         } else if((startDate < endDate) | endDate == ""){
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
                             var title = contentPath;                            

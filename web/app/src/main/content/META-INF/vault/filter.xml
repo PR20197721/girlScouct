@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>
-    <filter root="/apps/cq/inbox"/>
-    <filter root="/apps/cq/ui/widgets/source/form/rte/plugins/LinkPlugin.js"/>
-    <filter root="/apps/cq/xssprotection"/>
-    <filter root="/apps/dam"/>
-    <filter root="/apps/foundation"/>
     <filter root="/apps/girlscouts"/>
-    <filter root="/apps/granite/core/components"/>
-    <filter root="/apps/granite/core/content/cug-dxp-login"/>
-    <filter root="/apps/granite/core/content/cug-future-login"/>
-    <filter root="/apps/granite/core/content/cug-login"/>
-    <filter root="/apps/granite/core/content/cug-template-login"/>
     <filter root="/apps/wcm"/>
-    <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/girlscouts-badge"/>
     <filter root="/content/girlscouts-shared"/>
     <filter root="/etc/clientlibs/girlscouts"/>
     <filter root="/etc/clientlibs/foundation/abacus/source/abacus.js"/>
