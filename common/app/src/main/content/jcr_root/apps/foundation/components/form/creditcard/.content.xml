@@ -3,4 +3,4 @@
     jcr:primaryType="cq:Component"
     jcr:title="Credit Card Details"
     allowedParents="[*/parsys]"
-    componentGroup="Girl Scouts Form"/>
+    componentGroup=".hidden"/>
