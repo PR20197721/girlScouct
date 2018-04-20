@@ -128,7 +128,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 					createPdfFromImages(images, selectedBadges);
 					target.empty();
 				});
-			})
+			});
 		});
 	};
 
@@ -158,7 +158,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 			dpi: 192,
 			letterRendering: true,
 			removeContainer: false,
-            scale: 1
+			scale: 1
 		}).then(function(canvas) {
 			var width = $(canvasOutputElements[index]).outerWidth(true);
 			var height = $(canvasOutputElements[index]).outerHeight(true);
@@ -197,6 +197,8 @@ window.BadgePdfGenerator = (function(window, $, document){
 	 * relative to the bottom of the image.
 	 */
 	function createPdfFromImages(processedImages, selectedBadges){
+		
+		$('.ImageTestContainer').css({width: '720px'});
 		
 		var doc = new jsPDF({format: 'letter', unit: 'in'});
 		var headerElements = processedImages.splice(0, 3);
