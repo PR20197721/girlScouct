@@ -51,6 +51,11 @@
                                             name="newWindow"
                                             text="New Window"
                                             value="{Boolean}true"/>
+                                        <newwindow-delete
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                            name="newWindow@Delete"
+                                            value="{Boolean}true"/>
                                         <supress
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/form/checkbox"

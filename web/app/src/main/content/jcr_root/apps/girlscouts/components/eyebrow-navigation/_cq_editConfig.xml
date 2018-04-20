@@ -3,5 +3,4 @@
     cq:dialogMode="floating"
     cq:disableTargeting="{Boolean}true"
     cq:layout="editbar"
-    jcr:mixinTypes="[]"
     jcr:primaryType="cq:EditConfig"/>
