@@ -20,12 +20,12 @@
                    com.day.cq.wcm.foundation.forms.FormsHelper,
                    com.day.cq.wcm.foundation.forms.LayoutHelper,
                    com.day.cq.wcm.foundation.forms.FormResourceEdit,
-				   java.util.ResourceBundle,
-				   com.day.cq.i18n.I18n" %><%
+                   java.util.ResourceBundle,
+                   com.day.cq.i18n.I18n" %><%
 
-	final ResourceBundle resourceBundle = slingRequest.getResourceBundle(null);
-	I18n i18n = new I18n(resourceBundle);  
-					
+    final ResourceBundle resourceBundle = slingRequest.getResourceBundle(null);
+    I18n i18n = new I18n(resourceBundle);  
+
     final String name = FormsHelper.getParameterName(resource);
     final String id = FormsHelper.getFieldId(slingRequest, resource);
     final boolean required = FormsHelper.isRequired(resource);
@@ -36,23 +36,21 @@
     final String confirmationEmail = properties.get("confirmationemail", String.class);
     int rows = xssAPI.getValidInteger(properties.get("rows", String.class), 1);
     int cols = xssAPI.getValidInteger(properties.get("cols", String.class), 35);
-	//c.w add maxlength attribute to input text
-    int maxlength = xssAPI.getValidInteger(properties.get("maxlength", String.class), 35);
-    String[] values = FormsHelper.getValues(slingRequest, resource);
 	if(rows < 1){
 		rows = 1;
 	}
 	if(cols < 1){
 		cols = 35;
 	}
-	if(maxlength < 1){
-		maxlength = 35;
-	}
+    String[] values = FormsHelper.getValues(slingRequest, resource);
     if (values == null) {
         values = new String[]{""};
     }
 
     String title = i18n.getVar(FormsHelper.getTitle(resource, "Text"));
+    String prefix = properties.get("prefix", "");
+    final String maxLength = properties.get("maxlength", String.class);
+    final boolean showCharCount = properties.get("showcharcount", false);
 
     if (multiValued && !readOnly) {
         %><%@include file="multivalue.jsp"%><%
@@ -67,11 +65,15 @@
     	<%if(confirmationEmail!=null){ %>
     	<input type="hidden" id="confirmation_email_<%=id%>" value="<%=confirmationEmail%>"/>
     	<%} %>
-        <% LayoutHelper.printTitle(id, title, required, hideTitle, out); %>
+        <% LayoutHelper.printTitle(id, title, required, hideTitle, out); %><%
+  	      if (showCharCount && maxLength != null) {
+  	      	%><div style="display:block; float:left; margin-left:10px; position:relative; top:-2px;">(<span id="<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft"><%= maxLength %></span> characters left)</div><%
+          }
+          %>
         <div class="form_rightcol" id="<%= xssAPI.encodeForHTMLAttr(name) %>_rightcol"><%
             int i = 0;
             for (String value : values) {
-                %><div id="<%= xssAPI.encodeForHTMLAttr(name) %>_<%= i %>_wrapper" class="form_rightcol_wrapper"><%
+                %><div id="<%= xssAPI.encodeForHTMLAttr(name) %>_<%= i %>_wrapper" class="form_rightcol_wrapper"><%=prefix%><%
                 if (readOnly) {
                     if (value.length() == 0) {
                         // at least display a space otherwise layout may break
@@ -82,17 +84,19 @@
                     String currentId = i == 0 ? id : id + "-" + i;
                     if (rows == 1) {
                         %><input class="<%= FormsHelper.getCss(properties, "form_field form_field_text" + (multiValued ? " form_field_multivalued" : "" )) %>" <%
-                            %>id="<%= xssAPI.encodeForHTMLAttr(currentId)%>ohoh" <%
+                            %>id="<%= xssAPI.encodeForHTMLAttr(currentId) %>" <%
                             %>name="<%= xssAPI.encodeForHTMLAttr(name) %>" <%
                             %>value="<%= xssAPI.encodeForHTMLAttr(value) %>" <%
                             %>size="<%= cols %>" <%
-                            %>value="<%= maxlength %>" <%
-
-                            %>maxlength="<%= maxlength%>" <%
-
                             if (width != null) {
                                 %>style="width:<%= xssAPI.getValidInteger(width, 100) %>px;" <%
                             }
+                            if (maxLength != null) {
+                                %>maxlength="<%= xssAPI.getValidInteger(maxLength, 100) %>" <%
+                            }
+					  	    if (showCharCount && maxLength != null) {
+					  	 	    %>onkeyup="$('#<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);" <%
+ 					        }
                             %>onkeydown="<%= mrChangeHandler %>" ><%
                     } else {
                         %><textarea class="<%= FormsHelper.getCss(properties, "form_field form_field_textarea") %>" <%
@@ -102,6 +106,12 @@
                             if (width != null) {
                                 %>style="width:<%= xssAPI.getValidInteger(width, 100) %>px;" <%
                             }
+                            if (maxLength != null) {
+                                %>maxlength="<%= xssAPI.getValidInteger(maxLength, 100) %>" <%
+                            }
+					  	    if (showCharCount && maxLength != null) {
+					  	 	    %>onkeyup="$('#<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);" <%
+ 					        }
                             %>onkeydown="<%= mrChangeHandler %>" ><%= xssAPI.encodeForHTML(value) %></textarea><%
                     }
                     if (values.length > 1) {
@@ -123,7 +133,7 @@
             }
         %></div><%
         if (multiValued && !readOnly) {
-            %><span class="form_mv_add" onclick="CQ_form_addMultivalue('<%= xssAPI.encodeForJSString(name) %>', <%= rows %>, <%= width == null ? "null" : "'" + xssAPI.getValidInteger(width, 100) + "'" %>);<%= forceMrChangeHandler %>">[+]</span><%
+            %><span class="form_mv_add" onclick="CQ_form_addMultivalueWithPrefix('<%= xssAPI.encodeForJSString(name) %>', <%= rows %>, <%= width == null ? "null" : "'" + xssAPI.getValidInteger(width, 100) + "'" %>, '<%= prefix %>');<%= forceMrChangeHandler %>">[+]</span><%
         }
     %></div><%
 
