@@ -1,5 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<%@include file="/apps/girlscouts/components/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%
 String placeholderText = properties.get("placeholder-text","");

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    warnIfModified="{Boolean}false"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <styles
+                jcr:primaryType="cq:Widget"
+                title="Styles"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <additional-css
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Separated by space. CSS tags will be added to the surrounding div tag when the component is being included."
+                        fieldLabel="Additional CSS"
+                        name="./additionalCss"
+                        xtype="textfield"/>
+                </items>
+            </styles>
+        </items>
+    </items>
+</jcr:root>
