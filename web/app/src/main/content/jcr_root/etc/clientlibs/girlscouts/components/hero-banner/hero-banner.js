@@ -32,9 +32,9 @@ $(function() {
 	  };
 
 	  //assign variables on window load
-	  $(document).ready(function() {
+	  //$(document).ready(function() {
 	    assignment();
-	  });
+	  //});
 
 	  //assign variable on window resize
 	  $(window).resize(function() {
@@ -678,11 +678,11 @@ var SlideShowManager = (function(){
 			}
 			
 			// Check if the edit / preview cookie has changed.
-			var wcmCookie = readCookie('wcmmode');
-			if(!!editMode != (wcmCookie == 'edit')){
-				editMode = wcmCookie == 'edit';
-				reset();
-			}
+//			var wcmCookie = readCookie('wcmmode');
+//			if(!!editMode != (wcmCookie == 'edit')){
+//				editMode = wcmCookie == 'edit';
+//				reset();
+//			}
 			
 		}, 500);
 	}
