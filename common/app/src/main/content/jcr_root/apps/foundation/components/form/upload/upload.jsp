@@ -32,10 +32,11 @@
     %><div class="form_row">
         <% LayoutHelper.printTitle(id, title, required, hideTitle, out); %>
         <div class="form_rightcol"><input id="<%=id %>" <%
-                                    %>class="<%= FormsHelper.getCss(properties, "form_field form_field_file") %>" <%
+                                    %>class="<%= FormsHelper.getCss(properties, "form_field form_field_file") %> gs_file_upload" <%
                                     %>name="<%= xssAPI.encodeForHTMLAttr(name) %>" <%
                                     %>type="file" <%
                                     %>size="37" <%
+        							%>required="<%=required%>" <%
                                     if (width.length() > 0) {
                                         %>style="width:<%= xssAPI.getValidInteger(width, 100) %>px;"<%
                                     }

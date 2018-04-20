@@ -85,13 +85,13 @@
                             <linktext
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="(Provide the text to link to all the Events Page)"
+                                fieldDescription="(Provide the text to link to the News Page)"
                                 fieldLabel="Link text"
                                 name="./linktext"/>
                             <url
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
-                                fieldDescription="(Select the Event List Page)"
+                                fieldDescription="(Select the News List Page)"
                                 fieldLabel="Url"
                                 name="./urltolink"/>
                             <selectList
