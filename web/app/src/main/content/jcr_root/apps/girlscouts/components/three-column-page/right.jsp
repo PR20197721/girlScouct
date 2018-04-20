@@ -25,7 +25,7 @@ Session session = repository.loginAdministrative(null);
 if (resourceResolver.resolve(currentDesign.getPath() + "/jcr:content/three-column-page/event-cart-par").getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 	Node threecol = session.getNode(currentDesign.getPath() + "/jcr:content/three-column-page");
 	Node par = threecol.addNode("event-cart-par", "nt:unstructured");
-	par.setProperty("sling:resourceType", "girlscouts/components/styled-parsys");
+	par.setProperty("sling:resourceType", "girlscouts-common/components/styled-parsys");
 	par.setProperty("components", "/apps/girlscouts/components/event-cart");
 }
 

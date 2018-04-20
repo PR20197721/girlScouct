@@ -44,11 +44,11 @@
 						useFixedInlineToolbar="true" customStart="false" height="{Long}300" name="./message"
 						value="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be &lt;b>discarding&lt;/b> your own changes (custom content) that have been made to this page and will &lt;b>immediately&lt;/b> receive the new national content.&lt;/p>&#xa;&lt;p>&lt;b>National page URL:&lt;/b> &lt;%template-page%>&lt;/p>&#xa;&lt;p>&lt;b>Your page URL:&lt;/b> &lt;%council-page%>&lt;/p>&#xa;&lt;p>Click &lt;%a href='&lt;%council-author-page%>'>here&lt;%/a> to edit your page.&lt;/p>&lt;p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.&lt;/p>">
 						<rtePlugins jcr:primaryType="nt:unstructured"
-									sling:resourceSuperType="girlscouts/components/richtext-config/rtePlugins" />
+									sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins" />
 						<specialCharsConfig jcr:primaryType="nt:unstructured"
-							sling:resourceSuperType="girlscouts/components/richtext-config/specialCharsConfig" />
+							sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig" />
 						<uiSettings jcr:primaryType="nt:unstructured"
-							sling:resourceSuperType="girlscouts/components/richtext-config/uiSettings" />
+							sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings" />
 					</message>
 					<usetemplate jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"

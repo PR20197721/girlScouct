@@ -40,7 +40,7 @@ class BadgeComparator implements Comparator<Resource>{
 	String[] paths = properties.get("badgePaths", String[].class);
 	if(paths != null && paths.length > 0){
 		StringBuilder sb = new StringBuilder();
-		sb.append("<div class=\"badge-grid\">");
+        sb.append("<div class=\"badge-grid\" style=\"display: none;\">");
 		int badgeCount = 0;
 		for(String path : paths){
 			if(path != null && path.trim().length() > 0){

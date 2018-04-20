@@ -14,7 +14,7 @@
                 jcr:lastModified="{Date}2015-07-30T19:36:36.176-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="girlscouts/components/styled-parsys"
+                sling:resourceType="girlscouts-common/components/styled-parsys"
                 components="[group:GSUSA,group:Girl Scouts,group:Girl Scouts Form]">
                 <section jcr:primaryType="nt:unstructured"/>
                 <video
@@ -32,7 +32,7 @@
                 jcr:lastModified="{Date}2015-12-01T14:49:22.063-05:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="girlscouts/components/styled-parsys"
+                sling:resourceType="girlscouts-common/components/styled-parsys"
                 components="[group:GSUSA,group:Girl Scouts,group:Girl Scouts Form]">
                 <section jcr:primaryType="nt:unstructured"/>
             </par>
@@ -46,7 +46,7 @@
                 jcr:lastModified="{Date}2015-12-01T14:49:22.063-05:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="girlscouts/components/styled-parsys"
+                sling:resourceType="girlscouts-common/components/styled-parsys"
                 components="[group:GSUSA,group:Girl Scouts,group:Girl Scouts Form]">
                 <section jcr:primaryType="nt:unstructured"/>
             </top>

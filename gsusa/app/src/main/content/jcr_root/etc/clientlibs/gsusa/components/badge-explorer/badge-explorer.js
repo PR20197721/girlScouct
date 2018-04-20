@@ -1,5 +1,7 @@
 $(document).ready(function () {
 	$('.dropdown').show();
+    $('.badge-grid').show();
+
 	
     var badges = $(".badge-block"),
         filterSets = {},

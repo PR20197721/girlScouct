@@ -23,15 +23,36 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <meta-property/>
-                            <tagName/>
-                            <dateFormat/>
-                            <text/>
-                            <isRichTextFlag
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./textIsRich"
-                                value="true"/>
+                            <meta-property
+		                        jcr:primaryType="nt:unstructured"
+		                        required="{Boolean}true"
+		                        fieldDescription="The metadata properties to be displayed, separated by comma. Properties listed here will be inspected one by one, until a non-empty value is found."
+		                        fieldLabel="Metadata Property Name"
+		                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+		                        name="./metaProperty"/>
+		                    <tagName
+		                        jcr:primaryType="nt:unstructured"
+		                        fieldDescription="Default to 'p' tag. Override the surrounding HTML tag here. e.g. h1"
+		                        fieldLabel="Tag Name"
+		                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+		                        name="./tagName"/>
+		                    <dateFormat
+		                        jcr:primaryType="nt:unstructured"
+		                        fieldDescription="The display format of dates. e.g. MMMM dd, yyyy. Leave this field blank of this is not a date property."
+		                        fieldLabel="Date Format"
+		                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+		                        name="./dateFormat"/>
+		                    <text jcr:primaryType="nt:unstructured" sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+								useFixedInlineToolbar="true" customStart="false" height="{Long}300"
+								name="./text" fieldDescription="This text will be displayed if not empty. However, updating this field will not update the metadata of this page. Go to scaffolding mode to update page metadata."
+                        		fieldLabel="Override Text">
+								<rtePlugins jcr:primaryType="nt:unstructured"
+									sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins" />
+								<specialCharsConfig jcr:primaryType="nt:unstructured"
+									sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig" />
+								<uiSettings jcr:primaryType="nt:unstructured"
+									sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings" />
+							</text>
                         </items>
                     </columns>
                 </items>
