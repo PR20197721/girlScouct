@@ -24,7 +24,7 @@
                         <items jcr:primaryType="nt:unstructured">
                             <redirect
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Thank You Page"
                                 name="./redirect"
                                 required="{Boolean}true"/>
@@ -162,7 +162,7 @@
                                             </cw-rw>
                                             <content-path
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                                sling:resourceType="girlscouts/components/form/pathfield"
                                                 fieldLabel="Content Path *"
                                                 name="./action"
                                                 storecontent="field"
@@ -250,7 +250,7 @@
                                                 wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>
                                             <email-template
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                                sling:resourceType="girlscouts/components/form/pathfield"
                                                 fieldLabel="Path To Email Template"
                                                 name="./templatePath"
                                                 wrapperClass="hide gs-hide-show gsmail spiceworks gsstore web-to-case"/>

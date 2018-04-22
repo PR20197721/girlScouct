@@ -1,5 +1,6 @@
 <%
 	String path=(String)request.getAttribute("path");
+	System.out.println("IN NEWS RENDER PATH IS: " + path);
 	String title=(String)request.getAttribute("title");
 	String date=(String)request.getAttribute("date");
 	String date_yyyyMMdd=(String)request.getAttribute("date_yyyyMMdd");

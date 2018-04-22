@@ -3,6 +3,11 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%
 List list = new List(slingRequest, new PageFilter());
+Iterator<Page> allPages = list.getPages();
+    while(allPages.hasNext()){
+    Page tempPage = allPages.next();
+    System.out.println("Page in list is: " + tempPage.getPath());
+}
 request.setAttribute("list", list);
 Set<String> featureNews = new HashSet<String>();
 if(!list.isEmpty()){
