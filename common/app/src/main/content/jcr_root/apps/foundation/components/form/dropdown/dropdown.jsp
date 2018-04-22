@@ -19,6 +19,7 @@ Draws an element of a form
 %><%@ page import="java.util.LinkedHashMap,
     java.util.List,
     java.util.Map,
+	java.util.ArrayList,
     java.util.Collections,
     com.day.cq.wcm.foundation.forms.FormsHelper,
     com.day.cq.wcm.foundation.forms.LayoutHelper,
@@ -56,7 +57,9 @@ final String h = properties.get("height", "");
 final String width = w.length() > 0 ? "style='width:" + w + "px;'" : "";
 final String height = h.length() > 0 ? "style='height:" + h + "px;'" : "";
 final String firstOption = displayValues.entrySet().iterator().next().getKey();
-if(values.size() == 0){
+System.out.println("Dropdown Values type is + " + values.getClass().getName());
+if(values.isEmpty()){
+    values = new ArrayList<String>();
 	values.add(firstOption);
 }
 
