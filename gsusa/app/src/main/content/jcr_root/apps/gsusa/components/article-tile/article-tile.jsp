@@ -133,7 +133,7 @@
 	<%
     if(type.equals("video")){
 		if(playOnClick){
-        	%><a class="video" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','#FFFFFF')" data-reveal-id="gsusaHiddenModal"> <%
+        	%><a class="video" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml4(videoLink)%>','#FFFFFF')" data-reveal-id="gsusaHiddenModal"> <%
     	} else {
 			%><a class="video non-click" href="<%=linkToArticle%>"> <%
     	}

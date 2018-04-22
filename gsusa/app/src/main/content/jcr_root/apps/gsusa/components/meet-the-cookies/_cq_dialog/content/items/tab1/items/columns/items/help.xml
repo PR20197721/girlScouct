@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:primaryType="cq:Widget"
-    fieldLabel="Help"
-    html="For the cookie titles:  &lt;br/> Enter &amp;lt;span&amp;gt;&amp;amp;trade;&amp;lt;/span&amp;gt; for &amp;trade;. &lt;br/>Enter &amp;lt;span&amp;gt;&amp;amp;reg;&amp;lt;/span&amp;gt; for &amp;reg;."
-    xtype="label"/>
