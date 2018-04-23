@@ -25,10 +25,10 @@
                         <items jcr:primaryType="nt:unstructured">
                             <name
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                 fieldLabel="Element Name"
                                 name="./name"
-                                required="{Boolean}false"/>
+                                required="{Boolean}true"/>
                             <title
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
@@ -40,55 +40,34 @@
                                 name="./hideTitle"
                                 text="Hide Title"
                                 value="true"/>
-                            <hidetitle-delete
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./hideTitle@Delete"
-                                value="{Boolean}true"/>
                             <description
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Description"
                                 name="./jcr:description"/>
-                            <showhide/>
                             <confirmationemail
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./confirmationemail"
-                                text="Send Confirmation Email to this Field"
-                                value="{Boolean}true"/>
-                            <confirmationemail-delete
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./confirmationemail@Delete"
+                                text="Send Confirmation Email"
                                 value="{Boolean}true"/>
                             <multivalue
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./multivalue"
-                                text="Property is multi value"
-                                value="{Boolean}true"/>
-                            <multivalue-delete
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./multivalue@Delete"
-                                value="{Boolean}true"/>
+                                text="Property is multi value"/>
                             <readOnly
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./readOnly"
-                                text="Input is Read Only"
+                                text="Only show value"
                                 value="true"/>
-                            <readonly-delete
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./readOnly@Delete"
-                                value="{Boolean}true"/>
                             <prefix
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Prefix"
                                 name="./prefix"/>
+                            <showhide/>
                         </items>
                     </columns>
                 </items>
@@ -132,11 +111,6 @@
                                 name="./required"
                                 text="Required"
                                 value="true"/>
-                            <required-delete
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./required@Delete"
-                                value="{Boolean}true"/>
                             <requiredMessage
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textarea"
@@ -207,6 +181,22 @@
                                 sling:resourceType="granite/ui/components/foundation/form/textarea"
                                 fieldLabel="Constraint Message"
                                 name="./constraintMessage"/>
+                            <maxLength
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                fieldLabel="Maximum Length"
+                                name="./maxlength"/>
+                            <showCharCount
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./showcharcount"
+                                text="Show Char Count"
+                                value="true"/>
+                            <showcharcount-delete
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./showcharcount@Delete"
+                                value="{Boolean}true"/>
                         </items>
                     </columns>
                 </items>
@@ -248,11 +238,6 @@
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="CSS"
                                 name="./css"/>
-                            <maxlength
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                fieldLabel="Max Length"
-                                name="./maxlength"/>
                         </items>
                     </columns>
                 </items>

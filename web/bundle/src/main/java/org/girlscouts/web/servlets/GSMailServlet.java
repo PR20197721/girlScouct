@@ -490,24 +490,30 @@ public class GSMailServlet
     	try{
     		String templatePath = values.get(TEMPLATE_PATH_PROPERTY, "/content/girlscouts-template/en/email-templates/default-template");
     		ResourceResolver resourceResolver = request.getResourceResolver();
+    		String parsed = "";
     		Resource templateResource = resourceResolver.resolve(templatePath);
-    		Resource dataResource = templateResource.getChild("jcr:content/data");
-    		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
-    		String base =  "The following fields and values were submitted for form: " + request.getParameter(":formid") +  "<br/> \n";
-    		for(String key: formFields.keySet()) {
-    			List<String> lvalues = formFields.get(key);
-    			String valstring = "";
-    			for(String lval : lvalues) {
-    				valstring = valstring.concat(lval + " ");
-    			}
-    			base = base.concat(" Name: " + key + " Value: " + valstring + "<br/> \n");
-    			
-    			
+    		if(templateResource == null) {
+	    		Resource dataResource = templateResource.getChild("jcr:content/data");
+	    		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
+	    		parsed = parseHtml(templateProps.get("content",""), formFields);
+    		}
+    		if(parsed.isEmpty()) {
+	    		parsed =  "The following fields and values were submitted for form: " + request.getParameter(":formid") +  "<br/> \n";
+	    		for(String key: formFields.keySet()) {
+	    			List<String> lvalues = formFields.get(key);
+	    			String valstring = "";
+	    			for(String lval : lvalues) {
+	    				valstring = valstring.concat(lval + " ");
+	    			}
+	    			parsed = parsed.concat(" Name: " + key + " Value: " + valstring + "<br/> \n");
+	    			
+	    			
+	    		}
     		}
     		if(!attachments.isEmpty()) {
-				base = base.concat("<br/> \n Attachments: <br/>\n");
+    			parsed = parsed.concat("<br/> \n Attachments: <br/>\n");
 				for(RequestParameter rp : attachments) {
-					base = base.concat(rp.getFileName() + " <br/> \n");
+					parsed = parsed.concat(rp.getFileName() + " <br/> \n");
 				}
     		}
     		String head = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + 
@@ -515,7 +521,7 @@ public class GSMailServlet
     				"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" +
     				"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
     				"<title>Girl Scouts</title></head>";
-    		String html = head + "<body>" + base + "</body></html>";
+    		String html = head + "<body>" + parsed + "</body></html>";
     		return html;
     	}catch(Exception e){
     		logger.error("No valid template found for " + request.getResource().getPath());
@@ -524,7 +530,7 @@ public class GSMailServlet
     	}
     }
     
-    public String parseHtml(String html, Map<String,List<String>> fields, HtmlEmail confEmail, ResourceResolver rr){
+    public String parseHtml(String html, Map<String,List<String>> fields){
     	//Part 1: Insert field variables whenever %%{field_id}%% is found
     	final Pattern pattern = Pattern.compile("%%(.*?)%%");
     	final Matcher matcher = pattern.matcher(html);
@@ -542,45 +548,7 @@ public class GSMailServlet
     	matcher.appendTail(sb);
     	html = sb.toString();
     	
-    	//Part 2: Find images and replace them with embeds, embed the image file in the email
-    	final Pattern imgPattern = Pattern.compile("<img src=\"(.*?)\"");
-    	final Matcher imgMatcher = imgPattern.matcher(html);
-    	final StringBuffer imgSb = new StringBuffer();
-    	while(imgMatcher.find()){
-    		byte[] result = null;
-    		try {
-    			String renditionPath = getRenditionPath(imgMatcher.group(1));
-        		Resource imgRes = rr.resolve(renditionPath);
-        		if(ResourceUtil.isNonExistingResource(imgRes)) {
-        			imgRes = rr.resolve(renditionPath.replaceAll("%20"," "));
-        			if(ResourceUtil.isNonExistingResource(imgRes)){
-        				throw(new Exception("Cannot find resource: " + renditionPath));
-        			}
-        		}
-        		Node ntFileNode = imgRes.adaptTo(Node.class);
-        		Node ntResourceNode = ntFileNode.getNode("jcr:content");
-        		InputStream is = ntResourceNode.getProperty("jcr:data").getBinary().getStream();
-        		BufferedInputStream bin = new BufferedInputStream(is);
-        		result = IOUtils.toByteArray(bin);
-        		bin.close();
-        		is.close();
-			} catch (Exception e) {
-				logger.error("Input Stream Failed");
-				System.out.println("Input Stream Failed");
-				e.printStackTrace();
-			}
-    		try {
-    			String fileName = imgMatcher.group(1).substring(imgMatcher.group(1).lastIndexOf('/') + 1);
-    			File imgFile = new File(fileName);
-    			FileUtils.writeByteArrayToFile(imgFile,result);
-				imgMatcher.appendReplacement(imgSb, "<img src=cid:" + (confEmail.embed(imgFile,fileName)));
-		    	imgMatcher.appendTail(imgSb);
-		    	html = imgSb.toString();
-			} catch (Exception e) {
-				logger.error("Failed to embed image");
-				e.printStackTrace();
-			}
-    	}
+   
     	
     	return html;
     }

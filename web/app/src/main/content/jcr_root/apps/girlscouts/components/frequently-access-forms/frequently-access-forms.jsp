@@ -2,10 +2,53 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%><%
 %><%@include file="/libs/foundation/global.jsp"%>
-
+<%@page import="java.util.ArrayList,
+				java.util.List" %>
 
 <%
-String[] links = properties.get("links", String[].class);
+
+List<String> linksList = new ArrayList<String>();
+	if(currentNode.hasNode("links")){
+        Node links = currentNode.getNode("links");
+        NodeIterator iter = links.getNodes();
+        while(iter.hasNext()){
+            Node linkNode = iter.nextNode();
+            String title = "";
+            if(linkNode.hasProperty("title")){
+                title = linkNode.getProperty("title").getString();
+            }
+
+            String externalLink = "";
+            if(linkNode.hasProperty("externalLink")){
+                externalLink = linkNode.getProperty("externalLink").getString();
+            }
+
+            String formPath = "";
+			if(linkNode.hasProperty("formPath")){
+                formPath = linkNode.getProperty("formPath").getString();
+            }
+
+            String newWindow = "";
+			if(linkNode.hasProperty("newWindow")){
+                newWindow = linkNode.getProperty("newWindow").getString();
+            }
+
+
+			String listItem = title + "|||" + externalLink + "|||" + formPath + "|||" + newWindow;
+            linksList.add(listItem);
+
+    
+        }
+	}
+
+
+String[] links = new String[0];
+if(!linksList.isEmpty()){
+	links = linksList.toArray(new String[0]);
+} else{
+	links = properties.get("links", String[].class);
+}
+
 String freqTitle = properties.get("freq-title","");
 String path = "";
 if (freqTitle == null && links == null) {

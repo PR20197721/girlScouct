@@ -49,8 +49,9 @@
 				request.setAttribute("date_yyyyMMdd",date_yyyyMMdd);
 				request.setAttribute("text",text);
 				request.setAttribute("external_url",external_url);
+            %><cq:include script="news-list-render.jsp"/> <% newsRendered++; %> <%
 			}%>
-	       <cq:include script="news-list-render.jsp"/> <% newsRendered++; %> 	    	
+
     	</ul>
     <%}%>
 	<ul id="newsListWrapper" class="searchResultsList" itemscope itemtype="http://schema.org/BreadcrumbList"></ul>

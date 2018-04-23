@@ -22,10 +22,49 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <multi
+                            <children
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/multifield"
-                                fieldLabel="Links"/>
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                composite="true"
+                                fieldDescription="Click Add to add a link to eyebrow nav"
+                                fieldLabel="Links">
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                                    class="coral-Table--bordered"
+                                    name="./links">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <title
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                            fieldLabel="PDF Title"
+                                            name="title"/>
+                                        <externallink
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                            fieldLabel="External Link"
+                                            name="externalLink"/>
+                                        <url
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="girlscouts/components/form/pathfield"
+                                            fieldLabel="Path"
+                                            name="formPath"
+                                            rootPath="/content/dam"/>
+                                        <new-window
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                            fieldDescription="Check the box to open link in new window"
+                                            name="newWindow"
+                                            text="New Window"
+                                            value="{Boolean}true"/>
+                                        <newwindow-delete
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                            name="newWindow@Delete"
+                                            value="{Boolean}true"/>
+                                    </items>
+                                </field>
+                            </children>
                         </items>
                     </columns>
                 </items>

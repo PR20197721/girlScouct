@@ -29,7 +29,7 @@ if (result != null) {
 			     println(linksNode.getPath())
 			     try{
 				     Value[] values = node.getProperty("links").getValues()
-	                 println("Processing eyebrow-nav with " + values.length + " values")
+	                 println("Processing Frequently Accessed Forms with " + values.length + " values")
 	                    
 	                 for(int i = 0; i < values.length; i++){
 						println("**************************************************************************************")
@@ -49,9 +49,9 @@ if (result != null) {
 						
 						println("Creating " + itemNode.getName() + " with values: pdfTitle="+pdfTitle+" externalLink="+externalLink+" path="+path+" newWindow="+newWindow)
 	                    itemNode.setProperty("newWindow", Boolean.parseBoolean(newWindow))
-	                    itemNode.setProperty("pdfTitle", pdfTitle)
+	                    itemNode.setProperty("title", pdfTitle)
 	                    itemNode.setProperty("externalLink", externalLink)
-	                    itemNode.setProperty("path", path)
+	                    itemNode.setProperty("formPath", path)
 						save()
 	                        
 	                }

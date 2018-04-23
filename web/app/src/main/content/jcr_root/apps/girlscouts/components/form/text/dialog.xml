@@ -16,7 +16,7 @@
                     xtype="cqinclude"/>
                 <confirmationemail
                     jcr:primaryType="cq:Widget"
-                    fieldLabel="Send Confirmation Email to this Field"
+                    fieldLabel="Send Confirmation Email"
                     name="./confirmationemail"
                     type="checkbox"
                     xtype="selection"/>
@@ -81,6 +81,19 @@
                     fieldLabel="Constraint Message"
                     name="./constraintMessage"
                     xtype="textarea"/>
+                <maxLength
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Maximum Length"
+                    inputValue="true"
+                    name="./maxlength"
+                    xtype="numberfield"/>
+                <showCharCount
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Show Char Count"
+                    inputValue="false"
+                    name="./showcharcount"
+                    type="checkbox"
+                    xtype="selection"/>
             </items>
         </fourth>
         <five
@@ -109,13 +122,6 @@
                     fieldLabel="CSS"
                     name="./css"
                     xtype="textfield"/>
-                <maxlength
-                    jcr:primaryType="cq:Widget"
-                    anchor=""
-                    fieldLabel="Max Length"
-                    name="./maxlength"
-                    width="48"
-                    xtype="numberfield"/>
             </items>
         </five>
     </items>
