@@ -32,32 +32,33 @@ if (result != null) {
 			        Value[] values = node.getProperty("links").getValues()
                     println("Processing golbal-nav with " + values.length + " values")
                     
-                 for(int i = 0; i < values.length; i++){
-                    String linkSet = values[i].getString()
-                    println(linkSet);
-                    String[] linkProperties = linkSet.split("\\|\\|\\|");
-                    Node itemNode = null
-                    if(!linksNode.hasNode("item" + i)){
-                        itemNode = linksNode.addNode("item" + i, "nt:unstructured")
-                    } else{
-                        itemNode = linksNode.getNode("item" + i);
-                    }
-                    String label = linkProperties[0]
-                    String path = linkProperties.length >= 2 ? linkProperties[1] : ""
-            
-                    String clazz = linkProperties.length >= 3 ? " "+ linkProperties[2] : ""
-                    String mLabel = linkProperties.length >=4 ? " "+linkProperties[3] : ""
-                    String sLabel = linkProperties.length >=5 ? " "+linkProperties[4] : ""
-                    itemNode.setProperty("large", label)
-                    itemNode.setProperty("medium", mLabel)
-                    itemNode.setProperty("small", sLabel)
-                    itemNode.setProperty("class", clazz)
-                    itemNode.setProperty("url", path)
-                        
-                    save()
-			        println("saved converted content "+itemNode.getPath())    
-                 }
+                     for(int i = 0; i < values.length; i++){
+                        String linkSet = values[i].getString()
+                        println(linkSet);
+                        String[] linkProperties = linkSet.split("\\|\\|\\|");
+                        Node itemNode = null
+                        if(!linksNode.hasNode("item" + i)){
+                            itemNode = linksNode.addNode("item" + i, "nt:unstructured")
+                        } else{
+                            itemNode = linksNode.getNode("item" + i);
+                        }
+                        String label = linkProperties[0]
+                        String path = linkProperties.length >= 2 ? linkProperties[1] : ""
+                
+                        String clazz = linkProperties.length >= 3 ? " "+ linkProperties[2] : ""
+                        String mLabel = linkProperties.length >=4 ? " "+linkProperties[3] : ""
+                        String sLabel = linkProperties.length >=5 ? " "+linkProperties[4] : ""
+                        itemNode.setProperty("large", label)
+                        itemNode.setProperty("medium", mLabel)
+                        itemNode.setProperty("small", sLabel)
+                        itemNode.setProperty("class", clazz)
+                        itemNode.setProperty("url", path)
+                            
+                        save()
+    			        println("saved converted content "+itemNode.getPath())    
+                     }
 			    }catch(Exception e1){
+			        try{
                     println("Processing golbal-nav with 1 value")
                     Value value = node.getProperty("links").getValue()
 				    String linkSet = value.getString()
@@ -82,6 +83,9 @@ if (result != null) {
                     itemNode.setProperty("url", path)
                     save()
 			        println("saved converted content "+itemNode.getPath()) 
+			        }catch(Exception e2){
+			            
+			        }
 			    }
 			}
 			
