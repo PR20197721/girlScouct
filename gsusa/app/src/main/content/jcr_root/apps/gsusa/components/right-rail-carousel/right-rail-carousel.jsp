@@ -2,8 +2,10 @@
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
 <%@page import="com.day.cq.wcm.api.WCMMode,
+	java.util.List,
     java.util.ArrayList,
     java.util.Iterator,
+    java.util.Optional,
     java.util.Collections,
     java.util.regex.Pattern,
     java.util.regex.Matcher,
@@ -12,10 +14,9 @@
     java.io.InputStreamReader,
     org.apache.jackrabbit.commons.json.JsonParser,
     org.apache.sling.commons.json.*,
-    com.day.cq.wcm.foundation.Image" %>
+    org.girlscouts.web.gsusa.component.rightrailcarousel.RightRailCarouselItem" %>
 
 <%@page session="false"%><%
-final String[] carouselList = properties.get("carouselList", String[].class);
 final boolean isCarousel = properties.get("dynamiccarousel", false);
 final String carouselTitle = properties.get("carouselTitle", "");
 final String carouselSubTitle = properties.get("carouselSubTitle", "");
@@ -27,9 +28,26 @@ final boolean showVerticalRule = properties.get("showverticalrule", false);
 
 int numberOfImages= 0;
 
-if (carouselList != null) {
+
+if (resourceResolver.resolve(callToActionLink).adaptTo(Page.class) != null && !callToActionLink.contains(".html")) {
+	callToActionLink += ".html";
+}
+
+List<RightRailCarouselItem> carouselItems = new ArrayList<>();
+Resource carouselItemsResource = resource.getChild("carouselItems");
+if (carouselItemsResource != null && !carouselItemsResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+	Iterator<Resource> carouselChildren = carouselItemsResource.listChildren(); 
+	if(carouselChildren != null && carouselChildren.hasNext()){
+		while(carouselChildren.hasNext()){
+			Node carouselChildNode = carouselChildren.next().adaptTo(Node.class);
+			carouselItems.add(RightRailCarouselItem.fromNode(carouselChildNode));
+		}
+	}
+}
+
+if (carouselItems.size() > 0) {
 	if (isCarousel) {
-		numberOfImages = carouselList.length;
+		numberOfImages = carouselItems.size();
 	} else {
 		numberOfImages = 1; //only show the first image if the user uncheck this option
 	}
@@ -50,24 +68,21 @@ if (carouselList != null) {
   <div class="shop-carousel">
 	<%
 		for (int i = 0; i < numberOfImages; i++) {
-			String[] split = carouselList[i].split("\\|\\|\\|");
-			String label = split.length >= 1 ? split[0] : "";
-			String link = split.length >= 2 ? split[1] : "";
-			String target = "";
-			boolean openInNewWindow = split.length >= 3 ? Boolean.parseBoolean(split[2]) : false;
-			String imagePath = split.length >= 4 ? split[3] : "";
-
-			Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
-			if (linkPage != null && !link.contains(".html")) {
+			
+			RightRailCarouselItem carouselItem = carouselItems.get(i);
+			if(carouselItem == null){
+				continue;
+			}
+			
+			String label = Optional.ofNullable(carouselItem.getLabel()).orElse("");
+			String link = Optional.ofNullable(carouselItem.getLink()).orElse("");
+			String target = Optional.ofNullable(carouselItem.isNewWindow()).orElse(false) ? "target=\"_blank\"" : "";
+			String imagePath = Optional.ofNullable(carouselItem.getImagePath()).orElse("");
+			
+			if (resourceResolver.resolve(link).adaptTo(Page.class) != null && !link.contains(".html")) {
 				link += ".html";
 			}
-			Page callToActionPage = resourceResolver.resolve(callToActionLink).adaptTo(Page.class);
-			if (callToActionPage != null && !callToActionLink.contains(".html")) {
-				callToActionLink += ".html";
-			}
-			if (openInNewWindow) {
-				target = "target=\"_blank\"";
-			}
+			
 			%><div><a href="<%= link %>" <%= target %>><img src="<%= imagePath %>" alt="<%=label %>"/><p><%=label %></p></a></div><%
 		}
 	%>
