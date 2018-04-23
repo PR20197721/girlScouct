@@ -149,6 +149,6 @@
     }
     if (!errorPrinted) {
         // check mandatory and single values constraints
-        LayoutHelper.printErrors(slingRequest, name, out);
+        LayoutHelper.printErrors(slingRequest, name, true, out);
     }
 %>
