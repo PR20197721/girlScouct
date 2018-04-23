@@ -276,6 +276,9 @@ public class GSMailServlet
                 final List<RequestParameter> attachments = new ArrayList<RequestParameter>();
                 Map<String, List<String>> formFields = new HashMap<String,List<String>>();
                 for (final String name : namesList) {
+                		if(name.equals("Submit") || name.equals("file-upload-max-size")) {
+                			continue;
+                		}
                     final RequestParameter rp = request.getRequestParameter(name);
                     if (rp == null) {
                         //see Bug https://bugs.day.com/bugzilla/show_bug.cgi?id=35744
@@ -356,13 +359,15 @@ public class GSMailServlet
                 }
                 localService.sendEmail(email);
                 
+                	serviceParams = new HashMap<String, Object>();
+        			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+                ResourceResolver rr = resolverFactory.getServiceResourceResolver(serviceParams);
                 //Optional Store Content
                 boolean storeContent = values.get("storeContent", false);
                 if(storeContent) {
-                		serviceParams = new HashMap<String, Object>();
-                		serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+                		
                 		logger.error("####################Before aqcuiring resource resolver");
-                		ResourceResolver rr = resolverFactory.getServiceResourceResolver(serviceParams);
+                		
         			
                     
                     String contentPath = values.get("action", null);
@@ -385,7 +390,7 @@ public class GSMailServlet
                     			String n = paramNames.nextElement();
                     			logger.error("################PARAM NAME IS: " + n);
                     			
-                    			if(!n.contains(":") && !n.equals("_charset_")) {
+                    			if(!n.contains(":") && !n.equals("_charset_") && !n.equals("Submit") && !n.equals("file-upload-max-size")) {
                     				RequestParameter param = request.getRequestParameter(n);
                     				if(param.getContentType() == null) {
                     					String val = param.getString();
@@ -423,7 +428,7 @@ public class GSMailServlet
                 	final HtmlEmail confEmail;
                 	confEmail = new HtmlEmail();
                     confEmail.setCharset("utf-8");
-                    String confBody = getTemplate(request, values, formFields, confEmail, request.getResourceResolver(), attachments);
+                    String confBody = getTemplate(request, values, formFields, confEmail, rr, attachments);
                     if(!("").equals(confBody)){
 	                    confEmail.setHtmlMsg(confBody);
 	                    // mailto
@@ -493,12 +498,14 @@ public class GSMailServlet
     			templatePath = "/content/girlscouts-template/en/email-templates/default_template";
     		}
     		logger.error("GSMailServlet temnplate Path is:  " + templatePath);
-    		ResourceResolver resourceResolver = request.getResourceResolver();
     		String parsed = "";
-    		Resource templateResource = resourceResolver.resolve(templatePath);
+    		Resource templateResource = rr.getResource(templatePath);
+    		logger.error("GSMailServlet got template path ");
     		if(templateResource != null) {
 	    		Resource dataResource = templateResource.getChild("jcr:content/data");
+	    		logger.error("Data resource path is: " + dataResource.getPath());
 	    		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
+	    		logger.error("GSMailServlet template content is:  " + templateProps.get("content",""));
 	    		parsed = parseHtml(templateProps.get("content",""), formFields);
     		}
     		if(parsed.isEmpty()) {

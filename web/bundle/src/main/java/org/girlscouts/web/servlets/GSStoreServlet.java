@@ -391,13 +391,12 @@ public class GSStoreServlet
 
     public String getTemplate(SlingHttpServletRequest request, ValueMap values, Map<String,List<String>> formFields, HtmlEmail confEmail, ResourceResolver rr, List<RequestParameter> attachments){
     	try{
-    		String templatePath = values.get(TEMPLATE_PATH_PROPERTY, "/content/girlscouts-template/en/email-templates/default-template");
+    		String templatePath = values.get(TEMPLATE_PATH_PROPERTY, "/content/girlscouts-template/en/email-templates/default_template");
     		if(templatePath.trim().isEmpty()) {
-    			templatePath = "/content/girlscouts-template/en/email-templates/default-template";
-    		}
-    		ResourceResolver resourceResolver = request.getResourceResolver();
+    			templatePath = "/content/girlscouts-template/en/email-templates/default_template";
+    		}   		
     		String parsed = "";
-    		Resource templateResource = resourceResolver.resolve(templatePath);
+    		Resource templateResource = rr.getResource(templatePath);
     		if(templateResource != null) {
 	    		Resource dataResource = templateResource.getChild("jcr:content/data");
 	    		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
