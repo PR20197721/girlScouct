@@ -14,7 +14,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/events-list/events-list.jsp -->
-<cq:includeClientLib categories="apps.girlscouts" />
+<cq:includeClientLib categories="apps.girlscouts.components.events-list" />
 <cq:defineObjects />
 
 <cq:include script="feature-include.jsp" />
