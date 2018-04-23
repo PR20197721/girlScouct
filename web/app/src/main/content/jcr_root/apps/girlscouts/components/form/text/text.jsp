@@ -49,7 +49,7 @@
 
     String title = i18n.getVar(FormsHelper.getTitle(resource, "Text"));
     String prefix = properties.get("prefix", "");
-    final String maxLength = properties.get("maxlength", String.class);
+    String maxLength = properties.get("maxlength", String.class);
 	if(maxLength != null && maxLength.equals("0")){
 		maxLength = null;
 	}
