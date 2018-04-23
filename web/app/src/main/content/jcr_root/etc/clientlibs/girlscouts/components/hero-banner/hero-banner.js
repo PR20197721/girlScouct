@@ -678,11 +678,11 @@ var SlideShowManager = (function(){
 			}
 			
 			// Check if the edit / preview cookie has changed.
-//			var wcmCookie = readCookie('wcmmode');
-//			if(!!editMode != (wcmCookie == 'edit')){
-//				editMode = wcmCookie == 'edit';
-//				reset();
-//			}
+			var wcmCookie = readCookie('wcmmode');
+			if(!!editMode != (wcmCookie == 'edit')){
+				editMode = wcmCookie == 'edit';
+				reset();
+			}
 			
 		}, 500);
 	}
