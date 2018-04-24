@@ -22,8 +22,8 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <paths 
-                            	jcr:primaryType="nt:unstructured"
+                            <paths
+                                jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
                                 composite="true"
                                 fieldLabel="Filters">
@@ -33,27 +33,31 @@
                                     class="coral-Table--bordered"
                                     name="./filters">
                                     <items jcr:primaryType="nt:unstructured">
-								         <label
-								             jcr:primaryType="nt:unstructured"
-								             sling:resourceType="granite/ui/components/foundation/form/textfield"
-								             fieldLabel="Label"
-								             name="label"/>
-								         <path
-								             jcr:primaryType="nt:unstructured"
-								             sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
-								             fieldLabel="Path"
-								             name="path"/>
-								         <page-only
-								             jcr:primaryType="nt:unstructured"
-								             sling:resourceType="granite/ui/components/foundation/form/checkbox"
-								             name="pageOnly" uncheckedValue="false" value="true"
-								             text="Page Only"/>
-								         <sub-dir-only
-								             jcr:primaryType="nt:unstructured"
-								             sling:resourceType="granite/ui/components/foundation/form/checkbox"
-								             name="subDirOnly" uncheckedValue="false" value="true"
-								             text="Sub Dir Only"/>
-									</items>
+                                        <label
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                            fieldLabel="Label"
+                                            name="label"/>
+                                        <path
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="girlscouts/components/form/pathfield"
+                                            fieldLabel="Path"
+                                            name="path"/>
+                                        <page-only
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                            name="pageOnly"
+                                            text="Page Only"
+                                            uncheckedValue="false"
+                                            value="true"/>
+                                        <sub-dir-only
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                            name="subDirOnly"
+                                            text="Sub Dir Only"
+                                            uncheckedValue="false"
+                                            value="true"/>
+                                    </items>
                                 </field>
                             </paths>
                         </items>
@@ -78,7 +82,7 @@
                                 fieldLabel="Links">
                                 <field
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                    sling:resourceType="girlscouts/components/form/pathfield"
                                     name="./overrides"/>
                             </multi>
                         </items>

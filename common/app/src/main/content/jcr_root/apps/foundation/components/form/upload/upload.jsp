@@ -27,6 +27,7 @@
     final boolean required = FormsHelper.isRequired(resource);
     final boolean hideTitle = properties.get("hideTitle", false);
     final String width = properties.get("width", "");
+    String customValidationMessage = properties.get("requiredMessage", String.class);
 
     final String title = FormsHelper.getTitle(resource, bundle.getString("Upload"));
     %><div class="form_row">
@@ -36,11 +37,77 @@
                                     %>name="<%= xssAPI.encodeForHTMLAttr(name) %>" <%
                                     %>type="file" <%
                                     %>size="37" <%
+           					  	    if(customValidationMessage != null && !"".equals(customValidationMessage)){
+           					  	    	%>	
+           					  	    		data-custom-validation-message="<%=customValidationMessage %>"
+           					  	    	<%
+           					  	    }
+									if(required){
         							%>required="<%=required%>" <%
+                                    }
                                     if (width.length() > 0) {
                                         %>style="width:<%= xssAPI.getValidInteger(width, 100) %>px;"<%
                                     }
         %>></div>
+        
+		<%--
+			TODO@Matt: Move this to a client lib after the demo is solid.
+		 --%>
+		<script>
+			$(function(){
+		
+			    $('.gs_file_upload[required="true"]').closest('form').find('input[type="submit"]').off('click.checkfile').on('click.checkfile', function(evt){
+			        
+					var currentForm = $(this).closest('form');
+					currentForm.off('submit.checkfile');
+					var fileInputs = currentForm.find('.gs_file_upload[required="true"]');
+					var returner = true;
+			        for(var i = 0; i < fileInputs.length; i++){
+			            if(fileInputs[i].setCustomValidity != undefined){
+			                fileInputs[i].setCustomValidity('');
+			            }
+			            if(fileInputs[i].files.length == 0){
+			                returner = false;
+			                
+			                var input = $(fileInputs[i]);
+			                var validityMessage = $(input).data('customValidationMessage');
+			                if(!validityMessage || !validityMessage.length){
+			                    validityMessage = 'Please select a file';
+			                }
+			                
+			                if(input[0].setCustomValidity !== undefined){
+			                		evt.preventDefault();
+			                	
+			                    var errorMsg = $('<div>').css({
+			                        position: 'absolute',
+			                        top: input.position().top + input.outerHeight(true),
+			                        left: input.position().left,
+			                        backgroundColor: '#fff3a5',
+			                        display: 'none',
+			                        padding: 10,
+			                        borderRadius: 5,
+			                        border: '1px solid #777'
+			                    })
+			                    .text(validityMessage)
+			                    .appendTo(input.parent())
+			                    .fadeIn('slow');
+			                    
+			                    window.setTimeout(function(){
+			                        errorMsg.fadeOut('slow').promise().then(function(){
+			                            $(this).remove();
+			                        });
+			                    }, 3000);
+			                }else{
+			                    input[0].setCustomValidity(validityMessage);
+			                    return true;
+			                }
+			            }
+			        }
+			        return returner;
+			    });
+			});
+		</script>
+		        
     </div><%
     LayoutHelper.printDescription(FormsHelper.getDescription(resource, ""), out);
     LayoutHelper.printErrors(slingRequest, name, hideTitle, out);

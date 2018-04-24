@@ -200,7 +200,7 @@
                                 name="./alt"/>
                             <linkURL
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="Drop files or pages from the Content Finder"
                                 fieldLabel="Link to"
                                 name="./linkURL"/>

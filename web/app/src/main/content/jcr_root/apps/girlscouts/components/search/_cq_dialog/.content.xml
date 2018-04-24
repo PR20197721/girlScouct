@@ -31,13 +31,13 @@
                                 name="./noResultsText"/>
                             <searchIn
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="(Default Search location /content/&amp;lt;councilname&amp;gt;/en/)"
                                 fieldLabel="Path to search content"
                                 name="./searchIn"/>
                             <docsrchpath
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="(Default /content/dam/girlscouts-&amp;lt;councilname&amp;gt;/documents)"
                                 fieldLabel="Path to search documents"
                                 name="./docusrchpath"/>

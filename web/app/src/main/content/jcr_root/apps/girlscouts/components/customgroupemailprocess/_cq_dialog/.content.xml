@@ -84,7 +84,7 @@
                                 <items jcr:primaryType="nt:unstructured">
                                     <templatepath
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
                                         fieldLabel="Email Template Path"
                                         name="./metaData/templatePath"
                                         rootPath="/"/>

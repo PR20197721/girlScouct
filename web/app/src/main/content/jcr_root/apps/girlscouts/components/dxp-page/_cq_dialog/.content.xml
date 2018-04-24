@@ -193,12 +193,12 @@
                                     </language>
                                     <redirect
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
                                         fieldLabel="Redirect"
                                         name="./redirectTarget"/>
                                     <designpath
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
                                         fieldLabel="Design"
                                         name="./cq:designPath"
                                         rootPath="/etc/designs"/>
@@ -229,7 +229,7 @@
                                 <items jcr:primaryType="nt:unstructured">
                                     <template
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
                                         fieldLabel="Export Configuration"
                                         name="./cq:exportTemplate"
                                         rootPath="/etc/contentsync/templates"/>

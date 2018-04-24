@@ -42,7 +42,7 @@
                                 name="./textcolor"/>
                             <url
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="(Optional) Enter a URL to link to, e.g. http://girlscouts.org"
                                 fieldLabel="URL"
                                 name="./url"/>

@@ -52,7 +52,7 @@
                                 name="./linktext"/>
                             <url
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="(Select the Event List Page)"
                                 fieldLabel="Url"
                                 name="./urltolink"/>
