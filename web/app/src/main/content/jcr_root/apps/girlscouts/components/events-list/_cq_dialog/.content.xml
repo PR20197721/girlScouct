@@ -30,7 +30,7 @@
                                 fieldLabel="Pages">
                                 <field
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                    sling:resourceType="girlscouts/components/form/pathfield"
                                     name="./pages"/>
                             </pages>
                         </items>
@@ -63,7 +63,7 @@
                                 name="./eventcount"/>
                             <url
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="(Provide the URL for the Title to be linked too)"
                                 fieldLabel="Url"
                                 name="./urltolink"/>

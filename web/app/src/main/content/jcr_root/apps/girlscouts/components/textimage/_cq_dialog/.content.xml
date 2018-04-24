@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:unstructured"
     sling:resourceType="cq/gui/components/authoring/dialog"
     helpPath="en/cq/current/wcm/default_components.html#Image">
@@ -11,7 +11,8 @@
             sling:resourceType="granite/ui/components/foundation/layouts/tabs"
             type="nav"/>
         <items jcr:primaryType="nt:unstructured">
-        	<text-tab jcr:primaryType="nt:unstructured"
+            <text-tab
+                jcr:primaryType="nt:unstructured"
                 jcr:title="Text"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
@@ -22,29 +23,37 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-	                        <text jcr:primaryType="nt:unstructured"				
-							    fieldLabel="Text"
-							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
-							    useFixedInlineToolbar="true"
-							    customStart="false"
-							    height="{Long}300"
-							    name="./text">
-							    <rtePlugins jcr:primaryType="nt:unstructured" sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
-							    <specialCharsConfig jcr:primaryType="nt:unstructured" sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig"/>
-							    <uiSettings jcr:primaryType="nt:unstructured" sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>							    
-						    </text>
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                customStart="false"
+                                fieldLabel="Text"
+                                height="{Long}300"
+                                name="./text"
+                                useFixedInlineToolbar="true">
+                                <rtePlugins
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+                                <specialCharsConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig"/>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+                            </text>
                         </items>
-                     </columns>
+                    </columns>
                 </items>
             </text-tab>
-        	<image-tab jcr:primaryType="nt:unstructured"
+            <image-tab
+                jcr:primaryType="nt:unstructured"
                 jcr:title="Image"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
                 <items jcr:primaryType="nt:unstructured">
-                	<columns
+                    <columns
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
@@ -59,13 +68,13 @@
                                 mimeTypes="[image]"
                                 multiple="{Boolean}false"
                                 name="./file"
-                                title="Upload Image Asset" 
+                                title="Upload Image Asset"
                                 uploadUrl="${suffix.path}"
-                                useHTML5="{Boolean}true"/>      
-	                    </items>
-                	</columns>
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
                 </items>
-        	</image-tab>
+            </image-tab>
             <advanced-tab
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Advanced"
@@ -91,7 +100,7 @@
                                 name="./image/alt"/>
                             <linkURL
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="Drop files or pages from the Content Finder"
                                 fieldLabel="Link to"
                                 name="./image/linkURL"/>

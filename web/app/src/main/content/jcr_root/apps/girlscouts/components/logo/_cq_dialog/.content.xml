@@ -11,14 +11,15 @@
             sling:resourceType="granite/ui/components/foundation/layouts/tabs"
             type="nav"/>
         <items jcr:primaryType="nt:unstructured">
-	        <regular-tab jcr:primaryType="nt:unstructured"
+            <regular-tab
+                jcr:primaryType="nt:unstructured"
                 jcr:title="Regular Image"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
                 <items jcr:primaryType="nt:unstructured">
-                	<columns
+                    <columns
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
@@ -33,21 +34,22 @@
                                 mimeTypes="[image]"
                                 multiple="{Boolean}false"
                                 name="./regular/file"
-                                title="Upload Image Asset" 
+                                title="Upload Image Asset"
                                 uploadUrl="${suffix.path}"
-                                useHTML5="{Boolean}true"/>      
-	                    </items>
-                	</columns>
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
                 </items>
-        	</regular-tab>
-        	<small-screen-tab jcr:primaryType="nt:unstructured"
+            </regular-tab>
+            <small-screen-tab
+                jcr:primaryType="nt:unstructured"
                 jcr:title="Small Screen Image"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
                 <items jcr:primaryType="nt:unstructured">
-                	<columns
+                    <columns
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
@@ -62,13 +64,13 @@
                                 mimeTypes="[image]"
                                 multiple="{Boolean}false"
                                 name="./small/file"
-                                title="Upload Image Asset" 
+                                title="Upload Image Asset"
                                 uploadUrl="${suffix.path}"
-                                useHTML5="{Boolean}true"/>      
-	                    </items>
-                	</columns>
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
                 </items>
-        	</small-screen-tab>
+            </small-screen-tab>
             <advanced
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Advanced"
@@ -89,7 +91,7 @@
                                 name="./alt"/>
                             <linkURL
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="Drop files or pages from the Content Finder"
                                 fieldLabel="Link to"
                                 name="./linkURL"/>
@@ -100,15 +102,15 @@
                                 <width
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                    defaultValue="188"
                                     name="./regular/width"
-                                    value="188"
-                                    defaultValue="188"/>
+                                    value="188"/>
                                 <height
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                    defaultValue="73"
                                     name="./regular/height"
-                                    value="73"
-                                    defaultValue="73"/>
+                                    value="73"/>
                             </regular-size>
                             <small-screen-size
                                 jcr:primaryType="nt:unstructured"
@@ -117,15 +119,15 @@
                                 <width
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                    defaultValue="38"
                                     name="./small/width"
-                                    value="38"
-                                    defaultValue="38"/>
+                                    value="38"/>
                                 <height
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                    defaultValue="38"
                                     name="./small/height"
-                                    value="38"
-                                    defaultValue="38"/>
+                                    value="38"/>
                             </small-screen-size>
                         </items>
                     </columns>

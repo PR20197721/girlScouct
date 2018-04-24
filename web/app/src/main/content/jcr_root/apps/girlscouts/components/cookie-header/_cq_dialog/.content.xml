@@ -42,7 +42,7 @@
                                 name="./sharetext"/>
                             <sharelink
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Link in the share section"
                                 name="./sharelink"/>
                         </items>
@@ -75,7 +75,7 @@
                                 name="./maintext"/>
                             <cookieboothpath
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Link in the Cookie Booth"
                                 name="./cookieboothlink"/>
                         </items>
