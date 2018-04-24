@@ -31,7 +31,8 @@
     final String name = properties.get("name", "Submit");
     final String title = FormsHelper.getTitle(resource, i18n.get("Submit"));
     final String width = properties.get("width", "");
-    final String css = FormsHelper.getCss(properties, "form_button_submit");
+    String css = FormsHelper.getCss(properties, "form_button_submit");
+	css = css + " form-btn";
 %>
     <div class="form_row">
       <% LayoutHelper.printTitle(null, null, false, out); %>
