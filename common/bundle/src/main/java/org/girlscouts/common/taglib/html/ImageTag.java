@@ -51,7 +51,13 @@ public class ImageTag extends BaseMarkupTag {
 	}
 	
 	public String writeWithAttributes(Image image) {
-		String output = image.getString();
+		String output;
+		try {
+			output = image.getString();
+		}catch(NullPointerException npe) {
+			// Image was empty / null.
+			return "";
+		}
 		if(getNewWindow()) {
 			output = image.getString().replace("<a ", "<a target=\"_blank\"");
 		}

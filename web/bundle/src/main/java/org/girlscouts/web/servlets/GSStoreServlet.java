@@ -54,6 +54,7 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.*;
+import java.util.Map.Entry;
 
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
@@ -236,16 +237,20 @@ public class GSStoreServlet
             		Node submissionNode = contentBaseNode.addNode(nodeId, "sling:Folder");
             		
             		Enumeration<String> names = request.getParameterNames();
+            		Map<String, List<String>> paramMap = new HashMap<>();
             		while(names.hasMoreElements()) {
             			String n = names.nextElement();
             			log.error("################PARAM NAME IS: " + n);
             			
             			if(!n.contains(":") && !n.equals("_charset_")) {
             				RequestParameter param = request.getRequestParameter(n);
-            				if(param.getContentType() == null) {
-            					String val = param.getString();
-            			
-            					submissionNode.setProperty(n,val);
+            				if(param.getContentType() == null) {            					
+            					List<String> valLst = new ArrayList<>(1);
+            					valLst.add(param.getString());
+        						paramMap.merge(n, valLst, (l1, l2) -> {
+        							l1.addAll(l2);
+        							return l1;
+        						});
             				} else {
             					if(param.getSize() > 0) {
             						String val = param.getFileName();
@@ -254,8 +259,17 @@ public class GSStoreServlet
             				}
             			}
             			
-            			
             		}
+
+    				for(Entry<String, List<String>> entry : paramMap.entrySet()) {
+    					if(entry.getValue().size() > 1) {
+    						submissionNode.setProperty(entry.getKey(), (String[]) entry.getValue().toArray());
+    					}else {
+    						submissionNode.setProperty(entry.getKey(), entry.getValue().get(0));
+    					}
+    				}
+    				
+            		
             		log.error("Submission Node path is: " + submissionNode.getPath());
             		submissionNode.save();
             		Set<String> runmodes = slingSettings.getRunModes();
