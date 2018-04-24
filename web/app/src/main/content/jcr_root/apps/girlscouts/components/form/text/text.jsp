@@ -98,7 +98,7 @@
                                 %>maxlength="<%= xssAPI.getValidInteger(maxLength, 100) %>" <%
                             }
 					  	    if (showCharCount && maxLength != null) {
-					  	 	    %>onkeyup="$('#<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);" <%
+					  	 	    %>onkeyup="$('[id=&quot;enter here_charsleft&quot;]').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);" <%
  					        }
                             %>onkeydown="<%= mrChangeHandler %>" ><%
                     } else {
