@@ -25,9 +25,6 @@
     });
 
     $(document).on("click", ".cq-dialog-submit", function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-
         var message = null;
 
 		var $form = $(this).closest("form.foundation-form");
@@ -124,29 +121,25 @@
                         message = "A Confirmation From email field is invalid please correct the error before proceeding";
                     }
                 }
-
             });
         }
 
-
-
         if(message) {
-         ns.ui.helpers.prompt({
-                title: Granite.I18n.get("Invalid Input"),
-                message: message,
-                actions: [{
-                    id: "CANCEL",
-                    text: "OK",
-                    className: "coral-Button"
-                }],
-            callback: function (actionId) {
-                if (actionId === "CANCEL") {
-                }
-            }
-        });
- 
-        }else{
-                 $form.submit();
+        		e.stopPropagation();
+            	e.preventDefault();
+            	ns.ui.helpers.prompt({
+		        title: Granite.I18n.get("Invalid Input"),
+			    message: message,
+			    actions: [{
+			        id: "CANCEL",
+			        text: "OK",
+			        className: "coral-Button"
+			    }],
+				callback: function (actionId) {
+				    if (actionId === "CANCEL") {
+				    }
+				}
+			 });
         }
     });
 
