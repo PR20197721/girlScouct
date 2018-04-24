@@ -19,7 +19,7 @@
                 }else{
 					inString = inString + "|||";
                 }
-                if(linkNode.hasProperty("openInNew")){
+                if(linkNode.hasProperty("newWindow")){
 					inString = inString + "|||" + String.valueOf(linkNode.getProperty("newWindow").getBoolean());
                 }
                 linksList.add(inString);
@@ -37,12 +37,11 @@
                 String icon = socialNode.getProperty("icon").getString();
                 String url = socialNode.getProperty("url").getString();
                 inString = inString + url + "|||" + icon;
-                if(socialNode.hasProperty("openInNew")){
+                if(socialNode.hasProperty("newWindow")){
 					inString = inString + "|||" + String.valueOf(socialNode.getProperty("newWindow").getBoolean());
                 }
                 socialList.add(inString);
             }
-
 		}
 	}
   String[] links = linksList.toArray(new String[0]);
