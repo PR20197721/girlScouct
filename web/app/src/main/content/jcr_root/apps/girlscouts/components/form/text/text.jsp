@@ -98,8 +98,12 @@
                                 %>maxlength="<%= xssAPI.getValidInteger(maxLength, 100) %>" <%
                             }
 					  	    if (showCharCount && maxLength != null) {
-					  	 	    %>onkeyup="$('#<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);" <%
- 					        }
+					  	    %> 
+	      						onpaste="$('[id=&quot;<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft&quot;]').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);"
+								onchange="$('[id=&quot;<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft&quot;]').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);"
+								onkeyup="$('[id=&quot;<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft&quot;]').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);"
+	      					<%
+					        }
                             %>onkeydown="<%= mrChangeHandler %>" ><%
                     } else {
                         %><textarea class="<%= FormsHelper.getCss(properties, "form_field form_field_textarea") %>" <%
@@ -113,8 +117,12 @@
                                 %>maxlength="<%= xssAPI.getValidInteger(maxLength, 100) %>" <%
                             }
 					  	    if (showCharCount && maxLength != null) {
-					  	 	    %>onkeyup="$('#<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);" <%
- 					        }
+					  	    	%> 
+	      						onpaste="$('[id=&quot;<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft&quot;]').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);"
+								onchange="$('[id=&quot;<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft&quot;]').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);"
+								onkeyup="$('[id=&quot;<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft&quot;]').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);"
+	      					<%
+					        }
                             %>onkeydown="<%= mrChangeHandler %>" ><%= xssAPI.encodeForHTML(value) %></textarea><%
                     }
                     if (values.length > 1) {
