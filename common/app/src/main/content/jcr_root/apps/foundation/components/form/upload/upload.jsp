@@ -42,7 +42,9 @@
            					  	    		data-custom-validation-message="<%=customValidationMessage %>"
            					  	    	<%
            					  	    }
+									if(required){
         							%>required="<%=required%>" <%
+                                    }
                                     if (width.length() > 0) {
                                         %>style="width:<%= xssAPI.getValidInteger(width, 100) %>px;"<%
                                     }
