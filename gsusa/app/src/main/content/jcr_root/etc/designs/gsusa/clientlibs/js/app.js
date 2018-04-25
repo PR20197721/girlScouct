@@ -221,7 +221,9 @@ function fixSlickSlideActive() {
         var footer_height = $("footer").outerHeight(),
             header_height = $(".header").outerHeight(),
             total_height = "calc((100vh - " + (footer_height + header_height) + "px))";
-        $(".main-content, #main .vtk").css({
+        //$(".main-content, #main .vtk").css({
+        	
+        $("#main .vtk").css({
             "min-height": total_height
         });
         $(".join-volunteer").css({

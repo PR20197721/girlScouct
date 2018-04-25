@@ -42,6 +42,8 @@
 					</a>
 <% 
 				}
+			}else{
+				%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
 			}
 		}
 
@@ -65,9 +67,14 @@
 				</a>
 <%
 			}
+			if(alert.isEmpty() && message.isEmpty()){
+				%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
+			}
 		}
 %>
 			</div>
 <%			
+	}else{
+		%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
 	}
 %>

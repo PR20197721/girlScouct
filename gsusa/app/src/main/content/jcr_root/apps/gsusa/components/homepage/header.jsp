@@ -35,7 +35,7 @@ String headerSearchPath = headerPath + "/search";
     <section class="utility show-for-medium-up">
         <div style="" class="clearfix">
             <div id='spinner' class='spinner'></div>
-            <div style="" class="join-buttons">
+            <div class="join-buttons">
                 <cq:include path="header/join" resourceType="gsusa/components/header-join-now" />
                 <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now" />
             </div>

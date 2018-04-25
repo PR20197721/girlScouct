@@ -93,7 +93,8 @@ if(currentNode.hasNode("navs")){
             }
         } catch(Exception e) {}
         %><section class="search-section">
-		   <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
+<%-- 		   <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" /> --%>
+		   <cq:include script="/apps/gsusa/components/search-box/mobile.jsp" /> 
 		</section>
 		<section class="toggle-section right-small">
 			<a class="right-off-canvas-toggle menu-icon" role="button" href="#"><span></span></a>

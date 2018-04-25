@@ -11,9 +11,9 @@
             sling:resourceType="granite/ui/components/foundation/layouts/tabs"
             type="nav"/>
         <items jcr:primaryType="nt:unstructured">
-            <tab1
+            <configTab
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Camp Finder Results"
+                jcr:title="Config"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
@@ -29,13 +29,163 @@
                                 fieldDescription="Number of booths shown on each page"
                                 fieldLabel="Number of Booths Per Page"
                                 name="./numPerPage"/>
-                            <intro/>
-                            <no-results/>
-                            <invalid-zip/>
+                         </items>
+                		</columns>
+               	</items>
+            </configTab>
+            <introTab
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Intro Text"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+	                <items jcr:primaryType="nt:unstructured">
+	                    <columns
+	                        jcr:primaryType="nt:unstructured"
+	                        sling:resourceType="granite/ui/components/foundation/container">
+	                        <items jcr:primaryType="nt:unstructured">
+		                        <intro 
+		                        		jcr:primaryType="nt:unstructured"				
+								    fieldLabel="Intro Text"
+								    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+								    useFixedInlineToolbar="true"
+								    customStart="false"
+								    height="{Long}300"
+								    name="./intro">
+	                                <rtePlugins
+	                                    jcr:primaryType="nt:unstructured"
+	                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+	                                <specialCharsConfig
+	                                    jcr:primaryType="nt:unstructured"
+	                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig"/>
+	                                <uiSettings
+	                                    jcr:primaryType="nt:unstructured"
+	                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+								</intro>
+							</items>
+						</columns>
+					</items>
+				</introTab>
+        		<noResultsTab
+	                jcr:primaryType="nt:unstructured"
+	                jcr:title="No Results"
+	                sling:resourceType="granite/ui/components/foundation/container">
+	                <layout
+	                    jcr:primaryType="nt:unstructured"
+	                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+	                <items jcr:primaryType="nt:unstructured">
+	                    <columns
+	                        jcr:primaryType="nt:unstructured"
+	                        sling:resourceType="granite/ui/components/foundation/container">
+	                        <items jcr:primaryType="nt:unstructured">
+	                        <noResults 
+	                        		jcr:primaryType="nt:unstructured"				
+							    fieldLabel="No Results Text"
+							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+							    useFixedInlineToolbar="true"
+							    customStart="false"
+							    height="{Long}300"
+							    name="./no-results">
+                                <rtePlugins
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+							    <specialCharsConfig jcr:primaryType="nt:unstructured">
+							        <chars jcr:primaryType="nt:unstructured">
+							            <name
+							                jcr:primaryType="nt:unstructured"
+							                displayEntity="Council_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+							                entity="\{{council.CouncilName}}"/>
+							            <url
+							                jcr:primaryType="nt:unstructured"
+							                displayEntity="Council_Website&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+							                entity="\{{council.Website}}"/>
+							            <em-dash
+							                jcr:primaryType="nt:unstructured"
+							                entity="&amp;#8212;"/>
+							            <copyright
+							                jcr:primaryType="nt:unstructured"
+							                entity="&amp;#169;"/>
+							            <registered
+							                jcr:primaryType="nt:unstructured"
+							                entity="&amp;#174;"/>
+							            <trademark
+							                jcr:primaryType="nt:unstructured"
+							                entity="&amp;#8482;"/>
+							            <horizontal-rule
+							                jcr:primaryType="nt:unstructured"
+							                displayEntity="HR"
+							                entity="&lt;hr>"/>
+							        </chars>
+							    </specialCharsConfig>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+							</noResults>
+						</items>
+					</columns>
+				</items>
+			</noResultsTab>
+            <invalidZipTab
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Invalid Zip"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+	                <items jcr:primaryType="nt:unstructured">
+	                    <columns
+	                        jcr:primaryType="nt:unstructured"
+	                        sling:resourceType="granite/ui/components/foundation/container">
+	                        <items jcr:primaryType="nt:unstructured">
+	                        <invalidZip 
+	                        		jcr:primaryType="nt:unstructured"				
+							    fieldLabel="Invalid Zip Text"
+							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+							    useFixedInlineToolbar="true"
+							    customStart="false"
+							    height="{Long}300"
+							    name="./invalid-zip">
+                                <rtePlugins
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+							   <specialCharsConfig jcr:primaryType="nt:unstructured">
+							        <chars jcr:primaryType="nt:unstructured">
+							            <name
+							                jcr:primaryType="nt:unstructured"
+							                displayEntity="Council_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+							                entity="\{{council.CouncilName}}"/>
+							            <url
+							                jcr:primaryType="nt:unstructured"
+							                displayEntity="Council_Website&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+							                entity="\{{council.Website}}"/>
+							            <em-dash
+							                jcr:primaryType="nt:unstructured"
+							                entity="&amp;#8212;"/>
+							            <copyright
+							                jcr:primaryType="nt:unstructured"
+							                entity="&amp;#169;"/>
+							            <registered
+							                jcr:primaryType="nt:unstructured"
+							                entity="&amp;#174;"/>
+							            <trademark
+							                jcr:primaryType="nt:unstructured"
+							                entity="&amp;#8482;"/>
+							            <horizontal-rule
+							                jcr:primaryType="nt:unstructured"
+							                displayEntity="HR"
+							                entity="&lt;hr>"/>
+							        </chars>
+							    </specialCharsConfig>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+							
+							</invalidZip>
                         </items>
                     </columns>
                 </items>
-            </tab1>
+            </invalidZipTab>
         </items>
     </content>
 </jcr:root>
