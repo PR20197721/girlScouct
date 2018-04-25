@@ -28,21 +28,21 @@
                                 fieldDescription=""
                                 fieldLabel="Feed Title"
                                 name="./feedTitle"
-                                xtype="textfield"/>
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
                             <feedLandingPage
                                 jcr:primaryType="nt:unstructured"
                                 attribute="adhocevars"
                                 fieldDescription="(e.g. http://www.girlscouts.org/en/raising-girls.html)"
                                 fieldLabel="Feed Landing Page"
                                 name="./feedLandingPage"
-                                xtype="textfield"/>
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
                             <feedDesc
                                 jcr:primaryType="nt:unstructured"
                                 attribute="adhocevars"
                                 fieldDescription=""
                                 fieldLabel="Feed Desc"
                                 name="./feedDesc"
-                                xtype="textfield"/>
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
                             <feedScaffoldingType
                                 jcr:primaryType="nt:unstructured"
                                 allowBlank="false"
@@ -50,20 +50,66 @@
                                 fieldDescription="(e.g. /etc/scaffolding/gsusa/article)"
                                 fieldLabel="Scaffolding Type"
                                 name="./feedScaffoldingType"
-                                xtype="textfield"/>
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
                             <feedMaxItems
                                 jcr:primaryType="nt:unstructured"
                                 attribute="adhocevars"
                                 fieldDescription="Empty value will pull 9,999 articles."
                                 fieldLabel="Max Items"
                                 name="./feedMaxItems"
-                                xtype="numberfield"/>
-                            <feedPaths
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
+                            <feedItems
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/multifield"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                composite="true" 
+                                fieldDescription="Add Item"
                                 fieldLabel="Feed Paths">
-                                <field/>
-                            </feedPaths>
+								<field jcr:primaryType="nt:unstructured"
+									sling:resourceType = "granite/ui/components/coral/foundation/container"
+									class="coral-Table--bordered" 
+									name="./feedItems">
+									<items jcr:primaryType="nt:unstructured">
+										<path 
+		                                    jcr:primaryType="nt:unstructured"
+		                                    sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+		                                    name="./path"
+		                                    fieldLabel="Path"
+		                                    rootPath="/content"/>
+			                            	<page
+			                                jcr:primaryType="nt:unstructured"
+			                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+			                                name="./page"
+			                                value="true"
+			                                text="Page"/>
+										<pageType
+										    jcr:primaryType="nt:unstructured"
+										    sling:resourceType="granite/ui/components/foundation/form/hidden"
+										    name="./page@TypeHint"
+										    value="Boolean"/>
+			                            <pageDelete
+			                                jcr:primaryType="nt:unstructured"
+			                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+			                                name="./page@Delete"
+			                                value="{Boolean}true"/>
+			                            	<subDir
+			                                jcr:primaryType="nt:unstructured"
+			                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+			                                name="./subDir"
+			                                value="true"
+			                                text="SubDir"/>
+										<subDirType
+										    jcr:primaryType="nt:unstructured"
+										    sling:resourceType="granite/ui/components/foundation/form/hidden"
+										    name="./subDir@TypeHint"
+										    value="Boolean"/>
+			                            <subDirDelete
+			                                jcr:primaryType="nt:unstructured"
+			                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+			                                name="./subDir@Delete"
+			                                value="{Boolean}true"/>
+									</items>
+								</field>
+                            </feedItems>
                         </items>
                     </columns>
                 </items>

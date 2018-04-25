@@ -28,7 +28,8 @@
 	java.util.Calendar,
 	org.apache.sling.api.SlingHttpServletRequest,
 	org.apache.sling.api.scripting.SlingBindings,
-	org.apache.commons.lang3.StringUtils
+	org.apache.commons.lang3.StringUtils,
+	org.girlscouts.web.gsusa.components.rssfeed.RssFeedPathItem
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
@@ -49,7 +50,7 @@
 	String feedDesc;
 	String feedScaffoldingPath;
 	int feedMaxItems = 0; 
-	String[] feedPaths;
+	Node feedPaths;
 	String rssFeedLink;
 	Date latestFeedDate = null;
 	int feedPageCount = 0;
@@ -94,24 +95,16 @@
 
 
 	// parse out feed path
-	void processPaths(String[] list) {		
-		for (int i = 0; i < list.length; i++) {
-			String[] values = list[i].split("\\|\\|\\|");
-			String path = values[0].trim();
-			String page = values.length > 1 ? values[1] : ""; 
-			String subdir = values.length > 2 ? values[2] : "";
-
-			// process only that page
-			if (page.equals("true")) {
+	void processPaths(List<RssFeedPathItem> feedPathItems) {
+		for(RssFeedPathItem item : feedPathItems){
+			if(item.isPage()){
 				HashMap<String,String> thisFeedPage = new HashMap<String,String>();
-				feedPages.put(path,thisFeedPage);
+				feedPages.put(item.getPath(), thisFeedPage);
 			}
-			
-			// process as directory
-			if (subdir.equals("true")) {
-				feedDirectories.add(path.trim());
-			}			
-		}		
+			if(item.isSubDir()){
+				feedDirectories.add(item.getPath().trim());
+			}
+		}
 	}
 	
 
@@ -119,13 +112,15 @@
 	void recurse(ResourceResolver rr, String pagePath) {
 		Page thisPage = rr.resolve(pagePath).adaptTo(Page.class);
 
-		for (Iterator<Page> iterator = thisPage.listChildren(); iterator.hasNext();) {
-			String childPagePath = iterator.next().getPath();
-			
-			HashMap<String,String> thisFeedPage = new HashMap<String,String>();
-			feedPages.put(childPagePath, thisFeedPage);
-
-			recurse(rr, childPagePath);
+		if(thisPage != null){
+			for (Iterator<Page> iterator = thisPage.listChildren(); iterator.hasNext();) {
+				String childPagePath = iterator.next().getPath();
+				
+				HashMap<String,String> thisFeedPage = new HashMap<String,String>();
+				feedPages.put(childPagePath, thisFeedPage);
+	
+				recurse(rr, childPagePath);
+			}
 		}
 	}
 
@@ -292,7 +287,17 @@
 	feedDesc = properties.get("feedDesc", "");
 	feedScaffoldingPath = properties.get("feedScaffoldingType", "").trim();
 	feedMaxItems = ((int)properties.get("feedMaxItems", 9999));
-	feedPaths = properties.get("feedPaths", String[].class);
+	
+   	Resource feedPathsResource = resource.getChild("feedItems");
+   	List<RssFeedPathItem> feedPathItems = new ArrayList<>();
+	if (feedPathsResource != null && !feedPathsResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+		Iterator<Resource> items = feedPathsResource.listChildren(); 
+		if(items != null){
+			while(items.hasNext()){
+				feedPathItems.add(RssFeedPathItem.fromNode(items.next().adaptTo(Node.class)));
+			}
+		}
+	}
 	externalizer = bindings.getSling().getService(Externalizer.class);
 	rssFeedLink = externalizer.absoluteLink(slingRequest, slingRequest.getScheme(), currentNode.getPath()) + ".html";
 
@@ -312,7 +317,7 @@
 
 
 	// take the multifield values and process them to result feedPages and feedDirectories
-	if (feedPaths == null) {
+	if (feedPathItems.size() < 1) {
 
 		if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 			out.print("Feed Paths not defined. Please edit this component and add feed paths.");
@@ -320,7 +325,7 @@
 	
 	} else {
 		
-		processPaths(feedPaths);
+		processPaths(feedPathItems);
       
 		for (String dir : feedDirectories ) {
 			//out.print("dir : " + dir + "<br>");
@@ -342,8 +347,7 @@
 			String feedPageKey = feedPage.getKey();
 			HashMap feedPageValue = feedPage.getValue();
 			if (feedPageValue.get("editedDate") == null) {
-				//out.print("deleting : " + feedPageKey + "<br>");
-				feedPages.remove(feedPageKey);
+				feedPages.remove(feedPageKey); 
 			}
 		}
 
@@ -410,8 +414,10 @@
 				}
 
 				ArrayList<String> thisTags = listToArray((String)feedPageValue.get("tags"));
-				for(String thisCategory : thisTags) {
-					rssOutput = rssOutput + "		<category><![CDATA[" + thisCategory + "]]></category>\r\n";
+				if(thisTags != null){
+					for(String thisCategory : thisTags) {
+						rssOutput = rssOutput + "		<category><![CDATA[" + thisCategory + "]]></category>\r\n";
+					}
 				}
 				//out.println("		<dc:creator><![CDATA[]]></dc:creator>");
 				rssOutput = rssOutput + "		<description><![CDATA[" + feedPageValue.get("descWithImage") + "]]></description>\r\n";

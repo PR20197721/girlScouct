@@ -55,6 +55,9 @@ public class RightRailCarouselItem {
 			if(node.hasProperty("label")) {
 				returner.setLabel(node.getProperty("label").getString());
 			}
+			if(node.hasProperty("newWindow")) {
+				returner.setNewWindow(node.getProperty("newWindow").getBoolean());
+			}
 		} catch (RepositoryException e) {}
 		
 		return returner;
