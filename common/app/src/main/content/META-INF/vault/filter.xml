@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
+    <filter root="/etc/clientlibs/girlscouts-common"/>
     <filter root="/apps/girlscouts-common"/>
     <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>
     <filter root="/apps/cq/inbox"/>
