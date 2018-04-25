@@ -7,6 +7,7 @@
     jcr:mixinTypes="[mix:lockable]"
     jcr:primaryType="cq:ClientLibraryFolder"
     sling:resourceType="widgets/clientlib"
+    jsProcessor="[default:none, min:gcc]"
     categories="[apps.gsusa.components.badge-explorer]"
     dependencies="[common.thirdparty.framework.vuejs, common.util.dom-utils, common.thirdparty.jspdf, common.thirdparty.html2canvas]"/>
     <!--  TODO: Add jquery requirement once jQuery is in a unified clientlib -->
