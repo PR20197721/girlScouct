@@ -65,21 +65,6 @@
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Quotee (who said the quote)"
                                 name="./quotee"/>
-                            <icons
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                name="./icons"
-                                text="Display Social Icons"/>
-                            <icons-delete
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./icons@Delete"
-                                value="{Boolean}true"/>
-							<iconsType
-							    jcr:primaryType="nt:unstructured"
-							    sling:resourceType="granite/ui/components/foundation/form/hidden"
-							    name="./icons@TypeHint"
-							    value="Boolean"/>
                             <style
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/select"
