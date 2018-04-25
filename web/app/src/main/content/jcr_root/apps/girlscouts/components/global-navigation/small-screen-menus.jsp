@@ -78,7 +78,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
   		Resource globalNav = resourceResolver.resolve(headerPath+"/global-nav");
   		if(globalNav != null){
   	   		ValueMap globalNavProps = globalNav.getValueMap();
-  	   		String[] links = (String[])(request.getAttribute("links"));
+  	   		String[] links = (String[])(request.getAttribute("globlinks"));
    			request.setAttribute("globalNavigation", links);
    			String insertAfter="";
    			String currTitle = currentPage.getTitle();
@@ -103,12 +103,14 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 			for (int i = 0; i < links.length; i++){
 				String[] values = links[i].split("\\|\\|\\|");
 				String label = values[0];
+                System.out.println("Label is: " + label);
 				String path = values.length >= 2 ? values[1] : "";
 				String menuPath = values.length >= 2 ? values[1] : "";
 				path = genLink(resourceResolver, path);
 				String clazz = values.length >= 3 ? " "+ values[2] : "";
 				String mLabel = values.length >=4 ? " "+values[3] : "";
 				String sLabel = values.length >=5 ? " "+values[4] : "";
+                System.out.println("Small Label is: " + sLabel);
 				Set<String> navigationPath;
 				Iterator<Page> menuLevel1;
 				String navigation="";

@@ -11,7 +11,7 @@ String headerPath = (String)request.getAttribute("headerPath");
 Resource globalNav = resourceResolver.resolve(headerPath+"/global-nav");
 if(globalNav != null){
 	ValueMap globalNavProps = globalNav.getValueMap();
-	String[] links = (String[])(request.getAttribute("links"));
+	String[] links = (String[])(request.getAttribute("globlinks"));
 	request.setAttribute("globalNavigation", links);
 	for (int i = 0; i < links.length; i++) {
 	        String[] values = links[i].split("\\|\\|\\|");

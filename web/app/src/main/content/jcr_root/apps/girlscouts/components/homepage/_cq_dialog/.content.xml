@@ -39,37 +39,44 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="girlscouts/components/form/pathfield"
                                                 fieldLabel="Events Path"
-                                                name="./eventPath"/>
+                                                name="./eventPath"
+                                                rootPath="/content"/>
                                             <news-path
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="girlscouts/components/form/pathfield"
                                                 fieldLabel="News Path"
-                                                name="./newsPath"/>
+                                                name="./newsPath"
+                                                rootPath="/content"/>
                                             <ads-path
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="girlscouts/components/form/pathfield"
                                                 fieldLabel="Ads Path"
-                                                name="./adsPath"/>
+                                                name="./adsPath"
+                                                rootPath="/content"/>
                                             <events-src-landing-path
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="girlscouts/components/form/pathfield"
                                                 fieldLabel="Events Search Landing Path"
-                                                name="./eventLanding"/>
+                                                name="./eventLanding"
+                                                rootPath="/content"/>
                                             <global-srch-landing-path
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="girlscouts/components/form/pathfield"
                                                 fieldLabel="Global Search Landing Path"
-                                                name="./globalLanding"/>
+                                                name="./globalLanding"
+                                                rootPath="/content"/>
                                             <calendar-path
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="girlscouts/components/form/pathfield"
                                                 fieldLabel="Calendar Path"
-                                                name="./calendarPath"/>
+                                                name="./calendarPath"
+                                                rootPath="/content"/>
                                             <event-left-nav-root
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="girlscouts/components/form/pathfield"
                                                 fieldLabel="Event Left Nav Root"
-                                                name="./leftNavRoot"/>
+                                                name="./leftNavRoot"
+                                                rootPath="/content"/>
                                             <timezone
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
@@ -163,7 +170,9 @@
                                             <enable-advertisting-features
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                                text="Enable Advertising Features"/>
+                                                name="./googleDisplayFeatures"
+                                                text="Enable Advertising Features"
+                                                value="{Boolean}true"/>
                                             <enable-advertisting-features-delete
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

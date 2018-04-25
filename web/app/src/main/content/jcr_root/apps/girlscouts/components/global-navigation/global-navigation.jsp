@@ -96,7 +96,7 @@ if(currentNode.hasNode("links")){
 	}
 }
 String[] links = linksList.toArray(new String[0]);
-request.setAttribute("links", links);
+request.setAttribute("globlinks", links);
 if ((links == null || links.length == 0)) {
 %><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
 } else if (links != null){
