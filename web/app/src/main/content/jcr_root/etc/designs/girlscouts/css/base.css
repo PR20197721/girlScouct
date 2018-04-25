@@ -463,7 +463,7 @@ a:hover.menuHighlight {
 }
 
 #headerBar ul.inline-list li {
-  line-height: normal;
+  line-height: 31px;
   min-height: 31px;
   display: block;
   align-items: center;
