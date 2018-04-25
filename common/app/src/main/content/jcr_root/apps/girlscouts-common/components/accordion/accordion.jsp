@@ -32,8 +32,8 @@
 				String achorField = "";
 				String idField = "";
 				String nameField = "";
-				if (accordion.hasProperty("achorField")) {
-					achorField = accordion.getProperty("achorField").getString();
+				if (accordion.hasProperty("anchorField")) {
+					achorField = accordion.getProperty("anchorField").getString();
 				}
 				if (accordion.hasProperty("idField")) {
 					idField = accordion.getProperty("idField").getString();
