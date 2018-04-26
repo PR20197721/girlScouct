@@ -33,7 +33,9 @@
 	String largeColumns = properties.get("largeColumns", "4");
 	String mediumColumns = properties.get("mediumColumns", "2");
 	String smallColumns = properties.get("smallColumns", "1");
-	
+	largeColumns = "0".equals(largeColumns) ? "4" : largeColumns;
+	mediumColumns = "0".equals(mediumColumns) ? "2" : mediumColumns;
+	smallColumns = "0".equals(smallColumns) ? "1" : smallColumns;
 	// Do not need to catch NumberFormatException because it is guaranteed by the "numberfield" widget
 	int largeColumnsNum = Integer.parseInt(largeColumns);
 	int mediumColumnsNum = Integer.parseInt(mediumColumns);
