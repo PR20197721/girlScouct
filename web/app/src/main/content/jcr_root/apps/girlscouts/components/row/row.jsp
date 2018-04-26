@@ -41,6 +41,10 @@
 	int mediumColumnsNum = Integer.parseInt(mediumColumns);
 	int smallColumnsNum = Integer.parseInt(smallColumns);
 	
+	largeColumnsNum = largeColumnsNum < 1 ? 4 : largeColumnsNum;
+	mediumColumnsNum = mediumColumnsNum < 1 ? 2 : mediumColumnsNum;
+	smallColumnsNum = smallColumnsNum < 1 ? 1 : smallColumnsNum;
+	
 	String largeCss = Integer.toString(COLUMNS_PER_ROW / largeColumnsNum);
 	String mediumCss = Integer.toString(COLUMNS_PER_ROW / mediumColumnsNum);
 	String smallCss = Integer.toString(COLUMNS_PER_ROW / smallColumnsNum);
