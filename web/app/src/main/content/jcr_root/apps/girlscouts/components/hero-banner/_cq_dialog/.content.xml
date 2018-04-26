@@ -128,8 +128,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./firstsbnewwindow"
                                 text="New Window"
-                                value="true"
-                                uncheckedValue="false"/>
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <first-sb-button-txt
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
@@ -171,8 +171,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./secondsbnewwindow"
                                 text="New Window"
-                                value="true"
-                                uncheckedValue="false"/>
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <second-sb-button-txt
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"

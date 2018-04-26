@@ -79,7 +79,8 @@
 			                                jcr:primaryType="nt:unstructured"
 			                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
 			                                name="./page"
-			                                value="true"
+			                                value="{Boolean}true"
+                                			uncheckedValue="{Boolean}false"
 			                                text="Page"/>
 										<pageType
 										    jcr:primaryType="nt:unstructured"
@@ -92,11 +93,12 @@
 			                                name="./page@Delete"
 			                                value="{Boolean}true"/>
 			                            	<subDir
-			                                jcr:primaryType="nt:unstructured"
-			                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
-			                                name="./subDir"
-			                                value="true"
-			                                text="SubDir"/>
+				                                jcr:primaryType="nt:unstructured"
+				                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+				                                name="./subDir"
+				                                value="{Boolean}true"
+	                                			uncheckedValue="{Boolean}false"
+				                                text="SubDir"/>
 										<subDirType
 										    jcr:primaryType="nt:unstructured"
 										    sling:resourceType="granite/ui/components/foundation/form/hidden"

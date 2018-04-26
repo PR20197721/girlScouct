@@ -73,7 +73,9 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="Check to apply border at top of the component"
                                 name="./topborder"
-                                text="Top Border"/>
+                                text="Top Border"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <topborder-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -84,7 +86,9 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="Check to apply border at top of the component"
                                 name="./bottomborder"
-                                text="Bottom Border"/>
+                                text="Bottom Border"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <bottomborder-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

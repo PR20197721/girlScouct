@@ -79,7 +79,8 @@
                                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                                 name="./hideInNav"
                                                 text="Hide in Navigation"
-                                                value="true"/>
+                                                value="{Boolean}true"
+                                				uncheckedValue="{Boolean}false"/>
                                             <hideinnav-delete
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -90,7 +91,8 @@
                                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                                 name="./hideInSearch"
                                                 text="Hide in Search"
-                                                value="true"/>
+                                                value="{Boolean}true"
+                                				uncheckedValue="{Boolean}false"/>
                                             <hideinsearch-delete
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -102,7 +104,8 @@
                                                 fieldDescription="Rejects all GSUSA content rollouts for this page. If you want to sync individual components with national content, you will need to unlock and relock them"
                                                 name="./breakInheritance"
                                                 text="Block Rollouts for this page"
-                                                value="true"/>
+                                                value="{Boolean}true"
+                                				uncheckedValue="{Boolean}false"/>
                                             <breakinheritance-delete
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -178,7 +181,8 @@
                                                 name="./sling:redirect"
                                                 renderReadOnly="{Boolean}true"
                                                 text="Redirect Vanity URL"
-                                                value="true"/>
+                                                value="{Boolean}true"
+                                				uncheckedValue="{Boolean}false"/>
                                         </items>
                                     </vanityurl>
                                 </items>

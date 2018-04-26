@@ -32,7 +32,9 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="Search By Zip Code"
                                 name="./zip"
-                                text="Zip Code"/>
+                                text="Zip Code"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <zip-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -43,7 +45,9 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="Search By State"
                                 name="./state"
-                                text="State"/>
+                                text="State"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <state-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -54,7 +58,9 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="Search By Council Name"
                                 name="./council-name"
-                                text="Council Name"/>
+                                text="Council Name"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <council-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

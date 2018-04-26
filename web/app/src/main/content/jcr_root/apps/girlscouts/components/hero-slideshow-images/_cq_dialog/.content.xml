@@ -210,7 +210,8 @@
                                 checked="{Boolean}true"
                                 name="./newWindow"
                                 text="Open In New Window"
-                                value="true"/>
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <newwindow-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

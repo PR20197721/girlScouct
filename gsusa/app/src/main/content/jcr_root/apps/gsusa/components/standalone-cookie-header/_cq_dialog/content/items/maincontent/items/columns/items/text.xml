@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Widget"
+    text="Important: If this component is in the page, please shrink your browser to a smaller size (width smaller than 640px) until you see another header. You will also need to configure that header"
+    xtype="label"/>

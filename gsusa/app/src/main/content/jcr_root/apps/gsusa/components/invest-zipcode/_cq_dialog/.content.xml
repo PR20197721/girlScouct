@@ -26,7 +26,9 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./local"
-                                text="Display Local Invest Option - By Zipcode"/>
+                                text="Display Local Invest Option - By Zipcode"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <local-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -36,7 +38,9 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./national"
-                                text="Display National Invest Option"/>
+                                text="Display National Invest Option"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <national-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
