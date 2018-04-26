@@ -25,6 +25,9 @@
 	  if(eventcounts > results.size()){
 		  eventcounts = results.size();
 	  }
+	  if(eventcount < 1 && results.size() > 0){
+		  eventcount = results.size();
+	  }
   }
   
   
