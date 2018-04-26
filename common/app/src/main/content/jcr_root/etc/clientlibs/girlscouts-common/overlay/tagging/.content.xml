@@ -3,6 +3,6 @@
     jcr:mixinTypes="[mix:lockable]"
     jcr:primaryType="cq:ClientLibraryFolder"
     sling:resourceType="widgets/clientlib"
-    categories="[cq.tagging.touch.tagedit]"
+    categories="[cq.tagging.touch.tagedit, cq.tagging.touch.movetag, cq.tagging.touch.mergetag]"
     jsProcessor="[default:none, min:gcc]"
     dependencies="[]"/>
