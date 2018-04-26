@@ -63,11 +63,11 @@
                                 autoStart="{Boolean}false"
                                 class="cq-droptarget"
                                 fieldLabel="Image asset"
-                                fileNameParameter="./image/fileName"
-                                fileReferenceParameter="./image/fileReference"
+                                fileNameParameter="./fileName"
+                                fileReferenceParameter="./fileReference"
                                 mimeTypes="[image]"
                                 multiple="{Boolean}false"
-                                name="./image/file"
+                                name="./file"
                                 title="Upload Image Asset"
                                 uploadUrl="${suffix.path}"
                                 useHTML5="{Boolean}true"/>
@@ -91,24 +91,24 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Title"
-                                name="./image/jcr:title"/>
+                                name="./jcr:title"/>
                             <alt
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldDescription="(leave empty to use the title defined above)"
                                 fieldLabel="Alt Text"
-                                name="./image/alt"/>
+                                name="./alt"/>
                             <linkURL
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="Drop files or pages from the Content Finder"
                                 fieldLabel="Link to"
-                                name="./image/linkURL"/>
+                                name="./linkURL"/>
                             <description
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textarea"
                                 fieldLabel="Description"
-                                name="./image/jcr:description"/>
+                                name="./jcr:description"/>
                             <size
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
@@ -116,11 +116,11 @@
                                 <width
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./image/width"/>
+                                    name="./width"/>
                                 <height
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./image/height"/>
+                                    name="./height"/>
                             </size>
                         </items>
                     </columns>
