@@ -48,12 +48,31 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="Default: false"
                                 name="./showverticalrule"
-                                text="Show Vertical Rule"/>
+                                text="Show Vertical Rule"
+                                value="{Boolean}true"/>
                             <showverticalrule-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./showverticalrule@Delete"
                                 value="{Boolean}true"/>
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                customStart="false"
+                                fieldLabel="Content"
+                                height="{Long}300"
+                                name="./text"
+                                useFixedInlineToolbar="true">
+                                <rtePlugins
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+                                <specialCharsConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig"/>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+                            </text>
                             <isRichTextFlag
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -81,7 +100,7 @@
                                 autoStart="{Boolean}false"
                                 class="cq-droptarget"
                                 fieldLabel="Icon"
-    							   fileNameParameter="./bg/fileName"
+                                fileNameParameter="./bg/fileName"
                                 fileReferenceParameter="./bg/fileReference"
                                 mimeTypes="[image]"
                                 multiple="{Boolean}false"
@@ -108,10 +127,10 @@
                             <max-width
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                defaultValue=""
                                 fieldDescription="Default is 210px"
                                 fieldLabel="Max Width (in px)"
                                 min="{Long}0"
-                                defaultValue=""
                                 name="./maxWidth"/>
                             <source
                                 jcr:primaryType="nt:unstructured"
