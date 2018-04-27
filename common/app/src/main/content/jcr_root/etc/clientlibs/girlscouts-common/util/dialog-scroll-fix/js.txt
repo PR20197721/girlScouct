@@ -1,2 +1,2 @@
-base=.
+rbase=.
 main.js

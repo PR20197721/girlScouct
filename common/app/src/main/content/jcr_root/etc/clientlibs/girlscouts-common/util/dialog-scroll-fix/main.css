@@ -1,0 +1,8 @@
+.is-dragging{
+    border:1px solid lightblue;
+    padding: 5px;
+    background-color:whitesmoke;
+    -webkit-box-shadow: 4px 4px 14px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    4px 4px 14px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         4px 4px 14px 0px rgba(50, 50, 50, 0.75);
+}
