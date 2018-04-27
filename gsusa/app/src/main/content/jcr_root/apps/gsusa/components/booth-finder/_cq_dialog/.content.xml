@@ -426,10 +426,9 @@
 							    <rtePlugins 
 							    		jcr:primaryType="nt:unstructured" 
 							    		sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
-							    <specialCharsConfig 
-							    		jcr:primaryType="nt:unstructured" 
-							    		sling:resourceSuperType="gsusa/components/booth-finder-config/council-data-special-characters"/>
-						    		<uiSettings
+							    <specialCharsConfig jcr:primaryType="nt:unstructured"
+										sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig" />
+								<uiSettings
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>			    
 						    </text>
