@@ -44,6 +44,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                             fieldLabel="Link to Video/Image"
+                                            rootPath="/content/dam"
                                             name="imagepath"/>
                                     </items>
                                 </field>
