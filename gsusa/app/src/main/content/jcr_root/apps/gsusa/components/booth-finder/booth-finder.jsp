@@ -269,7 +269,7 @@ BoothFinder.prototype.processResult = function(result) {
 	
 	$('a:contains('+cname+')').on('click', function(){
 		$.ajax({
-			url: "/cookiesapi/booth_list_link_visits.asp",
+			url: "https://girlscouts-dev63.adobecqms.net/booth_list_link_visits.asp",
 			data: cdata,
 			datatype: "json"
 		});
@@ -312,7 +312,7 @@ $(document).ready(function(){
 		if (!date) date = 60;
 		if (!sortBy) sortBy = 'distance';
 		
-		boothFinder = new BoothFinder("/cookiesapi/booth_list_merged.asp", zip, radius, date, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
+		boothFinder = new BoothFinder("https://girlscouts-dev63.adobecqms.net/cookiesapi/booth_list_merged.asp", zip, radius, date, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
 		boothFinder.getResult();
 	}
 });

@@ -1,0 +1,8 @@
+.rte-ui.is-desktop .rte-dialog--specialchars .rte-dialog-column--specialchars .rte-specialchars-selector .rte-dialog-column{
+    display: block;
+    width: 100%;
+}
+
+.rte-ui.is-desktop .rte-dialog--specialchars .rte-dialog-column--specialchars .rte-specialchars-selector{
+    min-height: 150px;
+}
