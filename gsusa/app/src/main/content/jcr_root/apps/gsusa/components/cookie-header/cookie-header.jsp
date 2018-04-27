@@ -28,10 +28,11 @@ long matchNum1 = query1.getResult().getTotalMatches();
 boolean hasHeader = (matchNum0 != 0 || matchNum1 != 0);
 
 if (hasHeader) {// contains cookie) {
-%>
-<div class="show-for-small">
-	<cq:include path="mobile-cookie-header" resourceType="gsusa/components/standalone-cookie-header" />
-</div>
-<%
+	String mobileCookieHeaderPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/mobile-cookie-header";
+	%>
+	<div class="show-for-small">
+		<cq:include path="<%= mobileCookieHeaderPath%>" resourceType="gsusa/components/standalone-cookie-header" />
+	</div>
+	<%
 }
 %>
