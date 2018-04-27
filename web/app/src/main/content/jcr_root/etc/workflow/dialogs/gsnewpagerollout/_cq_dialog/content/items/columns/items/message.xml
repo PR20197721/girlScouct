@@ -24,7 +24,9 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="override analytics framework settings"
                                 name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
-                                text="Custom link tracking"/>
+                                text="Custom link tracking"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <enable-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

@@ -30,7 +30,8 @@
                                 fieldDescription="The right section of the header will be delicated to sharing. Check this when the header is on top of the page"
                                 name="./shareSection"
                                 text="Right Share Section"
-                                value="{Boolean}true"/>
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <sharesection-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

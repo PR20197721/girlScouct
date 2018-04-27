@@ -74,7 +74,9 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./newWindow"
-                                text="Open Link in New Window"/>
+                                text="Open Link in New Window"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <newwindow-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

@@ -33,7 +33,9 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="(Check this box if Events need to be displayed under feature,else will be displayed as List)"
                                 name="./isfeatureevents"
-                                text="Displayed under Feature"/>
+                                text="Displayed under Feature"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <feature-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

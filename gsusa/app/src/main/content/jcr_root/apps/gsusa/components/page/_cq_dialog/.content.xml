@@ -89,7 +89,8 @@
                                                 name="./hideInNav"
                                                 renderReadOnly="{Boolean}true"
                                                 text="Hide in Navigation"
-                                                value="true"/>
+                                                value="{Boolean}true"
+                                				uncheckedValue="{Boolean}false"/>
                                             <breakinheritance
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
@@ -205,7 +206,8 @@
                                                 name="./sling:redirect"
                                                 renderReadOnly="{Boolean}true"
                                                 text="Redirect Vanity URL"
-                                                value="true"/>
+                                                value="{Boolean}true"
+                                				uncheckedValue="{Boolean}false"/>
                                         </items>
                                     </vanityurl>
                                 </items>

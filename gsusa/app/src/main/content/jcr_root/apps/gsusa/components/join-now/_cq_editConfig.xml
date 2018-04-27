@@ -1,38 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root 
+	xmlns:sling="http://sling.apache.org/jcr/sling/1.0" 
+	xmlns:cq="http://www.day.com/jcr/cq/1.0" 
+	xmlns:jcr="http://www.jcp.org/jcr/1.0" 
+	xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+	
+    cq:disableTargeting="{Boolean}true"
     cq:actions="[edit,delete,copymove]"
     cq:dialogMode="floating"
-    cq:disableTargeting="{Boolean}true"
     jcr:primaryType="cq:EditConfig">
+    
     <cq:dropTargets jcr:primaryType="nt:unstructured">
         <image
             jcr:primaryType="cq:DropTargetConfig"
             accept="[image/.*]"
             groups="[media]"
-            propertyName="./bg/fileReference">
+            propertyName="./image/fileReference">
             <parameters
                 jcr:primaryType="nt:unstructured"
-                imageCrop=""
-                imageMap=""
-                imageRotate=""/>
+                sling:resourceType="foundation/components/textimage">
+		        <bg
+		            jcr:primaryType="cq:DropTargetConfig"
+		            sling:resourceType="foundation/components/image"
+		            propertyName="./image/fileReference">
+		            <parameters
+		                jcr:primaryType="nt:unstructured"
+		                imageCrop=""
+		                imageMap=""
+		                imageRotate=""/>
+		        </bg>
+		        <resType
+		            jcr:primaryType="cq:Widget"
+		            ignoreData="{Boolean}true"
+		            name="./bg/sling:resourceType"
+		            value="foundation/components/image"
+		            xtype="hidden"/>
+            </parameters>
         </image>
     </cq:dropTargets>
     <cq:inplaceEditing
         jcr:primaryType="cq:InplaceEditingConfig"
         active="{Boolean}true"
         editorType="text">
-        <config
-            jcr:primaryType="cq:Widget"
-            name="./text">
-            <rtePlugins
-                jcr:primaryType="nt:unstructured"
-                sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
-            <specialCharsConfig
-                jcr:primaryType="nt:unstructured"
-                sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig"/>
-            <uiSettings
-                jcr:primaryType="nt:unstructured"
-                sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+        <config jcr:primaryType="cq:Widget" name="./text">
+        		<rtePlugins jcr:primaryType="nt:unstructured" sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+            <specialCharsConfig jcr:primaryType="nt:unstructured" sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig"/>
+		    <uiSettings jcr:primaryType="nt:unstructured" sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>	
         </config>
     </cq:inplaceEditing>
 </jcr:root>

@@ -52,7 +52,9 @@
                                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                         fieldDescription="Check if your handler will advance to the next step."
                                         name="./metaData/PROCESS_AUTO_ADVANCE"
-                                        text="Handler Advance"/>
+                                        text="Handler Advance"
+                                        value="{Boolean}true"
+                                		uncheckedValue="{Boolean}false"/>
                                     <advance-delete
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/foundation/form/hidden"

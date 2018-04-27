@@ -27,7 +27,9 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./showEditDate"
-                                text="Show Edit Date"/>
+                                text="Show Edit Date"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <showeditdate-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

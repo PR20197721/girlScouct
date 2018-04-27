@@ -20,6 +20,10 @@ public class Image extends com.day.cq.wcm.foundation.Image {
         super(resource);
     }
 	
+	public Image(Resource resource, String location) {
+        super(resource, location);
+    }
+	
 	protected Resource getReferencedResource(String path) {
 		String resourcePath = getResource().getPath();
 

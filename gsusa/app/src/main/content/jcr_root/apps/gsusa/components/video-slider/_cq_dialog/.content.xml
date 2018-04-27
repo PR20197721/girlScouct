@@ -68,7 +68,9 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./homecarouselautoscroll"
-                                text="Auto Scroll"/>
+                                text="Auto Scroll"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <autoscroll-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
