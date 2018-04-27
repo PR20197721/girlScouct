@@ -3,6 +3,12 @@ package org.girlscouts.common.taglib.html;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import javax.jcr.ValueFormatException;
+import javax.jcr.lock.LockException;
+import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.version.VersionException;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,20 +34,17 @@ public class ImageTag extends BaseMarkupTag {
 		if(image == null) {
 			return EVAL_PAGE;
 		}
-		
-		// Common properties.
-	    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(getRequest()));
-	    image.loadStyleData(getCurrentStyle());
-		
-	    // Passed properties.
 		image.setSelector(Optional.ofNullable(getSelector()).orElse(".img"));
-		
+    		image.setIsInUITouchMode(false);
+
+	    // Passed properties.
 		Optional.ofNullable(getStyleClass()).ifPresent(image::addCssClass);
 		Optional.ofNullable(getHref()).ifPresent(href -> image.set(ImageResource.PN_LINK_URL, href));
 		Optional.ofNullable(getTitle()).ifPresent(image::setTitle);
 		Optional.ofNullable(getSuffix()).ifPresent(image::setSuffix);
 		Optional.ofNullable(getDescription()).ifPresent(image::setDescription);
 		Optional.ofNullable(getAlt()).ifPresent(image::setAlt);
+	    image.loadStyleData(getCurrentStyle());
 		try {
 			pageContext.getOut().write(writeWithAttributes(image));
 		} catch (IOException e) {
@@ -56,16 +59,20 @@ public class ImageTag extends BaseMarkupTag {
 			output = image.getString();
 		}catch(NullPointerException npe) {
 			// Image was empty / null.
+			npe.printStackTrace();
 			return "";
 		}
 		if(getNewWindow()) {
-			output = image.getString().replace("<a ", "<a target=\"_blank\"");
+			output = output.replace("<a ", "<a target=\"_blank\"");
 		}
 		if(StringUtils.isNotBlank(getStyleId())) {
 			output = output.replace("<img ", "<img id=\"" + getStyleId() + "\" ");
 		}
 		if(StringUtils.isNotBlank(getAriaLabel())) {
 			output = output.replace("<img ", "<img aria-label=\"" + getAriaLabel() + "\" ");
+		}
+		if("true".equals(image.get("isReferencedImage"))) {
+			output = output.replace("cq-image-placeholder", "");
 		}
 		return output;
 	}
@@ -75,6 +82,14 @@ public class ImageTag extends BaseMarkupTag {
 		Resource imageResource = getResource().getChild(getRelativePath());
 		if(imageResource == null) {
 			return null;
+		}
+		if(!"foundation/components/image".equals(imageResource.getResourceType())) {
+			Node node = imageResource.adaptTo(Node.class);
+			try {
+				Image img = new Image(getResourceResolver().resolve(node.getProperty("fileReference").getString()));
+				img.set("isReferencedImage", "true");
+				return img;
+			}catch (RepositoryException e) {e.printStackTrace();}
 		}
 		return new Image(imageResource);
 	}

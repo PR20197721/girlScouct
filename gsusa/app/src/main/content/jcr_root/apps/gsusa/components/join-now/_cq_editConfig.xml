@@ -15,12 +15,27 @@
             jcr:primaryType="cq:DropTargetConfig"
             accept="[image/.*]"
             groups="[media]"
-            propertyName="./bg/fileReference">
+            propertyName="./image/fileReference">
             <parameters
                 jcr:primaryType="nt:unstructured"
-                imageCrop=""
-                imageMap=""
-                imageRotate=""/>
+                sling:resourceType="foundation/components/textimage">
+		        <bg
+		            jcr:primaryType="cq:DropTargetConfig"
+		            sling:resourceType="foundation/components/image"
+		            propertyName="./image/fileReference">
+		            <parameters
+		                jcr:primaryType="nt:unstructured"
+		                imageCrop=""
+		                imageMap=""
+		                imageRotate=""/>
+		        </bg>
+		        <resType
+		            jcr:primaryType="cq:Widget"
+		            ignoreData="{Boolean}true"
+		            name="./bg/sling:resourceType"
+		            value="foundation/components/image"
+		            xtype="hidden"/>
+            </parameters>
         </image>
     </cq:dropTargets>
     <cq:inplaceEditing
@@ -28,7 +43,7 @@
         active="{Boolean}true"
         editorType="text">
         <config jcr:primaryType="cq:Widget" name="./text">
-        	<rtePlugins jcr:primaryType="nt:unstructured" sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+        		<rtePlugins jcr:primaryType="nt:unstructured" sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
             <specialCharsConfig jcr:primaryType="nt:unstructured" sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig"/>
 		    <uiSettings jcr:primaryType="nt:unstructured" sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>	
         </config>
