@@ -32,8 +32,9 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./isQuote"
-                                value="true"
-                                text="Check if you want to make this a quote"/>
+                                text="Check if you want to make this a quote"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <isquote-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -48,8 +49,9 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./hasQuotee"
-                                value="true"
-                                text="Display the quotee"/>
+                                text="Display the quotee"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <hasquotee-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

@@ -48,15 +48,15 @@
                                             sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                             name="pageOnly"
                                             text="Page Only"
-                                            uncheckedValue="false"
-                                            value="true"/>
+                                            value="{Boolean}true"
+                                			uncheckedValue="{Boolean}false"/>
                                         <sub-dir-only
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                             name="subDirOnly"
                                             text="Sub Dir Only"
-                                            uncheckedValue="false"
-                                            value="true"/>
+                                            value="{Boolean}true"
+                                			uncheckedValue="{Boolean}false"/>
                                     </items>
                                 </field>
                             </paths>

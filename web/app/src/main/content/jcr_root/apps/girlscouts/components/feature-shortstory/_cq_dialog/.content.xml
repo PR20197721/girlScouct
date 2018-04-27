@@ -64,7 +64,8 @@
                                 fieldDescription="The story images is by default on the right. Check this to display it on the left."
                                 name="./imageOnLeft"
                                 text="Image On Left"
-                                value="{Boolean}true"/>
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <imageonleft-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -75,7 +76,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./isspringboard"
                                 text="Spring Broad Display"
-                                value="{Boolean}true"/>
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <springboard-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

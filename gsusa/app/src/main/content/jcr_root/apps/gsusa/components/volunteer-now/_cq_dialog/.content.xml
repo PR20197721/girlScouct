@@ -52,7 +52,8 @@
                                 fieldDescription="Default: false"
                                 name="./showverticalrule"
                                 text="Show Vertical Rule"
-                                value="{Boolean}true"/>
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <showverticalrule-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

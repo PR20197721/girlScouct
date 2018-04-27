@@ -27,7 +27,9 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./isVolunteerHidden"
-                                text="Hide Volunteer?"/>
+                                text="Hide Volunteer?"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <chkbox-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

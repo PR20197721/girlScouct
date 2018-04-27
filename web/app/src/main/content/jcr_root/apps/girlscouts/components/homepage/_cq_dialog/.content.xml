@@ -101,7 +101,8 @@
                                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                                 fieldDescription="Check the box to enable event cart."
                                                 text="Enable Event Cart"
-                                                value="{Boolean}true"/>
+                                                value="{Boolean}true"
+                                				uncheckedValue="{Boolean}false"/>
                                             <event-cart-delete
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -173,7 +174,8 @@
                                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                                 name="./googleDisplayFeatures"
                                                 text="Enable Advertising Features"
-                                                value="{Boolean}true"/>
+                                                value="{Boolean}true"
+                                				uncheckedValue="{Boolean}false"/>
                                             <enable-advertisting-features-delete
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

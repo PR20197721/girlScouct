@@ -61,7 +61,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./showSeeAll"
                                 text="showSeeAll"
-                                value="true"/>
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <checkbox-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

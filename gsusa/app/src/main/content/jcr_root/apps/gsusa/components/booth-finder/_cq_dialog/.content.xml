@@ -70,8 +70,14 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./path1ShowShareDialog"
+<<<<<<< HEAD
                                 value="true"
                                 text="Show Share Dialog"/>
+=======
+                                text="Show Share Dialog"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
+>>>>>>> 3859ac877fe98b8a42fd67f6be7e34f16b6f0af0
                             <showsharedialog-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -144,8 +150,14 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./path2ShowShareDialog"
+<<<<<<< HEAD
                                 value="true"
                                 text="Show Share Dialog"/>
+=======
+                                text="Show Share Dialog"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
+>>>>>>> 3859ac877fe98b8a42fd67f6be7e34f16b6f0af0
                             <showsharedialog-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -218,7 +230,12 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./path4ShowShareDialog"
                                 text="Show Share Dialog"
+<<<<<<< HEAD
                                 value="true"/>
+=======
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
+>>>>>>> 3859ac877fe98b8a42fd67f6be7e34f16b6f0af0
                             <showsharedialog-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -291,8 +308,14 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./path5ShowShareDialog"
+<<<<<<< HEAD
                                 value="true"
                                 text="Show Share Dialog"/>
+=======
+                                text="Show Share Dialog"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
+>>>>>>> 3859ac877fe98b8a42fd67f6be7e34f16b6f0af0
                             <showsharedialog-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

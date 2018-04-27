@@ -19,7 +19,9 @@
                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
                         fieldDescription="If checked, the pages will not activate automatically when they are rolled out."
                         name="./dontActivate"
-                        text="Don't Activate Pages"/>
+                        text="Don't Activate Pages"
+                        value="{Boolean}true"
+                        uncheckedValue="{Boolean}false"/>
                     <activate-delete
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -30,7 +32,8 @@
                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
                         name="./delayActivation"
                         text="Delay Activation to Midnight"
-                        value="true"/>
+                        value="{Boolean}true"
+                        uncheckedValue="{Boolean}false"/>
                     <delayactivation-delete
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -41,7 +44,8 @@
                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
                         name="./crawl"
                         text="Crawl Site to Rebuild Cache"
-                        value="true"/>
+                        value="{Boolean}true"
+                        uncheckedValue="{Boolean}false"/>
                     <crawl-delete
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -51,7 +55,9 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
                         name="./councils"
-                        text="Councils"/>
+                        text="Councils"
+                        value="{Boolean}true"
+                        uncheckedValue="{Boolean}false"/>
                     <councils-delete
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -61,7 +67,9 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
                         name="./dontsend"
-                        text="Do Not Send Any Emails"/>
+                        text="Do Not Send Any Emails"
+                        value="{Boolean}true"
+                        uncheckedValue="{Boolean}false"/>
                     <donotsend-delete
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -78,7 +86,9 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
                         name="./useTemplate"
-                        text="Use Email Template (Message AND Subject)"/>
+                        text="Use Email Template (Message AND Subject)"
+                        value="{Boolean}true"
+                        uncheckedValue="{Boolean}false"/>
                     <usetemplate-delete
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/hidden"

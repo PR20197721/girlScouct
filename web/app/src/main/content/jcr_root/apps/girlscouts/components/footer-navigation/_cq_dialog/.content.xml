@@ -55,7 +55,8 @@
                                             fieldDescription="Check the box to open link in new window"
                                             name="newWindow"
                                             text="New Window"
-                                            value="{Boolean}true"/>
+                                            value="{Boolean}true"
+                                			uncheckedValue="{Boolean}false"/>
                                         <new-window-delete
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -109,7 +110,8 @@
                                             fieldDescription="Check the box to open link in new window"
                                             name="newWindow"
                                             text="New Window"
-                                            value="{Boolean}true"/>
+                                            value="{Boolean}true"
+                                			uncheckedValue="{Boolean}false"/>
                                         <new-window-delete
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/form/hidden"
