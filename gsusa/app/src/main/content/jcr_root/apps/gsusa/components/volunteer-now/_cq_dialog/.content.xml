@@ -59,6 +59,11 @@
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./showverticalrule@Delete"
                                 value="{Boolean}true"/>
+                           	<text
+		                        jcr:primaryType="nt:unstructured"
+		                        fieldLabel="Text"
+		                        name="./text"
+		                        sling:resourceType="granite/ui/components/foundation/form/textarea" />
                         </items>
                     </columns>
                 </items>
