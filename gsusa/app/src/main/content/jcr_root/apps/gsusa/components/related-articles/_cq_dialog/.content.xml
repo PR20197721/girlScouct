@@ -45,35 +45,24 @@
                                 fieldLabel="Article 3"
                                 name="./article3"
                                 rootPath="/content/gsusa/en"/>
+                            <articletags
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/common/tagspicker"
+                                fieldDescription="Select One Tag"
+                                fieldLabel="Article Tag"
+                                multiple="{Boolean}true"
+                                name="./tag"
+                                rootPath="/etc/tags/gsusa/content-hub"/>
                             <pullFromFeed
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./pullFromFeed"
-                                text="Pull From Feed"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                text="Pull From Feed"/>
                             <pullfromfeed-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./pullFromFeed@Delete"
                                 value="{Boolean}true"/>
-                            <articletags
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/autocomplete"
-                                fieldDescription="Select One Tag"
-                                fieldLabel="Article Tag"
-                                multiple="{Boolean}true"
-                                name="./tag">
-                                <datasource
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="cq/gui/components/common/datasources/tags"/>
-                                <values
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/autocomplete/tags"/>
-                                <options
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/autocomplete/list"/>
-                            </articletags>
                             <feedLimit
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
@@ -87,9 +76,7 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./sortByPriority"
-                                text="Sort By Priority"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                text="Sort By Priority"/>
                             <sortbypriority-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -97,25 +84,20 @@
                                 value="{Boolean}true"/>
                             <borderLine
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/radiogroup"
-                                fieldDescription="Choose To Show a Border Line"
-                                text="Border Line"
-                                fieldLabel="Border Line">
+                                sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup"
+                                fieldLabel="Border Line"
+                                name="./borderLine"
+                                vertical="{Boolean}true">
                                 <items jcr:primaryType="nt:unstructured">
-                                    <off
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="/libs/granite/ui/components/foundation/form/radio"
-                                        name="./borderLine"
-                                        renderReadOnly="{Boolean}false"
-                                        text="Off"
-                                        value="off"/>
                                     <on
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="/libs/granite/ui/components/foundation/form/radio"
-                                        name="./borderLine"
-                                        renderReadOnly="{Boolean}false"
                                         text="On"
                                         value="on"/>
+                                    <off
+                                        jcr:primaryType="nt:unstructured"
+                                        checked="{Boolean}true"
+                                        text="Off"
+                                        value="off"/>
                                 </items>
                             </borderLine>
                         </items>
