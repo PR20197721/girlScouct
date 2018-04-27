@@ -16,7 +16,8 @@
                     jcr:primaryType="nt:unstructured"
                     fieldLabel="Global Search Landing Page"
                     name="./globalLanding"
-                    sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"/>							        
+                    sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                    rootPath="/content"/>							        
 		        <is-cookie-page
 		            jcr:primaryType="nt:unstructured"
 		            fieldDescription="Cookie pages have special headers, footers and third column."
