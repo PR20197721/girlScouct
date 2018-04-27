@@ -17,6 +17,7 @@
 	String article1 = "";
 	String article2 = "";
 	String article3 = "";
+
 	if(pullFromFeed.equals("true")){
 		int feedLimit = Integer.parseInt(properties.get("feedLimit", "3"));
         if(feedLimit > 3 || feedLimit < 1)
@@ -25,12 +26,17 @@
         QueryBuilder builder = sling.getService(QueryBuilder.class);
         String[] tags = (String[])properties.get("tag",String[].class);
         List<String> tagIds = new ArrayList<String>();
-		for(String tag : tags){
-			tagIds.add(tag);
-		}
+
+        if(tags != null){
+            for(String tag : tags){
+                tagIds.add(tag);
+            }
+        }
+
 
         List<Hit> hits = getTaggedArticles(tagIds, feedLimit, resourceResolver, builder, sortByPriority);
 
+        System.out.println("Got to line 36 on related articles");
         if(hits.size() > 0){
 			article1 = hits.get(0).getPath();
         }
@@ -42,7 +48,6 @@
         if(hits.size() > 2){
 			article3 = hits.get(2).getPath();
         }
-
 
     } else{
 		article1 = properties.get("article1", "");
