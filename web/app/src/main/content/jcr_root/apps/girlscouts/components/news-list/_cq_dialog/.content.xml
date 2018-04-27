@@ -71,7 +71,7 @@
                                 name="./isonhomepage"
                                 text="Display on Home Page"
                                 value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"n}true"/>
+                                uncheckedValue="{Boolean}false"/>
                             <newsfeatures-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

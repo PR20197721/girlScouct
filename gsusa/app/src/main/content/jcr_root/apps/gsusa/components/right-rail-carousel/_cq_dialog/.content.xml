@@ -28,7 +28,6 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="If dynamic carousel is turned off. Only the first image will be shown."
                                 name="./dynamiccarousel"
-                                value="true"
                                 text="Dynamic Carousel"
                                 value="{Boolean}true"
                                 uncheckedValue="{Boolean}false"/>
