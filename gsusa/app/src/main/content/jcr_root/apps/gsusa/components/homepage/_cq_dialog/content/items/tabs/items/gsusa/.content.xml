@@ -16,13 +16,15 @@
                     jcr:primaryType="nt:unstructured"
                     fieldLabel="Global Search Landing Page"
                     name="./globalLanding"
-                    sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"/>
+                    sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                    rootPath="/content"/>
                 <content-hub-parent-page
                     jcr:primaryType="nt:unstructured"
                     fieldLabel="Content Hub Parent Page"
                     name="./contenthubparentpage"
                     sling:orderBefore="is-cookie-page"
-                    sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"/>
+                    sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                    rootPath="/content"/>
                 <is-cookie-page
 		            jcr:primaryType="nt:unstructured"
 		            sling:hideResource="true"/>
