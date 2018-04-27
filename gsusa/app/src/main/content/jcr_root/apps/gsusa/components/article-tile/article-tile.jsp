@@ -8,7 +8,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp"%>
 <%@page session="false"%>
-<%@page import="javax.jcr.Node, org.apache.commons.lang3.StringEscapeUtils, javax.jcr.Value, com.day.cq.tagging.TagManager, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag"%>
+<%@page import="javax.jcr.Node, org.apache.commons.lang3.StringEscapeUtils, javax.jcr.Value, com.day.cq.tagging.TagManager, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag, org.girlscouts.web.gsusa.access.ResolverAccessService"%>
 <%
   	String articlePath = (String)request.getAttribute("articlePath");
 	if (articlePath == null) {
@@ -47,6 +47,7 @@
 	String linkToArticle = "";
 
 	try{
+		
         Node node =   resourceResolver.resolve(articlePath).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content");
 		linkToArticle = node.getPath() + ".html";
@@ -108,7 +109,9 @@
 	if(tags != null && tags.length > 0){
 		String primaryTagId = tags[0].getString();
 		try{
-	       	TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
+			ResolverAccessService resolverAccessService = sling.getService(ResolverAccessService.class);
+			ResourceResolver rr = resolverAccessService.getAccessResolver();
+	       	TagManager tagManager = rr.adaptTo(TagManager.class);
 	        Tag primaryTag = tagManager.resolve(primaryTagId);
 	
 	        Node primaryNode = primaryTag.adaptTo(Node.class);
@@ -120,6 +123,8 @@
 				rgba = "rgba("+ rPart +", "+ gPart +", "+ bPart +", 0.8)";
 	
 	      	}
+	        
+	        rr.close();
 		}catch(Exception e){
 			System.err.println("Tag: " + primaryTagId + " is not found for article: " + articlePath);
 		}
