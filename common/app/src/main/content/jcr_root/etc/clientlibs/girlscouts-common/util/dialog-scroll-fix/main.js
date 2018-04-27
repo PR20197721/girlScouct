@@ -5,17 +5,18 @@
 		try {
 			setTimeout(function(){
 				var clicked = false,
-					clickY;
+					clickY,
+					elementinDrag;
 				$('.coral-Multifield-item').on({
 					mousemove: function(e) {
 						if (clicked) {
-							updateScrollPos(e);
+							updateScrollPos(e, this);
 						}
 					},
 					mousedown: function(e) {
-						console.log(e.target);
 						clicked = true;
 						clickY = e.pageY;
+						
 					},
 					mouseup: function() {
 						clicked = false;
@@ -23,11 +24,19 @@
 					},
 				});
 
-				var updateScrollPos = function(e) {
+				var max = $('.coral-Multifield').height();
+
+				var updateScrollPos = function(e, element) {
 					$('html').css('cursor', 'row-resize');
-					$('.cq-dialog-content').scrollTop(
-						$('.cq-dialog-content').scrollTop() + (e.pageY - clickY)
-					);
+
+					var top = $('.cq-dialog-content').scrollTop() + (e.pageY - clickY);
+
+					if(top < max - $(element).height()){
+						$('.cq-dialog-content').stop().animate({
+							scrollTop:top
+						},100);
+					}
+					
 				};
 
 				$(document).on('dialog-closed', function(s) {
