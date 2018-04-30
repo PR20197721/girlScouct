@@ -6,6 +6,15 @@
 <%
 	String id = "dynamic-tag-carousel-" + genId();
 	String num = properties.get("num", "20");
+	if(num.isEmpty()){
+		num = "20";
+    } else{
+        try{
+    		Integer.parseInt(num);
+        } catch(Exception e){
+            num = "20";
+        }
+    }
 
 	Tag[] tags = currentPage.getTags();
 	// The first tag of the article is the default tag of the carousel.

@@ -30,7 +30,7 @@
                                 name="./componentTitle"/>
                             <titleLink
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="Link of the carousel title and the See More link"
                                 fieldLabel="Listing Page"
                                 name="./titleLink"
@@ -57,9 +57,7 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./sortByPriority"
-                                text="Sort By Priority"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                text="Sort By Priority"/>
                             <sortbypriority-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
