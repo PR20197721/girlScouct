@@ -1,9 +1,14 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
+<%@ page import="com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
 
 <%-- Placeholder for the actual render --%>
-<div id="booth-finder-result" class="booth-finder"></div> 
+<div id="booth-finder-result" class="booth-finder cq-placeholder" data-empty-text="Booth Finder" style="min-height: 100px">
+	<% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
+		<span>Booth Finder</span>
+	<% } %>
+</div>
 
 <%
 // Templates
