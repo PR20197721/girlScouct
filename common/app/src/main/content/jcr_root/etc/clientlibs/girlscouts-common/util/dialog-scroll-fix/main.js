@@ -13,7 +13,7 @@
 							updateScrollPos(e, this);
 						}
 					},
-					click: function(e) {
+					mousedown: function(e) {
 						clicked = true;
 						clickY = e.pageY;
 						
