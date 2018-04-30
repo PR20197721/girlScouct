@@ -144,9 +144,9 @@ if(!linksList.isEmpty()){
 }
 
 JSONObject slickOptions = new JSONObject();
-slickOptions.put("autoplay", properties.get("autoscroll", false));
-slickOptions.put("autoplaySpeed", properties.get("timedelay", 2000));
-   
+slickOptions.put("autoplay", properties.get("homecarouselautoscroll", false));
+slickOptions.put("autoplaySpeed", properties.get("homecarouseltimedelay", 2000));
+
 JSONObject playerConfig = new JSONObject();
 playerConfig.put("desktop", properties.get("videoConfigDesktop", "default")); // Values are: "default", "thumbnail", "link"
 playerConfig.put("mobile", properties.get("videoConfigMobile", "default")); // Values are: "default", "thumbnail", "link"
