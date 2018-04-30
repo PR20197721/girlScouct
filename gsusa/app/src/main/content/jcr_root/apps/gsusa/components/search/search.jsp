@@ -1,44 +1,18 @@
 <%@ page import="com.day.cq.wcm.foundation.Search,
-org.girlscouts.web.search.DocHit,
-com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
-com.day.cq.tagging.TagManager,
-java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
-java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
-com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
-com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,
-java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.regex.*, java.text.*" %>
+org.girlscouts.web.search.GSSearchResult, 
+org.girlscouts.web.search.GSSearchResultManager,
+org.girlscouts.web.search.GSJcrSearchProvider,
+java.util.Locale,
+java.util.ResourceBundle,
+com.day.cq.i18n.I18n,
+java.util.List, 
+java.util.regex.*, 
+java.text.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:setContentBundle source="page" />
-<%!
-public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery){
-	List<Hit> hits = new ArrayList<Hit>();
-	try{
-	  Map mapFullText = new HashMap();
-	  mapFullText.put("path",path);
-	  mapFullText.put("fulltext", escapedQuery);
-	  mapFullText.put("fulltext.relPath", "jcr:content");
-	  mapFullText.put("type","nt:hierarchyNode" );
-	  mapFullText.put("boolproperty","jcr:content/hideInNav");
-	  mapFullText.put("boolproperty.value","false");
-	  mapFullText.put("p.limit","-1");
-	  mapFullText.put("orderby","@jcr:content/cq:lastModified");	// order by latest first (pbae)
-	  mapFullText.put("orderby.sort", "desc"); 
-	  PredicateGroup pg=PredicateGroup.create(mapFullText);
-	  Query query = queryBuilder.createQuery(pg,session);
-	  query.setExcerpt(true);
-	  hits = query.getResult().getHits();
-	}catch(Exception e){
-		
-	}
-  return hits; 
-} 
-
-%>
 <%
 final Locale pageLocale = currentPage.getLanguage(true);
 final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
-
-QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = request.getParameter("q") != null ? request.getParameter("q") : "";
 String cleanedQ = q.replaceAll("[^a-zA-Z0-9 ]+", "");
 String start = request.getParameter("start") != null ? request.getParameter("start") : "0";
@@ -83,24 +57,26 @@ if(escapedQueryForAttr != null && !escapedQueryForAttr.isEmpty()){
 	}
 	long startTime = System.nanoTime();
 
-	List<Hit> hits = new ArrayList<Hit>();
-	Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
+	GSSearchResultManager gsResultManager = new GSSearchResultManager();
+	try{
+		GSJcrSearchProvider searchProvider = new GSJcrSearchProvider(slingRequest);
+		gsResultManager.add(searchProvider.search(searchIn, "cq:Page", q));
+		gsResultManager.add(searchProvider.search(theseDamDocuments, "dam:Asset", q));
+		gsResultManager.filter();	
+	}catch(Exception e){
+		e.printStackTrace();
+	}	
 
-	//Since we have to seperate the query, we have to do pagination manually
-	hits.addAll(getHits(queryBuilder,session,searchIn,escapedQuery));
-	hits.addAll(getHits(queryBuilder,session,theseDamDocuments,escapedQuery));
-	hits.addAll(getHits(queryBuilder,session,documentLocation,escapedQuery));
-
-	String numberOfResults = String.valueOf(hits.size());
-	if (startIdx + pageSize > hits.size()) {
-		endIdx = hits.size(); //last page
+	String numberOfResults = String.valueOf(gsResultManager.size());
+	if (startIdx + pageSize > gsResultManager.size()) {
+		endIdx = gsResultManager.size(); //last page
 	} else {
 		endIdx = startIdx + pageSize; //all other page
 	}
-	totalPage = Math.ceil((double)hits.size()/pageSize);
+	totalPage = Math.ceil((double)gsResultManager.size()/pageSize);
 	%>
 
-	<%if(hits.isEmpty()){ %>
+	<%if(gsResultManager.size() < 1){ %>
 	    <fmt:message key="noResultsText">
 	      <fmt:param value="${escapedQueryForAttr}"/>
 	    </fmt:message>
@@ -112,28 +88,33 @@ if(escapedQueryForAttr != null && !escapedQueryForAttr.isEmpty()){
 		<%
   
   
-  
+		List<GSSearchResult> gsresults = gsResultManager.getResults();
+		int pathIndex = startIdx;
 	  for(int i = startIdx; i < endIdx ; i++) {
 	    try {
-	      DocHit docHit = new DocHit(hits.get(i));
-	      String path = docHit.getURL();
-	      int idx = path.lastIndexOf('.');
-	      String extension = idx >= 0 ? path.substring(idx + 1) : "";
-	      %>
+	    	GSSearchResult result = gsresults.get(i);
+            String path = result.getUrl();
+            int idx = path.lastIndexOf('.');
+            String extension = idx >= 0 ? path.substring(idx + 1) : "";
+            String description = result.getDescription(); 	      
+	      	%>
 	            <li>
 	                <% if(!extension.isEmpty() && !extension.equals("html")) { %>
 	                <span class="icon type_<%=extension%>"><!-- <img src="/etc/designs/default/0.gif" alt="*"> --></span>
 	                <% } %>
-	                <h5><a href="<%=path%>"><%=docHit.getTitle() %></a></h5>
-	                <p><%=docHit.getRawExcerpt()%></p>
-	                <% 
-	                	// show last modified to confirm result sorting (pbae)
-	                	// String lastModified = docHit.getProperties().get("cq:lastModified").toString();
-	                	// out.println(lastModified); 
-	                %>
+	                <h5><a href="<%=path%>"><%=result.getTitle()%></a></h5>
+	                <!-- <div><strong>score:</strong>&nbsp;&nbsp;<%=result.getScore()%></div> -->
+	                <%
+			        if(description!=null &&  !description.isEmpty()) {
+			        %>  
+			            <p><%=description%></p>
+			        <%
+			        }else{
+			        %><p><%=result.getExcerpt()%></p>   
+			        <%} %>	                
 	            </li>
-	        <% } catch(Exception w) {}
-	    } %>
+	    <% } catch(Exception w) {}
+	  } %>
     </ul>
     <ul class="search-page">
     	<%if (currentPageNo != 0) {  %>
