@@ -70,7 +70,8 @@
                                 fieldDescription="(Only Check the boxes if News-List need to be displayed as featured)"
                                 name="./isonhomepage"
                                 text="Display on Home Page"
-                                value="{Boolean}true"/>
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <newsfeatures-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

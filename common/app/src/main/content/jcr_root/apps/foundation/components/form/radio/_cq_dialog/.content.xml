@@ -39,7 +39,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./hideTitle"
                                 text="Hide Title"
-                                value="true"/>
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <hidetitle-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -113,7 +114,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./required"
                                 text="Required"
-                                value="true"/>
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <required-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

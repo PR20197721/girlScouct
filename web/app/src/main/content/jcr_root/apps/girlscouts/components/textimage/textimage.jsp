@@ -22,7 +22,7 @@
 %><%@include file="/libs/foundation/global.jsp"%><%
     boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
 
-    Image image = new Image(resource.getChild("image"));
+    Image image = new Image(resource);
 
     // don't draw the placeholder in case UI mode touch it will be handled afterwards
     if (isAuthoringUIModeTouch) {

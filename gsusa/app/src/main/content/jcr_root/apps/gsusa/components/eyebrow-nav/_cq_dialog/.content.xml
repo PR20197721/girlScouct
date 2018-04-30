@@ -43,21 +43,22 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                             fieldLabel="Path"
+                                            rootPath="/content"
                                             name="path"/>
                                     	<new-window
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                             name="newWindow"
                                             text="Open in new window"
-                                            uncheckedValue="false"
-                                            value="{Boolean}true"/>                                                                                                                          
+                                            value="{Boolean}true"
+                                			uncheckedValue="{Boolean}false"/>                                                                                                                          
                                         <sticky
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                            name="sticky"
-                                            uncheckedValue="false"
+                                            name="sticky"                                            
                                             text="Sticky"
-                                            value="{Boolean}true"/>
+                                            value="{Boolean}true"
+                                			uncheckedValue="{Boolean}false"/>
                                         <class
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/form/textfield"

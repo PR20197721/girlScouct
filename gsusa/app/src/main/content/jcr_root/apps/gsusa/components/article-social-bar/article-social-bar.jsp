@@ -25,7 +25,7 @@
 		facebookText = pageProps.get("ogDescription","");
 	}
 
-	facebookText = StringEscapeUtils.escapeHtml(facebookText);
+	facebookText = StringEscapeUtils.escapeHtml4(facebookText);
 
 	String tweetText = pageProps.get("jcr:title","");
 	if(!"".equals(pageProps.get("ogTitle",""))){

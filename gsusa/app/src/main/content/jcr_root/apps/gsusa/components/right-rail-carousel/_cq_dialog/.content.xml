@@ -28,8 +28,9 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="If dynamic carousel is turned off. Only the first image will be shown."
                                 name="./dynamiccarousel"
-                                value="true"
-                                text="Dynamic Carousel"/>
+                                text="Dynamic Carousel"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <dynamiccarousel-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -98,11 +99,12 @@
 		                                    fieldLabel="Image"
 		                                    rootPath="/content/dam/"/>
 			                            	<newWindow
-			                                jcr:primaryType="nt:unstructured"
-			                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
-			                                name="./newWindow"
-			                                value="true"
-			                                text="Open Link in New Window"/>
+				                                jcr:primaryType="nt:unstructured"
+				                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+				                                name="./newWindow"
+				                                value="{Boolean}true"
+	                                			uncheckedValue="{Boolean}false"
+				                                text="Open Link in New Window"/>
 										<newWindowType
 										    jcr:primaryType="nt:unstructured"
 										    sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -148,7 +150,8 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./autoscroll"
-                                value="true"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"
                                 text="Auto Scroll"/>
                             <autoScrollDelete
                                 jcr:primaryType="nt:unstructured"
@@ -174,7 +177,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="Default: false"
                                 name="./showverticalrule"
-                                value="true"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"
                                 text="Show Vertical Rule"/>
                             <showverticalruleDelete
                                 jcr:primaryType="nt:unstructured"

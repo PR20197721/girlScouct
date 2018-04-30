@@ -12,11 +12,14 @@ if (!href.startsWith("http://") && !href.startsWith("https://")) {
 if (!zip && href.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
     %>****** If you do not use the zip code option, you must enter a URL *******<%
 } else if (zip || !href.isEmpty()) {
-    String bg = "";
-    try {
-        bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
-    } catch (Exception e) {}
-    boolean bgExists = !bg.equals("");
+	String bg = "";
+	String fileName = "";
+	try {
+	    bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
+	    fileName = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileName", "");
+	} catch (Exception e) {}
+
+	boolean bgExists = !bg.equals("") || !fileName.equals("");
 
     String styles = bgExists ? "max-width: " + properties.get("maxWidth", 210) + "px;" : "";
     String classes = bgExists ? "" : "form-no-image";

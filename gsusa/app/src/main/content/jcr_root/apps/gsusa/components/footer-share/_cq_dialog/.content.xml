@@ -47,6 +47,7 @@
 		                                  jcr:primaryType="nt:unstructured"
 		                                  sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
 		                                  fieldLabel="Icon Path"
+		                                  rootPath="/content/dam"
 		                                  name="icon-path"/>		                              	                              
 		                          </items>
 		                      </field>
