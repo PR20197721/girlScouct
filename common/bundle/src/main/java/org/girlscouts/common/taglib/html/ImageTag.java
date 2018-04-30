@@ -79,17 +79,23 @@ public class ImageTag extends BaseMarkupTag {
 	
 	// Overide with specific Image implementations.
 	public Image getImage() {
-		Resource imageResource = getResource().getChild(getRelativePath());
+		Resource imageResource;
+		if(!StringUtils.isBlank(getRelativePath())) {
+			imageResource = getResource().getChild(getRelativePath());
+		}else {
+			imageResource = getResource();
+		}
 		if(imageResource == null) {
 			return null;
 		}
-		if(!"foundation/components/image".equals(imageResource.getResourceType())) {
+
+		if(!getResourceResolver().isResourceType(imageResource, "foundation/components/image")){
 			Node node = imageResource.adaptTo(Node.class);
 			try {
 				Image img = new Image(getResourceResolver().resolve(node.getProperty("fileReference").getString()));
 				img.set("isReferencedImage", "true");
 				return img;
-			}catch (RepositoryException e) {e.printStackTrace();}
+			}catch (RepositoryException e) {}
 		}
 		return new Image(imageResource);
 	}

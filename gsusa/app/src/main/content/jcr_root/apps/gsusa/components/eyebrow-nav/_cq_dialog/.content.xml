@@ -43,6 +43,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                             fieldLabel="Path"
+                                            rootPath="/content"
                                             name="path"/>
                                     	<new-window
                                             jcr:primaryType="nt:unstructured"
