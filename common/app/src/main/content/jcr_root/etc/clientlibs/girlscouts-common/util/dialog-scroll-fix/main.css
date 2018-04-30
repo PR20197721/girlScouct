@@ -1,14 +1,12 @@
 .is-dragging{
-    border:1px solid lightblue;
-    padding: 5px;
+    border:1px solid lightblue !important;
+    background-color: whitesmoke;
 }
 
 .coral-Multifield-item{
-    border-bottom: 2px solid black;
-    padding-bottom: 10px;
-    margin-bottom: 10px !important;
+    border-bottom: 2px solid gray;
 }
 
-.coral-Multifield-item::last-of-type  {
-    border: none !important;
+.is-dragging coral-multifield-item-content *{
+    display: none;
 }

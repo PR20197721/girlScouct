@@ -13,30 +13,27 @@
 							updateScrollPos(e, this);
 						}
 					},
-					mousedown: function(e) {
+					click: function(e) {
 						clicked = true;
 						clickY = e.pageY;
 						
 					},
 					mouseup: function() {
 						clicked = false;
-						$('html').css('cursor', 'auto');
+					
 					},
 				});
 
 				var max = $('.coral-Multifield').height();
 
 				var updateScrollPos = function(e, element) {
-					$('html').css('cursor', 'row-resize');
+					// $('html').css('cursor', 'row-resize');
 
 					var top = $('.cq-dialog-content').scrollTop() + (e.pageY - clickY);
 
 					if(top < max - $(element).height()){
-						$('.cq-dialog-content').stop().animate({
-							scrollTop:top
-						},100);
+						$('.cq-dialog-content').scrollTop(top);
 					}
-					
 				};
 
 				$(document).on('dialog-closed', function(s) {
