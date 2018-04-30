@@ -35,28 +35,17 @@
                                 rootPath="/content/gsusa/en"/>
                             <articletags
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/autocomplete"
+                                sling:resourceType="cq/gui/components/common/tagspicker"
                                 fieldDescription="Select One Tag"
                                 fieldLabel="Article Tag"
                                 multiple="{Boolean}true"
-                                name="./tag">
-                                <datasource
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="cq/gui/components/common/datasources/tags"/>
-                                <values
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/autocomplete/tags"/>
-                                <options
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/autocomplete/list"/>
-                            </articletags>
+                                name="./tag"
+                                rootPath="/etc/tags/gsusa/content-hub"/>
                             <sortByPriority
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./sortByPriority"
-                                text="Sort By Priority"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                text="Sort By Priority"/>
                             <sortbypriority-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
