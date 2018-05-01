@@ -22,11 +22,13 @@
 	if (tags != null && tags.length != 0) {
 		StringBuilder builder = new StringBuilder();
 		for (Tag tag : tags) {
+            System.out.println("Tag is: " + tag.getName());
 			builder.append(tag.getName()).append("|");
 		}
 		builder.deleteCharAt(builder.length() - 1);
 		defaultTag = builder.toString();
 	} else {
+        System.out.println("Tags are null");
 		defaultTag = "default";
 	}
 
