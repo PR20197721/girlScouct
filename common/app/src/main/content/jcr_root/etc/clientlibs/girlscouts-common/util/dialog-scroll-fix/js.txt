@@ -1,0 +1,2 @@
+rbase=.
+main.js

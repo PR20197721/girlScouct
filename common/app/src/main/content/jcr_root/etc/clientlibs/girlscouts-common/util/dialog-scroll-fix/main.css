@@ -1,0 +1,13 @@
+.is-dragging{
+    border:1px solid lightblue !important;
+    background-color: whitesmoke;
+}
+
+.coral-Multifield-item{
+    border-bottom: 2px solid gray;
+}
+
+.is-dragging coral-multifield-item-content *{
+    display: none;
+}
+
