@@ -74,6 +74,11 @@
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/foundation/form/autocomplete/list"/>
                                             </tags>
+                                            <tags-type
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                    name="./cq:tags@TypeHint"
+                                                    value="String[]"/>
                                             <hideinnav
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
