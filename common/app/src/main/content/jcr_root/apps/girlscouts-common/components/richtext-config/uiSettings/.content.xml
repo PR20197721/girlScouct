@@ -24,5 +24,8 @@
                     ref="styles"/>
             </popovers>
         </inline>
+        <tableEditOptions
+            jcr:primaryType="nt:unstructured"
+            toolbar="[table#insertcolumn-before,table#insertcolumn-after,table#removecolumn,-,table#insertrow-before,table#insertrow-after,table#removerow,-,table#mergecells-right,table#mergecells-down,table#mergecells,table#splitcell-horizontal,table#splitcell-vertical,-,table#selectrow,table#selectcolumn,-,table#ensureparagraph,-,table#modifytableandcell,table#removetable,-,undo#undo,undo#redo,-,table#exitTableEditing,-]" />
     </cui>
 </jcr:root>

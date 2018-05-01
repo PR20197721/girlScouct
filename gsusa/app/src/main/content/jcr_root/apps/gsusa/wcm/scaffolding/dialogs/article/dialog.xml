@@ -18,11 +18,11 @@
                         name="./jcr:content/jcr:title"
                         xtype="textfield"/>
                     <pageTitle
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Page Title"
-                    	fieldDescription="This field will be used to determine the URL Path of the page. If blank, the Article Title will be used by default. For example, an article with 'Cookie Sale!' in this field will have the URL '/cookie-sale.html'"
-                    	name="./jcr:content/pageTitle"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="This field will be used to determine the URL Path of the page. If blank, the Article Title will be used by default. For example, an article with 'Cookie Sale!' in this field will have the URL '/cookie-sale.html'"
+                        fieldLabel="Page Title"
+                        name="./jcr:content/pageTitle"
+                        xtype="textfield"/>
                     <shortTitle
                         jcr:primaryType="cq:Widget"
                         fieldDescription="This field determines the shortened version of the title, to be used in small tiles. If left, blank, the regular title will be used instead."
@@ -42,10 +42,10 @@
                         name="./jcr:content/content/middle/par/article_text/text"
                         xtype="richtext"/>
                     <textIsRich
-                    	jcr:primaryType="cq:Widget"
-                    	xtype="hidden"
-                    	value="true"
-                    	name="./jcr:content/content/middle/par/article_text/textIsRich"/>
+                        jcr:primaryType="cq:Widget"
+                        name="./jcr:content/content/middle/par/article_text/textIsRich"
+                        value="true"
+                        xtype="hidden"/>
                     <shortDesc
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
@@ -86,55 +86,52 @@
                         fieldDescription="Image Alt"
                         fieldLabel="Photo Alt"
                         name="./jcr:content/imgAlt"
-                        xtype="textfield"
-                    />
+                        xtype="textfield"/>
                     <tileimage
-					    jcr:primaryType="cq:Widget"
-					    allowBlank="{Boolean}false"
-					    allowUpload="false"
-					    border="true"
-					    cropParameter="./jcr:content/tileimage/imageCrop"
-					    ddGroups="[media]"
-					    fieldDescription="Please crop the image using aspect ratio 1.166:1 for the best result"
-					    fieldLabel="Tile Photo"
-					    fileNameParameter="./jcr:content/tileimage/fileName"
-					    fileReferenceParameter="./jcr:content/tileimage/fileReference"
-					    height="{Long}200"
-					    hideLabel="false"
-					    itemId="thumbnail"
-					    mapParameter="./jcr:content/tileimage/imageMap"
-					    name="./jcr:content/tileimage/file"
-					    requestSuffix="/jcr:content/tileimage.img.png"
-					    rotateParameter="./jcr:content/tileimage/imageRotate"
-					    sizeLimit="100"
-					    width="{Long}200"
-					    xtype="html5smartimageAR">
-					    <cropConfig
-                            jcr:primaryType="nt:unstructured">
-                            <aspectRatios
-                                jcr:primaryType="nt:unstructured">
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        allowUpload="false"
+                        border="true"
+                        cropParameter="./jcr:content/tileimage/imageCrop"
+                        ddGroups="[media]"
+                        fieldDescription="Please crop the image using aspect ratio 1.166:1 for the best result"
+                        fieldLabel="Tile Photo"
+                        fileNameParameter="./jcr:content/tileimage/fileName"
+                        fileReferenceParameter="./jcr:content/tileimage/fileReference"
+                        height="{Long}200"
+                        hideLabel="false"
+                        itemId="thumbnail"
+                        mapParameter="./jcr:content/tileimage/imageMap"
+                        name="./jcr:content/tileimage/file"
+                        requestSuffix="/jcr:content/tileimage.img.png"
+                        rotateParameter="./jcr:content/tileimage/imageRotate"
+                        sizeLimit="100"
+                        width="{Long}200"
+                        xtype="html5smartimageAR">
+                        <cropConfig jcr:primaryType="nt:unstructured">
+                            <aspectRatios jcr:primaryType="nt:unstructured">
                                 <aspectRatio-1.6x1
                                     jcr:primaryType="nt:unstructured"
+                                    checked="true"
                                     text="1.166x1"
-                                    value="116,100"
-                                    checked="true"/>
+                                    value="116,100"/>
                             </aspectRatios>
                         </cropConfig>
-					    <items jcr:primaryType="cq:WidgetCollection">
-					        <resType
-					            jcr:primaryType="cq:Widget"
-					            name="./jcr:content/tileimage/sling:resourceType"
-					            value="gsusa/components/image"
-					            xtype="hidden"/>
-					    </items>
-					</tileimage>
+                        <items jcr:primaryType="cq:WidgetCollection">
+                            <resType
+                                jcr:primaryType="cq:Widget"
+                                name="./jcr:content/tileimage/sling:resourceType"
+                                value="gsusa/components/image"
+                                xtype="hidden"/>
+                        </items>
+                    </tileimage>
                     <ogimage
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="og:image"
                         fieldDescription="This field determines what image is shared when a user clicks the Facebook Share icon. If blank, the hero image will be used by default."
+                        fieldLabel="og:image"
+                        name="./jcr:content/ogImage"
                         rootPath="/content/dam/girlscouts-gsusa"
-                        xtype="pathfield"
-                        name="./jcr:content/ogImage"/>
+                        xtype="pathfield"/>
                     <editedDate
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
@@ -144,14 +141,14 @@
                         name="./jcr:content/editedDate"
                         xtype="datetime"/>
                     <showEditDate
-                    	jcr:primaryType="cq:Widget"
-                    	allowBlank="{Boolean}false"
-                    	fieldLabel="Show Edit Date"
-                    	xtype="selection"
-                        value="false"
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
                         defaultValue="false"
-                    	name="./jcr:content/content/middle/par/edit_date/showEditDate">
-                    	<options jcr:primaryType="cq:WidgetCollection">
+                        fieldLabel="Show Edit Date"
+                        name="./jcr:content/content/middle/par/edit_date/showEditDate"
+                        value="false"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
                             <true
                                 jcr:primaryType="nt:unstructured"
                                 text="Yes"
@@ -213,6 +210,7 @@
                     <externalLink
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
+                        boxMinWidth="{Long}50"
                         fieldLabel="Link"
                         name="./jcr:content/externalLink"
                         xtype="pathfield"/>
@@ -223,15 +221,14 @@
                         name="./jcr:content/openInNewWindow"
                         xtype="checkbox"/>
                     <hideInNav
-                    	jcr:primaryType="cq:Widget"
-                    	allowBlank="{Boolean}false"
-
-                    	fieldLabel="Hide In Navigation"
-                    	xtype="selection"
-                        value="true"
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
                         defaultValue="true"
-                    	name="./jcr:content/hideInNav">
-                    	<options jcr:primaryType="cq:WidgetCollection">
+                        fieldLabel="Hide In Navigation"
+                        name="./jcr:content/hideInNav"
+                        value="true"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
                             <true
                                 jcr:primaryType="nt:unstructured"
                                 text="Yes"

@@ -77,7 +77,7 @@ $side-nav-divider-color: scale-color($white, $lightness: -10%) !default;
       color: $link-color;
       display: block;
       margin: $side-nav-link-margin;
-      padding: $side-nav-link-padding;
+      #padding: $side-nav-link-padding;
       &:hover,
       &:focus {
         background: $link-bg-hover;
@@ -91,7 +91,7 @@ $side-nav-divider-color: scale-color($white, $lightness: -10%) !default;
     &.active > a:first-child:not(.button) {
       color: $side-nav-link-color-active;
       font-family: $side-nav-font-family-active;
-      font-weight: $side-nav-font-weight-active;
+      #font-weight: $side-nav-font-weight-active;
     }
 
     &.divider {
