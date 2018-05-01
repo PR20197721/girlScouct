@@ -53,19 +53,27 @@ public class FacetBuilderImpl implements FacetBuilder{
 		Iterator<Resource> resources = tagResource.listChildren();
 		Map<String,List<FacetsInfo>> facets = new HashMap<String, List<FacetsInfo>>();
 		while(resources.hasNext()) {
-			Resource resource = resources.next();
-		    Tag tag = tagMgr.resolve(resource.getPath());
-		    List<FacetsInfo> tagItems = new ArrayList<FacetsInfo>();
-		    TreeSet<String> tagTree = new TreeSet<String>();
-			Iterator <Resource> childFacets= resourceResolver.listChildren(resource);
-			while(childFacets.hasNext()){
-				Tag cTag = tagMgr.resolve(childFacets.next().getPath());
-				if(!tagTree.contains(cTag.getTagID())){
-					tagItems.add(new FacetsInfo(cTag.getTitle(),cTag.getTagID(),false,0L));
-					tagTree.add(cTag.getTagID());
+			try {
+				Resource resource = resources.next();
+				Tag tag = tagMgr.resolve(resource.getPath());
+				List<FacetsInfo> tagItems = new ArrayList<FacetsInfo>();
+				TreeSet<String> tagTree = new TreeSet<String>();
+				Iterator<Resource> childFacets = resourceResolver.listChildren(resource);
+				while (childFacets.hasNext()) {
+					try {
+						Tag cTag = tagMgr.resolve(childFacets.next().getPath());
+						if (!tagTree.contains(cTag.getTagID())) {
+							tagItems.add(new FacetsInfo(cTag.getTitle(), cTag.getTagID(), false, 0L));
+							tagTree.add(cTag.getTagID());
+						}
+					} catch (Exception e1) {
+						log.error("FacetBuilderImpl encountered an error: ", e1);
+					}
 				}
+				facets.put(tag.getName(), tagItems);
+			} catch (Exception e2) {
+				log.error("FacetBuilderImpl encountered an error: ", e2);
 			}
-			facets.put(tag.getName(), tagItems);
 		}
 		return facets;
 	}
