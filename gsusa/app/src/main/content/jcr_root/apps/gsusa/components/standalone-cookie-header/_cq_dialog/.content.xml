@@ -95,7 +95,7 @@
                                 fieldDescription="This path defines the result page. If this path is left empty, the cookie-finder will not work"
                                 fieldLabel="Link in the Cookie Booth"
                                 name="./cookieboothlink"
-                                required="false"/>
+                                required="true"/>
                         </items>
                     </columns>
                 </items>

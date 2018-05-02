@@ -28,7 +28,7 @@
                                 fieldDescription="Select One Tag"
                                 fieldLabel="Article Tag"
                                 multiple="{Boolean}true"
-                                name="./tag"
+                                name="./tags"
                                 rootPath="/etc/tags/gsusa/content-hub"/>
                             <number
                                 jcr:primaryType="nt:unstructured"
