@@ -21,6 +21,7 @@
 <%@ page import="com.day.cq.wcm.api.components.DropTarget" %>
 <%@ include file="/libs/foundation/global.jsp" %>
 <%@ taglib prefix="gsusa" uri="https://girlscouts.org/gsusa/taglib" %>
+<%@ taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
 
 <%
 	
