@@ -30,7 +30,7 @@
                                 name="./text"/>
                             <result-page
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="Result page that will show the cookie booths"
                                 fieldLabel="Result Page"
                                 name="./resultPage"
@@ -43,7 +43,7 @@
                                 fieldLabel="Images">
                                 <field
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                    sling:resourceType="girlscouts/components/form/pathfield"
                                     name="./images"
                                     rootPath="/content/dam"/>
                             </images>

@@ -24,15 +24,16 @@
                         <items jcr:primaryType="nt:unstructured">
                             <path
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Path to Results Page"
                                 name="./path"/>
                             <imgPath
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="Defaults to /content/dam/girlscouts-gsusa/images/misc/council-map.gif"
                                 fieldLabel="Path to Map Image"
-                                name="./imgPath"/>
+                                name="./imgPath"
+                                rootPath="/content/dam"/>
                         </items>
                     </columns>
                 </items>

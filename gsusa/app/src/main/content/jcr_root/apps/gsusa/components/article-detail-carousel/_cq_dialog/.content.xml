@@ -30,7 +30,7 @@
                                 name="./componentTitle"/>
                             <heading-link
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Heading Link"
                                 name="./headingLink"
                                 rootPath="/content/gsusa"/>
@@ -82,8 +82,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./articlecarouselautoscroll"
                                 text="Auto Scroll"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <autoscroll-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

@@ -22,8 +22,8 @@
                                 fieldDescription="override analytics framework settings"
                                 name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
                                 text="Custom link tracking"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <enable-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

@@ -35,10 +35,10 @@
                                 value="true"/>
                             <shop-link
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Shop Button Link"
                                 name="./shopLink"
-                                rootPath="/content/gsusa/en"/>
+                                rootPath="/content/gsusa"/>
                             <button-text
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"

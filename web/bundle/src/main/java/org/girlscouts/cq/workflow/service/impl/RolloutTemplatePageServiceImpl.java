@@ -308,6 +308,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 			throws RepositoryException, WCMException {
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes, null, null);
 		Map<String, Set<String>> componentRelationsMap = getComponentRelations(srcRes, rolloutLog, rr);
+		Set<String> councilsToRemove = new HashSet<String>();
 		while (relationIterator.hasNext()) {
 			try {
 				LiveRelationship relation = (LiveRelationship) relationIterator.next();
@@ -319,7 +320,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 					Resource targetResource = rr.resolve(targetPath);
 					if (targetResource != null
 							&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-						councils.remove(councilPath);
+						councilsToRemove.add(councilPath);
 						if (isPageInheritanceBroken(targetResource, rolloutLog)) {
 							notifyCouncils.add(targetPath);
 							rolloutLog.add(
@@ -355,6 +356,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 				log.error("Girlscouts Rollout Service encountered error: ", e);
 			}
 		}
+		councils.removeAll(councilsToRemove);
 	}
 
 	private void updatePageTitle(Resource srcRes, Resource targetResource) {

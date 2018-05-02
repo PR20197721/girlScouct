@@ -27,6 +27,7 @@
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
                                 fieldDescription="How many columns in a row in large pages."
                                 fieldLabel="Columns (Large)"
+                                min="1"
                                 name="./largeColumns"
                                 value="4"/>
                             <medium-columns
@@ -34,6 +35,7 @@
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
                                 fieldDescription="How many columns in a row in medium pages."
                                 fieldLabel="Columns (Medium)"
+                                min="1"
                                 name="./mediumColumns"
                                 value="2"/>
                             <small-columns
@@ -42,6 +44,7 @@
                                 fieldDescription="How many columns in a row in small pages."
                                 fieldLabel="Columns (Small)"
                                 name="./smallColumns"
+                                min="1"
                                 value="1"/>
                         </items>
                     </columns>

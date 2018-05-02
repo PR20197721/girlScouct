@@ -223,6 +223,7 @@ public class DeleteTemplatePageServiceImpl
 			throws RepositoryException, WCMException {
 		RangeIterator relationIterator = relationManager.getLiveRelationships(srcRes, null, null);
 		Map<String, Set<String>> componentRelationsMap = getComponentRelations(srcRes, deletionLog, rr);
+		Set<String> councilsToRemove = new HashSet<String>();
 		while (relationIterator.hasNext()) {
 			try {
 				LiveRelationship relation = (LiveRelationship) relationIterator.next();
@@ -234,7 +235,8 @@ public class DeleteTemplatePageServiceImpl
 					Resource targetResource = rr.resolve(targetPath);
 					if (targetResource != null
 							&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-						councils.remove(councilPath);
+						councilsToRemove.add(councilPath);
+						// councils.remove(councilPath);
 						if (!isPageInheritanceBroken(targetResource, deletionLog)) {
 							Set<String> inheritedComponents = new HashSet<String>();
 							Set<String> notInheritedComponents = new HashSet<String>();
@@ -259,8 +261,9 @@ public class DeleteTemplatePageServiceImpl
 			} catch (Exception e) {
 				log.error("Girlscouts Page Deletion Service encountered error: ", e);
 			}
-			}
 		}
+		councils.removeAll(councilsToRemove);
+	}
 
 	private boolean isPageInheritanceBroken(Resource targetResource, List<String> deletionLog) {
 		try {

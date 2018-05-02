@@ -29,7 +29,7 @@
                                 name="./title"/>
                             <listingPage
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Listing Page"
                                 name="./listingPage"
                                 rootPath="/content/gsusa/en"/>
@@ -45,7 +45,8 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./sortByPriority"
-                                text="Sort By Priority"/>
+                                text="Sort By Priority"
+                                value="{Boolean}true"/>
                             <sortbypriority-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
