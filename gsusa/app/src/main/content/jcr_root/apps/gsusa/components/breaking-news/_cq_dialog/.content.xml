@@ -25,8 +25,8 @@
                             <news-type
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup"
-                                fieldDescription="Cookie pages have special headers, footers and third column."
-                                fieldLabel="Is Cookie Page"
+                                fieldDescription="Choose one type of Breaking News."
+                                fieldLabel="Show"
                                 name="./newstype">
                                 <items jcr:primaryType="nt:unstructured">
                                     <none
