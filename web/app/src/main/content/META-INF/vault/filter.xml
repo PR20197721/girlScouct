@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
     <filter root="/apps/girlscouts"/>
-    <filter root="/apps/wcm"/>
     <filter root="/content/girlscouts-shared"/>
     <filter root="/etc/clientlibs/girlscouts"/>
     <filter root="/etc/clientlibs/foundation/abacus/source/abacus.js"/>
