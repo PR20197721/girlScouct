@@ -8,220 +8,218 @@
         <items jcr:primaryType="cq:WidgetCollection">
             <general
                 jcr:primaryType="cq:Panel"
-                title="General" >
+                title="General">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <endpointurl
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Endpoint URL"
                         fieldDescription="URL to retrieve Blog data"
+                        fieldLabel="Endpoint URL"
                         name="./endpointurl"
-                        xtype="textfield" 
-                        />
+                        xtype="textfield"/>
                     <blogurl
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Blog URL"
-                        fieldDescription="URL of Blog to link See More at the end of feed. http://blog.girlscouts.org"
                         defaultValue="http://blog.girlscouts.org"
-                        value="http://blog.girlscouts.org"
+                        fieldDescription="URL of Blog to link See More at the end of feed. http://blog.girlscouts.org"
+                        fieldLabel="Blog URL"
                         name="./blogurl"
-                        xtype="textfield" 
-                        />
+                        value="http://blog.girlscouts.org"
+                        xtype="textfield"/>
                     <count
                         jcr:primaryType="cq:Widget"
+                        defaultValue="10"
                         fieldDescription="Specify how many posts to display. Will default to 10 if left blank"
                         fieldLabel="Count"
                         minValue="1"
-                        defaultValue="10"
-                        value="10"
                         name="./count"
+                        value="10"
                         xtype="numberfield"/>
                     <iconurl
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Icon URL"
                         fieldDescription="Path of icon"
+                        fieldLabel="Icon URL"
                         name="./iconurl"
                         rootPath="/content/dam"
-                        xtype="pathfield" />
+                        xtype="pathfield"/>
                     <postid1
-                    	jcr:primaryType="cq:Widget"
-                    	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
-                    	fieldLabel="Post ID 1"
-                    	name="./postid1"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
+                        fieldLabel="Post ID 1"
+                        name="./postid1"
+                        xtype="textfield"/>
                     <postid2
-                    	jcr:primaryType="cq:Widget"
-                    	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
-                    	fieldLabel="Post ID 2"
-                    	name="./postid2"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
+                        fieldLabel="Post ID 2"
+                        name="./postid2"
+                        xtype="textfield"/>
                     <postid3
-                    	jcr:primaryType="cq:Widget"
-                    	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
-                    	fieldLabel="Post ID 3"
-                    	name="./postid3"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
+                        fieldLabel="Post ID 3"
+                        name="./postid3"
+                        xtype="textfield"/>
                     <textonly
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Text Only"
-                    	fieldDescription="Check to display text only and not show images"
-                    	name="./textonly"
-                    	type="checkbox"
-                    	xtype="selection" />
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Check to display text only and not show images"
+                        fieldLabel="Text Only"
+                        name="./textonly"
+                        type="checkbox"
+                        xtype="selection"/>
                 </items>
             </general>
             <desktop
                 jcr:primaryType="cq:Panel"
                 title="Desktop">
-                <items jcr:primaryType="cq:WidgetCollection">                    
+                <items jcr:primaryType="cq:WidgetCollection">
                     <desktopdisplay
                         jcr:primaryType="cq:Widget"
-                        value="Styling configuration for desktop view where width of the page is greater than 768px. Please refresh page if style hasn't updated."
                         defaultValue=""
                         hideLabel="true"
                         name="./desktopdescription"
-                        xtype="displayfield" />
+                        value="Styling configuration for desktop view where width of the page is greater than 768px. Please refresh page if style hasn't updated."
+                        xtype="displayfield"/>
                     <desktopheight
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Height of the component in px. Enter blank or 0 to show all"
                         fieldLabel="Desktop Height"
                         name="./desktopheight"
-                        xtype="numberfield" />
+                        xtype="numberfield"/>
                     <desktopimagesize
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Image Size"
-                        fieldDescription="In percentage of column width. Ex. 30"
                         defaultValue="40"
+                        fieldDescription="In percentage of column width. Ex. 30"
+                        fieldLabel="Image Size"
                         minValue="0"
-                        value="40"
                         name="./desktopimagesize"
+                        value="40"
                         xtype="numberfield"/>
                     <desktoptitlelines
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Lines"
-                        fieldDescription="Number of lines of Blog title to display. 0 to show all"
                         defaultValue="2"
+                        fieldDescription="Number of lines of Blog title to display. 0 to show all"
+                        fieldLabel="Title Lines"
                         minValue="0"
-                        value="2"
                         name="./desktoptitlelines"
+                        value="2"
                         xtype="numberfield"/>
                     <desktopsnippetlines
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Description Lines"
-                        fieldDescription="Number of lines of Blog content to display. 0 to show all"
                         defaultValue="3"
-                        minValue="0" 
-                        value="3"
+                        fieldDescription="Number of lines of Blog content to display. 0 to show all"
+                        fieldLabel="Description Lines"
+                        minValue="0"
                         name="./desktopsnippetlines"
+                        value="3"
                         xtype="numberfield"/>
                     <desktoptitlefont
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Font Size"
-                        fieldDescription="Font size for Blog title in Desktop view. Ex. 17px, 1rem, 1.2em"
                         defaultValue="17px"
-                        value="17px"
+                        fieldDescription="Font size for Blog title in Desktop view. Ex. 17px, 1rem, 1.2em"
+                        fieldLabel="Title Font Size"
                         name="./desktoptitlefont"
+                        value="17px"
                         xtype="textfield"/>
                     <desktoptitlelineheight
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Line Height"
-                        fieldDescription="Line height size for Blog title in Desktop view. Ex. 17px, 1rem, 1.2em"
                         defaultValue="21px"
-                        value="21px"
+                        fieldDescription="Line height size for Blog title in Desktop view. Ex. 17px, 1rem, 1.2em"
+                        fieldLabel="Title Line Height"
                         name="./desktoptitlelineheight"
+                        value="21px"
                         xtype="textfield"/>
                     <desktopsnippetfont
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Description Font Size"
-                        fieldDescription="Font size for Blog content in Desktop view. Ex. 17px, 1rem, 1.2em"
                         defaultValue="13px"
-                        value="13px"
+                        fieldDescription="Font size for Blog content in Desktop view. Ex. 17px, 1rem, 1.2em"
+                        fieldLabel="Description Font Size"
                         name="./desktopsnippetfont"
+                        value="13px"
                         xtype="textfield"/>
                     <desktopsnippetlineheight
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Description Line Height"
-                        fieldDescription="Line height size for Blog content in Desktop view. Ex. 17px, 1rem, 1.2em"
                         defaultValue="18px"
-                        value="18px"
+                        fieldDescription="Line height size for Blog content in Desktop view. Ex. 17px, 1rem, 1.2em"
+                        fieldLabel="Description Line Height"
                         name="./desktopsnippetlineheight"
+                        value="18px"
                         xtype="textfield"/>
                 </items>
-            </desktop>            
+            </desktop>
             <mobile
                 jcr:primaryType="cq:Panel"
                 title="Mobile">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <mobiledisplay
                         jcr:primaryType="cq:Widget"
-                        value="Styling configuration for mobile view. Please refresh page if style hasn't updated."
                         defaultValue=""
                         hideLabel="true"
                         name="./mobiledescription"
-                        xtype="displayfield" />                    
+                        value="Styling configuration for mobile view. Please refresh page if style hasn't updated."
+                        xtype="displayfield"/>
                     <mobileheight
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Height of the component in px. Enter blank or 0 to show all"
                         fieldLabel="Mobile Height"
                         name="./mobileheight"
-                        xtype="numberfield" />
+                        xtype="numberfield"/>
                     <mobileimagesize
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Image Size"
-                        fieldDescription="in percentage"
                         defaultValue="25"
+                        fieldDescription="in percentage"
+                        fieldLabel="Image Size"
                         minValue="0"
-                        value="25"
                         name="./mobileimagesize"
-                        xtype="numberfield"/>                    
+                        value="25"
+                        xtype="numberfield"/>
                     <mobiletitlelines
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Lines"
-                        fieldDescription="Number of lines of Blog title to show. 0 to show all"
-                        minValue="0"                        
                         defaultValue="2"
-                        value="2"
+                        fieldDescription="Number of lines of Blog title to show. 0 to show all"
+                        fieldLabel="Title Lines"
+                        minValue="0"
                         name="./mobiletitlelines"
+                        value="2"
                         xtype="numberfield"/>
                     <mobilesnippetlines
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Description Lines"
-                        fieldDescription="Number of lines of Blog content to show. 0 to show all"
                         defaultValue="3"
-                        value="3"
+                        fieldDescription="Number of lines of Blog content to show. 0 to show all"
+                        fieldLabel="Description Lines"
                         minValue="0"
                         name="./mobilesnippetlines"
+                        value="3"
                         xtype="numberfield"/>
                     <mobiletitlefont
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Font Size"
-                        fieldDescription="Font size for Blog title in mobile view. Ex. 17px, 1rem, 1.2em"
                         defaultValue="18px"
-                        value="18px"
+                        fieldDescription="Font size for Blog title in mobile view. Ex. 17px, 1rem, 1.2em"
+                        fieldLabel="Title Font Size"
                         name="./mobiletitlefont"
+                        value="18px"
                         xtype="textfield"/>
                     <mobiletitlelineheight
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Line Height"
-                        fieldDescription="Line height for Blog title in mobile view. Ex. 17px, 1rem, 1.2em"
                         defaultValue="24px"
-                        value="24px"
+                        fieldDescription="Line height for Blog title in mobile view. Ex. 17px, 1rem, 1.2em"
+                        fieldLabel="Title Line Height"
                         name="./mobiletitlelineheight"
+                        value="24px"
                         xtype="textfield"/>
                     <mobilesnippetfont
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Description Font Size"
-                        fieldDescription="Font size for Blog content in mobile view. Ex. 17px, 1rem, 1.2em"
                         defaultValue="14px"
-                        value="14px"
+                        fieldDescription="Font size for Blog content in mobile view. Ex. 17px, 1rem, 1.2em"
+                        fieldLabel="Description Font Size"
                         name="./mobilesnippetfont"
+                        value="14px"
                         xtype="textfield"/>
                     <mobilesnippetlineheight
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Description Line Height"
-                        fieldDescription="Line height size for Blog content in mobile view. Ex. 17px, 1rem, 1.2em"
                         defaultValue="19px"
-                        value="19px"
+                        fieldDescription="Line height size for Blog content in mobile view. Ex. 17px, 1rem, 1.2em"
+                        fieldLabel="Description Line Height"
                         name="./mobilesnippetlineheight"
+                        value="19px"
                         xtype="textfield"/>
                 </items>
             </mobile>

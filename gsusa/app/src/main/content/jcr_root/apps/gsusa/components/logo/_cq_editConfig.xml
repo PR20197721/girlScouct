@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root 
-	xmlns:sling="http://sling.apache.org/jcr/sling/1.0" 
-	xmlns:cq="http://www.day.com/jcr/cq/1.0" 
-	xmlns:jcr="http://www.jcp.org/jcr/1.0" 
-	xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     cq:disableTargeting="{Boolean}true"
     jcr:primaryType="cq:EditConfig">
-    
     <cq:dropTargets jcr:primaryType="nt:unstructured">
         <image
             jcr:primaryType="cq:DropTargetConfig"
@@ -16,30 +11,28 @@
             <parameters
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/textimage">
-		        <image
-		            jcr:primaryType="cq:DropTargetConfig"
-		            sling:resourceType="foundation/components/image"
-		            propertyName="./image/fileReference">
-		            <parameters
-		                jcr:primaryType="nt:unstructured"
-		                imageCrop=""
-		                imageMap=""
-		                imageRotate=""/>
-		        </image>
-		        <stickyNavImage
-		            jcr:primaryType="cq:DropTargetConfig"
-			        sling:resourceType="foundation/components/image"
-		            propertyName="./stickyNavImage/fileReference">
-		            <parameters
-		                jcr:primaryType="nt:unstructured"
-		                imageCrop=""
-		                imageMap=""
-		                imageRotate=""/>
-		        </stickyNavImage>
+                <image
+                    jcr:primaryType="cq:DropTargetConfig"
+                    sling:resourceType="foundation/components/image"
+                    propertyName="./image/fileReference">
+                    <parameters
+                        jcr:primaryType="nt:unstructured"
+                        imageCrop=""
+                        imageMap=""
+                        imageRotate=""/>
+                </image>
+                <stickyNavImage
+                    jcr:primaryType="cq:DropTargetConfig"
+                    sling:resourceType="foundation/components/image"
+                    propertyName="./stickyNavImage/fileReference">
+                    <parameters
+                        jcr:primaryType="nt:unstructured"
+                        imageCrop=""
+                        imageMap=""
+                        imageRotate=""/>
+                </stickyNavImage>
             </parameters>
         </image>
-        
-        
     </cq:dropTargets>
     <cq:listeners
         jcr:primaryType="cq:EditListenersConfig"

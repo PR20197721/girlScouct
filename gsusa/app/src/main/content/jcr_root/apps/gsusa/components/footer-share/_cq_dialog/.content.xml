@@ -23,35 +23,35 @@
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <multi
-		                      jcr:primaryType="nt:unstructured"
-		                      sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-		                      composite="true"
-		                      fieldLabel="Social Icons">
-		                      <field
-		                          jcr:primaryType="nt:unstructured"
-		                          sling:resourceType="granite/ui/components/coral/foundation/container"
-		                          class="coral-Table--bordered" 
-		                          name="./socialIcons"> 
-		                          <items jcr:primaryType="nt:unstructured">
-		                              <name
-		                                  jcr:primaryType="nt:unstructured"
-		                                  sling:resourceType="granite/ui/components/foundation/form/textfield"
-		                                  fieldLabel="Name"
-		                                  name="name"/>	
-		                              <url
-		                                  jcr:primaryType="nt:unstructured"
-		                                  sling:resourceType="granite/ui/components/foundation/form/textfield"
-		                                  fieldLabel="URL"
-		                                  name="url"/>	                              
-		                              <icon-path
-		                                  jcr:primaryType="nt:unstructured"
-		                                  sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
-		                                  fieldLabel="Icon Path"
-		                                  rootPath="/content/dam"
-		                                  name="icon-path"/>		                              	                              
-		                          </items>
-		                      </field>
-		                  	</multi>
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                composite="true"
+                                fieldLabel="Social Icons">
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                                    class="coral-Table--bordered"
+                                    name="./socialIcons">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <name
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                            fieldLabel="Name"
+                                            name="name"/>
+                                        <url
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                            fieldLabel="URL"
+                                            name="url"/>
+                                        <icon-path
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="girlscouts/components/form/pathfield"
+                                            fieldLabel="Icon Path"
+                                            name="icon-path"
+                                            rootPath="/content/dam"/>
+                                    </items>
+                                </field>
+                            </multi>
                         </items>
                     </columns>
                 </items>

@@ -37,7 +37,7 @@
                                         name="./videoLink50"/>
                                     <videoPath50
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
                                         fieldLabel="Video Path 1"
                                         name="./videoPath50"
                                         rootPath="/content/dam/girlscouts-gsusa"/>
@@ -57,7 +57,7 @@
                                         name="./videoLink51"/>
                                     <videoPath51
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
                                         fieldLabel="Video Path 2"
                                         name="./videoPath51"
                                         rootPath="/content/dam/girlscouts-gsusa"/>
@@ -77,7 +77,7 @@
                                         name="./videoLink52"/>
                                     <videoPath52
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
                                         fieldLabel="Video Path 3"
                                         name="./videoPath52"
                                         rootPath="/content/dam/girlscouts-gsusa"/>
@@ -97,7 +97,7 @@
                                         name="./videoLink53"/>
                                     <videoPath53
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
                                         fieldLabel="Video Path 4"
                                         name="./videoPath53"
                                         rootPath="/content/dam/girlscouts-gsusa"/>

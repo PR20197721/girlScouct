@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:unstructured"
     jcr:title="Page"
     sling:resourceType="cq/gui/components/authoring/dialog"
@@ -19,15 +19,93 @@
                     sling:resourceType="granite/ui/components/foundation/layouts/tabs"
                     type="nav"/>
                 <items jcr:primaryType="nt:unstructured">
-                	<gsusa/>
-                    <basic/>
-                    <advanced/>
-                    <thumbnail/>
-                    <cloudservices/>
-                    <personalization/>
-                    <permissions/>
-                    <blueprint/>
-                    <livecopy/>                     
+                    <gsusa
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Girl Scouts USA"
+                        sling:resourceType="granite/ui/components/foundation/section">
+                        <layout
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+                            margin="{Boolean}false"/>
+                        <items jcr:primaryType="nt:unstructured">
+                            <column
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/container">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <global-srch-landing-page
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
+                                        fieldLabel="Global Search Landing Page"
+                                        name="./globalLanding"
+                                        rootPath="/content"/>
+                                    <content-hub-parent-page
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:orderBefore="is-cookie-page"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
+                                        fieldLabel="Content Hub Parent Page"
+                                        name="./contenthubparentpage"
+                                        rootPath="/content"/>
+                                    <is-cookie-page
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:hideResource="true"/>
+                                    <is-content-hub
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:hideResource="true"/>
+                                    <addthis-id
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:orderBefore="ogtitle"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldLabel="AddThis ID"
+                                        name="./addThisId"/>
+                                    <ogtitle
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldDescription="Default: SEO Title"
+                                        fieldLabel="og:title"
+                                        name="./ogTitle"/>
+                                    <ogsitename
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        defaultValue="Girl Scouts of the USA"
+                                        fieldDescription="Default: Girl Scouts of the USA"
+                                        fieldLabel="og:site_name"
+                                        name="./ogSiteName"
+                                        value="Girl Scouts of the USA"/>
+                                    <ogurl
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldLabel="og:url"
+                                        name="./ogUrl"/>
+                                    <ogdescription
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldLabel="og:description"
+                                        name="./ogDescription"/>
+                                    <ogimage
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
+                                        fieldLabel="og:image"
+                                        name="./ogImage"
+                                        rootPath="/content/dam/girlscouts-gsusa"/>
+                                    <fbappid
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldDescription="Default: 419540344831322 "
+                                        fieldLabel="fb:app_id"
+                                        name="./fbAppId"/>
+                                    <openInNewWindow
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:hideResource="true"/>
+                                    <tracking
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                                        fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
+                                        fieldLabel="Tracking"
+                                        name="./footerTracking"/>
+                                </items>
+                            </column>
+                        </items>
+                    </gsusa>
                 </items>
             </tabs>
         </items>
