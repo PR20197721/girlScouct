@@ -4,10 +4,39 @@
 }
 
 .coral-Multifield-item{
-    border-bottom: 2px solid gray;
+    border-bottom: 1px solid gray;
+    background-color: #f0f0f0;
+}
+
+.coral-Multifield-item:last-of-type {
+    margin-bottom: 5px;
 }
 
 .is-dragging coral-multifield-item-content *{
     display: none;
+   
 }
+
+
+._drophere{
+    background-color: #e8f4ff;
+    padding: 10px;
+
+    border: 1px solid #97bbdf;
+    height: 20px;
+    opacity: 0.5;
+    z-index: -1000;
+    display: inline-grid;
+    width: 95%;
+    z-index: -1000;
+    margin: 0, -5px;
+    
+}
+
+
+._drophere.over{
+    border: 1px solid blue;
+    background-color: #e8f4ff;
+}
+
 
