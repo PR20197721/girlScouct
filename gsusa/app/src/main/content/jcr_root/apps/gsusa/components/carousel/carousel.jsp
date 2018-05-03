@@ -221,7 +221,7 @@ public  String readUrlFile(String urlString) throws Exception {
             } 
 		}
     %></ul><%
-    if (hideZIPCode == "false") {
+    if ("false".equalsIgnoreCase(hideZIPCode)) {
         %><cq:include path="zip-council" resourceType="gsusa/components/zip-council" /><%
     }
 %></div>

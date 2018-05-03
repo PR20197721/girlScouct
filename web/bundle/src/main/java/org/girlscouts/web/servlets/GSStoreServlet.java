@@ -243,27 +243,33 @@ public class GSStoreServlet
             			log.error("################PARAM NAME IS: " + n);
             			
             			if(!n.contains(":") && !n.equals("_charset_")) {
-            				RequestParameter param = request.getRequestParameter(n);
-            				if(param.getContentType() == null) {            					
-            					List<String> valLst = new ArrayList<>(1);
-            					valLst.add(param.getString());
-        						paramMap.merge(n, valLst, (l1, l2) -> {
-        							l1.addAll(l2);
-        							return l1;
-        						});
-            				} else {
-            					if(param.getSize() > 0) {
-            						String val = param.getFileName();
-            						submissionNode.setProperty(n, val);
-            					}
-            				}
+							for(RequestParameter param : Arrays.asList(request.getRequestParameters(n))) {
+								if (param.getContentType() == null) {
+									List<String> valLst = new ArrayList<>(1);
+									valLst.add(param.getString());
+									paramMap.merge(n, valLst, (l1, l2) -> {
+										l1.addAll(l2);
+										return l1;
+									});
+								} else {
+									if (param.getSize() > 0) {
+										String val = param.getFileName();
+										submissionNode.setProperty(n, val);
+									}
+								}
+							}
             			}
             			
             		}
 
     				for(Entry<String, List<String>> entry : paramMap.entrySet()) {
     					if(entry.getValue().size() > 1) {
-    						submissionNode.setProperty(entry.getKey(), (String[]) entry.getValue().toArray());
+							Object[] objVals = entry.getValue().toArray();
+							String[] strVals = new String[objVals.length];
+							for(int i = 0; i < objVals.length; i++){
+								strVals[i] = Optional.ofNullable(objVals[i]).map(Object::toString).orElse(null);
+							}
+							submissionNode.setProperty(entry.getKey(), strVals);
     					}else {
     						submissionNode.setProperty(entry.getKey(), entry.getValue().get(0));
     					}

@@ -151,7 +151,7 @@
 	} else {
     	%> <a class="photo" href="<%=linkToArticle%>"> <%
     }
-    %> <img src="<%=imageSrc%>" data-at2x="<%= image2xSrc %>" />
+    %> <img src="<%=imageSrc%>" <%-- data-at2x="<%= image2xSrc %>" --%> />
 						<div class="text-content" style="background: <%=rgba%>">
                             <div class="text-wrapper">
                                 <div class="text-inner">
