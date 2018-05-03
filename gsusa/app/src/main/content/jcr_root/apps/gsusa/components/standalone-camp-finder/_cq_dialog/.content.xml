@@ -32,7 +32,7 @@
                                 sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Results Page"
                                 name="./results"
-                                required="false"
+                                required="true"
                                 rootPath="/content/gsusa"/>
                         </items>
                     </columns>
