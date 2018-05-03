@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    id="root">
+    <projects/>
+    <sites/>
+    <publications/>
+    <forms/>
+    <assets
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Assets"
+        jcr:description="Digital Asset Management"
+        jcr:title_commentI18n="Capability Name"
+        desktopOnly="/damadmin#"
+        desktopOnlyTitle="Classic UI"
+        href="/mnt/overlay/dam/gui/content/assetsrouter.html"
+        icon="asset"
+        id="cq-assets-files"
+        order="{Long}1200">        
+    </assets>
+    <screens/>
+    <personalization/>
+    <communities/>
+    <commerce/>
+    <tools/>
+    <experiencefragments/>
+    <contentservices/>
+</jcr:root>
