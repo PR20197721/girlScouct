@@ -28,7 +28,7 @@
                                 fieldDescription="Select One Tag"
                                 fieldLabel="Article Tag"
                                 multiple="{Boolean}true"
-                                name="./tag"
+                                name="./tags"
                                 rootPath="/etc/tags/gsusa/content-hub"/>
                             <number
                                 jcr:primaryType="nt:unstructured"
@@ -41,7 +41,7 @@
                                 value="9"/>
                             <titleLink
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Listing Page"
                                 name="./titleLink"
                                 rootPath="/content/gsusa/en"/>
@@ -50,8 +50,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./priority"
                                 text="Sort By Priority"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <priority-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

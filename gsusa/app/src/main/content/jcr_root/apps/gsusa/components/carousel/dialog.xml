@@ -100,13 +100,12 @@
                         maxValue="10000"
                         minValue="20"
                         name="./homecarouselautoplayspeed"
-                        xtype="numberfield">
-                    </autoplayspeed>
+                        xtype="numberfield"/>
                     <radioDesktop
                         jcr:primaryType="cq:Widget"
+                        defaultValue="default"
                         fieldLabel="Video Player Config (Desktop)"
                         name="./videoConfigDesktop"
-                        defaultValue="default"
                         type="radio"
                         xtype="selection">
                         <options jcr:primaryType="cq:WidgetCollection">
@@ -126,9 +125,9 @@
                     </radioDesktop>
                     <radioMobile
                         jcr:primaryType="cq:Widget"
+                        defaultValue="default"
                         fieldLabel="Video Player Config (Mobile)"
                         name="./videoConfigMobile"
-                        defaultValue="default"
                         type="radio"
                         xtype="selection">
                         <options jcr:primaryType="cq:WidgetCollection">

@@ -24,93 +24,94 @@
                         <items jcr:primaryType="nt:unstructured">
                             <feedTitle
                                 jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                 attribute="adhocevars"
                                 fieldDescription=""
                                 fieldLabel="Feed Title"
-                                name="./feedTitle"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
+                                name="./feedTitle"/>
                             <feedLandingPage
                                 jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                 attribute="adhocevars"
                                 fieldDescription="(e.g. http://www.girlscouts.org/en/raising-girls.html)"
                                 fieldLabel="Feed Landing Page"
-                                name="./feedLandingPage"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
+                                name="./feedLandingPage"/>
                             <feedDesc
                                 jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                 attribute="adhocevars"
                                 fieldDescription=""
                                 fieldLabel="Feed Desc"
-                                name="./feedDesc"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
+                                name="./feedDesc"/>
                             <feedScaffoldingType
                                 jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                 allowBlank="false"
                                 attribute="adhocevars"
                                 fieldDescription="(e.g. /etc/scaffolding/gsusa/article)"
                                 fieldLabel="Scaffolding Type"
-                                name="./feedScaffoldingType"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
+                                name="./feedScaffoldingType"/>
                             <feedMaxItems
                                 jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                 attribute="adhocevars"
                                 fieldDescription="Empty value will pull 9,999 articles."
                                 fieldLabel="Max Items"
-                                name="./feedMaxItems"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
+                                name="./feedMaxItems"/>
                             <feedItems
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                composite="true" 
+                                composite="true"
                                 fieldDescription="Add Item"
                                 fieldLabel="Feed Paths">
-								<field jcr:primaryType="nt:unstructured"
-									sling:resourceType = "granite/ui/components/coral/foundation/container"
-									class="coral-Table--bordered" 
-									name="./feedItems">
-									<items jcr:primaryType="nt:unstructured">
-										<path 
-		                                    jcr:primaryType="nt:unstructured"
-		                                    sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
-		                                    name="./path"
-		                                    fieldLabel="Path"
-		                                    rootPath="/content"/>
-			                            	<page
-			                                jcr:primaryType="nt:unstructured"
-			                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
-			                                name="./page"
-			                                value="{Boolean}true"
-                                			uncheckedValue="{Boolean}false"
-			                                text="Page"/>
-										<pageType
-										    jcr:primaryType="nt:unstructured"
-										    sling:resourceType="granite/ui/components/foundation/form/hidden"
-										    name="./page@TypeHint"
-										    value="Boolean"/>
-			                            <pageDelete
-			                                jcr:primaryType="nt:unstructured"
-			                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-			                                name="./page@Delete"
-			                                value="{Boolean}true"/>
-			                            	<subDir
-				                                jcr:primaryType="nt:unstructured"
-				                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
-				                                name="./subDir"
-				                                value="{Boolean}true"
-	                                			uncheckedValue="{Boolean}false"
-				                                text="SubDir"/>
-										<subDirType
-										    jcr:primaryType="nt:unstructured"
-										    sling:resourceType="granite/ui/components/foundation/form/hidden"
-										    name="./subDir@TypeHint"
-										    value="Boolean"/>
-			                            <subDirDelete
-			                                jcr:primaryType="nt:unstructured"
-			                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-			                                name="./subDir@Delete"
-			                                value="{Boolean}true"/>
-									</items>
-								</field>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                                    class="coral-Table--bordered"
+                                    name="./feedItems">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <path
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="girlscouts/components/form/pathfield"
+                                            fieldLabel="Path"
+                                            name="./path"
+                                            rootPath="/content"/>
+                                        <page
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                            name="./page"
+                                            text="Page"
+                                            uncheckedValue="{Boolean}false"
+                                            value="{Boolean}true"/>
+                                        <pageType
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                            name="./page@TypeHint"
+                                            value="Boolean"/>
+                                        <pageDelete
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                            name="./page@Delete"
+                                            value="{Boolean}true"/>
+                                        <subDir
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                            name="./subDir"
+                                            text="SubDir"
+                                            uncheckedValue="{Boolean}false"
+                                            value="{Boolean}true"/>
+                                        <subDirType
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                            name="./subDir@TypeHint"
+                                            value="Boolean"/>
+                                        <subDirDelete
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                            name="./subDir@Delete"
+                                            value="{Boolean}true"/>
+                                    </items>
+                                </field>
                             </feedItems>
                         </items>
                     </columns>

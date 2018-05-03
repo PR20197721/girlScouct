@@ -25,208 +25,121 @@
                   com.adobe.granite.ui.components.ExpressionHelper,
                   com.adobe.granite.ui.components.Field,
                   com.adobe.granite.ui.components.Tag,
-					org.apache.sling.api.request.RequestParameterMap" %><%--###
-PathField
-=========
-
-.. granite:servercomponent:: /libs/granite/ui/components/coral/foundation/form/pathfield
-   :supertype: /libs/granite/ui/components/coral/foundation/form/field
-   
-   A field that allows the user to enter path.
-   
-   It extends :granite:servercomponent:`Field </libs/granite/ui/components/coral/foundation/form/field>` component.
-   
-   It supports the concept of suggestion where the list of options are presented based on what the user types.
-   It also supports the concept of picker where the user allows to pick the value in more advanced way (usually implemented as a dialog showing a tree view).
-   
-   **Usage Guidelines**
-   
-   In Sling, a resource (thus a path) is a first class citizen. So naturally many things, such as WCM Pages, DAM Assets, Commerce Products are represented as paths.
-   This field can then be used for that purpose. However, this field is only meant for general purpose pathfield, even though the suggestion and picker can be configured.
-   It is recommended to create a dedicated field for each resource type accordingly.
-   e.g. It is better to create a dedicated field for the purpose of selecting CQ Pages, with the applicable configuration configured OOTB.
-   This is to allow convenient usage of the said field without forcing the author to know about URL, which can be an implementation detail. 
-   
-   It has the following content structure:
-
-   .. gnd:gnd::
-
-      [granite:FormTextField] > granite:FormField
-      
-      /**
-       * The name that identifies the field when submitting the form.
-       */
-      - name (String)
-      
-      /**
-       * A hint to the user of what can be entered in the field.
-       */
-      - emptyText (String) i18n
-      
-      /**
-       * Indicates if the field is in disabled state.
-       */
-      - disabled (Boolean)
-      
-      /**
-       * Indicates if the field is mandatory to be filled.
-       */
-      - required (Boolean)
-            
-      /**
-       * The name of the validator to be applied. E.g. ``foundation.jcr.name``.
-       * See :doc:`validation </jcr_root/libs/granite/ui/components/coral/foundation/clientlibs/foundation/js/validation/index>` in Granite UI.
-       */
-      - validation (String) multiple
-      
-      /**
-       * Indicates if the user is able to select multiple selections.
-       */
-      - multiple (Boolean)
-      
-      /**
-       * Indicates if the user must only select from the list of given options.
-       * If it is not forced, the user can enter arbitrary value.
-       */
-      - forceSelection (Boolean)
-      
-      /**
-       * ``true`` to generate the `SlingPostServlet @Delete <http://sling.apache.org/documentation/bundles/manipulating-content-the-slingpostservlet-servlets-post.html#delete>`_ hidden input based on the field name.
-       */
-      - deleteHint (Boolean) = true
-      
-      /**
-       * The URI Template that returns the suggestion markup.
-       *
-       * The default value is ``/mnt/overlay/granite/ui/content/coral/foundation/form/pathfield/suggestion{.offset,limit}.html?_charset_=utf-8&root=<rootPath>&filter=<filter>{&query}``.
-       *
-       * With the following variables resolved in the server:
-       *
-       * rootPath
-       *    The value of ``rootPath`` property.
-       *
-       * filter
-       *    The value of ``filter`` property.
-       */
-      - suggestionSrc (StringEL)
-      
-      /**
-       * The URL that returns the picker markup.
-       *
-       * The default value is ``/mnt/overlay/granite/ui/content/coral/foundation/form/pathfield/picker.html?_charset_=utf-8&root=<rootPath>&filter=<filter>&selectionCount=<selectionCount>``.
-       *
-       * With the following variables resolved in the server:
-       *
-       * rootPath
-       *    The value of ``rootPath`` property.
-       *
-       * filter
-       *    The value of ``filter`` property.
-       *
-       * selectionCount
-       *    If ``multiple`` property is ``true`` then ``multiple``; ``single`` otherwise.
-       */
-      - pickerSrc (StringEl) mandatory
-      
-      /**
-       * The path of the root of the pathfield.
-       */
-      - rootPath (StringEL) = '/' mandatory
-      
-      /**
-       * The filter applied to suggestion and picker.
-       *
-       * Valid values are:
-       *
-       * folder
-       *    Shows only ``nt:folder`` nodes.
-       *
-       * hierarchy
-       *    Shows only ``nt:hierarchyNode`` nodes.
-       *
-       * hierarchyNotFile
-       *    Shows only ``nt:hierarchyNode`` nodes that are not ``nt:file``.
-       *
-       * nosystem
-       *    Shows non-system nodes: ``!node.getName().startsWith("rep:") && !node.getName().equals("jcr:system")``.
-       */
-      - filter (String) = 'hierarchyNotFile' mandatory < 'folder', 'hierarchy', 'hierarchyNotFile', 'nosystem'
-###--%><%
+					org.apache.sling.api.request.RequestParameterMap" %><%
 
     Config cfg = cmp.getConfig();
     ValueMap vm = (ValueMap) request.getAttribute(Field.class.getName());
     Field field = new Field(cfg);
-    
-    ExpressionHelper ex = cmp.getExpressionHelper();
-    
+
     final String[] values = vm.get("value", String[].class);
     
     final String name = cfg.get("name", String.class);
 	String requestURL = request.getRequestURL().toString();
-	String truncatedPath = requestURL.replaceAll(".*_cq_dialog\\.html","");
+	String requestItem = request.getParameter("item");
+	String truncatedPath = requestItem != null ? requestItem : requestURL.replaceAll(".*_cq_dialog\\.html","");
 	String customRootPath = "/";
 	String[] contentItems = truncatedPath.split("/");
 	if(contentItems.length > 2){
         customRootPath = "/" + contentItems[1] + "/" + contentItems[2];
 	}
+    boolean mixed = field.isMixed(cmp.getValue());
 
-
-
-final String rootPath = ex.getString(cfg.get("rootPath", customRootPath));
-    final String filter = cfg.get("filter", "hierarchyNotFile");
-    final boolean multiple = cfg.get("multiple", false);
+    String predicate = cfg.get("predicate", "hierarchyNotFile"); // 'folder', 'hierarchy', 'hierarchyNotFile' or 'nosystem'
+    String rootPath = cmp.getExpressionHelper().getString(cfg.get("rootPath", customRootPath));
+    String defaultPickerSrc = "/libs/wcm/core/content/common/pathbrowser/column.html" + Text.escapePath(rootPath) + "?predicate=" + Text.escape(predicate);
     
-    final String selectionCount = multiple ? "multiple" : "single";
+    String crumbRoot = cfg.get("crumbRoot", String.class);
+    if (crumbRoot == null) {
+        Resource rootResource = resourceResolver.getResource(rootPath);
+        if (rootResource != null) {
+            crumbRoot = rootResource.getValueMap().get("jcr:title", rootResource.getName());
+        }
 
-    final String defaultPickerSrc = "/mnt/overlay/granite/ui/content/coral/foundation/form/pathfield/picker.html?_charset_=utf-8&root=" + Text.escape(rootPath) + "&filter=" + Text.escape(filter) + "&selectionCount=" + Text.escape(selectionCount);    
-    final String pickerSrc = ex.getString(cfg.get("pickerSrc", defaultPickerSrc));
-    
-    final String defaultSuggestionSrc = "/mnt/overlay/granite/ui/content/coral/foundation/form/pathfield/suggestion{.offset,limit}.html?_charset_=utf-8&root=" + Text.escape(rootPath) + "&filter=" + Text.escape(filter) + "{&query}";
-    final String suggestionSrc = ex.getString(cfg.get("suggestionSrc", defaultSuggestionSrc));
+        if (StringUtils.isEmpty(crumbRoot)) {
+            crumbRoot = i18n.get("Home");
+        }
+    }
     
     Tag tag = cmp.consumeTag();
     AttrBuilder attrs = tag.getAttrs();
-    cmp.populateCommonAttrs(attrs);
 
-    attrs.add("name", name);
-    attrs.add("placeholder", i18n.getVar(cfg.get("emptyText", String.class)));
-    attrs.addDisabled(cfg.get("disabled", false));
-    attrs.addBoolean("multiple", multiple);
-    attrs.addBoolean("required", cfg.get("required", false));
-    attrs.addBoolean("forceselection", cfg.get("forceSelection", false));
-    attrs.addHref("pickersrc", pickerSrc);
+    attrs.add("id", cfg.get("id", String.class));
+    attrs.addClass(cfg.get("class", String.class));
+    attrs.addRel(cfg.get("rel", String.class));
+    attrs.add("title", i18n.getVar(cfg.get("title", String.class)));
     
-    if (multiple) {
-        attrs.add("valuedisplaymode", "block");
+    attrs.addClass("coral-PathBrowser");
+    attrs.add("data-init", "pathbrowser");
+    attrs.add("data-root-path", rootPath);
+    attrs.add("data-option-loader", cfg.get("optionLoader", "granite.ui.pathBrowser.pages." + predicate));
+    attrs.add("data-option-loader-root", cfg.get("optionLoaderRoot", String.class));
+    attrs.add("data-option-value-reader", cfg.get("optionValueReader", String.class));
+    attrs.add("data-option-title-reader", cfg.get("optionTitleReader", String.class));
+    attrs.add("data-option-renderer", cfg.get("optionRenderer", String.class));
+	attrs.add("data-autocomplete-callback", cfg.get("autocompleteCallback", String.class));
+    attrs.addHref("data-picker-src", cfg.get("pickerSrc", defaultPickerSrc));
+    if (cfg.get("pickerTitle", String.class) != null) {
+        attrs.add("data-picker-title", i18n.getVar(cfg.get("pickerTitle", String.class)));
+    } else {
+        attrs.add("data-picker-title", i18n.get("Select Path"));
+    }
+    attrs.add("data-picker-value-key", cfg.get("pickerValueKey", String.class));
+    attrs.add("data-picker-id-key", cfg.get("pickerIdKey", String.class));
+    attrs.add("data-crumb-root", crumbRoot);
+    attrs.add("data-picker-multiselect", cfg.get("pickerMultiselect", false));
+    attrs.add("data-root-path-valid-selection", cfg.get("rootPathValidSelection", true));
+    
+    if (cfg.get("disabled", false)) {
+        attrs.add("data-disabled", true);
+    }
+
+    if (mixed) {
+        attrs.addClass("foundation-field-mixed");
+    }
+
+    attrs.addOthers(cfg.getProperties(),
+            "id", "class", "rel", "title",
+            "name", "value", "emptyText", "disabled", "required", "validation",
+            "predicate", "rootPath", "optionLoader", "optionLoaderRoot", "optionValueReader", "optionTitleReader", "optionRenderer", "autocompleteCallback",
+            "crumbRoot", "pickerSrc", "pickerTitle", "pickerValueKey", "pickerIdKey", "pickerMultiselect", "rootPathValidSelection",
+            "icon", "fieldLabel", "fieldDescription", "renderReadOnly", "ignoreData");
+
+    AttrBuilder inputAttrs = new AttrBuilder(request, xssAPI);
+    inputAttrs.addClass("coral-InputGroup-input coral-Textfield");
+    inputAttrs.addClass("js-coral-pathbrowser-input");
+    inputAttrs.add("type", "text");
+    inputAttrs.add("name", cfg.get("name", String.class));
+    inputAttrs.add("autocomplete", "off");
+
+    if (mixed) {
+        inputAttrs.add("placeholder", i18n.get("<Mixed Entries>"));
+    } else {
+        inputAttrs.add("value", vm.get("value", String.class));
+        inputAttrs.add("placeholder", i18n.getVar(cfg.get("emptyText", String.class)));
+    }
+
+    if (cfg.get("required", false)) {
+        inputAttrs.add("aria-required", true);
     }
     
-    attrs.add("data-foundation-validation", StringUtils.join(cfg.get("validation", new String[0]), " "));
-    
-    AttrBuilder suggestionAttrs = new AttrBuilder(request, xssAPI);
-    suggestionAttrs.add("foundation-autocomplete-suggestion", "");
-    suggestionAttrs.addClass("foundation-picker-buttonlist");
-    suggestionAttrs.add("data-foundation-picker-buttonlist-src", request.getContextPath() + suggestionSrc);
-    
-    AttrBuilder valueAttrs = new AttrBuilder(request, xssAPI);
-    valueAttrs.add("foundation-autocomplete-value", "");
-    valueAttrs.add("name", name);
+    String validation = StringUtils.join(cfg.get("validation", new String[0]), " ");
+    inputAttrs.add("data-validation", validation);
 
-%><foundation-autocomplete <%= attrs %>>
-    <coral-overlay <%= suggestionAttrs %>></coral-overlay>
-    <coral-taglist <%= valueAttrs %>><%
-        for (String value : values) {
-            %><coral-tag value="<%= xssAPI.encodeForHTMLAttr(value) %>"><%= xssAPI.encodeForHTML(value) %></coral-tag><%
-        }
-    %></coral-taglist><%
-
-    if (!StringUtils.isBlank(name)) {
-        if (cfg.get("deleteHint", true)) {
-            AttrBuilder deleteAttrs = new AttrBuilder(request, xssAPI);
-            deleteAttrs.addClass("foundation-field-related");
-            deleteAttrs.add("type", "hidden");
-            deleteAttrs.add("name", name + "@Delete");
-            
-            %><input <%= deleteAttrs %>><%
-        }
+    AttrBuilder browseBtnAttrs = new AttrBuilder(request, xssAPI);
+    browseBtnAttrs.addClass("coral-Button coral-Button--square js-coral-pathbrowser-button");
+    browseBtnAttrs.add("type", "button");
+    browseBtnAttrs.add("title", i18n.get("Browse") );
+    if(cfg.get("hideBrowseBtn", false)){
+        browseBtnAttrs.add("hidden","");
     }
-%></foundation-autocomplete>
+
+%><span <%= attrs.build() %>>
+    <span class="coral-InputGroup coral-InputGroup--block">
+        <input <%= inputAttrs.build() %>>
+        <span class="coral-InputGroup-button">
+            <button <%= browseBtnAttrs.build() %>>
+                <i class="coral-Icon coral-Icon--sizeS <%= xssAPI.encodeForHTMLAttr(cmp.getIconClass(cfg.get("icon", "icon-folderSearch"))) %>"></i>
+            </button>
+        </span>
+    </span>
+</span>

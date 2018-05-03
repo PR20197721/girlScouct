@@ -27,21 +27,25 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="The right section of the header will be delicated to sharing. Check this when the header is on top of the page"
                                 name="./shareSection"
-                                value="{Boolean}true"
+                                text="Right Share Section"
                                 uncheckedValue="{Boolean}false"
-                                text="Right Share Section"/>
+                                value="{Boolean}true"/>
                             <sharesection-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./shareSection@Delete"
                                 value="{Boolean}true"/>
                             <icon
-								jcr:primaryType="nt:unstructured"
-								sling:resourceType = "girlscouts-common/components/icon-picker"       									
-								fieldLabel="Icon"
-								name = "./icon">       									
-								<datasource jcr:primaryType="nt:unstructured" sortby="text" type="icons" sling:resourceType="girlscouts-common/components/datasource"/>
-							</icon>
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="girlscouts-common/components/icon-picker"
+                                fieldLabel="Icon"
+                                name="./icon">
+                                <datasource
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="girlscouts-common/components/datasource"
+                                    sortby="text"
+                                    type="icons"/>
+                            </icon>
                             <sharetext
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
@@ -50,7 +54,7 @@
                                 name="./sharetext"/>
                             <sharelink
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Link in the share section"
                                 name="./sharelink"/>
                         </items>
@@ -69,7 +73,7 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                             <text
+                            <text
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/text"
                                 text="Important: If this component is in the page, please shrink your browser to a smaller size (width smaller than 640px) until you see another header. You will also need to configure that header"/>
@@ -87,11 +91,11 @@
                                 name="./maintext"/>
                             <cookieboothpath
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="This path defines the result page. If this path is left empty, the cookie-finder will not work"
                                 fieldLabel="Link in the Cookie Booth"
                                 name="./cookieboothlink"
-                                required="false"/>
+                                required="true"/>
                         </items>
                     </columns>
                 </items>
@@ -108,25 +112,25 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-			            	<file
-								jcr:primaryType="nt:unstructured"
-				                jcr:title="File"
-								sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-								autoStart="{Boolean}false"
-								class="cq-droptarget"
-								fieldLabel="Image asset"
-								fileNameParameter="./thumbnail/fileName"
-								fileReferenceParameter="./thumbnail/fileReference"
-								mimeTypes="[image]"
-								multiple="{Boolean}false"
-								name="./file"
-								title="Image"
-								uploadUrl="${suffix.path}"
-								useHTML5="{Boolean}true"/>
-						</items>
-					</columns>
-				</items>
-			</image>
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="File"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./thumbnail/fileName"
+                                fileReferenceParameter="./thumbnail/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./file"
+                                title="Image"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </image>
             <mobileimage
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Mobile Image"
@@ -139,24 +143,24 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-			            	<file
-								jcr:primaryType="nt:unstructured"
-				                jcr:title="File"
-								sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-								autoStart="{Boolean}false"
-								class="cq-droptarget"
-								fieldLabel="Image asset"
-								fileNameParameter="./mobileimage/fileName"
-								fileReferenceParameter="./mobileimage/fileReference"
-								mimeTypes="[image]"
-								multiple="{Boolean}false"
-								name="./mobilefile"
-								title="Image"
-								uploadUrl="${suffix.path}"
-								useHTML5="{Boolean}true"/>
-			            </items>
-            		</columns>
-            	</items>
+                            <file
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="File"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./mobileimage/fileName"
+                                fileReferenceParameter="./mobileimage/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./mobilefile"
+                                title="Image"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
             </mobileimage>
         </items>
     </content>

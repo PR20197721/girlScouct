@@ -31,18 +31,18 @@
                                 name="./noResultsText"/>
                             <searchIn
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="(Default Search location /content/gsusa/en/)"
                                 fieldLabel="Path to search content"
-                                rootPath="/content"
-                                name="./searchIn"/>
+                                name="./searchIn"
+                                rootPath=""/>
                             <docsrchpath
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="(Default /content/dam/gsusa/documents)"
                                 fieldLabel="Path to search documents"
-                                rootPath="/content/dam"
-                                name="./docusrchpath"/>
+                                name="./docusrchpath"
+                                rootPath="/content/dam"/>
                         </items>
                     </columns>
                 </items>

@@ -23,26 +23,26 @@
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <news-type
-					            jcr:primaryType="nt:unstructured"
-					            fieldDescription="Cookie pages have special headers, footers and third column."
-					            fieldLabel="Is Cookie Page"
-					            name="./newstype"
-					            sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup">
-					            <items jcr:primaryType="nt:unstructured">
-					                <none
-					                    jcr:primaryType="nt:unstructured"
-					                    text="None"
-                                		value="None"/>
-					                <text
-					                    jcr:primaryType="nt:unstructured"
-					                    text="Text"
-                                		value="Text"/>
-					                <image
-					                    jcr:primaryType="nt:unstructured"
-					                    text="Image"
-                                		value="Image"/>
-					            </items>
-					        </news-type>
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup"
+                                fieldDescription="Choose one type of Breaking News."
+                                fieldLabel="Show"
+                                name="./newstype">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <none
+                                        jcr:primaryType="nt:unstructured"
+                                        text="None"
+                                        value="None"/>
+                                    <text
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Text"
+                                        value="Text"/>
+                                    <image
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Image"
+                                        value="Image"/>
+                                </items>
+                            </news-type>
                             <alert
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
@@ -63,7 +63,7 @@
                                 name="./textcolor"/>
                             <url
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="(Optional) Enter a URL to link to, e.g. http://girlscouts.org"
                                 fieldLabel="URL"
                                 name="./url"/>
@@ -77,7 +77,7 @@
                     </columns>
                 </items>
             </properties>
-             <file
+            <file
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Image"
                 sling:resourceType="granite/ui/components/foundation/container">
@@ -89,25 +89,25 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-				            <image
-								jcr:primaryType="nt:unstructured"
-						        jcr:title="File"
-								sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-								autoStart="{Boolean}false"
-								class="cq-droptarget"
-								fieldLabel="Image asset"
-								fileNameParameter="./thumbnail/fileName"
-								fileReferenceParameter="./thumbnail/fileReference"
-								mimeTypes="[image]"
-								multiple="{Boolean}false"
-								name="./file"
-								title="Image"
-								uploadUrl="${suffix.path}"
-								useHTML5="{Boolean}true"/>
-						</items>
-					</columns>
-				</items>
-			</file>
+                            <image
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="File"
+                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                autoStart="{Boolean}false"
+                                class="cq-droptarget"
+                                fieldLabel="Image asset"
+                                fileNameParameter="./thumbnail/fileName"
+                                fileReferenceParameter="./thumbnail/fileReference"
+                                mimeTypes="[image]"
+                                multiple="{Boolean}false"
+                                name="./file"
+                                title="Image"
+                                uploadUrl="${suffix.path}"
+                                useHTML5="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </file>
         </items>
     </content>
 </jcr:root>

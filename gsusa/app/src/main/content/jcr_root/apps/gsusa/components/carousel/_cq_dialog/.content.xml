@@ -42,16 +42,16 @@
                                             name="title"/>
                                         <imagepath
                                             jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                            sling:resourceType="girlscouts/components/form/pathfield"
                                             fieldLabel="Image Path"
-                                            rootPath="/content/dam"
-                                            name="imagepath"/>
+                                            name="imagepath"
+                                            rootPath="/content/dam"/>
                                         <url
                                             jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                            sling:resourceType="girlscouts/components/form/pathfield"
                                             fieldLabel="Link"
-                                            rootPath="/content"
-                                            name="link"/>
+                                            name="link"
+                                            rootPath="/content"/>
                                         <alt
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/form/textfield"
@@ -62,8 +62,8 @@
                                             sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
                                             name="newWindow"
                                             text="Open In New Window"
-                                            value="{Boolean}true"
-                                			uncheckedValue="{Boolean}false"/>
+                                            uncheckedValue="{Boolean}false"
+                                            value="{Boolean}true"/>
                                         <newwindow-delete
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -74,8 +74,8 @@
                                             sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
                                             name="tempHidden"
                                             text="Temporarily Hidden"
-                                            value="{Boolean}true"
-                                			uncheckedValue="{Boolean}false"/>
+                                            uncheckedValue="{Boolean}false"
+                                            value="{Boolean}true"/>
                                         <tempHidden-delete
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -102,7 +102,7 @@
                         <items jcr:primaryType="nt:unstructured">
                             <bgImage
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Background Image"
                                 name="./blogbgimage"
                                 rootPath="/content/dam/girlscouts-gsusa"/>
@@ -157,8 +157,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./homecarouselautoscroll"
                                 text="Auto Scroll"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <autoscroll-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -267,8 +267,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./hideZIPCode"
                                 text="Hide ZIPCode"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <hidezipcode-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

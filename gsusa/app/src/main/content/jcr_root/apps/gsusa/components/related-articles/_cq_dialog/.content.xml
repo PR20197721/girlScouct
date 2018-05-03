@@ -29,22 +29,22 @@
                                 name="./title"/>
                             <article1
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Article 1"
                                 name="./article1"
-                                rootPath="/content/gsusa/en"/>
+                                rootPath="/content/gsusa"/>
                             <article2
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Article 2"
                                 name="./article2"
-                                rootPath="/content/gsusa/en"/>
+                                rootPath="/content/gsusa"/>
                             <article3
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldLabel="Article 3"
                                 name="./article3"
-                                rootPath="/content/gsusa/en"/>
+                                rootPath="/content/gsusa"/>
                             <articletags
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/common/tagspicker"

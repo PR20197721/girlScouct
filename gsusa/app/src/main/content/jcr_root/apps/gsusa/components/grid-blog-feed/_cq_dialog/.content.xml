@@ -46,7 +46,7 @@
                                 value="10"/>
                             <iconurl
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="Path of icon"
                                 fieldLabel="Icon URL"
                                 name="./iconurl"
@@ -74,9 +74,9 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 fieldDescription="Check to display text only and not show images"
                                 name="./textonly"
+                                text="Text Only"
                                 uncheckedValue="{Boolean}false"
-		                        value="{Boolean}true"
-                                text="Text Only"/>
+                                value="{Boolean}true"/>
                         </items>
                     </columns>
                 </items>
@@ -93,9 +93,10 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <desktopdisplay jcr:primaryType="nt:unstructured" 
-                            	sling:resourceType="granite/ui/components/coral/foundation/text" 
-                            	text="Styling configuration for desktop view where width of the page is greater than 768px. Please refresh page if style hasn't updated."/>
+                            <desktopdisplay
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/text"
+                                text="Styling configuration for desktop view where width of the page is greater than 768px. Please refresh page if style hasn't updated."/>
                             <desktopheight
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
@@ -173,9 +174,10 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <mobiledisplay  jcr:primaryType="nt:unstructured" 
-                            	sling:resourceType="granite/ui/components/coral/foundation/text" 
-                            	text="Styling configuration for mobile view. Please refresh page if style hasn't updated."/>
+                            <mobiledisplay
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/text"
+                                text="Styling configuration for mobile view. Please refresh page if style hasn't updated."/>
                             <mobileheight
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"

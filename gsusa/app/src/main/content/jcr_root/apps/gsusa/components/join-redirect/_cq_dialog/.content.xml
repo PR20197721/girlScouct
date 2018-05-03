@@ -56,7 +56,7 @@
                                 autoStart="{Boolean}false"
                                 class="cq-droptarget"
                                 fieldLabel="Logo"
-    							   fileNameParameter="./logo/fileName"
+                                fileNameParameter="./logo/fileName"
                                 fileReferenceParameter="./logo/fileReference"
                                 mimeTypes="[image]"
                                 multiple="{Boolean}false"
@@ -99,7 +99,7 @@
                                 fieldLabel="Slider Images">
                                 <field
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                    sling:resourceType="girlscouts/components/form/pathfield"
                                     name="./images"
                                     rootPath="/content/dam"/>
                             </images>
@@ -155,7 +155,7 @@
                                 autoStart="{Boolean}false"
                                 class="cq-droptarget"
                                 fieldLabel="Mobile Logo"
-    							   fileNameParameter="./logomobile/fileName"
+                                fileNameParameter="./logomobile/fileName"
                                 fileReferenceParameter="./logomobile/fileReference"
                                 mimeTypes="[image]"
                                 multiple="{Boolean}false"
@@ -169,7 +169,7 @@
                                 autoStart="{Boolean}false"
                                 class="cq-droptarget"
                                 fieldLabel="Mobile Banner"
-    							   fileNameParameter="./bannermobile/fileName"
+                                fileNameParameter="./bannermobile/fileName"
                                 fileReferenceParameter="./bannermobile/fileReference"
                                 mimeTypes="[image]"
                                 multiple="{Boolean}false"
