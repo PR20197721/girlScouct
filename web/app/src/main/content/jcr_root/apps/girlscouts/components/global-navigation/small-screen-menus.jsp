@@ -82,7 +82,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
    			request.setAttribute("globalNavigation", links);
    			String insertAfter="";
    			String currTitle = currentPage.getTitle();
-   			String eventPath = currentSite.get("eventPath", String.class);
+   			String eventPath = currentSite.get("eventPath", "");
    			String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
    			String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
    			// TODO: Manu: please fix
