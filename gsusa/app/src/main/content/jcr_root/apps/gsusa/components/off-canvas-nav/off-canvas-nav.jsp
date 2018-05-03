@@ -22,8 +22,8 @@
 	}
 	StringBuilder sb = new StringBuilder();
     sb.append("<nav class=\"right-off-canvas-menu\" tabindex=\"-1\">");
+	sb.append("<ul class=\"off-canvas-list\">");
     if(headerNavs != null && headerNavs.getSize() > 0){
-    	sb.append("<ul class=\"off-canvas-list\">");
     	while(headerNavs.hasNext()){
     		Node nav = headerNavs.nextNode();    		
 			Boolean hideInMobile = nav.hasProperty("hide-in-mobile") ? nav.getProperty("hide-in-mobile").getBoolean() : false;			
@@ -31,16 +31,14 @@
 				buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb);
 			}
     	}
-    	sb.append("</ul>");
     }
 	if(eyebrowNavs != null && eyebrowNavs.getSize() > 0){
-		sb.append("<ul class=\"off-canvas-list\">");
 		while(eyebrowNavs.hasNext()){
 			Node nav = eyebrowNavs.nextNode();    
 			buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb);
     	}
-		sb.append("</ul>");
     }    
+    	sb.append("</ul>");
 	sb.append("</nav>");
 %>
 
@@ -71,8 +69,8 @@
 				}
 			}
 			String target = newWindow ? "target=\"_blank\"" : "target=\"_self\"";
-			boolean active = currentPath.startsWith(rePath(path,4));
-			if (active) {
+			boolean active = currentPath.startsWith(path);
+            if (active) {
 				sb.append("<li class=\"active\" tabindex=\"-1\">");
 			}else{
 				sb.append("<li tabindex=\"-1\">");
@@ -84,7 +82,7 @@
 		    }
 			if (active) {
 				String topMenuPath = path.substring(0,path.lastIndexOf("/"));
-	            if(rootLandingPage) {
+	            if(isRootLandingPage(path)) {
 	        		topMenuPath = path;	// if root page is landing page then no need to get one above
 	        	}
 	            Page topMenuPathPage = rr.resolve(topMenuPath).adaptTo(Page.class);
@@ -96,6 +94,14 @@
 		}
 	}
 
+	public boolean isRootLandingPage(String path){
+        boolean result=false;
+        if(path != null){
+			String[] array = path.split("/");
+            result = (array.length == 5);
+        }
+        return result;
+	}
 
     public String genLink(ResourceResolver rr, String link) {
         // This is a Page resource but yet not end with ".html": append ".html"
@@ -143,7 +149,7 @@
                 sb.append("<a href=\"" + page.getPath() + ".html\">");
                 sb.append(title);
                 sb.append("</a>");
-                
+
                 if (isActive) {
                     buildMenu(page, currentPath, sb);
                 }
