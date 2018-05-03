@@ -63,6 +63,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.activation.FileDataSource;
@@ -185,6 +187,8 @@ public class GSMailServlet
                           SlingHttpServletResponse response)
             throws ServletException, IOException {
 
+    	System.out.println("GSMAIL SERVLET!!");
+
         final MailService localService = this.mailService;
 
         //Double check that the request should be accepted since it is possible to
@@ -211,7 +215,7 @@ public class GSMailServlet
             logger.error("The mailto configuration is missing in the form begin at " + request.getResource().getPath());
 
             status = 500;
-        } else if (localService == null) {
+        } else if (false && localService == null) {
             logger.error("The mail service is currently not available! Unable to send form mail.");
 
             status = 500;
@@ -357,7 +361,7 @@ public class GSMailServlet
                     this.logger.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
                             new Object[]{fromAddress, mailTo, subject, buffer});
                 }
-                localService.sendEmail(email);
+                //localService.sendEmail(email);
                 
                 	serviceParams = new HashMap<String, Object>();
         			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
@@ -373,51 +377,71 @@ public class GSMailServlet
                     String contentPath = values.get("action", null);
                     logger.error("####################Content path is: " + contentPath);
                     if(contentPath != null && !contentPath.isEmpty()) {
-                    		Node contentBaseNode = null;
-                    		Resource contentResource = rr.getResource(contentPath);
-                    		if(contentResource == null) {
-                    			contentBaseNode = getFormStorageNode(rr.getResource("/content/usergenerated").adaptTo(Node.class), contentPath);
-                    		} else {
-                    			contentBaseNode = contentResource.adaptTo(Node.class);
-                    		}
-                    		Date now = new Date();
-                    		Random rand = new Random();
-                    		String nodeId = now.getTime() + "_" + rand.nextInt(50);
-                    		Node submissionNode = contentBaseNode.addNode(nodeId, "sling:Folder");
-                    		
-                    		Enumeration<String> paramNames = request.getParameterNames();
-                    		while(paramNames.hasMoreElements()) {
-                    			String n = paramNames.nextElement();
-                    			logger.error("################PARAM NAME IS: " + n);
-                    			
-                    			if(!n.contains(":") && !n.equals("_charset_") && !n.equals("Submit") && !n.equals("file-upload-max-size")) {
-                    				RequestParameter param = request.getRequestParameter(n);
-                    				if(param.getContentType() == null) {
-                    					String val = param.getString();
-                    			
-                    					submissionNode.setProperty(n,val);
-                    				} else {
-                    					if(param.getSize() > 0) {
-                    						String val = param.getFileName();
-                    						submissionNode.setProperty(n, val);
-                    					}
-                    				}
-                    			}
-                    			
-                    			
-                    		}
-                    		logger.error("Submission Node path is: " + submissionNode.getPath());
-                    		submissionNode.save();
-                    		Set<String> runmodes = slingSettings.getRunModes();
-                    		boolean isPublish = false;
-                    		for(String mode : runmodes) {
-                    			if(mode.equalsIgnoreCase("publish")) {
-                    				isPublish = true;
-                    			}
-                    		}
-                    		if(isPublish) {
-                    			replicator.replicate(contentBaseNode.getSession(), ReplicationActionType.INTERNAL_POLL, submissionNode.getPath());
-                    		}
+						Node contentBaseNode = null;
+						Resource contentResource = rr.getResource(contentPath);
+						if(contentResource == null) {
+							contentBaseNode = getFormStorageNode(rr.getResource("/content/usergenerated").adaptTo(Node.class), contentPath);
+						} else {
+							contentBaseNode = contentResource.adaptTo(Node.class);
+						}
+						Date now = new Date();
+						Random rand = new Random();
+						String nodeId = now.getTime() + "_" + rand.nextInt(50);
+						Node submissionNode = contentBaseNode.addNode(nodeId, "sling:Folder");
+
+						Enumeration<String> paramNames = request.getParameterNames();
+						Map<String, List<String>> paramMap = new HashMap<>();
+						while(paramNames.hasMoreElements()) {
+							String n = paramNames.nextElement();
+							logger.error("################PARAM NAME IS: " + n);
+
+							if(!n.contains(":") && !n.equals("_charset_") && !n.equals("Submit") && !n.equals("file-upload-max-size")) {
+								for(RequestParameter param : Arrays.asList(request.getRequestParameters(n))) {
+									if (param.getContentType() == null) {
+										System.out.println("Processing param: " + n);
+										List<String> valLst = new ArrayList<>(1);
+										valLst.add(param.getString());
+										paramMap.merge(n, valLst, (l1, l2) -> {
+											l1.addAll(l2);
+											return l1;
+										});
+									} else {
+										if (param.getSize() > 0) {
+											String val = param.getFileName();
+											submissionNode.setProperty(n, val);
+										}
+									}
+								}
+							}
+						}
+
+						System.out.println("Sumbmission Arr: " + paramMap);
+						for(Map.Entry<String, List<String>> entry : paramMap.entrySet()) {
+							if(entry.getValue().size() > 1) {
+								Object[] objVals = entry.getValue().toArray();
+								String[] strVals = new String[objVals.length];
+								for(int i = 0; i < objVals.length; i++){
+									strVals[i] = Optional.ofNullable(objVals[i]).map(Object::toString).orElse(null);
+								}
+								submissionNode.setProperty(entry.getKey(), strVals);
+							}else {
+								submissionNode.setProperty(entry.getKey(), entry.getValue().get(0));
+							}
+						}
+
+
+						logger.error("Submission Node path is: " + submissionNode.getPath());
+						submissionNode.save();
+						Set<String> runmodes = slingSettings.getRunModes();
+						boolean isPublish = false;
+						for(String mode : runmodes) {
+							if(mode.equalsIgnoreCase("publish")) {
+								isPublish = true;
+							}
+						}
+						if(isPublish) {
+							replicator.replicate(contentBaseNode.getSession(), ReplicationActionType.INTERNAL_POLL, submissionNode.getPath());
+						}
                     }
                 }
                 
