@@ -187,8 +187,6 @@ public class GSMailServlet
                           SlingHttpServletResponse response)
             throws ServletException, IOException {
 
-    	System.out.println("GSMAIL SERVLET!!");
-
         final MailService localService = this.mailService;
 
         //Double check that the request should be accepted since it is possible to
@@ -398,7 +396,6 @@ public class GSMailServlet
 							if(!n.contains(":") && !n.equals("_charset_") && !n.equals("Submit") && !n.equals("file-upload-max-size")) {
 								for(RequestParameter param : Arrays.asList(request.getRequestParameters(n))) {
 									if (param.getContentType() == null) {
-										System.out.println("Processing param: " + n);
 										List<String> valLst = new ArrayList<>(1);
 										valLst.add(param.getString());
 										paramMap.merge(n, valLst, (l1, l2) -> {
@@ -415,7 +412,6 @@ public class GSMailServlet
 							}
 						}
 
-						System.out.println("Sumbmission Arr: " + paramMap);
 						for(Map.Entry<String, List<String>> entry : paramMap.entrySet()) {
 							if(entry.getValue().size() > 1) {
 								Object[] objVals = entry.getValue().toArray();
