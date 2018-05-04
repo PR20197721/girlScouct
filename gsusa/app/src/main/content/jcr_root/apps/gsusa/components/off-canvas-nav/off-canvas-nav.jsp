@@ -22,25 +22,24 @@
 	}
 	StringBuilder sb = new StringBuilder();
     sb.append("<nav class=\"right-off-canvas-menu\" tabindex=\"-1\">");
+	sb.append("<ul class=\"off-canvas-list\">");
+	List<String> topMenus = new ArrayList<String>();
     if(headerNavs != null && headerNavs.getSize() > 0){
-    	sb.append("<ul class=\"off-canvas-list\">");
     	while(headerNavs.hasNext()){
     		Node nav = headerNavs.nextNode();    		
 			Boolean hideInMobile = nav.hasProperty("hide-in-mobile") ? nav.getProperty("hide-in-mobile").getBoolean() : false;			
 			if(!hideInMobile) {				
-				buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb);
+				buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus);
 			}
     	}
-    	sb.append("</ul>");
     }
 	if(eyebrowNavs != null && eyebrowNavs.getSize() > 0){
-		sb.append("<ul class=\"off-canvas-list\">");
 		while(eyebrowNavs.hasNext()){
 			Node nav = eyebrowNavs.nextNode();    
-			buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb);
+			buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus);
     	}
-		sb.append("</ul>");
     }    
+    	sb.append("</ul>");
 	sb.append("</nav>");
 %>
 
@@ -50,7 +49,7 @@
     
 
 <%!
-	public void buildTopMenu(Node nav, String currentPath, ResourceResolver rr, StringBuilder sb) {
+	public void buildTopMenu(Node nav, String currentPath, ResourceResolver rr, StringBuilder sb, List<String> topMenus) {
 		try{
 			String label = nav.hasProperty("label") ? nav.getProperty("label").getString() : "";
 			String largeLabel = nav.hasProperty("large-label") ? nav.getProperty("large-label").getString() : "";
@@ -71,8 +70,8 @@
 				}
 			}
 			String target = newWindow ? "target=\"_blank\"" : "target=\"_self\"";
-			boolean active = currentPath.startsWith(rePath(path,4));
-			if (active) {
+			boolean active = currentPath.startsWith(rePath(path, 4));
+            if (active) {
 				sb.append("<li class=\"active\" tabindex=\"-1\">");
 			}else{
 				sb.append("<li tabindex=\"-1\">");
@@ -83,12 +82,13 @@
 		        sb.append("<a href=\"" + genLink(rr, path) + "\" title=\"" + label + "\" tabindex=\"-1\" "+target+">" + label + "</a>");
 		    }
 			if (active) {
-				String topMenuPath = path.substring(0,path.lastIndexOf("/"));
-	            if(rootLandingPage) {
-	        		topMenuPath = path;	// if root page is landing page then no need to get one above
-	        	}
-	            Page topMenuPathPage = rr.resolve(topMenuPath).adaptTo(Page.class);
-	            buildMenu(topMenuPathPage, currentPath, sb);
+				String topMenuPath = getTopMenuPath(path);		
+				if(!topMenus.contains(topMenuPath)){
+					topMenus.add(topMenuPath);
+					Page topMenuPathPage = rr.resolve(topMenuPath).adaptTo(Page.class);
+					//sb.append("<div>1 submenu for : "+topMenuPathPage.getPath()+"</div>");
+		            buildMenu(topMenuPathPage, currentPath, sb);
+				}	            
 			}
 			sb.append("</li>");  
 		}catch(Exception e){
@@ -96,6 +96,34 @@
 		}
 	}
 
+	public String getTopMenuPath(String path){
+	    String result="";
+	    if(path != null){
+			String[] array = path.split("/");
+	        if(array.length <= 5){
+	        	result = path;
+	        }else{
+	        	StringBuffer sb = new StringBuffer();
+	        	for(int i = 0; i<=4; i++){
+                    if(i>0){
+                    	sb.append("/");
+                    }
+	        		sb.append(array[i]);
+	        	}
+	        	result=sb.toString();
+	        }
+	    }
+	    return result;
+	}
+
+	public boolean isRootLandingPage(String path){
+        boolean result=false;
+        if(path != null){
+			String[] array = path.split("/");
+            result = (array.length == 5);
+        }
+        return result;
+	}
 
     public String genLink(ResourceResolver rr, String link) {
         // This is a Page resource but yet not end with ".html": append ".html"
@@ -143,7 +171,7 @@
                 sb.append("<a href=\"" + page.getPath() + ".html\">");
                 sb.append(title);
                 sb.append("</a>");
-                
+
                 if (isActive) {
                     buildMenu(page, currentPath, sb);
                 }

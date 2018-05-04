@@ -91,7 +91,7 @@ if (carouselItems.size() > 0) {
 </div>
 <%
 } else {%>
-<p>Please right click here to edit this right rail carousel.</p>
+<p>Please click here to edit this right rail carousel.</p>
 <% }
 %>
 
