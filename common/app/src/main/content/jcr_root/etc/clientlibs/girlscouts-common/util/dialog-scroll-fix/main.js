@@ -8,14 +8,43 @@
 					clickY,
 					elementinDrag;
 
-			
 				var updateScrollPos = function(e, element, dir) {
+
+					$('#__top').hide()
+					$('#__footer').hide()
+
+					var container = $('.cq-dialog-content').scrollTop();
 					var top = $('.cq-dialog-content').scrollTop() + dir * 25;
-					if (top < max - $(element).height()) {
+					
+					var min = $(element).parent('coral-multifield').offset().top + container;
+					var max = $(element).parent('coral-multifield').height() + min;
+
+					console.log('top',top,'min',min,'point', 'max' ,max,'top > min:',top > min,'top < max:',top < max);
+
+					var allColumn = $('.coral-TabPanel-content').height();
+					
+
+					if(top < max){
+						$('#__top').show()
+					}
+					if(top > min){	
+						$('#__footer').show();
+					}
+
+					if(top < max && top > min){
+						$('#__top').hide()
+						$('#__footer').hide()
+					}
+
+
+
+
+					if (top + $(element).height() +200 < allColumn ) {
 						$('.cq-dialog-content').scrollTop(top);
 					}
 				};
 
+				// $('.cq-dialog-content').append('<div id="__top">TOP</div><div id="__footer">footer</div>')
 
 				$('.coral-Multifield-item').on({
 					mousemove: function(e) {
@@ -23,10 +52,6 @@
 						var top = content.offset().top;
 						var place = content.height();
 						var updown;
-
-
-
-						console.log(top,place,e.pageY)
 
 						if (e.pageY-160 < (place+top) * 0.15) {
 							updown = -1;
@@ -36,7 +61,7 @@
 							updown = 1;
 						}
 
-						if (clicked) {
+						if (clicked && updown) {
 							updateScrollPos(e, this, updown);
 						}
 					},
@@ -44,31 +69,44 @@
 						clicked = true;
 						clickY = e.pageY;
 
+
 						$('coral-multifield-item.is-dragging').css(
 							'margin-top',
 							-44
 						);
 					},
-					mouseup: function() {
+					mouseup: function(e) {
 						clicked = false;
 						$('coral-multifield-item.is-dragging').css(
 							'margin-top',
 							''
 						);
+			
 					},
 				});
 
 				$(document).on('coral-dragaction:dragstart', function(e) {
 					// $('._drophere').remove();
-					$('coral-multifield-item')
-						.eq(0)
-						.before('<div   class="_drophere"></div>');
-					$('coral-multifield-item').after(
+
+					console.log(e)
+					
+					e.detail.dragElement.$
+					.parent()
+					.find('coral-multifield-item')
+					.eq(0)
+					.before('<div   class="_drophere"></div>');
+
+
+					e.detail.dragElement.$
+					.parent()
+					.find('coral-multifield-item')
+					.after(
 						'<div  class="_drophere"></div>'
 					);
 
-					e.detail.dragElement.$.next().remove();
+					e.detail.dragElement.$.next() && e.detail.dragElement.$.next().remove();
 					e.detail.dragElement.$.css('top', '0px');
+					e.detail.dragElement.$.parent('coral-multifield').addClass('__dropzoneOn');
 				});
 
 				$(document).on('coral-dragaction:drag', function(e) {
@@ -77,9 +115,10 @@
 
 				$(document).on('coral-dragaction:dragend', function(e) {
 					$('._drophere').remove();
+					e.detail.dragElement.$.parent('coral-multifield').removeClass('__dropzoneOn');
+					$('#__top').hide()
+					$('#__footer').hide()
 				});
-
-				var max = $('.coral-Multifield').height();
 
 				$(document).on('dialog-closed', function(s) {
 					$('.coral-Multifield-item').off('mousemove');

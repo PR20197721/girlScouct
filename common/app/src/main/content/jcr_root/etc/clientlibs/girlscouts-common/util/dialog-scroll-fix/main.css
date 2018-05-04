@@ -18,7 +18,32 @@
 }
 
 
-._drophere{
+.__dropzoneOn {
+    border: 1px solid #97bbdf;
+    box-shadow: 0px 0px 8px 0  #97bbdf;
+}
+
+#__top{
+    border-top: 1px solid #97bbdf;
+    position: absolute;
+    top: 52px;
+    width: 100%;
+    text-align: center;
+    background-color: blue;
+    display: none;
+}
+
+#__footer{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    background-color: red;
+    display:none;
+    border-bottom: 1px solid #97bbdf;
+}
+
+.__dropzoneOn  ._drophere{
     background-color: #e8f4ff;
     padding: 10px;
 
@@ -34,9 +59,5 @@
 }
 
 
-._drophere.over{
-    border: 1px solid blue;
-    background-color: #e8f4ff;
-}
 
 
