@@ -105,7 +105,10 @@
 	        }else{
 	        	StringBuffer sb = new StringBuffer();
 	        	for(int i = 0; i<=4; i++){
-	        		sb.append("/"+array[i]);
+                    if(i>0){
+                    	sb.append("/");
+                    }
+	        		sb.append(array[i]);
 	        	}
 	        	result=sb.toString();
 	        }
