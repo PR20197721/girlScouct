@@ -37,7 +37,7 @@
                                 rootPath="/content/gsusa"/>
                             <facebook-link
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="girlscouts/components/form/pathfield"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Facebook Link"
                                 name="./facebookLink"
                                 rootPath="/content/dam"/>
