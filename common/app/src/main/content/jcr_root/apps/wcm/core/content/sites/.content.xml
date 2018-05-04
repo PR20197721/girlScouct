@@ -32,12 +32,12 @@
                             action="foundation.link"
                             activeCondition="site.scaffolding"
                             relScope="collection"/>
-                        <bulkeditor
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="wcm/core/components/bulkeditor-actions"
-                            action="foundation.link"
-                            activeCondition="site.bulkeditor"
-                            relScope="collection"/>
+<!--                         <bulkeditor -->
+<!--                             jcr:primaryType="nt:unstructured" -->
+<!--                             sling:resourceType="wcm/core/components/bulkeditor-actions" -->
+<!--                             action="foundation.link" -->
+<!--                             activeCondition="site.bulkeditor" -->
+<!--                             relScope="collection"/> -->
                         <createcatalog jcr:primaryType="nt:unstructured">
                             <granite:rendercondition
                                     jcr:primaryType="nt:unstructured"
