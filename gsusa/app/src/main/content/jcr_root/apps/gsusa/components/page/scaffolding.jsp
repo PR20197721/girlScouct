@@ -26,7 +26,8 @@
 %><cq:defineObjects/><%
 
     // first check if the page has a scaffold specified
-    String scaffoldPath = pageProperties.get("cq:scaffolding", "");
+            String scaffoldPath = pageProperties.get("cq:scaffolding", "/etc/scaffolding");
+	System.out.println("Scaffolding path starts out as: " + scaffoldPath);
     if (scaffoldPath.length() == 0) {
         // search all scaffolds for the correct template
         // this should be improved and respect template + best content path
@@ -34,9 +35,11 @@
         Node root = scRoot == null ? null : scRoot.adaptTo(Node.class);
         if (root != null) {
             scaffoldPath = ScaffoldingUtils.findScaffoldByTemplate(root, pageProperties.get("cq:template", ""));
+            System.out.println("Scaffolding path found as: " + scaffoldPath);
             %><%= scaffoldPath %><%
             if (scaffoldPath == null) {
                 scaffoldPath = ScaffoldingUtils.findScaffoldByPath(root, currentPage.getPath());
+                System.out.println("Scaffolding path found by path as: " + scaffoldPath);
             }
         }
     }
@@ -44,6 +47,7 @@
         // use default
         scaffoldPath = "/etc/scaffolding";
     }
+System.out.println("Scaffolding path for this page is: " + scaffoldPath);
 Page root = resourceResolver.resolve(scaffoldPath).adaptTo(Page.class);
     scaffoldPath+="/jcr:content.html";
 Node scaffoldingRoot = root.adaptTo(Node.class);
