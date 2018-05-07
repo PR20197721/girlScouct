@@ -60,10 +60,9 @@ public  String readUrlFile(String urlString) throws Exception {
         NodeIterator iter = links.getNodes();
         while(iter.hasNext()){
             Node linkNode = iter.nextNode();
-            if(linkNode.hasProperty("title") 
-               && linkNode.hasProperty("imagepath")){
+            if(linkNode.hasProperty("title") && (linkNode.hasProperty("imagepath") || linkNode.hasProperty("link"))){
                 String title = linkNode.getProperty("title").getString();
-                String imagepath = linkNode.getProperty("imagepath").getString();
+                String imagepath = linkNode.hasProperty("imagepath") ? linkNode.getProperty("imagepath").getString():"";
 
                 String link = "";
                 if(linkNode.hasProperty("link")){

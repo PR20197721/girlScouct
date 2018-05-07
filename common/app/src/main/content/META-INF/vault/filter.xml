@@ -9,7 +9,8 @@
     <filter root="/apps/cq/core"/>
     <filter root="/apps/cq/ui/widgets/source/form/rte/plugins/LinkPlugin.js"/>
     <filter root="/apps/cq/xssprotection"/>
-    <filter root="/apps/dam"/>
+    <filter root="/apps/dam/content/asseteditors"/>
+    <filter root="/apps/dam/gui/content/assets"/>
     <filter root="/apps/foundation"/>
     <filter root="/apps/granite/core/components"/>
     <filter root="/apps/granite/core/content/cug-dxp-login"/>
