@@ -8,8 +8,9 @@
 					clickY,
 					elementinDrag;
 
-				var updateScrollPos = function(e, element, dir) {
 
+
+				var updateScrollPos = function(e, element, dir) {
 					$('#__top').hide()
 					$('#__footer').hide()
 
@@ -19,9 +20,10 @@
 					var min = $(element).parent('coral-multifield').offset().top + container;
 					var max = $(element).parent('coral-multifield').height() + min;
 
-					console.log('top',top,'min',min,'point', 'max' ,max,'top > min:',top > min,'top < max:',top < max);
 
-					var allColumn = $('.coral-TabPanel-content').height();
+
+
+					var allColumn = $(element).parents('.coral-Form-fieldwrapper').height();
 					
 
 					if(top < max){
@@ -44,16 +46,18 @@
 					}
 				};
 
-				// $('.cq-dialog-content').append('<div id="__top">TOP</div><div id="__footer">footer</div>')
+				// $('.cq-dialog-content').append('<div id="__top">TOP</div><div id="__footer">footer</div>') pending funtionality
+
 
 				$('.coral-Multifield-item').on({
 					mousemove: function(e) {
+						
 						var content = $('.cq-dialog-content');
 						var top = content.offset().top;
 						var place = content.height();
 						var updown;
 
-						if (e.pageY-160 < (place+top) * 0.15) {
+						if (e.pageY-160< (place+top) * 0.15) {
 							updown = -1;
 						}
 
@@ -77,18 +81,14 @@
 					},
 					mouseup: function(e) {
 						clicked = false;
-						$('coral-multifield-item.is-dragging').css(
-							'margin-top',
-							''
-						);
+				
 			
 					},
 				});
 
-				$(document).on('coral-dragaction:dragstart', function(e) {
-					// $('._drophere').remove();
 
-					console.log(e)
+
+				$(document).on('coral-dragaction:dragstart', function(e) {
 					
 					e.detail.dragElement.$
 					.parent()
@@ -115,9 +115,18 @@
 
 				$(document).on('coral-dragaction:dragend', function(e) {
 					$('._drophere').remove();
-					e.detail.dragElement.$.parent('coral-multifield').removeClass('__dropzoneOn');
+					
 					$('#__top').hide()
 					$('#__footer').hide()
+
+					$('coral-multifield-item').css(
+						'margin-top',
+						''
+					);
+					if(e.detail){
+						e.detail.dragElement.$.parent('coral-multifield').removeClass('__dropzoneOn');
+					}
+					
 				});
 
 				$(document).on('dialog-closed', function(s) {

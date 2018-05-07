@@ -2,7 +2,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%
-if(currentNode.hasNode("navs")){	
+if(currentNode != null && currentNode.hasNode("navs")){	
 	Node links = currentNode.getNode("navs");
     NodeIterator iter = links.getNodes();
     %><ul class="inline-list"><%
