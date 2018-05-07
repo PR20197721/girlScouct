@@ -11,7 +11,6 @@
 
 
 				var updateScrollPos = function(e, element, dir) {
-
 					$('#__top').hide()
 					$('#__footer').hide()
 
@@ -21,25 +20,10 @@
 					var min = $(element).parent('coral-multifield').offset().top + container;
 					var max = $(element).parent('coral-multifield').height() + min;
 
-					console.log('top',top,'min',min,'point', 'max' ,max,'top > min:',top > min,'top < max:',top < max);
 
 
-					// var _dialog = $(element).parents('.coral-Dialog-wrapper');	
-					
-					// var wrapper  = {
-					// 	width : _dialog.width(),
-					// 	height: _dialog.height(),
-					// 	top: _dialog.offset().top,
-					// 	left: _dialog.offset().left
-					// }
-					
-					// console.log('wrapper',wrapper)
-					// $('.coral-Dialog-wrapper').hover(function(e){},function(){
-					// 	$(document).trigger('coral-dragaction:dragend');
-					// })
 
-
-					var allColumn = $('.coral-TabPanel-content').height();
+					var allColumn = $(element).parents('.coral-Form-fieldwrapper').height();
 					
 
 					if(top < max){
@@ -67,12 +51,13 @@
 
 				$('.coral-Multifield-item').on({
 					mousemove: function(e) {
+						
 						var content = $('.cq-dialog-content');
 						var top = content.offset().top;
 						var place = content.height();
 						var updown;
 
-						if (e.pageY-160 < (place+top) * 0.15) {
+						if (e.pageY-160< (place+top) * 0.15) {
 							updown = -1;
 						}
 
@@ -104,9 +89,6 @@
 
 
 				$(document).on('coral-dragaction:dragstart', function(e) {
-					// $('._drophere').remove();
-
-					console.log(e)
 					
 					e.detail.dragElement.$
 					.parent()
@@ -132,7 +114,6 @@
 				});
 
 				$(document).on('coral-dragaction:dragend', function(e) {
-					console.log('dragend',e)
 					$('._drophere').remove();
 					
 					$('#__top').hide()
