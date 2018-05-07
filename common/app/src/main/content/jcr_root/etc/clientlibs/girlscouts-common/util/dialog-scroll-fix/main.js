@@ -8,6 +8,8 @@
 					clickY,
 					elementinDrag;
 
+
+
 				var updateScrollPos = function(e, element, dir) {
 
 					$('#__top').hide()
@@ -20,6 +22,22 @@
 					var max = $(element).parent('coral-multifield').height() + min;
 
 					console.log('top',top,'min',min,'point', 'max' ,max,'top > min:',top > min,'top < max:',top < max);
+
+
+					// var _dialog = $(element).parents('.coral-Dialog-wrapper');	
+					
+					// var wrapper  = {
+					// 	width : _dialog.width(),
+					// 	height: _dialog.height(),
+					// 	top: _dialog.offset().top,
+					// 	left: _dialog.offset().left
+					// }
+					
+					// console.log('wrapper',wrapper)
+					// $('.coral-Dialog-wrapper').hover(function(e){},function(){
+					// 	$(document).trigger('coral-dragaction:dragend');
+					// })
+
 
 					var allColumn = $('.coral-TabPanel-content').height();
 					
@@ -44,7 +62,8 @@
 					}
 				};
 
-				// $('.cq-dialog-content').append('<div id="__top">TOP</div><div id="__footer">footer</div>')
+				// $('.cq-dialog-content').append('<div id="__top">TOP</div><div id="__footer">footer</div>') pending funtionality
+
 
 				$('.coral-Multifield-item').on({
 					mousemove: function(e) {
@@ -77,13 +96,12 @@
 					},
 					mouseup: function(e) {
 						clicked = false;
-						$('coral-multifield-item.is-dragging').css(
-							'margin-top',
-							''
-						);
+				
 			
 					},
 				});
+
+
 
 				$(document).on('coral-dragaction:dragstart', function(e) {
 					// $('._drophere').remove();
@@ -114,10 +132,20 @@
 				});
 
 				$(document).on('coral-dragaction:dragend', function(e) {
+					console.log('dragend',e)
 					$('._drophere').remove();
-					e.detail.dragElement.$.parent('coral-multifield').removeClass('__dropzoneOn');
+					
 					$('#__top').hide()
 					$('#__footer').hide()
+
+					$('coral-multifield-item').css(
+						'margin-top',
+						''
+					);
+					if(e.detail){
+						e.detail.dragElement.$.parent('coral-multifield').removeClass('__dropzoneOn');
+					}
+					
 				});
 
 				$(document).on('dialog-closed', function(s) {
