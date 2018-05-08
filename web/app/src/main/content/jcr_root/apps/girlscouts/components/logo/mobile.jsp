@@ -1,6 +1,8 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
+
 <%
-String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
+String logoPath = homepage.getContentResource().getPath() + "/header";
 Resource logo = resourceResolver.resolve(logoPath+"/logo");
 if(logo != null){
 	ValueMap logoProps = logo.getValueMap();

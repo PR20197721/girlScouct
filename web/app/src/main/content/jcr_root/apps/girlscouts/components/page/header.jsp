@@ -12,7 +12,7 @@
   if (newCurrentDesign != null) {
       currentDesign = newCurrentDesign;
   }
-  String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
+  String headerPath = homepage.getContentResource().getPath() + "/header";
   String designPath = currentDesign == null ? "/" : currentDesign.getPath();
   int depth = currentPage.getDepth();
   request.setAttribute("headerPath", headerPath);

@@ -2,7 +2,7 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/body.jsp -->
 <%
-String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
+String headerPath = homepage.getContentResource().getPath() + "/header";
 Boolean displayPageBanner = Boolean.FALSE;
 try {
 	   ValueMap globalNavProps = resourceResolver.getResource(headerPath + "/global-nav").adaptTo(ValueMap.class);

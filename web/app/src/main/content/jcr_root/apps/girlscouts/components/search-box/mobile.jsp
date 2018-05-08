@@ -3,7 +3,7 @@
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <div class="small-22 columns hide srch-box">
 	<%
-	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
+	String headerPath = homepage.getContentResource().getPath() + "/header";
 	Resource search = resourceResolver.resolve(headerPath+"/search-box");
 	if(search != null){
 		ValueMap searchProps = search.getValueMap();
