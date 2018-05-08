@@ -1,8 +1,5 @@
 package org.girlscouts.common.servlets;
 
-import com.day.cq.dam.api.Asset;
-import com.day.cq.dam.commons.util.DamUtil;
-import com.itextpdf.html2pdf.html.AttributeConstants;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -11,9 +8,7 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.girlscouts.common.pdf.BadgeGenerator;
 
 import javax.servlet.ServletException;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 @SuppressWarnings("serial")
 @SlingServlet(paths="/bin/pdf/generate_badge_report", methods="POST")

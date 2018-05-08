@@ -9,5 +9,5 @@
     sling:resourceType="widgets/clientlib"
     jsProcessor="[default:none, min:gcc]"
     categories="[apps.gsusa.components.badge-explorer]"
-    dependencies="[common.thirdparty.framework.vuejs, common.util.dom-utils, common.thirdparty.jspdf, common.thirdparty.html2canvas]"/>
+    dependencies="[common.thirdparty.framework.vuejs, common.util.dom-utils, common.thirdparty.style-inliner]"/>
     <!--  TODO: Add jquery requirement once jQuery is in a unified clientlib -->

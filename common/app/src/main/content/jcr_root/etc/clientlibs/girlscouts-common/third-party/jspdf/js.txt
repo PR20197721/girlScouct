@@ -1,2 +1,0 @@
-base=.
-jspdf.min.js
