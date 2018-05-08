@@ -2,7 +2,7 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <div id="main" class="content row">
 		<div class="large-24 medium-24 small-24 columns">
-			<p align="center" style="color:white">EDIT THIS CONTACT THROUGH SCAFFOLDING</p>
+			<p align="center">EDIT THIS CONTACT THROUGH SCAFFOLDING</p>
             </div>
 
 

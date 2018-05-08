@@ -44,6 +44,8 @@
         // use default
         scaffoldPath = "/etc/scaffolding";
     }
+
+System.out.println("Council scaffolding path is: " + scaffoldPath);
 Page root = resourceResolver.resolve(scaffoldPath).adaptTo(Page.class);
     scaffoldPath+="/jcr:content.html";
 Node scaffoldingRoot = root.adaptTo(Node.class);
