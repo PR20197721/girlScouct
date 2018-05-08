@@ -144,39 +144,39 @@ window.BadgePdfGenerator = (function(window, $, document){
 					}, 300);
 
 					// Inline all styles for use server-side.
-					pdfHtmlWrapper.inlineStyler();
+					pdfHtmlWrapper.inlineStyler().then(function(){
+						// Insert Page Breaks & Headers.
+						separatePages(pdfHtmlWrapper);
 
-					// Insert Page Breaks & Headers.
-					separatePages(pdfHtmlWrapper);
+						// Fix some mistakes by inliner.
+						pdfHtmlWrapper.find('.BadgeExplorerElementPdfComponent, .BadgePdfHeader').css({display: 'block', borderBottom: '2px solid #bbb'});
+						pdfHtmlWrapper.find('.BadgePdfDescriptionColumn').css({float: 'right'});
+						pdfHtmlWrapper.find('.BadgePdfImageColumn').css({float: 'left'});
+						pdfHtmlWrapper.find('.BadgePdfDescriptionColumn, .BadgePdfImageColumn').css({display: 'block'});
+						pdfHtmlWrapper.find('.BadgeExplorerPdfComponent').css('height', 'auto').parent().css('height', 'auto').parent().css('height', 'auto');
+						pdfHtmlWrapper.find('.PdfBadgeGridContainer').css('width', '720px');
 
-					// Fix some mistakes by inliner.
-					pdfHtmlWrapper.find('.BadgeExplorerElementPdfComponent, .BadgePdfHeader').css({display: 'block', borderBottom: '2px solid #bbb'});
-					pdfHtmlWrapper.find('.BadgePdfDescriptionColumn').css({float: 'right'});
-					pdfHtmlWrapper.find('.BadgePdfImageColumn').css({float: 'left'});
-					pdfHtmlWrapper.find('.BadgePdfDescriptionColumn, .BadgePdfImageColumn').css({display: 'block'});
-					pdfHtmlWrapper.find('.BadgeExplorerPdfComponent').css('height', 'auto').parent().css('height', 'auto').parent().css('height', 'auto');
-					pdfHtmlWrapper.find('.PdfBadgeGridContainer').css('width', '720px');
+						getBadgePdfItext(pdfHtmlWrapper[0].innerHTML).catch(function(){
+							alert('Unable to create PDF.')
+						}).then(function(){
+							if(firstAjaxTimeout > 0) {
+								window.clearTimeout(firstAjaxTimeout);
+							}
+							if(partialAjaxTimeout > 0) {
+								window.clearTimeout(partialAjaxTimeout);
+							}
+							window.setTimeout(function(){
+								BadgePdfLoadingWidget.updateProgress(0, '');
+								BadgePdfLoadingWidget.hide();
+								//
+							}, 1000);
+						});
+						pdfHtmlWrapper.remove();
 
-					getBadgePdfItext(pdfHtmlWrapper[0].innerHTML).catch(function(){
-						alert('Unable to create PDF.')
-					}).then(function(){
-						if(firstAjaxTimeout > 0) {
-							window.clearTimeout(firstAjaxTimeout);
-						}
-						if(partialAjaxTimeout > 0) {
-							window.clearTimeout(partialAjaxTimeout);
-						}
-						window.setTimeout(function(){
-							BadgePdfLoadingWidget.updateProgress(0, '');
-							BadgePdfLoadingWidget.hide();
-							//
-						}, 1000);
+						partialAjaxTimeout = partialAjaxTimeout = window.setTimeout(function(){
+							BadgePdfLoadingWidget.updateProgress(0.7, 'Downloading PDF');
+						}, 2500);
 					});
-					pdfHtmlWrapper.remove();
-
-					partialAjaxTimeout = partialAjaxTimeout = window.setTimeout(function(){
-						BadgePdfLoadingWidget.updateProgress(0.7, 'Downloading PDF');
-					}, 2500);
 
 				}, 10);
 				BadgePdfLoadingWidget.updateProgress(0.4, 'Fetching Badges...');
