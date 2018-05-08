@@ -1,7 +1,7 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <% 
-if(currentNode.hasNode("socialIcons")){	
+if(currentNode != null && currentNode.hasNode("socialIcons")){	
 	Node links = currentNode.getNode("socialIcons");
     NodeIterator iter = links.getNodes();
     %>

@@ -107,7 +107,7 @@ if ((links == null || links.length == 0)) {
         String currPath = currentPage.getPath();
         String rootPath = currentPage.getAbsoluteParent(2).getPath();
         String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
-        String eventPath = currentSite.get("eventPath", String.class);
+        String eventPath = currentSite.get("eventPath", "");
         String contentResourceType="";
         Design newCurrentDesign= (Design)request.getAttribute("newCurrentDesign");
         String designPath = currentDesign == null ? "/" : currentDesign.getPath();
