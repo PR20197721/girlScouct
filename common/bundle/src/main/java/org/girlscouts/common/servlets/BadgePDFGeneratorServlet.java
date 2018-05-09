@@ -8,6 +8,7 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.girlscouts.common.pdf.BadgeGenerator;
 
 import javax.servlet.ServletException;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @SuppressWarnings("serial")
@@ -30,7 +31,11 @@ public class BadgePDFGeneratorServlet extends SlingAllMethodsServlet {
 		try {
 			response.setContentType("application/pdf");
 			resolverLocal.set(request.getResourceResolver());
-			new BadgeGenerator(request.getParameter("html"), response.getOutputStream()).generatePdf();
+			ByteArrayOutputStream bais = new ByteArrayOutputStream();
+			new BadgeGenerator(request.getParameter("html"), bais).generatePdf();
+			response.setContentLength(bais.size());
+			bais.writeTo(response.getOutputStream());
+			bais.flush();
 			response.flushBuffer();
 		}finally {
 			resolverLocal.remove();

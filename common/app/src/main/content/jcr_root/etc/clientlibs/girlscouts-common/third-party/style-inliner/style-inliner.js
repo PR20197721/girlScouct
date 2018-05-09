@@ -47,6 +47,9 @@
 						if(cssInlinerFunctions[i]){
 							if(window.requestAnimationFrame) {
 								window.requestAnimationFrame(function () {
+									if(BadgePdfLoadingWidget && (i % 10 == 0)){
+										BadgePdfLoadingWidget.updateProgress((0.4 + ((i / cssInlinerFunctions.length) / 2)), 'Formatting PDF...');
+									}
 									cssInlinerFunctions[i](i + 1);
 								});
 							}else{
