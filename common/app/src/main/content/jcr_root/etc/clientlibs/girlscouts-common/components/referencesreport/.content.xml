@@ -3,6 +3,6 @@
     jcr:mixinTypes="[mix:lockable]"
     jcr:primaryType="cq:ClientLibraryFolder"
     sling:resourceType="widgets/clientlib"
-    categories="[granite.ui.coral.foundation, common.components.cancel-scheduled-action]"
+    categories="[dam.gui.actions.coral, common.components.referencesreport]"
     jsProcessor="[default:none, min:gcc]"
     dependencies="[]"/>
