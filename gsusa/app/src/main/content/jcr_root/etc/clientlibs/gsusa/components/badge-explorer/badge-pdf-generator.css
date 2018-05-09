@@ -1,9 +1,10 @@
 .PdfBadgeGridInner {
-	width: 720px;
+	width: 700px;
 }
 
 .BadgePdfHeaderTitle {
-	font-size: 2em;
+	font-size: 1.7em;
+	line-height: 40px;
 	color: #bbb;
 }
 
@@ -15,25 +16,25 @@
 
 .BadgePdfHeader{
 	background-color: #23ae57;
-	font-size: 24px;
-	line-height: 30px;
+	font-size: 20px;
+	line-height: 28px;
+	height: 35px;
+	overflow: hidden;
 	color: white;
+	font-weight: bold;
 }
 .BadgePdfHeader .BadgePdfImageColumn{
 	background-color: #23ae57;
 	display: block;
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top: 3px;
-	padding-bottom: 0px;
-	height: 37px;
-	margin-bottom: 0px;
+	padding: 3px 5px;
+	height: 25px;
+	overflow: hidden;
 }
 
 .BadgePdfHeader .BadgePdfDescriptionColumn{
+	display: block;
 	padding: 3px 5px;
-	height: 40px;
-
+	height: 30px;
 }
 
 .BadgeExplorerElementPdfComponent{

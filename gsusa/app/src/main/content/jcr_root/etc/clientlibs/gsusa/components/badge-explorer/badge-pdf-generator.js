@@ -14,13 +14,13 @@ window.BadgePdfLoadingWidget = (function(){
 			var previousDuration = loadingBarInner.css('transition-duration');
 			loadingBarInner.css({transitionDuration : '0.0s'});
 			allowSet = false;
-			window.setTimeout(function(){
+			window.requestAnimationFrame(function(){
 				loadingBarInner.css({maxWidth: loadingBarOuter.width() * progressPercent});
-			}, 5);
-			window.setTimeout(function(){
-				loadingBarInner.css({transitionDuration : previousDuration});
-				allowSet = true;
-			}, 10);
+				window.requestAnimationFrame(function(){
+					loadingBarInner.css({transitionDuration : previousDuration});
+					allowSet = true;
+				});
+			});
 		}else if(allowSet){
 			loadingBarInner.css({maxWidth: loadingBarOuter.width() * progressPercent});
 		}
@@ -64,7 +64,6 @@ window.BadgePdfGenerator = (function(window, $, document){
 					var filename = "BadgeReport";
 					BadgePdfLoadingWidget.updateProgress(1, 'Ready for Save');
 					var type = "octet/stream";
-					// var type = xhr.getResponseHeader('Content-Type');
 
 					var blob;
 					try{
@@ -171,6 +170,11 @@ window.BadgePdfGenerator = (function(window, $, document){
 
 				window.setTimeout(function(){
 
+					// Unwarp the iTags
+					pdfHtmlWrapper.find('i').each(function() {
+						$(this).replaceWith(this.childNodes);
+					});
+
 					// Inline all styles for use server-side.
 					stylerPromise.then(function(){
 						// Insert Page Breaks & Headers.
@@ -184,7 +188,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 							pdfHtmlWrapper.find('.BadgePdfImageColumn').css({float: 'left'});
 							pdfHtmlWrapper.find('.BadgePdfDescriptionColumn, .BadgePdfImageColumn').css({display: 'block'});
 							pdfHtmlWrapper.find('.BadgeExplorerPdfComponent').css('height', 'auto').parent().css('height', 'auto').parent().css('height', 'auto');
-							pdfHtmlWrapper.find('.PdfBadgeGridContainer').css('width', '720px');
+							pdfHtmlWrapper.find('.PdfBadgeGridContainer').css('width', '700px');
 
 							var badgeHtml = pdfHtmlWrapper[0].innerHTML;
 							pdfHtmlWrapper.remove();
@@ -203,7 +207,6 @@ window.BadgePdfGenerator = (function(window, $, document){
 				}, 10);
 				BadgePdfLoadingWidget.updateProgress(0.4, 'Fetching Badges...');
 			});
-			BadgePdfLoadingWidget.updateProgress(0.2, 'Fetching Badges...');
 		}, 20);
 	};
 
