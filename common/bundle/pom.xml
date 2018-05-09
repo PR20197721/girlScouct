@@ -42,6 +42,26 @@
         <version>2.1</version>
         <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>kernel</artifactId>
+      <version>7.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>io</artifactId>
+      <version>7.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>layout</artifactId>
+      <version>7.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>html2pdf</artifactId>
+      <version>2.0.2</version>
+    </dependency>
     <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -175,8 +195,9 @@
             <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
             <Import-Package>
               !com.google.common.reflect,
-	      !org.apache.avalon.framework.logger,
-	      !org.apache.log,
+              !org.apache.avalon.framework.logger,
+              !org.apache.log,
+              !org.bouncycastle.*,
               *
             </Import-Package>
             <!-- Recursively embed dependency jars -->

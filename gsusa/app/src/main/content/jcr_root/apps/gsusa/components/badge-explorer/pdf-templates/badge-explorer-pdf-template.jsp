@@ -5,6 +5,7 @@
 	<div class="BadgePdfHeader canvasOutputElement">
 		<div class="BadgePdfImageColumn">Badge</div>
 		<div class="BadgePdfDescriptionColumn">DESCRIPTION</div>
+		<div class="clearfix"></div>
 	</div>
 	<badge-explorer-element-pdf v-bind="badge" v-for="(badge, index) in badgeData"/>
 </div>
