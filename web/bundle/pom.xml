@@ -150,6 +150,7 @@
             <Bundle-SymbolicName>org.girlscouts.web.girlscouts-bundle</Bundle-SymbolicName>
             <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
             <Import-Package>
+              !org.bouncycastle.*,
               !com.google.common.reflect,
 		      !org.apache.avalon.framework.logger,
 		      !org.apache.log,
