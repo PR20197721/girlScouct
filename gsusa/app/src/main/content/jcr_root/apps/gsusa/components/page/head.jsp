@@ -66,9 +66,12 @@
     	<script src="//assets.adobedtm.com/8fdbb9077cc907df83e5ac2a5b43422f8da0b942/satelliteLib-3d0de2c9d6782ec7986e1b3747da043a2d16bd96-staging.js"></script>
     <% } %>
     
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@girlscouts" />
     
     <% if (ogTitle.length() > 0) {%>
     	<meta property="og:title" content="<%=ogTitle %>"/>
+		<meta name="twitter:title" content="<%=ogTitle %>" />
     <%} %>
     <% if (ogSiteName.length() > 0) {%>
 		<meta property="og:site_name" content="<%=ogSiteName %>"/>
@@ -78,15 +81,18 @@
 	<%} %>
 	<% if (ogDescription.length() > 0) {%>
 		<meta property="og:description" content="<%=ogDescription %>"/>
+		<meta name="twitter:description" content="<%=ogDescription %>" />
 	<%} %>
 	<%
 	if (ogImage.length() > 0) {
 		if (ogImage.indexOf("http:") != -1) { %>
 			<meta property="og:image" content="<%=ogImage %>"/>
+			<meta name="twitter:image" content="<%=ogImage %>" />
 	<%	} else { 
 			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
 	%>
 			<meta property="og:image" content="<%=externalizer.absoluteLink((SlingHttpServletRequest)request, "http", ogImage) %>"/>
+			<meta name="twitter:image" content="<%=externalizer.absoluteLink((SlingHttpServletRequest)request, "http", ogImage) %>" />
 	<%
 		}
 	} %>
@@ -105,9 +111,17 @@
     <meta name="keywords" content="<%= xssAPI.encodeForHTMLAttr(WCMUtils.getKeywords(currentPage, false)) %>"<%=xs%>>
     <% } %>
     <% if (!properties.get("description", "").equals("")) { %>
-    <meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("description", "")) %>"<%=xs%>>
+    	<meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("description", "")) %>"<%=xs%>>
+    	<% if (ogDescription.length() == 0) { %>
+			<meta property="og:description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("description", "")) %>"/>
+			<meta name="twitter:description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("description", "")) %>" />
+    	<% } %>
     <% } else { %>
-    <meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>"<%=xs%>>
+	    <meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>"<%=xs%>>
+    	<% if (ogDescription.length() == 0) { %>
+			<meta property="og:description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>"/>
+			<meta name="twitter:description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>" />
+    	<% } %>
     <% } %>
     <cq:include script="headlibs.jsp"/>
     <cq:include script="/libs/wcm/core/components/init/init.jsp"/>
