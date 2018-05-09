@@ -11,6 +11,11 @@ if (newCurrentPage != null) {
 <%
 String id = currentSite.get("googleAnalyticsId", "");
 Boolean displayfeatures = currentSite.get("./googleDisplayFeatures", Boolean.FALSE);
+ 
+String googleOptimizeId = currentSite.get("googleOptimizeId", "");
+Boolean googleOptimize = currentSite.get("./googleOptimize", Boolean.FALSE);
+
+
 if (!id.isEmpty()) {
 %>
 <!-- Google Analytics Tracking -->
@@ -24,6 +29,9 @@ if (!id.isEmpty()) {
 		ga('create', '<%=id%>', 'auto');
 			<%if(displayfeatures){%>
 				ga('require', 'displayfeatures'); 
+			<%}%>
+			<%if(googleOptimize){%>
+				ga('require', '<%=googleOptimizeId%>'); 
 			<%}%>
 		ga('send', 'pageview');
 	});

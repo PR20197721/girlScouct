@@ -86,9 +86,32 @@
                             type="checkbox"
                             xtype="selection"/>
                         <google-tag-manager-id
-                            jcr:primaryType="cq:Widget"
-                            fieldLabel="Google Tag Manager ID"
-                            name="./gtmId"/>
+                        	jcr:primaryType="cq:Widget"
+                        	fieldLabel="Google Tag Manager ID"
+                        	name="./gtmId"/>
+                        <google-optimize
+                        	jcr:primaryType="cq:Widget"
+                        	fieldLabel="Enable Google Optimize"
+                        	fieldDescription="Add Google Optimize code"
+                        	xtype="selection"
+                        	value="false"
+                        	defaultValue="false"
+                        	name="./googleOptimize">
+                        	<options jcr:primaryType="cq:WidgetCollection">
+                                <true
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Yes"
+                                    value="true"/>
+                                <false
+                                    jcr:primaryType="nt:unstructured"
+                                    text="No"
+                                    value="false"/> 
+                            </options>
+                        </google-optimize>
+                        <google-optimize-id
+                        	jcr:primaryType="cq:Widget"
+                        	fieldLabel="Google Optimize ID"
+                        	name="./googleOptimizeId"/>
                         <tracking
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
