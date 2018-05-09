@@ -227,8 +227,8 @@
                         jcr:primaryType="nt:unstructured"
                         href.uritemplate="/mnt/overlay/wcm/core/content/sites/properties.html{?item*}"/>
                 </viewproperties>
-                <viewfolderproperties jcr:primaryType="nt:unstructured" sling:hideResource="true">
-                <openconteniInsight jcr:primaryType="nt:unstructured" sling:hideResource="true">
+                <viewfolderproperties jcr:primaryType="nt:unstructured" sling:hideResource="true"/>
+                <openconteniInsight jcr:primaryType="nt:unstructured" sling:hideResource="true"/>
                 <cancelscheduledactivation
                     granite:rel="cq-siteadmin-admin-actions-cancel-scheduled-workflow-activator"
                     relScope="none"
@@ -248,7 +248,7 @@
                        <privilege
                            jcr:primaryType="nt:unstructured"
                            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
-                           path="${requestPathInfo.suffix}"
+                           path="/content/girlscouts-template"
                            privileges="[crx:replicate]"/>
                        <mainasset
                            jcr:primaryType="nt:unstructured"
@@ -274,7 +274,7 @@
                        <privilege
                            jcr:primaryType="nt:unstructured"
                            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
-                           path="${requestPathInfo.suffix}"
+                           path="/content/girlscouts-template"
                            privileges="[crx:replicate]"/>
                        <mainasset
                            jcr:primaryType="nt:unstructured"
