@@ -17,7 +17,6 @@ var boundHashForms = {};
 
 function bindSubmitHash(form) {
     "use strict";
-
     // Check if form exists and ensure a single form binding
     if (boundHashForms[form.formElement] || !$(form.formElement)) {
         return false;
@@ -25,6 +24,7 @@ function bindSubmitHash(form) {
     boundHashForms[form.formElement] = true;
 
     $(form.formElement).submit(function (event) {
+    		debugger;
         // Stop other events
         if (event.preventDefault) {
             event.preventDefault();
