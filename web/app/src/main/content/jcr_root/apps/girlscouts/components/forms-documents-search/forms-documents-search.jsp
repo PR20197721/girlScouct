@@ -105,10 +105,7 @@ Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequ
     	</form>
 	</div>
 	<%
-	if(isWCMMode){
-		String redirectUrl = "/etc/importers/gsbulkeditor.html?rp=" + damPath + "&cv=&cm=true&deep=true&ec=metadata%2Fdc%3Atitle%2Cmetadata%2Fdc%3Adescription%2Cmetadata%2Fcq%3Atags&hib=false&is=true&pt=dam%3AAsset&it=documents";
-		%><div><b><a target="_blank" href="<%= redirectUrl %>">Document Bulk Editor</a></b></div><%
-	}
+	
 	if((q!=null && !q.isEmpty()) ||  (tags != null)){ %>
 		<div class="search" id="formsDocsListWrapper"></div>
 		<script>
