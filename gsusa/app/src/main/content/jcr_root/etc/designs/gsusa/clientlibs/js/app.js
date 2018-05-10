@@ -24,7 +24,6 @@ function bindSubmitHash(form) {
     boundHashForms[form.formElement] = true;
 
     $(form.formElement).submit(function (event) {
-    		debugger;
         // Stop other events
         if (event.preventDefault) {
             event.preventDefault();
