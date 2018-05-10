@@ -122,6 +122,7 @@
             <Embed-Dependency>*;scope=compile|runtime;</Embed-Dependency>
             <!-- <Embed-Dependency>!org.girlscouts.web,!org.girlscouts.web.*,*;scope=compile|runtime</Embed-Dependency> -->
             <Import-Package>
+              !org.bouncycastle.*,
               !com.google.common.reflect,
 		      !org.apache.avalon.framework.logger,
 		      !org.apache.log,

@@ -3,6 +3,6 @@
     jcr:mixinTypes="[mix:lockable]"
     jcr:primaryType="cq:ClientLibraryFolder"
     sling:resourceType="widgets/clientlib"
-    categories="[common.thirdparty.jspdf]"
+    categories="[granite.ui.coral.foundation, common.components.cancel-scheduled-action]"
     jsProcessor="[default:none, min:gcc]"
-    dependencies="[common.thirdparty.es6-promise]"/>
+    dependencies="[]"/>

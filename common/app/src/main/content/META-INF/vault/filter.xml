@@ -2,6 +2,7 @@
 <workspaceFilter version="1.0">
     <filter root="/etc/clientlibs/girlscouts-common"/>
     <filter root="/etc/clientlibs/common"/>
+    <filter root="/etc/servlets"/>
     <filter root="/apps/girlscouts-common"/>
     <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>
     <filter root="/apps/cq/gui/components/coral/common/admin/timeline/events/version"/>

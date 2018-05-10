@@ -18,4 +18,6 @@
     <div class="BadgeSelectionContainer">
 		<badge-selector-element @selected="handleSelection" v-bind="badge" v-for="badge in badgeData"/>
 	</div>
+	<div class="CreateBadgePdfButton" @click="generatePdf" id="CreateBadgeButon">Generate PDF</div>
+	<br>
 </div>

@@ -190,6 +190,18 @@
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                 fieldLabel="Tag Manager ID"
                                                 name="./gtmId"/>
+                                            <google-optimize 
+                                            	jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                                name="./googleOptimize"
+                                                text="Enable Google Optimize"
+                                                value="{Boolean}true"
+                                				uncheckedValue="{Boolean}false"/>
+                                            <google-optimize-id 
+					                          	jcr:primaryType="nt:unstructured"
+                                              	sling:resourceType="granite/ui/components/coral/foundation/form/textfield" 
+					                          	fieldLabel="Google Optimize ID" 
+					                          	name="./googleOptimizeId"/>
                                             <tracking
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
