@@ -5,20 +5,16 @@ import java.util.Optional;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
-import javax.jcr.ValueFormatException;
-import javax.jcr.lock.LockException;
-import javax.jcr.nodetype.ConstraintViolationException;
-import javax.jcr.version.VersionException;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
+import org.girlscouts.common.util.ImageUtil;
 import org.girlscouts.web.wcm.foundation.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.commons.ImageResource;
-import com.day.cq.wcm.foundation.Placeholder;
 
 @SuppressWarnings("serial")
 public class ImageTag extends BaseMarkupTag {
@@ -79,25 +75,7 @@ public class ImageTag extends BaseMarkupTag {
 	
 	// Overide with specific Image implementations.
 	public Image getImage() {
-		Resource imageResource;
-		if(!StringUtils.isBlank(getRelativePath())) {
-			imageResource = getResource().getChild(getRelativePath());
-		}else {
-			imageResource = getResource();
-		}
-		if(imageResource == null) {
-			return null;
-		}
-
-		if(!getResourceResolver().isResourceType(imageResource, "foundation/components/image")){
-			Node node = imageResource.adaptTo(Node.class);
-			try {
-				Image img = new Image(getResourceResolver().resolve(node.getProperty("fileReference").getString()));
-				img.set("isReferencedImage", "true");
-				return img;
-			}catch (RepositoryException e) {}
-		}
-		return new Image(imageResource);
+		return ImageUtil.getImage(getResourceResolver(), getResource(), getRelativePath());
 	}
 
 	public String getRelativePath() {

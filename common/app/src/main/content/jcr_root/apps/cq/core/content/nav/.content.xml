@@ -1,28 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:unstructured"
     id="root">
-    <projects/>
-    <sites/>
-    <publications/>
-    <forms/>
-    <assets
-        jcr:primaryType="nt:unstructured"
-        jcr:title="Assets"
-        jcr:description="Digital Asset Management"
-        jcr:title_commentI18n="Capability Name"
-        desktopOnly="/damadmin#"
-        desktopOnlyTitle="Classic UI"
-        href="/mnt/overlay/dam/gui/content/assetsrouter.html"
-        icon="asset"
-        id="cq-assets-files"
-        order="{Long}1200">        
+    <projects  jcr:primaryType="nt:unstructured">
+    		<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+    </projects>
+    <publications jcr:primaryType="nt:unstructured">
+    	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+    </publications>
+    <forms  jcr:primaryType="nt:unstructured">
+    	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+    </forms>
+    <assets jcr:primaryType="nt:unstructured">
+        <collections jcr:primaryType="nt:unstructured">
+        	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+        </collections>
+        <links jcr:primaryType="nt:unstructured">
+        	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+        </links>
+        <templates jcr:primaryType="nt:unstructured">
+        	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+        </templates>
+        <catalogs jcr:primaryType="nt:unstructured">
+        	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+        </catalogs>
     </assets>
-    <screens/>
-    <personalization/>
-    <communities/>
-    <commerce/>
-    <tools/>
-    <experiencefragments/>
-    <contentservices/>
+    <screens  jcr:primaryType="nt:unstructured">
+    	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+    </screens>
+    <personalization  jcr:primaryType="nt:unstructured">
+    	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+    </personalization>
+    <communities  jcr:primaryType="nt:unstructured">
+    	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+    </communities>
+    <commerce  jcr:primaryType="nt:unstructured">
+    	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+    </commerce>
+    <tools jcr:primaryType="nt:unstructured">
+    	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+    </tools>
+    <experiencefragments jcr:primaryType="nt:unstructured">
+    	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+    </experiencefragments>
+    <contentservices  jcr:primaryType="nt:unstructured">
+    	<granite:rendercondition
+	            jcr:primaryType="nt:unstructured"
+	            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+				path="/etc/renderconditions/features/content/nav"
+		        privileges="[jcr:read]"/>
+    </contentservices>
 </jcr:root>
