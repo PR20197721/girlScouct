@@ -64,6 +64,9 @@
         <configuration>
           <group>org.girlscouts.web.girlscouts-common</group>
           <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
+          <properties>
+             <acHandling>Overwrite</acHandling>
+          </properties>
           <embeddeds>
             <embedded>
               <groupId>${project.groupId}</groupId>
@@ -74,24 +77,7 @@
           <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>com.day.jcr.vault</groupId>
-        <artifactId>content-package-maven-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <group>org.girlscouts.web.common</group>
-          <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
-          <embeddeds>
-            <embedded>
-              <groupId>${project.groupId}</groupId>
-              <artifactId>girlscouts-common-bundle</artifactId>
-              <target>/apps/girlscouts-common/install</target>
-            </embedded>
-          </embeddeds>
-          <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
-        </configuration>
-      </plugin>
-    </plugins>
+     </plugins>
   </build>
   
   <profiles>
