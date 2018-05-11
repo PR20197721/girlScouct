@@ -13,4 +13,5 @@
             jcr:primaryType="rep:Restrictions"
             rep:glob="/*"/>
     </deny1>
+    
 </jcr:root>

@@ -154,7 +154,7 @@
                                 fileReferenceParameter="./mobileimage/fileReference"
                                 mimeTypes="[image]"
                                 multiple="{Boolean}false"
-                                name="./mobilefile"
+                                name="./mobileimage/file"
                                 title="Image"
                                 uploadUrl="${suffix.path}"
                                 useHTML5="{Boolean}true"/>

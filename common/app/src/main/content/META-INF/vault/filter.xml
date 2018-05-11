@@ -12,6 +12,7 @@
     <filter root="/apps/cq/xssprotection"/>
     <filter root="/apps/dam/content/asseteditors"/>
     <filter root="/apps/dam/gui/content/assets"/>
+    <filter root="/apps/dam/gui/content/assetdetails"/>
     <filter root="/apps/dam/gui/content/nav"/>
     <filter root="/apps/foundation"/>
     <filter root="/apps/granite/core/components"/>
