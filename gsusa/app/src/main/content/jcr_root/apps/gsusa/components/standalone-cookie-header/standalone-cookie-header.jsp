@@ -1,6 +1,8 @@
 <%@page import="com.day.cq.wcm.api.WCMMode, 
-                com.day.cq.wcm.foundation.Placeholder, 
+                com.day.cq.wcm.foundation.Placeholder,
                 java.util.Random"%>
+<%@ page import="org.girlscouts.web.wcm.foundation.Image" %>
+<%@ page import="org.girlscouts.common.util.ImageUtil" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp"%>
 <%@page session="false"%>
@@ -31,16 +33,6 @@ final String shareSectionText = properties.get("sharetext", "");
 String shareSectionLink = properties.get("sharelink", "");
 final String cookieBoothLink = properties.get("cookieboothlink", "");
 final String id = generateId();
-Resource thumbnail = resource.getChild("thumbnail");
-String filePath = "";
-if (thumbnail != null) {
-	filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
-}
-Resource mobileImage = resource.getChild("mobileimage");
-String mobileImagePath = "";
-if (mobileImage != null) {
-	mobileImagePath = ((ValueMap)mobileImage.adaptTo(ValueMap.class)).get("fileReference", "");
-}
 Page shareSectionLinkPage = resourceResolver.resolve(shareSectionLink).adaptTo(Page.class);
 if (shareSectionLinkPage != null && !shareSectionLink.contains(".html")) {
 	shareSectionLink += ".html";
@@ -50,13 +42,24 @@ boolean isHomepage = currentPage.getPath().equals(currentPage.getAbsoluteParent(
 String homepage = isHomepage ? "homepage" : "";
 String mobileImageElement = id + (isHomepage ? " form label" : "") + ":before";
 String share = hasRightShareSection ? "share" : "noshare";
+
+Image fullImage = ImageUtil.getImage(resourceResolver, resource, "thumbnail");
+Image mobileImage = ImageUtil.getImage(resourceResolver, resource, "mobileimage");
+String fullImageSrc = "", mobileImageSrc = "";
+if(fullImage != null){
+    fullImage.setSelector("img");
+	fullImageSrc = fullImage.getSrc();
+}
+if(mobileImage != null){
+	mobileImage.setSelector("img");
+	mobileImageSrc = mobileImage.getSrc();
+}
+
 %>
 
 <script>
-    document.styleSheets[0].insertRule("@media only screen and (min-width: 48.1225em) { #<%=id%>:before { background: url('<%=filePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
-    document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%=mobileImageElement%> { background: url('<%=mobileImagePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
-
-    //$('.find-cookies-share, .find-cookies-noshare').attr("action", "content/gsusa/en/booth-result.10036.html");
+    document.styleSheets[0].insertRule("@media only screen and (min-width: 48.1225em) { #<%=id%>:before { background: url('<%= fullImageSrc %>') no-repeat 0% 0%/contain transparent; } }", 0);
+    document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%=mobileImageElement%> { background: url('<%= mobileImageSrc %>') no-repeat 0% 0%/contain transparent; } }", 0);
     $(document).ready(function () {
         bindSubmitHash({
             formElement: "form[name='find-cookies']",
