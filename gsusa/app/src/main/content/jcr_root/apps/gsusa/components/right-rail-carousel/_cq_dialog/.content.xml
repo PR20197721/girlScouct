@@ -127,13 +127,13 @@
                                             useFixedInlineToolbar="true">
                                             <rtePlugins
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceSuperType="girlscouts/components/richtext-config/rtePlugins"/>
+                                                sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
                                             <specialCharsConfig
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceSuperType="girlscouts/components/richtext-config/specialCharsConfig"/>
+                                                sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig"/>
                                             <uiSettings
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceSuperType="girlscouts/components/richtext-config/uiSettings"/>
+                                                sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
                                         </text>
                                     </items>
                                 </field>
