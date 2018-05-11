@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
     <filter root="/etc/clientlibs/girlscouts-common"/>
-    <filter root="/etc/clientlibs/common"/>
     <filter root="/etc/servlets"/>
+    <filter root="/etc/renderconditions/features"/>    
     <filter root="/apps/girlscouts-common"/>
     <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>
     <filter root="/apps/cq/gui/components/coral/common/admin/timeline/events/version"/>
@@ -12,6 +12,8 @@
     <filter root="/apps/cq/xssprotection"/>
     <filter root="/apps/dam/content/asseteditors"/>
     <filter root="/apps/dam/gui/content/assets"/>
+    <filter root="/apps/dam/gui/content/assetdetails"/>
+    <filter root="/apps/dam/gui/content/nav"/>
     <filter root="/apps/foundation"/>
     <filter root="/apps/granite/core/components"/>
     <filter root="/apps/granite/core/content/cug-dxp-login"/>
