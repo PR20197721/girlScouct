@@ -65,19 +65,19 @@
           <group>org.girlscouts.web.girlscouts-common</group>
           <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
           <properties>
-             <acHandling>Overwrite</acHandling>
+            <acHandling>Overwrite</acHandling>
           </properties>
           <embeddeds>
             <embedded>
               <groupId>${project.groupId}</groupId>
               <artifactId>girlscouts-common-bundle</artifactId>
-              <target>/apps/common/install</target>
+              <target>/apps/girlscouts-common/install</target>
             </embedded>
           </embeddeds>
           <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
         </configuration>
       </plugin>
-     </plugins>
+    </plugins>
   </build>
   
   <profiles>
