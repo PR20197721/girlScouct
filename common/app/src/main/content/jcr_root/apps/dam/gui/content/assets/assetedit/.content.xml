@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:primaryType="nt:unstructured"
+        jcr:title="AEM Assets | Edit Asset"
+        sling:resourceType="granite/ui/components/coral/foundation/page">
+        <body
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/page/body">
+            <items jcr:primaryType="nt:unstructured">
+                <assetedit
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                    <items jcr:primaryType="nt:unstructured">
+                        <editors
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="dam/gui/coral/components/admin/assetedit"/>
+                        <backbutton
+                            granite:class="aem-assets-imageeditor-back"
+                            granite:hidden="{Boolean}true"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
+                            href="${empty header.Referer ? granite:concat(&quot;/assets.html&quot;, granite:encodeURIPath(granite:relativeParent(param.item, 1))) : header.Referer}"/>
+                    </items>
+                </assetedit>
+            </items>
+        </body>
+    </jcr:content>
+</jcr:root>
