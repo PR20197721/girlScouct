@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root
+    xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    xmlns:cq="http://www.day.com/jcr/cq/1.0"
+    xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     cq:actions="[edit,delete]"
     cq:dialogMode="floating"
     cq:disableTargeting="{Boolean}true"
@@ -16,7 +20,7 @@
                 <thumbnail
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/image">
-                    <image
+                    <parameters
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="foundation/components/image"
                             imageCrop=""
@@ -26,13 +30,25 @@
                 <mobileimage
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/image">
-                    <image
+                    <parameters
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="foundation/components/image"
                             imageCrop=""
                             imageMap=""
                             imageRotate=""/>
                 </mobileimage>
+                <thumbnailType
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./thumbnail/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                <mobileType
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./mobileimage/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
             </parameters>
         </image>
     </cq:dropTargets>
