@@ -37,6 +37,18 @@
                             imageMap=""
                             imageRotate=""/>
                 </mobileimage>
+                <thumbnailType
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./thumbnail/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                <mobileType
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./mobileimage/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
             </parameters>
         </image>
     </cq:dropTargets>

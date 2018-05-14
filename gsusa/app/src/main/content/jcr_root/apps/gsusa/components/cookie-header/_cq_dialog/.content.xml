@@ -124,7 +124,7 @@
                             <thumbnailType
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./featureiconimage/sling:resourceType"
+                                name="./thumbnail/sling:resourceType"
                                 value="foundation/components/image"/>
                         </items>
                     </columns>
@@ -160,7 +160,7 @@
                             <mobileType
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./featureiconimage/sling:resourceType"
+                                name="./mobileimage/sling:resourceType"
                                 value="foundation/components/image"/>
                         </items>
                     </columns>
