@@ -10,7 +10,7 @@ if (WCMMode.fromRequest(request) != WCMMode.EDIT) {
     String scafLink = currentPage.getPath() + ".scaffolding.html";
 %>
     <p>Welcome to the data page.</p>
-	<p>Properties of this page are listed below. Click <a href="<%= scafLink %>">here</a> to edit.</p>
+	<p>Properties of this page are listed below. Please edit this page in scaffolding.</p>
 	<p>This page only displays in authoring mode.</p>
     <table>
 <%    
