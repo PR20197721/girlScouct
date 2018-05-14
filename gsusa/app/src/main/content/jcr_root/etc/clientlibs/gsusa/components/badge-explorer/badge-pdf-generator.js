@@ -209,11 +209,6 @@ window.BadgePdfGenerator = (function(window, $, document){
 
 							getBadgePdfItext(badgeHtml).catch(function(){
 								alert('Unable to create PDF.')
-							}).then(function(){
-								// window.setTimeout(function(){
-								// 	BadgePdfLoadingWidget.updateProgress(0, '');
-								// 	BadgePdfLoadingWidget.hide();
-								// }, 1000);
 							});
 						}, 10);
 					});
