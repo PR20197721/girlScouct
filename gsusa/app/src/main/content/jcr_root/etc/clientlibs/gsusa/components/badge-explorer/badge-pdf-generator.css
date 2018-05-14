@@ -211,3 +211,25 @@ ul.dropdown{
 .CanvasImageOutputArea img {
 	max-width: none;
 }
+
+.BadgePdfProgressButtonContainer {
+	display: flex;
+	justify-content: space-around;
+}
+
+.BadgePdfProgressButton{
+	display: block;
+	padding: 5px 30px;
+	margin-top: 10px;
+	font-weight: bold;
+	background-color: #1c9346;
+	color: white;
+	border: 1px solid #146b33;
+	cursor: pointer;
+}
+
+.BadgePdfProgressButton:hover {
+	color: white;
+}
+
+

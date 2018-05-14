@@ -63,7 +63,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 				if (this.status === 200) {
 					var filename = "BadgeReport";
 					BadgePdfLoadingWidget.updateProgress(1, 'Ready for Save');
-					var type = "octet/stream";
+					var type = "application/pdf";
 
 					var blob;
 					try{
@@ -79,20 +79,34 @@ window.BadgePdfGenerator = (function(window, $, document){
 						var URL = window.URL || window.webkitURL;
 						var downloadUrl = URL.createObjectURL(blob);
 
-						// use HTML5 a[download] attribute to specify filename
-						var a = document.createElement("a");
-						document.body.appendChild(a);
-						a.style = "display: none";
+						var buttonContainer = $('<div>')
+							.addClass('BadgePdfProgressButtonContainer');
 
-						// Prevent the link click handler from taking over.
-						a.onclick = function(e){e.stopPropagation();};
-						a.href = downloadUrl;
-						a.download = "badge-report.pdf";
-						a.click();
+						var openButton = $('<a>')
+							.addClass('BadgePdfProgressButton')
+							.addClass('BadgePdfOpenButton')
+							.attr('target', '_blank')
+							.on('click.pdfOpen', function(){
+								buttonContainer.remove();
+								BadgePdfLoadingWidget.hide();
+							})
+							.attr('href', downloadUrl)
+							.text('Open');
 
-						setTimeout(function () {
-							URL.revokeObjectURL(downloadUrl);
-						}, 300); // cleanup
+						var cancelButton = $('<a>')
+							.addClass('BadgePdfProgressButton')
+							.addClass('BadgePdfCancelButton')
+							.attr('href', 'javascript: void(0);')
+							.text('Cancel')
+							.on('click.pdfCancel', function(){
+								buttonContainer.remove();
+								BadgePdfLoadingWidget.hide();
+							});
+
+						buttonContainer.append(openButton.add(cancelButton));
+
+						$('.BadgePdfProgressInfoContainerInner').append(buttonContainer);
+
 					}
 					res();
 				}else{
@@ -196,10 +210,10 @@ window.BadgePdfGenerator = (function(window, $, document){
 							getBadgePdfItext(badgeHtml).catch(function(){
 								alert('Unable to create PDF.')
 							}).then(function(){
-								window.setTimeout(function(){
-									BadgePdfLoadingWidget.updateProgress(0, '');
-									BadgePdfLoadingWidget.hide();
-								}, 1000);
+								// window.setTimeout(function(){
+								// 	BadgePdfLoadingWidget.updateProgress(0, '');
+								// 	BadgePdfLoadingWidget.hide();
+								// }, 1000);
 							});
 						}, 10);
 					});
