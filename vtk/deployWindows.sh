@@ -24,3 +24,12 @@ for server in ${SERVER_LIST[@]}; do
 		fi
 	done
 done
+
+echo "Trying server 192.168.0.118:4503..."
+/usr/bin/nc -z 192.168.0.118 4503
+if [ $? -ne 0 ]; then
+        echo "Server $server:$port is down. Skipping..."
+    else
+        curl -u 'admin:admin'  -X POST http://192.168.0.118:4503/crx/packmgr/service/.json/etc/packages/Girl%20Scouts/girlscouts-vtk-app-$VERSION.zip?cmd=delete
+        curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/vtk/girlscouts-vtk-app/$VERSION/girlscouts-vtk-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://192.168.0.118:4503/crx/packmgr/service.jsp
+fi
