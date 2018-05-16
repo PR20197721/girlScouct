@@ -94,7 +94,6 @@
         var wizard = $("form#tag-edit-form");
         wizard.on("submit", function (e) {
             e.preventDefault();
-            submit(wizard);
         });
 
     });
@@ -115,81 +114,6 @@
         var parent = $("#tag-selected-languages");
         parent.append(languageMarkup);
 
-    }
-
-    function submit(wizard) {
-        var foundationContentPath = $(".foundation-content-path").data("foundationContentPath");
-        var successMessage = "";
-        var errorMessage = "";
-        var editTagSettings = $("#edittagsettings");
-
-        var data;
-        data = wizard.serialize();
-        var processData = true;
-        var contentType = wizard.prop("enctype");        
-        successMessage = Granite.I18n.get("Tag Edited Successfully");
-        errorMessage = Granite.I18n.get("Failed to edit tag");
-
-        var length = Object.keys(selected).length;
-        for(var i = 0; i < length; i++) {
-            if(selected[Object.keys(selected)[i]] == false) {
-                var toDelete = "./jcr:title." + Object.keys(selected)[i];
-                data += "&" + toDelete + "@Delete";
-            }
-        }
-        $.ajax({
-            type: wizard.prop("method"),
-            url: foundationContentPath,
-            data: data,
-            processData: processData,
-            contentType: contentType
-        }).done(function (html) {
-            if ($("#tagedit-success").length === 0) {
-                var insertModal = $("<div>", {"class": "coral-Modal", "id": "tagedit-success", "style": "width:30rem"}).hide().html(MODAL_HTML);
-                $(document.body).append(insertModal);
-        	}
-            var successModal = new CUI.Modal({
-                element: '#tagedit-success',
-                heading: Granite.I18n.get('Success'),
-                type: 'success',
-                content: successMessage,
-                buttons: [{
-                        label: Granite.I18n.get('OK'),
-                        className: 'primary',
-                        click: function (evt) {
-                            this.hide();
-                            var index = window.location.href.indexOf("/tagedit");
-                            var length = window.location.href.length;
-                            window.location = window.location.href.substr(0, index) + window.location.href.substr(index + 8, length);
-                        }
-                    }
-                ]
-            });
-
-        }).fail(function (xhr, error, errorThrown) {
-        	if ($("#tagedit-failure").length === 0) {
-                var insertModal = $("<div>", {"class": "coral-Modal", "id": "tagedit-failure", "style": "width:30rem"}).hide().html(MODAL_HTML);
-                $(document.body).append(insertModal);
-        	}
-            var failureModal = new CUI.Modal({
-                element: '#tagedit-failure',
-                heading: Granite.I18n.get('Error'),
-                type: 'error',
-                content: errorMessage,
-                buttons: [{
-                        label: Granite.I18n.get('Close'),
-                        className: 'primary',
-                        click: function (evt) {
-                            this.hide();
-                            var index = window.location.href.indexOf("/tagedit");
-                            var length = window.location.href.length;
-                            window.location = window.location.href.substr(0, index) + window.location.href.substr(index + 8, length);
-                        }
-                    }
-                ]
-            });
-            failureModal.appendTo("body").modal("show");
-        });
     }
 
 })(window, document, Granite, Granite.$);
