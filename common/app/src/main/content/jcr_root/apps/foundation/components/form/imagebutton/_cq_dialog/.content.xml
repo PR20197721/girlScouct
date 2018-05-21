@@ -38,8 +38,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./hideTitle"
                                 text="Hide Title"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <hidetitle-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -51,12 +51,6 @@
                                 fieldLabel="Description"
                                 name="./jcr:description"/>
                             <showhide/>
-                            <image-old
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
-                                fieldLabel="Image"
-                                name="./src"
-                                required="{Boolean}false"/>
                             <image
                                 jcr:primaryType="nt:unstructured"
                                 jcr:title="Image"
