@@ -23,11 +23,11 @@ if (result != null) {
                 String homePageCheck = node.getProperty("isonhomepage").getValue().getString();
                 if(homePageCheck.equals("on")){
                     println("Found old newslist set to on at: " + node.getPath())
-                    node.setProperty("true")
+                    node.setProperty("isonhomepage", "true")
                 }
                 if(homePageCheck.equals("off")){
                     println("Found old newslist set to off at: " + node.getPath())
-                    node.setProperty("false")
+                    node.setProperty("isonhomepage", "false")
                 }
                 save()
 			}
