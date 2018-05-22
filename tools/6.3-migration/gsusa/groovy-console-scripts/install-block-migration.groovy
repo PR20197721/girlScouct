@@ -92,4 +92,3 @@ def QueryResult search(EXPRESSION, QUERY_LANGUAGE) {
 	}
 	return result;
 }
- No newline at end of file
