@@ -90,20 +90,21 @@ window.AccordionWidgetManager = (function(window, document, $){
 			return $(this).attr('id') == currentHash;
 		});
 
-		var parentHeaders = thisHeader
-			.parents('.accordion-navigation')
-			.prev();
-
-		for(var i = parentHeaders.length - 1; i >= 0; i--){
-			$(parentHeaders[i]).trigger('click.accordionHeader');
-		}
-
 		if(thisHeader.length > 0){
+
+			var parentHeaders = thisHeader
+				.parents('.accordion-navigation')
+				.prev();
+
+			for(var i = parentHeaders.length - 1; i >= 0; i--){
+				$(parentHeaders[i]).trigger('click.accordionHeader');
+			}
+
 			thisHeader.trigger('click.accordionHeader');
 			window.setTimeout(function(){
 				var targetHeader = $('#' + currentHash);
 				targetHeader.next('.accordion-navigation').children('.content').promise().then(function(){
-					$('body').animate({scrollTop: $('#' + currentHash).offset().top - 200});
+					$('html, body').animate({scrollTop: $('#' + currentHash).offset().top - 200});
 				});
 			}, 100);
 		}
