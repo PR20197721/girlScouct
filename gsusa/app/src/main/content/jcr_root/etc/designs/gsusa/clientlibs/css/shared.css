@@ -186,3 +186,6 @@ form .form_captcha_input {
 .update-list .more-link:after {
   content:">";
 }
+input.form_field_password[type="password"] {
+  margin-bottom: 4px;
+}
