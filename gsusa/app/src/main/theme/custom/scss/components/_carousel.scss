@@ -52,19 +52,19 @@ $slick-next-character: "\f138";
     }
 }
 
+.videoWrapper:after {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 300;
+}
+
 .slick-slide {
     position: relative;
-    &:after {
-        // Prevent user interaction with inactive slides
-        display: block;
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 300;
-    }
     &.slick-center:after,
     &.slick-active:after {
         // Allow user interaction with active slide
