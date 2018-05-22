@@ -25,7 +25,7 @@
     final boolean hideTitle = properties.get("hideTitle", false);
 
     final String width = properties.get("width", "");
-    final String src = properties.get("src", "");
+    final String src = properties.get("fileReference", "");
     final String css = FormsHelper.getCss(properties, "form_button");
 %>
     <div class="form_row">
