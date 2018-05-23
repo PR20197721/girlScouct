@@ -213,7 +213,7 @@ public class GSMailServlet
             logger.error("The mailto configuration is missing in the form begin at " + request.getResource().getPath());
 
             status = 500;
-        } else if (false && localService == null) {
+        } else if (localService == null) {
             logger.error("The mail service is currently not available! Unable to send form mail.");
 
             status = 500;
@@ -359,7 +359,7 @@ public class GSMailServlet
                     this.logger.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
                             new Object[]{fromAddress, mailTo, subject, buffer});
                 }
-                //localService.sendEmail(email);
+                localService.sendEmail(email);
                 
                 	serviceParams = new HashMap<String, Object>();
         			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
