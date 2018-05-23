@@ -3,4 +3,4 @@
     jcr:description="Content Hub Dynamic Tag Carousel"
     jcr:primaryType="cq:Component"
     jcr:title="Dynamic Tag Carousel"
-    componentGroup="GSUSA"/>
+    componentGroup=".hidden"/>
