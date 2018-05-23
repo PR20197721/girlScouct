@@ -3,12 +3,9 @@ package org.girlscouts.common.taglib.html;
 import java.io.IOException;
 import java.util.Optional;
 
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.sling.api.resource.Resource;
 import org.girlscouts.common.util.ImageUtil;
 import org.girlscouts.web.wcm.foundation.Image;
 import org.slf4j.Logger;

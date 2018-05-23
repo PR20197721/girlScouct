@@ -1,6 +1,8 @@
 package org.girlscouts.web.wcm.foundation;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.jackrabbit.util.Text;
 
@@ -33,6 +35,8 @@ public class GSRenditionPicker implements RenditionPicker {
 	private static final String R400X400 = "cq5dam.web.400.400";
 	private static final String R520X520 = "cq5dam.web.520.520";
 	private static final String R1280X1280 = "cq5dam.web.1280.1280";
+
+	private static final List<String> COUNCIL_RENDITIONS = Arrays.asList(R48X48, R140X100, R319X319, R120X80, R240X240, R400X400, R520X520, R1280X1280);
 	
 	 String[] targetRenditions;
 	 public GSRenditionPicker(String... targetRenditions) {
@@ -40,7 +44,15 @@ public class GSRenditionPicker implements RenditionPicker {
 	 }
 		
 	private String getCouncilAnalog(String gsusaRenditionName){
-			
+
+	 	Optional<String> matchedCouncilRendition = COUNCIL_RENDITIONS
+				.stream()
+				.filter(gsusaRenditionName::equals)
+				.findAny();
+
+	 	if(matchedCouncilRendition.isPresent()){
+	 		return matchedCouncilRendition.get();
+		}
 		
 		if(TOP.equals(gsusaRenditionName))
 			return R1280X1280;
@@ -82,11 +94,13 @@ public class GSRenditionPicker implements RenditionPicker {
 	        	String councilRendition = this.getCouncilAnalog(targetRendition);
 	        	for (Rendition rendition: renditions) {
                 if (Text.getName(rendition.getPath()).startsWith(councilRendition)) {
+                	System.out.println("Returning rendition: " + rendition.getName());
 					return rendition;
                 }
             }
         }
-        
+
+		System.out.println("Returning rendition: Original!");
         return asset.getOriginal();
 	}
 

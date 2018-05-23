@@ -26,9 +26,6 @@
 <%
 	
 	String additionalCssStyle = properties.get("./additionalCssStyle", "");
-	String linkUrl = properties.get("./linkURL", "");
-	String title = properties.get("./jcr:title", "");
-	String alt = properties.get("./alt", "");
 	String style = "";
 	if(additionalCssStyle.length() > 0) {
 		style = "style=\""+additionalCssStyle+"\"";
@@ -44,6 +41,6 @@
 %>
 
 <div id="<%= "cq-image-jsp-" + resource.getPath() %>" <%=style%> >
-	<gsusa:image href="<%= linkUrl%>" alt="<%=alt %>" title="<%=title %>" relativePath='' styleClass='<%=styleClass %>' suffix='<%= suffix %>' newWindow='<%= properties.get("./newWindow", false) %>' />
+	<gsusa:image relativePath='' styleClass='<%=styleClass %>' suffix='<%= suffix %>' newWindow='<%= properties.get("./newWindow", false) %>' />
 </div>
 <cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
