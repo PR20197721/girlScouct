@@ -189,3 +189,6 @@ form .form_captcha_input {
 input.form_field_password[type="password"] {
   margin-bottom: 4px;
 }
+input.gs_file_upload[type="file"]{
+  margin-bottom: 4px;
+}
