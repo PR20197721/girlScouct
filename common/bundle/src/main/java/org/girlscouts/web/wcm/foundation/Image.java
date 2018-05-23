@@ -52,17 +52,10 @@ public class Image extends com.day.cq.wcm.foundation.Image {
         }
 
         Resource res = rr.getResource(path);
-        if (res != null) {
-            if (res.adaptTo(Asset.class) != null) {
-                Rendition rendition = null;
-                if (getCropRect() != null) {
-                    rendition = ((Asset)res.adaptTo(Asset.class)).getRendition(getRenditionPicker(imageVar));
-                } else {
-                		rendition = ((Asset)res.adaptTo(Asset.class)).getRendition(getRenditionPicker(imageVar));
-                }
-                res = null != rendition ? (Resource)rendition.adaptTo(Resource.class) : null;
-            }
-        }
+		if (res != null && res.adaptTo(Asset.class) != null) {
+			Rendition rendition =  ((Asset)res.adaptTo(Asset.class)).getRendition(getRenditionPicker(imageVar));
+			res = null != rendition ? (Resource)rendition.adaptTo(Resource.class) : null;
+		}
         return res;
 	}
 	
