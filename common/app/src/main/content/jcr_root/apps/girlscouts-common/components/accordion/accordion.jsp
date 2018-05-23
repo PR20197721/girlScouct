@@ -48,14 +48,16 @@
 	            	parsys += "_parsys_";
 	            	
 	            	// Check if the node exists for the index.  Otherwise fallback to the ID if available.
-	            	try{
-	            		resource.adaptTo(Node.class).getNode(parsys + accordion.getName());
-		            	parsys += accordion.getName();
-	            	}catch(PathNotFoundException pnfe){
-	 	            	if(!StringUtils.isBlank(idField)){
-	 	            		parsys += idField;
-	 	            	}
-	            	}
+	            	if(!StringUtils.isBlank(idField)){
+                    	parsys += idField;
+                    }else{
+                        try{
+                            resource.adaptTo(Node.class).getNode(parsys + accordion.getName());
+                            parsys += accordion.getName();
+                        }catch(PathNotFoundException pnfe){
+    
+                        }
+                    }
 	            	
 	            	String parsysIdentifier = resource.getPath() + "/" + parsys;
             	%>
