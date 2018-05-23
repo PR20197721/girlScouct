@@ -21,7 +21,9 @@
         com.day.cq.wcm.foundation.forms.LayoutHelper,
         java.util.Locale,
 		java.util.ResourceBundle,
-		com.day.cq.i18n.I18n" %><%
+		com.day.cq.i18n.I18n" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
+<%
 %><%@include file="/apps/foundation/components/form/expression.jsp"%><%
 
 	final Locale pageLocale = currentPage.getLanguage(true);
@@ -32,7 +34,13 @@
     final String title = FormsHelper.getTitle(resource, i18n.get("Submit"));
     final String width = properties.get("width", "");
     String css = FormsHelper.getCss(properties, "form_button_submit");
-	css = css + " form-btn";
+
+    // Allow existing configurations to use "button" if nothing is specified.
+    if (StringUtils.isBlank(css)) {
+    	css = "button";
+    }
+
+	css = css + " form-btn button";
 %>
     <div class="form_row">
       <% LayoutHelper.printTitle(null, null, false, out); %>

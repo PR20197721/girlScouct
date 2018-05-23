@@ -94,13 +94,10 @@ public class GSRenditionPicker implements RenditionPicker {
 	        	String councilRendition = this.getCouncilAnalog(targetRendition);
 	        	for (Rendition rendition: renditions) {
                 if (Text.getName(rendition.getPath()).startsWith(councilRendition)) {
-                	System.out.println("Returning rendition: " + rendition.getName());
 					return rendition;
                 }
             }
         }
-
-		System.out.println("Returning rendition: Original!");
         return asset.getOriginal();
 	}
 
