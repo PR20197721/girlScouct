@@ -14,22 +14,6 @@
                 jcr:lastModified="{Date}2015-07-30T19:36:36.176-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="girlscouts/components/styled-parsys"
-                components="[group:GSUSA,group:Girl Scouts Form,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
-                <section jcr:primaryType="nt:unstructured"/>
-                <video
-                    jcr:lastModified="{Date}2015-06-29T17:07:53.009-04:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/video"
-                    flashPlayer="flvfallback"
-                    profiles="[hq,flv,firefoxhq]"
-                    wmode="opaque"/>
-            </par>
-            <common-par
-                jcr:lastModified="{Date}2015-07-30T19:36:36.176-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts-common/components/styled-parsys"
                 components="[group:GSUSA,group:Girl Scouts Form,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
                 <section jcr:primaryType="nt:unstructured"/>
@@ -41,25 +25,17 @@
                     flashPlayer="flvfallback"
                     profiles="[hq,flv,firefoxhq]"
                     wmode="opaque"/>
-            </common-par>
+            </par>
         </two-column-page>
         <homepage jcr:primaryType="nt:unstructured">
-            <par
-                jcr:lastModified="{Date}2015-12-01T14:49:22.063-05:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="girlscouts/components/styled-parsys"
-                components="[group:GSUSA,group:Girl Scouts Form,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
-                <section jcr:primaryType="nt:unstructured"/>
-            </par>
-            <common-par
+        	<par
                 jcr:lastModified="{Date}2015-12-01T14:49:22.063-05:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts-common/components/styled-parsys"
                 components="[group:GSUSA,group:Girl Scouts Form,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
                 <section jcr:primaryType="nt:unstructured"/>
-            </common-par>
+            </par>
             <finder-par
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/parsys"
@@ -71,7 +47,7 @@
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts-common/components/styled-parsys"
-                components="[group:GSUSA,group:Girl Scouts,group:Girl Scouts Form,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
+                components="[group:GSUSA,group:Girl Scouts Form,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
                 <section jcr:primaryType="nt:unstructured"/>
             </top>
         </homepage>
