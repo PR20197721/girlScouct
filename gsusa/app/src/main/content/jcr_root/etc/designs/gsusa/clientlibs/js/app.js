@@ -1267,21 +1267,36 @@ function fixSlickSlideActive() {
                 }
             });
 
+            var addFixedHeader = function(topLocation){
+				trigger = topLocation > offset;
+				if (trigger && !fixed) { // Trigger once to fix header
+					fixed = true;
+					header.addClass(fixedClass);
+					placeholder.show();
+				} else if (!trigger && fixed) { // Trigger once to unfix header
+					fixed = false;
+					header.removeClass(fixedClass);
+					placeholder.hide();
+				}
+            }
+
             // Sticky header
-            $(window).on("scroll", function () {
-                trigger = $(window).scrollTop() > offset;
-                if (trigger && !fixed) { // Trigger once to fix header
-                    fixed = true;
-                    header.addClass(fixedClass);
-                    placeholder.show();
-                    //console.log("fixed");
-                } else if (!trigger && fixed) { // Trigger once to unfix header
-                    fixed = false;
-                    header.removeClass(fixedClass);
-                    placeholder.hide();
-                    //console.log("static");
-                }
-            });
+            if(window !== window.top){
+                try {
+                    var contentScrollWrapper = window.top.$('#ContentScrollView');
+					contentScrollWrapper.off('scroll.editorFixedHeader').on('scroll.editorFixedHeader', function(){
+					    try{
+					        var scrollLocation = $(this).scrollTop();
+							addFixedHeader(scrollLocation);
+							header.css({top: scrollLocation + 'px'});
+                        }catch(er1){}
+                    });
+				}catch(er){}
+            }
+
+            $(window).off("scroll.fixedHeader").on("scroll.fixedHeader", function(){
+				addFixedHeader($(window).scrollTop());
+			});
         }
     }());
 }(jQuery));
