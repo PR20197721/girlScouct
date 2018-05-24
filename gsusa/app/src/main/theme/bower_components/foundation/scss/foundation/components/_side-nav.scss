@@ -80,7 +80,7 @@ $side-nav-divider-color: scale-color($white, $lightness: -10%) !default;
       #padding: $side-nav-link-padding;
       &:hover,
       &:focus {
-        background: $link-bg-hover;
+        #background: $link-bg-hover;
         color: $link-color-hover;
       }
       &:active {
