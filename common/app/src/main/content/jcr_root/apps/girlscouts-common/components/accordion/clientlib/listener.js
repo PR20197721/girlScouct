@@ -54,10 +54,14 @@
 
 // Pass the cq-editables-loaded event to the main content frame for use in hiding / showing parsys.
 (function(){
-	$(document).on('cq-editables-loaded', function(editablesObject){ 
-	    var contentWindow = $('#ContentFrame')[0].contentWindow;
-	    contentWindow.$(contentWindow.document).trigger('cq-editables-loaded', editablesObject);
-	});
+	try {
+		$(document).on('cq-editables-loaded', function (editablesObject) {
+			try {
+				var contentWindow = $('#ContentFrame')[0].contentWindow;
+				contentWindow.$(contentWindow.document).trigger('cq-editables-loaded', editablesObject);
+			}catch(eer1){}
+		});
+	}catch(er){}
 })();
 
 
