@@ -5,6 +5,7 @@ import java.util.*
 List<String> BADGE_PATHS = Arrays.asList(
         "/content/dam/girlscouts-gsusa/images/Badges/Daisy/jcr:content",
         "/content/dam/girlscouts-gsusa/images/Badges/Daisy/DaisyPetals/jcr:content",
+        "/content/dam/girlscouts-gsusa/images/Badges/Brownie/jcr:content",
         "/content/dam/girlscouts-gsusa/images/Badges/Junior/jcr:content",
         "/content/dam/girlscouts-gsusa/images/Badges/Cadettes/jcr:content",
         "/content/dam/girlscouts-gsusa/images/Badges/Senior/jcr:content",
