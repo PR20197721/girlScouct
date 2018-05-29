@@ -59,6 +59,16 @@
                                             listorder="1"
                                             metaType="text"/>
                                 </_x0031_527194500633>
+                                <_x0031_527607083241
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        data-title="Full URL to the store link to purchase this badge."
+                                        fieldLabel="Store Link"
+                                        name="./jcr:content/metadata/dc:description">
+                                    <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            metaType="text"/>
+                                </_x0031_527607083241>
                             </items>
                             <granite:data
                                     jcr:primaryType="nt:unstructured"
@@ -99,15 +109,6 @@
                                             jcr:primaryType="nt:unstructured"
                                             metaType="text"/>
                                 </title>
-                                <description
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                        fieldLabel="Description"
-                                        name="./jcr:content/metadata/dc:description">
-                                    <granite:data
-                                            jcr:primaryType="nt:unstructured"
-                                            metaType="text"/>
-                                </description>
                                 <format
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
