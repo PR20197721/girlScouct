@@ -69,6 +69,29 @@
                                             jcr:primaryType="nt:unstructured"
                                             metaType="text"/>
                                 </_x0031_527607083241>
+                                <tags
+                                        cq:showOnCreate="{Boolean}true"
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="cq/gui/components/common/tagspicker"
+                                        allowCreate="{Boolean}true"
+                                        cq-msm-lockable="cq:tags"
+                                        fieldLabel="Tags"
+                                        metaType="tags"
+                                        tagsPath="/etc/tags/gsusa/badges"
+                                        name="./jcr:content/metadata/cq:tags"/>
+                                <autotags
+                                        cq:showOnCreate="{Boolean}true"
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="dam/gui/coral/components/admin/autotag"
+                                        allowCreate="{Boolean}true"
+                                        disabled="{Boolean}true"
+                                        fieldLabel="Smart Tags"
+                                        metaType="autotags"
+                                        name="./jcr:content/metadata/predictedTags">
+                                    <granite:rendercondition
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="dam/gui/coral/components/admin/autotag/autotagrendercondition"/>
+                                </autotags>
                             </items>
                             <granite:data
                                     jcr:primaryType="nt:unstructured"
@@ -494,28 +517,6 @@
                                                 value="zh_tw"/>
                                     </items>
                                 </language>
-                                <tags
-                                        cq:showOnCreate="{Boolean}true"
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="cq/gui/components/common/tagspicker"
-                                        allowCreate="{Boolean}true"
-                                        cq-msm-lockable="cq:tags"
-                                        fieldLabel="Tags"
-                                        metaType="tags"
-                                        name="./jcr:content/metadata/cq:tags"/>
-                                <autotags
-                                        cq:showOnCreate="{Boolean}true"
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="dam/gui/coral/components/admin/autotag"
-                                        allowCreate="{Boolean}true"
-                                        disabled="{Boolean}true"
-                                        fieldLabel="Smart Tags"
-                                        metaType="autotags"
-                                        name="./jcr:content/metadata/predictedTags">
-                                    <granite:rendercondition
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="dam/gui/coral/components/admin/autotag/autotagrendercondition"/>
-                                </autotags>
                                 <creation
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/datepicker"
