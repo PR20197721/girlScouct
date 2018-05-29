@@ -17,11 +17,21 @@ if (result != null) {
 	try {
 		RowIterator rowIter = result.getRows()
 		while (rowIter.hasNext()) {
-			Row row = rowIter.nextRow()
-			Node node = row.getNode()
-			node.setProperty("sling:resourceType","girlscouts/components/textimage")
-			save()
-			println(node.getPath())
+			try {
+				Row row = rowIter.nextRow()
+				Node node = row.getNode()
+				node.setProperty("sling:resourceType","gsusa/components/textimage")
+				println(node.getPath())
+				if(node.hasNode("image")){
+					Node image = node.getNode("image")
+					image.setProperty("sling:resourceType","gsusa/components/image")
+					println("   "+image.getPath())
+				}
+				save()
+			} catch (Exception e) {
+				println(e.getMessage())
+				e.printStackTrace()
+			}
 		}
 	} catch (Exception e) {
 		println(e.getMessage())

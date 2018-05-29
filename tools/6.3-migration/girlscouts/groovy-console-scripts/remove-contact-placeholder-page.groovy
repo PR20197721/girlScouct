@@ -26,7 +26,7 @@ if (result != null) {
 			    
 			    println("Page content node: " + node.getPath())
 			    
-			    //node.setProperty("sling:resourceType", "girlscouts/components/three-column-page")
+			    node.setProperty("sling:resourceType", "girlscouts/components/three-column-page")
 			        	
 			}
 			
@@ -35,7 +35,7 @@ if (result != null) {
 		
 		
 		
-		//save()
+		save()
 		println("saved converted content")	
 	} catch (Exception e) {
 	    println(e.getMessage())
