@@ -330,7 +330,7 @@
 			if (!date) date = 60;
 			if (!sortBy) sortBy = 'distance';
 
-			boothFinder = new BoothFinder("https://www.girlscouts.org/cookiesapi/booth_list_merged.asp", zip, radius, date, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
+			boothFinder = new BoothFinder("/cookiesapi/booth_list_merged.asp", zip, radius, date, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
 			boothFinder.getResult();
 		}
 	});

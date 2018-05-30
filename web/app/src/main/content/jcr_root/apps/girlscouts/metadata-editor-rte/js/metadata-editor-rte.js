@@ -43,7 +43,7 @@
                 $richTextDiv.empty().append(unescapeHtml(html));
             }
             $container.find("[name='./textIsRich']").remove(); 
-            $container.css("width", "300px").css("overflow","auto");
+            $container.css("overflow","auto");
         });
 
         // Copy RTE text to hidden field

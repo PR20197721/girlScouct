@@ -9,7 +9,7 @@ String RESOURCE_TYPE = "foundation/components/textimage";
 
 String EXPRESSION = "SELECT s.[jcr:path] "+
 					"FROM [nt:unstructured] AS s "+
-					"WHERE ISDESCENDANTNODE('"+PATH+"') AND "+
+					"WHERE ISDESCENDANTNODE('"+PATH+"') AND (NOT ISDESCENDANTNODE('"+PATH+"/gsusa')) AND"+
 					"CONTAINS(s.[sling:resourceType],'"+RESOURCE_TYPE+"')";
 QueryResult result = search(EXPRESSION, QUERY_LANGUAGE)
 
@@ -17,11 +17,22 @@ if (result != null) {
 	try {
 		RowIterator rowIter = result.getRows()
 		while (rowIter.hasNext()) {
-			Row row = rowIter.nextRow()
-			Node node = row.getNode()
-			node.setProperty("sling:resourceType","girlscouts/components/textimage")			
-			save()
-			println(node.getPath())
+			try {
+				Row row = rowIter.nextRow()
+				Node node = row.getNode()
+				node.setProperty("sling:resourceType","girlscouts/components/textimage")
+				println(node.getPath())
+				if(node.hasNode("image")){
+					Node image = node.getNode("image")
+					image.setProperty("sling:resourceType","girlscouts/components/image")
+					println("   "+image.getPath())
+				}
+				save()
+			} catch (Exception e) {
+				println(e.getMessage())
+				e.printStackTrace()
+			}
+			
 		}
 	} catch (Exception e) {
 		println(e.getMessage())

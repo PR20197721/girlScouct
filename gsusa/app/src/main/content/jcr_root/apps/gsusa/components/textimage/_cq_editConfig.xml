@@ -10,10 +10,10 @@
             propertyName="./image/fileReference">
             <parameters
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="girlscouts/components/textimage">
+                sling:resourceType="gsusa/components/textimage">
                 <image
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="girlscouts/components/image"
+                    sling:resourceType="gsusa/components/image"
                     imageCrop=""
                     imageMap=""
                     imageRotate=""/>
