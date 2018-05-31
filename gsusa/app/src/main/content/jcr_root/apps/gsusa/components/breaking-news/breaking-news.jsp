@@ -30,9 +30,12 @@
 		if(newstype.equals("Image")) {
 			if(!filePath.equals("")) {
 				if(!url.equals("")) {
-%>
-					<a href="<%= url %>" <% if(url.substring(0,4).equals("http")) { %> target="_blank" <% } %>>
-<% 
+					if(url.substring(0,4).equals("http")) {
+   						%><a href="<%=url %>" target="_blank"><% 
+					} else{
+    					String gshtmlUrl = url + ".html";
+    					%><a href="<%=gshtmlUrl %>"><% 
+					}
 				}
 %>
 				<img src="<%= filePath %>" alt="<%=alert%> <%=message%>" title="<%=alert%> <%=message%>" style="max-width:100%;" class="thumbnail"/>
@@ -49,9 +52,12 @@
 
 		if(newstype.equals("Text")) {
 			if(!url.equals("")) {
-%>
-				<a href="<%= url %>" title="<%= message %>" <% if(url.substring(0,4).equals("http")) { %> target="_blank" <% } %>>
-<% 
+					if(url.substring(0,4).equals("http")) {
+   						%><a href="<%=url %>" target="_blank"><% 
+					} else{
+    					String gshtmlUrl = url.replaceAll(".html","") + ".html";
+    					%><a href="<%=gshtmlUrl %>"><% 
+					}
 			}
 			if(!textcolor.equals("")) {
 %>
