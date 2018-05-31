@@ -450,7 +450,7 @@ a:hover.menuHighlight {
   /* background-color:#063;*/
 }
 #headerBar .inline-list > li > a {
-    padding: 3px 0;
+    /*padding: 3px 0;*/
 }
 #headerBar .global-navigation {
   margin: 0;
