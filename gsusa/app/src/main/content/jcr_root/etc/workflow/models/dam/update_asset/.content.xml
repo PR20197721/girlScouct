@@ -679,17 +679,18 @@
                     PROCESS="com.day.cq.dam.core.impl.process.DamUpdateAssetWorkflowCompletedProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </damupdateassetworkflowcompletedprocess>
-            <sendtransientworkflowcompletedemailprocess
-                jcr:description="This process will send email based on an email template to current user when a transient workflow is completed"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Send Transient Workflow Completed Email"
-                sling:resourceType="dam/components/workflow/sendtransientworkflowcompletedemailprocess">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.core.impl.process.SendTransientWorkflowCompletedEmailProcess"
-                    PROCESS_AUTO_ADVANCE="true"
-                    templatePath="/etc/dam/workflow/notification/email/transientworkflowcompleted/en.txt"/>
-            </sendtransientworkflowcompletedemailprocess>
+<!--             skipping email -->
+<!--             <sendtransientworkflowcompletedemailprocess -->
+<!--                 jcr:description="This process will send email based on an email template to current user when a transient workflow is completed" -->
+<!--                 jcr:primaryType="nt:unstructured" -->
+<!--                 jcr:title="Send Transient Workflow Completed Email" -->
+<!--                 sling:resourceType="dam/components/workflow/sendtransientworkflowcompletedemailprocess"> -->
+<!--                 <metaData -->
+<!--                     jcr:primaryType="nt:unstructured" -->
+<!--                     PROCESS="com.day.cq.dam.core.impl.process.SendTransientWorkflowCompletedEmailProcess" -->
+<!--                     PROCESS_AUTO_ADVANCE="true" -->
+<!--                     templatePath="/etc/dam/workflow/notification/email/transientworkflowcompleted/en.txt"/> -->
+<!--             </sendtransientworkflowcompletedemailprocess> -->
             <createwebenabledimag
                 jcr:created="{Date}2018-01-03T15:57:08.120-05:00"
                 jcr:createdBy="admin"

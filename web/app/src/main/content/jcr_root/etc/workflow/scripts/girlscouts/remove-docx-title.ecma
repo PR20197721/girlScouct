@@ -13,7 +13,7 @@ if (workflowData.getPayloadType() == "JCR_PATH") {
     var contentPath = original.getParent().getParent().getPath();
     var jcrcontent = session.getNode(contentPath);
 
-    if(jcrcontent !=null ){
+    if(jcrcontent !=null &&  jcrcontent.hasNode("metadata")){
        var metadata = jcrcontent.getNode("metadata");
        if(metadata.hasProperty("dc:format") && metadata.getProperty("dc:format").getString().equals("application/pdf")){
           if(metadata.hasProperty("jcr:title")){

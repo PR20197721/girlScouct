@@ -507,17 +507,18 @@
                 PROCESS="com.day.cq.dam.core.impl.process.DamUpdateAssetWorkflowCompletedProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node37>
-        <node38
-            jcr:primaryType="cq:WorkflowNode"
-            description="This process will send email based on an email template to current user when a transient workflow is completed"
-            title="Send Transient Workflow Completed Email"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.core.impl.process.SendTransientWorkflowCompletedEmailProcess"
-                PROCESS_AUTO_ADVANCE="true"
-                templatePath="/etc/dam/workflow/notification/email/transientworkflowcompleted/en.txt"/>
-        </node38>
+<!--         skipping email -->
+<!--         <node38 -->
+<!--             jcr:primaryType="cq:WorkflowNode" -->
+<!--             description="This process will send email based on an email template to current user when a transient workflow is completed" -->
+<!--             title="Send Transient Workflow Completed Email" -->
+<!--             type="PROCESS"> -->
+<!--             <metaData -->
+<!--                 jcr:primaryType="nt:unstructured" -->
+<!--                 PROCESS="com.day.cq.dam.core.impl.process.SendTransientWorkflowCompletedEmailProcess" -->
+<!--                 PROCESS_AUTO_ADVANCE="true" -->
+<!--                 templatePath="/etc/dam/workflow/notification/email/transientworkflowcompleted/en.txt"/> -->
+<!--         </node38> -->
         <node39
             jcr:primaryType="cq:WorkflowNode"
             description="A process to create a web enabled representation from an asset. Provides various configuration arguments."
@@ -818,20 +819,21 @@
             to="node37">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node36_x0023_node37>
-        <node37_x0023_node38
+<!--         Skipping email -->
+<!--         <node37_x0023_node38 -->
+<!--             jcr:primaryType="cq:WorkflowTransition" -->
+<!--             from="node37" -->
+<!--             rule="" -->
+<!--             to="node38"> -->
+<!--             <metaData jcr:primaryType="nt:unstructured"/> -->
+<!--         </node37_x0023_node38> -->
+        <node37_x0023_node39
             jcr:primaryType="cq:WorkflowTransition"
             from="node37"
             rule=""
-            to="node38">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node37_x0023_node38>
-        <node38_x0023_node39
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node38"
-            rule=""
             to="node39">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node38_x0023_node39>
+        </node37_x0023_node39>
         <node39_x0023_node40
             jcr:primaryType="cq:WorkflowTransition"
             from="node39"
