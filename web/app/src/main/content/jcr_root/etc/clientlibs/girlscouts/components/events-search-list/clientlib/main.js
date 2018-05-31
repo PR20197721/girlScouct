@@ -11,10 +11,10 @@ function EventLoader(jsonPath, containerObj) {
   	var isProcessing = false;
   	
   	containerObj.after(loader);
-  	loadMoreEvents();
+  	loadMore();
   	addLoadMoreButton();
   	
-  	function loadMoreEvents(){
+  	function loadMore(){
   		if(isMore && !isProcessing){
   			isProcessing = true;
   			loader.show();
@@ -49,7 +49,7 @@ function EventLoader(jsonPath, containerObj) {
   		var $buttonAnchor = $("<a>",{"class":"button", "style":"padding: 0.6rem 2rem; font-size: 0.95em; font-weight:bold;","href":"javascript:;"});
   		$buttonAnchor.click(function(e){
   			e.preventDefault();
-  			loadMoreEvents(); 
+  			loadMore(); 
   			bindScroll();
   			$("#loadMoreEvents").remove();
   		});
@@ -75,7 +75,7 @@ function EventLoader(jsonPath, containerObj) {
             	 var scrollHeight = $contentScrollView[0].scrollHeight;
             	 console.log((scrollTop+innerHeight)+">="+scrollHeight+((scrollTop+innerHeight) >=scrollHeight));
             	 if((scrollTop+innerHeight) >=scrollHeight){
- 	  				loadMoreEvents();
+ 	  				loadMore();
  	  			}	  			
   			});
         }else{
@@ -85,7 +85,7 @@ function EventLoader(jsonPath, containerObj) {
                    wH = $(window).height(),
                    wS = $(this).scrollTop();
                 if(wS > (hT+hH-wH)){
-                    loadMoreEvents();
+                    loadMore();
                 }
             });
         }
