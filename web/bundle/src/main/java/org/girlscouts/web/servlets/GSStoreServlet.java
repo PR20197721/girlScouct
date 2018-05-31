@@ -388,7 +388,7 @@ public class GSStoreServlet
             status = 500;
         }
         // check for redirect
-        String redirectTo = request.getParameter(":redirect");
+        String redirectTo = request.getParameter(":gsredirect");
         if (redirectTo != null) {
             if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
                 int pos = redirectTo.indexOf('?');
