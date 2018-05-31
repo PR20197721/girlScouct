@@ -39,7 +39,8 @@
 					if(url.substring(0,4).equals("http")) {
    						%><a href="<%=url %>" target="_blank"><% 
 					} else{
-    					%><a href="<%=url %>"><% 
+    					String gshtmlUrl = url.replaceAll(".html","") + ".html";
+    					%><a href="<%=gshtmlUrl %>"><% 
 					}
  
 				}
@@ -59,7 +60,8 @@
 				if(url.substring(0,4).equals("http")) {
    					%><a href="<%=url %>" target="_blank"><% 
 				} else{
-    				%><a href="<%=url %>"><% 
+    				String gshtmlUrl = url.replaceAll(".html","") + ".html";
+    				%><a href="<%=gshtmlUrl %>"><% 
 				}
 			}
 			if(!textcolor.equals("")) {

@@ -18,11 +18,12 @@ window.BadgeSelectorFocusWindow = (function(){
 	
 	function init(){
 		badgeGrid = $('.badge-grid').wrap($('<div>').addClass('badge-grid-wrapper'));
-		badgeFocusGrid = $('<div>').addClass('badge-focus-grid');
+		badgeFocusGrid = $('<div>').addClass('badge-focus-grid').hide();
 		badgeFocusGrid.insertAfter(badgeGrid);
 	}
 	
 	function _open(){
+		$('.badge-focus-grid').show();
 		allBadgeData = getAvailableBadges();
 		badgeFocusGrid = $('.badge-focus-grid').append('<badge-selector :badge-data="badgeData" @pdf="createPdf" @close="close">');
 		var vm = new Vue({
@@ -66,6 +67,7 @@ window.BadgeSelectorFocusWindow = (function(){
 	
 	function _close(){
 		badgeGrid.show();
+		$('.badge-focus-grid').hide();
 		$('.BadgeSelectionOverlay').hide();
 		$('.badge-selector').parent().children('.section').show();
 		$('.BadgeSelectorModal').css({
@@ -76,7 +78,7 @@ window.BadgeSelectorFocusWindow = (function(){
 		if($(window).width() <= 750){
 			$('.middle-col').css({paddingLeft: '', paddingRight: ''});
 		}
-		badgeFocusGrid = $('.badge-focus-grid').replaceWith($('<div>').addClass('badge-focus-grid'));
+		badgeFocusGrid = $('.badge-focus-grid').replaceWith($('<div>').addClass('badge-focus-grid').hide());
 	}
 	
 	$(init);
