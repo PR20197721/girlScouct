@@ -48,3 +48,5 @@ bin/
 /target
 
 vtk/app/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css/vtk-style.css
+
+tools/6\.3-migration/gsusa/groovy-console-scripts/usergenerated-folder-creation\.groovy
