@@ -65,14 +65,14 @@ function FormsDocsLoader(jsonPath, containerObj, query, tags) {
 		}
 	}
 	function addLoadMoreButton(){
-		var $buttonDiv = $("<div>",{"id":"loadMore"});
+		var $buttonDiv = $("<div>",{"id":"loadMoreForms"});
 		var $buttonPar = $("<p>",{"style":"text-align: center;"});
 		var $buttonAnchor = $("<a>",{"class":"button", "style":"padding: 0.6rem 2rem; font-size: 0.95em; font-weight:bold;","href":"javascript:;"});
 		$buttonAnchor.click(function(e){
 			e.preventDefault();
 			loadMore(); 
 			bindScroll();
-			$("#loadMore").remove();
+			$("#loadMoreForms").remove();
 		});
 		$buttonAnchor.append("LOAD MORE");
 		$buttonPar.append($buttonAnchor);
@@ -95,7 +95,7 @@ function FormsDocsLoader(jsonPath, containerObj, query, tags) {
             	 var scrollHeight = $contentScrollView[0].scrollHeight;
             	 console.log((scrollTop+innerHeight)+">="+scrollHeight+((scrollTop+innerHeight) >=scrollHeight));
             	 if((scrollTop+innerHeight) >=scrollHeight){
- 	  				loadMoreEvents();
+ 	  				loadMore();
  	  			}	  			
   			});
         }else{
@@ -105,7 +105,7 @@ function FormsDocsLoader(jsonPath, containerObj, query, tags) {
                    wH = $(window).height(),
                    wS = $(this).scrollTop();
                 if(wS > (hT+hH-wH)){
-                    loadMoreEvents();
+                    loadMore();
                 }
             });
         }

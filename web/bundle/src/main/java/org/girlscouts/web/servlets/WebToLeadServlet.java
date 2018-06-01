@@ -118,7 +118,7 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 		method = callHttpClient(url);
 		
 		//check for redirect
-		String redirectTo = request.getParameter(FormsConstants.REQUEST_PROPERTY_REDIRECT);
+		String redirectTo = request.getParameter(":gsredirect");
 		if (redirectTo != null && !redirectTo.trim().isEmpty()) {
 			if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
 				int pos = redirectTo.indexOf('?');

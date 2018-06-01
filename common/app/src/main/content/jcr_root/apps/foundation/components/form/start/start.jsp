@@ -34,7 +34,21 @@
 %><cq:setContentBundle/>
 <cq:include script="abacus.jsp"/><%
     FormsHelper.startForm(slingRequest, new JspSlingHttpServletResponseWrapper(pageContext));
-	
+
+	String gsRedirect = properties.get("redirect", "");
+	if(!gsRedirect.isEmpty()){
+        gsRedirect = gsRedirect.trim();
+        if(gsRedirect.charAt(gsRedirect.length() - 1)=='/'){
+			gsRedirect = gsRedirect.substring(0, gsRedirect.length() - 1);
+        }
+        gsRedirect = gsRedirect + ".html";
+        %><input name=":gsredirect" value="<%=gsRedirect%>" type="hidden"><%
+	}
+
+
+
+
+
     // we create the form div our selfs, and turn decoration on again.
     %><div class="form"><%
     %><%= Placeholder.getDefaultPlaceholder(slingRequest, "Form Start", "") %><%
