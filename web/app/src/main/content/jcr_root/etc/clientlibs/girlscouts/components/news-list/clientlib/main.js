@@ -45,10 +45,10 @@ function NewsLoader(jsonPath, containerObj, renderedFeatureNews) {
 		setReadMore();
 	});
 	containerObj.after(loader);
-	loadMoreEvents();
+	loadMore();
 	addLoadMoreButton();
 	
-	function loadMoreEvents(){
+	function loadMore(){
 		if(isMore && !isProcessing){
 			isProcessing = true;
 			loader.show();
@@ -78,14 +78,14 @@ function NewsLoader(jsonPath, containerObj, renderedFeatureNews) {
 	}
 	
 	function addLoadMoreButton(){
-		var $buttonDiv = $("<div>",{"id":"loadMoreEvents"});
+		var $buttonDiv = $("<div>",{"id":"loadMoreNews"});
 		var $buttonPar = $("<p>",{"style":"text-align: center;"});
 		var $buttonAnchor = $("<a>",{"class":"button", "style":"padding: 0.6rem 2rem; font-size: 0.95em; font-weight:bold;","href":"javascript:;"});
 		$buttonAnchor.click(function(e){
 			e.preventDefault();
 			loadMoreEvents(); 
 			bindScroll();
-			$("#loadMoreEvents").remove();
+			$("#loadMoreNews").remove();
 		});
 		$buttonAnchor.append("LOAD MORE");
 		$buttonPar.append($buttonAnchor);
@@ -109,7 +109,7 @@ function NewsLoader(jsonPath, containerObj, renderedFeatureNews) {
             	 var scrollHeight = $contentScrollView[0].scrollHeight;
             	 console.log((scrollTop+innerHeight)+">="+scrollHeight+((scrollTop+innerHeight) >=scrollHeight));
             	 if((scrollTop+innerHeight) >=scrollHeight){
- 	  				loadMoreEvents();
+ 	  				loadMore();
  	  			}	  			
   			});
         }else{
@@ -119,7 +119,7 @@ function NewsLoader(jsonPath, containerObj, renderedFeatureNews) {
                    wH = $(window).height(),
                    wS = $(this).scrollTop();
                 if(wS > (hT+hH-wH)){
-                    loadMoreEvents();
+                    loadMore();
                 }
             });
         }
