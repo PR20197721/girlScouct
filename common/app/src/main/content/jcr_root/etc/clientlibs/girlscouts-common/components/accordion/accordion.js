@@ -87,7 +87,7 @@ window.AccordionWidgetManager = (function(window, document, $){
 		}
 
 		var thisHeader = headerElements.filter(function(){
-			return $(this).attr('id') == currentHash;
+			return currentHash && currentHash.length > 0 && $(this).attr('id') == currentHash;
 		});
 
 		if(thisHeader.length > 0){
