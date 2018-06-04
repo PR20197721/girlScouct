@@ -10,7 +10,7 @@ String RESOURCE_TYPE = "foundation/components/textimage";
 String EXPRESSION = "SELECT s.[jcr:path] "+
 					"FROM [nt:unstructured] AS s "+
 					"WHERE ISDESCENDANTNODE('"+PATH+"') AND (NOT ISDESCENDANTNODE('"+PATH+"/gsusa')) AND"+
-					"CONTAINS(s.[sling:resourceType],'"+RESOURCE_TYPE+"')";
+					" CONTAINS(s.[sling:resourceType],'"+RESOURCE_TYPE+"')";
 QueryResult result = search(EXPRESSION, QUERY_LANGUAGE)
 
 if (result != null) {

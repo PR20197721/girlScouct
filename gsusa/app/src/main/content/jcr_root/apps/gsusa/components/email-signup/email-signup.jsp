@@ -248,7 +248,7 @@ function validateEmail(email) {
 	    <div class="wrapper-inner clearfix">
 	      <form class="email-form" name="submit-email" id="<%= formID %>">
 	        <div class="left-image">
-				<gsusa:image relativePath="iconimage/image" />
+				<gsusa:image relativePath="iconimage" />
 	        </div>
 	        <div class="right-form">
 	          <div class="text">
