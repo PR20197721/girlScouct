@@ -15,7 +15,7 @@
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts-common/components/styled-parsys"
-                components="[group:GSUSA,group:Girl Scouts Form,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
+                components="[group:GSUSA,foundation/components/form/dropdown-no-edit,foundation/components/form/radio,foundation/components/form/password,foundation/components/form/submit,foundation/components/form/start,foundation/components/form/upload,foundation/components/form/checkbox,foundation/components/form/calculation,foundation/components/form/imagebutton,foundation/components/form/address,foundation/components/form/dropdown,foundation/components/form/hidden,girlscouts/components/form/text,girlscouts/components/form/captcha,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
                 <section jcr:primaryType="nt:unstructured"/>
                 <video
                     jcr:lastModified="{Date}2015-06-29T17:07:53.009-04:00"
@@ -33,7 +33,7 @@
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts-common/components/styled-parsys"
-                components="[group:GSUSA,group:Girl Scouts Form,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
+                components="[group:GSUSA,foundation/components/form/dropdown-no-edit,foundation/components/form/radio,foundation/components/form/password,foundation/components/form/submit,foundation/components/form/start,foundation/components/form/upload,foundation/components/form/checkbox,foundation/components/form/calculation,foundation/components/form/imagebutton,foundation/components/form/address,foundation/components/form/dropdown,foundation/components/form/hidden,girlscouts/components/form/text,girlscouts/components/form/captcha,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
                 <section jcr:primaryType="nt:unstructured"/>
             </par>
             <finder-par
@@ -47,7 +47,7 @@
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts-common/components/styled-parsys"
-                components="[group:GSUSA,group:Girl Scouts Form,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
+                components="[group:GSUSA,foundation/components/form/dropdown-no-edit,foundation/components/form/radio,foundation/components/form/password,foundation/components/form/submit,foundation/components/form/start,foundation/components/form/upload,foundation/components/form/checkbox,foundation/components/form/calculation,foundation/components/form/imagebutton,foundation/components/form/address,foundation/components/form/dropdown,foundation/components/form/hidden,girlscouts/components/form/text,girlscouts/components/form/captcha,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
                 <section jcr:primaryType="nt:unstructured"/>
             </top>
         </homepage>
@@ -57,7 +57,7 @@
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/parsys"
-                components="[group:GSUSA,group:Girl Scouts Form,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
+                components="[group:GSUSA,foundation/components/form/dropdown-no-edit,foundation/components/form/radio,foundation/components/form/password,foundation/components/form/submit,foundation/components/form/start,foundation/components/form/upload,foundation/components/form/checkbox,foundation/components/form/calculation,foundation/components/form/imagebutton,foundation/components/form/address,foundation/components/form/dropdown,foundation/components/form/hidden,girlscouts/components/form/text,girlscouts/components/form/captcha,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
                 <section jcr:primaryType="nt:unstructured"/>
             </par>
             <video
@@ -73,7 +73,7 @@
             <par
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/parsys"
-                components="[group:GSUSA,group:Girl Scouts Form,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
+                components="[group:GSUSA,foundation/components/form/dropdown-no-edit,foundation/components/form/radio,foundation/components/form/password,foundation/components/form/submit,foundation/components/form/start,foundation/components/form/upload,foundation/components/form/checkbox,foundation/components/form/calculation,foundation/components/form/imagebutton,foundation/components/form/address,foundation/components/form/dropdown,foundation/components/form/hidden,girlscouts/components/form/text,girlscouts/components/form/captcha,girlscouts/components/embedded,girlscouts/components/grid-system,girlscouts/components/row,girlscouts/components/text,girlscouts/components/title,girlscouts/components/video]">
                 <section jcr:primaryType="nt:unstructured"/>
             </par>            
         </three-column-page>
