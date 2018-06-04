@@ -83,7 +83,7 @@ function NewsLoader(jsonPath, containerObj, renderedFeatureNews) {
 		var $buttonAnchor = $("<a>",{"class":"button", "style":"padding: 0.6rem 2rem; font-size: 0.95em; font-weight:bold;","href":"javascript:;"});
 		$buttonAnchor.click(function(e){
 			e.preventDefault();
-			loadMoreEvents(); 
+			loadMore(); 
 			bindScroll();
 			$("#loadMoreNews").remove();
 		});
