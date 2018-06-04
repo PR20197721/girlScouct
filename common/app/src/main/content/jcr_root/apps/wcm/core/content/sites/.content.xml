@@ -23,7 +23,7 @@
                         	<granite:rendercondition
 					            jcr:primaryType="nt:unstructured"
 					            sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
-								path="/etc/renderconditions/features/content/sites/createlinks"
+								path="/etc/renderconditions/features/content/sites/livecopylinks"
 						        privileges="[jcr:read]"/>
                         </createlivecopy>
                         <createlaunch jcr:primaryType="nt:unstructured">
