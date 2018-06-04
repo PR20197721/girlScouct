@@ -38,7 +38,7 @@ if (hasHeader) {// contains cookie) {
 if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 %>
 	<div class="hide-for-small">
-		<h2 style="background-color: yellow; text-align: center">Mobile Cookie Header Placeholder.</h2>
+		<h3 style="background-color: #bbb; text-align: center; border: 1px solid black; color: green;">Mobile Cookie Header Placeholder.</h3>
 	</div>
 <%
 }

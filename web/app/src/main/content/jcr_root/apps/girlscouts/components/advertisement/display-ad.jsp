@@ -105,6 +105,7 @@ if (currentAd != null) {
 
 	// display the ad only if customURL is NOT set or there is a match
 	if(customURLSet == false || displayThisAd) {
+        request.setAttribute("adWasRendered", true);
 %>
 	<a href="<%=adLink%>" <%= linkTarget ? "target=\"_blank\"" : "" %>><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="girlscouts/components/image" /></a>
 <%

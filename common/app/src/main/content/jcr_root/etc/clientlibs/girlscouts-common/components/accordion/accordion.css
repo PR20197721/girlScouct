@@ -1,6 +1,6 @@
 .accordion.section h6.accordionComponentLabel{
     width: calc(100% - 40px);
-    padding-left: 15px;
+    padding-left: 10px;
     padding-right: 0;
     display: inline-block;
 }
@@ -22,7 +22,7 @@ dt.accordionHeaderShown > h6.accordionComponentLabel{
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-top: 10px solid #00ae58;
-    margin: 17px 10px;
+    margin: 14px 10px;
     transition-duration: 500ms;
     transition-properties: border-top transform;
 }

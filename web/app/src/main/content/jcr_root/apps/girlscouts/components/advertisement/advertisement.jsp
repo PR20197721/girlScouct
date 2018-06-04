@@ -71,6 +71,7 @@ if(customized){
 else{
 
     Set<String> excludedSet = new HashSet<String>(Arrays.asList(excludedPages));
+
     String rootPath = properties.get("path", "");
     if (rootPath.isEmpty()) {
         rootPath = currentSite.get("adsPath", "");
@@ -86,10 +87,13 @@ else{
         if (adRoot != null) {
             Iterator<Page> iter = adRoot.listChildren();
             int renderCount = 0;
+            boolean adWasRendered = false;
             while(iter.hasNext() && adCount > 0) {
                 Page currentAd = iter.next();
+                adWasRendered = false;
                 if(isAd(currentAd) && !excludedSet.contains(currentAd.getPath())) {
                     request.setAttribute(AD_ATTR, currentAd);
+                    request.setAttribute("adWasRendered", false);
                     %>
                     <div class="hide-for-small">
                     <cq:include script="display-ad.jsp"/>
@@ -100,11 +104,18 @@ else{
                     <cq:include script="display-ad.jsp"/>
                     </div>
                     </div>
-                    <% adCount--; renderCount++;
+                    <% adCount--;
+                    adWasRendered = Boolean.TRUE == request.getAttribute("adWasRendered");
+                    if(adWasRendered){
+						renderCount++;
+                    }
+
                 }
+
             }
-            if(renderCount == 0 && WCMMode.fromRequest(request) == WCMMode.EDIT){
-                %><h2>No Ads Available To Render</h2> <%
+
+            if(renderCount == 0){
+                %><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
             }
         } 
     }catch(Exception e){
