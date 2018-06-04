@@ -25,7 +25,7 @@ public class GSRenditionPicker implements RenditionPicker {
             }
         }
         // 2. return current rendition
-        return asset.getCurrentOriginal();
+		return asset.getOriginal();
     }
 
 }
