@@ -51,6 +51,18 @@ public class Image extends com.day.cq.wcm.foundation.Image {
             }
         }
 
+        /*
+         * In 6.1 "middle" did not resolve correctly because of a bug in the RenditionPicker.
+         * Now that the bug is resolved, "middle" properly resolves to a 520px image.  However
+         * Councils have been working-around the issue by creating 530px width images and the
+         * "original" size image was being pulled.  Current requirement is for this functionality
+         * to not change.  To avoid needing to create an entire new rendition category, the
+         * original image rendition will be used.
+         */
+        if("middle".equals(imageVar)){
+        	imageVar = "original";
+		}
+
         Resource res = rr.getResource(path);
 		if (res != null && res.adaptTo(Asset.class) != null) {
 			Rendition rendition =  ((Asset)res.adaptTo(Asset.class)).getRendition(getRenditionPicker(imageVar));
