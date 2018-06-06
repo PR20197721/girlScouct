@@ -11,6 +11,10 @@ import com.day.cq.dam.api.Rendition;
 import com.day.cq.dam.api.RenditionPicker;
 
 public class GSRenditionPicker implements RenditionPicker {
+
+	// Allow original to be selected
+	private static final String ORIGINAL = "original";
+	private static final String DAM_ORIGINAL = "cq5dam.npd.original";
 	
 	//GSUSA Renditions
 	private static final String TOP = "cq5dam.npd.top";
@@ -36,7 +40,7 @@ public class GSRenditionPicker implements RenditionPicker {
 	private static final String R520X520 = "cq5dam.web.520.520";
 	private static final String R1280X1280 = "cq5dam.web.1280.1280";
 
-	private static final List<String> COUNCIL_RENDITIONS = Arrays.asList(R48X48, R140X100, R319X319, R120X80, R240X240, R400X400, R520X520, R1280X1280);
+	private static final List<String> COUNCIL_RENDITIONS = Arrays.asList(DAM_ORIGINAL, ORIGINAL, R48X48, R140X100, R319X319, R120X80, R240X240, R400X400, R520X520, R1280X1280);
 	
 	 String[] targetRenditions;
 	 public GSRenditionPicker(String... targetRenditions) {
@@ -59,7 +63,7 @@ public class GSRenditionPicker implements RenditionPicker {
 				
 		if(RIGHT.equals(gsusaRenditionName))
 			return R520X520;
-				
+
 		if(MIDDLE.equals(gsusaRenditionName))
 			return R520X520;
 					
@@ -87,8 +91,7 @@ public class GSRenditionPicker implements RenditionPicker {
 		return R520X520;
 	}
 
-	public Rendition getRendition(Asset asset)
-	{
+	public Rendition getRendition(Asset asset) {
 		List<Rendition> renditions = asset.getRenditions();
         for (String targetRendition : targetRenditions) {
 	        	String councilRendition = this.getCouncilAnalog(targetRendition);
