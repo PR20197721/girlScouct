@@ -10,7 +10,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Adobe Marketing Cloud"
         jcr:uuid="1942f1ff-9310-4782-8979-8b61f78f012e"
-        sling:resourceType="granite/core/components/login"
+        sling:resourceType="granite/core/components/cug-login"
         sling:vanityPath="/content/girlscouts-future/login.html">
         <adobe-logo.png/>
         <configs

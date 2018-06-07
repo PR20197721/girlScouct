@@ -392,7 +392,7 @@ login
     <style type="text/css">
         <%
             HtmlLibraryManager htmlMgr = sling.getService(HtmlLibraryManager.class);
-            HtmlLibrary lib = htmlMgr.getLibrary(LibraryType.CSS, "/libs/granite/core/content/login/clientlib");
+            HtmlLibrary lib = htmlMgr.getLibrary(LibraryType.CSS, "/etc/clientlibs/granite/cug-login");
             IOUtils.copy(lib.getInputStream(true), out, "utf-8");
         %>
     </style>
