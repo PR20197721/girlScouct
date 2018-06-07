@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2017-09-26T12:40:39.281-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Adobe Marketing Cloud"
+        jcr:uuid="7b5ca2c9-71c5-42d8-a00c-a298dde712b2"
+        sling:resourceType="granite/core/components/cug-login-single-username"
+        sling:vanityPath="/content/preview/login.html">
+        <adobe-logo.png/>
+        <configs
+            cq:lastReplicated="{Date}2017-08-29T11:43:30.291-04:00"
+            cq:lastReplicatedBy="mzou"
+            cq:lastReplicationAction="Activate"
+            jcr:mixinTypes="[cq:ReplicationStatus]"
+            jcr:primaryType="nt:unstructured">
+            <default
+                jcr:primaryType="nt:unstructured"
+                order="{Long}100">
+                <footer jcr:primaryType="nt:unstructured">
+                    <copy
+                        jcr:primaryType="nt:unstructured"
+                        text="© 2015 Adobe Systems Incorporated. All Rights Reserved."/>
+                    <items/>
+                </footer>
+            </default>
+            <cq/>
+        </configs>
+        <extensions/>
+        <favicon.ico/>
+    </jcr:content>
+</jcr:root>
