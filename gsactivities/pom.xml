@@ -98,9 +98,14 @@
             <dependency> 
 	            <groupId>org.apache.commons</groupId> 
 	            <artifactId>commons-lang3</artifactId>
-	            <version>3.0.1</version>
+	            <version>3.4</version>
 	            <scope>provided</scope>
 	         </dependency> 
+	         <dependency>
+			  	<groupId>commons-net</groupId>
+			  	<artifactId>commons-net</artifactId>
+			  	<version>3.6</version>
+			</dependency> 
         </dependencies>
     </dependencyManagement>
 
