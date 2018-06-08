@@ -6,7 +6,7 @@ import java.net.SocketException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Calendar; 
 import java.util.Collections;
 import java.util.Date;
 import java.util.Dictionary;
@@ -111,6 +111,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 
 	private FTPSClient ftp;
 	private ResourceResolver rr;
+	private Map<String, Object> serviceParams;
 	//configuration fields
 	public static final String SERVER = "server";
 	public static final String USER = "username";
@@ -182,17 +183,100 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		log.info("GSActivities:: Configure: ftp server="+server+"; username="+user+"; directory="+directory+"salesforcePath=" + salesforcePath);	
 		ftp = new FTPSClient(false);
 		ftp.setDefaultTimeout(TIME_OUT_IN_MS);
+		serviceParams = new HashMap<String, Object>();
+		serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+		
+		
+		
+		readTimeStamp();
+		resetDate();
+	}
+	
+	public void run() {
+		//TODO: Change the following if case so that it uses policy = ConfigurationPolicy.REQUIRE to check for publishing servers 
+		//More info: http://aemfaq.blogspot.com/search/label/runmode
+		//http://stackoverflow.com/questions/19292933/creating-osgi-bundles-with-different-services
+		if (isPublisher()) {
+			return;
+		}
+		errorString = new StringBuilder();
+		processInterrupted = false;
 		try {
-			Map<String, Object> serviceParams = new HashMap<String, Object>();
-			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
 			rr = resolverFactory.getServiceResourceResolver(serviceParams);
 		} catch (LoginException e) {
 			log.error("GSActivities:: Encountered login error", e);
 		}
-		processInterrupted = false;
-		errorString = new StringBuilder();
-		readTimeStamp();
-		resetDate();
+		
+		log.info("Running SF Events Importer..." );
+		log.info("GSActivities:: Refreshing FTPS Client");
+		ftp = new FTPSClient(false);
+		ftp.setDefaultTimeout(TIME_OUT_IN_MS);
+		try{
+			if (ftpLogin()) {
+				getFiles();
+				
+			} else {
+				errorString.append("<p>Unable to login to FTP</p>"); 
+				processInterrupted = true;
+				throw new GirlScoutsException(null, "ftpLogin() return false. Failed to login."); 
+			}
+		} catch(IOException e) {
+			errorString.append("<p>Unable to process FTP files due to IO error: " + e.getMessage() + ".</p>");
+			processInterrupted = true;
+			log.error("GSActivities:: IOException caught during access to FTP server",e);
+		} catch(Exception e) {
+			errorString.append("<p>Unable to process FTP files due to general error: " + e.getMessage() + " " + e.getClass().getName() + ".</p>");
+			processInterrupted = true;
+			log.error("GSActivities:: General Exception caught during access to FTP server",e);
+		} finally {
+			try {
+
+				if (messageGatewayService != null && null != errorString && !errorString.toString().isEmpty() && processInterrupted) {
+					MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
+					HtmlEmail email = new HtmlEmail();
+					ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+					email.setSubject("GSActivities Syncing Process Failed Due to Unresolved Errors");
+					for(int i = 0; i < this.errorRecipients.length; i++){
+						try {
+							String recipient = errorRecipients[i];
+							emailRecipients
+									.add(new InternetAddress(recipient));
+						} catch (AddressException e) {
+							log.error("GSActivities: Initiator email incorrectly formatted", e);
+						}
+					}
+					email.setTo(emailRecipients);
+					email.setHtmlMsg("<p>The following errors were encountered while events were being imported.</p>" 
+							+ "<p>----------------</p><br>" + errorString.toString());
+					messageGateway.send(email);
+				} else {
+					if(messageGatewayService == null){
+						log.error("GSActivities:: Message Gateway is unavailable the SMTP service may need to be set up");
+					} else{
+						log.info("GSActivities:: Error email has not been sent");
+					}
+				}
+
+			} catch (EmailException e) {
+
+				log.error("GSActivities:: Message Gateway unable to send email due an email exception being thrown", e);
+			} catch (Exception e) {
+				log.error("GSActivities:: Message Gateway unable to send email due general exception being thrown", e);
+			}
+			
+			//Close resource resolver
+			rr.close();
+			if (ftp.isConnected()) {
+				try {
+					ftp.logout();
+					ftp.disconnect();
+					log.info("GSActivities:: Disconnected from the FTP server");
+				} catch (IOException ioe) {
+					log.error("GSActivities:: IOException catched when trying to disconnect ftp server");
+				}
+			} 
+			
+		}
 	}
 	
 	public Date getTimeStamp() {
@@ -726,81 +810,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		return true;
 
 	}
-	public void run() {
-		//TODO: Change the following if case so that it uses policy = ConfigurationPolicy.REQUIRE to check for publishing servers 
-		//More info: http://aemfaq.blogspot.com/search/label/runmode
-		//http://stackoverflow.com/questions/19292933/creating-osgi-bundles-with-different-services
-		if (isPublisher()) {
-			return;
-		}
-		log.info("Running SF Events Importer..." );
-		log.info("GSActivities:: Refreshing FTPS Client");
-		ftp = new FTPSClient(false);
-		ftp.setDefaultTimeout(TIME_OUT_IN_MS);
-		try{
-			if (ftpLogin()) {
-				getFiles();
-				
-			} else {
-				errorString.append("<p>Unable to login to FTP</p>"); 
-				processInterrupted = true;
-				throw new GirlScoutsException(null, "ftpLogin() return false. Failed to login."); 
-			}
-		} catch(IOException e) {
-			errorString.append("<p>Unable to process FTP files due to IO error: " + e.getMessage() + ".</p>");
-			processInterrupted = true;
-			log.error("GSActivities:: IOException caught during access to FTP server",e);
-		} catch(Exception e) {
-			errorString.append("<p>Unable to process FTP files due to general error: " + e.getMessage() + " " + e.getClass().getName() + ".</p>");
-			processInterrupted = true;
-			log.error("GSActivities:: General Exception caught during access to FTP server",e);
-		} finally {
-			try {
-
-				if (messageGatewayService != null && null != errorString && !errorString.toString().isEmpty() && processInterrupted) {
-					MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-					HtmlEmail email = new HtmlEmail();
-					ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-					email.setSubject("GSActivities Syncing Process Failed Due to Unresolved Errors");
-					for(int i = 0; i < this.errorRecipients.length; i++){
-						try {
-							String recipient = errorRecipients[i];
-							emailRecipients
-									.add(new InternetAddress(recipient));
-						} catch (AddressException e) {
-							log.error("GSActivities: Initiator email incorrectly formatted", e);
-						}
-					}
-					email.setTo(emailRecipients);
-					email.setHtmlMsg("<p>The following errors were encountered while events were being imported.</p>" 
-							+ "<p>----------------</p><br>" + errorString.toString());
-					messageGateway.send(email);
-				} else {
-					if(messageGatewayService == null){
-						log.error("GSActivities:: Message Gateway is unavailable the SMTP service may need to be set up");
-					} else{
-						log.info("GSActivities:: Error email has not been sent");
-					}
-				}
-
-			} catch (EmailException e) {
-
-				log.error("GSActivities:: Message Gateway unable to send email due an email exception being thrown", e);
-			} catch (Exception e) {
-				log.error("GSActivities:: Message Gateway unable to send email due general exception being thrown", e);
-			}
-			if (ftp.isConnected()) {
-				try {
-					ftp.logout();
-					ftp.disconnect();
-					log.info("GSActivities:: Disconnected from the FTP server");
-				} catch (IOException ioe) {
-					log.error("GSActivities:: IOException catched when trying to disconnect ftp server");
-				}
-			} 
-			
-		}
-	}
+	
 	
 	private boolean isPublisher() {
 		if (settingsService.getRunModes().contains("publish")) {
