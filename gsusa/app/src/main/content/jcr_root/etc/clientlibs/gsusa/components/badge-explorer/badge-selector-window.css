@@ -21,10 +21,10 @@
 }
 
 .AddAllPdfCircleSelected {
-	transform: scale(0);
+	transform: scale(0.01);
 	opacity: 0;
 	transition-duration: 500ms;
-	transition-property: transform opacity;
+	transition-property: transform, opacity;
     transform-origin: center;
 }
 
@@ -103,8 +103,9 @@
 }
 
 .badge-focus-grid {
-    position: relative;
-    box-shadow: 0px 0px 8px 8px #999;
+	position: relative;
+	box-shadow: 4px 3px 6px 2px #999;
+	border: 1px solid #aaa;
 }
 
 .BadgeSelectorModal h1 {

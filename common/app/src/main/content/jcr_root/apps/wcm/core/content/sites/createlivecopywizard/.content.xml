@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content jcr:primaryType="nt:unstructured" >
+        <body jcr:primaryType="nt:unstructured" >
+            <items jcr:primaryType="nt:unstructured">
+                <form jcr:primaryType="nt:unstructured">
+                    <items jcr:primaryType="nt:unstructured">
+                        <wizard jcr:primaryType="nt:unstructured">
+                            <items jcr:primaryType="nt:unstructured">
+                                <livecopyproperties jcr:primaryType="nt:unstructured" >
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <fixedColumnContainer jcr:primaryType="nt:unstructured" >
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <fixedColumn jcr:primaryType="nt:unstructured">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <rolloutconfigs jcr:primaryType="nt:unstructured" required="{Boolean}true"/>                                                            
+                                                    </items>
+                                                </fixedColumn>
+                                            </items>
+                                        </fixedColumnContainer>
+                                    </items>
+                                    <parentConfig/>
+                                </livecopyproperties>
+                            </items>
+                        </wizard>
+                    </items>
+                </form>
+            </items>
+        </body>
+    </jcr:content>
+</jcr:root>

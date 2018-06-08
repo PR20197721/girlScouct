@@ -3,7 +3,7 @@
 ADOBE CONFIDENTIAL
 __________________
 
-Copyright 2012 Adobe Systems Incorporated
+Copyright 2015 Adobe Systems Incorporated
 All Rights Reserved.
 
 NOTICE:  All information contained herein is, and remains
@@ -14,24 +14,32 @@ suppliers and are protected by trade secret or copyright law.
 Dissemination of this information or reproduction of this material
 is strictly forbidden unless prior written permission is obtained
 from Adobe Systems Incorporated.
---%>
-<%@page session="false"
-        contentType="text/html"
-        pageEncoding="utf-8"
-        import="java.util.HashMap,
+--%><%@page session="false"
+            contentType="text/html"
+            pageEncoding="utf-8"
+            import="java.util.HashMap,
                   java.util.Map,
+                  java.util.List,
                   java.util.Iterator,
+                  java.util.Arrays,
+                  java.util.Locale,
+                  java.util.ResourceBundle,
                   org.apache.commons.io.IOUtils,
                   org.apache.commons.lang3.StringUtils,
                   org.apache.sling.api.resource.Resource,
                   org.apache.sling.api.resource.ResourceUtil,
+                  org.apache.sling.api.SlingHttpServletRequest,
                   org.apache.sling.api.resource.ValueMap,
                   com.adobe.granite.xss.XSSAPI,
                   com.day.cq.i18n.I18n,
-                  com.adobe.granite.ui.clientlibs.HtmlLibrary, 
+                  com.adobe.granite.ui.clientlibs.HtmlLibrary,
                   com.adobe.granite.ui.clientlibs.HtmlLibraryManager,
                   com.adobe.granite.ui.clientlibs.LibraryType,
-                  org.apache.sling.auth.core.AuthUtil"%><%
+                  com.adobe.granite.license.ProductInfoProvider,
+                  com.adobe.granite.security.user.UserManagementService,
+                  org.apache.sling.auth.core.AuthUtil,
+                  org.apache.sling.auth.core.AuthConstants,
+                  java.util.Calendar"%><%
 %><%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0"%><%
 %><%@ taglib prefix="ui" uri="http://www.adobe.com/taglibs/granite/ui/1.0" %><%--
 login
@@ -43,7 +51,7 @@ login
 
    /**
     * The HTML title.
-    * Defaults to "Adobe Marketing Cloud".
+    * Defaults to "Adobe Experience Cloud".
     */
     - title (String)
 
@@ -57,7 +65,7 @@ login
 
    /**
     * The title in the box.
-    * Defaults to "Welcome to Adobe Marketing Cloud".
+    * Defaults to "Welcome to Adobe Experience Cloud".
     */
     - box/title (String)
 
@@ -182,6 +190,11 @@ login
     */
     - box/loginExpiredText (String)
 
+   /**
+    * The error message displayed when the password is expired and the newly chosen password is in the password history.
+    * Defaults to "New password is in password history".
+    */
+    - box/loginInHistoryText (String)
 
    /**
     * The error message displayed when the new and confirm passwords do not match.
@@ -232,9 +245,24 @@ login
     static final String REASON_KEY_INVALID_LOGIN = "invalid_login";
     static final String REASON_KEY_SESSION_TIMED_OUT = "session_timed_out";
 
-    String printProperty(ValueMap cfg, I18n i18n, XSSAPI xssAPI, String name, String defaultText) {
+    static final String DEFAULT_AUTH_URL_SUFFIX  = "/j_security_check";
+
+    static final String ERROR_SELECTOR = "error";
+    static final String CHANGE_PWD_SELECTOR = "changepassword";
+
+    private String printProperty(ValueMap cfg, I18n i18n, XSSAPI xssAPI, String name, String defaultText) {
+        String text = getText(cfg, i18n, name, defaultText);
+        return xssAPI.encodeForHTML(text);
+    }
+
+    private String printAttribute(ValueMap cfg, I18n i18n, XSSAPI xssAPI, String name, String defaultText) {
+        String text = getText(cfg, i18n, name, defaultText);
+        return xssAPI.encodeForHTMLAttr(text);
+    }
+
+    private String getText(ValueMap cfg, I18n i18n, String name, String defaultText) {
         String text = cfg.get(name, String.class);
-        return xssAPI.encodeForHTML( text != null ? i18n.getVar(text) : defaultText );
+        return text != null ? i18n.getVar(text) : defaultText;
     }
 
     /**
@@ -243,7 +271,7 @@ login
      * @param current the
      * @return the selected configuration root resource or <code>null</code> if no configuration root could be found.
      */
-    Resource getConfigRoot(Resource current) {
+    private Resource getConfigRoot(Resource current) {
         Resource configs = current.getChild("configs");
         Resource configRoot = null;
         if (configs != null) {
@@ -263,12 +291,54 @@ login
         return configRoot;
     }
 
+    /**
+     * Returns a URL suffix which ensures that the request is handled by {@link org.apache.sling.auth.core.impl.SlingAuthenticator}
+     * If no custom suffices are found, this method returns <code>DEFAULT_AUTH_URL_SUFFIX</code>
+     *
+     * @return a URL suffix which will ensure that the URL is handled by the authenticator.
+     */
+    private String getAuthURLSuffix(SlingHttpServletRequest req) {
+        final Object authUriSufficesObj = req.getAttribute(AuthConstants.ATTR_REQUEST_AUTH_URI_SUFFIX);
+        if (authUriSufficesObj instanceof String[]) {
+            final String[] authUriSuffices = (String[]) authUriSufficesObj;
+            if (authUriSuffices.length > 0) {
+                // Any suffix from this array would be valid. Return the first.
+                return authUriSuffices[0];
+            }
+        }
+        return DEFAULT_AUTH_URL_SUFFIX;
+    }
+
 %><sling:defineObjects /><%
 
     final Resource configs = getConfigRoot(resource);
 
-    final I18n i18n = new I18n(slingRequest);
+    final String browserAcceptLang = request.getHeader("Accept-Language");
+    String browserLang;
+    String browserRegion;
+    Locale browserLocale = null;
+
+    if (browserAcceptLang != null) {
+        if (browserAcceptLang.matches("^[a-zA-Z][a-zA-Z](-|_)[a-zA-Z][a-zA-Z].*")) {
+            browserLang = browserAcceptLang.substring(0,2);
+            browserRegion = browserAcceptLang.substring(3,5);
+            browserLocale = new Locale(browserLang, browserRegion);
+        } else if (browserAcceptLang.matches("^[a-zA-Z][a-zA-Z].*")) {
+            browserLang = browserAcceptLang.substring(0,2);
+            browserLocale = new Locale(browserLang);
+        }
+    }
+
+    final I18n i18n;
+    if (browserLocale != null) {
+        ResourceBundle browserLocaleBundle = slingRequest.getResourceBundle(browserLocale);
+        i18n = new I18n(browserLocaleBundle);
+    } else {
+        i18n = new I18n(slingRequest);
+    }
+
     final XSSAPI xssAPI = sling.getService(XSSAPI.class).getRequestSpecificAPI(slingRequest);
+    final UserManagementService userManagementService = sling.getService(UserManagementService.class);
     final ValueMap cfg = ResourceUtil.getValueMap(configs);
 
     final String authType = request.getAuthType();
@@ -279,6 +349,15 @@ login
     Map<String,String> validReasons = new HashMap<String, String>();
     validReasons.put(REASON_KEY_INVALID_LOGIN, printProperty(cfg, i18n, xssAPI, "box/invalidLoginText", i18n.get("User name and password do not match")));
     validReasons.put(REASON_KEY_SESSION_TIMED_OUT, printProperty(cfg, i18n, xssAPI, "box/sessionTimedOutText", i18n.get("Session timed out, please login again")));
+    // load custom error types
+    Resource errors = resource.getChild("errors");
+    if (errors != null) {
+        for (Iterator<Resource> customErrors = errors.listChildren() ; customErrors.hasNext() ; ) {
+            Resource customError = customErrors.next();
+            validReasons.put(customError.getName(), printProperty(customError.adaptTo(ValueMap.class), i18n, xssAPI, "/text", i18n.get("Error")));
+        }
+    }
+
 
     String reason = request.getParameter(PARAM_NAME_REASON) != null
             ? request.getParameter(PARAM_NAME_REASON)
@@ -294,32 +373,30 @@ login
         }
     }
 
-    String selectorString = slingRequest.getRequestPathInfo().getSelectorString();
-    Boolean isLogin = selectorString == null || selectorString.indexOf("changepassword") == -1;
+    List<String> selectors = Arrays.asList(slingRequest.getRequestPathInfo().getSelectors());
 
-String cug = cfg.get("box/cug","anonymous");
+    boolean isLogin = ! selectors.contains(CHANGE_PWD_SELECTOR);
+    boolean isError = selectors.contains(ERROR_SELECTOR);
+
+
+    String cug = cfg.get("box/cug","anonymous");
 
 %><!DOCTYPE html>
-<!--[if lt IE 7 ]> <html class="ie6 oldie coral-App"> <![endif]-->
-<!--[if IE 7 ]> <html class="ie7 oldie coral-App"> <![endif]-->
-<!--[if IE 8 ]> <html class="ie8 oldie coral-App"> <![endif]-->
-<!--[if IE 9 ]> <html class="ie9 coral-App"> <![endif]-->
-<!--[if !(lt IE 10)|!(IE)]><!--> <html class="coral-App"> <!--<![endif]-->
+<html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <%-- optimized for mobile, zoom/scaling disabled --%>
     <meta name="viewport" content="width = device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <title><%= printProperty(cfg, i18n, xssAPI, "title", i18n.get("Adobe Marketing Cloud")) %></title>
+    <title><%= printProperty(cfg, i18n, xssAPI, "title", i18n.get("Adobe Experience Cloud")) %></title>
     <style type="text/css">
         <%
             HtmlLibraryManager htmlMgr = sling.getService(HtmlLibraryManager.class);
-HtmlLibrary lib = htmlMgr.getLibrary(LibraryType.CSS, "/etc/clientlibs/granite/cug-login");
+            HtmlLibrary lib = htmlMgr.getLibrary(LibraryType.CSS, "/etc/clientlibs/granite/cug-login");
             IOUtils.copy(lib.getInputStream(true), out, "utf-8");
         %>
     </style>
-
-    <ui:includeClientLib css="coralui2" />
+    <ui:includeClientLib categories="coralui3" />
     <%
         String favicon = xssAPI.getValidHref(cfg.get("favicon", "login/adobe-logo.png"));
         favicon = xssAPI.getValidHref(favicon);
@@ -328,160 +405,162 @@ HtmlLibrary lib = htmlMgr.getLibrary(LibraryType.CSS, "/etc/clientlibs/granite/c
     <link rel="icon" href="<%= favicon %>" type="image/png">
     <%-- Load the clientlib(s). Extension libraries should use the  'granite.core.login.extension' category. --%>
     <ui:includeClientLib js="jquery,typekit,granite.core.login,granite.core.login.extension"/>
+    <ui:includeClientLib css="granite.core.login.extension"/>
 </head>
-<body class="coral--light coral-App">
+<body class="coral--light">
 <div id="wrap">
     <div id="backgrounds">
         <%-- this holds all the background divs that are dynamically loaded --%>
         <div id="bg_default" class="background"></div>
     </div>
-    <div id="tag"></div>
+    <div id="tag"></div><%
+    // make sure the redirect path is valid and prefixed with the context path
+    String redirect = request.getParameter("resource");
+    if (redirect == null || !AuthUtil.isRedirectValid(request, redirect)) {
+        redirect = "/";
+    }
+    if (!redirect.startsWith(contextPath)) {
+        redirect = contextPath + redirect;
+    }
+    String urlLogin = request.getContextPath() + resource.getPath() + ".html" + getAuthURLSuffix(slingRequest);
 
-    <%
-        // make sure the redirect path is valid and prefixed with the context path
-        String redirect = request.getParameter("resource");
-        if (redirect == null || !AuthUtil.isRedirectValid(request, redirect)) {
-            redirect = "/";
-        }
-        if (!redirect.startsWith(contextPath)) {
-            redirect = contextPath + redirect;
-        }
-        String urlLogin = request.getContextPath() + resource.getPath() + ".html/j_security_check";
+    if (authType == null || user == null || userManagementService.getAnonymousId().equals(user)) {
 
-        if (authType == null || user == null || user.equals("anonymous")) {
-
-    %>
-    <div id="login-box">
-        <div class="header">
-            <h1 class="coral-Heading coral-Heading--1"><%= printProperty(cfg, i18n, xssAPI, "box/title", i18n.get("Welcome to Adobe Marketing Cloud")) %></h1>
-        </div>
-        <div id="leftbox" class="box">
-            <p>
-                <%= printProperty(cfg, i18n, xssAPI, "box/text", i18n.get("All the tools you need to solve these complex digital business challenges.")) %>
-                <a class="coral-Link" id="learnmore" href="<%= xssAPI.getValidHref(i18n.getVar(cfg.get("box/learnMore/href", "#"))) %>" x-cq-linkchecker="skip"><%= printProperty(cfg, i18n, xssAPI, "box/learnMore/text", i18n.get("Learn More")) %></a>
-            </p>
-        </div>
-        <div id="rightbox" class="box">
-            <% String autocomplete = cfg.get("box/autocomplete", false) ? "on" : "off" ; %>
-            <form class="coral-Form coral-Form--vertical" name="login" method="POST" id="login" action="<%= xssAPI.getValidHref(urlLogin) %>" novalidate="novalidate">
-                <input type="hidden" name="_charset_" value="UTF-8"/>
-                <input type="hidden" name="errorMessage" value="<%= validReasons.get(REASON_KEY_INVALID_LOGIN) %>"/>
-                <input type="hidden" name="resource" id="resource" value="<%= xssAPI.encodeForHTMLAttr(redirect) %>"/>
-                <%
-                    String loginTitle = printProperty(cfg, i18n, xssAPI, "box/formTitle", i18n.get("Sign In"));
-                    String changeTitle = printProperty(cfg, i18n, xssAPI, "box/changePasswordTitle", i18n.get("Change Password"));
-                    String userPlaceholder = printProperty(cfg, i18n, xssAPI, "box/userPlaceholder", i18n.get("User name"));
-                    String loginPasswordPlaceholder = printProperty(cfg, i18n, xssAPI, "box/passwordPlaceholder", i18n.get("Password"));
-                    String changePasswordPlaceholder = printProperty(cfg, i18n, xssAPI, "box/oldPasswordPlaceholder", i18n.get("Old password"));
-                    String newPasswordPlaceholder = printProperty(cfg, i18n, xssAPI, "box/newPasswordPlaceholder", i18n.get("New password"));
-                    String confirmPasswordPlaceholder = printProperty(cfg, i18n, xssAPI, "box/confirmPasswordPlaceholder", i18n.get("Confirm new password"));
-                    String loginSubmitText = printProperty(cfg, i18n, xssAPI, "box/submitText", i18n.get("Sign In"));
-                    String changeSubmitText = printProperty(cfg, i18n, xssAPI, "box/changePasswordSubmitText", i18n.get("Submit"));
-                %>
-                <p class="sign-in-title"><%= isLogin ? loginTitle : changeTitle %></p>
-                <input class="coral-Form-field coral-Textfield" id="username" name="j_username" type="hidden" autofocus="autofocus" pattern=".*" placeholder="<%= userPlaceholder %>" spellcheck="false" autocomplete="<%= autocomplete %>" value="<%= cug %>" disabled/>
-                <label id="password-label" for="password"><span><%= isLogin ? loginPasswordPlaceholder : changePasswordPlaceholder %></span></label>
-                <input class="coral-Form-field coral-Textfield" id="password" name="j_password" type="password"  placeholder="<%= isLogin ? loginPasswordPlaceholder : changePasswordPlaceholder %>" spellcheck="false" autocomplete="<%= autocomplete %>"/>
-                <div id="change_fields" class="<%= isLogin ? "hidden" : "" %>">
-                    <label for="new_password"><span><%= newPasswordPlaceholder %></span></label>
-                    <input class="coral-Form-field coral-Textfield" id="new_password" name="<%= isLogin ? "" : "j_newpassword" %>" type="password"  placeholder="<%= newPasswordPlaceholder %>" spellcheck="false" autocomplete="false"/>
-                    <label for="confirm_password"><span><%= confirmPasswordPlaceholder %></span></label>
-                    <input class="coral-Form-field coral-Textfield" id="confirm_password" name="" type="password"  placeholder="<%= confirmPasswordPlaceholder %>" spellcheck="false" autocomplete="false"/>
-                </div>
-                <div id="error" class="coral-Form-field coral-Alert coral-Alert--error <%= reason.length() > 0 ? "" : "hidden" %>">
-                    <i class="coral-Alert-typeIcon coral-Icon coral-Icon--sizeS coral-Icon--alert"></i>
-                    <div class='coral-Alert-message' aria-live="assertive"><%= reason %></div>
-                </div>
-                <button id="submit-button" type="submit" class="coral-Button coral-Button--primary"><%= isLogin ? loginSubmitText : changeSubmitText %></button>
-                <button id="back-button" class="coral-Button hidden"><%= printProperty(cfg, i18n, xssAPI, "box/backText", i18n.get("Back")) %></button>
-            </form>
-            <input id="login_title" type="hidden" value="<%= loginTitle %>">
-            <input id="change_title" type="hidden" value="<%= changeTitle %>">
-            <input id="login_password_placeholder" type="hidden" value="<%= loginPasswordPlaceholder %>">
-            <input id="change_password_placeholder" type="hidden" value="<%= changePasswordPlaceholder %>">
-            <input id="login_submit_text" type="hidden" value="<%= loginSubmitText %>">
-            <input id="change_submit_text" type="hidden" value="<%= changeSubmitText %>">
-            <input id="invalid_message" type="hidden" value="<%= validReasons.get(REASON_KEY_INVALID_LOGIN) %>"/>
-            <input id="expired_message" type="hidden" value="<%= printProperty(cfg, i18n, xssAPI, "box/loginExpiredText", i18n.get("Your password has expired")) %>"/>
-            <input id="not_match_message" type="hidden" value="<%= printProperty(cfg, i18n, xssAPI, "box/passwordsDoNotMatchText", i18n.get("New passwords do not match")) %>"/>
-            <input id="empty_message" type="hidden" value="<%= printProperty(cfg, i18n, xssAPI, "box/passwordEmptyText", i18n.get("New password must not be blank")) %>"/>
-        </div>
+%><div id="login-box">
+    <div class="header">
+        <h1 class="coral-Heading coral-Heading--1"><%= printProperty(cfg, i18n, xssAPI, "box/title", i18n.get("Welcome to Adobe Experience Cloud")) %></h1>
     </div>
+    <div id="leftbox" class="box">
+        <p>
+            <%= printProperty(cfg, i18n, xssAPI, "box/text", i18n.get("All the tools you need to solve these complex digital business challenges.")) %>
+            <a class="coral-Link" id="learnmore" href="<%= xssAPI.getValidHref(i18n.getVar(cfg.get("box/learnMore/href", "#"))) %>" x-cq-linkchecker="skip"><%= printProperty(cfg, i18n, xssAPI, "box/learnMore/text", i18n.get("Learn More")) %></a>
+        </p>
+    </div>
+    <div id="rightbox" class="box">
+        <% if (isError && reason.length() > 0) { %>
+        <p><%= xssAPI.encodeForHTML(i18n.get("Please contact your administrator or try again later.")) %></p>
+        <coral-alert variant="error">
+            <coral-alert-content><%= reason %></coral-alert-content>
+        </coral-alert>
+        <% } else { %>
+        <% String autocomplete = cfg.get("box/autocomplete", false) ? "on" : "off" ; %>
+        <form class="coral-Form coral-Form--vertical" name="login" method="POST" id="login" action="<%= xssAPI.getValidHref(urlLogin) %>" novalidate="novalidate">
+            <input type="hidden" name="_charset_" value="UTF-8">
+            <input type="hidden" name="errorMessage" value="<%= validReasons.get(REASON_KEY_INVALID_LOGIN) %>">
+            <input type="hidden" name="resource" id="resource" value="<%= xssAPI.encodeForHTMLAttr(redirect) %>">
+            <%
+                String loginTitle = printProperty(cfg, i18n, xssAPI, "box/formTitle", i18n.get("Sign In"));
+                String changeTitle = printProperty(cfg, i18n, xssAPI, "box/changePasswordTitle", i18n.get("Change Password"));
+                String loginSubmitText = printProperty(cfg, i18n, xssAPI, "box/submitText", i18n.get("Sign In"));
+                String changeSubmitText = printProperty(cfg, i18n, xssAPI, "box/changePasswordSubmitText", i18n.get("Submit"));
+                String userPlaceholder = printAttribute(cfg, i18n, xssAPI, "box/userPlaceholder", i18n.get("User name"));
+                String loginPasswordPlaceholder = printAttribute(cfg, i18n, xssAPI, "box/passwordPlaceholder", i18n.get("Password"));
+                String changePasswordPlaceholder = printAttribute(cfg, i18n, xssAPI, "box/oldPasswordPlaceholder", i18n.get("Old password"));
+                String newPasswordPlaceholder = printAttribute(cfg, i18n, xssAPI, "box/newPasswordPlaceholder", i18n.get("New password"));
+                String confirmPasswordPlaceholder = printAttribute(cfg, i18n, xssAPI, "box/confirmPasswordPlaceholder", i18n.get("Confirm new password"));
+            %>
+            <p id="sign-in-title"><%= isLogin ? loginTitle : changeTitle %></p>
+            <div class="coral-Form-fieldwrapper">
+                <input is="coral-textfield" style="display:none" value="<%= cug %>" aria-label="<%= userPlaceholder %>" class="coral-Form-field" id="username" name="j_username" type="text" autofocus="autofocus" pattern=".*" placeholder="<%= userPlaceholder %>" spellcheck="false" autocomplete="<%= autocomplete %>">
+            </div>
+            <div class="coral-Form-fieldwrapper">
+                <input is="coral-textfield" aria-label="<%= isLogin ? loginPasswordPlaceholder : changePasswordPlaceholder %>" class="coral-Form-field" id="password" name="j_password" type="password"  placeholder="<%= isLogin ? loginPasswordPlaceholder : changePasswordPlaceholder %>" spellcheck="false" autocomplete="<%= autocomplete %>">
+            </div>
+            <div class="coral-Form-fieldwrapper">
+                <input is="coral-textfield" aria-label="<%= newPasswordPlaceholder %>" class="coral-Form-field" id="new_password" name="<%= isLogin ? "" : "j_newpassword" %>" type="password"  placeholder="<%= newPasswordPlaceholder %>" spellcheck="false" autocomplete="false" <%= isLogin ? "hidden" : "" %>>
+            </div>
+            <div class="coral-Form-fieldwrapper">
+                <input is="coral-textfield" aria-label="<%= confirmPasswordPlaceholder %>" class="coral-Form-field" id="confirm_password" name="" type="password"  placeholder="<%= confirmPasswordPlaceholder %>" spellcheck="false" autocomplete="false" <%= isLogin ? "hidden" : "" %>>
+            </div>
+            <coral-alert id="error" variant="error" <%= reason.length() > 0 ? "" : "hidden" %>>
+                <coral-alert-content><%= reason %></coral-alert-content>
+            </coral-alert>
+            <button is="coral-button" id="submit-button" variant="primary" type="submit"><%= isLogin ? loginSubmitText : changeSubmitText %></button>
+            <button is="coral-button" id="back-button" hidden><%= printProperty(cfg, i18n, xssAPI, "box/backText", i18n.get("Back")) %></button>
+        </form>
+        <input id="login_title" type="hidden" value="<%= loginTitle %>">
+        <input id="change_title" type="hidden" value="<%= changeTitle %>">
+        <input id="login_password_placeholder" type="hidden" value="<%= loginPasswordPlaceholder %>">
+        <input id="change_password_placeholder" type="hidden" value="<%= changePasswordPlaceholder %>">
+        <input id="login_submit_text" type="hidden" value="<%= loginSubmitText %>">
+        <input id="change_submit_text" type="hidden" value="<%= changeSubmitText %>">
+        <input id="invalid_message" type="hidden" value="<%= validReasons.get(REASON_KEY_INVALID_LOGIN) %>"/>
+        <input id="expired_message" type="hidden" value="<%= printProperty(cfg, i18n, xssAPI, "box/loginExpiredText", i18n.get("Your password has expired")) %>"/>
+        <input id="in_history_message" type="hidden" value="<%= printProperty(cfg, i18n, xssAPI, "box/loginInHistoryText", i18n.get("New password was found in password history")) %>"/>
+        <input id="not_match_message" type="hidden" value="<%= printProperty(cfg, i18n, xssAPI, "box/passwordsDoNotMatchText", i18n.get("New passwords do not match")) %>"/>
+        <input id="empty_message" type="hidden" value="<%= printProperty(cfg, i18n, xssAPI, "box/passwordEmptyText", i18n.get("New password must not be blank")) %>"/>
+        <% } %>
+    </div>
+</div>
     <div id="push"></div>
 </div>
 <div id="footer">
     <div class="legal-footer"><%
         // Footer: default copyright (removable)
         if (cfg.containsKey("footer/copy/text")) {
-            %><span><%= printProperty(cfg, i18n, xssAPI, "footer/copy/text", "") %></span><%
+            ProductInfoProvider productInfoProvider = sling.getService(ProductInfoProvider.class);
+            String year = productInfoProvider == null ? null : productInfoProvider.getProductInfo().getYear();
+            if (year == null) {
+                year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+            }
+            String text = cfg.get("footer/copy/text","");
+    %><span><%= xssAPI.encodeForHTML(i18n.getVar(text, "{0} is the product year", year)) %></span><%
         }
-        %><ul id="usage-box"><%
+    %><ul id="usage-box"><%
 
-            // Footer: dynamic items (config/footer/items)
-            if (configs.getChild("footer/items") != null) {
-                Iterator<Resource> footerItems = configs.getChild("footer/items").listChildren();
-                while (footerItems.hasNext()) {
-                    %>
-                    <li><%
-                    String itemName = footerItems.next().getName();
-                    String href = i18n.getVar(cfg.get("footer/items/" + itemName + "/href", String.class));
-                    if (href != null) {
-                        %><a href="<%= xssAPI.getValidHref(href) %>"><%
-                    }
-                    %><%= printProperty(cfg, i18n, xssAPI, "footer/items/" + itemName + "/text", "") %><%
-                    if (href != null) {
-                        %></a><%
-                    }
-                    %></li><%
+        // Footer: dynamic items (config/footer/items)
+        if (configs.getChild("footer/items") != null) {
+            Iterator<Resource> footerItems = configs.getChild("footer/items").listChildren();
+            while (footerItems.hasNext()) {
+    %>
+        <li><%
+            String itemName = footerItems.next().getName();
+            String href = i18n.getVar(cfg.get("footer/items/" + itemName + "/href", String.class));
+            if (href != null) {
+        %><a href="<%= xssAPI.getValidHref(href) %>"><%
+            }
+        %><%= printProperty(cfg, i18n, xssAPI, "footer/items/" + itemName + "/text", "") %><%
+            if (href != null) {
+        %></a><%
+            }
+        %></li><%
                 }
             }
         %>
-        </ul>
+    </ul>
     </div>
 </div>
 
 
 <%
-String modalTitle = printProperty(cfg, i18n, xssAPI, "changePasswordSuccessTitle", i18n.get("Password Changed"));
+    String modalTitle = printProperty(cfg, i18n, xssAPI, "changePasswordSuccessTitle", i18n.get("Password Changed"));
 %>
-<div id="success_backdrop" class="coral-Modal-backdrop hidden"></div>
-<div id="success_modal" class="coral-Modal coral-Modal--success">
-    <div class="coral-Modal-header">
-        <i class="coral-Modal-typeIcon coral-Icon coral-Icon--sizeS coral-Icon--checkCircle"></i>
-        <h2 class="coral-Modal-title coral-Heading coral-Heading--2"><%= modalTitle %></h2>
-        <button type="button" class="coral-MinimalButton coral-Modal-closeButton" title="<%= i18n.get("Close") %>">
-            <i class="coral-Icon coral-Icon--sizeXS coral-Icon--close coral-MinimalButton-icon "></i>
-        </button>
-    </div>
-    <div class="coral-Modal-body">
-        <%
-            // This text is read in the alert fallback for IE 8. In case of DOM changes please adjust in login.js
-            // the selector in showSuccessModal().
-        %>
-        <p><%= printProperty(cfg, i18n, xssAPI, "changePasswordSuccessText", i18n.get("Your password has been changed successfully.")) %></p>
-    </div>
-    <div class="coral-Modal-footer">
-        <button type="button" class="coral-Button coral-Button--primary" aria-label="<%= modalTitle %> - <%= i18n.get("Ok") %>"><%= i18n.get("Ok") %></button>
-    </div>
-</div>
-
+<coral-dialog id="success-dialog" variant="success" closable="true">
+    <coral-dialog-header><%= modalTitle %></coral-dialog-header>
+    <coral-dialog-content>
+        <%= printProperty(cfg, i18n, xssAPI, "changePasswordSuccessText", i18n.get("Your password has been changed successfully.")) %>
+    </coral-dialog-content>
+    <coral-dialog-footer>
+        <button is="coral-button" variant="primary" coral-close><%= i18n.get("Ok") %></button>
+    </coral-dialog-footer>
+</coral-dialog>
 
 <script type="text/javascript">
-    // try to append the current hash/fragment to the redirect resource
-    if (window.location.hash) {
-        var resource = document.getElementById("resource");
-        if (resource) {
-            resource.value += window.location.hash;
-        }
-    }
+	// try to append the current hash/fragment to the redirect resource
+	if (window.location.hash) {
+		var resource = document.getElementById("resource");
+		if (resource) {
+			resource.value += window.location.hash;
+		}
+	}
 </script>
 <% } else { %>
 <script type="text/javascript">
-    var redirect = '<%= xssAPI.encodeForJSString(xssAPI.getValidHref(redirect)) %>';
-    if (window.location.hash) {
-        redirect += window.location.hash;
-    }
-    document.location = redirect;
+	var redirect = '<%= xssAPI.encodeForJSString(xssAPI.getValidHref(redirect)) %>';
+	if (window.location.hash) {
+		redirect += window.location.hash;
+	}
+	document.location = redirect;
 </script>
 <% } %>
 <!-- QUICKSTART_HOMEPAGE - (string used for readyness detection, do not remove) -->
