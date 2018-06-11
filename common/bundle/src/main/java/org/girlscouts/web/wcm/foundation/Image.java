@@ -11,6 +11,9 @@ import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.api.Rendition;
 import com.day.cq.dam.api.RenditionPicker;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 public class Image extends com.day.cq.wcm.foundation.Image {
 	
 	private static Logger log = LoggerFactory.getLogger(Image.class);
@@ -63,23 +66,24 @@ public class Image extends com.day.cq.wcm.foundation.Image {
         	imageVar = "original";
 		}
 
+
         Resource res = rr.getResource(path);
 		if (res != null && res.adaptTo(Asset.class) != null) {
-			Rendition rendition =  ((Asset)res.adaptTo(Asset.class)).getRendition(getRenditionPicker(imageVar));
+			Rendition rendition =  ((Asset)res.adaptTo(Asset.class)).getRendition(getRenditionPicker(Stream.of("original", "middle", "top", "hero").filter(imageVar::equals).findAny()));
 			res = null != rendition ? (Resource)rendition.adaptTo(Resource.class) : null;
 		}
         return res;
 	}
 	
-	public RenditionPicker getRenditionPicker(String imageVar) {
-	    	if (getCropRect() != null) {
+	public RenditionPicker getRenditionPicker(Optional<String> imageVar) {
+	    	if (getCropRect() != null || !imageVar.isPresent()) {
             return new GSRenditionPicker(DEFAULT_RENDITION);
         } else {
             String[] targetRenditions = null;
 	    	    	if (this.getClass().equals(RetinaImage.class)) {
-	    	       		targetRenditions = new String[]{"cq5dam.npd." + imageVar + "@2x", DEFAULT_RENDITION};
+	    	       		targetRenditions = new String[]{"cq5dam.npd." + imageVar.get() + "@2x", DEFAULT_RENDITION};
 	    	    	} else {
-	    	    		targetRenditions = new String[]{"cq5dam.npd." + imageVar, DEFAULT_RENDITION};
+	    	    		targetRenditions = new String[]{"cq5dam.npd." + imageVar.get(), DEFAULT_RENDITION};
 	    	    	}
         		return new GSRenditionPicker(targetRenditions);
         }
