@@ -12,7 +12,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @SuppressWarnings("serial")
-@SlingServlet(paths="/bin/pdf/generate_badge_report", methods="POST")
+@SlingServlet(
+		resourceTypes = {"girlscouts-common/servlet/badge-pdf"},
+		methods="POST"
+)
 
 public class BadgePDFGeneratorServlet extends SlingAllMethodsServlet {
 

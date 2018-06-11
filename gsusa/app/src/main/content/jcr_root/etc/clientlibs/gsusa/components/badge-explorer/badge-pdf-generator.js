@@ -54,7 +54,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 
 	function getBadgePdfItext(pdfHtml){
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', '/bin/pdf/generate_badge_report', true);
+		xhr.open('POST', '/etc/servlets/pdf/badge-report', true);
 		xhr.responseType = 'arraybuffer';
 
 		BadgePdfLoadingWidget.updateProgress(0, 'Downloading...');
