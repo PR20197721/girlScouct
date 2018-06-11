@@ -64,7 +64,7 @@
                                         name="./newstype"
                                         renderReadOnly="{Boolean}true"
                                         text="None"
-                                        value="Nonewstype"/>
+                                        value="None"/>
                                     <text
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="/libs/granite/ui/components/foundation/form/radio"

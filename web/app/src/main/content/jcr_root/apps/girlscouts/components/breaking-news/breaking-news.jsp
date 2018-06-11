@@ -19,7 +19,7 @@
 
 	Set<String> runModes = sling.getService(SlingSettingsService.class).getRunModes();
 
-	if(!newstype.equals("Nonewstype")) {
+	if(!newstype.equals("None")) {
 		if(!bgcolor.equals("") && newstype.equals("Text")) {
 
 			%><div class="inner-wrapper" style="background-color:#<%=bgcolor%>"><%
