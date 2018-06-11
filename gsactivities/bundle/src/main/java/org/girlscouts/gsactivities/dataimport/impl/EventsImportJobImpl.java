@@ -293,7 +293,6 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				log.info("GSActivities:: Last import time stamp=" + ZIP_DATE_FORMAT.format(lastUpdated));	
 			}
 		} catch (Exception e) {
-			errorString.append("<p>Failed to read: " + CONFIG_PATH + "</p>");
 			log.error("GSActivities:: Failed to read " + CONFIG_PATH);
 		}
 	}
