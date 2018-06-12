@@ -49,8 +49,8 @@ public class BadgeGenerator {
 		pdfMetaData.setAuthor("Girlscouts America");
 		pdfMetaData.addCreationDate();
 		pdfMetaData.setKeywords("Girlscouts badges");
-		pdfMetaData.setSubject("Badge Report");
-		pdfMetaData.setTitle("Badge Report");
+		pdfMetaData.setSubject("Badge Explorer");
+		pdfMetaData.setTitle("Badge Explorer");
 
 		// pdf conversion
 		ConverterProperties props = new ConverterProperties();
