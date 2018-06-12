@@ -205,7 +205,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 							pdfHtmlWrapper.find('.PdfBadgeGridContainer').css('width', '700px');
 
 							var badgeHtml = pdfHtmlWrapper[0].innerHTML;
-							//pdfHtmlWrapper.remove();
+							pdfHtmlWrapper.remove();
 
 							getBadgePdfItext(badgeHtml).catch(function(){
 								alert('Unable to create PDF.')
