@@ -26,9 +26,10 @@ long matchNum0 = query0.getResult().getTotalMatches() - (resourceResolver.adaptT
 long matchNum1 = query1.getResult().getTotalMatches();
 // TODO: Can we consolidate two queries into one?
 boolean hasHeader = (matchNum0 != 0 || matchNum1 != 0);
+boolean isHomepage = currentPage.getPath().equals(currentPage.getAbsoluteParent(2).getPath());
 
 if (hasHeader) {// contains cookie) {
-	String mobileCookieHeaderPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/mobile-cookie-header";
+	String mobileCookieHeaderPath = isHomepage ? currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/mobile-cookie-header" : "mobile-cookie-header";
 	%>
 	<div class="show-for-small">
 		<cq:include path="<%= mobileCookieHeaderPath%>" resourceType="gsusa/components/standalone-cookie-header" />
