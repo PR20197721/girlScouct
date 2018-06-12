@@ -1,10 +1,14 @@
 <%@page import="java.util.Map,
+    			java.util.Set,
                 java.util.Iterator,
-                com.day.cq.wcm.api.WCMMode" %>
+                com.day.cq.wcm.api.WCMMode,
+				org.apache.sling.settings.SlingSettingsService" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <%
-if (WCMMode.fromRequest(request) != WCMMode.EDIT) {
+Set<String> runModes = sling.getService(SlingSettingsService.class).getRunModes();
+
+if (!runModes.contains("author")) {
     response.sendError(HttpServletResponse.SC_NOT_FOUND);
 } else {
     String scafLink = currentPage.getPath() + ".scaffolding.html";
