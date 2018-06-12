@@ -205,7 +205,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 							pdfHtmlWrapper.find('.PdfBadgeGridContainer').css('width', '700px');
 
 							var badgeHtml = pdfHtmlWrapper[0].innerHTML;
-							pdfHtmlWrapper.remove();
+							//pdfHtmlWrapper.remove();
 
 							getBadgePdfItext(badgeHtml).catch(function(){
 								alert('Unable to create PDF.')
@@ -222,7 +222,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 	/*
 	 * Separates pages to fit in a standard PDF.  Pages are allowed max of 840px not including header.
 	 */
-	var MAX_PDF_PAGE_HEIGHT = 840;
+	var MAX_PDF_PAGE_HEIGHT = 825;
 	function separatePages(source){
 		var allElements = source.find('.BadgeExplorerElementPdfComponent');
 		var headerDom = $('.BadgePdfLogoWrapper').add('.BadgePdfHeaderTitle').add('.BadgePdfHeader');
@@ -233,15 +233,46 @@ window.BadgePdfGenerator = (function(window, $, document){
 			elementHeight =  $(allElements[i]).outerHeight(true);
 			if(runningTotalHeight + elementHeight > MAX_PDF_PAGE_HEIGHT){
 				var previousElement = $(allElements[i-1]);
-				$('<gs-custom-new-page/>').attr('page-number', ++pageNumber).insertAfter(previousElement);
+
+				var pageNumberElement = $('<div>').addClass('PDFPageNumber').css({
+					'min-height': '1em',
+					'position': 'relative'
+				});
+				pageNumberElement
+					.append($('<div>').addClass('PDFPageNumberWrapper').css({
+						'padding-top': (MAX_PDF_PAGE_HEIGHT - runningTotalHeight) + 'px',
+						'padding-left' : '630px',
+						bottom: 0,
+						right: 0
+					})
+						.append($('<span>').addClass('PDFCurrentPageNumber').text(++pageNumber))
+						.append($('<span>').addClass('PDFTotalPageNumber')));
+				pageNumberElement.insertAfter(previousElement);
+				$('<gs-custom-new-page/>').attr('page-number', pageNumber).insertAfter(pageNumberElement);
 				var headerDomClone = headerDom.clone(true);
-				headerDomClone.insertAfter(previousElement.next());
+				headerDomClone.insertAfter(previousElement.next().next());
 
 				runningTotalHeight = elementHeight;
 			}else{
 				runningTotalHeight += elementHeight;
 			}
 		}
+		var pageNumberElement = $('<div>').addClass('PDFPageNumber').css({
+			'min-height': '1em',
+			'position': 'relative'
+		});
+		pageNumberElement
+			.append($('<div>').addClass('PDFPageNumberWrapper').css({
+				bottom: 0,
+				'padding-top': (MAX_PDF_PAGE_HEIGHT - runningTotalHeight) + 'px',
+				'padding-left' : '630px',
+				right: 0
+			})
+				.append($('<span>').addClass('PDFCurrentPageNumber').text(++pageNumber))
+				.append($('<span>').addClass('PDFTotalPageNumber')));
+		pageNumberElement.insertAfter($(allElements[allElements.length - 1]));
+
+		source.find('.PDFTotalPageNumber').text(' of ' + pageNumber);
 	}
 
 	var currentSelectedBadges = [];
