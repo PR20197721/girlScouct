@@ -20,8 +20,8 @@
                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
                         name="./submit"
                         text="Show Submit Button"
-                        value="{Boolean}true"
-                        uncheckedValue="{Boolean}false"/>
+                        uncheckedValue="{Boolean}false"
+                        value="{Boolean}true"/>
                     <submitdialog-delete
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -42,8 +42,8 @@
                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
                         name="./reset"
                         text="Show Reset Button"
-                        value="{Boolean}true"
-                        uncheckedValue="{Boolean}false"/>
+                        uncheckedValue="{Boolean}false"
+                        value="{Boolean}true"/>
                     <resetdialog-delete
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/hidden"

@@ -39,8 +39,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./hideTitle"
                                 text="Hide Title"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <hidetitle-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -57,8 +57,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./multiSelection"
                                 text="Multi Selectable"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <multiselection-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
@@ -114,8 +114,8 @@
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./required"
                                 text="Required"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <required-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"

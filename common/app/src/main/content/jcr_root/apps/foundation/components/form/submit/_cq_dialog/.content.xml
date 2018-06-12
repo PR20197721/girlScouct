@@ -62,8 +62,8 @@
                             <class
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldLabel="CSS"
                                 emptyText="button"
+                                fieldLabel="CSS"
                                 name="./css"/>
                         </items>
                     </columns>

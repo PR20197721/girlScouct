@@ -105,8 +105,8 @@
                                         fieldDescription="Check the box to enable selection.（If not checked, all ads displayed by default)"
                                         name="./clientValidation"
                                         text="Client Validation"
-                                        value="{Boolean}true"
-                                		uncheckedValue="{Boolean}false"/>
+                                        uncheckedValue="{Boolean}false"
+                                        value="{Boolean}true"/>
                                     <client-validation-type
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/foundation/form/hidden"
