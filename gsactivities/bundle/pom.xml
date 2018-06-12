@@ -20,8 +20,22 @@
 	    <dependency>  
 	      <groupId>com.adobe.aem</groupId>
 	      <artifactId>uber-jar</artifactId>
+	      <version>6.3.1</version>
 	      <classifier>apis</classifier>
+	      <scope>provided</scope>
 	    </dependency>
+	<dependency>
+      <groupId>com.day.commons.osgi.wrapper</groupId>
+      <artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
+       <version>1.2.0-0002</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+		<groupId>javax.mail</groupId>
+		<artifactId>mail</artifactId>
+		<version>1.5.0-b01</version>
+		<scope>provided</scope>
+	</dependency>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
