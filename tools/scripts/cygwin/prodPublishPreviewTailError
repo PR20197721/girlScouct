@@ -1,0 +1,3 @@
+#!/bin/bash
+. setVars.sh
+. runRemoteScript.sh $PROD_PUBLISH_PREVIEW_IP tailPublishErrorLocal.sh

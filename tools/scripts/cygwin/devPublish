@@ -1,0 +1,3 @@
+#!/bin/bash
+. setVars.sh
+. connect.sh $DEV_PUBLISH_IP

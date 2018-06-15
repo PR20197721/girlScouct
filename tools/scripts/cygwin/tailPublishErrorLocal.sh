@@ -1,0 +1,1 @@
+tail -f /mnt/crx/publish/crx-quickstart/logs/error.log

@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh -i /home/kloos/.ssh/id_rsa_girlscouts.key eyuser@52.6.212.228

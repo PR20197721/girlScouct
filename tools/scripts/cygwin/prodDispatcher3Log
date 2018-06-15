@@ -1,0 +1,3 @@
+#!/bin/bash
+. setVars.sh
+. connect.sh $PROD_DISPATCHER_3_IP tailDispatcherLogLocal.sh

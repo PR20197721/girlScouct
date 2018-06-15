@@ -1,0 +1,3 @@
+#!/bin/bash
+. setVars.sh
+. runRemoteScript.sh $UAT_PUBLISH_IP tailPublishErrorLocal.sh

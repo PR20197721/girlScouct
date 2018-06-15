@@ -1,0 +1,3 @@
+#!/bin/bash
+. setVars.sh
+. connect.sh $UAT_AUTHOR_IP

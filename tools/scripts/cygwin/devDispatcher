@@ -1,0 +1,3 @@
+#!/bin/bash
+. setVars.sh
+. connect.sh $DEV_DISPATCHER_IP

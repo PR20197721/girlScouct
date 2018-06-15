@@ -1,0 +1,3 @@
+#!/bin/bash
+. setVars.sh
+. runRemoteScript.sh $PROD_AUTHOR_IP tailAuthorErrorLocal.sh

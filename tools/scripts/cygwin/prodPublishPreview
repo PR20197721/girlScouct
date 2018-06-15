@@ -1,0 +1,3 @@
+#!/bin/bash
+. setVars.sh
+. connect.sh $PROD_PUBLISH_PREVIEW_IP

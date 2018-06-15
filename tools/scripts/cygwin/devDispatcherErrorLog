@@ -1,0 +1,3 @@
+#!/bin/bash
+. setVars.sh
+. runRemoteScript.sh $DEV_DISPATCHER_IP tailDispatcherErrorLogLocal.sh

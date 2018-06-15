@@ -1,0 +1,3 @@
+#!/bin/bash
+. setVars.sh
+. connect.sh $PROD_AUTHOR_IP

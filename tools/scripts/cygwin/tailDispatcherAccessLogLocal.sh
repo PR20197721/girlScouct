@@ -1,0 +1,1 @@
+tail -f /etc/httpd/logs/access_log

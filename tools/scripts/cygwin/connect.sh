@@ -1,0 +1,1 @@
+ssh -i $KEY_LOCATION eyuser@$1
