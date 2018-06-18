@@ -5,7 +5,7 @@ import javax.jcr.query.*
 
 String QUERY_LANGUAGE = "JCR-SQL2";
 String PATH = "/content";
-String RESOURCE_TYPE = 'girlscouts/components/news-list';
+String RESOURCE_TYPE = 'girlscouts/components/feature-shortstory';
 
 String EXPRESSION = "SELECT s.[jcr:path] "+
                     "FROM [nt:unstructured] AS s "+
@@ -19,16 +19,13 @@ if (result != null) {
 		while (rowIter.hasNext()) {
 			Row row = rowIter.nextRow()
 			Node node = row.getNode()
-			if(node.hasProperty("isonhomepage") ){
-                String homePageCheck = node.getProperty("isonhomepage").getValue().getString();
+			if(node.hasProperty("imageOnLeft") ){
+                String homePageCheck = node.getProperty("imageOnLeft").getValue().getString();
                 if(homePageCheck.equals("on")){
-                    println("Found old newslist set to on at: " + node.getPath())
-                    node.setProperty("isonhomepage", "true")
+                    println("Found old feature short story set to on at: " + node.getPath())
+                    node.setProperty("imageOnLeft", "true")
                 }
-                if(homePageCheck.equals("off")){
-                    println("Found old newslist set to off at: " + node.getPath())
-                    node.setProperty("isonhomepage", "false")
-                }
+                
                 save()
 			}
 			

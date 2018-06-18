@@ -34,7 +34,7 @@ List<String> linksList = new ArrayList<String>();
             }
 
 
-			String listItem = title + "|||" + externalLink + "|||" + formPath + "|||" + newWindow;
+			String listItem = title.trim() + "|||" + externalLink.trim() + "|||" + formPath.trim() + "|||" + newWindow.trim();
             linksList.add(listItem);
 
     

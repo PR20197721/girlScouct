@@ -56,7 +56,7 @@
       else {
         for (int i = 0; i < links.length; i++) {
           String[] values = links[i].split("\\|\\|\\|");
-          String label = values[0];
+          String label = values.length >= 1 ? values[0] : "";
           String path = values.length >= 2 ? values[1] : "";
           path = genLink(resourceResolver, path);
           String linkClass = values.length >= 3 ? "class=\"" + values[2] + "\"" : "";
