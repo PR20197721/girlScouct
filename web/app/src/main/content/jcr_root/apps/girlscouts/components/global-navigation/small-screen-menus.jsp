@@ -8,60 +8,63 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 	menuBuilder.append("<ul>");
 	if(iterPage.hasNext()){
 		while(iterPage.hasNext()){
-			Page page = iterPage.next();
-			// CHECK FOR THE HIDEINNAV
-			if(!page.isHideInNav()){ 
-				int dept = page.getDepth();
-				String nodePath = page.getPath().substring(gs_us_path.length()+1, page.getPath().length());
-				if(rootPath.indexOf(nodePath) == 0){
-					// This string buffer properly closes dangling li elements
-					StringBuffer remainderStrings = new StringBuffer();
-
-					// CHECK IF CURRENTLY WE ARE ON THE PAGE ELSE DONT HIGHLIGHT
-					if(rootPath.equalsIgnoreCase(nodePath) ){
-						menuBuilder.append("<li class=\"active\">");
-						menuBuilder.append("<div>");
-						menuBuilder.append(createHref(page));
-						menuBuilder.append("</div>");
-						remainderStrings.append("</li>");
-					}else{
-						menuBuilder.append("<li>");
-						menuBuilder.append("<div>");
-						menuBuilder.append(createHref(page));
-						menuBuilder.append("</div>");
-                                                remainderStrings.append("</li>");
-					}
-					Iterator<Page> p = page.listChildren(); 
-					if(p.hasNext()){
-						buildMenu(p, rootPath,gs_us_path, menuBuilder, levelDepth, nodePath, levelFlag,eventLeftNavRoot,currPath, currTitle, eventDispUnder);           
-					}
-					menuBuilder.append(remainderStrings.toString());
-
-				} else{
-					// CHECKING FOR THE EVENT SPECIAL CASE 
-					if(page.getPath().indexOf(eventLeftNavRoot)==0 && currPath.indexOf(eventDispUnder)==0){
-						menuBuilder.append("<li>");
-						menuBuilder.append("<div>");
-						menuBuilder.append("<a href=").append(createHref(page));
-						menuBuilder.append("</div>");
-						//menuBuilder.append("</li>");
-
-						menuBuilder.append("<ul><li class=\"active\">");
-						menuBuilder.append("<div>");
-						menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
-						menuBuilder.append("</div>");
-						menuBuilder.append("</li></ul>");
-						//menuBuilder.append("</li>");
-
-					} else {
-						menuBuilder.append("<li>");
-						menuBuilder.append("<div>");
-						menuBuilder.append("<a href=").append(createHref(page));
-						menuBuilder.append("</div>");
-						menuBuilder.append("</li>");
-					}
-				}
-			}// end of if
+            try{
+                Page page = iterPage.next();
+                // CHECK FOR THE HIDEINNAV
+                if(!page.isHideInNav()){ 
+                    int dept = page.getDepth();
+                    String nodePath = page.getPath().substring(gs_us_path.length()+1, page.getPath().length());
+                    if(rootPath.indexOf(nodePath) == 0){
+                        // This string buffer properly closes dangling li elements
+                        StringBuffer remainderStrings = new StringBuffer();
+    
+                        // CHECK IF CURRENTLY WE ARE ON THE PAGE ELSE DONT HIGHLIGHT
+                        if(rootPath.equalsIgnoreCase(nodePath) ){
+                            menuBuilder.append("<li class=\"active\">");
+                            menuBuilder.append("<div>");
+                            menuBuilder.append(createHref(page));
+                            menuBuilder.append("</div>");
+                            remainderStrings.append("</li>");
+                        }else{
+                            menuBuilder.append("<li>");
+                            menuBuilder.append("<div>");
+                            menuBuilder.append(createHref(page));
+                            menuBuilder.append("</div>");
+                                                    remainderStrings.append("</li>");
+                        }
+                        Iterator<Page> p = page.listChildren(); 
+                        if(p.hasNext()){
+                            buildMenu(p, rootPath,gs_us_path, menuBuilder, levelDepth, nodePath, levelFlag,eventLeftNavRoot,currPath, currTitle, eventDispUnder);           
+                        }
+                        menuBuilder.append(remainderStrings.toString());
+    
+                    } else{
+                        // CHECKING FOR THE EVENT SPECIAL CASE 
+                        if(page.getPath().indexOf(eventLeftNavRoot)==0 && currPath.indexOf(eventDispUnder)==0){
+                            menuBuilder.append("<li>");
+                            menuBuilder.append("<div>");
+                            menuBuilder.append("<a href=").append(createHref(page));
+                            menuBuilder.append("</div>");
+                            //menuBuilder.append("</li>");
+    
+                            menuBuilder.append("<ul><li class=\"active\">");
+                            menuBuilder.append("<div>");
+                            menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
+                            menuBuilder.append("</div>");
+                            menuBuilder.append("</li></ul>");
+                            //menuBuilder.append("</li>");
+    
+                        } else {
+                            menuBuilder.append("<li>");
+                            menuBuilder.append("<div>");
+                            menuBuilder.append("<a href=").append(createHref(page));
+                            menuBuilder.append("</div>");
+                            menuBuilder.append("</li>");
+                        }
+                    }
+                }// end of if
+            }catch(Exception e){  
+            }
 		}//while
 		menuBuilder.append("");
 	}
@@ -84,7 +87,10 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
    			String currTitle = currentPage.getTitle();
    			String eventPath = currentSite.get("eventPath", "");
    			String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
-   			String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
+            String rootPath = null;
+            try {
+   				rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
+            } catch (Exception e) {}
    			// TODO: Manu: please fix
    			String eventGrandParent = null;
 		   	try {
@@ -101,26 +107,26 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 			}
 			String slingResourceType = "girlscouts/components/placeholder-page";
 			for (int i = 0; i < links.length; i++){
-				String[] values = links[i].split("\\|\\|\\|");
-				String label = values[0];
-                System.out.println("Label is: " + label);
-				String path = values.length >= 2 ? values[1] : "";
-				String menuPath = values.length >= 2 ? values[1] : "";
-				path = genLink(resourceResolver, path);
-				String clazz = values.length >= 3 ? " "+ values[2] : "";
-				String mLabel = values.length >=4 ? " "+values[3] : "";
-				String sLabel = values.length >=5 ? " "+values[4] : "";
-                System.out.println("Small Label is: " + sLabel);
-				Set<String> navigationPath;
-				Iterator<Page> menuLevel1;
-				String navigation="";
-				StringBuilder menuBuilder = new StringBuilder();
-				Iterator<Page> iterPage=null;
-				Boolean resourceFlag = false;
-				String startingPoint = "";
-				Iterator <Page> slingResourceIter;
-				contentResourceType = "";
-				try{
+                try{
+                    String[] values = links[i].split("\\|\\|\\|");
+                    String label = values[0];
+                    System.out.println("Label is: " + label);
+                    String path = values.length >= 2 ? values[1] : "";
+                    String menuPath = values.length >= 2 ? values[1] : "";
+                    path = genLink(resourceResolver, path);
+                    String clazz = values.length >= 3 ? " "+ values[2] : "";
+                    String mLabel = values.length >=4 ? " "+values[3] : "";
+                    String sLabel = values.length >=5 ? " "+values[4] : "";
+                    System.out.println("Small Label is: " + sLabel);
+                    Set<String> navigationPath;
+                    Iterator<Page> menuLevel1;
+                    String navigation="";
+                    StringBuilder menuBuilder = new StringBuilder();
+                    Iterator<Page> iterPage=null;
+                    Boolean resourceFlag = false;
+                    String startingPoint = "";
+                    Iterator <Page> slingResourceIter;
+                    contentResourceType = "";			
 					contentResourceType = resource.getResourceResolver().getResource(menuPath+"/jcr:content").getResourceType();
 					if(contentResourceType.equals(slingResourceType)){
 						slingResourceIter = resource.getResourceResolver().getResource(menuPath).adaptTo(Page.class).listChildren();
@@ -128,13 +134,17 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 							Page firstChild =  slingResourceIter.next();
 							path = genLink(resourceResolver, firstChild.getPath());
 						}
-					}
-				}catch(Exception e){}
-	
+					}				
 				if(!path.isEmpty() && !path.equalsIgnoreCase("#") && path.indexOf(currentPage.getAbsoluteParent(2).getPath()) == 0) {
-					startingPoint = menuPath.substring(currentPage.getAbsoluteParent(2).getPath().length()+1,menuPath.length());
+                    try{
+						startingPoint = menuPath.substring(currentPage.getAbsoluteParent(2).getPath().length()+1,menuPath.length());
+                    }catch(Exception e){
+                    }
 					if(startingPoint.indexOf("/")>0) {
-						startingPoint = startingPoint.substring(0, startingPoint.indexOf("/"));
+                        try{
+							startingPoint = startingPoint.substring(0, startingPoint.indexOf("/"));
+                        }catch(Exception e){
+                    	}
 					}
 					Resource pathResource = resourceResolver.getResource(gs_us_path+"/"+startingPoint);
 					if(pathResource==null || ResourceUtil.isNonExistingResource(pathResource) || !pathResource.getResourceType().equalsIgnoreCase("cq:Page")){
@@ -152,7 +162,10 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 								<div><a href="<%= path %>"><%= sLabel %></a></div>
 								<%
 								if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
-									eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
+                                	try{
+										eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
+                                    }catch(Exception e){}
+
 									iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
 								}
 								buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, 0,"",levelFlag,eventLeftNavRoot, currPath, currTitle, eventDisplUnder);
@@ -209,6 +222,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 						<div><a href="<%= configManager.getConfig("communityUrl")%>">MEMBER PROFILE</a></div>
 					</li><%
 				}
+                    }catch(Exception e){}
 			}
 		}%>
 	</ul> 
