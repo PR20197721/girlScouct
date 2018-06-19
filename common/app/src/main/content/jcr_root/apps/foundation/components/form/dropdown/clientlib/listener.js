@@ -14,22 +14,13 @@
  */
 (function (document, $, ns) {
     "use strict";
-
     $(document).on("click", ".cq-dialog-submit", function (e) {
         var message = null;
-
 		var $form = $(this).closest("form.foundation-form");
-
         var elName = $form.find("[name='./name']").val();
-
-
         if(elName.indexOf(' ') >= 0){
-
 			message = "Element Name must not contain spaces";
         }
-
-
-
         if(message) {
         		e.stopPropagation();
             	e.preventDefault();
@@ -48,6 +39,4 @@
 			 });
         }
     });
-
-
 })(document, Granite.$, Granite.author);

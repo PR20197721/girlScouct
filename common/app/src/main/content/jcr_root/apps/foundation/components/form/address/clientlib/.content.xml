@@ -5,4 +5,4 @@
     cq:lastReplicationAction="Activate"
     jcr:mixinTypes="[cq:ReplicationStatus]"
     jcr:primaryType="cq:ClientLibraryFolder"
-    categories="[cq.authoring.dialog]"/>
+    categories="[girlscouts-common.foundation.components.form.address]"/>
