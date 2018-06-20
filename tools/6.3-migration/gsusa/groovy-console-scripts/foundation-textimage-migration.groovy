@@ -4,27 +4,28 @@ import javax.jcr.query.*
 
 
 String QUERY_LANGUAGE = "JCR-SQL2";
-String PATH = "/content/gsusa";
+String PATH = "/content";
 String RESOURCE_TYPE = "foundation/components/textimage";
 
 String EXPRESSION = "SELECT s.[jcr:path] "+
 					"FROM [nt:unstructured] AS s "+
 					"WHERE ISDESCENDANTNODE('"+PATH+"') AND "+
-					"CONTAINS(s.[sling:resourceType],'"+RESOURCE_TYPE+"')";
+					"s.[sling:resourceType]='"+RESOURCE_TYPE+"'";
 QueryResult result = search(EXPRESSION, QUERY_LANGUAGE)
 
 if (result != null) {
 	try {
 		RowIterator rowIter = result.getRows()
 		while (rowIter.hasNext()) {
+            println("In Loop")
 			try {
 				Row row = rowIter.nextRow()
 				Node node = row.getNode()
-				node.setProperty("sling:resourceType","gsusa/components/textimage")
+				node.setProperty("sling:resourceType","girlscouts/components/textimage")
 				println(node.getPath())
 				if(node.hasNode("image")){
 					Node image = node.getNode("image")
-					image.setProperty("sling:resourceType","gsusa/components/image")
+					image.setProperty("sling:resourceType","girlscouts/components/image")
 					println("   "+image.getPath())
 				}
 				save()
