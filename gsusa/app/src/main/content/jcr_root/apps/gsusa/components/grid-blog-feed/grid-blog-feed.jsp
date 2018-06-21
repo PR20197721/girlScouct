@@ -175,11 +175,16 @@ function truncate(el, lines) {
 		//}
 		//words.push('</span>');
 		//$elspan.html(words.join(' '));
+
 		
 		var lastline = getLastLine(start, end);
 		$elspan.html(lastline);		
 		
 		while ($elspan.width() > containerWidth) {
+			// Prevent stack overflow for very large text.
+			if(end > 500){
+				end = 500;
+			}
 			updateText(start, end-1);
 		}
 	}	
