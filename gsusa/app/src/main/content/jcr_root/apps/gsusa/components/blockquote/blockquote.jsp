@@ -3,6 +3,7 @@
 --%><%
 %><%@include file="/libs/foundation/global.jsp"%><%
 %><%@page session="false" %>
+<cq:includeClientLib categories="apps.gsusa.components.blockquote" />
 <%
 	String text = properties.get("text", "<p>Please enter your quote.</p>");
 	String style = properties.get("style", "bg-color fuchsia");
