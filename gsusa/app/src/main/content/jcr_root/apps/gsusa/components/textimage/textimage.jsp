@@ -19,7 +19,8 @@
     com.day.cq.wcm.api.WCMMode,
     com.day.cq.wcm.api.components.DropTarget,
     com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
-%><%@include file="/libs/foundation/global.jsp"%><%
+%><%@include file="/libs/foundation/global.jsp"%>
+<cq:includeClientLib categories="apps.gsusa.components.textimage" /><%
     boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
 
 
