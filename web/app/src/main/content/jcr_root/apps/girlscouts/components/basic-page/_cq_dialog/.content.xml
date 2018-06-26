@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container"
+        class="cq-dialog-content-page">
+        <items jcr:primaryType="nt:unstructured">
+            <tabs
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Page Properties"
+                sling:resourceType="granite/ui/components/foundation/container"
+                rel="cq-siteadmin-admin-properties-tabs">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+                    type="nav"/>
+                <items
+                    jcr:primaryType="nt:unstructured"
+                    sling:hideChildren="[personalization,cloudservices,thumbnail,advanced,blueprint,livecopy,permissions]">
+                    <basic
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Title"
+                        sling:resourceType="granite/ui/components/foundation/section">
+                        <layout
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+                            margin="{Boolean}false"/>
+                        <items jcr:primaryType="nt:unstructured">
+                            <column
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/container">
+                                <items
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:hideChildren="[moretitles,vanityurl,onofftime]">
+                                    <title
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Title"
+                                        sling:resourceType="granite/ui/components/foundation/form/fieldset">
+                                        <items
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:hideChildren="[tags,pagename,seoTitle,hideinnav,hideinsearch,breakinheritance]">
+                                            <title
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                                fieldLabel="Title"
+                                                name="./jcr:title"/>
+                                            <tags
+                                                cq:hideOnCreate="{Boolean}true"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="cq/gui/components/common/tagspicker"
+                                                fieldLabel="Tags/Keywords"
+                                                multiple="{Boolean}true"
+                                                name="./cq:tags"
+                                                rootPath="/etc/tags"/>
+                                            <pagename
+                                                cq:hideOnEdit="{Boolean}true"
+                                                cq:showOnCreate="{Boolean}true"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                                fieldDescription="This field can be left empty to have the page name generate for the title field. This field does not accept any special characters such as spaces and ampersands. Replace them with &quot;-&quot; characters and use lowercase. For example for a page titled &quot;Forms &amp; Documents&quot; enter &quot;forms-and-documents&quot; or &quot;forms-documents&quot;"
+                                                fieldLabel="Name"
+                                                name="pageName"
+                                                validation="admin.pagename"/>
+                                            <seoTitle
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                                fieldDescription="The page title that is showed in the browser title bar."
+                                                fieldLabel="SEO Title"
+                                                name="./seoTitle"/>
+                                            <hideinnav
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                                name="./hideInNav"
+                                                text="Hide in Navigation"
+                                                uncheckedValue="{Boolean}false"
+                                                value="{Boolean}true"/>
+                                            <hideinnav-delete
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                name="./hideInNav@Delete"
+                                                value="{Boolean}true"/>
+                                            <hideinsearch
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                                name="./hideInSearch"
+                                                text="Hide in Search"
+                                                uncheckedValue="{Boolean}false"
+                                                value="{Boolean}true"/>
+                                            <hideinsearch-delete
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                name="./hideInSearch@Delete"
+                                                value="{Boolean}true"/>
+                                            <breakinheritance
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                                fieldDescription="Rejects all GSUSA content rollouts for this page. If you want to sync individual components with national content, you will need to unlock and relock them"
+                                                name="./breakInheritance"
+                                                text="Block Rollouts for this page"
+                                                uncheckedValue="{Boolean}false"
+                                                value="{Boolean}true"/>
+                                            <breakinheritance-delete
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                name="./breakInheritance@Delete"
+                                                value="{Boolean}true"/>
+                                        </items>
+                                    </title>
+                                </items>
+                            </column>
+                        </items>
+                    </basic>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>
