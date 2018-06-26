@@ -296,7 +296,7 @@
                     frm.url = destDir + '/*';
                 }
 
-                girlscouts.functions.createPath(destDir, 'cq:Page', 'jcr:title|' + team + '|||sling:resourceType|girlscouts/components/base-page');
+                girlscouts.functions.createPath(destDir, 'cq:Page', 'jcr:title|' + team + '|||sling:resourceType|girlscouts/components/basic-page');
                 
                 var action = new CQ.form.SlingSubmitAction(frm, {
                     params: params,
