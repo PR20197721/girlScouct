@@ -18,7 +18,13 @@ public class VideoUtil {
 	// Taken from carousel.jsp
 	public static String extractYTId(String ytUrl) {
 		String vId = null;
-		Pattern pattern = Pattern.compile(".*(?:youtu\\.be\\/|v\\/|u\\/w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
+        Pattern pattern = null;
+        if(ytUrl.contains("youtube.com")){
+            pattern = Pattern.compile(".*(?:youtu\\.be\\/|v\\/|u\\/w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
+        } else{
+            pattern = Pattern.compile(".*(?:youtube\\.com\\/|v\\/|u\\/w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
+        }
+		
 		Matcher matcher = pattern.matcher(ytUrl);
 		if (matcher.find()){
 			vId = matcher.group(1);
