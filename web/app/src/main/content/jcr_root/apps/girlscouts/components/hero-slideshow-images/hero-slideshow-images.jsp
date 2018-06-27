@@ -49,6 +49,7 @@
 		String alt = "";
 		String linkUrl = "";
 		String sortOrder = "";
+		boolean hasOneVideoUrl = false;
 		
 		if(imageNode.hasProperty("newWindow")){
 			newWindow = imageNode.getProperty("newWindow").getString();
@@ -78,7 +79,7 @@
 			
 			if(imgNode.hasProperty("videoUrl")){
 				String videoUrl = imgNode.getProperty("videoUrl").getString();
-				
+				hasOneVideoUrl = true;
 				// Add videos separate.
 				VIDEO_TYPE videoType = VIDEO_TYPE.detect(videoUrl);
 				if(videoType != VIDEO_TYPE.NONE){
@@ -101,7 +102,14 @@
  				missingImageSizes.remove(imageSize);
 			}
 		}
-		missingImageSizes.forEach(missingSize -> slideShowElements.add(new SlideShowElement("MISSING", "", "", missingSize, false)));
+		if(missingImageSizes.size() == 3 && !hasOneVideoUrl)
+		{
+            if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+				missingImageSizes.forEach(missingSize -> slideShowElements.add(new SlideShowElement("Click edit above and select number of slides. Then click here to add images to slides.", "", "", missingSize, false)));
+            }
+		} else{
+			missingImageSizes.forEach(missingSize -> slideShowElements.add(new SlideShowElement("MISSING", "", "", missingSize, false)));
+		}
    }
 %>
 
