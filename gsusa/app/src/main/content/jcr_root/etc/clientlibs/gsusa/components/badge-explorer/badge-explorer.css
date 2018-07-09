@@ -96,7 +96,7 @@
 /* Submenu */
 
 .dropdown input:checked ~ .submenu {
-    max-height: 300px;
+    max-height: 500px;
     transition: max-height 0.5s ease-in;
 }
 
