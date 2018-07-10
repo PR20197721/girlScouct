@@ -46,13 +46,6 @@
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Description"
                                 name="./jcr:description"/>
-                            <countriesSource
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                name="./applyCommerceCountryFilter"
-                                text="Filter country list by commerce service"
-                                uncheckedValue="{Boolean}false"
-                                value="{Boolean}true"/>
                             <readOnly
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
