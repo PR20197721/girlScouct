@@ -7,7 +7,7 @@
 	
 	Vue.component('badge-explorer-element-pdf', {
 		template: '#badge-explorer-element-pdf-template',
-		props: ['title', 'rank', 'image', 'description', 'link', 'other-tags'],
+		props: ['title', 'rank', 'image', 'description', 'link', 'other-tags', 'badgeCTA'],
 		data: function(){
 			var cleanedDesc = (' ' + this.description).slice(1);
 			var validHtml = false;
@@ -76,7 +76,7 @@
 
 	Vue.component('badge-selector-element', {
 		template: '#badge-selector-element-template',
-		props: ['title', 'rank', 'image', 'description', 'link', 'other-tags'],
+		props: ['title', 'rank', 'image', 'description', 'link', 'other-tags', 'badgeCTA'],
 		data: function(){
 			return {selected: false}
 		},

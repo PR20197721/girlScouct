@@ -8,7 +8,7 @@
 	<div class="BadgePdfDescriptionColumn">
 		<div class="BadgePdfDescription" v-html="descriptionCleaned"></div>
 		<div class="BadgePdfGetContainer" v-if="link">
-			<a :href="link">GET THIS BADGE</a>
+			<a :href="link">{{badgeCTA}}</a>
 		</div>
 	</div>
 </div>
