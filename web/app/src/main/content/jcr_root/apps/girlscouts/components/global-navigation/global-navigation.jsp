@@ -223,8 +223,6 @@ $(document).ready(function(){
 	var flyoutKeys = Object.keys(flyoutsMap);
     Object.keys(flyoutsMap).forEach(function(key,index) {
 		var $item = $("li[data-link='"+ key + "']");
-        console.log($item[0]);
-        console.log(flyoutsMap[key]);
         $item.append(flyoutsMap[key]);
 	});
 
