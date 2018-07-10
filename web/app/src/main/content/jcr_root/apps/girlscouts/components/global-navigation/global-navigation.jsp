@@ -187,9 +187,7 @@ if ((links == null || links.length == 0)) {
                         try {
                             if (flyPage != null) {
                                 String flyRight = (i <= links.length/2) ? " right" : "";
-                                System.out.println("##################");
-								System.out.println(buildFlyOutMenu(flyPage, flyRight));
-								System.out.println("##################");
+                                
 
 	  							flyoutMap.put(path, buildFlyOutMenu(flyPage, flyRight));
 
