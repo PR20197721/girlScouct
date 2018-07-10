@@ -5,12 +5,4 @@
         jcr:primaryType="rep:GrantACE"
         rep:principalName="everyone"
         rep:privileges="{Name}[jcr:read]"/>
-    <deny1
-        jcr:primaryType="rep:DenyACE"
-        rep:principalName="everyone"
-        rep:privileges="{Name}[jcr:read]">
-        <rep:restrictions
-            jcr:primaryType="rep:Restrictions"
-            rep:glob="/*"/>
-    </deny1>
 </jcr:root>
