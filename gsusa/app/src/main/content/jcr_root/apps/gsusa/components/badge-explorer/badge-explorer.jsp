@@ -1,11 +1,8 @@
 <%@ page
 	import="java.lang.Exception,
-	java.util.Date,
-	java.util.List,
-	java.util.ArrayList,
-	java.util.Comparator,
-	java.util.Collections,
+	java.util.Optional,
 	org.girlscouts.web.badges.dto.BadgeDTO"%>
+<%@ page import="java.util.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <cq:defineObjects />
@@ -74,6 +71,7 @@ class BadgeComparator implements Comparator<Resource>{
 							String[] tags = props.get("cq:tags",String[].class);
 							String title = props.get("dc:title",String.class);
 							String description = props.get("dc:description",String.class);
+							String badgeCTA = Optional.ofNullable(props.get("badgeCTA",String.class)).orElse("GET THIS BADGE");
 							String restrictions = props.get("adobe_dam:restrictions",String.class);
 							String imageSrc = badge.getPath();
 							String modalId = "modal-"+badgeCount;
@@ -123,7 +121,7 @@ class BadgeComparator implements Comparator<Resource>{
                                                 sb.append("</div>");
 												sb.append("<div class=\"btn-get-wrapper\">");
 												if(description != null && description.trim().length() > 0){
-													sb.append("<a class=\"btn-get\" href=\""+description+"\" target=\"_blank\">GET THIS BADGE</a>");
+													sb.append("<a class=\"btn-get\" href=\""+description+"\" target=\"_blank\">" + badgeCTA + "</a>");
 												}
 												sb.append("</div>");
 											sb.append("</div>");
