@@ -1,0 +1,18 @@
+#!/bin/bash
+. setVars.sh
+cd $PROJECT_DIRECTORY/common
+mvn clean install;
+cd $PROJECT_DIRECTORY/web
+mvn clean install;
+cd $PROJECT_DIRECTORY/gsusa
+mvn clean install;
+cd $PROJECT_DIRECTORY/vtk
+mvn clean install;
+cd $PROJECT_DIRECTORY/common
+. deployWindows.sh
+cd $PROJECT_DIRECTORY/web
+. deployWindows.sh
+cd $PROJECT_DIRECTORY/gsusa
+. deployWindows.sh
+cd $PROJECT_DIRECTORY/vtk
+. deployWindows.sh
