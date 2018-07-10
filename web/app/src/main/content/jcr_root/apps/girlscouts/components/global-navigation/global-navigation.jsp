@@ -1,6 +1,8 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode,
                 org.girlscouts.vtk.helpers.ConfigManager,
                 org.girlscouts.vtk.helpers.CouncilMapper,
+				java.util.HashMap,
+				com.google.gson.Gson,
                 java.text.SimpleDateFormat,java.util.*,
                 org.girlscouts.vtk.auth.models.ApiConfig,
                 org.girlscouts.vtk.models.*,
@@ -72,6 +74,7 @@ if (newCurrentPage != null) {
 Boolean displaySecondaryNavFlyOut = properties.get("displaySecondaryNavFlyOut", Boolean.FALSE);
 String flyoutClass = displaySecondaryNavFlyOut ? "flyout-nav" : "";
 
+HashMap flyoutMap = new HashMap();
 List<String> linksList = new ArrayList<String>();
 if(currentNode.hasNode("links")){
 	Node links = currentNode.getNode("links");
@@ -178,13 +181,18 @@ if ((links == null || links.length == 0)) {
                    } catch (Exception e) {}
                 }
                 if (clazz.indexOf("hide-in-nav") < 0) { // If not hidden, create list element
-                    %><li class="<%=hasChildren%><%=activeStatus%>">
+                    %><li data-link="<%=path%>" class="<%=hasChildren%><%=activeStatus%>">
                         <a class="show-for-large-up menu <%=clazz%>" href="<%=path%>"><%=label%></a>
                         <a class="show-for-medium-only menu <%=clazz%>" href="<%=path%>"><%=mLabel%></a><%
                         try {
                             if (flyPage != null) {
                                 String flyRight = (i <= links.length/2) ? " right" : "";
-                                out.print(buildFlyOutMenu(flyPage, flyRight));
+                                
+
+	  							flyoutMap.put(path, buildFlyOutMenu(flyPage, flyRight));
+
+
+                                //out.print(buildFlyOutMenu(flyPage, flyRight));
                             }
                         } catch (Exception e) {}
                     %></li><%
@@ -192,7 +200,9 @@ if ((links == null || links.length == 0)) {
         	}
         } %>
     </ul>
-<% } %>
+<% } 
+String tempJson = new Gson().toJson(flyoutMap);
+%>
 
 
 <script>
@@ -209,6 +219,15 @@ $(document).foundation({
       }
 });
 $(document).ready(function(){
+	var flyoutsMap = <%=tempJson%>;
+	var flyoutKeys = Object.keys(flyoutsMap);
+    Object.keys(flyoutsMap).forEach(function(key,index) {
+		var $item = $("li[data-link='"+ key + "']");
+        $item.append(flyoutsMap[key]);
+	});
+
+
+
   $(window).resize(function() {
     if($('#drop1').hasClass('open')) {
         $('#drop1').css('left', 'auto !important');
