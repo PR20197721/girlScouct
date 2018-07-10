@@ -50,7 +50,7 @@
     final boolean readOnly = FormsHelper.isReadOnly(slingRequest, resource);
     final boolean hideTitle = properties.get("hideTitle", false);
     final String title = FormsHelper.getTitle(resource, i18n.get("Address"));
-    final boolean applyCommerceCountryFilter = properties.get("applyCommerceCountryFilter", false);
+
 
     final String firstName = FormsHelper.getValue(slingRequest, resource, name + ".firstname");
     final String lastName = FormsHelper.getValue(slingRequest, resource, name + ".lastname");
@@ -64,20 +64,7 @@
 %><cq:include script="countries.jsp"/><%
     List<String> countryList = (List<String>) request.getAttribute(CommerceConstants.REQ_ATTR_COUNTRYLIST);
 
-    if (applyCommerceCountryFilter) {
-        CommerceService commerceService = resource.adaptTo(CommerceService.class);
-        List<String> filter = commerceService.getCountries();
-        List<String> unfilteredList = new ArrayList<String>(countryList);
-        countryList = new ArrayList<String>();
-        for (String countryRecord : unfilteredList) {
-            String[] parts = countryRecord.split("=");
-            for (String isocode : filter) {
-                if (isocode.equals("*") || isocode.equalsIgnoreCase(parts[0])) {
-                    countryList.add(countryRecord);
-                }
-            }
-        }
-    }
+
 
 %>
 <div class="form_row">
