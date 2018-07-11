@@ -51,7 +51,6 @@ public class BadgeDTO {
 		}
 		
 		description = props.get("adobe_dam:restrictions",String.class);
-		+
 	}
 	
 	private static String getTagTitle(ResourceResolver resolver, String tagPath) {
