@@ -203,6 +203,9 @@ window.BadgePdfGenerator = (function(window, $, document){
 							pdfHtmlWrapper.find('.BadgePdfDescriptionColumn, .BadgePdfImageColumn').css({display: 'block'});
 							pdfHtmlWrapper.find('.BadgeExplorerPdfComponent').css('height', 'auto').parent().css('height', 'auto').parent().css('height', 'auto');
 							pdfHtmlWrapper.find('.PdfBadgeGridContainer').css('width', '700px');
+							pdfHtmlWrapper.find('b').each(function() {
+								$(this).replaceWith(this.childNodes);
+							});
 
 							var badgeHtml = pdfHtmlWrapper[0].innerHTML;
 							pdfHtmlWrapper.remove();
