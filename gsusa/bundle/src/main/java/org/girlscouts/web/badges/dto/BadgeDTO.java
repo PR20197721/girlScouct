@@ -29,7 +29,7 @@ import org.apache.sling.api.resource.ValueMap;
 public class BadgeDTO {
 
 	
-	private String title, image, description, link, rank;
+	private String title, image, description, link, rank, badgeCTA;
 	private List<String> otherTags;
 	
 	public BadgeDTO(Resource badge, ValueMap props) {
@@ -40,6 +40,7 @@ public class BadgeDTO {
 		
 		title = props.get("dc:title",String.class);
 		link = props.get("dc:description",String.class);
+		badgeCTA = props.get("badgeCTA", "GET THIS BADGE");
 		
 		Asset asset = badge.adaptTo(Asset.class);
 		Rendition regRendition = asset.getRendition("cq5dam.thumbnail.319.319.png");
@@ -50,7 +51,7 @@ public class BadgeDTO {
 		}
 		
 		description = props.get("adobe_dam:restrictions",String.class);
-		
+		+
 	}
 	
 	private static String getTagTitle(ResourceResolver resolver, String tagPath) {
@@ -108,5 +109,12 @@ public class BadgeDTO {
 	public String toJson() {
 		return new Gson().toJson(this);
 	}
-	
+
+	public String getBadgeCTA() {
+		return badgeCTA;
+	}
+
+	public void setBadgeCTA(String badgeCTA) {
+		this.badgeCTA = badgeCTA;
+	}
 }
