@@ -40,7 +40,7 @@ public class BadgeDTO {
 		
 		title = props.get("dc:title",String.class);
 		link = props.get("dc:description",String.class);
-		badgeCTA = props.get("badgeCTA", "Get This Badge");
+		badgeCTA = props.get("badgeCTA", "GET THIS BADGE");
 		
 		Asset asset = badge.adaptTo(Asset.class);
 		Rendition regRendition = asset.getRendition("cq5dam.thumbnail.319.319.png");
@@ -51,7 +51,7 @@ public class BadgeDTO {
 		}
 		
 		description = props.get("adobe_dam:restrictions",String.class);
-		
+		+
 	}
 	
 	private static String getTagTitle(ResourceResolver resolver, String tagPath) {

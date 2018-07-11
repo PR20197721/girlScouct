@@ -74,7 +74,7 @@
                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                         data-title="Text to display for the badge Button"
                                         fieldLabel="Get This Badge Button Text"
-                                        emptyText="Get This Badge"
+                                        emptyText="GET THIS BADGE"
                                         maxlength="30"
                                         name="./jcr:content/metadata/badgeCTA">
                                     <granite:data
