@@ -50,7 +50,7 @@
 	    }
 	} else{
 		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, "http", ogImage);
+		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, request.getScheme(), ogImage);
 	}
 	
 	Page parentPage = currentPage.getAbsoluteParent(2);
