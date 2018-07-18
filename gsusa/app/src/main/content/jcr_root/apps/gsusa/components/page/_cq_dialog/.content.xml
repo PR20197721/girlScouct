@@ -127,6 +127,12 @@
                                         text="Open in new window"
                                         uncheckedValue="{Boolean}false"
                                         value="{Boolean}true"/>
+                                    <canonicalUrl
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="girlscouts/components/form/pathfield"
+                                        fieldLabel="Canonical URL"
+                                        name="./canonicalUrl"
+                                        rootPath="/content/gsusa"/>
                                 </items>
                             </column>
                         </items>
