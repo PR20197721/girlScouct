@@ -4,6 +4,7 @@
         <cq:include path="content/middle/par" resourceType="girlscouts-common/components/styled-parsys" />
 
 <!-- brightedge two-col lem code begin -->
+<h3>More from Girl Scouts</h3> 
 <cq:includeClientLib categories="apps.gsusa.components.brightedge" />         
 <div class="be-ix-link-block" style="display: block;"></div>
 <!-- brightedge lem code end -->        
