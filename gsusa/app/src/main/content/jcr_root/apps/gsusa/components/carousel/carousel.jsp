@@ -219,9 +219,20 @@ public  String readUrlFile(String urlString) throws Exception {
                 %></li><%
             } 
 		}
+
     %></ul><%
     if (hideZIPCode.equals("false")) {
         %><cq:include path="zip-council" resourceType="gsusa/components/zip-council" /><%
+    } else {
+	%>
+		<style>
+			@media only screen and (max-width: 48em) {
+				div.carousel .main-slider button:not(.ytp-button) {
+     				margin-top: -3.5rem;
+				}
+			}
+		</style>
+	<%
     }
 %></div>
 
