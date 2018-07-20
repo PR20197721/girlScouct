@@ -84,7 +84,7 @@
 		// cannot send "/" so replacing it with "^"
 		var myType = encodeURIComponent(obj["type"].value).replace(/'/g,"%27").replace(/"/g,"%22").replace("%2F","%7E");
 		var myState = encodeURIComponent(obj["state"].value).replace(/'/g,"%27").replace(/"/g,"%22").replace("%2F","%7E");
-		var myStr = window.location.pathname.split('.').shift()+"."+myType+"."+myState+".html";
+		var myStr = "<%=currentPage.getPath()%>"+"."+myType+"."+myState+".html" 
 		window.location=myStr;
 		return false;
 	}
