@@ -35,7 +35,7 @@
 <!-- brightedge two-col lem code begin -->
 <cq:includeClientLib categories="apps.gsusa.components.brightedge" />         
 <div class="be-ix-link-block" style="display: block;">
-<p style="font-weight:600;font-size:26px;margin-bottom:0;">More from Girl Scouts</p> 
+<h4 style="padding-top:40px;">More from Girl Scouts</h4> 
 </div>
 <!-- brightedge lem code end -->         
         
