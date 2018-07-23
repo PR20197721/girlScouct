@@ -1,20 +1,23 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%
-	String message = properties.get("message","");
-	String url = properties.get("url","");
-	String alert = properties.get("alert","");
-	String newstype = properties.get("newstype","");
-	String bgcolor = properties.get("bgcolor","");
-	String textcolor = properties.get("textcolor","");
+	String bannertype = properties.get("bannertype", "");	
 
-	Resource thumbnail = resource.getChild("thumbnail");
-	String filePath = "";
-	if(thumbnail != null) {
-		filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
-	}
-%>
-<%
-	if(!newstype.equals("None")) {
+	if(!bannertype.equals("None")) {
+		
+		String message = properties.get("message"+bannertype,"");
+		String url = properties.get("url"+bannertype,"");
+		String alert = properties.get("alert"+bannertype,"");
+		String newstype = properties.get("newstype"+bannertype,"");
+		String bgcolor = properties.get("bgcolor"+bannertype,"");
+		String textcolor = properties.get("textcolor"+bannertype,"");
+
+		Resource thumbnail = resource.getChild("thumbnail"+bannertype);
+		String filePath = "";
+		if(thumbnail != null) {
+			filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
+		}		
+		
+		
 		if(!bgcolor.equals("") && newstype.equals("Text")) {
 %>
 			<div class="inner-wrapper" style="background-color:#<%=bgcolor%>">
