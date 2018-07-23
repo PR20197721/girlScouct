@@ -12,12 +12,14 @@
 
 <!-- header -->
 <%
-// All pages share the same header from the site root, except Join and Volunteer!
+// All pages share the same header from the site root
 String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 String logoPath = headerPath + "/logo";
 String headerNavPath = headerPath + "/header-nav";
 String eyebrowNavPath = headerPath + "/eyebrow-nav";
 String headerSearchPath = headerPath + "/search";
+String joinPath = headerPath + "/join";
+String volunteerPath = headerPath + "/volunteer";
 //The cookie header will be created under its own parent, so that all the children of this parent will share the same mobile header
 //String cookieHeaderPath = currentPage. + "/cookie-header";
 %>
@@ -36,8 +38,8 @@ String headerSearchPath = headerPath + "/search";
         <div style="" class="clearfix">
             <div id='spinner' class='spinner'></div>
             <div style="" class="join-buttons">
-                <cq:include path="header/join" resourceType="gsusa/components/header-join-now" />
-                <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now" />
+                <cq:include path="<%=joinPath %>" resourceType="gsusa/components/header-join-now" />
+                <cq:include path="<%=volunteerPath %>" resourceType="gsusa/components/header-volunteer-now" />
             </div>
             <cq:include path="<%=eyebrowNavPath %>" resourceType="gsusa/components/eyebrow-nav" />
         </div>
