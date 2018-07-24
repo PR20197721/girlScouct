@@ -50,21 +50,21 @@
 	    if (session.nodeExists(pageImagePath)) {	    
 	    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content/content/hero/par/image.img.png");
 			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, "https", ogImage);
+			ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, request.getHeader("X-Forwarded-Proto"), ogImage);
 	    } else if (session.nodeExists(ragImagePath)) {
 			ValueMap imageProps = resourceResolver.resolve(ragImagePath).adaptTo(ValueMap.class);
 			String ragImage = imageProps.get("fileReference",""); 
 			if(!ragImage.equals("")) {
 		    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
 				Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-				ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, "https", ogImage);
+				ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, request.getHeader("X-Forwarded-Proto"), ogImage);
 			}
 	    }
 	}
 	// resolve only if this is relative path
 	if(ogImage.startsWith("/")) {
 		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, "https", ogImage);
+		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, request.getHeader("X-Forwarded-Proto"), ogImage);
 		ogImage = ogImage.replace(":80/","/");
 	}
 	
