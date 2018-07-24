@@ -67,8 +67,8 @@
 	if(ogImage.startsWith("/")) {
 		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
 		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
-		ogImage = ogImage.replace(":80/","/");
 	}
+	ogImage = ogImage.replace(":80/","/");
 	
 	Page parentPage = currentPage.getAbsoluteParent(2);
 	String fbAppId = parentPage.getProperties().get("facebookId", "419540344831322");
