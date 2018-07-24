@@ -78,7 +78,7 @@
 				canonicalUrl += ".html";
 			}	
 			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			canonicalUrl = externalizer.absoluteLink((SlingHttpServletRequest)request, request.getScheme(), canonicalUrl);
+			canonicalUrl = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, canonicalUrl);
 		}
 	}
 	
