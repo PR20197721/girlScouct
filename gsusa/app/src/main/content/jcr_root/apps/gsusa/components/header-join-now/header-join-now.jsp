@@ -2,11 +2,12 @@
 <%@page import="com.day.cq.wcm.api.WCMMode"%>
 
 <%
-String callToActionName = properties.get("callToActionName", "Join");
-String searchBtnName = properties.get("searchBtnName", "Go");
-String title = properties.get("title", "Find Your Local Council");
-Boolean isHidden = properties.get("isJoinHidden", false);
-String source = properties.get("source", "not_set");
+// All pages share the same header from the site root
+String callToActionName = currentNode.hasProperty("callToActionName") ? currentNode.getProperty("callToActionName").getString():"Join";
+String searchBtnName = currentNode.hasProperty("searchBtnName") ? currentNode.getProperty("searchBtnName").getString():"Go";
+String title = currentNode.hasProperty("title") ? currentNode.getProperty("title").getString():"Find Your Local Council";
+Boolean isHidden = currentNode.hasProperty("isJoinHidden") ? currentNode.getProperty("isJoinHidden").getBoolean():false;
+String source = currentNode.hasProperty("source") ? currentNode.getProperty("source").getString():"not_set";
 
 if (!isHidden) {
     %><form class="formHeaderJoin" id="tag_header_join">
