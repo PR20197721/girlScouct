@@ -3,6 +3,7 @@
 	String bannertype = properties.get("bannertype", "");	
 
 	if(!bannertype.equals("None")) {
+		if (bannertype.equals("1")) bannertype = "";
 		
 		String message = properties.get("message"+bannertype,"");
 		String url = properties.get("url"+bannertype,"");

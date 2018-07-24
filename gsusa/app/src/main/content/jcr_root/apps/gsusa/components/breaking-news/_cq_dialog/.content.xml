@@ -12,7 +12,7 @@
         <items jcr:primaryType="nt:unstructured">
         	<choose
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Type"
+                jcr:title="Active Banner"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
@@ -25,7 +25,7 @@
                             <news-type
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup"
-                                fieldDescription="Choose one type of Breaking News."
+                                fieldDescription="Select which Breaking News banner to display."
                                 fieldLabel="Show"
                                 name="./bannertype">
                                 <items jcr:primaryType="nt:unstructured">
@@ -68,7 +68,7 @@
                                 sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup"
                                 fieldDescription="Choose one type of Breaking News."
                                 fieldLabel="Show"
-                                name="./newstype1">
+                                name="./newstype">
                                 <items jcr:primaryType="nt:unstructured">
                                     <text
                                         jcr:primaryType="nt:unstructured"
@@ -85,43 +85,44 @@
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldDescription="(Optional) Enter a bold alert statement (e.g. BREAKING NEWS:)"
                                 fieldLabel="Alert"
-                                name="./alert1"/>
+                                name="./alert"/>
                             <message
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textarea"
                                 fieldDescription="Enter the breaking news message. If left blank, breaking news will be hidden"
                                 fieldLabel="News Message"
-                                name="./message1"/>
+                                name="./message"/>
                             <textcolor
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldDescription="(Optional) Enter text color in HEX (e.g. ffffff)"
                                 fieldLabel="Text Color"
-                                name="./textcolor1"/>
+                                name="./textcolor"/>
                             <url
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="(Optional) Enter a URL to link to, e.g. http://girlscouts.org"
                                 fieldLabel="URL"
-                                name="./url1"/>
+                                name="./url"/>
                             <bgcolor
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldDescription="(Optional) Enter background color in HEX (e.g. e34c38)"
                                 fieldLabel="Background Color"
-                                name="./bgcolor1"/>
+                                name="./bgcolor"/>
                             <image
 								jcr:primaryType="nt:unstructured"
 								jcr:title="File"
 								sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+								allowUpload="{Boolean}false"
 								autoStart="{Boolean}false"
 								class="cq-droptarget"
 								fieldLabel="Image asset"
-								fileNameParameter="./thumbnail1/fileName"
-								fileReferenceParameter="./thumbnail1/fileReference"
+								fileNameParameter="./thumbnail/fileName"
+								fileReferenceParameter="./thumbnail/fileReference"
 								mimeTypes="[image]"
 								multiple="{Boolean}false"
-								name="./file1"
+								name="./file"
 								title="Image"
 								uploadUrl="${suffix.path}"
 								useHTML5="{Boolean}true"/>
@@ -192,6 +193,7 @@
 								jcr:primaryType="nt:unstructured"
 								jcr:title="File"
 								sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+								allowUpload="{Boolean}false"
 								autoStart="{Boolean}false"
 								class="cq-droptarget"
 								fieldLabel="Image asset"
@@ -270,6 +272,7 @@
 								jcr:primaryType="nt:unstructured"
 								jcr:title="File"
 								sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+								allowUpload="{Boolean}false"
 								autoStart="{Boolean}false"
 								class="cq-droptarget"
 								fieldLabel="Image asset"
