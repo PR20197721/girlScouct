@@ -67,8 +67,8 @@
 	if(ogImage.startsWith("/")) {
 		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
 		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
-		ogImage = ogImage.replace(":80/","/");
 	}
+	ogImage = ogImage.replace(":80/","/");
 	String canonicalUrl = properties.get("canonicalUrl", "");
 	if("".equals(canonicalUrl) == false){
 		// resolve only if this is relative path
