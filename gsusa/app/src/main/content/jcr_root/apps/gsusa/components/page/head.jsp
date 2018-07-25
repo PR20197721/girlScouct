@@ -69,6 +69,18 @@
 		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
 	}
 	ogImage = ogImage.replace(":80/","/");
+	String canonicalUrl = properties.get("canonicalUrl", "");
+	if("".equals(canonicalUrl) == false){
+		// resolve only if this is relative path
+		if(canonicalUrl.startsWith("/")) {
+			Page canonicalUrlPage = resourceResolver.resolve(canonicalUrl).adaptTo(Page.class);
+			if (canonicalUrlPage != null && !canonicalUrl.contains(".html")) {
+				canonicalUrl += ".html";
+			}	
+			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+			canonicalUrl = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, canonicalUrl);
+		}
+	}
 	
 	Page parentPage = currentPage.getAbsoluteParent(2);
 	String fbAppId = parentPage.getProperties().get("facebookId", "419540344831322");
@@ -131,6 +143,11 @@
 			<meta name="twitter:description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>" />
     	<% } %>
     <% } %>
+    
+    <% if (canonicalUrl.length() > 0) {%>
+    	<link rel="canonical" href="<%=canonicalUrl%>" />
+    <% } %>
+    
     <cq:include script="headlibs.jsp"/>
     <cq:include script="/libs/wcm/core/components/init/init.jsp"/>
     <cq:include script="stats.jsp"/>

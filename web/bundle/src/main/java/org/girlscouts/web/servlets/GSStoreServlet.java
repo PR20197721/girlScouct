@@ -308,6 +308,22 @@ public class GSStoreServlet
             final List<String> namesList = new ArrayList<String>();
             
             namesList.addAll(contentNamesList);
+            
+            
+           final Iterator<Resource> fields = FormsHelper.getFormElements(request.getResource());
+           while (fields.hasNext()) {
+                final Resource field = fields.next();
+                final FieldDescription[] descs = FieldHelper.getFieldDescriptions(request, field);
+                for (final FieldDescription desc : descs) {
+                    ValueMap childProperties = ResourceUtil.getValueMap(field);
+	                	if(childProperties.get("confirmationemail",false)){
+	                		final String[] pValues = request.getParameterValues(desc.getName());
+	                        for (final String v : pValues) {
+	                        	confirmationEmailAddresses.add(v);
+	                        }
+	            		}
+                }
+            }
   
                 // now add form fields to message
             // and uploads as attachments
