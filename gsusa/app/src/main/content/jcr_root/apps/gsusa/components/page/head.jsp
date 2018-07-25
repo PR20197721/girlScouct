@@ -79,6 +79,7 @@
 			}	
 			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
 			canonicalUrl = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, canonicalUrl);
+			canonicalUrl = canonicalUrl.replace(":80/","/");
 		}
 	}
 	
