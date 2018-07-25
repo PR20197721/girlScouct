@@ -50,7 +50,7 @@
 	    }
 	} else{
 		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		imageUrl = externalizer.absoluteLink((SlingHttpServletRequest)request, "http", imageUrl);
+		imageUrl = externalizer.absoluteLink((SlingHttpServletRequest)request, request.getScheme(), imageUrl);
 	}
 
 %>

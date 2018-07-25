@@ -42,15 +42,45 @@
 	String ogUrl = properties.get("ogUrl", "");
 	String ogDescription = properties.get("ogDescription", "");
 	String ogImage = properties.get("ogImage", "");
+	String reqProtocol = request.getHeader("X-Forwarded-Proto");
+	if(reqProtocol == null) reqProtocol = "http";
+	
 	if("".equals(ogImage)){
-		String pageImagePath = currentPage.getPath() + "/jcr:content/image";
+		String pageImagePath = currentPage.getPath() + "/jcr:content/content/hero/par/image";
+		String ragImagePath = currentPage.getPath() + "/jcr:content/image";
 	    Session session = (Session)resourceResolver.adaptTo(Session.class);
-	    if (session.nodeExists(pageImagePath)) {
-	    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
+	    if (session.nodeExists(pageImagePath)) {	    
+	    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content/content/hero/par/image.img.png");
+			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+			ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+	    } else if (session.nodeExists(ragImagePath)) {
+			ValueMap imageProps = resourceResolver.resolve(ragImagePath).adaptTo(ValueMap.class);
+			String ragImage = imageProps.get("fileReference",""); 
+			if(!ragImage.equals("")) {
+		    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
+				Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+				ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+			}
 	    }
-	} else{
+	}
+	// resolve only if this is relative path
+	if(ogImage.startsWith("/")) {
 		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, "http", ogImage);
+		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+	}
+	ogImage = ogImage.replace(":80/","/");
+	String canonicalUrl = properties.get("canonicalUrl", "");
+	if("".equals(canonicalUrl) == false){
+		// resolve only if this is relative path
+		if(canonicalUrl.startsWith("/")) {
+			Page canonicalUrlPage = resourceResolver.resolve(canonicalUrl).adaptTo(Page.class);
+			if (canonicalUrlPage != null && !canonicalUrl.contains(".html")) {
+				canonicalUrl += ".html";
+			}	
+			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+			canonicalUrl = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, canonicalUrl);
+			canonicalUrl = canonicalUrl.replace(":80/","/");
+		}
 	}
 	
 	Page parentPage = currentPage.getAbsoluteParent(2);
@@ -83,19 +113,10 @@
 		<meta property="og:description" content="<%=ogDescription %>"/>
 		<meta name="twitter:description" content="<%=ogDescription %>" />
 	<%} %>
-	<%
-	if (ogImage.length() > 0) {
-		if (ogImage.indexOf("http:") != -1) { %>
+	<% if (ogImage.length() > 0) {%>
 			<meta property="og:image" content="<%=ogImage %>"/>
 			<meta name="twitter:image" content="<%=ogImage %>" />
-	<%	} else { 
-			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-	%>
-			<meta property="og:image" content="<%=externalizer.absoluteLink((SlingHttpServletRequest)request, "http", ogImage) %>"/>
-			<meta name="twitter:image" content="<%=externalizer.absoluteLink((SlingHttpServletRequest)request, "http", ogImage) %>" />
-	<%
-		}
-	} %>
+	<%} %>
 	<% if (fbAppId.length() > 0) {%>
 		<meta property="fb:app_id" content="<%=fbAppId %>"/>
 	<%} %>
@@ -123,6 +144,11 @@
 			<meta name="twitter:description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>" />
     	<% } %>
     <% } %>
+    
+    <% if (canonicalUrl.length() > 0) {%>
+    	<link rel="canonical" href="<%=canonicalUrl%>" />
+    <% } %>
+    
     <cq:include script="headlibs.jsp"/>
     <cq:include script="/libs/wcm/core/components/init/init.jsp"/>
     <cq:include script="stats.jsp"/>
