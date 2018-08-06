@@ -159,8 +159,8 @@
 			favIcon = favIcon.replace(":80/","/");
         }
     	%>
-    <link rel="icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
-    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="<%=favIcon%>"<%=xs%>>
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<%=favIcon%>"<%=xs%>>
     <% }
 
 	String title = "";
