@@ -10,7 +10,7 @@ String getFormId(Node thisNode) {
 		Node parentNode = thisNode.getParent();
 
 		String parentResourceType = parentNode.getProperty("sling:resourceType").getString();
-        while(!parentResourceType.equals("foundation/components/parsys")){
+        while(!parentResourceType.equals("foundation/components/parsys") && !parentResourceType.equals("girlscouts-common/components/styled-parsys")){
             parentNode = parentNode.getParent();
 			parentResourceType = parentNode.getProperty("sling:resourceType").getString();
         }
@@ -32,6 +32,7 @@ String getFormId(Node thisNode) {
 		}
 		return formId;
     } catch (Exception e) {
+        System.out.println("Caugh exception with message " + e.getMessage());
         return null;
     }
 }
