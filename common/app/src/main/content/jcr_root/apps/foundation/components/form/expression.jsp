@@ -1,10 +1,14 @@
 <%@ page import="java.util.StringTokenizer,
 				java.util.Set,
 				java.util.HashSet,
+				org.slf4j.Logger,
+				org.slf4j.LoggerFactory,
 				java.lang.StringBuilder,
 				javax.jcr.Node,
 				javax.jcr.NodeIterator" %>
 <%!
+
+private static Logger gslogger = LoggerFactory.getLogger("girlscouts.common.expression.jsp");
 String getFormId(Node thisNode) {
     try {
 		Node parentNode = thisNode.getParent();
@@ -32,7 +36,8 @@ String getFormId(Node thisNode) {
 		}
 		return formId;
     } catch (Exception e) {
-        System.out.println("Caugh exception with message " + e.getMessage());
+        gslogger.error("getFormId failed due to exception:" + e.getClass().getName() +
+                       " being thrown with message: " + e.getMessage());
         return null;
     }
 }
