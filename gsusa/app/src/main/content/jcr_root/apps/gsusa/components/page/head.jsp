@@ -152,9 +152,15 @@
     <cq:include script="headlibs.jsp"/>
     <cq:include script="/libs/wcm/core/components/init/init.jsp"/>
     <cq:include script="stats.jsp"/>
-    <% if (favIcon != null) { %>
-    <link rel="icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
-    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
+    <% if (favIcon != null) {
+    	if(favIcon.startsWith("/")) {
+            Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+			favIcon = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, favIcon);
+			favIcon = favIcon.replace(":80/","/");
+        }
+    	%>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="<%=favIcon%>"<%=xs%>>
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<%=favIcon%>"<%=xs%>>
     <% }
 
 	String title = "";
