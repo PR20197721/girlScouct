@@ -72,7 +72,7 @@ Font : Open Sans
   font-family: 'Trefoil Sans Web';
   src: url("../designs/girlscouts/fonts/trefoilsans-regularit.eot");
   src: local("Trefoil Sans Web Regular It"), local("TrefoilSansWeb-RegularIt"), url("../designs/girlscouts/fonts/trefoilsans-regularit.eot?#iefix") format("embedded-opentype"), url("../designs/girlscouts/fonts/trefoilsans-regularit.woff2") format("woff2"), url("../designs/girlscouts/fonts/trefoilsans-regularit.woff") format("woff");
-  font-weight: 500;
+  font-weight: 400;
   font-style: italic;
 }
 @font-face {
