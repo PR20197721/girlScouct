@@ -26,11 +26,20 @@
 %><%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@ page import="com.day.cq.commons.Doctype,
 					org.apache.sling.settings.SlingSettingsService,
+					com.day.cq.commons.Externalizer,
 					java.util.Set" %><%
     String xs = Doctype.isXHTML(request) ? "/" : "";
     String favIcon = currentDesign.getPath() + "/favicon.ico";
+    String reqProtocol = request.getHeader("X-Forwarded-Proto");
+	if(reqProtocol == null) reqProtocol = "http";
     if (resourceResolver.getResource(favIcon) == null) {
         favIcon = null;
+    }else{
+    	if(favIcon.startsWith("/")) {
+            Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+			favIcon = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, favIcon);
+			favIcon = favIcon.replace(":80/","/");
+        }
     }
 %><head>
 
@@ -61,8 +70,8 @@ eventToSalesforce = "<%= eventToSalesforce %>";
 <% 
 	if (favIcon != null) {
 %>
-	<link rel="icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
-	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
+	<link rel="icon" type="image/vnd.microsoft.icon" href="<%= favIcon %>"<%=xs%>>
+	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<%= favIcon %>"<%=xs%>>
 <%
 	}
 	String title = "";
