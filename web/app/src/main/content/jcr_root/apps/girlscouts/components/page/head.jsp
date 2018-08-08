@@ -27,6 +27,7 @@
 <%@ page import="com.day.cq.commons.Doctype,
 					org.apache.sling.settings.SlingSettingsService,
 					com.day.cq.commons.Externalizer,
+					org.apache.sling.api.SlingHttpServletRequest,
 					java.util.Set" %><%
     String xs = Doctype.isXHTML(request) ? "/" : "";
     String favIcon = currentDesign.getPath() + "/favicon.ico";
