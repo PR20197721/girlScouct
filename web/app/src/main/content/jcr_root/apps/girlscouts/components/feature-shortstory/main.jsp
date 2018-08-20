@@ -1,8 +1,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-
-
 <!-- apps/girlscouts/components/feature-shortstory/main.jsp -->
 <%
 	String designPath = currentDesign.getPath();
