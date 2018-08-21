@@ -31,7 +31,6 @@ public class PageActivationReporter {
 
 	public void report(String status) {
 		statusList.add(status);
-		log.error("Girlscouts Page Activation Reporter: " + status);
 		try {
 			if (currentReportNode == null || reportIndex > 50) {
 				currentReportNode = dateRolloutNode.addNode("report" + formatedReport(reportNodeIndex),
@@ -44,8 +43,7 @@ public class PageActivationReporter {
 			session.save();
 			reportIndex++;
 		} catch (Exception e) {
-			log.error("GS Page Activator - Failed to create or retrieve report node. Status is " + status);
-			e.printStackTrace();
+			log.error("PageActivationReporter: Failed to create or retrieve report node. Status is " + status);
 			return;
 		}
 	}
