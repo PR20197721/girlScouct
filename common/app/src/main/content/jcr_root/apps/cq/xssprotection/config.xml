@@ -101,7 +101,7 @@ http://www.w3.org/TR/html401/struct/global.html
 		<regexp name="relative-size" value="(larger|smaller)"/>
 		
 		<!-- GSDO-932 Allow only window.open function -->
-        <regexp name="window-open" value="window.open\([A-Za-z0-9\,\.\'\:\/\/]+\)$"/>
+        <regexp name="window-open" value="window.open\([A-Za-z0-9\,\.\'\:\/\/\=]+\)[\;]?[\s]?((return)\s(true|false)[\;]?)?$"/>
 	</common-regexps>
 
 	<!--
