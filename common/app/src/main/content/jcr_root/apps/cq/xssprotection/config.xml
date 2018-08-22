@@ -99,6 +99,9 @@ http://www.w3.org/TR/html401/struct/global.html
 		<regexp name="cssColor" value="(aqua|black|blue|fuchsia|gray|grey|green|lime|maroon|navy|olive|purple|red|silver|teal|white|yellow)|rgb\(([1]?[0-9]{1,2}|2[0-4][0-9]|25[0-5]),([1]?[0-9]{1,2}|2[0-4][0-9]|25[0-5]),([1]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\)"/>
 		<regexp name="absolute-size" value="(xx-small|x-small|small|medium|large|x-large|xx-large)"/>
 		<regexp name="relative-size" value="(larger|smaller)"/>
+		
+		<!-- GSDO-932 Allow only window.open function -->
+        <regexp name="window-open" value="window.open\([A-Za-z0-9\,\.\'\:\/\/]+\)$"/>
 	</common-regexps>
 
 	<!--
@@ -362,7 +365,7 @@ http://www.w3.org/TR/html401/struct/global.html
 
 		 <attribute name="onClick" description="The 'onClick' event is executed when the control associated with the tag is clicked">
 			<regexp-list>
-		 		<regexp name="anything"/>
+		 		<regexp name="window-open"/>
 		 	</regexp-list>
 		 </attribute>
 
@@ -759,7 +762,7 @@ http://www.w3.org/TR/html401/struct/global.html
 			<attribute name="onBlur"/>
             <attribute name="onclick">
                 <regexp-list>
-                    <regexp name="anything"/>
+                    <regexp name="window-open"/>
                 </regexp-list>
         	</attribute>
 <!-- Kai: I copied the following lines from the default /libs/cq/xssprotection/config.xml to allow adhocenable in user input rteditor  -->
