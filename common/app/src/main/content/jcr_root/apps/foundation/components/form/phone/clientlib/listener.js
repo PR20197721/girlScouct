@@ -14,17 +14,31 @@
  */
 (function (document, $, ns) {
     "use strict";
-
-
-    $(document).on("dialog-success", function() {
-		var $resourceType = $("coral-dialog-content").find("[name='./sling:resourceType']").val();
-        if("girlscouts/components/feature-shortstory" == $resourceType){
-        	window.location.reload(false);
+    $(document).on("click", ".cq-dialog-submit", function (e) {
+        var message = null;
+		var $form = $(this).closest("form.foundation-form");
+        var elName = $form.find("[name='./name']").val();
+        if(elName.indexOf(' ') >= 0){
+			message = "Element Name must not contain spaces";
         }
+        if(message) {
+        		e.stopPropagation();
+            	e.preventDefault();
+            	ns.ui.helpers.prompt({
+		        title: Granite.I18n.get("Invalid Input"),
+			    message: message,
+			    actions: [{
+			        id: "CANCEL",
+			        text: "OK",
+			        className: "coral-Button"
+			    }],
+				callback: function (actionId) {
+				    if (actionId === "CANCEL") {
+				    }
+				}
+			 });
+        }
+    });
 
-	});
 
-
-
-
-})(document, Granite.$);
+})(document, Granite.$, Granite.author);
