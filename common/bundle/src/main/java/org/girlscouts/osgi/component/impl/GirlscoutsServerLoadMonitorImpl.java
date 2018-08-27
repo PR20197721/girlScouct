@@ -56,15 +56,16 @@ public class GirlscoutsServerLoadMonitorImpl implements Runnable,GirlscoutsServe
 	private boolean isRecovered = true;
 	private String host = "";
 	List<String> emails = new ArrayList<String>();
+	OperatingSystemMXBean operatingSystemMXBean;
 
 	@Activate
 	private void activate(GirlscoutsServerLoadMonitorConfiguration config) {
 		this.config = config;
+		operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
 		author = settingsService.getRunModes().contains("author");
 		serviceParams = new HashMap<String, Object>();
 		serviceParams.put(ResourceResolverFactory.SUBSERVICE, "gs-server-load-monitor");
 		emails.addAll(Arrays.asList(config.emailAddresses()));
-		log.info("Girl Scouts Server Load Monitor Activated.");
 		try {
 			InetAddress addr;
 			addr = InetAddress.getLocalHost();
@@ -72,13 +73,13 @@ public class GirlscoutsServerLoadMonitorImpl implements Runnable,GirlscoutsServe
 		} catch (UnknownHostException e) {
 			log.error("Girl Scouts Server Load Monitor encountered error: ", e);
 		}
+		log.info("Girl Scouts Server Load Monitor Activated.");
 	}
 
 	@Override
 	public void run() {
 		if (author) {
 			try {
-				OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
 				double loadAvg = operatingSystemMXBean.getSystemLoadAverage();
 				log.info("current load = {}, max load={}, alert load={}, recover load={}", loadAvg,
 						config.maxLoad(), config.alertLoad(), config.recoverLoad());
