@@ -19,10 +19,10 @@ import javax.jcr.nodetype.NodeType;
 import javax.jcr.query.Query;
 
 import org.girlscouts.cq.workflow.service.RolloutTemplatePageService;
+import org.girlscouts.osgi.service.GSEmailService;
 import org.girlscouts.web.components.GSEmailAttachment;
 import org.girlscouts.web.components.PageReplicationUtil;
 import org.girlscouts.web.constants.PageReplicationConstants;
-import org.girlscouts.web.service.email.GSEmailService;
 import org.girlscouts.web.service.replication.PageReplicator;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.ComponentContext;
@@ -37,9 +37,6 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.api.resource.ResourceUtil;
-import org.apache.sling.api.resource.ValueMap;
-
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;

@@ -14,12 +14,13 @@ import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.mail.MessagingException;
+
+import org.girlscouts.osgi.service.GSEmailService;
 import org.girlscouts.web.components.GSEmailAttachment;
 import org.girlscouts.web.components.PageActivationReporter;
 import org.girlscouts.web.components.PageReplicationUtil;
 import org.girlscouts.web.constants.PageReplicationConstants;
 import org.girlscouts.web.councilupdate.CacheThread;
-import org.girlscouts.web.service.email.GSEmailService;
 import org.girlscouts.web.service.replication.PageReplicator;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;

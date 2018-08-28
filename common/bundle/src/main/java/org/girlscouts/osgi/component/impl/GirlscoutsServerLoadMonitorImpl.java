@@ -19,7 +19,7 @@ import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.osgi.component.GirlscoutsServerLoadMonitor;
 import org.girlscouts.osgi.configuration.GirlscoutsServerLoadMonitorConfiguration;
-import org.girlscouts.web.service.email.GSEmailService;
+import org.girlscouts.osgi.service.GSEmailService;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;

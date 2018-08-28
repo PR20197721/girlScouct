@@ -1,4 +1,4 @@
-package org.girlscouts.web.service.email.impl;
+package org.girlscouts.osgi.service.impl;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -21,20 +21,17 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ResourceUtil;
+import org.girlscouts.osgi.service.GSEmailService;
 import org.girlscouts.web.components.GSEmailAttachment;
-import org.girlscouts.web.service.email.GSEmailService;
-import org.osgi.framework.Constants;
 import org.osgi.service.component.ComponentContext;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,36 +39,23 @@ import com.day.cq.mailer.MailingException;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
 
-@Service
-@Component
+@Component(service = {
+		GSEmailService.class }, immediate = true, name = "org.girlscouts.osgi.service.impl.GSEmailServiceImpl")
 public class GSEmailServiceImpl implements GSEmailService {
 
-	@Property(value = "Girl Scouts Email Service")
-	static final String LABEL = "process.label";
-	@Property(value = "Sends out html email with provided addresses, subject and body.")
-	static final String DESCRIPTION = Constants.SERVICE_DESCRIPTION;
-	@Property(value = "Girl Scouts")
-	static final String VENDOR = Constants.SERVICE_VENDOR;
 
 	@Reference
 	private ResourceResolverFactory resolverFactory;
 
 	@Reference
 	public MessageGatewayService messageGatewayService;
-
-	private ResourceResolver rr;
+	Map<String, Object> serviceParams = new HashMap<String, Object>();
 
 	private static Logger log = LoggerFactory.getLogger(GSEmailServiceImpl.class);
 
 	@Activate
 	private void activate(ComponentContext context) {
-		try {
-			Map<String, Object> serviceParams = new HashMap<String, Object>();
-			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-			rr = resolverFactory.getServiceResourceResolver(serviceParams);
-		} catch (LoginException e) {
-			e.printStackTrace();
-		}
+		serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
 	}
 
 	@Override
@@ -86,7 +70,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 			setBody(body, null, email);
 			email.setHtmlMsg(body);
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-			log.error("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}, body:{}", subject,
+			log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}, body:{}", subject,
 					toAddresses.toArray(new String[toAddresses.size()]),
 					body);
 			try {
@@ -113,7 +97,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 			setRecipients(toAddresses, email);
 			setBody(body, attachments, email);
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-			log.error("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}", subject,
+			log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}", subject,
 					toAddresses.toArray(new String[toAddresses.size()]));
 			try {
 				messageGateway.send(email);
@@ -131,7 +115,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 
 	private void setBody(String body, Set<GSEmailAttachment> attachments, HtmlEmail email)
 			throws MessagingException, EmailException {
-		body = parseHtml(body, email, rr);
+		body = parseHtml(body, email);
 		email.setHtmlMsg(body);
 		if (attachments != null && !attachments.isEmpty()) {
 			for (GSEmailAttachment attachment : attachments) {
@@ -159,42 +143,54 @@ public class GSEmailServiceImpl implements GSEmailService {
 		}
 	}
 
-	private String parseHtml(String html, HtmlEmail email, ResourceResolver rr) {
+	private String parseHtml(String html, HtmlEmail email) {
 		// Find images and replace them with embeds, embed the image file in the
 		// email
 		final Pattern imgPattern = Pattern.compile("<img src=\"(.*?)\"");
 		final Matcher imgMatcher = imgPattern.matcher(html);
 		final StringBuffer imgSb = new StringBuffer();
-		while (imgMatcher.find()) {
-			byte[] result = null;
-			try {
-				String renditionPath = getRenditionPath(imgMatcher.group(1));
-				Resource imgRes = rr.resolve(renditionPath);
-				if (ResourceUtil.isNonExistingResource(imgRes)) {
-					imgRes = rr.resolve(renditionPath.replaceAll("%20", " "));
+		ResourceResolver rr = null;
+		try {
+			rr = resolverFactory.getServiceResourceResolver(serviceParams);
+			while (imgMatcher.find()) {
+				byte[] result = null;
+				try {
+					String renditionPath = getRenditionPath(imgMatcher.group(1));
+					Resource imgRes = rr.resolve(renditionPath);
 					if (ResourceUtil.isNonExistingResource(imgRes)) {
-						throw (new Exception("Cannot find resource: " + renditionPath));
+						imgRes = rr.resolve(renditionPath.replaceAll("%20", " "));
+						if (ResourceUtil.isNonExistingResource(imgRes)) {
+							throw (new Exception("Cannot find resource: " + renditionPath));
+						}
 					}
+					Node ntFileNode = imgRes.adaptTo(Node.class);
+					Node ntResourceNode = ntFileNode.getNode("jcr:content");
+					InputStream is = ntResourceNode.getProperty("jcr:data").getBinary().getStream();
+					BufferedInputStream bin = new BufferedInputStream(is);
+					result = IOUtils.toByteArray(bin);
+					bin.close();
+					is.close();
+				} catch (Exception e) {
+					log.error("Girlscouts Email Service encountered error: ", e);
 				}
-				Node ntFileNode = imgRes.adaptTo(Node.class);
-				Node ntResourceNode = ntFileNode.getNode("jcr:content");
-				InputStream is = ntResourceNode.getProperty("jcr:data").getBinary().getStream();
-				BufferedInputStream bin = new BufferedInputStream(is);
-				result = IOUtils.toByteArray(bin);
-				bin.close();
-				is.close();
-			} catch (Exception e) {
-				log.error("Girlscouts Email Service encountered error: ", e);
+				try {
+					String fileName = imgMatcher.group(1).substring(imgMatcher.group(1).lastIndexOf('/') + 1);
+					File imgFile = new File(fileName);
+					FileUtils.writeByteArrayToFile(imgFile, result);
+					imgMatcher.appendReplacement(imgSb, "<img src=cid:" + (email.embed(imgFile, fileName)));
+					imgMatcher.appendTail(imgSb);
+					html = imgSb.toString();
+				} catch (Exception e) {
+					log.error("Girlscouts Email Service encountered error: ", e);
+				}
 			}
+		} catch (LoginException e) {
+			log.error("Girlscouts Email Service encountered error: ", e);
+		} finally {
 			try {
-				String fileName = imgMatcher.group(1).substring(imgMatcher.group(1).lastIndexOf('/') + 1);
-				File imgFile = new File(fileName);
-				FileUtils.writeByteArrayToFile(imgFile, result);
-				imgMatcher.appendReplacement(imgSb, "<img src=cid:" + (email.embed(imgFile, fileName)));
-				imgMatcher.appendTail(imgSb);
-				html = imgSb.toString();
+				rr.close();
 			} catch (Exception e) {
-				log.error("Girlscouts Email Service encountered error: ", e);
+				log.error("Girlscouts Email Service encountered error while closing resource resolver: ", e);
 			}
 		}
 		return html;

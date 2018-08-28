@@ -153,7 +153,8 @@
               !org.bouncycastle.*,
               !com.google.common.reflect,
 		      !org.apache.avalon.framework.logger,
-		      !org.apache.log,
+		      !org.apache.log,		      
+		      org.girlscouts.osgi.*,
 	          *
             </Import-Package>
             <!-- Recursively embed dependency jars -->

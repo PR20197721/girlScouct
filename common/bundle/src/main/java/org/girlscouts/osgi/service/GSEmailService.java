@@ -1,4 +1,4 @@
-package org.girlscouts.web.service.email;
+package org.girlscouts.osgi.service;
 
 import java.io.IOException;
 import java.util.List;
