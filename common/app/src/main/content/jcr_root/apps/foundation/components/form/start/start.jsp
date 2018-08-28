@@ -19,6 +19,8 @@
 <%
 %><%@ page import="com.day.cq.wcm.foundation.forms.ValidationInfo,
                  com.day.cq.wcm.api.WCMMode,
+                 org.slf4j.Logger,
+				 org.slf4j.LoggerFactory,
                  com.day.cq.wcm.foundation.forms.FormsConstants,
                  com.day.cq.wcm.foundation.forms.FormsHelper,
                  org.apache.sling.api.resource.Resource,
@@ -33,21 +35,23 @@
                  org.apache.sling.scripting.jsp.util.JspSlingHttpServletResponseWrapper, com.day.cq.wcm.foundation.Placeholder"%><%
 %><cq:setContentBundle/>
 <cq:include script="abacus.jsp"/><%
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     FormsHelper.startForm(slingRequest, new JspSlingHttpServletResponseWrapper(pageContext));
 
-	String gsRedirect = properties.get("redirect", "");
-	if(!gsRedirect.isEmpty()){
-        gsRedirect = gsRedirect.trim();
-        if(gsRedirect.charAt(gsRedirect.length() - 1)=='/'){
-			gsRedirect = gsRedirect.substring(0, gsRedirect.length() - 1);
-        }
-        gsRedirect = gsRedirect + ".html";
-        %><input name=":gsredirect" value="<%=gsRedirect%>" type="hidden"><%
+	String gsRedirect = (String) properties.get("redirect", "");
+	if(gsRedirect!= null && !gsRedirect.trim().isEmpty()){
+		gsRedirect = gsRedirect.trim();
+		try{
+	    	gsRedirect = slingRequest.getResourceResolver().map(request, gsRedirect);
+		}catch(Exception e){
+			logger.error("Form start component encountered an error",e);
+		}
+	    int lastSlash = gsRedirect.lastIndexOf('/');
+	    if (gsRedirect.indexOf('.', lastSlash) == -1) {
+			gsRedirect = gsRedirect + ".html";
+		}       
+	    %><input name=":gsredirect" value="<%=xssAPI.encodeForHTMLAttr(gsRedirect)%>" type="hidden"><%
 	}
-
-
-
-
 
     // we create the form div our selfs, and turn decoration on again.
     %><div class="form"><%
@@ -56,7 +60,7 @@
     // check if we have validation erros
 	Set<String> runModes = sling.getService(SlingSettingsService.class).getRunModes();
     if (runModes.contains("author")) {
-        System.out.println("WCMMODE is edit");
+    	logger.info("WCMMODE is edit");
 	 	Resource formStartResource = resource;
 	    ValueMap vm = properties;
 	    StringBuilder sb = new StringBuilder();
@@ -65,10 +69,9 @@
 	    String actionPath = (String)vm.get("action", "");
 	    String actionType = (String)vm.get("actionType", "");
         String storeContent = (String)vm.get("storeContent", "false");
-        System.out.println("ACTION PATH" + actionPath);
+        logger.info("ACTION PATH {}", actionPath);
 	    if ((actionPath.trim().length() != 0) && (actionType.trim().endsWith("store") || (actionType.trim().endsWith("mail") && storeContent.equals("true")))) {
-            System.out.println("<p>Action is GSSTORE</p>");
-	    
+            logger.info("Action is GSSTORE");	    
 	    %>
 	        <style>
 	        	button#view-data:hover, button#view-data:focus {
