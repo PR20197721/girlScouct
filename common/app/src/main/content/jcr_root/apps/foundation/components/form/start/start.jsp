@@ -21,6 +21,7 @@
                  com.day.cq.wcm.api.WCMMode,
                  org.slf4j.Logger,
 				 org.slf4j.LoggerFactory,
+				 org.apache.commons.lang3.StringUtils,
                  com.day.cq.wcm.foundation.forms.FormsConstants,
                  com.day.cq.wcm.foundation.forms.FormsHelper,
                  org.apache.sling.api.resource.Resource,
@@ -38,8 +39,8 @@
 	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     FormsHelper.startForm(slingRequest, new JspSlingHttpServletResponseWrapper(pageContext));
 
-	String gsRedirect = (String) properties.get("redirect", "");
-	if(gsRedirect!= null && !gsRedirect.trim().isEmpty()){
+	String gsRedirect = (String) properties.get("redirect", "");	
+	if(StringUtils.isBlank(gsRedirect)){
 		gsRedirect = gsRedirect.trim();
 		try{
 	    	gsRedirect = slingRequest.getResourceResolver().map(request, gsRedirect);
