@@ -40,7 +40,7 @@
     FormsHelper.startForm(slingRequest, new JspSlingHttpServletResponseWrapper(pageContext));
 
 	String gsRedirect = (String) properties.get("redirect", "");	
-	if(StringUtils.isBlank(gsRedirect)){
+	if(!StringUtils.isBlank(gsRedirect)){
 		gsRedirect = gsRedirect.trim();
 		try{
 	    	gsRedirect = slingRequest.getResourceResolver().map(request, gsRedirect);
