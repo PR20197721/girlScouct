@@ -4,16 +4,7 @@
     $(document).on("foundation-contentloaded", function(e){
         var deleteActivator = ".cq-damadmin-admin-actions-delete-activator";
         $(document).on("mousedown", deleteActivator, function(e) {
-            var activator = $(this);
-            var type = "asset";
-            if (activator.data("type")) {
-                type = activator.data("type");
-            }
-            showDialog(activator, type);
-        });
-   
-	    function showDialog(activator, type){
-	    	var selectedItems = $(".foundation-selections-item");
+        	var selectedItems = $(".foundation-selections-item");
 	    	var folderList = "";
 	    	selectedItems.each(function () {
 	    		var type = $(this).find("div.foundation-collection-assets-meta").attr("data-foundation-collection-meta-type");
@@ -23,7 +14,7 @@
 	    	});
 	    	if(folderList.trim() != ""){
 		    	var dialog = new Coral.Dialog().set({
-		    	    id: 'unpublish_warning',
+		    	    id: 'assets_folder_deletion_warning',
 		    	    backdrop:'static',
 		    	    variant: 'error',
 		    	    header: {
@@ -51,6 +42,6 @@
 		    	document.body.appendChild(dialog);
 		    	dialog.show();
 	    	}
-		}
+        });
     });
 })(document, Granite, Granite.$);
