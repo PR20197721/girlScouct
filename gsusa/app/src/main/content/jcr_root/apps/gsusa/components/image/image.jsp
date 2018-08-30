@@ -25,11 +25,11 @@
 <%@ taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
 
 <%
-	
-	String additionalCssStyle = properties.get("./additionalCssStyle", "");
-	String style = "";
+	String styleImage = "";
+
+	String additionalCssStyle = properties.get("./additionalCssStyle", "");	
 	if(additionalCssStyle.length() > 0) {
-		style = "style=\""+additionalCssStyle+"\"";
+		styleImage = additionalCssStyle + ";"; //style=\""+additionalCssStyle+"\"";
 	}
 	
 	String styleClass = DropTarget.CSS_CLASS_PREFIX + "image " + properties.get("./additionalCss", "");
@@ -39,6 +39,32 @@
     if (!currentDesign.equals(resourceDesign)) {
     		suffix = currentDesign.getId();
     }
+    
+    //String styleImage = "";
+	String styleCaption = "";
+	
+	String pTop = properties.get("./ptop", "0");
+	String pBottom = properties.get("./pbottom", "0");
+	String pLeft = properties.get("./pleft", "0");
+	String pRight = properties.get("./pright", "0");
+	String imageWidth = properties.get("./width", "0");
+	String caption = properties.get("./jcr:description", "");
+		
+	String padding = pTop + pBottom + pLeft + pRight;
+	
+	if (!padding.equals("0000")) {	// paddings are set, override custom style
+		styleImage += "padding: " + pTop + "px " + pRight + "px " + pBottom + "px " + pLeft + "px;";
+		styleImage += "margin: 0px !important;"; 
+	}
+	if (caption.length() > 0) { // if there's caption, apply padding to the caption
+		styleCaption = "padding: 0px 5px 1px 5px;"; 
+	}
+	
+	if (!"0".equals(imageWidth)) {
+		// imageWidth + padding
+		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft);
+		styleImage += "width:" + newWidth + "px;";
+	}
 %>
 
 <div id="<%= "cq-image-jsp-" + resource.getPath() %>" <%=style%> >
@@ -83,4 +109,3 @@
 	  	}
 %>	
 </div>
-<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>

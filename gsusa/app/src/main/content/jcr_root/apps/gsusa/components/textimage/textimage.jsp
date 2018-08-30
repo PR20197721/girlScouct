@@ -24,12 +24,64 @@
 <cq:includeClientLib categories="apps.gsusa.components.textimage" /><%
     boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
 
+	boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
+	
+	String styleImage = "";
+	String styleCaption = "";
+	String styleComponent = ""; 
 
+	// padding for the component
+	String pcTop = properties.get("./pctop", "0");
+	String pcBottom = properties.get("./pcbottom", "0");
+	String pcLeft = properties.get("./pcleft", "0");
+	String pcRight = properties.get("./pcright", "0");
+	
+	styleComponent += "padding: " + pcTop + "px " + pcRight + "px " + pcBottom + "px " + pcLeft + "px;";
+	
+%><div style="<%= styleComponent %>">
+<cq:includeClientLib categories="apps.gsusa.components.textimage"/><%
+	
+	// padding for the image
+	String piTop = properties.get("./pitop", "0");
+	String piBottom = properties.get("./pibottom", "0");
+	String piLeft = properties.get("./pileft", "0");
+	String piRight = properties.get("./piright", "0");
+
+	// Previously, image bottom was padded with <br> for whatever reason
+	// This runs once for old text image component and replaces <br> with padding that can be changed by the user
+	String runOnce = properties.get("./runOnce", "old"); 
+	
+	if (runOnce.equals("old")) {
+		Node node = resource.adaptTo(Node.class);
+		node.setProperty("runOnce", "corrected");
+		node.setProperty("pibottom", "24");
+		node.setProperty("pitop", "8");
+		node.setProperty("piright", "8");
+		piRight = "8";
+		piTop = "8";
+		piBottom = "24";
+		node.getSession().save();
+		//node.getProperty("runOnce").remove();
+	}
+
+	String width = properties.get("./image/width", "0");
+	String caption = properties.get("./image/jcr:description", "");	
+	
+	String padding = piTop + piBottom + piLeft + piRight;
+	if (!padding.equals("0000")) {	// paddings are set, override custom style
+		styleImage = "padding: " + piTop + "px " + piRight + "px " + piBottom + "px " + piLeft + "px;";
+		styleImage += "margin: 0px !important;";
+	}
+	if (caption.length() > 0) {
+		styleCaption = "padding: 0px 5px 1px 5px;";
+	} else  {
+		styleCaption = "";
+	}
+	if (!"0".equals(width)) {
+		styleCaption += "width:" + width + "px;";
+	}
+	
     Image image = new Image(resource, "image");
-    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
-    String width = properties.get("./image/width", "0");
-    String height = properties.get("./image/height", "0");
-
     // don't draw the placeholder in case UI mode touch it will be handled afterwards
     if (isAuthoringUIModeTouch) {
         image.setNoPlaceholder(true);
@@ -57,11 +109,15 @@
         String divId = "cq-textimage-jsp-" + resource.getPath();
         String imageHeight = image.get(image.getItemName(Image.PN_HEIGHT));
         // div around image for additional formatting
-        %><div class="image" id="<%= divId %>"><%
-        %><% image.draw(out); %><br><%
-    
-        %><cq:text property="image/jcr:description" placeholder="" tagName="small" escapeXml="true"/><%
-        %></div>
+        %><div class="image" id="<%= divId %>" style="<%= styleImage %>"><%
+        %><% image.draw(out); %><%
+    	
+        if (caption.length() > 0) {
+        	%><div class="textimage-caption" style="<%= styleCaption %>">
+        		<cq:text property="image/jcr:description" placeholder="" tagName="small" escapeXml="true"/><%
+        	%></div><% 
+        } %>
+        </div>
         <%@include file="/libs/foundation/components/image/tracking-js.jsp"%>
         <%
     }
@@ -74,3 +130,4 @@
 
 	<%-- fix CQ "new" bar misbehave --%>
 	<div style="clear:both"></div>
+</div>

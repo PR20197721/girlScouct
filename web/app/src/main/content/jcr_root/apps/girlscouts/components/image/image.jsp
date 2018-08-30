@@ -22,7 +22,35 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%><%
 	String divId = "cq-image-jsp-" + resource.getPath();
-	%><div id="<%= divId %>"><%
+
+	String styleImage = "";
+	String styleCaption = "";
+	
+	String pTop = properties.get("./ptop", "0");
+	String pBottom = properties.get("./pbottom", "0");
+	String pLeft = properties.get("./pleft", "0");
+	String pRight = properties.get("./pright", "0");
+	String imageWidth = properties.get("./width", "0");
+	String caption = properties.get("./jcr:description", "");
+		
+	String padding = pTop + pBottom + pLeft + pRight;
+	
+	if (caption.length() > 0) { // if there's caption, apply padding to the caption
+		styleCaption = "padding: 5px 5px 1px 5px;";
+	}
+	
+	if (!padding.equals("0000")) {	// paddings are set, override custom style
+		styleImage = "padding: " + pTop + "px " + pRight + "px " + pBottom + "px " + pLeft + "px;";
+		styleImage += "margin: 0px !important;";
+	}
+	
+	if (!"0".equals(imageWidth)) {
+		// imageWidth + padding
+		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft);
+		styleImage += "width:" + newWidth + "px;";
+	}
+	
+	%><div id="<%= divId %>" style="<%= styleImage %>"><%
 	    Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
 	    String width = properties.get("./width", "0");
@@ -60,6 +88,9 @@
 	  		
 	  	}
 		%>
+		<div class="image-caption" style="<%= styleCaption %>">
+			<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
+		</div>
 	</div>
-	<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
+	
     <%@include file="/libs/foundation/components/image/tracking-js.jsp"%>
