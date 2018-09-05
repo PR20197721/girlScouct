@@ -49,9 +49,11 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
             throws WorkflowException {
+		log.info("Executing rollout workflow {}", metadata);
 		MetaDataMap mdm = item.getWorkflowData().getMetaDataMap();
-		Set<String> councils = getCouncils(mdm);
+		Set<String> councils = PageReplicationUtil.getCouncils(mdm);
 		if (councils != null && !councils.isEmpty()) {
+			log.info("councils={}", councils);
 			try {
 				Session session = workflowSession.getSession();
 				ResourceResolver resourceResolver = resourceResolverFactory
@@ -61,51 +63,79 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 				Boolean useTemplate = false, delay = false, notify = false, crawl = false, activate = false,
 						newPage = false;
 				try {
-					newPage = ((Value) mdm.get(PARAM_NEW_PAGE)).getBoolean();
+					if (mdm.get(PARAM_NEW_PAGE) != null) {
+						newPage = ((Value) mdm.get(PARAM_NEW_PAGE)).getBoolean();
+					}
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
+				log.info("newPage={}", newPage);
 				try {
-					delay = ((Value) mdm.get(PARAM_DELAY)).getBoolean();
+					if (mdm.get(PARAM_DELAY) != null) {
+						delay = ((Value) mdm.get(PARAM_DELAY)).getBoolean();
+					}
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
+				log.info("delay={}", delay);
 				try {
-					useTemplate = ((Value) mdm.get(PARAM_USE_TEMPLATE)).getBoolean();
+					if (mdm.get(PARAM_USE_TEMPLATE) != null) {
+						useTemplate = ((Value) mdm.get(PARAM_USE_TEMPLATE)).getBoolean();
+					}
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
+				log.info("useTemplate={}", useTemplate);
 				try {
-					templatePath = ((Value) mdm.get(PARAM_TEMPLATE_PATH)).getString();
+					if (mdm.get(PARAM_TEMPLATE_PATH) != null) {
+						templatePath = ((Value) mdm.get(PARAM_TEMPLATE_PATH)).getString();
+					}
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
+				log.info("templatePath={}", templatePath);
 				try {
-					crawl = ((Value) mdm.get(PARAM_CRAWL)).getBoolean();
+					if (mdm.get(PARAM_CRAWL) != null) {
+						crawl = ((Value) mdm.get(PARAM_CRAWL)).getBoolean();
+					}
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
+				log.info("crawl={}", crawl);
 				try {
-					notify = ((Value) mdm.get(PARAM_NOTIFY)).getBoolean();
+					if (mdm.get(PARAM_NOTIFY) != null) {
+						notify = ((Value) mdm.get(PARAM_NOTIFY)).getBoolean();
+					}
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
+				log.info("notify={}", notify);
 				try {
-					subject = ((Value) mdm.get(PARAM_EMAIL_SUBJECT)).getString();
+					if (mdm.get(PARAM_EMAIL_SUBJECT) != null) {
+						subject = ((Value) mdm.get(PARAM_EMAIL_SUBJECT)).getString();
+					}
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
+				log.info("subject={}", subject);
 				try {
-					message = ((Value) mdm.get(PARAM_EMAIL_MESSAGE)).getString();
+					if (mdm.get(PARAM_EMAIL_MESSAGE) != null) {
+						message = ((Value) mdm.get(PARAM_EMAIL_MESSAGE)).getString();
+					}
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
+				log.info("message={}", message);
 				try {
-					activate = ((Value) mdm.get(PARAM_ACTIVATE)).getBoolean();
+					if (mdm.get(PARAM_ACTIVATE) != null) {
+						activate = ((Value) mdm.get(PARAM_ACTIVATE)).getBoolean();
+					}
 				} catch (Exception e) {
 					log.error("Rollout Workflow encountered error: ", e);
 				}
-				Node dateRolloutNode = getDateRolloutNode(session, resourceResolver, delay);
+				log.info("activate={}", activate);
+				Node dateRolloutNode = PageReplicationUtil.getDateRolloutNode(session, resourceResolver, delay);
+				log.info("dateRolloutNode={}", dateRolloutNode.getPath());
 				Set<String> sortedCouncils = new TreeSet<String>();
 				sortedCouncils.addAll(councils);
 				dateRolloutNode.setProperty(PARAM_COUNCILS, sortedCouncils.toArray(new String[sortedCouncils.size()]));
@@ -132,6 +162,7 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
+							log.info("calling RolloutTemplatePageService");
 							gsRolloutService.rollout(path);
 						}
 					}).start();
@@ -143,66 +174,5 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 				log.error("Rollout Workflow encountered error: ", e);
 			}
 		}
-    }
-
-	private Node getDateRolloutNode(Session session, ResourceResolver resourceResolver, boolean delay)
-			throws RepositoryException {
-		Node dateRolloutNode = null;
-		Resource etcRes = resourceResolver.resolve("/etc");
-		Node etcNode = etcRes.adaptTo(Node.class);
-		Node activationsNode = null;
-		Node activationTypeNode = null;
-		String date = PageReplicationUtil.getDateRes();
-		if (etcNode.hasNode(PAGE_ACTIVATIONS_NODE)) {
-			activationsNode = etcNode.getNode(PAGE_ACTIVATIONS_NODE);
-		} else {
-			activationsNode = etcNode.addNode(PAGE_ACTIVATIONS_NODE);
-		}
-		if (delay) {
-			if (activationsNode.hasNode(DELAYED_NODE)) {
-				activationTypeNode = activationsNode.getNode(DELAYED_NODE);
-			} else {
-				activationTypeNode = activationsNode.addNode(DELAYED_NODE);
-				session.save();
-			}
-		} else {
-
-			if (activationsNode.hasNode(INSTANT_NODE)) {
-				activationTypeNode = activationsNode.getNode(INSTANT_NODE);
-			} else {
-				activationTypeNode = activationsNode.addNode(INSTANT_NODE);
-				session.save();
-			}
-		}
-		if (activationTypeNode.hasNode(date)) {
-			dateRolloutNode = activationTypeNode.getNode(date);
-		} else {
-			dateRolloutNode = activationTypeNode.addNode(date);
-			session.save();
-		}
-		return dateRolloutNode;
-	}
-
-	private Set<String> getCouncils(MetaDataMap mdm) {
-		Set<String> councils = new HashSet<String>();
-		try {
-			Value[] values = (Value[]) mdm.get(PARAM_COUNCILS);
-			if (values != null && values.length > 0) {
-				for (Value value : values) {
-					councils.add(value.getString().trim());
-				}
-			}
-		} catch (Exception e) {
-			log.error("Rollout Workflow encountered error: ", e);
-			try {
-				Value singleValue = (Value) mdm.get(PARAM_COUNCILS);
-				if (singleValue != null) {
-					councils.add(singleValue.getString().trim());
-				}
-			} catch (Exception e1) {
-				log.error("Rollout Workflow encountered error: ", e);
-			}
-		}
-		return councils;
 	}
 }
