@@ -1,4 +1,4 @@
-package org.girlscouts.cq.workflow.service;
+package org.girlscouts.web.cq.workflow.service;
 
 public interface DeleteTemplatePageService {
 

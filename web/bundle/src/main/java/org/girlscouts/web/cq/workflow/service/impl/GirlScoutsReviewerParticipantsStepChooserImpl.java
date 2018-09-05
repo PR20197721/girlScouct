@@ -1,4 +1,4 @@
-package org.girlscouts.cq.workflow.service.impl;
+package org.girlscouts.web.cq.workflow.service.impl;
 
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowSession;

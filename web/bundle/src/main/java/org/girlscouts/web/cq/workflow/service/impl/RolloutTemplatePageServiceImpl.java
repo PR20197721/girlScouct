@@ -1,4 +1,4 @@
-package org.girlscouts.cq.workflow.service.impl;
+package org.girlscouts.web.cq.workflow.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,11 +18,11 @@ import javax.jcr.Value;
 import javax.jcr.nodetype.NodeType;
 import javax.jcr.query.Query;
 
-import org.girlscouts.cq.workflow.service.RolloutTemplatePageService;
-import org.girlscouts.osgi.service.GSEmailService;
-import org.girlscouts.web.components.GSEmailAttachment;
+import org.girlscouts.common.components.GSEmailAttachment;
+import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.web.components.PageReplicationUtil;
 import org.girlscouts.web.constants.PageReplicationConstants;
+import org.girlscouts.web.cq.workflow.service.RolloutTemplatePageService;
 import org.girlscouts.web.service.replication.PageReplicator;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.ComponentContext;
