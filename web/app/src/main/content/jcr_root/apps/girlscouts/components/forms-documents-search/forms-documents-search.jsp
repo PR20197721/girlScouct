@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.web.search.formsdocuments.FormsDocumentsSearch, java.util.Map,java.util.List,org.girlscouts.web.events.search.SearchResultsInfo, org.girlscouts.web.events.search.FacetsInfo,com.day.cq.search.result.Hit, org.girlscouts.web.search.DocHit,java.util.HashSet,java.util.*"%> 
+<%@ page import="org.girlscouts.common.search.formsdocuments.FormsDocumentsSearch, java.util.Map,java.util.List,org.girlscouts.common.events.search.SearchResultsInfo, org.girlscouts.common.events.search.FacetsInfo,com.day.cq.search.result.Hit, org.girlscouts.common.search.DocHit,java.util.HashSet,java.util.*"%> 
 <%@page import="javax.jcr.query.*,
                 javax.jcr.*,
                 com.day.cq.wcm.api.WCMMode,

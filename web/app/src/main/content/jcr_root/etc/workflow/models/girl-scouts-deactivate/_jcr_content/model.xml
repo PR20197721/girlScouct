@@ -24,7 +24,7 @@
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="org.girlscouts.cq.workflow.DeactivateProcess"
+                PROCESS="org.girlscouts.web.cq.workflow.DeactivateProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node1>
         <node2

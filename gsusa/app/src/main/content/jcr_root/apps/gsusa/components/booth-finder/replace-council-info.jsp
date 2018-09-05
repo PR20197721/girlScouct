@@ -1,5 +1,5 @@
 <%@page import="java.util.Map,
-                org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council" %>
+                org.girlscouts.gsusa.component.boothfinder.BoothFinder.Council" %>
 <%!
 public String replaceCouncilInfo(String input, Map<String, String> councilMap) {
 	if (councilMap == null) {
