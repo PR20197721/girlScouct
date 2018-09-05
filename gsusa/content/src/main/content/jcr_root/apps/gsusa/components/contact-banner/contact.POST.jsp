@@ -1,4 +1,4 @@
-<%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder" %>
+<%@page import="org.girlscouts.gsusa.component.boothfinder.BoothFinder" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <%

@@ -33,7 +33,7 @@
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="org.girlscouts.cq.workflow.RolloutTemplatePageProcess"
+                PROCESS="org.girlscouts.web.cq.workflow.RolloutTemplatePageProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node2>
         <node3

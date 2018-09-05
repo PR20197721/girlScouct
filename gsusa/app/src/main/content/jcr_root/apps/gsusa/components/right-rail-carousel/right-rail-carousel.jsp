@@ -14,7 +14,7 @@
     java.io.InputStreamReader,
     org.apache.jackrabbit.commons.json.JsonParser,
     org.apache.sling.commons.json.*,
-    org.girlscouts.web.gsusa.component.rightrailcarousel.RightRailCarouselItem" %>
+    org.girlscouts.gsusa.component.rightrailcarousel.RightRailCarouselItem" %>
 
 <%@page session="false"%><%
 final boolean isCarousel = properties.get("dynamiccarousel", false);

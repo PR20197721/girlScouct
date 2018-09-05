@@ -15,8 +15,8 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.mail.MessagingException;
 
-import org.girlscouts.osgi.service.GSEmailService;
-import org.girlscouts.web.components.GSEmailAttachment;
+import org.girlscouts.common.components.GSEmailAttachment;
+import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.web.components.PageActivationReporter;
 import org.girlscouts.web.components.PageReplicationUtil;
 import org.girlscouts.web.constants.PageReplicationConstants;

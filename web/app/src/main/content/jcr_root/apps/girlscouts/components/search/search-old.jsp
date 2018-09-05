@@ -1,5 +1,5 @@
 <%@ page import="com.day.cq.wcm.foundation.Search,
-org.girlscouts.web.search.DocHit,
+org.girlscouts.common.search.DocHit,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
 com.day.cq.tagging.TagManager,
 java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,

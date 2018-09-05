@@ -1,7 +1,7 @@
 <%@page import="com.day.cq.wcm.api.WCMMode, 
                 com.day.cq.wcm.foundation.Placeholder,
                 java.util.Random"%>
-<%@ page import="org.girlscouts.web.wcm.foundation.Image" %>
+<%@ page import="org.girlscouts.common.wcm.foundation.Image" %>
 <%@ page import="org.girlscouts.common.util.ImageUtil" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp"%>

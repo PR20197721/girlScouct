@@ -5,7 +5,7 @@
     <uri>https://girlscouts.org/gsusa/taglib</uri>
     <tag>
         <name>image</name>
-        <tag-class>org.girlscouts.web.gsusa.taglib.html.ImageTag</tag-class>
+        <tag-class>org.girlscouts.gsusa.taglib.html.ImageTag</tag-class>
         <info>Creates image tag using the Day Commons Image Implementation.</info>
         <attribute>
             <name>relativePath</name>

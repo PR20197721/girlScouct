@@ -28,8 +28,8 @@ import com.day.cq.commons.ImageHelper;
 import com.day.cq.commons.ImageResource;
 import com.day.cq.wcm.api.WCMMode;
 import com.day.cq.wcm.commons.AbstractImageServlet;
-import org.girlscouts.web.gsusa.wcm.foundation.Image;
-import org.girlscouts.web.wcm.foundation.RetinaImage;
+import org.girlscouts.common.wcm.foundation.gsusa.Image;
+import org.girlscouts.common.wcm.foundation.RetinaImage;
 import com.day.image.Layer;
 
 /**
