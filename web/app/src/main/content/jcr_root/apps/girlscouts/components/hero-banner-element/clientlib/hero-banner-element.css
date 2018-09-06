@@ -1,0 +1,14 @@
+.heroBannerElementImagePreview{
+	 position: absolute;
+	 height: 100%;
+	 width: 100%;
+	 opacity: 0.3;
+	 background-position: center center;
+	 background-repeat: no-repeat;
+	 background-attachment: fixed;
+	 background-size: cover;
+ }
+
+.heroBannerElementContainer{
+	min-height: 150px;
+}
