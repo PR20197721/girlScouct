@@ -27,6 +27,7 @@
                                 sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="The path where the forms will reside in DAM. (default: &quot;/content/dam/girlscouts-shared/en/documents&quot; if empty)"
                                 fieldLabel="Search Location in DAM"
+                                rootPath="/content/dam"
                                 name="./srchLocation"/>
                             <form-document-path
                                 jcr:primaryType="nt:unstructured"
