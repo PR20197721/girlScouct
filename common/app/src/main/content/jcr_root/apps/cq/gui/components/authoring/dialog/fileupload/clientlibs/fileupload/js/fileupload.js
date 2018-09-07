@@ -293,10 +293,7 @@
 				// Find and set the parent hero banner element switch.
 				var heroBannerElement = self._$element.parents('.hero-banner-element');
 				if(heroBannerElement.length > 0){
-					var heroBannerImagePreview = heroBannerElement.find('.heroBannerElementImagePreview');
-					if(heroBannerImagePreview.css('background-image') == 'none') {
-						heroBannerImagePreview.css({'background-image': 'url(' + $(event.thumbnail).attr('src') + ')'});
-					}
+					heroBannerElement.find('.heroBannerElementImagePreview').css({'background-image': 'url(' + $(event.thumbnail).attr('src') + ')'});
 				}
 			}
 
