@@ -29,7 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component(service = { GirlscoutsServerLoadMonitor.class,
-		Runnable.class }, immediate = true, name = "org.girlscouts.osgi.component.impl.GirlscoutsServerLoadMonitorImpl")
+		Runnable.class }, immediate = true, name = "org.girlscouts.common.osgi.component.impl.GirlscoutsServerLoadMonitorImpl")
 @Designate(ocd = GirlscoutsServerLoadMonitorConfiguration.class)
 public class GirlscoutsServerLoadMonitorImpl implements Runnable,GirlscoutsServerLoadMonitor {
 
