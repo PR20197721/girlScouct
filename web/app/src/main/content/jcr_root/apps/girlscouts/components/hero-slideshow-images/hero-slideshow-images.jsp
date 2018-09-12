@@ -26,13 +26,13 @@
 %>  
 <%
 	String slideShowElementId = "SlideShowElement_" + new Random().nextInt(10000) + 1000;
+	Node imageNode = resource.adaptTo(Node.class);
 %>
 <div id="<%= slideShowElementId %>"></div>
 <%
 
 	List<Object> slideShowElements = new ArrayList<Object>();
-   
-	Node imageNode = resource.adaptTo(Node.class);
+
 	Asset assets=null;
 	String newWindow = "";
 		  

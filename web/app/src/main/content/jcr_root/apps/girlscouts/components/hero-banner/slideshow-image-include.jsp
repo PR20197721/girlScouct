@@ -1,6 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
+<%@ page import="java.util.*" %>
 
 <cq:includeClientLib categories="girlscouts.components.hero-banner"/>
 
@@ -9,9 +10,11 @@
 </script>
 
 <%
-	Iterator<Resource> images = resource.getChild("slides").listChildren();
+    Resource slides = resource.getChild("slides");
+	Iterator<Resource> images = Optional.ofNullable(slides).map(Resource::listChildren).orElse(new ArrayList().iterator());
 	while(images.hasNext()){
 		Resource imgResource = images.next();
+		if(imgResource.getValueMap().get("enabled", Boolean.FALSE)){
 %>
 <div>
 	<div>
@@ -19,6 +22,7 @@
 	</div>
 </div>
 <%
+		}
 	}
 %>
 

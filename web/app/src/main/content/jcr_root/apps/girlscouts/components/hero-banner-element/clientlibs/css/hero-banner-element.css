@@ -8,8 +8,7 @@
 	opacity: 0.35;
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: 100rem;
+	background-size: 45rem;
 	transition-duration: 250ms;
 	z-index: 0;
 	box-shadow: 0px 0px 10px 2px inset #000;
@@ -22,7 +21,7 @@
 .heroBannerElementContentDisplayed .heroBannerElementImagePreview,
 .heroBannerElementContentDisplayed .heroBannerElementImagePreview:hover {
 	opacity: 0.08;
-	background-size: 120rem;
+	background-size: 80rem;
 }
 
 .heroBannerElementConfigContents{
@@ -34,7 +33,7 @@
 
 .heroBannerElementContentDisplayed .heroBannerElementConfigContents{
 	opacity: 1;
-	max-height: 500px;
+	max-height: 530px;
 	display: block;
 	padding-top: 40px;
 }

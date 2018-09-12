@@ -1,11 +1,9 @@
-import Node
-import JcrUtils
 import javax.jcr.query.*
 import java.util.*
 
 
 String QUERY_LANGUAGE = "JCR-SQL2";
-String PATH = "/content/gsoh/en";
+String PATH = "/content/gsnetx/en";
 String RESOURCE_TYPE = "girlscouts/components/hero-banner";
 
 String EXPRESSION = "SELECT s.[jcr:path] "+
@@ -13,6 +11,17 @@ String EXPRESSION = "SELECT s.[jcr:path] "+
 					"WHERE ISDESCENDANTNODE('"+PATH+"') AND"+
 					" s.[sling:resourceType] = '"+RESOURCE_TYPE+"'";
 QueryResult result = search(EXPRESSION, QUERY_LANGUAGE)
+
+class SlideData implements Comparable<SlideData> {
+
+	Integer sortOrder = 0
+	boolean enabled = false
+	String newWindow = "", linkUrl = "", regularImagePath = "", mediumImagePath = "", smallImagePath = "", uploadImagePath = ""
+
+	int compareTo(SlideData other){
+		return sortOrder.compareTo(other.sortOrder)
+	}
+}
 
 if (result != null) {
 	try {
@@ -22,15 +31,17 @@ if (result != null) {
 				Row row = rowIter.nextRow()
 				Node node = row.getNode()
 				println("Found hero node: " + node.getPath());
-				int slideShowCount = Integer.parseInt(node.getProperty("slideshowcount").getString());
+				int slideShowCount = 99
+
+				if(node.hasProperty("slideshowcount")) {
+					slideShowCount = Integer.parseInt(node.getProperty("slideshowcount").getString());
+				}
 				
-				List<String> visibleSlideList = new ArrayList<String>();
-				List<String> hiddenSlideList = new ArrayList<String>();
+				List<SlideData> slideList = new ArrayList<>();
 				
 				int slidesProcessed = 0;
 				NodeIterator iterator = node.getNodes()
 				while(iterator.hasNext()){
-				    String slidestring = "";
 				    Node firstChild = iterator.nextNode();
 				    String sortOrder = 0;
 				    if(firstChild.hasProperty("sortOrder")){
@@ -40,14 +51,13 @@ if (result != null) {
 				    if(firstChild.hasProperty("newWindow")){
 				        newWindow = firstChild.getProperty("newWindow").getString();
 				        if(!newWindow.equals("true")){
-				           newWindow = false; 
+				           newWindow = "false";
 				        }
 				    }
 				    String linkUrl = "";
 				    if(firstChild.hasProperty("linkURL")){
 				       linkUrl = firstChild.getProperty("linkURL").getString();
 				    }
-				    String nodeName = firstChild.getName();
 				    Node regularNode = firstChild.getNode("regular");
 				    String regularImagePath = "";
 				    if(regularNode.hasProperty("fileReference")){
@@ -63,73 +73,71 @@ if (result != null) {
 				    if(smallNode.hasProperty("fileReference")){
 				        smallImagePath = smallNode.getProperty("fileReference").getString();
 				    }
-				    slideString = sortOrder + "|||" + nodeName +"|||" + newWindow + "|||" + linkUrl + "|||" + regularImagePath + "|||" + mediumImagePath + "|||" + 
-				        smallImagePath;
-				    if(slidesProcessed < slideShowCount){
-				        visibleSlideList.add(slideString);
-				    } else{
-				        hiddenSlideList.add(slideString);
-				    }
+
+					SlideData slideData = new SlideData()
+					slideData.sortOrder = sortOrder
+					slideData.newWindow = newWindow
+					slideData.linkUrl = linkUrl
+					slideData.regularImagePath = regularImagePath
+					slideData.mediumImagePath = mediumImagePath
+					slideData.smallImagePath = smallImagePath
+					slideData.enabled = slidesProcessed < slideShowCount
+					slideList.add(slideData)
+
 				    firstChild.remove();
 				    slidesProcessed ++;
-				    
 				}
 				save();
-				visibleSlideList.sort();
-				hiddenSlideList.sort();
+				slideList.sort();
 				
 				println("------------------");
-				println("Visible Slides");
+				println("Slides");
 				println("------------------");
-				for(String temp : visibleSlideList){
-				   String [] slideProperties = temp.split("\\|\\|\\|");
-				   Node imageNode = node.addNode(slideProperties[1]);
-				   imageNode.setProperty("sortOrder", slideProperties[0]);
-				   imageNode.setProperty("newWindow", slideProperties[2]);
-				   imageNode.setProperty("linkURL", slideProperties[3]);
-				   save();
-				   Node regularNode = imageNode.addNode("regular");
-				   regularNode.setProperty("fileReference", slideProperties[4]);
-				   
-				   Node mediumNode = imageNode.addNode("medium");
-				   mediumNode.setProperty("fileReference", slideProperties[5]);
-				   
-				   Node smallNode = imageNode.addNode("small");
-				   smallNode.setProperty("fileReference", slideProperties[6]);
-				   save();
+
+				Node slidesNode = node.addNode("slides")
+				save();
+				int slideIndex = 0;
+				for(SlideData slideData : slideList){
+
+					Node imageNode = slidesNode.addNode("item" + (slideIndex++));
+					save();
+
+					imageNode.setProperty("enabled", slideData.enabled);
+					imageNode.setProperty("newWindow", slideData.newWindow);
+					imageNode.setProperty("linkURL", slideData.linkUrl)
+					save();
+
+					Node regularNode = imageNode.addNode("regular");
+					regularNode.setProperty("fileReference", slideData.regularImagePath);
+					regularNode.setProperty("sling:resourceType", "foundation/components/image");
+					regularNode.setProperty("imagesize", "regular")
+
+					Node mediumNode = imageNode.addNode("medium");
+					mediumNode.setProperty("fileReference", slideData.mediumImagePath);
+					regularNode.setProperty("sling:resourceType", "foundation/components/image");
+					regularNode.setProperty("imagesize", "medium")
+
+					Node smallNode = imageNode.addNode("small");
+					smallNode.setProperty("fileReference", slideData.smallImagePath);
+					regularNode.setProperty("sling:resourceType", "foundation/components/image");
+					regularNode.setProperty("imagesize", "small")
+					save();
 				}
-				println("------------------");
-				println("Hidden Slides");
-				println("------------------");
-				for(String temp : hiddenSlideList){
-				    String [] slideProperties = temp.split("\\|\\|\\|");
-				   Node imageNode = node.addNode(slideProperties[1]);
-				   imageNode.setProperty("sortOrder", slideProperties[0]);
-				   imageNode.setProperty("newWindow", slideProperties[2]);
-				   imageNode.setProperty("linkURL", slideProperties[3]);
-				   save();
-				   Node regularNode = imageNode.addNode("regular");
-				   regularNode.setProperty("fileReference", slideProperties[4]);
-				   
-				   Node mediumNode = imageNode.addNode("medium");
-				   mediumNode.setProperty("fileReference", slideProperties[5]);
-				   
-				   Node smallNode = imageNode.addNode("small");
-				   smallNode.setProperty("fileReference", slideProperties[6]);
-				   save();
-				}
-				println("====================");
-				
+				modal_view_sent_emails
 				
 			} catch (Exception e) {
+				println("Exception!")
 				println(e.getMessage())
 				e.printStackTrace()
+				throw e;
 			}
 			
 		}
 	} catch (Exception e) {
+		println("Exception2!")
 		println(e.getMessage())
 		e.printStackTrace()
+		throw e;
 	}
 }
 
