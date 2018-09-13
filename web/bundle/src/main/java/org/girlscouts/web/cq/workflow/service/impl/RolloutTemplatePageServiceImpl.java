@@ -529,7 +529,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		log.info("Girlscouts Rollout Service : Gathering all components under {}", srcRes.getPath());
 		Set<String> components = new HashSet<String>();
 		try {
-			traverseNodeForComponents(srcRes, components);
+			traverseNodeForComponents(srcRes.getChild("jcr:content"), components);
 		} catch (Exception e) {
 			log.error("Girlscouts Rollout Service encountered error: ", e);
 		}
