@@ -22,7 +22,7 @@
 	javax.servlet.http.HttpServletRequest,
 	javax.servlet.http.HttpServletResponse,
 	javax.servlet.http.HttpSession,
-	org.girlscouts.web.events.search.*
+	org.girlscouts.common.events.search.*
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>

@@ -24,7 +24,7 @@
 	com.day.cq.commons.jcr.JcrUtil,
 	javax.jcr.Session,
 	java.util.Calendar,
-	org.girlscouts.web.events.search.GSDateTime,
+	org.girlscouts.common.events.search.GSDateTime,
 	java.util.regex.Pattern,
 	java.util.regex.Matcher"%>
 <%

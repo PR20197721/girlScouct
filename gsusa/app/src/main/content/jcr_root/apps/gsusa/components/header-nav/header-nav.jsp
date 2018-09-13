@@ -73,7 +73,7 @@ if(currentNode.hasNode("navs")){
 		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-large-up" href="<%= path %>" title="<%= largeLabel %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
 		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
 		                <% } else { %>
-		                   <a <%= target %> class="show-for-large-up" href="<%= path %>" title="<%= path %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
+		                   <a <%= target %> class="show-for-large-up" href="<%= path %>" title="<%= largeLabel %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
 		                   <a <%= target %> class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
 		                <% } %>
 					  </li>

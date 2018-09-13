@@ -7,7 +7,7 @@
 <entry key="dependencies" />
 <entry key="packageFormatVersion">2</entry>
 <entry key="description">Girl Scouts USA Bootstrap Package</entry>
-<entry key="group">org.girlscouts.web.gsusa</entry>
+<entry key="group">org.girlscouts.gsusa</entry>
 <entry key="name">gsusa-bootstrap</entry>
-<entry key="path">/etc/packages/org.girlscouts.web.gsusa/gsusa-bootstrap-1.0-SNAPSHOT.zip</entry>
+<entry key="path">/etc/packages/org.girlscouts.gsusa/gsusa-bootstrap-1.0-SNAPSHOT.zip</entry>
 </properties>

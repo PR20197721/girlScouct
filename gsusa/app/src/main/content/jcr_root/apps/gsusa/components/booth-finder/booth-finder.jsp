@@ -112,7 +112,6 @@
 	BoothFinder.prototype.processResult = function(result) {
 		var council = result.council;
 		var booths = result.booths;
-		result.council.PreferredPath = "path2";
 
 		// Add zip to environment
 		result = result || {};

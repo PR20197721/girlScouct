@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.web.events.search.*"%>
+<%@ page import=" java.net.URI"%>
 				
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -80,6 +80,15 @@ try{
 	boolean hasThumb = false;
 	if (propNode.hasProperty("thumbImage")){
 		iconPath = propNode.getProperty("thumbImage").getString();
+		if(iconPath != null && iconPath.startsWith("http")){
+            try{
+            	URI uri = new URI(iconPath);
+                if(request.getServerName().equals(uri.getHost())){
+					iconPath = uri.getPath();
+                }
+            }catch(Exception e){
+            }
+        }
 		hasThumb = true;
 	} else {
 		iconPath=node.hasProperty("jcr:content/data/image/fileReference") ? node.getProperty("jcr:content/data/image/fileReference").getString() : "";
