@@ -626,7 +626,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 		Set<String> activeLiveSyncComponents = new HashSet<String>();
 		Set<String> inactiveLiveSyncComponents = new HashSet<String>();
 		categorizeRelationComponents(customComponents, activeLiveSyncComponents, inactiveLiveSyncComponents,
-				relationPageResource, true);
+				relationPageResource.getChild("jcr:content"), true);
 		relationComponents.put(RELATION_CUSTOM_COMPONENTS, customComponents);
 		relationComponents.put(RELATION_INHERITED_COMPONENTS, activeLiveSyncComponents);
 		relationComponents.put(RELATION_CANC_INHERITANCE_COMPONENTS, inactiveLiveSyncComponents);
