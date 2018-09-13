@@ -37,7 +37,7 @@
                 sling:resourceType="cq/workflow/components/model/process">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="org.girlscouts.cq.workflow.RolloutTemplatePageProcess"
+                    PROCESS="org.girlscouts.web.cq.workflow.RolloutTemplatePageProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process>
         </flow>

@@ -1,4 +1,4 @@
-<%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
+<%@page import="org.girlscouts.gsusa.component.boothfinder.BoothFinder.Council,
                 java.util.Map,
                 com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp"%>

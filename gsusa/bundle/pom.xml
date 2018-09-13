@@ -38,11 +38,7 @@
      	<groupId>org.girlscouts.web</groupId>
      	<artifactId>girlscouts-common-bundle</artifactId>
    		<version>2.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-     	<groupId>org.girlscouts.web</groupId>
-     	<artifactId>girlscouts-bundle</artifactId>
-   		<version>2.0-SNAPSHOT</version>
+   		<scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>
@@ -126,8 +122,12 @@
               !com.google.common.reflect,
 		      !org.apache.avalon.framework.logger,
 		      !org.apache.log,
+		      !org.girlscouts.web.*,
+		      !org.girlscouts.gsusa.*,
+		      org.girlscouts.common.*,
 		      *
             </Import-Package>
+            <Export-Package>org.girlscouts.gsusa.*</Export-Package>
             <!-- Recursively embed dependency jars -->
             <Embed-Transitive>true</Embed-Transitive>
           </instructions>

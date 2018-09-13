@@ -1,7 +1,7 @@
 <%@ page
 	import="java.lang.Exception,
 	java.util.Optional,
-	org.girlscouts.web.badges.dto.BadgeDTO"%>
+	org.girlscouts.gsusa.badges.dto.BadgeDTO"%>
 <%@ page import="java.util.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>

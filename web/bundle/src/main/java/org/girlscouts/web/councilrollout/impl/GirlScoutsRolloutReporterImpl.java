@@ -1,45 +1,23 @@
 package org.girlscouts.web.councilrollout.impl;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-import javax.jcr.Value;
 import javax.mail.internet.InternetAddress;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.felix.scr.annotations.Property;
-import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.commons.json.JSONException;
-import org.apache.sling.commons.json.io.JSONWriter;
 import org.girlscouts.web.councilrollout.GirlScoutsRolloutReporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.WCMException;
-import com.day.cq.wcm.msm.api.ActionConfig;
-import com.day.cq.wcm.msm.api.LiveRelationship;
-import com.day.cq.wcm.msm.api.LiveStatus;
-import com.day.cq.mailer.MailService;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
 

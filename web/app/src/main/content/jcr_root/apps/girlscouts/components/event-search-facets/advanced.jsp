@@ -3,9 +3,8 @@
                 java.util.Iterator,java.util.HashMap,java.util.List,
                 java.util.Set,com.day.cq.search.result.SearchResult,
                 java.util.ResourceBundle,com.day.cq.search.QueryBuilder,
-                javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, 
-                com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,
-                org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,
+                javax.jcr.PropertyIterator, 
+                com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,                
                 java.util.Collections, javax.jcr.Node"
                 %>
 <%@include file="/libs/foundation/global.jsp"%>

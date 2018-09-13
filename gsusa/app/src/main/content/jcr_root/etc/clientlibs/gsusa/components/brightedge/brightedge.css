@@ -1,3 +1,8 @@
+.be-ix-link-block {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
 .be-ix-link-block .be-related-link-container {
     margin: 0 auto;
     width: 100%;
@@ -22,19 +27,19 @@
 
 .be-ix-link-block .be-related-link-container .be-related-link .headline {
     font-weight: 600;
-    line-height:  1.5rem;
+    line-height:  20px;
     margin: 0;
-    font-size: 20px;
+    font-size: 16px;
     color:  #00ae58;
     margin-bottom: 5px;
 }
-
+ 
 .be-ix-link-block .be-related-link-container .be-related-link .desc {
     color:  #333;
     font-family: inherit;
-    font-size: 1.0625rem;
+    font-size: 14px;
     font-weight: normal;
-    line-height: 1.5625rem;
+    line-height: 18px;
 }
 
 a.be-related-link:hover {
@@ -46,12 +51,8 @@ a.be-related-link:hover {
     .be-ix-link-block .be-related-link-container {
         display: inherit;
     }
-    .be-ix-link-block .be-related-link-container .be-related-link .headline {
-        font-size: 1.25rem;
-    }
-
     .be-ix-link-block .be-related-link-container .be-related-link {
-        margin: 10px !important;
+        margin: 10px !important; 
         border: 1px #00ae58 solid !important;
         width: 95%;
     }

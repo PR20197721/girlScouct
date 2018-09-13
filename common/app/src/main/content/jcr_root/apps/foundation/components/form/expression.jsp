@@ -1,16 +1,20 @@
 <%@ page import="java.util.StringTokenizer,
 				java.util.Set,
 				java.util.HashSet,
+				org.slf4j.Logger,
+				org.slf4j.LoggerFactory,
 				java.lang.StringBuilder,
 				javax.jcr.Node,
 				javax.jcr.NodeIterator" %>
 <%!
+
+private static Logger gslogger = LoggerFactory.getLogger("girlscouts.common.expression.jsp");
 String getFormId(Node thisNode) {
     try {
 		Node parentNode = thisNode.getParent();
 
 		String parentResourceType = parentNode.getProperty("sling:resourceType").getString();
-        while(!parentResourceType.equals("foundation/components/parsys")){
+        while(!parentResourceType.equals("foundation/components/parsys") && !parentResourceType.equals("girlscouts-common/components/styled-parsys")){
             parentNode = parentNode.getParent();
 			parentResourceType = parentNode.getProperty("sling:resourceType").getString();
         }
@@ -32,6 +36,8 @@ String getFormId(Node thisNode) {
 		}
 		return formId;
     } catch (Exception e) {
+        gslogger.error("getFormId failed due to exception:" + e.getClass().getName() +
+                       " being thrown with message: " + e.getMessage());
         return null;
     }
 }

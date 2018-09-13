@@ -1,5 +1,5 @@
 <%@page import="java.lang.StringBuilder,
-				java.util.*, 
+				java.util.*,
 				com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
@@ -31,6 +31,22 @@ if(currentNode.hasNode("navs")){
 					Boolean hideInMobile = linkNode.hasProperty("hide-in-mobile") ? linkNode.getProperty("hide-in-mobile").getBoolean() : false;
 					Boolean rootLandingPage = linkNode.hasProperty("root-landing-page") ? linkNode.getProperty("root-landing-page").getBoolean() : false;
 					Boolean newWindow = linkNode.hasProperty("new-window") ? linkNode.getProperty("new-window").getBoolean() : false;
+					Iterator <Page> slingResourceIter;
+                    String slingResourceType = "girlscouts/components/placeholder-page";
+            		String contentResourceType="";
+                    try {
+                        contentResourceType = resource.getResourceResolver().getResource(path+"/jcr:content").getResourceType();
+                        if(contentResourceType.equals(slingResourceType)){
+                            slingResourceIter = resource.getResourceResolver().getResource(path).adaptTo(Page.class).listChildren();
+                            if(slingResourceIter.hasNext()){
+                                Page firstChild =  slingResourceIter.next();
+                                path = genLink(resourceResolver, firstChild.getPath());
+                            }
+                        }
+                    }catch(Exception e){
+						log.error("Unable to create placeholder page downlink for GSUSA header-nav component. " +
+                                  "Due to exception: " + e.getClass().getName() + " with message: " + e.getMessage());
+                    }
 					
 					mediumLabel = mediumLabel.isEmpty() ? largeLabel : mediumLabel;
 					
@@ -57,14 +73,15 @@ if(currentNode.hasNode("navs")){
 		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-large-up" href="<%= path %>" title="<%= largeLabel %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
 		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
 		                <% } else { %>
-		                   <a <%= target %> class="show-for-large-up" href="<%= path %>" title="<%= path %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
+		                   <a <%= target %> class="show-for-large-up" href="<%= path %>" title="<%= largeLabel %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
 		                   <a <%= target %> class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
 		                <% } %>
 					  </li>
 					<%
 					}
 		    	}catch(Exception e){
-		    		e.printStackTrace();
+		    		log.error("Creation of component GSUSA header-nav failed. " +
+                                  "Due to exception: " + e.getClass().getName() + " with message: " + e.getMessage());
 		    	}
 		    }
 			%>
@@ -83,15 +100,18 @@ if(currentNode.hasNode("navs")){
             sticky = headerNavProps.get("displayStickyNav", false);
             if (sticky) {
                 String stickyImgPath = "";
-                try {
-                    Resource logo = resourceResolver.resolve(logoPath);
-                    stickyImgPath = ((ValueMap)logo.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
-                    %><div class="logo">
-                        <img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
-                    </div><%
-                } catch (Exception e) {}
+
+                Resource logo = resourceResolver.resolve(logoPath);
+                stickyImgPath = ((ValueMap)logo.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
+                %><div class="logo">
+        		<img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
+        		</div><%
+
             }
-        } catch(Exception e) {}
+        } catch(Exception e) {
+			log.error("GSUSA header-nav component mobile version image rendition failed." +
+                                  "Due to exception: " + e.getClass().getName() + " with message: " + e.getMessage());
+        }
         %><section class="search-section">
 <%-- 		   <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" /> --%>
 		   <cq:include script="/apps/gsusa/components/search-box/mobile.jsp" /> 

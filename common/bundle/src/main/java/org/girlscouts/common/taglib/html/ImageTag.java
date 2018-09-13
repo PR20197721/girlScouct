@@ -7,7 +7,7 @@ import javax.servlet.jsp.JspException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.girlscouts.common.util.ImageUtil;
-import org.girlscouts.web.wcm.foundation.Image;
+import org.girlscouts.common.wcm.foundation.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

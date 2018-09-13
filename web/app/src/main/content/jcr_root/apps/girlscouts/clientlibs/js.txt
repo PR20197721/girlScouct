@@ -10,7 +10,6 @@ frequently-access-form.js
 social-media-widget.js
 moment.min.js
 moment-timezone.js
-moment.zone.min.js
 timezone.js
 TimezoneSelection.js
 TimezoneDateTime.js
