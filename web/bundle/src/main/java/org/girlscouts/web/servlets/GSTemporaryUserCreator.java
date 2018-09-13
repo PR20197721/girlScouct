@@ -38,6 +38,7 @@ import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.auth.core.AuthUtil;
 import org.apache.sling.commons.osgi.OsgiUtil;
+import org.girlscouts.common.events.search.*;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,8 +55,6 @@ import javax.jcr.Node;
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.activation.FileDataSource;
-
-import org.girlscouts.web.events.search.*;
 
 @Component(metatype = true, label = "Girl Scouts Temporary User Creator",
         description = "Creates a temporary user based on scaffolding input")

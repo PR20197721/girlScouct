@@ -23,7 +23,7 @@
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="org.girlscouts.cq.workflow.AssetPreviewActivateProcess"
+                PROCESS="org.girlscouts.web.cq.workflow.AssetPreviewActivateProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node1>
         <node2

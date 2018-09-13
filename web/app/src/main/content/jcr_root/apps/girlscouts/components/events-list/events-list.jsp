@@ -39,7 +39,7 @@
 		today = formatter.parse(evtStartDt);
 	}catch (Exception e) {}
 
-	java.util.List<String> results = srchInfo.getResults();
+	java.util.List<String> results = srchInfo != null ? srchInfo.getResults(): new ArrayList<String>();
 	int eventcounts = 0;
 	int eventsRendered = 0;
 	String key = "";

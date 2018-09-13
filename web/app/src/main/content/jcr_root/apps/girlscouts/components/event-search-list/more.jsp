@@ -10,9 +10,9 @@ javax.jcr.Property,
 org.girlscouts.web.events.search.*,
 org.apache.sling.commons.json.JSONObject,
 org.apache.sling.api.request.RequestPathInfo,
-org.girlscouts.web.search.GSSearchResult, 
-org.girlscouts.web.search.GSSearchResultManager,
-org.girlscouts.web.search.GSJcrSearchProvider" %>    
+org.girlscouts.common.search.GSSearchResult, 
+org.girlscouts.common.search.GSSearchResultManager,
+org.girlscouts.common.search.GSJcrSearchProvider" %>    
 <%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>      
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>

@@ -8,6 +8,6 @@
         jcr:description="Sends an email based on an email template"
         jcr:primaryType="nt:unstructured"
         jcr:title="Send Email to Initiator"
-        PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
+        PROCESS="org.girlscouts.web.cq.workflow.CustomSendEmailProcess"
         PROCESS_AUTO_ADVANCE="true"/>
 </jcr:root>

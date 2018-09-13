@@ -8,6 +8,6 @@
         jcr:description="Sends an email based on an email template"
         jcr:primaryType="nt:unstructured"
         jcr:title="Send Email to Reviewers"
-        PROCESS="org.girlscouts.cq.workflow.CustomGroupEmailProcess"
+        PROCESS="org.girlscouts.web.cq.workflow.CustomGroupEmailProcess"
         PROCESS_AUTO_ADVANCE="true"/>
 </jcr:root>

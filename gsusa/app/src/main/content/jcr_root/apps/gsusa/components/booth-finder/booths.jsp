@@ -1,5 +1,5 @@
-<%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
-                org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.BoothBasic,
+<%@page import="org.girlscouts.gsusa.component.boothfinder.BoothFinder.Council,
+                org.girlscouts.gsusa.component.boothfinder.BoothFinder.BoothBasic,
                 java.util.List" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>

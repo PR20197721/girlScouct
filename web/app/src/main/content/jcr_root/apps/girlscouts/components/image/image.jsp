@@ -17,7 +17,7 @@
 
 --%><%@ page import="com.day.cq.commons.Doctype,
     com.day.cq.wcm.api.components.DropTarget,
-    org.girlscouts.web.gsusa.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
+    org.girlscouts.common.wcm.foundation.gsusa.Image, com.day.cq.wcm.foundation.Placeholder" %><%
 %><%@include file="/libs/foundation/global.jsp"%><%
 	String divId = "cq-image-jsp-" + resource.getPath();
 	%><div id="<%= divId %>"><%

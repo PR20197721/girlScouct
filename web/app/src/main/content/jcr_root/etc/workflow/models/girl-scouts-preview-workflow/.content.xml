@@ -22,7 +22,7 @@
                 sling:resourceType="cq/workflow/components/model/process">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="org.girlscouts.cq.workflow.AssetPreviewActivateProcess"
+                    PROCESS="org.girlscouts.web.cq.workflow.AssetPreviewActivateProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process_0>
             <process
