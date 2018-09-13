@@ -6,9 +6,9 @@
             java.util.Iterator,
             java.util.Set,com.day.cq.search.result.SearchResult,
             java.util.ResourceBundle,com.day.cq.search.QueryBuilder,
-            javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo,
+            javax.jcr.PropertyIterator,
             com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,
-            org.girlscouts.web.events.search.*,java.util.Calendar,java.util.TimeZone,com.day.cq.dam.api.Asset,
+            java.util.Calendar,java.util.TimeZone,com.day.cq.dam.api.Asset,
             java.util.ArrayDeque, java.util.Iterator"%>
 
 <%@include file="/libs/foundation/global.jsp"%>

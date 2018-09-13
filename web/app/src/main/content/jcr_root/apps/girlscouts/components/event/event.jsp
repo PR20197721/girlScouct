@@ -12,8 +12,7 @@
 	com.day.cq.dam.api.Asset,
 	org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
-	javax.servlet.http.HttpSession,
-	org.girlscouts.web.events.search.*
+	javax.servlet.http.HttpSession
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>

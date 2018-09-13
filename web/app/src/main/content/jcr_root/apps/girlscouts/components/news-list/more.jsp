@@ -4,12 +4,8 @@ java.util.Date,
 java.util.List, 
 java.util.ArrayList, 
 javax.jcr.Node,
-org.girlscouts.web.events.search.*,
 org.apache.sling.commons.json.JSONObject,
-org.apache.sling.api.request.RequestPathInfo,
-org.girlscouts.web.search.GSSearchResult, 
-org.girlscouts.web.search.GSSearchResultManager,
-org.girlscouts.web.search.GSJcrSearchProvider" %>    
+org.apache.sling.api.request.RequestPathInfo" %>    
 <%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>      
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>

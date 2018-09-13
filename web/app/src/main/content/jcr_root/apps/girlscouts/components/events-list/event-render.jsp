@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.web.events.search.*, java.net.URI"%>
+<%@ page import=" java.net.URI"%>
 				
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>

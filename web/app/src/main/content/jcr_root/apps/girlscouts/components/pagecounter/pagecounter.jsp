@@ -14,7 +14,6 @@
 	org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
-	org.girlscouts.web.events.search.*,
 	java.text.SimpleDateFormat,
 	java.util.Calendar
 	"%>
