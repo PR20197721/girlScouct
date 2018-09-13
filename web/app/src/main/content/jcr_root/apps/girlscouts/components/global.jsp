@@ -14,9 +14,7 @@
 	java.util.Calendar,
 	java.util.Date,
 	java.text.DateFormat,
-	org.girlscouts.web.events.search.GSDateTime,
-	org.girlscouts.web.events.search.GSDateTimeFormatter,
-	org.girlscouts.web.events.search.GSLocalDateTime" %>
+	org.girlscouts.common.events.search.*" %>
 <%
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);

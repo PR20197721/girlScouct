@@ -14,10 +14,10 @@
 				 javax.jcr.ValueFormatException,
 				 java.util.HashMap,
 				 javax.jcr.Value,
-				 org.girlscouts.web.events.search.GSDateTime,
-				 org.girlscouts.web.events.search.GSDateTimeFormat,
-				 org.girlscouts.web.events.search.GSDateTimeFormatter,
-				 org.girlscouts.web.events.search.GSDateTimeZone" %>
+				 org.girlscouts.common.events.search.GSDateTime,
+				 org.girlscouts.common.events.search.GSDateTimeFormat,
+				 org.girlscouts.common.events.search.GSDateTimeFormatter,
+				 org.girlscouts.common.events.search.GSDateTimeZone" %>
 <%@ page session="false" %>
 <%
 %>

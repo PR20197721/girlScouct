@@ -44,7 +44,7 @@
                 sling:resourceType="cq/workflow/components/model/process">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="org.girlscouts.cq.workflow.AssetPreviewActivateProcess"
+                    PROCESS="org.girlscouts.web.cq.workflow.AssetPreviewActivateProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process_2>
             <process_0
@@ -71,11 +71,11 @@
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Send Email to Reviewers"
                 sling:resourceType="girlscouts/components/customgroupemailprocess"
-                PROCESS="org.girlscouts.cq.workflow.CustomGroupEmailProcess"
+                PROCESS="org.girlscouts.web.cq.workflow.CustomGroupEmailProcess"
                 PROCESS_AUTO_ADVANCE="true">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="org.girlscouts.cq.workflow.CustomGroupEmailProcess"
+                    PROCESS="org.girlscouts.web.cq.workflow.CustomGroupEmailProcess"
                     PROCESS_AUTO_ADVANCE="true"
                     templatePath="/etc/workflow/notification/email/default/approver_check_page.txt"/>
             </customgroupemailproc>
@@ -89,7 +89,7 @@
                 sling:resourceType="cq/workflow/components/model/dynamic_participant">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    DYNAMIC_PARTICIPANT="org.girlscouts.cq.workflow.service.impl.GirlScoutsReviewerParticipantsStepChooserImpl"/>
+                    DYNAMIC_PARTICIPANT="org.girlscouts.web.cq.workflow.service.impl.GirlScoutsReviewerParticipantsStepChooserImpl"/>
             </dynamic_participant>
             <or
                 jcr:created="{Date}2014-06-13T12:05:57.064-04:00"
@@ -114,7 +114,7 @@
                         sling:resourceType="cq/workflow/components/model/process">
                         <metaData
                             jcr:primaryType="nt:unstructured"
-                            PROCESS="org.girlscouts.cq.workflow.AssetPublishActivateProcess"
+                            PROCESS="org.girlscouts.web.cq.workflow.AssetPublishActivateProcess"
                             PROCESS_AUTO_ADVANCE="true"/>
                     </process>
                     <and
@@ -173,11 +173,11 @@
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Send Email to Initiator"
                         sling:resourceType="girlscouts/components/customsendemailprocess"
-                        PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
+                        PROCESS="org.girlscouts.web.cq.workflow.CustomSendEmailProcess"
                         PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
-                            PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
+                            PROCESS="org.girlscouts.web.cq.workflow.CustomSendEmailProcess"
                             PROCESS_AUTO_ADVANCE="true"
                             templatePath="/etc/workflow/notification/email/default/approval.txt"/>
                     </customsendemailproce>
@@ -208,11 +208,11 @@
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Send Email to Initiator"
                         sling:resourceType="girlscouts/components/customsendemailprocess"
-                        PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
+                        PROCESS="org.girlscouts.web.cq.workflow.CustomSendEmailProcess"
                         PROCESS_AUTO_ADVANCE="true">
                         <metaData
                             jcr:primaryType="nt:unstructured"
-                            PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
+                            PROCESS="org.girlscouts.web.cq.workflow.CustomSendEmailProcess"
                             PROCESS_AUTO_ADVANCE="true"
                             templatePath="/etc/workflow/notification/email/default/reject.txt"/>
                     </customsendemailproce>
@@ -241,11 +241,11 @@
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Send Completion Email to Reviewers"
                 sling:resourceType="girlscouts/components/customgroupemailprocess"
-                PROCESS="org.girlscouts.cq.workflow.CustomGroupEmailProcess"
+                PROCESS="org.girlscouts.web.cq.workflow.CustomGroupEmailProcess"
                 PROCESS_AUTO_ADVANCE="true">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="org.girlscouts.cq.workflow.CustomGroupEmailProcess"
+                    PROCESS="org.girlscouts.web.cq.workflow.CustomGroupEmailProcess"
                     PROCESS_AUTO_ADVANCE="true"
                     templatePath="/etc/workflow/notification/email/default/completion.txt"/>
             </customgroupemailproc_0>
@@ -258,11 +258,11 @@
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Send Completion Email to Initiator"
                 sling:resourceType="girlscouts/components/customsendemailprocess"
-                PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
+                PROCESS="org.girlscouts.web.cq.workflow.CustomSendEmailProcess"
                 PROCESS_AUTO_ADVANCE="true">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
+                    PROCESS="org.girlscouts.web.cq.workflow.CustomSendEmailProcess"
                     PROCESS_AUTO_ADVANCE="true"
                     templatePath="/etc/workflow/notification/email/default/completion.txt"/>
             </customsendemailproce>
