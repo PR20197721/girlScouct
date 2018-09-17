@@ -5,7 +5,7 @@ int SLIDES_PROCESS_PER_SAVE = 200
 
 
 String QUERY_LANGUAGE = "JCR-SQL2";
-String PATH = "/content/gsnetx/en";
+String PATH = "/content/gsnetx/en/jcr:content";
 String RESOURCE_TYPE = "girlscouts/components/hero-banner";
 
 String EXPRESSION = "SELECT s.[jcr:path] "+
@@ -21,7 +21,7 @@ class SlideData implements Comparable<SlideData> {
 	String newWindow = "", linkUrl = "",
 		   regularImagePath = "", mediumImagePath = "", smallImagePath = "",
 		   regularImageUploadPath = "", mediumImageUploadPath = "", smallImageUploadPath = "",
-	       regularFileName, mediumFileName, smallFileName
+		   regularFileName, mediumFileName, smallFileName
 
 	int compareTo(SlideData other){
 		return sortOrder.compareTo(other.sortOrder)
@@ -32,6 +32,7 @@ if (result != null) {
 	try {
 		RowIterator rowIter = result.getRows()
 		int totalSlidesProcessed = 0;
+		List<String> nodesToRemove = new ArrayList<>();
 		while (rowIter.hasNext()) {
 			try {
 				Row row = rowIter.nextRow()
@@ -43,7 +44,6 @@ if (result != null) {
 					continue;
 				}
 
-				List<String> nodesToRemove = new ArrayList<>();
 
 				println("Found hero node: " + node.getPath());
 				int slideShowCount = 99
@@ -195,7 +195,7 @@ if (result != null) {
 
 		int nodesRemoved = 0;
 		for(String nodeToRemove : nodesToRemove){
-			session.removeNode(nodeToRemove)
+			session.removeItem(nodeToRemove)
 			if(nodesRemoved % 50 == 0){
 				session.save();
 			}
