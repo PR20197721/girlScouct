@@ -16,9 +16,9 @@ import javax.jcr.query.QueryResult;
 import javax.jcr.query.RowIterator;
 import javax.jcr.query.Row;
 
-import org.girlscouts.web.events.search.GSDateTime;
-import org.girlscouts.web.events.search.GSDateTimeFormat;
-import org.girlscouts.web.events.search.GSDateTimeFormatter;
+import org.girlscouts.common.events.search.GSDateTime;
+import org.girlscouts.common.events.search.GSDateTimeFormat;
+import org.girlscouts.common.events.search.GSDateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

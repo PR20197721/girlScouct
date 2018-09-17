@@ -3,6 +3,8 @@
     <filter root="/etc/clientlibs/girlscouts-common"/>
     <filter root="/apps/clientlibs"/>
     <filter root="/etc/servlets"/>
+    <filter root="/etc/map.author"/>
+    <filter root="/etc/gs-maintenance"/>
     <filter root="/etc/renderconditions/features"/>    
     <filter root="/apps/girlscouts-common"/>
     <filter root="/apps/cq/gui/components/authoring/dialog" />

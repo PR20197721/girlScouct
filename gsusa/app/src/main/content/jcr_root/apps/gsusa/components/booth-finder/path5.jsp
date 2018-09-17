@@ -1,4 +1,4 @@
-<%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
+<%@page import="org.girlscouts.gsusa.component.boothfinder.BoothFinder.Council,
                 com.day.cq.wcm.api.WCMMode,
                 java.text.DateFormat,
                 java.text.SimpleDateFormat,

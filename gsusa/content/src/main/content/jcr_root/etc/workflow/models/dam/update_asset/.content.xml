@@ -331,7 +331,7 @@
                         sling:resourceType="cq/workflow/components/model/process">
                         <metaData
                             jcr:primaryType="nt:unstructured"
-                            PROCESS="org.girlscouts.web.gsusa.workflow.NPDRendtionRenameProcess"
+                            PROCESS="org.girlscouts.gsusa.workflow.NPDRendtionRenameProcess"
                             PROCESS_ARGS="750.375:hero,1500.750:hero@2x,190.760:left,380.1520:left@2x,510.510:middle,1020.1020:middle@2x,230.920:right,460.1840:right@2x,960.960:top,1920.1920:top@2x,350.300:tile,700.600:tile@2x,750.325:hubHero,1500.650:hubHero@2x"
                             PROCESS_AUTO_ADVANCE="true"/>
                     </process>

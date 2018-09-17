@@ -39,10 +39,10 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.apache.sling.jcr.resource.JcrResourceResolverFactory;
 import org.girlscouts.web.components.PageReplicationUtil;
-import org.girlscouts.web.events.search.GSDateTime;
-import org.girlscouts.web.events.search.GSDateTimeFormat;
-import org.girlscouts.web.events.search.GSDateTimeFormatter;
-import org.girlscouts.web.events.search.GSDateTimeZone;
+import org.girlscouts.common.events.search.GSDateTime;
+import org.girlscouts.common.events.search.GSDateTimeFormat;
+import org.girlscouts.common.events.search.GSDateTimeFormatter;
+import org.girlscouts.common.events.search.GSDateTimeZone;
 
 import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
 import com.day.cq.replication.ReplicationActionType;

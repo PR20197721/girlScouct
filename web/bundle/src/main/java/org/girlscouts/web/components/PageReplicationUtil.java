@@ -3,12 +3,16 @@ package org.girlscouts.web.components;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 
 import javax.jcr.Node;
+import javax.jcr.RangeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
@@ -29,13 +33,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.WCMException;
+import com.day.cq.wcm.msm.api.LiveRelationship;
+import com.day.cq.wcm.msm.api.LiveRelationshipManager;
+import com.day.cq.workflow.metadata.MetaDataMap;
 
 public class PageReplicationUtil implements PageReplicationConstants {
 
 	private static Logger log = LoggerFactory.getLogger(PageReplicationUtil.class);
 
 	public static String[] getIps(ResourceResolver rr, int group) {
+		log.info("Getting dispatcher IPs for group {} ", group);
 		try {
 			String gsActivationsNodePath = PAGE_ACTIVATIONS_PATH;
 			Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
@@ -51,12 +58,13 @@ public class PageReplicationUtil implements PageReplicationConstants {
 				}
 			}
 		} catch (RepositoryException e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 		}
 		return new String[0];
 	}
 
 	public static int getGroupSize(ResourceResolver rr) {
+		log.info("Getting activation group size ");
 		try {
 			String gsActivationsNodePath = PAGE_ACTIVATIONS_PATH;
 			Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
@@ -68,18 +76,19 @@ public class PageReplicationUtil implements PageReplicationConstants {
 						try {
 							return Integer.parseInt(value);
 						} catch (Exception e) {
-							log.error("PageActivationUtil encountered error: ", e);
+							log.error("PageReplicationUtil encountered error: ", e);
 						}
 					}
 				}
 			}
 		} catch (RepositoryException e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 		}
 		return DEFAULT_PARAM_GROUP_SIZE;
 	}
 
 	public static int getMinutes(ResourceResolver rr) {
+		log.info("Getting activation pause in minutes ");
 		try {
 			String gsActivationsNodePath = PAGE_ACTIVATIONS_PATH;
 			Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
@@ -91,18 +100,19 @@ public class PageReplicationUtil implements PageReplicationConstants {
 						try {
 							return Integer.parseInt(value);
 						} catch (Exception e) {
-							log.error("PageActivationUtil encountered error: ", e);
+							log.error("PageReplicationUtil encountered error: ", e);
 						}
 					}
 				}
 			}
 		} catch (RepositoryException e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 		}
 		return DEFAULT_PARAM_MINUTES;
 	}
 
 	public static int getCrawlDepth(ResourceResolver rr) {
+		log.info("Getting crawl depth ");
 		try {
 			String gsActivationsNodePath = PAGE_ACTIVATIONS_PATH;
 			Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
@@ -114,18 +124,19 @@ public class PageReplicationUtil implements PageReplicationConstants {
 						try {
 							return Integer.parseInt(value);
 						} catch (Exception e) {
-							log.error("PageActivationUtil encountered error: ", e);
+							log.error("PageReplicationUtil encountered error: ", e);
 						}
 					}
 				}
 			}
 		} catch (RepositoryException e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 		}
 		return DEFAULT_PARAM_CRAWL_DEPTH;
 	}
 
 	public static String[] getEmails(ResourceResolver rr) throws Exception {
+		log.info("Getting report email addresses ");
 		String gsActivationsNodePath = "/etc/" + PAGE_ACTIVATIONS_NODE;
 		Resource gsActivationRes = rr.resolve(gsActivationsNodePath);
 		if (!gsActivationRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
@@ -143,6 +154,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 	}
 
 	public static String getTemplateMessage(String templatePath, ResourceResolver rr) {
+		log.info("Getting template email at {} ", templatePath);
 		try {
 			Resource templateResource = rr.resolve(templatePath);
 			Resource dataResource = templateResource.getChild("jcr:content/data");
@@ -158,24 +170,26 @@ public class PageReplicationUtil implements PageReplicationConstants {
 
 			return ret;
 		} catch (Exception e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 			return "";
 		}
 	}
 
 	public static String getTemplateSubject(String templatePath, ResourceResolver rr) {
+		log.info("Getting template subject at {} ", templatePath);
 		try {
 			Resource templateResource = rr.resolve(templatePath);
 			Resource contentResource = templateResource.getChild("jcr:content");
 			ValueMap contentProps = ResourceUtil.getValueMap(contentResource);
 			return contentProps.get("jcr:title", "GSUSA Rollout Notification");
 		} catch (Exception e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 			return "";
 		}
 	}
 
 	public static Set<String> getCouncils(Node n) throws RepositoryException {
+		log.info("Getting list of councils at {} ", n.getPath());
 		Set<String> pages = null;
 		if (n.hasProperty(PARAM_COUNCILS)) {
 			pages = new HashSet<String>();
@@ -188,6 +202,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 	}
 
 	public static Set<String> getPagesToActivate(Node n) throws RepositoryException {
+		log.info("Getting list of pages to activate at {} ", n.getPath());
 		Set<String> pages = new HashSet<String>();
 		if (n.hasProperty(PARAM_PAGES)) {
 			pages = new HashSet<String>();
@@ -200,6 +215,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 	}
 
 	public static Set<String> getPagesToDelete(Node n) throws RepositoryException {
+		log.info("Getting list of pages to delete at {} ", n.getPath());
 		Set<String> pages = new HashSet<String>();
 		if (n.hasProperty(PARAM_PAGES_TO_DELETE)) {
 			pages = new HashSet<String>();
@@ -212,6 +228,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 	}
 
 	public static Set<String> getNotifyCouncils(Node n) throws RepositoryException {
+		log.info("Getting list of councils to notify at {} ", n.getPath());
 		Set<String> notifyCouncils = new HashSet<String>();
 		if (n.hasProperty(PARAM_NOTIFY_COUNCILS)) {
 			notifyCouncils = new HashSet<String>();
@@ -225,24 +242,27 @@ public class PageReplicationUtil implements PageReplicationConstants {
 
 	public static void markReplicationFailed(Node dateRolloutNode) {
 		try {
+			log.info("Marking replication failed at {} ", dateRolloutNode.getPath());
 			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_FAILED);
 			dateRolloutNode.getSession().save();
 		} catch (RepositoryException e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 		}
 	}
 
 	public static void markReplicationComplete(Node dateRolloutNode) {
 		try {
+			log.info("Marking replication complete at {} ", dateRolloutNode.getPath());
 			dateRolloutNode.setProperty(PARAM_STATUS, STATUS_COMPLETE);
 			dateRolloutNode.getSession().save();
 		} catch (RepositoryException e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 		}
 	}
 
 	public static void archive(Node dateRolloutNode) {
 		try {
+			log.info("Archiving replication at {} ", dateRolloutNode.getPath());
 			Node parent = dateRolloutNode.getParent();
 			if (!parent.hasNode(COMPLETED_NODE)) {
 				parent.addNode(COMPLETED_NODE);
@@ -252,11 +272,12 @@ public class PageReplicationUtil implements PageReplicationConstants {
 					parent.getPath() + "/" + COMPLETED_NODE + "/" + dateRolloutNode.getName());
 			session.save();
 		} catch (RepositoryException e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 		}
 	}
 
 	public static List<String> getGsusaEmails(ResourceResolver rr) {
+		log.info("Getting gsusa report emails");
 		List<String> toAddresses = new ArrayList<String>();
 		Resource addressesRes = rr.resolve(GS_REPORTEMAIL_PATH);
 		ValueMap vm = ResourceUtil.getValueMap(addressesRes);
@@ -270,20 +291,21 @@ public class PageReplicationUtil implements PageReplicationConstants {
 				}
 			}
 		} catch (Exception e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 			try {
 				String singleValue = vm.get(PARAM_REPORT_EMAILS, String.class);
 				if (singleValue != null && !singleValue.isEmpty()) {
 					toAddresses.add(singleValue);
 				}
 			} catch (Exception e1) {
-				log.error("PageActivationUtil encountered error: ", e1);
+				log.error("PageReplicationUtil encountered error: ", e1);
 			}
 		}
 		return toAddresses;
 	}
 
 	public static Boolean isTestMode(ResourceResolver rr) {
+		log.info("Checking if running in test email mode ");
 		Boolean isTestMode = Boolean.FALSE;
 		try {
 			Resource activationResource = rr.resolve(PAGE_ACTIVATIONS_PATH);
@@ -294,12 +316,13 @@ public class PageReplicationUtil implements PageReplicationConstants {
 				}
 			}
 		} catch (Exception e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 		}
 		return isTestMode;
 	}
 	
 	public static String getCouncilLiveUrl(ResourceResolver rr, SlingSettingsService settingsService, String path) {
+		log.info("Getting council live path url for page {}", path);
 		String councilUrl = "";
 		if (path != null && path.trim().length() > 0) {
 			try {
@@ -317,13 +340,14 @@ public class PageReplicationUtil implements PageReplicationConstants {
 					councilUrl = "page not found";
 				}
 			} catch (Exception e) {
-				log.error("PageActivationUtil encountered error: ", e);
+				log.error("PageReplicationUtil encountered error: ", e);
 			}
 		}
 		return councilUrl;
 	}
 
 	public static String getCouncilLiveDomain(ResourceResolver rr, SlingSettingsService settingsService, String path) {
+		log.info("Getting council live domain for page {}", path);
 		String councilDomain = "";
 		if (path != null && path.trim().length() > 0) {
 			try {
@@ -366,13 +390,14 @@ public class PageReplicationUtil implements PageReplicationConstants {
 					}
 				}
 			} catch (Exception e) {
-				log.error("PageActivationUtil encountered error: ", e);
+				log.error("PageReplicationUtil encountered error: ", e);
 			}
 		}
 		return councilDomain;
 	}
 
 	public static String getCouncilName(String path) {
+		log.info("Getting council path for page {}", path);
 		String councilName = "";
 		try {
 			Matcher matcher = BRANCH_PATTERN.matcher(path);
@@ -380,12 +405,13 @@ public class PageReplicationUtil implements PageReplicationConstants {
 				councilName = matcher.group();
 			}
 		} catch (Exception e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 		}
 		return councilName;
 	}
 
 	public static String getCouncilAuthorUrl(ResourceResolver rr, String path) {
+		log.info("Getting council authoring path for page {}", path);
 		String councilUrl = "";
 		if (path != null && path.trim().length() > 0) {
 			Resource pageRes = rr.resolve(path);
@@ -398,6 +424,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 
 	public static String generateCouncilNotification(String srcPagePath, String targetPagePath, String message,
 			ResourceResolver rr, SlingSettingsService settingsService) {
+		log.info("Generating council notification for page {}", targetPagePath);
 		String srcPagePathUrl = srcPagePath + ".html";
 		String councilAuthorPagePath = getCouncilAuthorUrl(rr, targetPagePath);
 		String councilLivePagePath = getCouncilLiveUrl(rr, settingsService, targetPagePath);
@@ -416,6 +443,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 	public static List<String> getCouncilEmails(Node homepage) {
 		List<String> toAddresses = new ArrayList<String>();
 		try {
+			log.info("Getting council email addresses from {}", homepage.getPath());
 			if (homepage.hasNode("jcr:content")) {
 				Node content = homepage.getNode("jcr:content");
 				String email1 = null;
@@ -426,7 +454,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 						toAddresses.add(email1);
 					}
 				} catch (Exception e) {
-					log.error("PageActivationUtil encountered error: email1=" + email1, e);
+					log.error("PageReplicationUtil encountered error: email1=" + email1, e);
 				}
 				try {
 					email2 = content.getProperty("email2").getString();
@@ -434,16 +462,17 @@ public class PageReplicationUtil implements PageReplicationConstants {
 						toAddresses.add(email2);
 					}
 				} catch (Exception e) {
-					log.error("PageActivationUtil encountered error: email2=" + email2, e);
+					log.error("PageReplicationUtil encountered error: email2=" + email2, e);
 				}
 			}
 		} catch (RepositoryException e1) {
-			log.error("PageActivationUtil encountered error: ", e1);
+			log.error("PageReplicationUtil encountered error: ", e1);
 		}
 		return toAddresses;
 	}
 
 	public static List<String> getReportEmails(ResourceResolver rr) throws RepositoryException {
+		log.info("Getting report email addresses");
 		List<String> toAddresses = new ArrayList<String>();
 		Resource addressesRes = rr.resolve(PAGE_ACTIVATIONS_PATH);
 		ValueMap vm = ResourceUtil.getValueMap(addressesRes);
@@ -457,35 +486,271 @@ public class PageReplicationUtil implements PageReplicationConstants {
 				}
 			}
 		} catch (Exception e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 			try {
 				String singleValue = vm.get(PARAM_REPORT_EMAILS, String.class);
 				if (singleValue != null) {
 					toAddresses.add(singleValue);
 				}
 			} catch (Exception e1) {
-				log.error("PageActivationUtil encountered error: ", e1);
+				log.error("PageReplicationUtil encountered error: ", e1);
 			}
 		}
 		return toAddresses;
 	}
 
 	public static String getEnvironment(ResourceResolver rr) throws RepositoryException {
+		log.info("Getting environment");
 		String env = "";
 		try {
 			Resource gsActivationsRes = rr.resolve(PAGE_ACTIVATIONS_PATH);
 			ValueMap vm = ResourceUtil.getValueMap(gsActivationsRes);
 			env = vm.get(PARAM_ENVIRONMENT, String.class);
 		} catch (Exception e) {
-			log.error("PageActivationUtil encountered error: ", e);
+			log.error("PageReplicationUtil encountered error: ", e);
 		}
 		return env;
 	}
 
 	public static String getDateRes() {
+		log.info("Getting date");
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_NODE_FMT);
 		String dateString = sdf.format(today);
 		return dateString;
+	}
+
+	public static boolean isPageInheritanceBroken(Resource targetResource, List<String> rolloutLog)
+			throws RepositoryException {
+		log.info("Checking resource at {} for broken inheritance ",
+				targetResource.getPath());
+		Boolean breakInheritance = false;
+		try {
+			ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
+			breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
+		} catch (Exception e) {
+			log.error("PageReplicationUtil encountered error: ", e);
+		}
+		if (breakInheritance) {
+			log.info("Resource at {} has parameter breakInheritance = {}",
+					targetResource.getPath(), breakInheritance);
+			rolloutLog.add("Girlscouts Rollout Service: Resource at " + targetResource.getPath()
+					+ " has parameter breakInheritance = " + breakInheritance);
+		} else {
+			Node node = targetResource.adaptTo(Node.class);
+			if (node.isNodeType(PARAM_LIVE_SYNC_CANCELLED)) {
+				log.info("Resource at {} has mixin type cq:LiveSyncCancelled",
+						targetResource.getPath());
+				rolloutLog.add("Resource at " + targetResource.getPath()
+						+ " has mixin type cq:LiveSyncCancelled");
+				breakInheritance = true;
+			} else {
+				Resource targetResourceContent = targetResource.getChild("jcr:content");
+				try {
+					ValueMap contentProps = ResourceUtil.getValueMap(targetResourceContent);
+					breakInheritance = contentProps.get(PARAM_BREAK_INHERITANCE, false);
+					if (breakInheritance) {
+						log.info("Resource at {} has parameter breakInheritance = {}",
+								targetResourceContent.getPath(), breakInheritance);
+						rolloutLog.add("Girlscouts Rollout Service: Resource at " + targetResourceContent.getPath()
+								+ " has parameter breakInheritance = " + breakInheritance);
+					} else {
+						Node contentNode = targetResourceContent.adaptTo(Node.class);
+						if (contentNode.isNodeType(PARAM_LIVE_SYNC_CANCELLED)) {
+							log.info("Resource at {} has mixin type cq:LiveSyncCancelled",
+									targetResourceContent.getPath());
+							rolloutLog.add("Resource at " + targetResourceContent.getPath()
+									+ " has mixin type cq:LiveSyncCancelled");
+							breakInheritance = true;
+						}
+					}
+				} catch (Exception e) {
+					log.error("PageReplicationUtil encountered error: ", e);
+				}
+			}
+		}
+		if (breakInheritance) {
+			log.info("Resource at {} has broken inheritance ", targetResource.getPath());
+		} else {
+			log.info("Resource at {} is inherited ", targetResource.getPath());
+		}
+		return breakInheritance;
+	}
+
+	public static Map<String, Map<String, String>> getComponentRelationsByCouncil(Set<String> submittedCouncils,
+			Resource srcRes,
+			Set<String> srcComponents, List<String> rolloutLog, ResourceResolver rr) {
+		log.info("Categorizing component relations by council for {}", srcRes.getPath());
+		final LiveRelationshipManager relationManager = rr.adaptTo(LiveRelationshipManager.class);
+		Map<String, Map<String, String>> relationByCouncil = new HashMap<String, Map<String, String>>();
+		if (srcComponents != null && srcComponents.size() > 0) {
+			for (String srcComponent : srcComponents) {
+				Resource componentRes = rr.resolve(srcComponent);
+				if (componentRes != null
+						&& !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					log.info("Looking up relations for {}", componentRes.getPath());
+					rolloutLog.add("Looking up relations for " + componentRes.getPath());
+					for (String council : submittedCouncils) {
+						try {
+							RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes, council,
+									null);
+							if (relationIterator.hasNext()) {
+								while (relationIterator.hasNext()) {
+									LiveRelationship relation = (LiveRelationship) relationIterator.next();
+									String relationPath = relation.getTargetPath();
+									log.info("relation = {}", relationPath);
+									if (relationByCouncil.containsKey(council)) {
+										relationByCouncil.get(council).put(srcComponent, relationPath);
+									} else {
+										Map<String, String> componentRelations = new HashMap<String, String>();
+										componentRelations.put(srcComponent, relationPath);
+										relationByCouncil.put(council, componentRelations);
+									}
+								}
+							}
+						} catch (Exception e) {
+							log.error("PageReplicationUtil encountered error: ", e);
+						}
+					}
+				}
+			}
+		}
+		return relationByCouncil;
+	}
+
+	public static Map<String, Set<String>> categorizeRelationComponents(Resource relationPageResource,
+			List<String> rolloutLog, ResourceResolver rr) {
+		log.info("Categorizing components for {}.", relationPageResource.getPath());
+		Map<String, Set<String>> relationComponents = new HashMap<String, Set<String>>();
+		Set<String> customComponents = new HashSet<String>();
+		Set<String> activeLiveSyncComponents = new HashSet<String>();
+		Set<String> inactiveLiveSyncComponents = new HashSet<String>();
+		categorizeRelationComponents(customComponents, activeLiveSyncComponents, inactiveLiveSyncComponents,
+				relationPageResource.getChild("jcr:content"), true);
+		relationComponents.put(RELATION_CUSTOM_COMPONENTS, customComponents);
+		relationComponents.put(RELATION_INHERITED_COMPONENTS, activeLiveSyncComponents);
+		relationComponents.put(RELATION_CANC_INHERITANCE_COMPONENTS, inactiveLiveSyncComponents);
+		return relationComponents;
+	}
+
+	private static void categorizeRelationComponents(Set<String> customComponents, Set<String> activeLiveSyncComponents,
+			Set<String> inactiveLiveSyncComponents, Resource resource, boolean isParentInherited) {
+		try {
+			if (resource != null && resource.hasChildren()) {
+				Iterator<Resource> it = resource.getChildren().iterator();
+				while (it.hasNext()) {
+					Resource childResource = it.next();
+					Node node = childResource.adaptTo(Node.class);
+					if ("nt:unstructured".equals(node.getPrimaryNodeType().getName())) {
+						try {
+							if (!isParentInherited) {
+								log.info(
+										"Component {} has cancelled inheritance because parent has cancelled inheritance.",
+										childResource.getPath());
+								inactiveLiveSyncComponents.add(childResource.getPath());
+								categorizeRelationComponents(customComponents, activeLiveSyncComponents,
+										inactiveLiveSyncComponents, childResource, false);
+							} else {
+								if (childResource.isResourceType("wcm/msm/components/ghost")) {
+									log.info("Component {} is a deleted inherited component.",
+											childResource.getPath());
+									inactiveLiveSyncComponents.add(childResource.getPath());
+									categorizeRelationComponents(customComponents, activeLiveSyncComponents,
+											inactiveLiveSyncComponents, childResource, false);
+								} else {
+									Node childNode = childResource.adaptTo(Node.class);
+									if (childNode.isNodeType(PARAM_LIVE_SYNC_CANCELLED)) {
+										log.info("Component {} has cancelled inheritance.",
+												childResource.getPath());
+										inactiveLiveSyncComponents.add(childResource.getPath());
+										categorizeRelationComponents(customComponents, activeLiveSyncComponents,
+												inactiveLiveSyncComponents, childResource, false);
+									} else {
+										if (childNode.isNodeType(PARAM_LIVE_SYNC)) {
+											log.info("Component {} is inherited.", childResource.getPath());
+											activeLiveSyncComponents.add(childResource.getPath());
+											categorizeRelationComponents(customComponents, activeLiveSyncComponents,
+													inactiveLiveSyncComponents, childResource, true);
+										} else {
+											log.info("Component {} is custom.", childResource.getPath());
+											customComponents.add(childResource.getPath());
+										}
+									}
+								}
+							}
+						} catch (Exception e) {
+							log.error("PageReplicationUtil encountered error: ", e);
+						}
+					} else {
+						log.info("Skipping node {} since its not of type nt:unstructured.",
+								childResource.getPath());
+						categorizeRelationComponents(customComponents, activeLiveSyncComponents,
+								inactiveLiveSyncComponents, childResource, true);
+					}
+				}
+			}
+		} catch (RepositoryException e) {
+			log.error("PageReplicationUtil encountered error: ", e);
+		}
+	}
+
+	public static Node getDateRolloutNode(Session session, ResourceResolver resourceResolver, boolean delay)
+			throws RepositoryException {
+		Node dateRolloutNode = null;
+		Resource etcRes = resourceResolver.resolve("/etc");
+		Node etcNode = etcRes.adaptTo(Node.class);
+		Node activationsNode = null;
+		Node activationTypeNode = null;
+		String date = PageReplicationUtil.getDateRes();
+		if (etcNode.hasNode(PAGE_ACTIVATIONS_NODE)) {
+			activationsNode = etcNode.getNode(PAGE_ACTIVATIONS_NODE);
+		} else {
+			activationsNode = etcNode.addNode(PAGE_ACTIVATIONS_NODE);
+		}
+		if (delay) {
+			if (activationsNode.hasNode(DELAYED_NODE)) {
+				activationTypeNode = activationsNode.getNode(DELAYED_NODE);
+			} else {
+				activationTypeNode = activationsNode.addNode(DELAYED_NODE);
+				session.save();
+			}
+		} else {
+
+			if (activationsNode.hasNode(INSTANT_NODE)) {
+				activationTypeNode = activationsNode.getNode(INSTANT_NODE);
+			} else {
+				activationTypeNode = activationsNode.addNode(INSTANT_NODE);
+				session.save();
+			}
+		}
+		if (activationTypeNode.hasNode(date)) {
+			dateRolloutNode = activationTypeNode.getNode(date);
+		} else {
+			dateRolloutNode = activationTypeNode.addNode(date);
+			session.save();
+		}
+		return dateRolloutNode;
+	}
+
+	public static Set<String> getCouncils(MetaDataMap mdm) {
+		Set<String> councils = new HashSet<String>();
+		try {
+			Value[] values = (Value[]) mdm.get(PARAM_COUNCILS);
+			if (values != null && values.length > 0) {
+				for (Value value : values) {
+					councils.add(value.getString().trim());
+				}
+			}
+		} catch (Exception e) {
+			try {
+				Value singleValue = (Value) mdm.get(PARAM_COUNCILS);
+				if (singleValue != null) {
+					councils.add(singleValue.getString().trim());
+				}
+			} catch (Exception e1) {
+				log.error("Rollout Workflow encountered error: ", e);
+			}
+		}
+		return councils;
 	}
 }

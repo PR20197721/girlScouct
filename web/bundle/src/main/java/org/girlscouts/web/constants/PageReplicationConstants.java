@@ -29,6 +29,8 @@ public interface PageReplicationConstants {
 	public static final String PARAM_NEW_PAGE = "newPage";
 	public static final String PARAM_CRAWL = "crawl";
 	public static final String PARAM_BREAK_INHERITANCE = "breakInheritance";
+
+	public static final String PARAM_LIVE_SYNC = "cq:LiveRelationship";
 	public static final String PARAM_IS_CANCELLED_FOR_CHILDREN = "cq:isCancelledForChildren";
 	public static final String PARAM_LIVE_SYNC_CANCELLED = "cq:LiveSyncCancelled";
 	public static final String PARAM_PROP_LIVE_SYNC_CANCELLED = "cq:PropertyLiveSyncCancelled";
@@ -62,6 +64,10 @@ public interface PageReplicationConstants {
 	public static final String PARAM_CQ_IS_DEEP = "cq:isDeep";
 	public static final String PARAM_CQ_MASTER = "cq:master";
 	public static final String PARAM_CQ_LIVE_SYNC_CONFIG = "cq:LiveSyncConfig";
+
+	public static final String RELATION_CUSTOM_COMPONENTS = "customComponents";
+	public static final String RELATION_INHERITED_COMPONENTS = "inheritedComponents";
+	public static final String RELATION_CANC_INHERITANCE_COMPONENTS = "cancInheritanceComponents";
 
 	public static final int DEFAULT_PARAM_GROUP_SIZE = 1;
 	public static final int DEFAULT_PARAM_MINUTES = 5;

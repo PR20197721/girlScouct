@@ -3,7 +3,7 @@ package org.girlscouts.common.util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.girlscouts.web.wcm.foundation.Image;
+import org.girlscouts.common.wcm.foundation.Image;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;

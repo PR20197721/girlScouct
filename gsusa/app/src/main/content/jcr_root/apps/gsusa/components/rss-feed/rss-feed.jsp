@@ -23,13 +23,13 @@
 	org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
-	org.girlscouts.web.events.search.*,
+	org.girlscouts.common.events.search.*,
 	java.text.SimpleDateFormat,
 	java.util.Calendar,
 	org.apache.sling.api.SlingHttpServletRequest,
 	org.apache.sling.api.scripting.SlingBindings,
 	org.apache.commons.lang3.StringUtils,
-	org.girlscouts.web.gsusa.components.rssfeed.RssFeedPathItem
+	org.girlscouts.gsusa.components.rssfeed.RssFeedPathItem
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>

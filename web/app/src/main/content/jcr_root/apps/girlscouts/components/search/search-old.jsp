@@ -1,5 +1,5 @@
 <%@ page import="com.day.cq.wcm.foundation.Search,
-org.girlscouts.web.search.DocHit,
+org.girlscouts.common.search.DocHit,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
 com.day.cq.tagging.TagManager,
 java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
@@ -7,7 +7,7 @@ java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
 com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
 com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,
 java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.regex.*, java.text.*,
-java.util.Arrays, org.girlscouts.web.events.search.*" %>
+java.util.Arrays, org.girlscouts.common.events.search.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:setContentBundle source="page" />
 

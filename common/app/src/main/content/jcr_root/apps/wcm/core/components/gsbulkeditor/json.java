@@ -45,9 +45,9 @@ import org.apache.sling.api.resource.ResourceResolver;
 
 import org.girlscouts.web.exception.GirlScoutsException;
 import org.girlscouts.web.encryption.FormEncryption;
-import org.girlscouts.web.events.search.GSDateTime;
-import org.girlscouts.web.events.search.GSDateTimeFormat;
-import org.girlscouts.web.events.search.GSDateTimeFormatter;
+import org.girlscouts.common.events.search.GSDateTime;
+import org.girlscouts.common.events.search.GSDateTimeFormat;
+import org.girlscouts.common.events.search.GSDateTimeFormatter;
 
 
 /**

@@ -101,6 +101,7 @@
                                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                                 fieldDescription="Check the box to enable event cart."
                                                 text="Enable Event Cart"
+                                                name="./event-cart"
                                                 value="{Boolean}true"
                                 				uncheckedValue="{Boolean}false"/>
                                             <event-cart-delete

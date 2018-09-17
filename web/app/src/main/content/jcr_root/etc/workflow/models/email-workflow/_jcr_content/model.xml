@@ -25,7 +25,7 @@
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="org.girlscouts.cq.workflow.CustomProcessStep"
+                PROCESS="org.girlscouts.web.cq.workflow.CustomProcessStep"
                 PROCESS_AUTO_ADVANCE="true"
                 templatePath="/apps/girlscouts/components/contact_us_form/email-template.txt"/>
         </node1>
