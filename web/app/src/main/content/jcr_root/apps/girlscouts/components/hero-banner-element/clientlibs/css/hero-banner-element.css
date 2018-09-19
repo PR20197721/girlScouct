@@ -12,6 +12,11 @@
 	transition-duration: 250ms;
 	z-index: 0;
 	box-shadow: 0px 0px 10px 2px inset #000;
+	filter: grayscale(0%) blur(0px);
+}
+
+.heroBannerElementImagePreview.heroBannerElementConfigDisabled{
+	filter: grayscale(100%) blur(4px);
 }
 
 .heroBannerElementImagePreview:hover{

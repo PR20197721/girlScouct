@@ -8,6 +8,7 @@ Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
 Design newCurrentDesign= (Design)request.getAttribute("newCurrentDesign");
 if (newCurrentPage != null) {
     currentPage = newCurrentPage;
+	homepage = currentPage.getAbsoluteParent(2);
 }
 if (newCurrentDesign != null) {
     currentDesign = newCurrentDesign;
