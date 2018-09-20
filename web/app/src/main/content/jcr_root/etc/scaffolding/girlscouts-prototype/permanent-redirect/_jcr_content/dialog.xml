@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Scholarship"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Permanent Redirect">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Name this redirect so it is easier to lookup later. (Optional)"
+                        fieldLabel="Name"
+                        name="./jcr:content/jcr:title"
+                        xtype="textfield"/>
+                    <url
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Vanity URL"
+                        fieldDescription="Enter the short Vanity URL. e.g. for http://www.girlscouts.org/camp enter /content/gsusa/camp"
+                        name="./jcr:content/sling:vanityPath"
+                        xtype="textfield"/>
+                    <target
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Choose the target redirect page."
+                        fieldLabel="Target"
+                        name="./jcr:content/redirectTarget"
+                        xtype="pathfield"/>
+                    <res
+                   		jcr:primaryType="cq:Widget"
+                   		name="./jcr:content/sling:resourceType"
+                   		value="girlscouts/components/redirect"
+                   		xtype="hidden"/>
+                   	<hide
+                   		jcr:primaryType="cq:Widget"
+                   		name="./jcr:content/hideInNav"
+                   		value="true"
+                   		xtype="hidden"/>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>
