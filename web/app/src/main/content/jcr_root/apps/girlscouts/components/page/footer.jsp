@@ -16,6 +16,7 @@ if (newCurrentDesign != null) {
 String footerPath = homepage.getContentResource().getPath() + "/footer";
 String logoPath = homepage.getContentResource().getPath() + "/header";
 %>
+
 <!-- web/app/src/main/content/jcr_root/apps/girlscouts/components/page/footer.jsp -->
 <div class="hide-for-print">
  <!--footer menu links-->

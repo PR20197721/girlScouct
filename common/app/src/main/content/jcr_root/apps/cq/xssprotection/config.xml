@@ -48,6 +48,10 @@ http://www.w3.org/TR/html401/struct/global.html
 
 		<regexp name="onsiteURL" value="([\p{L}\p{N}\\'\s\(\).\#@\$%\+&amp;;\-_~,\?=/!]+|\#(\w)+)"/>
 		<regexp name="offsiteURL" value="(\s)*((ht|f)tp(s?)://|mailto:)[\p{L}\p{N}]+[\p{L}\p{N}\p{Zs}\.\#@\$%\+&amp;;:\-_~,\?=/!]*(\s)*"/>
+		<regexp name="hashLocation" value="\#[a-zA-Z0-9-_]+"/>
+
+		<!-- Handle Bars Values {{Element}} -->
+		<regexp name="handleBarsValue" value="\{\{[a-zA-Z0-9-_]+\}\}"/>
 
 		<regexp name="boolean" value="(true|false)"/>
 		<regexp name="singlePrintable" value="[a-zA-Z0-9]{1}"/> <!-- \w allows the '_' character -->
@@ -192,6 +196,8 @@ http://www.w3.org/TR/html401/struct/global.html
 			<regexp-list>
 				<regexp name="onsiteURL"/>
 				<regexp name="offsiteURL"/>
+				<regexp name="handleBarsValue"/>
+				<regexp name="hashLocation"/>
 			</regexp-list>
 			<literal-list>
 				<literal value="javascript:history.go(0)"/>
