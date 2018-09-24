@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:description="A large image to be placed in the main page of a website. Can also be displayed in a slideshow format"
-    jcr:primaryType="cq:Component"
-    jcr:title="Hero Banner"
-    componentGroup="Girl Scouts"
-    imageLabel="Image"/>
