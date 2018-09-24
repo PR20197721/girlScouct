@@ -129,7 +129,7 @@
 
 			var thumbnailSection = self._$element.find(_thumbnailSelector);
 			if(thumbnailSection.children().length == 0) {
-				thumbnailSection.empty().append($('<img>').attr('src', thumbnailSrc));
+				thumbnailSection.empty().append($('<img>').attr('src', thumbnailSrc).attr("onerror", "arguments[0].currentTarget.style.display='none'"));
 
 				// Find and set the parent hero banner element switch.
 				var heroBannerElement = self._$element.parents('.hero-banner-element');
@@ -366,7 +366,7 @@
 				if (file.type.indexOf("image") !== -1) {
 					(function ($thumbImage, reader) {
 						reader.onload = function(e) {
-							$thumbImage.append($("<img/>").attr("src", e.target.result));
+							$thumbImage.append($("<img/>").attr("src", e.target.result).attr("alt", " "));
 						};
 
 						reader.readAsDataURL(file);

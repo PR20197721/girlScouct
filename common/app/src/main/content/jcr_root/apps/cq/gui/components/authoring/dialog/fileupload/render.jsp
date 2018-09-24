@@ -268,7 +268,7 @@ FileUpload
                         thumbnailTitle = StringUtils.isEmpty(thumbnailTitle) ? "" : thumbnailTitle;
 
                         %><img src="<%= xssAPI.encodeForHTMLAttr(thumbnailSrc) %>"
-                               alt="<%= xssAPI.encodeForHTMLAttr(thumbnailTitle) %>"
+                               alt=" "
                                title="<%= xssAPI.encodeForHTMLAttr(thumbnailTitle) %>" /><%
                     } else if (StringUtils.isNotEmpty(thumbnailTitle)) {
                         %><p><%= xssAPI.encodeForHTML(thumbnailTitle) %></p><%

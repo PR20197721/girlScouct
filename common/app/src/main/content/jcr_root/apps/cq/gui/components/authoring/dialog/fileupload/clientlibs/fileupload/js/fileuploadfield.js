@@ -131,7 +131,7 @@
     ns.FileUploadField.prototype._appendThumbnail = function (thumbnailPath, $container) {
         var ckParam = "?:ck=" + (new Date()).getTime(); // Cache killer
         var $thumbnail = $("<img/>", {
-            "alt": thumbnailPath,
+            "alt": " ",
             "class": "cq-dd-image",
             "src": thumbnailPath + ckParam
         });
@@ -596,7 +596,7 @@
 
                 (function ($thumbnail, reader) {
                     reader.onload = function(e) {
-                        $thumbnail.append($("<img/>").attr("src", e.target.result));
+                        $thumbnail.append($("<img/>").attr("src", e.target.result).attr("alt", " "));
                     };
 
                     reader.readAsDataURL(file);

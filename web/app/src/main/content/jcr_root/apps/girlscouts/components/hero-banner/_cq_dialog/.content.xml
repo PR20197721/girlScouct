@@ -47,7 +47,7 @@
                                             <items jcr:primaryType="nt:unstructured">
                                                 <advanced
                                                         jcr:primaryType="nt:unstructured"
-                                                        jcr:title="Advanced"
+                                                        jcr:title="Main"
                                                         sling:resourceType="granite/ui/components/foundation/container">
                                                     <layout
                                                             jcr:primaryType="nt:unstructured"

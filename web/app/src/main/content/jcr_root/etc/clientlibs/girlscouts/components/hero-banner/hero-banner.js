@@ -647,8 +647,10 @@ var SlideShowManager = (function(){
 		editMode = !!setupInEditMode;
 		target[slideShowPath] = $('.' + targetClass + '[data-slide-show-path="' + slideShowPath + '"]');
 		currentSize = determineSize();
-		if(setupInEditMode){
-			$('<div>Click Here to add or Modifiy Hero Banner</div>').css({fontSize: '18px'}).insertBefore(target[slideShowPath]);
+		if(setupInEditMode) {
+			if(findBestElementsToDisplay(currentSize, slideShowPath).length < 1){
+				$('<div>Click Here to add or Modifiy Hero Banner</div>').css({fontSize: '18px'}).insertBefore(target[slideShowPath]);
+			}
 		}
 		createDisplay(false, slideShowPath);
 		
