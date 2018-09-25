@@ -13,7 +13,7 @@ var HeroBannerElementManager = (function($, ns, channel, document, window){
 			contentElement.data('displayed', true).parent()
 				.addClass('heroBannerElementContentDisplayed')
 				.find('.heroBannerElementTriangle')
-				.toggleClass('hideTriangle');
+				.removeClass('hideTriangle');
 		}
 	}
 
@@ -26,7 +26,7 @@ var HeroBannerElementManager = (function($, ns, channel, document, window){
 			contentElement.data('displayed', false).parent()
 				.removeClass('heroBannerElementContentDisplayed')
 				.find('.heroBannerElementTriangle')
-				.toggleClass('hideTriangle');
+				.addClass('hideTriangle');
 		}
 	}
 
@@ -54,6 +54,10 @@ var HeroBannerElementManager = (function($, ns, channel, document, window){
 			return;
 		}
 		dialog.data('disabled-checkbox-initialized', true);
+
+		// Initial hide all elements
+		_show(dialog.find('.heroBannerElementConfigContents'));
+		_hide(dialog.find('.heroBannerElementConfigContents'));
 
 		dialog.find('input[name="enabled"]').on('change.disable-container', function(){
 			var heroContainer = $(this).parents('.heroBannerElementContainer').find('.heroBannerElementImagePreview');

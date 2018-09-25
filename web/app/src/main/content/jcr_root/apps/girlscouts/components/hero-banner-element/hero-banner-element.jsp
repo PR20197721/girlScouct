@@ -7,14 +7,14 @@
     tag.setName("div");
 %>
 
-<div class="heroBannerElementContainer">
-    <div class="heroBannerElementTriangle heroBannerElementCollapseTriangle hideTriangle" onclick="HeroBannerElementManager.hide(this)">
+<div class="heroBannerElementContainer heroBannerElementContentDisplayed">
+    <div class="heroBannerElementTriangle heroBannerElementCollapseTriangle" onclick="HeroBannerElementManager.hide(this)">
         <svg height="32" width="201">
             <polygon points="1,31 200,31, 100,1" class="heroBannerTriangleSvg"/>
         </svg>
     </div>
     <div class="heroBannerElementImagePreview" onclick="HeroBannerElementManager.show(this)"></div>
-    <div class="heroBannerElementConfigContents">
+    <div class="heroBannerElementConfigContents" data-displayed="true">
         <%
             cmp.includeForLayout(resource, new ComponentHelper.Options().tag(tag));
         %>
