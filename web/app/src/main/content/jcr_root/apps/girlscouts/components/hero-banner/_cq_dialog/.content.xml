@@ -299,7 +299,7 @@
             </tab2>
             <first-spring-board
                 jcr:primaryType="nt:unstructured"
-                jcr:title="SprintBoard 1"
+                jcr:title="Spring Board 1"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
