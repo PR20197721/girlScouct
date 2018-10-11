@@ -1,6 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page import="com.day.cq.wcm.api.WCMMode"%>
 
+<cq:includeClientLib categories="safari-back-button-fix"/>
 <%
 boolean zip = properties.get("zip", false);
 boolean state = properties.get("state", false);

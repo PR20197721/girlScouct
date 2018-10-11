@@ -25,4 +25,5 @@
     <filter root="/apps/wcm"/>
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/girlscouts-badge"/>
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/badge-image-schema"/>
+    <filter root="/oak:index/GSTag" mode="merge"/>
 </workspaceFilter>

@@ -8,6 +8,7 @@ Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
 Design newCurrentDesign= (Design)request.getAttribute("newCurrentDesign");
 if (newCurrentPage != null) {
     currentPage = newCurrentPage;
+	homepage = currentPage.getAbsoluteParent(2);
 }
 if (newCurrentDesign != null) {
     currentDesign = newCurrentDesign;
@@ -15,6 +16,7 @@ if (newCurrentDesign != null) {
 String footerPath = homepage.getContentResource().getPath() + "/footer";
 String logoPath = homepage.getContentResource().getPath() + "/header";
 %>
+
 <!-- web/app/src/main/content/jcr_root/apps/girlscouts/components/page/footer.jsp -->
 <div class="hide-for-print">
  <!--footer menu links-->
