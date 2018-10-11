@@ -1,5 +1,3 @@
 #base=js
-
 modernizr.js
-fastclick.js
 foundation.min.js
