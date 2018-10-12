@@ -649,7 +649,7 @@ var SlideShowManager = (function(){
 		currentSize = determineSize();
 		if(setupInEditMode) {
 			if(findBestElementsToDisplay(currentSize, slideShowPath).length < 1){
-				$('<div>Click Here to add or Modifiy Hero Banner</div>').css({fontSize: '18px'}).insertBefore(target[slideShowPath]);
+				$('<div>Click Here to add or Modify Hero Banner</div>').css({fontSize: '18px'}).insertBefore(target[slideShowPath]);
 			}
 		}
 		createDisplay(false, slideShowPath);

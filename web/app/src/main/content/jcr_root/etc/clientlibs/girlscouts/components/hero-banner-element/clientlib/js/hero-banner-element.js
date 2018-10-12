@@ -50,9 +50,9 @@ var HeroBannerElementManager = (function($, ns, channel, document, window){
 
 	$(document).on("dialog-ready", function() {
 		var dialog = $("coral-dialog-content");
-		if(dialog.data('disabled-checkbox-initialized') === true){
-			return;
-		}
+//		if(dialog.data('disabled-checkbox-initialized') === true){
+//			return;
+//		}
 		dialog.data('disabled-checkbox-initialized', true);
 
 		// Initial hide all elements

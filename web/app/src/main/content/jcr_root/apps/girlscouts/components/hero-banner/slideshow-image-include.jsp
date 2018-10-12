@@ -25,7 +25,6 @@
 		}
 	}
 %>
-
 <div class="slide-show-target" data-slide-show-path="<%= resource.getPath() + "_slideshow" %>"></div>
 <script>
 	SlideShowManager.init("slide-show-target", '<%= resource.getPath() + "_slideshow" %>', <%= WCMMode.fromRequest(request) == WCMMode.EDIT %>, '<%= request.getAttribute("HeroBannerTimer").toString() %>');

@@ -1,7 +1,7 @@
 <%@include file="/libs/granite/ui/global.jsp" %>
 
 <%@ page import="com.adobe.granite.ui.components.*" %>
-
+<ui:includeClientLib categories="girlscouts.components.hero-banner-element"/>
 <%
     Tag tag = cmp.consumeTag();
     tag.setName("div");
