@@ -15,10 +15,12 @@
 	java.util.Date,
 	java.text.DateFormat,
 	org.girlscouts.common.events.search.*,
-	org.girlscouts.web.search.*" %>
+	org.girlscouts.web.search.*,
+	org.girlscouts.common.osgi.component.GirlscoutsImageTransformer" %>
 <%
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);
+GirlscoutsImageTransformer imageTransformer = sling.getService(GirlscoutsImageTransformer.class);
 %>
 <%!
 public static final int BREAKPOINT_MAX_LARGE = 1120;
