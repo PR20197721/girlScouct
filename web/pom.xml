@@ -56,14 +56,11 @@
         <module>app</module>
         <module>pdfbox-wrapper</module>
         <module>opencsv-wrapper</module>
-        <!-- Add bootstrap to changeVersion -->
-        <module>bootstrap</module>
       </modules>
     </profile>
   </profiles>
   <!-- Remember to add sub module to the changeVersion profile above as well -->
   <modules>
-    <module>../common/bundle</module>
     <module>bundle</module>
     <module>app</module>
     <module>pdfbox-wrapper</module>

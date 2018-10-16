@@ -118,7 +118,7 @@ public  String readUrlFile(String urlString) throws Exception {
             if (resProp.get("type", "").equals("video")) {
                 String videoCompPath = storyPath + "/jcr:content/video";
                 String videoPath = res.adaptTo(Node.class).getNode("video").getProperty("asset").getString();
-                String imagePath = videoPath + "/jcr:content/renditions/cq5dam.thumbnail.319.319.png";
+                String imagePath = gsImagePathProvider.getImagePath(videoPath,"cq5dam.thumbnail.319.319");
                 String description = resProp.get("description", "");
                 String modalId = "modal-" + Integer.toString((int)(Math.random() * 900) + 100);
                 %>

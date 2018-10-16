@@ -22,6 +22,7 @@ public class LocalImageTagWorker implements ITagWorker {
 	private HtmlImage image = null;
 
 	public LocalImageTagWorker(IElementNode element, ProcessorContext context) {
+
 		ResourceResolver resourceResolver = BadgePDFGeneratorServlet.resolverLocal.get();
 
 		// TODO@MK : Find a better way to reference the rendition when we decide which ones to use.

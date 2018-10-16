@@ -25,10 +25,12 @@
 	com.day.cq.search.PredicateGroup,
 	com.day.cq.search.QueryBuilder,
 	com.day.cq.search.result.Hit,
-	javax.jcr.query.RowIterator" %>
+	javax.jcr.query.RowIterator,
+	org.girlscouts.common.osgi.component.GirlscoutsImagePathProvider" %>
 <%
 Page currentHomepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = currentHomepage.getContentResource().adaptTo(ValueMap.class);
+GirlscoutsImagePathProvider gsImagePathProvider = sling.getService(GirlscoutsImagePathProvider.class);
 %>
 <%!
 private static Logger log = LoggerFactory.getLogger("gsusa.components.global");
