@@ -16,7 +16,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
         <div class="welcome-video-slider"><%
             for (String image : images) {
                 %><div>
-                    <img src="<%= getImageRenditionSrc(resourceResolver, image, "cq5dam.npd.top.") %>" data-at2x="<%= getImageRenditionSrc(resourceResolver, image, "cq5dam.npd.top@2x.") %>" alt="" />
+                    <img src="<%= gsImagePathProvider.getImagePath(image,"cq5dam.npd.top") %>" data-at2x="<%= gsImagePathProvider.getImagePath(image,"cq5dam.npd.top@2x") %>" alt="" />
                 </div><%
             }
         %></div>

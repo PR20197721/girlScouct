@@ -134,14 +134,8 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 	if (renditionStr == null) return null;
 	StringBuffer returnImage = new StringBuffer("<img ");
 	try {
-		boolean isOriginal = false;
-		Asset asset = getImageAsset(rr, imagePath);
-		Rendition rendition = asset.getRendition(new PrefixRenditionPicker(renditionStr));
-		if (rendition == null) {
-		    isOriginal = true;
-		    rendition = asset.getOriginal();
-		}
-		String src = "src=\"" + rendition.getPath() + "\" ";
+		Asset asset = getImageAsset(rr, imagePath);		
+		String src = "src=\"" + gsImagePathProvider.getImagePath(asset,renditionStr) + "\" ";
 	    if(altString==null || altString.isEmpty()){
 			altString="image description unavailable";
 		}
@@ -154,14 +148,6 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 		String height = "";
         if (imageWidth > 0) {
             width = "width=\"" + imageWidth + "\" ";
-        } else {
-			if (isOriginal) {
-			    String[] renditionParams = renditionStr.split("\\.");
-			    if (renditionParams.length >= 4) {
-					width = "width=\"" + renditionParams[2] + "\" ";
-					height = "height=\"" + renditionParams[3] + "\" ";
-			    }
-			}
         }
 		
 		String css = "";

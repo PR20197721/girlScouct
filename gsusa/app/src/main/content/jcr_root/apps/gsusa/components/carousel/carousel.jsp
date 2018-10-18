@@ -213,7 +213,7 @@ public  String readUrlFile(String urlString) throws Exception {
                         </div><%
                     } else {
                         %><a href="<%=link[i]%>" title="<%=title[i]%>" <%=openInNewWindow[i]%>>
-                            <img src="<%= getImageRenditionSrc(resourceResolver, imagePath[i], "cq5dam.npd.top.")%>" alt="<%=alt[i]%>" class="slide-thumb tag_explore_image_hero_<%=i%>"/>
+                            <img src="<%= gsImagePathProvider.getImagePath(imagePath[i],"cq5dam.npd.top")%>" alt="<%=alt[i]%>" class="slide-thumb tag_explore_image_hero_<%=i%>"/>
                         </a><%
                     }
                 %></li><%

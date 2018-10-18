@@ -95,8 +95,8 @@
         } else{
 			Node imageNode = propNode.getNode("image");
         	imageSrc = imageNode.getProperty("fileReference").getString();
-        	image2xSrc = gsImagePathProvider.getImagePath(asset,"cq5dam.npd.tile@2x");
-            imageSrc = gsImagePathProvider.getImagePath(asset,"cq5dam.npd.tile");
+        	image2xSrc = gsImagePathProvider.getImagePath(imageSrc,"cq5dam.npd.tile@2x"); 
+            imageSrc = gsImagePathProvider.getImagePath(imageSrc,"cq5dam.npd.tile");
         }
 
     } catch(Exception e){

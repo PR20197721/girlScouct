@@ -94,7 +94,7 @@ for (int i = 0 ; i < 4; i++ ){
 		}
 	} else if ("path".equals(videoType5[i])) {
 		String videoPath = properties.get("videoPath5" + i, "");
-		videoThumbNail[i] = videoPath + "/jcr:content/renditions/cq5dam.thumbnail.319.319.png";
+		videoThumbNail[i] = gsImagePathProvider.getImagePath(videoPath,"cq5dam.thumbnail.319.319");
 
 		//add video node
 		if (currentNode != null) {

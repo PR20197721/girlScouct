@@ -30,7 +30,7 @@ if (image == null) {
 	}
 	String id = generateId();
 	final String resPath = resource.getPath();
-    String imageRendition = getImageRenditionSrc(resourceResolver, filePath, getResourceLocation(resource));
+    String imageRendition = gsImagePathProvider.getImagePathByLocation(filePath,resource);
                                              
 	%><script>
         $(document).ready(function () {

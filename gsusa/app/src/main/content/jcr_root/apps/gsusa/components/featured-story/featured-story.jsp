@@ -58,7 +58,7 @@
 <%
 if(theme.equals("classic")) {
 	try {
-		bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.hero.");
+		bg = gsImagePathProvider.getImagePath(bg,"cq5dam.npd.hero");
 	} catch (Exception e) {}
 %>
 <section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
@@ -80,7 +80,7 @@ if(theme.equals("classic")) {
 <%
 } else if(theme.equals("colorless")) {
         try {
-                bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.top.");
+                bg = gsImagePathProvider.getImagePath(bg,"cq5dam.npd.top");
         } catch (Exception e) {}
 %>
 
@@ -145,7 +145,7 @@ if(theme.equals("classic")) {
 <%
 } else if(theme.equals("shop")){
         try {
-            bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.right.");
+            bg = gsImagePathProvider.getImagePath(bg,"cq5dam.npd.right");
         } catch (Exception e) {}
 %>
 <section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
@@ -165,7 +165,7 @@ if(theme.equals("classic")) {
 <%
 } else if(theme.equals("social")){
         try {
-                bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.right.");
+                bg =  gsImagePathProvider.getImagePath(bg,"cq5dam.npd.right");
         } catch (Exception e) {}
 %>
 <section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
@@ -185,7 +185,7 @@ if(theme.equals("classic")) {
 <%
 } else if(theme.equals("video")){
         try {
-                bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.middle.");
+                bg = gsImagePathProvider.getImagePath(bg,"cq5dam.npd.middle");
         } catch (Exception e) {}
 %>
 <section class="story video<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">

@@ -206,7 +206,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	                        String articleImagePath = "";
 	                        ValueMap articleImageVm = resourceResolver.resolve(vm.get("link", "") + "/jcr:content/image").adaptTo(ValueMap.class);
 	                        if (articleImageVm != null && !articleImageVm.get("fileReference", "").isEmpty()) {
-	                            articleImagePath = articleImageVm.get("fileReference", "") + "/_jcr_content/renditions/cq5dam.npd.hero.jpeg"; 
+	                            articleImagePath = gsImagePathProvider.getImagePath(articleImageVm.get("fileReference", ""),"cq5dam.npd.hero"); 
 	                        } else {
 	                            articleImagePath = imagePath;
 	                        }
