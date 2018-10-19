@@ -229,7 +229,7 @@ if(null!=srchInfo) {
 							} else{
 								imgPath = propNode.getPath() + "/image";
 								%>
-								<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.240.240") %>
+								<%= gsImagePathProvider.getImagePath(imgPath,"cq5dam.web.240.240") %> 
 							<% } %>
 						</div>
 						<div class="rightCol">

@@ -29,10 +29,12 @@ public void setImage(JSONObject event, Node node, ResourceResolver rr){
 			imgPath = node.getProperty("jcr:content/data/thumbImage").getString();
 		} else if(node.hasNode("jcr:content/data/image")){
 			imgPath = node.hasProperty("jcr:content/data/image/fileReference") ? node.getProperty("jcr:content/data/image/fileReference").getString() : "";
-		} else{
-			imgPath = node.getPath() + "/image";
-			displayRendition(rr, imgPath, "cq5dam.web.240.240");
-		} 
+		}
+// 		} else{
+// 			imgPath = node.getPath() + "/image";
+// 			displayRendition(rr, imgPath, "cq5dam.web.240.240");
+// 		} 
+		imgPath = gsImagePathProvider.getImagePath(imgPath, "cq5dam.web.240.240");
 		event.put("imgPath", imgPath);
 	}catch(Exception e){}
 }

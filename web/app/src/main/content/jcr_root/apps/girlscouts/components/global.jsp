@@ -17,10 +17,13 @@
 	org.girlscouts.common.events.search.*,
 	org.girlscouts.web.search.*,
 	org.girlscouts.common.osgi.component.GirlscoutsImagePathProvider" %>
+<%! GirlscoutsImagePathProvider gsImagePathProvider;%>
+	
+
 <%
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);
-GirlscoutsImagePathProvider gsImagePathProvider = sling.getService(GirlscoutsImagePathProvider.class);
+gsImagePathProvider = sling.getService(GirlscoutsImagePathProvider.class);
 %>
 <%!
 public static final int BREAKPOINT_MAX_LARGE = 1120;

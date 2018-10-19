@@ -62,7 +62,7 @@
         <artifactId>content-package-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <group>org.girlscouts.web.girlscouts-common</group>
+          <group>org.girlscouts.web.common</group>
           <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
           <properties>
             <acHandling>Overwrite</acHandling>

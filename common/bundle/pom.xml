@@ -191,7 +191,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Bundle-SymbolicName>org.girlscouts.web.girlscouts-common-bundle</Bundle-SymbolicName>
+            <Bundle-SymbolicName>org.girlscouts.web.common-bundle</Bundle-SymbolicName>
             <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
             <Import-Package>
               !com.google.common.reflect,
