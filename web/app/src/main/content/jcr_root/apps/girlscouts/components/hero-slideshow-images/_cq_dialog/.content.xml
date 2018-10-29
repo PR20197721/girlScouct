@@ -7,259 +7,213 @@
         jcr:primaryType="nt:unstructured"
         sling:resourceType="granite/ui/components/foundation/container">
         <layout
-            jcr:primaryType="nt:unstructured"
-            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
-            type="nav"/>
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+                type="nav"/>
         <items jcr:primaryType="nt:unstructured">
             <regular-image
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Regular Image"
-                sling:resourceType="granite/ui/components/foundation/container">
-                <layout
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                    jcr:title="Regular Image"
+                    sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
                 <items jcr:primaryType="nt:unstructured">
                     <columns
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/container">
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <imagesize
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./regular/imagesize"
-                                value="regular"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                    name="regular/imagesize"
+                                    value="regular"/>
                             <file
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-                                autoStart="{Boolean}false"
-                                class="cq-droptarget"
-                                fieldLabel="Image asset"
-                                fileNameParameter="./regular/fileName"
-                                fileReferenceParameter="./regular/fileReference"
-                                mimeTypes="[image]"
-                                multiple="{Boolean}false"
-                                name="./regular/file"
-                                title="Upload Image Asset"
-                                uploadUrl="${suffix.path}"
-                                useHTML5="{Boolean}true"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                    autoStart="{Boolean}false"
+                                    class="cq-droptarget"
+                                    fieldLabel="Image asset"
+                                    fileNameParameter="./regular/fileName"
+                                    fileReferenceParameter="./regular/fileReference"
+                                    mimeTypes="[image]"
+                                    multiple="{Boolean}false"
+                                    name="regular/file"
+                                    title="Upload Image Asset"
+                                    uploadUrl="${suffix.path}"
+                                    useHTML5="{Boolean}true"/>
                             <video-url
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="Vimeo or Youtube Video URL"
-                                fieldLabel="Video URL"
-                                name="./regular/videoUrl"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                    fieldDescription="Vimeo or Youtube Video URL"
+                                    fieldLabel="Video URL"
+                                    name="regular/videoUrl"/>
                         </items>
                     </columns>
                 </items>
             </regular-image>
             <medium-screen-image
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Medium Screen Image"
-                sling:resourceType="granite/ui/components/foundation/container">
-                <layout
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                    jcr:title="Medium Screen Image"
+                    sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
                 <items jcr:primaryType="nt:unstructured">
                     <columns
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/container">
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <imagesize
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./medium/imagesize"
-                                value="medium"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                    name="medium/imagesize"
+                                    value="medium"/>
                             <file
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-                                autoStart="{Boolean}false"
-                                class="cq-droptarget"
-                                fieldLabel="Image asset"
-                                fileNameParameter="./medium/fileName"
-                                fileReferenceParameter="./medium/fileReference"
-                                mimeTypes="[image]"
-                                multiple="{Boolean}false"
-                                name="./medium/file"
-                                title="Upload Image Asset"
-                                uploadUrl="${suffix.path}"
-                                useHTML5="{Boolean}true"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                    autoStart="{Boolean}false"
+                                    class="cq-droptarget"
+                                    fieldLabel="Image asset"
+                                    fileNameParameter="./medium/fileName"
+                                    fileReferenceParameter="./medium/fileReference"
+                                    mimeTypes="[image]"
+                                    multiple="{Boolean}false"
+                                    name="medium/file"
+                                    title="Upload Image Asset"
+                                    uploadUrl="${suffix.path}"
+                                    useHTML5="{Boolean}true"/>
                             <video-url
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="Vimeo or Youtube Video URL"
-                                fieldLabel="Video URL"
-                                name="./medium/videoUrl"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                    fieldDescription="Vimeo or Youtube Video URL"
+                                    fieldLabel="Video URL"
+                                    name="medium/videoUrl"/>
                         </items>
                     </columns>
                 </items>
             </medium-screen-image>
             <small-screen-image
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Small Screen Image"
-                sling:resourceType="granite/ui/components/foundation/container">
-                <layout
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                    jcr:title="Small Screen Image"
+                    sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
                 <items jcr:primaryType="nt:unstructured">
                     <columns
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/container">
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <imagesize
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./small/imagesize"
-                                value="small"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                    name="small/imagesize"
+                                    value="small"/>
                             <file
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-                                autoStart="{Boolean}false"
-                                class="cq-droptarget"
-                                fieldLabel="Image asset"
-                                fileNameParameter="./small/fileName"
-                                fileReferenceParameter="./small/fileReference"
-                                mimeTypes="[image]"
-                                multiple="{Boolean}false"
-                                name="./small/file"
-                                title="Upload Image Asset"
-                                uploadUrl="${suffix.path}"
-                                useHTML5="{Boolean}true"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                    autoStart="{Boolean}false"
+                                    class="cq-droptarget"
+                                    fieldLabel="Image asset"
+                                    fileNameParameter="./small/fileName"
+                                    fileReferenceParameter="./small/fileReference"
+                                    mimeTypes="[image]"
+                                    multiple="{Boolean}false"
+                                    name="small/file"
+                                    title="Upload Image Asset"
+                                    uploadUrl="${suffix.path}"
+                                    useHTML5="{Boolean}true"/>
                             <video-url
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="Vimeo or Youtube Video URL"
-                                fieldLabel="Video URL"
-                                name="./small/videoUrl"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                    fieldDescription="Vimeo or Youtube Video URL"
+                                    fieldLabel="Video URL"
+                                    name="small/videoUrl"/>
                         </items>
                     </columns>
                 </items>
             </small-screen-image>
             <advanced
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Advanced"
-                sling:resourceType="granite/ui/components/foundation/container">
-                <layout
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                    jcr:title="Advanced"
+                    sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
                 <items jcr:primaryType="nt:unstructured">
                     <columns
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/container">
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <sort-order
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/select"
-                                fieldDescription="(Select sort order of this banner)"
-                                fieldLabel="Sort Order"
-                                name="./sortOrder"
-                                value="">
-                                <items jcr:primaryType="nt:unstructured">
-                                    <zero
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Not Assigned"
-                                        value=""/>
-                                    <one
-                                        jcr:primaryType="nt:unstructured"
-                                        text="1"
-                                        value="1"/>
-                                    <two
-                                        jcr:primaryType="nt:unstructured"
-                                        text="2"
-                                        value="2"/>
-                                    <three
-                                        jcr:primaryType="nt:unstructured"
-                                        text="3"
-                                        value="3"/>
-                                    <four
-                                        jcr:primaryType="nt:unstructured"
-                                        text="4"
-                                        value="4"/>
-                                    <five
-                                        jcr:primaryType="nt:unstructured"
-                                        text="5"
-                                        value="5"/>
-                                    <six
-                                        jcr:primaryType="nt:unstructured"
-                                        text="6"
-                                        value="6"/>
-                                    <seven
-                                        jcr:primaryType="nt:unstructured"
-                                        text="7"
-                                        value="7"/>
-                                    <eight
-                                        jcr:primaryType="nt:unstructured"
-                                        text="8"
-                                        value="8"/>
-                                </items>
-                            </sort-order>
                             <alt
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="(Leave empty to use the title defined above)"
-                                fieldLabel="Alt Text"
-                                name="./alt"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                    fieldDescription="(Leave empty to use the title defined above)"
+                                    fieldLabel="Alt Text"
+                                    name="./alt"/>
                             <linkURL
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="girlscouts/components/form/pathfield"
-                                fieldDescription="Drop files or pages from the Content Finder"
-                                fieldLabel="Link to"
-                                name="./linkURL"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="girlscouts/components/form/pathfield"
+                                    fieldDescription="Drop files or pages from the Content Finder"
+                                    fieldLabel="Link to"
+                                    name="./linkURL"/>
                             <newWindow
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                checked="{Boolean}true"
-                                name="./newWindow"
-                                text="Open In New Window"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                    checked="{Boolean}true"
+                                    name="./newWindow"
+                                    text="Open In New Window"
+                                    value="{Boolean}true"
+                                    uncheckedValue="{Boolean}false"/>
                             <newwindow-delete
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./newWindow@Delete"
-                                value="{Boolean}true"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                    name="./newWindow@Delete"
+                                    value="{Boolean}true"/>
                             <newwindow-type
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                name="./isHidden@TypeHint"
-                                value="Boolean"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                    name="./isHidden@TypeHint"
+                                    value="Boolean"/>
                             <regular-size
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
-                                fieldLabel="Regular Size">
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
+                                    fieldLabel="Regular Size">
                                 <width
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./regular/width"/>
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        name="regular/width"/>
                                 <height
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./regular/height"/>
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        name="regular/height"/>
                             </regular-size>
                             <medium-screen-size
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
-                                fieldLabel="Medium Screen Size">
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
+                                    fieldLabel="Medium Screen Size">
                                 <width
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./medium/width"/>
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        name="medium/width"/>
                                 <height
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./medium/height"/>
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        name="medium/height"/>
                             </medium-screen-size>
                             <small-screen-size
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
-                                fieldLabel="Small Screen Size">
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
+                                    fieldLabel="Small Screen Size">
                                 <width
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./small/width"/>
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        name="small/width"/>
                                 <height
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    name="./small/height"/>
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        name="small/height"/>
                             </small-screen-size>
                         </items>
                     </columns>

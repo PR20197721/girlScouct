@@ -81,17 +81,8 @@ public class PagesReferencesReportServlet extends SlingAllMethodsServlet impleme
 					if (target != null && !target.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 						if (target.isResourceType("cq:Page")) {
 							pagePaths.add(path);
-						} else {
-							int level = getLevel(path);
-							if (level > 4) {
-								pagePaths = getPages(target);
-							} else {
-								List<String> row = new ArrayList<String>();
-								row.add("Selected folder could have negative implications on server performance. Please select a folder "
-										+ (5 - level) + " level/s down.");
-								table.add(row);
-							}
 						}
+						pagePaths.addAll(getPages(target));
 					}
 					ReferenceSearch referenceSearch = new ReferenceSearch();
 					referenceSearch.setExact(true);
@@ -185,7 +176,7 @@ public class PagesReferencesReportServlet extends SlingAllMethodsServlet impleme
 	private List<String> getPages(Resource resource) {
 		List<String> results = new ArrayList<String>();
 		if (resource != null && !resource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-			if (resource.isResourceType("sling:OrderedFolder")) {
+			if (resource.isResourceType("cq:Page")) {
 				Iterable<Resource> children = resource.getChildren();
 				Iterator<Resource> it = children.iterator();
 				if (it != null) {
