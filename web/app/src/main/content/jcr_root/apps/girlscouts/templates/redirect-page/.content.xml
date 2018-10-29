@@ -7,5 +7,5 @@
     ranking="{Long}40">
     <jcr:content
         jcr:primaryType="cq:PageContent"
-        sling:resourceType="foundation/components/redirect"/>
+        sling:resourceType="girlscouts/components/redirect"/>
 </jcr:root>

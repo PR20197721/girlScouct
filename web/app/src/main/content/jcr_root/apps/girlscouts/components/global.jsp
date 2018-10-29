@@ -14,7 +14,8 @@
 	java.util.Calendar,
 	java.util.Date,
 	java.text.DateFormat,
-	org.girlscouts.common.events.search.*" %>
+	org.girlscouts.common.events.search.*,
+	org.girlscouts.web.search.*" %>
 <%
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);

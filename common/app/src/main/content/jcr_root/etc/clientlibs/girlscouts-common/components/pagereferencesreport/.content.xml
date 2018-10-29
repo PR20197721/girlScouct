@@ -3,5 +3,6 @@
     jcr:mixinTypes="[mix:lockable]"
     jcr:primaryType="cq:ClientLibraryFolder"
     sling:resourceType="widgets/clientlib"
-    categories="[cq.authoring.editor,safari-back-button-fix]"
-    dependencies="[]"/> 
+    categories="[granite.ui.coral.foundation, common.components.pagereferencesreport]"
+    jsProcessor="[default:none, min:gcc]"
+    dependencies="[]"/>
