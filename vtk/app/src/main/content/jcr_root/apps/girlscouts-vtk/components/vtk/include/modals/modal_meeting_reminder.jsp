@@ -13,7 +13,8 @@
   <% }else {%>
   <%@include file="/apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp" %>  
   <%} %>
-  </div><!--/scroll-->
+  </div>
+  <!-- /scroll -->
 </div>
 
 

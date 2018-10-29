@@ -40,6 +40,7 @@ public class NodeListener implements EventListener {
 
         public void onStart(Agent agent, ReplicationAction action) {
             // Do nothing
+     System.err.println("alex onStart..") ;  	
         }
 
         public void onMessage(Level level, String msg) {
@@ -108,19 +109,23 @@ public class NodeListener implements EventListener {
     
     public void onEvent(EventIterator iter) {
 
+
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
         String affectedTroop = null;
         String affectedCouncilInfo = null;
 
         for (NodeEvent event : events) {
             String path = event.getPath();
+
             if (path.endsWith("jcr:content")) {
                 continue;
             }
+
             int type = event.getType();
 
             try {
                 if (type == Constants.EVENT_UPDATE) {
+
                     replicator.replicate(session, ReplicationActionType.ACTIVATE, path, syncOpts);
                 } else if (type == Constants.EVENT_REMOVE){
                     replicator.replicate(session, ReplicationActionType.DELETE, path, syncOpts);

@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/apps/girlscouts-vtk"/>
+    <filter root="/apps/girlscouts-vtk">
+        <exclude pattern="/apps/girlscouts-vtk/components/vtk/financeAdmin.jsp"/>
+        <exclude pattern="/apps/girlscouts-vtk/components/vtk/finances.jsp"/>
+    </filter>
     <filter root="/content/girlscouts-vtk/controllers"/>
     <filter root="/content/girlscouts-vtk/en"/>
-    <filter root="/etc/designs/girlscouts-vtk"/>
+    <filter root="/etc/designs/girlscouts-vtk">
+        <exclude pattern="/etc/designs/girlscouts-vtk/clientlibs.juno"/>
+    </filter>
     <filter root="/etc/scaffolding/girlscouts-vtk"/>
     <!-- Mike Z. Don't deploy the vtk-publish once it is setup. -->
     <!-- <filter root="/etc/replication/agents.publish/vtk-publish"/> -->
+    <filter root="/etc/map.author/vtk-data"/>
+    <filter root="/etc/map.author/myvtk"/>
+    <filter root="/etc/map.author/vtk-resources2"/>
     <filter root="/etc/map.publish/vtk-data"/>
     <filter root="/etc/map.publish/myvtk"/>
+    <filter root="/etc/map.publish/vtk-resources2"/>
     <filter root="/etc/map.publish.dev/vtk-data"/>
     <filter root="/etc/map.publish.dev/myvtk"/>
+    <filter root="/etc/map.publish.dev/vtk-resources2"/>
     <filter root="/etc/map.publish.stage/vtk-data"/>
     <filter root="/etc/map.publish.stage/myvtk"/>
+    <filter root="/etc/map.publish.stage/vtk-resources2"/>
     <filter root="/etc/map.publish.uat/vtk-data"/>
     <filter root="/etc/map.publish.uat/myvtk"/>
+    <filter root="/etc/map.publish.uat/vtk-resources2"/>
     <filter root="/etc/map.publish.prod/vtk-data"/>
     <filter root="/etc/map.publish.prod/myvtk"/>
+    <filter root="/etc/map.publish.prod/vtk-resources2"/>
     <filter root="/etc/map.publish.prod.preview/vtk-data"/>
     <filter root="/etc/map.publish.prod.preview/myvtk"/>
+    <filter root="/etc/map.publish.prod.preview/vtk-resources2"/>
     <filter root="/content/vtk-maintenance"/>
     <filter root="/content/girlscouts-demo"/>
     <!-- Mike Z. Don't deploy the vtk-publish once it is setup. -->
     <!-- <filter root="/content/vtk-demo"/> -->
+    <filter root="/apps/dam/gui/content/vtk-assets"/>
+    <filter root="/apps/dam/gui/components/admin/page/vtkcontentchecker"/>
 </workspaceFilter>

@@ -29,12 +29,13 @@
     </repository>
   </repositories>
   <dependencies>
-    <dependency>
-      <groupId>com.adobe.aem</groupId>
-      <artifactId>uber-jar</artifactId>
-      <classifier>apis</classifier>
-      <scope>provided</scope>
-    </dependency>
+<dependency>
+        <groupId>com.adobe.aem</groupId>
+        <artifactId>uber-jar</artifactId>
+        <version>6.3.1</version>
+        <classifier>apis</classifier>
+        <scope>provided</scope>
+      </dependency>
     <dependency>
       <groupId>org.girlscouts.vtk</groupId>
       <artifactId>modified-checker-bundle</artifactId>
@@ -97,17 +98,24 @@
       <artifactId>day-commons-durbo</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>com.adobe.granite</groupId>
-      <artifactId>com.adobe.granite.replication.core</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
+
+<dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <scope>provided</scope>
     </dependency>
+
+
+<dependency>
+    <groupId>com.adobe.granite</groupId>
+    <artifactId>com.adobe.granite.replication.core</artifactId>
+    <version>6.2.26-CQ630-B0001</version>
+    <scope>provided</scope>
+</dependency>
+  
   </dependencies>
+
+  
   <!-- ====================================================================== -->
   <!-- B U I L D D E F I N I T I O N -->
   <!-- ====================================================================== -->
@@ -132,8 +140,35 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-replication-bundle</Bundle-SymbolicName>
-            <Private-Package>com.day.cq.replication.impl,com.day.cq.replication.impl.queue,com.day.cq.replication.impl.content.durbo, com.day.cq.replication.impl.bl</Private-Package>
+            <Private-Package>com.day.cq.replication.impl.distribution,com.day.cq.replication.impl,com.day.cq.replication.impl.queue,com.day.cq.replication.impl.content.durbo, com.day.cq.replication.impl.bl</Private-Package>
             <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+<Import-Package>
+	com.day.jcr.vault;resolution:=optional,
+	javax.jcr,
+	javax.jcr.*,
+org.slf4j.*,
+org.apache.log4j,
+org.osgi.service.component,
+org.osgi.service.component.*,
+org.osgi.service.event,
+org.osgi.service.event.*,
+org.girlscouts.vtk.helpers.*,
+org.apache.commons.httpclient.*,
+org.apache.sling.commons.scheduler.*,
+org.apache.sling.jcr.api.*,
+org.girlscouts.vtk.*,
+javax.servlet.*,
+com.day.durbo.io.*,
+org.apache.sling.api.servlets.*,
+org.apache.sling.api.*,
+com.day.cq.replication.*,
+org.apache.commons.io.output.*,
+org.apache.jackrabbit.util.*,
+org.apache.commons.io.*,
+com.day.durbo.*,
+org.xml.sax.*
+
+</Import-Package>
           </instructions>
         </configuration>
       </plugin>

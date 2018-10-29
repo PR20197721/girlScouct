@@ -1,11 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@ page import="java.util.*,
+	org.girlscouts.vtk.auth.models.ApiConfig,
+	org.girlscouts.vtk.models.*,
+	org.girlscouts.vtk.dao.*,
+	org.girlscouts.vtk.ejb.*,
+	org.girlscouts.vtk.auth.dao.SalesforceDAO"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 <%@include file="../session.jsp"%>
 <% 
-	java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
-	String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+request.getParameter("mid");
+
+	java.util.List<Contact>contacts = new SalesforceDAO(troopDAO, connectionFactory, sessionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+	String YEAR_PLAN_EVENT="meetingEvents";
+	String eventType= request.getParameter("eType");
+	if( eventType!=null && eventType.equals("ACTIVITY") )
+			YEAR_PLAN_EVENT="activities";
+	
+	String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/"+YEAR_PLAN_EVENT+"/"+request.getParameter("mid");
+
 	Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
 	Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
 
@@ -17,7 +29,7 @@
 %>
 <div class="modal-attendance">
 	<div class="header clearfix">
-		<h3 class="columns large-22">Attendance and Achievements</h3>
+		<h3 class="columns large-22">Attendance <%="meetingEvents".equals(YEAR_PLAN_EVENT) ? " and Achievements" : "" %></h3>
 		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 	</div>
 	<div class="scroll">
@@ -32,7 +44,7 @@
 							<%
 								if( showAchievement ) {
 							%>
-								<th>Achievement Earned</th>
+									<th>Achievement Earned</th>
 							<%
 								}
 							%>
@@ -40,23 +52,24 @@
 					</thead>
 					<tbody>
 						<%
-							for(int i=0;i<contacts.size();i++){
-								if(contacts.get(i).getId()!=null){
+							for( Contact contact : contacts ){
+								if(contact.getId()!=null  && 
+									(contact.getRole()!=null && contact.getRole().trim().toUpperCase().equals("GIRL") )){
 						%> 
 								<tr>
 									<td>
-										<p><%=contacts.get(i).getFirstName() %></p>         
+										<p><%=contact.getFirstName() %></p>         
 									</td>
 									<td>
-										<input type="checkbox"  <%= ( !isAttendance || (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) ) )  ? "checked" : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>" onclick="setDefaultAchievement(this.checked, 'c<%=contacts.get(i).getId() %>')">
-										<label for="a<%=contacts.get(i).getId() %>"></label>
+										<input type="checkbox"  <%= ( !isAttendance || (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contact.getId()) ) )  ? "checked" : "" %> name="attendance" id="a<%=contact.getId() %>" value="<%=contact.getId() %>" onclick="setDefaultAchievement(this.checked, 'c<%=contact.getId() %>')">
+										<label for="a<%=contact.getId() %>"></label>
 									</td>
 									<%
 									 if( showAchievement ){
 									%>
 									<td>
-										<input type="checkbox"  <%= ( !isAchievement  || (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId())) )  ? "checked" : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
-										<label for="c<%=contacts.get(i).getId() %>"></label>
+										<input type="checkbox"  <%= ( !isAchievement  || (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contact.getId())) )  ? "checked" : "" %> name="achievement" id="c<%=contact.getId() %>" value="<%=contact.getId() %>">
+										<label for="c<%=contact.getId() %>"></label>
 									</td>
 									<%
 											}
@@ -68,13 +81,12 @@
 						%>
 					</tbody>
 				</table>        
-				<input type="button" value="Save"  class="btn button right" onclick="updateAttendAchvm('<%=request.getParameter("mid")%>')"/>
+				<input type="button" value="Save"  class="btn button right" onclick="updateAttendAchvm('<%=request.getParameter("mid")%>','<%=request.getParameter("eType")%>')"/>
 			</form>
 		</div>
 	</div>
 </div>
 <script>
-  //attendance_popup_width();
 	function setDefaultAchievement(checkedState, achievementId) {
 		if (!checkedState) {
 			if ($("#" + achievementId).length > 0) {

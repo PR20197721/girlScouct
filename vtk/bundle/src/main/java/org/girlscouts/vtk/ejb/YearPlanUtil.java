@@ -463,8 +463,18 @@ public class YearPlanUtil {
 		milestones.add(m);
 	}
 	
-	public void GSMonthlyDetailedRpt(){
-		councilDAO.GSMonthlyDetailedRpt();
+	public void GSMonthlyDetailedRpt(String year){
+		councilDAO.GSMonthlyDetailedRpt(year);
 	}
 	
+	public void GSRptCouncilPublishFinance(){
+		councilDAO.GSRptCouncilPublishFinance();
+	}
+	
+	public void test(){}
+	
+	public YearPlan getYearPlanJson(String yearPlanPath){
+
+		return yearPlanDAO.getYearPlanJson(yearPlanPath);
+	}
 }// edn class

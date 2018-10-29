@@ -18,6 +18,7 @@ import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
+import org.girlscouts.vtk.ejb.SessionFactory;
 import org.girlscouts.vtk.helpers.TroopHashGenerator;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.osgi.service.component.ComponentContext;
@@ -48,6 +49,9 @@ public class ReplicationManager {
      
     @Reference
     private Replicator replicator;
+
+    @Reference
+   private SessionFactory sessionFactory;
     
     // TODO: should I leave this?
     // All methods called here are static, but keeping this reference might help
@@ -65,10 +69,12 @@ public class ReplicationManager {
 
     @Activate
     protected void activate(ComponentContext context) throws Exception {
+	
         listeners = new ArrayList<EventListener>();
         
         // Login repository
-        session = repository.loginAdministrative(null);
+       session = repository.loginAdministrative(null);
+       // session = sessionFactory.getSession();
         
         // Generate paths to monitor
         String year = Integer.toString(vtkUtil._getCurrentGSYear());
@@ -76,8 +82,13 @@ public class ReplicationManager {
         // Add /vtk(year)
         String yearPlanBase = vtkUtil._getYearPlanBase(null, null);
         monitorPaths.add(yearPlanBase);
+        // Add /vtk(previous year)
+        String previousYear = Integer.toString(vtkUtil.getCurrentGSYear() - 1);
+        monitorPaths.add("/vtk" + previousYear + "/");
         // Add /content/dam/girlscouts-vtk/troop-data(year)
         monitorPaths.add(Constants.DAM_PATH + year);
+        // Add /vtkreplication for resources2
+        monitorPaths.add("/vtkreplication");
 
         // Setup the listener
         if (repository.getDescriptor(Repository.OPTION_OBSERVATION_SUPPORTED)

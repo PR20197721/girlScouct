@@ -38,6 +38,7 @@ var $ = jQuery.noConflict();
   }
 */
 
+
 	function modal_height_on_open() {
 	  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
 			var window_h = $(window).height();
@@ -57,10 +58,11 @@ var $ = jQuery.noConflict();
 	}
 
 	function modal_height_resize() {
-  	var window_h = $(window).height();
-  	var popup_h = (window_h - 75);
+  		var window_h = $(window).height();
+  		var popup_h = (window_h - 75);
 		$('.scroll').css('max-height' , popup_h + 'px');
-		$('.modalWrap').css('max-height' , $(window).height()+'px');
+		$('.modalWrap').css('max-height', $(window).height() + 'px');
+		$('.ui-dialog').css('left', $(window).width()<920?0:($(window).width() - 920) / 2 )
 		//adding a heights to popups with two scrollable content.
 		$('.scroll_2').css('max-height', ($(window).height()-75)-$('.scroll_1').height() + 'px');
 	}
@@ -119,15 +121,20 @@ var $ = jQuery.noConflict();
 //	  $(document).ready(function() {
 	  	 $(document).foundation({
 	  	  reveal : {
-	  	     animation: 'fade',
+				  animation: 'fade',
 	  	     root_element: 'window',
-	  	     close_on_background_click: false,
+				 close_on_background_click: false,
+				 opened: function () {
+					var window_h = $(window).height();
+					var popup_h = (window_h - 75);
+					$('#modal_popup').find('.scroll').css('max-height' , popup_h + 'px'); 
+				  },
 	  	     open: function () {
 	  	     	$('body').css({'overflow':'hidden'});
      		  	if (navigator.userAgent.match(/msie/i) ) {
      		  		// alert(navigator.userAgent.match(/msie/i));
-     	        add_placeholdersIE9();
-     	      }
+     	        	add_placeholdersIE9();
+						}
 	  	     },
 	  	     close: function () {
 	  	     	$('body').css({'overflow':'inherit'})
@@ -178,7 +185,7 @@ var VTKDataWorker;
     function _VTKDataWorker(path, that, success, interval) {
     	this.path = path;
     	this.that = that;
-    	this.success = success;
+    	this.successResponse = success;
     	this.interval = interval;
     	this.url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;
     	this.shouldSkipFirst = _checkShouldSkipFirst();
@@ -195,17 +202,23 @@ var VTKDataWorker;
 		    }
 		}
 		
+		if (typeof VTKDataWorkerShouldSkipNextPoll !== 'undefined' && VTKDataWorkerShouldSkipNextPoll) {
+			VTKDataWorkerShouldSkipNextPoll = false;
+			return;
+		}
+		
+	
         $.ajax({
             url: url,
             dataType: 'json',
-            success: function(data, textStatus, jqXHR){      	
+            success: function(data, textStatus, jqXHR){   
                 var eTag = jqXHR.getResponseHeader("ETag");
                 if (eTag) {
                 	this.eTag = eTag;
                 }
                 // Only call the callback if the status code is 200.
-                if (this.success && jqXHR.status == 200) {
-                    this.success.apply(this.that, arguments);
+                if (this.successResponse && jqXHR.status == 200) {
+                    this.successResponse(data)
                 }
             }.bind(this),
             beforeSend: function(request) {
@@ -228,3 +241,162 @@ var VTKDataWorker;
     // Expose the function to global namespace
     VTKDataWorker = _VTKDataWorker;
 })();
+
+
+
+/* 	
+	CALL ABND APPEND THE  DOME WITH HTML ELEMENTS AND TRIGGER THE SLIDER
+*/
+
+function callExecuteBannerSlider(tabNavLoaded) {
+
+	tabNavLoaded = tabNavLoaded || new $.Deferred().resolve();
+
+	function processVtkBannerResponse(result) {
+
+		if ($("#vtk_banner2234").data('cached') === 'no') {
+			$("#vtk_banner2234").show();
+		}
+
+		var htmlResults = $(result[0]);
+		var vtkBannerSections = htmlResults.find('.vtk-banner.section');
+
+		//REMOVE BANNERS THAT ARE DISABLED.
+		vtkBannerSections.each(function (x, y) {
+			if ($(y).find('.vtk-banner-disabled').length) {
+				$(this).remove();
+			}
+		});
+
+		//APPEND TO THE  BANNER
+		$("#vtk_banner2234").append(htmlResults);
+
+		//CLOSE BANNER
+		$('.vtk-banner-button').click(function () {
+			$.ajax({
+				url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
+				dataType: 'html',
+			}).done(function () {
+				$('.vtk-banner-image').slideUp();
+			})
+		});
+
+
+		//VTK BANNER SLIDER SETTING
+		$('.vtk-banner-container').slick({
+			slidesToScroll: 1,
+			adaptiveHeight: true,
+			autoplaySpeed: 10000,
+			autoplay: true,
+		});
+
+	}
+
+	var bannerLoaded = $.ajax({
+		url: '/content/vtkcontent/en/vtk-banner.simple.html',
+		type: 'GET',
+		dataType: 'html',
+		data: {
+			a: Date.now()
+		}
+	});
+
+	$.when(bannerLoaded, tabNavLoaded).then(processVtkBannerResponse);
+
+}
+
+function callFoundationModal(e,id) {
+	$(document).foundation();
+	e.preventDefault();
+	console.log('#' + id)
+
+	// $(e.target).trigger('click')
+
+		$('#'+id).foundation('reveal', 'open');
+}
+
+
+
+function setHeigthPropertiesToBanner(p){
+
+	var image = $(p).find('.banner-image');
+	var scroll = $(p).find('.scroll-banner');
+	var height = $(window).height();
+	var modalwidth = $(p).innerWidth();
+	var	imageHeight = image.height();
+	scroll.css(
+		{
+			'maxHeight':$(window).height()-imageHeight-75+'px',
+			'overflow-y':'auto'
+		}
+	);
+}
+
+
+$(function(){
+
+	var TIME_FOR_LOG_OUT_IN_MINUTES = 10;
+
+	var signOutModal = new ModalVtk('Signout',true);
+
+	signOutModal.init();
+
+	function singOut(timeinminutes, _this) {
+
+		var timeoutId = undefined, secondTimeOutId = undefined, timeinmillisecond = timeinminutes * 60 * 1000;
+
+		function startTimeout() {
+			timeoutId = setTimeout(goInactive, timeinmillisecond);
+		}
+
+		function init() {
+
+			window.addEventListener("mousedown", resetTimeout, false);
+			window.addEventListener("keypress", resetTimeout, false);
+			window.addEventListener("DOMMouseScroll", resetTimeout, false);
+			window.addEventListener("mousewheel", resetTimeout, false);
+			startTimeout();
+		}
+
+		function goInactive() {
+			clearTimeout(timeoutId);
+			window.removeEventListener("mousedown", resetTimeout, false);
+			window.removeEventListener("keypress", resetTimeout, false);
+			window.removeEventListener("DOMMouseScroll", resetTimeout, false);
+			window.removeEventListener("mousewheel", resetTimeout, false);
+			secondTimeOutId = setTimeout(onCB, 30000 /* in millisecons */);
+			signOutModal.confirm('LOGGING OUT', '<p>You are about to be automatically logged out due to inactivity. Please click "CANCEL" to continue working.</p>', onCB, cCBack);
+		}
+
+		function onCB(){
+			girlscouts.components.login.signOut();
+		}
+
+		function cCBack() {
+			
+			clearTimeout(secondTimeOutId);
+			init();
+			signOutModal.close();
+		}
+
+		function resetTimeout() {
+			clearTimeout(timeoutId);
+			startTimeout();
+		}
+
+		init();
+	}
+
+	if(!~document.cookie.indexOf('wcmmode')){ //Return Boolean
+		singOut(TIME_FOR_LOG_OUT_IN_MINUTES, this);
+	}
+
+})
+
+// Re-Foundation on page load and dom load for modals that were added dynamically.
+$(function(){
+	$(document).foundation();
+});
+$(window).load(function(){
+	$(document).foundation();
+});

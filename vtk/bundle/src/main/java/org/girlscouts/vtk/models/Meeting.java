@@ -22,7 +22,7 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	@Field
 	private String level, blurb, cat;
 	@Field
-	private String aidTags, resources, agenda;
+	private String aidTags, resources, agenda, req, reqTitle;
 	@Field
 	private Integer position=0;
 	@Field private Boolean isAchievement; 
@@ -36,11 +36,11 @@ public class Meeting extends YearPlanComponent implements Serializable {
 
 	
 	@Field
-	private String meetingPlanType;
+	private String meetingPlanType, meetingPlanTypeAlt;
 	
 	
 	@Field
-	private String catTags;
+	private String catTags, catTagsAlt;
 	
 	
 	
@@ -173,6 +173,22 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	
 
 	
+	public String getCatTagsAlt() {
+		return catTagsAlt;
+	}
+
+	public void setCatTagsAlt(String catTagsAlt) {
+		this.catTagsAlt = catTagsAlt;
+	}
+
+	public String getMeetingPlanTypeAlt() {
+		return meetingPlanTypeAlt;
+	}
+
+	public void setMeetingPlanTypeAlt(String meetingPlanTypeAlt) {
+		this.meetingPlanTypeAlt = meetingPlanTypeAlt;
+	}
+
 	public static Object getStaticValue(final String className, final String fieldName) throws SecurityException, NoSuchFieldException, ClassNotFoundException,
     IllegalArgumentException, IllegalAccessException {
 
@@ -183,6 +199,22 @@ field.setAccessible(true);
 // Return the Obect corresponding to the field
 return field.get(Class.forName(className));
 }
+
+	public String getReq() {
+		return req;
+	}
+
+	public void setReq(String req) {
+		this.req = req;
+	}
+
+	public String getReqTitle() {
+		return reqTitle;
+	}
+
+	public void setReqTitle(String reqTitle) {
+		this.reqTitle = reqTitle;
+	}
 
 
 	

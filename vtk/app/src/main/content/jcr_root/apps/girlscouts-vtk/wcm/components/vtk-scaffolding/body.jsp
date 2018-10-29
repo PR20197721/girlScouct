@@ -329,13 +329,30 @@
                         params[":nameHint"] = hint;
                     }
                 }
-                
+
                 /****************************************
                 // Customize code to add level
                 ****************************************/
-                
+              
+ 
+                     for( var fields=0; fields< myForm.getForm().items.items.length;fields++){
+						var type = frm.findField(myForm.getForm().items.items[fields].id).getValue();
+                        if(  type != undefined && (typeof type =='string') && !Array.isArray(type)  ){
+                        	var yy = frm.findField(myForm.getForm().items.items[fields].id).getValue();
+                        	 if( (!yy.startsWith("[") && !yy.endsWith("]"))&&
+                                     frm.findField(myForm.getForm().items.items[fields].id).getName()!= undefined &&
+                                     frm.findField(myForm.getForm().items.items[fields].id).getName().indexOf("@") ==-1){
+     									frm.findField(myForm.getForm().items.items[fields].id).setValue(replaceWordChars(yy));
+                             }
+                         }
+                     }
+               
+
+
+
                 if(!isUpdate){
 					var level = frm.findField("./level").getValue().toLowerCase();
+
                 	var type = frm.findField("./ocm_classname").getValue();
                 	var id;
                 	if (type === 'org.girlscouts.vtk.models.YearPlan') {
@@ -349,7 +366,7 @@
 	                girlscouts.functions.createPath(destDir, 'nt:unstructured');
 	                var destUrl = destDir + '/' + id;
 	                frm.url = destUrl;
-	                
+
 	                // Check if node already exists.
 	                var http = CQ.shared.HTTP;
         			var response = http.get(http.externalize(destUrl + '.1.json'));
@@ -369,6 +386,7 @@
                 	url:  '/bin/vtk-scaffolding-post',
                     params: params,
                     success: function(frm, resp) {
+
                         var contentPath = resp.result["Path"];
                         var url = CQ.HTTP.externalize(contentPath);
                         if (pageMode) {
@@ -420,5 +438,32 @@
         myForm.getForm().findField(0).focus();
         window.scrollTo(0,0);
     });
+
+     function replaceWordChars(text) {
+
+    var s = text;
+    // smart single quotes and apostrophe
+    s = s.replace(/[\u2018\u2019\u201A]/g, "\'");
+
+
+
+    // smart double quotes
+    s = s.replace(/[\u201C\u201D\u201E]/g, "\"");
+    // ellipsis
+    s = s.replace(/\u2026/g, "...");
+    // dashes
+    s = s.replace(/[\u2013\u2014]/g, "-");
+    // circumflex
+    s = s.replace(/\u02C6/g, "^");
+    // open angle bracket
+    s = s.replace(/\u2039/g, "<");
+    // close angle bracket
+    s = s.replace(/\u203A/g, ">");
+    // spaces
+    s = s.replace(/[\u02DC\u00A0]/g, " ");
+
+    return s;
+
+}
 </script>
 </body>

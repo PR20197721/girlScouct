@@ -20,7 +20,7 @@
 	<h6>Address List</h6>
 	
 	<ul class="small-block-grid-3">
-	  <li>
+	  <li style="width:100%">
 	    <input type="checkbox" id="email_to_gp" checked />
 	    <label for="email_to_gp"><p>Parents / Caregivers</p></label>
 	  </li>
@@ -180,7 +180,7 @@
 	  	</dd>
 	</dl>
 	<div class="right clearfix">
-		<input type="button" value="Send email" class="button btn" onclick="this.disabled=true;sendEmail();"/>
+		<input type="button" value="Send email" class="button btn" onclick="this.disabled=true; <%=user.getApiConfig().isDemoUser() ? "" : "sendEmail()"%>";"/>
 	</div>
 	<div id="added">
 		<p>Added to email.</p>

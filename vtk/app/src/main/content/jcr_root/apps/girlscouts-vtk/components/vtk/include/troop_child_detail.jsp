@@ -35,7 +35,7 @@
              <li class="row">                           
               <p><strong>Secondary Info:</strong></p>
               <div class="row">
-                <span class="column large-5"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
+                <span class="column large-5" style="word-wrap:break-word;"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
                  <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
                            <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon-mail"></i><%=contactSub.getEmail() %></a>
                 <%} %>
@@ -66,7 +66,7 @@
           </p>
          </li>
          <li class="row">
-          <p><strong>Meetings Attended:</strong></p>
+          <p><strong> Attendance:</strong></p>
           <p>
           <% for(int y=0;y<infos.size();y++) {
               if(infos.get(y).isAttended()) {
@@ -84,18 +84,22 @@
              if(  apiConfig!=null && !apiConfig.isDemoUser() ){
               if( troop.getTroop().getRole().equals("PA")  ){
                %>
-                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
+                <%if(VtkUtil.isRenewMembership(contact.getMembershipYear())){%>
+                	<a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
+                <%}%>
+                
                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">UPDATE CONTACT INFO</a>
                 <%         
               }else{
                 %>
-                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
+                <%if(VtkUtil.isRenewMembership(contact.getMembershipYear())){%>
+                	<a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
+                	<%}%>
                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>
                 <% 
               }
              }else{
                  %>
-                 <a href="javascript:void(0)" class="button" disabled=true>RENEW NOW</a>
                  <a href="javascript:void(0)" class="button" disabled=true>UPDATE CONTACT INFO</a>
                 <% 
              }

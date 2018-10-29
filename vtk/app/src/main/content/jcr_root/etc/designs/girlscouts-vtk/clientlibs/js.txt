@@ -1,5 +1,15 @@
 #base=js
 
+#TEST
+react.js
+react-dom.js
+
+
+
+vtk-yp-app.js
+vtk-mtg-plan.js
+
+
 jquery-ui.js
 jquery.dialogOptions.js
 jquery.ui.touch-punch.min.js
@@ -14,11 +24,11 @@ resources.js
 jquery.jscroll.min.js
 moment.min.js
 moment-timezone.js
-JSXTransformer-0.12.1.js
+#JSXTransformer-0.12.1.js
 jquery.validate.js
+promise.js
 jquery-print.js
 vtk-global.js
-jquery.imgareaselect.js
 binaryajax.js
 exif.js
 inputmask.js
@@ -30,9 +40,13 @@ jquery.ui.touch-punch.min.js
 jquery.maskMoney.js
 jquery.ui.datepicker.validation.js
 jquery.validate.js
+jquery.imgareaselect.js
 
 ## use for prod
-  react-with-addons-0.12.2.min.js
+  #react-with-addons-0.12.2.min.js
 
 ## use for dev
 #react-with-addons-0.12.2.js
+
+
+

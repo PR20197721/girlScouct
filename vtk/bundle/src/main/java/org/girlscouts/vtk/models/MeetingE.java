@@ -54,11 +54,20 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	@Bean( autoUpdate = false) 
 	Achievement achievement;
 	
-	//@Bean( autoUpdate = false)  
+
 	@Collection(autoRetrieve =true, autoInsert =true) java.util.List<Note> notes;
 	
-	boolean isAnyOutdoorActivityInMeeting = false, isAnyOutdoorActivityInMeetingAvailable= false;
+	boolean isAnyOutdoorActivityInMeeting = false, isAnyOutdoorActivityInMeetingAvailable= false,
+			isAllMultiActivitiesSelected=false;
     
+	public boolean isAllMultiActivitiesSelected() {
+		return isAllMultiActivitiesSelected;
+	}
+
+	public void setAllMultiActivitiesSelected(boolean isAllMultiActivitiesSelected) {
+		this.isAllMultiActivitiesSelected = isAllMultiActivitiesSelected;
+	}
+
 	private boolean isDbUpdate=false;
 	public java.util.Date getLastAssetUpdate() {
 		return lastAssetUpdate;

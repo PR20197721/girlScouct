@@ -59,6 +59,24 @@
                             jcr:primaryType="nt:unstructured"
                             text="Junior"
                             value="junior"/>
+
+							<multilevel
+							                            jcr:primaryType="nt:unstructured"
+							                            text="Multi-level"
+							                            value="Multi-level"/>
+							                            <cadette
+                            jcr:primaryType="nt:unstructured"
+                            text="Cadette"
+                            value="Cadette"/>
+                        <ambassador
+                            jcr:primaryType="nt:unstructured"
+                            text="Ambassador"
+                            value="Ambassador"/>
+                        <senior
+                            jcr:primaryType="nt:unstructured"
+                            text="Senior"
+                            value="Senior"/>
+
                     </options>
                 </level>
                 <desc

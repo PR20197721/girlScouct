@@ -343,7 +343,7 @@
       }
     }
     #theMeeting {
-      padding-bottom:20px;
+      padding-bottom:10px;
     }
   }
   #mainContent.welcome-page {
@@ -375,20 +375,27 @@
     &#sub-nav {
       text-transform:uppercase;
       margin-top: 10px;
-      margin-bottom: 10px;
+      // margin-bottom: 10px;
       float: left;
       > li {
         border-right: solid 1px;
         margin-right: 5px;
         margin-left:0;
         padding-right: 5px;
-        line-height: 1;
+        // line-height: 1;
+        // display: inline-block;
+
         &:last-child {
           border:none;
         }
         a {
           font-size: 0.75em;
         }
+      }
+
+      > li.second-type{
+        border:none;
+        text-transform: capitalize;
       }
     }
   }
@@ -432,13 +439,14 @@
 
     #showHideReveal {
       position: relative;
-      padding-left: 15px;
       line-height: 46px;
       color: $green_light;
       cursor:pointer;
       margin-bottom: 5px;
       display: table-cell;
       vertical-align: middle;
+      font-size: 18px !important;
+      
       &:after {
         position: relative;
         content: "";
@@ -699,6 +707,7 @@
         text-transform: uppercase;
         font-size: 24px;
         display: inline-block;
+        padding-right: 40px;
       }
       a,
       [class*=" icon-"],
@@ -948,6 +957,7 @@
     }
   }
   //modals per JQ UI
+  .ui-dialog { z-index: 2000 !important; }
   .ui-dialog.modalWrap {
     padding:0;
     border-radius:0;
@@ -1267,7 +1277,7 @@
               }
             }
             td {
-              padding:14px;
+              padding:9px;
               border:solid 1px #ccc;
               &:hover {
                 background: #cfefde;
@@ -1287,8 +1297,19 @@
             padding-right: 3px;
           }
         }
+
+        table{
+          tr{
+            td{
+              padding: 9px !important;
+            }
+          }
+        }
       }
     }
+
+
+
     #frmCalElem_1 {
       margin-top:20px;
     }
@@ -1472,6 +1493,28 @@
     }
   }
   .browseMeetingAids {
+    td{
+      word-break: break-all;
+      a.previewItem.LINK{
+        width: 100%;
+        // white-space: nowrap;
+        // overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .vtk-oudoor-table-view{
+      padding-left:1px;
+      padding-right: 1px;
+    }
+    .browseMeetingAidsImage{
+      img{
+        max-width: none;
+        width: auto;
+      }
+    }
+
+
     a, p, span, input {
       font-size: 14px;
     }
@@ -1943,7 +1986,7 @@
     }
     &.pdf {
       &:before {
-        background-position:-30px 0;
+        background-position:-29px 0;
       }
     }
     &.docx,
@@ -2039,6 +2082,20 @@
   #thePlan .notice {
     margin: 40px 0;
     text-align: center;
+  
+    
+  }
+
+  #thePlan {
+    img._requirement_modal{
+      background-color: white;
+      -webkit-box-shadow: 6px 6px 30px -6px rgba(0,0,0,0.75);
+      -moz-box-shadow: 6px 6px 30px -6px rgba(0,0,0,0.75);
+      box-shadow: 6px 6px 30px -6px rgba(0,0,0,0.75);
+      cursor: pointer;
+      padding: 2px;
+      border-radius: 8px;
+    }
   }
 
   #mainContent .error {
@@ -2360,8 +2417,8 @@ input[type="file"] {
 }
 @media only screen and (min-width: 60.063em) {
   .vtk-body .reveal-modal {
-    margin-left: -30%;
-    width: 60%;
+    margin-left: -461px;
+    width:920px;
   }
   .right-off-canvas-menu  {
     visibility: hidden !important;
@@ -2375,14 +2432,45 @@ input[type="file"] {
 }
 
 
-@import 'vtk-button';
-@import 'vtk-archive';
-@import 'vtk-notes';
-@import 'vtk-modal';
-@import 'vtk-meeting-filter';
-@import 'vtk-component-dropdown-checkbox';
-@import 'vtk-meeting-calendar';
-@import 'vtk-meetings';
-@import 'vtk-banner';
-@import 'vtk-react';
-@import 'vtk-troop-tab';
+//Rewrite Modal in all circuntances
+.reveal-modal{
+  &.open{
+    z-index: 2000;
+  }
+}
+
+.past_years{
+  margin: 10px auto;
+  float: left;
+    a{
+      font-size: 0.80em;
+      padding-left: 5px;
+    }
+}
+
+
+
+//New CSS imports Module Imports
+@import 'vtk-button'; //button
+@import 'vtk-archive'; //Archives
+@import 'vtk-notes'; //VtkNotes
+@import 'vtk-modal'; //VtkModal 
+@import 'vtk-meeting-filter'; //Meeting Filter
+@import 'vtk-component-dropdown-checkbox'; //DropDown in the for demo
+@import 'vtk-meeting-calendar'; //Meeting calendar in the Year plan
+@import 'vtk-meetings'; //Meetings
+@import 'vtk-banner'; //Banner in year plan
+@import 'vtk-react'; //react css
+@import 'vtk-troop-tab'; 
+@import 'vtk-direct-calendar'; //Meetings
+@import 'vtk-resource-page'; 
+@import 'vtk-icons'; //Icons
+@import 'vtk_resource_overview'; // Resources
+
+
+
+#linkToYplan{
+ margin-right: 60px !important;
+ border-right:none !important;
+ margin-top: -1px ; 
+}

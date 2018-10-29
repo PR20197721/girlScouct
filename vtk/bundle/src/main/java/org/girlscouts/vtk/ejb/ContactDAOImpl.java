@@ -13,6 +13,7 @@ import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.vtk.dao.ContactDAO;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Troop;
@@ -30,23 +31,25 @@ public class ContactDAOImpl implements ContactDAO {
 			throws IllegalStateException, IllegalAccessException {
 
 		// TODO PERMISSIONS HERE
-		Session mySession = null;
+		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Contact.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 
-			if (mySession.itemExists(contact.getPath())) {
+			if( session.itemExists(contact.getPath())) {
 				ocm.update(contact);
 			} else {
 				JcrUtils.getOrCreateByPath(
 						contact.getPath().substring(0,
 								contact.getPath().lastIndexOf("/")),
-						"nt:unstructured", mySession);
+						"nt:unstructured", session);
 				ocm.insert(contact);
 			}
 			ocm.save();
@@ -55,7 +58,10 @@ public class ContactDAOImpl implements ContactDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				sessionFactory.closeSession(mySession);
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				if (session != null)
+					session.logout();
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -66,16 +72,17 @@ public class ContactDAOImpl implements ContactDAO {
 	public Contact retreive(User user, Troop troop, String contactId)
 			throws IllegalStateException, IllegalAccessException {
 		// TODO PERMISSIONS HERE
-
-		Session mySession = null;
+		ResourceResolver rr= null;
+		Session session = null;
 		Contact contact = null;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Contact.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 
 			QueryManager queryManager = ocm.getQueryManager();
@@ -92,8 +99,10 @@ public class ContactDAOImpl implements ContactDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (sessionFactory != null)
-					sessionFactory.closeSession(mySession);
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				if (session != null)
+					session.logout();
 			} catch (Exception es) {
 				es.printStackTrace();
 			}

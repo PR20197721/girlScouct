@@ -134,5 +134,12 @@ public interface MeetingDAO {
 	public Note getNote(User user, Troop troop, String nid)
 			throws IllegalAccessException ;
 	
-	//public java.util.List<Meeting> getMeetings(int gsYear);
+	public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException;
+	public List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException;
+	public boolean removeAttendance(User user, Troop troop, 
+			Attendance attendance);
+	public boolean removeAchievement(User user, Troop troop, 
+			Achievement achievement);
+	
+	
 }

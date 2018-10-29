@@ -24,7 +24,7 @@
 	<h6>Address List</h6>
 	
 	<ul class="small-block-grid-3">
-	  <li>
+	  <li style="width:100%">
 	    <input type="checkbox" id="email_to_gp" checked />
 	    <label for="email_to_gp"><p>Parents / Caregivers</p></label>
 	  </li>

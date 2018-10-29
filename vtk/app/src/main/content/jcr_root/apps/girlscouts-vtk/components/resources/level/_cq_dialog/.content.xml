@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    extraClientlibs="[apps.girlscouts-vtk.components.resources.level]"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        jcr:title="VTK Resources"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+        <items jcr:primaryType="nt:unstructured">
+		    <button jcr:primaryType="nt:unstructured"
+				jcr:title="button"
+		 		sling:resourceType="granite/ui/components/foundation/container">
+		  		<layout
+			   		jcr:primaryType="nt:unstructured"
+			   		sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+		  		<items jcr:primaryType="nt:unstructured">
+		          	<columns
+		              	jcr:primaryType="nt:unstructured"
+		              	sling:resourceType="granite/ui/components/foundation/container">
+		              	<items jcr:primaryType="nt:unstructured"> 
+		   				<upload-button
+		   					jcr:primaryType="nt:unstructured"
+		  						sling:resourceType="girlscouts-vtk/components/resources/vtkresourceuploadbutton"/>
+		  				</items>
+		  			</columns>
+		  		</items>	           	
+		  	</button>
+		    <content
+		        jcr:primaryType="nt:unstructured"
+		        sling:resourceType="granite/ui/components/foundation/container">
+		        <layout
+		            jcr:primaryType="nt:unstructured"
+		            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+		            type="nav"/>
+		        <items jcr:primaryType="nt:unstructured">
+		            <first
+		                jcr:primaryType="nt:unstructured"
+		                jcr:title="VTK Resources"
+		                sling:resourceType="granite/ui/components/foundation/container">
+		                <layout
+		                    jcr:primaryType="nt:unstructured"
+		                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+		                <items jcr:primaryType="nt:unstructured">
+		                    <columns
+		                        jcr:primaryType="nt:unstructured"
+		                        sling:resourceType="granite/ui/components/foundation/container">
+		                    <items jcr:primaryType="nt:unstructured">
+		                    		<icon jcr:primaryType="nt:unstructured" sling:hideResource="{Boolean}true"/>
+		                            <title
+		                                jcr:primaryType="nt:unstructured"
+		                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+		                                fieldLabel="Category Title"
+		                                name="./title"/>
+		                            <multi
+		                            	jcr:primaryType="nt:unstructured"
+		  								sling:resourceType = "granite/ui/components/coral/foundation/form/multifield"
+		   								composite = "true"
+		   								fieldDescription="Only the first 16 resources in this section will appear in the VTK to volunteers. This number includes national resources which are in your view but non-editable. You may change the order of your council items by clicking the up/down arrows."
+		                                fieldLabel="Links">
+		   								<field
+		   									jcr:primaryType="nt:unstructured"
+											sling:resourceType = "granite/ui/components/coral/foundation/container"
+											class="coral-Table--bordered"
+		    								name = "./items">
+		    								<items jcr:primaryType="nt:unstructured">		   		    								 		
+		    									<id
+		      										jcr:primaryType="nt:unstructured"
+		        									sling:resourceType = "granite/ui/components/coral/foundation/form/hidden"
+		        									name = "id"/>							
+				    							<title
+		      										jcr:primaryType="nt:unstructured"
+		        									sling:resourceType = "granite/ui/components/coral/foundation/form/textfield"
+		        									fieldLabel="Title"
+		        									name = "title"
+		        									required="true"/>
+			        							<type
+		      										jcr:primaryType="nt:unstructured"
+		        									sling:resourceType = "granite/ui/components/coral/foundation/form/select"
+		        									fieldLabel="Type"
+		        									name = "type"
+		        									required="true">
+		        									<items jcr:primaryType="nt:unstructured">
+		        										<link jcr:primaryType="nt:unstructured" text="Link" value="link"/>
+		        										<pdf jcr:primaryType="nt:unstructured" text="PDF" value="pdf"/>
+		        										<video jcr:primaryType="nt:unstructured" text="Video" value="video"/>
+		        										<download jcr:primaryType="nt:unstructured" text="Download" value="download"/>
+		        										<list jcr:primaryType="nt:unstructured" text="List" value="list"/>
+		        										<meeting-overview jcr:primaryType="nt:unstructured" text="Meeting Overview" value="meeting-overview"/>
+		        									</items>
+		        								</type>
+			        							<uri
+		      										jcr:primaryType="nt:unstructured"
+		        									sling:resourceType = "/apps/girlscouts/components/form/pathfield"
+		        									fieldLabel="URI"
+		        									class="resource-uri"
+		        									rootPath = "/content/dam-resources2" 
+		        									name = "uri"/>
+		        							</items>
+		        						</field>
+		        					</multi>
+		                        </items>
+		                    </columns>
+		                </items>
+		            </first>
+		        </items>
+		    </content>
+		</items>
+	</content>
+</jcr:root>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <properties
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Modal"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <financial-summary
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Financial Summary"
+                                name="./finsum1"/>
+                            <review-and-publish1
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Review and Publish Line 1"
+                                name="./reviewandpublish1"/>
+                            <review-and-publish2
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Review and Publish Line 2"
+                                name="./reviewandpublish2"/>
+                            <TL-Income-Expense-Instruction
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="TL Income Expense Instruction"
+                                name="./incomeexpenseinst"/>
+                            <TL-Message-about-parent-view
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="TL Message about parent view"
+                                name="./messageabout"/>
+                            <TL-preview-instruction-1
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="TL preview instructions 1"
+                                name="./tlpreviewinst1"/>
+                            <TL-preview-instruction-2
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="TL preview instructions 2"
+                                name="./tlpreviewinst2"/>
+                            <financial-summary2
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Notes and Questions"
+                                name="./finsum2"/>
+                            <document-attachments
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Document Attachments"
+                                name="./documentattachments"/>
+                            <setup-tip-title
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Set Up Tip Title"
+                                name="./setuptiptitle"/>
+                            <setup-tip-last-updated
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Set Up Tip Last Updated"
+                                name="./setuptiplastupdated"/>
+                            <setup-tip jcr:primaryType="nt:unstructured" fieldLabel="Text"
+								sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+								useFixedInlineToolbar="true" customStart="false" height="{Long}300"
+								name="./setuptip">
+								<rtePlugins jcr:primaryType="nt:unstructured"
+									sling:resourceSuperType="girlscouts-vtk/components/richtext-config/rtePlugins" />
+								<specialCharsConfig jcr:primaryType="nt:unstructured"
+									sling:resourceSuperType="ggirlscouts-vtk/components/richtext-config/specialCharsConfig" />
+								<uiSettings jcr:primaryType="nt:unstructured"
+									sling:resourceSuperType="girlscouts-vtk/components/richtext-config/uiSettings" />
+							</setup-tip>
+                        </items>
+                    </columns>
+                </items>
+            </properties>
+        </items>
+    </content>
+</jcr:root>
