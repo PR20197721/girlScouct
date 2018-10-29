@@ -63,7 +63,6 @@
   <modules>
     <!-- For mvn clean: not to remove rubygems -->
     <module>selective-clean</module>
-    <module>../common/bundle</module>
     <module>bundle</module>
     <module>app</module>
   </modules>
