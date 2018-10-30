@@ -19,18 +19,14 @@ public String generateId() {
 final String text = properties.get("text", "");
 final String resultsPath = properties.get("results", "");
 Resource image = resource.getChild("image");
-String filePath = "";
 if (image == null) {
 	if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 		%> *** Please select an image *** <%
 	}
 } else {
-	if (image != null) {
-		filePath = ((ValueMap)image.adaptTo(ValueMap.class)).get("fileReference", "");
-	}
 	String id = generateId();
 	final String resPath = resource.getPath();
-    String imageRendition = gsImagePathProvider.getImagePathByLocation(filePath,resource);
+    String imageRendition = gsImagePathProvider.getImagePathByLocation(image);
                                              
 	%><script>
         $(document).ready(function () {

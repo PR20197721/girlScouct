@@ -17,11 +17,14 @@
 
 --%><%@ page import="com.day.cq.commons.Doctype,
     com.day.cq.wcm.api.components.DropTarget,
-    org.girlscouts.common.wcm.foundation.gsusa.Image, com.day.cq.wcm.foundation.Placeholder" %><%
-%><%@include file="/libs/foundation/global.jsp"%><%
+    com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
+%>
+<%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%><%
 	String divId = "cq-image-jsp-" + resource.getPath();
 	%><div id="<%= divId %>"><%
 	    Image image = new Image(resource);
+	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
 	  	try{
 		    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
 		

@@ -20,12 +20,13 @@
     com.day.cq.wcm.api.components.DropTarget,
     com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
 %><%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts.components.textimage" /><%
     boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
 
 
     Image image = new Image(resource, "image");
-
+    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
     // don't draw the placeholder in case UI mode touch it will be handled afterwards
     if (isAuthoringUIModeTouch) {
         image.setNoPlaceholder(true);
