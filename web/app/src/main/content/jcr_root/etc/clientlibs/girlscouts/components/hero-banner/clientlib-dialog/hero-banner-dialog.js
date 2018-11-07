@@ -27,18 +27,17 @@
 	    	    backdrop:'static',
 	    	    variant: 'warning',
 	    	    header: {
-	    	      innerHTML: 'Warning!'
+	    	      innerHTML: 'Delete Banner'
 	    	    },
 	    	    content: {
-	    	      innerHTML: '<p>Are you sure?</p>'
+	    	      innerHTML: '<p>Are you sure you want to delete this banner?</p>'
 	    	    },
 	    	    footer: {
-	    	      innerHTML: '<button id="removeYesButton" is="coral-button" variant="warning">Yes</button><button is="coral-button" variant="warning" coral-close>No</button>'
+	    	      innerHTML: '<button id="removeYesButton" is="coral-button" variant="warning">Delete</button><button is="coral-button" variant="warning" coral-close>Cancel</button>'
 	    	    }
 	    	});
 	    	dialog.on('coral-overlay:close', function(event) {
 	    		dialog.remove();
-	    		//$(".pageinfo-unpublish-confirm")[0].show();
 	    	});
 	    	dialog.on('click', '#removeYesButton', function() {	   				
 	    		$(el).closest("coral-multifield-item").remove();
