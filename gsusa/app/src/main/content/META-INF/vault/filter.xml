@@ -7,8 +7,6 @@
     <filter root="/etc/designs/gsusa/images"/>
     <filter root="/etc/designs/gsusa/dropdown_data"/>
     <filter root="/etc/designs/gsusa/favicon.ico"/>
-    <filter root="/etc/workflow/models/dam/update_asset"/>
-    <filter root="/etc/workflow/scripts/gsusa"/>
     <filter root="/etc/dam/video/hq"/>
     <filter root="/etc/scaffolding/gsusa"/>
     <filter root="/etc/designs/gsusa/jcr:content"/>
