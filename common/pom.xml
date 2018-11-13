@@ -53,6 +53,7 @@
       <id>changeVersion</id>
       <modules>
         <module>app</module>
+        <module>bundle</module>
       </modules>
     </profile>
   </profiles>
