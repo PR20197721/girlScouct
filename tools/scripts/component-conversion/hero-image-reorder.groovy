@@ -146,7 +146,7 @@ if (result != null) {
 				for(SlideData slideData : slideList){
 
 					Node imageNode = slidesNode.addNode("item" + (slideIndex++));
-					imageNode.setProperty("enabled", slideData.enabled);
+					imageNode.setProperty("hidden", !slideData.enabled);
 					imageNode.setProperty("newWindow", slideData.newWindow);
 					imageNode.setProperty("linkURL", slideData.linkUrl)
 
