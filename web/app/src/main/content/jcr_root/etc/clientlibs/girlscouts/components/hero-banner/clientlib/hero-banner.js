@@ -576,26 +576,8 @@ var SlideShowManager = (function(){
 			}else{
 				newElement = createSlideElement(elementsToDisplay[i]).children();
 			}
-			
-			
-			if(editMode){				
-				// Give the author something to select.
-				$('<div>')
-					.css({
-						'background-color': '#c7c7c7', 
-						'font-size': '18px', 
-						'color': 'green', 
-						'text-align': 'center',
-						'padding' : '5px',
-						'border': '1px solid grey'
-					})
-					.text('Slide Show Element #' + (i + 1))
-					.insertBefore(newElement);
-				
-				target[slideShowPath].append(newElement);
-			}else{
-				target[slideShowPath].append(newElement);
-			}
+
+			target[slideShowPath].append(newElement);
 		}
 		
 		if(reinit){
@@ -665,6 +647,11 @@ var SlideShowManager = (function(){
 		editMode = !!setupInEditMode;
 		target[slideShowPath] = $('.' + targetClass + '[data-slide-show-path="' + slideShowPath + '"]');
 		currentSize = determineSize();
+		if(setupInEditMode) {
+			if(findBestElementsToDisplay(currentSize, slideShowPath).length < 1){
+				$('<div>Click Here to add or Modify Hero Banner</div>').css({fontSize: '18px'}).insertBefore(target[slideShowPath]);
+			}
+		}
 		createDisplay(false, slideShowPath);
 		
 		// Listen for window size changes and orientation changes to re-init.

@@ -26,13 +26,13 @@
 %>  
 <%
 	String slideShowElementId = "SlideShowElement_" + new Random().nextInt(10000) + 1000;
+	Node imageNode = resource.adaptTo(Node.class);
 %>
 <div id="<%= slideShowElementId %>"></div>
 <%
 
 	List<Object> slideShowElements = new ArrayList<Object>();
-   
-	Node imageNode = resource.adaptTo(Node.class);
+
 	Asset assets=null;
 	String newWindow = "";
 		  
@@ -114,6 +114,6 @@
 %>
 
 <script>
-	SlideShowManager.addElementSet(<%= new Gson().toJson(slideShowElements) %>, '<%= resource.getParent().getPath() + "_slideshow" %>', "<%= slideShowElementId %>");
+	SlideShowManager.addElementSet(<%= new Gson().toJson(slideShowElements) %>, '<%= resource.getParent().getParent().getPath() + "_slideshow" %>', "<%= slideShowElementId %>");
 </script>
 

@@ -58,16 +58,8 @@ else if(imageNode!=null){
   while(images.hasNext()){  
 	  
 	Node imgNode = images.next().adaptTo(Node.class);
-	String width = "960";
-	String height="";
 	String imgTag = "";
     String classes = "";
-	if(imgNode.hasProperty("width")){
-		width = imgNode.getProperty("width").getString();
-	}
-	if(imgNode.hasProperty("height")){
-		width = imgNode.getProperty("height").getString();
-	}
 	if(imgNode.hasProperty("imagesize")){
 	    if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("regular")){
 	        classes = "hide-for-small hide-for-medium";

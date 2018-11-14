@@ -7,6 +7,7 @@
     <filter root="/etc/gs-maintenance"/>
     <filter root="/etc/renderconditions/features"/>    
     <filter root="/apps/girlscouts-common"/>
+    <filter root="/apps/cq/gui/components/authoring/dialog" />
     <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>
     <filter root="/apps/cq/gui/components/coral/common/admin/timeline/events/version"/>
     <filter root="/apps/cq/inbox"/>
