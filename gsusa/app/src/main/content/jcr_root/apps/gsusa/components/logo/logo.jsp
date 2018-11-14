@@ -16,6 +16,7 @@
 		    image.loadStyleData(currentStyle);
 		    image.setSelector(".img"); // use image script
 		    image.setDoctype(Doctype.fromRequest(request));	
+		    image.addAttribute("id", "mainGSLogo");
 			image.addCssClass("mainGSLogo");
 			image.draw(out); 
 			try {
