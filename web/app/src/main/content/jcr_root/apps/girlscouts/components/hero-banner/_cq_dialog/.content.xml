@@ -91,14 +91,13 @@
 
                                                                 <!-- TODO:@MK Make this default open the slider -->
                                                                 <!-- TODO:@MK Make this into a toggle button -->
-                                                                <enabled
+                                                                <hidden
                                                                         jcr:primaryType="nt:unstructured"
                                                                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                                                         fieldDescription="Check the Box to Hide the banner"
                                                                         name="hidden"
                                                                         text="Hide"
                                                                         value="{Boolean}true"
-                                                                        defaultChecked="{Boolean}true"
                                                                         uncheckedValue="{Boolean}false"/>
                                                             </items>
                                                         </columns>
