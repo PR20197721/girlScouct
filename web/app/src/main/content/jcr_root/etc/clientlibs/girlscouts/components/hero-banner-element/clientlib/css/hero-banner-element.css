@@ -1,0 +1,112 @@
+
+.heroBannerElementImagePreview{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	opacity: 0.35;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 45rem;
+	transition-duration: 250ms;
+	z-index: 0;
+	box-shadow: 0px 0px 10px 2px inset #000;
+	filter: grayscale(0%) blur(0px);
+}
+
+.heroBannerElementImagePreview.heroBannerElementConfigDisabled{
+	filter: grayscale(100%) blur(4px);
+}
+
+.heroBannerElementImagePreview:hover{
+	opacity: 0.8;
+}
+
+.heroBannerElementContentDisplayed .heroBannerElementImagePreview,
+.heroBannerElementContentDisplayed .heroBannerElementImagePreview:hover {
+	opacity: 0.08;
+	background-size: 80rem;
+}
+
+.heroBannerElementConfigContents{
+	max-height: 0px;
+	opacity: 0;
+	transition-duration: 500ms;
+	overflow: hidden;
+}
+
+.heroBannerElementContentDisplayed .heroBannerElementConfigContents{
+	opacity: 1;
+	max-height: 530px;
+	display: block;
+	padding-top: 40px;
+}
+
+.heroBannerElementContainer{
+	min-height: 150px;
+}
+
+
+.heroBannerElementTriangle{
+	position: absolute;
+	width: 200px;
+	height: 20px;
+	opacity: 0.5;
+	transition-duration: 200ms;
+}
+
+.heroBannerElementContentDisplayed .heroBannerElementTriangle{
+	z-index: 4;
+}
+
+.heroBannerElementTriangle:hover{
+	transform: scale(1.1);
+	opacity: 0.7;
+}
+
+.heroBannerElementTriangle:hover .heroBannerTriangleSvg{
+	fill: #5d5d5d;
+	stroke: #3a3a3a;
+	stroke-width:1
+}
+
+.heroBannerTriangleSvg{
+	fill: #999999;
+	stroke: #505050;
+	stroke-width:1;
+}
+
+.heroBannerElementCollapseTriangle{
+	top: 5px;
+	left: calc(50% - 100px);
+}
+
+.heroBannerElementTriangle.hideTriangle{
+	opacity: 0;
+	z-index: -1;
+}
+
+.coral-multifield-with-backgrounds > coral-multifield-item > button{
+	z-index: 4;
+	dbackground-color: hsla(0, 0%, 90%, 0.6);
+	background-image: radial-gradient(circle, hsla(0, 0%, 100%, 0.5) 45%, hsla(0, 0%, 70%, 0.6));
+	box-shadow: 0px 0px 5px 5px hsla(0, 0%, 50%, 0.4);
+	margin-right: 10px;
+	margin-left: 10px;
+	transition-duration: 150ms;
+	transform-origin: center center;
+}
+
+.coral-multifield-with-backgrounds > coral-multifield-item > button:nth-of-type(2){
+	transform: translate(0px, 10px);
+}
+.coral-multifield-with-backgrounds > coral-multifield-item > button:nth-of-type(1){
+	transform: translate(-10px, 10px);
+}
+.coral-multifield-with-backgrounds > coral-multifield-item > button:nth-of-type(2):hover{
+	transform: translate(0px, 10px) scale(1.1);
+}
+.coral-multifield-with-backgrounds > coral-multifield-item > button:nth-of-type(1):hover{
+	transform: translate(-10px, 10px) scale(1.1);
+}
