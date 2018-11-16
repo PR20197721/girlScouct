@@ -439,13 +439,31 @@
 
                                     </div>
                                     <div class="text parbase section">
-                                        <p>
-                                            The Volunteer Toolkit is currently undergoing maintenance. Please check back in a few hours.
+
+<p>Hello!</p>
+<p>Volunteer Toolkit is currently down for annual scheduled maintenance and will be back online Thursday, July 12, 2018 to help you prepare for the Fall, 2018-19 "Back to Troop" season. Here's what you can expect when VTK is back online:
                                         </p>
+
+                                        <ul>
+<li>
+    New! "Explore Tab": The new "Explore" tab lets you "Select your own" or use "Pre-selected Tracks" to jump start the Year Plan for your troop. New badge and award visuals let you see what your girls will earn. 
+                                            </li>
+                                            <li>New! Badge Tracks: Several new badge tracks have been added across all grade levels. </li>
+                                            <li>New! Badge Requirements: Badge images are now active buttons that show you the requirements and steps to earn each badge. </li>
+                                            <li>New! Program Content: New Badge and STEM Journeys across all grade levels, now including Cadette through Ambassador, and Multi-Level 6-12! </li>
+                                        </ul>
+                                        <p> Are you looking to submit your Troop Finance Report? You'll be able to continue working through your form when VTK is back online July 12th!</p>
+
+                                        <p>Access Your Member Profile: <a href="https://gsmembers.force.com/members">here</a></p>
+
+                                    <p>Thank you for your patience during this period of scheduled maintenance!</p>
+
+                                    <p>-The GSUSA VTK Team</p>
+
+
+
                                     </div>
-                                    <p>
-                                        <a href="javascript:void()" onclick="goBack()">Go Back</a>
-                                    </p>
+
                                     <script>
                                         function goBack() {
                                             window.history.back()

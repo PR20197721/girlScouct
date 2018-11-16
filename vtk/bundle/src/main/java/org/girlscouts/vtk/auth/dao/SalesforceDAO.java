@@ -23,6 +23,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.auth.permission.Permission;
@@ -63,9 +64,13 @@ public class SalesforceDAO {
 	
 	public SalesforceDAO(TroopDAO troopDAO, ConnectionFactory connectionFactory, SessionFactory sessionFactory) {
 		this(troopDAO, connectionFactory);
+		ResourceResolver rr= null;
 		try {
-			this.session = sessionFactory.getSession();
-		} catch (RepositoryException e) {
+			
+			rr = sessionFactory.getResourceResolver();
+			this.session = rr.adaptTo(Session.class);
+			//TODO close resourceResources
+		} catch (Exception e) {
 			log.error("Cannot get session due to RepositoryException.");
 		}
 	}
@@ -110,10 +115,6 @@ public class SalesforceDAO {
 					
 					//response = new JSONObject(rsp);
 					log.debug(">>>>> " + rsp);
-System.err.println("ALEXALEX: "+ rsp);
-
-System.err.println("testtesttest");
-log.debug(" " + rsp);
 
 					
 					
@@ -436,7 +437,7 @@ log.debug(" " + rsp);
 					entity = resp.getEntity();
 					entity.getContent();
 					rsp = EntityUtils.toString(entity);
-System.err.println("ALEXALEX contacts: "+ rsp);
+
 					EntityUtils.consume(entity);
 					method.releaseConnection();
 					method = null;
@@ -453,7 +454,6 @@ System.err.println("ALEXALEX contacts: "+ rsp);
 			}else{
 			
 				String userJsonFile=vtkDemoPath +"/vtkContact_"+apiConfig.getDemoUserName()+".json";
-				
 				rsp = readFile(userJsonFile).toString();
 		    }
 			
@@ -896,7 +896,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				HttpEntity entity = resp.getEntity();
 				entity.getContent();
 				rsp= EntityUtils.toString(entity);
-System.err.println("ALEXALEX TL: "+ rsp);		
+		
 				if(apiConfig.isUseAsDemo() )
 					writeToFile(vtkDemoPath +"/vtkTroop_"+user.getName()+".json" , rsp);
 			}else{

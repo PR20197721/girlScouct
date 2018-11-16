@@ -12,7 +12,7 @@
 %>
 <!--%@include file="include/tab_navigation.jsp"%-->
  <!--page wrapper-->
- <div id="panelWrapper" class="row content meeting-detail">
+ <div id="panelWrapper" class="row meeting-detail">
   <!--/utility links and download, print, help links-->
 <!-- %@include file="include/utility_nav.jsp"%-->
  <!--/meeting title and navigation-->

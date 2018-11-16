@@ -61,15 +61,6 @@
 <!--<![endif]-->
 <link media="print" rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app_print.css">
 <script src="/etc/designs/gsusa/clientlibs/js/modernizr.js" type="text/javascript"></script>
-<%
-	ValueMap siteProps = resourceResolver.resolve(currentPage.getAbsoluteParent(2).getPath() + "/jcr:content").adaptTo(ValueMap.class);
-	String addThisId = siteProps.get("addThisId", "");
-	if (!addThisId.isEmpty()) {
-%>
-	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=<%= addThisId %>"></script>
-<%
-	}
-%>
 
 <% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
 	<cq:includeClientLib categories="apps.girlscouts.authoring" />

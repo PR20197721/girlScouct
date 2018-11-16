@@ -6,6 +6,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -26,10 +27,13 @@ import org.girlscouts.vtk.models.User;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
 import com.day.text.csv.Csv;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 @Service(value = FinanceUtil.class)
 public class FinanceUtil {
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Reference
 	TroopDAO troopDAO;
@@ -108,16 +112,18 @@ public class FinanceUtil {
 	public void sendFinanceDataEmail(User user, Troop troop, int qtr,
 			String currentYear) throws IllegalAccessException {
 
-		if (user != null
-				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_EDIT_FINANCE_ID))
-			throw new IllegalAccessException();
-
-		Finance finance = getFinances(user, troop, qtr, currentYear);
-		FinanceConfiguration financeConfig = getFinanceConfig(user, troop,
-				currentYear);
-
+		ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+		logger.info("VTK Finance Email Attempt Begin.");
 		try {
+			if (user != null
+					&& !userUtil.hasPermission(troop,
+							Permission.PERMISSION_EDIT_FINANCE_ID))
+				throw new IllegalAccessException();
+
+			Finance finance = getFinances(user, troop, qtr, currentYear);
+			FinanceConfiguration financeConfig = getFinanceConfig(user, troop,
+					currentYear);
+
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 					.getGateway(HtmlEmail.class);
 
@@ -183,7 +189,6 @@ public class FinanceUtil {
 
 			String recipient = financeConfig.getRecipient();
 			HtmlEmail email = new HtmlEmail();
-			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 			emailRecipients.add(new InternetAddress(recipient));
 			email.setFrom("NOREPLY@girlscouts.org");
 			email.setTo(emailRecipients);
@@ -196,20 +201,18 @@ public class FinanceUtil {
 			if (messageGateway == null) {
 				
 			} else {
-
 				messageGateway.send(email);
-
 			}
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EmailException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (AddressException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.info("VTK Finance Email Success!  Sent to: " + emailRecipients.stream().map(InternetAddress::getAddress).collect(Collectors.joining(" : ")));
+		}catch(IllegalAccessException iae){
+			logger.error("VTK Finance Email Error: Recipients: " + emailRecipients.stream().map(InternetAddress::getAddress).collect(Collectors.joining(" : ")));
+			logger.error("VTK Finance Email Error: ", iae);
+			throw iae;
+		}catch (Throwable e) {
+			logger.error("VTK Finance Email Error: Recipients: " + emailRecipients.stream().map(InternetAddress::getAddress).collect(Collectors.joining(" : ")));
+			logger.error("VTK Finance Email Error: ", e);
+		} finally{
+			logger.info("VTK Finance Email Attempt End.");
 		}
 	}
 }

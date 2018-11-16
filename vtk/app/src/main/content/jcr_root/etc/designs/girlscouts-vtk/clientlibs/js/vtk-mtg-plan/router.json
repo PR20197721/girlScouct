@@ -1,0 +1,4 @@
+{
+    "/*": "/$1",
+  "/meetings/:id": "/:resource/:id"
+}

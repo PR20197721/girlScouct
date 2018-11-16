@@ -1,0 +1,177 @@
+@import '../../css/vtk_colors';
+
+#vtk-mtg-plan-main-bar{
+    #main-bar{
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 30px;
+        .__bar{
+            min-height: 70px;
+            background-color: $green_light;
+            align-items: center;
+            display: inherit;
+
+            p{
+                line-height: 1;
+                margin:0 !important;
+                color:white;
+                width:100%;
+                padding: 0;
+                text-align: center !important;
+
+           
+            }
+        }
+        .__previous{
+            border-right: 1px solid white;
+            width: 70px;
+            p{
+                
+                a{
+                    display: inline-block;
+                    width: 0px; 
+                    height: 0px; 
+                    border-top: 20px solid transparent;
+                    border-bottom: 20px solid transparent;                     
+                    border-right:20px solid white; 
+                }
+            }
+        }
+        .__main{
+            flex-grow: 1;
+            border-right: 1px solid white;
+            flex-direction: column;     
+            align-items: center;
+            justify-content: center;       
+            p{
+                font-size: 24px;
+                text-transform: uppercase;
+                text-align: center !important;
+
+                &.__time{
+                    font-weight: 100;
+                }
+            }
+        }
+        .__next{
+            width:70px;
+            p{
+                a{
+                    width: 0px; 
+                    height: 0px; 
+                    display: inline-flex;
+                    border-top: 20px solid transparent;
+                    border-bottom: 20px solid transparent;                    
+                    border-left: 20px solid white;
+                }
+            }
+        }
+    }
+
+    #main-info{
+        display: flex;
+        flex-direction: row;
+        font-size: 12px;
+        p{
+            flex-grow: 1;
+            padding-right: 20px;
+        }
+
+        .__img{
+            float: right;
+            width: 132px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 100;
+            height: 140px;
+        }
+        
+        img{
+            width: 130px;
+            height: 130px;
+            max-width: none;
+            
+        }
+
+        table{
+            font-size: 14px;
+            background-color: transparent;
+            tr{
+                background-color: transparent;
+                td{
+                    vertical-align: top;
+                    padding: 0;
+                    ul{
+                        font-size: 14px;
+                        list-style-type:initial !important;
+                    }
+                    text-align: justify;
+              
+
+
+                }
+
+
+            }
+        }
+
+
+        .__mid_show{
+            *{
+                font-size: 14px;
+
+            }
+
+            ul{
+                list-style-type: initial;
+                padding: initial;
+                max-width: initial;
+            }
+            .__more_text{
+                display: none;
+            }
+        }
+
+
+        .__mid_show.__hidden{
+            height: 40px;
+            line-height: 20px; 
+            overflow: hidden;
+            display: block;
+            position: relative;
+            .__more_text{
+                display: block;
+            }
+        }
+     
+    }
+
+    #main-cat{
+        p{
+            margin:0px
+        }
+    }
+
+    .arrow-up {
+        position: relative;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 15px solid green;
+        top: -16px;
+        left: 12px;
+    }
+
+
+    .__more_text{
+        // bottom: 0px;
+        // left: 0px;
+        // z-index: 100;
+        // background: transparent;
+        // background: linear-gradient(to top, white, transparent);
+        // height: 40px;
+        // width: 100%;
+        // position: absolute;
+    }
+      
+}

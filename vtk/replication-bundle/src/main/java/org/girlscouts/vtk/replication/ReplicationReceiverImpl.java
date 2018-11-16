@@ -2,11 +2,16 @@ package org.girlscouts.vtk.replication;
 
 import com.day.cq.replication.ReplicationAction;
 import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.ReplicationEvent;
 import com.day.cq.replication.ReplicationException;
+import com.day.cq.replication.ReplicationReceiver;
+import com.day.cq.replication.impl.content.durbo.DurboImportConfigurationProvider;
 import com.day.cq.replication.impl.content.durbo.DurboImportResult;
 import com.day.cq.replication.impl.content.durbo.DurboImporter;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +23,11 @@ import javax.jcr.Session;
 import javax.jcr.nodetype.NodeDefinition;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Modified;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +93,10 @@ public class ReplicationReceiverImpl
   {
     /* Girl Scouts Customization BEGIN */
     //update(props);
-	DurboImportConfiguration conf = new DurboImportConfiguration(null, null, new ArrayList<String>(), false, -1);
+	//DurboImportConfiguration conf = new DurboImportConfiguration(null, null, new ArrayList<String>(), false, -1);
+	  DurboImportConfiguration conf = new DurboImportConfiguration(null, null, new ArrayList<String>(), false, -1, false, false, null, null);
+	
+	
     this.durboImporter = new DurboImporter(conf);
     this.tmpfileThreshold = 100000L;
     if (log.isInfoEnabled()) {
@@ -130,9 +140,12 @@ public class ReplicationReceiverImpl
   {
     /* Girl Scouts Customization BEGIN */
     String path = action.getPath();
+    
+    log.debug("Received path: %s", path);
 
     // Drop the node if the filter rejects it
     if (!replicationReceiverFilter.accept(path)) {
+    	log.debug("Rejected by filter");
     	return;
     }
     
@@ -153,6 +166,27 @@ public class ReplicationReceiverImpl
     if (COUNCILINFO_PATTERN.matcher(path).matches()) {
       invalidator.addPath(troopHashGenerator.getBase());
     }
+       
+    // Invalidate resource2 cache
+    if (path.startsWith("/vtkreplication")) {
+    		log.debug("Added because this is resources2.");
+    		
+    		if (path.startsWith("/vtkreplication/content/vtkcontent")) {
+    	       	invalidator.addPath("/myvtk");
+    	       	invalidator.addPath("/vtk-resources2");
+    		}
+    		
+    		// /vtkreplication/content/vtk-resources2/[council]/en/resources2
+    		String council = path.split("/")[4];
+    		
+    		//invalidator.addPath("/content/girlscouts-vtk/en/myvtk/"+ council);
+       	invalidator.addPath("/myvtk/"+council);
+       		
+       	//overview + list vtk resources
+       	invalidator.addPath("/vtk-resources2/"+council);
+    		
+    }
+    
     /* Girl Scouts Customization END */
 
     /* Girl Scouts Customization BEGIN */

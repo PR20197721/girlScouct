@@ -26,3 +26,18 @@
 <script>loadNav('myTroop')</script>
 <%@include file="include/bodyBottom.jsp" %>
 
+
+<%!
+
+public boolean isRenewMembership(int membershipYear){
+	Calendar rightNow = Calendar.getInstance();
+		
+	if( membershipYear == rightNow.get(Calendar.YEAR) &&
+  		( rightNow.get(Calendar.MONTH) > 2 &&  rightNow.get(Calendar.MONTH) < 9)
+  	){
+  		return true;
+	}
+	return false;
+}
+%>
+

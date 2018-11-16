@@ -38,7 +38,7 @@
 	ageGroups.add("brownie");
 	ageGroups.add("daisy");
 	ageGroups.add("junior");
-
+	ageGroups.add("multi-level");
 	ageGroups.add("cadette");
 	ageGroups.add("senior");
 	ageGroups.add("ambassador");

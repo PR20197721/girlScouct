@@ -11,6 +11,7 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.girlscouts.vtk.ejb.SessionFactory;
 import org.girlscouts.vtk.helpers.DataImportTimestamper;
@@ -32,7 +33,7 @@ public class DateImporterTimestamperImpl implements DataImportTimestamper {
 	private Date timestamp;
 
 	@Reference
-	private SessionFactory pool;
+	private SessionFactory sessionFactory;
 
 	@Reference
 	private SlingRepository repository;
@@ -40,8 +41,10 @@ public class DateImporterTimestamperImpl implements DataImportTimestamper {
 	@Activate
 	private void loadFromJcr() {
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = pool.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			timestamp = session
 					.getProperty(TIMESTAMP_PATH + "/" + TIMESTAMP_PROP)
 					.getDate().getTime();
@@ -50,8 +53,10 @@ public class DateImporterTimestamperImpl implements DataImportTimestamper {
 			setTimestamp();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					pool.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -60,8 +65,10 @@ public class DateImporterTimestamperImpl implements DataImportTimestamper {
 
 	private void saveToJcr(Date date) {
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = pool.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			Calendar cal = new GregorianCalendar();
 			cal.setTime(date);
 			JcrUtil.createPath(TIMESTAMP_PATH, "nt:unstructured", session);
@@ -71,22 +78,17 @@ public class DateImporterTimestamperImpl implements DataImportTimestamper {
 			log.error("Error writing timestamp to repository.");
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					pool.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
 	}
 
-	/*
-	 * private Session getSession() throws RepositoryException {
-	 * 
-	 * if (session == null) { if (repository == null) {
-	 * log.error("Cannot get reference to Sling repository"); throw new
-	 * RepositoryException(); } session = repository.loginAdministrative(null);
-	 * } } return session; }
-	 */
+	
 	public Date getTimestamp() {
 		if (timestamp == null) {
 			loadFromJcr();

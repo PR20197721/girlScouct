@@ -301,14 +301,15 @@
 						user.getCurrentYear(),
 						request.getParameterMap());
 				return;
-			case RmMeeting:
-				
+			case RmMeeting:			
 				meetingUtil.rmMeeting( user, troop, request.getParameter("mid") );
 				//meetingUtil.rmSchedDate(user, troop,Long.parseLong(request.getParameter("rmDate")));
 				return;
 			case UpdAttendance:
 				meetingUtil.updateAttendance(user, troop, request);
-				meetingUtil.updateAchievement(user, troop, request);
+				if( "MEETING".equals( request.getParameter("eType") ) ){
+					meetingUtil.updateAchievement(user, troop, request);
+				}
 				return;
 			case CreateCustomYearPlan:
 
@@ -567,8 +568,17 @@ java.util.List <MeetingE> tt= troop.getYearPlan().getMeetingEvents();
 				java.util.List<MeetingE> TMP_meetings = (java.util.List<MeetingE> )VtkUtil.deepClone(troop.getYearPlan().getMeetingEvents());
 
 				MeetingE _meeting = (MeetingE) planView.getYearPlanComponent();
+				if( _meeting != null && _meeting.getMeetingInfo() != null){
+					_meeting.setAllMultiActivitiesSelected(VtkUtil.isAllMultiActivitiesSelected(_meeting.getMeetingInfo().getActivities()));
+					}
 				java.util.List<MeetingE> meetings = new java.util.ArrayList();
+				boolean isAnyOutdoorActivitiesInMeeting = VtkUtil.isAnyOutdoorActivitiesInMeeting( _meeting.getMeetingInfo() );
+				_meeting.setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
+				boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( _meeting.getMeetingInfo() );
+				_meeting.setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
+
 				meetings.add(_meeting);
+
 				troop.getYearPlan().setMeetingEvents(meetings);
 				Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
 				Achievement achievement = meetingUtil.getAchievement( user,  troop,  _meeting.getPath()+"/achievement");
@@ -599,13 +609,13 @@ java.util.List <MeetingE> tt= troop.getYearPlan().getMeetingEvents();
 								.getMeetingInfo()
 								.put("meeting short description",
 										new JcrCollectionHoldString(
-												org.apache.commons.lang3.StringEscapeUtils
+												org.apache.commons.lang.StringEscapeUtils
 														.unescapeHtml(_meeting
 																.getMeetingInfo()
 																.getMeetingInfo() // fixme - refactor
 																.get("meeting short description")
 																.getStr())));
-java.util.List<SentEmail> emails = _meeting.getSentEmails();
+						java.util.List<SentEmail> emails = _meeting.getSentEmails();
 					
 						//_meeting.setSentEmails(null); //GSVTK-1324
 						java.util.List<SentEmail> sendEmails = _meeting.getSentEmails();
@@ -653,7 +663,7 @@ java.util.List<SentEmail> emails = _meeting.getSentEmails();
 
                     ObjectMapper mapper = new ObjectMapper();
                     try {
-
+                    	response.setContentType("application/json");
 
                     out.println(mapper.writeValueAsString(troop)
                             .replaceAll("mailto:", "")
@@ -696,7 +706,7 @@ try{
 						"X" + session.getId(), troop.getYearPlan()
 								.getPath());
 			}
-			System.err.println("tata xx");
+			
 			if (isFirst || isCng) {
 				org.girlscouts.vtk.salesforce.Troop prefTroop = null;
 				if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
@@ -776,7 +786,7 @@ try{
 		
 			   if( ! ( tmp[i] instanceof   MeetingE)  ) continue;
 			   
-			   boolean isAnyOutdoorActivitiesInMeeting = VtkUtil.isAnyOutdoorActivitiesInMeeting( ((MeetingE) tmp[i]).getMeetingInfo() );
+			   boolean isAnyOutdoorActivitiesInMeeting = VtkUtil.isAnyOutdoorActivitiesInMeeting( ((MeetingE) tmp[i]).getMeetingInfo() ); 
 			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
 			   boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( ((MeetingE) tmp[i]).getMeetingInfo() );
 			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
@@ -795,7 +805,7 @@ try{
 						} catch (Exception e) {e.printStackTrace();
 	}
 					}
-
+				response.setContentType("application/json");
 				ObjectMapper mapper = new ObjectMapper();
 				out.println("{\"yearPlan\":\""
 						+ troop.getYearPlan().getName()
@@ -859,6 +869,20 @@ try{
                 YearPlan yearPlan = new YearPlan();
 
 
+                Attendance attendance = meetingUtil.getAttendance( user,  troop,  currentActivity.getPath()+"/attendance");
+				Achievement achievement = meetingUtil.getAchievement( user,  troop,  currentActivity.getPath()+"/achievement");
+				int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
+
+				if( attendance !=null && attendance.getUsers()!=null ){
+				    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
+				    attendanceTotal= attendance.getTotal();
+				}
+
+				if( achievement !=null && achievement.getUsers()!=null ){
+				    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
+				}
+
+                
 
                 if( troop!=null && troop.getYearPlan()!=null){
                     Helper helper = troop.getYearPlan().getHelper();
@@ -873,7 +897,10 @@ try{
                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_ACT_ID));
 
                     helper.setPermissions(permissions);
-
+                    helper.setAchievementCurrent(achievementCurrent);
+					helper.setAttendanceCurrent(attendanceCurrent);
+					helper.setAttendanceTotal(attendanceTotal);
+					
                     yearPlan.setHelper(helper);
                 }
 
@@ -888,11 +915,11 @@ try{
             }
 
 		} else if (request.getParameter("isRmTroopImg") != null) {
-
+			Session __session =null;
+			ResourceResolver rr= null;
 			try {
-
-				Session __session = sessionFactory.getSession();
-
+				rr = sessionFactory.getResourceResolver();
+				 __session = rr.adaptTo(Session.class);
 				String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"
 						+ troop.getTroop().getCouncilCode()
 						+ "/"
@@ -903,6 +930,15 @@ try{
 				__session.save();
 			} catch (Exception e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if( rr!=null )
+						sessionFactory.closeResourceResolver( rr );
+					if (__session != null)
+						__session.logout();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 
 		} else if (request.getParameter("isAdminRpt") != null) {
@@ -939,6 +975,8 @@ try{
 				e.printStackTrace();
 			}
 		} else if(request.getParameter("imageData") != null){
+			ResourceResolver rr= null;
+			Session __session = null;
 			try{
 
 				int x1 = -1, x2 = -1, y1 = -1, y2 = -1, width = -1, height = -1;
@@ -999,8 +1037,9 @@ try{
                 String path = "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
                 String pathWithFile = path+"/troop_pic.png/jcr:content";
 
-                Session __session = sessionFactory.getSession();
-
+                 rr = sessionFactory.getResourceResolver();
+                 __session = rr.adaptTo(Session.class);
+                 
                 Node baseNode = JcrUtil.createPath(path, "nt:folder", __session);
 
                 ByteArrayInputStream byteStream = new ByteArrayInputStream(decoded);
@@ -1025,6 +1064,15 @@ try{
 				__session.save();
 			} catch (Exception e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if( rr!=null )
+						sessionFactory.closeResourceResolver( rr );
+					if (__session != null)
+						__session.logout();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		} else if (request.getParameter("viewProposedSched") != null) {
 
@@ -1086,12 +1134,12 @@ try{
 	      <div class="row">
 	        <div class="columns large-push-2 medium-2 medium-push-2 small-2">
 	       <input type="radio" <%=( troop.getYearPlan()!=null && (yearPlan.getName().equals(troop.getYearPlan().getName()))) ? " checked " : "" %>
-	           id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>' )" />
+	           id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>', false)" />
 	            <label for="r_<%=yearPlan.getId()%>"></label>
 
 	        </div>
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-	            <a href="#" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%></a>
+	            <a href="#" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>', false)"><%=yearPlan.getName()%></a>
 	            <p><%=yearPlan.getDesc()%></p>
 	        </div>
 	      </div><!--/row-->
@@ -1106,20 +1154,27 @@ try{
 	        	<!-- <div class="row"> -->
 
 	        	<% Boolean condition = troop!=null  && troop.getSfTroopAge()!=null &&
-                         !troop.getSfTroopAge().toLowerCase().contains("multilevel");  %>
+                         !troop.getSfTroopAge().toLowerCase().contains("multilevel");  
 	     
+	        	
+	     			boolean isMeetingLib= true;
+	      			if( troop!=null  && troop.getSfTroopAge()!=null &&
+		            		   (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") ) )
+		            		   {isMeetingLib=false;}
+	     		%>
+	     		
 	            <%if(condition){ %>   
 
                     <div class="columns large-push-2 medium-2 medium-push-2 small-2">
 
-		            <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getName()%>')" />
+		            <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>', <%= isMeetingLib %> )" />
 		            <label for="r_0"></label> </div>
 	            <%} %>
 	       
 
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2" style="<%= condition ? "padding-left:16px" : ""  %>"  >
 	        	<div style="margin-left:-10px;margin-right: -10px;">
-	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
+	            <a onclick="return chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>', <%= isMeetingLib %> )">
 	
 	            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
                            (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
@@ -1131,6 +1186,8 @@ try{
                        Create Your Own Year Plan
                  <%} %>
 	            </a>
+	            
+	            
 	            <p>
 		            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
 		            		   (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
@@ -1148,7 +1205,7 @@ try{
                             </p>
                            
                             
-                            <br/><input type="button" class="button" value="Create Your Year Plan" onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')"/>
+                            <br/><input type="button" class="button" value="Create Your Year Plan" onclick="return chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan', <%=isMeetingLib%>"/>
 		            <%}else{ %>
 	    	            Choose this option to create your own year plan using meetings from  our meeting library
 		           <%} %>
@@ -1171,6 +1228,9 @@ try{
              newTroopCloned.setPermissionTokens( permis );
              troop.setTroop(newTroopCloned);
              if( !troopDAO.isArchivedYearPlan(user, troop,  ""+VtkUtil.getCurrentGSYear()) ){troop.setYearPlan(null);}
+            
+             //Cloned Troop object from archived year plan references archived year plan path ex: "/vtk2014/999/". It is necessary to change Troop path to current year ex: ""/vtk2015/999/"".
+             troop.setPath( "/vtk"+VtkUtil.getCurrentGSYear()+"/"+troop.getSfCouncil() +"/troops/"+ troop.getSfTroopId() );
              session.putValue("VTK_troop", troop);
         }else if( request.getParameter("addNote") != null ){
             Note note = null;
@@ -1178,8 +1238,17 @@ try{
             if( note==null) return;
             ObjectMapper mapper = new ObjectMapper();
             out.println(mapper.writeValueAsString(note));
-        }else if( request.getParameter("rmNote") != null ){         
-             out.println("{vtkresp:"+ meetingUtil.rmNote(user, troop, request.getParameter("nid"))+"}");
+        }else if( request.getParameter("rmNote") != null ){   
+        	 boolean isRm= false;
+        	 try{
+        		 isRm = meetingUtil.rmNote(user, troop, request.getParameter("nid"));
+        	 }catch(Exception e){e.printStackTrace();}
+      	 
+        	 if( !isRm ){
+        		 response.sendError(404, "Note not removed.");
+        	 }else{
+        		 out.println("{\"vtkresp\":"+ isRm+"}");
+        	 }
         }else if( request.getParameter("editNote") != null ){  
             out.println("{vtkresp:"+ meetingUtil.editNote(user, troop,request.getParameter("nid"), request.getParameter("msg") )+"}");
         }else if( request.getParameter("getNotes") != null ){
@@ -1196,15 +1265,36 @@ try{
 
             MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
         	Activity activity = VtkUtil.findActivityByPath( meeting.getMeetingInfo().getActivities(), aid );
-        	meetingUtil.updateActivityOutdoorStatus(user, troop, meeting, activity, isOutdoor);
+        	//TODO meetingUtil.updateActivityOutdoorStatus(user, troop, meeting, activity, isOutdoor);
 
         }else if(request.getParameter("act") != null && "combineCal".equals(request.getParameter("act")) ){
         	calendarUtil.combineMeeting(user, troop, request.getParameter("mids"), request.getParameter("dt"));	   
         }else if(request.getParameter("act") != null && "hideVtkBanner".equals(request.getParameter("act")) ){       
             session.setAttribute("isHideVtkBanner", "true");
         }else if( request.getParameter("alex658Xf409Re49v") !=null){
-        	try{ yearPlanUtil.GSMonthlyDetailedRpt(); }catch(Exception e){e.printStackTrace();}
-            
+        	try{ yearPlanUtil.GSMonthlyDetailedRpt( request.getParameter("year") ); }catch(Exception e){e.printStackTrace();}
+        }else if( request.getParameter("alex344") !=null){
+        	try{ yearPlanUtil.GSRptCouncilPublishFinance(); }catch(Exception e){e.printStackTrace();}
+        }else if( "switchFinanceYear".equals(request.getParameter("act") ) ){
+        	int financeYear = 0;
+        	try{ 
+        			financeYear = Integer.parseInt(request.getParameter("financeYear") );
+        			user.setCurrentFinanceYear( financeYear );
+        	}catch(Exception e){e.printStackTrace();}	
+        }else if(request.getParameter("act") != null && "selectSubActivity".equals(request.getParameter("act"))){
+            String mPath = request.getParameter("mPath");
+            String activityPath = request.getParameter("aPath");
+            String subActivityPath = request.getParameter("subAPath");
+            meetingUtil.setSelectedSubActivity(user, troop, mPath, activityPath, subActivityPath);
+     
+        }else if( request.getParameter("whatIsMyLevel") != null ){
+        	String myLevel= "";
+        	if( troop!=null && troop.getTroop() !=null &&  troop.getTroop().getGradeLevel()!=null ){
+
+        		myLevel= troop.getTroop().getGradeLevel();
+        	}
+        	response.setContentType("application/json");
+        	out.println("{\"level\":\""+ myLevel +"\"}");
         } else {
 			//TODO throw ERROR CODE
 		}

@@ -18,7 +18,7 @@ for server in ${SERVER_LIST[@]}; do
 		if [ $? -ne 0 ]; then
 			echo "Server $server:$port is down. Skipping..."
 		else
-			curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/gsusa-app/$VERSION/gsusa-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
+			curl -u admin:Green88! -F file=@"$HOME/.m2/repository/org/girlscouts/web/gsusa-app/$VERSION/gsusa-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
 # temporarily no longer using this bootstrap data
 #			curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-content/$VERSION/girlscouts-content-$VERSION.zip" -F name="girlscouts-content" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
 		fi
@@ -30,5 +30,5 @@ echo "Trying server 192.168.0.118:4503..."
 if [ $? -ne 0 ]; then
         echo "Server $server:$port is down. Skipping..."
     else
-    curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/gsusa-app/$VERSION/gsusa-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://192.168.0.118:4503/crx/packmgr/service.jsp
+    curl -u admin:Green88! -F file=@"$HOME/.m2/repository/org/girlscouts/web/gsusa-app/$VERSION/gsusa-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://192.168.0.118:4503/crx/packmgr/service.jsp
 fi

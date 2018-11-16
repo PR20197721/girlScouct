@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -31,16 +32,20 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.CouncilRptBean;
 import org.girlscouts.vtk.utils.VtkUtil;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
 import org.apache.sling.settings.SlingSettingsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 @Service(value = CouncilRpt.class)
 public class CouncilRpt {
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Reference
 	private SessionFactory sessionFactory;
@@ -59,18 +64,19 @@ public class CouncilRpt {
 	}
 
 	public java.util.List<String> getActivityRpt(String sfCouncil) {
-
+		ResourceResolver rr= null;
 		javax.jcr.Session s = null;
 		java.util.List<String> activities = new java.util.ArrayList<String>();
 		String sql1 = "select jcr:path "
 				+ " from nt:base "
-				+ " where jcr:path like '/vtk"
+				+ " where isdescendantnode( '/vtk"
 				+ VtkUtil.getCurrentGSYear()
 				+ "/"
 				+ sfCouncil
-				+ "/troops/%' and ocm_classname='org.girlscouts.vtk.models.Activity'";
+				+ "/troops/') and ocm_classname='org.girlscouts.vtk.models.Activity'";
 		try {
-			s = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			s = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = s.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql1,
@@ -94,8 +100,10 @@ public class CouncilRpt {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (s != null)
-					sessionFactory.closeSession(s);
+					s.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -106,20 +114,22 @@ public class CouncilRpt {
 	public java.util.List<CouncilRptBean> getRpt(String sfCouncil) {
 
 		java.util.List<CouncilRptBean> container = new java.util.ArrayList<CouncilRptBean>();
-		javax.jcr.Session s = null;
+		javax.jcr.Session session = null;
+		ResourceResolver rr= null;
 		java.util.List<org.girlscouts.vtk.models.YearPlanRpt> yprs = new java.util.ArrayList<org.girlscouts.vtk.models.YearPlanRpt>();
 		String sql = "select  name, altered, refId,jcr:path,excerpt(.) "
 				+ " from nt:base "
-				+ " where jcr:path like '"
+				+ " where isdescendantnode( '"
 				+ VtkUtil.getYearPlanBase(null, null)
 				+ sfCouncil
-				+ "/troops/%' and ocm_classname='org.girlscouts.vtk.models.YearPlan'";
+				+ "/troops/') and ocm_classname='org.girlscouts.vtk.models.YearPlan'";
 
 		java.util.List<String> activities = getActivityRpt(sfCouncil);
 		javax.jcr.query.QueryResult result = null;
 		try {
-			s = sessionFactory.getSession();
-			javax.jcr.query.QueryManager qm = s.getWorkspace()
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.SQL);
@@ -144,16 +154,22 @@ public class CouncilRpt {
 				}
 
 				String troopName = "";
-				if (libPath == null
+				Node troop = null;
+				try {
+					troop = r.getNode().getParent();
+					troopName = troop.getProperty("sfTroopName")
+							.getString();
+				}catch(Exception e){
+					logger.warn("Unable to resolve troop name for troop : " + r.getPath(), e);
+				}
+
+				if (troop != null && (libPath == null
 						|| libPath.equals("")
 						|| (yearPlanName != null && yearPlanName.trim()
-								.toLowerCase().equals("custom year plan"))) {
+								.toLowerCase().equals("custom year plan")))) {
 					try {
-						Node troop = r.getNode().getParent();
 						libPath = troop.getProperty("sfTroopAge").getString()
 								.toLowerCase().substring(2);
-						troopName = troop.getProperty("sfTroopName")
-								.getString();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -173,7 +189,8 @@ public class CouncilRpt {
 					ageGroup = "cadette";
 				else if (libPath.contains("ambassador"))
 					ageGroup = "ambassador";
-
+				else if (libPath.contains("multi-level"))
+					ageGroup = "multi-level";
 				CouncilRptBean crb = new CouncilRptBean();
 				crb.setYearPlanName(yearPlanName);
 				crb.setAltered(isAltered);
@@ -195,8 +212,10 @@ public class CouncilRpt {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (s != null)
-					sessionFactory.closeSession(s);
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				if (session != null)
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -264,6 +283,7 @@ public class CouncilRpt {
 			String yearPlanPath) {
 		java.util.Map<String, String> container = new java.util.TreeMap<String, String>();
 		javax.jcr.Session s = null;
+		ResourceResolver rr= null;
 		String sql = "select parent.sfTroopId, parent.sfTroopName from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) "
 				+ " where (isdescendantnode (parent, ["
 				+ VtkUtil.getYearPlanBase(null, null)
@@ -273,7 +293,8 @@ public class CouncilRpt {
 				+ yearPlanPath + "%'";
 		javax.jcr.query.QueryResult result = null;
 		try {
-			s = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			s = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = s.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -290,8 +311,10 @@ public class CouncilRpt {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (s != null)
-					sessionFactory.closeSession(s);
+					s.logout();
 
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -306,49 +329,8 @@ public class CouncilRpt {
 		for (CouncilRptBean bean : results) {
 			container.put(bean.getLibPath(), bean.getYearPlanName());
 		}
-
-		if (true)
-			return container;
-
-		// get latest year plan names from lib
-		javax.jcr.Session s = null;
-		try {
-			s = sessionFactory.getSession();
-			java.util.Iterator itr = container.keySet().iterator();
-			while (itr.hasNext()) {
-				try {
-					String path = (String) itr.next();
-					if (path == null || path.trim().equals("")
-							|| !path.contains("/"))
-						continue;
-					Node libYear = s.getNode(path);
-					if (libYear != null) {
-						String yearPlanName = libYear.getProperty("name")
-								.getString();
-						if (yearPlanName != null
-								&& !yearPlanName.trim().equals("")) {
-							container.put(path, yearPlanName);
-						}
-
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (s != null)
-					sessionFactory.closeSession(s);
-
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-
 		return container;
+
 	}
 
 	public java.util.List<CouncilRptBean> getCollection_byYearPlanPath(
@@ -378,8 +360,10 @@ public class CouncilRpt {
 		int currYear= VtkUtil.getCurrentGSYear();
 		javax.jcr.Node node = null;
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			
 			Node rootNode  = session.getNode("/vtk"+ currYear);
 			Node rptNode= null;
@@ -398,8 +382,10 @@ public class CouncilRpt {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -409,7 +395,8 @@ public class CouncilRpt {
 	
 	public void emailRpt(String msg, String subject){
 		try {
-			
+
+			logger.info("VTK Monthly Report Email Attempt Begin.");
 			
 			MessageGateway<MultiPartEmail> messageGateway = messageGatewayService.getGateway(MultiPartEmail.class);
 			
@@ -428,9 +415,13 @@ public class CouncilRpt {
 			email.attach(source, "rpt.csv", "rpt");
 
 			messageGateway.send(email);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+
+			logger.info("VTK Monthly Report Email Success!");
+		}  catch (Throwable e) {
+			logger.error("VTK Monthly Report Email Error");
+			logger.error("VTK Monthly Report Email Error: ", e);
+		} finally{
+			logger.info("VTK Monthly Report Email Attempt End.");
 		}
 	}
 	

@@ -225,9 +225,12 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 var sTimeCancel = selectedTime()
 
 $(function() {
+
+	var currentYear = CurrentYear(new Date());
 	$( "#datepicker" ).datepicker({
 		  defaultDate: new Date ('<%=date%>'),
-		  minDate: 0,
+		  minDate: currentYear.start(),
+		  maxDate : currentYear.end(),
 		  onSelect: function(dateText, inst) {
 		      var dateAsString = dateText; //the first parameter of this function
 		      var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method

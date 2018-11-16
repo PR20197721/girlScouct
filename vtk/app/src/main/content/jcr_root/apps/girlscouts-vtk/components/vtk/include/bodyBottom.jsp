@@ -9,6 +9,11 @@
 	            vtk_err_desc.innerHTML = "";
 			}
 		});
+		
+		var modalAlert = new ModalVtk('Alert',true);
+		modalAlert.init();
+		
+		
     </script>
 
     <div style="display:none;" id="vtkErrMsg_hidden">

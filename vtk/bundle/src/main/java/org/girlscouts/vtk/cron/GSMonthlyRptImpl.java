@@ -11,6 +11,7 @@ import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.ejb.SessionFactory;
+import org.girlscouts.vtk.utils.VtkUtil;
 
 @Component(
 metatype = true, 
@@ -47,7 +48,7 @@ public class GSMonthlyRptImpl implements Runnable, AemCron  {
 			try{ councilDAO.GSMonthlyRpt(); }catch(Exception e){e.printStackTrace();}
 			
 			System.err.println("Generating report 'detailed' part 2 of 2 ....");
-			try{ councilDAO.GSMonthlyDetailedRpt(); }catch(Exception e){e.printStackTrace();}
+			try{ councilDAO.GSMonthlyDetailedRpt(VtkUtil.getYearPlanBase(null, null)); }catch(Exception e){e.printStackTrace();}
 			
 			System.err.println("Done generating reports");
 		}
