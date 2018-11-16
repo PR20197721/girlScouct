@@ -128,5 +128,11 @@
   <button class="btn right" onclick="buildSched()">Update Calendar</button>
   <div id="calView"></div>
   <script>
-	   $( "#calStartDt" ).datepicker();
+   $(function(){
+      var currentYear = CurrentYear(new Date());
+	   $( "#calStartDt" ).datepicker({
+	  	  minDate: currentYear.start(),
+  		  maxDate : currentYear.end()
+      });
+   });
   </script>

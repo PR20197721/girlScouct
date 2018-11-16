@@ -20,6 +20,7 @@ import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
 
 import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -32,6 +33,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.AssetComponentType;
@@ -72,12 +74,9 @@ import com.day.cq.search.result.SearchResult;
 @Service(value = MeetingDAO.class)
 public class MeetingDAOImpl implements MeetingDAO {
 	private final Logger log = LoggerFactory.getLogger("vtk");
-	
-	//public static Map<String,Long> resourceCountMap = new HashMap<String,Long>();
-	public static Map resourceCountMap = new HashMap();
 	public static final String RESOURCE_COUNT_MAP_AGE = "RESOURCE_COUNT_MAP_AGE";
 	public static final long MAX_CACHE_AGE_MS = 3600000; // 1 hour in ms
-//	public static final long MAX_CACHE_AGE_MS = 60000; // 1 minute in ms
+	public static Map resourceCountMap = new PassiveExpiringMap(MAX_CACHE_AGE_MS);
 
 	@Reference
 	private SessionFactory sessionFactory;
@@ -105,8 +104,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			throw new IllegalAccessException();
 		java.util.List<MeetingE> meetings = null;
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
+				
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);classes.add(Note.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -124,8 +126,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+					
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -144,12 +149,15 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		java.util.List<MeetingE> meetings = null;
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Achievement.class);
 			classes.add(Attendance.class);
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
+				
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
@@ -163,8 +171,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+					
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -177,18 +188,29 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		if (user != null
 				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_VIEW_MEETING_ID))
+						Permission.PERMISSION_VIEW_MEETING_ID)  && !userUtil.hasPermission(troop,
+								Permission.PERMISSION_VIEW_REPORT_ID )
+				)
 			throw new IllegalAccessException();
 
 		Meeting meeting = null;
 		Session session = null;
+		ResourceResolver rr =null;
 		try {
-			session = sessionFactory.getSession();
+		
+			
 			List<Class> classes = new ArrayList<Class>();
+			
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
+			classes.add(Attendance.class);
+		
+			
 			classes.add(JcrCollectionHoldString.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
+
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 		
@@ -211,25 +233,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 					meeting.setIsAchievement(globalMeetingInfo
 							.getIsAchievement());
 				}
-	
-	
-			try{	
-				//check agenda chn to outdoor
-				for(int i=0;i< globalMeetingInfo.getActivities().size();i++){
-					Activity gActivity = globalMeetingInfo.getActivities().get(i);
-
-					if( gActivity.getIsOutdoorAvailable() )
-					 for(int y=0;y<meeting.getActivities().size();y++){
-						Activity activity = meeting.getActivities().get(y);
-
-						if( !activity.getIsOutdoorAvailable() && activity.getName().equals(gActivity.getName()) ){
-			
-							activity.setIsOutdoorAvailable(true);
-							activity.setActivityDescription_outdoor( gActivity.getActivityDescription_outdoor() );
-						}
-					}//edn y
-				}//edn i
-			}catch(Exception e){e.printStackTrace();}
 			}//edn if
 		
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
@@ -243,7 +246,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 		} finally {
 			try {
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
+				if( rr!=null ){
+					sessionFactory.closeResourceResolver( rr );
+				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -262,9 +268,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			throw new IllegalAccessException();
 		Session session = null;
 		java.util.List<MeetingE> meetings = null;
-
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);classes.add(Note.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -280,8 +287,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -300,6 +309,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			MeetingE meetingEvent, Meeting meeting)
 			throws IllegalAccessException {
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
 
 			if (user != null
@@ -307,7 +317,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 							Permission.PERMISSION_CREATE_MEETING_ID))
 				throw new IllegalAccessException();
 
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Meeting.class);
@@ -322,8 +333,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			if (meeting == null)
 				meeting = getMeeting(user, troop, meetingEvent.getRefId());
-			String newPath = troop.getPath() + "/lib/meetings/"
-					+ meeting.getId() + "_" + Math.random();
+			
+			String newPath = troop.getPath() + "/lib/meetings/" + meeting.getId() + "_" + Math.random();
+			if( meetingEvent.getRefId().contains("/lib/meetings/") ){ 			
+				newPath = meetingEvent.getRefId();
+				ocm.remove(meeting);			
+				ocm.save();
+			}
+					
 			if (!session.itemExists(troop.getPath() + "/lib/meetings/")) {
 				ocm.insert(new JcrNode(troop.getPath() + "/lib"));
 				ocm.insert(new JcrNode(troop.getPath() + "/lib/meetings"));
@@ -339,8 +356,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -353,6 +373,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			MeetingE meetingEvent, Meeting meeting)
 			throws IllegalAccessException, IllegalStateException {
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
 
 			if (user != null
@@ -360,7 +381,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 							Permission.PERMISSION_EDIT_MEETING_ID))
 				throw new IllegalAccessException();
 
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Meeting.class);
@@ -394,8 +416,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -418,9 +443,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 		activities.add(activity);
 		meeting.setActivities(activities);
 		Session session = null;
+		ResourceResolver rr= null;
 
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Meeting.class);
@@ -436,8 +463,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -449,9 +479,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	public List<Meeting> search() {
 		Session session = null;
+		ResourceResolver rr= null;
 		List<Meeting> meetings = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
@@ -470,8 +502,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -484,8 +518,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 
@@ -525,8 +561,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+								session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -543,12 +581,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			throw new IllegalAccessException();
 
 		List<Asset> matched = new ArrayList<Asset>();
-
-
-
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			if (tags == null || tags.trim().equals(""))
 				return matched;
 
@@ -563,7 +600,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			}
 
 			String sql = "";
-			sql = "select dc:description,dc:format, dc:title, dc:isOutdoorRelated from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'";
+			sql = "select dc:description,dc:format, dc:title, dc:isOutdoorRelated from nt:unstructured where isdescendantnode( '/content/dam/girlscouts-vtk/global/aid/%')";
 			if (!sql_tag.equals(""))
 				sql += " and ( " + sql_tag + " )";
 
@@ -605,8 +642,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+								session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -632,10 +671,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 	private List<Asset> getLocalAssets(String meetingName, String meetingPath,
 			AssetComponentType type) {
 		List<Asset> assets = new ArrayList<Asset>();
-
+		ResourceResolver rr= null;
 		Session session = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 
 			// First, respect the "aidPaths" or "resourcePaths" field in the
 			// meeting. This field has multiple values.
@@ -687,9 +727,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 					+ ". Root cause was: " + e.getMessage());
 		} finally {
 			try {
-				if (session != null) {
-					sessionFactory.closeSession(session);
-				}
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				if (session != null)
+								session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -698,6 +739,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return assets;
 	}
 
+	/*
 	private List<Asset> getAidTag_custasset(User user, Troop troop, String uid)
 			throws IllegalAccessException {
 
@@ -705,11 +747,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-
+		ResourceResolver rr= null;
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			String sql = "select jcr:path from nt:base where jcr:path like '/vtk/111/troop-1a/assets/%' and refId='"
 					+ uid + "'";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
@@ -730,15 +773,17 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
 		return matched;
 	}
-
+*/
 	public List<Asset> getResource_global(User user, Troop troop, String tags,
 			String meetingName) throws IllegalAccessException {
 
@@ -746,11 +791,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-
+		ResourceResolver rr= null;
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			if (tags == null || tags.equals(""))
 				return matched;
 
@@ -765,7 +811,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					sql_tag += " or ";
 			}
 
-			String sql = "select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/resource/%'  ";
+			String sql = "select dc:description,dc:format, dc:title from nt:unstructured where isdescendantnode( '/content/dam/girlscouts-vtk/global/resource/%' ) ";
 			if (!sql_tag.equals(""))
 				sql += " and ( " + sql_tag + " )";
 
@@ -804,8 +850,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -892,13 +940,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-
+		ResourceResolver rr= null;
 		String councilStr = councilMapper.getCouncilBranch(councilCode);
 		councilStr = councilStr.replace("/content/", "");
 		Session session = null;
 		SearchTag tags = new SearchTag();
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			String tagStr = councilStr;
 			try{
 				Node homepage = session.getNode("/content/" + councilStr + "/en/jcr:content");
@@ -916,7 +965,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					troop, councilStr);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/"+ tagStr + "/%'";
+			String sql = "select jcr:title from cq:Tag where ISDESCENDANTNODE( '/etc/tags/"+ tagStr + "')";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -968,8 +1017,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -985,16 +1036,16 @@ public class MeetingDAOImpl implements MeetingDAO {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-
+		ResourceResolver rr= null;
 		Session session = null;
 		String councilStr = "girlscouts";
 		SearchTag tags = new SearchTag();
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			//String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/" + councilStr + "/%'";
-			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/" + councilStr + "%'";
+			String sql = "select jcr:title from cq:Tag where isdescendantnode( '/etc/tags/" + councilStr + "%')";
 			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -1039,8 +1090,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1051,11 +1104,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public java.util.List<Activity> searchA2(Troop troop, String tags,
 			String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region) {
-
+		ResourceResolver rr= null;
 		java.util.List<Activity> toRet = new java.util.ArrayList();
 		Session session = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			boolean isTag = false;
 			String sqlTags = "";
 			if (tags.equals("|"))
@@ -1163,7 +1217,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				activity.setName(r.getValue("child.srchdisp").getString());
+				//activity.setName(r.getValue("child.srchdisp").getString());
 				activity.setName(r.getValue("parent.jcr:title").getString());
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT" + i);
@@ -1199,8 +1253,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1219,9 +1276,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 		java.util.Map<String, String> container = new java.util.TreeMap();
 		Session session = null;
 		Node homepage = null;
+		ResourceResolver rr= null;
+		if( councilStr!=null && !councilStr.startsWith("/content/") )
+			councilStr= "/content/" + councilStr;
+		
 		String repoStr = councilStr + "/en/events-repository";
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			try{
 				homepage = session.getNode(councilStr + "/en/jcr:content");
 				if(homepage != null){
@@ -1234,9 +1296,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			}
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select region, start, end from cq:Page where jcr:path like '/content/"
-					+ repoStr
-					+ "/%' and region is not null";
+			String sql = "select region, start, end from cq:Page where ISDESCENDANTNODE('"+ repoStr+ 
+					"')  and region is not null";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1275,8 +1336,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1292,11 +1355,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-
+		ResourceResolver rr= null;
 		java.util.List<Meeting> meetings = null;
 		Session session = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
@@ -1319,8 +1383,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1336,7 +1402,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-
+		ResourceResolver rr= null;
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
@@ -1345,8 +1411,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 					+ " (isdescendantnode (parent, ["
 					+ _path
 					+ "])) and [cq:tags] is not null";
-;			
-			session = sessionFactory.getSession();
+					
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1387,8 +1454,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1403,16 +1472,17 @@ public class MeetingDAOImpl implements MeetingDAO {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-
+		ResourceResolver rr= null;
 		Asset search = null;
 		Session session = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			String sql = "";
 			if (_path != null && _path.contains("metadata/"))
 				_path = _path.replace("metadata/", "");
-			sql = "select dc:description,dc:format, dc:title,dc:isOutdoorRelated from nt:unstructured where jcr:path like '"
-					+ _path + "%' and cq:tags is not null";
+			sql = "select dc:description,dc:format, dc:title,dc:isOutdoorRelated from nt:unstructured where isdescendantnode( '"
+					+ _path + "%') and cq:tags is not null";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1446,8 +1516,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1460,8 +1532,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 		if (resourceTags == null || resourceTags.equals(""))
 			return toRet;
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			java.util.Map<String, String> map = new java.util.HashMap<String, String>();
 			map.put("group.p.or", "true");
 			resourceTags += ";"; // if 1 tag no delim
@@ -1502,8 +1576,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1514,11 +1590,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public Council getCouncil(User user, Troop troop, String councilId)
 			throws IllegalAccessException {
 		// TODO Permission.PERMISSION_VIEW_MEETING_ID
-
+		ResourceResolver rr= null;
 		Session session = null;
 		Council council = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1532,8 +1609,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1546,9 +1625,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 		String councilStr = councilMapper.getCouncilBranch(councilCode);
 		councilStr = councilStr.replace("/content/", "");
 		Session session = null;
+		ResourceResolver rr= null;
 		java.util.List<Milestone> milestones = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Milestone.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1563,8 +1644,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1573,10 +1656,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	public void saveCouncilMilestones(java.util.List<Milestone> milestones) {
-
+		ResourceResolver rr= null;
 		Session session = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Milestone.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1589,14 +1673,17 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
 	}
 
+	
 	public java.util.List<Activity> searchA1(User user, Troop troop,
 			String tags, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
@@ -1605,17 +1692,18 @@ public class MeetingDAOImpl implements MeetingDAO {
 	
 		java.util.List<Activity> toRet = new java.util.ArrayList();
 		Session session = null;
-
+		ResourceResolver rr= null;
 		if (!userUtil.hasPermission(troop,
 				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 
 			String councilStr = councilMapper.getCouncilBranch(troop.getSfCouncil());	 
 			if (councilStr==null || councilStr.trim().equals("") ) councilStr= "/content/gateway";
-			
+
 			String councilId = null;
 			if (troop.getTroop() != null) {
 				councilId = Integer.toString(troop.getTroop().getCouncilCode());
@@ -1649,7 +1737,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				tags = "";
 			StringTokenizer t = new StringTokenizer(tags, "|");
 			while (t.hasMoreElements()) {
-				sqlTags += " parent.[cq:tags] like '%" + namespace + ":program-level/" + t.nextToken() + "%' ";
+				sqlTags += " s.[/jcr:content/cq:tags] like '%" + namespace + ":program-level/" + t.nextToken() + "%' ";
 				if (t.hasMoreElements())
 					sqlTags += " or ";
 				isTag = true;
@@ -1661,7 +1749,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				cat = "";
 			t = new StringTokenizer(cat, "|");
 			while (t.hasMoreElements()) {
-				sqlCat += " parent.[cq:tags] like '%" + namespace + ":categories/" + t.nextToken() + "%' ";
+				sqlCat += " s.[/jcr:content/cq:tags] like '%" + namespace + ":categories/" + t.nextToken() + "%' ";
 				if (t.hasMoreElements())
 					sqlCat += " or ";
 				isTag = true;
@@ -1671,7 +1759,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			String regionSql = "";
 			if (region != null && !region.trim().equals("")) {
-				regionSql += " and LOWER(child.region) ='" + region + "'";
+				regionSql += " and LOWER(/jcr:content/data/region) ='" + region + "'";
 			}
 
 
@@ -1682,28 +1770,19 @@ public class MeetingDAOImpl implements MeetingDAO {
 			else
 				path = path + "/jcr:content";
 
-			String sql = "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["
+			String sql = "select s.*  from [cq:Page] as s where  (isdescendantnode (s, ["
 					+ eventPath
-					+ "])) and child.start is not null and parent.[jcr:title] is not null ";
+					+ "])) and s.[/jcr:content/data/start] is not null and s.[/jcr:content/jcr:title] is not null ";
 			
 			
 			
-			/*
 			if (keywrd != null && !keywrd.trim().equals(""))// && !isTag )
-				sql += " and (contains(child.*, '" + keywrd
-						+ "') or contains(parent.*, '" + keywrd + "')  )";
-			*/				
-			if (keywrd != null && !keywrd.trim().equals(""))
-				sql += " and ( child.* like '%" + keywrd + "%' " +
-						" or parent.* like '%" + keywrd + "%'  )";
-			
-			
+				sql += " and contains(s.*, '" + keywrd+ "') ";
 			
 			sql += regionSql;
 			sql += sqlTags;
 			sql += sqlCat;
 			
-//select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/girlscoutshh/en/sf-events-repository])) and child.start is not null and parent.[jcr:title] is not null  and ( child.* like '%Earth Day%'  or parent.* like '%Earth Day%'  )
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1712,12 +1791,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
-				Value v[] = r.getValues();
 		
+				Node resultNode  = r.getNode();	
 				Activity activity = new Activity();
 				activity.setUid("A" + new java.util.Date().getTime() + "_"
 						+ Math.random());
-				activity.setContent(r.getValue("child.details").getString());
+				activity.setContent(resultNode.getProperty("jcr:content/data/details").getString());
 
 				// convert to EST
 				// TODO: All VTK date is based on server time zone, which is
@@ -1729,39 +1808,50 @@ public class MeetingDAOImpl implements MeetingDAO {
 				// 2014-11-06T09:00:00.000-05:00
 				SimpleDateFormat dateFormat = new SimpleDateFormat(
 						"yyyy-MM-dd'T'HH:mm:ss.SSS");
+				
+				
 				try {
-					String eventStartDateStr = r.getValue("child.start")
-							.getString();
+					String eventStartDateStr = resultNode.getProperty("jcr:content/data/start").getString();	
+					
+					if( resultNode.getPath().contains("/sf-events-repository/")){
+						String sfTimeZoneLabel = resultNode.hasProperty("jcr:content/data/timezone") ? resultNode.getProperty("jcr:content/data/timezone").getString() : "";
+						eventStartDateStr= VtkUtil.getSFActivityDate(eventStartDateStr, sfTimeZoneLabel);
+						if( eventStartDateStr==null) continue;
+
+					}
 					Date eventStartDate = dateFormat.parse(eventStartDateStr);
 					activity.setDate(eventStartDate);
-					String eventEndDateStr = r.getValue("child.end")
-							.getString();
+					
+					String eventEndDateStr = resultNode.getProperty("jcr:content/data/end").getString();
+					
+					if( resultNode.getPath().contains("/sf-events-repository/")){
+						String sfTimeZoneLabel = resultNode.hasProperty("jcr:content/data/timezone") ? resultNode.getProperty("jcr:content/data/timezone").getString() : "";
+						eventEndDateStr= VtkUtil.getSFActivityDate(eventEndDateStr, sfTimeZoneLabel);
+					}
 					Date eventEndDate = dateFormat.parse(eventEndDateStr);
 					activity.setEndDate(eventEndDate);
 				} catch (Exception e) {
 				}
 				// TODO: end of hacking timezone
-
 				if ((activity.getDate().before(new java.util.Date()) && activity
 						.getEndDate() == null)
 						|| (activity.getEndDate() != null && activity
-								.getEndDate().before(new java.util.Date()))) {
-					
+								.getEndDate().before(new java.util.Date()))) {				
 					continue;
 				}
 				try {
-					activity.setLocationName(r.getValue("child.locationLabel").getString());
+					activity.setLocationName(resultNode.getProperty("jcr:content/data/locationLabel").getString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				try {
-					activity.setLocationAddress(r.getValue("child.address")
+					activity.setLocationAddress(resultNode.getProperty("jcr:content/data/address")
 							.getString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				activity.setName(r.getValue("child.srchdisp").getString());
-				activity.setName(r.getValue("parent.jcr:title").getString());
+				
+				activity.setName(resultNode.getProperty("jcr:content/jcr:title").getString());
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT" + i);
 				if (activity.getDate() != null && activity.getEndDate() == null) {
@@ -1769,30 +1859,45 @@ public class MeetingDAOImpl implements MeetingDAO {
 				}
 				activity.setIsEditable(false);
 				try {
-					activity.setRefUid(r.getValue("parent.jcr:uuid")
+					activity.setRefUid(resultNode.getProperty("jcr:content/jcr:uuid")
 							.getString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 				try {
-					activity.setRegisterUrl(r.getValue("child.register")
+					activity.setRegisterUrl(resultNode.getProperty("jcr:content/data/register")
 							.getString());
 				} catch (Exception e) {
 					log.error("searchActivity no register url");
 				}
 
 				if (startDate != null && endDate != null) {
+
 					startDate.setHours(0);
 					endDate.setHours(23);
 
-					if (activity.getDate() != null
-							&& activity.getDate().after(startDate)
-							&& activity.getDate().before(endDate))
-						;
-					else {
-						continue;
-					}
+
+					
+					if( activity.getDate() != null && (  //start date
+							activity.getDate().equals(endDate) ||
+							activity.getDate().before(endDate) ) ){
+
+							;
+					}else if( activity.getEndDate() != null && (  //end date
+							 activity.getEndDate().equals(endDate) ||
+							 activity.getEndDate().equals(startDate) ||
+							 activity.getEndDate().before(endDate) && activity.getEndDate().after(startDate)
+							 )
+							 ){
+
+						 ;
+					 }else{
+
+						 continue;
+					 }
+					
+					
 				}
 
 				toRet.add(activity);
@@ -1804,8 +1909,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1817,8 +1924,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public void updateCustMeetingPlansRef(java.util.List<String> meetings,
 			String path) {
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			for (int i = 0; i < meetings.size(); i++) {
 				String meetingPath = meetings.get(i);
 
@@ -1839,8 +1948,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1851,8 +1962,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public java.util.List<String> getCustMeetings(String path) {
 		java.util.List<String> toRet = new java.util.ArrayList<String>();
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			String sql = "select * from nt:unstructured where jcr:path like '"
 					+ path
 					+ "/%' and ocm_classname ='org.girlscouts.vtk.models.MeetingE' and refId like '%/users/%_%' ";
@@ -1873,8 +1986,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1885,13 +2000,15 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public String removeLocation(User user, Troop troop, String locationName)
 			throws IllegalAccessException, IllegalStateException {
 		Session session = null;
+		ResourceResolver rr= null;
 		String locationToRmPath = null;
 		try {
 			if (user != null
 					&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_EDIT_MEETING_ID))
 				throw new IllegalAccessException();
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(Activity.class);
@@ -1921,8 +2038,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1933,8 +2052,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public Attendance getAttendance(User user, Troop troop, String mid) {
 		Attendance attendance = null;
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Attendance.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1945,8 +2066,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1957,8 +2080,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public boolean setAttendance(User user, Troop troop, String mid,
 			Attendance attendance) {
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Attendance.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1972,8 +2097,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1984,8 +2111,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public Achievement getAchievement(User user, Troop troop, String mid) {
 		Achievement attendance = null;
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Achievement.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1997,8 +2126,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -2009,8 +2140,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public boolean setAchievement(User user, Troop troop, String mid,
 			Achievement Achievement) {
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Achievement.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -2024,8 +2157,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -2036,13 +2171,15 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public boolean updateMeetingEvent(User user, Troop troop, MeetingE meeting)
 			throws IllegalAccessException, IllegalStateException {
 		Session session = null;
+		ResourceResolver rr= null;
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(JcrCollectionHoldString.class);
@@ -2057,8 +2194,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -2074,8 +2213,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			throw new IllegalAccessException();
 		MeetingE meetingE = null;
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Meeting.class); 
 			classes.add(Activity.class);
@@ -2102,8 +2243,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -2120,13 +2263,15 @@ public class MeetingDAOImpl implements MeetingDAO {
 		int count = 0;
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
 			String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] "
 					+ " from [nt:unstructured] as parent where "
 					+ " (isdescendantnode (parent, ["
 					+ _path
 					+ "])) and [cq:tags] is not null";
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -2137,8 +2282,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -2185,153 +2332,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
-	public List<org.girlscouts.vtk.models.Search> getDataItem_old020316(User user,
-
-	Troop troop, String _query, String PATH) throws IllegalAccessException {
-
-		if (user != null
-
-		&& !userUtil.hasPermission(troop,
-
-		Permission.PERMISSION_LOGIN_ID))
-
-			throw new IllegalAccessException();
-
-		Session session = null;
-
-		List<org.girlscouts.vtk.models.Search> matched = null;
-		final String RESOURCES_PATH = "resources";
-		String councilId = null;
-		if (troop.getTroop() != null) {
-			councilId = Integer.toString(troop.getTroop().getCouncilCode());
-		}
-
-		String branch = councilMapper.getCouncilBranch(councilId);
-
-		String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
-
-		if (PATH == null) {
-			PATH = resourceRootPath;
-		}
-		matched = new ArrayList<org.girlscouts.vtk.models.Search>();
-
-		try {
-
-			session = sessionFactory.getSession();
-
-			java.util.Map<String, String> map = new java.util.HashMap<String, String>();
-			map.put("fulltext", _query);
-			map.put("path", PATH);
-			//map.put("p.limit", "1");
-
-
-
-
-	com.day.cq.search.Query query = qBuilder.createQuery(
-					PredicateGroup.create(map), session);
 	
-			query.setExcerpt(true);
-
-			java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
-
-			SearchResult result = query.getResult();
-
-
-			for (Hit hit : result.getHits()) {
-
-				try {
-
-					String path = hit.getPath();
-
-					java.util.Map<String, String> exc = hit.getExcerpts();
-					java.util.Iterator itr = exc.keySet().iterator();
-
-					while (itr.hasNext()) {
-						String str = (String) itr.next();
-						String str1 = exc.get(str);
-					}
-
-					ValueMap vp = hit.getProperties();
-
-					itr = vp.keySet().iterator();
-
-					DocHit dh = new DocHit(hit);
-
-					org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
-
-					search.setPath(dh.getURL());
-
-					search.setDesc(dh.getTitle());
-
-					search.setContent(dh.getExcerpt());
-
-					search.setSubTitle(dh.getDescription());
-
-					search.setAssetType(AssetComponentType.RESOURCE);
-
-					if (search.getPath().toLowerCase().contains("/aid/"))
-
-						search.setAssetType(AssetComponentType.AID);
-
-					if (unq.containsKey(search.getPath())) {
-
-						if (search.getContent() != null
-
-						&& !search.getContent().trim().equals("")) {
-
-							org.girlscouts.vtk.models.Search _search = unq
-
-							.get(search.getPath());
-
-							if (_search.getContent() == null
-
-							|| _search.getContent().trim().equals(""))
-
-								unq.put(search.getPath(), search);
-
-						}
-
-					} else
-
-						unq.put(search.getPath(), search);
-
-				} catch (RepositoryException e) {
-
-					e.printStackTrace();
-
-				}
-
-			}
-
-			java.util.Iterator itr = unq.keySet().iterator();
-
-			while (itr.hasNext())
-
-				matched.add(unq.get(itr.next()));
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		} finally {
-
-			try {
-
-				if (session != null)
-
-					sessionFactory.closeSession(session);
-
-			} catch (Exception ex) {
-
-				ex.printStackTrace();
-
-			}
-
-		}
-
-		return matched;
-
-	}
 	public List<org.girlscouts.vtk.models.Search> getDataItem(User user,
 
 			Troop troop, String _query, String PATH) throws IllegalAccessException {
@@ -2343,7 +2344,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				Permission.PERMISSION_LOGIN_ID))
 
 					throw new IllegalAccessException();
-
+				ResourceResolver rr= null;
 				Session session = null;
 
 				List<org.girlscouts.vtk.models.Search> matched = null;
@@ -2363,13 +2364,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 				matched = new ArrayList<org.girlscouts.vtk.models.Search>();
 				try {
 
-					session = sessionFactory.getSession();
-
+					rr = sessionFactory.getResourceResolver();
+					session = rr.adaptTo(Session.class);
 					java.util.Map<String, String> map = new java.util.HashMap<String, String>();
 					map.put("fulltext", _query);
 					map.put("path", PATH);
 					map.put("type", "dam:Asset");
-					//map.put("p.limit", "1");
+					
 		
 			com.day.cq.search.Query query = qBuilder.createQuery(
 							PredicateGroup.create(map), session);
@@ -2460,9 +2461,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 					try {
 
+						if( rr!=null )
+							sessionFactory.closeResourceResolver( rr );
 						if (session != null)
-
-							sessionFactory.closeSession(session);
+							session.logout();
 
 					} catch (Exception ex) {
 
@@ -2483,6 +2485,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		if(path == null || "".equals(path)) {
 			return 0;
 		}
+		ResourceResolver rr= null;
 		Session session = null;
 		try {
 			String sql = "select [jcr:path] "
@@ -2491,7 +2494,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 					+ path
 					+ "]))";
 
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			
@@ -2511,9 +2515,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (session != null) {
-					sessionFactory.closeSession(session);
-				}
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				if (session != null)
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -2535,7 +2540,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		if (level.contains("-")) {
 			level = level.split("-")[1];
 		}
-		
+		ResourceResolver rr= null;
 		Session session = null;
 		try {
 			String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] "
@@ -2544,7 +2549,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 					+ _path
 					+ "])) and [cq:tags] is not null";
 
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			
@@ -2564,9 +2570,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (session != null) {
-					sessionFactory.closeSession(session);
-				}
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				if (session != null)
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -2579,24 +2586,19 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public java.util.Collection<bean_resource> getResourceData(User user, Troop troop, String _path)
 			throws IllegalAccessException { 
 		
-		int count = 0;
-		
+		int count = 0;	
 		if (resourceCountMap.containsKey(_path)) {
-			// it contains the key
-			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
-				// return cache
-				
-				return (java.util.Collection<bean_resource>)resourceCountMap.get(_path);
-			}
+			return (java.util.Collection<bean_resource>)resourceCountMap.get(_path);
 		}
-		
+		ResourceResolver rr= null;
 		java.util.Map <String, bean_resource>dictionary =null;
 		Session session = null;
 		try {
 			
 			String sql = "SELECT [jcr:path], [jcr:title] FROM [cq:PageContent] AS s WHERE ISDESCENDANTNODE(s, ["+ _path +"])";
 
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			
@@ -2667,9 +2669,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (session != null) {
-					sessionFactory.closeSession(session);
-				}
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				if (session != null)
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -2678,9 +2681,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 		
 				
 		resourceCountMap.put(_path, dictionary.values());
-		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
-
-		
 		return dictionary.values();
 	}
 	
@@ -2692,20 +2692,16 @@ public class MeetingDAOImpl implements MeetingDAO {
 		}
 		
 		if (resourceCountMap.containsKey(path)) {
-			// it contains the key
-			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
-				// return cache
-			
-				return ((Integer)resourceCountMap.get(path)).intValue();
-			}
+				return ((Integer)resourceCountMap.get(path)).intValue();	
 		}
 		
-		
+		ResourceResolver rr= null;
 		Session session = null;
 		try {
-			String sql = "select * from nt:base where jcr:path like '"+path+"%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
+			String sql = "select * from nt:base where isdescendantnode( '"+path+"%' ) and ocm_classname='org.girlscouts.vtk.models.Meeting'";
 
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			
@@ -2724,9 +2720,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (session != null) {
-					sessionFactory.closeSession(session);
-				}
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				if (session != null)
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -2735,7 +2732,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 		
 				
 		resourceCountMap.put(path, count);
-		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 		return count;
 	}
 	
@@ -2743,23 +2739,20 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException {
 		if (resourceCountMap.containsKey(path)) {
-			// it contains the key
-			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
-				// return cache
-			
 				return ((Long)resourceCountMap.get(path)).intValue();
-			}
 		}
 			
 		long count = 0;
 		if(path == null || "".equals(path)) {
 			return 0;
 		}
+		ResourceResolver rr= null;
 		Session session = null;
 		try {
 			String sql = "select [jcr:path]  from [nt:unstructured] as s   where  (isdescendantnode (s, ["+path+"])) and [cq:tags] is not null";
 
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			
@@ -2770,15 +2763,15 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 			count = (long) result.getNodes().getSize();
 				
 			resourceCountMap.put(path, count);
-			resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
-			
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (session != null) {
-					sessionFactory.closeSession(session);
-				}
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				if (session != null)
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -2797,17 +2790,15 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 
 	java.util.List<Meeting> meetings = null;
 	Session session = null;
+	ResourceResolver rr= null;
 	try {
-		session = sessionFactory.getSession();
+		
 		List<Class> classes = new ArrayList<Class>();
 		classes.add(Meeting.class);
-		//classes.add(Activity.class);
-		//classes.add(Meeting2.class);
-		//classes.add(JcrCollectionHoldString.class);
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		
 		
-		
+
 		
 String xmlDescriptor = 
 
@@ -2815,6 +2806,8 @@ String xmlDescriptor =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+
 		"<!DOCTYPE jackrabbit-ocm PUBLIC \"-//The Apache Software Foundation//DTD Jackrabbit OCM 1.5//EN\" "+
 		"\"http://jackrabbit.apache.org/dtd/jackrabbit-ocm-1.5.dtd\">"+
+
+
 "<jackrabbit-ocm>"+
 "<class-descriptor className=\"org.girlscouts.vtk.models.Meeting\" jcrType=\"nt:unstructured\">"+
 "<field-descriptor fieldName=\"path\" path=\"true\" />"+
@@ -2825,15 +2818,18 @@ String xmlDescriptor =
 "<field-descriptor fieldName=\"blurb\" jcrName=\"blurb\"/>"+
 "<field-descriptor fieldName=\"cat\" jcrName=\"cat\"/>"+
 "<field-descriptor fieldName=\"catTags\" jcrName=\"catTags\"/>"+
+"<field-descriptor fieldName=\"catTagsAlt\" jcrName=\"catTagsAlt\"/>"+
+"<field-descriptor fieldName=\"meetingPlanTypeAlt\" jcrName=\"meetingPlanTypeAlt\"/>"+
 "<field-descriptor fieldName=\"meetingPlanType\" jcrName=\"meetingPlanType\"/>"+
-
+"<field-descriptor fieldName=\"req\" jcrName=\"req\"/>"+
+"<field-descriptor fieldName=\"reqTitle\" jcrName=\"reqTitle\"/>"+
 
 "</class-descriptor></jackrabbit-ocm>";
 InputStream[] in = new InputStream[1];
 in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 		 
-		 
-		 
+rr = sessionFactory.getResourceResolver();
+session = rr.adaptTo(Session.class);
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session, in);//(session,mapper);
 		QueryManager queryManager = ocm.getQueryManager();
 		Field field = new Meeting().getClass().getDeclaredField("activities");
@@ -2846,16 +2842,20 @@ in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 		if (meetings != null)
 			Collections.sort(meetings, comp);
 	
+
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
 		try {
+			if( rr!=null )
+				sessionFactory.closeResourceResolver( rr );
 			if (session != null)
-				sessionFactory.closeSession(session);
+				session.logout();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	return meetings;
 	
 
@@ -2870,7 +2870,7 @@ if (user != null && !userUtil.hasPermission(troop,
 		Permission.PERMISSION_CREATE_MEETING_ID))
 throw new IllegalAccessException();
 
-	
+	ResourceResolver rr= null;
 	java.util.List<Note> notes= null;
 	Session session = null;
 	try {
@@ -2878,7 +2878,8 @@ throw new IllegalAccessException();
 		classes.add(MeetingE.class);classes.add(Note.class);
 		classes.add(Achievement.class);
 		classes.add(Attendance.class);
-		session = sessionFactory.getSession();
+		rr = sessionFactory.getResourceResolver();
+		session = rr.adaptTo(Session.class);
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
@@ -2902,8 +2903,10 @@ throw new IllegalAccessException();
 		e.printStackTrace();
 	} finally {
 		try {
+			if( rr!=null )
+				sessionFactory.closeResourceResolver( rr );
 			if (session != null)
-				sessionFactory.closeSession(session);
+				session.logout();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -2923,10 +2926,11 @@ public boolean updateNote(User user, Troop troop,Note  note) throws IllegalAcces
 	
 	if ( !user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId()  ))
 		throw new IllegalAccessException();
-	
+	ResourceResolver rr= null;
 	Session session = null;
 	try {
-		session = sessionFactory.getSession();
+		rr = sessionFactory.getResourceResolver();
+		session = rr.adaptTo(Session.class);
 		List<Class> classes = new ArrayList<Class>();
 		classes.add(MeetingE.class);
 		classes.add(Note.class);
@@ -2946,8 +2950,10 @@ public boolean updateNote(User user, Troop troop,Note  note) throws IllegalAcces
 		e.printStackTrace();
 	} finally {
 		try {
+			if( rr!=null )
+				sessionFactory.closeResourceResolver( rr );
 			if (session != null)
-				sessionFactory.closeSession(session);
+				session.logout();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -2964,10 +2970,11 @@ public boolean rmNote(User user, Troop troop,Note  note) throws IllegalAccessExc
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_CREATE_MEETING_ID))
 		throw new IllegalAccessException();
-	
+	ResourceResolver rr= null;
 	Session session = null;
 	try {
-		session = sessionFactory.getSession();
+		rr = sessionFactory.getResourceResolver();
+		session = rr.adaptTo(Session.class);
 		List<Class> classes = new ArrayList<Class>();
 		classes.add(MeetingE.class);
 		classes.add(Note.class);
@@ -2976,7 +2983,7 @@ public boolean rmNote(User user, Troop troop,Note  note) throws IllegalAccessExc
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
 	
-		if ( user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId()  )){//session.itemExists(note.getPath())){
+		if (user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId()  )){//session.itemExists(note.getPath())){
 
 			ocm.remove(note);
 			ocm.save();
@@ -2985,12 +2992,16 @@ public boolean rmNote(User user, Troop troop,Note  note) throws IllegalAccessExc
 
 			throw new IllegalAccessException();
 		}
+	} catch (IllegalAccessException el) {
+		throw el;
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
 		try {
+			if( rr!=null )
+				sessionFactory.closeResourceResolver( rr );
 			if (session != null)
-				sessionFactory.closeSession(session);
+				session.logout();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -3035,7 +3046,7 @@ public Note getNote_OCM(User user, Troop troop, String nid)
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_CREATE_MEETING_ID))
 		throw new IllegalAccessException();
-	
+	ResourceResolver rr= null;
 	Note note= null;
 	Session session = null;
 	try {
@@ -3043,7 +3054,8 @@ public Note getNote_OCM(User user, Troop troop, String nid)
 		classes.add(MeetingE.class);classes.add(Note.class);
 		classes.add(Achievement.class);
 		classes.add(Attendance.class);
-		session = sessionFactory.getSession();
+		rr = sessionFactory.getResourceResolver();
+		session = rr.adaptTo(Session.class);
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
@@ -3060,8 +3072,10 @@ public Note getNote_OCM(User user, Troop troop, String nid)
 		e.printStackTrace();
 	} finally {
 		try {
+			if( rr!=null )
+				sessionFactory.closeResourceResolver( rr );
 			if (session != null)
-				sessionFactory.closeSession(session);
+				session.logout();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -3078,14 +3092,15 @@ public Note getNote(User user, Troop troop, String nid)
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_CREATE_MEETING_ID))
 		throw new IllegalAccessException();
-	
+	ResourceResolver rr= null;
 	Note note= null;
 	Session session = null;
 	try {
-		session = sessionFactory.getSession();
+		rr = sessionFactory.getResourceResolver();
+		session = rr.adaptTo(Session.class);
 		javax.jcr.query.QueryManager qm = session.getWorkspace()
 				.getQueryManager();
-		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note' and jcr:path like '"+ troop.getYearPlan().getPath() +"%/notes/"+nid+"'";
+		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note' and isdescendantnode( '"+ troop.getYearPlan().getPath() +"%/notes/"+nid+"')";
 		
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 		QueryResult result = q.execute();
@@ -3109,8 +3124,10 @@ public Note getNote(User user, Troop troop, String nid)
 		e.printStackTrace();
 	} finally {
 		try {
+			if( rr!=null )
+				sessionFactory.closeResourceResolver( rr );
 			if (session != null)
-				sessionFactory.closeSession(session);
+				session.logout();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -3131,11 +3148,13 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 	
 	java.util.List<Note> notes = new java.util.ArrayList<Note>();
 	Session session = null;
+	ResourceResolver rr= null;
 	try {
-		session = sessionFactory.getSession();
+		rr = sessionFactory.getResourceResolver();
+		session = rr.adaptTo(Session.class);
 		javax.jcr.query.QueryManager qm = session.getWorkspace()
 				.getQueryManager();
-		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note'  and jcr:path like '"+ troop.getYearPlan().getPath() +"/meetingEvents/"+ refId +"%'";	
+		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note'  and isdescendantnode( '"+ troop.getYearPlan().getPath() +"/meetingEvents/"+ refId +"%')";	
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 		QueryResult result = q.execute();
 		String str[] = result.getColumnNames();
@@ -3161,8 +3180,10 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 		e.printStackTrace();
 	} finally {
 		try {
+			if( rr!=null )
+				sessionFactory.closeResourceResolver( rr );
 			if (session != null)
-				sessionFactory.closeSession(session);
+				session.logout();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -3170,5 +3191,210 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 	return notes;
 }
 
+	//get all meetings with at least 1 outdoor agenda
+	public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException{
+		if (user != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_LOGIN_ID))
+			throw new IllegalAccessException();
+		Set<String> outdoorMeetings = new java.util.HashSet();
+		Session session = null;
+		ResourceResolver rr= null;
+		try {
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
+				
+			String sql ="select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and outdoor=true and ocm_classname='org.girlscouts.vtk.models.Activity'";		
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.SQL);
+			QueryResult result = q.execute();
 
+			for (RowIterator it = result.getRows(); it.hasNext();) {
+				Row r = it.nextRow();
+				String path =r.getPath(); 
+				String pathElements[] = path.split("/");
+				if(pathElements!=null && pathElements.length>5){				
+					outdoorMeetings.add( pathElements[6] );
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+				if (session != null)
+					session.logout();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return outdoorMeetings;
+	}
+
+	
+	
+		public List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException{
+			if (user != null
+					&& !userUtil.hasPermission(troop,
+							Permission.PERMISSION_LOGIN_ID))
+				throw new IllegalAccessException();
+			Session session = null;
+			ResourceResolver rr= null;
+			List<Meeting> meetings= new ArrayList();
+			try {
+				rr = sessionFactory.getResourceResolver();
+				session = rr.adaptTo(Session.class);
+
+				String sql ="select catTags, blurb, id, level, name, meetingPlanType, req, reqTitle from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "')  and ocm_classname='org.girlscouts.vtk.models.Meeting' and level='"+level+"'";		
+			
+				javax.jcr.query.QueryManager qm = session.getWorkspace()
+						.getQueryManager();
+				javax.jcr.query.Query q = qm.createQuery(sql,
+						javax.jcr.query.Query.SQL);
+				QueryResult result = q.execute();
+				rows:for (RowIterator it = result.getRows(); it.hasNext();) {
+					Row r = it.nextRow();
+					String path =r.getPath(); 
+				
+					Meeting meeting = new Meeting();
+					meeting.setBlurb( r.getValue("blurb").getString() );
+					meeting.setPath( path );
+					meeting.setId(r.getValue("id").getString() );
+					meeting.setLevel( r.getValue("level").getString() );
+					meeting.setName( r.getValue("name").getString());
+					meeting.setReq(r.getValue("req") ==null ? null : r.getValue("req").getString());
+					meeting.setReqTitle(r.getValue("reqTitle")==null ? null : r.getValue("reqTitle").getString());
+					try{
+						meeting.setCatTags( r.getValue("catTags").getString());
+					}catch(Exception e){e.printStackTrace();}
+					
+					try{
+						meeting.setMeetingPlanType( r.getValue("meetingPlanType").getString());
+					}catch(Exception e){
+						e.printStackTrace();
+						System.err.println("Missing prop meetingPlanType in : "+ path);
+						continue rows;
+					}
+					meetings.add( meeting );
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if( rr!=null )
+						sessionFactory.closeResourceResolver( rr );
+					if (session != null)
+						session.logout();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			return meetings;
+		}
+		
+		public boolean removeAttendance(User user, Troop troop, 
+				Attendance attendance) {
+			Session session = null;
+			boolean isRm= false;
+			ResourceResolver rr= null;
+			try {
+				rr = sessionFactory.getResourceResolver();
+				session = rr.adaptTo(Session.class);
+				List<Class> classes = new ArrayList<Class>();
+				classes.add(Attendance.class);
+				Mapper mapper = new AnnotationMapperImpl(classes);
+				ObjectContentManager ocm = new ObjectContentManagerImpl(session,mapper);
+				ocm.remove(attendance);
+				ocm.save();
+				isRm=true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if( rr!=null )
+						sessionFactory.closeResourceResolver( rr );
+					if (session != null)
+						session.logout();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			return isRm;
+		}
+		
+		public boolean removeAchievement(User user, Troop troop, 
+				Achievement achievement) {
+			Session session = null;
+			boolean isRm= false;
+			ResourceResolver rr= null;
+			try {
+				rr = sessionFactory.getResourceResolver();
+				session = rr.adaptTo(Session.class);
+				List<Class> classes = new ArrayList<Class>();
+				classes.add(Achievement.class);
+				Mapper mapper = new AnnotationMapperImpl(classes);
+				ObjectContentManager ocm = new ObjectContentManagerImpl(session,mapper);
+				ocm.remove(achievement);
+				ocm.save();
+				isRm=true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if( rr!=null )
+						sessionFactory.closeResourceResolver( rr );
+					if (session != null)
+						session.logout();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			return isRm;
+		}
+		
+		
+		public java.util.List<Meeting> getAllMeetings() throws IllegalAccessException {
+
+			java.util.List<Meeting> meetings = null;
+			Session session = null;
+			ResourceResolver rr= null;
+
+			try {
+				rr = sessionFactory.getResourceResolver();
+				session = rr.adaptTo(Session.class);
+				List<Class> classes = new ArrayList<Class>();
+				classes.add(Meeting.class);
+				classes.add(Activity.class);
+
+				classes.add(Attendance.class);
+				classes.add(JcrCollectionHoldString.class);
+				Mapper mapper = new AnnotationMapperImpl(classes);
+				ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+						mapper);
+				QueryManager queryManager = ocm.getQueryManager();
+				Filter filter = queryManager.createFilter(Meeting.class);
+				filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"
+						+ VtkUtil.getCurrentGSYear() + "//" );
+				Query query = queryManager.createQuery(filter);
+				meetings = (List<Meeting>) ocm.getObjects(query);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if( rr!=null )
+						sessionFactory.closeResourceResolver( rr );
+					if (session != null)
+						session.logout();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			return meetings;
+
+		}
+		
 }// edn class

@@ -44,7 +44,7 @@
 			<% } %>
 			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
 					<dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
-						<a href="/content/girlscouts-vtk/en/vtk.plan.html">Year Plan</a>
+						<a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a>
 					</dd>
 			<% } %>
 			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>

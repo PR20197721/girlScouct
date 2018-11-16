@@ -10,7 +10,7 @@
 
 //if ( "".equals(name) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>
-##### VTK Video Meeting Adis #####
+##### VTK Video Meeting Aids #####
 <div class="vtk-video-container"><p>
         Name: <%=name %><br>
         URL: <%=url %><br>

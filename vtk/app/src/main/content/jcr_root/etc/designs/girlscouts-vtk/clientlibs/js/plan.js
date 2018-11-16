@@ -1,16 +1,22 @@
+var is_add_meeting=false;
+
+
 function loadMeetings() {
     var url = '/content/girlscouts-vtk/controllers/vtk.meetingInclude.html';
     $("#yearPlanMeetings").load(url, resizeWindow);
 }
 
-function x(planId, planPath, confirmMsg, planName) {
+function x(planId, planPath, confirmMsg, planName, isMeetingLib) {
 
-    if (confirmMsg != null && confirmMsg != '') {
+	 x1_1(planPath, planName,isMeetingLib);
+	 
+		/*
+	 if (confirmMsg != null && confirmMsg != '') {
 
         if (!confirm(confirmMsg)) {
             return;
         } else {
-            x1_1(planPath, planName);
+            x1_1(planPath, planName,isMeetingLib);
         }
     } else {
 
@@ -23,41 +29,67 @@ function x(planId, planPath, confirmMsg, planName) {
                 if (!confirm("Are You Sure? You will lose customizations that you have made")) {
                     return;
                 } else {
-                    x1_1(planPath, planName);
+                    x1_1(planPath, planName,isMeetingLib);
                 }
             } else {
-                x1_1(planPath, planName);
+                x1_1(planPath, planName,isMeetingLib);
             }
             vtkTrackerPushAction('ChangeYearPlan');
         });
 
     }
-    /*
-    check_charcount.log(4);
-
-    $.ajax({
-        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
-        cache: false
-    }).done(function( html ) {
-        //loadMeetings();
-        location.reload();
-    });
     */
+	 
+  
 }
 
-function x1_1(planPath, planName) {
-    $.ajax({
-        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser=" + planPath + "&addYearPlanName=" + planName,
-        cache: false
-    }).done(function(html) {
-        //loadMeetings();
-        if (html != null && $.trim(html) != "") {
-            alert($.trim(html));
-            return;
-        }
-        vtkTrackerPushAction('CreateYearPlan');
-        location.reload();
-    });
+var holdExecService = (function () {
+    var _fn = {};
+    
+    function _set(name,fn) { 
+        _fn[name]=fn;
+    }
+
+    function _get(name) {
+        return _fn[name];
+    }
+
+    function _exec(name) { 
+            _fn[name]();
+    }
+
+    function _isSet(name){
+        return !!_fn[name] ? _exec(name): false;
+    }
+
+    return {
+        setFn: _set,
+        getFn: _get,
+        isSet:_isSet,
+        exec:_exec
+    }
+
+}())
+
+function x1_1(planPath, planName, isMeetingLib) {
+	
+	if( isMeetingLib ){
+		loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
+	}else{
+	
+	    $.ajax({
+	        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser=" + planPath + "&addYearPlanName=" + planName,
+	        cache: false
+	    }).done(function(html) {
+	        //loadMeetings();
+	        if (html != null && $.trim(html) != "") {
+	            alert($.trim(html));
+	            return;
+	        }
+	        vtkTrackerPushAction('CreateYearPlan');
+	        location.href="/content/girlscouts-vtk/en/vtk.html";
+	    });
+	}
 }
 
 
@@ -135,7 +167,7 @@ function resetModalPage() {
     $("#gsModal").css({ overflow: 'inherit' });
 }
 
-function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
+function loadModalPage(link, showTitle, title, fullPageScroll, print, data, cache) {
         
     resetModalPage();
     var dataP = data || {};
@@ -143,11 +175,12 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
     $.ajax({
         url: link,
         data: dataP,
-        cache: false,
+        cache: cache || false,
     }).done(function(response){
         $("#gsModal").html(response);
         loadModal("#gsModal", showTitle, title, fullPageScroll, print);
-                  $('#gsModal').children('.scroll').css('maxHeight','601px');
+        $('#gsModal').children('.scroll').css('maxHeight', '601px');
+       $(document).foundation();
     }).fail(function(response, status, xhr){
        $("#error").html(response + xhr.status + " " + xhr.statusText);
     })
@@ -191,14 +224,11 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
             open: function() {
 
                 $('.scroll').css('max-height', ($(window).height() - 75) + 'px');
+
+
                 
-
-
                 $("body").css({ overflow: 'hidden' });
-                // $(".modalWrap").css({
-                //  'max-height': $(window).height() + 'px !important',
-                //  'height': $(window).height() + 'px !important'
-                //  });
+               
                 if (!showTitle) {
                     $(".ui-dialog-titlebar").hide();
                 } else {
@@ -211,6 +241,10 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
                         placeholder_IE9();
                     }
                 }
+
+                setTimeout(function(){ //Avoid cut modals
+                    $(document, window).scrollTop(0);
+                }, 50); //hack a delay in the modal
             },
             close: function() {
                 $("body").css({ overflow: 'inherit' });
@@ -236,12 +270,18 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
                 }
                 $("body").css({ overflow: 'hidden' });
                 placeholder_IE9();
+
+                setTimeout(function(){
+                    $(document, window).scrollTop(0);
+                 
+                }, 50); //hack a delay in the modal
             },
             close: function() {
                 $("body").css({ overflow: 'inherit' });
             }
         });
     }
+    $(document).foundation();
 }
 //add placeholder to the forms in the popups for IE9.
 function placeholder_IE9() {
@@ -272,23 +312,45 @@ function placeholder_IE9() {
     }
 }
 
-function yesPlan() {
-    if (document.getElementById('yearPlanMeetings').style.display == 'none') {
-        document.getElementById('yearPlanMeetings').style.display = 'block';
-        document.getElementById('yearPlanSelection').style.display = 'none';
-        document.getElementById('showHideReveal').innerHTML = 'SEE YEAR PLAN LIBRARY';
-        // document.getElementById('arrowDirection').innerHTML='&#9660;';
+var yesPlan = (function () {
+ 
+    var _auto = true;
+
+    function _block() {
+               document.getElementById('yearPlanMeetings').style.display = 'block';
+        document.getElementById('yearPlanSelection_').style.display = 'none';
+
         $('#showHideReveal').toggleClass('open').addClass('close');
         $("#empty-yp-directions").show();
-    } else {
-        document.getElementById('yearPlanMeetings').style.display = 'none';
-        document.getElementById('yearPlanSelection').style.display = 'block';
-        document.getElementById('showHideReveal').innerHTML = 'YEAR PLAN LIBRARY';
-        // document.getElementById('arrowDirection').innerHTML='&#9650;';
+    }
+    function _none() {
+       document.getElementById('yearPlanMeetings').style.display = 'none';
+        document.getElementById('yearPlanSelection_').style.display = 'block';
         $('#showHideReveal').removeClass('close').addClass('open');
         $("#empty-yp-directions").hide();
+        
     }
-}
+    function click() {
+        _auto = false;
+        _logic()
+    }
+    function auto() {
+
+        if (_auto){
+            _logic()
+            _auto = false;
+        }    
+    }
+    function _logic() {
+        if (document.getElementById('yearPlanMeetings').style.display == 'none') {
+            _block();
+        } else {
+            _none();
+        }
+    }
+    return {click: click, auto: auto}
+})();
+
 
 function addLocation() {
 
@@ -689,7 +751,7 @@ function relogin() {
         },
         success: function(result) {
             vtkTrackerPushAction('ChangeTroop');
-            document.location = "/content/girlscouts-vtk/en/vtk.plan.html";
+            document.location = "/content/girlscouts-vtk/en/vtk.html";
         }
     });
 }
@@ -726,14 +788,13 @@ function bindAssetToYPC(assetId, ypcId) {
 
 
 function doMeetingLib(isMsgConf) {
-	
-    if (!isMsgConf) {
+    is_add_meeting = true;
+    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false); 
+}
 
-        if (!confirm("This action will create a meeting outside of the current GirlScouts school year. Would you like to proceed?")) {
-            return;
-        }
-    }
-    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false);
+function replaceDoMeetingLib(path) { 
+    is_add_meeting = false;
+    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath='+path, false, null, true)
 }
 
 function doHelp(isSched) {
@@ -768,10 +829,8 @@ function expiredcheck(ssId, ypId) {
         dataType: 'json',
         cache: false
     }).done(function(obj) {
-        //console.log("**"+html+"**");
-        //var obj = jQuery.parseJSON(html );
-        console.log("/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=" + ssId + "&ypid=" + ypId + "&d=");
-        console.log("*** " + (obj.yp_cng == 'true'));
+        
+       
 
         if (obj.yp_cng == 'true') {
             //alert("reloading...");
@@ -802,7 +861,8 @@ function expiredcheck(ssId, ypId) {
 
 
 //tmp need to replace with original
-function showError(x, y) {}
+function showError(message, domElement) {
+}
 
 function rmTroopInfo() {
 
@@ -928,38 +988,43 @@ function printRelogin(reloginSelect) {
     }
 }
 
-function chgYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName) {
+function chgYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName, isMeetingLib) {
+	
     if (isYearPlan) {
-        if (planName === yearPlanName) {
+        if (planName == yearPlanName) {
             confirmMsg = "Are you sure to reset the yearplan?";
         }
     }
-    x(planId, planPath, confirmMsg, planName);
+    x(planId, planPath, confirmMsg, planName, isMeetingLib);
 };
 
-function chgCustYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName) {
-    if (isYearPlan) {
-        if (planName === yearPlanName) {
+
+function createBlankYearPlan() {
+   
+    $.ajax({
+        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids=",
+        cache: false
+    }).done(function( html ) {
+  	  vtkTrackerPushAction('CreateCustomYearPlan');
+  	  location.reload();
+    });
+  }
+
+
+function chgCustYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName, isBlankYearPlan) {
+	
+	if (isYearPlan) {
+        if (planName == yearPlanName) {
             confirmMsg = "Are you sure to reset the yearplan?";
         }
     }
 
-    // doMeetingLib(false);
-    //"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html",
-    // $('#gsModal').foundation('reveal', 'open', {
-    //     url: "/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html",
-    //     data: {
-    //         newCustYr: true
-    //     },
-
-    //     success: function(data) {
-    //         var min_height = $('#sortable1').height() - 71;
-    //         $("#sortable2").css('min-height', min_height);
-    //     }
-    // });
-    
-    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
-
+  
+    if( isBlankYearPlan ){
+    	createBlankYearPlan();
+    }else{
+    	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
+    }
 };
 
 function getCngYearPlan() {
@@ -981,21 +1046,38 @@ function printYearPlans(reloginSelect) {
 
 function replaceMeetingHref(mPath, mDate) {
 
-    var replaceMeeting = document.getElementById("replaceMeeting");
-    var replaceMeetingSmall = document.getElementById("replaceMeetingSmall");
-    if (replaceMeeting != null) {
-        replaceMeeting.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "', false, null, true)\">replace this meeting</a>";
+    var replaceMeeting = "replaceMeeting";
+    var replaceMeetingSmall = "replaceMeetingSmall";
+
+    var replaceMeetingString =  "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "&isReplaceMeeting=true', false, null, true)\">replace this meeting</a>"
+    
+    function putReplaceMeeting(element,htmlString) { 
+       var _element = element;
+        var _htmlString = htmlString;
+       
+        return function () {
+             document.getElementById(_element).innerHTML = _htmlString;
+        };
     }
-    if (replaceMeetingSmall != null) {
-        replaceMeetingSmall.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "', false, null, true)\">replace this meeting</a>";
+
+    if (document.getElementById("replaceMeeting")) {
+        putReplaceMeeting("replaceMeeting", replaceMeetingString)();
+    } else {
+        holdExecService.setFn("replaceMeeting",putReplaceMeeting("replaceMeeting", replaceMeetingString));
+    }
+    
+    if (document.getElementById("replaceMeetingSmall")) {
+       putReplaceMeeting("replaceMeetingSmall", replaceMeetingString)();
+    } else {
+        holdExecService.setFn("replaceMeetingSmall",putReplaceMeeting("replaceMeetingSmall", replaceMeetingString));
     }
 
 }
 
 
-function loadNav(activeTab) {
-    loadTabNav(activeTab);
-    //      loadUNav(activeTab);
+function loadNav(activeTab,show) {
+    loadTabNav(activeTab, show);
+
 
 
     window.setTimeout(function() { checkIsLoggedIn(); }, 10000);
@@ -1014,38 +1096,32 @@ function loadNav(activeTab) {
 }
 
 
-function loadTabNav(activeTab) {
+function loadTabNav(activeTab, showSlider) {
+    var tabNavLoaded = new $.Deferred();
     $.ajax({
         url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab=" + activeTab + getElem(),
         cache: false
-    }).done(function(html) {
-        var vtkNav = document.getElementById("fullNav");
-        vtkNav.innerHTML = html;
-        getRelogin();
-        //loadVtkBanner();
+    }).done(function (html) {
 
-        if ($('.tabs dd').length == 6) {
-            $('.tabs dd').css('width', '100%');
-        }
-    })
-}
+            var vtkNav = document.getElementById("fullNav");
+            vtkNav.innerHTML = html;
+            getRelogin();
 
+            holdExecService.isSet("replaceMeeting");
+            holdExecService.isSet("replaceMeetingSmall");
+        
+            if ($('.tabs dd').length == 6) {
+                $('.tabs dd').css('width', '100%');
+            }
 
-function loadVtkBanner(){
-console.log("loading banner...");	
-	$.ajax({
-        url: '/content/vtkcontent/en/vtk-banner.simple.html',
-        type: 'GET',
-        data: {    
-            a: Date.now()
-        },
-        success: function(result) {
-      console.log(1);
-      //console.log(document.getElementById("vtk_banner").innerHtml);
-      vtkBanner("result");
-        	 //document.getElementById("vtk_banner").innerHtml=result;
-        }
+            tabNavLoaded.resolve();
+
     });
+
+
+	if(showSlider){
+		callExecuteBannerSlider(tabNavLoaded);
+	}
 }
 
 function vtkBanner(result__){
@@ -1185,28 +1261,30 @@ function resetYear() {
 
 var ModalVtk = (function() {
 
-    function Modal(name) {
-
+    function Modal(name,booleanCancel) {
         var modalName = name || new Date().getTime();
+        var xIcon = booleanCancel || false;
 
-        var $main_modal_wrap, $main_modal, $gray_modal = [];
+        var $main_modal_wrap, $main_modal, $gray_modal , $xButton= [];
 
         function init() {
-            var $a = $('<div class="vtk-js-modal_wrap '+modalName+'"><div class="vtk-js-modal" style=""><div class="vtk-js-modal_head"><div class="vtk-js-modal_title"></div></div><div class="vtk-js-modal_body"></div></div>');
+            var t = booleanCancel ? '<div class="vtk-js-modal-x"><i class="icon-button-circle-cross"></i></div>' : '';
+            var $a = $('<div class="vtk-js-modal_wrap ' + modalName + '"><div class="vtk-js-modal" style=""><div class="vtk-js-modal_head"><div class="vtk-js-modal_title"></div>' +
+                 t +'</div><div class="vtk-js-modal_body"></div></div>');
             var $b = $('<div class="vtk-gray-modal" style=""></div></div>');
 
 
             if(!$('.vtk-gray-modal').length>0){
-                var $b = $('<div class="vtk-gray-modal" style=""></div></div>');
                 $('body').append($b);
             }
-
 
             $('body').append($a);
 
             $main_modal_wrap = $('.vtk-js-modal_wrap.'+modalName);
             $main_modal = $main_modal_wrap.children('.vtk-js-modal');
             $gray_modal = $('.vtk-gray-modal');
+            $xButton = booleanCancel ? $('.vtk-js-modal-x') : [];
+
 
         }
 
@@ -1268,6 +1346,10 @@ var ModalVtk = (function() {
 
             $main_modal.find('.vtk-js-modal_ok_action').on('click', close);
 
+            $xButton.click(function (params) {
+                close();
+            })
+
         }
 
         function confirm(msg, desc, okCallBack, cancelCallBack) {
@@ -1278,8 +1360,10 @@ var ModalVtk = (function() {
             $main_modal.find('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class="vtk-js-modal_button_action vtk-js-modal_ok_action">Ok</div><div class="vtk-js-modal_button_action vtk-js-modal_cancel_action">Cancel</div></div>')
 
             $main_modal.find('.vtk-js-modal_ok_action').on('click', okCallBack);
-            $main_modal.find('.vtk-js-modal_cancel_action').on('click', cancelCallBack);
-
+            $main_modal.find('.vtk-js-modal_cancel_action','').on('click', cancelCallBack);
+            if (booleanCancel) { 
+                $xButton.on('click', cancelCallBack);
+            }
 
 
         }
@@ -1295,6 +1379,7 @@ var ModalVtk = (function() {
             $main_modal.find('.vtk-js-modal_title').html(msg);
 
             $main_modal.find('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + html + '</div>')
+            
 
             if(callBack){
                 callBack();
@@ -1318,9 +1403,48 @@ var ModalVtk = (function() {
 })();
 
 
+var CurrentYear = function(date){ 
+    
+    var _date = date;
+
+    // Check for override parameter to allow for easier testing.
+    var forcedCutoverMonth = null;
+    if((window.document.location.href || "").indexOf("forceJuneCutover=true") != -1){
+        forcedCutoverMonth = 5;
+    }
+   
+    function _start() {
+        function makeString(month){
+            if(month >= (forcedCutoverMonth || 6) && month <= 11){
+                return (forcedCutoverMonth ? 'June, 1, ' : 'July, 1, ') + (_date.getFullYear()).toString();
+            }else{
+				return (forcedCutoverMonth ? 'June, 1, ' : 'July, 1, ') + (_date.getFullYear()-1).toString();
+            }
+        }
+        return new Date(makeString(_date.getMonth()));
+    }
+
+    function _end() { 
+        function makeString(month){
+            if(month >= (forcedCutoverMonth || 6) && month <= 11){
+				return (forcedCutoverMonth ? 'May, 31, ' : 'June, 30, ')+ (_date.getFullYear()+1).toString();
+            }else{
+				return (forcedCutoverMonth ? 'May, 31, ' : 'June, 30, ')+ (_date.getFullYear()).toString();
+            }
+        }
+        return new Date(makeString(_date.getMonth()));
+    }
+
+    return {
+        start: _start,
+        end: _end
+    }
+  
+}
 
 var initNotes = (function(global, ModalVtk, $) {
-    var modal = new ModalVtk();
+    var modal = new ModalVtk(false,true);
+
     var globalMid, userLoginId;
 
     var view = {
@@ -1350,22 +1474,21 @@ var initNotes = (function(global, ModalVtk, $) {
         deleteNote: function(e) {
             e.preventDefault();
 
-            modal.confirm('Warning', 'Are you sure you want to delete this note?', function() {
+            modal.confirm('Warning', 'Are you sure you want to delete this note?', function () {
+
                 rmNote($(e.target).parents('li').data('uid'))
-                    .fail(function(err) {
+                    .done(function (response) {
+                
+                        var x = JSON.parse(response)
+                
+                        if (x) {
+                            checkQuantityNotes($('.vtk-notes_item').length)
+                            interateNotes(thisMeetingNotes.filter(function (note) { return note.uid !==  $(e.target).parents('li').data('uid')}))                      
+                        }
+
+                    }).fail(function(err) {
                         console.log('error', err)
-                    })
-                    .success(function() {
-                        checkQuantityNotes($('.vtk-notes_item').length)
-                        var req = getNotes(globalMid, userLoginId);
-                        req.then(
-                            function(json) {
-                                interateNotes(json);
-                            },
-                            function(err) {
-                                console.log(err);
-                            })
-                    }).done(function() {
+                    }).always(function() {
                         modal.close();
                     });
             }, function() {
@@ -1590,8 +1713,8 @@ var initNotes = (function(global, ModalVtk, $) {
             }
         },
 
+        newNote: function (note) {
 
-        newNote: function(note) {
             var date = moment(note.createTime);
 
             var dateString = date.format('MM/DD/YYYY');
@@ -1991,6 +2114,8 @@ var initNotes = (function(global, ModalVtk, $) {
                         $('.add-note-detail').slideUp();
                         $('.note-loading').hide();
                         checkQuantityNotes($('.vtk-notes_list_container').children('li').length);
+
+                        thisMeetingNotes.unshift(json)
                     },
                     function(err) {
 
@@ -2090,15 +2215,14 @@ var initNotes = (function(global, ModalVtk, $) {
 
 
     function getNotes(mid, auid) {
-
-                globalMid = mid;
+        globalMid = mid;
         if (auid) {
             userLoginId = auid;
         }
 
         defer = $.Deferred();
-        console.log('inside getNotes =>>>',thisMeetingNotes)
-        setTimeout(function(){
+
+        setTimeout(function () {
             defer.resolve(thisMeetingNotes?thisMeetingNotes:[])
         },500);
         
@@ -2124,8 +2248,8 @@ var initNotes = (function(global, ModalVtk, $) {
 
     }
 
+  
 
-    
     $(function() {
         var editormain = Object.create(editor);
         var countermain = Object.create(counter);

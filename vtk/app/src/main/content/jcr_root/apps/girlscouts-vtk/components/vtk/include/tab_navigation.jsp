@@ -16,13 +16,19 @@
 	if( troop.getTroop().getRole() !=null &&  troop.getTroop().getRole().equals("PA") ){
 		isParent=true;
 	}
-	String vtk_cache_uri = "";
+	
+	boolean isTroopLeader= false;
+	if( troop.getTroop().getRole() !=null &&  troop.getTroop().getRole().equals("DP") ){
+		isTroopLeader=true;
+	}
+	
+	String vtk_cache_uri = "/content/girlscouts-vtk/en";
 	if( isParent ){
-		vtk_cache_uri = "/myvtk/" + troop.getSfCouncil() ;
+		vtk_cache_uri = "/myvtk/" + councilMapper.getCouncilName(troop.getSfCouncil() ) ;
+		
 	}
 	String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
 	
-	//String relayUrl=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
 	%>
 
 
@@ -74,12 +80,31 @@
 						Troop</a>
 				</dd>
 				<%} %>
+				
+				<%if( isTroopLeader && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) && 
+						(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+""))) {%>
+				  <dd <%= "explore".equals(activeTab) ? "class='active'" : "class=''" %>>
+				      <a href="<%=relayUrl %><%=vtk_cache_uri %>/vtk.explore.html">
+										Explore
+										</a>
+				  </dd>
+				 <%}%>
+				
 				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
 					<dd <%= "plan".equals(activeTab) ? "class='active'" : "class=''" %>>
-	
-						<a href="<%=relayUrl %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">
-						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Year Plan" : "Past Year Plans"%>
+					
+					<%if(!isParent && troop.getYearPlan()==null ){ %>
+				         
+				         <a href="javascript:void(0)" onclick="modalAlert.alert('YEAR PLAN & MEETING PLAN','<p>You must first make a selection on the Explore tab, in order to view a Year Plan or meeting</p>')">
+							<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Year Plan" : "Past Year Plans"%>
 						</a>
+						
+				    <%}else{%>
+					
+						<a href="<%=relayUrl %><%=vtk_cache_uri %>/vtk.html">
+							<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Year Plan" : "Past Year Plans"%>
+						</a>
+				    <%}%>
 					</dd>
 				<% } %>
 				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
@@ -93,7 +118,7 @@
 										</a>
 						<%}else{ %>
 									<a
-										<%= troop.getYearPlan() != null ? "href='"+relayUrl+"/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>
+										<%= troop.getYearPlan() != null ? "href='"+relayUrl+"/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='modalAlert.alert(\"YEAR PLAN & MEETING PLAN\",\"You must first make a selection on the Explore tab, in order to view a Year Plan or meeting\")'"  %>>
 										<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
 										</a>
 						<%} %>
@@ -103,7 +128,7 @@
 				
 		<%if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
 				<dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
-					<a href="<%=relayUrl %>/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/vtk.resource.html">Resources</a>
+					<a href="<%=relayUrl %>/myvtk/<%=councilMapper.getCouncilName(troop.getSfCouncil())%>/vtk.resource.html">Resources</a>
 				</dd>
 				
 
@@ -157,22 +182,31 @@
 						</ul>
 					</li>
 					<%}%>
+					
+					<%if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) && 
+							(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+""))){%>
+					   <li class='has-dropdown<%= ("explore".equals(activeTab)) ? " active" : " " %>'>
+					      <a href="<%=relayUrl %><%=vtk_cache_uri %>/vtk.explore.html">
+											Explore
+											</a>
+					   </li>
+					 <%}%>
+					
+					 <!-- TODO: JC - mobile view missing DB alert [case: no year plan] -->
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
 					<li
 						class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a
-						href="<%=relayUrl %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">
+						href="<%=relayUrl %><%=vtk_cache_uri %>/vtk.html">
 						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Year Plan" : "Past Year Plans"%>
                        </a>
 						<ul class="dropdown">
 							<% if("plan".equals(activeTab)  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
 
-								<% if(troop!=null && troop.getSfTroopAge()!=null && !troop.getSfTroopAge().toLowerCase().trim().contains("cadette") &&
-	                            !troop.getSfTroopAge().toLowerCase().trim().contains("ambassador") && !troop.getSfTroopAge().toLowerCase().trim().contains("senior")){ %>
-								<li><a onclick="newLocCal()">Specify Meeting Dates and
-										Locations</a></li>
+								<% if(troop!=null && troop.getSfTroopAge()!=null ){ %>
+								<li><a onclick="newLocCal()">Manage Calendar</a></li>
 								<li><a
 									onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)">Add
-										Meeting</a></li>
+										Badge / Journey</a></li>
 								<%} %>
 								<li><a onclick="newActivity()">Add Activity</a></li>
 								
@@ -180,7 +214,7 @@
 								<%java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
                                 if( !isParent && new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){%>
 								
-    								<li><a onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"> SEE PAST YEARS </a></li>
+    								<li><a onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')">PAST YEARS</a></li>
                                 <%}%>
 								<li><a
 									onclick="self.location='/content/girlscouts-vtk/en/cal.ics'">Download
@@ -226,10 +260,15 @@
 	               switch(planView.getYearPlanComponent().getType() ) {
 	                case ACTIVITY:
 	                  Activity activity = (Activity)planView.getYearPlanComponent();
-	                  if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
-							<li><a href="#" onclick="doEditActivity('editCustActiv')">edit
-									activity</a></li>
-							<% }
+	                  
+					%>
+						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html">VIEW YEAR PLAN</a></li>
+					<%
+
+					if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
+						<li><a href="#" onclick="doEditActivity('editCustActiv')">edit
+							activity</a></li>
+					<% }
 	                  if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) &&
 	                  activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
 							<li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register
@@ -244,21 +283,27 @@
 							<%
 	                  }
 	              	case MEETING:
-	                	try {
-					            if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
-	
-	                		Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
-	                       if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID))
-	                    	  if (meetingPath != null && meetingPath != ""  ) {
-	                          %>
-							<li id="replaceMeetingSmall"></li>
-							<%
-	                        }
-				               }
-	                    } catch (Exception te) {
-	                      te.printStackTrace();
-	                    }
-	                  break;
+						try {
+							if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
+								Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
+								%>
+									<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html">VIEW YEAR PLAN</a></li>
+								<%
+								if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) && meetingPath != null && meetingPath != ""  ) {
+									String meetingDeleteFunctionName = meetingUtil.canDeleteMeeting(planView, planView.getMeeting(), user, troop) ? "rmMeetingWithConf" : "rmMeetingWithConfBlocked";
+									%>
+
+										<li id="replaceMeetingSmall"></li>
+										<li id="rmMeetingSmall">
+											<a href="#" onclick="<%=meetingDeleteFunctionName %>( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
+										</li>
+									<%
+								}
+							}
+						} catch (Exception te) {
+							log.error("Unable to determine meeting delete button", te);
+						}
+						break;
 	                }%>
 							<% } %>
 						</ul>
@@ -266,7 +311,7 @@
 					<%  } %>
 <%if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
 					<li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a
-						href="<%=relayUrl %>/content/girlscouts-vtk/en/myvtk/<%=troop.getSfCouncil() %>/vtk.resource.html">Resources</a></li>
+						href="<%=relayUrl %>/myvtk/<%=councilMapper.getCouncilName(troop.getSfCouncil())%>/vtk.resource.html">Resources</a></li>
 
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
 					<li <%= ("milestones".equals(activeTab)) ? "class='active'" : "" %>><a
@@ -305,6 +350,9 @@
 </div>
 <!--  start utility nav -->
 <div id="vtkNav" class="row">
+
+	<div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"  class="column medium-20 small-24 small-centered" style="display:none;"></div>
+
 	<div class="crumbs clearfix show-for-large-up">
 		<div class="column small-24 large-centered large-20">
 			<div class="row">
@@ -321,16 +369,14 @@
 						<!-- if on YP page this menu shows -->
 						<%
                 if ("plan".equals(activeTab) && troop.getYearPlan() != null  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
-						<% if(troop!=null && troop.getSfTroopAge()!=null && !troop.getSfTroopAge().toLowerCase().trim().contains("cadette") &&
-                            !troop.getSfTroopAge().toLowerCase().trim().contains("ambassador") && !troop.getSfTroopAge().toLowerCase().trim().contains("senior")){ %>
-						<li><a href="#" onclick="newLocCal()"
-							title="Meeting Dates and Location">Specify Dates and
-								Locations</a></li>
-						<li><a href="#"
+						<% if(troop!=null && troop.getSfTroopAge()!=null){ %>
+						<li class="second-type"><a href="#" onclick="newLocCal()"
+							title="Meeting Dates and Location"><i class="icon-calendar"></i> Manage Calendar</a></li>
+						<li class="second-type"><a href="#"
 							onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)"
-							title="Add Meeting">Add Meeting</a></li>
+							title="Add Meeting"><i class="icon-search-magnifying-glass"></i> Add Badge / Journey</a></li>
 						<% } %>
-						<li><a href="#" onclick="newActivity()" title="Add Activity">Add
+						<li class="second-type"><a href="#" onclick="newActivity()" title="Add Activity"> <i class="icon-flag"></i> Add
 								Activity</a></li>
 						
 						<% }
@@ -342,39 +388,52 @@
 						<% switch(planView.getYearPlanComponent().getType() ) {
               case ACTIVITY:
                   pageContext.setAttribute("YearPlanComponent", "ACTIVITY");
-                Activity activity = (Activity)planView.getYearPlanComponent();
-                if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
-						<li><a data-reveal-id="modal_popup_activity"
-							data-reveal-ajax="true"
-							href="<%=relayUrl %>/content/girlscouts-vtk/controllers/vtk.include.activity_edit_react.html?elem=<%=planView.getSearchDate().getTime()%>">Edit
-								Activity</a></li>
-						<% }
-                if (  !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) &&
-                activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-						<li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register
-								for this event</a></li>
-						<%
-                }
+                	Activity activity = (Activity)planView.getYearPlanComponent();
+                	%>
+						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html"><i class="icon-layout-list"></i>VIEW YEAR PLAN</a></li>
+					<%
+					if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
+							<li><a data-reveal-id="modal_popup_activity"
+								data-reveal-ajax="true"
+								href="<%=relayUrl %>/content/girlscouts-vtk/controllers/vtk.include.activity_edit_react.html?elem=<%=planView.getSearchDate().getTime()%>">Edit
+									Activity</a></li>
+							<% }
+					if (  !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) &&
+					activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
+							<li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register
+									for this event</a></li>
+							<%
+					}
 
-                if( VtkUtil.hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
-                    %><li><a
-							href="javascript:rmCustActivity12(aPath)">delete this
-								activity</a></li>
-						<%
-                }
+					if( VtkUtil.hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
+						%><li><a
+								href="javascript:rmCustActivity12(aPath)">delete this
+									activity</a></li>
+							<%
+					}
                   break;
             case MEETING:
                 pageContext.setAttribute("YearPlanComponent", "MEETING");
-              try { Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
-                      if (meetingPath != null && meetingPath != "") {
-                      %>
-						<li id="replaceMeeting"></li>
+				try {
+					if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
+						%>
+						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html"><i class="icon-layout-list"></i>VIEW YEAR PLAN</a></li>
 						<%
-                      }
-                  } catch (Exception te) {
-                    te.printStackTrace();
-                  }
-                break;
+						Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
+						if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) && meetingPath != null && meetingPath != ""  ) {
+							String meetingDeleteFunctionName = meetingUtil.canDeleteMeeting(planView, planView.getMeeting(), user, troop) ? "rmMeetingWithConf" : "rmMeetingWithConfBlocked";
+						%>
+						<li id="replaceMeeting"></li>
+						<li id="rmMeeting">
+							<a href="#" onclick="<%=meetingDeleteFunctionName %>( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
+						</li>
+						<%
+						}
+					}
+				} catch (Exception te) {
+					log.error("Unable to determine meeting delete button", te);
+				}
+				break;
               }
           }%>
 
@@ -398,10 +457,15 @@
 						  java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
 
 						     
-						      if( !isParent && new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){
+						      if( !isParent && new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0){
 
 						  %>
-    						       <input class="vtk-button" type="button" value="SEE PAST YEARS" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"/>
+								   
+								<div class="past_years">
+									<a href="javascript:void(0)" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"><i class="icon-glasses_2"></i>  Past Years </a>
+								</div>
+								
+				
     					      <%}%>
     					  <%}else if( activeTab!=null  &&  "plan".equals(activeTab) && !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
     					       java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
@@ -427,7 +491,15 @@
 					<ul class="inline-list" id="util-links">
 					
 					
-
+						<% if("myTroop".equals(activeTab) && (
+								(user.getApiConfig().isDemoUser() && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) || VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID) ) ) { %>
+						   <li><a
+							title="print" href="/content/girlscouts-vtk/controllers/vtk.include.troopRoster.pdf" target="_blank"><i class="icon-printer"></i></a></li>
+							
+								<li style="margin-right:15px"><a
+								title="download" href="/content/girlscouts-vtk/controllers/vtk.include.troopRosterCsvRpt.html" target="_blank"><i class="icon-download"></i></a></li>
+						
+                        <%}%>
 					
 						<%if(activeTab!=null  && ( "plan".equals(activeTab) || (  pageContext.getAttribute("YearPlanComponent")!=null && ((String)pageContext.getAttribute("YearPlanComponent")).equals("MEETING")  &&  "planView".equals(activeTab) )) ){ %>
 						

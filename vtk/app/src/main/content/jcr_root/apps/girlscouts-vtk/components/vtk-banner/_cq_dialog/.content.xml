@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+         <layout jcr:primaryType="nt:unstructured"
+         	sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+         <items jcr:primaryType="nt:unstructured">
+         	<disable
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Disable"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">                            
+                            <disable
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                fieldDescription="Temporarily disable this banner. It will not show up in the carousel."
+                                name="./isDisabled"
+                                text="Disable"
+                                value="on"/>
+                        </items>
+                    </columns>
+                </items>
+		    </disable>
+         	<tabs
+	        	jcr:primaryType="nt:unstructured"
+	        	sling:resourceType="granite/ui/components/foundation/container">
+		        <layout
+		            jcr:primaryType="nt:unstructured"
+		            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+		            type="nav"/>
+		        <items jcr:primaryType="nt:unstructured">		            
+		            <banner-image
+		                jcr:primaryType="nt:unstructured"
+		                jcr:title="Banner"
+		                sling:resourceType="granite/ui/components/foundation/container">
+		                <layout
+		                    jcr:primaryType="nt:unstructured"
+		                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+		                <items jcr:primaryType="nt:unstructured">
+		                    <columns
+		                        jcr:primaryType="nt:unstructured"
+		                        sling:resourceType="granite/ui/components/foundation/container">
+		                        <items jcr:primaryType="nt:unstructured">
+						            <image
+						              jcr:primaryType="nt:unstructured"
+						              sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+						              autoStart="{Boolean}false"
+						              class="cq-droptarget"
+						              fieldLabel="Image"
+						              fileNameParameter="./thumbnail/fileName"
+						              fileReferenceParameter="./thumbnail/fileReference"
+						              mimeTypes="[image]"
+						              multiple="{Boolean}false"
+						              name="./thumbnail/file"
+						              title="Upload Image Asset" 
+						              uploadUrl="${suffix.path}"
+						              useHTML5="{Boolean}true"/>
+						        </items>
+						    </columns>
+						</items> 
+					</banner-image>
+		            <modal
+		                jcr:primaryType="nt:unstructured"
+		                jcr:title="Modal"
+		                sling:resourceType="granite/ui/components/foundation/container">
+		                <layout
+		                    jcr:primaryType="nt:unstructured"
+		                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+		                <items jcr:primaryType="nt:unstructured">
+		                    <columns
+		                        jcr:primaryType="nt:unstructured"
+		                        sling:resourceType="granite/ui/components/foundation/container">
+		                        <items jcr:primaryType="nt:unstructured">
+		                            <modal-title
+		                                jcr:primaryType="nt:unstructured"
+		                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+		                                fieldDescription="Title"
+		                                fieldLabel="Title"
+		                                name="./modalTitle"/>
+		                            <text jcr:primaryType="nt:unstructured" fieldLabel="Text"
+										sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+										useFixedInlineToolbar="true" customStart="false"
+										name="./text">
+										<rtePlugins jcr:primaryType="nt:unstructured"
+											sling:resourceSuperType="girlscouts-vtk/components/richtext-config/rtePlugins" />
+										<specialCharsConfig jcr:primaryType="nt:unstructured"
+											sling:resourceSuperType="ggirlscouts-vtk/components/richtext-config/specialCharsConfig" />
+										<uiSettings jcr:primaryType="nt:unstructured"
+											sling:resourceSuperType="girlscouts-vtk/components/richtext-config/uiSettings" />
+									</text>
+		                            <modal-image-title
+		                                jcr:primaryType="nt:unstructured"
+		                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+		                                fieldDescription="Image title"
+		                                fieldLabel="Image title"
+		                                name="./imageTitle"/>
+		                            <modal-image-alt
+		                                jcr:primaryType="nt:unstructured"
+		                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+		                                fieldDescription="Image alt"
+		                                fieldLabel="Image alt"
+		                                name="./imageAlt"/>
+		                             <modal-image
+						              	jcr:primaryType="nt:unstructured"
+						              	sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+						              	autoStart="{Boolean}false"
+						              	class="cq-droptarget"
+						              	fieldLabel="Image"
+						              	fileNameParameter="./modal-image/fileName"
+						              	fileReferenceParameter="./modal-image/fileReference"
+						              	mimeTypes="[image]"
+						              	multiple="{Boolean}false"
+						              	name="./modal-image/file"
+						              	title="Upload Image Asset" 
+						              	uploadUrl="${suffix.path}"
+						              	useHTML5="{Boolean}true"/>
+		                        </items>
+		                    </columns>
+		                </items>
+		            </modal>
+		            <sponsors
+		                jcr:primaryType="nt:unstructured"
+		                jcr:title="Sponsors"
+		                sling:resourceType="granite/ui/components/foundation/container">
+		                <layout
+		                    jcr:primaryType="nt:unstructured"
+		                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+		                <items jcr:primaryType="nt:unstructured">
+		                    <columns
+		                        jcr:primaryType="nt:unstructured"
+		                        sling:resourceType="granite/ui/components/foundation/container">
+		                        <items jcr:primaryType="nt:unstructured">
+		                            <image-title
+		                                jcr:primaryType="nt:unstructured"
+		                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+		                                fieldDescription="Image title"
+		                                fieldLabel="Image title"
+		                                name="./sponsorImageTitle"/>
+		                            <image-alt
+		                                jcr:primaryType="nt:unstructured"
+		                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+		                                fieldDescription="Image alt"
+		                                fieldLabel="Image alt"
+		                                name="./sponsorImageAlt"/>
+		                            <text jcr:primaryType="nt:unstructured" fieldLabel="Text"
+										sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+										useFixedInlineToolbar="true" customStart="false"
+										name="./sponsorText">
+										<rtePlugins jcr:primaryType="nt:unstructured"
+											sling:resourceSuperType="girlscouts-vtk/components/richtext-config/rtePlugins" />
+										<specialCharsConfig jcr:primaryType="nt:unstructured"
+											sling:resourceSuperType="ggirlscouts-vtk/components/richtext-config/specialCharsConfig" />
+										<uiSettings jcr:primaryType="nt:unstructured"
+											sling:resourceSuperType="girlscouts-vtk/components/richtext-config/uiSettings" />
+									</text>
+									<sponsor-image
+						              	jcr:primaryType="nt:unstructured"
+						              	sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+						              	autoStart="{Boolean}false"
+						              	class="cq-droptarget"
+						              	fieldLabel="Image"
+						              	fileNameParameter="./sponsor-image/fileName"
+						              	fileReferenceParameter="./sponsor-image/fileReference"
+						              	mimeTypes="[image]"
+						              	multiple="{Boolean}false"
+						              	name="./sponsor-image/file"
+						              	title="Upload Image Asset" 
+						              	uploadUrl="${suffix.path}"
+						              	useHTML5="{Boolean}true"/>
+		                        </items>
+		                    </columns>
+		                </items>
+		            </sponsors>
+		        </items>
+			</tabs>
+        </items>
+    </content>
+</jcr:root>

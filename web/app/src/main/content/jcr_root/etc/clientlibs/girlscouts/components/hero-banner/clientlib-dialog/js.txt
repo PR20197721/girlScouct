@@ -1,0 +1,2 @@
+base=.
+hero-banner-dialog.js

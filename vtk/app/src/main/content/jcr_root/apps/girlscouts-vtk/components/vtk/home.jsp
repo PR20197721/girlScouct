@@ -5,6 +5,7 @@
 <%@include file="/libs/foundation/global.jsp" %> 
 
 <%
+	org.girlscouts.vtk.helpers.CouncilMapper councilMapper = sling.getService(org.girlscouts.vtk.helpers.CouncilMapper.class);
     HttpSession session = request.getSession();
     org.girlscouts.vtk.auth.models.ApiConfig apiConfig =null;
     boolean isHideSignIn = false;
@@ -12,6 +13,7 @@
     String communityUrl = "";
     int councilIdInt = 0;
     String councilId = "0";
+    String gradeLevel ="CA";
     try{
          apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
     }catch(Exception e){e.printStackTrace();}
@@ -24,6 +26,9 @@
 	        councilIdInt = apiConfig.getTroops().get(0).getCouncilCode();
 	        councilId = Integer.toString(councilIdInt);
 	        branch = mapper.getCouncilBranch(councilId);
+	        gradeLevel =  apiConfig.getTroops().get(0).getGradeLevel();
+	        gradeLevel = gradeLevel ==null ? "CA" : VtkUtil.formatAgeGroup(gradeLevel);
+	
 	    } catch (Exception e) {
 	        String refererCouncil = VtkUtil.getCouncilInClient(request);
 	        if (refererCouncil != null && !refererCouncil.isEmpty()) {
@@ -107,6 +112,7 @@
                     
                         
                         String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
+                        
                         String userRole = null;
                         if (!apiConfig.isFail()) {
 				            if ( apiConfig.getTroops() != null && apiConfig.getTroops().size() >0) {
@@ -118,7 +124,7 @@
 	                    	 ;  
 	                       
 	                       }else if( apiConfig!=null &&  apiConfig.getUser().isAdmin() ){
-	                            vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/vtk.resource.html";   
+	                            vtkLanding="/myvtk/" + councilMapper.getCouncilName(councilId) + "/vtk.resource.html";   
 	                        }
                         }
                         
@@ -126,7 +132,8 @@
                     <!-- Begin of VTK icon -->
                     <a href="<%=vtkLanding%>">
                     <img src="/etc/designs/girlscouts-vtk/images/btn_VTK.jpg"/></a>
-                    <p> If you&rsquo;re a Troop or Co-Leader, click here! For Daisy, Brownie, and Junior troops, the Volunteer Toolkit comes with pre-populated plans for everything-a full year of Girl Scouts right there on your device! Cadette, Senior, and Ambassador troops don&rsquo;t get pre-populated meetings yet (coming soon), but you can still access great planning features.
+                    <p>
+                     If you&rsquo;re a Troop or Co-Leader - click here! See your troop&rsquo;s roster, update contact info, access resources, easily email parents, enter troop finances, and plan your program year with pre-populated troop calendars filled with Daisy, Brownie and Junior Journeys and badges. New! Multi-level troops now have access. All program levels can add your own troop activities to your calendar, as well as pre-populated council events. It&rsquo;s your virtual troop assistant!
                    </p>
                     <% } %>
                   </li>

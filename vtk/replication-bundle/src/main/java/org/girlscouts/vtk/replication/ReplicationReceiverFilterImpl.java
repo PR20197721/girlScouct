@@ -2,7 +2,6 @@ package org.girlscouts.vtk.replication;
 
 import java.util.Dictionary;
 import java.util.regex.Pattern;
-
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Modified;

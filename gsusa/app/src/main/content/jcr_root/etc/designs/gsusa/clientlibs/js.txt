@@ -1,8 +1,8 @@
 #base=js
 
 shared.js
-facebook-sdk.js
-twitter-feed-widget.js
+#facebook-sdk.js
+#twitter-feed-widget.js
 volunteer.js
 email.js
 join.js

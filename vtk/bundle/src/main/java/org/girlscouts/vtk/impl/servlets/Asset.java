@@ -14,9 +14,6 @@ import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import java.rmi.ServerException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.net.util.Base64;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.vtk.utils.VtkUtil;
@@ -72,9 +69,8 @@ public class Asset extends SlingAllMethodsServlet {
 						if (k.equals("custasset")) {
 							byte[] db64 = Base64.decodeBase64(t);
 							InputStream inn = new ByteArrayInputStream(db64);
-							Map<String, Object> serviceParams = new HashMap<String, Object>();
-							serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-							resourceResolver = resolverFactory.getServiceResourceResolver(serviceParams);
+							resourceResolver = resolverFactory
+									.getAdministrativeResourceResolver(null);
 							Session session = resourceResolver
 									.adaptTo(Session.class);
 							reverseReplicateBinary(session,
@@ -85,9 +81,8 @@ public class Asset extends SlingAllMethodsServlet {
 									request.getParameter("id"));
 						}
 					} else {
-						Map<String, Object> serviceParams = new HashMap<String, Object>();
-						serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-						resourceResolver = resolverFactory.getServiceResourceResolver(serviceParams);
+						resourceResolver = resolverFactory
+								.getAdministrativeResourceResolver(null);
 						Session session = resourceResolver
 								.adaptTo(Session.class);
 						String loc = request.getParameter("loc");
@@ -121,9 +116,8 @@ public class Asset extends SlingAllMethodsServlet {
 					final org.apache.sling.api.request.RequestParameter param = pArr[0];
 					final InputStream stream = param.getInputStream();
 					if (!param.isFormField()) {
-						Map<String, Object> serviceParams = new HashMap<String, Object>();
-						serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-						resourceResolver = resolverFactory.getServiceResourceResolver(serviceParams);
+						resourceResolver = resolverFactory
+								.getAdministrativeResourceResolver(null);
 						Session session = resourceResolver
 								.adaptTo(Session.class);
 						reverseReplicateBinary(session,

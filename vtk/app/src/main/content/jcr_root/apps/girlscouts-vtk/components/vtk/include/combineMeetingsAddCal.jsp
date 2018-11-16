@@ -67,11 +67,12 @@
         <script>
         $(function() {
 
-            
+            var currentYear = CurrentYear(new Date());
 
             $( "#datepicker2" ).datepicker({
                   defaultDate: new Date ('<%=date%>'),
-                  minDate: 0,
+                  minDate: currentYear.start(),
+                  maxDate: currentYear.end(),
                   onSelect: function(dateText, inst) { 
 
 

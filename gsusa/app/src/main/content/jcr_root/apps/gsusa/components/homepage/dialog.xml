@@ -45,10 +45,6 @@
                             fieldLabel="Content Hub Parent Page"
                             name="./contenthubparentpage"
                             xtype="dynamicPathField"/>
-                        <addthis-id
-                            jcr:primaryType="cq:Widget"
-                            fieldLabel="AddThis ID"
-                            name="./addThisId"/>
                         <ogtitle
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Default: SEO Title"

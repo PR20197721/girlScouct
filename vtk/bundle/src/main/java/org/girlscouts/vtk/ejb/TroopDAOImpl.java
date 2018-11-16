@@ -79,6 +79,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.traversal.NodeIterator;
 import org.apache.jackrabbit.util.Text;
+import org.apache.sling.api.resource.ResourceResolver;
 
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
@@ -118,10 +119,11 @@ public class TroopDAOImpl implements TroopDAO {
 			throws IllegalAccessException, VtkException {
 		// TODO Permission.PERMISSION_VIEW_YEARPLAN_ID)
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		Troop troop = null;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -141,6 +143,9 @@ public class TroopDAOImpl implements TroopDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 			ocm.refresh(true);
+			
+System.err.println("Alex: "+ VtkUtil.getYearPlanBase(user, troop)
++ councilId + "/troops/" + troopId);			
 			troop = (Troop) ocm.getObject(VtkUtil.getYearPlanBase(user, troop)
 					+ councilId + "/troops/" + troopId);
 
@@ -193,7 +198,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -204,12 +211,13 @@ try{
 
 	public Troop getTroop_byPath(User user, String troopPath)
 			throws IllegalAccessException {
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		Troop troop = null;
 		// TODO Permission.PERMISSION_VIEW_YEARPLAN_ID
 
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -241,7 +249,9 @@ try{
 			e.printStackTrace();
 		} finally {
 			try {
-				sessionFactory.closeSession(mySession);
+				mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -260,12 +270,13 @@ try{
 						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		String fmtYearPlanPath = yearPlanPath;
 		YearPlan plan = null;
 		try {
 
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			if (!yearPlanPath.endsWith("/"))
 				yearPlanPath = yearPlanPath + "/";
 
@@ -292,7 +303,9 @@ try{
 			e.printStackTrace();
 		} finally {
 			try {
-				sessionFactory.closeSession(mySession);
+				mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -303,7 +316,7 @@ try{
 	}
 
 	public void rmTroop(Troop troop) throws IllegalAccessException {
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		try {
 
 			// permission to update
@@ -312,7 +325,8 @@ try{
 							Permission.PERMISSION_RM_YEARPLAN_ID))
 				throw new IllegalAccessException();
 
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -337,7 +351,9 @@ try{
 			e.printStackTrace();
 		} finally {
 			try {
-				sessionFactory.closeSession(mySession);
+				mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -359,9 +375,10 @@ try{
 	public void loadUserGlobConfig() {
 
 		troopGlobConfig = new UserGlobConfig();
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(UserGlobConfig.class);
 
@@ -379,7 +396,9 @@ try{
 			e.printStackTrace();
 		} finally {
 			try {
-				sessionFactory.closeSession(mySession);
+				mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -389,9 +408,10 @@ try{
 
 	public void createUserGlobConfig() {
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(UserGlobConfig.class);
 
@@ -407,7 +427,9 @@ try{
 			e.printStackTrace();
 		} finally {
 			try {
-				sessionFactory.closeSession(mySession);
+				mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -416,9 +438,10 @@ try{
 	}
 
 	public void updateUserGlobConfig() {
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(UserGlobConfig.class);
 
@@ -438,7 +461,9 @@ try{
 		} finally {
 			try {
 				if (sessionFactory != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -447,10 +472,11 @@ try{
 	}
 
 	public Finance getFinances(Troop troop, int qtr, String currentYear) {
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		Finance result = null;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			result = new Finance();
 			result.setFinancialQuarter(qtr);
 			String path = "/" + troop.getTroopPath() + "/finances/"
@@ -504,7 +530,9 @@ try{
 		} finally {
 			try {
 				if (sessionFactory != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 
 			} catch (Exception es) {
 				es.printStackTrace();
@@ -516,10 +544,11 @@ try{
 	public void setFinances(Troop troop, int qtr, String currentYear,
 			java.util.Map<String, String[]> params) {
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		try {
 			String path = troop.getTroopPath() + "/finances/" + currentYear;
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			Node rootNode = mySession.getRootNode();
 			Node financesNode = null;
 			if (!rootNode.hasNode(path)) {
@@ -545,7 +574,9 @@ try{
 			e.printStackTrace();
 		} finally {
 			try {
-				sessionFactory.closeSession(mySession);
+				mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -555,10 +586,11 @@ try{
 	public FinanceConfiguration getFinanceConfiguration(Troop troop,
 			String currentYear) {
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		FinanceConfiguration financeConfig = new FinanceConfiguration();
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			String councilPath = "/" + troop.getCouncilPath();
 			String configPath = councilPath + "/"
 					+ FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
@@ -610,7 +642,9 @@ try{
 		} finally {
 			try {
 				if (sessionFactory != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -622,9 +656,10 @@ try{
 			String income, String expenses, String period, String recipient) {
 
 		// TODO PERMISSIONS HERE
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			Node rootNode = mySession.getRootNode();
 			String configPath = troop.getCouncilPath() + "/"
 					+ FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
@@ -648,7 +683,9 @@ try{
 			e.printStackTrace();
 		} finally {
 			try {
-				sessionFactory.closeSession(mySession);
+				mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -801,10 +838,11 @@ try{
 		if (!asset.isDbUpdate())
 			return true;
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 
 			classes.add(Asset.class);
@@ -859,7 +897,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null) {
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 				}
 			} catch (Exception es) {
 				es.printStackTrace();
@@ -875,10 +915,11 @@ try{
 		if (!meeting.isDbUpdate())
 			return true;
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			
 			
 			List<Class> classes = new ArrayList<Class>();
@@ -954,7 +995,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -970,10 +1013,11 @@ try{
 		if (!activity.isDbUpdate())
 			return true;
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Activity.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1015,7 +1059,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1031,10 +1077,11 @@ try{
 		if (!location.isDbUpdate())
 			return true;
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Location.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1078,7 +1125,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1096,10 +1145,11 @@ try{
 		if (schedule == null || !schedule.isDbUpdate())
 			return true;
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Cal.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1151,7 +1201,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1168,10 +1220,11 @@ try{
 		if (!yearPlan.isDbUpdate())
 			return true;
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(YearPlan.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1188,7 +1241,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1201,7 +1256,7 @@ try{
 		if (!troop.isDbUpdate()) {
 			return true;
 		}
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
 			if (troop == null || troop.getYearPlan() == null) {
@@ -1215,7 +1270,8 @@ try{
 						+ troop.getTroopPath());
 			}
 
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -1293,7 +1349,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1305,10 +1363,11 @@ try{
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Activity.class);
 			classes.add(SentEmail.class);
@@ -1324,7 +1383,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1337,10 +1398,11 @@ try{
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);classes.add(Note.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1355,7 +1417,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1368,10 +1432,11 @@ try{
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Asset.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1386,7 +1451,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1399,10 +1466,11 @@ try{
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			if (mySession.itemExists(troop.getPath()
 					+ "/yearPlan/meetingEvents")) {
 				mySession.removeItem(troop.getPath()
@@ -1416,7 +1484,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1432,10 +1502,11 @@ try{
 		if (!meeting.isDbUpdate())
 			return true;
 
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingCanceled.class);
 			classes.add(Asset.class);
@@ -1467,7 +1538,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1479,10 +1552,11 @@ try{
 	
 	
 	public void removeDemoTroops() {
-
+		ResourceResolver rr= null;
 		Session session = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			
 			String sql = "select * from nt:unstructured where jcr:path like '"+VtkUtil.getYearPlanBase(null, null)+"%' and sfTroopId like 'SHARED_%' and ocm_classname='org.girlscouts.vtk.models.Troop'";
 			javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -1510,8 +1584,10 @@ try{
 			emailCronRpt(e.toString());
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1555,10 +1631,9 @@ try{
 		if( user==null || troop==null ) return false;
 		
 		boolean isArchived= true;
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 	
 		try {
-			mySession = sessionFactory.getSession();
 			String yearPlanPath ="";
 			
 			if( troop.getYearPlan()==null ){
@@ -1569,7 +1644,8 @@ try{
 				String yearPlanPath_prev = VtkUtil.getYearPlanBase_previous( user, null);
 			    yearPlanPath = troop.getYearPlan().getPath().replace(yearPlanPath_curr , yearPlanPath_prev  );
 			}
-	
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			if (!mySession.itemExists(yearPlanPath)) {
 				isArchived=false;
 			}
@@ -1578,7 +1654,9 @@ try{
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1614,10 +1692,11 @@ public java.util.Map getArchivedYearPlans( User user , Troop troop){
 public boolean isArchivedYearPlan( User user , Troop troop, String year){
 		if( user==null || troop==null ) return false;
 		boolean isArchived= false;
-		Session mySession = null;
+		ResourceResolver rr= null; Session mySession = null;
 	
 		try {
-			mySession = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 			
 			if (mySession.itemExists( "/vtk"+year+"/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan")) {
 				isArchived=true;
@@ -1628,7 +1707,9 @@ public boolean isArchivedYearPlan( User user , Troop troop, String year){
 		} finally {
 			try {
 				if (mySession != null)
-					sessionFactory.closeSession(mySession);
+					mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1644,10 +1725,11 @@ public boolean modifyNote(User user, Troop troop, Note note)
 	if (note ==null || !note.isDbUpdate())
 		return true;
 
-	Session mySession = null;
+	ResourceResolver rr= null; Session mySession = null;
 	boolean isUpdated = false;
 	try {
-		mySession = sessionFactory.getSession();
+		rr = sessionFactory.getResourceResolver();
+mySession = rr.adaptTo(Session.class);
 		
 		
 		List<Class> classes = new ArrayList<Class>();
@@ -1686,7 +1768,9 @@ public boolean modifyNote(User user, Troop troop, Note note)
 	} finally {
 		try {
 			if (mySession != null)
-				sessionFactory.closeSession(mySession);
+				mySession.logout();
+if( rr!=null )
+	sessionFactory.closeResourceResolver( rr );
 		} catch (Exception es) {
 			es.printStackTrace();
 		}
@@ -1705,5 +1789,8 @@ public void modifyNotes(User user, Troop troop, java.util.List<Note> notes)
 		modifyNote(user, troop ,  notes.get(i) );
 	 }
 }
+
+
+
 }// ednclass
 

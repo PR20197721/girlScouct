@@ -47,9 +47,11 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 
         	// Setup each agenda item
             var index = 1;
+
             this.items.each(function(item/*,index, length*/) {
                 if (item instanceof CQ.form.MultiField.Item) {
                 	var field = item.field;
+
 			    	// Generate name if empty
 			    	if (!field.nodeName) {
 			    		field.nodeName = 'A' + (Date.now() + Math.floor(Math.random()*9000) + 1000);
@@ -62,17 +64,26 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
                     field.ocmField.el.dom.name = path + 'ocm_classname';
                     field.ocmField.setValue('org.girlscouts.vtk.models.Activity');
 			    	field.nameField.el.dom.name = path + 'name';
+
+			    	//field.nameFieldDelete.el.dom.name = path + 'name@Delete';
 			    	field.durationField.el.dom.name = path + 'duration';
+			    	field.subtitleField.el.dom.name = path + 'subtitle';
+			    	field.outdoorField.el.dom.name = path + 'outdoor';
+			    	//field.durationFieldDelete.el.dom.name = path + 'duration@Delete';
 			    	field.descriptionField.el.dom.name = path + 'activityDescription';
+			    	//field.descriptionFieldDelete.el.dom.name = path + 'activityDescription@Delete'
 			    	field.numberField.el.dom.name = path + 'activityNumber';
-			    	field.outdoorCheckboxField.el.dom.name = path + 'isOutdoorAvailable';
-			    	field.hiddenSlingBooleanField.el.dom.name = path + 'isOutdoorAvailable@TypeHint';
-			    	field.hiddenSlingDeleteField.el.dom.name = path + 'isOutdoorAvailable@Delete';
+			    	field.materialField.el.dom.name = path + 'materials';
+			    	//field.materialFieldDelete.el.dom.name = path + 'material@Delete';
+			    	//field.outdoorCheckboxField.el.dom.name = path + 'isOutdoorAvailable';
+			    	//field.hiddenSlingBooleanField.el.dom.name = path + 'isOutdoorAvailable@TypeHint';
+			    	//field.hiddenSlingDeleteField.el.dom.name = path + 'isOutdoorAvailable@Delete';
 			    	
-			    	field.outdoorDescriptionField.el.dom.name = path + 'activityDescription_outdoor';
+			    	//field.outdoorDescriptionField.el.dom.name = path + 'activityDescription_outdoor';
                 	field.numberField.setValue(index++);
                 }
             }, this);
+            //return false;
         }, this);
     },
 
@@ -96,8 +107,8 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         	// =>
         	// /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B04
         	path = path.substring(0, path.indexOf('.', path.lastIndexOf('/')));
-	        var response = http.get(http.externalize(path + '/activities.1.json'));
-	        
+	        var response = http.get(http.externalize(path + '/activities.3.json'));
+
 	        var agendaItems = new Array();
 	        var responseJson = JSON.parse(response.responseText);
 	        for (var childKey in responseJson) {
@@ -108,15 +119,37 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 	        			continue;
 	        		}
 	        		var activityNumber = child.activityNumber;
-	        		agendaItems.push({
+	        		var curItem = {
 	        			"nodeName": childKey,
 	        			"activityNumber": child.activityNumber,
 	        			"name": child.name,
+	        			"subtitle": child.subtitle,
+	        			"outdoor": child.outdoor,
 	        			"duration": child.duration,
-	        			"description": child.activityDescription,
-	        			"isOutdoorAvailable": child.isOutdoorAvailable,
-	        			"activityDescription_outdoor": child.activityDescription_outdoor
-	        		});
+	        			"materials": child.materials,
+	        			"description": child.activityDescription
+
+	        		};
+	        		
+	        		if (child.multiactivities != null){
+		        		//this agenda/activity has multiple choices
+	        			var multiActObj = child.multiactivities;
+	        			for (var agendaKey in multiActObj) {
+	        				if (agendaKey.indexOf('jcr:') == 0 || agendaKey.indexOf('cq:') == 0) {
+	    	        			continue;
+	    	        		}
+	        				var agendaObj = multiActObj[agendaKey];
+	        				curItem[childKey+'/multiactivities/'+agendaKey+'/name'] = agendaObj.name;
+	        				curItem[childKey+'/multiactivities/'+agendaKey+'/subtitle'] = agendaObj.subtitle;
+	        				curItem[childKey+'/multiactivities/'+agendaKey+'/outdoor'] = agendaObj.outdoor;
+	        				curItem[childKey+'/multiactivities/'+agendaKey+'/duration'] = agendaObj.duration;
+	        				curItem[childKey+'/multiactivities/'+agendaKey+'/description'] = agendaObj.activityDescription;
+	        				curItem[childKey+'/multiactivities/'+agendaKey+'/materials'] = agendaObj.materials;
+
+	        			}
+	        		}
+
+	        		agendaItems.push(curItem);
 	        	}
 	        }
 	
@@ -134,6 +167,7 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         this.items.each(function(item, index/*, length*/) {
             if (item instanceof CQ.form.MultiField.Item) {
             	var agendaItem = item.getValue();
+
                 value += '[' + index + '^' + agendaItem.name + '^' + agendaItem.duration + ']';
                 index++;
             }

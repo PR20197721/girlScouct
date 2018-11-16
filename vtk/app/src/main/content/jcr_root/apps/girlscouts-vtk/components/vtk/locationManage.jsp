@@ -1,4 +1,7 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*, org.girlscouts.vtk.utils.VtkUtil" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
+		 org.girlscouts.vtk.utils.VtkUtil,
+		 org.apache.commons.lang.StringEscapeUtils
+		 " %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -67,7 +70,7 @@ if( locations==null || locations.size()<=0){
               %>
             </ul>
             <div class="linkButton Wrapper">
-            	<button class="btn" onclick="updLocations('<%=location.getPath()%>', '<%=location.getName()%>'); " class="button linkButton">Assign to checked locations</button>
+            	<button class="btn" onclick="updLocations('<%=location.getPath()%>', '<%=StringEscapeUtils.escapeJavaScript( location.getName() )%>'); " class="button linkButton">Assign to checked locations</button>
             	<button class="btn" onclick="applyLocToAllMeetings('<%=location.getPath()%>')" class="button linkButton">Apply to all meetings</button>
                 <button class="btn right" onclick="rmLocation('<%=location.getUid()%>');">Remove</button>
             </div>

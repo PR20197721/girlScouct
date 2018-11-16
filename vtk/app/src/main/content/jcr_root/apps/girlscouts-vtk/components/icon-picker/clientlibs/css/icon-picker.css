@@ -1,0 +1,7 @@
+coral-select.icon-picker button.coral-Button{
+    height:3rem;
+}
+
+coral-select.icon-picker coral-selectlist-item{
+	white-space: nowrap;
+}

@@ -86,7 +86,7 @@
   		<%
         	if( request.getParameter("xx") ==null ){
         %>
-      		document.location="/content/girlscouts-vtk/en/vtk.plan.html";
+      		document.location="/content/girlscouts-vtk/en/vtk.html";
       <%} else {%>
 		if (window.opener) {
 			window.opener.location.reload(false);
@@ -167,11 +167,6 @@
                   <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
                 <% } else {%>
                   <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
-                    
-                    <%                   
-                    if( !futureMeetings.contains(meeting.getId().toLowerCase() )  && reAddMeetings.contains( meeting.getId().toLowerCase() ) ){%>
-                         <a onclick="cngMeeting('<%=meeting.getPath()%>')">Re-add meeting</a>
-                    <%} %>
                 <% }%>
               </td>
           		<td>
