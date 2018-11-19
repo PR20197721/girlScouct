@@ -79,6 +79,12 @@ img {
 .hide {
   display: none;
 }
+.aem-AuthorLayer-Edit .hide {
+	display: block; 
+}
+.aem-Author--hidePlaceholder .edit .hide {
+	display: none; 
+}
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
