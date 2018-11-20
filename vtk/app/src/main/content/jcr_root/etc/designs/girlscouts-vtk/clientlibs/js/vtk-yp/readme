@@ -1,0 +1,8 @@
+==========================
+BUILD PROJECT
+dev -> npm run build
+prod -> npm run build:prod
+
+---------------------------
+npm --version / 4.2.0
+node --version / v7.10.1

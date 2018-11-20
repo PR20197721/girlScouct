@@ -24,7 +24,13 @@
     if( councilId==null || councilId.trim().equals("")){
         councilId = getCouncilCookie(request);
     }
-
+	
+    if( councilId==null || councilId.equals("") && user!=null){
+		try{
+			councilId= ""+user.getApiConfig().getUser().getAdminCouncilId();
+		}catch(Exception e){e.printStackTrace();}
+	}
+	
     //revoke auth token
     if( user!=null) {
         userUtil.logoutApi( user.getApiConfig(), false);

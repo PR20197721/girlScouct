@@ -98,7 +98,7 @@ public class CalendarUtil {
 		return sched;
 	}
 
-	public java.util.List<String> exclWeek(org.joda.time.DateTime date) {
+	public java.util.List<String> exclWeek( org.joda.time.DateTime date ) {
 		java.util.List<String> exclDates = new java.util.ArrayList();
 		org.joda.time.DateTime now = new org.joda.time.DateTime(date);
 		java.util.Calendar cal = now.toGregorianCalendar();
@@ -441,10 +441,9 @@ public class CalendarUtil {
 	}
 
 	public boolean isEventPastGSYear(User user, Troop troop) {
-
 		if (troop.getYearPlan() == null
 				|| troop.getYearPlan().getSchedule() == null
-				|| troop.getYearPlan().getSchedule().equals(""))
+				|| troop.getYearPlan().getSchedule().getDates()==null || "".equals(troop.getYearPlan().getSchedule().getDates() ))
 			return true;
 
 		boolean isPast = false;
@@ -464,18 +463,19 @@ public class CalendarUtil {
 							.getCalExclWeeksOf());
 			long nextDate = getNextDate(exclDates, lastDate, freq, false);
 			java.util.Calendar nextDateCal = java.util.Calendar.getInstance();
-			nextDateCal.setTimeInMillis(sched.get(0).getTime());
+			nextDateCal.setTimeInMillis( sched.get(sched.size()-1 ).getTime() ); 
 
 			java.util.Calendar cutOffDate = java.util.Calendar.getInstance();
 			cutOffDate.setTime(sched.get(0));
 
 			int currentGSDate = VtkUtil.getCurrentGSDate();
 			int currentGSMonth = VtkUtil.getCurrentGSMonth();
-			if (nextDateCal.get(java.util.Calendar.MONTH) > currentGSMonth - 1)
+			
+		    if (nextDateCal.get(java.util.Calendar.MONTH) > currentGSMonth - 1)
 				cutOffDate.add(java.util.Calendar.YEAR, 1);
 			cutOffDate.set(java.util.Calendar.MONTH, currentGSMonth - 1);
 			cutOffDate.set(java.util.Calendar.DATE, currentGSDate);
-
+			
 			if (nextDate <= cutOffDate.getTime().getTime())
 				return true;
 		} catch (Exception e) {

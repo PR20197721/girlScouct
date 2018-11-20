@@ -19,6 +19,7 @@ import org.apache.sling.commons.scheduler.Job;
 import org.apache.sling.commons.scheduler.JobContext;
 import org.apache.sling.commons.scheduler.Scheduler;
 import org.apache.sling.jcr.api.SlingRepository;
+import org.girlscouts.vtk.ejb.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +48,9 @@ public class VTKDataCacheInvalidator {
     
     @Reference
     protected SlingRepository repository;
+    
+    @Reference
+    private SessionFactory sessionFactory;
     
     private class CacheInvalidationJob implements Job {
         private String path;
@@ -108,7 +112,8 @@ public class VTKDataCacheInvalidator {
         httpClient = new HttpClient(connectionManager);
         try {
             Session session = repository.loginAdministrative(null);
-            flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
+        	//Session session = sessionFactory.getSession();
+        	flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
             session.logout();
             log.info("Started.");
         } catch (RepositoryException e) {
@@ -119,6 +124,7 @@ public class VTKDataCacheInvalidator {
         //second seasonal dispatcher
         try {
         	Session session = repository.loginAdministrative(null);
+        	//Session session = sessionFactory.getSession();
             flushUri2 = session.getNode(FLUSH_NODE2).getProperty(FLUSH_PROPERTY).getString();
             session.logout();
             log.info("The second flush agent is up and Started. The flushUri is " + flushUri2 + " with the node " + FLUSH_NODE2);

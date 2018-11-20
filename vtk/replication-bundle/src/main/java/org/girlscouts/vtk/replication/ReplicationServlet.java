@@ -7,7 +7,7 @@ import com.day.cq.replication.ReplicationAction;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.ReplicationReceiver;
-import com.day.cq.replication.impl.OutboxImpl;
+//import com.day.cq.replication.impl.OutboxImpl;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -252,7 +252,7 @@ public class ReplicationServlet extends SlingAllMethodsServlet
       response.setContentType("application/octet-stream");
       if (outbox == null) {
         this.logger.warn("Outbox '{}' does not exist. Either never created or wrongly configured", outboxName);
-        OutboxImpl.writeOutbox(null, response.getOutputStream());
+        //TODO OutboxImpl.writeOutbox(null, response.getOutputStream());
       } else {
         outbox.fetch(timeline, response.getOutputStream());
       }

@@ -18,6 +18,9 @@
           }
     }
 	*/
+
+
+
 	
 	
 	if( planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETINGCANCELED || planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETING ){
@@ -27,6 +30,8 @@
 		%><%@include file="activity_react2.jsp"%><%
 	}
 %>
+
+
 
 
 

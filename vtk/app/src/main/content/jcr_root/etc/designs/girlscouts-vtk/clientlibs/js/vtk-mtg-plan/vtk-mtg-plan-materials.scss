@@ -1,0 +1,13 @@
+@import '../../css/vtk_colors';
+
+#vtk-mtg-plan-materials{
+    ul{
+        margin: 0;
+        padding: 0;
+        li{
+            color: $green_light;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    }
+}

@@ -12,6 +12,7 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
@@ -51,6 +52,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 	public void createActivity(User user, Troop troop, Activity activity)
 			throws IllegalStateException, IllegalAccessException {
 		Session session = null;
+		ResourceResolver rr= null;
 		try {
 			
 			if (troop != null
@@ -58,7 +60,8 @@ public class ActivityDAOImpl implements ActivityDAO {
 							Permission.PERMISSION_ADD_ACTIVITY_ID))
 				throw new IllegalAccessException();
 
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(Activity.class);
@@ -100,8 +103,10 @@ public class ActivityDAOImpl implements ActivityDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -116,11 +121,12 @@ public class ActivityDAOImpl implements ActivityDAO {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_YEARPLAN_ID))
 			throw new IllegalAccessException();
-
+		ResourceResolver rr= null;
 		Session session = null;
 		javax.jcr.Node node = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 
 			node = session.getNodeByIdentifier(uuid);
 
@@ -128,8 +134,10 @@ public class ActivityDAOImpl implements ActivityDAO {
 			log.error("isActivity:Activity not found");
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -145,12 +153,13 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 		if (uuid == null)
 			return null;
-
+		ResourceResolver rr= null;
 		String path = null;
 		javax.jcr.Node node = null;
 		Session session = null;
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			node = session.getNodeByIdentifier(uuid);
 			if (node != null)
 				path = node.getPath().replace("/jcr:content", "");
@@ -158,8 +167,10 @@ public class ActivityDAOImpl implements ActivityDAO {
 			log.error("isActivity:Activity not found");
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -169,7 +180,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 	}
 
 	public boolean isActivityByPath(User user, String path) {
-
+		ResourceResolver rr= null;
 		Session session = null;
 		boolean isActivity = true;
 		try {
@@ -177,7 +188,8 @@ public class ActivityDAOImpl implements ActivityDAO {
 			String sql = "select jcr:path from nt:base where jcr:path = '"
 					+ path + "'";
 			log.debug("SQL " + sql);
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -205,8 +217,10 @@ public class ActivityDAOImpl implements ActivityDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -216,7 +230,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 	}
 
 	public Activity findActivity(User user, String path) {
-
+		ResourceResolver rr= null;
 		Activity activity = null;
 		Session session = null;
 		try {
@@ -226,7 +240,8 @@ public class ActivityDAOImpl implements ActivityDAO {
 					+ "])) and child.start is not null and parent.[jcr:title] is not null ";
 
 			log.debug(sql);
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -289,8 +304,10 @@ public class ActivityDAOImpl implements ActivityDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -301,7 +318,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 	public boolean updateActivity(User user, Troop troop, Activity activity)
 			throws IllegalAccessException, IllegalStateException {
-
+		ResourceResolver rr= null;
 		Session session = null;
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
@@ -309,7 +326,8 @@ public class ActivityDAOImpl implements ActivityDAO {
 			throw new IllegalAccessException();
 		
 		try {
-			session = sessionFactory.getSession();
+			rr = sessionFactory.getResourceResolver();
+			session = rr.adaptTo(Session.class);
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Activity.class);
 			classes.add(Asset.class);
@@ -324,8 +342,10 @@ public class ActivityDAOImpl implements ActivityDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
 				if (session != null)
-					sessionFactory.closeSession(session);
+					session.logout();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

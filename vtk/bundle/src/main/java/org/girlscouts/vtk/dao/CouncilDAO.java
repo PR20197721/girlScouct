@@ -26,7 +26,9 @@ public interface CouncilDAO {
 	
 	public void GSMonthlyRpt();
 
-	public void GSMonthlyDetailedRpt();
+	public void GSMonthlyDetailedRpt(String year);
+	
+	public void GSRptCouncilPublishFinance();
 	
 	
 

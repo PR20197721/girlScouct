@@ -1,3 +1,7 @@
+.selection-box{
+    height: 80px !important;
+}
+
 .vtk-meeting-calendar-head,
 .vtk-meeting-calendar-body,
 .vtk-meeting-calendar-footer {
@@ -49,12 +53,13 @@
     }
     input[type="checkbox"] + label span {
         display: table-cell;
-        width: 30px;
+        min-width: 30px;
         height: 30px;
         margin: -1px 6px 0 0;
         vertical-align: middle;
         cursor: pointer;
-        background: url(/etc/designs/girlscouts-vtk/images/selector.png) left top no-repeat;
+        background: url(/etc/designs/girlscouts-vtk/images/selector.png) left no-repeat;
+        background-position-y: top;
     }
     input[type="checkbox"] + label p {
         margin: 0;
@@ -64,13 +69,13 @@
         padding: 3px 0 0 5px;
     }
     input[type="checkbox"]:checked + label span {
-        background: url(/etc/designs/girlscouts-vtk/images/selector.png) -30px top no-repeat;
+        background: url(/etc/designs/girlscouts-vtk/images/selector.png) -30px no-repeat;
+        background-position-y: top;
     }
 
-
-     input[type="radio"] {
+    input[type="radio"] {
         display: none;
-                visibility: hidden;
+        visibility: hidden;
         margin: 0;
         position: absolute;
     }
@@ -82,7 +87,7 @@
 
     input[type="radio"] + label span {
      // display:inline-block;
-    width:30px;
+    min-width:30px;
     height:30px;
     margin:-1px 5px 0 0;
     vertical-align:middle;
@@ -91,7 +96,6 @@
     cursor:pointer;
         background: url(/etc/designs/girlscouts-vtk/images/selector.png) -60px top no-repeat;
     }
-
 
 	input[type="radio"] + label p{
 		margin: 0 0 0 3px;
@@ -102,10 +106,10 @@
 	    padding: 3px 0 0 2px;
 	}
 
-
     input[type="radio"]:checked + label span {
         background: url(/etc/designs/girlscouts-vtk/images/selector.png) -90px top no-repeat;
     }
+
     .cancel-meeting {}
 }
 

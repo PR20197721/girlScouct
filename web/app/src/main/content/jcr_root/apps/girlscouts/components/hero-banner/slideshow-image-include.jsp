@@ -14,14 +14,14 @@
 	Iterator<Resource> images = Optional.ofNullable(slides).map(Resource::listChildren).orElse(new ArrayList().iterator());
 	while(images.hasNext()){
 		Resource imgResource = images.next();
-		if(imgResource.getValueMap().get("enabled", Boolean.FALSE)){
-%>
-<div>
-	<div>
-		<cq:include path="<%=imgResource.getPath()%>" resourceType="girlscouts/components/hero-slideshow-images"/>
-	</div>
-</div>
-<%
+		if(!imgResource.getValueMap().get("hidden", Boolean.FALSE)){
+			%>
+			<div>
+				<div>
+					<cq:include path="<%=imgResource.getPath()%>" resourceType="girlscouts/components/hero-slideshow-images"/>
+				</div>
+			</div>
+			<%
 		}
 	}
 %>

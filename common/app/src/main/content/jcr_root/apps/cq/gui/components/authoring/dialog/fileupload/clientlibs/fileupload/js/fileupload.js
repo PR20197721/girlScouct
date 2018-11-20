@@ -122,43 +122,47 @@
 			// Determine the multifield index.
 			var multiFieldItemParent = self._$element.parents('coral-multifield-item')
 			var currentIndex = multiFieldParent.find('coral-multifield-item').index(multiFieldItemParent);
-
-			// Image source based on multifield position.
-			var fileLocation = self._element.action + '/' + multiFieldParent[0].dataset.graniteCoralMultifieldName.split('\./')[1] + '/item' + currentIndex + '/' + self.path.replace('/', '');
-			var thumbnailSrc = fileLocation + '.img.png';
-
-			var thumbnailSection = self._$element.find(_thumbnailSelector);
-			if(thumbnailSection.children().length == 0) {
-				thumbnailSection.empty().append($('<img>').attr('src', thumbnailSrc).attr("onerror", "arguments[0].currentTarget.style.display='none'"));
-
-				// Find and set the parent hero banner element switch.
-				var heroBannerElement = self._$element.parents('.hero-banner-element');
-				if(heroBannerElement.length > 0){
-					var heroBannerImagePreview = heroBannerElement.find('.heroBannerElementImagePreview');
-					if(heroBannerImagePreview.css('background-image') == 'none') {
-						heroBannerImagePreview.css({'background-image': 'url(' + thumbnailSrc + ')'});
-						multiFieldParent.css({'padding' : 0});
+			if(!self._$element.data("cq-is-new") ){
+				// Image source based on multifield position.
+				var d = new Date();
+				var fileLocation = self._element.action + '/' + multiFieldParent[0].dataset.graniteCoralMultifieldName.split('\./')[1] + '/item' + currentIndex + '/' + self.path.replace('/', '');
+				var thumbnailSrc = fileLocation + '.img.png?'+d.getTime();
+	
+				var thumbnailSection = self._$element.find(_thumbnailSelector);
+				if(thumbnailSection.children().length == 0) {
+					thumbnailSection.empty().append($('<img>').attr('src', thumbnailSrc).attr("onerror", "arguments[0].currentTarget.style.display='none'"));
+	
+					// Find and set the parent hero banner element switch.
+					var heroBannerElement = self._$element.parents('.hero-banner-element');
+					if(heroBannerElement.length > 0){
+						var heroBannerImagePreview = heroBannerElement.find('.heroBannerElementImagePreview');
+						if(heroBannerImagePreview.css('background-image') == 'none') {
+							heroBannerImagePreview.css({'background-image': 'url(' + thumbnailSrc + ')'});
+							multiFieldParent.css({'padding' : 0});
+						}
 					}
 				}
+	
+				// TODO@MK Join these up to make less total calls.
+			
+				$.get(fileLocation + '.json').then(function(result){
+					if(result.fileReference && self._inputs["filereference"].disabled) {
+						self._updateHiddenInput(self._inputs["filereference"], {
+							value: result.fileReference,
+							disabled: false
+						});
+					}
+					if(result.fileName && self._inputs["filername"].disabled) {
+						self._updateHiddenInput(self._inputs["filername"], {
+							value: result.fileName,
+							disabled: false
+						});
+					}
+				});
+				self._updateHiddenInput(self._inputs["filedelete"], { value: "false" });
 			}
 
-			// TODO@MK Join these up to make less total calls.
-			$.get(fileLocation + '.json').then(function(result){
-				if(result.fileReference && self._inputs["filereference"].disabled) {
-					self._updateHiddenInput(self._inputs["filereference"], {
-						value: result.fileReference,
-						disabled: false
-					});
-				}
-				if(result.fileName && self._inputs["filername"].disabled) {
-					self._updateHiddenInput(self._inputs["filername"], {
-						value: result.fileName,
-						disabled: false
-					});
-				}
-			});
-
-			self._updateHiddenInput(self._inputs["filedelete"], { value: "false" });
+			
 		}
 
 		//self._removeDuplicateHiddenInputs();

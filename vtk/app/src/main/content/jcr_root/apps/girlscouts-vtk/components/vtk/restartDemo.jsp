@@ -38,7 +38,7 @@ HttpSession session = request.getSession();
 	}
 	
 	
-    response.sendRedirect( configManager.getConfig("baseUrl") + "/content/girlscouts-demo/en.html?");
+    response.sendRedirect(  "http://vtkdemo.girlscouts.org/content/girlscouts-demo/en.html?");
     
 %>
  

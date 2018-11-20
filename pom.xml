@@ -351,9 +351,9 @@
     </pluginRepository>
   </pluginRepositories>
   <modules>
-  	<module>common</module>
     <module>web</module>
     <module>gsusa</module>
-    <module>gsactivities</module>
+    <module>vtk</module>
+    <module>gsactivities</module>    
   </modules>
 </project>

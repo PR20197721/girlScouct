@@ -1,0 +1,8 @@
+#base=js
+ 
+vtk-resources-category-widget.js
+vtk-resources-level-widget.js
+icon-picker.js
+hide-council-widgets.js
+vtk-resources-popup-list-widget.js
+vtk-resources-upload-button.js

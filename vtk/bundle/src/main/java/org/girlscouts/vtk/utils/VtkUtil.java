@@ -1,44 +1,51 @@
 package org.girlscouts.vtk.utils;
 
-import java.io.ByteArrayInputStream;
-import org.girlscouts.vtk.auth.permission.*;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import com.itextpdf.tool.xml.ElementList;
+import com.itextpdf.tool.xml.XMLWorker;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.itextpdf.tool.xml.css.CssFile;
+import com.itextpdf.tool.xml.css.StyleAttrCSSResolver;
+import com.itextpdf.tool.xml.html.Tags;
+import com.itextpdf.tool.xml.parser.XMLParser;
+import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
+import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
+import com.itextpdf.tool.xml.pipeline.end.ElementHandlerPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.felix.scr.annotations.*;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.snowball.SnowballAnalyzer;
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
+import org.apache.lucene.util.Version;
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.girlscouts.vtk.auth.models.ApiConfig;
+import org.girlscouts.vtk.auth.permission.Permission;
+import org.girlscouts.vtk.ejb.VtkError;
+import org.girlscouts.vtk.helpers.ConfigListener;
+import org.girlscouts.vtk.helpers.ConfigManager;
+import org.girlscouts.vtk.models.*;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.jsoup.Jsoup;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.beanutils.BeanComparator;
-import org.apache.commons.lang3.time.DateUtils;
-import org.apache.felix.scr.annotations.*;
-import org.girlscouts.vtk.auth.models.ApiConfig;
-import org.girlscouts.vtk.ejb.UserUtil;
-import org.girlscouts.vtk.ejb.VtkError;
-import org.girlscouts.vtk.helpers.ConfigListener;
-import org.girlscouts.vtk.helpers.ConfigManager;
-import org.girlscouts.vtk.models.Activity;
-import org.girlscouts.vtk.models.Contact;
-import org.girlscouts.vtk.models.Location;
-import org.girlscouts.vtk.models.Meeting;
-import org.girlscouts.vtk.models.MeetingE;
-import org.girlscouts.vtk.models.Troop;
-import org.girlscouts.vtk.models.User;
-import org.girlscouts.vtk.models.bean_resource;
 
 @Component(metatype = true, immediate = true)
 @Service(value = VtkUtil.class)
@@ -52,12 +59,15 @@ public class VtkUtil  implements ConfigListener{
 	ConfigManager configManager;
 	
 	private static String gsNewYear;
-	private static String vtkHolidays[];
-	
+	private static String vtkHolidays[], gsCouncils[];
+	private static String gsFinanceYearCutoffDate;
 	@SuppressWarnings("rawtypes")
 	public void updateConfig(Dictionary configs) {
+	
 		gsNewYear = (String) configs.get("gsNewYear");
 		vtkHolidays= (String[]) configs.get("vtkHolidays");
+		gsFinanceYearCutoffDate=  (String)configs.get("gsFinanceYearCutoffDate");
+		gsCouncils = (String[]) configs.get("councilMapping");
 	}
 
 	@Activate
@@ -449,7 +459,7 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
  return false;	
  }
  
- public static boolean isValidUrl(User user, Troop troop, String uri) {
+ public static boolean isValidUrl(User user, Troop troop, String uri, String councilName) {
 	 
 	if( uri.trim().indexOf("/myvtk/")==-1 ) return true;
  	if( user==null || troop==null || uri==null || uri.trim().equals("") )
@@ -462,7 +472,7 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 	 	String cid= t.nextToken();
 	 	
 	 			
-	 	if( cid.trim().toLowerCase().equals(troop.getSfCouncil().trim().toLowerCase()) ){
+	 	if( cid.trim().toLowerCase().equals( councilName ) ){//troop.getSfCouncil().trim().toLowerCase()) ){
 	 		return true;
 	 	}
 	 	
@@ -570,13 +580,15 @@ public static boolean isAnyOutdoorActivitiesInMeeting(Meeting meeting){
 		return false;
 	}
 	
-	java.util.List<Activity> activities = meeting.getActivities();
-	for(int i=0;i<activities.size();i++){
-		if( activities.get(i).getIsOutdoor() )
-			return true;
-	}
+	Activity activity= 
+			meeting.getActivities().stream()
+			.filter( x -> (x.getMultiactivities() !=null))
+			 .flatMap(x ->  x.getMultiactivities().stream() )
+			.filter(a -> a.getOutdoor() && (a.getIsSelected()!=null && a.getIsSelected()) )
+			.findAny()
+		    .orElse(null);
 	
-	return false;
+	return (activity == null) ? false: true;
 }
 
 
@@ -585,13 +597,15 @@ public static boolean isAnyOutdoorActivitiesInMeetingAvailable(Meeting meeting){
 		return false;
 	}
 	
-	java.util.List<Activity> activities = meeting.getActivities();
-	for(int i=0;i<activities.size();i++){
-		if( activities.get(i).getIsOutdoorAvailable())
-			return true;
-	}
+	Activity activity= 
+			meeting.getActivities().stream()
+			.filter( x -> (x.getMultiactivities() !=null))
+			 .flatMap(x ->  x.getMultiactivities().stream() )
+			.filter(a -> a.getOutdoor() )
+			.findAny()
+		    .orElse(null);
 	
-	return false;
+	return (activity == null) ? false: true;
 }
 
 public static String sortDates(String dates){
@@ -719,4 +733,277 @@ public static java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> me
 	return meetings;
 }
 
+	public static Map<String, Long> countUniq(java.util.List<String> container){
+		return container.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+	}
+	
+	/* 
+	 * GS Finance Year 
+	 * IF NOT CONFIG, then let it fail
+	 * */
+	public static int getCurrentGSFinanceYear(){
+		java.util.Calendar cutOffDate= java.util.Calendar.getInstance();
+		cutOffDate.setTime(new java.util.Date(gsFinanceYearCutoffDate) );
+		
+		java.util.Calendar now = java.util.Calendar.getInstance();
+		
+		if( now.getTimeInMillis() < cutOffDate.getTimeInMillis())
+			return cutOffDate.get(java.util.Calendar.YEAR) -1 ;
+		else
+			return cutOffDate.get(java.util.Calendar.YEAR);
+			
+	}
+	
+	public static String formatAgeGroup(String sf_age_group){
+		return ( sf_age_group ==null || sf_age_group.indexOf("-") ==-1 ) ? sf_age_group :
+			sf_age_group.substring( sf_age_group.indexOf("-")+1 ).toLowerCase();
+	}
+	
+	public static List<String> getDistinctMeetingPlanTypes(List<Meeting> meetings){
+		
+		List<String> meetingTypes = 
+				meetings.stream()
+			              .map(e -> e.getMeetingPlanType() )
+			              .collect(Collectors.toList());
+	
+		return meetingTypes.stream().distinct().sorted().collect(Collectors.toList());
+	}
+	
+	private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Map<Object,Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
+	
+	public static Map<String, List<Meeting>> sortMeetingByMeetingType(List<Meeting> meetings, List<String> meetingPlanTypes){
+		Map<String, List<Meeting>> orderedMeetingsByType = new TreeMap();
+		
+		for( String meetingType: meetingPlanTypes){ 
+  		  List<Meeting> meetingsByType = meetings.stream()
+			    .filter( meeting -> meetingType.equals( meeting.getMeetingPlanType()))
+			    .collect(Collectors.toList());
+  		  
+  		    //sort by name
+  		  	Collections.sort(meetingsByType,
+  	            java.util.Comparator.comparing(Meeting::getName) );
+		
+  		  orderedMeetingsByType.put( meetingType, meetingsByType );
+		}
+		return orderedMeetingsByType;
+	}
+	
+	public static  void  sortMeetingsByName (java.util.List<Meeting> meetings){
+		Collections.sort(meetings,
+	            java.util.Comparator.comparing(Meeting::getName) );
+		
+	}
+	
+
+	public static String Stem(String text, String language)throws Exception{
+        StringBuffer result = new StringBuffer();
+        if (text!=null && text.trim().length()>0){
+            StringReader tReader = new StringReader(text);
+            Analyzer analyzer = new SnowballAnalyzer(Version.LUCENE_35,language);
+            TokenStream tStream = analyzer.tokenStream("contents", tReader);
+            TermAttribute term = tStream.addAttribute(TermAttribute.class);
+
+            try {
+                while (tStream.incrementToken()){
+                    result.append(term.term());
+                    result.append(" ");
+                }
+            } catch (IOException ioe){
+                System.out.println("Error: "+ioe.getMessage());
+            }
+        }
+
+        // If, for some reason, the stemming did not happen, return the original text
+        if (result.length()==0)
+            result.append(text);
+        return result.toString().trim();
+    }
+
+	public static boolean isRenewMembership(int membershipYear){
+		
+            Calendar rightNow = Calendar.getInstance();
+   		
+    		if( membershipYear == rightNow.get(Calendar.YEAR) &&
+          		( rightNow.get(Calendar.MONTH) > 2 &&  rightNow.get(Calendar.MONTH) < 9)
+          	){
+          		return true;
+			}
+			return false;
+		
+	}
+	
+public  static JSONObject getJsonFromRequest(SlingHttpServletRequest request) throws IOException{
+		
+		HttpServletRequest _request = (HttpServletRequest ) request;
+	    StringBuilder sb = new StringBuilder();
+	    BufferedReader br = _request.getReader();
+	
+	    String str;
+	    while( (str = br.readLine()) != null ){
+	        sb.append(str);
+	    }
+	
+
+	   JSONObject jsonObject = null;
+	   try{ 
+		   jsonObject=  (JSONObject) JSONValue.parse( sb.toString() );
+	   }catch(Exception e){e.printStackTrace();}
+	   
+	   return jsonObject;
+	}
+
+
+	public static  String  formatLevel (User user, Troop troop){
+		if( troop==null || troop.getTroop()==null || troop.getTroop().getGradeLevel()==null) return "";
+		String level = troop.getTroop().getGradeLevel().toLowerCase();
+		// The field in SF is 1-Brownie, we need brownie
+		if (level.contains("-")) {
+			level = level.split("-")[1];
+		}
+		return level;
+	}
+
+public static List<Meeting> filterUniqMeetingByPath( List<Meeting> meetings){
+	return ( List<Meeting> )meetings.stream().filter(distinctByKey(Meeting::getPath))
+			.collect(Collectors.toList());
+}
+
+public static String fmtHtml(String _html){
+	String formattedString;
+
+	// Clean the HTML of things that will break the PDF parser.
+	try {
+		_html = PDFHtmlFormatter.format(_html);
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+
+	try{		
+		String CSS="";
+		CSSResolver cssResolver = new StyleAttrCSSResolver();
+        CssFile cssFile = XMLWorkerHelper.getCSS(new ByteArrayInputStream(CSS.getBytes()));
+        cssResolver.addCss(cssFile);
+ 
+        // HTML
+        HtmlPipelineContext htmlContext = new HtmlPipelineContext(null);
+        htmlContext.setTagFactory(Tags.getHtmlTagProcessorFactory());
+
+        // Pipelines
+        ElementList elements = new ElementList();
+        ElementHandlerPipeline pdf = new ElementHandlerPipeline(elements, null);
+        HtmlPipeline html = new HtmlPipeline(htmlContext, pdf);
+        CssResolverPipeline css = new CssResolverPipeline(cssResolver, html);
+        
+        XMLWorker worker = new XMLWorker(css, true);
+        XMLParser p = new XMLParser(worker);
+		p.parse(new ByteArrayInputStream(_html.getBytes()));
+        
+		formattedString = _html;
+	}catch(Exception e){
+		System.err.println("VtkUtil.fmtHtml: Found error parsing html. Html not well formatted."+ _html);
+		formattedString = Jsoup.parse( _html ).text();
+	}
+	
+	return (formattedString ==null || "".equals(formattedString.trim())) ? _html : formattedString;
+}
+
+public static Activity findSelectedActivity(java.util.List<Activity> activities){
+
+	if( activities==null ) return null;
+	
+	return activities.stream()
+		    .filter( activity -> (activity.getIsSelected() ) )
+		    .findAny()
+		    .orElse(null);
+}
+
+/*
+ * return Date object with date, time, hour in local time but EST time (VTK default timezone)
+ * EX: SF time 2018-04-03T23:00:00.000Z timezone (GMT-05:00) Central Daylight Time (America/Chicago)
+ * returns 2018-04-03T23:00:00.000-05:00
+ */
+public static String getSFActivityDate(String eventStartDateStr, String sfTimeZoneLabel){
+	String fmtDate = null;
+	try{
+		String timeZone= "America/New_York"; 
+		if( sfTimeZoneLabel!=null && !"".equals(sfTimeZoneLabel) ){
+			timeZone = sfTimeZoneLabel.substring(sfTimeZoneLabel.lastIndexOf("(")+1, sfTimeZoneLabel.length()-1);
+		}
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		TimeZone UTC_TZ = TimeZone.getTimeZone("UTC");
+	    dateFormat.setTimeZone(UTC_TZ);
+		java.util.Date UTC_DATE = dateFormat.parse(eventStartDateStr);
+		
+        TimeZone tz = TimeZone.getTimeZone(timeZone);
+        dateFormat.setTimeZone(tz);
+        
+        fmtDate = dateFormat.format(UTC_DATE) ;
+       
+	}catch(Exception e){e.printStackTrace();}
+	return fmtDate;
+	
+}
+
+public static boolean isAllMultiActivitiesSelected(java.util.List<Activity> activities){
+
+	if( activities==null ) return false;
+	boolean isFoundMultiActivityNotSelected= false;
+	
+	java.util.List<Activity> multiActivities = getMeetingMultiActivities( activities );
+	
+	//no multi-activities
+	if( multiActivities ==null || multiActivities.size()==0 ) return true;
+	
+	for(Activity _activity : multiActivities){
+		Activity multiActivity = _activity.getMultiactivities().stream()
+			    .filter( activity -> activity.getIsSelected() )
+			    .findAny()
+			    .orElse(null);
+		if( multiActivity ==null ){
+			isFoundMultiActivityNotSelected = true;
+			return false;
+		}
+			   
+	}
+     return isFoundMultiActivityNotSelected ? false : true;
+}
+
+public static java.util.List<Activity> getMeetingMultiActivities( java.util.List<Activity> activities ){
+	return activities.stream()
+		    .filter( activity -> activity.getMultiactivities().size()>1 )
+		    .collect(Collectors.toList());
+}
+
+public static String getYearPlanStartDate(Troop troop){
+	
+	if( troop==null || troop.getYearPlan()==null || troop.getYearPlan().getSchedule() ==null || troop.getYearPlan().getSchedule().getDates() ==null || "".equals(troop.getYearPlan().getSchedule().getDates()) )
+		return null;
+	
+	String startDate=null;
+	try{
+		StringTokenizer td = new StringTokenizer(troop.getYearPlan().getSchedule().getDates(), ",");
+		startDate =  td.nextToken();
+	}catch(Exception e){e.printStackTrace();}
+	return startDate;	
+ }
+
+
+public static List<String> getCouncils(){
+	List <String> councilCodes = new ArrayList<String>();
+	if (gsCouncils != null) {
+		for (int i = 0; i < gsCouncils.length; i++) {
+			String[] configRecord = gsCouncils[i].split("::");
+			if (configRecord.length >= 2) {
+				councilCodes.add(configRecord[0]);
+			} else {
+				System.err.println("Malformatted council mapping record: " + gsCouncils[i]);
+			}
+		}
+	} 
+	return councilCodes;
+}
 }//end class

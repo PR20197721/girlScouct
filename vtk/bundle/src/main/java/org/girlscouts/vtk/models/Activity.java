@@ -2,6 +2,7 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
@@ -35,7 +36,7 @@ public class Activity extends YearPlanComponent implements Serializable {
 
 	@Field(path = true)	String path;
 	@Field	private String name, activityDescription;
-	@Field	private int duration, activityNumber;
+	@Field	private int activityNumber;
 	@Field	private String materials, steps;
 	@Field	private java.util.Date endDate, date;
 	@Field	private String content, id, refUid;
@@ -52,11 +53,21 @@ public class Activity extends YearPlanComponent implements Serializable {
 	private boolean isDbUpdate=false;
 	@Field String img;
 	
+	@Bean( autoUpdate = false)  
+	Attendance attendance;
+
 	//outdoor info
-	@Field Boolean isOutdoor= false, isOutdoorAvailable=false;
-	@Field String activityDescription_outdoor;
+	//@Field Boolean isOutdoor= false, isOutdoorAvailable=false;
+	//@Field String activityDescription_outdoor, name_outdoor;
+	@Field(jcrDefaultValue="0")
+	int duration;
 	
+	@Field (jcrDefaultValue="false")
+	Boolean outdoor =false;
 	
+	@Collection java.util.List<Activity> multiactivities;
+	@Field String subtitle;
+	@Field Boolean isSelected =false;
 	
 	public String getRegisterUrl() {
 		return registerUrl;
@@ -277,15 +288,7 @@ public class Activity extends YearPlanComponent implements Serializable {
 		this.name = name;
 	}
 
-	public int getDuration() {
-		return duration;
-	}
 
-	public void setDuration(int duration) {
-		if( this.duration!=duration) 
-			isDbUpdate=true;
-		this.duration = duration;
-	}
 
 	public int getActivityNumber() {
 		return activityNumber;
@@ -330,30 +333,62 @@ public class Activity extends YearPlanComponent implements Serializable {
 		this.img = img;
 	}
 
-	public Boolean getIsOutdoor() {
-		
-		return isOutdoor ==null ? false : isOutdoor;
+	
+
+	public Attendance getAttendance() {
+		return attendance;
 	}
 
-	public void setIsOutdoor(Boolean isOutdoor) {
-		this.isOutdoor = isOutdoor;
+	public void setAttendance(Attendance attendance) {
+		this.attendance = attendance;
 	}
 
-	public String getActivityDescription_outdoor() {
-		return activityDescription_outdoor;
+	public Boolean getOutdoor() {
+		return outdoor;
 	}
 
-	public void setActivityDescription_outdoor(String activityDescription_outdoor) {
-		this.activityDescription_outdoor = activityDescription_outdoor;
+	public void setOutdoor(Boolean outdoor) {
+		this.outdoor = outdoor;
 	}
 
-	public Boolean getIsOutdoorAvailable() {
-		return isOutdoorAvailable ==null ? false : isOutdoorAvailable;
+
+	
+	public void setDuration(int duration) {
+		if( this.duration!=duration) 
+			isDbUpdate=true;
+		this.duration = duration;
 	}
 
-	public void setIsOutdoorAvailable(Boolean isOutdoorAvailable) {
-		this.isOutdoorAvailable = isOutdoorAvailable;
+	public int getDuration() {
+		return duration;
 	}
+
+	public java.util.List<Activity> getMultiactivities() {
+		return multiactivities;
+	}
+
+	public void setMultiactivities(java.util.List<Activity> multiactivities) {
+		this.multiactivities = multiactivities;
+	}
+
+	public String getSubtitle() {
+		return subtitle;
+	}
+
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
+	}
+
+	public Boolean getIsSelected() {
+		return isSelected ==null ? false : isSelected;
+	}
+
+	public void setIsSelected(Boolean isSelected) {
+		this.isSelected = isSelected;
+	}
+
+	
+	
 	
 	
 }

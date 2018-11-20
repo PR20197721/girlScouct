@@ -59,12 +59,12 @@ var HeroBannerElementManager = (function($, ns, channel, document, window){
 		_show(dialog.find('.heroBannerElementConfigContents'));
 		_hide(dialog.find('.heroBannerElementConfigContents'));
 
-		dialog.find('input[name="enabled"]').on('change.disable-container', function(){
+		dialog.find('input[name="hidden"]').on('change.disable-container', function(){ 
 			var heroContainer = $(this).parents('.heroBannerElementContainer').find('.heroBannerElementImagePreview');
 			if($(this).is(':checked')){
-				HeroBannerElementManager.enable(heroContainer)
-			}else{
 				HeroBannerElementManager.disable(heroContainer);
+			}else{
+				HeroBannerElementManager.enable(heroContainer);
 			}
 		}).trigger('change.disable-container');
 	});
