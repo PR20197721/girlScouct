@@ -20,7 +20,7 @@ import com.day.cq.dam.api.Asset;
 public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(GirlscoutsImagePathProviderImpl.class);
-	String imagePathPattern = ".transform/{rendition}/img.png";
+	String imagePathPattern = ".transform/{rendition}/img{extension}";
 
 	@Reference
 	protected ResourceResolverFactory resolverFactory;
@@ -32,24 +32,12 @@ public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvi
 
 	@Override
 	public String getImagePath(String path, String rendition) {
-		String pathToImage = "";
-		try{
-			pathToImage = path + imagePathPattern.replace("{rendition}", rendition);
-		}catch(Exception e){
-			log.error("Girl Scouts Image Path Provider encountered error:", e);
-		}
-		return pathToImage;
+		return formatPath(path, rendition);
 	}
 
 	@Override
 	public String getImagePath(Asset asset, String rendition) {
-		String pathToImage = "";
-		try {
-			pathToImage = asset.getPath() + imagePathPattern.replace("{rendition}", rendition);
-		} catch (Exception e) {
-			log.error("Girl Scouts Image Path Provider encountered error:", e);
-		}
-		return pathToImage;
+		return formatPath(asset.getPath(), rendition);
 	}
 
 	@Override
@@ -73,7 +61,6 @@ public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvi
 		return getImagePath(pathToImage, "cq5dam.web.1280.1280");
 	}
 
-
 	@Override
 	public String getImagePathByLocation(Image image) {
 		String pathToImage = "";
@@ -95,6 +82,20 @@ public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvi
 		return getImagePath(pathToImage, "cq5dam.web.1280.1280");
 	}
 
+	private String formatPath(String path, String rendition) {
+		String pathToImage = path;
+		try {
+			String extension = "png";
+			if (path.indexOf(".") != -1) {
+				extension = path.substring(path.lastIndexOf("."));
+			}
+			imagePathPattern = imagePathPattern.replace("{extension}", extension);
+			pathToImage = path + imagePathPattern.replace("{rendition}", rendition);
+		} catch (Exception e) {
+			log.error("Girl Scouts Image Path Provider encountered error:", e);
+		}
+		return pathToImage;
+	}
 	@Deactivate
 	private void deactivate(ComponentContext context) {
 		log.info("Girl Scouts Image Path Provider Deactivated.");

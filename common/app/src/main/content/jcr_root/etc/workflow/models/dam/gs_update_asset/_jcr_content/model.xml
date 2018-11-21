@@ -2,11 +2,12 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:isCheckedOut="{Boolean}false"
     jcr:primaryType="cq:WorkflowModel"
+    jcr:uuid="957c7fb1-2498-4ca0-94fa-1aa56e68b4a8"
     sling:resourceType="cq/workflow/components/model"
     description="This workflow manages the update of assets"
     title="Girl Scouts DAM Update Asset">
     <metaData
-        cq:lastModified="{Long}1542134428792"
+        cq:lastModified="{Long}1542730089387"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         tags="dam,wcm"
@@ -201,17 +202,6 @@
         </node14>
         <node15
             jcr:primaryType="cq:WorkflowNode"
-            description="This process will send email based on an email template to current user when a transient workflow is completed"
-            title="Send Transient Workflow Completed Email"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.core.impl.process.SendTransientWorkflowCompletedEmailProcess"
-                PROCESS_AUTO_ADVANCE="true"
-                templatePath="/etc/dam/workflow/notification/email/transientworkflowcompleted/en.txt"/>
-        </node15>
-        <node16
-            jcr:primaryType="cq:WorkflowNode"
             description="remove jcr:title and dc:title ending with &quot;.docx&quot; for pdf files."
             title="metadata title update"
             type="PROCESS">
@@ -219,13 +209,13 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="/etc/workflow/scripts/girlscouts/remove-docx-title.ecma"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node16>
-        <node17
+        </node15>
+        <node16
             jcr:primaryType="cq:WorkflowNode"
             title="End"
             type="END">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node17>
+        </node16>
     </nodes>
     <transitions jcr:primaryType="nt:unstructured">
         <node0_x0023_node1
@@ -336,15 +326,8 @@
         <node15_x0023_node16
             jcr:primaryType="cq:WorkflowTransition"
             from="node15"
-            rule=""
             to="node16">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node15_x0023_node16>
-        <node16_x0023_node17
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node16"
-            to="node17">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node16_x0023_node17>
     </transitions>
 </jcr:root>
