@@ -1,6 +1,6 @@
 
 <%@include file="/libs/foundation/global.jsp"%>
-<%@ page import="com.day.cq.tagging.TagManager,org.apache.sling.commons.json.*,java.util.ArrayList,java.util.HashSet, java.util.Locale,java.util.Arrays,java.util.Iterator,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,java.util.Calendar,
+<%@ page import="com.day.cq.tagging.TagManager,org.apache.sling.commons.json.*,java.util.ArrayList,java.util.HashSet, java.util.Locale,java.util.Arrays,java.util.Iterator,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.joda.time.DateTime,java.util.Calendar,
 org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 
 
@@ -17,7 +17,9 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
     GSDateTimeFormatter timeFormat = GSDateTimeFormat.forPattern("h:mm a");
     GSDateTimeFormatter fromFormat = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");   
     
-	GSDateTime today = new GSDateTime();
+    DateTime dateTime = new DateTime();
+    dateTime = dateTime.withTimeAtStartOfDay();
+	GSDateTime today = new GSDateTime(dateTime.getMillis());
 	GSDateTimeFormatter formatter = GSDateTimeFormat.forPattern("yyyy-MM-dd");
 	String evtStartDt = formatter.print(today);
 	// Do not reset to midnight. GSWP-1255
