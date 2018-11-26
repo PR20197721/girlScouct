@@ -1,4 +1,4 @@
-package org.girlscouts.web.servlets;
+package org.girlscouts.common.servlets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.security.AccessControlException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -15,7 +14,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -24,7 +22,6 @@ import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -37,25 +34,22 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
-import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-import org.apache.sling.api.servlets.HtmlResponse;
+import org.apache.sling.servlets.post.HtmlResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.girlscouts.common.events.search.GSDateTime;
 import org.girlscouts.common.events.search.GSDateTimeFormat;
 import org.girlscouts.common.events.search.GSDateTimeFormatter;
 import org.girlscouts.common.events.search.GSDateTimeZone;
-import org.girlscouts.web.components.PageReplicationUtil;
+import org.girlscouts.common.util.PageReplicationUtil;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.Replicator;
@@ -89,8 +83,13 @@ description = "Assists with bulkeditor performance")
 @Property(name = "service.description", value = "Bulk editor post servlet")
 }) 
  
-public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST { 
-    public static final String DOCUMENT_PARAM = "document";
+public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static final String DOCUMENT_PARAM = "document";
     public static final String INSERTEDRESOURCETYPE_PARAM = "insertedResourceType";
     public static final String ROOTPATH_PARAM = "./rootPath";
     public static final String IMPORT_TYPE_PARAM="importType";
@@ -127,75 +126,61 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     private Map<String, Object> serviceParams;
     
     private static Logger log = LoggerFactory.getLogger(GSPOSTimpl.class);
-    private ResourceResolver rr = null;
+
 
 	@Activate
 	private void activate(ComponentContext context) {
-		try {
-			serviceParams = new HashMap<String, Object>();
-			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-			
-			rr = resolverFactory.getServiceResourceResolver(serviceParams);
-		} catch (LoginException e) {
-			log.error("Failed to acquire service due to: " + e.getMessage());
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		serviceParams = new HashMap<String, Object>();
+		serviceParams.put(ResourceResolverFactory.SUBSERVICE, "GSPOST");
 		log.info("Girlscouts Rollout Service Activated.");
 	}
 
     public void doPost(SlingHttpServletRequest request,
                           SlingHttpServletResponse response)
             throws ServletException, IOException {
+		ResourceResolver rr = null;
+		HtmlResponse htmlResponse = new HtmlResponse();
+		try {
+			rr = resolverFactory.getServiceResourceResolver(serviceParams);
+			if (request.getRequestParameter(DOCUMENT_PARAM) != null) {
+				InputStream in = request.getRequestParameter(DOCUMENT_PARAM).getInputStream();
+				BufferedReader bufferReader = new BufferedReader(new InputStreamReader(in, "cp1252"));
 
-        HtmlResponse htmlResponse = null;
-        
+				request.getRequestParameter(INSERTEDRESOURCETYPE_PARAM);
+				request.getRequestParameter(INSERTEDRESOURCETYPE_PARAM).getString();
+				String rootPath = request.getRequestParameter(ROOTPATH_PARAM) != null
+						? request.getRequestParameter(ROOTPATH_PARAM).getString() : null;
 
-        if (request.getRequestParameter(DOCUMENT_PARAM) != null) {
-            InputStream in = request.getRequestParameter(DOCUMENT_PARAM).getInputStream();
-            BufferedReader bufferReader = new BufferedReader(new InputStreamReader(in, "cp1252"));
+				String importType = request.getRequestParameter(IMPORT_TYPE_PARAM) != null
+						? request.getRequestParameter(IMPORT_TYPE_PARAM).getString() : "";
+				String year = request.getRequestParameter(YEAR_PARAM) != null
+						? request.getRequestParameter(YEAR_PARAM).getString() : "";
 
-            String insertedResourceType = request.getRequestParameter(INSERTEDRESOURCETYPE_PARAM)!=null ?
-                    request.getRequestParameter(INSERTEDRESOURCETYPE_PARAM).getString() : null;
-            String rootPath = request.getRequestParameter(ROOTPATH_PARAM)!=null ?
-                    request.getRequestParameter(ROOTPATH_PARAM).getString() : null;
-                    
-            
-
-            String importType = request.getRequestParameter(IMPORT_TYPE_PARAM)!=null ? request.getRequestParameter(IMPORT_TYPE_PARAM).getString() : "";
-            String year = request.getRequestParameter(YEAR_PARAM)!=null ? request.getRequestParameter(YEAR_PARAM).getString() : "";
-            
-            SlingBindings bindings = null;
-			SlingScriptHelper scriptHelper = null;
-			try{
-				bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
-				scriptHelper = bindings.getSling();
-			}catch(Exception e){
-                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-                        "Could not resolve sling helper");
-                htmlResponse.send(response, true);
-                return;
-			}
+				SlingBindings bindings = null;
+				SlingScriptHelper scriptHelper = null;
+				try {
+					bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
+					scriptHelper = bindings.getSling();
+				} catch (Exception e) {
+					htmlResponse.setStatus(200, "Could not resolve sling helper");
+					htmlResponse.send(response, true);
+					log.error("Could not resolve sling helper: " + e);
+					return;
+				}
 			
-			if(scriptHelper == null){
-				 htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                        "Could not resolve sling helper");
-	             htmlResponse.send(response, true);
-	             return;
-			}
+				if (scriptHelper == null) {
+					htmlResponse.setStatus(200, "Could not resolve sling helper");
+					htmlResponse.send(response, true);
+					return;
+				}
             
             
-        	SlingRepository repo = scriptHelper.getService(SlingRepository.class);
-            Session admin = null;
-
-            try {
-                admin = repo.loginAdministrative(null);
-                ResourceResolver adminResolver = rr;
-                
-	            if(rootPath!=null) {
-	                Node rootNode = null;
+				scriptHelper.getService(SlingRepository.class);
+				if (rootPath != null) {
+					Node rootNode = null;
 	
-	                Resource resource = adminResolver.getResource(rootPath);
+					Resource resource = rr.getResource(rootPath);
 	                if(resource!=null) {
 	                    rootNode = resource.adaptTo(Node.class);
 	                }
@@ -212,24 +197,17 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	                		rootDepth = rootNode.getDepth();
 	                        //GS: Used to determine contact scaffolding property
 	                        councilRoot = rootNode.getAncestor(2).getPath();
-	                        	htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                                    "Could not determine council root");
+							htmlResponse.setStatus(200, "Could not determine council root");
 	                        if(councilRoot.indexOf("/") != -1 && !councilRoot.endsWith("/")){
 	                        	councilName = councilRoot.substring(councilRoot.lastIndexOf("/") + 1,councilRoot.length());
 	                        }
 	                	}catch(Exception e){
-	                		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                                "Can not Determine Root Node Depth and/or Council Name");
+							htmlResponse.setStatus(200, "Can not Determine Root Node Depth and/or Council Name");
 	                        htmlResponse.send(response, true);
-	                        e.printStackTrace();
+							log.error("Can not Determine Root Node Depth and/or Council Name: " + e);
 	                        return;
 	                	}
 	                	if(rootDepth >= 2){
-	            			
-	            			
-	                		
-		                    
-		                    
 		                    CSVReader csvR = new CSVReader(bufferReader);
 		                    String[] headerArr = csvR.readNext();
 		                    if (headerArr != null) {
@@ -239,19 +217,20 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 			                    	//GS - We can't make lots of asset packages
 			            			if(importType.equals("contacts")){
 				                		
-				                		htmlResponse = updateContacts(headers, rootPath, councilName, csvR, scriptHelper, adminResolver);	
+										htmlResponse = updateContacts(headers, rootPath, councilName, csvR,
+												scriptHelper, rr);
 			            			} else if(importType.equals("events")){
-			            				htmlResponse = updateEvents(headers, rootPath, year, csvR, scriptHelper, adminResolver);
+										htmlResponse = updateEvents(headers, rootPath, year, csvR, scriptHelper, rr);
 			            			} else if(importType.equals("documents")){
-			            				htmlResponse = updateFormMetadata(headers, rootPath, csvR, scriptHelper, adminResolver);
+										htmlResponse = updateFormMetadata(headers, rootPath, csvR, scriptHelper, rr);
 			            			} else{
-			            				htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-				                                "Unsupported import type.");
+										htmlResponse.setStatus(200, "Unsupported import type.");
 			            			}
 		            			
 		                    	} catch(Exception e){
-		                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-			                                "General Exception occured while processing content: " + e.getMessage());
+									htmlResponse.setStatus(200,
+											"General Exception occured while processing content: " + e.getMessage());
+									log.error("General Exception occured while processing content: " + e);
 		                			throw e;
 		                		} finally {
 		                			//adminResolver.close();
@@ -259,33 +238,32 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 		                            
 		                       
 		                    } else {
-		                        htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-		                                "Empty document");
+								htmlResponse.setStatus(200, "Empty document");
 		                    }
 	                	} else {
-	                		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                                "Please increase the depth of the root path to at least two");
+							htmlResponse.setStatus(200, "Please increase the depth of the root path to at least two");
 	                	}
 	                } else {
-	                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                        "Invalid root path");
+						htmlResponse.setStatus(200, "Invalid root path");
 	                }
 	            } else {
-	                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-	                    "No root path provided");
+					htmlResponse.setStatus(200, "No root path provided");
 	            }
             
-            } catch (RepositoryException e) {
-            	 htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-                         "Unable to get admin access for modifying content due to error: " + e.getMessage());
-            }
-            
         } else {
-            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "No document provided");
-        }
+				htmlResponse.setStatus(200, "No document provided");
+			}
         
-        
+		} catch (Exception e) {
+			log.error("Bulk Editor failed due to: " + e.getMessage());
+			htmlResponse.setStatus(500, "Error occured : " + e.getMessage());
+		} finally {
+			try {
+				rr.close();
+			} catch (Exception e1) {
+				log.error("Failed to close resource resolver: " + e1);
+			}
+		}
 
         htmlResponse.send(response, true);
     }
@@ -296,7 +274,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     	
     	List<String> replicationList = new ArrayList<String>();
     	Map<String,List<Contact>> teamMap = new HashMap<String,List<Contact>>();
-    	HtmlResponse response = null;
+		HtmlResponse response = new HtmlResponse();
     	Node rootNode = null;
     	
     	//Acquire root node. If doesn't exist resturn error
@@ -304,8 +282,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
         if(resource!=null) {
             rootNode = resource.adaptTo(Node.class);
         } else{
-        	response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Root node does not exist. Process aborted");
+			response.setStatus(200, "Root node does not exist. Process aborted");
         	return response;
         }
         
@@ -323,8 +300,8 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 				
 					if(Contact.NAME_PROP.equals(headers.get(indexCount))){ 
 						if(value == null || value.trim().isEmpty()){
-							response = HtmlStatusResponseHelper.createStatusResponse(true,
-				                    "Missing required field jcr:content/jcr:title at line:" + lineCount +". Process aborted");
+							response.setStatus(200, "Missing required field jcr:content/jcr:title at line:" + lineCount
+									+ ". Process aborted");
 				            return response;
 						}
 						contact.setName(value);
@@ -336,8 +313,8 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 						contact.setPhone(value);
 					} else if(Contact.TEAM_PROP.equals(headers.get(indexCount))){
 						if(value == null || value.trim().isEmpty()){
-							response = HtmlStatusResponseHelper.createStatusResponse(true,
-				                    "Missing required field jcr:content/team at line:" + lineCount +". Process aborted");
+							response.setStatus(200, "Missing required field jcr:content/team at line:" + lineCount
+									+ ". Process aborted");
 				            return response;
 						}
 						contact.setTeam(value);
@@ -350,8 +327,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	    		String jcrName = this.getJcrName(contact.getName().trim());
 	    		String jcrTeamName = this.getJcrName(contact.getTeam().trim());
 	    		if(jcrName == null || jcrTeamName == null || jcrName.isEmpty() || jcrTeamName.isEmpty()){
-	    			response = HtmlStatusResponseHelper.createStatusResponse(true,
-		                    "Required fields blank at line:" + lineCount +". Process aborted");
+					response.setStatus(200, "Required fields blank at line:" + lineCount + ". Process aborted");
 		            return response;
 	    		}
 	    		
@@ -376,8 +352,8 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	    		lineCount++;
 	    	}
     	} catch(IOException e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Critical Issue Parsing the input file at:" + lineCount +". Process aborted");
+			response.setStatus(200, "Critical Issue Parsing the input file at:" + lineCount + ". Process aborted");
+			log.error("Critical Issue Parsing the input file at:" + lineCount + ". Process aborted", e);
             return response;
     	}
     	
@@ -404,8 +380,10 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
             }
             //If deleting the contacts does not work create an error and exit method
         }catch(Exception e){
-            response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Failed to delete original contact data. Process Aborted due to error: " + e.getMessage());
+			response = new HtmlResponse();
+			response.setStatus(200,
+					"Failed to delete original contact data. Process Aborted due to error: " + e.getMessage());
+			log.error("Failed to delete original contact data. Process Aborted due to error: ", e);
             return response;
         }
     	
@@ -423,9 +401,11 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 					teamContentNode.setProperty("jcr:title",team);
 					teamContentNode.setProperty("hideInNav", true);
 				}catch(ItemExistsException e){
+					log.error("GSBulkEditor error: ", e);
 					try{
 						teamNode = rootNode.getNode(teamPathName);
 					}catch(Exception e1){
+						log.error("GSBulkEditor error: ", e1);
 						e1.printStackTrace();
 						break;
 					}
@@ -451,18 +431,20 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 				}
 			}
     	} catch (RepositoryException e) {
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Critical Error While Writing Data to Repository. Process Aborted" + e.getMessage() + " With exception: " + e.getClass().getName());
+			response.setStatus(200, "Critical Error While Writing Data to Repository. Process Aborted" + e.getMessage()
+					+ " With exception: " + e.getClass().getName());
+			log.error("Critical Error While Writing Data to Repository. Process Aborted: ", e);
             return response;
 		}
     	
     		
     	//Upon successful writing try to save the rootNode if not successful abort
         try{
-        	rootNode.save();
+			rootNode.getSession().save();
         } catch(Exception e){
-        	response = HtmlStatusResponseHelper.createStatusResponse(true,
-                "Unable to save Contacts. Process Aborted");
+			response = new HtmlResponse();
+			response.setStatus(200, "Unable to save Contacts. Process Aborted");
+			log.error("Unable to save Contacts. Process Aborted: ", e);
             	return response;
         }
         
@@ -472,8 +454,9 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
         if(response == null){
         	int mins = lineCount / documentDelayInterval;
         	mins++;
-        	response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Contacts updated successfully. The data will finish replicating in approximately " + mins + " minutes.");
+			response = new HtmlResponse();
+			response.setStatus(200, "Contacts updated successfully. The data will finish replicating in approximately "
+					+ mins + " minutes.");
         }
         
     	return  response;
@@ -481,18 +464,18 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     
     public HtmlResponse updateEvents(List<String> headers, String rootPath, String year, CSVReader csvR, SlingScriptHelper scriptHelper, ResourceResolver adminResolver) {
     	
-    	HtmlResponse response = null;
+		HtmlResponse response = new HtmlResponse();
     	TagManager tagManager = null;
     	Node rootNode = null;
     	String councilName = null;
     	
     	HashMap<String, Tag> existingCategories = new HashMap<String, Tag>();
     	HashMap<String, Tag> existingProgramLevels = new HashMap<String, Tag>();
-    	Pattern colorMatch = Pattern.compile("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
+    	Pattern.compile("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
     	List<Event> eventList = new ArrayList<Event>();
     	Tag categoriesTag = null;
     	Tag programLevelTag = null;
-    	List<String> replicationList = new ArrayList();
+		List<String> replicationList = new ArrayList<String>();
     	
     	//Check for year and root node
     	if(!year.equals("")){
@@ -500,20 +483,18 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	    	if(rootRes == null){
 	    		rootRes = adminResolver.getResource(rootPath);
 	    		if(rootRes == null){
-	    			response = HtmlStatusResponseHelper.createStatusResponse(true,
-	                        "Root path does not exist. Process aborted");
+					response.setStatus(200, "Root path does not exist. Process aborted");
 	                return response;
 	    		}else{
 	        		Node parentNode = rootRes.adaptTo(Node.class);
 	        		Node newYearNode = null;
-	        		Node newYearContentNode = null;
 	        		try{
 	        			newYearNode = parentNode.addNode(year,CQ_PAGE);
-	        			newYearContentNode = newYearNode.addNode(JCR_CONTENT,CQ_PAGE_CONTENT);
-	        			parentNode.save();
+	        			newYearNode.addNode(JCR_CONTENT,CQ_PAGE_CONTENT);
+						parentNode.getSession().save();
 	        		}catch(Exception e){
-	        			response = HtmlStatusResponseHelper.createStatusResponse(true,
-	                            "Failed to create year node");
+						response.setStatus(200, "Failed to create year node");
+						log.error("Failed to create year node:", e);
 	                    return response;
 	        		}
 	    		}
@@ -523,8 +504,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
         	
         	
         } else{
-        	response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Year parameter is mandatory for importing events. Please provide year parameter");
+			response.setStatus(200, "Year parameter is mandatory for importing events. Please provide year parameter");
             return response;
         }
     	
@@ -566,20 +546,20 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 			}
 			
 		} catch (RepositoryException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Unable to access the repository. Critical error. Process aborted");
+			response.setStatus(200, "Unable to access the repository. Critical error. Process aborted");
+			log.error("Unable to access the repository. Critical error. Process aborted", e);
         	return response;
 		} catch (AccessControlException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Unable to modify tags. Critical error. Process aborted");
+			response.setStatus(200, "Unable to modify tags. Critical error. Process aborted");
+			log.error("Unable to modify tags. Critical error. Process aborted", e);
         	return response;
 		} catch (InvalidTagFormatException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Ivalid tag format. Critical error. Process aborted");
+			response.setStatus(200, "Ivalid tag format. Critical error. Process aborted");
+			log.error("Ivalid tag format. Critical error. Process aborted", e);
         	return response;
 		} catch (ReplicationException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Unable to replicate tag, Critical Error. Process aborted.");
+			response.setStatus(200, "Unable to replicate tag, Critical Error. Process aborted.");
+			log.error("Unable to replicate tag, Critical Error. Process aborted.", e);
         	return response;
 		}
         
@@ -602,22 +582,22 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     			int index = 0;
     			for(String value : values){
     				String header = headers.get(index);
-    				
+					log.debug("Processing header: " + header);
     				if (header.equals(Event.END_DATE)){
     					event.setEndDate(value);
     				} else if (header.equals(Event.END_TIME)){
     					event.setEndTime(value);
     				} else if (header.equals(Event.START_DATE)){
     					if(value == null || value.trim().isEmpty()){
-    						response = HtmlStatusResponseHelper.createStatusResponse(true,
-    			                    "Missing required field Start Date at line "+lineCount +". Process aborted");
+							response.setStatus(200,
+									"Missing required field Start Date at line " + lineCount + ". Process aborted");
     			        	return response;
     					}
     					event.setStartDate(value);
     				} else if (header.equals(Event.START_TIME)){
     					if(value == null || value.trim().isEmpty()){
-    						response = HtmlStatusResponseHelper.createStatusResponse(true,
-    			                    "Missing required field Start Time at line "+lineCount +". Process aborted");
+							response.setStatus(200,
+									"Missing required field Start Time at line " + lineCount + ". Process aborted");
     			        	return response;
     					}
     					event.setStartTime(value);
@@ -653,22 +633,22 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     					event.setProgramLevels(tagTitleList);
     				} else if (header.equals(Event.TITLE)){
     					if(value == null || value.trim().isEmpty()){
-    						response = HtmlStatusResponseHelper.createStatusResponse(true,
-    			                    "Missing required field Title at line "+lineCount +". Process aborted");
+							response.setStatus(200,
+									"Missing required field Title at line " + lineCount + ". Process aborted");
     			        	return response;
     					}
     					event.setTitle(value);
     				} else if (header.equals(Event.LOCATION_NAME)){
     					if(value == null || value.trim().isEmpty()){
-    						response = HtmlStatusResponseHelper.createStatusResponse(true,
-    			                    "Missing required field Location Name at line "+lineCount +". Process aborted");
+							response.setStatus(200,
+									"Missing required field Location Name at line " + lineCount + ". Process aborted");
     			        	return response;
     					}
     					event.addDataPair(header.replace("jcr:content/data/", ""), value);
     				} else if (header.equals(Event.TEXT)){
     					if(value == null || value.trim().isEmpty()){
-    						response = HtmlStatusResponseHelper.createStatusResponse(true,
-    			                    "Missing required field Text at line "+lineCount +". Process aborted");
+							response.setStatus(200,
+									"Missing required field Text at line " + lineCount + ". Process aborted");
     			        	return response;
     					}
     					event.addDataPair(header.replace("jcr:content/data/", ""), value);
@@ -688,8 +668,8 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     			//Convert the date and time + timezone to single date string fields and add to the values map
     			String message = event.updateDataPairs();
     			if(message != null){
-    				response = HtmlStatusResponseHelper.createStatusResponse(true,
-    	                    "Content error:  "+message+" at line "+lineCount +". Process aborted");
+					response.setStatus(200,
+							"Content error:  " + message + " at line " + lineCount + ". Process aborted");
     	        	return response;
     			}
     			
@@ -697,16 +677,16 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     			lineCount++;
     		}
     	} catch(IOException e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Input/Output error at line "+lineCount +". Process aborted");
+			response.setStatus(200, "Input/Output error at line " + lineCount + ". Process aborted");
+			log.error("Input/Output error at line " + lineCount + ". Process aborted", e);
         	return response;
     	} catch(NullPointerException e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "General error at line "+lineCount +". Process aborted");
+			response.setStatus(200, "General error at line " + lineCount + ". Process aborted");
+			log.error("General error at line " + lineCount + ". Process aborted", e);
         	throw e;
     	} catch(Exception e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "General error at line "+lineCount +". Process aborted");
+			response.setStatus(200, "General error at line " + lineCount + ". Process aborted");
+			log.error("General error at line " + lineCount + ". Process aborted", e);
         	return response;
     	}
     	
@@ -735,20 +715,20 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	    		}
 	    	}
     	} catch (AccessControlException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Unable to modify tags. Critical error. Process aborted");
+			response.setStatus(200, "Unable to modify tags. Critical error. Process aborted");
+			log.error("Unable to modify tags. Critical error. Process aborted", e);
         	return response;
 		} catch (InvalidTagFormatException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Invalid tag format. Critical error. Process aborted");
+			response.setStatus(200, "Invalid tag format. Critical error. Process aborted");
+			log.error("Invalid tag format. Critical error. Process aborted", e);
         	return response;
 		} catch (ReplicationException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Unable to replicate newly created tag. Critical error. Process aborted");
+			response.setStatus(200, "Unable to replicate newly created tag. Critical error. Process aborted");
+			log.error("Unable to replicate newly created tag. Critical error. Process aborted", e);
         	return response;
 		} catch (RepositoryException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Unable to replicate newly created tag. Critical error. Process aborted");
+			response.setStatus(200, "Unable to replicate newly created tag. Critical error. Process aborted");
+			log.error("Unable to replicate newly created tag. Critical error. Process aborted", e);
         	return response;
 		}
     	
@@ -785,8 +765,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	    					
 	    				
 	    			} else{
-	    				response = HtmlStatusResponseHelper.createStatusResponse(true,
-	    	                    "Path at line "+lineCounter 
+						response.setStatus(200, "Path at line " + lineCounter
 	    	                    +" points to an event that doesn't exist. Fix path or remove altogether if creating new event. Process aborted");
 	    	        	return response;
 	    			}
@@ -846,11 +825,11 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	    	}
 	    	
 	    	
-	    	rootNode.save();
+			rootNode.getSession().save();
     	} catch (RepositoryException e) {
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Encountered repository error at line "+lineCounter 
+			response.setStatus(200, "Encountered repository error at line " + lineCounter
                     +". Process aborted." + e.getMessage());
+			log.error("Encountered repository error at line " + lineCounter + ". Process aborted.", e);
         	return response;
 		}
     	
@@ -858,10 +837,8 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     	response = delayedActivate(rootNode, scriptHelper, replicationList, adminResolver);
     	
     	if(response == null){
-        	int mins = lineCounter / documentDelayInterval;
-        	mins++;
-        	response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Events updated successfully. The data will replicate overnight.");
+			response = new HtmlResponse();
+			response.setStatus(200, "Events updated successfully. The data will replicate overnight.");
         }
     	
     	
@@ -871,7 +848,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     
     public HtmlResponse updateFormMetadata(List<String> headers, String rootPath, CSVReader csvR, SlingScriptHelper scriptHelper, ResourceResolver adminResolver){
     	
-    	HtmlResponse response = null;
+		HtmlResponse response = new HtmlResponse();
     	List<String> replicationList = new ArrayList<String>();
     	List<Document> documentList = new ArrayList<Document>();
     	Node rootNode = null;
@@ -882,8 +859,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
         if(resource!=null) {
             rootNode = resource.adaptTo(Node.class);
         } else{
-        	response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Root node does not exist. Process aborted");
+			response.setStatus(200, "Root node does not exist. Process aborted");
         	return response;
         }
     	
@@ -938,16 +914,16 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     			lineCount++;
     		}
     	} catch(IOException e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Input/Output error at line "+lineCount +". Process aborted");
+			response.setStatus(200, "Input/Output error at line " + lineCount + ". Process aborted");
+			log.error("Input/Output error at line " + lineCount + ". Process aborted", lineCount, e);
         	return response;
     	} catch(IllegalArgumentException e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Issue with formatting date or time at line "+lineCount +". Process aborted");
+			response.setStatus(200, "Issue with formatting date or time at line " + lineCount + ". Process aborted");
+			log.error("Issue with formatting date or time at line " + lineCount + ". Process aborted", lineCount, e);
         	return response;
     	} catch(Exception e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "General error at line "+lineCount +". Process aborted");
+			response.setStatus(200, "General error at line " + lineCount + ". Process aborted");
+			log.error("General error at line " + lineCount + ". Process aborted", lineCount, e);
         	return response;
     	}
     	
@@ -979,25 +955,23 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     									replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, result.getPath());
     								}
     							} else{
-    								response = HtmlStatusResponseHelper.createStatusResponse(true,
-    	        		                    "Tag domain for "+tag +" does not match the forms_documents domain. Process aborted");
+									response.setStatus(200, "Tag domain for " + tag
+											+ " does not match the forms_documents domain. Process aborted");
     	        		        	return response;
     							}
     						} else{
     							if(tagManager.canCreateTag(tag)){
-	    							response = HtmlStatusResponseHelper.createStatusResponse(true,
-	    	    		                    "Improperly formatted tag "+tag +". Process aborted");
+									response.setStatus(200, "Improperly formatted tag " + tag + ". Process aborted");
 	    	    		        	return response;
     							}
     						}
     					} else{
-    						response = HtmlStatusResponseHelper.createStatusResponse(true,
-        		                    "Tag "+tag +" does not match the council tag namespace: " + councilName + " Process aborted");
+							response.setStatus(200, "Tag " + tag + " does not match the council tag namespace: "
+									+ councilName + " Process aborted");
         		        	return response;
     					}
     				} else{
-    					response = HtmlStatusResponseHelper.createStatusResponse(true,
-    		                    "Improperly formatted tag "+tag +". Process aborted");
+						response.setStatus(200, "Improperly formatted tag " + tag + ". Process aborted");
     		        	return response;
     				}
     				
@@ -1043,8 +1017,8 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 					replicationList.add(doc.getPath() + "/jcr:content/metadata");
 	    			
 	    		} else{
-	    			response = HtmlStatusResponseHelper.createStatusResponse(true,
-	                        "Document at line "+lineCounter +" not found. Please check that the path is correct. Process aborted");
+					response.setStatus(200, "Document at line " + lineCounter
+							+ " not found. Please check that the path is correct. Process aborted");
 	            	return response;
 	    		}
 	    		
@@ -1052,18 +1026,24 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	    		
 	    	}
 	    	
-	    	rootNode.save();
+			rootNode.getSession().save();
     	} catch(InvalidTagFormatException e){
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Improperly formatted tag encountered. Process aborted with message: " + e.getMessage());
+			response.setStatus(200,
+					"Improperly formatted tag encountered. Process aborted with message: " + e.getMessage());
+			log.error("Improperly formatted tag encountered. Process aborted with message: ", e);
         	return response;
     	} catch (RepositoryException e) {
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Document at line "+lineCounter +" encountered issue writing to repository. Process aborted with message: " + e.getMessage());
+			response.setStatus(200, "Document at line " + lineCounter
+					+ " encountered issue writing to repository. Process aborted with message: " + e.getMessage());
+			log.error(
+					"Document at line " + lineCount
+							+ " encountered issue writing to repository. Process aborted with message: ",
+					lineCounter, e);
         	return response;
 		} catch (ReplicationException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Encountered issues replicating newly created tags. Process aborted with message: " + e.getMessage());
+			response.setStatus(200, "Encountered issues replicating newly created tags. Process aborted with message: "
+					+ e.getMessage());
+			log.error("Encountered issues replicating newly created tags. Process aborted with message: ", e);
         	return response;
 		}
     	
@@ -1073,8 +1053,9 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
         if(response == null){
         	int mins = lineCounter / documentDelayInterval;
         	mins++;
-        	response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Documents updated successfully. The data will finish replicating in approximately " + mins + " minutes.");
+			response = new HtmlResponse();
+			response.setStatus(200, "Documents updated successfully. The data will finish replicating in approximately "
+					+ mins + " minutes.");
         }
     	
     	return response;
@@ -1116,7 +1097,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     
     private HtmlResponse delayedActivate(Node rootNode, SlingScriptHelper scriptHelper, List<String> replicationList, ResourceResolver adminResolver){
     	
-    	HtmlResponse response = null;
+		HtmlResponse response = new HtmlResponse();
     	
     	String delayNodeName = PageReplicationUtil.getDateRes();
     	Resource resource = adminResolver.getResource(DELAYED_ACTIVATION_PATH);
@@ -1131,16 +1112,15 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	    		delayedNode.setProperty("delayActivation", true);
 	    		delayedNode.setProperty("status", "delayed");
 	    		delayedNode.setProperty("pages", paths);
-	    		delayedParent.save();
+				delayedParent.getSession().save();
     		} catch(RepositoryException e){
-    			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                        "Critical Activation Error. Error while setting up delayed activation");
+				response.setStatus(200, "Critical Activation Error. Error while setting up delayed activation");
+				log.error("Critical Activation Error. Error while setting up delayed activation: ", e);
             	return response;
     		}
     		
     	} else{
-    		response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Critical Activation Error. Delayed activation node is not available");
+			response.setStatus(200, "Critical Activation Error. Delayed activation node is not available");
         	return response;
     	}
     	
@@ -1150,8 +1130,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     
     private HtmlResponse staggerActivate(SlingScriptHelper scriptHelper, List<String> replicationList, int interval, int delayTimeInMinutes, ResourceResolver adminResolver){
     	 
-    	HtmlResponse response = null;
-    	String wfNodePath = null;
+		HtmlResponse response = new HtmlResponse();
     	try {
     		Node parentNode = null;
 	    	Node etcNode = adminResolver.getResource("/etc").adaptTo(Node.class);
@@ -1170,7 +1149,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	    	stagNode.setProperty("interval", interval);
 	    	stagNode.setProperty("state", "intiated");
 	    	stagNode.setProperty("activations", activations);
-	    	etcNode.save();
+			etcNode.getSession().save();
 	    	
 	    	
 	    	//Kick off the workflow to replicate the created nodes
@@ -1181,19 +1160,20 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 	    	WorkflowModel model;
 		
 			model = wfSession.getModel("/etc/workflow/models/staggered-activate/jcr:content/model");
-			wfNodePath = "/etc/" + STAG_ACTIVATION + "/" + stagNodeName;
-
 			WorkflowData data = wfSession.newWorkflowData("JCR_PATH", stagNode.getPath());
 			
 
 			wfSession.startWorkflow(model, data);
 		} catch (WorkflowException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Critical Activation Error. Failed to initiate workflow. Due to error: " + e.getMessage());
+			response.setStatus(200,
+					"Critical Activation Error. Failed to initiate workflow. Due to error: " + e.getMessage());
+			log.error("Critical Activation Error. Failed to initiate workflow. Due to error: ", e);
+
         	return response;
 		} catch (RepositoryException e) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Critical Activation Error. Failed while accessing repository. Due to error: " + e.getMessage());
+			response.setStatus(200,
+					"Critical Activation Error. Failed while accessing repository. Due to error: " + e.getMessage());
+			log.error("Critical Activation Error. Failed while accessing repository. Due to error: ", e);
         	return response;
 		}
        
@@ -1236,11 +1216,10 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 			.replaceAll("Minimum Attendance","jcr:content/data/minAttend")
 			.replaceAll("Maximum Attendance","jcr:content/data/maxAttend")
 			.replaceAll("Program Code","jcr:content/data/programCode");
-    		
+			log.debug("allHeaders: " + allHeaders);
     		return new LinkedList<String>(Arrays.asList(allHeaders.split("\\|")));	
     		
     	}
-    	
     	return headers;
     		
     	
@@ -1305,7 +1284,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     
     private HtmlResponse backupContacts(SlingScriptHelper scriptHelper, String rootPath, Node rootNode ){
     	
-    	HtmlResponse response = null;
+		HtmlResponse response = new HtmlResponse();
     	try{
 	        Packaging packaging = scriptHelper.getService(Packaging.class);
 			//Start by creating a package under the root node, in case we need to roll back
@@ -1326,15 +1305,17 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     		PrintWriter pkgout = new PrintWriter(System.out);
     		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
 		} catch(ItemExistsException ie) {
-			response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Failed to create contact backup package due to recent run of contacts bulkeditor. Please try again in two minutes");
+			response.setStatus(200,
+					"Failed to create contact backup package due to recent run of contacts bulkeditor. Please try again in two minutes");
+			log.error(
+					"Failed to create contact backup package due to recent run of contacts bulkeditor. Please try again in two minutes: ",
+					ie);
 			return response;
 		}
     		catch(Exception e){
-            response = HtmlStatusResponseHelper.createStatusResponse(true,
-                    "Failed to create contact backup package due to " + e.getClass().getName() + " with message " + e.getMessage());
-            
-            e.printStackTrace();
+			response.setStatus(200, "Failed to create contact backup package due to " + e.getClass().getName()
+					+ " with message " + e.getMessage());
+			log.error("Failed to create contact backup package due to ", e);
             return response;
 		}
     	
@@ -1419,30 +1400,16 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     	public static final String START_TIME = "jcr:content/data/start-time";
     	public static final String END_DATE = "jcr:content/data/end-date";
     	public static final String END_TIME = "jcr:content/data/end-time";
-    	public static final String TIME_ZONE = "jcr:content/data/timezone";
     	public static final String REGISTRATION_OPEN_DATE = "jcr:content/data/regOpen-date";
     	public static final String REGISTARTION_OPEN_TIME = "jcr:content/data/regOpen-time";
     	public static final String REGISTRATION_CLOSE_DATE = "jcr:content/data/regClose-date";
     	public static final String REGISTRATION_CLOSE_TIME = "jcr:content/data/regClose-time";
-    	public static final String REGION = "jcr:content/data/region";
     	public static final String LOCATION_NAME = "jcr:content/data/locationLabel";
-    	public static final String ADDRESS = "jcr:content/data/address";
     	public static final String TEXT = "jcr:content/data/details";
-    	public static final String SEARCH_DESCRIPTION = "jcr:content/data/srchdisp";
-    	public static final String COLOR = "jcr:content/data/color";
-    	public static final String REGISTRATION = "jcr:content/data/register";
     	public static final String CATEGORIES = "jcr:content/cq:tags-categories";
     	public static final String PROGRAM_LEVELS = "jcr:content/cq:tags-progLevel";
     	public static final String PATH = "jcr:path";
     	public static final String IMAGE = "jcr:content/data/imagePath";
-    	public static final String PROGRAM_TYPE = "jcr:content/data/progType";
-    	public static final String GRADES = "jcr:content/data/grades";
-    	public static final String GIRL_FEE = "jcr:content/data/girlFee";
-    	public static final String ADULT_FEE = "jcr:content/data/adultFee";
-    	public static final String MINIMUM_ATTENDANCE = "jcr:content/data/minAttend";
-    	public static final String MAXIMUM_ATTENDANCE = "jcr:content/data/maxAttend";
-    	public static final String PROGRAM_CODE = "jcr:content/data/programCode";
-    	
     	private String path;
     	
     	//Needs to be placed at the jcr:content level
@@ -1585,6 +1552,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 			try{
 				start = convertDateAndTime(this.startDate, this.startTime);
 			}  catch(IllegalArgumentException e){
+				log.error("Issue with formatting of start date or time ", e);
 	    		return "Issue with formatting of start date or time";
 	    	}
 			if(start != null){
@@ -1602,6 +1570,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 			try{
 				end = convertDateAndTime(this.endDate, this.endTime);
 			}  catch(IllegalArgumentException e){
+				log.error("Issue with formatting of end date or time ", e);
 	    		return "Issue with formatting of end date or time";
 	    	}
 			if(end != null){
@@ -1618,6 +1587,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 			try{
 				regOpen = convertDateAndTime(this.regOpenDate, this.regOpenTime);
 			}  catch(IllegalArgumentException e){
+				log.error("Issue with formatting of registration open date or time ", e);
 	    		return "Issue with formatting of registration open date or time";
 	    	}
 			
@@ -1636,6 +1606,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
 			try{
 				regClose = convertDateAndTime(this.regCloseDate, this.regCloseTime);
 			}  catch(IllegalArgumentException e){
+				log.error("Issue with formatting of registration close date or time ", e);
 	    		return "Issue with formatting of registration close date or time";
 	    	}
 			
@@ -1673,8 +1644,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
         		GSDateTimeZone dtz = GSDateTimeZone.forID(this.timezone);
 			    dt = GSDateTime.parse(result, dtfIn);
 			    dt = dt.withZone(dtz);
-			    String timeZoneOffset = dtfOutZone.print(dt);
-			    //result = result.substring(0,result .lastIndexOf("-")) + timeZoneOffset;
+			    dtfOutZone.print(dt);
         	}
         	
         	return dt.getCalendar();
@@ -1695,8 +1665,7 @@ public class GSPOSTimpl extends SlingAllMethodsServlet implements GSPOST {
     
     private class Document{
 
-		public static final String FILE_NAME_PROP="pdf:Title";
-    	public static final String TITLE_PROP="dc:title";
+		public static final String TITLE_PROP="dc:title";
     	public static final String DESCRIPTION_PROP="dc:description";
     	public static final String TAGS_PROP="cq:tags";
     	public static final String PATH_PROP="jcr:path";

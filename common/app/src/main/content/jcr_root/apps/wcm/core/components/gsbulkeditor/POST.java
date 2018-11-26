@@ -38,7 +38,7 @@ import org.apache.sling.api.servlets.HtmlResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.apache.sling.jcr.resource.JcrResourceResolverFactory;
-import org.girlscouts.web.components.PageReplicationUtil;
+import org.girlscouts.common.util.PageReplicationUtil;
 import org.girlscouts.common.events.search.GSDateTime;
 import org.girlscouts.common.events.search.GSDateTimeFormat;
 import org.girlscouts.common.events.search.GSDateTimeFormatter;
@@ -58,14 +58,14 @@ import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.Workflow;
 import com.day.cq.workflow.exec.WorkflowData;
 import com.day.cq.workflow.model.WorkflowModel;
-import com.day.jcr.vault.fs.api.PathFilterSet;
-import com.day.jcr.vault.fs.config.DefaultWorkspaceFilter;
-import com.day.jcr.vault.packaging.JcrPackage;
-import com.day.jcr.vault.packaging.JcrPackageDefinition;
-import com.day.jcr.vault.packaging.JcrPackageManager;
-import com.day.jcr.vault.packaging.Packaging;
-import com.day.jcr.vault.util.DefaultProgressListener;
-import org.girlscouts.web.servlets.GSPOST;
+import org.apache.jackrabbit.vault.fs.api.PathFilterSet;
+import org.apache.jackrabbit.vault.fs.config.DefaultWorkspaceFilter;
+import org.apache.jackrabbit.vault.packaging.JcrPackage;
+import org.apache.jackrabbit.vault.packaging.JcrPackageDefinition;
+import org.apache.jackrabbit.vault.packaging.JcrPackageManager;
+import org.apache.jackrabbit.vault.packaging.Packaging;
+import org.apache.jackrabbit.vault.util.DefaultProgressListener;
+import org.girlscouts.common.servlets.GSPOST;
 
 /**
  * Servers as base for image servlets

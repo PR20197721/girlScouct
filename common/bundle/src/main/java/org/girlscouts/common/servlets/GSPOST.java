@@ -1,4 +1,4 @@
-package org.girlscouts.web.servlets;
+package org.girlscouts.common.servlets;
 
 import java.io.IOException;
 

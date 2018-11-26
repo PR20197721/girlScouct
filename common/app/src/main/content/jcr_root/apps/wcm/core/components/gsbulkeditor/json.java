@@ -43,8 +43,8 @@ import com.day.cq.tagging.TagManager;
 import com.day.cq.tagging.Tag;
 import org.apache.sling.api.resource.ResourceResolver;
 
-import org.girlscouts.web.exception.GirlScoutsException;
-import org.girlscouts.web.encryption.FormEncryption;
+import org.girlscouts.common.exception.GirlScoutsException;
+import org.girlscouts.common.encryption.FormEncryption;
 import org.girlscouts.common.events.search.GSDateTime;
 import org.girlscouts.common.events.search.GSDateTimeFormat;
 import org.girlscouts.common.events.search.GSDateTimeFormatter;
