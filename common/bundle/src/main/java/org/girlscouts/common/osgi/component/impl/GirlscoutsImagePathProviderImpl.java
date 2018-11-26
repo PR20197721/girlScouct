@@ -52,8 +52,6 @@ public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvi
 				return getImagePath(pathToImage, "cq5dam.npd.left");
 			} else if (path.indexOf("jcr:content/content/right/par") != -1) {
 				return getImagePath(pathToImage, "cq5dam.npd.right");
-			} else if (path.indexOf("jcr:content/content/hero/par") != -1) {
-				return getImagePath(pathToImage, "cq5dam.npd.hero");
 			}
 		} catch (Exception e) {
 			log.error("Girl Scouts Image Path Provider encountered error:", e);
@@ -66,6 +64,9 @@ public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvi
 		String pathToImage = "";
 		try {
 			pathToImage = image.getFileReference();
+			if (pathToImage.isEmpty()) {
+				pathToImage = image.getFileNodePath() + ".img" + image.getExtension() + image.getSuffix();
+			}
 			String path = image.getParent().getPath();
 			if (path.indexOf("jcr:content/content/top/par") != -1) {
 				return getImagePath(pathToImage, "cq5dam.npd.top");
@@ -73,8 +74,6 @@ public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvi
 				return getImagePath(pathToImage, "cq5dam.npd.left");
 			} else if (path.indexOf("jcr:content/content/right/par") != -1) {
 				return getImagePath(pathToImage, "cq5dam.npd.right");
-			} else if (path.indexOf("jcr:content/content/hero/par") != -1) {
-				return getImagePath(pathToImage, "cq5dam.npd.hero");
 			}
 		} catch (Exception e) {
 			log.error("Girl Scouts Image Path Provider encountered error:", e);
