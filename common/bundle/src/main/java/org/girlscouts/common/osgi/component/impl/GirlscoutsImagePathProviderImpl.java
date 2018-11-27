@@ -1,5 +1,6 @@
 package org.girlscouts.common.osgi.component.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
@@ -20,7 +21,6 @@ import com.day.cq.dam.api.Asset;
 public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(GirlscoutsImagePathProviderImpl.class);
-	String imagePathPattern = ".transform/{rendition}/img{extension}";
 
 	@Reference
 	protected ResourceResolverFactory resolverFactory;
@@ -42,17 +42,18 @@ public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvi
 
 	@Override
 	public String getImagePathByLocation(Resource resource) {
+		log.debug("Choosing image based on location for resource: " + resource);
 		String pathToImage = "";
 		try {
 			pathToImage = String.valueOf(resource.adaptTo(ValueMap.class).get("fileReference"));
-			String path = resource.getPath();
-			if (path.indexOf("jcr:content/content/top/par") != -1) {
-				return getImagePath(pathToImage, "cq5dam.npd.top");
-			} else if (path.indexOf("jcr:content/content/left/par") != -1) {
-				return getImagePath(pathToImage, "cq5dam.npd.left");
-			} else if (path.indexOf("jcr:content/content/right/par") != -1) {
-				return getImagePath(pathToImage, "cq5dam.npd.right");
-			}
+			// String path = resource.getPath();
+			// if (path.indexOf("jcr:content/content/top/par") != -1) {
+			// return getImagePath(pathToImage, "cq5dam.npd.top");
+			// } else if (path.indexOf("jcr:content/content/left/par") != -1) {
+			// return getImagePath(pathToImage, "cq5dam.npd.left");
+			// } else if (path.indexOf("jcr:content/content/right/par") != -1) {
+			// return getImagePath(pathToImage, "cq5dam.npd.right");
+			// }
 		} catch (Exception e) {
 			log.error("Girl Scouts Image Path Provider encountered error:", e);
 		}
@@ -61,20 +62,21 @@ public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvi
 
 	@Override
 	public String getImagePathByLocation(Image image) {
+		log.debug("Choosing image based on location for image: " + image);
 		String pathToImage = "";
 		try {
 			pathToImage = image.getFileReference();
 			if (pathToImage.isEmpty()) {
 				pathToImage = image.getFileNodePath() + ".img" + image.getExtension() + image.getSuffix();
 			}
-			String path = image.getParent().getPath();
-			if (path.indexOf("jcr:content/content/top/par") != -1) {
-				return getImagePath(pathToImage, "cq5dam.npd.top");
-			} else if (path.indexOf("jcr:content/content/left/par") != -1) {
-				return getImagePath(pathToImage, "cq5dam.npd.left");
-			} else if (path.indexOf("jcr:content/content/right/par") != -1) {
-				return getImagePath(pathToImage, "cq5dam.npd.right");
-			}
+			// String path = image.getParent().getPath();
+			// if (path.indexOf("jcr:content/content/top/par") != -1) {
+			// return getImagePath(pathToImage, "cq5dam.npd.top");
+			// } else if (path.indexOf("jcr:content/content/left/par") != -1) {
+			// return getImagePath(pathToImage, "cq5dam.npd.left");
+			// } else if (path.indexOf("jcr:content/content/right/par") != -1) {
+			// return getImagePath(pathToImage, "cq5dam.npd.right");
+			// }
 		} catch (Exception e) {
 			log.error("Girl Scouts Image Path Provider encountered error:", e);
 		}
@@ -82,17 +84,25 @@ public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvi
 	}
 
 	private String formatPath(String path, String rendition) {
+		String imagePathPattern = ".transform/{rendition}/img{extension}";
+		log.debug("Generating rendition=" + rendition + " path for: " + path);
 		String pathToImage = path;
 		try {
-			String extension = "png";
-			if (path.indexOf(".") != -1) {
-				extension = path.substring(path.lastIndexOf("."));
+			if (!StringUtils.isBlank(path)) {
+				String extension = "jpg";
+				if (path.indexOf(".") != -1) {
+					extension = path.substring(path.lastIndexOf("."));
+				}
+				imagePathPattern = imagePathPattern.replace("{extension}", extension);
+				pathToImage = path + imagePathPattern.replace("{rendition}", rendition);
+			} else {
+				return "";
 			}
-			imagePathPattern = imagePathPattern.replace("{extension}", extension);
-			pathToImage = path + imagePathPattern.replace("{rendition}", rendition);
+
 		} catch (Exception e) {
 			log.error("Girl Scouts Image Path Provider encountered error:", e);
 		}
+		log.debug("Generated pathToImage=" + pathToImage);
 		return pathToImage;
 	}
 	@Deactivate
