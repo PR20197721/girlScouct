@@ -68,15 +68,17 @@
 			}
 		}
 		String imgPath = "";
-		Rendition rendition;
+		//Rendition rendition;
 		List<String> missingImageSizes = new ArrayList<String>();
 		missingImageSizes.add("small");
 		missingImageSizes.add("medium");
 		missingImageSizes.add("regular");
 		while(images.hasNext()){
 			Node imgNode = images.next().adaptTo(Node.class);
-			String imageSize = imgNode.getProperty("imagesize").getString();
-			
+			String imageSize = "";
+			if(imgNode.hasProperty("imagesize")){
+				imageSize = imgNode.getProperty("imagesize").getString();
+			}
 			if(imgNode.hasProperty("videoUrl")){
 				String videoUrl = imgNode.getProperty("videoUrl").getString();
 				hasOneVideoUrl = true;
@@ -90,12 +92,10 @@
 			}
 			
 			if(imgNode.hasProperty("fileReference")){
-				String fileReference = imgNode.getProperty("fileReference").getString();
-				
+				String fileReference = imgNode.getProperty("fileReference").getString();				
 				Asset imageAsset = getImageAsset(resourceResolver, fileReference);
-				rendition = imageAsset != null ? imageAsset.getRendition(new PrefixRenditionPicker("cq5dam.web.1280.1280")) : null;
-           		if(rendition != null){
-           			slideShowElements.add(new SlideShowElement(rendition.getPath(), linkUrl, alt, imageSize, "true".equals(newWindow)));
+           		if(imageAsset != null){
+           			slideShowElements.add(new SlideShowElement(gsImagePathProvider.getImagePath(imageAsset,"cq5dam.web.1280.1280"), linkUrl, alt, imageSize, "true".equals(newWindow)));
            		}else{
            			slideShowElements.add(new SlideShowElement(getPlaceHolderText("Not able to find the image: " + fileReference, ""), "", "", imageSize, false));
            		}

@@ -5,7 +5,12 @@
     <filter root="/etc/servlets"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/gs-maintenance"/>
-    <filter root="/etc/renderconditions/features"/>    
+    <filter root="/etc/renderconditions/features"/> 
+    <filter root="/etc/workflow/launcher/config/update_asset_mod"/> 
+    <filter root="/etc/workflow/launcher/config/update_asset_create"/>
+    <filter root="/etc/workflow/launcher/config/gs_update_asset_mod"/> 
+    <filter root="/etc/workflow/launcher/config/gs_update_asset_create"/>
+    <filter root="/etc/workflow/models/dam/gs_update_asset"/>   
     <filter root="/apps/girlscouts-common"/>
     <filter root="/apps/cq/gui/components/authoring/dialog" />
     <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>

@@ -58,14 +58,8 @@ class BadgeComparator implements Comparator<Resource>{
 								String regImageSrc = badge.getPath();
 								String smallImageSrc = badge.getPath();
 								Asset asset = badge.adaptTo(Asset.class);
-								Rendition regRendition = asset.getRendition("cq5dam.thumbnail.319.319.png");
-								if(regRendition != null && regRendition.getPath() != null){
-									regImageSrc = regRendition.getPath();
-								}
-							    Resource smallRendition = regRendition; //asset.getRendition("cq5dam.thumbnail.140.100.png");
-							    if(smallRendition != null && smallRendition.getPath() != null){
-							    	smallImageSrc = smallRendition.getPath();
-								}
+								regImageSrc = gsImagePathProvider.getImagePath(asset,"cq5dam.thumbnail.319.319");
+								smallImageSrc = gsImagePathProvider.getImagePath(asset,"cq5dam.thumbnail.120.120");								
 								Resource badgeMetadata = badge.getChild("jcr:content/metadata");
 								ValueMap props = badgeMetadata.adaptTo(ValueMap.class);
 								StringBuilder filterClassBuilder = new StringBuilder();
