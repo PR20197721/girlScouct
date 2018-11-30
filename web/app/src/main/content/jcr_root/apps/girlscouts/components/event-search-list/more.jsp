@@ -9,6 +9,7 @@ javax.jcr.Node,
 javax.jcr.Property,
 org.apache.sling.commons.json.JSONObject,
 org.apache.sling.api.request.RequestPathInfo,
+org.apache.sling.api.resource.ResourceUtil,
 org.girlscouts.common.search.GSSearchResult, 
 org.girlscouts.common.search.GSSearchResultManager,
 org.girlscouts.common.search.GSJcrSearchProvider" %>    
@@ -30,11 +31,9 @@ public void setImage(JSONObject event, Node node, ResourceResolver rr){
 		} else if(node.hasNode("jcr:content/data/image")){
 			imgPath = node.hasProperty("jcr:content/data/image/fileReference") ? node.getProperty("jcr:content/data/image/fileReference").getString() : "";
 		}
-// 		} else{
-// 			imgPath = node.getPath() + "/image";
-// 			displayRendition(rr, imgPath, "cq5dam.web.240.240");
-// 		} 
-		imgPath = gsImagePathProvider.getImagePath(imgPath, "cq5dam.web.240.240");
+		if(!ResourceUtil.isNonExistingResource(rr.resolve(imgPath))){
+        	imgPath = gsImagePathProvider.getImagePath(imgPath, "cq5dam.web.240.240");
+        }
 		event.put("imgPath", imgPath);
 	}catch(Exception e){}
 }
