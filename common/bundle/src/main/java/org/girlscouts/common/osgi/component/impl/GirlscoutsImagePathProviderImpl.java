@@ -67,7 +67,9 @@ public class GirlscoutsImagePathProviderImpl implements GirlscoutsImagePathProvi
 		try {
 			pathToImage = image.getFileReference();
 			if (pathToImage.isEmpty()) {
-				pathToImage = image.getFileNodePath() + ".img" + image.getExtension() + image.getSuffix();
+				String extension = image.getExtension();
+				extension = extension.replace("gif", "png");
+				pathToImage = image.getFileNodePath() + ".img" + extension + image.getSuffix();
 			}
 			// String path = image.getParent().getPath();
 			// if (path.indexOf("jcr:content/content/top/par") != -1) {
