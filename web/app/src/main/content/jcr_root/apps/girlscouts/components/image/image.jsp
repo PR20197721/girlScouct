@@ -25,6 +25,9 @@
 	%><div id="<%= divId %>"><%
 	    Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
+	    String width = properties.get("./width", "0");
+	    String height = properties.get("./height", "0");
+	    
 	  	try{
 		    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
 		
@@ -33,6 +36,12 @@
 		    image.loadStyleData(currentStyle);
 		    image.setSelector(".img"); // use image script
 		    image.setDoctype(Doctype.fromRequest(request));
+		    if (!"0".equals(width)) {
+	        	image.addAttribute("width", width + "px");
+	    	}
+	        if (!"0".equals(height)) {
+	        	image.addAttribute("height", height + "px");
+	    	}
 		    
 			Boolean newWindow = properties.get("./newWindow", false);
 		

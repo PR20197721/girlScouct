@@ -227,10 +227,13 @@ if(null!=srchInfo) {
 								imgPath = propNode.getProperty("image").getString();
 								%> <img src="<%= imgPath %>" /> <%
 							} else{
-								imgPath = propNode.getPath() + "/image";
-								%>
-								<%= gsImagePathProvider.getImagePath(imgPath,"cq5dam.web.240.240") %> 
-							<% } %>
+								try{
+                                    Resource eventImgRes = resourceResolver.resolve(propNode.getPath() + "/image");
+                                    imgPath = (String)eventImgRes.getValueMap().get("fileReference");                                   
+								%> <img src="<%= gsImagePathProvider.getImagePath(imgPath,"cq5dam.web.240.240") %>" /><% 
+                                }catch(Exception ex1){
+                                }     
+							 } %>
 						</div>
 						<div class="rightCol">
 							<h6><a class="bold" href="<%=href%>" itemprop="name"><%=title %></a></h6>

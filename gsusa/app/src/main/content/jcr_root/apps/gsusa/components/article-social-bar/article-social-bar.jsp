@@ -106,7 +106,10 @@
     	    }),
         	function(response)
 	        {
-    	        func(response.data.url);
+				if(response.data.url)
+					func(response.data.url);
+				else 
+					func(long_url);
         	}
 	    );
 	}
