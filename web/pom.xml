@@ -56,8 +56,6 @@
         <module>app</module>
         <module>pdfbox-wrapper</module>
         <module>opencsv-wrapper</module>
-        <!-- Add bootstrap to changeVersion -->
-        <module>bootstrap</module>
       </modules>
     </profile>
   </profiles>

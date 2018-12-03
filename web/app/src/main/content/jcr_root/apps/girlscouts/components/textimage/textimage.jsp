@@ -20,12 +20,15 @@
     com.day.cq.wcm.api.components.DropTarget,
     com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
 %><%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts.components.textimage" /><%
     boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
 
 
     Image image = new Image(resource, "image");
-
+    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
+    String width = properties.get("./image/width", "0");
+    String height = properties.get("./image/height", "0");
     // don't draw the placeholder in case UI mode touch it will be handled afterwards
     if (isAuthoringUIModeTouch) {
         image.setNoPlaceholder(true);
@@ -43,6 +46,12 @@
         image.addCssClass(ddClassName);
         image.setSelector(".img");
         image.setDoctype(Doctype.fromRequest(request));
+        if (!"0".equals(width)) {
+        	image.addAttribute("width", width + "px");
+    	}
+        if (!"0".equals(height)) {
+        	image.addAttribute("height", height + "px");
+    	}
 
         String divId = "cq-textimage-jsp-" + resource.getPath();
         String imageHeight = image.get(image.getItemName(Image.PN_HEIGHT));

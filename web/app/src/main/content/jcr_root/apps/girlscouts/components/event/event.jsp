@@ -253,27 +253,27 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
    </div>
 
 </div>
-<%
-	try {
-		String imgPath = properties.get("imagePath","");
-		if(!imgPath.isEmpty()){
-			%> <img src="<%= imgPath %>" /> <%
-		}
-		else{
-	    imgPath = resource.getPath() + "/image";
-	    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
-
-	    if( imgNode.hasProperty("fileReference")){
-	%>   <div>
-			<p>
-			<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
-			</p>
-		</div>
-<%}
-		    }
-	} catch (Exception e) {}
+<div>
+	<p>
+	<%
+		try {
+			String imgPath = properties.get("imagePath","");
+			if(!imgPath.isEmpty()){
+				%> <img src="<%= imgPath %>" /> <%
+			}
+			else{
+			    imgPath = resource.getPath() + "/image";
+			    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
+		
+			    if( imgNode.hasProperty("fileReference")){
+				%>   
+					<img src="<%= gsImagePathProvider.getImagePath(imgNode.getProperty("fileReference").getString(), "cq5dam.web.520.520") %>"/> 					
+				<%}
+			}
+		} catch (Exception e) {}
 	%>
-
+	</p>
+</div>
  <div class="row eventListDetail">
 	<div class="small-24 medium-12 large-12 columns">
 		<div class="row">

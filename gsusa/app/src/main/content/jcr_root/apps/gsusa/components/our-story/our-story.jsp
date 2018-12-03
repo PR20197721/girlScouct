@@ -118,7 +118,7 @@ public  String readUrlFile(String urlString) throws Exception {
             if (resProp.get("type", "").equals("video")) {
                 String videoCompPath = storyPath + "/jcr:content/video";
                 String videoPath = res.adaptTo(Node.class).getNode("video").getProperty("asset").getString();
-                String imagePath = videoPath + "/jcr:content/renditions/cq5dam.thumbnail.319.319.png";
+                String imagePath = gsImagePathProvider.getImagePath(videoPath,"cq5dam.thumbnail.319.319");
                 String description = resProp.get("description", "");
                 String modalId = "modal-" + Integer.toString((int)(Math.random() * 900) + 100);
                 %>
@@ -206,7 +206,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	                        String articleImagePath = "";
 	                        ValueMap articleImageVm = resourceResolver.resolve(vm.get("link", "") + "/jcr:content/image").adaptTo(ValueMap.class);
 	                        if (articleImageVm != null && !articleImageVm.get("fileReference", "").isEmpty()) {
-	                            articleImagePath = articleImageVm.get("fileReference", "") + "/_jcr_content/renditions/cq5dam.npd.hero.jpeg"; 
+	                            articleImagePath = gsImagePathProvider.getImagePath(articleImageVm.get("fileReference", ""),"cq5dam.npd.hero"); 
 	                        } else {
 	                            articleImagePath = imagePath;
 	                        }
