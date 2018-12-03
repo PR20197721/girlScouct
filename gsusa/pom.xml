@@ -54,8 +54,6 @@
         <module>selective-clean</module>
         <module>bundle</module>
         <module>app</module>
-        <!-- Add bootstrap to changeVersion -->
-        <module>bootstrap</module>
       </modules>
     </profile>
   </profiles>

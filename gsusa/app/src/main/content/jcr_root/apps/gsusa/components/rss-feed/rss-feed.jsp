@@ -221,9 +221,9 @@
 			if(thisArticleType.equals("video")){
 				thisFeedPageData.put("videoLink", thisVideoLink);
  			} else {
-				thisImageFinalSource = getImageRenditionSrc(resourceResolver, thisImageSrc, "cq5dam.npd.hubHero.");
+				thisImageFinalSource = gsImagePathProvider.getImagePath(thisImageSrc,"cq5dam.npd.hubHero");
 				thisImageFinalSourceExternalUrl = externalizer.absoluteLink(slingRequest, slingRequest.getScheme(), thisImageFinalSource);
-				thisImageFinalSource2X = getImageRenditionSrc(resourceResolver, thisImageSrc, "cq5dam.npd.hubHero@2x.");
+				thisImageFinalSource2X = gsImagePathProvider.getImagePath(thisImageSrc,"cq5dam.npd.hubHero@2x");
 				thisImageFinalSource2XExternalUrl = externalizer.absoluteLink(slingRequest, slingRequest.getScheme(), thisImageFinalSource2X);
 				//out.print("image link : " + thisImageFinalSourceExternalUrl + "<br>");
 				//out.print("image link @2X : " + thisImageFinalSource2XExternalUrl + "<br>");

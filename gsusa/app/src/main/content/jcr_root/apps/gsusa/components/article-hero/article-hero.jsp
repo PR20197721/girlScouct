@@ -34,5 +34,5 @@
 	if(type.equals("video")){%>
         <%=videoLink%>
     <%} else{%>
-	   <img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.hubHero.")%>" data-at2x="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.hubHero@2x.") %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" />
+	   <img src="<%= gsImagePathProvider.getImagePath(imageSrc,"cq5dam.npd.hubHero")%>" data-at2x="<%= gsImagePathProvider.getImagePath(imageSrc,"cq5dam.npd.hubHero@2x")%>" alt="<%=imgAlt%>" title="<%=imgAlt%>" />
     <%}%>
