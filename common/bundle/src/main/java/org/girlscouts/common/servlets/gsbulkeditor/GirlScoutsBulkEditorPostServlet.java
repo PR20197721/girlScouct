@@ -167,7 +167,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 			rr = resolverFactory.getServiceResourceResolver(serviceParams);
 			if (request.getRequestParameter(DOCUMENT_PARAM) != null) {
 				InputStream in = request.getRequestParameter(DOCUMENT_PARAM).getInputStream();
-				BufferedReader bufferReader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+				BufferedReader bufferReader = new BufferedReader(new InputStreamReader(in, "windows-1252"));
 
 				//request.getRequestParameter(INSERTEDRESOURCETYPE_PARAM);
 				//request.getRequestParameter(INSERTEDRESOURCETYPE_PARAM).getString();
@@ -326,8 +326,8 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 						//Do nothing
 					}
 	    		}
-	    		String jcrName = this.getJcrName(contact.getName().trim());
-	    		String jcrTeamName = this.getJcrName(contact.getTeam().trim());
+				String jcrName = getJcrName(contact.getName().trim());
+				String jcrTeamName = getJcrName(contact.getTeam().trim());
 	    		if(jcrName == null || jcrTeamName == null || jcrName.isEmpty() || jcrTeamName.isEmpty()){
 					response.setStatus(500, "Required fields blank at line:" + lineCount + ". Process aborted");
 		            return response;
@@ -390,7 +390,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
     	try {
 	    	for(String team : teamMap.keySet()){
 				String teamPath = (team == null || team.equals("")) ? "none" : team;
-				String teamPathName = this.getJcrName(teamPath);
+				String teamPathName = getJcrName(teamPath);
 				Node teamNode = null;
 				Node teamContentNode = null;
 				try{
@@ -563,7 +563,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 		}
         
     	//Convert headers to JCR properties
-        headers = this.replaceEventHeaders(headers);
+		headers = replaceEventHeaders(headers);
     	
     	//Check if file is empty
         
@@ -581,7 +581,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 				for (int i = 0; i < headers.size(); i++) {
 					String value = values.get(i);
 					String header = headers.get(i);
-					log.debug("Processing header: " + header);
+					log.debug("Processing header: " + header + ", value: " + value);
     				if (header.equals(Event.END_DATE)){
     					event.setEndDate(value);
     				} else if (header.equals(Event.END_TIME)){
@@ -858,7 +858,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
         }
     	
     	//Replace headers
-    	headers = this.replaceFormHeaders(headers);
+		headers = replaceFormHeaders(headers);
     	
     	
     	//Parse file
