@@ -147,9 +147,6 @@
         String queryURL = "/services/gsbulkeditor/query";
         String importURL = "/services/gsbulkeditor/import";
         String exportURL = "/services/gsbulkeditor/export/csv";
-        if(importType != null && !("").equals(importType)){
-        	exportURL = "/services/gsbulkeditor/export/" + importType;
-        }
         String renderTo = "cq-bulkeditor";
 
         Map<String,Object> bulkEditorConfig = new HashMap<String,Object>();
