@@ -144,11 +144,11 @@
         }
 
         //config
-        String queryURL = "/etc/importers/gsbulkeditor/query.json";
-        String importURL = "/etc/importers/gsbulkeditor/import";
-        String exportURL = "/etc/importers/gsbulkeditor/export.csv";
+        String queryURL = "/services/gsbulkeditor/query";
+        String importURL = "/services/gsbulkeditor/import";
+        String exportURL = "/services/gsbulkeditor/export/csv";
         if(importType != null && !("").equals(importType)){
-        	exportURL = "/etc/importers/gsbulkeditor/" + importType + ".csv";
+        	exportURL = "/services/gsbulkeditor/export/" + importType;
         }
         String renderTo = "cq-bulkeditor";
 
