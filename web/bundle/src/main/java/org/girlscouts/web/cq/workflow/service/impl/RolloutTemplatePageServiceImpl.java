@@ -19,8 +19,8 @@ import javax.jcr.query.Query;
 
 import org.girlscouts.common.components.GSEmailAttachment;
 import org.girlscouts.common.osgi.service.GSEmailService;
-import org.girlscouts.web.components.PageReplicationUtil;
-import org.girlscouts.web.constants.PageReplicationConstants;
+import org.girlscouts.common.util.PageReplicationUtil;
+import org.girlscouts.common.constants.PageReplicationConstants;
 import org.girlscouts.web.cq.workflow.service.RolloutTemplatePageService;
 import org.girlscouts.web.service.replication.PageReplicator;
 import org.osgi.framework.Constants;

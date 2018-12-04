@@ -1,4 +1,4 @@
-package org.girlscouts.web.components;
+package org.girlscouts.common.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.settings.SlingSettingsService;
-import org.girlscouts.web.constants.PageReplicationConstants;
+import org.girlscouts.common.constants.PageReplicationConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
