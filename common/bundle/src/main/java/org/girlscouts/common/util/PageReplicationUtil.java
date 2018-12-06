@@ -659,7 +659,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 											inactiveLiveSyncComponents, childResource, false);
 								} else {
 									Node childNode = childResource.adaptTo(Node.class);
-									if (childNode.isNodeType(PARAM_LIVE_SYNC_CANCELLED)) {
+									if (childNode.isNodeType(PARAM_LIVE_SYNC_CANCELLED) && !isParsys(childNode)) {
 										log.info("Component {} has cancelled inheritance.",
 												childResource.getPath());
 										inactiveLiveSyncComponents.add(childResource.getPath());
@@ -692,6 +692,18 @@ public class PageReplicationUtil implements PageReplicationConstants {
 		} catch (RepositoryException e) {
 			log.error("PageReplicationUtil encountered error: ", e);
 		}
+	}
+
+	private static boolean isParsys(Node childNode) {
+		try {
+			String resourceType = childNode.getProperty("sling:resourceType").getString();
+			return resourceType.equals("girlscouts-common/components/styled-parsys")
+					|| resourceType.equals("girlscouts/components/styled-parsys")
+					|| resourceType.equals("foundation/components/parsys");
+		} catch (Exception e) {
+			log.error("PageReplicationUtil encountered error: ", e);
+		}
+		return false;
 	}
 
 	public static Node getDateRolloutNode(Session session, ResourceResolver resourceResolver, boolean delay)

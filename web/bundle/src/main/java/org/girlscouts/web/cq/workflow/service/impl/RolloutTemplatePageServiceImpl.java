@@ -15,7 +15,9 @@ import javax.jcr.RangeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
+import javax.jcr.Workspace;
 import javax.jcr.query.Query;
+import javax.jcr.version.VersionManager;
 
 import org.girlscouts.common.components.GSEmailAttachment;
 import org.girlscouts.common.osgi.service.GSEmailService;
@@ -39,6 +41,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
+
 
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
@@ -355,23 +358,34 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 									"The page {} has Break Inheritance checked. Will not roll out",
 									relationPagePath);
 						} else {
-							validateRolloutConfig(sourcePageResource, relationPageResource);
-							Map<String, Set<String>> relationComponents = PageReplicationUtil
-									.categorizeRelationComponents(
-									relationPageResource, rolloutLog, rr);
-							Set<String> componentsToDelete = getComponentsToDelete(sourceComponentRelationsByCouncil,
-									relationComponents, councilPath);
-							Set<String> componentsToRollout = getComponentsToRollout(sourceComponentRelationsByCouncil,
-									relationComponents, srcComponents, councilPath);
-							if (relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS).size() > 0) {
-								notifyCouncils.add(relationPagePath);
+							Session session = rr.adaptTo(Session.class);
+							final Workspace workspace = session.getWorkspace();
+							final VersionManager versionManager = workspace.getVersionManager();
+							String versionableNodePath = relationPageResource.getPath() + "/jcr:content";
+							try {
+								validateRolloutConfig(sourcePageResource, relationPageResource);
+								Map<String, Set<String>> relationComponents = PageReplicationUtil
+										.categorizeRelationComponents(relationPageResource, rolloutLog, rr);
+								Set<String> componentsToDelete = getComponentsToDelete(
+										sourceComponentRelationsByCouncil, relationComponents, councilPath);
+								Set<String> componentsToRollout = getComponentsToRollout(
+										sourceComponentRelationsByCouncil, relationComponents, srcComponents,
+										councilPath);
+								if (relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS).size() > 0) {
+									notifyCouncils.add(relationPagePath);
+								}
+								versionManager.checkout(versionableNodePath);
+								versionManager.checkpoint(versionableNodePath);
+								deleteComponents(rr, rolloutLog, componentsToDelete);
+								rolloutComponents(sourcePageResource, rolloutLog, relationPagePath,
+										componentsToRollout);
+								updatePageTitle(sourcePageResource, relationPageResource);
+								pagesToActivate.add(relationPagePath);
+								rolloutLog.add("Page added to activation queue");
+								log.info("Page added to activation queue");
+							} finally {
+								versionManager.checkin(versionableNodePath);
 							}
-							deleteComponents(rr, rolloutLog, componentsToDelete);
-							rolloutComponents(sourcePageResource, rolloutLog, relationPagePath, componentsToRollout);
-							updatePageTitle(sourcePageResource, relationPageResource);
-							pagesToActivate.add(relationPagePath);
-							rolloutLog.add("Page added to activation queue");
-							log.info("Page added to activation queue");
 						}
 					} else {
 						log.info("Resource {} not found.", relationPagePath);
