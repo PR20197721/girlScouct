@@ -1,4 +1,4 @@
-package org.girlscouts.web.components;
+package org.girlscouts.common.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.settings.SlingSettingsService;
-import org.girlscouts.web.constants.PageReplicationConstants;
+import org.girlscouts.common.constants.PageReplicationConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -659,7 +659,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 											inactiveLiveSyncComponents, childResource, false);
 								} else {
 									Node childNode = childResource.adaptTo(Node.class);
-									if (childNode.isNodeType(PARAM_LIVE_SYNC_CANCELLED)) {
+									if (childNode.isNodeType(PARAM_LIVE_SYNC_CANCELLED) && !isParsys(childNode)) {
 										log.info("Component {} has cancelled inheritance.",
 												childResource.getPath());
 										inactiveLiveSyncComponents.add(childResource.getPath());
@@ -692,6 +692,18 @@ public class PageReplicationUtil implements PageReplicationConstants {
 		} catch (RepositoryException e) {
 			log.error("PageReplicationUtil encountered error: ", e);
 		}
+	}
+
+	private static boolean isParsys(Node childNode) {
+		try {
+			String resourceType = childNode.getProperty("sling:resourceType").getString();
+			return resourceType.equals("girlscouts-common/components/styled-parsys")
+					|| resourceType.equals("girlscouts/components/styled-parsys")
+					|| resourceType.equals("foundation/components/parsys");
+		} catch (Exception e) {
+			log.error("PageReplicationUtil encountered error: ", e);
+		}
+		return false;
 	}
 
 	public static Node getDateRolloutNode(Session session, ResourceResolver resourceResolver, boolean delay)

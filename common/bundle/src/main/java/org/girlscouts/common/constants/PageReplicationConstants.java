@@ -1,4 +1,4 @@
-package org.girlscouts.web.constants;
+package org.girlscouts.common.constants;
 
 import java.util.regex.Pattern;
 
