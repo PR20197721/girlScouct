@@ -62,17 +62,16 @@
 	
 	if (!"0".equals(imageWidth)) {
 		// imageWidth + padding
-		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft);
+		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft) + Integer.parseInt(pRight);
 		styleImage += "width:" + newWidth + "px;";
+		//styleCaption += "width:" + newWidth + "px;";
 	}
 %>
 
-<div id="<%= "cq-image-jsp-" + resource.getPath() %>" <%=style%> >
+<div id="<%= "cq-image-jsp-" + resource.getPath() %>" style="<%= styleImage %>" >
 <% 
 		Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
-	    String width = properties.get("./width", "0");
-	    String height = properties.get("./height", "0");
 	  	try{
 		    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
 		
@@ -83,13 +82,7 @@
 		    image.loadStyleData(currentStyle);
 		    image.setSelector(".img"); // use image script
 		    image.setDoctype(Doctype.fromRequest(request));
-		    if (!"0".equals(width)) {
-	        	image.addAttribute("width", width + "px");
-	    	}
-	        if (!"0".equals(height)) {
-	        	image.addAttribute("height", height + "px");
-	    	}
-		    
+	    	
 			Boolean newWindow = properties.get("./newWindow", false);
 		
 		    // add design information if not default (i.e. for reference paras)
@@ -107,5 +100,8 @@
 	  	}catch (Exception e){
 	  		
 	  	}
-%>	
+	  	%>
+		<div class="image-caption" style="<%= styleCaption %>">
+			<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
+		</div>
 </div>
