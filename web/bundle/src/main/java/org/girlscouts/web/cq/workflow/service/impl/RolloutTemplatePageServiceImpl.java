@@ -374,8 +374,12 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 								if (relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS).size() > 0) {
 									notifyCouncils.add(relationPagePath);
 								}
-								versionManager.checkout(versionableNodePath);
-								versionManager.checkpoint(versionableNodePath);
+								try {
+									versionManager.checkout(versionableNodePath);
+									versionManager.checkpoint(versionableNodePath);
+								} catch (Exception e) {
+									log.error("Girlscouts Rollout Service encountered error: ", e);
+								}
 								deleteComponents(rr, rolloutLog, componentsToDelete);
 								rolloutComponents(sourcePageResource, rolloutLog, relationPagePath,
 										componentsToRollout);
@@ -383,8 +387,13 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 								pagesToActivate.add(relationPagePath);
 								rolloutLog.add("Page added to activation queue");
 								log.info("Page added to activation queue");
-							} finally {
-								versionManager.checkin(versionableNodePath);
+							} catch (Exception e) {
+								log.error("Girlscouts Rollout Service encountered error: ", e);
+								try {
+									versionManager.checkin(versionableNodePath);
+								} catch (Exception e2) {
+									log.error("Girlscouts Rollout Service encountered error: ", e);
+								}
 							}
 						}
 					} else {
