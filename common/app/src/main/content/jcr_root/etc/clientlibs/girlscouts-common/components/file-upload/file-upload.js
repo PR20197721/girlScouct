@@ -11,6 +11,7 @@
         isJson = fileNames.endsWith(".json") && fileNames.includes(".");
         if(isJson){
             var prevDialog = document.querySelector('#uploadListDialog');
+            prevDialog.hide();
             prevDialog.remove();
 			var dialog = new Coral.Dialog().set({
 		    	    id: 'json_warning',
@@ -35,10 +36,5 @@
 		    	dialog.show();
         }
 
-    });
-    $(document).on('coral-overlay:open','#json_warning', function(event, isJson) {
-        var dialog = document.querySelector('#uploadListDialog');
-        $(document.querySelector('#uploadListDialog').footer).find("button.dam-asset-upload-button").hide()
-        //dialog.footer.remove();
     });
 })(document, Granite, Granite.$);
