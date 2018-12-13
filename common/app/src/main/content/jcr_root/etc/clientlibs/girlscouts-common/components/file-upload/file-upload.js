@@ -21,7 +21,7 @@
 		    	      innerHTML: 'Warning!'
 		    	    },
 		    	    content: {
-		    	      innerHTML: fileNames + " is invalid. Please remove all ' . 's from the file name before uploading"
+		    	      innerHTML: fileNames + " is invalid. Please remove all ' . 's from the file name and replace with ' - ' before uploading"
 		    	    }
 		    	  });
 		    	var footer = dialog.querySelector('coral-dialog-footer');
