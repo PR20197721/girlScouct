@@ -11,9 +11,9 @@
         isJson = fileNames.endsWith(".json") && fileNames.includes(".");
         if(isJson){
             var prevDialog = document.querySelector('#uploadListDialog');
-            prevDialog.hide();
+            prevDialog.remove();
 			var dialog = new Coral.Dialog().set({
-		    	    id: 'assets_folder_deletion_warning',
+		    	    id: 'json_warning',
 		    	    backdrop:'static',
 		    	    variant: 'error',
 		    	    header: {
@@ -30,15 +30,13 @@
 		        footer.appendChild(okButton).on('click', function (){
 		            dialog.hide();
 		            dialog.remove();
-                    var prevDialog = document.querySelector('#uploadListDialog');
-                    prevDialog.show();
 		        });
 		    	document.body.appendChild(dialog);
 		    	dialog.show();
         }
 
     });
-    $(document).on('coral-overlay:open','#assets_folder_deletion_warning', function(event, isJson) {
+    $(document).on('coral-overlay:open','#json_warning', function(event, isJson) {
         var dialog = document.querySelector('#uploadListDialog');
         $(document.querySelector('#uploadListDialog').footer).find("button.dam-asset-upload-button").hide()
         //dialog.footer.remove();
