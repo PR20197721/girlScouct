@@ -579,7 +579,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 
 	public static Map<String, Map<String, String>> getComponentRelationsByCouncil(Set<String> submittedCouncils,
 			Resource srcRes,
-			Set<String> srcComponents, List<String> rolloutLog, ResourceResolver rr) {
+			Set<String> srcComponents, List<String> rolloutLog, ResourceResolver rr, String relationPagePath) {
 		log.info("Categorizing component relations by council for {}", srcRes.getPath());
 		final LiveRelationshipManager relationManager = rr.adaptTo(LiveRelationshipManager.class);
 		Map<String, Map<String, String>> relationByCouncil = new HashMap<String, Map<String, String>>();
@@ -592,7 +592,8 @@ public class PageReplicationUtil implements PageReplicationConstants {
 					rolloutLog.add("Looking up relations for " + componentRes.getPath());
 					for (String council : submittedCouncils) {
 						try {
-							RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes, council,
+							RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes,
+									relationPagePath,
 									null);
 							if (relationIterator.hasNext()) {
 								while (relationIterator.hasNext()) {
@@ -600,10 +601,10 @@ public class PageReplicationUtil implements PageReplicationConstants {
 									String relationPath = relation.getTargetPath();
 									log.info("relation = {}", relationPath);
 									if (relationByCouncil.containsKey(council)) {
-										relationByCouncil.get(council).put(srcComponent, relationPath);
+										relationByCouncil.get(council).put(relationPath, srcComponent);
 									} else {
 										Map<String, String> componentRelations = new HashMap<String, String>();
-										componentRelations.put(srcComponent, relationPath);
+										componentRelations.put(relationPath, srcComponent);
 										relationByCouncil.put(council, componentRelations);
 									}
 								}
@@ -760,9 +761,117 @@ public class PageReplicationUtil implements PageReplicationConstants {
 					councils.add(singleValue.getString().trim());
 				}
 			} catch (Exception e1) {
-				log.error("Rollout Workflow encountered error: ", e);
+				log.error("PageReplicationUtil encountered error: ", e);
 			}
 		}
 		return councils;
+	}
+
+	public static Set<String> getComponentsToDelete(Map<String, String> sourceToTargetComponentRelations,
+			Map<String, Set<String>> relationComponentsMap, String relationCouncilPath) {
+		log.info("Looking up inherited components for {} that need to be deleted.", relationCouncilPath);
+		Set<String> componentsToDelete = new HashSet<String>();
+		Set<String> inheritedComponents = relationComponentsMap.get(RELATION_INHERITED_COMPONENTS);
+		for (String inheritedComponent : inheritedComponents) {
+			try {
+				if (!sourceToTargetComponentRelations.containsValue(inheritedComponent)) {
+					log.info(
+							"Inherited Component {} exist on council site, but not on source site. Qualifies to be deleted ",
+							inheritedComponent);
+					componentsToDelete.add(inheritedComponent);
+				}
+			} catch (Exception e) {
+				log.error("PageReplicationUtil encountered error: ", e);
+			}
+		}
+		return componentsToDelete;
+	}
+
+	public static Set<String> getComponentsToRollout(Map<String, String> sourceToTargetComponentRelations,
+			Map<String, Set<String>> relationComponentsMap, String relationCouncilPath) {
+		log.info("Looking up source components for {} that need to be rolled out.", relationCouncilPath);
+		Set<String> componentsToRollout = new HashSet<String>();
+		Set<String> cancelledInheritanceComponents = relationComponentsMap.get(RELATION_CANC_INHERITANCE_COMPONENTS);
+		Set<String> srcComponents = sourceToTargetComponentRelations.keySet();
+		for (String srcComponent : srcComponents) {
+			try {
+				String relatedComponent = sourceToTargetComponentRelations.get(srcComponent);
+				if (relatedComponent == null || !cancelledInheritanceComponents.contains(relatedComponent)) {
+					log.info("Including component {} in rollout for {}.", srcComponent, relatedComponent);
+					componentsToRollout.add(srcComponent);
+				}
+			} catch (Exception e) {
+				log.error("PageReplicationUtil encountered error: ", e);
+			}
+		}
+		return componentsToRollout;
+	}
+
+	public static Map<String, String> getComponentRelationsByPage(Set<String> srcComponents, String relationPagePath,
+			List<String> rolloutLog, ResourceResolver rr) {
+		log.info("Listing component relations for {}", relationPagePath);
+		final LiveRelationshipManager relationManager = rr.adaptTo(LiveRelationshipManager.class);
+		Map<String, String> componentRelationsByPage = new HashMap<String, String>();
+		if (srcComponents != null && srcComponents.size() > 0) {
+			for (String srcComponent : srcComponents) {
+				Resource componentRes = rr.resolve(srcComponent);
+				if (componentRes != null
+						&& !componentRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					log.info("Looking up relations for {}", componentRes.getPath());
+					rolloutLog.add("Looking up relations for " + componentRes.getPath());
+					try {
+						RangeIterator relationIterator = relationManager.getLiveRelationships(componentRes,
+								relationPagePath, null);
+						if (relationIterator.hasNext()) {
+							while (relationIterator.hasNext()) {
+								LiveRelationship relation = (LiveRelationship) relationIterator.next();
+								String relationPath = relation.getTargetPath();
+								log.info("{} inherits from {}", relationPath, componentRes.getPath());
+								componentRelationsByPage.put(srcComponent, relationPath);
+							}
+						} else {
+							componentRelationsByPage.put(srcComponent, null);
+							log.info("no inherited components for {}", componentRes.getPath());
+						}
+					} catch (Exception e) {
+						log.error("PageReplicationUtil encountered error: ", e);
+					}
+				}
+			}
+		}
+		return componentRelationsByPage;
+	}
+
+	public static Set<String> getComponents(Resource srcRes) {
+		log.info("PageReplicationUtil : Gathering all components under {}", srcRes.getPath());
+		Set<String> components = new HashSet<String>();
+		try {
+			traverseNodeForComponents(srcRes.getChild("jcr:content"), components);
+		} catch (Exception e) {
+			log.error("PageReplicationUtil encountered error: ", e);
+		}
+		return components;
+	}
+
+	private static void traverseNodeForComponents(Resource resource, Set<String> components) {
+		log.info("PageReplicationUtil : traversing {}", resource.getPath());
+		if (resource != null && resource.hasChildren()) {
+			Iterator<Resource> it = resource.getChildren().iterator();
+			while (it.hasNext()) {
+				Resource childResource = it.next();
+				Node node = childResource.adaptTo(Node.class);
+				try {
+					if ("nt:unstructured".equals(node.getPrimaryNodeType().getName())) {
+						log.info("Adding source node {} to rollout.", childResource.getPath());
+						components.add(childResource.getPath());
+					} else {
+						log.info("Skipping node {} since it's not of type nt:unstructured.", childResource.getPath());
+					}
+					traverseNodeForComponents(childResource, components);
+				} catch (RepositoryException e) {
+					log.error("PageReplicationUtil encountered error: ", e);
+				}
+			}
+		}
 	}
 }
