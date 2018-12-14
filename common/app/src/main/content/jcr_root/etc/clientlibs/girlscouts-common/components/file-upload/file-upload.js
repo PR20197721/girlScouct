@@ -7,10 +7,15 @@
         var fileNames = "";
         var baseUri = this.baseURI;
         var folderPath = baseUri.substring(baseUri.indexOf("/dam") + "/dam".length );
+        var regex = new RegExp("^[^\.]+\.json$");
         $.each(this.uploadQueue,function(index, item){
-            fileNames+=item.name;
+            //if((item.name.endsWith(".json") && item.name.includes("."))){
+            var isValid = regex.test(item.name);
+            if(isValid){
+                fileNames+=item.name;
+            }
         });
-        isJson = (fileNames.endsWith(".json") && fileNames.includes(".")) || folderPath.includes(".");
+        isJson = fileNames.length > 0 || folderPath.includes(".");
         if(isJson){
             var prevDialog = document.querySelector('#uploadListDialog');
             prevDialog.hide();
