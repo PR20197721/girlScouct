@@ -6,16 +6,15 @@
         event.preventDefault();
         var fileNames = "";
         var baseUri = this.baseURI;
-        var folderPath = baseUri.substring(baseUri.indexOf("/dam") + "/dam".length );
         var regex = new RegExp("^[^\.]+\.json$");
         $.each(this.uploadQueue,function(index, item){
             //if((item.name.endsWith(".json") && item.name.includes("."))){
-            var isValid = regex.test(item.name);
-            if(isValid){
+            if(regex.test(item.name)){
                 fileNames+=item.name;
             }
         });
-        isJson = fileNames.length > 0 || folderPath.includes(".");
+        var folderRegex = new RegExp("^.+\/dam[^\.]+$");
+        isJson = fileNames.length > 0 || folderRegex.test(baseUri);
         if(isJson){
             var prevDialog = document.querySelector('#uploadListDialog');
             prevDialog.hide();
