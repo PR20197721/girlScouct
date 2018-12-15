@@ -13,7 +13,7 @@
         });
 
         var folderRegex = new RegExp("^.+\/dam[^\.]+$");
-        if(fileNames.length > 0 || folderRegex.test(baseUri)){
+        if(fileNames.length > 0 || !folderRegex.test(baseUri)){
             var printString = "";
                 for(var i = 0; i<fileNames.length; i++){
                     printString = printString + baseUri+"/"+fileNames[i] + " is invalid. Please remove all ' . 's from the file/folder name and replace with ' - ' before uploading";
