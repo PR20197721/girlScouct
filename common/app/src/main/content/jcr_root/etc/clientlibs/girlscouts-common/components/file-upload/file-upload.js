@@ -21,7 +21,6 @@
                 }
             var prevDialog = document.querySelector('#uploadListDialog');
             prevDialog.hide();
-            prevDialog.remove();
 			var dialog = new Coral.Dialog().set({
 		    	    id: 'json_warning',
 		    	    backdrop:'static',
