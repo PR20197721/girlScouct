@@ -24,7 +24,7 @@
 		Iterator<Resource>	items = children.listChildren(); 
 		if(items != null && items.hasNext()){
 			%>
-			<dl class="accordion accordionComponent" id="accordion" data-accordion>
+			<dl class="accordion accordionComponent" data-accordion>
 			<%
 			StringBuilder script = new StringBuilder();
 			while(items.hasNext()){
