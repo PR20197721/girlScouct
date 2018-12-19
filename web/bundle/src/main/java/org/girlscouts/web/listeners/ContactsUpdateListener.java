@@ -224,7 +224,13 @@ public class ContactsUpdateListener implements EventListener{
                     sb.append(" : ");
                 }
                 if(parent.hasProperty("cq:tags")){
-                    sb.append(parent.getProperty("cq:tags").getString());
+                    Property tags = parent.getProperty("cq:tags");
+                    Value[] values = tags.getValues();
+                    for(Value value : values){
+                        sb.append(value.getString());
+                        sb.append(", ");
+                    }
+                    sb.delete(sb.length() - 2, sb.length());
                 }
                 if(parent.hasProperty("jcr:title")){
                     if(!"Contacts".equals(parent.getProperty("jcr:title").getString()))
