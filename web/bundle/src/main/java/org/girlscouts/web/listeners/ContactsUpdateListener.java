@@ -61,7 +61,6 @@ public class ContactsUpdateListener implements EventListener{
     @Activate
     public void activate(ComponentContext context) throws Exception {
         log.info("activating ContactsUpdateListener");
-        rr = null;
         //Initialize resource resolver and observation manager
         try {
 
@@ -81,8 +80,8 @@ public class ContactsUpdateListener implements EventListener{
 
                 String staffDirQuery = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([/content]) AND s.[sling:resourceType]='girlscouts/components/contact-list'";
                 Query query = queryManager.createQuery(staffDirQuery, "JCR-SQL2");
-                QueryResult resultset = query.execute();
-                NodeIterator nodeItr = resultset.getNodes();
+                QueryResult resultSet = query.execute();
+                NodeIterator nodeItr = resultSet.getNodes();
                 while(nodeItr.hasNext()){
                     try{
                         Node node = nodeItr.nextNode();
@@ -101,9 +100,15 @@ public class ContactsUpdateListener implements EventListener{
     }
     @Deactivate
     public void deactivate(){
-        rr.close();
+        try{
+            rr.close();
+        } catch (Exception e){
+            log.error("Failed to close resource resolver", e);
+        }
+
         //close all event listeners for each council site
         try{
+
             EventListenerIterator eventItr = observationManager.getRegisteredEventListeners();
             while(eventItr.hasNext()){
                 EventListener eventListener = eventItr.nextEventListener();
