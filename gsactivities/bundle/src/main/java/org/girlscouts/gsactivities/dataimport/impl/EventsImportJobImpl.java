@@ -110,7 +110,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	private MessageGatewayService messageGatewayService;
 
 	private FTPSClient ftp;
-	private ResourceResolver rr;
+	
 	private Map<String, Object> serviceParams;
 	//configuration fields
 	public static final String SERVER = "server";
@@ -185,10 +185,6 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		ftp.setDefaultTimeout(TIME_OUT_IN_MS);
 		serviceParams = new HashMap<String, Object>();
 		serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-		
-		
-		
-		readTimeStamp();
 		resetDate();
 	}
 	
@@ -199,6 +195,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		if (isPublisher()) {
 			return;
 		}
+
+		ResourceResolver rr = null;
 		errorString = new StringBuilder();
 		processInterrupted = false;
 		try {
@@ -206,14 +204,14 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		} catch (LoginException e) {
 			log.error("GSActivities:: Encountered login error", e);
 		}
-		
+		readTimeStamp(rr);
 		log.info("Running SF Events Importer..." );
 		log.info("GSActivities:: Refreshing FTPS Client");
 		ftp = new FTPSClient(false);
 		ftp.setDefaultTimeout(TIME_OUT_IN_MS);
 		try{
 			if (ftpLogin()) {
-				getFiles();
+				getFiles(rr);
 				
 			} else {
 				errorString.append("<p>Unable to login to FTP</p>"); 
@@ -265,7 +263,11 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			}
 			
 			//Close resource resolver
-			rr.close();
+			try {
+				rr.close();
+			} catch (Exception e) {
+				log.error("error while closing resource resolver: ", e);
+			}
 			if (ftp.isConnected()) {
 				try {
 					ftp.logout();
@@ -279,12 +281,12 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}
 	}
 	
-	public Date getTimeStamp() {
-		readTimeStamp();
+	public Date getTimeStamp(ResourceResolver rr) {
+		readTimeStamp(rr);
 		return lastUpdated;
 	}
 	
-	private void readTimeStamp(){
+	private void readTimeStamp(ResourceResolver rr) {
 		try {
 			ValueMap props = rr.getResource(CONFIG_PATH).adaptTo(ValueMap.class);
 			if (props.containsKey(LAST_UPD)) {
@@ -296,7 +298,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			log.error("GSActivities:: Failed to read " + CONFIG_PATH);
 		}
 	}
-	private void writeTimeStamp() {
+
+	private void writeTimeStamp(ResourceResolver rr) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(lastUpdated);
 		try {
@@ -313,8 +316,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 
 	}
 
-	private void getFiles() throws IOException, GirlScoutsException {
-		readTimeStamp();
+	private void getFiles(ResourceResolver rr) throws IOException, GirlScoutsException {
+		readTimeStamp(rr);
 		log.info("GSActivities:: Checking files after "+ZIP_DATE_FORMAT.format(lastUpdated));
 		//control connection being idle can cause disconnecting from server during data transfer
 		//this is to send NOOP every TIME_OUT secs.
@@ -357,7 +360,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				//Sort to make sure the older files are read first
 				Collections.sort(newFiles);
 				
-				int lastIndex = processFtpFiles(newFiles);
+				int lastIndex = processFtpFiles(newFiles, rr);
 				String zipName = newFiles.get(lastIndex);
 				
 				if(zipName != null){
@@ -380,7 +383,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					log.error("GSActivities:: Failed to download the file " + failedZipName + " from the server.");
 				}
 				lastUpdated=latest;
-				writeTimeStamp();
+				writeTimeStamp(rr);
 			} else{
 				log.error("GSActivities:");
 			}
@@ -396,7 +399,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 
 	}
 	
-	private int processFtpFiles(List<String> newFiles){
+	private int processFtpFiles(List<String> newFiles, ResourceResolver rr) {
 		
 		//Gather all the up to date activity instruction files in a FIFO queue
 		Queue<ZipData> zipQueue = new LinkedBlockingQueue<ZipData>();
@@ -433,7 +436,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			if(listOfObjects != null){
 				//A number of errors occurring during updating the activities are expected. Therefore none of the errors trigger the process interruption flag
 				try {
-					processForDelayedActivation(listOfObjects);
+					processForDelayedActivation(listOfObjects, rr);
 				} catch (ValueFormatException e) {
 					log.error("GSActivities:: Encountered exception while parsing JSON for file "+ data.getZipName(), e);
 					
@@ -464,7 +467,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		
 	}
 	
-	private void processForDelayedActivation(List<JSONObject> input) throws ValueFormatException, PathNotFoundException, IllegalStateException, RepositoryException, JSONException{
+	private void processForDelayedActivation(List<JSONObject> input, ResourceResolver rr) throws ValueFormatException,
+			PathNotFoundException, IllegalStateException, RepositoryException, JSONException {
 		Resource etcRes = rr.resolve("/etc");
 		Node etcNode = etcRes.adaptTo(Node.class);
         Resource gsPagesRes = rr.resolve("/etc/gs-delayed-activations");
@@ -489,7 +493,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
     	}
     	
 			for(JSONObject object : input){
-				parseJson(object, toActivate);
+			parseJson(object, toActivate, rr);
 			}
     	
 		pagesProp = toActivate.toArray(new String[0]);
@@ -550,7 +554,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		return results;
 	}
 
-	private void parseJson(JSONObject jsonObject, ArrayList<String> toActivate) throws JSONException {
+	private void parseJson(JSONObject jsonObject, ArrayList<String> toActivate, ResourceResolver rr)
+			throws JSONException {
 		String action =jsonObject.getString("action");
 		JSONObject payload = jsonObject.getJSONObject("payload");
 		String payloadId = payload.getString("id");
@@ -560,7 +565,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			String newPath;
 			try {
 				//This is where we create the node.
-				newPath = put(payload);
+				newPath = put(payload, rr);
 			} catch (Exception e) {
 				log.error("GSActivities:: Failed to PUT payload " + payloadId, e);
 				return;
@@ -571,7 +576,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			
 		} else if (action.equalsIgnoreCase("DELETE")) {
 			try {
-				delete(payload);
+				delete(payload, rr);
 			} catch (Exception e) {
 				log.error("GSActivities:: Failed to DELETE Payload " + payloadId + " " + e.getMessage());
 				
@@ -582,7 +587,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}
 	}
 	
-	private String put(JSONObject payload) throws GirlScoutsException {
+	private String put(JSONObject payload, ResourceResolver rr) throws GirlScoutsException {
 
 		String councilCode = getString(payload, _councilCode);
 		String id = getString(payload, _id);
@@ -627,7 +632,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}
 
 		//check existence to see if it is a add or update
-		Page eventPage = getEvent(parentPath, id);//query the id to get most accurate result
+		Page eventPage = getEvent(parentPath, id, rr);// query the id to get
+														// most accurate result
 		boolean isAdd = (eventPage == null);//if eventPage not null, then it is an update
 
 		try {
@@ -737,7 +743,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}
 	}
 	
-	private void delete(JSONObject payload) throws GirlScoutsException, WCMException, ReplicationException {
+	private void delete(JSONObject payload, ResourceResolver rr)
+			throws GirlScoutsException, WCMException, ReplicationException {
 		String councilCode = getString(payload,_councilCode);
 		String id = getString(payload, _id);
 		if (councilCode == null || id == null) {
@@ -748,7 +755,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			throw new GirlScoutsException(null, "No mapping found for council code: "+councilCode);
 		}
 		String searchPath = "/content/" + councilName + "/en/sf-events-repository";
-		Page pageToDelete = getEvent(searchPath, id);
+		Page pageToDelete = getEvent(searchPath, id, rr);
 		if (pageToDelete == null) {
 			throw new GirlScoutsException(null, "Event [id="+id+"] could not be found under "+searchPath);
 		}
@@ -760,7 +767,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 
 
 	}
-	private Page getEvent(String path, String id) {
+
+	private Page getEvent(String path, String id, ResourceResolver rr) {
 //		String sql = "SELECT * FROM [cq:PageContent] AS s WHERE ISDESCENDANTNODE(s, '"
 //				+ path + "') AND [eid]='"+id+"'";
 		String sql = "SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(s, '"
@@ -833,7 +841,6 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	private void deactivate(ComponentContext componentContext) {
 		this.ftp=null;
 		resetDate();
-		rr.close();
 		log.info("GSActivities:: Events Import Service Deactivated.");
 	}
 	//set the date to "the epoch", namely January 1, 1970, 00:00:00 GMT.
