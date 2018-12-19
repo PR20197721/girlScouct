@@ -68,7 +68,7 @@ function attendance_popup_width() {
 var openClass = "on";
 
 //accordion logic mostly moved to common/app/src/main/content/jcr_root/etc/clientlibs/girlscouts-common/components/accordion/accordion.js
-//toggleTab and anchorcheck are kept in this file
+//anchorcheck kept in this file.  ToggleTab is both in this file and in the accordion.js
 
 function toggleTab(panel) {
     "use strict";
