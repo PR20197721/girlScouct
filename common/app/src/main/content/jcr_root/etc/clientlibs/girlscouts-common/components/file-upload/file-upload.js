@@ -5,20 +5,29 @@
         event.preventDefault();
         var fileNames = [];
         var baseUri = this.baseURI;
-        var regex = new RegExp("^[^\.]+\.json$");
+        var regex = new RegExp("((?=(.+\.json))(^[^\.]+\.json$))|((?!(.+\.json))(^.+$))");
         $.each(this.uploadQueue,function(index, item){
-            if(regex.test(item.name)){
+            if(!regex.test(item.name)){
                 fileNames.push(item.name);
             }
         });
 
         var folderRegex = new RegExp("^.+\/dam[^\.]+$");
-        if(fileNames.length > 0 || folderRegex.test(baseUri)){
+        var folderPath = false;
+        if(!baseUri.endsWith("/dam") && folderRegex.test(baseUri)){
+			folderPath = true;
+        }
+        if(fileNames.length > 0 || !folderPath){
             var printString = "";
+            if(fileNames.length > 0){
                 for(var i = 0; i<fileNames.length; i++){
                     printString = printString + baseUri+"/"+fileNames[i] + " is invalid. Please remove all ' . 's from the file/folder name and replace with ' - ' before uploading";
             	    printString = printString + "<br>";
                 }
+            } else{
+				printString = baseUri + " Folder name is invalid, please remove all ' . 's from the folder name and replace with ' - '";
+            }
+
             var prevDialog = document.querySelector('#uploadListDialog');
             prevDialog.hide();
 			var dialog = new Coral.Dialog().set({
