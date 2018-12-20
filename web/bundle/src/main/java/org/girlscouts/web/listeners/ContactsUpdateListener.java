@@ -224,15 +224,18 @@ public class ContactsUpdateListener implements EventListener{
                 }
                 if(parent.hasProperty("phone")){
                     sb.append(parent.getProperty("phone").getString());
-                    sb.append(" : ");
+                    if(parent.hasProperty("email") || parent.hasProperty("team") || parent.hasProperty("cq:tags"))
+                        sb.append(" : ");
                 }
                 if(parent.hasProperty("email")){
                     sb.append(parent.getProperty("email").getString());
-                    sb.append(" : ");
+                    if(parent.hasProperty("team") || parent.hasProperty("cq:tags"))
+                        sb.append(" : ");
                 }
                 if(parent.hasProperty("team")){
                     sb.append(parent.getProperty("team").getString());
-                    sb.append(" : ");
+                    if(parent.hasProperty("cq:tags"))
+                        sb.append(" : ");
                 }
                 if(parent.hasProperty("cq:tags")){
                     Property tags = parent.getProperty("cq:tags");
