@@ -10,6 +10,8 @@ import javax.jcr.observation.*;
 
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
+import org.apache.jackrabbit.api.observation.JackrabbitEventFilter;
+import org.apache.jackrabbit.api.observation.JackrabbitObservationManager;
 import org.apache.sling.api.resource.LoginException;
 
 import org.apache.sling.api.resource.Resource;
@@ -48,14 +50,9 @@ public class ContactsUpdateListener implements EventListener{
     protected ResourceResolverFactory resolverFactory;
 
     private Session adminSession;
-
     private final String[] props = {"email", "jcr:title", "team", "phone", "cq:tags"};
-
-
     protected Map<String, Object> serviceParams;
-
-    private ObservationManager observationManager;
-
+    JackrabbitObservationManager observationManager;
     private ResourceResolver rr;
 
     @Activate
@@ -67,11 +64,8 @@ public class ContactsUpdateListener implements EventListener{
             Map<String, Object> serviceParams = new HashMap<String, Object>();
             serviceParams.put(ResourceResolverFactory.SUBSERVICE, "writeService");
             rr = resolverFactory.getServiceResourceResolver(serviceParams);
-
             String[] nodeTypes = {"cq:PageContent"};
             adminSession = repository.loginService("readService",null);
-            observationManager = adminSession.getWorkspace().getObservationManager();
-
 
             //Create and execute a query to create a listener for each council's contacts path
             try{
@@ -82,14 +76,28 @@ public class ContactsUpdateListener implements EventListener{
                 Query query = queryManager.createQuery(staffDirQuery, "JCR-SQL2");
                 QueryResult resultSet = query.execute();
                 NodeIterator nodeItr = resultSet.getNodes();
-                while(nodeItr.hasNext()){
-                    try{
-                        Node node = nodeItr.nextNode();
-                        observationManager.addEventListener(this, Event.PROPERTY_REMOVED|Event.PROPERTY_ADDED|Event.PROPERTY_CHANGED,node.getProperty("path").getString(),true,null, nodeTypes,true);
-                    } catch (Exception e){
-                        log.error("ContactsUpdateListener threw an error while creating listeners", e);
+                ArrayList<String>paths = new ArrayList<>();
+                while(nodeItr.hasNext()) {
+                    Node node = nodeItr.nextNode();
+                    try {
+                        paths.add(node.getProperty("path").getString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-
+                }
+                //Create JackrabbitEventFilter to handle to add additional listening paths
+                try{
+                    JackrabbitEventFilter eventFilter = new JackrabbitEventFilter()
+                            .setAdditionalPaths(paths.toArray(new String[0]))
+                            .setEventTypes(Event.PROPERTY_ADDED|Event.PROPERTY_CHANGED|Event.PROPERTY_REMOVED )
+                            .setIsDeep(true)
+                            .setNodeTypes(nodeTypes)
+                            .setNoLocal(true);
+                    //use JackrabbitObservationManager to listen on multiple paths with eventFilter
+                    observationManager = (JackrabbitObservationManager) adminSession.getWorkspace().getObservationManager();
+                    observationManager.addEventListener(this, eventFilter);
+                } catch (Exception e){
+                    log.info(" Failed to create event listener", e);
                 }
             }catch (Exception e){
                 log.error("ContactsUpdateListener threw an error while executing query", e);
@@ -108,7 +116,6 @@ public class ContactsUpdateListener implements EventListener{
 
         //close all event listeners for each council site
         try{
-
             EventListenerIterator eventItr = observationManager.getRegisteredEventListeners();
             while(eventItr.hasNext()){
                 EventListener eventListener = eventItr.nextEventListener();
@@ -213,15 +220,18 @@ public class ContactsUpdateListener implements EventListener{
                 }
                 if(parent.hasProperty("phone")){
                     sb.append(parent.getProperty("phone").getString());
-                    sb.append(" : ");
+                    if(parent.hasProperty("email") || parent.hasProperty("team") || parent.hasProperty("cq:tags"))
+                        sb.append(" : ");
                 }
                 if(parent.hasProperty("email")){
                     sb.append(parent.getProperty("email").getString());
-                    sb.append(" : ");
+                    if(parent.hasProperty("team") || parent.hasProperty("cq:tags"))
+                        sb.append(" : ");
                 }
                 if(parent.hasProperty("team")){
                     sb.append(parent.getProperty("team").getString());
-                    sb.append(" : ");
+                    if(parent.hasProperty("cq:tags"))
+                        sb.append(" : ");
                 }
                 if(parent.hasProperty("cq:tags")){
                     Property tags = parent.getProperty("cq:tags");
