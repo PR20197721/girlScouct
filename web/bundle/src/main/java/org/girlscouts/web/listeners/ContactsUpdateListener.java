@@ -88,15 +88,11 @@ public class ContactsUpdateListener implements EventListener{
                 //Create JackrabbitEventFilter to handle to add additional listening paths
                 try{
                     JackrabbitEventFilter eventFilter = new JackrabbitEventFilter()
-                            .setAbsPath(paths.get(0))
+                            .setAdditionalPaths(paths.toArray(new String[0]))
                             .setEventTypes(Event.PROPERTY_ADDED|Event.PROPERTY_CHANGED|Event.PROPERTY_REMOVED )
                             .setIsDeep(true)
                             .setNodeTypes(nodeTypes)
                             .setNoLocal(true);
-                    if (paths.size() > 1) {
-                        paths.remove(0);
-                        eventFilter.setAdditionalPaths(paths.toArray(new String[0]));
-                    }
                     //use JackrabbitObservationManager to listen on multiple paths with eventFilter
                     observationManager = (JackrabbitObservationManager) adminSession.getWorkspace().getObservationManager();
                     observationManager.addEventListener(this, eventFilter);
