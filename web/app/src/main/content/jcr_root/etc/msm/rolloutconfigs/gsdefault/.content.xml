@@ -3,14 +3,10 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:defaultView="html"
-        cq:lastModified="{Date}2014-07-31T16:29:55.751-04:00"
-        cq:lastModifiedBy="admin"
         cq:rolloutConfigId53="cq:trigger=rollout#updateContent/status=true####"
         cq:template="/libs/wcm/msm/templates/rolloutconfig"
         cq:trigger="rollout"
         jcr:description="Girl Scouts Standard rollout configuration which allows to start rollout process on rollout trigger and runs actions: create, update, delete content and order children nodes.&#xa;&#xa;A custom link rewriter is included: /content/girlscouts-tempate => /content/&lt;council>"
-        jcr:lastModified="{Date}2014-07-31T16:29:55.749-04:00"
-        jcr:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="Girl Scouts Standard rollout config"
         sling:resourceType="wcm/msm/components/rolloutconfig">
