@@ -372,7 +372,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 										sourceToTargetComponentRelations, relationComponents,
 										councilPath);
 								if (relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS).size() > 0) {
-									notifyCouncils.add(councilPath);
+									notifyCouncils.add(relationPagePath);
 								}
 								try {
 									versionManager.checkout(versionableNodePath);
@@ -450,7 +450,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 			Node srcContentNode = srcContent.adaptTo(Node.class);
 			Resource targetContent = targetResource.getChild("jcr:content");
 			Node targetContentNode = targetContent.adaptTo(Node.class);
-			String targetTitle = srcContentNode.getProperty("jcr:title").getString();
+			String targetTitle = targetContentNode.getProperty("jcr:title").getString();
 			String sourceTitle = srcContentNode.getProperty("jcr:title").getString();
 			if (!sourceTitle.equals(targetTitle)) {
 				log.info("Updating page title of {} to {}.", targetResource.getPath(),
