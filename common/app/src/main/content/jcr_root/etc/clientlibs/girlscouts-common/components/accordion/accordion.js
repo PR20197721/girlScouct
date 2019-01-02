@@ -41,7 +41,9 @@ window.AccordionWidgetManager = (function(window, document, $){
 			contentElement.slideDown('slow');
 
 
-
+            //if the current window has scrolled below the top of the accordion, then selecting
+            //an accordion element will cause the screen to scroll to the top of the accordion\
+            //because it uses the $(html,body) target, this does not occur in the edit or preview modes in AEM
 			if (scrolledUnder(headerElements.first())){
                 $('html, body').animate( {
                     scrollTop: headerElements.first().offset().top - 50,
@@ -252,17 +254,7 @@ function toggleTab(panel) {
 
     // Toggle classes and animate
     panel.tab.toggleClass(openClass);
-    panel.header.toggleClass(openClass)/*, function(){
-        //if the header is below the view, scrolls up until it is placed in view
-        if (scrolledUnder(panel.header) && (panel.action == "collapse")){
-            $('html, body').animate( {
-                scrollTop: panel.header.offset().top,
-            }, {
-            duration: "slow",
-            queue: false
-            });
-        }
-    })*/;
+    panel.header.toggleClass(openClass);
 
     panel.body.animate({
         "height": panel.targetHeight(),
