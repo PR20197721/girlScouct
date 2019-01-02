@@ -3,6 +3,7 @@
 #main .side-nav * {
   color: #333333;
   margin: 0px;
+  list-style: none;
 }
 #main .side-nav > li > div > a {
   font-weight: 600;
