@@ -39,10 +39,38 @@ window.AccordionWidgetManager = (function(window, document, $){
 		if(show){
 			contentElements.not(contentElement).slideUp('slow');
 			contentElement.slideDown('slow');
+
+
+
+			if (scrolledUnder(headerElements.first())){
+                $('html, body').animate( {
+                    scrollTop: headerElements.first().offset().top - 50,
+                }, {
+                    duration: "slow",
+                    queue: true
+                });
+            }
 		}else{
 			contentElements.slideUp('slow');
+			if (scrolledUnder(headerElements.last())){
+			    $('html, body').animate( {
+                    scrollTop: headerElements.last().offset().top - 50,
+                }, {
+                    duration: "slow",
+                    queue: false
+                });
+			}
 		}
+
+
 	}
+
+	function scrolledUnder(elem)
+    {
+        var docViewTop = $(window).scrollTop();
+        var elemTop = $(elem).offset().top;
+        return (elemTop <= docViewTop);
+    }
 
 	function _initAccordionComponent(element){
 
@@ -224,7 +252,7 @@ function toggleTab(panel) {
 
     // Toggle classes and animate
     panel.tab.toggleClass(openClass);
-    panel.header.toggleClass(openClass, function(){
+    panel.header.toggleClass(openClass)/*, function(){
         //if the header is below the view, scrolls up until it is placed in view
         if (scrolledUnder(panel.header) && (panel.action == "collapse")){
             $('html, body').animate( {
@@ -234,7 +262,7 @@ function toggleTab(panel) {
             queue: false
             });
         }
-    });
+    })*/;
 
     panel.body.animate({
         "height": panel.targetHeight(),
