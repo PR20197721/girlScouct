@@ -49,6 +49,7 @@
 }
 #main .side-nav li.active.current > ul > li {
   background: #ffffff;
+  list-style: none;
 }
 #main .side-nav > li {
   background: #ffffff;
