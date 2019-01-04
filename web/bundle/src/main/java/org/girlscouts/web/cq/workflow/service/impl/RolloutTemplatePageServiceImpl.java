@@ -333,9 +333,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 		log.info("Processing existing live relationships.");
 		Set<String> srcComponents = PageReplicationUtil.getComponents(sourcePageResource);
 		Set<String> processedRelationCouncils = new HashSet<String>();
-		Session session = rr.adaptTo(Session.class);
-		final Workspace workspace = session.getWorkspace();
-		final VersionManager versionManager = workspace.getVersionManager();
+		// Session session = rr.adaptTo(Session.class);
+		// final Workspace workspace = session.getWorkspace();
+		// final VersionManager versionManager = workspace.getVersionManager();
 		for (String councilPath : submittedCouncils) {
 			log.info("Looking up live relationships in {}", councilPath);
 			RangeIterator relationsIterator = relationManager.getLiveRelationships(sourcePageResource, councilPath,
@@ -358,7 +358,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 									"The page {} has Break Inheritance checked. Will not roll out",
 									relationPagePath);
 						} else {
-							String versionableNodePath = relationPageResource.getPath() + "/jcr:content";
+							// String versionableNodePath =
+							// relationPageResource.getPath() + "/jcr:content";
 							try {
 								Map<String, String> sourceToTargetComponentRelations = PageReplicationUtil
 										.getComponentRelationsByPage(srcComponents,
@@ -374,12 +375,13 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 								if (relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS).size() > 0) {
 									notifyCouncils.add(relationPagePath);
 								}
-								try {
-									versionManager.checkout(versionableNodePath);
-									versionManager.checkpoint(versionableNodePath);
-								} catch (Exception e) {
-									log.error("Girlscouts Rollout Service encountered error: ", e);
-								}
+								// try {
+								// versionManager.checkout(versionableNodePath);
+								// versionManager.checkpoint(versionableNodePath);
+								// } catch (Exception e) {
+								// log.error("Girlscouts Rollout Service
+								// encountered error: ", e);
+								// }
 								deleteComponents(rr, rolloutLog, componentsToDelete);
 								rolloutComponents(sourcePageResource, rolloutLog, relationPagePath,
 										componentsToRollout);
@@ -389,11 +391,12 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 								log.info("Page added to activation queue");
 							} catch (Exception e) {
 								log.error("Girlscouts Rollout Service encountered error: ", e);
-								try {
-									versionManager.checkin(versionableNodePath);
-								} catch (Exception e2) {
-									log.error("Girlscouts Rollout Service encountered error: ", e);
-								}
+								// try {
+								// versionManager.checkin(versionableNodePath);
+								// } catch (Exception e2) {
+								// log.error("Girlscouts Rollout Service
+								// encountered error: ", e);
+								// }
 							}
 						}
 					} else {
