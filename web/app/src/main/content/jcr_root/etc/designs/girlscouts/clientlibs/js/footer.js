@@ -75,8 +75,6 @@ function vtk_accordion() {
     if ($('.accordion').length) { //Check if there is any accordion in the page
         if ($('body').has('.vtk').length) { //check if the user is in VTK
             vtk_accordion_main();
-        } else {
-            //web_accordion_main(); Moved to accordion clientlibs in girlscouts-common
         }
     }
 }
