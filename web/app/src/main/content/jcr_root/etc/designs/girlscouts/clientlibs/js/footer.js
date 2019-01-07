@@ -68,7 +68,35 @@ function attendance_popup_width() {
 var openClass = "on";
 
 //accordion logic mostly moved to common/app/src/main/content/jcr_root/etc/clientlibs/girlscouts-common/components/accordion/accordion.js
-//anchorcheck kept in this file.  ToggleTab is both in this file and in the accordion.js
+//anchorcheck kept in this file, as well as some vtk_accordion logic.  ToggleTab is both in this file and in the accordion.js
+
+function vtk_accordion() {
+    "use strict";
+    if ($('.accordion').length) { //Check if there is any accordion in the page
+        if ($('body').has('.vtk').length) { //check if the user is in VTK
+            vtk_accordion_main();
+        }
+    }
+}
+
+function vtk_accordion_main() {
+    "use strict";
+    toggleTab({
+        tab: $(".accordion dt"),
+        action: "expand"
+    });
+    $(".accordion dt").on("click", function (e) {
+        e.stopPropagation();
+
+        toggleTab({
+            tab: $(this),
+            action: $(this).hasClass(openClass) ? "collapse" : "expand"
+        });
+
+        return false;
+    });
+}
+
 
 function toggleTab(panel) {
     "use strict";
@@ -112,17 +140,7 @@ function toggleTab(panel) {
 
     // Toggle classes and animate
     panel.tab.toggleClass(openClass);
-    panel.header.toggleClass(openClass, function(){
-        //if the header is below the view, scrolls up until it is placed in view
-        if (scrolledUnder(panel.header) && (panel.action == "collapse")){
-            $('html, body').animate( {
-                scrollTop: panel.header.offset().top,
-            }, {
-            duration: "slow",
-            queue: false
-            });
-        }
-    });
+    panel.header.toggleClass(openClass);
 
     panel.body.animate({
         "height": panel.targetHeight(),
