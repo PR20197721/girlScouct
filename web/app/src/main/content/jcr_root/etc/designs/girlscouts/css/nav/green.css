@@ -4,6 +4,7 @@
   color: #858585;
   margin: 0;
   font-size: 0.9375rem;
+  list-style: none;
 }
 #main .side-nav > li:before {
   border: none;
