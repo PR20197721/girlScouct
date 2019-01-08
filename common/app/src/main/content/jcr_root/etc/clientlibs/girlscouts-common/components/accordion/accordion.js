@@ -230,6 +230,7 @@ function toggleTab(panel) {
         targetHeight = function () { // Calculate height after parsys is shown
             return this.body.children().outerHeight(true);
         };
+        fixHeight = "auto";
 
     }
 
