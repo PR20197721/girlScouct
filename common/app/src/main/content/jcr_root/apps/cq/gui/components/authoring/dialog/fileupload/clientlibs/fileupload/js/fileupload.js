@@ -127,11 +127,11 @@
 				var d = new Date();
 				var fileLocation = self._element.action + '/' + multiFieldParent[0].dataset.graniteCoralMultifieldName.split('\./')[1] + '/item' + currentIndex + '/' + self.path.replace('/', '');
 				var thumbnailSrc = fileLocation + '.img.png?'+d.getTime();
-	
+
 				var thumbnailSection = self._$element.find(_thumbnailSelector);
 				if(thumbnailSection.children().length == 0) {
 					thumbnailSection.empty().append($('<img>').attr('src', thumbnailSrc).attr("onerror", "arguments[0].currentTarget.style.display='none'"));
-	
+
 					// Find and set the parent hero banner element switch.
 					var heroBannerElement = self._$element.parents('.hero-banner-element');
 					if(heroBannerElement.length > 0){
@@ -142,9 +142,9 @@
 						}
 					}
 				}
-	
+
 				// TODO@MK Join these up to make less total calls.
-			
+
 				$.get(fileLocation + '.json').then(function(result){
 					if(result.fileReference && self._inputs["filereference"].disabled) {
 						self._updateHiddenInput(self._inputs["filereference"], {
@@ -162,7 +162,7 @@
 				self._updateHiddenInput(self._inputs["filedelete"], { value: "false" });
 			}
 
-			
+
 		}
 
 		//self._removeDuplicateHiddenInputs();
@@ -260,8 +260,8 @@
 		var self = this;
 
 		self._$element.find("[coral-fileupload-clear]").on("click", function (e) {
-			self._updateHiddenInput(self._inputs["filename"], { value: "", disabled: false });
-			self._updateHiddenInput(self._inputs["filereference"], { value: "", disabled: false });
+			//self._updateHiddenInput(self._inputs["filename"], { value: "", disabled: false });
+            self._updateHiddenInput(self._inputs["filereference"], {value: "", disabled: false });
 			self._$element.find("." + _additionalImageEditorClass).removeAttr("disabled").val("true");
 			self._updateHiddenInput(self._inputs["filedelete"], { value: "true", disabled: false });
 			self._updateHiddenInput(self._inputs["filemovefrom"], { value: "", disabled: true });
