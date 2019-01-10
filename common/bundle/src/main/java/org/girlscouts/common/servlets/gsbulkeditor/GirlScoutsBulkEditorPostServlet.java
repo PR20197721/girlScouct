@@ -284,7 +284,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
     	//Acquire root node. If doesn't exist resturn error
     	Resource resource = adminResolver.getResource(rootPath);
         if(resource!=null) {
-            rootNode = resource.adaptTo(Node.class);
+        	rootNode = resource.adaptTo(Node.class);
         } else{
 			response.setStatus(200, "Root node does not exist. Process aborted");
         	return response;
@@ -357,13 +357,12 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
     	
     	//Try to create a backup contact package 
 		response = backupContacts(rootPath, rootNode);
-        if(response != null){
+        if(response.getStatusCode() == 500){
         	return response;
         }
     	
     	//Delete all the old contacts
     	try{
-    		
             if(rootNode.getProperty("jcr:content/sling:resourceType").getString().equals("girlscouts/components/contact-placeholder-page")){
             	Page rootPage = resource.adaptTo(Page.class);
             	Iterator<Page> oldChildren = rootPage.listChildren();
@@ -1293,7 +1292,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
     		PrintWriter pkgout = new PrintWriter(System.out);
     		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
 		} catch(ItemExistsException ie) {
-			response.setStatus(200,
+			response.setStatus(500,
 					"Failed to create contact backup package due to recent run of contacts bulkeditor. Please try again in two minutes");
 			log.error(
 					"Failed to create contact backup package due to recent run of contacts bulkeditor. Please try again in two minutes: ",
@@ -1301,12 +1300,11 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 			return response;
 		}
     		catch(Exception e){
-			response.setStatus(200, "Failed to create contact backup package due to " + e.getClass().getName()
+			response.setStatus(500, "Failed to create contact backup package due to " + e.getClass().getName()
 					+ " with message " + e.getMessage());
 			log.error("Failed to create contact backup package due to ", e);
             return response;
 		}
-    	
     	return response;
     }
     
