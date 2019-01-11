@@ -67,6 +67,37 @@ function attendance_popup_width() {
 
 var openClass = "on";
 
+//accordion logic mostly moved to common/app/src/main/content/jcr_root/etc/clientlibs/girlscouts-common/components/accordion/accordion.js
+//anchorcheck kept in this file, as well as some vtk_accordion logic.  ToggleTab is both in this file and in the accordion.js
+
+function vtk_accordion() {
+    "use strict";
+    if ($('.accordion').length) { //Check if there is any accordion in the page
+        if ($('body').has('.vtk').length) { //check if the user is in VTK
+            vtk_accordion_main();
+        }
+    }
+}
+
+function vtk_accordion_main() {
+    "use strict";
+    toggleTab({
+        tab: $(".accordion dt"),
+        action: "expand"
+    });
+    $(".accordion dt").on("click", function (e) {
+        e.stopPropagation();
+
+        toggleTab({
+            tab: $(this),
+            action: $(this).hasClass(openClass) ? "collapse" : "expand"
+        });
+
+        return false;
+    });
+}
+
+
 function toggleTab(panel) {
     "use strict";
 
@@ -85,12 +116,13 @@ function toggleTab(panel) {
         targetHeight = function () { // Calculate height after parsys is shown
             return this.body.children().outerHeight(true);
         };
-        fixHeight = "auto";
+
     }
 
     // Set custom values or use defaults
     panel = {
         tab: panel.tab,
+        action: panel.action,
         header: panel.header || panel.tab.find("> :first-child"),
         body: panel.body || panel.tab.next(),
         targetHeight: panel.targetHeight || targetHeight,
@@ -109,16 +141,19 @@ function toggleTab(panel) {
     // Toggle classes and animate
     panel.tab.toggleClass(openClass);
     panel.header.toggleClass(openClass);
+
     panel.body.animate({
-        "height": panel.targetHeight()
+        "height": panel.targetHeight(),
     }, {
         duration: "slow", // 600ms
         queue: false,
         complete: function () { // Allow for responsive content height when expanded
             panel.body.css("height", panel.fixHeight);
+
         }
     });
 }
+
 
 function anchorCheck() {
     "use strict";
@@ -130,83 +165,7 @@ function anchorCheck() {
     }
 }
 
-function web_accordion_main() {
-    "use strict";
-    $(".accordion dt").on("click", function () {
-        var oldPanel = {
-                tab: $(this).parent().find("dt." + openClass), // Select siblings and all chilren, change to "> dt." to only select siblings
-                action: "collapse"
-            },
-            newPanel = {
-                tab: $(this),
-                action: "expand"
-            };
 
-        if (oldPanel.tab.is(newPanel.tab)) {
-            toggleTab(oldPanel); // Close current tab
-        } else {
-            toggleTab(oldPanel); // Close old tab
-            toggleTab(newPanel); // Open new tab
-        }
-    });
-}
-
-/*function vtk_accordion_main() {
-    "use strict";
-    toggleTab({
-        tab: $(".accordion dt"),
-        action: "expand"
-    });
-    $(".accordion dt").on("click", function (e) {
-        e.stopPropagation();
-
-        toggleTab({
-            tab: $(this),
-            action: $(this).hasClass(openClass) ? "collapse" : "expand"
-        });
-
-        return false;
-    });
-}*/
-
-function vtk_accordion_main() {
-    "use strict";
-    $('.accordion dt > :first-child').on('click', function (e) {
-        e.stopPropagation();
-
-        var target = $(this).parent().data('target'),
-            toggle = $(this);
-        $('#' + target).slideToggle('slow');
-        $(toggle).toggleClass('on');
-
-        //For Web Component. See main.js:toggleParsys
-        if (window[target] !== null && window[target].hasOwnProperty('toggle')) {
-            window[target].toggle();
-        }
-
-        return false;
-    });
-}
-
-/* ============
-
-Girl Scouts: Web Platform GSWP-542
-SUPPORT 5526-10047044 Accordion Module Issue
-
-==============================================
- Work Around to fix the Accordion problem.
-============================================== */
-
-function vtk_accordion() {
-    "use strict";
-    if ($('.accordion').length) { //Check if there is any accordion in the page
-        if ($('body').has('.vtk').length) { //check if the user is in VTK
-            vtk_accordion_main();
-        } else {
-            web_accordion_main();
-        }
-    }
-}
 
 function adjust_pdf_links() {
     "use strict";

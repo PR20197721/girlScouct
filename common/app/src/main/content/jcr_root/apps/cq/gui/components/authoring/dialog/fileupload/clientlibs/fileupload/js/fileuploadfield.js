@@ -412,7 +412,7 @@
         self.widget.$element.find("." + _clearButtonClass).on("click tap", function (e) {
             // set hidden delete post parameter
             self.widget.$element.find("." + _fileDeleteClass).removeAttr("disabled").val("true");
-            self.widget.$element.find("." + _fileReferenceClass).removeAttr("disabled").val("");
+            self.widget.$element.find("." + _fileReferenceClass).prop("disabled", "");
             self.widget.$element.find("." + _fileNameClass).removeAttr("disabled").val("");
             self.widget.$element.find("." + _additionalImageEditorClass).removeAttr("disabled").val("true");
 

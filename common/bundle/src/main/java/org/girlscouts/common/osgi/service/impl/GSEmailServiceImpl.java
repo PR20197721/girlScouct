@@ -70,11 +70,11 @@ public class GSEmailServiceImpl implements GSEmailService {
 			setBody(body, null, email);
 			email.setHtmlMsg(body);
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-			log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}, body:{}", subject,
-					toAddresses.toArray(new String[toAddresses.size()]),
-					body);
 			try {
+				log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}, body:{}", subject,
+						toAddresses.toArray(new String[toAddresses.size()]), body);
 				messageGateway.send(email);
+				log.info("Girlscouts Email Service: Email message sent successfully");
 			} catch (MailingException e) {
 				log.error("Girlscouts Email Service: Failed to send email message subject:%s, toAddresses:{}, body:{}",
 						subject, toAddresses.toArray(new String[toAddresses.size()]), body, e);
@@ -97,11 +97,12 @@ public class GSEmailServiceImpl implements GSEmailService {
 			setRecipients(toAddresses, email);
 			setBody(body, attachments, email);
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-			log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}", subject,
-					toAddresses.toArray(new String[toAddresses.size()]));
 			try {
+				log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}", subject,
+						toAddresses.toArray(new String[toAddresses.size()]));
 				messageGateway.send(email);
-			} catch (MailingException e) {
+				log.info("Girlscouts Email Service: Email message sent successfully");
+			} catch (Exception e) {
 				log.error(
 						"Girlscouts Email Service encountered error: Failed to send email message subject:{}, toAddresses:{}, body:{}",
 						subject, toAddresses.toArray(new String[toAddresses.size()]), body, e);

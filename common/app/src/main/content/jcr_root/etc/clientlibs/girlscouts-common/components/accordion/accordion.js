@@ -39,10 +39,40 @@ window.AccordionWidgetManager = (function(window, document, $){
 		if(show){
 			contentElements.not(contentElement).slideUp('slow');
 			contentElement.slideDown('slow');
+
+
+            //if the current window has scrolled below the top of the accordion, then selecting
+            //an accordion element will cause the screen to scroll to the top of the accordion\
+            //because it uses the $(html,body) target, this does not occur in the edit or preview modes in AEM
+			if (scrolledUnder(headerElements.first())){
+                $('html, body').animate( {
+                    scrollTop: headerElements.first().offset().top - 50,
+                }, {
+                    duration: "slow",
+                    queue: true
+                });
+            }
 		}else{
 			contentElements.slideUp('slow');
+			if (scrolledUnder(headerElements.last())){
+			    $('html, body').animate( {
+                    scrollTop: headerElements.last().offset().top - 50,
+                }, {
+                    duration: "slow",
+                    queue: false
+                });
+			}
 		}
+
+
 	}
+
+	function scrolledUnder(elem)
+    {
+        var docViewTop = $(window).scrollTop();
+        var elemTop = $(elem).offset().top;
+        return (elemTop <= docViewTop);
+    }
 
 	function _initAccordionComponent(element){
 
@@ -127,4 +157,124 @@ window.AccordionWidgetManager = (function(window, document, $){
 		initAccordionComponent : _initAccordionComponent
 	}
 
+
+
 })(window, document, $);
+
+function vtk_accordion() {
+    "use strict";
+    if ($('.accordion').length) { //Check if there is any accordion in the page
+        if ($('body').has('.vtk').length) { //check if the user is in VTK
+            vtk_accordion_main();
+        } else {
+            web_accordion_main();
+        }
+    }
+}
+
+function web_accordion_main() {
+    "use strict";
+    $(".accordion dt").on("click", function () {
+        var oldPanel = {
+                tab: $(this).parent().find("dt." + openClass), // Select siblings and all children, change to "> dt." to only select siblings
+                action: "collapse"
+            },
+            newPanel = {
+                tab: $(this),
+                action: "expand"
+            };
+
+        if (oldPanel.tab.is(newPanel.tab)) {
+            toggleTab(oldPanel); // Close current tab
+        } else {
+            toggleTab(oldPanel); // Close old tab
+            toggleTab(newPanel); // Open new tab
+        }
+
+    });
+}
+
+function vtk_accordion_main() {
+    "use strict";
+    toggleTab({
+        tab: $(".accordion dt"),
+        action: "expand"
+    });
+    $(".accordion dt").on("click", function (e) {
+        e.stopPropagation();
+
+        toggleTab({
+            tab: $(this),
+            action: $(this).hasClass(openClass) ? "collapse" : "expand"
+        });
+
+        return false;
+    });
+}
+
+function toggleTab(panel) {
+    "use strict";
+
+    if (!panel.tab.length) {
+        return;
+    }
+
+    var targetHeight,
+        fixHeight;
+    if (panel.action == "collapse") {
+        targetHeight = function () {
+            return 0;
+        };
+        fixHeight = 0;
+    } else if (panel.action == "expand") {
+        targetHeight = function () { // Calculate height after parsys is shown
+            return this.body.children().outerHeight(true);
+        };
+        fixHeight = "auto";
+
+    }
+
+    // Set custom values or use defaults
+    panel = {
+        tab: panel.tab,
+        action: panel.action,
+        header: panel.header || panel.tab.find("> :first-child"),
+        body: panel.body || panel.tab.next(),
+        targetHeight: panel.targetHeight || targetHeight,
+        fixHeight: panel.fixHeight || fixHeight,
+        parsysID: panel.parsysID || panel.tab.attr("data-target")
+    };
+
+    // Necessary for authoring mode. See main.js:toggleParsys
+    if (window[panel.parsysID] && window[panel.parsysID].toggle) {
+        window[panel.parsysID].toggle();
+        panel.body.find(".accordion dt").each(function () { // Hide child parsys
+            window[this.getAttribute("data-target")].hideParsys();
+        });
+    }
+
+    // Toggle classes and animate
+    panel.tab.toggleClass(openClass);
+    panel.header.toggleClass(openClass);
+
+    panel.body.animate({
+        "height": panel.targetHeight(),
+    }, {
+        duration: "slow", // 600ms
+        queue: false,
+        complete: function () { // Allow for responsive content height when expanded
+            panel.body.css("height", panel.fixHeight);
+
+        }
+    });
+}
+
+//checks if the element that is being expanded/collapsed is above the view
+function scrolledUnder(elem)
+{
+    var docViewTop = $(window).scrollTop();
+    var elemTop = $(elem).offset().top;
+    return (elemTop <= docViewTop);
+}
+
+

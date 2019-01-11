@@ -1122,7 +1122,8 @@
   };
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+;
+/*(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.accordion = {
@@ -1209,7 +1210,7 @@
 
     reflow : function () {}
   };
-}(jQuery, window, window.document));
+}(jQuery, window, window.document));*/
 
 ;(function ($, window, document, undefined) {
   'use strict';
