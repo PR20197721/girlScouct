@@ -44,6 +44,8 @@
 	String piBottom = properties.get("./pibottom", "0");
 	String piLeft = properties.get("./pileft", "0");
 	String piRight = properties.get("./piright", "0");	
+	
+	String currentPath = currentPage.getPath();
 
 	// Previously, image bottom was padded with <br> for whatever reason
 	// This runs once for old text image component and replaces <br> with padding that can be changed by the user
@@ -53,15 +55,22 @@
 		//node.getProperty("runOnce").remove();
 	} else {
 		node.setProperty("runOnce", "corrected");
-		node.setProperty("piright", "8");
-		piRight = "8";
+		//node.setProperty("piright", "8");
+		//piRight = "8";
+		
 		if (node.hasNode("image")) {	// if it has image node, then it's an old component
-			node.setProperty("pibottom", "8");
-			piBottom = "8";
-		} else {						// if not, it's a fresh component
-			node.setProperty("pibottom", "8");
-			piBottom = "8";
+			if (currentPath.contains("gsusa")) { //if rendered in gsusa, line height is 24
+				node.setProperty("pibottom", "24");
+				piBottom = "24";
+			} else {
+				node.setProperty("pibottom", "17"); // for councils, line height is 17
+				piBottom = "17";
+			}
 		}
+		//else {						// if not, it's a fresh component
+		//	node.setProperty("pibottom", "8");
+		//	piBottom = "8";
+		//}
 	}
 	node.getSession().save();
 	
@@ -71,7 +80,7 @@
 	String padding = piTop + piBottom + piLeft + piRight;
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
 		styleImage = "padding: " + piTop + "px " + piRight + "px " + piBottom + "px " + piLeft + "px;";
-		styleImage += "margin: 0px !important;";
+		//styleImage += "margin: 0px !important;";
 	}
 	if (caption.length() > 0) {
 		styleCaption = "padding: 5px 5px 0px 5px;"; // 5 5 1 5

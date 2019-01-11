@@ -22,7 +22,6 @@
 %><%@include file="/libs/foundation/global.jsp"%>
 <%@ include file="/apps/gsusa/components/global.jsp"%>
 <cq:includeClientLib categories="apps.gsusa.components.textimage" /><%
-
 	boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
 	
 	String styleImage = "";
@@ -51,25 +50,26 @@
 	String runOnce = "";
 	Node node = resource.adaptTo(Node.class);
 	if (node.hasProperty("./runOnce")) {
-		//node.getProperty("runOnce").remove();
+		//node.getProperty("runOnce").remove(); 
 	} else {
 		node.setProperty("runOnce", "corrected");
-		node.setProperty("piright", "8");
-		piRight = "8";
+		//node.setProperty("piright", "8");
+		//piRight = "8";
 		if (node.hasNode("image")) {	// if it has image node, then it's an old component
 			node.setProperty("pibottom", "24");
 			piBottom = "24";
-		} else {						// if not, it's a fresh component
-			node.setProperty("pibottom", "8");
-			piBottom = "8";
-		}
+		} 
+		//else {						// if not, it's a fresh component
+		//	node.setProperty("pibottom", "8");
+		//	piBottom = "8";
+		//}
 	}
 	node.getSession().save();
 		
 	String width = properties.get("./image/width", "0");
 	String caption = properties.get("./image/jcr:description", "");	
 
-	styleImage = "margin: 0px !important;";
+	//styleImage = "margin: 0px !important;";
 	String padding = piTop + piBottom + piLeft + piRight;
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
 		styleImage += "padding: " + piTop + "px " + piRight + "px " + piBottom + "px " + piLeft + "px;";

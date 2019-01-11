@@ -63,7 +63,7 @@
 	if (!"0".equals(imageWidth)) {
 		// imageWidth + padding
 		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft) + Integer.parseInt(pRight);
-		styleImage += "width:" + newWidth + "px;";
+		styleImage += "width:" + newWidth + "px; max-width:100% !important;";
 		//styleCaption += "width:" + newWidth + "px;";
 	}
 %>

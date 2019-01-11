@@ -47,7 +47,7 @@
 	if (!"0".equals(imageWidth)) {
 		// imageWidth + padding
 		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft);
-		styleImage += "width:" + newWidth + "px;";
+		styleImage += "width:" + newWidth + "px; max-width: 100%;";
 	}
 	
 	%><div id="<%= divId %>" style="<%= styleImage %>"><%
