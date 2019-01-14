@@ -165,7 +165,7 @@ function vtk_accordion() {
     "use strict";
     if ($('.accordion').length) { //Check if there is any accordion in the page
         if ($('body').has('.vtk').length) { //check if the user is in VTK
-            vtk_accordion_main();
+            //vtk_accordion_main();
         } else {
             web_accordion_main();
         }
@@ -194,6 +194,7 @@ function web_accordion_main() {
     });
 }
 
+/*
 function vtk_accordion_main() {
     "use strict";
     toggleTab({
@@ -210,7 +211,7 @@ function vtk_accordion_main() {
 
         return false;
     });
-}
+}*/
 
 function toggleTab(panel) {
     "use strict";

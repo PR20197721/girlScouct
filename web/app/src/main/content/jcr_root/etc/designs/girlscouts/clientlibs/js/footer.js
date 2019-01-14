@@ -79,7 +79,7 @@ function vtk_accordion() {
     }
 }
 
-function vtk_accordion_main() {
+/*function vtk_accordion_main() {
     "use strict";
     toggleTab({
         tab: $(".accordion dt"),
@@ -95,6 +95,26 @@ function vtk_accordion_main() {
 
         return false;
     });
+}*/
+
+//this should be better?
+function vtk_accordion_main() {
+   "use strict";
+   $('.accordion dt > :first-child').on('click', function (e) {
+       e.stopPropagation();
+
+       var target = $(this).parent().data('target'),
+           toggle = $(this);
+       $('#' + target).slideToggle('slow');
+       $(toggle).toggleClass('on');
+
+       //For Web Component. See main.js:toggleParsys
+       if (window[target] !== null && window[target].hasOwnProperty('toggle')) {
+           window[target].toggle();
+       }
+
+       return false;
+   });
 }
 
 
