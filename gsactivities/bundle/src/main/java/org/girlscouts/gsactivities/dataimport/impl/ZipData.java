@@ -1,25 +1,20 @@
 package org.girlscouts.gsactivities.dataimport.impl;
 
 import java.util.List;
-import org.apache.sling.commons.json.JSONObject;
+import com.google.gson.JsonObject;
 
 public class ZipData {
-	
 	private String zipName;
-	private List<JSONObject> contents;
-	
-	public ZipData(String zip, List<JSONObject> list){
+	private List<JsonObject> contents;
+
+	public ZipData(String zip, List<JsonObject> list) {
 		this.zipName = zip;
 		this.contents = list;
 	}
-
 	public String getZipName() {
 		return zipName;
 	}
-
-	public List<JSONObject> getContents() {
+	public List<JsonObject> getContents() {
 		return contents;
 	}
-
-
 }

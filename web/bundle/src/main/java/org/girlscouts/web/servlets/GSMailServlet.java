@@ -134,6 +134,8 @@ public class GSMailServlet
         Dictionary<String, Object> properties = componentContext.getProperties();
         resourceWhitelist = OsgiUtil.toStringArray(properties.get(PROPERTY_RESOURCE_WHITELIST));
         resourceBlacklist = OsgiUtil.toStringArray(properties.get(PROPERTY_RESOURCE_BLACKLIST));
+        serviceParams = new HashMap<String, Object>();
+		serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
     }
 
     /**
@@ -361,8 +363,7 @@ public class GSMailServlet
                 }
                 localService.sendEmail(email);
                 
-                	serviceParams = new HashMap<String, Object>();
-        			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+                	
                 ResourceResolver rr = resolverFactory.getServiceResourceResolver(serviceParams);
                 //Optional Store Content
                 boolean storeContent = values.get("storeContent", false);
