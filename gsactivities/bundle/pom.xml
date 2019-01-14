@@ -20,22 +20,14 @@
 	    <dependency>  
 	      <groupId>com.adobe.aem</groupId>
 	      <artifactId>uber-jar</artifactId>
-	      <version>6.3.1</version>
 	      <classifier>apis</classifier>
 	      <scope>provided</scope>
 	    </dependency>
-	<dependency>
-      <groupId>com.day.commons.osgi.wrapper</groupId>
-      <artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
-       <version>1.2.0-0002</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-		<groupId>javax.mail</groupId>
-		<artifactId>mail</artifactId>
-		<version>1.5.0-b01</version>
-		<scope>provided</scope>
-	</dependency>
+	    <dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<scope>provided</scope>
+		</dependency>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
@@ -80,7 +72,6 @@
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>3.4</version>
         </dependency>
         <dependency>
               <groupId>org.apache.sling</groupId>
@@ -91,54 +82,13 @@
         <dependency>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.scripting.javascript</artifactId>
-            <version>2.0.12</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.commons.log</artifactId>
-            <version>3.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.settings</artifactId>
-            <version>1.2.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq.wcm</groupId>
-            <artifactId>cq-wcm-core</artifactId>
-            <version>5.6.16</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq.wcm</groupId>
-            <artifactId>cq-wcm-api</artifactId>
-            <version>5.6.6</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq</groupId>
-            <artifactId>cq-tagging</artifactId>
-            <version>5.6.4</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq</groupId>
-            <artifactId>cq-replication</artifactId>
-            <version>5.4.2</version>
-        </dependency>
-        <dependency>
+       <dependency>
             <groupId>com.day.cq</groupId>
             <artifactId>cq-commons</artifactId>
             <version>5.5.0</version>
          </dependency>
-         <dependency>
-            <groupId>org.girlscouts.web</groupId>
-            <artifactId>girlscouts-bundle</artifactId>
-            <version>${project.version}</version> 
-        </dependency>
         <dependency>
             <groupId>org.girlscouts.vtk</groupId>
             <artifactId>girlscouts-vtk-bundle</artifactId>
@@ -146,9 +96,19 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+	      <groupId>org.girlscouts.web</groupId>
+	      <artifactId>girlscouts-common-bundle</artifactId>
+	       <version>${project.version}</version> 
+	      <scope>provided</scope>
+	    </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+        <dependency>
+	      <groupId>com.google.code.gson</groupId>
+	      <artifactId>gson</artifactId>
+	    </dependency>
         <!-- END FTP -->
     </dependencies>
 
@@ -168,7 +128,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>            
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -176,6 +136,17 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>org.girlscouts.gsactivites.girlscouts-bundle</Bundle-SymbolicName>
+                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+			            <Import-Package>
+			              !org.bouncycastle.*,
+			              !com.google.common.reflect,
+					      !org.apache.avalon.framework.logger,
+					      !org.apache.log,
+					      !org.girlscouts.web.*,
+					      !org.girlscouts.gsusa.*,    		      
+				          *
+			            </Import-Package>
+			            <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>
             </plugin>
