@@ -106,7 +106,6 @@ window.BadgePdfGenerator = (function(window, $, document){
                                 buttonContainer.remove();
                                 BadgePdfLoadingWidget.hide();
                             })
-                            //.attr('href', downloadUrl)
                             .text('Save');
 
 						var cancelButton = $('<a>')
