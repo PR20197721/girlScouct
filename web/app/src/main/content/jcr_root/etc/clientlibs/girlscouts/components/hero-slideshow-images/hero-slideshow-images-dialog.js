@@ -6,7 +6,7 @@
           console.log($(el));
           var url = el.find("input[name='fileReference']").val() +"/jcr:content/metadata.1.json";
           if(el.attr('isValidSize') == "false"){
-              showDialog(el);
+              showDialog(el, width, length);
 			  var name = el.attr("name");
               if(name.includes("regular") || name.includes("medium")){
 				return "Size invalid. Correct dimensions: 960 x 420";
@@ -14,38 +14,13 @@
               else if(name.includes("small")){
 				return "Size invalid. Correct dimensions: 500 x 655";
               }
-
-
-
-
           }
       }
     });
-    function isValid(el, url){
-         $.getJSON(url, function (data) {
-				try{
-                    console.log(data);
-                    var regWidth = data["tiff:ImageWidth"];
-                    var regLength = data["tiff:ImageLength"];
-                    var test = el.attr("name");
-                    if(el.attr("name").includes("regular") || el.attr("name").includes("medium")){
-						if(regWidth != 960 || regLength != 420){
-                        	//dialog.show();
-                        	//return false;
-                            el.attr('isValidSize',false);
-                    	}
-                    }
-                    else if(el.attr("name").includes("small")){
-						if(regWidth != 500 || regLength != 655){
-                        	//dialog.show();
-                        	el.attr('isValidSize',false);
-                    	}
-                    }
-
-                }catch(err){}
-        	});
-    }
+	var width;
+    var length;
     function showDialog(el){
+        var test;
         var url = el.find("input[name='fileReference']").val();
         var name = el.attr("name");
         name = name.substring(0, name.indexOf("/"));
@@ -57,7 +32,7 @@
                   innerHTML: 'Warning!'
               },
               content: {
-                  innerHTML: "The " + name + " asset size is invalid: <br>"+"<li>" + url+ "</li>" +  "It is detected that you are using the wrong size image. For design options with the springboards under hero, use 960 x 420 for regular and medium, 500 x 655 for small."
+                  innerHTML: "The " + name + " asset size is invalid, your dimensions are: "+width+" x "+length+" <br>"+"<li>" + url+ "</li>" +  "It is detected that you are using the wrong size image. For design options with the springboards under hero, use 960 x 420 for regular and medium, 500 x 655 for small."
               }
           });
           var footer = dialog.querySelector('coral-dialog-footer');
@@ -72,13 +47,13 @@
         dialog.show();
     }
     $(document).on("assetselected", function(e){
-       // isValid(e.target, e.path);
         var url = e.path +"/jcr:content/metadata.1.json";
          $.getJSON(url, function (data) {
 				try{
-                    console.log(data);
                     var regWidth = data["tiff:ImageWidth"];
+                    width = regWidth;
                     var regLength = data["tiff:ImageLength"];
+                    length = regLength;
                     if($(e.target).attr("name").includes("regular") || $(e.target).attr("name").includes("medium")){
 						if(regWidth != 960 || regLength != 420){
                             $(e.target).attr('isValidSize',false);
