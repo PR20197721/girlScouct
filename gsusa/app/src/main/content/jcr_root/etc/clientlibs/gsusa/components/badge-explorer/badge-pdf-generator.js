@@ -89,8 +89,9 @@ window.BadgePdfGenerator = (function(window, $, document){
 							.on('click.pdfOpen', function(){
 								buttonContainer.remove();
 								BadgePdfLoadingWidget.hide();
+								window.open(downloadUrl);
 							})
-							.attr('href', downloadUrl)
+							//.attr('href', downloadUrl)
 							.text('Open');
 
                         var outerSaveButton = $('<a>')
