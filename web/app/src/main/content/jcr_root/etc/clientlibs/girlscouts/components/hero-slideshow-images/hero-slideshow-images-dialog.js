@@ -57,7 +57,7 @@
                   innerHTML: 'Warning!'
               },
               content: {
-                  innerHTML: url+ " is not the right size. <br>" + "The " + name + " asset size is invalid. <br>" + "It is detected that you are using the wrong size image. For design options with the springboards under hero, use 960 x 420 for large and medium, 500 x 655 for small."
+                  innerHTML: "The " + name + " asset size is invalid: <br>"+"<li>" + url+ "</li>" +  "It is detected that you are using the wrong size image. For design options with the springboards under hero, use 960 x 420 for regular and medium, 500 x 655 for small."
               }
           });
           var footer = dialog.querySelector('coral-dialog-footer');
