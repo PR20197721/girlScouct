@@ -3,7 +3,6 @@
 	jQuery.validator.register({
       selector: "coral-fileupload",
       validate: function(el) {
-          console.log($(el));
           var url = el.find("input[name='fileReference']").val() +"/jcr:content/metadata.1.json";
           if(el.attr('isValidSize') == "false"){
               showDialog(el, width, length);
@@ -26,7 +25,6 @@
     var springPosition;
     var files = "";
     function showDialog(el){
-
         var prevDialog = document.querySelectorAll('#fileSize-warning');
         prevDialog.forEach(function(item) {
   			item.hide();
