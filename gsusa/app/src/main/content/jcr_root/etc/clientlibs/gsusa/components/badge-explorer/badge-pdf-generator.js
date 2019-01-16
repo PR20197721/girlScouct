@@ -92,6 +92,17 @@ window.BadgePdfGenerator = (function(window, $, document){
 							})
 							.attr('href', downloadUrl)
 							.text('Open');
+                        var saveButton = $('<a>')
+							.addClass('BadgePdfProgressButton')
+							.addClass('BadgePdfOpenButton')
+							.attr('target', '_blank')
+							.on('click.pdfOpen', function(){
+								buttonContainer.remove();
+								BadgePdfLoadingWidget.hide();
+							})
+							.attr('href', downloadUrl)
+                        	.attr('download', 'test.pdf')
+							.text('Save');
 
 						var cancelButton = $('<a>')
 							.addClass('BadgePdfProgressButton')
@@ -103,7 +114,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 								BadgePdfLoadingWidget.hide();
 							});
 
-						buttonContainer.append(openButton.add(cancelButton));
+						buttonContainer.append(openButton.add(saveButton).add(cancelButton));
 
 						$('.BadgePdfProgressInfoContainerInner').append(buttonContainer);
 
