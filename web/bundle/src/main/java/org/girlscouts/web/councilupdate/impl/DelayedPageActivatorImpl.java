@@ -76,78 +76,73 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 	}
 	
 	public void run() {
-		//TODO: Change the following if case so that it uses policy = ConfigurationPolicy.REQUIRE to check for publishing servers 
-		//More info: http://aemfaq.blogspot.com/search/label/runmode
-		//http://stackoverflow.com/questions/19292933/creating-osgi-bundles-with-different-services
 		if (this.author) {
-			
-		
-		ResourceResolver rr = null;
-		try{
-			rr = resolverFactory.getServiceResourceResolver(serviceParams);
-			Resource pagesRes = rr.resolve(pagesPath);
-			if(pagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-				log.error("Delayed pages node not found");
-				return;
-			}
-			
-				Resource dateRes = getDateRes(pagesRes, rr);
-			if(dateRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-				log.info("No pages today for activation");
-				return;
-			}
-			
-			Node pageNode = dateRes.adaptTo(Node.class);
-			String [] pages = getPages(pageNode);
-			if(pages.length < 1){
-				log.info("No expired users found for deletion today");
-				return;
-			}
-	        Session session = rr.adaptTo(Session.class);
-			String pageString = "";
-			String status = "Success";
-			Node reportNode = null;
-			
+			ResourceResolver rr = null;
 			try{
-				if(pageNode.hasNode("report")){
-					reportNode = pageNode.getNode("report");
-				}else{
-					reportNode = pageNode.addNode("report","nt:unstructured");
+				rr = resolverFactory.getServiceResourceResolver(serviceParams);
+				Resource pagesRes = rr.resolve(pagesPath);
+				if (pagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					log.error("Delayed pages node not found");
+					return;
 				}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			
-			for(String s : pages){
+
+				Resource dateRes = getDateRes(pagesRes, rr);
+				if (dateRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					log.info("No pages today for activation");
+					return;
+				}
+
+				Node pageNode = dateRes.adaptTo(Node.class);
+				String[] pages = getPages(pageNode);
+				if (pages.length < 1) {
+					log.info("No expired users found for deletion today");
+					return;
+				}
+				Session session = rr.adaptTo(Session.class);
+				String pageString = "";
+				String status = "Success";
+				Node reportNode = null;
+
 				try{
-					pageString = s;        
-			        replicator.replicate(session, ReplicationActionType.ACTIVATE, pageString);
-				}catch(Exception e){
-					log.error("An error occurred while deleting user: " + pageString);
-					try{
-						status = "Completed with errors";
-						Node detailedReportNode = reportNode.addNode(s, "nt:unstructured");
-						detailedReportNode.setProperty("message", e.getMessage());
-					}catch(Exception e1){
-						log.error("Delayed Page Activator - An exception occurred while creating error node");
-						e1.printStackTrace();
+					if (pageNode.hasNode("report")) {
+						reportNode = pageNode.getNode("report");
+					} else {
+						reportNode = pageNode.addNode("report", "nt:unstructured");
 					}
+				}catch(Exception e){
 					e.printStackTrace();
 				}
-			}
+
+				for (String s : pages) {
+					try{
+						pageString = s;
+						replicator.replicate(session, ReplicationActionType.ACTIVATE, pageString);
+					} catch (Exception e) {
+						log.error("An error occurred while deleting user: " + pageString);
+						try {
+							status = "Completed with errors";
+							Node detailedReportNode = reportNode.addNode(s, "nt:unstructured");
+							detailedReportNode.setProperty("message", e.getMessage());
+						} catch (Exception e1) {
+							log.error("Delayed Page Activator - An exception occurred while creating error node");
+							e1.printStackTrace();
+						}
+						e.printStackTrace();
+					}
+				}
 				reportNode.setProperty("status", status);
 				session.save();
-		}catch(Exception e){
-			log.error("error occured",e);
-		} finally {			
-			try {
-				if (rr != null) {
-					rr.close();
-				}
 			} catch (Exception e) {
-				log.error("error while closing resource resolver: ", e);
+				log.error("error occured", e);
+			} finally {
+				try {
+					if (rr != null) {
+						rr.close();
+					}
+				} catch (Exception e) {
+					log.error("error while closing resource resolver: ", e);
+				}
 			}
-		}
 		}
 		
 	}
