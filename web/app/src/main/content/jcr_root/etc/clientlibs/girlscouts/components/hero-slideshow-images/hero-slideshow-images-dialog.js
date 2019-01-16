@@ -31,9 +31,9 @@
 		var message;
 		files = files + "<li>" + url + "</li>";
         if(springPosition == "right"){
-			message = "The " + name + " asset size is invalid, your dimensions are: "+width+" x "+length+" <br><ul>"+files +  "</ul>It is detected that you are using the wrong size image. For design options with the springboards under hero, use 655 x 360 for regular and medium, 500 x 655 for small.";
+			message = "The " + name + " asset(s) size is invalid, your dimensions are: "+width+" x "+length+", invalid file paths are:<br><ul>"+files +  "</ul>It is detected that you are using the wrong size image. For design options with the springboards under hero, use 655 x 360 for regular and medium, 500 x 655 for small.";
         } else{
-			message = "The " + name + " asset size is invalid, your dimensions are: "+width+" x "+length+" <br>"+files +  "It is detected that you are using the wrong size image. For design options with the springboards under hero, use 960 x 420 for regular and medium, 500 x 655 for small.";
+			message = "The " + name + " asset(s) size is invalid, your dimensions are: "+width+" x "+length+", invalid file paths are:<br><ul>"+files +  "</ul>It is detected that you are using the wrong size image. For design options with the springboards under hero, use 960 x 420 for regular and medium, 500 x 655 for small.";
         }
         var prevDialog = document.querySelector('#fileSize-warning');
         if(prevDialog != null){
