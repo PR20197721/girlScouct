@@ -19,22 +19,31 @@
 				return "Size invalid. Correct dimensions: 500 x 655";
               }
           }
-      }
+      },
+        clear: function(el) {
+    		console.log("test");
+  		}
     });
 	var width;
     var length;
     var springPosition;
+    var files = "";
     function showDialog(el){
-        var test;
+
+        var prevDialog = document.querySelectorAll('#fileSize-warning');
+        prevDialog.forEach(function(item) {
+  			item.hide();
+            item.remove();
+		});
         var url = el.find("input[name='fileReference']").val();
         var name = el.attr("name");
         name = name.substring(0, name.indexOf("/"));
-
-        var message;
+		var message;
+		files = files + "<li>" + url + "</li>";
         if(springPosition == "right"){
-			message = "The " + name + " asset size is invalid, your dimensions are: "+width+" x "+length+" <br>"+"<li>" + url+ "</li>" +  "It is detected that you are using the wrong size image. For design options with the springboards under hero, use 655 x 360 for regular and medium, 500 x 655 for small.";
+			message = "The " + name + " asset size is invalid, your dimensions are: "+width+" x "+length+" <br>"+files +  "It is detected that you are using the wrong size image. For design options with the springboards under hero, use 655 x 360 for regular and medium, 500 x 655 for small.";
         } else{
-			message = "The " + name + " asset size is invalid, your dimensions are: "+width+" x "+length+" <br>"+"<li>" + url+ "</li>" +  "It is detected that you are using the wrong size image. For design options with the springboards under hero, use 960 x 420 for regular and medium, 500 x 655 for small.";
+			message = "The " + name + " asset size is invalid, your dimensions are: "+width+" x "+length+" <br>"+files +  "It is detected that you are using the wrong size image. For design options with the springboards under hero, use 960 x 420 for regular and medium, 500 x 655 for small.";
         }
         var dialog = new Coral.Dialog().set({
               id: 'fileSize-warning',
@@ -52,6 +61,7 @@
           okButton.label.textContent = Granite.I18n.get('OK');
           okButton.variant = 'primary';
           footer.appendChild(okButton).on('click', function (){
+              files = "";
               dialog.hide();
               dialog.remove();
           });
@@ -77,19 +87,13 @@
                             	$(e.target).attr('isValidSize',false);
                     		}
                         }
-
                     }
                     else if($(e.target).attr("name").includes("small")){
 						if(regWidth != 500 || regLength != 655){
                         	$(e.target).attr('isValidSize',false);
                     	}
                     }
-
                 }catch(err){}
         	});
-
-
-
     });
-
-})(document, Granite.$, Granite.author); 
+})(document, Granite.$, Granite.author);
