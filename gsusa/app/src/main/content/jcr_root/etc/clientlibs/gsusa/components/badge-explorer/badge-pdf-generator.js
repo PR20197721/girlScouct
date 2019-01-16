@@ -92,17 +92,21 @@ window.BadgePdfGenerator = (function(window, $, document){
 							})
 							.attr('href', downloadUrl)
 							.text('Open');
-                        var saveButton = $('<a>')
-							.addClass('BadgePdfProgressButton')
-							.addClass('BadgePdfOpenButton')
-							.attr('target', '_blank')
-							.on('click.pdfOpen', function(){
-								buttonContainer.remove();
-								BadgePdfLoadingWidget.hide();
-							})
-							.attr('href', downloadUrl)
-                        	.attr('download', 'test.pdf')
-							.text('Save');
+
+                        var outerSaveButton = $('<a>')
+                            .addClass('BadgePdfProgressButton')
+                            .addClass('BadgePdfSaveButton')
+                            .on('click.pdfOuterSave', function(){
+                                var dname = prompt('Please enter a filename', filename);
+                                var innerSaveButton = $('<a>').attr('download',dname).attr('href', downloadUrl);
+
+                                buttonContainer.append(innerSaveButton);
+                                innerSaveButton[0].click();
+                                buttonContainer.remove();
+                                BadgePdfLoadingWidget.hide();
+                            })
+                            //.attr('href', downloadUrl)
+                            .text('Save');
 
 						var cancelButton = $('<a>')
 							.addClass('BadgePdfProgressButton')
@@ -114,7 +118,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 								BadgePdfLoadingWidget.hide();
 							});
 
-						buttonContainer.append(openButton.add(saveButton).add(cancelButton));
+						buttonContainer.append(openButton.add(outerSaveButton).add(cancelButton));
 
 						$('.BadgePdfProgressInfoContainerInner').append(buttonContainer);
 
