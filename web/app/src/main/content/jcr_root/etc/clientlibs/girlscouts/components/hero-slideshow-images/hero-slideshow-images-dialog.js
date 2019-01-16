@@ -6,8 +6,18 @@
           console.log($(el));
           var url = el.find("input[name='fileReference']").val() +"/jcr:content/metadata.1.json";
           if(el.attr('isValidSize') == "false"){
-              showDialog();
-              return "invalid";
+              showDialog(el);
+			  var name = el.attr("name");
+              if(name.includes("regular") || name.includes("medium")){
+				return "Size invalid. Correct dimensions: 960 x 420";
+              }
+              else if(name.includes("small")){
+				return "Size invalid. Correct dimensions: 500 x 655";
+              }
+
+
+
+
           }
       }
     });
@@ -35,7 +45,10 @@
                 }catch(err){}
         	});
     }
-    function showDialog(){
+    function showDialog(el){
+        var url = el.find("input[name='fileReference']").val();
+        var name = el.attr("name");
+        name = name.substring(0, name.indexOf("/"));
         var dialog = new Coral.Dialog().set({
               id: 'fileSize-warning',
               backdrop:'static',
@@ -44,7 +57,7 @@
                   innerHTML: 'Warning!'
               },
               content: {
-                  innerHTML: "It is detected that you are using the wrong size image. For design options with the springboards under hero, use 960 x 420 for large and medium, 500 x 655 for small."
+                  innerHTML: url+ " is not the right size. <br>" + "The " + name + " asset size is invalid. <br>" + "It is detected that you are using the wrong size image. For design options with the springboards under hero, use 960 x 420 for large and medium, 500 x 655 for small."
               }
           });
           var footer = dialog.querySelector('coral-dialog-footer');
@@ -68,14 +81,11 @@
                     var regLength = data["tiff:ImageLength"];
                     if($(e.target).attr("name").includes("regular") || $(e.target).attr("name").includes("medium")){
 						if(regWidth != 960 || regLength != 420){
-                        	//dialog.show();
-                        	//return false;
                             $(e.target).attr('isValidSize',false);
                     	}
                     }
                     else if($(e.target).attr("name").includes("small")){
 						if(regWidth != 500 || regLength != 655){
-                        	//dialog.show();
                         	$(e.target).attr('isValidSize',false);
                     	}
                     }
