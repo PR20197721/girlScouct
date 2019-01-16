@@ -19,10 +19,7 @@
 				return "Size invalid. Correct dimensions: 500 x 655";
               }
           }
-      },
-        clear: function(el) {
-    		console.log("test");
-  		}
+      }
     });
 	var width;
     var length;
