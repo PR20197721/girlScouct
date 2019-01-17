@@ -34,7 +34,7 @@
         name = name.substring(0, name.indexOf("/"));
 
         //find element slide number
-        var slide = el.closest("div.heroBannerElementConfigContents").find("div.coral-TabPanel-pane.coral-FixedColumn.foundation-layout-util-vmargin.u-coral-noPadding.u-coral-noMargin").find("div.cq-FileUpload-thumbnail-img").children().attr("src");
+        var slide = el.closest("div.heroBannerElementConfigContents").find("div.cq-FileUpload-thumbnail-img").children().attr("src");
 		slide = slide.substring(slide.indexOf("item")+4, slide.indexOf("item")+5);
 		var item = parseInt(slide) + 1;
 
