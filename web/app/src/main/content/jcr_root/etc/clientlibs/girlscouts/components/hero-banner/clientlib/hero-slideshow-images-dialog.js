@@ -43,7 +43,12 @@
         names.push(name);
         var printName = "";
         for(var i = 0; i < names.length; i++){
-            printName = printName + "The " + names[i] + " asset size on slide element "+ items[i] +" is invalid, your dimensions are: "+w+" x "+l+":<ul><li>"+files[i]+"</li></ul>";
+            if(Number.isNaN(items[i]) == false){
+				printName = printName + "The " + names[i] + " asset size on slide element "+ items[i] +" is invalid, your dimensions are: "+w+" x "+l+":<ul><li>"+files[i]+"</li></ul>";
+            } else{
+				printName = printName + "The " + names[i] + " asset size on a new slide element is invalid, your dimensions are: "+w+" x "+l+":<ul><li>"+files[i]+"</li></ul>";
+            }
+
         }
         names.forEach(function(item){
 

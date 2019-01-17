@@ -1,2 +1,0 @@
-base=.
-hero-slideshow-images-dialog.js
