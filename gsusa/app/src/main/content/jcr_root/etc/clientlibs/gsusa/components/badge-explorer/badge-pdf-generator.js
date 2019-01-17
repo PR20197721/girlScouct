@@ -91,9 +91,11 @@ window.BadgePdfGenerator = (function(window, $, document){
 								BadgePdfLoadingWidget.hide();
 								window.open(downloadUrl);
 							})
-							//.attr('href', downloadUrl)
 							.text('Open');
 
+                        //selecting this creates a prompt that asks for a the user to name the file
+                        //after the user names the file, it creates then clicks an <a> element
+                        //that has the download information
                         var outerSaveButton = $('<a>')
                             .addClass('BadgePdfProgressButton')
                             .addClass('BadgePdfSaveButton')
