@@ -62,7 +62,7 @@
 			message = printName + "It is detected that you are using the wrong sized image(s). For design options with the springboards under hero, use 960 x 420 for regular and medium, 500 x 655 for small.";
         }
         //Query for dialog to edit message if exists
-        var prevDialog = document.querySelector('#fileSize-warning');
+        var prevDialog = $('#fileSize-warning')[0];
         if(prevDialog != null){
             prevDialog.set({
                 content: {
@@ -79,19 +79,18 @@
               },
               content: {
                   innerHTML: message
+              },
+              footer: {
+                  innerHTML: '<button is="coral-button" variant="warning" coral-close>Ok</button>'
               }
           	});
-         	 var footer = dialog.querySelector('coral-dialog-footer');
-         	 var okButton = new Coral.Button();
-          	okButton.label.textContent = Granite.I18n.get('OK');
-          	okButton.variant = 'primary';
-          	footer.appendChild(okButton).on('click', function (){
-              files = [];
-              names = [];
-              items = [];
-              dialog.hide();
-              dialog.remove();
-         	 });
+			dialog.on('coral-overlay:close', function(event) {
+                files = [];
+              	names = [];
+              	items = [];
+              	dialog.hide();
+                dialog.remove();
+            });
          	document.body.appendChild(dialog);
           	dialog.show();
         }
@@ -106,7 +105,7 @@
                     width = regWidth;
                     var regLength = data["tiff:ImageLength"];
                     length = regLength;
-                    springPosition = document.getElementsByName("./spplacement")[0].value;
+                    springPosition = $('[name="./spplacement"]').val();
                     if($(e.target).attr("name").includes("regular") || $(e.target).attr("name").includes("medium")){
                         if(springPosition == "right"){
 							if(regWidth != 655 || regLength != 360){
