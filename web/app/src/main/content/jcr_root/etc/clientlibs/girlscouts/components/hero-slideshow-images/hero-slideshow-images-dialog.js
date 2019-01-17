@@ -1,5 +1,6 @@
 (function (document, $, ns) { 
     "use strict";
+    //validation check
 	jQuery.validator.register({
       selector: "coral-fileupload",
       validate: function(el) {
@@ -23,18 +24,39 @@
 	var width;
     var length;
     var springPosition;
-    var files = "";
-    function showDialog(el){
+    var names = new Array();
+    var items = new Array();
+    var files = new Array();
+    function showDialog(el, w, l){
+        //Parse element information for error message
         var url = el.find("input[name='fileReference']").val();
         var name = el.attr("name");
         name = name.substring(0, name.indexOf("/"));
-		var message;
-		files = files + "<li>" + url + "</li>";
-        if(springPosition == "right"){
-			message = "The " + name + " asset(s) size is invalid, your dimensions are: "+width+" x "+length+", invalid file paths are:<br><ul>"+files +  "</ul>It is detected that you are using the wrong size image. For design options with the springboards under hero, use 655 x 360 for regular and medium, 500 x 655 for small.";
-        } else{
-			message = "The " + name + " asset(s) size is invalid, your dimensions are: "+width+" x "+length+", invalid file paths are:<br><ul>"+files +  "</ul>It is detected that you are using the wrong size image. For design options with the springboards under hero, use 960 x 420 for regular and medium, 500 x 655 for small.";
+
+        //find element slide number
+        var slide = el.closest("div.heroBannerElementConfigContents").find("div.coral-TabPanel-pane.coral-FixedColumn.foundation-layout-util-vmargin.u-coral-noPadding.u-coral-noMargin").find("div.cq-FileUpload-thumbnail-img").children().attr("src");
+		slide = slide.substring(slide.indexOf("item")+4, slide.indexOf("item")+5);
+		var item = parseInt(slide) + 1;
+
+		files.push(url);
+        items.push(item);
+        names.push(name);
+        var printName = "";
+        for(var i = 0; i < names.length; i++){
+            printName = printName + "The " + names[i] + " asset size on slide element "+ items[i] +" is invalid, your dimensions are: "+w+" x "+l+":<ul><li>"+files[i]+"</li></ul>";
         }
+        names.forEach(function(item){
+
+        });
+
+		var message;
+
+        if(springPosition == "right"){
+			message = printName + "It is detected that you are using the wrong sized image(s). For design options with the springboards under hero, use 655 x 360 for regular and medium, 500 x 655 for small.";
+        } else{
+			message = printName + "It is detected that you are using the wrong sized image(s). For design options with the springboards under hero, use 960 x 420 for regular and medium, 500 x 655 for small.";
+        }
+        //Query for dialog to edit message if exists
         var prevDialog = document.querySelector('#fileSize-warning');
         if(prevDialog != null){
             prevDialog.set({
@@ -59,7 +81,9 @@
           	okButton.label.textContent = Granite.I18n.get('OK');
           	okButton.variant = 'primary';
           	footer.appendChild(okButton).on('click', function (){
-              files = "";
+              files = [];
+              names = [];
+              items = [];
               dialog.hide();
               dialog.remove();
          	 });
@@ -69,6 +93,8 @@
     }
     $(document).on("assetselected", function(e){
         var url = e.path +"/jcr:content/metadata.1.json";
+
+        //get image dimensions, and check with constraints
          $.getJSON(url, function (data) {
 				try{
                     var regWidth = data["tiff:ImageWidth"];
