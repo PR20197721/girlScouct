@@ -808,6 +808,9 @@
     }//content
   }//end modals
   #modal-meeting-reminder {
+    .scroll{
+        height:80vh;
+    }
     h6 {
       font-size: 14px;
       font-weight: 600;
