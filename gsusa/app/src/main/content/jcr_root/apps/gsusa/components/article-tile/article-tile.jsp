@@ -1,10 +1,3 @@
-<%--
-
-  Article Tile component.
-
-  Basic building block of the article hub components
-
---%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp"%>
 <%@page session="false"%>
@@ -109,22 +102,11 @@
 	if(tags != null && tags.length > 0){
 		String primaryTagId = tags[0].getString();
 		try{
-			ResolverAccessService resolverAccessService = sling.getService(ResolverAccessService.class);
-			ResourceResolver rr = resolverAccessService.getAccessResolver();
-	       	TagManager tagManager = rr.adaptTo(TagManager.class);
-	        Tag primaryTag = tagManager.resolve(primaryTagId);
-	
-	        Node primaryNode = primaryTag.adaptTo(Node.class);
-	        if(primaryNode.hasProperty("color")){
-				hexColor = primaryNode.getProperty("color").getString();
-	            int rPart = Integer.parseInt(hexColor.substring(0,2), 16);
-	            int gPart = Integer.parseInt(hexColor.substring(2,4), 16);
-	            int bPart = Integer.parseInt(hexColor.substring(4,6), 16);
-				rgba = "rgba("+ rPart +", "+ gPart +", "+ bPart +", 0.8)";
-	
+			ResolverAccessService resolverAccessService = sling.getService(ResolverAccessService.class);       
+	        String tagColor  = resolverAccessService.getColorFromTagNode(primaryTagId);
+	        if(tagColor != null ){
+				rgba = tagColor;
 	      	}
-	        
-	        rr.close();
 		}catch(Exception e){
 			System.err.println("Tag: " + primaryTagId + " is not found for article: " + articlePath);
 		}

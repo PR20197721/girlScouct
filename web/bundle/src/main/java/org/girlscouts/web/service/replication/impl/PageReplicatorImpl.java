@@ -138,9 +138,11 @@ public class PageReplicatorImpl
 		} catch (LoginException e) {
 			log.error("Girlscouts Page Replicator encountered error: ", e);
 		} finally {
-			try {
-				rr.close();
-			} catch (Exception e) {
+			if(rr != null){
+				try {
+					rr.close();
+				} catch (Exception e) {
+				}
 			}
 		}
 		log.error("Finished PageReplicatorImpl");
