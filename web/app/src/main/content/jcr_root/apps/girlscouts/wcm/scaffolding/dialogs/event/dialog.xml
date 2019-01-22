@@ -31,6 +31,13 @@
                     name="./jcr:content/data/end"
                     timezone="dynamic"
                     xtype="timezonedatetime"/>
+                <regTimeDisplay
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Hide Registration Time?"
+                        name="./jcr:content/data/regDisplay"
+                        timezone="dynamic"
+                        xtype="selection"
+                        type="checkbox"/>
                 <regOpen
                 	jcr:primaryType="cq:Widget"
                 	fieldLabel="Registration Open Date"
