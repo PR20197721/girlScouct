@@ -5,7 +5,7 @@
       selector: "coral-fileupload",
       validate: function(el) {
           var url = el.find("input[name='fileReference']").val() +"/jcr:content/metadata.1.json";
-          if(el.attr('isValidSize') == "false" && showD == true){
+          if(el.attr('isValidSize') == "false"){
               showDialog(el, width, length);
 			  var name = el.attr("name");
               if(name.includes("regular") || name.includes("medium")){
@@ -22,7 +22,6 @@
       }
     });
 	var width;
-	var showD = false;
     var length;
     var springPosition;
     var names = new Array();
@@ -30,7 +29,6 @@
     var files = new Array();
     function showDialog(el, w, l){
         //Parse element information for error message
-        showD = false;
         var url = el.find("input[name='fileReference']").val();
         var name = el.attr("name");
         name = name.substring(0, name.indexOf("/"));
@@ -39,12 +37,10 @@
         var slide = el.closest("div.heroBannerElementConfigContents").find("div.cq-FileUpload-thumbnail-img").children().attr("src");
 		slide = slide.substring(slide.indexOf("item")+4, slide.indexOf("item")+5);
 		var item = parseInt(slide) + 1;
-        if(items[items.length - 1] != item && files[files.length - 1] != url && names[names.length - 1] != name){
-            files.push(url);
-            items.push(item);
-            names.push(name);
-        }
 
+		files.push(url);
+        items.push(item);
+        names.push(name);
         var printName = "";
         for(var i = 0; i < names.length; i++){
             if(Number.isNaN(items[i]) == false){
@@ -114,30 +110,19 @@
                         if(springPosition == "right"){
 							if(regWidth != 655 || regLength != 360){
                             	$(e.target).attr('isValidSize',false);
-                    		} else{
-                                $(e.target).attr('isValidSize',true);
-                            }
+                    		}
                         } else{
 							if(regWidth != 960 || regLength != 420){
                             	$(e.target).attr('isValidSize',false);
-                    		}else{
-                                $(e.target).attr('isValidSize',true);
-                            }
-
+                    		}
                         }
                     }
                     else if($(e.target).attr("name").includes("small")){
 						if(regWidth != 500 || regLength != 655){
                         	$(e.target).attr('isValidSize',false);
                     	}
-                    	else{
-                            $(e.target).attr('isValidSize',true);
-                        }
                     }
                 }catch(err){}
         	});
-    });
-    $(document).on("click", ".cq-dialog-submit", function (e) {
-        showD = true;
     });
 })(document, Granite.$, Granite.author);
