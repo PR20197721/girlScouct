@@ -100,15 +100,16 @@ window.BadgePdfGenerator = (function(window, $, document){
                             .addClass('BadgePdfProgressButton')
                             .addClass('BadgePdfSaveButton')
                             .on('click.pdfOuterSave', function(){
-                                var dname = prompt('Please enter a filename', filename);
-                                var innerSaveButton = $('<a>').attr('download',dname).attr('href', downloadUrl);
-
-                                buttonContainer.append(innerSaveButton);
-                                innerSaveButton[0].click();
+                                var dname = prompt('Please enter a filename', filename + ".pdf");
+                                if (dname != null){
+                                    var innerSaveButton = $('<a>').attr('download',dname).attr('href', downloadUrl);
+                                    buttonContainer.append(innerSaveButton);
+                                    innerSaveButton[0].click();
+                                }
                                 buttonContainer.remove();
                                 BadgePdfLoadingWidget.hide();
                             })
-                            .text('Save');
+                            .text('Save As');
 
 						var cancelButton = $('<a>')
 							.addClass('BadgePdfProgressButton')
