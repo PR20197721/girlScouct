@@ -807,6 +807,11 @@
       }
     }//content
   }//end modals
+  #modal_view_sent_emails{
+      .scroll{
+        height:80vh;
+    }
+  }
   #modal-meeting-reminder {
     .scroll{
         height:80vh;
