@@ -102,12 +102,16 @@ window.BadgePdfGenerator = (function(window, $, document){
                             .on('click.pdfOuterSave', function(){
                                 var dname = prompt('Please enter a filename', filename + ".pdf");
                                 if (dname != null){
+
+                                if (!dname.endsWith(".pdf")){
+                                        dname+=".pdf";
+                                    }
                                     var innerSaveButton = $('<a>').attr('download',dname).attr('href', downloadUrl);
                                     buttonContainer.append(innerSaveButton);
                                     innerSaveButton[0].click();
+                                    buttonContainer.remove();
+                                    BadgePdfLoadingWidget.hide();
                                 }
-                                buttonContainer.remove();
-                                BadgePdfLoadingWidget.hide();
                             })
                             .text('Save As');
 
