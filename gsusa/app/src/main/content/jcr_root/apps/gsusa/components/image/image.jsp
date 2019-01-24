@@ -40,7 +40,6 @@
     		suffix = currentDesign.getId();
     }
     
-    //String styleImage = "";
 	String styleCaption = "";
 	
 	String pTop = properties.get("./ptop", "0");
@@ -57,14 +56,13 @@
 		styleImage += "margin: 0px !important;"; 
 	}
 	if (caption.length() > 0) { // if there's caption, apply padding to the caption
-		styleCaption = "padding: 0px 5px 1px 5px;"; 
+		styleCaption = "padding: 0px 5px;"; 
 	}
 	
 	if (!"0".equals(imageWidth)) {
 		// imageWidth + padding
 		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft) + Integer.parseInt(pRight);
 		styleImage += "width:" + newWidth + "px; max-width:100% !important;";
-		//styleCaption += "width:" + newWidth + "px;";
 	}
 %>
 
