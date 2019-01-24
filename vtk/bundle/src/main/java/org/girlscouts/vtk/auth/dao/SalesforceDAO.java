@@ -86,7 +86,8 @@ public class SalesforceDAO {
 
 		HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
-
+		log.debug("url:"+url);
+		log.debug("Authorization:OAuth "+apiConfig.getAccessToken());
 		try {
 
 			String rsp = null;

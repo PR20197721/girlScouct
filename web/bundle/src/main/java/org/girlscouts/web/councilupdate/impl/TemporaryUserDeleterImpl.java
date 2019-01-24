@@ -66,8 +66,7 @@ public class TemporaryUserDeleterImpl implements Runnable, TemporaryUserDeleter{
 	private Replicator replicator;
 	@Reference
     private SlingSettingsService settingsService;
-	
-	private ResourceResolver rr;
+	Map<String, Object> serviceParams = new HashMap<String, Object>();
 	//configuration fields
 	public static final String USERPATH = "userspath";
 	
@@ -78,14 +77,8 @@ public class TemporaryUserDeleterImpl implements Runnable, TemporaryUserDeleter{
 	private void activate(ComponentContext context) {
 		@SuppressWarnings("rawtypes")
 		Dictionary configs = context.getProperties();
-		this.usersPath=OsgiUtil.toString(configs.get(USERPATH), null);
-		try {
-			Map<String, Object> serviceParams = new HashMap<String, Object>();
-			serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-			rr = resolverFactory.getServiceResourceResolver(serviceParams);
-		} catch (LoginException e) {
-			e.printStackTrace();
-		}
+		this.usersPath = OsgiUtil.toString(configs.get(USERPATH), null);
+		serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
 	}
 	
 	public void run() {
@@ -95,79 +88,90 @@ public class TemporaryUserDeleterImpl implements Runnable, TemporaryUserDeleter{
 		if (isPublisher()) {
 			return;
 		}
-		
-		Resource usersRes = rr.resolve(usersPath);
-		if(usersRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-			log.error("Temp Users node not found");
-			return;
-		}
-		
-		Resource dateRes = getDateRes(usersRes);
-		if(dateRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-			log.info("No expired users today for deletion");
-			return;
-		}
-		
-		Node dateNode = dateRes.adaptTo(Node.class);
-		String [] users = getUsers(dateNode);
-		if(users.length < 1){
-			log.info("No expired users found for deletion today");
-			return;
-		}
-        Session session = rr.adaptTo(Session.class);
-		String userString = "";
-		String status = "Success";
-		Node reportNode = null;
-		
-		try{
-			if(dateNode.hasNode("report")){
-				reportNode = dateNode.getNode("report");
-			}else{
-				reportNode = dateNode.addNode("report","nt:unstructured");
+		ResourceResolver rr = null;
+		try {
+			rr = resolverFactory.getServiceResourceResolver(serviceParams);
+			Resource usersRes = rr.resolve(usersPath);
+			if (usersRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+				log.error("Temp Users node not found");
+				return;
 			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		for(String s : users){
+
+			Resource dateRes = getDateRes(usersRes, rr);
+			if (dateRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+				log.info("No expired users today for deletion");
+				return;
+			}
+
+			Node dateNode = dateRes.adaptTo(Node.class);
+			String[] users = getUsers(dateNode);
+			if (users.length < 1) {
+				log.info("No expired users found for deletion today");
+				return;
+			}
+			Session session = rr.adaptTo(Session.class);
+			String userString = "";
+			String status = "Success";
+			Node reportNode = null;
+
 			try{
-				userString = s;
-		        
-		        UserManager userManager = ((JackrabbitSession) session).getUserManager();
-		        User tempUser = (User)userManager.getAuthorizable(userString);
-		        Iterator<Group> tempUserGroups = tempUser.memberOf();
-		        Group group;
-		        //Remove user from all its groups
-		        while(tempUserGroups.hasNext()){
-		        	group = tempUserGroups.next();
-		        	group.removeMember(tempUser);
-		        	replicator.replicate(session, ReplicationActionType.ACTIVATE, group.getPath());
-		        }
-		        //Deactivate and Delete User
-		        replicator.replicate(session, ReplicationActionType.DEACTIVATE, tempUser.getPath());
-		        tempUser.remove();
-		        log.info("User: " + userString + " has been deleted");
-			}catch(Exception e){
-				log.error("An error occurred while deleting user: " + userString);
-				try{
-					status = "Completed with errors";
-					Node detailedReportNode = reportNode.addNode(s, "nt:unstructured");
-					detailedReportNode.setProperty("message", e.getMessage());
-				}catch(Exception e1){
-					log.error("Temporary User Deleter - An exception occurred while creating error node");
-					e1.printStackTrace();
+				if (dateNode.hasNode("report")) {
+					reportNode = dateNode.getNode("report");
+				} else {
+					reportNode = dateNode.addNode("report", "nt:unstructured");
 				}
+			}catch(Exception e){
 				e.printStackTrace();
 			}
-		}
-		
-		try{
-			reportNode.setProperty("status", status);
-			session.save();
-		}catch(Exception e){
+
+			for (String s : users) {
+				try{
+					userString = s;
+
+					UserManager userManager = ((JackrabbitSession) session).getUserManager();
+					User tempUser = (User) userManager.getAuthorizable(userString);
+					Iterator<Group> tempUserGroups = tempUser.memberOf();
+					Group group;
+					// Remove user from all its groups
+					while (tempUserGroups.hasNext()) {
+						group = tempUserGroups.next();
+						group.removeMember(tempUser);
+						replicator.replicate(session, ReplicationActionType.ACTIVATE, group.getPath());
+					}
+					// Deactivate and Delete User
+					replicator.replicate(session, ReplicationActionType.DEACTIVATE, tempUser.getPath());
+					tempUser.remove();
+					log.info("User: " + userString + " has been deleted");
+				} catch (Exception e) {
+					log.error("An error occurred while deleting user: " + userString);
+					try {
+						status = "Completed with errors";
+						Node detailedReportNode = reportNode.addNode(s, "nt:unstructured");
+						detailedReportNode.setProperty("message", e.getMessage());
+					} catch (Exception e1) {
+						log.error("Temporary User Deleter - An exception occurred while creating error node");
+						e1.printStackTrace();
+					}
+					e.printStackTrace();
+				}
+			}
+
+			try {
+				reportNode.setProperty("status", status);
+				session.save();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (LoginException e) {
 			e.printStackTrace();
+		} finally {
+			// Close resource resolver
+			try {
+				rr.close();
+			} catch (Exception e) {
+				log.error("error while closing resource resolver: ", e);
+			}
 		}
-		
 	}
 	
 	private boolean isPublisher() {
@@ -177,7 +181,7 @@ public class TemporaryUserDeleterImpl implements Runnable, TemporaryUserDeleter{
 		return false;
 	}
 	
-	private Resource getDateRes(Resource r){
+	private Resource getDateRes(Resource r, ResourceResolver rr) {
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String dateString = sdf.format(today);
@@ -205,7 +209,6 @@ public class TemporaryUserDeleterImpl implements Runnable, TemporaryUserDeleter{
 	
 	@Deactivate
 	private void deactivate(ComponentContext componentContext) {
-		rr.close();
 		log.info("Temporary User Deletion Service Deactivated.");
 	}
 	

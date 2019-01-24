@@ -61,11 +61,11 @@ public class VtkScaffoldingDataServlet extends SlingAllMethodsServlet {
 			 
 			String finalJson = DATA_ROOT;
 			 
-			
+			ResourceResolver resourceResolver = null;
 			try {
 				Map<String, Object> serviceParams = new HashMap<String, Object>();
 				serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-				ResourceResolver resourceResolver = resolverFactory.getServiceResourceResolver(serviceParams);
+				resourceResolver = resolverFactory.getServiceResourceResolver(serviceParams);
 				Resource baseResources = resourceResolver.getResource( yearPlanPath);
 				
 				if ( baseResources == null  ){
@@ -108,7 +108,7 @@ public class VtkScaffoldingDataServlet extends SlingAllMethodsServlet {
 				e.printStackTrace();
 			} finally {
 				try {
-
+					resourceResolver.close();
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}

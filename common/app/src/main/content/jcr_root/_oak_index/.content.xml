@@ -5,7 +5,8 @@
     <GSTag
         jcr:mixinTypes="[cq:ReplicationStatus]"
         jcr:primaryType="oak:QueryIndexDefinition"
-        async="async"
+        async="async" 
+        costPerEntry="{Double}0.28" 
         compatVersion="{Long}2"
         evaluatePathRestrictions="{Boolean}true"
         excludedPaths="[/var,/etc/replication,/etc/workflow/instances,/jcr:system,/content,/apps]"
