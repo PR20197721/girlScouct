@@ -371,10 +371,10 @@
                 if ("plan".equals(activeTab) && troop.getYearPlan() != null  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
 						<% if(troop!=null && troop.getSfTroopAge()!=null){ %>
 						<li class="second-type"><a href="#" onclick="newLocCal()"
-							title="Meeting Dates and Location"><i class="icon-calendar"></i> Manage Calendar</a></li>
+							title="Manage Calendar"><i class="icon-calendar"></i> Manage Calendar</a></li>
 						<li class="second-type"><a href="#"
 							onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)"
-							title="Add Meeting"><i class="icon-search-magnifying-glass"></i> Add Badge / Journey</a></li>
+							title="Add Badge / Journey"><i class="icon-search-magnifying-glass"></i> Add Badge / Journey</a></li>
 						<% } %>
 						<li class="second-type"><a href="#" onclick="newActivity()" title="Add Activity"> <i class="icon-flag"></i> Add
 								Activity</a></li>
