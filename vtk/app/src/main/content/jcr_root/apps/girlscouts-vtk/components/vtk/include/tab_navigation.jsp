@@ -262,7 +262,7 @@
 	                  Activity activity = (Activity)planView.getYearPlanComponent();
 	                  
 					%>
-						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html">VIEW YEAR PLAN</a></li>
+						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html" title="View Year Plan">VIEW YEAR PLAN</a></li>
 					<%
 
 					if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
@@ -287,7 +287,7 @@
 							if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
 								Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
 								%>
-									<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html">VIEW YEAR PLAN</a></li>
+									<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html" title="View Year Plan">VIEW YEAR PLAN</a></li>
 								<%
 								if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) && meetingPath != null && meetingPath != ""  ) {
 									String meetingDeleteFunctionName = meetingUtil.canDeleteMeeting(planView, planView.getMeeting(), user, troop) ? "rmMeetingWithConf" : "rmMeetingWithConfBlocked";
@@ -295,7 +295,7 @@
 
 										<li id="replaceMeetingSmall"></li>
 										<li id="rmMeetingSmall">
-											<a href="#" onclick="<%=meetingDeleteFunctionName %>( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
+											<a href="#" title="Delete Meeting" onclick="<%=meetingDeleteFunctionName %>( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
 										</li>
 									<%
 								}
@@ -390,7 +390,7 @@
                   pageContext.setAttribute("YearPlanComponent", "ACTIVITY");
                 	Activity activity = (Activity)planView.getYearPlanComponent();
                 	%>
-						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html"><i class="icon-layout-list"></i>VIEW YEAR PLAN</a></li>
+						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html" title="View Year Plan"><i class="icon-layout-list"></i>VIEW YEAR PLAN</a></li>
 					<%
 					if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
 							<li><a data-reveal-id="modal_popup_activity"
@@ -417,7 +417,7 @@
 				try {
 					if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
 						%>
-						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html"><i class="icon-layout-list"></i>VIEW YEAR PLAN</a></li>
+						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html" title="View Year Plan"><i class="icon-layout-list"></i>VIEW YEAR PLAN</a></li>
 						<%
 						Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
 						if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) && meetingPath != null && meetingPath != ""  ) {
@@ -425,7 +425,7 @@
 						%>
 						<li id="replaceMeeting"></li>
 						<li id="rmMeeting">
-							<a href="#" onclick="<%=meetingDeleteFunctionName %>( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
+							<a href="#" title="Delete Meeting" onclick="<%=meetingDeleteFunctionName %>( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
 						</li>
 						<%
 						}
