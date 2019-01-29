@@ -87,7 +87,7 @@ import com.day.cq.mailer.MessageGatewayService;
 @Component
 @Service(value = TroopDAO.class)
 public class TroopDAOImpl implements TroopDAO {
-	private final Logger log = LoggerFactory.getLogger("vtk");
+	private final Logger log = LoggerFactory.getLogger(TroopDAOImpl.class);
 	@Reference
 	private SessionFactory sessionFactory;
 
@@ -144,10 +144,8 @@ mySession = rr.adaptTo(Session.class);
 					mapper);
 			ocm.refresh(true);
 			
-System.err.println("Alex: "+ VtkUtil.getYearPlanBase(user, troop)
-+ councilId + "/troops/" + troopId);			
-			troop = (Troop) ocm.getObject(VtkUtil.getYearPlanBase(user, troop)
-					+ councilId + "/troops/" + troopId);
+			log.debug("Loading troop: "+ VtkUtil.getYearPlanBase(user, troop) + councilId + "/troops/" + troopId);			
+			troop = (Troop) ocm.getObject(VtkUtil.getYearPlanBase(user, troop) + councilId + "/troops/" + troopId);
 
 			if (troop != null)
 				troop.setRetrieveTime(new java.util.Date());

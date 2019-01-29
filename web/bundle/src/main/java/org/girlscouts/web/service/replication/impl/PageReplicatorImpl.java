@@ -18,8 +18,8 @@ import javax.mail.MessagingException;
 import org.girlscouts.common.components.GSEmailAttachment;
 import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.web.components.PageActivationReporter;
-import org.girlscouts.web.components.PageReplicationUtil;
-import org.girlscouts.web.constants.PageReplicationConstants;
+import org.girlscouts.common.util.PageReplicationUtil;
+import org.girlscouts.common.constants.PageReplicationConstants;
 import org.girlscouts.web.councilupdate.CacheThread;
 import org.girlscouts.web.service.replication.PageReplicator;
 import org.osgi.service.component.ComponentContext;
@@ -138,9 +138,11 @@ public class PageReplicatorImpl
 		} catch (LoginException e) {
 			log.error("Girlscouts Page Replicator encountered error: ", e);
 		} finally {
-			try {
-				rr.close();
-			} catch (Exception e) {
+			if(rr != null){
+				try {
+					rr.close();
+				} catch (Exception e) {
+				}
 			}
 		}
 		log.error("Finished PageReplicatorImpl");

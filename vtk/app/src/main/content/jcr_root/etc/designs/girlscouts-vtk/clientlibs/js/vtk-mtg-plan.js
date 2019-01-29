@@ -5981,7 +5981,10 @@ var Actions;
     }
     function reorderActivities(array) {
         var last = 0;
-        var time = new Date(store_1.default.getState().helper.currentDate);
+
+        //Ensure that agenda activity timezone is local to server (New York)
+        var nyTime = new Date(store_1.default.getState().helper.currentDate).toLocaleString("en-US", {timeZone: "America/New_York"});
+        var time = new Date(nyTime);
         var currenTime = time.getHours() * 60 + time.getMinutes();
         return array.map(function (_item, _index) {
             _item['__counter__'] = helper_1.HELPER.FORMAT.convertMinsToHrsMins(last + currenTime);
@@ -6069,7 +6072,10 @@ var Actions;
                 return (_activities.length) ? _activities[0].__show_sub_activities__ : false;
             };
             var last = 0;
-            var time = new Date(response.data.yearPlan.helper.currentDate);
+
+            //Ensure that agenda activity timezone is local to server (New York)
+            var nyTime = new Date(response.data.yearPlan.helper.currentDate).toLocaleString("en-US", {timeZone: "America/New_York"});
+            var time = new Date(nyTime);
             var currenTime = time.getHours() * 60 + time.getMinutes();
             var data = {
                 meeting: response.data.yearPlan,
@@ -6129,7 +6135,10 @@ var Actions;
                         response = _a.sent();
                         console.log(response);
                         last_1 = 0;
-                        time = new Date(response[0].data.yearPlan.helper.currentDate);
+
+                        //Ensure that timezone is local to the server(New York)
+                        var nyTime = new Date(response[0].data.yearPlan.helper.currentDate).toLocaleString("en-US", {timeZone: "America/New_York"});
+                        time = new Date(nyTime);
                         currenTime_1 = time.getHours() * 60 + time.getMinutes();
                         user_variable = __assign({}, document.getElementById('data-log').dataset);
                         meetingId = response[0].data.yearPlan.meetingEvents[0].meetingInfo.id;

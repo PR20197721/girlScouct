@@ -79,6 +79,7 @@
     background: transparent;
     .row {
       background: #fff;
+      list-style: none;
       &.content {
         padding-top: 20px;
       }
@@ -806,7 +807,15 @@
       }
     }//content
   }//end modals
+  #modal_view_sent_emails{
+      .scroll{
+        height:80vh;
+    }
+  }
   #modal-meeting-reminder {
+    .scroll{
+        height:80vh;
+    }
     h6 {
       font-size: 14px;
       font-weight: 600;

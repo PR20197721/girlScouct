@@ -119,9 +119,32 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 
 	String formatedStartDateStr = startDateStr + ", " +startTimeStr;
 	String formattedRegOpenDateStr = "";
-	if(!"".equals(regOpenDateStr) && !"".equals(regOpenTimeStr)){
-		formattedRegOpenDateStr = regOpenDateStr + ", " + regOpenTimeStr;
+
+	Node dataNode = currentPage.adaptTo(Node.class);
+	try{
+        if(dataNode.hasNode("jcr:content")){
+            dataNode = dataNode.getNode("jcr:content");
+            if(dataNode.hasNode("data")){
+                dataNode = dataNode.getNode("data");
+            }
+        }
+
+	} catch(Exception e){
+	    e.printStackTrace();
 	}
+	String regDisplay = "false";
+    if(dataNode.hasProperty("regDisplay")){
+        regDisplay = dataNode.getProperty("regDisplay").getString();
+    }
+
+
+	if(!"".equals(regOpenDateStr) && !"".equals(regOpenTimeStr)){
+        if("true".equals(regDisplay)){
+    	    formattedRegOpenDateStr = regOpenDateStr;
+    	}else{
+    	    formattedRegOpenDateStr = regOpenDateStr + ", " + regOpenTimeStr;
+    	}
+    }
 
 	// Member type true means it's members only. False means it's public. This was done because salesforce is currently sending us boolean data,
 	// but there's a possibility that more member types will be added in the future, and using strings means less of a transition when that happens
@@ -179,9 +202,18 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		}
 		boolean regSameDay = regOpenDate.year() == regCloseDate.year() && regOpenDate.dayOfYear() == regCloseDate.dayOfYear();
 		if(!regSameDay){
-			formattedRegCloseDateStr = " - " + regCloseDateStr + ", " + regCloseTimeStr;
+		    if("true".equals(regDisplay)){
+		        formattedRegCloseDateStr = " - " + regCloseDateStr;
+		    } else{
+		        formattedRegCloseDateStr = " - " + regCloseDateStr + ", " + regCloseTimeStr;
+		    }
+
 		}else{
-			formattedRegCloseDateStr = " - " + regCloseTimeStr;
+		     if("true".equals(regDisplay)){
+                formattedRegCloseDateStr = " - " + regCloseDateStr;
+             } else{
+			    formattedRegCloseDateStr = " - " + regCloseTimeStr;
+			 }
 		}
 	}
 	

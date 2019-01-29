@@ -15,7 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SlingServlet(
-    paths = {"/bin/vtk-data"}
+		label = "Girl Scouts VTK Data Servlet", 
+		description = "Girl Scouts VTK Data Servlet",
+		paths = {"/bin/vtk-data"} 
 )
 public class VTKDataServlet extends SlingSafeMethodsServlet {
     private static final long serialVersionUID = -6183598654546549731L;
