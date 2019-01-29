@@ -3098,9 +3098,7 @@ public Note getNote(User user, Troop troop, String nid)
 	try {
 		rr = sessionFactory.getResourceResolver();
 		session = rr.adaptTo(Session.class);
-		javax.jcr.query.QueryManager qm = session.getWorkspace()
-				.getQueryManager();
-		//String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note' and isdescendantnode( '"+ troop.getYearPlan().getPath() +"%/notes/"+nid+"')";
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		String sql = "select note.message, note.createTime, note.createdByUserId, note.createdByUserName, note.refId, note.uid from [nt:base] as note where ocm_classname='org.girlscouts.vtk.models.Note' and   ISDESCENDANTNODE(["+troop.getYearPlan().getPath()+"]) and note.[uid] = '"+nid+"'";
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 		QueryResult result = q.execute();
@@ -3152,9 +3150,7 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 	try {
 		rr = sessionFactory.getResourceResolver();
 		session = rr.adaptTo(Session.class);
-		javax.jcr.query.QueryManager qm = session.getWorkspace()
-				.getQueryManager();
-		//String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note'  and isdescendantnode( '"+ troop.getYearPlan().getPath() +"/meetingEvents/"+ refId +"%')";
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		String sql = "select note.message, note.createTime, note.createdByUserId, note.createdByUserName, note.refId, note.uid from [nt:base] as note where ocm_classname='org.girlscouts.vtk.models.Note' and   ISDESCENDANTNODE(["+ troop.getYearPlan().getPath() +"/meetingEvents/"+ refId +"]) ";
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 		QueryResult result = q.execute();
