@@ -1049,7 +1049,7 @@ function replaceMeetingHref(mPath, mDate) {
     var replaceMeeting = "replaceMeeting";
     var replaceMeetingSmall = "replaceMeetingSmall";
 
-    var replaceMeetingString =  "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "&isReplaceMeeting=true', false, null, true)\">replace this meeting</a>"
+    var replaceMeetingString =  "<a href=\"#\" title=\"Replace This Meeting\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "&isReplaceMeeting=true', false, null, true)\">replace this meeting</a>"
     
     function putReplaceMeeting(element,htmlString) { 
        var _element = element;
