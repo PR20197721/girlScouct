@@ -266,19 +266,19 @@
 					<%
 
 					if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
-						<li><a href="#" onclick="doEditActivity('editCustActiv')">edit
+						<li><a href="#" title="Edit Actvitiy" onclick="doEditActivity('editCustActiv')">edit
 							activity</a></li>
 					<% }
 	                  if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) &&
 	                  activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-							<li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register
+							<li><a title="Register for this Event" href="<%=activity.getRegisterUrl()%>" target="_blank">Register
 									for this event</a></li>
 							<%
 	                  }
 	
 	                  if(VtkUtil.hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
 	                        %><li><a
-								href="javascript:rmCustActivity12(aPath)">delete this
+								href="javascript:rmCustActi vity12(aPath)">delete this
 									activity</a></li>
 							<%
 	                  }
@@ -394,13 +394,14 @@
 					<%
 					if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
 							<li><a data-reveal-id="modal_popup_activity"
+							    title="Edit Activity"
 								data-reveal-ajax="true"
 								href="<%=relayUrl %>/content/girlscouts-vtk/controllers/vtk.include.activity_edit_react.html?elem=<%=planView.getSearchDate().getTime()%>">Edit
 									Activity</a></li>
 							<% }
 					if (  !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) &&
 					activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-							<li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register
+							<li><a title="Register for this Event" href="<%=activity.getRegisterUrl()%>" target="_blank">Register
 									for this event</a></li>
 							<%
 					}
