@@ -278,7 +278,7 @@
 	
 	                  if(VtkUtil.hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
 	                        %><li><a
-								href="javascript:rmCustActi vity12(aPath)">delete this
+								href="javascript:rmCustActivity12(aPath)">delete this
 									activity</a></li>
 							<%
 	                  }
