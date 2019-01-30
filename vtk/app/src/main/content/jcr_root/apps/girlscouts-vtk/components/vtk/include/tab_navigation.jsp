@@ -203,18 +203,18 @@
 							<% if("plan".equals(activeTab)  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
 
 								<% if(troop!=null && troop.getSfTroopAge()!=null ){ %>
-								<li><a onclick="newLocCal()">Manage Calendar</a></li>
+								<li><a title="Manage Calendar" onclick="newLocCal()">Manage Calendar</a></li>
 								<li><a
 									onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)">Add
 										Badge / Journey</a></li>
 								<%} %>
-								<li><a onclick="newActivity()">Add Activity</a></li>
+								<li><a title="Add Activity" onclick="newActivity()">Add Activity</a></li>
 								
 								
 								<%java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
                                 if( !isParent && new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){%>
 								
-    								<li><a onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')">PAST YEARS</a></li>
+    								<li><a title="Past Years" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')">PAST YEARS</a></li>
                                 <%}%>
 								<li><a
 									onclick="self.location='/content/girlscouts-vtk/en/cal.ics'">Download
@@ -462,7 +462,7 @@
 						  %>
 								   
 								<div class="past_years">
-									<a href="javascript:void(0)" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"><i class="icon-glasses_2"></i>  Past Years </a>
+									<a title="Past Years" href="javascript:void(0)" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"><i class="icon-glasses_2"></i>  Past Years </a>
 								</div>
 								
 				
