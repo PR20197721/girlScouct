@@ -3,4 +3,4 @@
     jcr:description="Breaking News"
     jcr:primaryType="cq:Component"
     jcr:title="Breaking News"
-    componentGroup=".hidden"/>
+    componentGroup="GSUSA"/>
