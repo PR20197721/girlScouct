@@ -924,6 +924,7 @@
 	        }else if( request.getParameter("editNote") != null ){  
 	            out.println("{vtkresp:"+ meetingUtil.editNote(user, troop,request.getParameter("nid"), request.getParameter("msg") )+"}");
 	        }else if( request.getParameter("getNotes") != null ){
+	                response.setContentType("application/json");
 	                java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") ); 
 	                out.println( new ObjectMapper().writeValueAsString(notes));
 	        }else if(request.getParameter("addMeetings") != null){
