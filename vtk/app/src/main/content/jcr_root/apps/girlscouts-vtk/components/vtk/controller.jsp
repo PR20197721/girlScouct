@@ -902,9 +902,13 @@
             	note = meetingUtil.addNote(user, troop, request.getParameter("mid"), request.getParameter("message")); 
            	}catch(Exception e){
            		vtklog.error("Exception occured:",e);
-           	}
-            if( note==null) return;
-            out.println( new ObjectMapper().writeValueAsString(note));
+           	}finally{
+                if( note==null) return;
+             	java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") );
+             	Session sess = sessionFactory.getResourceResolver().adaptTo(Session.class);
+                sess.save();
+                out.println( new ObjectMapper().writeValueAsString(notes));
+             }
         }else if(request.getParameter("rmNote") != null ){
             response.setContentType("application/json");
         	vtklog.debug("rmNote");
