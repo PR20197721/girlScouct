@@ -905,7 +905,8 @@
             if( note==null) return;
             ObjectMapper mapper = new ObjectMapper();
             out.println(mapper.writeValueAsString(note));
-        }else if(request.getParameter("rmNote") != null ){  
+        }else if(request.getParameter("rmNote") != null ){
+            response.setContentType("application/json");
         	vtklog.debug("rmNote");
        	 	boolean isRm= false;
         	try{
@@ -916,7 +917,8 @@
        	 	if( !isRm ){
        		 	response.sendError(404, "Note not removed.");
        	 	}else{
-       		 	out.println("{\"vtkresp\":"+ isRm+"}");
+       		    java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") );
+                out.println( new ObjectMapper().writeValueAsString(notes));
        	 	}
 	        }else if( request.getParameter("editNote") != null ){  
 	            out.println("{vtkresp:"+ meetingUtil.editNote(user, troop,request.getParameter("nid"), request.getParameter("msg") )+"}");

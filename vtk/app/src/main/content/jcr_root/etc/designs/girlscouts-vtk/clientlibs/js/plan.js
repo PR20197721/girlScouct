@@ -1476,16 +1476,9 @@ var initNotes = (function(global, ModalVtk, $) {
 
             modal.confirm('Warning', 'Are you sure you want to delete this note?', function () {
 
-                rmNote($(e.target).parents('li').data('uid'))
-                    .done(function (response) {
-                
-                        var x = JSON.parse(response)
-                
-                        if (x) {
-                            checkQuantityNotes($('.vtk-notes_item').length)
-                            interateNotes(thisMeetingNotes.filter(function (note) { return note.uid !==  $(e.target).parents('li').data('uid')}))                      
-                        }
-
+                rmNote(globalMid, $(e.target).parents('li').data('uid'))
+                    .success(function(json) {
+                            interateNotes(json);
                     }).fail(function(err) {
                         console.log('error', err)
                     }).always(function() {
@@ -2131,7 +2124,7 @@ var initNotes = (function(global, ModalVtk, $) {
         }
     }
 
-    function rmNote(nid) {
+    function rmNote(mid,nid) {
         return ajaxConnection({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
             cache: false,
@@ -2139,6 +2132,7 @@ var initNotes = (function(global, ModalVtk, $) {
             data: {
                 rmNote: "true",
                 nid: nid,
+                mid: mid,
                 a: Date.now()
             }
         });
