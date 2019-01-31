@@ -2108,7 +2108,17 @@ var initNotes = (function(global, ModalVtk, $) {
                         $('.note-loading').hide();
                         checkQuantityNotes($('.vtk-notes_list_container').children('li').length);
 
-                        thisMeetingNotes.unshift(json)
+                        thisMeetingNotes.unshift(json);
+                        var reqs = getNotesAjax(globalMid, userLoginId);
+
+                        reqs.done(function(json) {
+                            interateNotes(json);
+
+                        })
+                        
+                        reqs.fail(function(err) {
+                            console.log(err);
+                        })
                     },
                     function(err) {
 

@@ -895,6 +895,7 @@
             troop.setPath( "/vtk"+VtkUtil.getCurrentGSYear()+"/"+troop.getSfCouncil() +"/troops/"+ troop.getSfTroopId() );
             session.putValue("VTK_troop", troop);
         }else if( request.getParameter("addNote") != null ){
+            response.setContentType("application/json");
         	vtklog.debug("addNote");
             Note note = null;
             try{ 
