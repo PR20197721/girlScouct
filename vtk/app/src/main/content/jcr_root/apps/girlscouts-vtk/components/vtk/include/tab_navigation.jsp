@@ -278,6 +278,7 @@
 	
 	                  if(VtkUtil.hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
 	                        %><li><a
+	                            title="Delete This Activity"
 								href="javascript:rmCustActivity12(aPath)">delete this
 									activity</a></li>
 							<%
@@ -408,6 +409,7 @@
 
 					if( VtkUtil.hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
 						%><li><a
+						        title="Delete This Activity"
 								href="javascript:rmCustActivity12(aPath)">delete this
 									activity</a></li>
 							<%
