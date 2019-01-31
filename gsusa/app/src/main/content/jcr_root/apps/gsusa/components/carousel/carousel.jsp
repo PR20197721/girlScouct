@@ -88,9 +88,7 @@ public  String readUrlFile(String urlString) throws Exception {
                 linksList.add(listItem);
             }
     
-        }%>
-         <div class="cq-placeholder"></div>
-         <%
+        }
 	}else{%>
         <div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>
      	<%}
@@ -239,6 +237,6 @@ public  String readUrlFile(String urlString) throws Exception {
 		</style>
 	<%
     }
-%></div><div class="cq-placeholder"></div>
+%></div>
 
 <%request.removeAttribute("source7");%>

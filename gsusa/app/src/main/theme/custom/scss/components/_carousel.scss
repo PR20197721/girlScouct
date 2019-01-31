@@ -428,7 +428,6 @@ div.carousel {
         z-index: 1001;
         margin-top: rem-calc(10);
         @media #{$medium-up} {
-            position: absolute;
             margin-top: 0;
         }
         > .join > .wrapper {
