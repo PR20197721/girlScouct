@@ -23,6 +23,12 @@
 <%@ include file="/apps/gsusa/components/global.jsp"%>
 <cq:includeClientLib categories="apps.gsusa.components.textimage" /><%
 	boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
+	final WCMMode wcmMode = WCMMode.fromRequest(request);
+	
+	String completePath = currentNode.getPath();
+	String additionalCSS = properties.get("./additionalCss", "");
+	boolean nowrap = additionalCSS.contains("nowrap") ? true : false;
+	boolean nopadding = additionalCSS.contains("nopadding") ? true : false;
 	
 	String styleImage = "";
 	String styleCaption = "";
@@ -34,7 +40,7 @@
 	String pcLeft = properties.get("./pcleft", "0");
 	String pcRight = properties.get("./pcright", "0");
 	
-	styleComponent += "padding: " + pcTop + "px " + pcRight + "px " + pcBottom + "px " + pcLeft + "px;";
+	if (!nopadding) styleComponent += "padding: " + pcTop + "px " + pcRight + "px " + pcBottom + "px " + pcLeft + "px;";	
 	
 %><div style="<%= styleComponent %>">
 <cq:includeClientLib categories="apps.gsusa.components.textimage"/><%
@@ -47,7 +53,6 @@
 
 	// Previously, image bottom was padded with <br> for whatever reason
 	// This runs once for old text image component and replaces <br> with padding that can be changed by the user
-	String runOnce = "";
 	Node node = resource.adaptTo(Node.class);
 	if (node.hasProperty("./runOnce")) {
 		//node.getProperty("runOnce").remove(); 
@@ -64,7 +69,14 @@
 		//	piBottom = "8";
 		//}
 	}
-	node.getSession().save();
+	try {
+		if (wcmMode == WCMMode.EDIT || wcmMode == WCMMode.PREVIEW) {
+			node.getSession().save();	
+		}
+	} catch(Exception e){
+		e.printStackTrace();		
+	}
+	
 		
 	String width = properties.get("./image/width", "0");
 	String caption = properties.get("./image/jcr:description", "");	
@@ -81,7 +93,6 @@
 		// newWidth expands width to accomodate for paddings
 		int newWidth = Integer.parseInt(width) + Integer.parseInt(piLeft) + Integer.parseInt(piRight);
 		styleImage += "width:" + newWidth + "px;";
-		//styleCaption += "width:" + width + "px;";
 	}
 	
     Image image = new Image(resource, "image");

@@ -23,6 +23,13 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts.components.textimage" /><%
     boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
+	final WCMMode wcmMode = WCMMode.fromRequest(request);
+
+	String completePath = currentNode.getPath();
+	String additionalCSS = properties.get("./additionalCss", "");
+	boolean nowrap = additionalCSS.contains("nowrap") ? true : false;
+	boolean nopadding = additionalCSS.contains("nopadding") ? true : false;
+	boolean inAccordion = completePath.contains("accordion") ? true : false;
 	
 	String styleImage = "";
 	String styleCaption = "";
@@ -33,8 +40,8 @@
 	String pcBottom = properties.get("./pcbottom", "0");
 	String pcLeft = properties.get("./pcleft", "0");
 	String pcRight = properties.get("./pcright", "0");
-		
-	styleComponent += "padding: " + pcTop + "px " + pcRight + "px " + pcBottom + "px " + pcLeft + "px;";
+	
+	if (!nopadding) styleComponent += "padding: " + pcTop + "px " + pcRight + "px " + pcBottom + "px " + pcLeft + "px;";	
 	
 %><div style="<%= styleComponent %>">
 <cq:includeClientLib categories="apps.girlscouts.components.textimage" /><%
@@ -45,12 +52,12 @@
 	String piLeft = properties.get("./pileft", "0");
 	String piRight = properties.get("./piright", "0");	
 	
-	String currentPath = currentPage.getPath();
-
+	String currentPath = currentPage.getPath();	
+	
 	// Previously, image bottom was padded with <br> for whatever reason
 	// This runs once for old text image component and replaces <br> with padding that can be changed by the user
-	String runOnce = "";
 	Node node = resource.adaptTo(Node.class);
+	
 	if (node.hasProperty("./runOnce")) {
 		//node.getProperty("runOnce").remove();
 	} else {
@@ -60,12 +67,26 @@
 				node.setProperty("pibottom", "24");
 				piBottom = "24";
 			} else {
-				node.setProperty("pibottom", "27"); // for councils, line height is 27
-				piBottom = "27";
+				if (nowrap) {
+					node.setProperty("pibottom", "0");
+					piBottom = "0";
+				} else if (inAccordion) { 
+					node.setProperty("pibottom", "27");
+					piBottom = "27";
+				} else {
+					node.setProperty("pibottom", "17"); // for councils, line height is 27
+					piBottom = "17";
+				}
 			}
 		}
 	}
-	node.getSession().save();
+	try {
+		if (wcmMode == WCMMode.EDIT || wcmMode == WCMMode.PREVIEW) {
+			node.getSession().save();	
+		}
+	} catch(Exception e){
+		e.printStackTrace();		
+	}
 	
 	String width = properties.get("./image/width", "0");
 	String caption = properties.get("./image/jcr:description", "");
