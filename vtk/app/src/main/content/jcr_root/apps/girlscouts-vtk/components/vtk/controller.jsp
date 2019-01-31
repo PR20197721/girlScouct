@@ -905,8 +905,6 @@
            	}finally{
                 if( note==null) return;
              	java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") );
-             	Session sess = sessionFactory.getResourceResolver().adaptTo(Session.class);
-                sess.save();
                 out.println( new ObjectMapper().writeValueAsString(notes));
              }
         }else if(request.getParameter("rmNote") != null ){
