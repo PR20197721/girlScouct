@@ -88,8 +88,13 @@ public  String readUrlFile(String urlString) throws Exception {
                 linksList.add(listItem);
             }
     
-        }
-	}
+        }%>
+         <div class="cq-placeholder"></div>
+         <%
+	}else{%>
+        <div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>
+     	<%}
+
 	String[] carouselList = new String[0];
 	if(!linksList.isEmpty()){
 		carouselList = linksList.toArray(new String[0]);
@@ -234,6 +239,6 @@ public  String readUrlFile(String urlString) throws Exception {
 		</style>
 	<%
     }
-%></div>
+%></div><div class="cq-placeholder"></div>
 
 <%request.removeAttribute("source7");%>
