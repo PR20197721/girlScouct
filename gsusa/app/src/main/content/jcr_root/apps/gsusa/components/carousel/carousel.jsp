@@ -89,7 +89,10 @@ public  String readUrlFile(String urlString) throws Exception {
             }
     
         }
-	}
+	}else{%>
+        <div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>
+     	<%}
+
 	String[] carouselList = new String[0];
 	if(!linksList.isEmpty()){
 		carouselList = linksList.toArray(new String[0]);
