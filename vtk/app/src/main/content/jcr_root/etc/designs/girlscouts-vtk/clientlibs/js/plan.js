@@ -2110,8 +2110,6 @@ var initNotes = (function(global, ModalVtk, $) {
 
                         thisMeetingNotes.unshift(json);
 
-                        interateNotes(json);
-
                     },
                     function(err) {
 

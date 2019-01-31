@@ -904,8 +904,7 @@
            		vtklog.error("Exception occured:",e);
            	}
             if( note==null) return;
-            java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") );
-            out.println( new ObjectMapper().writeValueAsString(notes));
+            out.println( new ObjectMapper().writeValueAsString(note));
         }else if(request.getParameter("rmNote") != null ){
             response.setContentType("application/json");
         	vtklog.debug("rmNote");
