@@ -1577,42 +1577,8 @@ public class MeetingUtil {
 		if (mid == null || message == null || message.trim().equals("")) {
 			return null;
 		}
-		java.util.List<Note> notes = new java.util.ArrayList<Note>();
+		java.util.List<Note> notes = getNotesByMid(  user,  troop, mid );;
 		MeetingE meeting = VtkUtil.findMeetingById(troop.getYearPlan().getMeetingEvents(), mid);
-		ResourceResolver rr= null;
-		try {
-			rr = sessionFactory.getResourceResolver();
-			Resource meetingRes = rr.resolve( meeting.getPath());
-			if(meetingRes != null){
-				Resource notesResource = meetingRes.getChild("notes");
-				if(notesResource != null){
-					Iterator<Resource> notesIt = notesResource.listChildren();
-					while(notesIt.hasNext()){
-						Resource noteItr = notesIt.next();
-						Note note = new Note();
-						ValueMap values  = noteItr.getValueMap();
-						note.setPath(noteItr.getPath());
-						note.setMessage(values.get("message", String.class));
-						note.setUid( values.get("uid", String.class));
-						note.setCreateTime( values.get("createTime", Long.class));
-						note.setCreatedByUserName(values.get("createdByUserName", String.class));
-						note.setCreatedByUserId(values.get("createdByUserId", String.class));
-						note.setRefId(values.get("refId", String.class));
-						notes.add( note );
-					}
-				}
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if( rr!=null )
-					sessionFactory.closeResourceResolver( rr );
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
 
 
 		if (notes == null)
