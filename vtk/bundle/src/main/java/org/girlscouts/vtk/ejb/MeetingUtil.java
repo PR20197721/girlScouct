@@ -2,12 +2,16 @@ package org.girlscouts.vtk.ejb;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import javax.jcr.Session;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.AssetComponentType;
@@ -1573,9 +1577,44 @@ public class MeetingUtil {
 		if (mid == null || message == null || message.trim().equals("")) {
 			return null;
 		}
+		java.util.List<Note> notes = new java.util.ArrayList<Note>();
 		MeetingE meeting = VtkUtil.findMeetingById(troop.getYearPlan().getMeetingEvents(), mid);
+		ResourceResolver rr= null;
+		try {
+			rr = sessionFactory.getResourceResolver();
+			Resource meetingRes = rr.resolve( meeting.getPath());
+			if(meetingRes != null){
+				Resource notesResource = meetingRes.getChild("notes");
+				if(notesResource != null){
+					Iterator<Resource> notesIt = notesResource.listChildren();
+					while(notesIt.hasNext()){
+						Resource noteItr = notesIt.next();
+						Note note = new Note();
+						ValueMap values  = noteItr.getValueMap();
+						note.setPath(noteItr.getPath());
+						note.setMessage(values.get("message", String.class));
+						note.setUid( values.get("uid", String.class));
+						note.setCreateTime( values.get("createTime", Long.class));
+						note.setCreatedByUserName(values.get("createdByUserName", String.class));
+						note.setCreatedByUserId(values.get("createdByUserId", String.class));
+						note.setRefId(values.get("refId", String.class));
+						notes.add( note );
+					}
+				}
+			}
 
-		java.util.List<Note> notes = meeting.getNotes();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if( rr!=null )
+					sessionFactory.closeResourceResolver( rr );
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+
 		if (notes == null)
 			notes = new java.util.ArrayList<Note>();
 		Note note = new Note();
