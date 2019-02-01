@@ -2109,7 +2109,6 @@ var initNotes = (function(global, ModalVtk, $) {
                         checkQuantityNotes($('.vtk-notes_list_container').children('li').length);
 
                         thisMeetingNotes.unshift(json);
-
                         interateNotes(json);
 
                     },
