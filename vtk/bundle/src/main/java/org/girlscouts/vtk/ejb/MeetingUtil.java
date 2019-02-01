@@ -1573,7 +1573,7 @@ public class MeetingUtil {
 		return isUpdated;
 	}
 	*/
-	public Note addNote(User user, Troop troop, String mid, String message) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
+	public java.util.List <org.girlscouts.vtk.models.Note> addNote(User user, Troop troop, String mid, String message) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
 		if (mid == null || message == null || message.trim().equals("")) {
 			return null;
 		}
@@ -1595,7 +1595,7 @@ public class MeetingUtil {
 		meeting.setNotes(notes);
 
 		troopUtil.updateTroop(user, troop);
-		return note;
+		return notes;
 
 	}
 	
