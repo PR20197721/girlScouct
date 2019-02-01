@@ -2,12 +2,16 @@ package org.girlscouts.vtk.ejb;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import javax.jcr.Session;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.AssetComponentType;
@@ -1569,13 +1573,14 @@ public class MeetingUtil {
 		return isUpdated;
 	}
 	*/
-	public Note addNote(User user, Troop troop, String mid, String message) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
+	public List <Note> addNote(User user, Troop troop, String mid, String message) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
 		if (mid == null || message == null || message.trim().equals("")) {
 			return null;
 		}
+		List<Note> notes = getNotesByMid(  user,  troop, mid );;
 		MeetingE meeting = VtkUtil.findMeetingById(troop.getYearPlan().getMeetingEvents(), mid);
 
-		java.util.List<Note> notes = meeting.getNotes();
+
 		if (notes == null)
 			notes = new java.util.ArrayList<Note>();
 		Note note = new Note();
@@ -1590,7 +1595,7 @@ public class MeetingUtil {
 		meeting.setNotes(notes);
 
 		troopUtil.updateTroop(user, troop);
-		return note;
+		return notes;
 
 	}
 	
