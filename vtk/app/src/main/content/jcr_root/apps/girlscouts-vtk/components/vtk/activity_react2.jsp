@@ -21,7 +21,17 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
       var meetingStartDate="";
       var meetingEndDate="";
       var activityHelper=null;
-      var sentEmails=0;
+      var sentEmails;
+      if($("#email-list").length > 0){
+        sentEmails = $("#email-list").children().length;
+      } else if($(".browseSentEmails").children().length > 1){
+        sentEmails = 1;
+      } else{
+        sentEmails = 0;
+      }
+
+
+
 
 
 
