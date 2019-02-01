@@ -1573,11 +1573,11 @@ public class MeetingUtil {
 		return isUpdated;
 	}
 	*/
-	public java.util.List <org.girlscouts.vtk.models.Note> addNote(User user, Troop troop, String mid, String message) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
+	public List <Note> addNote(User user, Troop troop, String mid, String message) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
 		if (mid == null || message == null || message.trim().equals("")) {
 			return null;
 		}
-		java.util.List<Note> notes = getNotesByMid(  user,  troop, mid );;
+		List<Note> notes = getNotesByMid(  user,  troop, mid );;
 		MeetingE meeting = VtkUtil.findMeetingById(troop.getYearPlan().getMeetingEvents(), mid);
 
 
