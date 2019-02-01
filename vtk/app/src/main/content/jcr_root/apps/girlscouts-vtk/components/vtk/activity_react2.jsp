@@ -30,11 +30,6 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
         sentEmails = 0;
       }
 
-
-
-
-
-
       var ActivityCommunication = React.createClass({displayName: "Activity communication",
           render: function() {
               <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID) ){ %>
