@@ -85,7 +85,7 @@ public String getText(Node nNode){
 				 		newsPage.put("title", qResult.getTitle());
 				 		newsPage.put("date", getDate(resultNode));
 				 		newsPage.put("path", resultNode.getPath());
-				 		newsPage.put("url", newsPath);
+				 		newsPage.put("url", newsPath+".html");
 				 		newsPage.put("externalUrl", getExternalUrl(resultNode));
 				 		newsPage.put("text", getText(resultNode));				 		
 				 		news.add(newsPage);
