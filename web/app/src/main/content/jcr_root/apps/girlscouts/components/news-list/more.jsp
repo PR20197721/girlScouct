@@ -79,11 +79,13 @@ public String getText(Node nNode){
 			 		offset++;
 			 		try{
 				 		Node resultNode = qResult.getResultNode();
+				 		String newsPath = resultNode.getPath();
+				 		try{ newsPath = resourceResolver.map(newsPath);}catch(Exception e){}
 				 		JSONObject newsPage = new JSONObject();
 				 		newsPage.put("title", qResult.getTitle());
 				 		newsPage.put("date", getDate(resultNode));
 				 		newsPage.put("path", resultNode.getPath());
-				 		newsPage.put("url", resultNode.getPath()+".html");
+				 		newsPage.put("url", newsPath+".html");
 				 		newsPage.put("externalUrl", getExternalUrl(resultNode));
 				 		newsPage.put("text", getText(resultNode));				 		
 				 		news.add(newsPage);
