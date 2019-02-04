@@ -1,6 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%
-	String bannertype = properties.get("bannertype", "");	
+	String bannertype = properties.get("bannertype", "None");
 
 	if(!bannertype.equals("None")) {
 		if (bannertype.equals("1")) bannertype = "";

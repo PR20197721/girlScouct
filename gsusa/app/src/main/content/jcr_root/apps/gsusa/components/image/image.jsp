@@ -76,7 +76,7 @@
 		   	} else { %>
 				<%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
 				<%
-				image.draw(out);
+
 			}
 	  	}catch (Exception e){
 	  		
