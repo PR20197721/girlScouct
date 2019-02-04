@@ -410,6 +410,9 @@
 					_meeting.setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
 					boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( _meeting.getMeetingInfo() );
 					_meeting.setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
+					if(_meeting.getNotes() == null){
+                        _meeting.setNotes(new LinkedList<Note>());
+                    }
 					meetings.add(_meeting);
 					troop.getYearPlan().setMeetingEvents(meetings);
 					Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
