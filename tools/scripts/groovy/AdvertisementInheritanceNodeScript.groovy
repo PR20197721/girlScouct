@@ -25,7 +25,6 @@ while(nodeItr.hasNext()){
                 ad.setProperty("customized","false");
                 ad.addMixin("cq:LiveRelationship");
                 println(ad.getPath());
-                //save()
                 nodesModified++
             }
         }catch(Exception e){
