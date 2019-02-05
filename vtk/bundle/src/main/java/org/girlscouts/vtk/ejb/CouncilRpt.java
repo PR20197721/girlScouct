@@ -1,52 +1,42 @@
 package org.girlscouts.vtk.ejb;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
-import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.jcr.Node;
 import javax.jcr.Session;
-import javax.mail.Message;
-import javax.mail.Multipart;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 import org.apache.commons.mail.ByteArrayDataSource;
-import org.apache.commons.mail.EmailAttachment;
-import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.CouncilRptBean;
 import org.girlscouts.vtk.utils.VtkUtil;
-import com.day.cq.mailer.MessageGateway;
-import com.day.cq.mailer.MessageGatewayService;
-import org.apache.sling.settings.SlingSettingsService;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component
-@Service(value = CouncilRpt.class)
+import com.day.cq.mailer.MessageGateway;
+import com.day.cq.mailer.MessageGatewayService;
+
+
+@Component(service = { CouncilRpt.class}, immediate = true, name = "org.girlscouts.vtk.ejb.CouncilRpt")
+@Designate(ocd = CouncilRptConfiguration.class)
 public class CouncilRpt {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
+	private CouncilRptConfiguration config;
+	
 	@Reference
 	private SessionFactory sessionFactory;
 
@@ -402,9 +392,10 @@ public class CouncilRpt {
 			
 			// create the mail
 			MultiPartEmail email = new MultiPartEmail();
-			
-			email.addTo("Dimitry.Nemirovsky@ey.com", "BOSS");
-			email.setFrom("alex.yakobovich@ey.com", "VTK");
+			for(String address:config.toEmailAddresses()){
+				email.addTo(address);
+			}			
+			email.setFrom(config.fromEmailAddress());
 			
 			email.setSubject(subject +" (ENV:"+slingSettings.getRunModes()+")");
 			email.setMsg("Please find attached GS Report attached as of "+ new java.util.Date());
