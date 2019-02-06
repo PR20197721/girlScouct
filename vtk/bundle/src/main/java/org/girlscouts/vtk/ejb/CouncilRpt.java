@@ -1,52 +1,42 @@
 package org.girlscouts.vtk.ejb;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
-import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.jcr.Node;
 import javax.jcr.Session;
-import javax.mail.Message;
-import javax.mail.Multipart;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 import org.apache.commons.mail.ByteArrayDataSource;
-import org.apache.commons.mail.EmailAttachment;
-import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.CouncilRptBean;
 import org.girlscouts.vtk.utils.VtkUtil;
-import com.day.cq.mailer.MessageGateway;
-import com.day.cq.mailer.MessageGatewayService;
-import org.apache.sling.settings.SlingSettingsService;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component
-@Service(value = CouncilRpt.class)
+import com.day.cq.mailer.MessageGateway;
+import com.day.cq.mailer.MessageGatewayService;
+
+
+@Component(service = { CouncilRpt.class}, immediate = true, name = "org.girlscouts.vtk.ejb.CouncilRpt")
+@Designate(ocd = CouncilRptConfiguration.class)
 public class CouncilRpt {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
+	private CouncilRptConfiguration config;
+	
 	@Reference
 	private SessionFactory sessionFactory;
 
@@ -60,7 +50,9 @@ public class CouncilRpt {
 	private SlingSettingsService slingSettings;
 	
 	@Activate
-	void activate() {
+	void activate(CouncilRptConfiguration config) {
+		logger.info("Girl Scouts VTK Council report generator activated.");
+		this.config = config;
 	}
 
 	public java.util.List<String> getActivityRpt(String sfCouncil) {
@@ -97,7 +89,7 @@ public class CouncilRpt {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error occured:",e);
 		} finally {
 			try {
 				if( rr!=null )
@@ -105,7 +97,7 @@ public class CouncilRpt {
 				if (s != null)
 					s.logout();
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				logger.error("Error occured:",ex);
 			}
 		}
 		return activities;
@@ -143,14 +135,17 @@ public class CouncilRpt {
 				try {
 					isAltered = r.getValue("altered").getBoolean();
 				} catch (Exception e) {
+					logger.error("Error occured:",e);
 				}
 				try {
 					yearPlanName = r.getValue("name").getString();
 				} catch (Exception e) {
+					logger.error("Error occured:",e);
 				}
 				try {
 					libPath = r.getValue("refId").getString();
 				} catch (Exception e) {
+					logger.error("Error occured:",e);
 				}
 
 				String troopName = "";
@@ -171,7 +166,7 @@ public class CouncilRpt {
 						libPath = troop.getProperty("sfTroopAge").getString()
 								.toLowerCase().substring(2);
 					} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("Error occured:",e);
 					}
 
 				}
@@ -201,7 +196,7 @@ public class CouncilRpt {
 				try {
 					crb.setTroopId(path.split("/")[4]);
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error("Error occured:",e);
 				}
 
 				if (activities.contains(path))
@@ -209,7 +204,7 @@ public class CouncilRpt {
 				container.add(crb);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error occured:",e);
 		} finally {
 			try {
 				if( rr!=null )
@@ -217,7 +212,7 @@ public class CouncilRpt {
 				if (session != null)
 					session.logout();
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				logger.error("Error occured:",ex);
 			}
 		}
 		return container;
@@ -308,7 +303,7 @@ public class CouncilRpt {
 				container.put(troopId, troopName);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error occured:",e);
 		} finally {
 			try {
 				if( rr!=null )
@@ -317,7 +312,7 @@ public class CouncilRpt {
 					s.logout();
 
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				logger.error("Error occured:",ex);
 			}
 		}
 		return container;
@@ -379,7 +374,7 @@ public class CouncilRpt {
 			
             
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error occured:",e);
 		} finally {
 			try {
 				if( rr!=null )
@@ -387,7 +382,7 @@ public class CouncilRpt {
 				if (session != null)
 					session.logout();
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				logger.error("Error occured:",ex);
 			}
 		}
 		return rptId;
@@ -402,9 +397,10 @@ public class CouncilRpt {
 			
 			// create the mail
 			MultiPartEmail email = new MultiPartEmail();
-			
-			email.addTo("Dimitry.Nemirovsky@ey.com", "BOSS");
-			email.setFrom("alex.yakobovich@ey.com", "VTK");
+			for(String address:config.toEmailAddresses()){
+				email.addTo(address);
+			}			
+			email.setFrom(config.fromEmailAddress());
 			
 			email.setSubject(subject +" (ENV:"+slingSettings.getRunModes()+")");
 			email.setMsg("Please find attached GS Report attached as of "+ new java.util.Date());

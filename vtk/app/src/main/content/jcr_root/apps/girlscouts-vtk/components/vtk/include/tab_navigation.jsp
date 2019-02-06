@@ -203,18 +203,18 @@
 							<% if("plan".equals(activeTab)  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
 
 								<% if(troop!=null && troop.getSfTroopAge()!=null ){ %>
-								<li><a onclick="newLocCal()">Manage Calendar</a></li>
+								<li><a title="Manage Calendar" onclick="newLocCal()">Manage Calendar</a></li>
 								<li><a
 									onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)">Add
 										Badge / Journey</a></li>
 								<%} %>
-								<li><a onclick="newActivity()">Add Activity</a></li>
+								<li><a title="Add Activity" onclick="newActivity()">Add Activity</a></li>
 								
 								
 								<%java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
                                 if( !isParent && new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){%>
 								
-    								<li><a onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')">PAST YEARS</a></li>
+    								<li><a title="Past Years" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')">PAST YEARS</a></li>
                                 <%}%>
 								<li><a
 									onclick="self.location='/content/girlscouts-vtk/en/cal.ics'">Download
@@ -262,22 +262,23 @@
 	                  Activity activity = (Activity)planView.getYearPlanComponent();
 	                  
 					%>
-						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html">VIEW YEAR PLAN</a></li>
+						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html" title="View Year Plan">VIEW YEAR PLAN</a></li>
 					<%
 
 					if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
-						<li><a href="#" onclick="doEditActivity('editCustActiv')">edit
+						<li><a href="#" title="Edit Actvitiy" onclick="doEditActivity('editCustActiv')">edit
 							activity</a></li>
 					<% }
 	                  if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) &&
 	                  activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-							<li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register
+							<li><a title="Register for this Event" href="<%=activity.getRegisterUrl()%>" target="_blank">Register
 									for this event</a></li>
 							<%
 	                  }
 	
 	                  if(VtkUtil.hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
 	                        %><li><a
+	                            title="Delete This Activity"
 								href="javascript:rmCustActivity12(aPath)">delete this
 									activity</a></li>
 							<%
@@ -287,7 +288,7 @@
 							if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
 								Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
 								%>
-									<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html">VIEW YEAR PLAN</a></li>
+									<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html" title="View Year Plan">VIEW YEAR PLAN</a></li>
 								<%
 								if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) && meetingPath != null && meetingPath != ""  ) {
 									String meetingDeleteFunctionName = meetingUtil.canDeleteMeeting(planView, planView.getMeeting(), user, troop) ? "rmMeetingWithConf" : "rmMeetingWithConfBlocked";
@@ -295,7 +296,7 @@
 
 										<li id="replaceMeetingSmall"></li>
 										<li id="rmMeetingSmall">
-											<a href="#" onclick="<%=meetingDeleteFunctionName %>( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
+											<a href="#" title="Delete Meeting" onclick="<%=meetingDeleteFunctionName %>( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
 										</li>
 									<%
 								}
@@ -371,10 +372,10 @@
                 if ("plan".equals(activeTab) && troop.getYearPlan() != null  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
 						<% if(troop!=null && troop.getSfTroopAge()!=null){ %>
 						<li class="second-type"><a href="#" onclick="newLocCal()"
-							title="Meeting Dates and Location"><i class="icon-calendar"></i> Manage Calendar</a></li>
+							title="Manage Calendar"><i class="icon-calendar"></i> Manage Calendar</a></li>
 						<li class="second-type"><a href="#"
 							onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)"
-							title="Add Meeting"><i class="icon-search-magnifying-glass"></i> Add Badge / Journey</a></li>
+							title="Add Badge / Journey"><i class="icon-search-magnifying-glass"></i> Add Badge / Journey</a></li>
 						<% } %>
 						<li class="second-type"><a href="#" onclick="newActivity()" title="Add Activity"> <i class="icon-flag"></i> Add
 								Activity</a></li>
@@ -390,23 +391,25 @@
                   pageContext.setAttribute("YearPlanComponent", "ACTIVITY");
                 	Activity activity = (Activity)planView.getYearPlanComponent();
                 	%>
-						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html"><i class="icon-layout-list"></i>VIEW YEAR PLAN</a></li>
+						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html" title="View Year Plan"><i class="icon-layout-list"></i>VIEW YEAR PLAN</a></li>
 					<%
 					if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
 							<li><a data-reveal-id="modal_popup_activity"
+							    title="Edit Activity"
 								data-reveal-ajax="true"
 								href="<%=relayUrl %>/content/girlscouts-vtk/controllers/vtk.include.activity_edit_react.html?elem=<%=planView.getSearchDate().getTime()%>">Edit
 									Activity</a></li>
 							<% }
 					if (  !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) &&
 					activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-							<li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register
+							<li><a title="Register for this Event" href="<%=activity.getRegisterUrl()%>" target="_blank">Register
 									for this event</a></li>
 							<%
 					}
 
 					if( VtkUtil.hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
 						%><li><a
+						        title="Delete This Activity"
 								href="javascript:rmCustActivity12(aPath)">delete this
 									activity</a></li>
 							<%
@@ -417,7 +420,7 @@
 				try {
 					if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
 						%>
-						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html"><i class="icon-layout-list"></i>VIEW YEAR PLAN</a></li>
+						<li id="linkToYplan"><a href="/content/girlscouts-vtk/en/vtk.html" title="View Year Plan"><i class="icon-layout-list"></i>VIEW YEAR PLAN</a></li>
 						<%
 						Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();
 						if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) && meetingPath != null && meetingPath != ""  ) {
@@ -425,7 +428,7 @@
 						%>
 						<li id="replaceMeeting"></li>
 						<li id="rmMeeting">
-							<a href="#" onclick="<%=meetingDeleteFunctionName %>( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
+							<a href="#" title="Delete Meeting" onclick="<%=meetingDeleteFunctionName %>( '<%=planView.getMeeting().getUid() %>', '<%=planView.getSearchDate().getTime() %>', '<%=troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-")+1 ) %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a>
 						</li>
 						<%
 						}
@@ -462,7 +465,7 @@
 						  %>
 								   
 								<div class="past_years">
-									<a href="javascript:void(0)" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"><i class="icon-glasses_2"></i>  Past Years </a>
+									<a title="Past Years" href="javascript:void(0)" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"><i class="icon-glasses_2"></i>  Past Years </a>
 								</div>
 								
 				

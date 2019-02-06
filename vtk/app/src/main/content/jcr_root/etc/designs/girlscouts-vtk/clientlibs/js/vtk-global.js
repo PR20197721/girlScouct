@@ -278,6 +278,8 @@ function callExecuteBannerSlider(tabNavLoaded) {
 				dataType: 'html',
 			}).done(function () {
 				$('.vtk-banner-image').slideUp();
+				$(".slick-next").css('display', 'none');
+                $(".slick-prev").css('display', 'none');
 			})
 		});
 

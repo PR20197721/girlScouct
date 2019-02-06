@@ -410,6 +410,9 @@
 					_meeting.setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
 					boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( _meeting.getMeetingInfo() );
 					_meeting.setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
+					if(_meeting.getNotes() == null){
+                        _meeting.setNotes(new LinkedList<Note>());
+                    }
 					meetings.add(_meeting);
 					troop.getYearPlan().setMeetingEvents(meetings);
 					Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
@@ -895,17 +898,17 @@
             troop.setPath( "/vtk"+VtkUtil.getCurrentGSYear()+"/"+troop.getSfCouncil() +"/troops/"+ troop.getSfTroopId() );
             session.putValue("VTK_troop", troop);
         }else if( request.getParameter("addNote") != null ){
+            response.setContentType("application/json");
         	vtklog.debug("addNote");
             Note note = null;
             try{ 
-            	note = meetingUtil.addNote(user, troop, request.getParameter("mid"), request.getParameter("message")); 
+            	List <Note> notes = meetingUtil.addNote(user, troop, request.getParameter("mid"), request.getParameter("message"));
+            	out.println( new ObjectMapper().writeValueAsString(notes));
            	}catch(Exception e){
            		vtklog.error("Exception occured:",e);
            	}
-            if( note==null) return;
-            ObjectMapper mapper = new ObjectMapper();
-            out.println(mapper.writeValueAsString(note));
-        }else if(request.getParameter("rmNote") != null ){  
+        }else if(request.getParameter("rmNote") != null ){
+            response.setContentType("application/json");
         	vtklog.debug("rmNote");
        	 	boolean isRm= false;
         	try{
@@ -916,11 +919,13 @@
        	 	if( !isRm ){
        		 	response.sendError(404, "Note not removed.");
        	 	}else{
-       		 	out.println("{\"vtkresp\":"+ isRm+"}");
+       		    java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") );
+                out.println( new ObjectMapper().writeValueAsString(notes));
        	 	}
 	        }else if( request.getParameter("editNote") != null ){  
 	            out.println("{vtkresp:"+ meetingUtil.editNote(user, troop,request.getParameter("nid"), request.getParameter("msg") )+"}");
 	        }else if( request.getParameter("getNotes") != null ){
+	                response.setContentType("application/json");
 	                java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") ); 
 	                out.println( new ObjectMapper().writeValueAsString(notes));
 	        }else if(request.getParameter("addMeetings") != null){
