@@ -50,7 +50,9 @@ public class CouncilRpt {
 	private SlingSettingsService slingSettings;
 	
 	@Activate
-	void activate() {
+	void activate(CouncilRptConfiguration config) {
+		logger.info("Girl Scouts VTK Council report generator activated.");
+		this.config = config;
 	}
 
 	public java.util.List<String> getActivityRpt(String sfCouncil) {
@@ -87,7 +89,7 @@ public class CouncilRpt {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error occured:",e);
 		} finally {
 			try {
 				if( rr!=null )
@@ -95,7 +97,7 @@ public class CouncilRpt {
 				if (s != null)
 					s.logout();
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				logger.error("Error occured:",ex);
 			}
 		}
 		return activities;
@@ -133,14 +135,17 @@ public class CouncilRpt {
 				try {
 					isAltered = r.getValue("altered").getBoolean();
 				} catch (Exception e) {
+					logger.error("Error occured:",e);
 				}
 				try {
 					yearPlanName = r.getValue("name").getString();
 				} catch (Exception e) {
+					logger.error("Error occured:",e);
 				}
 				try {
 					libPath = r.getValue("refId").getString();
 				} catch (Exception e) {
+					logger.error("Error occured:",e);
 				}
 
 				String troopName = "";
@@ -161,7 +166,7 @@ public class CouncilRpt {
 						libPath = troop.getProperty("sfTroopAge").getString()
 								.toLowerCase().substring(2);
 					} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("Error occured:",e);
 					}
 
 				}
@@ -191,7 +196,7 @@ public class CouncilRpt {
 				try {
 					crb.setTroopId(path.split("/")[4]);
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error("Error occured:",e);
 				}
 
 				if (activities.contains(path))
@@ -199,7 +204,7 @@ public class CouncilRpt {
 				container.add(crb);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error occured:",e);
 		} finally {
 			try {
 				if( rr!=null )
@@ -207,7 +212,7 @@ public class CouncilRpt {
 				if (session != null)
 					session.logout();
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				logger.error("Error occured:",ex);
 			}
 		}
 		return container;
@@ -298,7 +303,7 @@ public class CouncilRpt {
 				container.put(troopId, troopName);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error occured:",e);
 		} finally {
 			try {
 				if( rr!=null )
@@ -307,7 +312,7 @@ public class CouncilRpt {
 					s.logout();
 
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				logger.error("Error occured:",ex);
 			}
 		}
 		return container;
@@ -369,7 +374,7 @@ public class CouncilRpt {
 			
             
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error occured:",e);
 		} finally {
 			try {
 				if( rr!=null )
@@ -377,7 +382,7 @@ public class CouncilRpt {
 				if (session != null)
 					session.logout();
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				logger.error("Error occured:",ex);
 			}
 		}
 		return rptId;

@@ -10,7 +10,7 @@ public @interface CouncilRptConfiguration {
 	@AttributeDefinition(name = "From:", description = "From Email Address", type = AttributeType.STRING)
 	String fromEmailAddress();
 	
-	@AttributeDefinition(name = "To:", description = "To Email Addresses", type = AttributeType.STRING)
+	@AttributeDefinition(name = "To:", description = "To Email Addresses")
 	String[] toEmailAddresses();
 
 }
