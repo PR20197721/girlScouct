@@ -58,16 +58,10 @@
 		//node.getProperty("runOnce").remove(); 
 	} else {
 		node.setProperty("runOnce", "corrected");
-		//node.setProperty("piright", "8");
-		//piRight = "8";
 		if (node.hasNode("image")) {	// if it has image node, then it's an old component
 			node.setProperty("pibottom", "24");
 			piBottom = "24";
-		} 
-		//else {						// if not, it's a fresh component
-		//	node.setProperty("pibottom", "8");
-		//	piBottom = "8";
-		//}
+		}
 	}
 	try {
 		if (wcmMode == WCMMode.EDIT || wcmMode == WCMMode.PREVIEW) {

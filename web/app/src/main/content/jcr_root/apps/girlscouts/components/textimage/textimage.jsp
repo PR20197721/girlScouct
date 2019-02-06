@@ -74,7 +74,7 @@
 					node.setProperty("pibottom", "27");
 					piBottom = "27";
 				} else {
-					node.setProperty("pibottom", "17"); // for councils, line height is 27
+					node.setProperty("pibottom", "17");
 					piBottom = "17";
 				}
 			}
