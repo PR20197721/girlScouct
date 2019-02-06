@@ -10,6 +10,9 @@
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
 	com.day.cq.dam.api.Asset,
+	com.day.cq.commons.Doctype,
+    com.day.cq.wcm.api.components.DropTarget,
+    com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder,
 	org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession
@@ -294,13 +297,51 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 				%> <img src="<%= imgPath %>" /> <%
 			}
 			else{
-			    imgPath = resource.getPath() + "/image";
-			    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
-		
-			    if( imgNode.hasProperty("fileReference")){
-				%>   
-					<img src="<%= gsImagePathProvider.getImagePath(imgNode.getProperty("fileReference").getString(), "cq5dam.web.520.520") %>"/> 					
-				<%}
+			    Image image = new Image(resource.getChild("image"));
+                image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
+                Node imgNode = resourceResolver.getResource(resource.getChild("image").getPath()).adaptTo(Node.class);
+                String width;
+                String height;
+                if(imgNode.hasProperty("./width")){
+                    width = imgNode.getProperty("./width").getString();
+                } else{
+                    width = "0";
+                }
+                if(imgNode.hasProperty("./height")){
+                    height = imgNode.getProperty("./height").getString();
+                } else{
+                    height = "0";
+                }
+                try{
+
+                    //drop target css class = dd prefix + name of the drop target in the edit config
+                    image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
+                    image.loadStyleData(currentStyle);
+                    image.setSelector(".img"); // use image script
+                    image.setDoctype(Doctype.fromRequest(request));
+                    if (!"0".equals(width)) {
+                        image.addAttribute("width", width + "px");
+                    }
+                    if (!"0".equals(height)) {
+                        image.addAttribute("height", height + "px");
+                    }
+
+                    Boolean newWindow = properties.get("./newWindow", false);
+
+                    // add design information if not default (i.e. for reference paras)
+                    if (!currentDesign.equals(resourceDesign)) {
+                        image.setSuffix(currentDesign.getId());
+                    }
+
+                    if(!newWindow) {
+                       image.draw(out);
+                    } else { %>
+                        <%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
+                        <%
+                    }
+                }catch (Exception e){
+
+                }
 			}
 		} catch (Exception e) {}
 	%>

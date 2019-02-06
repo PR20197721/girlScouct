@@ -934,7 +934,7 @@ public static String getSFActivityDate(String eventStartDateStr, String sfTimeZo
 		}
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+		SimpleDateFormat aemFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 		TimeZone UTC_TZ = TimeZone.getTimeZone("UTC");
 	    dateFormat.setTimeZone(UTC_TZ);
 		java.util.Date UTC_DATE;
@@ -942,7 +942,7 @@ public static String getSFActivityDate(String eventStartDateStr, String sfTimeZo
 			UTC_DATE = dateFormat.parse(eventStartDateStr);
 		}catch (Exception e){
 			e.printStackTrace();
-			UTC_DATE = dateFormat2.parse(eventStartDateStr);
+			UTC_DATE = aemFormat.parse(eventStartDateStr);
 		}
 		
         TimeZone tz = TimeZone.getTimeZone(timeZone);
