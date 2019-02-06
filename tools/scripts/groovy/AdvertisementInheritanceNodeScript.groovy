@@ -24,6 +24,7 @@ while(nodeItr.hasNext()){
                 ad.setProperty("sling:resourceType","girlscouts/components/advertisement");
                 ad.setProperty("customized","false");
                 ad.addMixin("cq:LiveRelationship");
+                save();
                 println(ad.getPath());
                 nodesModified++
             }
