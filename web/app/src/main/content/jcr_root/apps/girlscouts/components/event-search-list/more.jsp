@@ -211,7 +211,9 @@ public void setDates(JSONObject event, Node node){
 			 		try{
 				 		Node resultNode = qResult.getResultNode();
 				 		JSONObject event = new JSONObject();
-				 		event.put("path", resultNode.getPath());
+				 		String eventPath = resultNode.getPath();
+				 		try{ eventPath = resourceResolver.map(eventPath);}catch(Exception e){}
+				 		event.put("path", eventPath);
 				 		for(String prop:propertyPaths){
 				 			if(resultNode.hasProperty(prop)){
 				 				Property property = resultNode.getProperty(prop);

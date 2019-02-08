@@ -5,8 +5,8 @@
       selector: "coral-fileupload",
       validate: function(el) {
           var url = el.find("input[name='fileReference']").val() +"/jcr:content/metadata.1.json";
-          if(el.attr('isValidSize') == "false"){
-              showDialog(el, width, length);
+          if(el.attr('isValidSize') == "false" && showD == true){
+              showDialog(el, el.attr("width"), el.attr("length"));
 			  var name = el.attr("name");
               if(name.includes("regular") || name.includes("medium")){
                   if(springPosition == "right"){
@@ -22,37 +22,41 @@
       }
     });
 	var width;
+	var showD = false;
     var length;
     var springPosition;
     var names = new Array();
     var items = new Array();
     var files = new Array();
+    var widths = new Array();
+    var lengths = new Array();
     function showDialog(el, w, l){
-        //Parse element information for error message
+            //Parse element information for error message
         var url = el.find("input[name='fileReference']").val();
         var name = el.attr("name");
         name = name.substring(0, name.indexOf("/"));
 
-        //find element slide number
+            //find element slide number
         var slide = el.closest("div.heroBannerElementConfigContents").find("div.cq-FileUpload-thumbnail-img").children().attr("src");
-		slide = slide.substring(slide.indexOf("item")+4, slide.indexOf("item")+5);
-		var item = parseInt(slide) + 1;
+        slide = slide.substring(slide.indexOf("item")+4, slide.indexOf("item")+5);
+    	var item = parseInt(slide) + 1;
+        if(items[items.length - 1] != item || names[names.length - 1] != name){
+            files.push(url);
+            items.push(item);
+            names.push(name);
+            widths.push(w);
+            lengths.push(l);
+         }
 
-		files.push(url);
-        items.push(item);
-        names.push(name);
         var printName = "";
         for(var i = 0; i < names.length; i++){
             if(Number.isNaN(items[i]) == false){
-				printName = printName + "The " + names[i] + " asset size on slide element "+ items[i] +" is invalid, your dimensions are: "+w+" x "+l+":<ul><li>"+files[i]+"</li></ul>";
+    		    printName = printName + "The " + names[i] + " asset size on slide element "+ items[i] +" is invalid, your dimensions are: "+widths[i]+" x "+lengths[i]+":<ul><li>"+files[i]+"</li></ul>";
             } else{
-				printName = printName + "The " + names[i] + " asset size on a new slide element is invalid, your dimensions are: "+w+" x "+l+":<ul><li>"+files[i]+"</li></ul>";
+    			printName = printName + "The " + names[i] + " asset size on a new slide element is invalid, your dimensions are: "+widths[i]+" x "+lengths[i]+":<ul><li>"+files[i]+"</li></ul>";
             }
 
         }
-        names.forEach(function(item){
-
-        });
 
 		var message;
 
@@ -86,9 +90,12 @@
           	});
 			dialog.on('coral-overlay:close', function(event) {
                 files = [];
-              	names = [];
-              	items = [];
-              	dialog.hide();
+                names = [];
+                items = [];
+                widths = [];
+                lengths = [];
+                showD = false;
+                dialog.hide();
                 dialog.remove();
             });
          	document.body.appendChild(dialog);
@@ -105,24 +112,37 @@
                     width = regWidth;
                     var regLength = data["tiff:ImageLength"];
                     length = regLength;
+                    $(e.target).attr("width",width);
+                    $(e.target).attr("length",length);
                     springPosition = $('[name="./spplacement"]').val();
                     if($(e.target).attr("name").includes("regular") || $(e.target).attr("name").includes("medium")){
                         if(springPosition == "right"){
 							if(regWidth != 655 || regLength != 360){
                             	$(e.target).attr('isValidSize',false);
-                    		}
+                    		} else{
+                                $(e.target).attr('isValidSize',true);
+                            }
                         } else{
 							if(regWidth != 960 || regLength != 420){
                             	$(e.target).attr('isValidSize',false);
-                    		}
+                    		}else{
+                                $(e.target).attr('isValidSize',true);
+                            }
+
                         }
                     }
                     else if($(e.target).attr("name").includes("small")){
 						if(regWidth != 500 || regLength != 655){
                         	$(e.target).attr('isValidSize',false);
                     	}
+                    	else{
+                            $(e.target).attr('isValidSize',true);
+                        }
                     }
                 }catch(err){}
         	});
+    });
+    $(document).on("click", ".cq-dialog-submit", function (e) {
+        showD = true;
     });
 })(document, Granite.$, Granite.author);

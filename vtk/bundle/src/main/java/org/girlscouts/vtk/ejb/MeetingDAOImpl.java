@@ -33,6 +33,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.auth.permission.Permission;
@@ -3098,10 +3099,8 @@ public Note getNote(User user, Troop troop, String nid)
 	try {
 		rr = sessionFactory.getResourceResolver();
 		session = rr.adaptTo(Session.class);
-		javax.jcr.query.QueryManager qm = session.getWorkspace()
-				.getQueryManager();
-		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note' and isdescendantnode( '"+ troop.getYearPlan().getPath() +"%/notes/"+nid+"')";
-		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		String sql = "select note.message, note.createTime, note.createdByUserId, note.createdByUserName, note.refId, note.uid from [nt:base] as note where ocm_classname='org.girlscouts.vtk.models.Note' and   ISDESCENDANTNODE(["+troop.getYearPlan().getPath()+"]) and note.[uid] = '"+nid+"'";
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 		QueryResult result = q.execute();
 		String str[] = result.getColumnNames();
@@ -3110,14 +3109,14 @@ public Note getNote(User user, Troop troop, String nid)
 			note = new Note();
 			Value excerpt = r.getValue("jcr:path");
 			String path = excerpt.getString();
-	
 			note.setPath(path);
-			note.setMessage( r.getValue("message").getString() );
-			note.setUid(  r.getValue("uid").getString()  );
-			note.setCreateTime( r.getValue("createTime").getLong() );
-			note.setCreatedByUserName( r.getValue("createdByUserName").getString() );
-			note.setCreatedByUserId( r.getValue("createdByUserId").getString() );
-			note.setRefId( r.getValue("refId").getString() );
+			String msg = r.getValue("note.message").getString();
+			note.setMessage(msg);
+			note.setUid(  r.getValue("note.uid").getString()  );
+			note.setCreateTime( r.getValue("note.createTime").getLong() );
+			note.setCreatedByUserName( r.getValue("note.createdByUserName").getString() );
+			note.setCreatedByUserId( r.getValue("note.createdByUserId").getString() );
+			note.setRefId( r.getValue("note.refId").getString() );
 		}
 		
 	} catch (Exception e) {
@@ -3152,28 +3151,25 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 	try {
 		rr = sessionFactory.getResourceResolver();
 		session = rr.adaptTo(Session.class);
-		javax.jcr.query.QueryManager qm = session.getWorkspace()
-				.getQueryManager();
-		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note'  and isdescendantnode( '"+ troop.getYearPlan().getPath() +"/meetingEvents/"+ refId +"%')";	
-		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-		QueryResult result = q.execute();
-		String str[] = result.getColumnNames();
-		for (RowIterator it = result.getRows(); it.hasNext();) {
-		  try{
-			Row r = it.nextRow();
-			Note note = new Note();
-			Value excerpt = r.getValue("jcr:path");
-			String path = excerpt.getString();
-
-			note.setPath(path);
-			note.setMessage( r.getValue("message").getString() );
-			note.setUid(  r.getValue("uid").getString()  );
-			note.setCreateTime( r.getValue("createTime").getLong() );
-			note.setCreatedByUserName( r.getValue("createdByUserName").getString() );
-			note.setCreatedByUserId( r.getValue("createdByUserId").getString() );
-			note.setRefId( r.getValue("refId").getString() );
-			notes.add( note );
-		  }catch(Exception e){e.printStackTrace();}
+		Resource meetingRes = rr.resolve( troop.getYearPlan().getPath() +"/meetingEvents/"+ refId);
+		if(meetingRes != null){
+			Resource notesResource = meetingRes.getChild("notes");
+			if(notesResource != null){
+				Iterator<Resource> notesIt = notesResource.listChildren();
+				while(notesIt.hasNext()){
+					Resource noteItr = notesIt.next();
+					Note note = new Note();
+					ValueMap values  = noteItr.getValueMap();
+					note.setPath(noteItr.getPath());
+					note.setMessage(values.get("message", String.class));
+					note.setUid( values.get("uid", String.class));
+					note.setCreateTime( values.get("createTime", Long.class));
+					note.setCreatedByUserName(values.get("createdByUserName", String.class));
+					note.setCreatedByUserId(values.get("createdByUserId", String.class));
+					note.setRefId(values.get("refId", String.class));
+					notes.add( note );
+				}
+			}
 		}
 		
 	} catch (Exception e) {

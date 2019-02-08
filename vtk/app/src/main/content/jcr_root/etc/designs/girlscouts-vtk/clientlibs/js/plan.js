@@ -1049,7 +1049,7 @@ function replaceMeetingHref(mPath, mDate) {
     var replaceMeeting = "replaceMeeting";
     var replaceMeetingSmall = "replaceMeetingSmall";
 
-    var replaceMeetingString =  "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "&isReplaceMeeting=true', false, null, true)\">replace this meeting</a>"
+    var replaceMeetingString =  "<a href=\"#\" title=\"Replace This Meeting\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=" + mPath + "&xx=" + mDate + "&isReplaceMeeting=true', false, null, true)\">replace this meeting</a>"
     
     function putReplaceMeeting(element,htmlString) { 
        var _element = element;
@@ -1476,16 +1476,9 @@ var initNotes = (function(global, ModalVtk, $) {
 
             modal.confirm('Warning', 'Are you sure you want to delete this note?', function () {
 
-                rmNote($(e.target).parents('li').data('uid'))
-                    .done(function (response) {
-                
-                        var x = JSON.parse(response)
-                
-                        if (x) {
-                            checkQuantityNotes($('.vtk-notes_item').length)
-                            interateNotes(thisMeetingNotes.filter(function (note) { return note.uid !==  $(e.target).parents('li').data('uid')}))                      
-                        }
-
+                rmNote(globalMid, $(e.target).parents('li').data('uid'))
+                    .success(function(json) {
+                            interateNotes(json);
                     }).fail(function(err) {
                         console.log('error', err)
                     }).always(function() {
@@ -2115,7 +2108,9 @@ var initNotes = (function(global, ModalVtk, $) {
                         $('.note-loading').hide();
                         checkQuantityNotes($('.vtk-notes_list_container').children('li').length);
 
-                        thisMeetingNotes.unshift(json)
+                        thisMeetingNotes.unshift(json);
+                        interateNotes(json);
+
                     },
                     function(err) {
 
@@ -2131,7 +2126,7 @@ var initNotes = (function(global, ModalVtk, $) {
         }
     }
 
-    function rmNote(nid) {
+    function rmNote(mid,nid) {
         return ajaxConnection({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
             cache: false,
@@ -2139,6 +2134,7 @@ var initNotes = (function(global, ModalVtk, $) {
             data: {
                 rmNote: "true",
                 nid: nid,
+                mid: mid,
                 a: Date.now()
             }
         });
