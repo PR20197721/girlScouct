@@ -349,6 +349,10 @@
 	</div>
 	<!-- /hide-for-print -->
 </div>
+<!-- MaintenanceBanner -->
+<div id="vtkBreakingNews" class="row">
+	<cq:include path="/content/vtkcontent/en/vtk-maintenanceBanner/jcr:content/content/middle/par/breaking-news" resourceType="girlscouts-vtk/components/breaking-news" />
+</div>
 <!--  start utility nav -->
 <div id="vtkNav" class="row">
 
