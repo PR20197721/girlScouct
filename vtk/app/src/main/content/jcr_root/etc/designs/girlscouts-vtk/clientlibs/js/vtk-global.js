@@ -292,6 +292,16 @@ function callExecuteBannerSlider(tabNavLoaded) {
 			autoplay: true,
 		});
 
+		//Breaking News Maintenance Close:
+        $('.vtk-breaking-news-button').click(function () {
+             $.ajax({
+                url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkMaintenance',
+                dataType: 'html',
+            }).done(function () {
+                $('#vtkBreakingNews').slideUp();
+            })
+        });
+
 	}
 
 	var bannerLoaded = $.ajax({

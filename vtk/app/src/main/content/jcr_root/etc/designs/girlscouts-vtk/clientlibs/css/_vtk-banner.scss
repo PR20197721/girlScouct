@@ -48,6 +48,22 @@
 		cursor: pointer;
 	}
 }
+.vtk-breaking-news-button{
+	color: black;
+	width:30px;
+	height: 30px;
+	position: absolute;
+	top:0px;
+	right:7px;
+	z-index: 95;
+
+	i{
+		font-size: 37px !important;
+		cursor: pointer;
+		position: relative;
+		bottom: 3px;
+	}
+}
 
 .scroll-banner{
 overflow-x:hidden;

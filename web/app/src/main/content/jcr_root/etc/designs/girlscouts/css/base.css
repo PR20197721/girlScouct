@@ -1783,6 +1783,7 @@ div.textimage div.image {
 }
 #vtkBreakingNews .breaking-news .inner-wrapper {
     background: #ec008b none repeat scroll 0 0;
+    position: relative;
     padding: 0.520833%;
     text-align: center;
     color: white;
