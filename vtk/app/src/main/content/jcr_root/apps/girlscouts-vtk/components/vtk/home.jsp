@@ -160,4 +160,40 @@
     </div><!--/mainRight-->
   <!--PAGE STRUCTURE: MAIN CONTENT STOP-->
 </div><!--/content-->
+<%
+Resource maintenanceNode = resourceResolver.getResource("/content/vtkcontent/en/vtk-maintenanceBanner/jcr:content/content/middle/par/breaking-news");
+if(maintenanceNode != null){
+    try{
+        Node node = maintenanceNode.adaptTo(Node.class);
+        if(node.hasProperty("newstype")){
+            if(!"None".equals(node.getProperty("newstype").getString())){
+   			 %>
+             <div id="maintenanceNotify" data-val = "true"/>
+             <%
+            } else{%>
+                <div id="maintenanceNotify" data-val = "false"/>
+                <%
+            }
+        }
+        else{
+        %>
+            <div id="maintenanceNotify" data-val = "false"/>
+        <%
+         }
+    } catch(Exception e){
+		e.printStackTrace();
+    }
+}
+ %>
+
+ <script>
+     $(window).load(function(){
+         var data = $("#maintenanceNotify").attr("data-val");
+         if(data == "true"){
+            alert("The VTK System will be down for maintenance in the near future! See banner for more details");
+         }
+    });
+</script>
+
+
 
