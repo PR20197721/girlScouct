@@ -1,0 +1,28 @@
+#vtkBreakingNews .breaking-news .inner-wrapper {
+    background: #ec008b none repeat scroll 0 0;
+    position: relative;
+    padding: 0.520833%;
+    text-align: center;
+    color: white;
+    line-height: 1.1em;
+    font-size: 1.0625rem;
+    width: 90.6%;
+    margin-left: 45px;
+}
+
+.vtk-breaking-news-button{
+	color: white;
+	width:30px;
+	height: 30px;
+	position: absolute;
+	top:0px;
+	right:7px;
+	z-index: 95;
+
+	i{
+		font-size: 37px !important;
+		cursor: pointer;
+		position: relative;
+		bottom: 3px;
+	}
+}
