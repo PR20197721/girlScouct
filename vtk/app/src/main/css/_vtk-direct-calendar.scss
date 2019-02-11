@@ -1,0 +1,125 @@
+.vtk_direct_calendar_wrap{
+  
+}
+
+
+
+.vtk-direct-calendar{
+    position: absolute;
+    background-color: white;
+    padding: 15px;
+    border: 1px solid gray;
+    z-index: 1000;
+    overflow-y: none;
+
+    &.__fixed{
+        position: fixed;
+        overflow-y: auto;
+
+        ::before{
+            display: none;
+        }
+
+    }
+
+
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 118px;
+        left:-26px;
+        width: 50px;
+        height: 50px; 
+            background: #FFFFFF;
+            border-top:1px solid gray;
+            border-left:1px solid gray;
+         -moz-transform:rotate(-45deg);
+          -webkit-transform:rotate(-45deg);
+          z-index: 1000;
+        }
+
+    .__title{
+        text-align: center;
+        font-weight:bold;
+        font-size:15px;
+        margin-bottom:5px;
+        text-transform: uppercase;
+    }
+    .__error_message{
+        text-align: center;
+
+        font-size:13px;
+        margin-bottom:5px;
+        background-color: red;
+        color: white;
+    }
+    .__other_site{
+        padding: 0 10px;
+    }
+    .__calendar{
+
+        z-index: 1001;
+        .ui-datepicker-header{
+            background:transparent !important;
+            text-align: center;
+            border:none;
+
+        }
+        .ui-datepicker{
+            border:none;
+            width:100% !important;
+        
+
+        }
+        .ui-datepicker-title{
+             margin:0;
+             line-height: 0;
+             width: 100%;
+        }
+        .ui-datepicker-calendar{
+            tr{
+                background-color: transparent;
+            }
+            thead{
+                background-color: transparent;
+            }
+        }
+    }
+    .__inputs{
+        clear: both;
+        padding: 10px 0px;
+        p{
+            padding-top: 10px;
+        }
+    }
+    .__buttons{
+        clear: both;
+        padding: 10px 0px 0;
+    }
+    .__second_part{
+        clear: both;
+        padding:  20px 20px 0;
+        p{
+            color: green;
+            cursor: pointer;
+            font-size: 14px;
+
+        }
+        p.__button_as_mobile{
+            text-align: center;
+            padding: 10px;
+            border: 1px solid green;
+            
+        }
+    }
+}
+
+.ui-sortable{
+    margin-bottom:60px;
+}
+
+td.ui-datepicker-current-day a {
+    background: #00ae57 !important;
+    color: white !important;
+}

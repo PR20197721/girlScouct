@@ -158,7 +158,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 	isMultipleAgenda: null,
 	isMulitpleAgendaLabel: null,
 	isNasaChecked: true,
-	outdoorField:false,
+    outdoorField:false,
+    globalField:false,
     durationConst:[5,10,15,20,25,30,35,40,45,50,55,60],
 
 	//outdoorCheckboxField: null,
@@ -234,10 +235,10 @@ setTimeout(function(){
 	                    		panelParent.findByType("button")[0].show();
 	                    		
 	                    		panelParent.findByType("textfield")[1].enable(); //duration
-	               panelParent.findByType("textfield")[1].show();
+	                            panelParent.findByType("textfield")[1].show();
 
-    panelParent.findByType("label")[2].enable(); //duration
-	               panelParent.findByType("label")[2].show();
+                                panelParent.findByType("label")[2].enable(); //duration
+	                            panelParent.findByType("label")[2].show();
 
 	                    		panelParent.findByType("richtext")[0].disable();  //description
 	                    		panelParent.findByType("richtext")[1].disable();  //material list
@@ -246,12 +247,16 @@ setTimeout(function(){
 	                    		
 	                    		panelParent.findByType("richtext")[0].hide();
 	                    		panelParent.findByType("richtext")[1].hide();
-panelParent.findByType("label")[0].hide();
-    panelParent.findByType("checkbox")[0].hide();
+                                panelParent.findByType("label")[0].hide();
+                                panelParent.findByType("checkbox")[0].hide();
+    
 	                    		//panelParent.findByType("label")[2].hide();
 	                    		panelParent.findByType("label")[3].hide();
-	                    		panelParent.findByType("label")[4].hide();
-    panelParent.findByType("checkbox")[1].hide();
+                                panelParent.findByType("label")[4].hide();
+                                panelParent.findByType("label")[6].hide(); //outdoor
+                                panelParent.findByType("label")[7].hide(); //global
+                                panelParent.findByType("checkbox")[1].hide();// outdoor
+                                panelParent.findByType("checkbox")[2].hide();// global
 
 
 
@@ -286,9 +291,9 @@ panelParent.findByType("label")[0].hide();
 	                    		panelParent.findByType("label")[3].hide();
 	                    		panelParent.findByType("label")[4].hide();
 	                    		//panelParent.findByType("label")[5].hide();
-               panelParent.findByType("checkbox")[1].hide();
-                            panelParent.findByType("label")[0].hide();
-    panelParent.findByType("checkbox")[0].hide();
+                                panelParent.findByType("checkbox")[1].hide();
+                                panelParent.findByType("label")[0].hide();
+                                panelParent.findByType("checkbox")[0].hide();
 	                    	
 	                    }
 	                }
@@ -433,6 +438,7 @@ panelParent.findByType("label")[0].hide();
         
         
         //outdoor
+        this.add(new CQ.Ext.form.Label({text: "Outdoor"}));
         this.outdoorField = new CQ.Ext.form.Checkbox({  
         	inputValue: true,
         	disabled: false,
@@ -446,6 +452,21 @@ panelParent.findByType("label")[0].hide();
         	}
         });
         this.add(this.outdoorField);
+
+        this.add(new CQ.Ext.form.Label({text: "  Global"}));
+        this.globalField = new CQ.Ext.form.Checkbox({  
+        	inputValue: true,
+        	disabled: false,
+        	listeners: {
+        		check: {
+                    scope: this,
+                    	fn: function(me, val) {
+                    		
+                    	}
+        		}
+        	}
+        });
+        this.add(this.globalField);
     
         
         
@@ -503,6 +524,12 @@ panelParent.findByType("label")[0].hide();
 		    							subAgendaItems[ii].outdoor = item.getValue();
 		    						} else {
 		    							subAgendaItems[ii] = {'outdoor':item.getValue()};
+		    						}
+		    					} else if (item.gsField === 'addGlobal'+ii) {
+		    						if (subAgendaItems[ii] != null) {
+		    							subAgendaItems[ii].global = item.getValue();
+		    						} else {
+		    							subAgendaItems[ii] = {'global':item.getValue()};
 		    						}
 		    					} else if (item.gsField === 'addDescript'+ii) {
 		    						if (subAgendaItems[ii] != null) {
@@ -613,7 +640,15 @@ panelParent.findByType("label")[0].hide();
 		        					value: additionalAgendaItemsList[i].outdoorField.getValue()
 	        					});
 		        				agendaCompositeField.add(hiddenOutdoorField);
-		        				agendaCompositeField["hiddenOutdoorField" + i] = hiddenSubtitleField;
+                                agendaCompositeField["hiddenOutdoorField" + i] = hiddenSubtitleField;
+                                
+                                var hiddenGlobalField = new CQ.Ext.form.Hidden({
+	        						'gsField': 'addGlobal'+i,
+		        					name: './activities/' + agendaCompositeField.nodeName+ '/multiactivities/agenda' + i + '/global',
+		        					value: additionalAgendaItemsList[i].globalField.getValue()
+	        					});
+		        				agendaCompositeField.add(hiddenGlobalField);
+		        				agendaCompositeField["hiddenGlobalField" + i] = hiddenSubtitleField;
 
 		        				/*
 		        				var hiddenDurationField = new CQ.Ext.form.Hidden({
@@ -719,7 +754,8 @@ panelParent.findByType("label")[0].hide();
 	    	this.nodeName = value.nodeName;
 	    	this.nameField.setValue(value.name);
 	    	this.subtitleField.setValue(value.subtitle);
-	    	this.outdoorField.setValue(value.outdoor);
+            this.outdoorField.setValue(value.outdoor);
+            this.globalField.setValue(value.global);
 	    	this.durationField.setValue(value.duration);
 	    	this.descriptionField.setValue(value.description);
 	    	this.materialField.setValue(value.materials);
@@ -807,7 +843,14 @@ var hiddenDummyActivityDescriptionFieldTT = new CQ.Ext.form.Hidden({
 						name: './activities/' + value.nodeName + '/multiactivities/agenda' + j + '/outdoor',
 						value: value[value.nodeName + '/multiactivities/agenda' + j + '/outdoor']
     				});
-		        	me.add(hiddenOutdoorField);
+                    me.add(hiddenOutdoorField);
+                    
+                    var hiddenGlobalField = new CQ.Ext.form.Hidden({
+						'gsField': 'addGlobal' + j,
+						name: './activities/' + value.nodeName + '/multiactivities/agenda' + j + '/global',
+						value: value[value.nodeName + '/multiactivities/agenda' + j + '/global']
+    				});
+		        	me.add(hiddenGlobalField);
 /*
 		        	var hiddenDurationField = new CQ.Ext.form.Hidden({
 						'gsField': 'addDuration' + j,
@@ -898,7 +941,8 @@ var hiddenDummyActivityDescriptionFieldTT = new CQ.Ext.form.Hidden({
     		"nodeName": this.nodeName,
     		"name": this.nameField.getValue(),
     		"subtitle": this.subtitleField.getValue(),
-    		"outdoor": this.outdoorField.getValue(),
+            "outdoor": this.outdoorField.getValue(),
+            "global": this.globalField.getValue(),
     		"duration": this.durationField.getValue(),
     		"materials": this.materialField.getValue(),
     		"description": this.descriptionField.getValue()
@@ -916,6 +960,8 @@ var hiddenDummyActivityDescriptionFieldTT = new CQ.Ext.form.Hidden({
 						agenda[this.nodeName + '/multiactivities/agenda' + j +'/subtitle'] = this.items.items[i].getValue();
 					}else if (this.items.items[i].gsField.indexOf('addOutdoor') != -1) {
 						agenda[this.nodeName + '/multiactivities/agenda' + j +'/outdoor'] = this.items.items[i].getValue();
+					}else if (this.items.items[i].gsField.indexOf('addGlobal') != -1) {
+						agenda[this.nodeName + '/multiactivities/agenda' + j +'/global'] = this.items.items[i].getValue();
 					} else if (this.items.items[i].gsField.indexOf('addDescript') != -1) {
 						agenda[this.nodeName + '/multiactivities/agenda' + j + '/description'] = this.items.items[i].getValue();
 					} else if (this.items.items[i].gsField.indexOf('addDuration') != -1) {

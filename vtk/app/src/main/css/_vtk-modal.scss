@@ -1,0 +1,304 @@
+.vtk-gray-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: 0.6;
+    z-index: 5000;
+    display: none;
+}
+
+.vtk-js-modal_wrap {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 0 10px;
+    z-index: 5010;
+}
+
+.vtk-js-modal {
+    display: none;
+    max-width: 500px;
+    position: relative;
+    min-height: 200px;
+    background-color: white;
+    box-shadow: 0 0 10px 0 #333;
+    z-index: 5010;
+    margin: 0 auto;
+
+    .vtk-js-modal_head {
+        background-color: $green_light;
+        height: 40px;
+        width: inherit;
+
+        .vtk-js-modal_title {
+            color: white;
+            padding: 10px 10px 5px;
+            width: 99%;
+            height: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .vtk-js-modal_x {
+            width: 10px;
+            height: 10px;
+            padding: 10px 10px 5px;
+            position: absolute;
+            top: -5px;
+            right: 26px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .vtk-js-modal-x {
+            // width: 10px;
+            // height: 10px;
+            // padding: 10px 10px 5px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+    }
+
+    .vtk-js-modal_body {
+        font-size: 12px;
+        width: inherit;
+
+        .vtk-js-modal_description {
+            padding: 30px 30px 15px;
+            position: relative;
+            font-size: 14px;
+            min-height: 100px;
+            line-height: 12px;
+        }
+
+        .vtk-js-modal_body_actions {
+            padding: 5px 10px;
+            position: relative;
+            text-align: center;
+            // margin: 0 auto;
+            // right: 10px;
+            // bottom: 10px;
+            // min-width:100px;
+            .vtk-js-modal_button_action {
+                display: inline-block;
+                padding: 13px 15px;
+                background-color: $green_light;
+                color: white;
+                text-align: center;
+                margin-right: 20px;
+                text-align: center;
+                min-width: 100px;
+                text-transform: uppercase;
+                font-size: 14px;
+                margin-bottom:15px;
+
+                &:last-of-type {
+                    margin-right: 0;
+                }
+
+                &:hover {
+                    background-color: green;
+                }
+            }
+        }
+    }
+}
+
+#__indoor,
+#__outdoor {
+    ul {
+        list-style-type: disc;
+        list-style-position: inside;
+    }
+
+    ol {
+        list-style-type: decimal;
+        list-style-position: inside;
+    }
+
+    ol ul,
+    ul ul {
+        list-style-type: circle;
+        list-style-position: inside;
+        margin-left: 15px;
+    }
+
+    ol ol,
+    ul ol {
+        list-style-type: lower-latin !important;
+        list-style-position: inside !important;
+        margin-left: 15px;
+    }
+
+    li {
+        display: list-item;
+    }
+}
+
+
+.reset{
+  font-size: 14px;
+
+  p{
+    font-size: 14px;
+  }
+  ul {
+      list-style-type: disc !important;
+      list-style-position: inside !important;
+      font-style: normal;
+      font-weight: normal;
+      font-size: inherit;
+  }
+
+  ol {
+      list-style-type: decimal !important;
+      list-style-position: outside !important;
+      font-style: normal;
+      font-weight: normal;
+      font-size: inherit;
+  }
+
+  ol ul,
+  ul ul {
+      list-style-type: circle;
+      list-style-position: outside;
+      margin-left: 15px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: inherit;
+  }
+
+  ol ol,
+  ul ol {
+      list-style-type: lower-latin;
+      list-style-position: outside;
+      margin-left: 15px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+  }
+
+  li {
+      display: list-item;
+      font-style: normal;
+      font-size: 14px;
+  }
+
+  i{
+    font-style: italic;
+    font-weight: normal;
+  };
+  b{
+    font-style: normal;
+    font-weight: bold;
+  };
+
+  h1{
+    font-size: 32px;
+    font-weight: bold;
+  }
+  h2{
+    font-size: 24px;
+    font-weight: bold;
+  }
+  h3{
+    font-size: 19px;
+    font-weight: bold;
+  }
+  h4{
+    font-weight: bold;
+  }
+  h5{
+    font-size: 13px;
+    font-weight: bold;
+  }
+  h6{
+    font-size: 10px;
+    font-weight: bold;
+  }
+
+
+
+}
+
+
+
+
+//New Modal For VTK JSP APP
+//STANDAR
+
+.ui-dialog.__modalWrap{
+    font-size:14px;
+
+   
+    background-color:white;
+
+     padding:0;
+    
+    .ui-dialog-titlebar{
+        background-image: none !important;
+        background-color:#00a850;
+        font-size: 14px;
+        color: white;
+
+        text-transform: uppercase;
+        padding: 15px;
+
+        i{
+            cursor: pointer !important;
+            position:absolute;top:5px !important;right:5px;color:white;
+        }
+
+
+    }
+
+    .ui-dialog-content{
+         font-size: 14px;
+         min-height: 200px;
+         padding: 30px;
+    }
+
+
+    .ui-dialog-buttonpane{
+        float:none;
+        width:70%;
+        margin:0 auto;
+        padding: 20px 0;
+        .ui-dialog-buttonset{
+            text-align: center;
+             float:none;
+             width: 100%;
+             display: table;
+
+             .ui-button{
+                 outline: 0;
+                 display: table-cell;
+                min-width: 150px !important;
+                    margin-right: 15px !important;
+                padding: 5px !important;
+             }
+        }
+    }
+
+}
+
+#requirementsModal{
+    ul{
+        li{
+            font-size: 14px !important;
+        }
+    }
+}
+
+#modal_popup{
+    ul{
+        li{
+            font-size: 14px;
+        }
+    }
+}

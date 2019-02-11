@@ -226,6 +226,38 @@ var CommentBox = React.createClass({displayName: "CommentBox",
 			   return null;
     	   }
     	})
+    	
+    	var globalIcon = React.createClass({
+    	   	displayName:"globalIcon",
+
+    	   	render:function(){
+			var isGlobalAvailable = this.props.isGlobalAvailable,imgName;
+			if (this.props.isOutdoor) {
+				imgName =  "global.png";
+			} else {
+				imgName = "notglobal.png";
+			}
+			var options = {
+                 className: 'global-icon has-tip tip-top radius',
+                 src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/'+imgName,
+                 style:{
+                    width:'45px',
+                    border:'none',
+                    cursor:'pointer',
+                    paddingTop:'3px'
+                 },
+                 "data-tooltip":true,
+                 "aria-haspopup":true
+                 //,
+                 //title:"<b>Get Girls Outside!</b>"
+               }
+
+    		   if (isGlobalAvailable) {
+    				   return (React.createElement("img", options));
+    		   }
+			   return null;
+    	   }
+    	})
 
 
 
@@ -530,7 +562,9 @@ var CommentBox = React.createClass({displayName: "CommentBox",
                                                     mid: obj[comment].meetingInfo.id, 
                                                     meetingInfo:obj[comment].meetingInfo,
                                                     isOutdoorAvailable: obj[comment].anyOutdoorActivityInMeetingAvailable, 
-                                                    isOutdoor: obj[comment].anyOutdoorActivityInMeeting
+                                                    isOutdoor: obj[comment].anyOutdoorActivityInMeeting,
+                                                    isGlobalAvailable: obj[comment].anyGlobalActivityInMeetingAvailable, 
+                                                    isGlobal: obj[comment].anyGlobalActivityInMeeting
                                                     })
                                               )
                                               )
@@ -548,7 +582,8 @@ var CommentBox = React.createClass({displayName: "CommentBox",
                                         React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj, openModal:openModal})),
                                         React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
                                             React.createElement(outdoorIcon, {isOutdoorAvailable: obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor: obj[comment].anyOutdoorActivityInMeeting}),
-                                            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {isOutdoorAvailable:  obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor:  obj[comment].anyOutdoorActivityInMeeting, dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
+                                            React.createElement(globalIcon, {isGlobalAvailable: obj[comment].anyGlobalActivityInMeetingAvailable, isGlobal: obj[comment].anyGlobalActivityInMeeting}),
+                                            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {isOutdoorAvailable:  obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor:  obj[comment].anyOutdoorActivityInMeeting, isGlobalAvailable:  obj[comment].anyGlobalActivityInMeetingAvailable, isGlobal:  obj[comment].anyGlobalActivityInMeeting, dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
                                             React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
                                             React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
                                         ),
@@ -557,7 +592,9 @@ var CommentBox = React.createClass({displayName: "CommentBox",
                                               mid: obj[comment].meetingInfo.id, 
                                               meetingInfo: obj[comment].meetingInfo, 
                                               isOutdoorAvailable: obj[comment].anyOutdoorActivityInMeetingAvailable, 
-                                              isOutdoor: obj[comment].anyOutdoorActivityInMeeting})
+                                              isOutdoor: obj[comment].anyOutdoorActivityInMeeting,
+                                              isGlobalAvailable: obj[comment].anyGlobalActivityInMeetingAvailable, 
+                                              isGlobal: obj[comment].anyGlobalActivityInMeeting})
                                         )
                                         )
                                     )
@@ -703,19 +740,28 @@ var CommentBox = React.createClass({displayName: "CommentBox",
 
 });
 
-      var requirementsModal = function(binder, isOutdoorAvailable, isOutdoor){
+      var requirementsModal = function(binder, isOutdoorAvailable, isOutdoor, isGlobalAvailable, isGlobal){
           var imgName;
-           if (isOutdoor) {
+          if (isOutdoor) {
                  imgName =  "outdoor.png";
               } else {
                   imgName = "indoor.png";
               }
-
-               
+          var globalImgName;
+          if (isGlobal) {
+        	  globalImgName =  "global.png";
+          } else {
+        	  globalImgName = "notglobal.png";
+          }    
         var modal = $('#requirementsModal');
 
         var image = (isOutdoorAvailable)? '<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/'+imgName+'" />':' ';
-
+        if(isGlobalAvailable){
+        	if(image.trim().length > 0){
+        		image +=" ";
+        	}
+        	image +='<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/'+globalImgName+'" />';
+        }
 
 
         var _template = '<div class="modal_resource">'+
@@ -754,7 +800,7 @@ var CommentBox = React.createClass({displayName: "CommentBox",
 			  if(this.props.meetingInfo.req){
 				  imgReturn+=' _requirement_modal';
 				  onClick = function(e){
-					  requirementsModal(_this.props.meetingInfo,_this.props.isOutdoorAvailable, _this.props.isOutdoor);
+					  requirementsModal(_this.props.meetingInfo,_this.props.isOutdoorAvailable, _this.props.isOutdoor,_this.props.isGlobalAvailable, _this.props.isGlobal);
 				  }
 			  }
 			  return (
