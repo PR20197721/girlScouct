@@ -945,6 +945,7 @@
         }else if(request.getParameter("act") != null && "hideVtkBanner".equals(request.getParameter("act")) ){    
         	vtklog.debug("hideVtkBanner");
             session.setAttribute("isHideVtkBanner", "true");
+            
         }else if(request.getParameter("act") != null && "hideVtkMaintenance".equals(request.getParameter("act")) ){
             vtklog.debug("hideVtkMaintenance");
             session.setAttribute("isHideVtkMaintenance", "true");
