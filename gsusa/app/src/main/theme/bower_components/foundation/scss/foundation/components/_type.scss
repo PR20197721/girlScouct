@@ -313,6 +313,11 @@ $align-class-breakpoints:
       line-height: $small-line-height;
       padding-top: rem-calc(6);
     }
+    
+    .image-caption small,
+    .textimage-caption small {
+      line-height: 1.15rem;
+    }
 
     code {
       background-color: $code-background-color;

@@ -10,3 +10,7 @@ div.textimage.image_right div.image {
     float: right !important;
     margin: 0 0 8px 8px !important;
 }
+
+div.textimage small {
+	line-height: 1.15rem;	
+}
