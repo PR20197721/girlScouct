@@ -407,6 +407,12 @@ $(function(){
 $(window).load(function(){
          var data = $("#maintenanceNotify").attr("data-val");
          if(data == "true"){
+            if($("#maintenanceNotify").attr("data-head") != ""){
+                $(".maintenanceHeader").html($("#maintenanceNotify").attr("data-head"));
+             }
+              if($("#maintenanceNotify").attr("data-body") != ""){
+                $("#maintenanceBody").html($("#maintenanceNotify").attr("data-body"));
+             }
             var notice = $("#maintenanceModal");
             notice.css('display','block');
             $(".vtk-maintenance-news-button").click(function(){

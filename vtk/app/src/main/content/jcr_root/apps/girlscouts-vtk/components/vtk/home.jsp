@@ -73,10 +73,10 @@
   	  </div>
     <div class="modal-body">
 
-      <p>The VTK System will be down for maintenance in the near future! </br>See banner for more details.</p>
+      <p id="maintenanceBody"/>
 	</div>
 	<div class="modal-footer">
-    	<p>-The GSUSA VTK Team</p>
+    	<strong>-The GSUSA VTK Team</strong>
   	</div>
 
   </div>
@@ -188,9 +188,17 @@ if(maintenanceNode != null){
     try{
         Node node = maintenanceNode.adaptTo(Node.class);
         if(node.hasProperty("newstype")){
+            String popupHeader = "";
+            String popupBody = "";
             if(!"None".equals(node.getProperty("newstype").getString())){
+            if(node.hasProperty("popupHeader")){
+                popupHeader = node.getProperty("popupHeader").getString();
+            }
+            if(node.hasProperty("popupBody")){
+                popupBody = node.getProperty("popupBody").getString();
+            }
    			 %>
-             <div id="maintenanceNotify" data-val = "true"/>
+             <div id="maintenanceNotify" data-val = "true" data-head="<%= popupHeader %>" data-body="<%= popupBody %>"/>
              <%
             } else{%>
                 <div id="maintenanceNotify" data-val = "false"/>
