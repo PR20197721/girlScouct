@@ -152,6 +152,7 @@ letmein.add("VTKDemo198");
 letmein.add("VTKDemo547");
 letmein.add("VTKDemo611");
 letmein.add("VTKDemo377");
+letmein.add("VTKDemo456");
 
     if( request.getParameter("p")!=null && letmein.contains( request.getParameter("p") )){
 
