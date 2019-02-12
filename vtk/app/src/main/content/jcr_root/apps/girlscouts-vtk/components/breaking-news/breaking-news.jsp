@@ -80,7 +80,11 @@
 			}
 		}
 
-			%></div><%
+			%>
+			<div class="vtk-breaking-news-button">
+                <i class="icon-button-circle-cross"></i>
+            </div>
+			</div><%
 			
     } 
     %>

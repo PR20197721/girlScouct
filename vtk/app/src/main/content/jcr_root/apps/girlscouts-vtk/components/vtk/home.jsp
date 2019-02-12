@@ -60,6 +60,10 @@
 -->
  
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
+<!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
+<div class="maintenanceWarning">
+	<span class="maintenanceText" id="maintenance">The VTK System will be down for maintenance in the near future! See banner for more details. </br>(Click to remove this message)</span>
+</div>
 <!--PAGE STRUCTURE: MAIN-->
 <div class="row content">
 <!--PAGE STRUCTURE: LEFT CONTENT START-->
@@ -160,4 +164,32 @@
     </div><!--/mainRight-->
   <!--PAGE STRUCTURE: MAIN CONTENT STOP-->
 </div><!--/content-->
+<%
+Resource maintenanceNode = resourceResolver.getResource("/content/vtkcontent/en/vtk-maintenanceBanner/jcr:content/content/middle/par/breaking-news");
+if(maintenanceNode != null){
+    try{
+        Node node = maintenanceNode.adaptTo(Node.class);
+        if(node.hasProperty("newstype")){
+            if(!"None".equals(node.getProperty("newstype").getString())){
+   			 %>
+             <div id="maintenanceNotify" data-val = "true"/>
+             <%
+            } else{%>
+                <div id="maintenanceNotify" data-val = "false"/>
+                <%
+            }
+        }
+        else{
+        %>
+            <div id="maintenanceNotify" data-val = "false"/>
+        <%
+         }
+    } catch(Exception e){
+		e.printStackTrace();
+    }
+}
+ %>
+
+
+
 
