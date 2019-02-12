@@ -189,22 +189,6 @@ if(maintenanceNode != null){
     }
 }
  %>
- <script>
-     $(window).load(function(){
-         var data = $("#maintenanceNotify").attr("data-val");
-         if(data == "true"){
-            var notice = document.getElementById("maintenance");
-  			notice.classList.toggle("show");
-
-         }
-    });
-     $(".maintenanceWarning").click(function(){
-         if($(".maintenanceWarning").is(':visible')){
-			var notice = document.getElementById("maintenance");
-  			notice.classList.toggle("show");
-         }
-     });
-</script>
 
 
 
