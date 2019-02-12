@@ -136,7 +136,7 @@
 
 
 	// parse into a page, grab all RSS info
-	void fetchPageData(SlingBindings bindings, SlingHttpServletRequest slingRequest, ResourceResolver resourceResolver, String pagePath, GirlScoutsImagePathProvider gsImagePathProvider) {
+	void fetchPageData(SlingBindings bindings, SlingHttpServletRequest slingRequest, ResourceResolver resourceResolver, String pagePath, GirlscoutsImagePathProvider gsImagePathProvider) {
 
 		// get page properties		
 		Page thisPage = resourceResolver.resolve(pagePath).adaptTo(Page.class);
