@@ -26,3 +26,41 @@
 		bottom: 3px;
 	}
 }
+.maintenanceWarning {
+  position: absolute;
+  cursor: pointer;
+  margin-top: -10px;
+  margin-left: 530px;
+}
+
+.maintenanceWarning .maintenanceText {
+  visibility: hidden;
+  opacity: .7;
+  width: 300px;
+  background-color: #6b6b6b;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px 0;
+  position: absolute;
+  z-index: 1;
+
+  left: 100%;
+
+}
+.maintenanceWarning .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 3s;
+  animation: fadeIn 3s
+}
+
+
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: .7;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: .7;}
+}

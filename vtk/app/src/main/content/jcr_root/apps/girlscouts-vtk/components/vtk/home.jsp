@@ -60,6 +60,10 @@
 -->
  
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
+<!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
+<div class="maintenanceWarning">
+	<span class="maintenanceText" id="maintenance">The VTK System will be down for maintenance in the near future! See banner for more details. </br>(Click to remove this message)</span>
+</div>
 <!--PAGE STRUCTURE: MAIN-->
 <div class="row content">
 <!--PAGE STRUCTURE: LEFT CONTENT START-->
@@ -185,15 +189,23 @@ if(maintenanceNode != null){
     }
 }
  %>
-
  <script>
      $(window).load(function(){
          var data = $("#maintenanceNotify").attr("data-val");
          if(data == "true"){
-            alert("The VTK System will be down for maintenance in the near future! See banner for more details");
+            var notice = document.getElementById("maintenance");
+  			notice.classList.toggle("show");
+
          }
     });
+     $(".maintenanceWarning").click(function(){
+         if($(".maintenanceWarning").is(':visible')){
+			var notice = document.getElementById("maintenance");
+  			notice.classList.toggle("show");
+         }
+     });
 </script>
+
 
 
 
