@@ -451,7 +451,7 @@
 
                                     <p>If you have any questions or need support, please contact the Customer Care team at your council.</p>
 
-                                        <strong>Please check back with us Tomorrow After  5am EST</br>  -The GSUSA VTK Team</strong>
+                                        <strong>Please check back with us Tomorrow After  5am EST  -The GSUSA VTK Team</strong>
 
 
                                     </div>
