@@ -61,8 +61,26 @@
  
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
 <!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
-<div class="maintenanceWarning">
-	<span class="maintenanceText" id="maintenance">The VTK System will be down for maintenance in the near future! See banner for more details. </br>(Click to remove this message)</span>
+<div id="maintenanceModal" class="maintenance">
+
+  <!-- Modal content -->
+  <div class="maintenance-content">
+      <div class="modal-header">
+   		 <div class="vtk-maintenance-news-button">
+                <i class="icon-button-circle-cross"></i>
+          </div>
+         <div class="maintenanceHeader">Upcoming Maintenance </br></div>
+  	  </div>
+    <div class="modal-body">
+
+      <p>The VTK System will be down for maintenance in the near future! </br>See banner for more details.</p>
+	</div>
+	<div class="modal-footer">
+    	<p>-The GSUSA VTK Team</p>
+  	</div>
+
+  </div>
+
 </div>
 <!--PAGE STRUCTURE: MAIN-->
 <div class="row content">
