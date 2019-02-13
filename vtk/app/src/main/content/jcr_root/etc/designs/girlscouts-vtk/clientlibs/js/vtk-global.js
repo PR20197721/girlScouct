@@ -405,6 +405,24 @@ $(function(){
       }
 
  });
+ function checkNews(){
+    if($(".breaking-news").is(":visible")){
+    //Breaking News Maintenance Close:
+ 		$('.breaking-news .vtk-breaking-news-button').click(function () {
+                  $.ajax({
+                     url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkMaintenance',
+                     dataType: 'html',
+                 }).done(function () {
+                     $('#vtkBreakingNews').slideUp();
+                 })
+             });
+    } else{
+        setTimeout(checkNews, 50);
+    }
+
+ }
+$(document).ready(checkNews());
+
 $(window).load(function(){
             var notice = $("#maintenanceModal");
             notice.css('display','block');
@@ -417,15 +435,8 @@ $(window).load(function(){
             $(".maintenance-content").click(function(event) {
                event.stopPropagation();
             });
-            //Breaking News Maintenance Close:
-            $('.breaking-news .vtk-breaking-news-button').click(function () {
-                 $.ajax({
-                    url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkMaintenance',
-                    dataType: 'html',
-                }).done(function () {
-                    $('#vtkBreakingNews').slideUp();
-                })
-            });
+
+
 
 
 
