@@ -404,6 +404,13 @@ $(function(){
 	}
 
 })
+ $(window).resize(function(){
+     if($("#mobileView").css('display') != 'none'){
+         $("#breakingNews").css('margin-left','0');
+         $("#breakingNews").css('width','100%');
+     }
+
+ });
 $(window).load(function(){
          var data = $("#maintenanceNotify").attr("data-val");
          if(data == "true"){

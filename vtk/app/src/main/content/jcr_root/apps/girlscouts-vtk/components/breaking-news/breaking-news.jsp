@@ -3,6 +3,7 @@
 				 java.util.Set,
 				 com.day.cq.wcm.api.WCMMode"%><%
 %>
+<div id="mobileView" class="hide-for-large"></div>
 <%
 	String message = properties.get("message","");
 	String url = properties.get("url","");
@@ -22,14 +23,14 @@
 	if(!newstype.equals("None")) {
 		if(!bgcolor.equals("") && newstype.equals("Text")) {
 
-			%><div class="inner-wrapper" style="background-color:#<%=bgcolor%>"><%
+			%><div id="breakingNews" class="inner-wrapper" style="background-color:#<%=bgcolor%>"><%
 	
 		} else if (newstype.equals("Image")) {
 
-			%><div class="inner-wrapper" style="padding: 0;"><%
+			%><div id="breakingNews" class="inner-wrapper" style="padding: 0;"><%
 		} else {
 
-			%><div class="inner-wrapper"><%
+			%><div id="breakingNews" class="inner-wrapper"><%
 		}
 
 		if(newstype.equals("Image")) {
