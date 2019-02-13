@@ -184,7 +184,7 @@ export namespace Actions {
 		INTERVAL_FETCH(url);
 		return async(dispatch, getState) => {
 			try{
-				dispatch({ type: ActionsTypes.FETCHING_PAGE });
+				dispatch({ type: ActionsTypes.FETCHING_PAGE});
 				const response = await COMUNICATIONS.FETCH(url);
 
 				console.log(response);

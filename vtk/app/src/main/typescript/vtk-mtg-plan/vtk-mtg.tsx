@@ -1,11 +1,9 @@
-import * as React from "react"
-import * as ReactDOM from "react-dom"
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 
 import VtkMtgPlanMain from './vtk-mtg-main';
 import { Provider } from 'react-redux';
-
-import { Actions } from './store/actions'
-
+import { Actions } from './store/actions';
 
 import store from './store/store';
 
