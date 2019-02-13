@@ -404,19 +404,32 @@ $(function(){
 	}
 
 })
-$(window).load(function(){
-         var data = $("#maintenanceNotify").attr("data-val");
-         if(data == "true"){
-            var notice = document.getElementById("maintenance");
-  			notice.classList.toggle("show");
+ $(window).resize(function(){
+     if($("#mobileView").css('display') != 'none'){
+         $("#breakingNews").css('margin-left','0');
+         $("#breakingNews").css('width','100%');
+     }
+     if($("#mobileView").css('display') == 'none'){
+              $("#breakingNews").css('margin-left','45px');
+              $("#breakingNews").css('width','90.6%');
+      }
 
-         }
-    	 $(".maintenanceWarning").click(function(){
-            if($(".maintenanceWarning").is(':visible')){
-                var notice = document.getElementById("maintenance");
-                notice.classList.toggle("show");
-         }
  });
+$(window).load(function(){
+            var notice = $("#maintenanceModal");
+            notice.css('display','block');
+            $(".vtk-maintenance-news-button").click(function(){
+                notice.css('display', 'none');
+            });
+            $(document).click(function(){
+                notice.css('display', 'none');
+            });
+            $(".maintenance-content").click(function(event) {
+               event.stopPropagation();
+            });
+
+
+
 });
 // Re-Foundation on page load and dom load for modals that were added dynamically.
 $(function(){
