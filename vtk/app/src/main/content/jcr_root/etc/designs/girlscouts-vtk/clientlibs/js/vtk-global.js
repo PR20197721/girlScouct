@@ -409,6 +409,10 @@ $(function(){
          $("#breakingNews").css('margin-left','0');
          $("#breakingNews").css('width','100%');
      }
+     if($("#mobileView").css('display') == 'none'){
+              $("#breakingNews").css('margin-left','45px');
+              $("#breakingNews").css('width','90.6%');
+      }
 
  });
 $(window).load(function(){
