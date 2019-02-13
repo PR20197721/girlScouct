@@ -82,7 +82,7 @@
 		}
 
 			%>
-			<div class="vtk-breaking-news-button">
+			<div id="breakingNewsBtn" class="vtk-breaking-news-button">
                 <i class="icon-button-circle-cross"></i>
             </div>
 			</div><%
