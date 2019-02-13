@@ -86,12 +86,12 @@
             </div>
 			</div><%
 			
-    } 
+    } else{
     %>
 		<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder">
 		</div>
     <%
-
+}
 
 
 
