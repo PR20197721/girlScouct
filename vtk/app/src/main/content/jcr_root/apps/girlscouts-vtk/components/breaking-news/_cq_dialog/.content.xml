@@ -106,7 +106,7 @@
                             <body
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/textarea"
-                                    fieldDescription="Enter Popup Body Text (Footer is fixed to '- The GSUSA VTK Team'"
+                                    fieldDescription="Enter Popup Body Text (Footer is fixed to '- The GSUSA VTK Team')"
                                     fieldLabel="Popup Body Text"
                                     name="./popupBody"/>
                         </items>
