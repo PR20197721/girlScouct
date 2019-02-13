@@ -945,6 +945,9 @@
         }else if(request.getParameter("act") != null && "hideVtkBanner".equals(request.getParameter("act")) ){    
         	vtklog.debug("hideVtkBanner");
             session.setAttribute("isHideVtkBanner", "true");
+        }else if(request.getParameter("act") != null && "hideVtkMaintenance".equals(request.getParameter("act")) ){
+            vtklog.debug("hideVtkMaintenance");
+            session.setAttribute("isHideVtkMaintenance", "true");
         }else if( request.getParameter("alex658Xf409Re49v") !=null){
         	vtklog.debug("alex658Xf409Re49v");
         	try{ yearPlanUtil.GSMonthlyDetailedRpt( request.getParameter("year") ); }catch(Exception e){vtklog.error("Exception occured:",e);}
