@@ -418,7 +418,7 @@ $(window).load(function(){
                event.stopPropagation();
             });
             //Breaking News Maintenance Close:
-            $('.vtk-breaking-news-button').click(function () {
+            $('.breaking-news .vtk-breaking-news-button').click(function () {
                  $.ajax({
                     url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkMaintenance',
                     dataType: 'html',
