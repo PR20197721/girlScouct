@@ -60,28 +60,7 @@
 -->
  
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
-<!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
-<div id="maintenanceModal" class="maintenance">
 
-  <!-- Modal content -->
-  <div class="maintenance-content">
-      <div class="modal-header">
-   		 <div class="vtk-maintenance-news-button">
-                <i class="icon-button-circle-cross"></i>
-          </div>
-         <div class="maintenanceHeader">Upcoming Maintenance </br></div>
-  	  </div>
-    <div class="modal-body">
-
-      <p id="maintenanceBody"/>
-	</div>
-	<div class="modal-footer">
-    	<strong>-The GSUSA VTK Team</strong>
-  	</div>
-
-  </div>
-
-</div>
 <!--PAGE STRUCTURE: MAIN-->
 <div class="row content">
 <!--PAGE STRUCTURE: LEFT CONTENT START-->
@@ -191,25 +170,38 @@ if(maintenanceNode != null){
             String popupHeader = "";
             String popupBody = "";
             if(!"None".equals(node.getProperty("newstype").getString())){
-            if(node.hasProperty("popupHeader")){
-                popupHeader = node.getProperty("popupHeader").getString();
-            }
-            if(node.hasProperty("popupBody")){
-                popupBody = node.getProperty("popupBody").getString();
-            }
-   			 %>
-             <div id="maintenanceNotify" data-val = "true" data-head="<%= popupHeader %>" data-body="<%= popupBody %>"/>
-             <%
-            } else{%>
-                <div id="maintenanceNotify" data-val = "false"/>
-                <%
+                if(node.hasProperty("popupHeader")){
+                    popupHeader = node.getProperty("popupHeader").getString();
+                }
+                if(node.hasProperty("popupBody")){
+                    popupBody = node.getProperty("popupBody").getString();
+                }
+                 %>
+                 <!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
+                 <div id="maintenanceModal" class="maintenance">
+
+                   <!-- Modal content -->
+                   <div class="maintenance-content">
+                       <div class="modal-header">
+                             <div class="vtk-maintenance-news-button">
+                                 <i class="icon-button-circle-cross"></i>
+                           </div>
+                          <div class="maintenanceHeader"><%= popupHeader %> </br></div>
+                      </div>
+                     <div class="modal-body">
+
+                       <p id="maintenanceBody"><%= popupBody %></p>
+                    </div>
+                    <div class="modal-footer">
+                        <strong>-The GSUSA VTK Team</strong>
+                    </div>
+
+                   </div>
+
+                 </div>
+                 <%
             }
         }
-        else{
-        %>
-            <div id="maintenanceNotify" data-val = "false"/>
-        <%
-         }
     } catch(Exception e){
 		e.printStackTrace();
     }
