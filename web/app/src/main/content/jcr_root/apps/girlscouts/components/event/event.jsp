@@ -292,10 +292,15 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	<p>
 	<%
 		try {
-			String imgPath = properties.get("imagePath","");
-			if(!imgPath.isEmpty()){
-				%> <img src="<%= imgPath %>" /> <%
-			}
+			String imgExtPath = properties.get("imagePath","");
+            String imgPath = resource.getPath()+"/image";
+            Node imageNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
+            if(!imgExtPath.isEmpty()){
+                %> <img src="<%= imgExtPath %>" /> <%
+            }
+            else if(imageNode.hasProperty("fileReference")){
+                %> <img src="<%= imageNode.getProperty("fileReference").getString() %>" /> <%
+            }
 			else{
 			    Image image = new Image(resource.getChild("image"));
                 image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
