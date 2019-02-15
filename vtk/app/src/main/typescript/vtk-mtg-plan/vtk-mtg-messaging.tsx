@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Actions } from './store/actions'
-import './vtk-mtg-messaging.scss';
+import './../../scss/vtk-mtg-plan/vtk-mtg-messaging.scss';
 
 import { connect } from 'react-redux';
 

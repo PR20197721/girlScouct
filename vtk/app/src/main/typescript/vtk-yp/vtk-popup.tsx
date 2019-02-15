@@ -1,4 +1,4 @@
-import './vtk-popup.scss'
+import '../../scss/vtk-yp/vtk-popup.scss'
 
 import * as React from "react"
 

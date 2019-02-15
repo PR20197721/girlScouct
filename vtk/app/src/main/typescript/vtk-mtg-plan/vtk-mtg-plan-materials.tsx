@@ -2,7 +2,7 @@ import * as React from 'react';
 import VtkContent from './common/content';
 import VtkLinkPopUp from './common/linkpopup';
 
-import './vtk-mtg-plan-materials.scss';
+import './../../scss/vtk-mtg-plan/vtk-mtg-plan-materials.scss';
 import {connect} from 'react-redux';
 import { PERMISSION_CHECK } from './permission';
 

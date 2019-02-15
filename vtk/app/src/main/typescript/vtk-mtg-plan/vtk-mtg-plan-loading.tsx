@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './vtk-mtg-plan-loading.scss';
+import './../../scss/vtk-mtg-plan/vtk-mtg-plan-loading.scss';
 
 import { connect } from 'react-redux';
 

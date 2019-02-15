@@ -7,7 +7,7 @@ import Category from './category';
 import Meeting from './meeting';
 import Meetings from './meetings';
 
-import './year-plan-track.scss';
+import '../../scss/vtk-yp/year-plan-track.scss';
 
 interface YplanTrackProps {
     track : string;

@@ -11,7 +11,7 @@ import VtkSurvey from './common/survey';
 import * as moment from 'moment';
 
 
-import './vtk-mtg-main.scss';
+import './../../scss/vtk-mtg-plan/vtk-mtg-main.scss';
 import { connect } from 'react-redux';
 import { PERMISSION_CHECK } from './permission';
 

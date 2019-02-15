@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import './head.scss';
+import '../../scss/vtk-yp/head.scss';
 
 export interface HeadProps {
 }

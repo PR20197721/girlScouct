@@ -1,13 +1,13 @@
 {
   "name": "vtk-yp",
-  "version": "1.75.0",
+  "version": "2.0.0",
   "description": "",
   "main": "vtk-yp-app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "version": "npm version minor",
-    "build:prod": "webpack -p && npm run version",
+    "build:prod": "webpack -p",
     "clean": "rm -rf ../vtk-yp-app.*",
     "move": "mv ./dist/vtk-yp-app.* ../"
   },

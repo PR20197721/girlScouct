@@ -1,4 +1,4 @@
-import './meeting.scss';
+import '../../scss/vtk-yp/meeting.scss';
 
 import * as React from 'react';
 

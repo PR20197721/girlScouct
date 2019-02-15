@@ -1,7 +1,7 @@
 import * as React from 'react';
 import VtkContent from './common/content';
 
-import './vtk-mtg-plan-main-bar.scss'
+import './../../scss/vtk-mtg-plan/vtk-mtg-plan-main-bar.scss'
 import {connect} from 'react-redux';
 
 // import * as moment from 'moment';

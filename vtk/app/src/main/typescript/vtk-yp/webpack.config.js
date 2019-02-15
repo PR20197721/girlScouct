@@ -2,7 +2,7 @@ module.exports = {
     entry: "./vtk-yp.tsx",
     output: {
         filename: "vtk-yp-app.js",
-        path: __dirname + "./../"
+        path: __dirname + "./../../../../target/typescript-gen-js"
     },
 
     // Enable sourcemaps for debugging webpack's output.

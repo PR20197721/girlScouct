@@ -55,7 +55,6 @@
     <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-collections4</artifactId>
-        <version>4.1</version>
         <scope>provided</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
@@ -101,29 +100,33 @@
         </excludes>
       </resource>
       <resource>
-        <directory>${project.build.directory}/sass-gen-css</directory>
+        <directory>${project.build.directory}/scss-gen-css</directory>
         <targetPath>../vault-work/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css</targetPath>
+      </resource>
+      <resource>
+        <directory>${project.build.directory}/typescript-gen-js</directory>
+        <targetPath>../vault-work/jcr_root/etc/designs/girlscouts-vtk/clientlibs/js</targetPath>
       </resource>
     </resources>
     <plugins>
-      <plugin>
-        <groupId>org.jasig.maven</groupId>
-        <artifactId>sass-maven-plugin</artifactId>
-        <version>1.1.1</version>
-        <executions>
-          <execution>
-            <id>generate-css</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>update-stylesheets</goal>
-            </goals>
+    	<plugin>
+            <groupId>nl.geodienstencentrum.maven</groupId>
+            <artifactId>sass-maven-plugin</artifactId>
+            <version>3.7.1</version>
+            <executions>
+                <execution>
+                    <id>build</id>
+                    <phase>generate-resources</phase>
+                    <goals>
+                        <goal>update-stylesheets</goal>
+                    </goals>
+                </execution>
+            </executions>
             <configuration>
-              <sassSourceDirectory>${basedir}/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css</sassSourceDirectory>
-              <destination>${basedir}/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css</destination>
+            	<destination>${project.build.directory}/scss-gen-css</destination>
+            	<sassSourceDirectory>${project.basedir}/src/main/scss/vtk</sassSourceDirectory>
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
+        </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
@@ -194,6 +197,50 @@
           <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
         </configuration>
       </plugin>
+      <plugin>
+	      <groupId>com.github.eirslett</groupId>
+	      <artifactId>frontend-maven-plugin</artifactId>
+	      <version>1.6</version>
+	      <executions>
+	          <execution>
+	              <id>install-node-and-npm</id>
+	              <goals><goal>install-node-and-npm</goal></goals>
+	              <phase>generate-resources</phase>
+	          </execution>	
+	          <execution>
+	              <id>npm-install-vtk-yp</id>
+	              <goals><goal>npm</goal></goals>
+	              <configuration>
+	                  <arguments>-prefix src/main/typescript/vtk-yp/ install</arguments>
+	              </configuration>
+	          </execution>	
+	          <execution>
+	              <id>webpack-build-vtk-yp</id>
+	              <goals><goal>npm</goal></goals>
+	              <configuration>
+	                  <arguments>-prefix src/main/typescript/vtk-yp/ run build:prod</arguments>
+	              </configuration>
+	          </execution>
+	          <execution>
+	              <id>npm-install-vtk-mtg-plan</id>
+	              <goals><goal>npm</goal></goals>
+	              <configuration>
+	                  <arguments>-prefix src/main/typescript/vtk-mtg-plan/ install</arguments>
+	              </configuration>
+	          </execution>	
+	          <execution>
+	              <id>webpack-build-vtk-mtg-plan</id>
+	              <goals><goal>npm</goal></goals>
+	              <configuration>
+	                  <arguments>-prefix src/main/typescript/vtk-mtg-plan/ run build:prod</arguments>
+	              </configuration>
+	          </execution>
+	      </executions>	      
+	      <configuration>
+	          <nodeVersion>v11.9.0</nodeVersion>
+	          <npmVersion>6.5.0</npmVersion>
+	      </configuration>
+		</plugin>
     </plugins>
   </build>
   <profiles>

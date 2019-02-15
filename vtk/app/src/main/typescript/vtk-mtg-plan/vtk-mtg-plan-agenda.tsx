@@ -3,7 +3,7 @@ import VtkContent from './common/content';
 import {SortableContainer, SortableElement, arrayMove, SortableHandle} from 'react-sortable-hoc';
 import { connect } from 'react-redux';
 
-import './vtk-mtg-plan-agenda.scss';
+import './../../scss/vtk-mtg-plan/vtk-mtg-plan-agenda.scss';
 import { ActionsTypes } from './store/actionsType';
 import { Actions } from './store/actions'
 

@@ -20,7 +20,7 @@ module.exports = function(env){
         entry: "./vtk-mtg.tsx",
         output: {
             filename: "vtk-mtg-plan.js",
-            path: __dirname + "./../"
+            path: __dirname + "./../../../../target/typescript-gen-js"
         },
 
         // Enable sourcemaps for debugging webpack's output.

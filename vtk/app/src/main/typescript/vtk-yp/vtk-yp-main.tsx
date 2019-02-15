@@ -1,4 +1,4 @@
-import './vtk-yp-main.scss';
+import '../../scss/vtk-yp/vtk-yp-main.scss';
 
 import * as React from 'react';
 import * as data from './data'
