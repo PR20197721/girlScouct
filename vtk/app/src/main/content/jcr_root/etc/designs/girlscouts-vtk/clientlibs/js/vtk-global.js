@@ -394,7 +394,53 @@ $(function(){
 	}
 
 })
+ $(window).resize(function(){
+     if($("#mobileView").css('display') != 'none'){
+         $("#breakingNews").css('margin-left','0');
+         $("#breakingNews").css('width','100%');
+     }
+     if($("#mobileView").css('display') == 'none'){
+              $("#breakingNews").css('margin-left','45px');
+              $("#breakingNews").css('width','90.6%');
+      }
 
+ });
+ function checkNews(){
+    if($(".breaking-news").is(":visible")){
+    //Breaking News Maintenance Close:
+ 		$('.breaking-news .vtk-breaking-news-button').click(function () {
+                  $.ajax({
+                     url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkMaintenance',
+                     dataType: 'html',
+                 }).done(function () {
+                     $('#vtkBreakingNews').slideUp();
+                 })
+             });
+    } else{
+        setTimeout(checkNews, 50);
+    }
+
+ }
+$(document).ready(checkNews());
+
+$(window).load(function(){
+            var notice = $("#maintenanceModal");
+            notice.css('display','block');
+            $(".vtk-maintenance-news-button").click(function(){
+                notice.css('display', 'none');
+            });
+            $(document).click(function(){
+                notice.css('display', 'none');
+            });
+            $(".maintenance-content").click(function(event) {
+               event.stopPropagation();
+            });
+
+
+
+
+
+});
 // Re-Foundation on page load and dom load for modals that were added dynamically.
 $(function(){
 	$(document).foundation();
