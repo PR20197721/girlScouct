@@ -696,17 +696,69 @@
 		} else if (request.getParameter("getEventImg") != null) {
 			vtklog.debug("getEventImg");
 			try {
-				String imgPath = request.getParameter("path") + "/jcr:content/data/image";
-				Resource imgResource = resourceResolver.getResource(imgPath);
-				if (imgResource != null) {
-					Node imgNode = imgResource.adaptTo(Node.class);
-					if (imgNode.hasProperty("fileReference")) {
-						%><%=displayRendition(resourceResolver,	imgPath, "cq5dam.web.520.520")%><%
-					}
-				}
-			} catch (Exception e) {
-				vtklog.error("Exception occured:",e);
-			}
+            String imgDataPath = request.getParameter("path") + "/jcr:content/data";
+            String imgPath = request.getParameter("path") + "/jcr:content/data/image";
+            Node imgData = resourceResolver.resolve(imgDataPath).adaptTo(Node.class);
+            if(imgData.hasProperty("imagePath") && !"".equals(imgData.getProperty("imagePath").getString())){
+                %> <img src="<%= imgData.getProperty("imagePath").getString() %>" /> <%
+            }
+            else{
+                Resource imgResource = resourceResolver.getResource(imgPath);
+                if (imgResource != null) {
+                    Node imgNode = imgResource.adaptTo(Node.class);
+                    if (imgNode.hasProperty("fileReference")) {
+                        %> <img src="<%= imgNode.getProperty("fileReference").getString() %>" /> <%
+                    }else{
+                         Image image = new Image(imgResource);
+                         image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
+                         String width;
+                         String height;
+                         if(imgNode.hasProperty("./width")){
+                             width = imgNode.getProperty("./width").getString();
+                         } else{
+                             width = "0";
+                         }
+                         if(imgNode.hasProperty("./height")){
+                             height = imgNode.getProperty("./height").getString();
+                         } else{
+                             height = "0";
+                             }
+                         try{
+
+                             //drop target css class = dd prefix + name of the drop target in the edit config
+                             image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
+                             image.loadStyleData(currentStyle);
+                             image.setSelector(".img"); // use image script
+                             image.setDoctype(Doctype.fromRequest(request));
+                             if (!"0".equals(width)) {
+                                 image.addAttribute("width", width + "px");
+                             }
+                             if (!"0".equals(height)) {
+                                 image.addAttribute("height", height + "px");
+                             }
+
+                             Boolean newWindow = properties.get("./newWindow", false);
+
+                             // add design information if not default (i.e. for reference paras)
+                             if (!currentDesign.equals(resourceDesign)) {
+                                 image.setSuffix(currentDesign.getId());
+                             }
+
+                             if(!newWindow) {
+                                  image.draw(out);
+                             } else { %>
+                                 <%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
+                                 <%
+                                 }
+                         }catch (Exception e){
+
+                         }
+                     }
+                }
+            }
+        } catch (Exception e) {
+            vtklog.error("Exception occured:",e);
+        }
 		} else if(request.getParameter("imageData") != null){
 			vtklog.debug("imageData");
 			ResourceResolver rr= null;
