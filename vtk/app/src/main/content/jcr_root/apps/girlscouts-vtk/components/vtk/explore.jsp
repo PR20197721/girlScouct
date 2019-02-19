@@ -37,9 +37,9 @@ loadNav('explore')
 
         var globalImageName;
         if (isGlobbal) {
-        	globalImageName =  "global.png";
+        	globalImageName =  "globe_selected.png";
         } else {
-        	globalImageName = "notglobal.png";
+        	globalImageName = "globe_unselected.png";
         }
         var modal = $('#requirementsModal');
 

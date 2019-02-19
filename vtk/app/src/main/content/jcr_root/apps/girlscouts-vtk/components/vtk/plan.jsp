@@ -232,19 +232,19 @@ var CommentBox = React.createClass({displayName: "CommentBox",
 
     	   	render:function(){
 			var isGlobalAvailable = this.props.isGlobalAvailable,imgName;
-			if (this.props.isOutdoor) {
-				imgName =  "global.png";
+			if (this.props.isGlobal) {
+				imgName =  "globe_selected.png";
 			} else {
-				imgName = "notglobal.png";
+				imgName = "globe_unselected.png";
 			}
 			var options = {
                  className: 'global-icon has-tip tip-top radius',
                  src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/'+imgName,
                  style:{
-                    width:'45px',
+                    width:'39px',
                     border:'none',
                     cursor:'pointer',
-                    paddingTop:'3px'
+                    paddingTop:'6px'
                  },
                  "data-tooltip":true,
                  "aria-haspopup":true
@@ -581,8 +581,9 @@ var CommentBox = React.createClass({displayName: "CommentBox",
                                         React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
                                         React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj, openModal:openModal})),
                                         React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
-                                            React.createElement(outdoorIcon, {isOutdoorAvailable: obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor: obj[comment].anyOutdoorActivityInMeeting}),
-                                            React.createElement(globalIcon, {isGlobalAvailable: obj[comment].anyGlobalActivityInMeetingAvailable, isGlobal: obj[comment].anyGlobalActivityInMeeting}),
+                                        	React.createElement("div", {className:"meeting-icons"}, 
+                                        			React.createElement(outdoorIcon, {isOutdoorAvailable: obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor: obj[comment].anyOutdoorActivityInMeeting}), 
+                                        			React.createElement(globalIcon, {isGlobalAvailable: obj[comment].anyGlobalActivityInMeetingAvailable, isGlobal: obj[comment].anyGlobalActivityInMeeting})),
                                             React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {isOutdoorAvailable:  obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor:  obj[comment].anyOutdoorActivityInMeeting, isGlobalAvailable:  obj[comment].anyGlobalActivityInMeetingAvailable, isGlobal:  obj[comment].anyGlobalActivityInMeeting, dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
                                             React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
                                             React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
@@ -749,9 +750,9 @@ var CommentBox = React.createClass({displayName: "CommentBox",
               }
           var globalImgName;
           if (isGlobal) {
-        	  globalImgName =  "global.png";
+        	  globalImgName =  "globe_selected.png";
           } else {
-        	  globalImgName = "notglobal.png";
+        	  globalImgName = "globe_unselected.png";
           }    
         var modal = $('#requirementsModal');
 

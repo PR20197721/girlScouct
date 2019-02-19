@@ -143,7 +143,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>-prefix src/main/typescript/vtk-yp/ run build:prod</arguments>
+							<arguments>-prefix src/main/typescript/vtk-yp/ run build</arguments>
 						</configuration>
 					</execution>
 					<execution>
@@ -162,7 +162,7 @@
 						</goals>
 						<configuration>
 							<arguments>-prefix src/main/typescript/vtk-mtg-plan/ run
-								build:prod</arguments>
+								build</arguments>
 						</configuration>
 					</execution>
 				</executions>

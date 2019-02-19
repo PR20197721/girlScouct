@@ -550,6 +550,8 @@
 						"notes": null,
 						"anyOutdoorActivityInMeeting": false,
 						"anyOutdoorActivityInMeetingAvailable": false,
+						"anyGlobalActivityInMeeting": false,
+						"anyGlobalActivityInMeetingAvailable": false,
 						"dbUpdate": true
 					}
 				],

@@ -3,12 +3,15 @@ import '../../scss/vtk-yp/meeting.scss';
 import * as React from 'react';
 
 import { tree } from './tree';
+import { globe } from './globe';
 
 interface MeetingProps {
    meetingInfo: MeetingInfo;
    idx:number;
    anyOutdoorActivityInMeetingAvailable:boolean;
    anyOutdoorActivityInMeeting:boolean;
+   anyGlobalActivityInMeetingAvailable:boolean;
+   anyGlobalActivityInMeeting:boolean;
 
 };
 
@@ -39,7 +42,7 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
             showClickRequiment="_requirement_modal";
             _onClick = (e:Event) => {
 
-                requirementsModal({reqTitle: this.props.meetingInfo.reqTitle,id:this.props.meetingInfo.id,name:this.props.meetingInfo.name,req:this.props.meetingInfo.req},this.props.anyOutdoorActivityInMeetingAvailable, this.props.anyOutdoorActivityInMeeting)
+                requirementsModal({reqTitle: this.props.meetingInfo.reqTitle,id:this.props.meetingInfo.id,name:this.props.meetingInfo.name,req:this.props.meetingInfo.req},this.props.anyOutdoorActivityInMeetingAvailable, this.props.anyOutdoorActivityInMeeting,this.props.anyGlobalActivityInMeetingAvailable, this.props.anyGlobalActivityInMeeting)
             }
         }
 
@@ -69,11 +72,10 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
 
 
                     {(this.props.meetingInfo.activities && this.props.meetingInfo.activities.length > 0) ?
-                        <div className="small-24 medium-3 column small-text-center" style={{ textAlign: "center" }}>
+                        <div className="small-24 medium-3 column small-text-center" style={{ textAlign: "center" }}>                            
+                            {(this.props.anyGlobalActivityInMeetingAvailable) ? <img src={globe} style={{ 'width': '60px', 'height': '60px' }} alt="" /> : null}
                             {(this.props.anyOutdoorActivityInMeetingAvailable) ? <img src={tree} style={{ 'width': '60px', 'height': '60px' }} alt="" /> : null}
-                        </div> : null}
-                    
-                    
+                        </div> : null}                    
                     <div className="small-24 medium-3 column small-text-center" style={{ textAlign: 'center' }}>
                         <img onClick={(e)=>_onClick(e)} className={showClickRequiment} src={"/content/dam/girlscouts-vtk/local/icon/meetings/" + this.props.meetingInfo.id + ".png"}  style={{ 'width': '60px', 'height': '60px' }} alt="" /> 
                     </div>

@@ -1,6 +1,9 @@
-.outdoor-icon {
-	position: absolute;
-	top: 50%;
-	right: 10px;
-	margin-top: -24px;
+.meeting-icons {
+	float:right;
+	.outdoor-icon {
+		float:right;
+	}
+	.global-icon {
+		float:left;
+	}
 }

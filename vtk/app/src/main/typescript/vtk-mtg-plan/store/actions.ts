@@ -183,7 +183,7 @@ export namespace Actions {
 	export function FETCH(url) {
 		INTERVAL_FETCH(url);
 		return async(dispatch, getState) => {
-			try{
+			//try{
 				dispatch({ type: ActionsTypes.FETCHING_PAGE});
 				const response = await COMUNICATIONS.FETCH(url);
 
@@ -221,9 +221,9 @@ export namespace Actions {
 
 				dispatch({ type: ActionsTypes.FETCHING_DONE, payload: data });
 
-			}catch(error){
-                 (error) :void=>{ console.log(error) }
-			}
+			//}catch(error){
+            //     (error) :void=>{ console.log(error) }
+			//}
 		}
 	}
 

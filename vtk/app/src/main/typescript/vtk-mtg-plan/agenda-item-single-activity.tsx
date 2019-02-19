@@ -32,12 +32,13 @@ function AgendaItemSingle (props: AgendaItemSingleProps) {
         {(permissionCheck || props.helper.currentDate < (Date.now()) && (new Date(props.helper.currentDate)).getFullYear() > 2000 )?<DragHandle />:null}
         <div className="__main" >
             <div style={{width:'29px', height: '22px'}}></div> 
-            <div className="__is-outdoor">
-                <AgendaItemOutDoor  multiactivities={props.value.multiactivities} />
-            </div>
             <div className="__is-global">
                 <AgendaItemGlobal  multiactivities={props.value.multiactivities} />
             </div>
+            <div className="__is-outdoor">
+                <AgendaItemOutDoor  multiactivities={props.value.multiactivities} />
+            </div>
+            
             <div className="__time_counter">{ props.schedule ? props.value.__counter__:props.value.__index__ + 1}</div>
                 <div className="__description"><div className="__title">
                     <div className="__text">

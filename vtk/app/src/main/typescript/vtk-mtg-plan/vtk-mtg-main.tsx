@@ -46,7 +46,6 @@ function VtkMtgPlanMain (props: VtkMtgPlanMainProps) {
 
     return ((props.meetingEvents)?
         <div>
-            <VtkModal />
             <div className="column large-20 medium-20 large-centered medium-centered">
                 <VtkMtgPlanLoading />
                 <VtkMtgPlanMsg  />
@@ -57,6 +56,7 @@ function VtkMtgPlanMain (props: VtkMtgPlanMainProps) {
                 <VtkMtgPlanAgenda />
                 <VtkSurvey />
             </div>
+            <VtkModal />
         </div>
       :<div className="column large-20 medium-20 large-centered medium-centered" style={{height:'200px'}}>
           <VtkMtgPlanLoading />

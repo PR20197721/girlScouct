@@ -22,7 +22,7 @@ export module HELPER {
     }
 
 
-     export const objectIsEmpty = (obj) => Object.keys(obj).length && obj.constructor === Object;
+     export const objectIsEmpty = (obj) => obj == Object.keys(obj).length && obj.constructor === Object;
 
     export class INTERVAL {
         private holder: number | undefined;
