@@ -1,6 +1,6 @@
 <%@page
 	import="java.util.Comparator, org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
-                org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO,
+                org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.cq.wcm.foundation.Image, com.day.cq.commons.Doctype,com.day.cq.wcm.api.components.DropTarget,com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO,
                 org.girlscouts.vtk.helpers.TroopHashGenerator, org.girlscouts.vtk.models.JcrCollectionHoldString, org.girlscouts.vtk.ejb.CouncilRpt,org.slf4j.Logger,org.slf4j.LoggerFactory"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -696,17 +696,69 @@
 		} else if (request.getParameter("getEventImg") != null) {
 			vtklog.debug("getEventImg");
 			try {
-				String imgPath = request.getParameter("path") + "/jcr:content/data/image";
-				Resource imgResource = resourceResolver.getResource(imgPath);
-				if (imgResource != null) {
-					Node imgNode = imgResource.adaptTo(Node.class);
-					if (imgNode.hasProperty("fileReference")) {
-						%><%=displayRendition(resourceResolver,	imgPath, "cq5dam.web.520.520")%><%
-					}
-				}
-			} catch (Exception e) {
-				vtklog.error("Exception occured:",e);
-			}
+            String imgDataPath = request.getParameter("path") + "/jcr:content/data";
+            String imgPath = request.getParameter("path") + "/jcr:content/data/image";
+            Node imgData = resourceResolver.resolve(imgDataPath).adaptTo(Node.class);
+            if(imgData.hasProperty("imagePath") && !"".equals(imgData.getProperty("imagePath").getString())){
+                %> <img src="<%= imgData.getProperty("imagePath").getString() %>" /> <%
+            }
+            else{
+                Resource imgResource = resourceResolver.getResource(imgPath);
+                if (imgResource != null) {
+                    Node imgNode = imgResource.adaptTo(Node.class);
+                    if (imgNode.hasProperty("fileReference")) {
+                        %> <img src="<%= imgNode.getProperty("fileReference").getString() %>" /> <%
+                    }else{
+                         Image image = new Image(imgResource);
+                         image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
+                         String width;
+                         String height;
+                         if(imgNode.hasProperty("./width")){
+                             width = imgNode.getProperty("./width").getString();
+                         } else{
+                             width = "0";
+                         }
+                         if(imgNode.hasProperty("./height")){
+                             height = imgNode.getProperty("./height").getString();
+                         } else{
+                             height = "0";
+                             }
+                         try{
+
+                             //drop target css class = dd prefix + name of the drop target in the edit config
+                             image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
+                             image.loadStyleData(currentStyle);
+                             image.setSelector(".img"); // use image script
+                             image.setDoctype(Doctype.fromRequest(request));
+                             if (!"0".equals(width)) {
+                                 image.addAttribute("width", width + "px");
+                             }
+                             if (!"0".equals(height)) {
+                                 image.addAttribute("height", height + "px");
+                             }
+
+                             Boolean newWindow = properties.get("./newWindow", false);
+
+                             // add design information if not default (i.e. for reference paras)
+                             if (!currentDesign.equals(resourceDesign)) {
+                                 image.setSuffix(currentDesign.getId());
+                             }
+
+                             if(!newWindow) {
+                                  image.draw(out);
+                             } else { %>
+                                 <%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
+                                 <%
+                                 }
+                         }catch (Exception e){
+
+                         }
+                     }
+                }
+            }
+        } catch (Exception e) {
+            vtklog.error("Exception occured:",e);
+        }
 		} else if(request.getParameter("imageData") != null){
 			vtklog.debug("imageData");
 			ResourceResolver rr= null;
@@ -945,6 +997,9 @@
         }else if(request.getParameter("act") != null && "hideVtkBanner".equals(request.getParameter("act")) ){    
         	vtklog.debug("hideVtkBanner");
             session.setAttribute("isHideVtkBanner", "true");
+        }else if(request.getParameter("act") != null && "hideVtkMaintenance".equals(request.getParameter("act")) ){
+            vtklog.debug("hideVtkMaintenance");
+            session.setAttribute("isHideVtkMaintenance", "true");
         }else if( request.getParameter("alex658Xf409Re49v") !=null){
         	vtklog.debug("alex658Xf409Re49v");
         	try{ yearPlanUtil.GSMonthlyDetailedRpt( request.getParameter("year") ); }catch(Exception e){vtklog.error("Exception occured:",e);}
