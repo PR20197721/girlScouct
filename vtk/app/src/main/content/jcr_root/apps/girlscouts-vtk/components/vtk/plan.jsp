@@ -248,8 +248,8 @@ var CommentBox = React.createClass({displayName: "CommentBox",
                  },
                  "data-tooltip":true,
                  "aria-haspopup":true
-                 //,
-                 //title:"<b>Get Girls Outside!</b>"
+                 ,
+                 title:"<b>Go Global!</b>"
                }
 
     		   if (isGlobalAvailable) {
