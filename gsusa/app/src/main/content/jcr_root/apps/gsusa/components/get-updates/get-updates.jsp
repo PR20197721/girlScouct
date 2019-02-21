@@ -19,7 +19,7 @@
             <p class="error hide">Invalid email or zipcode</p>
         </div>
         <div class="wrapper clearfix">
-            <input name="alumna" id="alumna" type="checkbox" /> <label for="alumna">I'm a Girl Scout Alumna.</label>
+            <input name="alumna" id="alumna" type="checkbox" /> <label for="alumna">I'm a Girl Scout Alum</label>
             <input type="submit" name="go" class="submit button" value="Submit" />
         </div>
   </form>
