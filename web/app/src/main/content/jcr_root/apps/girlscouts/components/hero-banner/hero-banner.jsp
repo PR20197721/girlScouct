@@ -40,19 +40,23 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT){
    try{
        timer = Integer.parseInt(properties.get("slideshowtimer", "6000"));
    }catch(Exception e){
-       try{
-           //Parse property and get only integer characters, update inputted value as well
-           String val = properties.get("slideshowtimer", "6000");
-           val = val.replaceAll("\\D+","");
-           Node node = resource.adaptTo(Node.class);
-           node.setProperty("slideshowtimer",val);
-           Session session = resourceResolver.adaptTo(Session.class);
-           session.save();
-           timer = Integer.parseInt(val);
-       }catch(Exception e){
-           //default value for timer in case of invalid data
-           timer = 6000;
-       }
+       //Parse property and get only integer characters, update inputted value as well
+       String val = properties.get("slideshowtimer", "6000");
+       val = val.replaceAll("\\D+","");
+       Node node = resource.adaptTo(Node.class);
+       node.setProperty("slideshowtimer",val);
+       Session session = resourceResolver.adaptTo(Session.class);
+       session.save();
+   }
+   try{
+        timer = Integer.parseInt(properties.get("slideshowtimer", "6000"));
+   }catch(Exception e){
+       //default if invalid string
+       Node node = resource.adaptTo(Node.class);
+       node.setProperty("slideshowtimer","6000");
+       Session session = resourceResolver.adaptTo(Session.class);
+       session.save();
+       timer = 6000;
    }
    request.setAttribute("HeroBannerTimer", timer);
   
