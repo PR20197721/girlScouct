@@ -56,7 +56,7 @@
                     </slide-show-counts>
                     <slideshow-timer
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="(Provide time in millisecond.Default (6000ms))"
+                        fieldDescription="Please provide time (in ms) without abbreviation (Ex: 6000) Default = 6000 Limit is 3 minutes(180000)"
                         fieldLabel="Time Interval"
                         imageLabel="Image"
                         name="./slideshowtimer"

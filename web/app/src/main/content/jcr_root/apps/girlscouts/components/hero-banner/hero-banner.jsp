@@ -39,10 +39,17 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT){
    String sbplacement = properties.get("spplacement","");
    try{
        timer = Integer.parseInt(properties.get("slideshowtimer", "6000"));
+       //set limit to 3 min
+       if(timer > 180000){
+          timer = 180000;
+       }
    }catch(Exception e){
        //Parse property and get only integer characters, update inputted value as well
        String val = properties.get("slideshowtimer", "6000");
        val = val.replaceAll("\\D+","");
+       if(Integer.parseInt(val) > 180000){
+            val = "180000";
+       }
        Node node = resource.adaptTo(Node.class);
        node.setProperty("slideshowtimer",val);
        Session session = resourceResolver.adaptTo(Session.class);
