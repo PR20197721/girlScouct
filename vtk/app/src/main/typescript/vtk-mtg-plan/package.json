@@ -1,0 +1,51 @@
+{
+  "name": "vtk-yp",
+  "version": "2.0.0",
+  "description": "",
+  "main": "vtk-yp-app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --env=dev",
+    "build:local": "webpack --env=local",
+    "start-server": "json-server --router router.json --watch db.json",
+    "version": "npm version minor",
+    "build:prod": "webpack -p",
+    "clean": "rm -rf ../vtk-yp-app.*",
+    "move": "mv ./dist/vtk-yp-app.* ../"
+  },
+  "author": "Juan Carlos Duran",
+  "license": "ISC",
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.5.0",
+    "css-loader": "^0.28.1",
+    "json-server": "^0.12.1",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^6.0.3",
+    "source-map-loader": "^0.2.1",
+    "style-loader": "^0.17.0",
+    "typescript": "^2.3.2",
+    "webpack": "^2.4.1"
+  },
+  "dependencies": {
+    "@types/axios": "^0.9.34",
+    "@types/moment-timezone": "^0.5.6",
+    "@types/react": "^15.0.23",
+    "@types/react-dom": "^15.5.0",
+    "@types/react-redux": "^5.0.15",
+    "@types/redux-logger": "^3.0.6",
+    "@types/promise": "^7.1.30",
+    "axios": "^0.15.3",
+    "dependency-install": "0.0.11",
+    "moment": "^2.20.1",
+    "moment-timezone": "^0.5.21",
+    "node": "^11.9.0",
+    "promise": "^7.1.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.7",
+    "react-sortable-hoc": "^0.6.8",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  }
+}

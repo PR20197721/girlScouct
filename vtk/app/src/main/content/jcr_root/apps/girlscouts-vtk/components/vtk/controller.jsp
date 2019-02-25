@@ -410,6 +410,12 @@
 					_meeting.setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
 					boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( _meeting.getMeetingInfo() );
 					_meeting.setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
+					
+					boolean isAnyGlobalActivitiesInMeeting = VtkUtil.isAnyGlobalActivitiesInMeeting( _meeting.getMeetingInfo() );
+					_meeting.setAnyGlobalActivityInMeeting(isAnyGlobalActivitiesInMeeting);
+					boolean isAnyGlobalActivitiesInMeetingAvailable = VtkUtil.isAnyGlobalActivitiesInMeetingAvailable( _meeting.getMeetingInfo() );
+					_meeting.setAnyGlobalActivityInMeetingAvailable(isAnyGlobalActivitiesInMeetingAvailable);
+					
 					if(_meeting.getNotes() == null){
                         _meeting.setNotes(new LinkedList<Note>());
                     }
@@ -573,6 +579,10 @@
 		   					((MeetingE) tmp[i]).setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
 		   					boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( ((MeetingE) tmp[i]).getMeetingInfo() );
 		   					((MeetingE) tmp[i]).setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
+		   					boolean isAnyGlobalActivitiesInMeeting = VtkUtil.isAnyGlobalActivitiesInMeeting(((MeetingE) tmp[i]).getMeetingInfo()); 
+		   					((MeetingE) tmp[i]).setAnyGlobalActivityInMeeting(isAnyGlobalActivitiesInMeeting);
+		   					boolean isAnyGlobalActivitiesInMeetingAvailable = VtkUtil.isAnyGlobalActivitiesInMeetingAvailable( ((MeetingE) tmp[i]).getMeetingInfo() );
+		   					((MeetingE) tmp[i]).setAnyGlobalActivityInMeetingAvailable(isAnyGlobalActivitiesInMeetingAvailable);
 		   					((MeetingE) tmp[i]).getMeetingInfo().setActivities(null);
 							((MeetingE) tmp[i]).getMeetingInfo().setMeetingInfo(null);
 							((MeetingE) tmp[i]).getMeetingInfo().setResources(null);
