@@ -255,6 +255,38 @@ window.BadgePdfGenerator = (function(window, $, document){
 		var runningTotalHeight = 0, pageNumber = 0;
 		var elementHeight;
 		for(var i = 0; i < allElements.length; i++){
+		    if($(allElements[i]).outerHeight(true) > 275){
+                $(allElements[i]).outerHeight(275);
+                $(allElements[i]).innerHeight(271);
+                $($(allElements[i]).children()[0]).outerHeight(264);
+                $($(allElements[i]).children()[1]).outerHeight(265);
+                $($(allElements[i]).children()[1]).innerHeight(260);
+
+                var text = $($(allElements[i]).children()[1]).text().replace("Get This Journey", "");
+                text = text.replace("GET THIS BADGE", "");
+                if(text.length > 550){
+                    var linkEl = $(allElements[i]).find(".BadgePdfGetContainer");
+                    $($(allElements[i]).find(".BadgePdfGetContainer").parent()).css("position","relative");
+                    if($($($(allElements[i]).find(".BadgePdfDescription")).children().last()).text().includes("Learn more about how to earn your Take Action Award")){
+                        var el = $($(allElements[i]).find("ol"));
+                        el.css("margin-bottom","0px");
+                        if(el != null){
+                            el.children().last().remove();
+                        }
+                    }else{
+                        $($(allElements[i]).find(".BadgePdfDescription")).children().last().remove();
+                    }
+
+                    linkEl.css("margin",0);
+                    linkEl.css("position","absolute");
+                    linkEl.css("bottom","20px");
+                    if(text.length > 800){
+                        $($(allElements[i]).find(".BadgePdfDescription")).children().last().remove();
+                    }
+                    $($(allElements[i]).find("ol")).append("<li><strong style='width: 100px'>Please see badge for more details...</strong></li>");
+                    $($(allElements[i]).find(".BadgePdfDescription")).append(linkEl);
+                }
+            }
 			elementHeight =  $(allElements[i]).outerHeight(true);
 			if(runningTotalHeight + elementHeight > MAX_PDF_PAGE_HEIGHT){
 				var previousElement = $(allElements[i-1]);
