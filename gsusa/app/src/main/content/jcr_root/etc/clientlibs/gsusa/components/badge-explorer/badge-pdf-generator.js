@@ -283,7 +283,7 @@ window.BadgePdfGenerator = (function(window, $, document){
                     if(text.length > 800){
                         $($(allElements[i]).find(".BadgePdfDescription")).children().last().remove();
                     }
-                    $($(allElements[i]).find("ol")).append("<li><strong style='width: 100px'>Please see badge for more details...</strong></li>");
+                    $($(allElements[i]).find("ol")).append("<li><strong style='width: 100px'><a href='https://www.girlscouts.org/en/our-program/badges/badge_explorer.html'>Please see badge for more details...</a></strong></li>");
                     $($(allElements[i]).find(".BadgePdfDescription")).append(linkEl);
                 }
             }
