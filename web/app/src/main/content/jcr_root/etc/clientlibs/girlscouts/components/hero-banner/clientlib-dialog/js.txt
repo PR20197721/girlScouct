@@ -1,3 +1,4 @@
 base=.
 hero-banner-dialog.js
 hero-slideshow-images-dialog.js
+hero-slideshow-timer-dialog.js
