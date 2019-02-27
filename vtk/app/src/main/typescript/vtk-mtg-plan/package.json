@@ -30,6 +30,8 @@
   "dependencies": {
     "@types/axios": "^0.9.34",
     "@types/moment-timezone": "^0.5.6",
+    "@types/jquery": "^3.3.29",
+    "@types/sizzle": "^2.3.2",
     "@types/react": "^15.0.23",
     "@types/react-dom": "^15.5.0",
     "@types/react-redux": "^5.0.15",
