@@ -1,6 +1,6 @@
 import * as React from 'react';
+import $ from 'jquery';
 import { connect } from 'react-redux';
-
 import './modal.scss';
 import { HELPER } from '../helper';
 import { Actions } from '../store/actions';
@@ -53,7 +53,7 @@ class VtkModal extends React.PureComponent<VtkModalProps, any> {
             for(var i = 0; i < $(".__list_of_assets").children().length; i++) {
                 try{
                     if(contentVal !== undefined){
-                        contentVal = replaceAll(contentVal, assetNames[i], "<a href='"+assets[i]+"'target='_blank'>" + assetNames[i]+"</a>");
+                        contentVal = this.replaceAll(contentVal, assetNames[i], "<a href='"+assets[i]+"'target='_blank'>" + assetNames[i]+"</a>");
                     }
                 } catch(err){
                     return innerText;
@@ -110,7 +110,7 @@ class VtkModal extends React.PureComponent<VtkModalProps, any> {
 							<i onClick={close} className="icon-button-circle-cross" />
 						</div>
 						<div className="__description" style={{height:(heigthLogic()-40)+'px'}}>
-							<div className="__scroll" dangerouslySetInnerHTML={{ __html: checkAgenda(this.props.modal.description) }} />
+							<div className="__scroll" dangerouslySetInnerHTML={{ __html: this.checkAgenda(this.props.modal.description) }} />
 						</div>
 					</div>
 				</div> : null;
