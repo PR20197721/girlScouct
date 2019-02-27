@@ -29,6 +29,38 @@ class VtkModal extends React.PureComponent<VtkModalProps, any> {
 			window.onresize = () => {};
 			window.onscroll = () => {};
 		}
+		replaceAll(str, rep, val) {
+            if(str === null){
+                return;
+            }
+            return str.replace(new RegExp(rep, 'g'), val);
+        }
+        checkAgenda(innerText){
+            var assets = [];
+            var assetNames = [];
+
+            //Parse Meeting aid Titles and Hrefs into arrays
+            $(".__list_of_assets").children().each(function(){
+                assetNames.push($.trim($(this).find("a").text()));
+                assets.push($(this).find("a").attr("href"));
+            });
+            var contentVal;
+            try{
+                contentVal = innerText;
+            }catch(err){
+                return innerText;
+            }
+            for(var i = 0; i < $(".__list_of_assets").children().length; i++) {
+                try{
+                    if(contentVal !== undefined){
+                        contentVal = replaceAll(contentVal, assetNames[i], "<a href='"+assets[i]+"'target='_blank'>" + assetNames[i]+"</a>");
+                    }
+                } catch(err){
+                    return innerText;
+                }
+            }
+            return contentVal;
+        }
 
 		render() {
 			const construct = () => {
@@ -78,7 +110,7 @@ class VtkModal extends React.PureComponent<VtkModalProps, any> {
 							<i onClick={close} className="icon-button-circle-cross" />
 						</div>
 						<div className="__description" style={{height:(heigthLogic()-40)+'px'}}>
-							<div className="__scroll" dangerouslySetInnerHTML={{ __html: this.props.modal.description }} />
+							<div className="__scroll" dangerouslySetInnerHTML={{ __html: checkAgenda(this.props.modal.description) }} />
 						</div>
 					</div>
 				</div> : null;
