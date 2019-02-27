@@ -27,6 +27,8 @@
   "dependencies": {
     "@types/axios": "^0.9.34",
     "@types/promise": "^7.1.30",
+    "@types/jquery": "^3.3.29",
+    "@types/sizzle": "^2.3.2",
     "@types/react": "^15.0.23",
     "@types/react-dom": "^15.5.0",
     "axios": "^0.15.3",
