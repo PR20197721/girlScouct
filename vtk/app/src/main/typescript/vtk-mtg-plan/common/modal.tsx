@@ -1,5 +1,5 @@
 import * as React from 'react';
-import $ from 'jquery';
+import * as $ from 'jquery';
 import { connect } from 'react-redux';
 import './modal.scss';
 import { HELPER } from '../helper';
