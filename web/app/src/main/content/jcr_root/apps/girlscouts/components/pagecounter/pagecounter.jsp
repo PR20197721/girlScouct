@@ -15,7 +15,9 @@
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
 	java.text.SimpleDateFormat,
-	java.util.Calendar
+	java.util.Calendar,
+	com.day.cq.wcm.msm.api.*,
+	org.apache.sling.api.resource.ResourceUtil
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -200,7 +202,7 @@
 	
 	
 	
-	void processPage(ResourceResolver rr, String path) {
+	void processPage(ResourceResolver rr, String path, LiveRelationshipManager lrm) {
 		
 		Page page = rr.getResource(path).adaptTo(Page.class);
 		String reason;
@@ -246,35 +248,27 @@
 				
 		// If a page has jcr:mixinTypes of either LiveRelationship or LiveSync, 
 		// it's inherited from national templates 
-		ArrayList<String> mixinTypes = new ArrayList<String>();
-		String[] mTypes = properties.get("jcr:mixinTypes", String[].class);
-		Boolean addedMixin = false;
-		String pathMixin = "";
-		for (String m: mTypes) {
-			mixinTypes.add(m.trim());
-		}			
-		if (mixinTypes.contains("cq:LiveSync") ||
-			mixinTypes.contains("cq:LiveRelationship") ||
-			mixinTypes.contains("cq:PropertyLiveSyncCancelled")) {
-			councilTemplatePages.add(path);
-			return;
-		}	
-		
-		// Embedded Form
-		/*
-		Resource resource = rr.getResource(page.getPath() + "/jcr:content/content/middle/par/embedded");
-		if (resource != null) {
-			String html = resource.getValueMap().get("html", "");
-			int qw = html.indexOf("wufoo");
-			if (qw > 0) {
-				noncountPages.add(path + " Embedded Form: wufoo");
-				return;
-			} else {
-				noncountPages.add(path + " Embedded Form");
+		try{
+			Resource pageRes = page.adaptTo(Resource.class);
+			LiveRelationship relationship = lrm.getLiveRelationship(pageRes, false);
+			if(relationship != null){
+				String srcPath = relationship.getSourcePath();
+				Resource srcRes = rr.resolve(srcPath);
+				if(srcRes != null && !ResourceUtil.isNonExistingResource(srcRes)){
+					if(srcPath != null && srcPath.startsWith("/content/girlscouts-template")){
+						councilTemplatePages.add(path);
+						return;
+					}else{
+						if(srcPath != null && srcPath.startsWith("/content/webtocase")){
+							noncountPages.put(path, "ExceptionPages");
+							return;
+						}
+					}
+				}
 			}
+		}catch(Exception e){
 			
 		}
-		*/
 		
 		// Thank You Pages
 		for (int i = 0; i < thankYouPages.size(); i++) {
@@ -361,6 +355,7 @@
 		defaultValues.add(format("Site Search", sitesearchURL, "true", "false"));
 		defaultValues.add(format("Email Templates", councilPath + "/en/email-templates", "true", "false"));
 		defaultValues.add(format("Redirects", councilPath + "/en/redirects", "true", "false"));
+		defaultValues.add(format("Web-to-Lead Forms", councilPath + "/en/web-to-lead-forms", "true", "false"));
 		
 		
 		// Get some links from homepage footer such as Terms and Conditions, Policy
@@ -432,8 +427,9 @@
 	recurse(resourceResolver, top);	
 	
 	allPages.remove(0); // removes /content/<council>
+	LiveRelationshipManager lrm = resourceResolver.adaptTo(LiveRelationshipManager.class);
 	for (int i = 0; i < allPages.size(); i++) {
-		processPage(resourceResolver, allPages.get(i));
+		processPage(resourceResolver, allPages.get(i), lrm);
 	}
 	
 	// If overrides are set, add override paths
