@@ -42,14 +42,6 @@
                                 fieldDescription=""
                                 fieldLabel="Description"
                                 name="./description"/>
-                            <source
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="Originating source in 300 or less characters"
-                                fieldLabel="Source"
-    							   defaultValue=""
-                                name="./source"
-                                required="false"/>
                             <emailplaceholder
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
@@ -208,9 +200,9 @@
                 </items>
             </thankyou-image>
             
-            <sfmc
+            <sfmc2
                 jcr:primaryType="nt:unstructured"
-                jcr:title="SFMC"
+                jcr:title="SFMC2"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
@@ -219,29 +211,94 @@
                     <columns
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
-                        <items jcr:primaryType="nt:unstructured">
-                            <councilid
+                        <items jcr:primaryType="nt:unstructured">                        	
+                            <source
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="3 digit Council ID"
-                                fieldLabel="Council ID"
-                                name="./cid"/>
-                            <dataextensionname
+                                fieldDescription="Originating source in 300 or less characters"
+                                fieldLabel="Source"
+    							   defaultValue=""
+                                name="./source"
+                                required="false"/>
+                            <sfmc-select
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription=""
-                                fieldLabel="Data Extension Name"
-                                name="./dataextensionname"/>
-                            <dataextensionkey
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription=""
-                                fieldLabel="Data Extension Key"
-                                name="./dataextensionkey"/>
+                                sling:resourceType="granite/ui/components/foundation/form/select"
+                                class="cq-dialog-dropdown-showhide"
+                                cq-dialog-dropdown-showhide-target=".text-image-hide-show"
+                                fieldLabel="Choose One"
+                                fieldDescription="Choose Data Extension or Trigger Send"
+                                name="./sfmc">
+                                <items jcr:primaryType="nt:unstructured">
+                                	<de
+                                		jcr:primaryType="nt:unstructured"
+                                		text="Data Extension"
+                                		value="de" />
+                                	<ts
+                                		jcr:primaryType="nt:unstructured"
+                                		text="Trigger Send"
+                                		value="ts" />
+                                </items>
+                            </sfmc-select>
+                            <dataextension
+                            	jcr:primaryType="nt:unstructured"
+                            	sling:resourceType="granite/ui/components/foundation/container"
+                            	class="hide text-image-hide-show de"
+                            	showhidetargetvalue="de">
+                            	<items jcr:primaryType="nt:unstructured">
+                            		<heading
+                            			jcr:pimaryType="nt:unstructured"
+                            			level="{Long}4"
+                            			text="DataExtension Heading" />
+                            		<well
+                            			jcr:primaryType="nt:unstructured"
+                            			sling:resourceType="granite/ui/components/foundation/container">
+                            			<layout
+                            				jcr:primaryType="nt:unstructured"
+                            				sling:resourceType="granite/ui/components/foundation/layouts/well"/>
+                            			<items jcr:primaryType="nt:unstructured">
+                            				<dataextension
+                            					jcr:primaryType="nt:unstructured"
+                            					sling:resourceType="granite/ui/components/foundation/form/textfield"
+                            					name="./dataextensionkey"
+                            					fieldLabel="Data Extension Key" 
+                            					foo="bar" />                            					
+                            			</items>
+                            		</well>
+                            	</items>
+                            </dataextension>
+                            <triggersend
+                            	jcr:primaryType="nt:unstructured"
+                            	sling:resourceType="granite/ui/components/foundation/container"
+                            	class="hide text-image-hide-show ts"
+                            	showhidetargetvalue="ts">
+                            	<items jcr:primaryType="nt:unstructured">
+                            		<heading
+                            			jcr:pimaryType="nt:unstructured"
+                            			level="{Long}4"
+                            			text="TriggerSend Heading" />
+                            		<well
+                            			jcr:primaryType="nt:unstructured"
+                            			sling:resourceType="granite/ui/components/foundation/container">
+                            			<layout
+                            				jcr:primaryType="nt:unstructured"
+                            				sling:resourceType="granite/ui/components/foundation/layouts/well"/>
+                            			<items jcr:primaryType="nt:unstructured">
+                            				<dataextension
+                            					jcr:primaryType="nt:unstructured"
+                            					sling:resourceType="granite/ui/components/foundation/form/textfield"
+                            					name="./triggersendid"
+                            					fieldLabel="Trigger Send ID"
+                            					fieldDescription="Must be numeric value"
+                            					asdf="qwerty"  />                            					
+                            			</items>
+                            		</well>
+                            	</items>
+                            </triggersend>
+                            
                         </items>
                     </columns>
                 </items>
-            </sfmc>
+            </sfmc2>
         
         
         </items>
