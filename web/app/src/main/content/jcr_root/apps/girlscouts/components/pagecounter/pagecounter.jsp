@@ -81,14 +81,16 @@
 			while(iterator.hasNext()){
 				try {
 					Node filter = iterator.nextNode();
-					String pageOnly = filter.getProperty("pageOnly").getString();
-					String subDirOnly = filter.getProperty("subDirOnly").getString();
-					String path = filter.getProperty("path").getString();
-					if (pageOnly.equals("true")) {
-						exceptionPages.add(path.trim());
-					}
-					if (subDirOnly.equals("true")) {
-						exceptionDirectories.add(path.trim());
+					String path = filter.getProperty("path").getString().trim();
+					if(path.length() > 0){
+						String pageOnly = filter.getProperty("pageOnly").getString();
+						String subDirOnly = filter.getProperty("subDirOnly").getString();
+						if (pageOnly.equals("true")) {
+							exceptionPages.add(path.trim());
+						}
+						if (subDirOnly.equals("true")) {
+							exceptionDirectories.add(path.trim());
+						}
 					}
 				}catch(Exception e){}
 			}
@@ -248,7 +250,7 @@
 				
 		// If a page has jcr:mixinTypes of either LiveRelationship or LiveSync, 
 		// it's inherited from national templates 
-		try{
+		try{ 
 			Resource pageRes = page.adaptTo(Resource.class);
 			LiveRelationship relationship = lrm.getLiveRelationship(pageRes, false);
 			if(relationship != null){
