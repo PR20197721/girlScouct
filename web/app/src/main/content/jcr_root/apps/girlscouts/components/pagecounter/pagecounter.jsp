@@ -17,6 +17,7 @@
 	java.text.SimpleDateFormat,
 	java.util.Calendar,
 	com.day.cq.wcm.msm.api.*,
+	javax.jcr.query.*,
 	org.apache.sling.api.resource.ResourceUtil
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
@@ -60,6 +61,7 @@
 	ArrayList<String> exceptionDirectories; 
 	ArrayList<String> thankYouPages;	
 	ArrayList<String> defaultValues; 	
+	private static final String formQuery = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([{path}]) and s.[sling:resourceType]= 'foundation/components/form/start'";
 	
 	ArrayList<String> overrides;
 		
@@ -147,36 +149,45 @@
 		return str;
 	}
 	
-	
-	void checkRedirect(ResourceResolver rr, Page currentPage) {
-		String nodePath = currentPage.getPath() + "/jcr:content/content/middle/par/start";
-		Resource res = rr.getResource(nodePath);		
-		if (res != null) {
-			String redirect = res.getValueMap().get("redirect", "");
-			if (!redirect.isEmpty()) {
-				thankYouPages.add(redirect + " " + currentPage.getPath());
+	void checkForms(ResourceResolver rr, Page currentPage) {
+		try {
+			QueryResult forms = searchForms(rr,currentPage.getContentResource());
+			if(forms != null){
+				RowIterator rowIter = forms.getRows();
+				while (rowIter.hasNext()) {
+					try {
+						Row row = rowIter.nextRow();
+						Node node = row.getNode();
+						if(node.hasProperty("redirect")){
+							String redirect = node.getProperty("redirect").getString();
+							if (!redirect.isEmpty()) {
+								thankYouPages.add(redirect + " " + currentPage.getPath());
+							}							
+						}
+						if(node.hasProperty("actionType")){
+							String action = node.getProperty("actionType").getString();
+							if (action != null &&  action.equals("girlscouts/components/form/actions/web-to-case")) {
+								exceptionPages.add(currentPage.getPath());
+							}							
+						}
+					}catch(Exception e){}
+				}
 			}
-		}
-		
-		nodePath = currentPage.getPath() + "/jcr:content/content/middle/par/form_start";
-		res = rr.getResource(nodePath);		
-		if (res != null) {
-			String redirect = res.getValueMap().get("redirect", "");
-			if (!redirect.isEmpty()) {
-				thankYouPages.add(redirect + " " + currentPage.getPath());
-			}
-		}
-		
-		nodePath = currentPage.getPath() + "/jcr:content/content/middle/par/web-to-case-form_start";
-		res = rr.getResource(nodePath);		
-		if (res != null) {
-			String redirect = res.getValueMap().get("redirect", "");
-			if (!redirect.isEmpty()) {
-				thankYouPages.add(redirect + " " + currentPage.getPath());
-			}
-		}
+		}catch(Exception e){}
 	}
 	
+	private QueryResult searchForms(ResourceResolver rr, Resource currentPageContent) {
+		QueryResult result = null;
+		try {
+			Session session = rr.adaptTo(Session.class);
+			QueryManager queryManager = session.getWorkspace().getQueryManager();
+			Query sql2Query = queryManager.createQuery(formQuery.replace("{path}",currentPageContent.getPath()), "JCR-SQL2");
+			return sql2Query.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 	void recurse(ResourceResolver rr, Page currentPage) {
 		String path = currentPage.getPath();
@@ -192,8 +203,8 @@
 		if (countedResourceTypes.contains(resourceType)) {
 			allPages.add(path.trim());
 			
-			// Check for Thank You Page
-			checkRedirect(rr, currentPage);
+			// Check forms for Thank You Page and web-to-case forms
+			checkForms(rr, currentPage);
 			
 			for (Iterator<Page> iterator = currentPage.listChildren(); iterator.hasNext();) {
 				recurse(rr, iterator.next());
@@ -245,6 +256,12 @@
 		String resourceType = properties.get("sling:resourceType", "");
 		if (resourceType.equals("girlscouts/components/placeholder-page")) {
 			//noncountPages.add(path + " PlaceHolder"); // not *really* a page
+			return;
+		}
+		
+		// Redirect Page
+		if (resourceType.endsWith("/redirect")) {
+			//noncountPages.add(path + " Redirect"); // not *really* a page
 			return;
 		}
 				
@@ -356,8 +373,6 @@
 		defaultValues.add(format("News", newsURL, "false", "true"));
 		defaultValues.add(format("Site Search", sitesearchURL, "true", "false"));
 		defaultValues.add(format("Email Templates", councilPath + "/en/email-templates", "true", "false"));
-		defaultValues.add(format("Redirects", councilPath + "/en/redirects", "true", "false"));
-		defaultValues.add(format("Web-to-Lead Forms", councilPath + "/en/web-to-lead-forms", "true", "false"));
 		
 		
 		// Get some links from homepage footer such as Terms and Conditions, Policy
