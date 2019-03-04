@@ -166,7 +166,7 @@
 						}
 						if(node.hasProperty("actionType")){
 							String action = node.getProperty("actionType").getString();
-							if (action != null &&  action.equals("girlscouts/components/form/actions/web-to-case")) {
+							if (action != null &&  (action.equals("girlscouts/components/form/actions/web-to-case") || action.equals("girlscouts/components/form/actions/web-to-lead"))) {
 								exceptionPages.add(currentPage.getPath());
 							}							
 						}
