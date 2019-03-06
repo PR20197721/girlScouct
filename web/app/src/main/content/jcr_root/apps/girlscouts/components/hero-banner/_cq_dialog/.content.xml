@@ -267,8 +267,8 @@
                         <items jcr:primaryType="nt:unstructured">
                             <slideshow-timer
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="(Provide time in millisecond.Default (6000ms))"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                fieldDescription="Please provide time (in ms) without abbreviation (Ex: 6000) Default = 6000 Limit is 3 minutes(180000)"
                                 fieldLabel="Time Interval"
                                 name="./slideshowtimer"/>
                             <sb-placement
