@@ -164,7 +164,6 @@
 
     // when dialog gets injected
     $(document).on("foundation-contentloaded", function (e) {
-    	console.log("foundation-contentloaded called");
         // if there is already an inital value make sure the according target element becomes visible
         showHideHandler($(".cq-dialog-dropdown-showhide", e.target));
     });
