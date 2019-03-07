@@ -261,7 +261,7 @@
                             					sling:resourceType="granite/ui/components/foundation/form/textfield"
                             					name="./dataextensionkey"
                             					fieldLabel="Data Extension Key" 
-                            					foo="bar" />                            					
+                            					validationPattern="string" />                            					
                             			</items>
                             		</well>
                             	</items>
@@ -289,7 +289,7 @@
                             					name="./triggersendid"
                             					fieldLabel="Trigger Send ID"
                             					fieldDescription="Must be numeric value"
-                            					asdf="qwerty"  />                            					
+                            					validationPattern="numeric" />                            					
                             			</items>
                             		</well>
                             	</items>

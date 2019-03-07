@@ -26,7 +26,7 @@ String dataExtensionKey = properties.get("dataextensionkey", "");
 
 String mainText = properties.get("heading", "New article alerts!"); 
 String subText = properties.get("description", "Get updates when new content is available."); 
-String source = properties.get("source", "");
+
 String fieldText = properties.get("emailplaceholder", "Enter your email address here");
 String fieldTextMobile = properties.get("emailplaceholdermobile", "Enter your email!"); 
 String submitButtonText = properties.get("submitbuttontext", "SUBMIT");
@@ -43,6 +43,9 @@ String formID = "email_" + generateId();
 
 boolean topBorder = properties.get("topborder", false);
 boolean bottomBorder = properties.get("bottomborder", false);
+		
+String source = properties.get("source", ""); 
+
 
 %>
 

@@ -164,6 +164,7 @@
 
     // when dialog gets injected
     $(document).on("foundation-contentloaded", function (e) {
+    	console.log("foundation-contentloaded called");
         // if there is already an inital value make sure the according target element becomes visible
         showHideHandler($(".cq-dialog-dropdown-showhide", e.target));
     });
@@ -191,7 +192,6 @@
 
     function showHideHandler(el) {
         el.each(function (i, element) {
-            console.log(element);
             if($(element).is("coral-select")) {
                 // handle Coral3 base drop-down
                 Coral.commons.ready(element, function (component) {
@@ -237,5 +237,41 @@
             });
         }
     }
+    
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "[data-validationpattern]",
+  		validate: function(el) {
+    		var value = el.value;
+            var validation = $(el).data("validationpattern");
+            var isVisible = $(el).is(":visible");
+            var patterns = {
+                numeric: 	/^(\d)+(-(\d)+)*$/,
+                string:		/^.+$/i
+            };
+
+            if (isVisible) {
+
+                switch (validation) {
+                    case 'numeric':
+                        console.log("testing against numeric");
+                        if (!patterns["numeric"].test(value)) {
+                            return "Please input numerics";
+                        }
+                        break;
+                    case 'string':
+                    default:
+                        console.log("testing against string or default");
+                        if (!value) {
+                            return "Please enter alphanumeric value";
+                        }
+                        else if (!patterns["string"].test(value)) {
+                            return "Please input string.";
+                        }
+                        break;
+
+                }
+            }
+  		}
+	});
 
 })(document, Granite.$, Granite.author);
