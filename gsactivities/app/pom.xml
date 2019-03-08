@@ -6,7 +6,7 @@
     <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
     <parent>
-        <groupId>org.girlscouts.gsactivities</groupId>
+        <groupId>org.girlscouts.aem</groupId>
         <artifactId>gsactivities</artifactId>
         <version>2.0-SNAPSHOT</version>
     </parent>
@@ -14,10 +14,10 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
-
-    <artifactId>gsactivities-app</artifactId>
+    <groupId>org.girlscouts.aem.gsactivities</groupId>
+    <artifactId>app</artifactId>
     <packaging>content-package</packaging>
-    <name>GS Activities App Package</name>
+    <name>Girl Scouts Activities App Package</name>
 
     <dependencies>
         <dependency>
@@ -27,8 +27,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.girlscouts.gsactivities</groupId>
-            <artifactId>gsactivities-bundle</artifactId>
+            <groupId>org.girlscouts.aem.gsusa</groupId>
+            <artifactId>bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
@@ -58,12 +58,12 @@
                 <artifactId>content-package-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <group>GirlScouts</group>
+                    <group>org.girlscouts.aem.gsactivities</group>
                     <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
                     <embeddeds>
                         <embedded>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>gsactivities-bundle</artifactId>
+                            <artifactId>bundle</artifactId>
                             <target>/apps/gsactivities/install</target>
                         </embedded>
                         <embedded>

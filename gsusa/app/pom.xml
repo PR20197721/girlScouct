@@ -6,20 +6,21 @@
   <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
   <parent>
-    <groupId>org.girlscouts.web</groupId>
+    <groupId>org.girlscouts.aem</groupId>
     <artifactId>gsusa</artifactId>
     <version>2.0-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
-  <artifactId>gsusa-app</artifactId>
+  <groupId>org.girlscouts.aem.gsusa</groupId>
+  <artifactId>app</artifactId>
   <packaging>content-package</packaging>
   <name>Girl Scouts USA App Package</name>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>gsusa-bundle</artifactId>
+      <artifactId>bundle</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -33,7 +34,6 @@
       <type>gem</type>
     </dependency>
   </dependencies>
-  <!-- Torquebox rubygem repo only for gsusa content project -->
   <repositories>
     <repository>
       <id>rubygems-release</id>
@@ -68,7 +68,7 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.girlscouts.web</groupId>
+        <groupId>org.girlscouts.aem.gsusa</groupId>
         <artifactId>selectiveclean-maven-plugin</artifactId>
         <version>${project.version}</version>
         <configuration>
@@ -121,12 +121,12 @@
         <artifactId>content-package-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <group>org.girlscouts.web.gsusa</group>
+          <group>org.girlscouts.aem.gsusa</group>
           <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
           <embeddeds>
             <embedded>
               <groupId>${project.groupId}</groupId>
-              <artifactId>gsusa-bundle</artifactId>
+              <artifactId>bundle</artifactId>
               <target>/apps/gsusa/install</target>
             </embedded>
           </embeddeds>
