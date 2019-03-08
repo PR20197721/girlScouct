@@ -33,7 +33,7 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.girlscouts.vtk</groupId>
+			<groupId>org.girlscouts.aem.vtk</groupId>
 			<artifactId>modified-checker</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
@@ -45,7 +45,7 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.girlscouts.vtk</groupId>
+			<groupId>org.girlscouts.aem.vtk</groupId>
 			<artifactId>ical4j-wrapper</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>

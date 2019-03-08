@@ -15,6 +15,7 @@
   <!-- ====================================================================== -->
   <groupId>org.girlscouts.aem.common</groupId>
   <artifactId>app</artifactId>
+  <version>${project.version}</version>
   <packaging>content-package</packaging>
   <name>Girl Scouts Common App Package</name>
   <dependencies>

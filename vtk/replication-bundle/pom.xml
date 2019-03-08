@@ -5,14 +5,15 @@
   <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
   <parent>
-    <groupId>org.girlscouts.vtk</groupId>
-    <artifactId>girlscouts-vtk</artifactId>
+    <groupId>org.girlscouts.aem</groupId>
+    <artifactId>vtk</artifactId>
     <version>2.0-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
-  <artifactId>girlscouts-vtk-replication-bundle</artifactId>
+    <groupId>org.girlscouts.aem.vtk</groupId>
+  <artifactId>replication</artifactId>
   <packaging>bundle</packaging>
   <name>Girl Scouts Volunteer Toolkit Replication Bundle</name>
   <repositories>
@@ -32,19 +33,18 @@
 <dependency>
         <groupId>com.adobe.aem</groupId>
         <artifactId>uber-jar</artifactId>
-        <version>6.3.1</version>
         <classifier>apis</classifier>
         <scope>provided</scope>
       </dependency>
     <dependency>
-      <groupId>org.girlscouts.vtk</groupId>
-      <artifactId>modified-checker-bundle</artifactId>
+      <groupId>org.girlscouts.aem.vtk</groupId>
+      <artifactId>modified-checker</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.girlscouts.vtk</groupId>
-      <artifactId>girlscouts-vtk-bundle</artifactId>
+      <groupId>org.girlscouts.aem.vtk</groupId>
+      <artifactId>bundle</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -139,7 +139,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-replication-bundle</Bundle-SymbolicName>
+            <Bundle-SymbolicName>org.girlscouts.aem.vtk.replication</Bundle-SymbolicName>
             <Private-Package>com.day.cq.replication.impl.distribution,com.day.cq.replication.impl,com.day.cq.replication.impl.queue,com.day.cq.replication.impl.content.durbo, com.day.cq.replication.impl.bl</Private-Package>
             <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
 <Import-Package>
