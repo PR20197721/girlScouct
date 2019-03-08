@@ -6,14 +6,14 @@
   <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
   <parent>
-    <groupId>org.girlscouts.aem</groupId>
-    <artifactId>girlscouts-aem</artifactId>
+    <groupId>org.girlscouts</groupId>
+    <artifactId>aem</artifactId>
     <version>2.0-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O P E R T I E S -->
   <!-- ====================================================================== -->
-  <groupId>org.girlscouts.web</groupId>
+  <groupId>org.girlscouts.aem</groupId>
   <artifactId>gsusa</artifactId>
   <packaging>pom</packaging>
   <name>Girl Scouts USA - Reactor Project</name>
@@ -57,9 +57,7 @@
       </modules>
     </profile>
   </profiles>
-  <!-- Remember to add sub module to the changeVersion profile above as well -->
   <modules>
-    <!-- For mvn clean: not to remove rubygems -->
     <module>selective-clean</module>
     <module>bundle</module>
     <module>app</module>
