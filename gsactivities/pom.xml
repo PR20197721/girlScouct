@@ -15,7 +15,7 @@
     <groupId>org.girlscouts.aem</groupId>
     <artifactId>gsactivities</artifactId>
     <packaging>pom</packaging>
-    <name>GS Activities - Reactor Project</name>
+    <name>Girl Scouts Activities Project</name>
     <description>Maven Multimodule project for GS Activities.</description>
     <prerequisites>
         <maven>3.0.2</maven>

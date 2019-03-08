@@ -16,7 +16,7 @@
   <groupId>org.girlscouts.aem.web</groupId>
   <artifactId>app</artifactId>
   <packaging>content-package</packaging>
-  <name>Girl Scouts USA App Package</name>
+  <name>Girl Scouts Web App Package</name>
   <repositories>
     <repository>
       <id>project.local</id>
