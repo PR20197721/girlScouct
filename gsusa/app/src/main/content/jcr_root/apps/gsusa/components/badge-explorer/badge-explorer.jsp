@@ -65,6 +65,7 @@ class BadgeComparator implements Comparator<Resource>{
 								StringBuilder filterClassBuilder = new StringBuilder();
 								String[] tags = props.get("cq:tags",String[].class);
 								String title = props.get("dc:title",String.class);
+								String idTitle = title.replace(" ", "_");
 								String description = props.get("dc:description",String.class);
 								String badgeCTA = Optional.ofNullable(props.get("badgeCTA",String.class)).orElse("GET THIS BADGE");
 								String restrictions = props.get("adobe_dam:restrictions",String.class);
@@ -83,7 +84,7 @@ class BadgeComparator implements Comparator<Resource>{
 									}
 									filterClassBuilder.append("\"");
 								}
-								sb.append("<div class=\"badge-block\" "+filterClassBuilder.toString()+" data-badge-info='" + new BadgeDTO(badge, props).toJson() + "'>");
+								sb.append("<div class=\"badge-block\" "+filterClassBuilder.toString()+" id=\""+idTitle+"\" data-badge-info='" + new BadgeDTO(badge, props).toJson() + "'>");
 									sb.append("<div class=\"badge-content\">");
 	                                    sb.append("<div class=\"badge-body\">");
 	                                        sb.append("<label class=\"badge-image-wrapper\" for=\""+modalId+"\">");

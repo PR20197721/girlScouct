@@ -262,8 +262,22 @@ window.BadgePdfGenerator = (function(window, $, document){
                 $($(allElements[i]).children()[1]).outerHeight(265);
                 $($(allElements[i]).children()[1]).innerHeight(260);
 
+
+                //Set link css
+                $($(allElements[i]).find(".BadgePdfDescription")).find("a").each(function(){
+                    $(this).css("background-color", "white");
+                    $(this).css("font-weight", "bold");
+                    $(this).css("text-decoration", "none");
+                    $(this).css("color", "#00AE58");
+
+                });
+
+                //title for link to scroll
+                var title = $($(allElements[i]).find(".BadgePdfTitle")).text();
+                title = title.replace(new RegExp(' ', 'g'), "_");
                 var text = $($(allElements[i]).children()[1]).text().replace("Get This Journey", "");
                 text = text.replace("GET THIS BADGE", "");
+                //if characters are longer than 550, remove the last element without a link in it
                 if(text.length > 550){
                     var linkEl = $(allElements[i]).find(".BadgePdfGetContainer");
                     $($(allElements[i]).find(".BadgePdfGetContainer").parent()).css("position","relative");
@@ -283,7 +297,7 @@ window.BadgePdfGenerator = (function(window, $, document){
                     if(text.length > 800){
                         $($(allElements[i]).find(".BadgePdfDescription")).children().last().remove();
                     }
-                    $($(allElements[i]).find("ol")).append("<li><strong style='width: 100px'><a style='color:#00AE58; text-decoration: none' href='https://www.girlscouts.org/en/our-program/badges/badge_explorer.html'>Please see badge for more details...</a></strong></li>");
+                    $($(allElements[i]).find("ol")).append("<li><strong style='width: 100px'><a style='color:#00AE58; text-decoration: none' href='https://www.girlscouts.org/en/our-program/badges/badge_explorer.html#"+title+"' target='_blank'>Please see badge for more details...</a></strong></li>");
                     $($(allElements[i]).find(".BadgePdfDescription")).append(linkEl);
                 }
             }
