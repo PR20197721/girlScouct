@@ -8,13 +8,13 @@
     <parent>
         <groupId>org.girlscouts.aem</groupId>
         <artifactId>web</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>3.0-SNAPSHOT</version>
     </parent>
     <!-- ====================================================================== -->
     <!-- P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
     <groupId>org.girlscouts.aem.web</groupId>
-    <artifactId>app</artifactId>
+    <artifactId>girlscouts-web-app</artifactId>
     <packaging>content-package</packaging>
     <name>Girl Scouts Web App Package</name>
     <repositories>
@@ -27,7 +27,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>bundle</artifactId>
+            <artifactId>girlscouts-web-bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -47,7 +47,7 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.girlscouts.web</groupId>
+            <groupId>org.girlscouts.aem.web</groupId>
             <artifactId>opencsv-wrapper</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -82,7 +82,7 @@
                     <embeddeds>
                         <embedded>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>bundle</artifactId>
+                            <artifactId>girlscouts-web-bundle</artifactId>
                             <target>/apps/girlscouts/install</target>
                         </embedded>
                         <embedded>

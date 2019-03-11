@@ -19,8 +19,7 @@ for server in ${SERVER_LIST[@]}; do
 			echo "Server $server:$port is down. Skipping..."
 		else
 			curl -u 'admin:admin'  -X POST http://$server:$port/crx/packmgr/service/.json/etc/packages/Girl%20Scouts/girlscouts-vtk-app-$VERSION.zip?cmd=delete
-
-			curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/vtk/girlscouts-vtk-app/$VERSION/girlscouts-vtk-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
+			curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/aem/vtk/girlscouts-vtk-app/$VERSION/girlscouts-vtk-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
 		fi
 	done
 done

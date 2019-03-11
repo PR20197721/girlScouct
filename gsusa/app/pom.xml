@@ -8,19 +8,19 @@
   <parent>
     <groupId>org.girlscouts.aem</groupId>
     <artifactId>gsusa</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <version>3.0-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
   <groupId>org.girlscouts.aem.gsusa</groupId>
-  <artifactId>app</artifactId>
+  <artifactId>girlscouts-gsusa-app</artifactId>
   <packaging>content-package</packaging>
   <name>Girl Scouts USA App Package</name>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>bundle</artifactId>
+      <artifactId>girlscouts-gsusa-bundle</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -126,7 +126,7 @@
           <embeddeds>
             <embedded>
               <groupId>${project.groupId}</groupId>
-              <artifactId>bundle</artifactId>
+              <artifactId>girlscouts-gsusa-bundle</artifactId>
               <target>/apps/gsusa/install</target>
             </embedded>
           </embeddeds>
