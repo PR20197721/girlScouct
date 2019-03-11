@@ -1,3 +1,13 @@
+a{
+    color:#00AE58;
+    font-weight: bold;
+    background-color: white;
+    text-decoration: none;
+}
+#seeMoreLink {
+    color: #00AE58;
+    text-decoration: none;
+}
 .PdfBadgeGridInner {
 	width: 700px;
 }
