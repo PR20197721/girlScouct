@@ -57,6 +57,7 @@
     	<div class="modal-footer">
         	<strong>-The GSUSA VTK Team</strong>
       	</div>
+      	<div id="sendEmail"class = "button tiny add-to-year-plan">Send Emails</div>
 
       </div>
 	<%@include file='myTroopImg.jsp' %>
@@ -97,7 +98,8 @@
 		      <dt data-target="panel1">
 		        <h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
 		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
-		           <a id = "#mailTroop" href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
+		        <div id="mailBtn">
+		           <a id = "#mailTroop" ><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></div>
 		           <label><input type="checkbox" name="delimiter">Please check this box if you use Outlook</label>
 		         <%} %>
 		         
@@ -135,8 +137,32 @@
 <% }//edn if contact %>
 
 <script>
-	$("#test").click(function(){
-        	var el = $("#test");
+
+    $("#sendEmail").click(function(){
+        if($("#sendEmail").attr("toClose") === "true"){
+            $("#sendEmail").text("Send Email");
+    		$("#sendEmail").attr("toClose", "false");
+            $(".email-content").css('display', 'none');
+            $(".modal-body").html("<textarea name=\"message\" id=\"message\" rows=\"10\" cols=\"30\"></textarea>");
+            $("#mailBtn").attr("show","false");
+            var interval = setInterval(function() {
+                if ($('#mailBtn').attr("show") === "true") {
+                    $(".email-content").show();
+                    clearInterval(interval);
+                }
+            }, 100);
+
+        //SEND EMAIL
+        }else{
+    		$("#sendEmail").text("Close");
+        	$("#sendEmail").attr("toClose", "true");
+            $(".modal-body").html("<strong>Email Sent</strong>");
+        }
+
+
+        });
+	$("#mailBtn").click(function(){
+        	var el = $("#mailBtn");
             if(el.attr("show") !== "true" ){
                 el.attr("show", "true");
                 $(".email-content").show();
@@ -147,7 +173,7 @@
         });
         $(window).load(function(){
             var interval = setInterval(function() {
-                if ($('#test').attr("show") === "true") {
+                if ($('#mailBtn').attr("show") === "true") {
                     $(".email-content").show();
                     clearInterval(interval);
                 }
@@ -155,9 +181,10 @@
                 var notice = $(".email-content");
             $(".vtk-email-news-button").click(function(){
                 notice.css('display', 'none');
-                $("#test").attr("show","false");
+                 $(".modal-body").html("<textarea name=\"message\" id=\"message\" rows=\"10\" cols=\"30\"></textarea>");
+                $("#mailBtn").attr("show","false");
                 var interval = setInterval(function() {
-                    if ($('#test').attr("show") === "true") {
+                    if ($('#mailBtn').attr("show") === "true") {
                         $(".email-content").show();
                         clearInterval(interval);
                     }
