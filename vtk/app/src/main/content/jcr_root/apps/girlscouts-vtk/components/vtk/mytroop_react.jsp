@@ -157,6 +157,18 @@
     		$("#sendEmail").text("Close");
         	$("#sendEmail").attr("toClose", "true");
             $(".modal-body").html("<strong>Email Sent</strong>");
+            $.ajax({
+            		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+            		type: 'POST',
+            		data: {
+            			act:'sendEmail',
+            			message: $("textarea").val()
+            		},
+            		success: function(result) {
+            			alert("Email successfully sent");
+
+            		}
+            	});
         }
 
 
