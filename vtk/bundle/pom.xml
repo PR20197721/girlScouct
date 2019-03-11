@@ -39,8 +39,8 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.girlscouts.web</groupId>
-			<artifactId>girlscouts-common-bundle</artifactId>
+			<groupId>org.girlscouts.aem.common</groupId>
+			<artifactId>bundle</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

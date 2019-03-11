@@ -91,8 +91,8 @@
             <version>5.5.0</version>
          </dependency>
         <dependency>
-            <groupId>org.girlscouts.vtk</groupId>
-            <artifactId>girlscouts-vtk-bundle</artifactId>
+            <groupId>org.girlscouts.aem.vtk</groupId>
+            <artifactId>bundle</artifactId>
             <version>${project.version}</version> 
             <scope>provided</scope>
         </dependency>

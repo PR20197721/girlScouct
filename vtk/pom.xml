@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <!-- ====================================================================== -->
-  <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
-  <!-- ====================================================================== -->
-  <parent>
-    <groupId>org.girlscouts</groupId>
-    <artifactId>aem</artifactId>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- ====================================================================== -->
+    <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
+    <!-- ====================================================================== -->
+    <parent>
+        <groupId>org.girlscouts</groupId>
+        <artifactId>aem</artifactId>
+        <version>2.0-SNAPSHOT</version>
+    </parent>
+    <!-- ====================================================================== -->
+    <!-- P R O J E C T D E S C R I P T I O N -->
+    <!-- ====================================================================== -->
+    <groupId>org.girlscouts.aem</groupId>
+    <artifactId>vtk</artifactId>
     <version>2.0-SNAPSHOT</version>
-  </parent>
-  <!-- ====================================================================== -->
-  <!-- P R O J E C T D E S C R I P T I O N -->
-  <!-- ====================================================================== -->
-  <groupId>org.girlscouts.aem</groupId>
-  <artifactId>vtk</artifactId>
-  <version>2.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>Girl Scouts Volunteer Toolkit Project</name>
-  <description>Maven Multimodule project for Girl Scouts Volunteer Toolkit.</description>
-  <prerequisites>
-    <maven>3.0.2</maven>
-  </prerequisites>
+    <packaging>pom</packaging>
+    <name>Girl Scouts Volunteer Toolkit Project</name>
+    <description>Maven Multimodule project for Girl Scouts Volunteer Toolkit.</description>
+    <prerequisites>
+        <maven>3.0.2</maven>
+    </prerequisites>
 
-<dependencies>
-</dependencies>
+    <dependencies>
+    </dependencies>
 
-  <!-- ====================================================================== -->
-  <!-- P R O P E R T I E S -->
-  <!-- ====================================================================== -->
-  <profiles>
-    <profile>
-      <id>autoInstallBundle</id>
-      <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.4.0.905</version>
-            </plugin>       
-            <plugin>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>maven-sling-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>install-bundle</id>
-                <goals>
-                  <goal>install</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-  <modules>
-    <module>modified-checker-bundle</module>
-    <module>bundle</module>
-    <module>app</module>
-    <!-- TODO: temporarily disable replication bundle. Need to upgrade later.
-    -->
-<module>replication-bundle</module>
-    <module>scaffolding-bundle</module>
-    <module>ical4j-wrapper</module>
-    <module>beanutils-wrapper</module>
-    <module>google-collections-wrapper</module>
-    <module>googleinject-wrapper</module>
-  </modules>
+    <!-- ====================================================================== -->
+    <!-- P R O P E R T I E S -->
+    <!-- ====================================================================== -->
+    <profiles>
+        <profile>
+            <id>autoInstallBundle</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>3.4.0.905</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.sling</groupId>
+                        <artifactId>maven-sling-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>install-bundle</id>
+                                <goals>
+                                    <goal>install</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <modules>
+        <module>modified-checker-bundle</module>
+        <module>bundle</module>
+        <module>app</module>
+        <!-- TODO: temporarily disable replication bundle. Need to upgrade later.
+        -->
+        <module>replication-bundle</module>
+        <module>scaffolding-bundle</module>
+        <module>ical4j-wrapper</module>
+        <module>beanutils-wrapper</module>
+        <module>google-collections-wrapper</module>
+        <module>googleinject-wrapper</module>
+    </modules>
 </project>
