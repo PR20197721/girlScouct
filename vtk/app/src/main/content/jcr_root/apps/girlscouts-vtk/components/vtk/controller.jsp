@@ -1,7 +1,7 @@
 <%@page
-	import="java.util.Comparator, org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
+	import="java.util.*, org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.cq.wcm.foundation.Image, com.day.cq.commons.Doctype,com.day.cq.wcm.api.components.DropTarget,com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO,
-                org.girlscouts.vtk.helpers.TroopHashGenerator, org.girlscouts.vtk.models.JcrCollectionHoldString, org.girlscouts.vtk.ejb.CouncilRpt,org.slf4j.Logger,org.slf4j.LoggerFactory"%>
+                org.girlscouts.vtk.helpers.TroopHashGenerator, import org.girlscouts.common.osgi.service.GSEmailService, org.girlscouts.vtk.models.JcrCollectionHoldString, org.girlscouts.vtk.ejb.CouncilRpt,org.slf4j.Logger,org.slf4j.LoggerFactory"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:defineObjects />
@@ -49,6 +49,13 @@
 					}
 					meetingUtil.changeMeetingPositions(user, troop, x);
 					return;
+
+			    case sendEmail:
+			        String addList = request.getParameter("addresses");
+			        String[] addresses = addList.split(",");
+			        GSEmailService.sendEmail(request.getParameter("subject"),Arrays.asList(addresses),request.getParameter("message"));
+
+			        return;
 				case CreateActivity:
 					yearPlanUtil.createActivity(user, troop, new Activity(
 										request.getParameter("newCustActivity_name"),
