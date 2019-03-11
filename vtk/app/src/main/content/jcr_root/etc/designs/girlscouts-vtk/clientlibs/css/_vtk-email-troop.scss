@@ -1,0 +1,102 @@
+#vtkBreakingNews .breaking-news .inner-wrapper {
+    background: #ec008b none repeat scroll 0 0;
+    position: relative;
+    padding: 0.520833%;
+    text-align: center;
+    color: white;
+    line-height: 1.1em;
+    font-size: 1.0625rem;
+    width: 90.6%;
+    margin-left: 45px;
+}
+
+.vtk-breaking-news-button{
+	color: white;
+	width:30px;
+	height: 30px;
+	position: absolute;
+	top:0px;
+	right:7px;
+	z-index: 95;
+
+	i{
+		font-size: 37px !important;
+		cursor: pointer;
+		position: relative;
+		bottom: 3px;
+	}
+}
+.vtk-email-news-button {
+  color: white;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0px;
+  right: 7px;
+  z-index: 95;
+
+  i{
+  		font-size: 37px !important;
+  		cursor: pointer;
+  		position: relative;
+  		bottom: 3px;
+  	}
+}
+
+
+.maintenance {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+
+  overflow: auto;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.emailHeader{
+	font-weight: bold;
+    font-size: 28px;
+}
+.modal-header {
+  padding: 2px 16px;
+  background-color: #00ae58;
+  color: white;
+  padding-bottom: 25px;
+}
+
+.modal-body {
+    padding: 2px 16px;
+}
+.modal-footer {
+  padding: 2px 16px;
+  text-align: right;
+}
+.email-content {
+  display: none;
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 40%;
+  top: 25%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation-name: animatetop;
+  animation-duration: 1s;
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+
+  to {
+    top: 25%;
+    opacity: 1;
+  }
+}
