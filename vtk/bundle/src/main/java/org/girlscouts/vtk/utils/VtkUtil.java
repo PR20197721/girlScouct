@@ -22,7 +22,6 @@ import org.apache.lucene.analysis.snowball.SnowballAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.util.Version;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.ejb.VtkError;
@@ -59,9 +58,6 @@ public class VtkUtil  implements ConfigListener{
 	@Reference
 	ConfigManager configManager;
 
-	@Reference
-	public GSEmailService gsEmailService;
-	
 	private static String gsNewYear;
 	private static String vtkHolidays[], gsCouncils[];
 	private static String gsFinanceYearCutoffDate;
@@ -957,10 +953,6 @@ public static String getSFActivityDate(String eventStartDateStr, String sfTimeZo
 	}catch(Exception e){e.printStackTrace();}
 	return fmtDate;
 	
-}
-public void sendEmail(String addresses, String message){
-	gsEmailService.sendEmail("Test",)
-
 }
 public static boolean isAllMultiActivitiesSelected(java.util.List<Activity> activities){
 
