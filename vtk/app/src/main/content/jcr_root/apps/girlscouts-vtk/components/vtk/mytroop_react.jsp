@@ -164,7 +164,7 @@
             			act:'sendEmail',
             			message: $("textarea").val(),
             			addresses: emailTo,
-            			subject: $($(".mytroop .on")[0]).text();
+            			subject: $($(".mytroop .on")[0]).text()
             		},
             		success: function(result) {
             			alert("Email successfully sent");
