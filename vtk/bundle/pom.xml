@@ -467,7 +467,7 @@
 					<gitDescribe>
 
 						<!-- don't generate the describe property -->
-						<skip>false</skip>
+						<skip>true</skip>
 
 						<!-- if no tag was found "near" this commit, just print the commit's 
 							id instead, helpful when you always expect this field to be not-empty -->
@@ -491,6 +491,12 @@
 							tags* and *lightweight tags* is outlined in more depth here: https://github.com/ktoso/maven-git-commit-id-plugin/#git-describe-and-a-small-gotcha-with-tags -->
 						<tags>false</tags>
 
+
+
+						<!-- always print using the "tag-commits_from_tag-g_commit_id-maybe_dirty"
+							format, even if "on" a tag. The distance will always be 0 if you're "on"
+							the tag. -->
+						<forceLongFormat>false</forceLongFormat>
 					</gitDescribe>
 					<!-- @since 2.2.2 -->
 					<!-- true by default, controls whether the validation will fail if *at 
