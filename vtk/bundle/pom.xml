@@ -491,10 +491,6 @@
 							tags* and *lightweight tags* is outlined in more depth here: https://github.com/ktoso/maven-git-commit-id-plugin/#git-describe-and-a-small-gotcha-with-tags -->
 						<tags>false</tags>
 
-						<!-- always print using the "tag-commits_from_tag-g_commit_id-maybe_dirty" 
-							format, even if "on" a tag. The distance will always be 0 if you're "on" 
-							the tag. -->
-						<forceLongFormat>false</forceLongFormat>
 					</gitDescribe>
 					<!-- @since 2.2.2 -->
 					<!-- true by default, controls whether the validation will fail if *at 
