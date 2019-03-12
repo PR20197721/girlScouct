@@ -65,6 +65,6 @@
         <module>ical4j-wrapper</module>
         <module>beanutils-wrapper</module>
         <module>google-collections-wrapper</module>
-        <module>googleinject-wrapper</module>
+        <module>googleInject-wrapper</module>
     </modules>
 </project>
