@@ -146,10 +146,16 @@
     var fileInput = document.getElementById('file-input');
     var fileListDisplay = document.getElementById('file-list-display');
     var fileList = [];
+    var fileData = [];
     fileInput.addEventListener('change', function (evnt) {
         fileList = [];
         for (var i = 0; i < fileInput.files.length; i++) {
             fileList.push(fileInput.files[i]);
+            let reader = new FileReader();
+            reader.onload = function(){
+                fileData.push(reader.result);
+            };
+            reader.readAsArrayBuffer(fileInput.files[i]);
         }
         renderFileList();
      });
@@ -181,7 +187,7 @@
             for(var i = 0; i<fileList.length; i++){
                 name = fileList[i].name;
                 name = name.replace(/\.[^/.]+$/, "");
-                formData.append('file'+(i+1), fileList[i]);
+                formData.append('file'+(i+1), fileData[i]);
                 formData.append('file'+(i+1)+"Name", name);
                 formData.append('file'+(i+1)+"Type", fileList[i].type);
             }
