@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.girlscouts.aem.common</groupId>
             <artifactId>girlscouts-common-bundle</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
