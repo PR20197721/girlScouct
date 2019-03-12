@@ -52,14 +52,16 @@
              <div class="emailHeader">Email Content: </br></div>
       	  </div>
         <div class="modal-body">
-          <textarea name="message" id="message" rows="10" cols="30"></textarea>
+            <p> Subject: </p>
+            <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
+            <p> Body: </p>
+            <textarea name="message" id="message" rows="10" cols="30"></textarea>
     	</div>
     	<div class="modal-footer">
-        	<strong>-The GSUSA VTK Team</strong>
+        	<div id="sendEmail"class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
       	</div>
-      	<div id="sendEmail"class = "button tiny add-to-year-plan">Send Emails</div>
 
-      </div>
+    </div>
 	<%@include file='myTroopImg.jsp' %>
 	
 	
@@ -143,71 +145,48 @@
             $("#sendEmail").text("Send Email");
     		$("#sendEmail").attr("toClose", "false");
             $(".email-content").css('display', 'none');
-            $(".modal-body").html("<textarea name=\"message\" id=\"message\" rows=\"10\" cols=\"30\"></textarea>");
-            $("#mailBtn").attr("show","false");
-            var interval = setInterval(function() {
-                if ($('#mailBtn').attr("show") === "true") {
-                    $(".email-content").show();
-                    clearInterval(interval);
-                }
-            }, 100);
+            $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea>");
+            $(".email-content").hide();
 
         //SEND EMAIL
         }else{
     		$("#sendEmail").text("Close");
         	$("#sendEmail").attr("toClose", "true");
-            $(".modal-body").html("<strong>Email Sent</strong>");
             $.ajax({
             		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
             		type: 'POST',
             		data: {
-            			act:'sendEmail',
-            			message: $("textarea").val(),
-            			addresses: emailTo,
-            			subject: $($(".mytroop .on")[0]).text()
+            			act:'SendEmail',
+            			message: $("#messageArea").val(),
+            			addresses: decodeURIComponent($("#sendEmail").attr("emails")),
+            			subject: $("#subjectArea").val()
             		},
             		success: function(result) {
             			alert("Email successfully sent");
 
             		}
             	});
+            $(".modal-body").html("<strong>Email Sent</strong>");
         }
 
 
         });
-	$("#mailBtn").click(function(){
-        	var el = $("#mailBtn");
-            if(el.attr("show") !== "true" ){
-                el.attr("show", "true");
+	    $("#mailBtn").click(function(){
+            if( $(".email-content").css("display") === "none" ){
                 $(".email-content").show();
             }else{
-    			el.attr("show", "false");
+                 $(".email-content").hide();
             }
 
         });
-        $(window).load(function(){
-            var interval = setInterval(function() {
-                if ($('#mailBtn').attr("show") === "true") {
-                    $(".email-content").show();
-                    clearInterval(interval);
-                }
-            }, 100)
-                var notice = $(".email-content");
-            $(".vtk-email-news-button").click(function(){
-                notice.css('display', 'none');
-                 $(".modal-body").html("<textarea name=\"message\" id=\"message\" rows=\"10\" cols=\"30\"></textarea>");
-                $("#mailBtn").attr("show","false");
-                var interval = setInterval(function() {
-                    if ($('#mailBtn').attr("show") === "true") {
-                        $(".email-content").show();
-                        clearInterval(interval);
-                    }
-                }, 100)
-            });
-            $(".email-content").click(function(event) {
-                event.stopPropagation();
-            });
+
+        $(".vtk-email-news-button").click(function(){
+            $(".email-content").css('display', 'none');
+            $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea>");
+            $("#mailBtn").attr("show","false");
 
         });
+
+
 </script>
 
