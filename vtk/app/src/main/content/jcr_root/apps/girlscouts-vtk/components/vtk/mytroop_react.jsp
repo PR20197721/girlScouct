@@ -187,7 +187,7 @@
             for(var i = 0; i<fileList.length; i++){
                 name = fileList[i].name;
                 name = name.replace(/\.[^/.]+$/, "");
-                formData.append('file'+(i+1), fileData[i]);
+                formData.append('file'+(i+1), fileList[i]);
                 formData.append('file'+(i+1)+"Name", name);
                 formData.append('file'+(i+1)+"Type", fileList[i].type);
             }
