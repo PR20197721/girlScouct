@@ -85,7 +85,9 @@ public class GSEmailAttachment {
 
 	public enum MimeType {
 
-		TEXT_PLAIN("text/plain", "txt");
+		TEXT_PLAIN("text/plain", "txt"), TEXT_CSV("text/csv", "csv"), TEXT_HTML("text/html", "html"), VIDEO_MP4("video/mp4", ".mp4"),
+		APPLICATION_PDF("application/pdf", "pdf"), APPLICATION_ZIP("application/zip", "zip"), IMAGE_PNG("image/png", "png"), IMAGE_JPEG("image/jpeg", "jpg");
+
 
 		private String mimeType;
 		private String fileExt;

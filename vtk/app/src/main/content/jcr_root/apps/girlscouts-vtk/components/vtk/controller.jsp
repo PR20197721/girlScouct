@@ -1,7 +1,7 @@
 <%@page
 	import="java.util.Comparator, org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.cq.wcm.foundation.Image, com.day.cq.commons.Doctype,com.day.cq.wcm.api.components.DropTarget,com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO,
-                org.girlscouts.vtk.helpers.TroopHashGenerator, org.girlscouts.common.osgi.service.GSEmailService, org.girlscouts.vtk.models.JcrCollectionHoldString, org.girlscouts.vtk.ejb.CouncilRpt,org.slf4j.Logger,org.slf4j.LoggerFactory"%>
+                org.girlscouts.vtk.helpers.TroopHashGenerator, org.girlscouts.common.components.GSEmailAttachment, org.girlscouts.common.osgi.service.GSEmailService, org.girlscouts.vtk.models.JcrCollectionHoldString, org.girlscouts.vtk.ejb.CouncilRpt,org.slf4j.Logger,org.slf4j.LoggerFactory"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:defineObjects />
@@ -53,8 +53,26 @@
 			    case SendEmail:
 			        String addressList = request.getParameter("addresses");
 			        String[] addresses = addressList.split(",");
+			        String fileName = request.getParameter("file1Name");
+			        ArrayList<GSEmailAttachment> attachments = new ArrayList<GSEmailAttachment>();
+                    int count = 1;
+                    while(request.getParameterMap().containsKey("file"+count)){
+                        String mimeT = request.getParameter("file"+count+"Type");
+                        mimeT = mimeT.replaceAll("/", "_");
+                        mimeT = mimeT.toUpperCase();
+                        attachments.add(new GSEmailAttachment(request.getParameter("file"+count+"Name"), request.getParameter("file"+count), "", GSEmailAttachment.MimeType.valueOf(mimeT)));
+                        count++;
+                    }
 			        GSEmailService gsEmailService = sling.getService(GSEmailService.class);
-			        gsEmailService.sendEmail(request.getParameter("subject"),Arrays.asList(addresses),request.getParameter("message"));
+			        if(attachments.isEmpty() == true){
+                        vtklog.debug("Send without attachments");
+                        gsEmailService.sendEmail(request.getParameter("subject"),Arrays.asList(addresses),request.getParameter("message"));
+                    }else{
+                         vtklog.debug("Send with attachments");
+                        gsEmailService.sendEmail(request.getParameter("subject"),Arrays.asList(addresses),request.getParameter("message"), new HashSet<GSEmailAttachment>(attachments));
+                    }
+
+
 			        return;
 				case CreateActivity:
 					yearPlanUtil.createActivity(user, troop, new Activity(

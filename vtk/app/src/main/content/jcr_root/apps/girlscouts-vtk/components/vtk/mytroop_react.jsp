@@ -57,6 +57,10 @@
             <p> Body: </p>
             <textarea name="message" id="message" rows="10" cols="30"></textarea>
     	</div>
+    	<form id='file-catcher'>
+          <input id='file-input' type='file' multiple/>
+        </form>
+        <div id='file-list-display'></div>
     	<div class="modal-footer">
         	<div id="sendEmail"class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
       	</div>
@@ -139,7 +143,24 @@
 <% }//edn if contact %>
 
 <script>
-
+    var fileInput = document.getElementById('file-input');
+    var fileListDisplay = document.getElementById('file-list-display');
+    var fileList = [];
+    fileInput.addEventListener('change', function (evnt) {
+        fileList = [];
+        for (var i = 0; i < fileInput.files.length; i++) {
+            fileList.push(fileInput.files[i]);
+        }
+        renderFileList();
+     });
+    renderFileList = function () {
+        fileListDisplay.innerHTML = '';
+        fileList.forEach(function (file, index) {
+            var fileDisplayEl = document.createElement('p');
+          fileDisplayEl.innerHTML = (index + 1) + ': ' + file.name;
+          fileListDisplay.appendChild(fileDisplayEl);
+        });
+    };
     $("#sendEmail").click(function(){
         if($("#sendEmail").attr("toClose") === "true"){
             $("#sendEmail").text("Send Email");
@@ -152,20 +173,29 @@
         }else{
     		$("#sendEmail").text("Close");
         	$("#sendEmail").attr("toClose", "true");
+            var formData = new FormData();
+            formData.append('act', 'SendEmail');
+            formData.append('message', $("textarea#messageArea").val());
+            formData.append('subject', $("textarea#subjectArea").val());
+            formData.append('addresses', decodeURIComponent($("#sendEmail").attr("emails")));
+            for(var i = 0; i<fileList.length; i++){
+                name = fileList[i].name;
+                name = name.replace(/\.[^/.]+$/, "");
+                formData.append('file'+(i+1), fileList[i]);
+                formData.append('file'+(i+1)+"Name", name);
+                formData.append('file'+(i+1)+"Type", fileList[i].type);
+            }
             $.ajax({
-            		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
-            		type: 'POST',
-            		data: {
-            			act:'SendEmail',
-            			message: $("#messageArea").val(),
-            			addresses: decodeURIComponent($("#sendEmail").attr("emails")),
-            			subject: $("#subjectArea").val()
-            		},
-            		success: function(result) {
-            			alert("Email successfully sent");
+                    url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+                    type: 'POST',
+                    data: formData,
+                    processData:false,
+                    contentType: false,
+                    success: function(result) {
+                        alert("Email successfully sent");
 
-            		}
-            	});
+                    }
+                });
             $(".modal-body").html("<strong>Email Sent</strong>");
         }
 
