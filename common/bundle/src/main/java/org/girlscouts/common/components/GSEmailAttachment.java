@@ -8,13 +8,18 @@ import javax.mail.util.ByteArrayDataSource;
 public class GSEmailAttachment {
 
 	private String baseName;
-	private String fileData;
+	private byte[] fileData;
 	private String description;
 	private MimeType fileType;
 
 	public GSEmailAttachment(String fileName, String fileData, String description, MimeType fileType) {
 		this.baseName = fileName;
-		this.fileData = fileData;
+		try{
+			this.fileData = fileData.getBytes("UTF-8");
+		}catch (Exception e){
+			this.fileData = fileData.getBytes();
+		}
+
 		this.fileType = fileType;
 		if (description != null) {
 			this.description = description;
@@ -22,12 +27,22 @@ public class GSEmailAttachment {
 			this.description = baseName;
 		}
 	}
+    public GSEmailAttachment(String fileName, byte[] fileData, String description, MimeType fileType) {
+        this.baseName = fileName;
+        this.fileData = fileData;
+        this.fileType = fileType;
+        if (description != null) {
+            this.description = description;
+        } else {
+            this.description = baseName;
+        }
+    }
 
 	public String getBaseName() {
 		return baseName;
 	}
 
-	public String getFileData() {
+	public byte[] getFileData() {
 		return fileData;
 	}
 

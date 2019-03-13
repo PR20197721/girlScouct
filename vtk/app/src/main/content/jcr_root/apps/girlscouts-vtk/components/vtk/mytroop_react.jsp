@@ -58,12 +58,13 @@
             <p> Body and attachments: </p>
             <textarea name="message" id="message" rows="10" cols="30"></textarea>
             <form id='file-catcher'>
-              <input id='file-input' type='file' multiple/>
+              <input id='file-input' type='file' multiple onchange="updateFiles()"/>
             </form>
     	</div>
         <div id='file-list-display'></div>
     	<div class="email-modal-footer">
-    	    <div id="cancelEmail" onclick="cancelEmail()" class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Cancel</div>
+    	    <div id="cancelEmail" onclick="cancelEmail()" class = "button tiny add-to-year-plan">Cancel</div>
+    	    <div id="clearEmail" onclick="clearEmail()" class = "button tiny add-to-year-plan">Clear Attachments</div>
         	<div id="sendEmail"class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
       	</div>
 
@@ -149,23 +150,28 @@
     var fileListDisplay = document.getElementById('file-list-display');
     var fileList = [];
     var fileData = [];
+    function clearEmail(){
+            fileList = [];
+            renderFileList();
+            $("#file-catcher").html("<input id='file-input' type='file' multiple onchange='updateFiles()'/>");
+        }
+    function updateFiles(){
+        fileList = [];
+            for (var i = 0; i < fileInput.files.length; i++) {
+                fileList.push(fileInput.files[i]);
+                let reader = new FileReader();
+                reader.onload = function(){
+                    fileData.push(new Uint8Array(reader.result));
+                }
+                reader.readAsArrayBuffer(fileInput.files[i]);
+            }
+            renderFileList();
+    }
     function cancelEmail(){
         $(".email-content").css('display', 'none');
-        $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
+        $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple onchange='updateFiles()'/></form>");
         $("#mailBtn").attr("show","false");
     }
-    fileInput.addEventListener('change', function (evnt) {
-        fileList = [];
-        for (var i = 0; i < fileInput.files.length; i++) {
-            fileList.push(fileInput.files[i]);
-            let reader = new FileReader();
-            reader.onload = function(){
-                fileData.push(reader.result);
-            };
-            reader.readAsDataURL(fileInput.files[i]);
-        }
-        renderFileList();
-     });
     renderFileList = function () {
         fileListDisplay.innerHTML = '';
         fileList.forEach(function (file, index) {
@@ -179,7 +185,7 @@
             $("#sendEmail").text("Send Email");
     		$("#sendEmail").attr("toClose", "false");
             $(".email-content").css('display', 'none');
-            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
+            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple onchange='updateFiles()'/></form>");
             $(".email-content").hide();
 
         //SEND EMAIL
@@ -188,8 +194,8 @@
         	$("#sendEmail").attr("toClose", "true");
             var formData = new FormData();
             formData.append('act', 'SendEmail');
-            formData.append('message', $("textarea")[0].value);
-            formData.append('subject', $("textarea")[1].value);
+            formData.append('message', $("textarea")[1].value);
+            formData.append('subject', $("textarea")[0].value);
             formData.append('addresses', decodeURIComponent($("#sendEmail").attr("emails")));
             for(var i = 0; i<fileList.length; i++){
                 name = fileList[i].name;
