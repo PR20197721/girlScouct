@@ -43,15 +43,16 @@
 	
 		 
     
-	%> 
+	%>
+	<div class="email">
 	<div class="email-content">
-          <div class="modal-header">
+          <div class="email-modal-header">
        		 <div class="vtk-email-news-button">
                     <i class="icon-button-circle-cross"></i>
               </div>
              <div class="emailHeader">Email Content: </br></div>
       	  </div>
-        <div class="modal-body">
+        <div class="email-modal-body">
             <p> Subject: </p>
             <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
             <p> Body: </p>
@@ -61,10 +62,11 @@
             </form>
     	</div>
         <div id='file-list-display'></div>
-    	<div class="modal-footer">
+    	<div class="email-modal-footer">
         	<div id="sendEmail"class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
       	</div>
 
+    </div>
     </div>
 	<%@include file='myTroopImg.jsp' %>
 	
@@ -106,7 +108,6 @@
 		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
 		        <div id="mailBtn">
 		           <a id = "#mailTroop" ><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></div>
-		           <label><input type="checkbox" name="delimiter">Please check this box if you use Outlook</label>
 		         <%} %>
 		         
 		      </dt>
@@ -163,7 +164,7 @@
         fileListDisplay.innerHTML = '';
         fileList.forEach(function (file, index) {
             var fileDisplayEl = document.createElement('p');
-          fileDisplayEl.innerHTML = (index + 1) + ': ' + file.name;
+          fileDisplayEl.innerHTML = (index + 1) + ') ' + file.name;
           fileListDisplay.appendChild(fileDisplayEl);
         });
     };
@@ -172,7 +173,7 @@
             $("#sendEmail").text("Send Email");
     		$("#sendEmail").attr("toClose", "false");
             $(".email-content").css('display', 'none');
-            $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
+            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
             $(".email-content").hide();
 
         //SEND EMAIL
@@ -202,7 +203,9 @@
 
                     }
                 });
-            $(".modal-body").html("<strong>Email Sent</strong>");
+            $(".email-modal-body").html("<strong>Email Sent</strong>");
+            fileList=[];
+            renderFileList();
         }
 
 
@@ -218,7 +221,7 @@
 
         $(".vtk-email-news-button").click(function(){
             $(".email-content").css('display', 'none');
-            $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
+            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
             $("#mailBtn").attr("show","false");
 
         });

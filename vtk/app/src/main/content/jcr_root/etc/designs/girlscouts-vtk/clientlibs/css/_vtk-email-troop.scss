@@ -17,23 +17,28 @@
 #file-input{
   	padding: 5px;
     width: 300px;
+}
+#file-list-display{
     margin-left: 16px;
+}
+#file-list-display p{
+    line-height: 0px;
 }
 .emailHeader{
 	font-weight: bold;
     font-size: 28px;
 }
-.modal-header {
+.email-modal-header {
   padding: 2px 16px;
   background-color: #00ae58;
   color: white;
   padding-bottom: 25px;
 }
 
-.modal-body {
+.email-modal-body {
     padding: 2px 16px;
 }
-.modal-footer {
+.email-modal-footer {
   padding: 2px 16px;
   text-align: right;
 }
