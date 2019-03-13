@@ -57,7 +57,6 @@
 			        ArrayList<GSEmailAttachment> attachments = new ArrayList<GSEmailAttachment>();
                     int count = 1;
                     while(request.getParameterMap().containsKey("file"+count)){
-                        vtklog.error(request.class);
                         RequestParameter req_file = slingRequest.getRequestParameter("file"+count);
                         String fN = req_file.getFileName();
                         String fT = req_file.getContentType();
