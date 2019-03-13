@@ -14,7 +14,11 @@
   		bottom: 3px;
   	}
 }
-
+#file-input{
+  	padding: 5px;
+    width: 300px;
+    margin-left: 16px;
+}
 .emailHeader{
 	font-weight: bold;
     font-size: 28px;
@@ -35,13 +39,17 @@
 }
 .email-content {
   display: none;
-  position: relative;
+  position: fixed;
+  z-index: 1;
+  height: 500px;
+  overflow: scroll;
   background-color: #fefefe;
   margin: auto;
   padding: 0;
   border: 1px solid #888;
   width: 40%;
-  top: 25%;
+  top: 15%;
+  left: 30%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   animation-name: animatetop;
   animation-duration: 1s;
@@ -54,7 +62,7 @@
   }
 
   to {
-    top: 25%;
+    top: 15%;
     opacity: 1;
   }
 }

@@ -56,10 +56,10 @@
             <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
             <p> Body: </p>
             <textarea name="message" id="message" rows="10" cols="30"></textarea>
+            <form id='file-catcher'>
+              <input id='file-input' type='file' multiple/>
+            </form>
     	</div>
-    	<form id='file-catcher'>
-          <input id='file-input' type='file' multiple/>
-        </form>
         <div id='file-list-display'></div>
     	<div class="modal-footer">
         	<div id="sendEmail"class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
@@ -172,7 +172,7 @@
             $("#sendEmail").text("Send Email");
     		$("#sendEmail").attr("toClose", "false");
             $(".email-content").css('display', 'none');
-            $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea>");
+            $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
             $(".email-content").hide();
 
         //SEND EMAIL
@@ -218,7 +218,7 @@
 
         $(".vtk-email-news-button").click(function(){
             $(".email-content").css('display', 'none');
-            $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea>");
+            $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
             $("#mailBtn").attr("show","false");
 
         });
