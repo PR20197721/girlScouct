@@ -149,6 +149,16 @@
     var fileInput = document.getElementById('file-input');
     var fileListDisplay = document.getElementById('file-list-display');
     var fileList = [];
+    var fileSizes = [];
+    function converterNumber(size){
+        if (size > 500000) {
+            return (size / 1000000).toFixed(0) + ' MB'
+        }
+
+        if (size > 0 || size < 999999){
+             return (size/1000).toFixed(1) + ' K'
+        }
+    }
     function clearEmail(){
             fileList = [];
             renderFileList();
@@ -156,7 +166,9 @@
         }
     function updateFiles(){
         fileList = [];
+        fileSizes = [];
             for (var i = 0; i < fileInput.files.length; i++) {
+                fileSizes.push(fileInput.files[i].size);
                 fileList.push(fileInput.files[i]);
             }
             renderFileList();
@@ -166,14 +178,26 @@
         $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments:: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple onchange='updateFiles()'/></form>");
         $("#mailBtn").attr("show","false");
     }
-    renderFileList = function () {
+    function renderFileList(){
         fileListDisplay.innerHTML = '';
-        fileList.forEach(function (file, index) {
+        for(var i = 0; i<fileList.length; i++){
             var fileDisplayEl = document.createElement('p');
-          fileDisplayEl.innerHTML = (index + 1) + ') ' + file.name;
-          fileListDisplay.appendChild(fileDisplayEl);
-        });
-    };
+            fileDisplayEl.innerHTML = (i + 1) + ') ' + fileList[i].name+" ("+converterNumber(fileList[i].size)+")";
+            fileListDisplay.appendChild(fileDisplayEl);
+
+        }
+        var totalSize = 0;
+        for(var i = 0; i<fileSizes.length; i++){
+            totalSize = totalSize + fileSizes[i];
+        }
+        if(totalSize >= 25000000){
+             $("#sendEmail").css("cssText", "background-color:gray !important;");
+             $("#sendEmail").attr("disabled","true");
+        } else{
+             $("#sendEmail").css("cssText", "background-color:#18aa51 !important;");
+             $("#sendEmail").attr("disabled","false");
+        }
+    }
     $("#sendEmail").click(function(){
         if($("#sendEmail").attr("toClose") === "true"){
             $("#sendEmail").text("Send Email");
@@ -183,7 +207,7 @@
             $(".email-content").hide();
 
         //SEND EMAIL
-        }else{
+        }else if($("#sendEmail").attr("disabled") !== "true"){
             $("#cancelEmail").hide();
             $("#clearEmail").hide();
     		$("#sendEmail").text("Close");
