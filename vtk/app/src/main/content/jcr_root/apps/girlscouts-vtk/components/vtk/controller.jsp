@@ -53,12 +53,11 @@
 			    case SendEmail:
 			        String addressList = request.getParameter("addresses");
 			        String[] addresses = addressList.split(",");
-			        String fileName = request.getParameter("file1Name");
 			        ArrayList<GSEmailAttachment> attachments = new ArrayList<GSEmailAttachment>();
                     int count = 1;
                     while(request.getParameterMap().containsKey("file"+count)){
                         RequestParameter req_file = slingRequest.getRequestParameter("file"+count);
-                        String fN = req_file.getFileName();
+                        String fN = request.getParameter("file"+count+"Name");
                         String fT = req_file.getContentType();
                         fT = fT.replaceAll("/", "_");
                         fT = fT.toUpperCase();

@@ -149,7 +149,6 @@
     var fileInput = document.getElementById('file-input');
     var fileListDisplay = document.getElementById('file-list-display');
     var fileList = [];
-    var fileData = [];
     function clearEmail(){
             fileList = [];
             renderFileList();
@@ -159,17 +158,12 @@
         fileList = [];
             for (var i = 0; i < fileInput.files.length; i++) {
                 fileList.push(fileInput.files[i]);
-                let reader = new FileReader();
-                reader.onload = function(){
-                    fileData.push(new Uint8Array(reader.result));
-                }
-                reader.readAsArrayBuffer(fileInput.files[i]);
             }
             renderFileList();
     }
     function cancelEmail(){
         $(".email-content").css('display', 'none');
-        $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple onchange='updateFiles()'/></form>");
+        $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments:: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple onchange='updateFiles()'/></form>");
         $("#mailBtn").attr("show","false");
     }
     renderFileList = function () {
@@ -190,6 +184,8 @@
 
         //SEND EMAIL
         }else{
+            $("#cancelEmail").hide();
+            $("#clearEmail").hide();
     		$("#sendEmail").text("Close");
         	$("#sendEmail").attr("toClose", "true");
             var formData = new FormData();
@@ -202,7 +198,6 @@
                 name = name.replace(/\.[^/.]+$/, "");
                 formData.append('file'+(i+1), fileList[i]);
                 formData.append('file'+(i+1)+"Name", name);
-                formData.append('file'+(i+1)+"Type", fileList[i].type);
             }
             $.ajax({
                     url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
@@ -224,6 +219,8 @@
         });
 	    $("#mailBtn").click(function(){
             if( $(".email-content").css("display") === "none" ){
+                $("#cancelEmail").show();
+                $("#clearEmail").show();
                 $(".email-content").show();
             }else{
                  $(".email-content").hide();
