@@ -155,7 +155,7 @@
             reader.onload = function(){
                 fileData.push(reader.result);
             };
-            reader.readAsArrayBuffer(fileInput.files[i]);
+            reader.readAsDataURL(fileInput.files[i]);
         }
         renderFileList();
      });
@@ -181,8 +181,8 @@
         	$("#sendEmail").attr("toClose", "true");
             var formData = new FormData();
             formData.append('act', 'SendEmail');
-            formData.append('message', $("textarea#messageArea").val());
-            formData.append('subject', $("textarea#subjectArea").val());
+            formData.append('message', $("textarea")[0].value);
+            formData.append('subject', $("textarea")[1].value);
             formData.append('addresses', decodeURIComponent($("#sendEmail").attr("emails")));
             for(var i = 0; i<fileList.length; i++){
                 name = fileList[i].name;
