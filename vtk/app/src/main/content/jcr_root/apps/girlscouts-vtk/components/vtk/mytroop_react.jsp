@@ -55,7 +55,7 @@
         <div class="email-modal-body">
             <p> Subject: </p>
             <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
-            <p> Body: </p>
+            <p> Body and attachments: </p>
             <textarea name="message" id="message" rows="10" cols="30"></textarea>
             <form id='file-catcher'>
               <input id='file-input' type='file' multiple/>
@@ -173,7 +173,7 @@
             $("#sendEmail").text("Send Email");
     		$("#sendEmail").attr("toClose", "false");
             $(".email-content").css('display', 'none');
-            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
+            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
             $(".email-content").hide();
 
         //SEND EMAIL
@@ -221,7 +221,7 @@
 
         $(".vtk-email-news-button").click(function(){
             $(".email-content").css('display', 'none');
-            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
+            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
             $("#mailBtn").attr("show","false");
 
         });
