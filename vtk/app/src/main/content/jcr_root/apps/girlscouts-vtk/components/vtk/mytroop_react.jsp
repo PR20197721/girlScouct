@@ -55,7 +55,7 @@
         <div class="email-modal-body">
             <p> Subject: </p>
             <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
-            <p> Body and attachments: </p>
+            <p> Body and attachments <span id="limit">(25MB limit): </span> </p>
             <textarea name="message" id="message" rows="10" cols="30"></textarea>
             <form id='file-catcher'>
               <input id='file-input' type='file' multiple onchange="updateFiles()"/>
@@ -163,6 +163,10 @@
             fileList = [];
             renderFileList();
             $("#file-catcher").html("<input id='file-input' type='file' multiple onchange='updateFiles()'/>");
+            $("#sendEmail").css("cssText", "background-color:#18aa51 !important;");
+            $("#sendEmail").attr("sendEmail","false");
+            $("#limit").text("(25MB limit):");
+            $("#limit").css("color", "rgb(57, 57, 57)");
         }
     function updateFiles(){
         fileList = [];
@@ -175,7 +179,7 @@
     }
     function cancelEmail(){
         $(".email-content").css('display', 'none');
-        $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments:: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple onchange='updateFiles()'/></form>");
+        $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments <span id='limit'>(25MB limit): </span> </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple onchange='updateFiles()'/></form>");
         $("#mailBtn").attr("show","false");
     }
     function renderFileList(){
@@ -192,10 +196,14 @@
         }
         if(totalSize >= 25000000){
              $("#sendEmail").css("cssText", "background-color:gray !important;");
-             $("#sendEmail").attr("disabled","true");
+             $("#sendEmail").attr("sendEmail","true");
+             $("#limit").text("(25MB limit exceeded please re-select attachments):");
+             $("#limit").css("color", "red");
         } else{
              $("#sendEmail").css("cssText", "background-color:#18aa51 !important;");
-             $("#sendEmail").attr("disabled","false");
+             $("#sendEmail").attr("sendEmail","false");
+             $("#limit").text("(25MB limit):");
+             $("#limit").css("color", "rgb(57, 57, 57)");
         }
     }
     $("#sendEmail").click(function(){
@@ -203,11 +211,11 @@
             $("#sendEmail").text("Send Email");
     		$("#sendEmail").attr("toClose", "false");
             $(".email-content").css('display', 'none');
-            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple onchange='updateFiles()'/></form>");
+            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments <span id='limit'>(25MB limit): </span> </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple onchange='updateFiles()'/></form>");
             $(".email-content").hide();
 
         //SEND EMAIL
-        }else if($("#sendEmail").attr("disabled") !== "true"){
+        }else if($("#sendEmail").attr("sendEmail") !== "true"){
             $("#cancelEmail").hide();
             $("#clearEmail").hide();
     		$("#sendEmail").text("Close");
