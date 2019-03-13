@@ -47,7 +47,7 @@
 	<div class="email">
 	<div class="email-content">
           <div class="email-modal-header">
-       		 <div class="vtk-email-news-button">
+       		 <div class="vtk-email-news-button" onclick="cancelEmail()">
                     <i class="icon-button-circle-cross"></i>
               </div>
              <div class="emailHeader">Email Content: </br></div>
@@ -63,6 +63,7 @@
     	</div>
         <div id='file-list-display'></div>
     	<div class="email-modal-footer">
+    	    <div id="cancelEmail" onclick="cancelEmail()" class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Cancel</div>
         	<div id="sendEmail"class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
       	</div>
 
@@ -148,6 +149,11 @@
     var fileListDisplay = document.getElementById('file-list-display');
     var fileList = [];
     var fileData = [];
+    function cancelEmail(){
+        $(".email-content").css('display', 'none');
+        $(".modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
+        $("#mailBtn").attr("show","false");
+    }
     fileInput.addEventListener('change', function (evnt) {
         fileList = [];
         for (var i = 0; i < fileInput.files.length; i++) {
@@ -218,14 +224,5 @@
             }
 
         });
-
-        $(".vtk-email-news-button").click(function(){
-            $(".email-content").css('display', 'none');
-            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments: </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple/></form>");
-            $("#mailBtn").attr("show","false");
-
-        });
-
-
 </script>
 
