@@ -231,9 +231,8 @@
     		$("#sendEmail").text("Close");
         	$("#sendEmail").attr("toClose", "true");
             var formData = new FormData();
-            formData.append('act', 'SendEmail');
-            formData.append('message', $("textarea")[1].value);
-            formData.append('subject', $("textarea")[0].value);
+            formData.append('message', $($("textarea")[1]).val().replace(/\n/g, '<br/>'));
+            formData.append('subject', $($("textarea")[0]).val());
             formData.append('addresses', decodeURIComponent($("#sendEmail").attr("emails")));
             for(var i = 0; i<fileList.length; i++){
                 name = fileList[i].name;
