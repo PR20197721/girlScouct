@@ -200,7 +200,7 @@
         if(totalSize >= 25000000){
              $("#sendEmail").css("cssText", "background-color:gray !important;");
              $("#sendEmail").attr("sendEmail","true");
-             $("#limit").text("(25MB limit exceeded please re-select attachments):");
+             $("#limit").text("(25MB limit exceeded, please re-select attachments):");
              $("#limit").css("color", "red");
         } else{
              $("#sendEmail").css("cssText", "background-color:#18aa51 !important;");
@@ -241,8 +241,10 @@
                 processData:false,
                 contentType: false,
                 success: function(result) {
-                    alert("Email successfully sent");
-
+                   console.log("EMAIL SENT SUCCESSFULLY");
+                },
+                error: function(result){
+                    console.log("EMAIL FAILED TO SEND");
                 }
             });
             bodyContent = $(".email-modal-body").html();
