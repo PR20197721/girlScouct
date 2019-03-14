@@ -254,7 +254,7 @@
             <dependency>
                 <groupId>com.day.jcr.vault</groupId>
                 <artifactId>content-package-maven-plugin</artifactId>
-                <version>0.0.24</version>
+                <version>0.5.24</version>
             </dependency>
             <!--
             <dependency>
@@ -336,7 +336,10 @@
                 <plugin>
                     <groupId>com.day.jcr.vault</groupId>
                     <artifactId>content-package-maven-plugin</artifactId>
-                    <version>0.0.24</version>
+                    <version>0.5.24</version>
+                    <configuration>
+                        <allowIndexDefinitions>true</allowIndexDefinitions>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -358,6 +361,22 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>nexus-releases</id>
+            <url>http://137.135.97.187:8081/repository/maven-releases/</url>
+            <name>Nexus-Releases</name>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>nexus-snapshots</id>
+            <url>http://137.135.97.187:8081/repository/maven-snapshots/</url>
+            <name>Nexus-Snapshots</name>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
         </repository>
     </repositories>
     <pluginRepositories>

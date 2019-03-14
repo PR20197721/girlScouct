@@ -14,7 +14,7 @@
     <!-- P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
     <groupId>org.girlscouts.aem.vtk</groupId>
-    <artifactId>googleinject-wrapper</artifactId>
+    <artifactId>googleInject-wrapper</artifactId>
     <packaging>bundle</packaging>
     <name>Girl Scouts VTK Google Inject Wrapper</name>
     <dependencies>

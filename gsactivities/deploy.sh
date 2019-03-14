@@ -18,7 +18,7 @@ for server in ${SERVER_LIST[@]}; do
 		if [ $? -ne 0 ]; then
 			echo "Server $server:$port is down. Skipping..."
 		else
-			curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/aem/gsactivities/girlscouts-gsactivities-app/$VERSION/girlscouts-gsactivities-app-$VERSION.zip" -F name="gsactivities-app" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
+			curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/aem/gsactivities/girlscouts-gsactivities-app/$VERSION/girlscouts-gsactivities-app-$VERSION.zip" -F name="girlscouts-gsactivities-app" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
 		fi
 	done
 done

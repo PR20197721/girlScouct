@@ -63,8 +63,7 @@
         <artifactId>content-package-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <group>org.girlscouts.aem</group>
-          <name>${project.groupId}.${project.artifactId}.${project.version}</name>
+          <group>Girl Scouts</group>
           <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
           <properties>
             <acHandling>Overwrite</acHandling>
