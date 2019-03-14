@@ -58,16 +58,15 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
                 count++;
             }
         }catch (Exception e){
-            log.error("Failed to parse attachment file data.... Sending without attachments", e);
+            log.error("Failed to parse attachment file data.... Sending without attachments: ", e);
             attachments.clear();
         }
-
         if(attachments.isEmpty() == true){
             try {
                 log.debug("Send Email without attachments");
                 gsEmailService.sendEmail(slingRequest.getParameter("subject"), Arrays.asList(addresses),slingRequest.getParameter("message"));
             }catch(Exception e){
-                log.error("Email failed to send without attachments", e);
+                log.error("Email failed to send without attachments: ", e);
             }
 
         }else{
@@ -75,7 +74,7 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
                 log.debug("Send Email with attachments");
                 gsEmailService.sendEmail(slingRequest.getParameter("subject"),Arrays.asList(addresses),slingRequest.getParameter("message"), new HashSet<GSEmailAttachment>(attachments));
             }catch(Exception e){
-                log.error("Email failed to send with attachments", e);
+                log.error("Email failed to send with attachments: ", e);
             }
         }
         return;
