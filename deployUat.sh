@@ -8,5 +8,3 @@ if [ -z $VERSION ]; then
 fi
 
 ./common/deployUat.sh $VERSION  && ./web/deployUat.sh $VERSION && ./gsusa/deployUat.sh $VERSION && ./vtk/deployUat.sh $VERSION && ./gsactivities/deployUat.sh $VERSION
-
-done
