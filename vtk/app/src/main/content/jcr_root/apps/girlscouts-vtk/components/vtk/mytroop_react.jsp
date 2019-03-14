@@ -162,6 +162,7 @@
     function clearEmail(){
         $("#file-catcher").trigger("reset");
         $("#file-list-display").html("");
+        $("#sendEmail").removeAttr("disabled");
         fileList.length = 0;
         $("#sendEmail").css("cssText", "background-color:#18aa51 !important;");
         $("#sendEmail").attr("sendEmail","false");
