@@ -149,6 +149,50 @@
                                 fieldDescription="Separated by space. CSS tags will be added to the surrounding div tag when the component is being included."
                                 fieldLabel="Additional CSS"
                                 name="./additionalCss"/>
+                            <paddingiv jcr:primaryType="nt:unstructured"
+								sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
+								fieldLabel="Image Padding (Top | Bottom)">
+								<width jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./pitop" />
+								<height jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./pibottom" />
+							</paddingiv>
+							<paddingih jcr:primaryType="nt:unstructured"
+								sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
+								fieldLabel="Image Padding (Left | Right)">                                
+								<width
+									jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./pileft"/>
+								<height
+									jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./piright"/>
+							</paddingih>
+							<paddingcv jcr:primaryType="nt:unstructured"
+								sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
+								fieldLabel="Component Padding (Top | Bottom)">
+								<width jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./pctop" />
+								<height jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./pcbottom" />
+							</paddingcv>
+							<paddingch jcr:primaryType="nt:unstructured"
+								sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
+								fieldLabel="Component Padding (Left | Right)">                                
+								<width
+									jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./pcleft"/>
+								<height
+									jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./pcright"/>
+							</paddingch>
                         </items>
                     </columns>
                 </items>

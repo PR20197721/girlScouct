@@ -25,11 +25,11 @@
 <%@ taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
 
 <%
-	
-	String additionalCssStyle = properties.get("./additionalCssStyle", "");
-	String style = "";
+	String styleImage = "";
+
+	String additionalCssStyle = properties.get("./additionalCssStyle", "");	
 	if(additionalCssStyle.length() > 0) {
-		style = "style=\""+additionalCssStyle+"\"";
+		styleImage = additionalCssStyle + ";"; //style=\""+additionalCssStyle+"\"";
 	}
 	
 	String styleClass = DropTarget.CSS_CLASS_PREFIX + "image " + properties.get("./additionalCss", "");
@@ -39,14 +39,37 @@
     if (!currentDesign.equals(resourceDesign)) {
     		suffix = currentDesign.getId();
     }
+    
+	String styleCaption = "";
+	
+	String pTop = properties.get("./ptop", "0");
+	String pBottom = properties.get("./pbottom", "0");
+	String pLeft = properties.get("./pleft", "0");
+	String pRight = properties.get("./pright", "0");
+	String imageWidth = properties.get("./width", "0");
+	String caption = properties.get("./jcr:description", "");
+		
+	String padding = pTop + pBottom + pLeft + pRight;
+	
+	if (!padding.equals("0000")) {	// paddings are set, override custom style
+		styleImage += "padding: " + pTop + "px " + pRight + "px " + pBottom + "px " + pLeft + "px;";
+		styleImage += "margin: 0px !important;"; 
+	}
+	if (caption.length() > 0) { // if there's caption, apply padding to the caption
+		styleCaption = "padding: 0px 5px;"; 
+	}
+	
+	if (!"0".equals(imageWidth)) {
+		// imageWidth + padding
+		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft) + Integer.parseInt(pRight);
+		styleImage += "width:" + newWidth + "px; max-width:100% !important;";
+	}
 %>
 
-<div id="<%= "cq-image-jsp-" + resource.getPath() %>" <%=style%> >
+<div id="<%= "cq-image-jsp-" + resource.getPath() %>" style="<%= styleImage %>" >
 <% 
 		Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
-	    String width = properties.get("./width", "0");
-	    String height = properties.get("./height", "0");
 	  	try{
 		    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
 		
@@ -57,13 +80,7 @@
 		    image.loadStyleData(currentStyle);
 		    image.setSelector(".img"); // use image script
 		    image.setDoctype(Doctype.fromRequest(request));
-		    if (!"0".equals(width)) {
-	        	image.addAttribute("width", width + "px");
-	    	}
-	        if (!"0".equals(height)) {
-	        	image.addAttribute("height", height + "px");
-	    	}
-		    
+	    	
 			Boolean newWindow = properties.get("./newWindow", false);
 		
 		    // add design information if not default (i.e. for reference paras)
@@ -81,6 +98,8 @@
 	  	}catch (Exception e){
 	  		
 	  	}
-%>	
+	  	%>
+		<div class="image-caption" style="<%= styleCaption %>">
+			<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
+		</div>
 </div>
-<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
