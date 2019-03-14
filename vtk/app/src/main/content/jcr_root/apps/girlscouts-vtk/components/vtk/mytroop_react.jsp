@@ -57,10 +57,10 @@
             <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
             <p> Body and attachments <span id="limit">(25MB limit): </span> </p>
             <textarea name="message" id="message" rows="10" cols="30"></textarea>
-            <form id='file-catcher'>
-              <input id='file-input' type='file' multiple onchange="updateFiles()"/>
-            </form>
     	</div>
+    	<form id='file-catcher'>
+          <input id='file-input' type='file' multiple onchange="updateFiles()"/>
+        </form>
         <div id='file-list-display'></div>
     	<div class="email-modal-footer">
     	    <div id="cancelEmail" onclick="cancelEmail()" class = "button tiny add-to-year-plan">Cancel</div>
@@ -160,14 +160,14 @@
         }
     }
     function clearEmail(){
-            fileList = [];
-            renderFileList();
-            $("#file-catcher").html("<input id='file-input' type='file' multiple onchange='updateFiles()'/>");
-            $("#sendEmail").css("cssText", "background-color:#18aa51 !important;");
-            $("#sendEmail").attr("sendEmail","false");
-            $("#limit").text("(25MB limit):");
-            $("#limit").css("color", "rgb(57, 57, 57)");
-        }
+        $("#file-catcher").trigger("reset");
+        $("#file-list-display").html("");
+        fileList.length = 0;
+        $("#sendEmail").css("cssText", "background-color:#18aa51 !important;");
+        $("#sendEmail").attr("sendEmail","false");
+        $("#limit").text("(25MB limit):");
+        $("#limit").css("color", "rgb(57, 57, 57)");
+    }
     function updateFiles(){
         fileList = [];
         fileSizes = [];
@@ -178,9 +178,12 @@
             renderFileList();
     }
     function cancelEmail(){
-        $(".email-content").css('display', 'none');
-        $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments <span id='limit'>(25MB limit): </span> </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple onchange='updateFiles()'/></form>");
-        $("#mailBtn").attr("show","false");
+      clearEmail();
+      $("textarea").each(function() {
+            $(this).val('');
+        });
+      $(".email-content").css('display', 'none');
+      $("#mailBtn").attr("show","false");
     }
     function renderFileList(){
         fileListDisplay.innerHTML = '';
@@ -206,14 +209,14 @@
              $("#limit").css("color", "rgb(57, 57, 57)");
         }
     }
+    var bodyContent;
     $("#sendEmail").click(function(){
         if($("#sendEmail").attr("toClose") === "true"){
-            $("#sendEmail").text("Send Email");
-    		$("#sendEmail").attr("toClose", "false");
+            cancelEmail();
+            $(".email-modal-body").html(bodyContent);
             $(".email-content").css('display', 'none');
-            $(".email-modal-body").html("<p> Subject: </p><textarea name=\"subject\" id=\"subjectArea\" rows=\"1\" cols=\"30\"></textarea><p> Body and attachments <span id='limit'>(25MB limit): </span> </p><textarea name=\"message\" id=\"messageArea\" rows=\"10\" cols=\"30\"></textarea><form id='file-catcher'><input id='file-input' type='file' multiple onchange='updateFiles()'/></form>");
-            $(".email-content").hide();
-
+            $("#sendEmail").text("Send Email");
+            $("#sendEmail").attr("toClose", "false");
         //SEND EMAIL
         }else if($("#sendEmail").attr("sendEmail") !== "true"){
             $("#cancelEmail").hide();
@@ -232,19 +235,20 @@
                 formData.append('file'+(i+1)+"Name", name);
             }
             $.ajax({
-                    url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
-                    type: 'POST',
-                    data: formData,
-                    processData:false,
-                    contentType: false,
-                    success: function(result) {
-                        alert("Email successfully sent");
+                url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+                type: 'POST',
+                data: formData,
+                processData:false,
+                contentType: false,
+                success: function(result) {
+                    alert("Email successfully sent");
 
-                    }
-                });
+                }
+            });
+            bodyContent = $(".email-modal-body").html();
+            $("#file-input").hide();
             $(".email-modal-body").html("<strong>Email Sent</strong>");
-            fileList=[];
-            renderFileList();
+            clearEmail();
         }
 
 
@@ -253,6 +257,7 @@
             if( $(".email-content").css("display") === "none" ){
                 $("#cancelEmail").show();
                 $("#clearEmail").show();
+                $("#file-input").show();
                 $(".email-content").show();
             }else{
                  $(".email-content").hide();
