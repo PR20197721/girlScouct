@@ -199,11 +199,13 @@
         }
         if(totalSize >= 25000000){
              $("#sendEmail").css("cssText", "background-color:gray !important;");
+             $("#sendEmail").attr("disabled","");
              $("#sendEmail").attr("sendEmail","true");
              $("#limit").text("(25MB limit exceeded, please re-select attachments):");
              $("#limit").css("color", "red");
         } else{
              $("#sendEmail").css("cssText", "background-color:#18aa51 !important;");
+             $("#sendEmail").removeAttr("disabled");
              $("#sendEmail").attr("sendEmail","false");
              $("#limit").text("(25MB limit):");
              $("#limit").css("color", "rgb(57, 57, 57)");
