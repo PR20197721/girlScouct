@@ -49,31 +49,6 @@
 					}
 					meetingUtil.changeMeetingPositions(user, troop, x);
 					return;
-
-			    case SendEmail:
-			        String addressList = request.getParameter("addresses");
-			        String[] addresses = addressList.split(",");
-			        ArrayList<GSEmailAttachment> attachments = new ArrayList<GSEmailAttachment>();
-                    int count = 1;
-                    while(request.getParameterMap().containsKey("file"+count)){
-                        RequestParameter req_file = slingRequest.getRequestParameter("file"+count);
-                        String fN = request.getParameter("file"+count+"Name");
-                        String fT = req_file.getContentType();
-                        fT = fT.replaceAll("/", "_");
-                        fT = fT.toUpperCase();
-                        byte[] fB = req_file.get();
-                        attachments.add(new GSEmailAttachment(fN, fB, "", GSEmailAttachment.MimeType.valueOf(fT)));
-                        count++;
-                    }
-			        GSEmailService gsEmailService = sling.getService(GSEmailService.class);
-			        if(attachments.isEmpty() == true){
-                        vtklog.debug("Send Email without attachments");
-                        gsEmailService.sendEmail(request.getParameter("subject"),Arrays.asList(addresses),request.getParameter("message"));
-                    }else{
-                         vtklog.debug("Send Email with attachments");
-                        gsEmailService.sendEmail(request.getParameter("subject"),Arrays.asList(addresses),request.getParameter("message"), new HashSet<GSEmailAttachment>(attachments));
-                    }
-			        return;
 				case CreateActivity:
 					yearPlanUtil.createActivity(user, troop, new Activity(
 										request.getParameter("newCustActivity_name"),

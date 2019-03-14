@@ -150,6 +150,7 @@
     var fileListDisplay = document.getElementById('file-list-display');
     var fileList = [];
     var fileSizes = [];
+    var bodyContent;
     function converterNumber(size){
         if (size > 500000) {
             return (size / 1000000).toFixed(0) + ' MB'
@@ -183,6 +184,10 @@
       $("textarea").each(function() {
             $(this).val('');
         });
+      if($(".email-modal-body").text() == "Email Sent"){
+         $(".email-modal-body").html(bodyContent);
+      }
+      $("#sendEmail").text("Send Email");
       $(".email-content").css('display', 'none');
       $("#mailBtn").attr("show","false");
     }
@@ -212,7 +217,6 @@
              $("#limit").css("color", "rgb(57, 57, 57)");
         }
     }
-    var bodyContent;
     $("#sendEmail").click(function(){
         if($("#sendEmail").attr("toClose") === "true"){
             cancelEmail();
@@ -238,7 +242,7 @@
                 formData.append('file'+(i+1)+"Name", name);
             }
             $.ajax({
-                url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+                url: '/content/girlscouts-vtk/service/email.html',
                 type: 'POST',
                 data: formData,
                 processData:false,
