@@ -88,7 +88,11 @@ public class MeetingSearch extends SlingAllMethodsServlet{
 							String path = excerpt.getString();
 
 							Meeting meeting = new Meeting();
-							meeting.setId( r.getValue("id").getString() );
+							try {
+								meeting.setId(r.getValue("id").getString());
+							}catch(Exception eee){
+								System.err.println(r.getNode().getPath());
+							}
 							meeting.setName(r.getValue("name").getString() );
 							meetings.add( meeting );
 						}
