@@ -59,6 +59,36 @@
   text-align: right;
   padding-bottom: 10px;
 }
+.email input[type="checkbox"] {
+  display: none;
+}
+.email input[type="checkbox"] + label:before {
+  border: solid 1px #ccc;
+  content: "";
+  height: 30px;
+  width: 30px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  font-size: 15px;
+  text-align: center;
+  padding: 4px;
+  display: inline-block;
+  float: left;
+}
+.email label {
+  top: 0;
+}
+.email label p {
+  float: left;
+  margin: 3px 0 0 9px;
+}
+.email label span {
+  display: block;
+}
+.email input[type=checkbox]:checked + label:before {
+  content: "\e6d7";
+  font-family: "JollyFont";
+  color: green;
+}
 .email-content {
   display: none;
   position: fixed;
