@@ -210,6 +210,7 @@
       $("#sendEmail").text("Send Email");
       $(".email-content").css('display', 'none');
       $("#mailBtn").attr("show","false");
+      $("#sendEmail").css("margin-left","0");
     }
     function renderFileList(){
         fileListDisplay.innerHTML = '';
@@ -332,6 +333,7 @@
             $("#file-input").hide();
             $(".email-modal-body").html("<strong>Email Sent</strong>");
             clearEmail();
+             $("#sendEmail").css("margin-left","600%");
         }
 
 
