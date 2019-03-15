@@ -1,6 +1,8 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 <%@ page import="com.google.common.collect .*"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery-te-1.4.0.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <%
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 	java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
@@ -50,22 +52,36 @@
        		 <div class="vtk-email-news-button" onclick="cancelEmail()">
                     <i class="icon-button-circle-cross"></i>
               </div>
-             <div class="emailHeader">Email Content: </br></div>
+             <h3 style="color:white;"class="emailHeader">Troop Email Content </br></h3>
       	  </div>
         <div class="email-modal-body">
-            <p> Subject: </p>
+        <h6 class="emailInput"> Email To: </h6>
+            <ul class="small-block-grid-3">
+                <li style="width:100%; padding: 0px;">
+                    <input type="checkbox" id="email_troop" checked />
+                    <label for="email_troop"><p>Troop</p></label>
+                </li>
+                <li style="width:100%; padding: 0px;">
+                    <label for="email_more">Enter additional emails:</label>
+                    <input type="email" id="email_more" placeholder="Enter email addresses separated by semicolons"/>
+                </li>
+
+            </ul>
+            <h6 class="emailInput"> Subject: </h6>
             <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
-            <p> Body and attachments <span id="limit">(25MB limit): </span> </p>
-            <textarea name="message" id="message" rows="10" cols="30"></textarea>
+            <h6 style="margin-top:10px;"class="emailInput"> Body and attachments <span id="limit">(25MB limit): </span> </h6>
+            <textarea name="message" class="jqte-test" id="message" rows="10" cols="30"></textarea>
     	</div>
     	<form id='file-catcher'>
           <input id='file-input' type='file' multiple onchange="updateFiles()"/>
+          <div id="email-buttons">
+                <div id="cancelEmail" onclick="cancelEmail()" class = "button tiny add-to-year-plan">Cancel</div>
+                <div id="clearEmail" onclick="clearEmail()" class = "button tiny add-to-year-plan">Clear Attachments</div>
+                <div id="sendEmail"class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
+          </div>
         </form>
         <div id='file-list-display'></div>
     	<div class="email-modal-footer">
-    	    <div id="cancelEmail" onclick="cancelEmail()" class = "button tiny add-to-year-plan">Cancel</div>
-    	    <div id="clearEmail" onclick="clearEmail()" class = "button tiny add-to-year-plan">Clear Attachments</div>
-        	<div id="sendEmail"class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
       	</div>
 
     </div>
@@ -160,6 +176,10 @@
              return (size/1000).toFixed(1) + ' K'
         }
     }
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
     function clearEmail(){
         $("#file-catcher").trigger("reset");
         $("#file-list-display").html("");
@@ -217,6 +237,20 @@
              $("#limit").css("color", "rgb(57, 57, 57)");
         }
     }
+    $(".jqte-test").jqte({
+        "source": false,
+        "rule": false,
+        "sub": false,
+        "strike": false,
+        "fsizes": ['10','12','14','16','18','20','22','24','28','32']
+    });
+
+    // settings of status
+    var jqteStatus = true;
+    $(".status").click(function () {
+        jqteStatus = jqteStatus ? false : true;
+        $('.jqte-test').jqte({ "status": jqteStatus })
+    });
     $("#sendEmail").click(function(){
         if($("#sendEmail").attr("toClose") === "true"){
             cancelEmail();
@@ -231,9 +265,50 @@
     		$("#sendEmail").text("Close");
         	$("#sendEmail").attr("toClose", "true");
             var formData = new FormData();
-            formData.append('message', $($("textarea")[1]).val().replace(/\n/g, '<br/>'));
+            formData.append('message', $(".jqte_editor").html());
             formData.append('subject', $($("textarea")[0]).val());
-            formData.append('addresses', decodeURIComponent($("#sendEmail").attr("emails")));
+            if(document.querySelector('#email_troop').checked == true){
+                var troopEmails = decodeURIComponent($("#sendEmail").attr("emails"));
+                if($("#email_more").val() != ""){
+                    var emails = $("#email_more").val();
+                    var emailsTo;
+                    if(emails.includes(";")){
+                        emailsTo = emails.split(";");
+                        for(var i = 0; i <emailsTo.length; i++){
+                            if(validateEmail(emailsTo[i]) == true)
+                                troopEmails = troopEmails + "," +emailsTo[i];
+                        }
+                    } else{
+                         if(validateEmail(emails) == true)
+                            troopEmails = troopEmails + "," +emails;
+
+                    }
+                     formData.append('addresses', troopEmails );
+                }else{
+                    formData.append('addresses', troopEmails );
+                }
+            }else{
+                var troopEmails = "";
+                if($("#email_more").val() != ""){
+                    var emails = $("#email_more").val();
+                    var emailsTo;
+                    if(emails.includes(";")){
+                        emailsTo = emails.split(";");
+                        for(var i = 0; i <emailsTo.length; i++){
+                            if(validateEmail(emailsTo[i]) == true)
+                                troopEmails = troopEmails + "," +emailsTo[i];
+                        }
+                    } else{
+                         if(validateEmail(emails) == true)
+                            troopEmails = troopEmails + "," +emails;
+
+                    }
+                     formData.append('addresses', troopEmails );
+                }else{
+                    formData.append('addresses', troopEmails );
+                }
+            }
+
             for(var i = 0; i<fileList.length; i++){
                 name = fileList[i].name;
                 name = name.replace(/\.[^/.]+$/, "");
@@ -266,6 +341,8 @@
                 $("#cancelEmail").show();
                 $("#clearEmail").show();
                 $("#file-input").show();
+                $(".jqte").css("padding","0px");
+                $(".jqte").css("margin","auto");
                 $(".email-content").show();
             }else{
                  $(".email-content").hide();
