@@ -1,4 +1,4 @@
-package org.girlscouts.common.servlet;
+package org.girlscouts.vtk.services;
 
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
@@ -10,10 +10,12 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.common.components.GSEmailAttachment;
 import org.girlscouts.common.osgi.service.GSEmailService;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +40,15 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
             throws ServletException, IOException {
-        sendEmail(request);
+
+        //Verify user email request
+        HttpSession session = request.getSession();
+        if(VtkUtil.getUser(session) != null){
+            sendEmail(request);
+        }else{
+            log.error("Error sending email: Invalid user");
+        }
+
     }
 
     public void sendEmail(SlingHttpServletRequest slingRequest){
@@ -46,6 +56,7 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         String[] addresses = addressList.split(",");
         ArrayList<GSEmailAttachment> attachments = new ArrayList<GSEmailAttachment>();
         int count = 1;
+        //parse files, get bytes, name, and mimeType
         try{
             while(slingRequest.getParameterMap().containsKey("file"+count)) {
                 RequestParameter req_file = slingRequest.getRequestParameter("file" + count);
