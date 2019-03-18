@@ -19,6 +19,9 @@ import org.girlscouts.vtk.utils.VtkUtil;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.girlscouts.web.cq.workflow.service.impl.RolloutTemplatePageServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @Service
@@ -28,7 +31,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 //EX: http://localhost:4503/bin/vtk/v1/meetingSearch?search={%22keywords%22:%22Award%22,%22year%22:2017,%22meetingPlanType%22:%22Journey%22,%22level%22:[%22daisy%22,%22Junior%22],%22categoryTags%22:[%22Its_Your_Story_-_Tell_It,%22]}
 public class MeetingSearch extends SlingAllMethodsServlet{
-	
+
+	private static Logger log = LoggerFactory.getLogger(MeetingSearch.class);
+
 	private static final long serialVersionUID = 1L;
 	
 	@Reference
@@ -79,27 +84,23 @@ public class MeetingSearch extends SlingAllMethodsServlet{
 					}else{
 						sql+= " and contains( *, '"+ keywords +"')  ";
 					}
-
-				
 				}
 	
 						javax.jcr.query.Query q = qm.createQuery(sql,
 								javax.jcr.query.Query.JCR_SQL2);
 						QueryResult result = q.execute();
 						for (RowIterator it = result.getRows(); it.hasNext();) {
-							Row r = it.nextRow();
-							
-							Value excerpt = r.getValue("jcr:path");
-							String path = excerpt.getString();
-
-							Meeting meeting = new Meeting();
-							try {
+							try{
+								Row r = it.nextRow();
+								Value excerpt = r.getValue("jcr:path");
+								String path = excerpt.getString();
+								Meeting meeting = new Meeting();
 								meeting.setId(r.getValue("id").getString());
-							}catch(Exception eee){
-								System.err.println(r.getNode().getPath());
+								meeting.setName(r.getValue("name").getString() );
+								meetings.add( meeting );
+							}catch (Exception e){
+								log.error("Error parsing search result: ", e);
 							}
-							meeting.setName(r.getValue("name").getString() );
-							meetings.add( meeting );
 						}
 						
 						mapper.setSerializationInclusion(Include.NON_NULL);
