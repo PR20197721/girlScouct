@@ -19,7 +19,6 @@ import org.girlscouts.vtk.utils.VtkUtil;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.girlscouts.web.cq.workflow.service.impl.RolloutTemplatePageServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
