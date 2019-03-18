@@ -39,6 +39,7 @@ try{
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);
 	Set<String> outdoorMeetingIds = meetingUtil.getOutdoorMeetings(user, troop);
+	Set<String> globalMeetingIds = meetingUtil.getGlobalMeetings(user, troop);
 	
 java.util.List<Meeting> extraInfoMeetings= new java.util.ArrayList();
 for( int i=0;i<meetings.size();i++){
@@ -522,7 +523,9 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 					<div class="column small-24 medium-14">
 						<div style="display:table;min-height:110px">
 					   		<div style="display:table-cell;height:inherit;vertical-align:middle;">
-								<p class="title"><%=meeting.getName()%>  <%=(outdoorMeetingIds.contains(meeting.getId()) ? "<img data-tooltip aria-haspopup='true' class='has-tip tip-top radius meeting_library' title='<b>Get Girls Outside!</b>' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png\">" : "")%> </p>
+								<p class="title"><%=meeting.getName()%>  <%=(globalMeetingIds.contains(meeting.getId()) ? "<img data-tooltip aria-haspopup='true' class='has-tip tip-top radius meeting_library' title='<b>Go Global!</b>' style='width:30px;vertical-align:top;padding-top:2px;cursor:auto;border:none' src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png\">" : "")%> 
+								<%=(outdoorMeetingIds.contains(meeting.getId()) ? "<img data-tooltip aria-haspopup='true' class='has-tip tip-top radius meeting_library' title='<b>Get Girls Outside!</b>' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png\">" : "")%>
+								</p>
 						 
 								<p class="blurb"><%=meeting.getBlurb() %></p>
 								<p class="tags"> 

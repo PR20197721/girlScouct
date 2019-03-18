@@ -27,7 +27,7 @@
 loadNav('explore')
 
 
-      var requirementsModal = function(binder, isOutdoorAvailable, isOutdoor){
+      var requirementsModal = function(binder, isOutdoorAvailable, isOutdoor, , isGlobalAvailable, isGlobal){
           var imgName;
            if (isOutdoor) {
                  imgName =  "outdoor.png";
@@ -35,12 +35,21 @@ loadNav('explore')
                   imgName = "indoor.png";
               }
 
-               
+        var globalImageName;
+        if (isGlobbal) {
+        	globalImageName =  "globe_selected.png";
+        } else {
+        	globalImageName = "globe_unselected.png";
+        }
         var modal = $('#requirementsModal');
 
         var image = (isOutdoorAvailable)? '<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/'+imgName+'" />':' ';
-
-
+        if(isGlobalAvailable){
+        	if(image.trim().length > 0){
+        		image +=" ";
+        	}
+        	image +='<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/'+globalImageName+'" />';
+        }
 
         var _template = '<div class="modal_resource">'+
                         '<div class="header clearfix">'+

@@ -68,7 +68,8 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 			    	//field.nameFieldDelete.el.dom.name = path + 'name@Delete';
 			    	field.durationField.el.dom.name = path + 'duration';
 			    	field.subtitleField.el.dom.name = path + 'subtitle';
-			    	field.outdoorField.el.dom.name = path + 'outdoor';
+                    field.outdoorField.el.dom.name = path + 'outdoor';
+                    field.globalField.el.dom.name = path + 'global';
 			    	//field.durationFieldDelete.el.dom.name = path + 'duration@Delete';
 			    	field.descriptionField.el.dom.name = path + 'activityDescription';
 			    	//field.descriptionFieldDelete.el.dom.name = path + 'activityDescription@Delete'
@@ -124,7 +125,8 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 	        			"activityNumber": child.activityNumber,
 	        			"name": child.name,
 	        			"subtitle": child.subtitle,
-	        			"outdoor": child.outdoor,
+                        "outdoor": child.outdoor,
+                        "global": child.global,
 	        			"duration": child.duration,
 	        			"materials": child.materials,
 	        			"description": child.activityDescription
@@ -141,7 +143,8 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 	        				var agendaObj = multiActObj[agendaKey];
 	        				curItem[childKey+'/multiactivities/'+agendaKey+'/name'] = agendaObj.name;
 	        				curItem[childKey+'/multiactivities/'+agendaKey+'/subtitle'] = agendaObj.subtitle;
-	        				curItem[childKey+'/multiactivities/'+agendaKey+'/outdoor'] = agendaObj.outdoor;
+                            curItem[childKey+'/multiactivities/'+agendaKey+'/outdoor'] = agendaObj.outdoor;
+                            curItem[childKey+'/multiactivities/'+agendaKey+'/global'] = agendaObj.global;
 	        				curItem[childKey+'/multiactivities/'+agendaKey+'/duration'] = agendaObj.duration;
 	        				curItem[childKey+'/multiactivities/'+agendaKey+'/description'] = agendaObj.activityDescription;
 	        				curItem[childKey+'/multiactivities/'+agendaKey+'/materials'] = agendaObj.materials;
