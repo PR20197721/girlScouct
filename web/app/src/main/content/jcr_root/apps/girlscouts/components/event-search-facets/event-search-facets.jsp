@@ -16,11 +16,17 @@
 </div>
 <div class="row">
      <div class="small-12 large-12 medium-12 columns">
-         <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
-     </div>
-     <div class="small-12 large-12 medium-12 columns">
-        <span id="advSearch">
-           <a href="<%=currentPage.getPath()%>.advanced.html">Advanced Search</a>
-       </span>
-     </div>
-</div>
+          <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
+      </div>
+      <button id="eventSearchSubmit"style="padding:10px; width: 78px; margin-left: -16px;"type="submit">Go</button>
+ </div>
+ <div class="row">
+         <span id="advSearch">
+            <a style="margin-left:6px;"href="<%=currentPage.getPath()%>.advanced.html">Advanced Search</a>
+        </span>
+ </div>
+<script>
+    $("#eventSearchSubmit").on('click', function(){
+        $($(".event-search-facets").find("form")).submit();
+    });
+</script>

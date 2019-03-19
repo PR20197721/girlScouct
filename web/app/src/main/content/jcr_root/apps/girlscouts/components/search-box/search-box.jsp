@@ -16,6 +16,7 @@ if ((null==searchAction) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	if( !(action!=null && !action.trim().equals("")) )
 	    	action = currentSite.get(searchAction,String.class);	
 %>
+    <p><%=currentNode.getPath()%></p>
     <form action="<%=action%>.html" method="get"> 
 		<input type="text" name="q" placeholder="<%=placeholderText %>" class="searchField"/>
 	</form>
