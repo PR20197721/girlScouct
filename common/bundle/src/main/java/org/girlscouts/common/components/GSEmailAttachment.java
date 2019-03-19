@@ -8,13 +8,18 @@ import javax.mail.util.ByteArrayDataSource;
 public class GSEmailAttachment {
 
 	private String baseName;
-	private String fileData;
+	private byte[] fileData;
 	private String description;
 	private MimeType fileType;
 
 	public GSEmailAttachment(String fileName, String fileData, String description, MimeType fileType) {
 		this.baseName = fileName;
-		this.fileData = fileData;
+		try{
+			this.fileData = fileData.getBytes("UTF-8");
+		}catch (Exception e){
+			this.fileData = fileData.getBytes();
+		}
+
 		this.fileType = fileType;
 		if (description != null) {
 			this.description = description;
@@ -22,12 +27,22 @@ public class GSEmailAttachment {
 			this.description = baseName;
 		}
 	}
+    public GSEmailAttachment(String fileName, byte[] fileData, String description, MimeType fileType) {
+        this.baseName = fileName;
+        this.fileData = fileData;
+        this.fileType = fileType;
+        if (description != null) {
+            this.description = description;
+        } else {
+            this.description = baseName;
+        }
+    }
 
 	public String getBaseName() {
 		return baseName;
 	}
 
-	public String getFileData() {
+	public byte[] getFileData() {
 		return fileData;
 	}
 
@@ -85,7 +100,9 @@ public class GSEmailAttachment {
 
 	public enum MimeType {
 
-		TEXT_PLAIN("text/plain", "txt");
+		TEXT_PLAIN("text/plain", "txt"), TEXT_CSV("text/csv", "csv"), TEXT_HTML("text/html", "html"), VIDEO_MP4("video/mp4", ".mp4"),
+		APPLICATION_PDF("application/pdf", "pdf"), APPLICATION_ZIP("application/zip", "zip"), IMAGE_PNG("image/png", "png"), IMAGE_JPEG("image/jpeg", "jpg");
+
 
 		private String mimeType;
 		private String fileExt;
