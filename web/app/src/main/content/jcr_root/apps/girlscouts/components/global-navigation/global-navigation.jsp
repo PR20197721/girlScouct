@@ -1,13 +1,7 @@
-<%@ page import="com.day.cq.wcm.api.WCMMode,
-                org.girlscouts.vtk.helpers.ConfigManager,
-                org.girlscouts.vtk.helpers.CouncilMapper,
+<%@ page import="com.day.cq.wcm.api.WCMMode,org.girlscouts.web.osgi.component.*,
 				java.util.HashMap,
 				com.google.gson.Gson,
-                java.text.SimpleDateFormat,java.util.*,
-                org.girlscouts.vtk.auth.models.ApiConfig,
-                org.girlscouts.vtk.models.*,
-                org.girlscouts.vtk.dao.*,
-                org.girlscouts.vtk.ejb.*" %>
+                java.text.SimpleDateFormat,java.util.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
@@ -64,7 +58,7 @@ public boolean hasVisibleChildren(Page page){
 %>
 <%
    
-final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
+final GirlscoutsVtkConfigProvider configManager = sling.getService(GirlscoutsVtkConfigProvider.class);
 //Force currentPage from request
 Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
 if (newCurrentPage != null) {

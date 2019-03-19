@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <!-- ====================================================================== -->
     <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
-	<parent>
-	    <groupId>org.girlscouts.aem</groupId>
-	    <artifactId>girlscouts-aem</artifactId>
-	    <version>2.0-SNAPSHOT</version>
-	</parent>
-	<!-- ====================================================================== -->
+    <parent>
+        <groupId>org.girlscouts</groupId>
+        <artifactId>aem</artifactId>
+        <version>3.0-SNAPSHOT</version>
+    </parent>
+    <!-- ====================================================================== -->
     <!-- P R O P E R T I E S -->
     <!-- ====================================================================== -->
-    <groupId>org.girlscouts.gsactivities</groupId>
+    <groupId>org.girlscouts.aem</groupId>
     <artifactId>gsactivities</artifactId>
     <packaging>pom</packaging>
-    <name>GS Activities - Reactor Project</name>
+    <name>Girl Scouts Activities Project</name>
     <description>Maven Multimodule project for GS Activities.</description>
     <prerequisites>
         <maven>3.0.2</maven>
@@ -95,17 +96,17 @@
                 <version>4.8.1</version>
                 <scope>test</scope>
             </dependency>
-            <dependency> 
-	            <groupId>org.apache.commons</groupId> 
-	            <artifactId>commons-lang3</artifactId>
-	            <version>3.4</version>
-	            <scope>provided</scope>
-	         </dependency> 
-	         <dependency>
-			  	<groupId>commons-net</groupId>
-			  	<artifactId>commons-net</artifactId>
-			  	<version>3.6</version>
-			</dependency> 
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.4</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>3.6</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -185,7 +186,6 @@
                 <plugin>
                     <groupId>com.day.jcr.vault</groupId>
                     <artifactId>content-package-maven-plugin</artifactId>
-                    <version>0.0.24</version>
                     <extensions>true</extensions>
                     <configuration>
                         <failOnError>true</failOnError>
@@ -250,8 +250,8 @@
             </build>
         </profile>
     </profiles>
-  <modules>
-    <module>bundle</module>
-    <module>app</module>
-  </modules>
+    <modules>
+        <module>bundle</module>
+        <module>app</module>
+    </modules>
 </project>

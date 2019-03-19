@@ -6,16 +6,17 @@
     <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
     <parent>
-        <groupId>org.girlscouts.gsactivities</groupId>
+        <groupId>org.girlscouts.aem</groupId>
         <artifactId>gsactivities</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>3.0-SNAPSHOT</version>
     </parent>
     <!-- ====================================================================== -->
     <!-- P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
-    <artifactId>gsactivities-bundle</artifactId>
+    <groupId>org.girlscouts.aem.gsactivities</groupId>
+    <artifactId>girlscouts-gsactivities-bundle</artifactId>
     <packaging>bundle</packaging>
-    <name>GS Activities Bundle</name>
+    <name>Girl Scouts Activities Bundle</name>
     <dependencies>
 	    <dependency>  
 	      <groupId>com.adobe.aem</groupId>
@@ -90,13 +91,13 @@
             <version>5.5.0</version>
          </dependency>
         <dependency>
-            <groupId>org.girlscouts.vtk</groupId>
+            <groupId>org.girlscouts.aem.vtk</groupId>
             <artifactId>girlscouts-vtk-bundle</artifactId>
             <version>${project.version}</version> 
             <scope>provided</scope>
         </dependency>
         <dependency>
-	      <groupId>org.girlscouts.web</groupId>
+	      <groupId>org.girlscouts.aem.common</groupId>
 	      <artifactId>girlscouts-common-bundle</artifactId>
 	       <version>${project.version}</version> 
 	      <scope>provided</scope>
@@ -135,7 +136,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>org.girlscouts.gsactivites.girlscouts-bundle</Bundle-SymbolicName>
+                        <Bundle-SymbolicName>org.girlscouts.aem.gsactivites.bundle</Bundle-SymbolicName>
                         <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
 			            <Import-Package>
 			              !org.bouncycastle.*,
@@ -146,6 +147,7 @@
 					      !org.girlscouts.gsusa.*,    		      
 				          *
 			            </Import-Package>
+                        <Export-Package>org.girlscouts.gsactivities.*</Export-Package>
 			            <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>
