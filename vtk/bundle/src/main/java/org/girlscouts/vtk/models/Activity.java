@@ -65,6 +65,9 @@ public class Activity extends YearPlanComponent implements Serializable {
 	@Field (jcrDefaultValue="false")
 	Boolean outdoor =false;
 	
+	@Field (jcrDefaultValue="false")
+	Boolean global =false;
+	
 	@Collection java.util.List<Activity> multiactivities;
 	@Field String subtitle;
 	@Field Boolean isSelected =false;
@@ -350,9 +353,15 @@ public class Activity extends YearPlanComponent implements Serializable {
 	public void setOutdoor(Boolean outdoor) {
 		this.outdoor = outdoor;
 	}
-
-
 	
+	public Boolean getGlobal() {
+		return global;
+	}
+
+	public void setGlobal(Boolean global) {
+		this.global = global;
+	}
+
 	public void setDuration(int duration) {
 		if( this.duration!=duration) 
 			isDbUpdate=true;

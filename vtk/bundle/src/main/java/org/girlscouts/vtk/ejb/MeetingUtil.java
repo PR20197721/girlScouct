@@ -1,17 +1,25 @@
 package org.girlscouts.vtk.ejb;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
-import javax.jcr.Session;
+
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.AssetComponentType;
@@ -30,11 +38,11 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Note;
 import org.girlscouts.vtk.models.PlanView;
+import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
-import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
@@ -1619,6 +1627,10 @@ public class MeetingUtil {
 	
 	public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException{
 		return meetingDAO.getOutdoorMeetings( user,  troop);
+	}
+	
+	public Set<String> getGlobalMeetings(User user, Troop troop) throws IllegalAccessException{
+		return meetingDAO.getGlobalMeetings( user,  troop);
 	}
 	
 	public List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException{
