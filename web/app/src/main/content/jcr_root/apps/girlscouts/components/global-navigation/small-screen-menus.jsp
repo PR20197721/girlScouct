@@ -1,4 +1,4 @@
-<%@ page import="java.util.Iterator, java.util.HashSet,java.util.Set, java.util.Arrays,org.apache.sling.api.resource.ResourceResolver, org.slf4j.Logger,org.slf4j.LoggerFactory,org.apache.sling.api.resource.ResourceUtil, com.day.cq.wcm.api.WCMMode"%>
+<%@ page import="java.util.Iterator, java.util.HashSet,java.util.Set,org.girlscouts.web.osgi.component.*, java.util.Arrays,org.apache.sling.api.resource.ResourceResolver, org.slf4j.Logger,org.slf4j.LoggerFactory,org.apache.sling.api.resource.ResourceUtil, com.day.cq.wcm.api.WCMMode"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
@@ -75,7 +75,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 <div id="right-canvas-menu"> 
  	<ul class="side-nav" style="padding:0px; background-color:#6b6b6b;"> 
 		<%
-		final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
+			GirlscoutsVtkConfigProvider configManager = sling.getService(GirlscoutsVtkConfigProvider.class);
   		String currPath = currentPage.getPath();  
   		String headerPath = (String)request.getAttribute("headerPath");
   		Resource globalNav = resourceResolver.resolve(headerPath+"/global-nav");

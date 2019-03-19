@@ -1,5 +1,5 @@
 <%@ page session="false" %>
-<%@page import="com.day.cq.wcm.api.WCMMode, org.girlscouts.vtk.helpers.*"%>
+<%@page import="com.day.cq.wcm.api.WCMMode, org.girlscouts.web.osgi.component.*"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/headlibs.jsp -->
@@ -31,7 +31,7 @@ if (newCurrentDesign != null) {
 
 <!-- Begin: login logic -->
 <%
-org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(ConfigManager.class);
+    GirlscoutsVtkConfigProvider configManager = sling.getService(GirlscoutsVtkConfigProvider.class);
 
 	String helloUrl = configManager.getConfig("helloUrl");
 	String callbackUrl = configManager.getConfig("callbackUrl");

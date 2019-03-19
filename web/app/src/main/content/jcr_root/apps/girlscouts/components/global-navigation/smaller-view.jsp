@@ -1,12 +1,11 @@
-<%@ page import="com.day.cq.wcm.api.WCMMode" %>
+<%@ page import="com.day.cq.wcm.api.WCMMode, org.girlscouts.web.osgi.component.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-<!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
-<div id="right-canvas-menu"> 
+<div id="right-canvas-menu">
 	<ul class="side-nav" style="padding:0px; background-color:#6b6b6b;"> 
 <%
-    
-final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
+
+	GirlscoutsVtkConfigProvider configManager = sling.getService(GirlscoutsVtkConfigProvider.class);
 String headerPath = (String)request.getAttribute("headerPath");
 Resource globalNav = resourceResolver.resolve(headerPath+"/global-nav");
 if(globalNav != null){

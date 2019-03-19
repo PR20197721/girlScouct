@@ -62,7 +62,7 @@ import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.bean_resource;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
-import org.girlscouts.web.search.DocHit;
+import org.girlscouts.common.search.DocHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

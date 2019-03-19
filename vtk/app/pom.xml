@@ -6,20 +6,21 @@
   <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
   <parent>
-    <groupId>org.girlscouts.vtk</groupId>
-    <artifactId>girlscouts-vtk</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <groupId>org.girlscouts.aem</groupId>
+    <artifactId>vtk</artifactId>
+    <version>3.0-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
+  <groupId>org.girlscouts.aem.vtk</groupId>
   <artifactId>girlscouts-vtk-app</artifactId>
   <packaging>content-package</packaging>
   <name>Girl Scouts Volunteer Toolkit App Package</name>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>girlscouts-vtk-scaffolding-bundle</artifactId>
+      <artifactId>girlscouts-vtk-scaffolding</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -29,12 +30,12 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>girlscouts-vtk-replication-bundle</artifactId>
+      <artifactId>girlscouts-vtk-replication</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>modified-checker-bundle</artifactId>
+      <artifactId>modified-checker</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -58,26 +59,11 @@
         <version>4.1</version>
         <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
     <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
         <version>1.8.3</version>
     </dependency>
-    
-    <!-- 
-    <dependency>
-        <groupId>com.itextpdf.tool</groupId>
-        <artifactId>xmlworker</artifactId>
-        <version>5.4.1</version>
-    </dependency>
-    <dependency>
-        <groupId>com.itextpdf</groupId>
-        <artifactId>itextpdf</artifactId>
-        <version>5.4.2</version>
-    </dependency>
--->
-<!-- https://mvnrepository.com/artifact/org.apache.sling/org.apache.sling.event -->
 <dependency>
     <groupId>org.apache.sling</groupId>
     <artifactId>org.apache.sling.event</artifactId>
@@ -137,12 +123,12 @@
         <artifactId>content-package-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <group>GirlScouts</group>
+          <group>Girl Scouts</group>
           <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
           <embeddeds>
             <embedded>
               <groupId>${project.groupId}</groupId>
-              <artifactId>girlscouts-vtk-scaffolding-bundle</artifactId>
+              <artifactId>scaffolding</artifactId>
               <target>/apps/girlscouts-vtk/install</target>
             </embedded>
             <embedded>
@@ -152,7 +138,7 @@
             </embedded>
             <embedded>
               <groupId>${project.groupId}</groupId>
-              <artifactId>girlscouts-vtk-replication-bundle</artifactId>
+              <artifactId>replication</artifactId>
               <target>/apps/girlscouts-vtk/install</target>
             </embedded>
             <embedded>
@@ -187,7 +173,7 @@
             </embedded>
             <embedded>
               <groupId>${project.groupId}</groupId>
-              <artifactId>modified-checker-bundle</artifactId>
+              <artifactId>modified-checker</artifactId>
               <target>/apps/girlscouts-vtk/install</target>
             </embedded>
           </embeddeds>
@@ -211,17 +197,17 @@
               <embeddeds>
                 <embedded>
                   <groupId>${project.groupId}</groupId>
-                  <artifactId>girlscouts-vtk-scaffolding-bundle</artifactId>
+                  <artifactId>scaffolding</artifactId>
                   <target>/apps/girlscouts-vtk/install</target>
                 </embedded>
                 <embedded>
                   <groupId>${project.groupId}</groupId>
-                  <artifactId>girlscouts-vtk-bundle</artifactId>
+                  <artifactId>bundle</artifactId>
                   <target>/apps/girlscouts-vtk/install</target>
                 </embedded>
                 <embedded>
                   <groupId>${project.groupId}</groupId>
-                  <artifactId>girlscouts-vtk-replication-bundle</artifactId>
+                  <artifactId>replication</artifactId>
                   <target>/apps/girlscouts-vtk/install</target>
                 </embedded>
                 <embedded>
@@ -229,13 +215,6 @@
                   <artifactId>ical4j-wrapper</artifactId>
                   <target>/apps/girlscouts-vtk/install</target>
                 </embedded>
-                <!-- 
-                <embedded>
-                  <groupId>${project.groupId}</groupId>
-                  <artifactId>itextpdf-wrapper</artifactId>
-                  <target>/apps/girlscouts-vtk/install</target>
-                </embedded>
-                -->
                 <embedded>
                   <groupId>${project.groupId}</groupId>
                   <artifactId>beanutils-wrapper</artifactId>
@@ -253,7 +232,7 @@
                 </embedded>
                 <embedded>
                   <groupId>${project.groupId}</groupId>
-                  <artifactId>modified-checker-bundle</artifactId>
+                  <artifactId>modified-checker</artifactId>
                   <target>/apps/girlscouts-vtk/install</target>
                 </embedded>
               </embeddeds>

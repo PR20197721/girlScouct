@@ -15,7 +15,6 @@ for server in ${SERVER_LIST[@]}; do
 	if [ $? -ne 0 ]; then
 		echo "Server $server is down. Skipping..."
 	else
-		echo "Deploying to http://$server"
-		curl -u "admin:cH*t3uzEsT" -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-app/$VERSION/girlscouts-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://$server/crx/packmgr/service.jsp
+		curl -u "admin:cH*t3uzEsT" -F file=@"$HOME/.m2/repository/org/girlscouts/aem/web/girlscouts-web-app/$VERSION/girlscouts-web-app-$VERSION.zip" -F name="girlscouts-web-app" -F force=true -F install=true http://$server/crx/packmgr/service.jsp
 	fi
 done
