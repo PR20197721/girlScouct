@@ -208,6 +208,16 @@
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
                                                 fieldLabel="Tracking"
                                                 name="./footerTracking"/>
+                                            <google-recaptcha-site-key
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    fieldLabel="Google reCAPTCHA Site Key"
+                                                    name="./recaptcha_site_key"/>
+                                            <google-recaptcha-secret
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    fieldLabel="Google reCAPTCHA Secret"
+                                                    name="./recaptcha_secret"/>
                                         </items>
                                     </google-config>
                                     <rollout-config
