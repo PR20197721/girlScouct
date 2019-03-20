@@ -1,6 +1,7 @@
 package org.girlscouts.common.components;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -15,7 +16,7 @@ public class GSEmailAttachment {
 	public GSEmailAttachment(String fileName, String fileData, String description, MimeType fileType) {
 		this.baseName = fileName;
 		try{
-			this.fileData = fileData.getBytes("UTF-8");
+			this.fileData = fileData.getBytes(StandardCharsets.UTF_8);
 		}catch (Exception e){
 			this.fileData = fileData.getBytes();
 		}
