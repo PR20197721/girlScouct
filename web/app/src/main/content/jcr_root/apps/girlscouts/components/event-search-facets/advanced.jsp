@@ -76,6 +76,8 @@
 	    List<String> results = srchInfo.getResults();
 	    String m = request.getParameter("m"); 
 	    String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
+	    String placeHold = slingRequest.getParameter("search") != null ? slingRequest.getParameter("search") : "Keywords";
+	    String placeholder = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : placeHold;
    
 %>
 
@@ -109,7 +111,7 @@ function toggleWhiteArrow() {
 
 	   <div class="small-24 medium-6 large-7 columns">
 				<div class="title"> By Keyword </div>
-				<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
+				<input type="text" name="q" placeholder="<%=placeholder%>" class="searchField" style="width:140px;height:25px;" />
 		</div>
 		<div class="small-12 medium-6 large-6 event-region columns">
 			<div class="title"> Region </div>
@@ -184,7 +186,6 @@ function toggleWhiteArrow() {
 
 </form>
 <script>
-
 
 $(function() {
 
