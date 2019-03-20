@@ -210,6 +210,7 @@
       $("#sendEmail").text("Send Email");
       $(".email-content").css('display', 'none');
       $("#mailBtn").attr("show","false");
+      $(".jqte_editor").text("");
       $("#sendEmail").css("margin-left","0");
     }
     function renderFileList(){
