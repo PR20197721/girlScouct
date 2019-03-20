@@ -76,7 +76,8 @@
 	    List<String> results = srchInfo.getResults();
 	    String m = request.getParameter("m"); 
 	    String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
-	    String placeholder = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : "Keywords";
+	    String placeholder = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : slingRequest.getParameter("search") != "" &&  slingRequest.getParameter("search") != null ? slingRequest.getParameter("search") : "Keywords";
+	    if placeholder
    
 %>
 

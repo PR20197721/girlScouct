@@ -29,4 +29,10 @@
     $("#eventSearchSubmit").on('click', function(){
         $($(".event-search-facets").find("form")).submit();
     });
+    $("#advSearch").on('click', function(){
+        var ref = $($("#advSearch").find("a")).attr("href");
+        ref = ref + "?search=" + $($(".event-search-facets").find("input")).val();
+        $($("#advSearch").find("a")).attr("href", ref)
+
+    });
 </script>
