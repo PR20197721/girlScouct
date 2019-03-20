@@ -61,7 +61,7 @@
                     <input type="checkbox" id="email_troop" checked />
                     <label for="email_troop"><p>Troop</p></label>
                 </li>
-                <li style="width:100%; padding: 0px;">
+                <li style="width:100%; padding: 0px; margin-left: 7px;">
                     <label for="email_more">Enter additional emails:</label>
                     <input type="email" id="email_more" placeholder="Enter email addresses separated by semicolons"/>
                 </li>
@@ -210,6 +210,7 @@
       $("#sendEmail").text("Send Email");
       $(".email-content").css('display', 'none');
       $("#mailBtn").attr("show","false");
+      $(".jqte_editor").text("");
       $("#sendEmail").css("margin-left","0");
     }
     function renderFileList(){

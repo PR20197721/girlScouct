@@ -58,17 +58,7 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         //parse files, get bytes, name, and mimeType
         try{
             while(slingRequest.getParameterMap().containsKey("file"+count)) {
-                try{
-                    RequestParameter req_file = slingRequest.getRequestParameter("file" + count);
-                    String fN = slingRequest.getParameter("file" + count + "Name");
-                    String fT = req_file.getContentType();
-                    fT = fT.replaceAll("/", "_");
-                    fT = fT.toUpperCase();
-                    byte[] fB = req_file.get();
-                    attachments.add(new GSEmailAttachment(fN, fB, "", GSEmailAttachment.MimeType.valueOf(fT)));
-                }catch (Exception e){
-                    log.error("Error parsing file information: ",e);
-                }
+                addAttachment(slingRequest, attachments, count);
                 count++;
             }
         }catch (Exception e){
@@ -92,6 +82,25 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
             }
         }
     }
+    private void addAttachment(SlingHttpServletRequest slingRequest,HashSet<GSEmailAttachment> attachments, int count){
+        try{
+            RequestParameter reqFile = slingRequest.getRequestParameter("file" + count);
+            if(reqFile != null){
+                String fN = slingRequest.getParameter("file" + count + "Name");
+                String fT = reqFile.getContentType() != null ? reqFile.getContentType() : "";
+                fT = fT.replaceAll("/", "_");
+                fT = fT.toUpperCase();
+                byte[] fB = reqFile.get();
+                attachments.add(new GSEmailAttachment(fN, fB, "", GSEmailAttachment.MimeType.valueOf(fT)));
+            }
+        }catch (Exception e){
+            log.error("Error adding attachment: ", e);
+        }
+
+    }
+
+
+
     /** OptingServlet Acceptance Method **/
     @Override
     public final boolean accepts(SlingHttpServletRequest request) {
