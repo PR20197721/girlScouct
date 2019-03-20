@@ -78,9 +78,6 @@
 	    String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
 	    String placeHold = slingRequest.getParameter("search") != null ? slingRequest.getParameter("search") : "Keywords";
 	    String placeholder = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : placeHold;
-	    if(placeholder == "" || placeholder == null){
-	        placeholder = "Keywords";
-	    }
    
 %>
 
