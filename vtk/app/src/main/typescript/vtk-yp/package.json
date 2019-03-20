@@ -23,7 +23,7 @@
     "typescript": "^2.3.2",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
-    "fsevents": "^1.2.7"
+    "fsevents": "^2.0.1"
   },
   "dependencies": {
     "@types/axios": "^0.9.34",
@@ -37,8 +37,5 @@
     "promise": "^7.1.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
-  },
-  "optionalDependencies": {
-    "fsevents": "*"
   }
 }
