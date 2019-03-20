@@ -18,7 +18,7 @@
      <div class="small-12 large-12 medium-12 columns">
           <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
       </div>
-      <button id="eventSearchSubmit"style="padding:10px; width: 78px; margin-left: -16px;"type="submit">Go</button>
+      <button id="eventSearchSubmit"style="padding:10px; width: 78px; margin-left: -16px; color: white;"type="submit">Go</button>
  </div>
  <div class="row">
          <span id="advSearch">
