@@ -31,6 +31,7 @@
     "@types/sizzle": "^2.3.2",
     "@types/react": "^15.0.23",
     "@types/react-dom": "^15.5.0",
+    "node": "^11.9.0",
     "axios": "^0.15.3",
     "promise": "^7.1.1",
     "react": "^15.5.4",
