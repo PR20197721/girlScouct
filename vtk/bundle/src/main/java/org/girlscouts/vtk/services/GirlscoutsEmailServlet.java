@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -32,10 +31,10 @@ import java.util.HashSet;
 public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements OptingServlet {
     private static final Logger log = LoggerFactory.getLogger(GirlscoutsEmailServlet.class);
     @Reference
-    private SlingSettingsService settingsService;
+    private transient SlingSettingsService settingsService;
 
     @Reference
-    private GSEmailService gsEmailService;
+    private transient GSEmailService gsEmailService;
 
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
@@ -59,20 +58,24 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         //parse files, get bytes, name, and mimeType
         try{
             while(slingRequest.getParameterMap().containsKey("file"+count)) {
-                RequestParameter req_file = slingRequest.getRequestParameter("file" + count);
-                String fN = slingRequest.getParameter("file" + count + "Name");
-                String fT = req_file.getContentType();
-                fT = fT.replaceAll("/", "_");
-                fT = fT.toUpperCase();
-                byte[] fB = req_file.get();
-                attachments.add(new GSEmailAttachment(fN, fB, "", GSEmailAttachment.MimeType.valueOf(fT)));
+                try{
+                    RequestParameter req_file = slingRequest.getRequestParameter("file" + count);
+                    String fN = slingRequest.getParameter("file" + count + "Name");
+                    String fT = req_file.getContentType();
+                    fT = fT.replaceAll("/", "_");
+                    fT = fT.toUpperCase();
+                    byte[] fB = req_file.get();
+                    attachments.add(new GSEmailAttachment(fN, fB, "", GSEmailAttachment.MimeType.valueOf(fT)));
+                }catch (Exception e){
+                    log.error("Error parsing file information: ",e);
+                }
                 count++;
             }
         }catch (Exception e){
             log.error("Failed to parse attachment file data.... Sending without attachments: ", e);
             attachments.clear();
         }
-        if(attachments.isEmpty() == true){
+        if(attachments.isEmpty()){
             try {
                 log.debug("Send Email without attachments");
                 gsEmailService.sendEmail(slingRequest.getParameter("subject"), Arrays.asList(addresses),slingRequest.getParameter("message"));
@@ -88,7 +91,6 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
                 log.error("Email failed to send with attachments: ", e);
             }
         }
-        return;
     }
     /** OptingServlet Acceptance Method **/
     @Override

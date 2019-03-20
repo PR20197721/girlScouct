@@ -1,0 +1,120 @@
+.vtk-email-news-button {
+  color: white;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0px;
+  right: 7px;
+  z-index: 95;
+
+  i{
+  		font-size: 37px !important;
+  		cursor: pointer;
+  		position: relative;
+  		bottom: 3px;
+  	}
+}
+#file-input{
+  	padding: 5px;
+    width: 300px;
+}
+#file-catcher{
+    margin-left: 16px;
+}
+#file-list-display{
+    margin-left: 16px;
+}
+#file-list-display p{
+    line-height: 0px;
+}
+#sendEmail{
+	margin-top: 10px;
+}
+#clearEmail{
+	margin-top: 10px;
+}
+#email-buttons{
+    display: inline-block;
+    margin-left: 20%;
+}
+.emailHeader{
+	font-weight: bold;
+    font-size: 28px;
+}
+.email-modal-header {
+  padding: 2px 16px;
+  background-color: #00ae58;
+  color: white;
+  padding-bottom: 25px;
+}
+.emailInput{
+    background-color: #f6f6f6;
+    padding: 5px;
+}
+.email-modal-body {
+    padding: 2px 16px;
+}
+.email-modal-footer {
+  padding: 2px 16px;
+  text-align: right;
+  padding-bottom: 10px;
+}
+.email input[type="checkbox"] {
+  display: none;
+}
+.email input[type="checkbox"] + label:before {
+  border: solid 1px #ccc;
+  content: "";
+  height: 30px;
+  width: 30px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  font-size: 15px;
+  text-align: center;
+  padding: 4px;
+  display: inline-block;
+  float: left;
+}
+.email label {
+  top: 0;
+}
+.email label p {
+  float: left;
+  margin: 3px 0 0 9px;
+}
+.email label span {
+  display: block;
+}
+.email input[type=checkbox]:checked + label:before {
+  content: "\e6d7";
+  font-family: "JollyFont";
+  color: green;
+}
+.email-content {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  height: 90%;
+  overflow: scroll;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 70%;
+  top: 6%;
+  left: 15%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation-name: animatetopEmail;
+  animation-duration: 1s;
+}
+
+@keyframes animatetopEmail {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+
+  to {
+    top: 6%;
+    opacity: 1;
+  }
+}
