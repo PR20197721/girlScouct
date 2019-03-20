@@ -61,11 +61,9 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
                     RequestParameter reqFile = slingRequest.getRequestParameter("file" + count);
                     if(reqFile != null){
                         String fN = slingRequest.getParameter("file" + count + "Name");
-                        String fT = reqFile.getContentType();
-                        if(fT != null){
-                            fT = fT.replaceAll("/", "_");
-                            fT = fT.toUpperCase();
-                        }
+                        String fT = reqFile.getContentType() != null ? reqFile.getContentType() : "";
+                        fT = fT.replaceAll("/", "_");
+                        fT = fT.toUpperCase();
                         byte[] fB = reqFile.get();
                         attachments.add(new GSEmailAttachment(fN, fB, "", GSEmailAttachment.MimeType.valueOf(fT)));
                     }
