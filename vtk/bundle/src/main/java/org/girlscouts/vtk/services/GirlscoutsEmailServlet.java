@@ -58,7 +58,6 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         //parse files, get bytes, name, and mimeType
         try{
             while(slingRequest.getParameterMap().containsKey("file"+count)) {
-                try{
                     RequestParameter reqFile = slingRequest.getRequestParameter("file" + count);
                     if(reqFile != null){
                         String fN = slingRequest.getParameter("file" + count + "Name");
@@ -71,9 +70,6 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
                         attachments.add(new GSEmailAttachment(fN, fB, "", GSEmailAttachment.MimeType.valueOf(fT)));
                     }
 
-                }catch (Exception e){
-                    log.error("Error parsing file information: ",e);
-                }
                 count++;
             }
         }catch (Exception e){
