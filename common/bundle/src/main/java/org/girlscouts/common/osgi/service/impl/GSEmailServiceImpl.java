@@ -120,7 +120,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 		email.setHtmlMsg(body);
 		if (attachments != null && !attachments.isEmpty()) {
 			for (GSEmailAttachment attachment : attachments) {
-				if (StringUtils.isNotBlank(attachment.getBaseName()) && StringUtils.isNotBlank(attachment.getFileData())
+				if (StringUtils.isNotBlank(attachment.getBaseName()) && attachment.getFileData()!= null && (attachment.getFileData().length >0 )
 						&& attachment.getFileType() != null) {
 					try {
 						email.attach(attachment.getDataSource(), attachment.getFileName(), attachment.getDescription());

@@ -7,8 +7,5 @@ if [ -z $VERSION ]; then
     VERSION=`head -1 ../VERSIONS.txt | cut -d ' ' -f 1`
 fi
 
-curl -u 'admin:e$Fz&rsBS.XZk$6F' -X POST http://34.205.130.12:4502/crx/packmgr/service/.json/etc/packages/org.girlscouts.gsusa/gsusa-app-$VERSION.zip?cmd=delete
-curl -u 'admin:e$Fz&rsBS.XZk$6F' -F file=@"$HOME/.m2/repository/org/girlscouts/web/gsusa-app/$VERSION/gsusa-app-$VERSION.zip" -F name="gsusa-app" -F force=true -F install=true http://34.205.130.12:4502/crx/packmgr/service.jsp
-
-curl -u 'admin:e$Fz&rsBS.XZk$6F' -X POST http://34.236.166.152:4503/crx/packmgr/service/.json/etc/packages/org.girlscouts.gsusa/gsusa-app-$VERSION.zip?cmd=delete
-curl -u 'admin:e$Fz&rsBS.XZk$6F' -F file=@"$HOME/.m2/repository/org/girlscouts/web/gsusa-app/$VERSION/gsusa-app-$VERSION.zip" -F name="gsusa-app" -F force=true -F install=true http://34.236.166.152:4503/crx/packmgr/service.jsp
+curl -u 'admin:e$Fz&rsBS.XZk$6F' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/gsusa/girlscouts-gsusa-app/$VERSION/girlscouts-gsusa-app-$VERSION.zip" -F name="girlscouts-gsusa-app" -F force=true -F install=true http://34.205.130.12:4502/crx/packmgr/service.jsp
+curl -u 'admin:e$Fz&rsBS.XZk$6F' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/gsusa/girlscouts-gsusa-app/$VERSION/girlscouts-gsusa-app-$VERSION.zip" -F name="girlscouts-gsusa-app" -F force=true -F install=true http://34.236.166.152:4503/crx/packmgr/service.jsp
