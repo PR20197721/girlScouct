@@ -31,8 +31,11 @@
     });
     $("#advSearch").on('click', function(){
         var ref = $($("#advSearch").find("a")).attr("href");
-        ref = ref + "?search=" + $($(".event-search-facets").find("input")).val();
-        $($("#advSearch").find("a")).attr("href", ref)
+        if($($(".event-search-facets").find("input")).val() !== ""){
+             ref = ref + "?search=" + $($(".event-search-facets").find("input")).val();
+             $($("#advSearch").find("a")).attr("href", ref)
+        }
+
 
     });
 </script>
