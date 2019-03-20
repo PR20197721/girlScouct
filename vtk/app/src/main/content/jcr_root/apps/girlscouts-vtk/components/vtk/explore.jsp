@@ -27,7 +27,7 @@
 loadNav('explore')
 
 
-      var requirementsModal = function(binder, isOutdoorAvailable, isOutdoor, , isGlobalAvailable, isGlobal){
+      var requirementsModal = function(binder, isOutdoorAvailable, isOutdoor, isGlobalAvailable, isGlobal){
           var imgName;
            if (isOutdoor) {
                  imgName =  "outdoor.png";

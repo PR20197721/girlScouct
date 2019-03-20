@@ -130,7 +130,7 @@
                     <embeddeds>
                         <embedded>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>scaffolding</artifactId>
+                            <artifactId>girlscouts-vtk-scaffolding</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
                         <embedded>
@@ -140,7 +140,7 @@
                         </embedded>
                         <embedded>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>replication</artifactId>
+                            <artifactId>girlscouts-vtk-replication</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
                         <embedded>
@@ -243,17 +243,17 @@
                             <embeddeds>
                                 <embedded>
                                     <groupId>${project.groupId}</groupId>
-                                    <artifactId>scaffolding</artifactId>
+                                    <artifactId>girlscouts-vtk-scaffolding</artifactId>
                                     <target>/apps/girlscouts-vtk/install</target>
                                 </embedded>
                                 <embedded>
                                     <groupId>${project.groupId}</groupId>
-                                    <artifactId>bundle</artifactId>
+                                    <artifactId>girlscouts-vtk-bundle</artifactId>
                                     <target>/apps/girlscouts-vtk/install</target>
                                 </embedded>
                                 <embedded>
                                     <groupId>${project.groupId}</groupId>
-                                    <artifactId>replication</artifactId>
+                                    <artifactId>girlscouts-vtk-replication</artifactId>
                                     <target>/apps/girlscouts-vtk/install</target>
                                 </embedded>
                                 <embedded>
@@ -262,18 +262,28 @@
                                     <target>/apps/girlscouts-vtk/install</target>
                                 </embedded>
                                 <embedded>
+                                    <groupId>com.itextpdf</groupId>
+                                    <artifactId>itextpdf</artifactId>
+                                    <target>/apps/girlscouts-vtk/install</target>
+                                </embedded>
+                                <embedded>
+                                    <groupId>com.itextpdf.tool</groupId>
+                                    <artifactId>xmlworker</artifactId>
+                                    <target>/apps/girlscouts-vtk/install</target>
+                                </embedded>
+                                <embedded>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>beanutils-wrapper</artifactId>
                                     <target>/apps/girlscouts-vtk/install</target>
                                 </embedded>
                                 <embedded>
-                                    <groupId>com.github.livesense</groupId>
-                                    <artifactId>org.liveSense.fragment.sun.misc</artifactId>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>google-collections-wrapper</artifactId>
                                     <target>/apps/girlscouts-vtk/install</target>
                                 </embedded>
                                 <embedded>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>google-collections-wrapper</artifactId>
+                                    <groupId>com.github.livesense</groupId>
+                                    <artifactId>org.liveSense.fragment.sun.misc</artifactId>
                                     <target>/apps/girlscouts-vtk/install</target>
                                 </embedded>
                                 <embedded>
