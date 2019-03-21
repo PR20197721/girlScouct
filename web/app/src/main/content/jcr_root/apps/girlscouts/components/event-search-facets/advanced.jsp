@@ -179,7 +179,7 @@ function toggleWhiteArrow() {
 	</div>
 
 	<div class="searchButtonRow baseDiv programLevel">
-            <a style="width: 180px; margin: 0; height: 43px; padding-top: 10.5px;"href="<%=returnAction%>" class="button">RETURN</a>
+            <a style="width: 180px; margin: 0; height: 43px; padding-top: 10.5px; padding-right: 15px;"href="<%=returnAction%>" >Simple Search</a>
 	    	<input type="submit" value="Search" id="sub" class="form-btn advancedSearchButton"/>
 	</div>
   
