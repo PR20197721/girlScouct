@@ -2,6 +2,7 @@ package org.girlscouts.web.servlets;
 
 import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.api.Rendition;
+import com.day.cq.wcm.api.Page;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -22,6 +23,7 @@ import org.apache.sling.settings.SlingSettingsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jcr.Node;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,7 +63,16 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
             log.debug("Getting instance of PdfWriter");
             writer = PdfWriter.getInstance(document, response.getOutputStream());
             String[] footer = {"test"};
-            String path = request.getResource().getPath();
+            Page homepage = request.getResource().adaptTo(Page.class).getAbsoluteParent(2);
+            Node home = homepage.getContentResource().adaptTo(Node.class);
+            String path = "";
+            try{
+                if(home.hasNode("header/logo/regular")){
+                    path = home.getNode("header/logo/regular").getProperty("fileReference").getString();
+                }
+            }catch (Exception e){
+                path = "/content/dam/girlscouts-gsusa/images/logo/logo.png.transform/cq5dam.web.1280.1280/img.png";
+            }
             HeaderFooter event=  new HeaderFooter(footer, path, resourceResolver);
             writer.setPageEvent(event);
         }catch(Exception e){
@@ -92,10 +103,10 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
             footerTxtLine2= footer[1];
             path= _path;
             rr = _rr;
-            header = loadHeaderImage(_path, rr);
+            header = loadHeaderImage(_path);
         }
 
-        private Image loadHeaderImage(String imagePath, ResourceResolver rr2) {
+        private Image loadHeaderImage(String imagePath) {
             log.debug("Loading image from crx at {}",imagePath);
             try{
                 Resource assetRes = rr.resolve(imagePath);
