@@ -4,7 +4,7 @@ VERSION=$1
 
 # Get the current version if version number is not specified
 if [ -z $VERSION ]; then
-    VERSION=`head -1 ../VERSIONS.txt | cut -d ' ' -f 1`
+    VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 fi
 
 SERVER_LIST=(52.73.0.56:4503 author-girlscouts-stage-aem61.adobecqms.net:80)
