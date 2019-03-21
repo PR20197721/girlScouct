@@ -32,7 +32,11 @@
     $("#advSearch").on('click', function(){
         var ref = $($("#advSearch").find("a")).attr("href");
         if($($(".event-search-facets").find("input")).val() !== ""){
-             ref = ref + "?search=" + $($(".event-search-facets").find("input")).val();
+            if(!ref.includes("?search=")){
+                ref = ref + "?search=" + $($(".event-search-facets").find("input")).val();
+            }else{
+                ref = ref.replace(ref.substring(ref.indexOf("?search=")), "?search=" + $($(".event-search-facets").find("input")).val());
+            }
              $($("#advSearch").find("a")).attr("href", ref)
         }
 
