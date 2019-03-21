@@ -7,4 +7,12 @@ if [ -z $VERSION ]; then
     VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 fi
 
-./common/deployUat.sh $VERSION  && ./web/deployUat.sh $VERSION && ./gsusa/deployUat.sh $VERSION && ./vtk/deployUat.sh $VERSION && ./gsactivities/deployUat.sh $VERSION
+./common/deployUat.sh $VERSION  && sleep 20s
+
+./web/deployUat.sh $VERSION && sleep 20s
+
+./gsusa/deployUat.sh $VERSION && sleep 20s
+
+./gsactivities/deployUat.sh $VERSION && sleep 20s
+
+./vtk/deployUat.sh $VERSION
