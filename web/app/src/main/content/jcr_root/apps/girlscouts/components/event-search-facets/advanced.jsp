@@ -179,7 +179,7 @@ function toggleWhiteArrow() {
 	</div>
 
 	<div class="searchButtonRow baseDiv programLevel">
-            <a style="width: 180px; margin: 0; height: 43px; padding-top: 10.5px; padding-right: 15px;"href="<%=returnAction%>" >Simple Search</a>
+            <a id="smplSearch"style="width: 180px; margin: 0; height: 43px; padding-top: 10.5px; padding-right: 15px;"href="<%=returnAction%>" >Simple Search</a>
 	    	<input type="submit" value="Search" id="sub" class="form-btn advancedSearchButton"/>
 	</div>
   
@@ -187,6 +187,26 @@ function toggleWhiteArrow() {
 
 </form>
 <script>
+$(document).ready(function(){
+    var placeholder = $($($(".event-search-facets").find("input"))[0]).attr("placeholder");
+    if(!placeholder.includes("Keywords")){
+        $($($(".event-search-facets").find("input"))[0]).val(placeholder);
+    }
+
+});
+$("#smplSearch").on('click', function(){
+    var ref = $("#smplSearch").attr("href");
+    if($($(".event-search-facets").find("input")).val() !== ""){
+        if(!ref.includes("?search=")){
+            ref = ref + "?search=" + $($(".event-search-facets").find("input")).val();
+        }else{
+            ref = ref.replace(ref.substring(ref.indexOf("?search=")), "?search=" + $($(".event-search-facets").find("input")).val());
+        }
+         $("#smplSearch").attr("href", ref)
+    }
+
+
+});
 
 $(function() {
 
