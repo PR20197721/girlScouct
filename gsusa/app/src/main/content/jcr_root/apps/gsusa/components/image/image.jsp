@@ -53,7 +53,7 @@
 	
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
 		styleImage += "padding: " + pTop + "px " + pRight + "px " + pBottom + "px " + pLeft + "px;";
-		styleImage += "margin: 0px !important;"; 
+		styleImage += "margin: auto;";
 	}
 	if (caption.length() > 0) { // if there's caption, apply padding to the caption
 		styleCaption = "padding: 0px 5px;"; 
