@@ -20,7 +20,7 @@
 	<cq:include path="content/left/par/event-search" resourceType="girlscouts/components/event-search" />
 <%
     }
-
+    String returnAction = currentPage.getPath()+".html";
     String formAction = currentPage.getPath()+".advanced.html";
     request.setAttribute("formAction", formAction);
     Set <String> regions = new HashSet<String>();
@@ -179,6 +179,7 @@ function toggleWhiteArrow() {
 	</div>
 
 	<div class="searchButtonRow baseDiv programLevel">
+            <a style="width: 180px; margin: 0; height: 43px; padding-top: 10.5px;"href="<%=returnAction%>" class="button">RETURN</a>
 	    	<input type="submit" value="Search" id="sub" class="form-btn advancedSearchButton"/>
 	</div>
   
