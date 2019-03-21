@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OldVersion=`head -1 ./VERSIONS.txt | cut -d ' ' -f 1`
+OldVersion=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 NewVersion=$1
 echo $OldVersion' has been updated to '$NewVersion
 
