@@ -4,7 +4,7 @@ VERSION=$1
 
 # Get the current version if version number is not specified
 if [ -z $VERSION ]; then
-    VERSION=`head -1 ../VERSIONS.txt | cut -d ' ' -f 1`
+    VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 fi
 
 SERVER_LIST=(34.237.161.42:4503 34.201.89.117:4502)
@@ -16,6 +16,6 @@ for server in ${SERVER_LIST[@]}; do
 		echo "Server $server is down. Skipping..."
 	else
 		echo "Deploying to http://$server"
-		curl -u "admin:cH*t3uzEsT" -F file=@"$HOME/.m2/repository/org/girlscouts/gsactivities/gsactivities-app/$VERSION/gsactivities-app-$VERSION.zip" -F name="gsactivities-app" -F force=true -F install=true http://$server/crx/packmgr/service.jsp
+		curl -u "admin:cH*t3uzEsT" -F file=@"$HOME/.m2/repository/org/girlscouts/aem/gsactivities/girlscouts-gsactivities-app/$VERSION/girlscouts-gsactivities-app-$VERSION.zip" -F name="girlscouts-gsactivities-app" -F force=true -F install=true http://$server/crx/packmgr/service.jsp
 	fi
 done

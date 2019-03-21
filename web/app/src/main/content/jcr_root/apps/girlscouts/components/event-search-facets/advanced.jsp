@@ -20,7 +20,7 @@
 	<cq:include path="content/left/par/event-search" resourceType="girlscouts/components/event-search" />
 <%
     }
-
+    String returnAction = currentPage.getPath()+".html";
     String formAction = currentPage.getPath()+".advanced.html";
     request.setAttribute("formAction", formAction);
     Set <String> regions = new HashSet<String>();
@@ -76,6 +76,8 @@
 	    List<String> results = srchInfo.getResults();
 	    String m = request.getParameter("m"); 
 	    String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
+	    String placeHold = slingRequest.getParameter("search") != null ? slingRequest.getParameter("search") : "Keywords";
+	    String placeholder = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : placeHold;
    
 %>
 
@@ -109,7 +111,7 @@ function toggleWhiteArrow() {
 
 	   <div class="small-24 medium-6 large-7 columns">
 				<div class="title"> By Keyword </div>
-				<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
+				<input type="text" name="q" placeholder="<%=placeholder%>" class="searchField" style="width:140px;height:25px;" />
 		</div>
 		<div class="small-12 medium-6 large-6 event-region columns">
 			<div class="title"> Region </div>
@@ -177,6 +179,7 @@ function toggleWhiteArrow() {
 	</div>
 
 	<div class="searchButtonRow baseDiv programLevel">
+            <a style="width: 180px; margin: 0; height: 43px; padding-top: 10.5px; padding-right: 15px;"href="<%=returnAction%>" >Simple Search</a>
 	    	<input type="submit" value="Search" id="sub" class="form-btn advancedSearchButton"/>
 	</div>
   
@@ -184,7 +187,6 @@ function toggleWhiteArrow() {
 
 </form>
 <script>
-
 
 $(function() {
 
