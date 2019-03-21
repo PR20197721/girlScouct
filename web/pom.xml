@@ -6,18 +6,17 @@
   <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
   <parent>
-    <groupId>org.girlscouts.aem</groupId>
-    <artifactId>girlscouts-aem</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <groupId>org.girlscouts</groupId>
+    <artifactId>aem</artifactId>
+    <version>3.0-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O P E R T I E S -->
   <!-- ====================================================================== -->
-  <groupId>org.girlscouts.web</groupId>
-  <artifactId>girlscouts</artifactId>
-  <version>2.0-SNAPSHOT</version>
+  <groupId>org.girlscouts.aem</groupId>
+  <artifactId>web</artifactId>
   <packaging>pom</packaging>
-  <name>Girl Scouts USA - Reactor Project</name>
+  <name>Girl Scouts Web Project</name>
   <description>Maven Multimodule project for Girl Scouts USA.</description>
   <prerequisites>
     <maven>3.0.2</maven>

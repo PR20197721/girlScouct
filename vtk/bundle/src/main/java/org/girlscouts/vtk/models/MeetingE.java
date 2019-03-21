@@ -57,7 +57,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	@Collection(autoRetrieve =true, autoInsert =true) java.util.List<Note> notes;
 	
-	boolean isAnyOutdoorActivityInMeeting = false, isAnyOutdoorActivityInMeetingAvailable= false,
+	boolean isAnyOutdoorActivityInMeeting = false, isAnyOutdoorActivityInMeetingAvailable= false, isAnyGlobalActivityInMeeting = false, isAnyGlobalActivityInMeetingAvailable= false,
 			isAllMultiActivitiesSelected=false;
     
 	public boolean isAllMultiActivitiesSelected() {
@@ -241,10 +241,20 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	public void setAnyOutdoorActivityInMeetingAvailable(boolean isAnyOutdoorActivityInMeetingAvailable) {
 		this.isAnyOutdoorActivityInMeetingAvailable = isAnyOutdoorActivityInMeetingAvailable;
 	}
+	
+	public boolean isAnyGlobalActivityInMeeting() {
+		return isAnyGlobalActivityInMeeting;
+	}
 
+	public void setAnyGlobalActivityInMeeting(boolean isAnyGlobalActivityInMeeting) {
+		this.isAnyGlobalActivityInMeeting = isAnyGlobalActivityInMeeting;
+	}
 
-	
-	
-	
-	
+	public boolean isAnyGlobalActivityInMeetingAvailable() {
+		return isAnyGlobalActivityInMeetingAvailable;
+	}
+
+	public void setAnyGlobalActivityInMeetingAvailable(boolean isAnyGlobalActivityInMeetingAvailable) {
+		this.isAnyGlobalActivityInMeetingAvailable = isAnyGlobalActivityInMeetingAvailable;
+	}
 }
