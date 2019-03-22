@@ -190,13 +190,13 @@ function toggleWhiteArrow() {
 $(document).ready(function(){
     var placeholder = $($($(".event-search-facets").find("input"))[0]).attr("placeholder");
     if(!placeholder.includes("Keywords")){
-        $($($(".event-search-facets").find("input"))[0]).val(placeholder);
+        $('#mainContent .event-search-facets .search-box .searchField').val(placeholder);
     }
 
 });
 $("#smplSearch").on('click', function(){
     var ref = $("#smplSearch").attr("href");
-    if($($(".event-search-facets").find("input")).val() !== ""){
+    if($(".event-search-facets").find("input").val() !== ""){
         if(!ref.includes("?search=")){
             ref = ref + "?search=" + $($(".event-search-facets").find("input")).val();
         }else{
