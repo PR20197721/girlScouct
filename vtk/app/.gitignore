@@ -1,4 +1,7 @@
 /target
 /bin
+/node
 .sass-cache
 *.sassc
+/src/main/typescript/vtk-yp/package-lock\.json
+/src/main/typescript/vtk-mtg-plan/package-lock\.json

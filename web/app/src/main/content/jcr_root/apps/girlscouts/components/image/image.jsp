@@ -46,7 +46,7 @@
 	
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
 		styleImage = "padding: " + pTop + "px " + pRight + "px " + pBottom + "px " + pLeft + "px;";
-		styleImage += "margin: 0px !important;";
+		styleImage += "margin: auto;";
 	}
 	
 	if (!"0".equals(imageWidth)) {
