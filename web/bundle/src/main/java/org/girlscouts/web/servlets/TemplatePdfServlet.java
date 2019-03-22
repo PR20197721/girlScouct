@@ -3,13 +3,33 @@ package org.girlscouts.web.servlets;
 import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.api.Rendition;
 import com.day.cq.wcm.api.Page;
-import com.itextpdf.text.*;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.html2pdf.attach.ITagWorkerFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfDocumentInfo;
+import com.itextpdf.kernel.pdf.WriterProperties;
+import com.itextpdf.layout.font.FontProvider;
+import com.itextpdf.layout.font.FontSet;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.html2pdf.attach.ITagWorkerFactory;
+import com.itextpdf.html2pdf.html.AttributeConstants;
+import com.itextpdf.html2pdf.resolver.font.DefaultFontProvider;
+import com.itextpdf.io.font.FontProgram;
+import com.itextpdf.io.font.FontProgramFactory;
+import com.itextpdf.io.font.woff2.Woff2Converter;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.pdf.*;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.font.*;
+/*import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.pdf.draw.LineSeparator;*/
 import org.apache.commons.io.IOUtils;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
@@ -20,13 +40,22 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.settings.SlingSettingsService;
+import org.girlscouts.common.pdf.BadgeGenerator;
+import org.girlscouts.common.pdf.GSTagWorkerFactory;
+import org.girlscouts.common.servlets.BadgePDFGeneratorServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.Node;
 import javax.servlet.ServletException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
+import static org.girlscouts.common.pdf.BadgeGenerator.BOLD_FONT_LOCATION;
+import static org.girlscouts.common.pdf.BadgeGenerator.FONT_LOCATION;
 
 @SlingServlet(
         label = "Girl Scouts Template Site PDF Servlet", description = "Generate PDF from Template site page", paths = {},
@@ -49,12 +78,30 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         log.error("TemplatePdfError POST");
 
     }
+    public static ThreadLocal<ResourceResolver> resolverLocal = new ThreadLocal<>();
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            response.setContentType("application/pdf");
+            resolverLocal.set(request.getResourceResolver());
+            ByteArrayOutputStream bais = new ByteArrayOutputStream();
+
+            StringBuilder sb = new StringBuilder();
+            buildHtml(sb, request, resolverLocal.get());
+            generatePdf(bais, sb.toString());
+           // new BadgeGenerator(request.getParameter("html"), bais).generatePdf();
+            response.setContentLength(bais.size());
+            bais.writeTo(response.getOutputStream());
+            bais.flush();
+            response.flushBuffer();
+        }finally {
+            resolverLocal.remove();
+        }
+
 
         //Verify user email request
-        Resource r = request.getResource();
+       /* Resource r = request.getResource();
         ResourceResolver resourceResolver = request.getResourceResolver();
         response.getOutputStream();
         PdfWriter writer  = null;
@@ -63,7 +110,8 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
             log.debug("Getting instance of PdfWriter");
             writer = PdfWriter.getInstance(document, response.getOutputStream());
             String[] footer = {"test"};
-            Page homepage = request.getResource().adaptTo(Page.class).getAbsoluteParent(2);
+            Resource rsrc = resourceResolver.resolve(request.getResource().getPath().replaceAll("/jcr:content",""));
+            Page homepage = rsrc.adaptTo(Page.class).getAbsoluteParent(2);
             Node home = homepage.getContentResource().adaptTo(Node.class);
             String path = "";
             try{
@@ -79,7 +127,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
             log.error("Exception occured: ", e);
         }
         log.error(r.getPath());
-        log.error("TemplatePdfError GET");
+        log.error("TemplatePdfError GET");*/
 
     }
 
@@ -93,7 +141,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
          */
         return true;
     }
-    public class HeaderFooter extends PdfPageEventHelper {
+    /*public class HeaderFooter extends PdfPageEventHelper {
         int pagenumber=0;
         String footerTxtLine1="", footerTxtLine2, path;
         ResourceResolver rr;
@@ -170,9 +218,89 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
 
         }
 
+
         @Override
         public void onEndPage(PdfWriter writer, Document document) {
         }
+    }*/
+    public void buildHtml(StringBuilder sb, SlingHttpServletRequest request, ResourceResolver rr) {
+        Resource rsrc = rr.resolve(request.getResource().getPath().replaceAll("/jcr:content",""));
+        Page homepage = rsrc.adaptTo(Page.class).getAbsoluteParent(2);
+        Node home = homepage.getContentResource().adaptTo(Node.class);
+        //Get header path
+        String path = "";
+        try{
+            if(home.hasNode("header/logo/regular")){
+                path = home.getNode("header/logo/regular").getProperty("fileReference").getString();
+            }
+        }catch (Exception e){
+            path = "/content/dam/girlscouts-gsusa/images/logo/logo.png.transform/cq5dam.web.1280.1280/img.png";
+        }
+        sb.append("<img src = '"+path+"'/>");
+        sb.append("<p>test</p>");
+    }
+
+    public Document generatePdf(ByteArrayOutputStream outputStream, String html) throws IOException {
+
+        WriterProperties writerProperties = new WriterProperties();
+
+        PdfWriter pdfWriter = new PdfWriter(outputStream, writerProperties);
+
+        PdfDocument pdfDoc = new PdfDocument(pdfWriter);
+
+        //Set meta tags
+        PdfDocumentInfo pdfMetaData = pdfDoc.getDocumentInfo();
+        pdfMetaData.setAuthor("Girlscouts America");
+        pdfMetaData.addCreationDate();
+        pdfMetaData.setKeywords("Girlscouts Template Page");
+        pdfMetaData.setSubject("Template Page PDF");
+        pdfMetaData.setTitle("Template Page PDF");
+
+        // pdf conversion
+        ConverterProperties props = new ConverterProperties();
+
+        // Setup custom tagworker factory for pulling images straight from the DAM.
+        //ITagWorkerFactory tagWorkerFactory = new GSTagWorkerFactory();
+
+        ResourceResolver resourceResolver = this.resolverLocal.get();
+
+        //props.setTagWorkerFactory(tagWorkerFactory);
+
+        //FontProvider fontFactory = new DefaultFontProvider(true, true, true);
+        //fontFactory.addFont(getFontProgram(FONT_LOCATION, resourceResolver));
+        //fontFactory.addFont(getFontProgram(BOLD_FONT_LOCATION, resourceResolver));
+
+
+        FontSet fontSet = new FontSet();
+        fontSet.addFont(getFontData(FONT_LOCATION, resourceResolver), null, "Trefoil Sans Web");
+        fontSet.addFont(getFontData(BOLD_FONT_LOCATION, resourceResolver), null, "Trefoil Sans Web Bold");
+
+
+        FontProvider fontFactory = new FontProvider(fontSet);
+
+
+
+        props.setImmediateFlush(false);
+        props.setFontProvider(fontFactory);
+        Document doc = HtmlConverter.convertToDocument(new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8)) , pdfDoc, props);
+
+        doc.close();
+
+        return doc;
+    }
+    private static byte[] getFontData(String location, ResourceResolver resourceResolver) throws IOException {
+
+
+        Resource fontResource = resourceResolver.resolve(location);
+
+        byte[] fontData;
+        try {
+            fontData = IOUtils.toByteArray(fontResource.adaptTo(InputStream.class));
+        } catch (IOException e) {
+            fontData = new byte[0];
+        }
+        return Woff2Converter.convert(fontData);
+
     }
 
 }
