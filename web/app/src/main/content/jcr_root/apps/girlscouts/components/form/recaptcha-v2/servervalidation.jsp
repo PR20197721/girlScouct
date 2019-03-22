@@ -8,10 +8,13 @@
                 java.io.BufferedReader, java.io.InputStream, java.io.InputStreamReader,
                 java.net.URL, java.nio.charset.Charset, com.google.gson.Gson,
                 com.google.gson.JsonParser, com.google.gson.JsonObject"%>
-<%!
-public static boolean isReCaptchaValid(String secretKey, String response) {
+<%
+    FieldDescription desc = FieldHelper.getConstraintFieldDescription(slingRequest);
+    desc.setName(":g-recaptcha-response");
+    String recaptcha_secret = currentSite.get("recaptcha_secret", "");
+    String recaptcha_response = slingRequest.getParameter("g-recaptcha-response");
     try {
-        String url = "https://www.google.com/recaptcha/api/siteverify?" + "secret=" + secretKey + "&response=" + response;
+        String url = "https://www.google.com/recaptcha/api/siteverify?secret=" + recaptcha_secret + "&response=" + recaptcha_response;
         InputStream res = new URL(url).openStream();
         BufferedReader rd = new BufferedReader(new InputStreamReader(res, Charset.forName("UTF-8")));
         StringBuilder sb = new StringBuilder();
@@ -19,26 +22,14 @@ public static boolean isReCaptchaValid(String secretKey, String response) {
         while ((cp = rd.read()) != -1) {
             sb.append((char) cp);
         }
-        String jsonText = sb.toString();
         res.close();
+        String jsonText = sb.toString();
         JsonObject json = new JsonParser().parse(jsonText).getAsJsonObject();
-        return json.getAsJsonObject("success").getAsBoolean();
-    } catch (Exception e) {
-        return false;
-    }
-}
-%>
-<%
-    // Get field description and force its name
-    FieldDescription desc = FieldHelper.getConstraintFieldDescription(slingRequest);
-    desc.setName(":g-recaptcha");
-    String site_key = currentSite.get("recaptcha_secret", "");
-    String recaptcha_response = request.getParameter("g-recaptcha-response");
-    // Check if a value has been provided
-    if (FieldHelper.checkRequired(slingRequest, desc)) {
-        if (!isReCaptchaValid(site_key, recaptcha_response)) {
+        if(!json.get("success").getAsBoolean()){
             ValidationInfo.addConstraintError(slingRequest, desc);
         }
+    } catch (Exception e) {
+        ValidationInfo.addConstraintError(slingRequest, desc);
     }
 
 %>
