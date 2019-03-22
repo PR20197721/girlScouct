@@ -31,14 +31,6 @@
         <div class="right-col">
             <cq:include script="right.jsp"/>
         </div>
-        
-<!-- brightedge two-col lem code begin -->
-<cq:includeClientLib categories="apps.gsusa.components.brightedge" />         
-<div class="be-ix-link-block" style="display: block;">
-<h4 style="padding-top:40px;">More from Girl Scouts</h4> 
-</div>
-<!-- brightedge lem code end -->         
-        
     </div>
     <div class="wrapper clearfix"></div>
     <cq:include path="content/bottom/par" resourceType="girlscouts-common/components/styled-parsys" />
