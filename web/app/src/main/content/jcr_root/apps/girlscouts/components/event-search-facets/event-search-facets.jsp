@@ -37,9 +37,9 @@
     $(document).ready(function(){
         var placeholder = $($(".event-search-facets").find("input")).attr("placeholder");
         if(placeholder !== ""){
-            $($($(".event-search-facets").find("input"))[0]).val(placeholder);
+            $('#mainContent .event-search-facets .search-box .searchField').val(placeholder);
         }else{
-             $($($(".event-search-facets").find("input"))[0]).val($("#searchedVal").attr("searched"));
+            $('#mainContent .event-search-facets .search-box .searchField').val($("#searchedVal").attr("searched"));
         }
 
     });
