@@ -111,7 +111,7 @@ function toggleWhiteArrow() {
 
 	   <div class="small-24 medium-6 large-7 columns">
 				<div class="title"> By Keyword </div>
-				<input type="text" name="q" placeholder="<%=placeholder%>" class="searchField" style="width:140px;height:25px;" />
+				<input id="keywordInput" type="text" name="q" placeholder="<%=placeholder%>" class="searchField" style="width:140px;height:25px;" />
 		</div>
 		<div class="small-12 medium-6 large-6 event-region columns">
 			<div class="title"> Region </div>
@@ -187,10 +187,10 @@ function toggleWhiteArrow() {
 
 </form>
 <script>
-$(document).ready(function(){
-    var placeholder = $($($(".event-search-facets").find("input"))[0]).attr("placeholder");
+$(window).load(function(){
+    var placeholder = $("#keywordInput").attr("placeholder");
     if(!placeholder.includes("Keywords")){
-        $('#mainContent .event-search-facets .search-box .searchField').val(placeholder);
+       $("#keywordInput").val(placeholder);
     }
 
 });
