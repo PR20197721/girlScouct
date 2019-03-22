@@ -198,11 +198,11 @@ $("#smplSearch").on('click', function(){
     var ref = $("#smplSearch").attr("href");
     if($(".event-search-facets").find("input").val() !== ""){
         if(!ref.includes("?search=")){
-            ref = ref + "?search=" + $($(".event-search-facets").find("input")).val();
+            ref = ref + "?search=" + $(".event-search-facets").find("input").val();
         }else{
-            ref = ref.replace(ref.substring(ref.indexOf("?search=")), "?search=" + $($(".event-search-facets").find("input")).val());
+            ref = ref.replace(ref.substring(ref.indexOf("?search=")), "?search=" + $(".event-search-facets").find("input").val());
         }
-         $("#smplSearch").attr("href", ref)
+        $("#smplSearch").attr("href", ref);
     }
 
 

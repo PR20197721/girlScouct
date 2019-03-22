@@ -35,7 +35,7 @@
  </div>
 <script>
     $(document).ready(function(){
-        var placeholder = $($(".event-search-facets").find("input")).attr("placeholder");
+        var placeholder = $(".event-search-facets").find("input").attr("placeholder");
         if(placeholder !== ""){
             $('#mainContent .event-search-facets .search-box .searchField').val(placeholder);
         }else{
@@ -44,17 +44,17 @@
 
     });
     $("#eventSearchSubmit").on('click', function(){
-        $($(".event-search-facets").find("form")).submit();
+        $(".event-search-facets").find("form").submit();
     });
     $("#advSearch").on('click', function(){
-        var ref = $($("#advSearch").find("a")).attr("href");
-        if($($(".event-search-facets").find("input")).val() !== ""){
+        var ref = $("#advSearch").find("a").attr("href");
+        if($(".event-search-facets").find("input").val() !== ""){
             if(!ref.includes("?search=")){
-                ref = ref + "?search=" + $($(".event-search-facets").find("input")).val();
+                ref = ref + "?search=" + $(".event-search-facets").find("input").val();
             }else{
-                ref = ref.replace(ref.substring(ref.indexOf("?search=")), "?search=" + $($(".event-search-facets").find("input")).val());
+                ref = ref.replace(ref.substring(ref.indexOf("?search=")), "?search=" + $(".event-search-facets").find("input").val());
             }
-             $($("#advSearch").find("a")).attr("href", ref)
+             $("#advSearch").find("a").attr("href", ref)
         }
 
 
