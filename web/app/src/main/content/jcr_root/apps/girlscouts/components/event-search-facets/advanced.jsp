@@ -187,7 +187,7 @@ function toggleWhiteArrow() {
 
 </form>
 <script>
-$(window).load(function(){
+$(document).ready(function(){
     var placeholder = $("#keywordInput").attr("placeholder");
     if(!placeholder.includes("Keywords")){
        $("#keywordInput").val(placeholder);
