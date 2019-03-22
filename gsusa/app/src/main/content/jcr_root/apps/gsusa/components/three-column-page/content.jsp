@@ -31,6 +31,11 @@
         <div class="right-col">
             <cq:include script="right.jsp"/>
         </div>
+        
+<!-- brightedge two-col lem code begin -->
+<div class="be-ix-link-block"><!--Link Equity Target Div--></div>
+<!-- brightedge lem code end -->         
+        
     </div>
     <div class="wrapper clearfix"></div>
     <cq:include path="content/bottom/par" resourceType="girlscouts-common/components/styled-parsys" />
