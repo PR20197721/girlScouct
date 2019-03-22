@@ -6,13 +6,14 @@
   <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
   <parent>
-    <groupId>org.girlscouts.web</groupId>
-    <artifactId>girlscouts-common</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <groupId>org.girlscouts.aem</groupId>
+    <artifactId>common</artifactId>
+    <version>3.0-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
+  <groupId>org.girlscouts.aem.common</groupId>
   <artifactId>girlscouts-common-bundle</artifactId>
   <packaging>bundle</packaging>
   <name>Girl Scouts Common Bundle</name>
@@ -191,7 +192,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Bundle-SymbolicName>org.girlscouts.web.girlscouts-common-bundle</Bundle-SymbolicName>
+            <Bundle-SymbolicName>org.girlscouts.aem.common.bundle</Bundle-SymbolicName>
             <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
             <Import-Package>
               !com.google.common.reflect,

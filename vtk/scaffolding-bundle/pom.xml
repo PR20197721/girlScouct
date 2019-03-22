@@ -6,16 +6,17 @@
   <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
   <parent>
-    <groupId>org.girlscouts.vtk</groupId>
-    <artifactId>girlscouts-vtk</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <groupId>org.girlscouts.aem</groupId>
+    <artifactId>vtk</artifactId>
+    <version>3.0-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
-  <artifactId>girlscouts-vtk-scaffolding-bundle</artifactId>
+  <groupId>org.girlscouts.aem.vtk</groupId>
+  <artifactId>girlscouts-vtk-scaffolding</artifactId>
   <packaging>bundle</packaging>
-  <name>Girl Scouts Volunteer Toolkit Scaffolding Bundle</name>
+  <name>Girl Scouts VTK Scaffolding Bundle</name>
   <dependencies>
     <dependency>
       <groupId>com.adobe.aem</groupId>
@@ -58,7 +59,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-scaffolding-bundle</Bundle-SymbolicName>
+            <Bundle-SymbolicName>org.girlscouts.aem.vtk.scaffolding</Bundle-SymbolicName>
             <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
           </instructions>
         </configuration>
