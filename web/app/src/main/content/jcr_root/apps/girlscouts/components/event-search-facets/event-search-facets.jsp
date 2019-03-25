@@ -26,18 +26,18 @@
           <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
       </div>
       <button id="eventSearchSubmit"style="padding:10px; width: 78px; margin-left: -16px; color: white;"type="submit">Go</button>
-      <span id="advSearch">
-                  <a style="margin-left:6px;"href="<%=currentPage.getPath()%>.advanced.html">Advanced Search</a>
-              </span>
  </div>
  <div class="row">
-
+      <span id="advSearch">
+          <a style="margin-left:6px;"href="<%=currentPage.getPath()%>.advanced.html">Advanced Search</a>
+      </span>
  </div>
 <script>
     $(document).ready(function(){
         var placeholder = $(".event-search-facets").find("input").attr("placeholder");
-        if(placeholder !== ""){
-            $('#mainContent .event-search-facets .search-box .searchField').val(placeholder);
+        var lastSearch = $(".event-search-facets").find("input").attr("searchHolder");
+        if(lastSearch !== ""){
+            $('#mainContent .event-search-facets .search-box .searchField').val(lastSearch);
         }else{
             $('#mainContent .event-search-facets .search-box .searchField').val($("#searchedVal").attr("searched"));
         }
