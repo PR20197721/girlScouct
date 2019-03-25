@@ -4,7 +4,7 @@
 <%
 String placeholderText = properties.get("placeholder-text","");
 String lastSearch = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : "";
-if(!lastSearch.equals("")){
+if(!lastSearch.equals("") && currentNode.getPath.contains("/event_search_facets")){
     placeholderText = lastSearch;
 }
 String searchAction = properties.get("searchAction", null);
