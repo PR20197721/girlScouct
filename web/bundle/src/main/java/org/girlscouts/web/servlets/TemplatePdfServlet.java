@@ -32,7 +32,6 @@ import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.font.*;
-import com.itextpdf.text.List;
 /*import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -71,6 +70,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import static com.itextpdf.html2pdf.HtmlConverter.convertToElements;
 import static org.girlscouts.common.pdf.BadgeGenerator.BOLD_FONT_LOCATION;
@@ -144,9 +144,9 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
     }
     public void buildHtml(StringBuilder sb, SlingHttpServletRequest request, ResourceResolver rr) {
 
-        sb.append("<p>test</p>");
+        sb.append("<span>test</span>");
         sb.append("<br/>");
-        sb.append("<p>This is a test</p>");
+        sb.append("<div>This is a test</div>");
     }
 
     public Document generatePdf(ByteArrayOutputStream outputStream, String html, String path) throws IOException {
@@ -200,7 +200,9 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
     }
     public void addContent(Document doc, String html){
         try{
-
+            for(IElement el : HtmlConverter.convertToElements(html)){
+                doc.add((Paragraph)el);
+            }
         }catch (Exception e){
 
         }
