@@ -8,9 +8,15 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.html2pdf.attach.ITagWorkerFactory;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+
+import com.itextpdf.kernel.colors.Color;
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.layout.element.Div;
+import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfDocumentInfo;
 import com.itextpdf.kernel.pdf.WriterProperties;
+import com.itextpdf.kernel.pdf.colorspace.PdfColorSpace;
 import com.itextpdf.layout.font.FontProvider;
 import com.itextpdf.layout.font.FontSet;
 import com.itextpdf.html2pdf.ConverterProperties;
@@ -111,7 +117,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
             }
             buildHtml(sb, request, resolverLocal.get());
             generatePdf(bais, sb.toString(), path );
-           // new BadgeGenerator(request.getParameter("html"), bais).generatePdf();
+            // new BadgeGenerator(request.getParameter("html"), bais).generatePdf();
             response.setContentLength(bais.size());
             bais.writeTo(response.getOutputStream());
             bais.flush();
@@ -226,7 +232,16 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                 com.itextpdf.text.Image img = com.itextpdf.text.Image.getInstance(IOUtils.toByteArray(is));
                 ImageData data = ImageDataFactory.create(img.getOriginalData());
                 Image imgData = new Image(data);
-                doc.add(imgData);
+                Div div = new Div();
+                Paragraph p2 = new Paragraph("test paragraph2");
+                com.itextpdf.kernel.colors.Color myColor = new DeviceRgb(0, 128, 0);
+                imgData.setHeight(75);
+                imgData.setPadding(20);
+                div.setBackgroundColor(myColor);
+                div.add(imgData);
+                doc.add(div);
+                doc.add(p2);
+
             }catch (Exception e){
                 log.error("Error retrieving image data: ", e);
             }
@@ -248,88 +263,6 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         }
         return Woff2Converter.convert(fontData);
 
-    }
-    public class HeaderFooter extends PdfPageEventHelper {
-        int pagenumber=0;
-        String footerTxtLine1="", footerTxtLine2, gradeLevel;
-        ResourceResolver rr;
-        com.itextpdf.text.Image header = null;
-        public HeaderFooter(String footer[], String _gradeLevel, ResourceResolver _rr){
-            footerTxtLine1= footer[0];
-            footerTxtLine2= footer[1];
-            gradeLevel= _gradeLevel;
-            rr = _rr;
-            header = loadHeaderImage(_gradeLevel, rr);
-        }
-
-        private com.itextpdf.text.Image loadHeaderImage(String _gradeLevel, ResourceResolver rr2) {
-            String imagePath = "/content/dam/girlscouts-vtkcontent/Print-PDF/"+ gradeLevel +"/topBanner.jpg";
-            log.debug("Loading image from crx at {}",imagePath);
-            try{
-                Resource assetRes = rr.resolve(imagePath);
-                if(assetRes!= null) {
-                    Asset asset = assetRes.adaptTo(Asset.class);
-                    Rendition original = asset.getOriginal();
-                    InputStream is = original.getStream();
-                    com.itextpdf.text.Image img = com.itextpdf.text.Image.getInstance(IOUtils.toByteArray(is));
-                    img.setBorder(com.itextpdf.text.Image.NO_BORDER);
-                    return img;
-                }
-            }catch(Exception e2) {
-                log.error("Exception thrown loading {}",imagePath, e2);
-            }
-            return null;
-        }
-
-        @Override
-        public void onStartPage(com.itextpdf.text.pdf.PdfWriter writer, com.itextpdf.text.Document document) {
-            pagenumber++;
-
-            try{
-                PdfPTable tabHead = new PdfPTable(1);
-
-                tabHead.setWidthPercentage(100);
-                tabHead.setSpacingBefore(0f);
-                tabHead.setSpacingAfter(0f);
-
-                tabHead.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
-                PdfPCell cell;
-                cell = new PdfPCell();
-                cell.setBorder(PdfPCell.NO_BORDER);
-                tabHead.addCell(cell);
-                if(header != null) {
-                    tabHead.addCell(header);
-                }
-                document.add( tabHead);
-                LineSeparator separator = new LineSeparator();
-                Chunk linebreak = new Chunk(separator);
-                separator.setLineColor(BaseColor.BLACK);
-
-                Font ffont = new Font();
-                ffont.setSize(7);
-                ColumnText.showTextAligned(writer.getDirectContent(),
-                        Element.ALIGN_CENTER,  new Phrase(linebreak),
-                        (document.left() + document.right()) / 2, document.bottom() - 8, 0);
-
-                ColumnText.showTextAligned(writer.getDirectContent(),
-                        Element.ALIGN_RIGHT , new Phrase(String.format("page %d", pagenumber), ffont),
-                        document.right(), document.bottom() - 38, 0);
-                ColumnText.showTextAligned(writer.getDirectContent(),
-                        Element.ALIGN_LEFT, new Paragraph(footerTxtLine1, ffont),
-                        document.left() , document.bottom() - 18, 0);
-
-                ColumnText.showTextAligned(writer.getDirectContent(),
-                        Element.ALIGN_LEFT, new Phrase(footerTxtLine2, ffont),
-                        document.left() , document.bottom() - 28, 0);
-            }catch(Exception e){
-                log.error("Exception occured: ", e);
-            }
-
-        }
-
-        @Override
-        public void onEndPage(com.itextpdf.text.pdf.PdfWriter writer, com.itextpdf.text.Document document) {
-        }
     }
 
 }
