@@ -34,7 +34,7 @@
  </div>
 <script>
     $(document).ready(function(){
-        var placeholder = $(".event-search-facets").find("input").attr("placeholder");
+        var placeholder = $(".event-search-facets").find("input").attr("placeholder", "Search for Events");
         var lastSearch = $(".event-search-facets").find("input").attr("searchHolder");
         if(lastSearch !== ""){
             $('#mainContent .event-search-facets .search-box .searchField').val(lastSearch);
