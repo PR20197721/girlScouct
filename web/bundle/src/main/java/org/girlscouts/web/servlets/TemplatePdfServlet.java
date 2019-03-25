@@ -12,6 +12,7 @@ import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.element.Div;
+import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfDocumentInfo;
@@ -31,6 +32,7 @@ import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.font.*;
+import com.itextpdf.text.List;
 /*import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -68,7 +70,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
+import static com.itextpdf.html2pdf.HtmlConverter.convertToElements;
 import static org.girlscouts.common.pdf.BadgeGenerator.BOLD_FONT_LOCATION;
 import static org.girlscouts.common.pdf.BadgeGenerator.FONT_LOCATION;
 
@@ -125,36 +129,6 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         }finally {
             resolverLocal.remove();
         }
-
-
-        //Verify user email request
-       /* Resource r = request.getResource();
-        ResourceResolver resourceResolver = request.getResourceResolver();
-        response.getOutputStream();
-        PdfWriter writer  = null;
-        Document document = new Document(PageSize.A4, 20f, 20f, 20f, 50f);
-        try{
-            log.debug("Getting instance of PdfWriter");
-            writer = PdfWriter.getInstance(document, response.getOutputStream());
-            String[] footer = {"test"};
-            Resource rsrc = resourceResolver.resolve(request.getResource().getPath().replaceAll("/jcr:content",""));
-            Page homepage = rsrc.adaptTo(Page.class).getAbsoluteParent(2);
-            Node home = homepage.getContentResource().adaptTo(Node.class);
-            String path = "";
-            try{
-                if(home.hasNode("header/logo/regular")){
-                    path = home.getNode("header/logo/regular").getProperty("fileReference").getString();
-                }
-            }catch (Exception e){
-                path = "/content/dam/girlscouts-gsusa/images/logo/logo.png.transform/cq5dam.web.1280.1280/img.png";
-            }
-            HeaderFooter event=  new HeaderFooter(footer, path, resourceResolver);
-            writer.setPageEvent(event);
-        }catch(Exception e){
-            log.error("Exception occured: ", e);
-        }
-        log.error(r.getPath());
-        log.error("TemplatePdfError GET");*/
 
     }
 
@@ -217,11 +191,20 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
 
         props.setImmediateFlush(false);
         props.setFontProvider(fontFactory);
-        Document doc = HtmlConverter.convertToDocument(new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8)) , pdfDoc, props);
+        Document doc = HtmlConverter.convertToDocument(new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)) , pdfDoc, props);
         addImage(doc, resourceResolver, resourceResolver.resolve(path));
+        addContent(doc, html);
         doc.close();
 
         return doc;
+    }
+    public void addContent(Document doc, String html){
+        try{
+
+        }catch (Exception e){
+
+        }
+
     }
     public void addImage(Document doc, ResourceResolver rr, Resource assetRes){
         if(assetRes!= null) {
@@ -236,7 +219,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                 Paragraph p2 = new Paragraph("test paragraph2");
                 com.itextpdf.kernel.colors.Color myColor = new DeviceRgb(0, 128, 0);
                 imgData.setHeight(75);
-                imgData.setPadding(20);
+                div.setPadding(10);
                 div.setBackgroundColor(myColor);
                 div.add(imgData);
                 doc.add(div);
