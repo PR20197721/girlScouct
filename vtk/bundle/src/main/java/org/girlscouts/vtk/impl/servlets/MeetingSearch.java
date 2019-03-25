@@ -78,10 +78,24 @@ public class MeetingSearch extends SlingAllMethodsServlet{
 				
 				if( search.getKeywords() != null &&  !"".equals( search.getKeywords().trim() ) ){
 					String keywords= search.getKeywords().replace(" ", " OR ").replace("'","''");
+					String keywordString = "";
 					if(keywords.length() >= 5){
-						sql+= " and contains( *, '*"+ keywords +"*')  ";
+						keywordString = " and contains( *, '*"+ keywords +"*')  ";
+						if(keywordString.contains("/")){
+							keywordString = keywordString.replaceAll("/", "?");
+						}
+						if(keywordString.contains("%")){
+							keywordString = keywordString.replaceAll("%", "?");
+						}
+						if(keywordString.contains("_")){
+							keywordString = keywordString.replaceAll("_", "?");
+						}
+						if(keywordString.contains("-")){
+							keywordString = keywordString.replaceAll("-", "?");
+						}
+						sql += keywordString;
 					}else{
-						sql+= " and contains( *, '"+ keywords +"')  ";
+						sql += " and contains( *, '"+ keywords +"')  ";
 					}
 				}
 	
