@@ -7,15 +7,6 @@ if [ -z $VERSION ]; then
     VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 fi
 
-SERVER_LIST=(52.73.0.56:4503 author-girlscouts-stage-aem61.adobecqms.net:80)
+curl -u 'admin:M[R#EzeaLb!94a' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/gsactivities/girlscouts-gsactivities-app/$VERSION/girlscouts-gsactivities-app-$VERSION.zip" -F name="girlscouts-gsactivities-app" -F force=true -F install=true http://23.22.139.200:4502/crx/packmgr/service.jsp
 
-for server in ${SERVER_LIST[@]}; do
-	echo "Trying server $server"
-	/usr/bin/nc -z `printf $server | sed -e 's/\([^:]*\):\([0-9]*\)/\1 \2/'`
-	if [ $? -ne 0 ]; then
-		echo "Server $server is down. Skipping..."
-	else
-		echo "Deploying to http://$server"
-		curl -u "admin:M[R#Ezea'"'`Lb!94a' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/gsactivities/girlscouts-gsactivities-app/$VERSION/girlscouts-gsactivities-app-$VERSION.zip" -F name="girlscouts-gsactivities-app" -F force=true -F install=true http://$server/crx/packmgr/service.jsp
-	fi
-done
+curl -u 'admin:M[R#EzeaLb!94a' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/gsactivities/girlscouts-gsactivities-app/$VERSION/girlscouts-gsactivities-app-$VERSION.zip" -F name="girlscouts-gsactivities-app" -F force=true -F install=true http://34.237.4.28:4503/crx/packmgr/service.jsp
