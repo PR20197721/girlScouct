@@ -1,4 +1,4 @@
-package org.girlscouts.web.servlets;
+package org.girlscouts.common.pdf;
 
 import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.api.Rendition;
@@ -9,7 +9,6 @@ import com.itextpdf.html2pdf.attach.ITagWorkerFactory;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 
-import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.IElement;
@@ -17,21 +16,11 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfDocumentInfo;
 import com.itextpdf.kernel.pdf.WriterProperties;
-import com.itextpdf.kernel.pdf.colorspace.PdfColorSpace;
 import com.itextpdf.layout.font.FontProvider;
 import com.itextpdf.layout.font.FontSet;
-import com.itextpdf.html2pdf.ConverterProperties;
-import com.itextpdf.html2pdf.HtmlConverter;
-import com.itextpdf.html2pdf.attach.ITagWorkerFactory;
-import com.itextpdf.html2pdf.html.AttributeConstants;
-import com.itextpdf.html2pdf.resolver.font.DefaultFontProvider;
-import com.itextpdf.io.font.FontProgram;
-import com.itextpdf.io.font.FontProgramFactory;
 import com.itextpdf.io.font.woff2.Woff2Converter;
-import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.font.*;
 /*import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -56,9 +45,6 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.settings.SlingSettingsService;
-import org.girlscouts.common.pdf.BadgeGenerator;
-import org.girlscouts.common.pdf.GSTagWorkerFactory;
-import org.girlscouts.common.servlets.BadgePDFGeneratorServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,8 +55,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.LinkedList;
 
 import static com.itextpdf.html2pdf.HtmlConverter.convertToElements;
 import static org.girlscouts.common.pdf.BadgeGenerator.BOLD_FONT_LOCATION;
@@ -79,9 +63,9 @@ import static org.girlscouts.common.pdf.BadgeGenerator.FONT_LOCATION;
 @SlingServlet(
         label = "Girl Scouts Template Site PDF Servlet", description = "Generate PDF from Template site page", paths = {},
         methods = { "GET", "POST" }, // Ignored if paths is set - Defaults to POST if not specified
-        resourceTypes = { "girlscouts/components/page" }, // Ignored if
+        resourceTypes = { "girlscouts-common/servlet/page-pdf" }, // Ignored if
         // paths is set
-        selectors = {"pdfrender"}, // Ignored if paths is set
+        selectors = {}, // Ignored if paths is set
         extensions = { "html", "htm" }  // Ignored if paths is set
 )
 public class TemplatePdfServlet extends SlingAllMethodsServlet implements OptingServlet {
@@ -93,9 +77,34 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
             throws ServletException, IOException {
 
-        //Verify user email request
-        log.error("TemplatePdfError POST");
-        doGet(request,response);
+        try {
+            response.setContentType("application/pdf");
+            resolverLocal.set(request.getResourceResolver());
+            ByteArrayOutputStream bais = new ByteArrayOutputStream();
+
+            StringBuilder sb = new StringBuilder();
+            Resource rsrc = resolverLocal.get().resolve(request.getParameter("path").replaceAll("/jcr:content",""));
+            Page homepage = rsrc.adaptTo(Page.class).getAbsoluteParent(2);
+            Node home = homepage.getContentResource().adaptTo(Node.class);
+            //Get header path
+            String path = "";
+            try{
+                if(home.hasNode("header/logo/regular")){
+                    path = home.getNode("header/logo/regular").getProperty("fileReference").getString();
+                }
+            }catch (Exception e){
+                path = "/content/dam/girlscouts-gsusa/images/logo/logo.png.transform/cq5dam.web.1280.1280/img.png";
+            }
+            buildHtml(sb, request, resolverLocal.get());
+            generatePdf(bais, sb.toString(), path );
+            // new BadgeGenerator(request.getParameter("html"), bais).generatePdf();
+            response.setContentLength(bais.size());
+            bais.writeTo(response.getOutputStream());
+            bais.flush();
+            response.flushBuffer();
+        }finally {
+            resolverLocal.remove();
+        }
 
     }
     public static ThreadLocal<ResourceResolver> resolverLocal = new ThreadLocal<>();
@@ -108,7 +117,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
             ByteArrayOutputStream bais = new ByteArrayOutputStream();
 
             StringBuilder sb = new StringBuilder();
-            Resource rsrc = resolverLocal.get().resolve(request.getResource().getPath().replaceAll("/jcr:content",""));
+            Resource rsrc = resolverLocal.get().resolve(request.getParameter("path").replaceAll("/jcr:content",""));
             Page homepage = rsrc.adaptTo(Page.class).getAbsoluteParent(2);
             Node home = homepage.getContentResource().adaptTo(Node.class);
             //Get header path
@@ -145,7 +154,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
     }
     public void buildHtml(StringBuilder sb, SlingHttpServletRequest request, ResourceResolver rr) {
         sb.append("<strong>Rendered html:</strong></br>");
-        sb.append(request.getParameter("pageHtml"));
+       // sb.append(request.getParameter("pageHtml"));
         sb.append("<strong>End rendered html:</strong></br>");
         sb.append("<span>test</span>");
         sb.append("<br/>");
