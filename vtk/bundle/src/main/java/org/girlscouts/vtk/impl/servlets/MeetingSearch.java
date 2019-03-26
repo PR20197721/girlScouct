@@ -1,5 +1,7 @@
 package org.girlscouts.vtk.impl.servlets;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.jcr.Session;
 import javax.jcr.Value;
@@ -78,10 +80,34 @@ public class MeetingSearch extends SlingAllMethodsServlet{
 				
 				if( search.getKeywords() != null &&  !"".equals( search.getKeywords().trim() ) ){
 					String keywords= search.getKeywords().replace(" ", " OR ").replace("'","''");
+					String keywordString = "";
 					if(keywords.length() >= 5){
-						sql+= " and contains( *, '*"+ keywords +"*')  ";
+						//regex to check for illegal sql2 characters
+						Pattern p = Pattern.compile("[\\Q+-&|!(){}[]^\"~*?:\\/\\E]");
+						Matcher m = p.matcher(keywords);
+						//If illegal characters contained
+						if(m.find()){
+							//Replace illegal character with space, split keywords on the space.
+							keywords = keywords.replaceAll("[\\Q+-&|!(){}[]^\"~*?:\\/\\E]", " ");
+							keywordString = "and (";
+							int count = 0;
+							//Add an individual contains for each word separated by the illegal character
+							for(String searchWord : keywords.split(" ")){
+								keywordString = keywordString + "contains( *, '"+ searchWord +"')";
+								if(count != keywords.split(" ").length-1){
+									keywordString = keywordString + " or ";
+								} else{
+									keywordString = keywordString + ")";
+								}
+								count++;
+							}
+						//No illegal characters
+						}else{
+							keywordString = " and contains( *, '*"+ keywords +"*')  ";
+						}
+						sql += keywordString;
 					}else{
-						sql+= " and contains( *, '"+ keywords +"')  ";
+						sql += " and contains( *, '"+ keywords +"')  ";
 					}
 				}
 	
