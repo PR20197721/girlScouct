@@ -1,3 +1,7 @@
+div.image.right,div.image.left,div.image.center{
+    width:100%;
+}
+
 div.image.center div.img-wrapper {
     display: block;
     margin: 0;
