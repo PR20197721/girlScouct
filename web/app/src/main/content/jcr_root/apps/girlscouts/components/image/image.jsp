@@ -20,7 +20,8 @@
     com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
 %>
 <%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/girlscouts/components/global.jsp"%><%
+<%@include file="/apps/girlscouts/components/global.jsp"%>
+<cq:includeClientLib categories="apps.girlscouts.components.image" /><%
 	String divId = "cq-image-jsp-" + resource.getPath();
 
 	String styleImage = "";
@@ -46,7 +47,6 @@
 	
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
 		styleImage = "padding: " + pTop + "px " + pRight + "px " + pBottom + "px " + pLeft + "px;";
-		styleImage += "margin: auto;";
 	}
 	
 	if (!"0".equals(imageWidth)) {
@@ -56,7 +56,7 @@
 	}
 	styleImage += "line-height: 1.15rem;";
 	
-	%><div id="<%= divId %>" style="<%= styleImage %>"><%
+	%><div class="img-wrapper" id="<%= divId %>" style="<%= styleImage %>"><%
 	    Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
 	    
