@@ -1,5 +1,6 @@
 div.image.right,div.image.left,div.image.center{
     width:100%;
+    float:none !important;
 }
 
 div.image.center div.img-wrapper {
