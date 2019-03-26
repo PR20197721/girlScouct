@@ -95,6 +95,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
 
         //Verify user email request
         log.error("TemplatePdfError POST");
+        doGet(request,response);
 
     }
     public static ThreadLocal<ResourceResolver> resolverLocal = new ThreadLocal<>();
@@ -143,7 +144,9 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         return true;
     }
     public void buildHtml(StringBuilder sb, SlingHttpServletRequest request, ResourceResolver rr) {
-
+        sb.append("<strong>Rendered html:</strong></br>");
+        sb.append(request.getParameter("pageHtml"));
+        sb.append("<strong>End rendered html:</strong></br>");
         sb.append("<span>test</span>");
         sb.append("<br/>");
         sb.append("<div>This is a test</div>");
@@ -204,7 +207,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                 doc.add((Paragraph)el);
             }
         }catch (Exception e){
-
+            log.error("Error adding html to pdf document: ", e);
         }
 
     }

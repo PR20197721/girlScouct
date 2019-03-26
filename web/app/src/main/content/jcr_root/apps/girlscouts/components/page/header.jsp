@@ -42,6 +42,7 @@
 				        <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
 				      	<%} %>
 	      			</div>
+	      			<cq:include path="<%= headerPath + "/pdf-print" %>" resourceType="girlscouts/components/pdf-print" />
     			</div>
 	    		<cq:include script="mobile-cta.jsp"/>
 	    		<div class="show-for-small small-24 columns topMessage alt">
