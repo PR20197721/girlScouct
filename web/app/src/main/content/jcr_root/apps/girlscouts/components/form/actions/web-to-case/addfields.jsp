@@ -25,13 +25,13 @@
                    java.util.HashMap,
                    com.day.cq.wcm.foundation.forms.FormsConstants,
                    com.day.cq.wcm.foundation.forms.FormResourceEdit,
-                   org.girlscouts.vtk.helpers.ConfigManager"%><%
+                   org.girlscouts.web.osgi.component.*,"%><%
 %><%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
     //get councilmapping in vtk system
 		String councilCode = "";
-		ConfigManager configs=sling.getService(ConfigManager.class);
-		String[] mappings = configs.getCouncilMapping();
+        final GirlscoutsVtkConfigProvider configManager = sling.getService(GirlscoutsVtkConfigProvider.class);
+		String[] mappings = configManager.getCouncilMapping();
 		HashMap<String,String> councilMap = new HashMap<String, String>();
 		 if (mappings != null) {
 		  for (int i = 0; i < mappings.length; i++) {

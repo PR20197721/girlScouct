@@ -11,8 +11,6 @@
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
 	com.day.cq.dam.api.Asset,
-	org.girlscouts.vtk.utils.VtkUtil,
-	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
 	java.text.SimpleDateFormat,
 	java.util.Calendar,

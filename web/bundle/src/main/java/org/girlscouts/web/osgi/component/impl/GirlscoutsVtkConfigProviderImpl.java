@@ -10,6 +10,8 @@ import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Dictionary;
+
 @Component(service = {
 		GirlscoutsVtkConfigProvider.class }, immediate = true, name = "org.girlscouts.common.osgi.component.impl.GirlscoutsVtkConfigProvider")
 @Designate(ocd = GirlscoutsVtkConfigProviderConfiguration.class)
@@ -37,7 +39,13 @@ public class GirlscoutsVtkConfigProviderImpl implements GirlscoutsVtkConfigProvi
 
 	}
 
-	@Deactivate
+    @Override
+    public String[] getCouncilMapping() {
+        Dictionary configs = context.getProperties();
+        return (String[]) configs.get("councilMapping");
+    }
+
+    @Deactivate
 	private void deactivate(ComponentContext context) {
 		log.info("Girl Scouts VTK Config Provider Deactivated.");
 	}
