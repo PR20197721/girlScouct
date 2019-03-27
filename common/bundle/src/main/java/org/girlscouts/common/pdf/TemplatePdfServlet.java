@@ -10,6 +10,7 @@ import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 
 import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.layout.Style;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Paragraph;
@@ -29,6 +30,9 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;*/
 import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -62,7 +66,7 @@ import static org.girlscouts.common.pdf.BadgeGenerator.FONT_LOCATION;
 
 @SlingServlet(
         label = "Girl Scouts Template Site PDF Servlet", description = "Generate PDF from Template site page", paths = {},
-        methods = { "GET", "POST" }, // Ignored if paths is set - Defaults to POST if not specified
+        methods = {"POST"}, // Ignored if paths is set - Defaults to POST if not specified
         resourceTypes = { "girlscouts-common/servlet/page-pdf" }, // Ignored if
         // paths is set
         selectors = {}, // Ignored if paths is set
@@ -72,6 +76,8 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
     private static final Logger log = LoggerFactory.getLogger(TemplatePdfServlet.class);
     @Reference
     private transient SlingSettingsService settingsService;
+
+    public static ThreadLocal<ResourceResolver> resolverLocal = new ThreadLocal<>();
 
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
@@ -95,42 +101,15 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
             }catch (Exception e){
                 path = "/content/dam/girlscouts-gsusa/images/logo/logo.png.transform/cq5dam.web.1280.1280/img.png";
             }
-            buildHtml(sb, request, resolverLocal.get());
-            generatePdf(bais, sb.toString(), path );
-            // new BadgeGenerator(request.getParameter("html"), bais).generatePdf();
-            response.setContentLength(bais.size());
-            bais.writeTo(response.getOutputStream());
-            bais.flush();
-            response.flushBuffer();
-        }finally {
-            resolverLocal.remove();
-        }
-
-    }
-    public static ThreadLocal<ResourceResolver> resolverLocal = new ThreadLocal<>();
-    @Override
-    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            response.setContentType("application/pdf");
-            resolverLocal.set(request.getResourceResolver());
-            ByteArrayOutputStream bais = new ByteArrayOutputStream();
-
-            StringBuilder sb = new StringBuilder();
-            Resource rsrc = resolverLocal.get().resolve(request.getParameter("path").replaceAll("/jcr:content",""));
-            Page homepage = rsrc.adaptTo(Page.class).getAbsoluteParent(2);
-            Node home = homepage.getContentResource().adaptTo(Node.class);
-            //Get header path
-            String path = "";
+            String title = "";
             try{
-                if(home.hasNode("header/logo/regular")){
-                    path = home.getNode("header/logo/regular").getProperty("fileReference").getString();
-                }
-            }catch (Exception e){
-                path = "/content/dam/girlscouts-gsusa/images/logo/logo.png.transform/cq5dam.web.1280.1280/img.png";
+                title = request.getParameter("title") != null ? request.getParameter("title") : homepage.getTitle();
+            }catch(Exception e){
+                log.error("Error parsing title, using homepage title: ", e);
+                title = homepage.getTitle();
             }
             buildHtml(sb, request, resolverLocal.get());
-            generatePdf(bais, sb.toString(), path );
+            generatePdf(bais, sb.toString(), path, title );
             // new BadgeGenerator(request.getParameter("html"), bais).generatePdf();
             response.setContentLength(bais.size());
             bais.writeTo(response.getOutputStream());
@@ -161,7 +140,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         sb.append("<div>This is a test</div>");
     }
 
-    public Document generatePdf(ByteArrayOutputStream outputStream, String html, String path) throws IOException {
+    public Document generatePdf(ByteArrayOutputStream outputStream, String html, String path, String title) throws IOException {
 
         WriterProperties writerProperties = new WriterProperties();
 
@@ -205,10 +184,21 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         props.setFontProvider(fontFactory);
         Document doc = HtmlConverter.convertToDocument(new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)) , pdfDoc, props);
         addImage(doc, resourceResolver, resourceResolver.resolve(path));
+        addTitle(doc, title);
         addContent(doc, html);
         doc.close();
 
         return doc;
+    }
+    public void addTitle(Document doc, String title){
+        Paragraph p = new Paragraph(title.toUpperCase());
+        Style style = new Style();
+        style.setFontSize(25);
+        style.setBold();
+        style.setUnderline();
+        p.addStyle(style);
+        p.setTextAlignment(TextAlignment.CENTER);
+        doc.add(p);
     }
     public void addContent(Document doc, String html){
         try{
@@ -230,14 +220,12 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                 ImageData data = ImageDataFactory.create(img.getOriginalData());
                 Image imgData = new Image(data);
                 Div div = new Div();
-                Paragraph p2 = new Paragraph("test paragraph2");
                 com.itextpdf.kernel.colors.Color myColor = new DeviceRgb(0, 128, 0);
                 imgData.setHeight(75);
                 div.setPadding(10);
                 div.setBackgroundColor(myColor);
                 div.add(imgData);
                 doc.add(div);
-                doc.add(p2);
 
             }catch (Exception e){
                 log.error("Error retrieving image data: ", e);
