@@ -1,11 +1,5 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode,
-                org.girlscouts.vtk.helpers.ConfigManager,
-                org.girlscouts.vtk.helpers.CouncilMapper,
-                java.text.SimpleDateFormat,java.util.*,
-                org.girlscouts.vtk.auth.models.ApiConfig,
-                org.girlscouts.vtk.models.*,
-                org.girlscouts.vtk.dao.*,
-                org.girlscouts.vtk.ejb.*" %>
+                java.text.SimpleDateFormat,java.util.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->

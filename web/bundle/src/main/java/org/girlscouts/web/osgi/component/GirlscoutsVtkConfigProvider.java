@@ -4,4 +4,6 @@ public interface GirlscoutsVtkConfigProvider {
 
 	public String getConfig(String property);
 
+    String[] getCouncilMapping();
+
 }

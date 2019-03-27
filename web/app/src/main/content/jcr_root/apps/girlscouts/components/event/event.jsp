@@ -1,7 +1,5 @@
 <%@ page
-	import="java.text.Format,
-	java.text.ParseException,
-	java.lang.Exception,
+	import="java.lang.Exception,
 	java.util.Map,
 	java.util.HashMap,
 	java.util.List,
@@ -9,13 +7,10 @@
 	java.util.Iterator,
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
-	com.day.cq.dam.api.Asset,
 	com.day.cq.commons.Doctype,
     com.day.cq.wcm.api.components.DropTarget,
-    com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder,
-	org.girlscouts.vtk.utils.VtkUtil,
-	org.girlscouts.vtk.models.User,
-	javax.servlet.http.HttpSession
+    com.day.cq.wcm.foundation.Image,
+    org.girlscouts.common.events.search.*
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
