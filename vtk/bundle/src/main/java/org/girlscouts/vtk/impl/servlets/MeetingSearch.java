@@ -103,7 +103,8 @@ public class MeetingSearch extends SlingAllMethodsServlet{
 							}
 						//No illegal characters
 						}else{
-							keywordString = " and contains( *, '*"+ keywords +"*')  ";
+							keywordString = " and (contains( *, '*"+ keywords +"*') or contains( *, '* "+ keywords +" *'))";
+
 						}
 						sql += keywordString;
 					}else{
