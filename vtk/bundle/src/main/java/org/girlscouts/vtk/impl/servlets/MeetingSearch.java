@@ -1,5 +1,7 @@
 package org.girlscouts.vtk.impl.servlets;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.jcr.Session;
 import javax.jcr.Value;
@@ -19,6 +21,8 @@ import org.girlscouts.vtk.utils.VtkUtil;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @Service
@@ -28,7 +32,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 //EX: http://localhost:4503/bin/vtk/v1/meetingSearch?search={%22keywords%22:%22Award%22,%22year%22:2017,%22meetingPlanType%22:%22Journey%22,%22level%22:[%22daisy%22,%22Junior%22],%22categoryTags%22:[%22Its_Your_Story_-_Tell_It,%22]}
 public class MeetingSearch extends SlingAllMethodsServlet{
-	
+
+	private static Logger log = LoggerFactory.getLogger(MeetingSearch.class);
+
 	private static final long serialVersionUID = 1L;
 	
 	@Reference
@@ -73,24 +79,53 @@ public class MeetingSearch extends SlingAllMethodsServlet{
 				}
 				
 				if( search.getKeywords() != null &&  !"".equals( search.getKeywords().trim() ) ){
-					String keywords= search.getKeywords().replace(" ", " OR ").replace("'","''"); 
-					sql+= " and contains( *, '"+ keywords +"')  ";
-				
+					String keywords= search.getKeywords().replace(" ", " OR ").replace("'","''");
+					String keywordString = "";
+					if(keywords.length() >= 5){
+						//regex to check for illegal sql2 characters
+						Pattern p = Pattern.compile("[\\Q+-&|!(){}[]^\"~*?:\\/\\E]");
+						Matcher m = p.matcher(keywords);
+						//If illegal characters contained
+						if(m.find()){
+							//Replace illegal character with space, split keywords on the space.
+							keywords = keywords.replaceAll("[\\Q+-&|!(){}[]^\"~*?:\\/\\E]", " ");
+							keywordString = "and (";
+							int count = 0;
+							//Add an individual contains for each word separated by the illegal character
+							for(String searchWord : keywords.split(" ")){
+								keywordString = keywordString + "contains( *, '"+ searchWord +"')";
+								if(count != keywords.split(" ").length-1){
+									keywordString = keywordString + " or ";
+								} else{
+									keywordString = keywordString + ")";
+								}
+								count++;
+							}
+						//No illegal characters
+						}else{
+							keywordString = " and contains( *, '*"+ keywords +"*')  ";
+						}
+						sql += keywordString;
+					}else{
+						sql += " and contains( *, '"+ keywords +"')  ";
+					}
 				}
 	
 						javax.jcr.query.Query q = qm.createQuery(sql,
 								javax.jcr.query.Query.JCR_SQL2);
 						QueryResult result = q.execute();
 						for (RowIterator it = result.getRows(); it.hasNext();) {
-							Row r = it.nextRow();
-							
-							Value excerpt = r.getValue("jcr:path");
-							String path = excerpt.getString();
-
-							Meeting meeting = new Meeting();
-							meeting.setId( r.getValue("id").getString() );
-							meeting.setName(r.getValue("name").getString() );
-							meetings.add( meeting );
+							try{
+								Row r = it.nextRow();
+								Value excerpt = r.getValue("jcr:path");
+								String path = excerpt.getString();
+								Meeting meeting = new Meeting();
+								meeting.setId(r.getValue("id").getString());
+								meeting.setName(r.getValue("name").getString() );
+								meetings.add( meeting );
+							}catch (Exception e){
+								log.error("Error parsing search result: ", e);
+							}
 						}
 						
 						mapper.setSerializationInclusion(Include.NON_NULL);

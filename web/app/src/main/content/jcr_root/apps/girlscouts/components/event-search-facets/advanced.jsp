@@ -20,7 +20,7 @@
 	<cq:include path="content/left/par/event-search" resourceType="girlscouts/components/event-search" />
 <%
     }
-
+    String returnAction = currentPage.getPath()+".html";
     String formAction = currentPage.getPath()+".advanced.html";
     request.setAttribute("formAction", formAction);
     Set <String> regions = new HashSet<String>();
@@ -76,6 +76,8 @@
 	    List<String> results = srchInfo.getResults();
 	    String m = request.getParameter("m"); 
 	    String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
+	    String placeHold = slingRequest.getParameter("search") != null ? slingRequest.getParameter("search") : "Keywords";
+	    String placeholder = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : placeHold;
    
 %>
 
@@ -109,7 +111,7 @@ function toggleWhiteArrow() {
 
 	   <div class="small-24 medium-6 large-7 columns">
 				<div class="title"> By Keyword </div>
-				<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
+				<input id="keywordInput" type="text" name="q" placeholder="<%=placeholder%>" class="searchField" style="width:140px;height:25px;" />
 		</div>
 		<div class="small-12 medium-6 large-6 event-region columns">
 			<div class="title"> Region </div>
@@ -177,6 +179,7 @@ function toggleWhiteArrow() {
 	</div>
 
 	<div class="searchButtonRow baseDiv programLevel">
+            <a id="smplSearch"style="width: 180px; margin: 0; height: 43px; padding-top: 10.5px; padding-right: 15px;"href="<%=returnAction%>" >Simple Search</a>
 	    	<input type="submit" value="Search" id="sub" class="form-btn advancedSearchButton"/>
 	</div>
   
@@ -184,7 +187,26 @@ function toggleWhiteArrow() {
 
 </form>
 <script>
+$(document).ready(function(){
+    var placeholder = $("#keywordInput").attr("placeholder");
+    if(!placeholder.includes("Keywords")){
+       $("#keywordInput").val(placeholder);
+    }
 
+});
+$("#smplSearch").on('click', function(){
+    var ref = $("#smplSearch").attr("href");
+    if($(".event-search-facets").find("input").val() !== ""){
+        if(!ref.includes("?search=")){
+            ref = ref + "?search=" + $(".event-search-facets").find("input").val();
+        }else{
+            ref = ref.replace(ref.substring(ref.indexOf("?search=")), "?search=" + $(".event-search-facets").find("input").val());
+        }
+        $("#smplSearch").attr("href", ref);
+    }
+
+
+});
 
 $(function() {
 

@@ -4,17 +4,9 @@ VERSION=$1
 
 # Get the current version if version number is not specified
 if [ -z $VERSION ]; then
-    VERSION=`head -1 ../VERSIONS.txt | cut -d ' ' -f 1`
+    VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 fi
 
-SERVER_LIST=(34.237.161.42:4503 34.201.89.117:4502)
-
-for server in ${SERVER_LIST[@]}; do
-	echo "Trying server $server"
-	/usr/bin/nc -z `printf $server | sed -e 's/\([^:]*\):\([0-9]*\)/\1 \2/'`
-	if [ $? -ne 0 ]; then
-		echo "Server $server is down. Skipping..."
-	else
-		curl -u "admin:cH*t3uzEsT" -F file=@"$HOME/.m2/repository/org/girlscouts/aem/vtk/girlscouts-vtk-app/$VERSION/girlscouts-vtk-app-$VERSION.zip" -F name="girlscouts-vtk-app" -F force=true -F install=true http://$server/crx/packmgr/service.jsp
-	fi
-done
+SERVER_LIST=(34.237.4.28:4503 23.22.139.200:4502)
+curl -u 'admin:cH*t3uzEsT' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/vtk/girlscouts-vtk-app/$VERSION/girlscouts-vtk-app-$VERSION.zip" -F name="girlscouts-vtk-app" -F force=true -F install=true http://34.201.89.117:4502/crx/packmgr/service.jsp
+curl -u 'admin:cH*t3uzEsT' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/vtk/girlscouts-vtk-app/$VERSION/girlscouts-vtk-app-$VERSION.zip" -F name="girlscouts-vtk-app" -F force=true -F install=true http://34.237.161.42:4503/crx/packmgr/service.jsp

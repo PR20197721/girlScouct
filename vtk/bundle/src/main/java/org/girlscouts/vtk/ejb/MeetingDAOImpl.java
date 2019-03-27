@@ -1,17 +1,20 @@
 package org.girlscouts.vtk.ejb;
 
 import java.io.InputStream;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
 
-import javax.jcr.LoginException;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
-import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
@@ -50,15 +53,14 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
-import org.girlscouts.vtk.models.Meeting2;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Note;
 import org.girlscouts.vtk.models.SearchTag;
+import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
-import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.bean_resource;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
@@ -3230,6 +3232,48 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 		return outdoorMeetings;
 	}
 
+	//get all meetings with at least 1 global agenda
+		public Set<String> getGlobalMeetings(User user, Troop troop) throws IllegalAccessException{
+			if (user != null
+					&& !userUtil.hasPermission(troop,
+							Permission.PERMISSION_LOGIN_ID))
+				throw new IllegalAccessException();
+			Set<String> globalMeetings = new java.util.HashSet();
+			Session session = null;
+			ResourceResolver rr= null;
+			try {
+				rr = sessionFactory.getResourceResolver();
+				session = rr.adaptTo(Session.class);
+					
+				String sql ="select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and global=true and ocm_classname='org.girlscouts.vtk.models.Activity'";		
+				javax.jcr.query.QueryManager qm = session.getWorkspace()
+						.getQueryManager();
+				javax.jcr.query.Query q = qm.createQuery(sql,
+						javax.jcr.query.Query.SQL);
+				QueryResult result = q.execute();
+
+				for (RowIterator it = result.getRows(); it.hasNext();) {
+					Row r = it.nextRow();
+					String path =r.getPath(); 
+					String pathElements[] = path.split("/");
+					if(pathElements!=null && pathElements.length>5){				
+						globalMeetings.add( pathElements[6] );
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if( rr!=null )
+						sessionFactory.closeResourceResolver( rr );
+					if (session != null)
+						session.logout();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			return globalMeetings;
+		}
 	
 	
 		public List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException{

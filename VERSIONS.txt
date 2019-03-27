@@ -1,2 +1,0 @@
-3.0-SNAPSHOT 03/05/16
-- AEM 6.1 upgrade WIP

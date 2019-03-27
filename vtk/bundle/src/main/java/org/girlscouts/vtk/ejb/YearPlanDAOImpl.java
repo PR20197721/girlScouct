@@ -254,16 +254,23 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             		 forActivities:for (Resource r_activities : meetingActivitiesResource) {
             			 ValueMap activityValueMap = r_activities.getValueMap();
             			 if( activityValueMap ==null ) continue;
-                		 String isOutdoorAvailable = activityValueMap.get("outdoor") ==null ? null : activityValueMap.get("outdoor").toString();
-                		 if( isOutdoorAvailable!=null && isOutdoorAvailable.equals("true") ) {
-                			Activity activity = new Activity();
-                			activity.setOutdoor(true);
-                			java.util.List<Activity> activities = new java.util.ArrayList();
-                			activities.add(activity);
-                			meetingInfo.setActivities( activities );
-                			masterMeeting.setAnyOutdoorActivityInMeetingAvailable(true);
-                			break forActivities;
-                		 }		 
+                		 String isOutdoorAvailable = activityValueMap.get("outdoor") ==null ? null : activityValueMap.get("outdoor").toString();  
+                		 String isGlobalAvailable = activityValueMap.get("globbal") ==null ? null : activityValueMap.get("global").toString();
+                		 if( (isOutdoorAvailable!=null && isOutdoorAvailable.equals("true")) || (isGlobalAvailable!=null && isGlobalAvailable.equals("true")) ) {
+                			 Activity activity = new Activity();
+	                		 if( isOutdoorAvailable!=null && isOutdoorAvailable.equals("true") ) {	                			
+	                			activity.setOutdoor(true);
+	                			masterMeeting.setAnyOutdoorActivityInMeetingAvailable(true);
+	                		 }		                		 
+	                		 if( isGlobalAvailable!=null && isGlobalAvailable.equals("true") ) {
+	                 			activity.setGlobal(true);	 
+	                 			masterMeeting.setAnyGlobalActivityInMeetingAvailable(true);
+	                 		 }
+	                		 java.util.List<Activity> activities = new java.util.ArrayList();
+                 			 activities.add(activity);
+                 			 meetingInfo.setActivities( activities );                 			 
+	                		 break forActivities;
+                		 }
             		 }
             		 
             		 masterMeeting.setMeetingInfo(meetingInfo);
