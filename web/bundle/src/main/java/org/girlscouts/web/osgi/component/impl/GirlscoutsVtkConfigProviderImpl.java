@@ -18,13 +18,10 @@ import java.util.Dictionary;
 public class GirlscoutsVtkConfigProviderImpl implements GirlscoutsVtkConfigProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(GirlscoutsVtkConfigProviderImpl.class);
-
-	private GirlscoutsVtkConfigProviderConfiguration config;
 	private ComponentContext context;
 
 	@Activate
-	private void activate(ComponentContext context, GirlscoutsVtkConfigProviderConfiguration config) {
-		this.config = config;
+	private void activate(ComponentContext context) {
 		this.context = context;
 		log.info("Girl Scouts VTK Config Provider Activated.");
 	}

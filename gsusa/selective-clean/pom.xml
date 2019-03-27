@@ -13,7 +13,7 @@
   <groupId>org.girlscouts.aem.gsusa</groupId>
   <artifactId>selectiveclean-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
-  <name>Girl Scouts Custom Clean Maven Plugin</name>
+  <name>Girl Scouts USA Selective Clean Maven Plugin</name>
   <!-- FIXME change it to the project's website -->
   <url>http://maven.apache.org</url>
   <properties>
