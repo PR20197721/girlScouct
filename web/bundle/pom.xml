@@ -158,7 +158,8 @@
                             !org.apache.log,
                             !org.girlscouts.web.*,
                             !org.girlscouts.gsusa.*,
-                            org.girlscouts.vtk.*,
+                            !org.girlscouts.vtk.*,
+                            !org.girlscouts.gsactivities.*,
                             *
                         </Import-Package>
                         <Export-Package>org.girlscouts.web.*</Export-Package>
