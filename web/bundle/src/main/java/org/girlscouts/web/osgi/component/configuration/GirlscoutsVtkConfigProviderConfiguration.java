@@ -7,7 +7,7 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 @ObjectClassDefinition(name = "Girl Scouts VTK settings provider Configuration", description = "Girl Scouts VTK settings provider Configuration")
 public @interface GirlscoutsVtkConfigProviderConfiguration {
 
-	@AttributeDefinition(name = "Regular Expression", description = "Regular expression for url pattern to be redirected to maintenance page", type = AttributeType.STRING)
+	@AttributeDefinition(name = "Hello Url", description = "Hello Url", type = AttributeType.STRING)
 	String helloUrl();
 
 	@AttributeDefinition(name = "Callback URL", description = "Callback URL", type = AttributeType.STRING)
@@ -20,5 +20,5 @@ public @interface GirlscoutsVtkConfigProviderConfiguration {
 	String isDemoSite();
 
     @AttributeDefinition(name = "Council Mapping", description = "Defines mappings between a council ID and a content branch. Format: council id::content branch. e.g. 12::gateway")
-    String councilMapping();
+    String[] councilMapping();
 }
