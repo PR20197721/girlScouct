@@ -11,11 +11,12 @@
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
 	com.day.cq.dam.api.Asset,
-	org.girlscouts.vtk.utils.VtkUtil,
-	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
 	java.text.SimpleDateFormat,
-	java.util.Calendar
+	java.util.Calendar,
+	com.day.cq.wcm.msm.api.*,
+	javax.jcr.query.*,
+	org.apache.sling.api.resource.ResourceUtil
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -58,6 +59,7 @@
 	ArrayList<String> exceptionDirectories; 
 	ArrayList<String> thankYouPages;	
 	ArrayList<String> defaultValues; 	
+	private static final String formQuery = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([{path}]) and s.[sling:resourceType]= 'foundation/components/form/start'";
 	
 	ArrayList<String> overrides;
 		
@@ -79,14 +81,16 @@
 			while(iterator.hasNext()){
 				try {
 					Node filter = iterator.nextNode();
-					String pageOnly = filter.getProperty("pageOnly").getString();
-					String subDirOnly = filter.getProperty("subDirOnly").getString();
-					String path = filter.getProperty("path").getString();
-					if (pageOnly.equals("true")) {
-						exceptionPages.add(path.trim());
-					}
-					if (subDirOnly.equals("true")) {
-						exceptionDirectories.add(path.trim());
+					String path = filter.getProperty("path").getString().trim();
+					if(path.length() > 0){
+						String pageOnly = filter.getProperty("pageOnly").getString();
+						String subDirOnly = filter.getProperty("subDirOnly").getString();
+						if (pageOnly.equals("true")) {
+							exceptionPages.add(path.trim());
+						}
+						if (subDirOnly.equals("true")) {
+							exceptionDirectories.add(path.trim());
+						}
 					}
 				}catch(Exception e){}
 			}
@@ -143,36 +147,45 @@
 		return str;
 	}
 	
-	
-	void checkRedirect(ResourceResolver rr, Page currentPage) {
-		String nodePath = currentPage.getPath() + "/jcr:content/content/middle/par/start";
-		Resource res = rr.getResource(nodePath);		
-		if (res != null) {
-			String redirect = res.getValueMap().get("redirect", "");
-			if (!redirect.isEmpty()) {
-				thankYouPages.add(redirect + " " + currentPage.getPath());
+	void checkForms(ResourceResolver rr, Page currentPage) {
+		try {
+			QueryResult forms = searchForms(rr,currentPage.getContentResource());
+			if(forms != null){
+				RowIterator rowIter = forms.getRows();
+				while (rowIter.hasNext()) {
+					try {
+						Row row = rowIter.nextRow();
+						Node node = row.getNode();
+						if(node.hasProperty("redirect")){
+							String redirect = node.getProperty("redirect").getString();
+							if (!redirect.isEmpty()) {
+								thankYouPages.add(redirect + " " + currentPage.getPath());
+							}							
+						}
+						if(node.hasProperty("actionType")){
+							String action = node.getProperty("actionType").getString();
+							if (action != null &&  (action.equals("girlscouts/components/form/actions/web-to-case") || action.equals("girlscouts/components/form/actions/web-to-lead"))) {
+								exceptionPages.add(currentPage.getPath());
+							}							
+						}
+					}catch(Exception e){}
+				}
 			}
-		}
-		
-		nodePath = currentPage.getPath() + "/jcr:content/content/middle/par/form_start";
-		res = rr.getResource(nodePath);		
-		if (res != null) {
-			String redirect = res.getValueMap().get("redirect", "");
-			if (!redirect.isEmpty()) {
-				thankYouPages.add(redirect + " " + currentPage.getPath());
-			}
-		}
-		
-		nodePath = currentPage.getPath() + "/jcr:content/content/middle/par/web-to-case-form_start";
-		res = rr.getResource(nodePath);		
-		if (res != null) {
-			String redirect = res.getValueMap().get("redirect", "");
-			if (!redirect.isEmpty()) {
-				thankYouPages.add(redirect + " " + currentPage.getPath());
-			}
-		}
+		}catch(Exception e){}
 	}
 	
+	private QueryResult searchForms(ResourceResolver rr, Resource currentPageContent) {
+		QueryResult result = null;
+		try {
+			Session session = rr.adaptTo(Session.class);
+			QueryManager queryManager = session.getWorkspace().getQueryManager();
+			Query sql2Query = queryManager.createQuery(formQuery.replace("{path}",currentPageContent.getPath()), "JCR-SQL2");
+			return sql2Query.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 	void recurse(ResourceResolver rr, Page currentPage) {
 		String path = currentPage.getPath();
@@ -188,8 +201,8 @@
 		if (countedResourceTypes.contains(resourceType)) {
 			allPages.add(path.trim());
 			
-			// Check for Thank You Page
-			checkRedirect(rr, currentPage);
+			// Check forms for Thank You Page and web-to-case forms
+			checkForms(rr, currentPage);
 			
 			for (Iterator<Page> iterator = currentPage.listChildren(); iterator.hasNext();) {
 				recurse(rr, iterator.next());
@@ -200,7 +213,7 @@
 	
 	
 	
-	void processPage(ResourceResolver rr, String path) {
+	void processPage(ResourceResolver rr, String path, LiveRelationshipManager lrm) {
 		
 		Page page = rr.getResource(path).adaptTo(Page.class);
 		String reason;
@@ -243,38 +256,36 @@
 			//noncountPages.add(path + " PlaceHolder"); // not *really* a page
 			return;
 		}
+		
+		// Redirect Page
+		if (resourceType.endsWith("/redirect")) {
+			//noncountPages.add(path + " Redirect"); // not *really* a page
+			return;
+		}
 				
 		// If a page has jcr:mixinTypes of either LiveRelationship or LiveSync, 
 		// it's inherited from national templates 
-		ArrayList<String> mixinTypes = new ArrayList<String>();
-		String[] mTypes = properties.get("jcr:mixinTypes", String[].class);
-		Boolean addedMixin = false;
-		String pathMixin = "";
-		for (String m: mTypes) {
-			mixinTypes.add(m.trim());
-		}			
-		if (mixinTypes.contains("cq:LiveSync") ||
-			mixinTypes.contains("cq:LiveRelationship") ||
-			mixinTypes.contains("cq:PropertyLiveSyncCancelled")) {
-			councilTemplatePages.add(path);
-			return;
-		}	
-		
-		// Embedded Form
-		/*
-		Resource resource = rr.getResource(page.getPath() + "/jcr:content/content/middle/par/embedded");
-		if (resource != null) {
-			String html = resource.getValueMap().get("html", "");
-			int qw = html.indexOf("wufoo");
-			if (qw > 0) {
-				noncountPages.add(path + " Embedded Form: wufoo");
-				return;
-			} else {
-				noncountPages.add(path + " Embedded Form");
+		try{ 
+			Resource pageRes = page.adaptTo(Resource.class);
+			LiveRelationship relationship = lrm.getLiveRelationship(pageRes, false);
+			if(relationship != null){
+				String srcPath = relationship.getSourcePath();
+				Resource srcRes = rr.resolve(srcPath);
+				if(srcRes != null && !ResourceUtil.isNonExistingResource(srcRes)){
+					if(srcPath != null && srcPath.startsWith("/content/girlscouts-template")){
+						councilTemplatePages.add(path);
+						return;
+					}else{
+						if(srcPath != null && srcPath.startsWith("/content/webtocase")){
+							noncountPages.put(path, "ExceptionPages");
+							return;
+						}
+					}
+				}
 			}
+		}catch(Exception e){
 			
 		}
-		*/
 		
 		// Thank You Pages
 		for (int i = 0; i < thankYouPages.size(); i++) {
@@ -360,7 +371,6 @@
 		defaultValues.add(format("News", newsURL, "false", "true"));
 		defaultValues.add(format("Site Search", sitesearchURL, "true", "false"));
 		defaultValues.add(format("Email Templates", councilPath + "/en/email-templates", "true", "false"));
-		defaultValues.add(format("Redirects", councilPath + "/en/redirects", "true", "false"));
 		
 		
 		// Get some links from homepage footer such as Terms and Conditions, Policy
@@ -432,8 +442,9 @@
 	recurse(resourceResolver, top);	
 	
 	allPages.remove(0); // removes /content/<council>
+	LiveRelationshipManager lrm = resourceResolver.adaptTo(LiveRelationshipManager.class);
 	for (int i = 0; i < allPages.size(); i++) {
-		processPage(resourceResolver, allPages.get(i));
+		processPage(resourceResolver, allPages.get(i), lrm);
 	}
 	
 	// If overrides are set, add override paths

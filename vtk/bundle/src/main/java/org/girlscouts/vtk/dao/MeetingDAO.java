@@ -16,7 +16,6 @@ import org.girlscouts.vtk.models.Note;
 import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
-import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.bean_resource;
 import org.girlscouts.vtk.utils.VtkException;
 
@@ -135,6 +134,7 @@ public interface MeetingDAO {
 			throws IllegalAccessException ;
 	
 	public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException;
+	public Set<String> getGlobalMeetings(User user, Troop troop) throws IllegalAccessException;
 	public List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException;
 	public boolean removeAttendance(User user, Troop troop, 
 			Attendance attendance);
