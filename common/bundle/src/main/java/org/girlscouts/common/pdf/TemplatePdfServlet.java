@@ -154,7 +154,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
     }
     public void buildHtml(StringBuilder sb, SlingHttpServletRequest request, ResourceResolver rr) {
         sb.append("<strong>Rendered html:</strong></br>");
-       // sb.append(request.getParameter("pageHtml"));
+        sb.append(request.getParameter("pageHtml"));
         sb.append("<strong>End rendered html:</strong></br>");
         sb.append("<span>test</span>");
         sb.append("<br/>");
