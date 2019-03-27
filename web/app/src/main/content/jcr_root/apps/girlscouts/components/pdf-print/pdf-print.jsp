@@ -17,8 +17,12 @@
                 path: $("#pdfLink").attr("pagepath")
             },
             success: function(data){
-                var win = window.open();
-                win.document.write(data);
+                var blob=new File([this.response], filename, {type: "application/pdf"});
+                var URL = window.URL || window.webkitURL;
+                var downloadUrl = URL.createObjectURL(blob);
+                window.open(downloadUrl);
+                //var win = window.open();
+                //win.document.write(data);
             }
         });
     });
