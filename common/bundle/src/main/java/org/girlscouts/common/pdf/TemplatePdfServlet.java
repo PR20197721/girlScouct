@@ -195,10 +195,6 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                 elements[i] = elements[i].replaceAll("href=\"/", "href=\""+hostname+"/");
                 elements[i] = elements[i].replaceAll("class=\"button\"", "class=\"\"");
                 elements[i] = elements[i].replaceAll("\\n","</br>");
-                if(elements[i].contains("style='") || elements[i].contains("style=\"")){
-                    elements[i] = elements[i].replaceAll("style='", "oldstyle='");
-                    elements[i] = elements[i].replaceAll("style=\"", "oldstyle='");
-                }
                 elements[i] = elements[i].replaceAll("<a","<a style='color:#00ae58; text-decoration: none;' ");
                 elements[i] = elements[i].replaceAll("h6","h1");
                 for(IElement el : HtmlConverter.convertToElements(elements[i])){
