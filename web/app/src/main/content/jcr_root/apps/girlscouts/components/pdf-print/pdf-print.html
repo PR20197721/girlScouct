@@ -1,0 +1,8 @@
+<sly data-sly-use.print="org.girlscouts.web.components.models.PdfPrint">
+    <span id="pdfGen">
+        <a id="pdfLink" style="margin-left:6px;" pagepath = "${print.pagePath}" title="${print.pageTitle}">Generate PDF</a>
+    </span>
+    <sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
+        <sly data-sly-call="${clientlib.js @ categories='apps.girlscouts.components.pdfprint'}"/>
+    </sly>
+</sly>

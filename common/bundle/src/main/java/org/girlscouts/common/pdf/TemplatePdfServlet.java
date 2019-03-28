@@ -58,6 +58,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 import static com.itextpdf.html2pdf.HtmlConverter.convertToElements;
@@ -133,7 +134,14 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
     }
     public void buildHtml(StringBuilder sb, SlingHttpServletRequest request, ResourceResolver rr) {
         sb.append("<strong>Rendered html:</strong></br>");
-        sb.append(request.getParameter("pageHtml"));
+        String test;
+        try{
+            test = URLDecoder.decode(request.getParameter("pageHtml"),StandardCharsets.UTF_8.name());
+        }catch (Exception e){
+            log.error("Error decoding request html parameter: ",e);
+            test = request.getParameter("pageHtml");
+        }
+        sb.append(test);
         sb.append("<strong>End rendered html:</strong></br>");
         sb.append("<span>test</span>");
         sb.append("<br/>");
