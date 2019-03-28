@@ -8,7 +8,6 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.html2pdf.attach.ITagWorkerFactory;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
-
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.Style;
 import com.itextpdf.layout.element.Div;
@@ -22,23 +21,8 @@ import com.itextpdf.layout.font.FontSet;
 import com.itextpdf.io.font.woff2.Woff2Converter;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
-/*import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfPageEventHelper;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.LineSeparator;*/
 import com.itextpdf.layout.element.Image;
-import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfPageEventHelper;
-import com.itextpdf.text.pdf.draw.LineSeparator;
 import org.apache.commons.io.IOUtils;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
@@ -51,7 +35,6 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.settings.SlingSettingsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.jcr.Node;
 import javax.servlet.ServletException;
 import java.io.ByteArrayInputStream;
@@ -60,8 +43,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-
-import static com.itextpdf.html2pdf.HtmlConverter.convertToElements;
 import static org.girlscouts.common.pdf.BadgeGenerator.BOLD_FONT_LOCATION;
 import static org.girlscouts.common.pdf.BadgeGenerator.FONT_LOCATION;
 
@@ -110,7 +91,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                 title = homepage.getTitle();
             }
             buildHtml(sb, request, resolverLocal.get());
-            generatePdf(bais, sb.toString(), path, title );
+            generatePdf(bais, sb.toString(), path, title, request);
             // new BadgeGenerator(request.getParameter("html"), bais).generatePdf();
             response.setContentLength(bais.size());
             bais.writeTo(response.getOutputStream());
@@ -133,22 +114,17 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         return true;
     }
     public void buildHtml(StringBuilder sb, SlingHttpServletRequest request, ResourceResolver rr) {
-        sb.append("<strong>Rendered html:</strong></br>");
-        String test;
+        String pageHtml;
         try{
-            test = URLDecoder.decode(request.getParameter("pageHtml"),StandardCharsets.UTF_8.name());
+            pageHtml = URLDecoder.decode(request.getParameter("pageHtml"),StandardCharsets.UTF_8.name());
         }catch (Exception e){
             log.error("Error decoding request html parameter: ",e);
-            test = request.getParameter("pageHtml");
+            pageHtml = request.getParameter("pageHtml");
         }
-        sb.append(test);
-        sb.append("<strong>End rendered html:</strong></br>");
-        sb.append("<span>test</span>");
-        sb.append("<br/>");
-        sb.append("<div>This is a test</div>");
+        sb.append(pageHtml);
     }
 
-    public Document generatePdf(ByteArrayOutputStream outputStream, String html, String path, String title) throws IOException {
+    public Document generatePdf(ByteArrayOutputStream outputStream, String html, String path, String title, SlingHttpServletRequest request) throws IOException {
 
         WriterProperties writerProperties = new WriterProperties();
 
@@ -162,7 +138,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         pdfMetaData.addCreationDate();
         pdfMetaData.setKeywords("Girlscouts Template Page");
         pdfMetaData.setSubject("Template Page PDF");
-        pdfMetaData.setTitle("Template Page PDF");
+        pdfMetaData.setTitle(title);
 
         // pdf conversion
         ConverterProperties props = new ConverterProperties();
@@ -193,7 +169,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         Document doc = HtmlConverter.convertToDocument(new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)) , pdfDoc, props);
         addImage(doc, resourceResolver, resourceResolver.resolve(path));
         addTitle(doc, title);
-        addContent(doc, html);
+        addContent(doc, html, request.getServerName());
         doc.close();
 
         return doc;
@@ -208,11 +184,28 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         p.setTextAlignment(TextAlignment.CENTER);
         doc.add(p);
     }
-    public void addContent(Document doc, String html){
+    public void addContent(Document doc, String html, String hostname){
+        if(hostname.equals("localhost")){
+            hostname = hostname + ":4502";
+        }
         try{
-            for(IElement el : HtmlConverter.convertToElements(html)){
-                doc.add((Paragraph)el);
+            String[] elements = html.split("~");
+            //replace new line characters with ><br> for html
+            for(int i = 0; i<elements.length; i++){
+                elements[i] = elements[i].replaceAll("href=\"/", "href=\""+hostname+"/");
+                elements[i] = elements[i].replaceAll("class=\"button\"", "class=\"\"");
+                elements[i] = elements[i].replaceAll("\\n","</br>");
+                if(elements[i].contains("style='") || elements[i].contains("style=\"")){
+                    elements[i] = elements[i].replaceAll("style='", "oldstyle='");
+                    elements[i] = elements[i].replaceAll("style=\"", "oldstyle='");
+                }
+                elements[i] = elements[i].replaceAll("<a","<a style='color:#00ae58; text-decoration: none;' ");
+                elements[i] = elements[i].replaceAll("h6","h1");
+                for(IElement el : HtmlConverter.convertToElements(elements[i])){
+                    doc.add((Div)el);
+                }
             }
+
         }catch (Exception e){
             log.error("Error adding html to pdf document: ", e);
         }
