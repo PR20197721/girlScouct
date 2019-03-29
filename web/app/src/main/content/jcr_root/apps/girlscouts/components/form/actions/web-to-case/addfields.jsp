@@ -25,7 +25,7 @@
                    java.util.HashMap,
                    com.day.cq.wcm.foundation.forms.FormsConstants,
                    com.day.cq.wcm.foundation.forms.FormResourceEdit,
-                   org.girlscouts.web.osgi.component.*,"%><%
+                   org.girlscouts.web.osgi.component.*"%><%
 %><%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
     //get councilmapping in vtk system
