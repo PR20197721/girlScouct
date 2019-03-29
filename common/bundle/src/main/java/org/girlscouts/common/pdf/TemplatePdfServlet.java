@@ -147,27 +147,14 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         ITagWorkerFactory tagWorkerFactory = new GSTagWorkerFactory();
 
         ResourceResolver resourceResolver = this.resolverLocal.get();
-
-        //props.setTagWorkerFactory(tagWorkerFactory);
-
-        //FontProvider fontFactory = new DefaultFontProvider(true, true, true);
-        //fontFactory.addFont(getFontProgram(FONT_LOCATION, resourceResolver));
-        //fontFactory.addFont(getFontProgram(BOLD_FONT_LOCATION, resourceResolver));
-
-
         FontSet fontSet = new FontSet();
         fontSet.addFont(getFontData(FONT_LOCATION, resourceResolver), null, "Trefoil Sans Web");
         fontSet.addFont(getFontData(BOLD_FONT_LOCATION, resourceResolver), null, "Trefoil Sans Web Bold");
-
-
         FontProvider fontFactory = new FontProvider(fontSet);
-
-
-
         props.setImmediateFlush(false);
         props.setFontProvider(fontFactory);
         Document doc = HtmlConverter.convertToDocument(new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)) , pdfDoc, props);
-        addImage(doc, resourceResolver, resourceResolver.resolve(path));
+        addImage(doc, resourceResolver.resolve(path));
         addTitle(doc, title);
         addContent(doc, html, request.getServerName());
         doc.close();
@@ -191,11 +178,29 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         try{
             String[] elements = html.split("~");
             //replace new line characters with ><br> for html
+            //parse html and append required styles.
             for(int i = 0; i<elements.length; i++){
-                elements[i] = elements[i].replaceAll("href=\"/", "href=\""+hostname+"/");
-                elements[i] = elements[i].replaceAll("class=\"button\"", "class=\"\"");
+                if(!elements[i].contains("href=\"http")){
+                    elements[i] = elements[i].replaceAll("href=\"/", "href=\""+hostname+"/");
+                }
+                if(elements[i].contains("src=\"")){
+                    elements[i] = elements[i].replace("src=\"", "src=\"https://www.girlscouts.org");
+                }
+                String linkEl;
+                if(elements[i].contains("<a")){
+                    linkEl = elements[i].substring(elements[i].indexOf("<a"), elements[i].indexOf(">", elements[i].indexOf("<a"))+1);
+                    if(linkEl.contains("style=\"")){
+                        String newtest = linkEl.replace("style=\"", "style=\"color:#00ae58; text-decoration: none; ");
+                        elements[i] = elements[i].replace(linkEl, newtest);
+                    }else if(linkEl.contains("style='")){
+                        String newtest = linkEl.replace("style='", "style='color:#00ae58; text-decoration: none; ");
+                        elements[i] = elements[i].replace(linkEl, newtest);
+                    }else{
+                        elements[i] = elements[i].replaceAll("<a","<a style='color:#00ae58; text-decoration: none;' ");
+                    }
+                }
                 elements[i] = elements[i].replaceAll("\\n","</br>");
-                elements[i] = elements[i].replaceAll("<a","<a style='color:#00ae58; text-decoration: none;' ");
+                elements[i] = elements[i].replaceAll("<b>","<b style='font-weight: bold;'>");
                 elements[i] = elements[i].replaceAll("h6","h1");
                 for(IElement el : HtmlConverter.convertToElements(elements[i])){
                     doc.add((Div)el);
@@ -207,7 +212,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         }
 
     }
-    public void addImage(Document doc, ResourceResolver rr, Resource assetRes){
+    public void addImage(Document doc, Resource assetRes){
         if(assetRes!= null) {
             try{
                 Asset asset = assetRes.adaptTo(Asset.class);
