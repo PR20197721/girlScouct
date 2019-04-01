@@ -1,11 +1,7 @@
 package org.girlscouts.common.pdf;
 
-import com.day.cq.commons.ImageResource;
 import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.api.Rendition;
-import com.day.cq.dam.api.handler.AssetHandler;
-import com.day.cq.dam.commons.handler.AbstractAssetHandler;
-import com.day.cq.dam.handler.standard.pdf.PdfHandler;
 import com.day.cq.wcm.api.Page;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
@@ -27,10 +23,6 @@ import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.tool.xml.html.Tags;
-import com.itextpdf.tool.xml.pipeline.html.AbstractImageProvider;
-import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
@@ -45,15 +37,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
-import javax.jcr.Binary;
 import javax.jcr.Node;
 import javax.servlet.ServletException;
-import javax.xml.bind.DatatypeConverter;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 import static org.girlscouts.common.pdf.BadgeGenerator.BOLD_FONT_LOCATION;
 import static org.girlscouts.common.pdf.BadgeGenerator.FONT_LOCATION;
@@ -104,7 +93,6 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
             }
             buildHtml(sb, request, resolverLocal.get());
             generatePdf(bais, sb.toString(), path, title, request);
-            // new BadgeGenerator(request.getParameter("html"), bais).generatePdf();
             response.setContentLength(bais.size());
             bais.writeTo(response.getOutputStream());
             bais.flush();
@@ -137,29 +125,6 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
     }
 
     public Document generatePdf(ByteArrayOutputStream outputStream, String html, String path, String title, SlingHttpServletRequest request) throws IOException {
-        /*try{
-            com.itextpdf.text.Document doc = new com.itextpdf.text.Document();
-            com.itextpdf.text.pdf.PdfWriter pdfwriter = com.itextpdf.text.pdf.PdfWriter.getInstance(doc, outputStream);
-            doc.open();
-
-            //css
-
-            //html
-            HtmlPipelineContext htmlContext = new HtmlPipelineContext(null);
-            htmlContext.setTagFactory(Tags.getHtmlTagProcessorFactory());
-            htmlContext.setImageProvider(new AbstractImageProvider() {
-                public String getImageRootPath() {
-                    resourceResolver.resolve()
-                }
-            });
-        }catch (Exception e){
-            log.error("Error creating pdf doc: ",e);
-        }*/
-
-
-
-
-
         WriterProperties writerProperties = new WriterProperties();
 
         PdfWriter pdfWriter = new PdfWriter(outputStream, writerProperties);
@@ -205,21 +170,6 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         p.setTextAlignment(TextAlignment.CENTER);
         doc.add(p);
     }
-    public void addPageImage(Document doc, Resource rsrc){
-        try {
-            Asset asset = rsrc.adaptTo(Asset.class);
-            Rendition original = asset.getOriginal();
-            InputStream is = original.getStream();
-            com.itextpdf.text.Image img = com.itextpdf.text.Image.getInstance(IOUtils.toByteArray(is));
-            ImageData data = ImageDataFactory.create(img.getOriginalData());
-            Image imgData = new Image(data);
-            Div div = new Div();
-            div.add(imgData);
-            doc.add(div);
-        }catch (Exception e){
-            log.error("Error occured: ",e);
-        }
-    }
     public void addContent(Document doc, String html, String hostname, ResourceResolver rr){
         if(hostname.equals("localhost")){
             hostname = hostname + ":4502";
@@ -229,53 +179,37 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
             //replace new line characters with ><br> for html
             //parse html and append required styles.
             for(int i = 0; i<elements.length; i++){
+                elements[i] = elements[i].replaceAll("\\n","</br>");
+                elements[i] = elements[i].replaceAll("<b>","<b style='font-weight: bold;'>");
+                elements[i] = elements[i].replaceAll("h6","h1");
+                //Handle href links
                 if(!elements[i].contains("href=\"http")){
                     elements[i] = elements[i].replaceAll("href=\"/", "href=\""+hostname+"/");
                 }
+                //handle images by resolving src to asset, create BufferedImage, get encoded byte array, and create the dataUri string()
                 if(elements[i].contains("src=\"")){
                     String substring = elements[i].substring(elements[i].indexOf("<img"), elements[i].indexOf(">", elements[i].indexOf("<img")));
                     if(!substring.contains("http")){
                         try{
                             String s = elements[i].substring(elements[i].indexOf("src=\"") + 5, elements[i].indexOf("\"", elements[i].indexOf("src=\"") + 5));
-                            s = URLDecoder.decode(s, "UTF8");
-                            Asset asset = rr.resolve(s).adaptTo(Asset.class);
+                            Asset asset = rr.resolve(URLDecoder.decode(s, "UTF8")).adaptTo(Asset.class);;
                             Rendition orig = asset.getOriginal();
                             InputStream is = orig.getStream();
-
                             BufferedImage imgs = ImageIO.read(is);
                             ByteArrayOutputStream out = new ByteArrayOutputStream();
                             ImageIO.write(imgs, "JPG",out);
                             byte[] bytes = out.toByteArray();
-                            String encoded = java.util.Base64.getEncoder().encodeToString(bytes);
-
-                           // com.itextpdf.text.Image img = com.itextpdf.text.Image.getInstance(IOUtils.toByteArray(is));
-                           // String test = DatatypeConverter.printBase64Binary(img.getOriginalData());
-                            //byte[] test = Base64.encodeBase64(img.getOriginalData());
-                            String byteString = "data:image/jpg;base64,"+ encoded;
+                            String dataUriEncoded = java.util.Base64.getEncoder().encodeToString(bytes);
+                            String byteString = "data:image/jpg;base64,"+ dataUriEncoded;
                             elements[i] = elements[i].replace(s, byteString);
-
-                         /*   String s = elements[i].substring(elements[i].indexOf("src=\"") + 5, elements[i].indexOf("\"", elements[i].indexOf("src=\"") + 5));
-                            addImage(doc,rr.resolve(s));
-                            Asset asset = rr.resolve(s).adaptTo(Asset.class);
-                            Rendition orig = asset.getOriginal();
-                            InputStream is = orig.getStream();
-                            com.itextpdf.text.Image img = com.itextpdf.text.Image.getInstance(IOUtils.toByteArray(is));
-                            byte[] test = img.getOriginalData();
-                            String byteString = "data:image/jpg;base64,"+ Arrays.toString(test);
-                            log.debug(byteString);
-                            elements[i] = elements[i].replace(s, byteString);
-                            log.error("bytes: "+ test);*/
                         }catch (Exception e){
                             log.error("Failed to retrieve image asset: ",e);
                         }
-                        //elements[i] = elements[i].replace("src=\"", "src=\"https://www.girlscouts.org");
-
                     }
-
                 }
-                String linkEl;
+                //Handle <a link styles (Green and no underline)
                 if(elements[i].contains("<a")){
-                    linkEl = elements[i].substring(elements[i].indexOf("<a"), elements[i].indexOf(">", elements[i].indexOf("<a"))+1);
+                    String linkEl = elements[i].substring(elements[i].indexOf("<a"), elements[i].indexOf(">", elements[i].indexOf("<a"))+1);
                     if(linkEl.contains("style=\"")){
                         String newtest = linkEl.replace("style=\"", "style=\"color:#00ae58; text-decoration: none; ");
                         elements[i] = elements[i].replace(linkEl, newtest);
@@ -286,10 +220,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                         elements[i] = elements[i].replaceAll("<a","<a style='color:#00ae58; text-decoration: none;' ");
                     }
                 }
-                elements[i] = URLDecoder.decode(elements[i],"UTF8");
-                elements[i] = elements[i].replaceAll("\\n","</br>");
-                elements[i] = elements[i].replaceAll("<b>","<b style='font-weight: bold;'>");
-                elements[i] = elements[i].replaceAll("h6","h1");
+                //Add elements to document.
                 for(IElement el : HtmlConverter.convertToElements(elements[i])){
                     doc.add((Div)el);
                 }
@@ -300,6 +231,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         }
 
     }
+    //Add council logo image as header
     public void addHeaderImage(Document doc, Resource assetRes){
         if(assetRes!= null) {
             try{
@@ -321,34 +253,6 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                 log.error("Error retrieving image data: ", e);
             }
         }
-
-
-
-    }
-    public void addImage(Document doc, Resource assetRes){
-        if(assetRes!= null) {
-            try{
-                Asset asset = assetRes.adaptTo(Asset.class);
-                Rendition original = asset.getOriginal();
-                InputStream is = original.getStream();
-                com.itextpdf.text.Image img = com.itextpdf.text.Image.getInstance(IOUtils.toByteArray(is));
-                ImageData data = ImageDataFactory.create(img.getOriginalData());
-                Image imgData = new Image(data);
-                Div div = new Div();
-                com.itextpdf.kernel.colors.Color myColor = new DeviceRgb(0, 128, 0);
-               // imgData.setHeight(75);
-                div.setPadding(10);
-                //div.setBackgroundColor(myColor);
-                div.add(imgData);
-                doc.add(div);
-
-            }catch (Exception e){
-                log.error("Error retrieving image data: ", e);
-            }
-        }
-
-
-
     }
     private static byte[] getFontData(String location, ResourceResolver resourceResolver) throws IOException {
 
