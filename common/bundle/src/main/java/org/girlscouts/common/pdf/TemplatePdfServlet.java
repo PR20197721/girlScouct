@@ -9,7 +9,9 @@ import com.itextpdf.html2pdf.attach.ITagWorkerFactory;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.layout.Style;
+import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Paragraph;
@@ -23,6 +25,7 @@ import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.text.BaseColor;
 import org.apache.commons.io.IOUtils;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
@@ -130,7 +133,6 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         PdfWriter pdfWriter = new PdfWriter(outputStream, writerProperties);
 
         PdfDocument pdfDoc = new PdfDocument(pdfWriter);
-
         //Set meta tags
         PdfDocumentInfo pdfMetaData = pdfDoc.getDocumentInfo();
         pdfMetaData.setAuthor("Girlscouts America");
@@ -141,10 +143,8 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
 
         // pdf conversion
         ConverterProperties props = new ConverterProperties();
-
         // Setup custom tagworker factory for pulling images straight from the DAM.
         ITagWorkerFactory tagWorkerFactory = new GSTagWorkerFactory();
-
         ResourceResolver resourceResolver = this.resolverLocal.get();
         FontSet fontSet = new FontSet();
         fontSet.addFont(getFontData(FONT_LOCATION, resourceResolver), null, "Trefoil Sans Web");
@@ -152,7 +152,8 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         FontProvider fontFactory = new FontProvider(fontSet);
         props.setImmediateFlush(false);
         props.setFontProvider(fontFactory);
-        Document doc = HtmlConverter.convertToDocument(new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)) , pdfDoc, props);
+        Document doc = new Document(pdfDoc, PageSize.A4);
+       // Document doc = HtmlConverter.convertToDocument(new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)) , pdfDoc, props);
         addHeaderImage(doc, resourceResolver.resolve(path));
         addTitle(doc, title);
         addContent(doc, html, request.getServerName(), resourceResolver);
@@ -222,6 +223,8 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                 }
                 //Add elements to document.
                 for(IElement el : HtmlConverter.convertToElements(elements[i])){
+                    Div div = (Div)el;
+                    div.setMarginLeft(20);
                     doc.add((Div)el);
                 }
             }
@@ -239,13 +242,20 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                 Rendition original = asset.getOriginal();
                 InputStream is = original.getStream();
                 com.itextpdf.text.Image img = com.itextpdf.text.Image.getInstance(IOUtils.toByteArray(is));
+                img.setBorderColor(BaseColor.BLACK);
                 ImageData data = ImageDataFactory.create(img.getOriginalData());
                 Image imgData = new Image(data);
+
                 Div div = new Div();
                 com.itextpdf.kernel.colors.Color myColor = new DeviceRgb(0, 128, 0);
-                imgData.setHeight(75);
+                //imgData.setBackgroundColor(myColor);
+                imgData.setPadding(10);
+                imgData.setHeight(50);
                 div.setPadding(10);
+                div.setMarginLeft(0);
+                doc.setMargins(0,0,0,0);
                 div.setBackgroundColor(myColor);
+                div.setPaddingRight(0);
                 div.add(imgData);
                 doc.add(div);
 
