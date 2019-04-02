@@ -8,8 +8,10 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.html2pdf.attach.ITagWorkerFactory;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.colorspace.PdfColorSpace;
 import com.itextpdf.layout.Style;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.Div;
@@ -153,7 +155,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         props.setImmediateFlush(false);
         props.setFontProvider(fontFactory);
         Document doc = new Document(pdfDoc, PageSize.A4);
-       // Document doc = HtmlConverter.convertToDocument(new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)) , pdfDoc, props);
+        doc.setBottomMargin(50);
         addHeaderImage(doc, resourceResolver.resolve(path));
         addTitle(doc, title);
         addContent(doc, html, request.getServerName(), resourceResolver);
@@ -162,14 +164,20 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         return doc;
     }
     public void addTitle(Document doc, String title){
-        Paragraph p = new Paragraph(title.toUpperCase());
-        Style style = new Style();
-        style.setFontSize(25);
-        style.setBold();
-        style.setUnderline();
-        p.addStyle(style);
-        p.setTextAlignment(TextAlignment.CENTER);
-        doc.add(p);
+        try{
+            String titleString= "<strong style='color: #008000; font-size: 30px; font-family: \"Trefoil Sans Web\", \"Open Sans\", Arial, sans-serif;'>"+title+"</br></strong><br>";
+            for(IElement el : HtmlConverter.convertToElements(titleString)){
+                Paragraph p = (Paragraph)el;
+                Style style = new Style();
+                style.setTextAlignment(TextAlignment.CENTER);
+                p.addStyle(style);
+                p.setMarginLeft(30);
+                doc.add(p);
+            }
+        }catch (Exception e){
+            log.error("Failed to append page title: ",e);
+        }
+
     }
     public void addContent(Document doc, String html, String hostname, ResourceResolver rr){
         if(hostname.equals("localhost")){
@@ -180,9 +188,12 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
             //replace new line characters with ><br> for html
             //parse html and append required styles.
             for(int i = 0; i<elements.length; i++){
+                //Fix inline styler issues
+                //elements[i] = elements[i].replaceAll("<div","<div style='font-family: \"Trefoil Sans Web\", \"Open Sans\", Arial, sans-serif; list-style-position: inside;'");
                 elements[i] = elements[i].replaceAll("\\n","</br>");
-                elements[i] = elements[i].replaceAll("<b>","<b style='font-weight: bold;'>");
-                elements[i] = elements[i].replaceAll("h6","h1");
+                //elements[i] = elements[i].replaceAll("<b>","<b style='font-weight: bold;'>");
+                //elements[i] = elements[i].replaceAll("h6","h4");
+                elements[i] = elements[i].replaceAll("<img","<img style='height: 200px;'");
                 //Handle href links
                 if(!elements[i].contains("href=\"http")){
                     elements[i] = elements[i].replaceAll("href=\"/", "href=\""+hostname+"/");
@@ -201,7 +212,12 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                             ImageIO.write(imgs, "JPG",out);
                             byte[] bytes = out.toByteArray();
                             String dataUriEncoded = java.util.Base64.getEncoder().encodeToString(bytes);
-                            String byteString = "data:image/jpg;base64,"+ dataUriEncoded;
+                            String byteString;
+                            if(s.contains("jpg"))
+                                byteString = "data:image/jpg;base64,";
+                            else
+                                byteString = "data:image/png;base64,";
+                            byteString = byteString + dataUriEncoded;
                             elements[i] = elements[i].replace(s, byteString);
                         }catch (Exception e){
                             log.error("Failed to retrieve image asset: ",e);
@@ -213,19 +229,22 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                     String linkEl = elements[i].substring(elements[i].indexOf("<a"), elements[i].indexOf(">", elements[i].indexOf("<a"))+1);
                     if(linkEl.contains("style=\"")){
                         String newtest = linkEl.replace("style=\"", "style=\"color:#00ae58; text-decoration: none; ");
-                        elements[i] = elements[i].replace(linkEl, newtest);
+                       // elements[i] = elements[i].replace(linkEl, newtest);
                     }else if(linkEl.contains("style='")){
                         String newtest = linkEl.replace("style='", "style='color:#00ae58; text-decoration: none; ");
-                        elements[i] = elements[i].replace(linkEl, newtest);
+                        //elements[i] = elements[i].replace(linkEl, newtest);
                     }else{
-                        elements[i] = elements[i].replaceAll("<a","<a style='color:#00ae58; text-decoration: none;' ");
+                       // elements[i] = elements[i].replaceAll("<a","<a style='color:#00ae58; text-decoration: none;' ");
                     }
                 }
                 //Add elements to document.
                 for(IElement el : HtmlConverter.convertToElements(elements[i])){
                     Div div = (Div)el;
-                    div.setMarginLeft(20);
-                    doc.add((Div)el);
+                    //Style style = new Style();
+                   // style.setTextAlignment(TextAlignment.CENTER);
+                   // div.addStyle(style);
+                    div.setMarginLeft(30);
+                    doc.add(div);
                 }
             }
 
@@ -248,7 +267,6 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
 
                 Div div = new Div();
                 com.itextpdf.kernel.colors.Color myColor = new DeviceRgb(0, 128, 0);
-                //imgData.setBackgroundColor(myColor);
                 imgData.setPadding(10);
                 imgData.setHeight(50);
                 div.setPadding(10);

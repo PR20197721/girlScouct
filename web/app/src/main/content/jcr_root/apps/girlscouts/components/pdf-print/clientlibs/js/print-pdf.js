@@ -4,20 +4,14 @@ function buildChildren(el){
          if($(this).prop("tagName").toLowerCase() !== "cq"  && $(this).prop("tagName").toLowerCase() !== "script" && $(this).html().trim() != ""){
             var tag = $(this).prop("tagName").toLowerCase();
              html = html + "<" + tag + ">";
-             if($(this).children("img").length > 0){
+             if(($(this).children("img").length > 0) || ($(this).children().length > 0 && tag ==="li") || ($(this).children("a").length > 0)){
                   html = html + $(this).html().trim();
               }
-             else if($(this).children().length > 0 && tag ==="li"){
-                 html = html + $(this).html().trim();
-             }
              else if($(this).children().length > 0 && tag !=="p"){
                  html = html + buildChildren($(this));
-
-             }else if($(this).children("a").length > 0){
-                 html = html + $(this).html().trim();
              }
              else{
-                 html = html + $(this).text().trim();
+                 html = html + $(this).html().trim();
              }
              html = html + "</" + tag +">";
          }
@@ -28,15 +22,20 @@ function buildChildren(el){
 function buildPdfHtml(){
     var html = "";
     $("#mainContent .par").children().each(function(index){
+        $(this).inlineStyler();
         if($(this).prop("tagName").toLowerCase() !== "cq" && $(this).prop("tagName").toLowerCase() !== "script" && !$(this).attr("class").includes("title") && $(this).html().trim() != ""){
             var tag = $(this).prop("tagName").toLowerCase();
-            html = html + "<" + tag + ">";
+            var styles = $(this).attr("style");
+            if(styles.length > 0){
+                html = html + "<" + tag + " style='"+styles+"'>";
+            }else
+                html = html + "<" + tag + ">";
             //If element has child nodes.
             if($(this).children().length > 0){
                 html = html + buildChildren($(this));
             }
             else{
-                html = html + $(this).text().trim();
+                html = html + $(this).html().trim();
             }
 
             html = html + "</" + tag +">";
@@ -78,7 +77,6 @@ $("#pdfGen").on('click', function(){
         };
     });
     var html = encodeURI(buildPdfHtml());
-    xhr.set
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=utf-8');
     xhr.send($.param({pageHtml: html, path: $("#pdfLink").attr("pagepath"), title: $("#pdfLink").attr("title")}));
     return returner;
