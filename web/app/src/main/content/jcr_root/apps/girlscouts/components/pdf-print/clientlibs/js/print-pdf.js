@@ -1,9 +1,14 @@
+//Iterate through children and build html + styles, recursive
 function buildChildren(el){
     var html = "";
     el.children().each(function(index){
          if($(this).prop("tagName").toLowerCase() !== "cq"  && $(this).prop("tagName").toLowerCase() !== "script" && $(this).html().trim() != ""){
             var tag = $(this).prop("tagName").toLowerCase();
-             html = html + "<" + tag + ">";
+             var styles = $(this).attr("style");
+             if(typeof styles !== typeof undefined && styles.length > 0){
+                 html = html + "<" + tag + " style='"+styles+"'>";
+             }else
+                 html = html + "<" + tag + ">";
              if(($(this).children("img").length > 0) || ($(this).children().length > 0 && tag ==="li") || ($(this).children("a").length > 0)){
                   html = html + $(this).html().trim();
               }
@@ -19,6 +24,7 @@ function buildChildren(el){
     });
     return html;
 }
+//Iterate through initial elements under .mainContent .Par, build elements html as well as children's html
 function buildPdfHtml(){
     var html = "";
     $("#mainContent .par").children().each(function(index){
@@ -26,7 +32,7 @@ function buildPdfHtml(){
         if($(this).prop("tagName").toLowerCase() !== "cq" && $(this).prop("tagName").toLowerCase() !== "script" && !$(this).attr("class").includes("title") && $(this).html().trim() != ""){
             var tag = $(this).prop("tagName").toLowerCase();
             var styles = $(this).attr("style");
-            if(styles.length > 0){
+            if(typeof styles !== typeof undefined && styles.length > 0){
                 html = html + "<" + tag + " style='"+styles+"'>";
             }else
                 html = html + "<" + tag + ">";
@@ -45,6 +51,11 @@ function buildPdfHtml(){
     return html;
 }
 $("#pdfGen").on('click', function(){
+    //Add image size attributes
+    $("#mainContent").find("img").each(function(){
+        $(this).attr("height", this.clientHeight)
+        $(this).attr("width", this.clientWidth)
+    });
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/etc/servlets/pdf/page-pdf.html', true);
     xhr.responseType = 'arraybuffer';
