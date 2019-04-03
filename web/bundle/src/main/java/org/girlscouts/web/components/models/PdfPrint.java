@@ -10,7 +10,7 @@ import javax.inject.Inject;
 
 @Model(adaptables = SlingHttpServletRequest.class)
 public class PdfPrint {
-    private String pagePath;
+    private String pdfPath;
     private String pageTitle;
 
     @Self
@@ -21,12 +21,12 @@ public class PdfPrint {
 
     @PostConstruct
     public void init(){
-        pagePath = currentPage.getPath() + ".pdfrender.html";
+        pdfPath = currentPage.getPath();
         pageTitle = currentPage.getTitle();
     }
 
-    public String getPagePath(){
-        return pagePath;
+    public String getPdfPath(){
+        return pdfPath;
     }
     public String getPageTitle(){
         return  pageTitle;

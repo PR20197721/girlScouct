@@ -60,15 +60,12 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
     @Reference
     private transient SlingSettingsService settingsService;
 
-    public static ThreadLocal<ResourceResolver> resolverLocal = new ThreadLocal<>();
-
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
             throws ServletException, IOException {
 
         try {
             response.setContentType("application/pdf");
-            resolverLocal.set(request.getResourceResolver());
             ByteArrayOutputStream bais = new ByteArrayOutputStream();
 
             StringBuilder sb = new StringBuilder();
@@ -97,8 +94,8 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
             bais.writeTo(response.getOutputStream());
             bais.flush();
             response.flushBuffer();
-        }finally {
-            resolverLocal.remove();
+        }catch (Exception e){
+            log.error("Error generating pdf:",e);
         }
 
     }
@@ -151,7 +148,7 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
         Document doc = new Document(pdfDoc, PageSize.A4);
         doc.setBottomMargin(100);
         addHeaderImage(doc, resourceResolver.resolve(path), title);
-        addContent(doc, html, request.getServerName(), resourceResolver, new Div());
+        addContent(doc, html, request, resourceResolver, new Div());
         doc.close();
 
         return doc;
@@ -176,6 +173,7 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
         String backupEl = element;
         try{
             String s = element.substring(element.indexOf("src=\"") + 5, element.indexOf("\"", element.indexOf("src=\"") + 5));
+            String ext = s.substring(s.lastIndexOf(".")+1);
             Asset asset = rr.resolve(URLDecoder.decode(s, "UTF8")).adaptTo(Asset.class);
             Rendition orig = asset.getOriginal();
             InputStream is = orig.getStream();
@@ -183,18 +181,10 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             String byteString;
             String dataUriEncoded;
-            if(s.contains("jpg")){
-                ImageIO.write(imgs, "JPG",out);
-                byte[] bytes = out.toByteArray();
-                dataUriEncoded = java.util.Base64.getEncoder().encodeToString(bytes);
-                byteString= "data:image/jpg;base64,";
-            }else{
-                ImageIO.write(imgs, "PNG",out);
-                byte[] bytes = out.toByteArray();
-                dataUriEncoded = java.util.Base64.getEncoder().encodeToString(bytes);
-                byteString = "data:image/png;base64,";
-            }
-            byteString = byteString + dataUriEncoded;
+            ImageIO.write(imgs, ext.toUpperCase(),out);
+            byte[] bytes = out.toByteArray();
+            dataUriEncoded = java.util.Base64.getEncoder().encodeToString(bytes);
+            byteString= "data:image/"+ext+";base64," + dataUriEncoded;
             element = element.replace(s, byteString);
             return element;
         }catch (Exception e){
@@ -210,13 +200,11 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
         }
         return element;
     }
-    private void addContent(Document doc, String html, String hostname, ResourceResolver rr, Div parent){
+    private void addContent(Document doc, String html, SlingHttpServletRequest request, ResourceResolver rr, Div parent){
         //TODO: TEST ON UAT/DEV ENVIRONMENTS
         //Handle hostname resolution for <a href links in html
-        if(hostname.equals("localhost")){
-            hostname = hostname + ":4502";
-            log.debug("HOSTNAME: "+hostname);
-        }
+        String hostname = request.getRequestURL().toString();
+        hostname  = hostname.substring(0,hostname.indexOf("/", hostname.indexOf("//")+2));
         try{
             String[] elements = html.split("~");
             for(int i = 0; i<elements.length; i++){
