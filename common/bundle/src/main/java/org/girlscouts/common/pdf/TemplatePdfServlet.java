@@ -155,111 +155,111 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
         props.setImmediateFlush(false);
         props.setFontProvider(fontFactory);
         Document doc = new Document(pdfDoc, PageSize.A4);
-        doc.setBottomMargin(50);
+        doc.setBottomMargin(100);
         addHeaderImage(doc, resourceResolver.resolve(path), title);
-        addTitle(doc, title);
         addContent(doc, html, request.getServerName(), resourceResolver, new Div());
         doc.close();
 
         return doc;
     }
-    public void addTitle(Document doc, String title){
-        //color: #008000
+    //Add <a link styles
+    private String styleLink(String element){
+        String linkEl = element.substring(element.indexOf("<a"), element.indexOf(">", element.indexOf("<a"))+1);
+        if(linkEl.contains("style=\"")){
+            String newtest = linkEl.replace("style=\"", "style=\"color:#00ae58; text-decoration: none; ");
+            element = element.replace(linkEl, newtest);
+        }else if(linkEl.contains("style='")){
+            String newtest = linkEl.replace("style='", "style='color:#00ae58; text-decoration: none; ");
+            element = element.replace(linkEl, newtest);
+        }else{
+            element = element.replaceAll("<a","<a style='color:#00ae58; text-decoration: none;' ");
+        }
+        return element;
+    }
+    //Generate asset and create dataURI for pdf generation
+    //Create buffered image from asset and encode byte array to base64 format
+    private String generateImage(String element, ResourceResolver rr){
+        String backupEl = element;
         try{
-            String titleString= "<p style='color: #008000; font-size: 30px; font-family: \"Trefoil Sans Web\", \"Open Sans\", Arial, sans-serif;'>"+title+"</br></p>";
-            for(IElement el : HtmlConverter.convertToElements(titleString)){
-                Paragraph p = (Paragraph)el;
-                p.setMarginLeft(30);
-                doc.add(p);
+            String s = element.substring(element.indexOf("src=\"") + 5, element.indexOf("\"", element.indexOf("src=\"") + 5));
+            Asset asset = rr.resolve(URLDecoder.decode(s, "UTF8")).adaptTo(Asset.class);
+            Rendition orig = asset.getOriginal();
+            InputStream is = orig.getStream();
+            BufferedImage imgs = ImageIO.read(is);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            String byteString;
+            String dataUriEncoded;
+            if(s.contains("jpg")){
+                ImageIO.write(imgs, "JPG",out);
+                byte[] bytes = out.toByteArray();
+                dataUriEncoded = java.util.Base64.getEncoder().encodeToString(bytes);
+                byteString= "data:image/jpg;base64,";
+            }else{
+                ImageIO.write(imgs, "PNG",out);
+                byte[] bytes = out.toByteArray();
+                dataUriEncoded = java.util.Base64.getEncoder().encodeToString(bytes);
+                byteString = "data:image/png;base64,";
             }
+            byteString = byteString + dataUriEncoded;
+            element = element.replace(s, byteString);
+            return element;
         }catch (Exception e){
-            log.error("Failed to append page title: ",e);
+            log.error("Failed to retrieve image asset: ",e);
+            return backupEl;
         }
     }
-    public void addContent(Document doc, String html, String hostname, ResourceResolver rr, Div parent){
-        //TODO: TEST ON PROD/UAT/DEV ENVIRONMENTS
+    private String buildHref(String element, String hostname){
+        if(!element.contains("href=\"http")){
+            element = element.replaceAll("href=\"/", "href=\""+hostname+"/");
+        } else{
+            element = element.replaceAll("href=\"/content", "href=\""+hostname+"/content");
+        }
+        return element;
+    }
+    private void addContent(Document doc, String html, String hostname, ResourceResolver rr, Div parent){
+        //TODO: TEST ON UAT/DEV ENVIRONMENTS
         //Handle hostname resolution for <a href links in html
         if(hostname.equals("localhost")){
             hostname = hostname + ":4502";
+            log.debug("HOSTNAME: "+hostname);
         }
         try{
             String[] elements = html.split("~");
-            //replace new line characters with ><br> for html
-            //parse html and append required styles.
             for(int i = 0; i<elements.length; i++){
                 //Fix inline styler issues
                 elements[i] = elements[i].replaceAll("<div","<div style='font-family: \"Trefoil Sans Web\", \"Open Sans\", Arial, sans-serif; list-style-position: inside;'");
-                //elements[i] = elements[i].replaceAll("\\n","</br>");
-                ////Update accordion division title font size
-                elements[i] = elements[i].replaceAll("h6","h4");
-                //Handle href links(include hostname)
-                if(!elements[i].contains("href=\"http")){
-                    elements[i] = elements[i].replaceAll("href=\"/", "href=\""+hostname+"/");
+                elements[i] = elements[i].replaceAll("h6","h4");      //update accordion font size
+                if(elements[i].contains("href")){
+                    elements[i] = buildHref(elements[i],hostname);
                 }
                 //Handle <a link styles (Green and no underline)
                 if(elements[i].contains("<a")){
-                    String linkEl = elements[i].substring(elements[i].indexOf("<a"), elements[i].indexOf(">", elements[i].indexOf("<a"))+1);
-                    if(linkEl.contains("style=\"")){
-                        String newtest = linkEl.replace("style=\"", "style=\"color:#00ae58; text-decoration: none; ");
-                        elements[i] = elements[i].replace(linkEl, newtest);
-                    }else if(linkEl.contains("style='")){
-                        String newtest = linkEl.replace("style='", "style='color:#00ae58; text-decoration: none; ");
-                        elements[i] = elements[i].replace(linkEl, newtest);
-                    }else{
-                        elements[i] = elements[i].replaceAll("<a","<a style='color:#00ae58; text-decoration: none;' ");
-                    }
+                    elements[i] = styleLink(elements[i]);
                 }
                 //handle images by resolving src to asset, create BufferedImage, get encoded byte array, and create the dataUri string()
                 if(elements[i].contains("src=\"")){
                     String substr = elements[i].substring(elements[i].indexOf("<img"), elements[i].indexOf(">", elements[i].indexOf("<img")));
                     if(!substr.contains("http")){
                         //Create buffered image from asset and encode byte array to base64 format
-                        try{
-                            String s = elements[i].substring(elements[i].indexOf("src=\"") + 5, elements[i].indexOf("\"", elements[i].indexOf("src=\"") + 5));
-                            Asset asset = rr.resolve(URLDecoder.decode(s, "UTF8")).adaptTo(Asset.class);;
-                            Rendition orig = asset.getOriginal();
-                            InputStream is = orig.getStream();
-                            BufferedImage imgs = ImageIO.read(is);
-                            ByteArrayOutputStream out = new ByteArrayOutputStream();
-                            String byteString;
-                            String dataUriEncoded;
-                            if(s.contains("jpg")){
-                                ImageIO.write(imgs, "JPG",out);
-                                byte[] bytes = out.toByteArray();
-                                dataUriEncoded = java.util.Base64.getEncoder().encodeToString(bytes);
-                                byteString= "data:image/jpg;base64,";
-                            }else{
-                                ImageIO.write(imgs, "PNG",out);
-                                byte[] bytes = out.toByteArray();
-                                dataUriEncoded = java.util.Base64.getEncoder().encodeToString(bytes);
-                                byteString = "data:image/png;base64,";
-                            }
-                            byteString = byteString + dataUriEncoded;
-                            elements[i] = elements[i].replace(s, byteString);
-                        }catch (Exception e){
-                            log.error("Failed to retrieve image asset: ",e);
-                        }
+                        elements[i] = generateImage(elements[i],rr);
                     }
                 }
                 //Add elements to document.
                 for(IElement el : HtmlConverter.convertToElements(elements[i])){
                     Div div = (Div)el;
-                    //Style style = new Style();
-                   // style.setTextAlignment(TextAlignment.CENTER);
-                   // div.addStyle(style);
+                    div.setMarginRight(30);
                     div.setMarginLeft(30);
                     parent.add(div);
                 }
             }
             doc.add(parent);
-
         }catch (Exception e){
             log.error("Error adding html to pdf document: ", e);
         }
 
     }
     //Add council logo image as header
-    public void addHeaderImage(Document doc, Resource assetRes, String title){
+    private void addHeaderImage(Document doc, Resource assetRes, String title){
         if(assetRes!= null) {
             try{
                 Asset asset = assetRes.adaptTo(Asset.class);
@@ -269,11 +269,8 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                 img.setBorderColor(BaseColor.BLACK);
                 ImageData data = ImageDataFactory.create(img.getOriginalData());
                 Image imgData = new Image(data);
-
                 Div div = new Div();
                 com.itextpdf.kernel.colors.Color myColorGreen = new DeviceRgb(0, 128, 0);
-                com.itextpdf.kernel.colors.Color myColorWhite = new DeviceRgb(0, 128, 0);
-                imgData.setPadding(10);
                 imgData.setHeight(50);
                 div.setPadding(10);
                 div.setMarginLeft(0);
@@ -282,6 +279,7 @@ public class TemplatePdfServlet extends SlingAllMethodsServlet implements Opting
                 div.setPaddingRight(0);
                 div.add(imgData);
                 doc.add(div);
+                doc.add(new Paragraph(" "));
 
             }catch (Exception e){
                 log.error("Error retrieving image data: ", e);

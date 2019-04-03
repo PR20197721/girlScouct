@@ -27,9 +27,15 @@ function buildChildren(el){
 //Iterate through initial elements under .mainContent .Par, build elements html as well as children's html
 function buildPdfHtml(){
     var html = "";
+    $("#mainContent .par").find(".title").css("color","#008000");
     $("#mainContent .par").children().each(function(index){
         $(this).inlineStyler();
-        if($(this).prop("tagName").toLowerCase() !== "cq" && $(this).prop("tagName").toLowerCase() !== "script" && !$(this).attr("class").includes("title") && $(this).html().trim() != ""){
+        $(this).find("a").each(function(){
+            $(this).css("background-color", "white");
+            $(this).css("text-decoration", "none");
+            $(this).css("font-weight", "bold");
+        });
+        if($(this).prop("tagName").toLowerCase() !== "cq" && $(this).prop("tagName").toLowerCase() !== "script"  && $(this).html().trim() != ""){
             var tag = $(this).prop("tagName").toLowerCase();
             var styles = $(this).attr("style");
             if(typeof styles !== typeof undefined && styles.length > 0){
