@@ -39,9 +39,9 @@ function buildPdfHtml(){
 
     var html = "";
     var mainContent = $("#pdfElements");
-    pdfElements = $("#pdfElements");
+
     //handle accordion exansion
-    pdfElements.find(".accordion-navigation").each(function(){
+    mainContent.find(".accordion-navigation").each(function(){
         $(this).css("height","auto");
         $(this).find(".content").css("display", "block");
     });
@@ -71,7 +71,7 @@ function buildPdfHtml(){
             html = html + "</" + tag +">";
             html = html + "~";
         }
-        pdfElements.remove()
+        mainContent.remove()
     });
     return html;
 }
