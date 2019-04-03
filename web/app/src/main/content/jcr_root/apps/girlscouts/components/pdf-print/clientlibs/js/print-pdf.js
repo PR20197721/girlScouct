@@ -74,7 +74,7 @@ function buildPdfHtml(){
             }
 
             html = html + "</" + tag +">";
-            html = html + "~";
+            html = html + "~@";
         }
         mainContent.remove()
     });

@@ -132,17 +132,6 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
         pdfMetaData.setAuthor("Girl Scouts of the United States of America");
         pdfMetaData.addCreationDate();
         pdfMetaData.setTitle(title);
-
-        // pdf conversion
-        ConverterProperties props = new ConverterProperties();
-        // Setup custom tagworker factory for pulling images straight from the DAM.
-        ITagWorkerFactory tagWorkerFactory = new GSTagWorkerFactory();
-        FontSet fontSet = new FontSet();
-        fontSet.addFont(getFontData(FONT_LOCATION, resourceResolver), null, "Trefoil Sans Web");
-        fontSet.addFont(getFontData(BOLD_FONT_LOCATION, resourceResolver), null, "Trefoil Sans Web Bold");
-        FontProvider fontFactory = new FontProvider(fontSet);
-        props.setImmediateFlush(false);
-        props.setFontProvider(fontFactory);
         Document doc = new Document(pdfDoc, PageSize.A4);
         doc.setBottomMargin(100);
         addHeaderImage(doc, resourceResolver.resolve(path), title);
@@ -204,7 +193,7 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
         String hostname = request.getRequestURL().toString();
         hostname  = hostname.substring(0,hostname.indexOf("/", hostname.indexOf("//")+2));
         try{
-            String[] elements = html.split("~");
+            String[] elements = html.split("~@");
             for(int i = 0; i<elements.length; i++){
                 //Fix inline styler issues
                 elements[i] = elements[i].replaceAll("<div","<div style='font-family: \"Trefoil Sans Web\", \"Open Sans\", Arial, sans-serif; list-style-position: inside;'");
