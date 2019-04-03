@@ -48,7 +48,7 @@ import static org.girlscouts.common.pdf.BadgeGenerator.BOLD_FONT_LOCATION;
 import static org.girlscouts.common.pdf.BadgeGenerator.FONT_LOCATION;
 
 @SlingServlet(
-        label = "Girl Scouts PDF Servlet", description = "Generate PDF from Template site page", paths = {},
+        label = "Girl Scouts PDF Servlet", description = "Generate PDF from Girl Scouts site page", paths = {},
         methods = {"POST"}, // Ignored if paths is set - Defaults to POST if not specified
         resourceTypes = { "girlscouts-common/servlet/page-pdf" }, // Ignored if
         // paths is set
