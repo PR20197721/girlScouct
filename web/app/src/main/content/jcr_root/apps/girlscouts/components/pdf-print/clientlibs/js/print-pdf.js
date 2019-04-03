@@ -40,10 +40,15 @@ function buildPdfHtml(){
     var html = "";
     var mainContent = $("#pdfElements");
 
-    //handle accordion exansion
+    //handle accordion exansion and styles
     mainContent.find(".accordion-navigation").each(function(){
         $(this).css("height","auto");
         $(this).find(".content").css("display", "block");
+    });
+    mainContent.find(".accordionComponentLabel").each(function(){
+        $(this).css("color", "white");
+        $(this).css("padding-left", "10px");
+        $(this).css("background-color", "#00ae58");
     });
     mainContent.children().each(function(index){
         var element = $(this).clone();
