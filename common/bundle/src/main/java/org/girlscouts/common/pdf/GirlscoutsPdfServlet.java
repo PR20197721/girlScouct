@@ -72,7 +72,7 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
             ByteArrayOutputStream bais = new ByteArrayOutputStream();
 
             StringBuilder sb = new StringBuilder();
-            Resource rsrc = resolverLocal.get().resolve(request.getParameter("path").replaceAll("/jcr:content",""));
+            Resource rsrc = request.getResourceResolver().resolve(request.getParameter("path").replaceAll("/jcr:content",""));
             Page homepage = rsrc.adaptTo(Page.class).getAbsoluteParent(2);
             Node home = homepage.getContentResource().adaptTo(Node.class);
             //Get header path
@@ -91,8 +91,8 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
                 log.error("Error parsing title, using homepage title: ", e);
                 title = homepage.getTitle();
             }
-            buildHtml(sb, request, resolverLocal.get());
-            generatePdf(bais, sb.toString(), path, title, request);
+            buildHtml(sb, request);
+            generatePdf(bais, sb.toString(), path, title, request, request.getResourceResolver());
             response.setContentLength(bais.size());
             bais.writeTo(response.getOutputStream());
             bais.flush();
@@ -113,7 +113,7 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
          */
         return true;
     }
-    public void buildHtml(StringBuilder sb, SlingHttpServletRequest request, ResourceResolver rr) {
+    public void buildHtml(StringBuilder sb, SlingHttpServletRequest request) {
         String pageHtml;
         try{
             pageHtml = URLDecoder.decode(request.getParameter("pageHtml"),StandardCharsets.UTF_8.name());
@@ -124,7 +124,7 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
         sb.append(pageHtml);
     }
 
-    public Document generatePdf(ByteArrayOutputStream outputStream, String html, String path, String title, SlingHttpServletRequest request) throws IOException {
+    public Document generatePdf(ByteArrayOutputStream outputStream, String html, String path, String title, SlingHttpServletRequest request, ResourceResolver resourceResolver) throws IOException {
         WriterProperties writerProperties = new WriterProperties();
 
         PdfWriter pdfWriter = new PdfWriter(outputStream, writerProperties);
@@ -142,7 +142,6 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
         ConverterProperties props = new ConverterProperties();
         // Setup custom tagworker factory for pulling images straight from the DAM.
         ITagWorkerFactory tagWorkerFactory = new GSTagWorkerFactory();
-        ResourceResolver resourceResolver = this.resolverLocal.get();
         FontSet fontSet = new FontSet();
         fontSet.addFont(getFontData(FONT_LOCATION, resourceResolver), null, "Trefoil Sans Web");
         fontSet.addFont(getFontData(BOLD_FONT_LOCATION, resourceResolver), null, "Trefoil Sans Web Bold");
