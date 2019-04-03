@@ -129,10 +129,8 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
         PdfDocument pdfDoc = new PdfDocument(pdfWriter);
         //Set meta tags
         PdfDocumentInfo pdfMetaData = pdfDoc.getDocumentInfo();
-        pdfMetaData.setAuthor("Girlscouts America");
+        pdfMetaData.setAuthor("Girl Scouts of the United States of America");
         pdfMetaData.addCreationDate();
-        pdfMetaData.setKeywords("Girlscouts Template Page");
-        pdfMetaData.setSubject("Template Page PDF");
         pdfMetaData.setTitle(title);
 
         // pdf conversion
