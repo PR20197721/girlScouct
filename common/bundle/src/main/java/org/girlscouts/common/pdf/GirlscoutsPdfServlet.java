@@ -8,12 +8,8 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.html2pdf.attach.ITagWorkerFactory;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.colorspace.PdfColorSpace;
-import com.itextpdf.layout.Style;
-import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Paragraph;
@@ -26,7 +22,6 @@ import com.itextpdf.io.font.woff2.Woff2Converter;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
-import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.text.BaseColor;
 import org.apache.commons.io.IOUtils;
 import org.apache.felix.scr.annotations.Reference;
@@ -60,8 +55,8 @@ import static org.girlscouts.common.pdf.BadgeGenerator.FONT_LOCATION;
         selectors = {}, // Ignored if paths is set
         extensions = { "html", "htm" }  // Ignored if paths is set
 )
-public class TemplatePdfServlet extends SlingAllMethodsServlet implements OptingServlet {
-    private static final Logger log = LoggerFactory.getLogger(TemplatePdfServlet.class);
+public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements OptingServlet {
+    private static final Logger log = LoggerFactory.getLogger(GirlscoutsPdfServlet.class);
     @Reference
     private transient SlingSettingsService settingsService;
 
