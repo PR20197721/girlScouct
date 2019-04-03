@@ -25,10 +25,26 @@ function buildChildren(el){
     return html;
 }
 //Iterate through initial elements under .mainContent .Par, build elements html as well as children's html
+
 function buildPdfHtml(){
+    var mainDiv = $("#mainContent .par");
+    //if gsusa site.
+    if(!$("#mainContent .par") > 0){
+        mainDiv = $(".main-content");
+    }
+    //Create new div to modify accordion styles
+    mainDiv.append("<div id='pdfElements' style='display: none;'></div>");
+    var pdfElements = $("#pdfElements");
+    pdfElements.append(mainDiv.html());
+
     var html = "";
-    var mainContent = $("#mainContent .par");
-    mainContent.find(".title").css("color","#008000");
+    var mainContent = $("#pdfElements");
+    pdfElements = $("#pdfElements");
+    //handle accordion exansion
+    pdfElements.find(".accordion-navigation").each(function(){
+        $(this).css("height","auto");
+        $(this).find(".content").css("display", "block");
+    });
     mainContent.children().each(function(index){
         var element = $(this).clone();
         element.inlineStyler();
@@ -55,9 +71,11 @@ function buildPdfHtml(){
             html = html + "</" + tag +">";
             html = html + "~";
         }
+        pdfElements.remove()
     });
     return html;
 }
+$("#pdfGen").unbind('click');
 $("#pdfGen").on('click', function(){
     //Add image size attributes
     $("#mainContent").find("img").each(function(){
