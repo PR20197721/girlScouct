@@ -30,15 +30,15 @@ function buildPdfHtml(){
     var mainContent = $("#mainContent .par");
     mainContent.find(".title").css("color","#008000");
     mainContent.children().each(function(index){
-        var style =  $(this).attr("style");
-        $(this).inlineStyler();
+        var element = $(this).clone();
+        element.inlineStyler();
         $(this).find("a").each(function(){
             $(this).css("background-color", "white");
             $(this).css("text-decoration", "none");
         });
         if($(this).prop("tagName").toLowerCase() !== "cq" && $(this).prop("tagName").toLowerCase() !== "script"  && $(this).html().trim() != ""){
             var tag = $(this).prop("tagName").toLowerCase();
-            var styles = $(this).attr("style");
+            var styles = element.attr("style");
             if(typeof styles !== typeof undefined && styles.length > 0){
                 html = html + "<" + tag + " style='"+styles+"'>";
             }else
@@ -54,7 +54,6 @@ function buildPdfHtml(){
             html = html + "</" + tag +">";
             html = html + "~";
         }
-        $(this).attr("style", style);
     });
     return html;
 }
