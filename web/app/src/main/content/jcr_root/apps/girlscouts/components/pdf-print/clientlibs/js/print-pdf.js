@@ -35,6 +35,7 @@ function buildPdfHtml(){
         $(this).find("a").each(function(){
             $(this).css("background-color", "white");
             $(this).css("text-decoration", "none");
+            $(this).css("color","#00ae58");
         });
         if($(this).prop("tagName").toLowerCase() !== "cq" && $(this).prop("tagName").toLowerCase() !== "script"  && $(this).html().trim() != ""){
             var tag = $(this).prop("tagName").toLowerCase();
@@ -69,7 +70,7 @@ $("#pdfGen").on('click', function(){
     var returner = new Promise(function(res, rej) {
         xhr.onload = function () {
             if (this.status === 200) {
-                var filename = "PagePdf";
+                var filename = "GirlScoutsGeneratedPdf";
                 var type = "application/pdf";
                 var blob;
                 try{
