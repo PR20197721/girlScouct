@@ -2,7 +2,7 @@
 function buildChildren(el){
     var html = "";
     el.children().each(function(index){
-         if($(this).prop("tagName").toLowerCase() !== "cq"  && $(this).prop("tagName").toLowerCase() !== "script" && $(this).html().trim() != ""){
+         if($(this).prop("tagName").toLowerCase() !== "cq"  && $(this).prop("tagName").toLowerCase() !== "script" && $(this).html().trim() != "" && $(this).attr("id") !== "pdfGen"){
             var tag = $(this).prop("tagName").toLowerCase();
              var styles = $(this).attr("style");
              if(typeof styles !== typeof undefined && styles.length > 0){
@@ -25,15 +25,10 @@ function buildChildren(el){
     return html;
 }
 //Iterate through initial elements under .mainContent .Par, build elements html as well as children's html
-var pdfPath;
-var pdfElement;
 function buildPdfHtml(){
     var html = "";
     var mainContent = $("#mainContent .par");
     mainContent.find(".title").css("color","#008000");
-    pdfPath = $("#pdfLink").attr("pdfpath");
-    pdfElement = mainContent.find("#pdfLink");
-    mainContent.find("#pdfLink").remove();
     mainContent.children().each(function(index){
         var style =  $(this).attr("style");
         $(this).inlineStyler();
@@ -98,12 +93,11 @@ $("#pdfGen").on('click', function(){
                 console.log("Pdf generation failed")
                 rej();
             }
-            $("#pdfGen").append(pdfElement);
         };
     });
     var html = encodeURI(buildPdfHtml());
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=utf-8');
-    xhr.send($.param({pageHtml: html, path: pdfPath, title: $("#pdfLink").attr("title")}));
+    xhr.send($.param({pageHtml: html, path: $("#pdfLink").attr("pdfpath"), title: $("#pdfLink").attr("title")}));
     return returner;
 
 });
