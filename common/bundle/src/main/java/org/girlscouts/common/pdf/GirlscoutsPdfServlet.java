@@ -68,6 +68,8 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
             try{
                 if(home.hasNode("header/logo/regular")){
                     path = home.getNode("header/logo/regular").getProperty("fileReference").getString();
+                }else{
+                    path = home.getNode("header/logo/image").getProperty("fileReference").getString();
                 }
             }catch (Exception e){
                 path = "/content/dam/girlscouts-gsusa/images/logo/logo.png.transform/cq5dam.web.1280.1280/img.png";
