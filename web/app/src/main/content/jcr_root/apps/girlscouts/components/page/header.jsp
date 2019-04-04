@@ -40,6 +40,7 @@
 				        <% if(currentSite.get("hideSearch","false").equals("false")){ %>
 				        <% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>
 				        <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
+				        <cq:include path="content/middle/pdf-print" resourceType="girlscouts/components/pdf-print" />
 				      	<%} %>
 	      			</div>
     			</div>
