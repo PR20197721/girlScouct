@@ -1,7 +1,7 @@
 <div data-sly-use.print="org.girlscouts.web.components.models.PdfPrint">
     <sly data-sly-test="${print.showPdf}">
         <span id="pdfGen">
-             <label id="pdfLink" style="text-align: ${print.alignmentStyle @ context='styleString'};" class="icon-picker-icon icon-pdf-file-extension"  pdfpath = "${print.pdfPath}" title="${print.pageTitle}" ></label>
+             <label id="pdfLink" class="icon-picker-icon icon-pdf-file-extension"  pdfpath = "${print.pdfPath}" title="${print.pageTitle}" ></label>
         </span>
         <sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
             <sly data-sly-call="${clientlib.all @ categories='apps.girlscouts.components.pdfprint'}"/>
