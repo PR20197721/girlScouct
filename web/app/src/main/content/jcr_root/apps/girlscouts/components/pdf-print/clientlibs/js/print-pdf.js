@@ -54,7 +54,9 @@ function buildPdfHtml(){
         var element = $(this).clone();
         element.inlineStyler();
         $(this).find("a").each(function(){
-            $(this).css("background-color", "white");
+            if($(this).attr("id") !== "pdfLink"){
+                 $(this).css("background-color", "white");
+            }
             $(this).css("text-decoration", "none");
             $(this).css("color","#00ae58");
         });
