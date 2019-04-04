@@ -46,6 +46,7 @@
     			</div>
 	    		<cq:include script="mobile-cta.jsp"/>
 	    		<div class="show-for-small small-24 columns topMessage alt">
+	    		<cq:include path="content/middle/pdf-print" resourceType="girlscouts/components/pdf-print" />
 	      			<div class="row vtk-login collapse">
 	        			<% setCssClasses("small-19 columns", request); %>
 	        			<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
