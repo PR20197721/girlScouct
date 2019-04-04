@@ -3,9 +3,7 @@ package org.girlscouts.common.pdf;
 import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.api.Rendition;
 import com.day.cq.wcm.api.Page;
-import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
-import com.itextpdf.html2pdf.attach.ITagWorkerFactory;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.DeviceRgb;
@@ -16,8 +14,6 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfDocumentInfo;
 import com.itextpdf.kernel.pdf.WriterProperties;
-import com.itextpdf.layout.font.FontProvider;
-import com.itextpdf.layout.font.FontSet;
 import com.itextpdf.io.font.woff2.Woff2Converter;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
@@ -44,9 +40,6 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
-import static org.girlscouts.common.pdf.BadgeGenerator.BOLD_FONT_LOCATION;
-import static org.girlscouts.common.pdf.BadgeGenerator.FONT_LOCATION;
-
 @SlingServlet(
         label = "Girl Scouts PDF Servlet", description = "Generate PDF from Girl Scouts site page", paths = {},
         methods = {"POST"}, // Ignored if paths is set - Defaults to POST if not specified
@@ -57,8 +50,6 @@ import static org.girlscouts.common.pdf.BadgeGenerator.FONT_LOCATION;
 )
 public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements OptingServlet {
     private static final Logger log = LoggerFactory.getLogger(GirlscoutsPdfServlet.class);
-    @Reference
-    private transient SlingSettingsService settingsService;
 
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
