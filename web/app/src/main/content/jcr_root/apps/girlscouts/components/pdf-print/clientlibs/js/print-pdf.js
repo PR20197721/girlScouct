@@ -36,6 +36,9 @@ function buildPdfHtml(){
     mainDiv.append("<div id='pdfElements' style='display: none;'></div>");
     var pdfElements = $("#pdfElements");
     pdfElements.append(mainDiv.html());
+    pdfElements.find(".large-block-grid-3 > li").each(function(){
+        $(this).css("list-style","none");
+    });
 
     var html = "";
     var mainContent = $("#pdfElements");
