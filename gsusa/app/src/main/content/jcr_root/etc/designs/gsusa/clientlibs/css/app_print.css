@@ -11,3 +11,5 @@ footer { display: none; }
 .dynamic-tag-carousel { display: none; }
 .related-articles { display: none; }
 .article-social-bar { display: none; }
+.accordion-navigation { height: auto; }
+.accordion .accordion-navigation > .content, .accordion dd > .content { display: block; }
