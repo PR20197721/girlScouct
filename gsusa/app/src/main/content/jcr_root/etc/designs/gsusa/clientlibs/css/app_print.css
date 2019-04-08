@@ -14,4 +14,3 @@ footer { display: none; }
 .accordion-navigation { height: auto; }
 .accordion .accordion-navigation > .content, .accordion dd > .content { display: block; }
 .accordion.section dd{ height: auto; }
-.accordion.section { height: 100%; }
