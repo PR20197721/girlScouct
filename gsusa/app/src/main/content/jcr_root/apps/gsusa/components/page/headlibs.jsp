@@ -59,14 +59,8 @@
 <!--[if gt IE 9]><!-->
 <link rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app.css">
 <!--<![endif]-->
-<%
-    Node node = currentPage.adaptTo(Node.class);
-    node = node.getNode("jcr:content");
-    if(node.hasProperty("addStyles") && node.getProperty("addStyles").getString().equals("true")){%>
-        <link media="print" rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app_print.css"><%
-    }
 
-%>
+<link media="print" rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app_print.css">
 
 <script src="/etc/designs/gsusa/clientlibs/js/modernizr.js" type="text/javascript"></script>
 

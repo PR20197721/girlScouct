@@ -51,14 +51,8 @@ if (newCurrentDesign != null) {
 	
 	String hideSignIn = currentSite.get("hideSignIn", "");
 %>
-<%
-    Node node = currentPage.adaptTo(Node.class);
-    node = node.getNode("jcr:content");
-    if(node.hasProperty("addStyles") && node.getProperty("addStyles").getString().equals("true")){%>
-        <link media="print" rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app_print.css"><%
-    }
+<link media="print" rel="stylesheet" type="text/css" href="/etc/designs/girlscouts/clientlibs/css/app_print.css">
 
-%>
 	<script type="text/javascript">
 	///the variable has to be set on the page where the resizing is needed not in the header.
   //  	var fixVerticalSizing = true;

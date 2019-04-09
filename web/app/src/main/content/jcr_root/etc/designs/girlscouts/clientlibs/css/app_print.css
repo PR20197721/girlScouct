@@ -5,6 +5,7 @@ div.header { display: none; }
 div.left-col { display: none; }
 div.right-col { display: none; }
 footer { display: none; }
+.side-nav{ display: none; }
 .three-cols .right-wrapper { width: 100%; }
 .three-cols .middle-col { width: 100%; }
 .standalone-cookie-header { display: none; }

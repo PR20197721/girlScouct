@@ -32,14 +32,6 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/container">
                                 <items jcr:primaryType="nt:unstructured">
-                                    <print-style
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                        text="Add CSS when printing?"
-                                        name="./addStyles"
-                                        uncheckedValue="false"
-                                        checked="{Boolean}true"
-                                        value="true"/>
                                     <global-srch-landing-page
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="girlscouts/components/form/pathfield"
