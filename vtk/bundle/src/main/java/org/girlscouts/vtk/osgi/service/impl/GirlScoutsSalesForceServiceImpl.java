@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
 import org.girlscouts.vtk.auth.models.ApiConfig;
+import org.girlscouts.vtk.auth.permission.Permission;
+import org.girlscouts.vtk.auth.permission.RollType;
 import org.girlscouts.vtk.mapper.ParentEntityToTroopMapper;
 import org.girlscouts.vtk.mapper.TroopEntityToTroopMapper;
 import org.girlscouts.vtk.mapper.UserInfoResponseEntityToUserMapper;
@@ -33,10 +35,8 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     @Reference
     GirlScoutsSalesForceFileClient sfFileClient;
 
-    private ComponentContext context;
-
-    private int demoCouncilCode;
-    private boolean isLoadFromFile;
+    private Integer demoCouncilCode;
+    private Boolean isLoadFromFile;
 
     private static Logger log = LoggerFactory.getLogger(GirlScoutsSalesForceServiceImpl.class);
 
@@ -71,7 +71,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
 
     @Override
     public User getUser(ApiConfig apiConfig) {
-        User user = new User();
         try {
             UserInfoResponseEntity userInfoResponseEntity = null;
             if (!apiConfig.isDemoUser() && !isLoadFromFile) {
@@ -80,32 +79,33 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 userInfoResponseEntity = sfFileClient.getUserInfo(apiConfig);
             }
             UserInfoResponseEntityToUserMapper mapper = new UserInfoResponseEntityToUserMapper();
-            mapper.map(userInfoResponseEntity, user);
+            User user = mapper.map(userInfoResponseEntity);
             addMoreInfo(apiConfig, userInfoResponseEntity, user);
+            return user;
         }catch(Exception e){
             log.error("Error occurred: ", e);
         }
-        return user;
+        return null;
     }
 
     @Override
     public User getUserById(ApiConfig apiConfig, String userId) {
-        User user = new User();
         try{
-            user.setApiConfig(apiConfig);
             UserInfoResponseEntity userInfoResponseEntity = sfRestClient.getUserInfoById(apiConfig, userId);
             UserInfoResponseEntityToUserMapper mapper =  new UserInfoResponseEntityToUserMapper();
-            mapper.map(userInfoResponseEntity, user);
+            User user = mapper.map(userInfoResponseEntity);
+            user.setApiConfig(apiConfig);
             addMoreInfo(apiConfig, userInfoResponseEntity, user);
+            return user;
         }catch(Exception e){
             log.error("Error occurred: ", e);
         }
-        return user;
+        return null;
     }
 
     @Override
     public List<Troop> getTroopInfoByUserId(ApiConfig apiConfig, String userId) {
-        List<Troop> troops = null;
+        List<Troop> troops = new ArrayList<Troop>();
         try{
             TroopInfoResponseEntity troopInfoResponseEntity = sfRestClient.getTroopInfoByUserId(apiConfig, userId);
             if(troopInfoResponseEntity != null){
@@ -113,8 +113,11 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 TroopEntity[] entities = troopInfoResponseEntity.getTroops();
                 if(entities != null){
                     for(TroopEntity entity:entities){
-                        Troop troop = new Troop();
-                        troops.add(mapper.map(entity, troop));
+                        Troop troop = mapper.map(entity);
+                        if (apiConfig.isDemoUser()) {
+                            troop.setCouncilCode(demoCouncilCode);
+                        }
+                        troops.add(troop);
                     }
                 }
             }
@@ -165,12 +168,36 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         if(campsTroops != null && campsTroops.length > 0){
             ParentEntityToTroopMapper mapper = new ParentEntityToTroopMapper();
             for(ParentEntity entity: campsTroops){
-                Troop troop = new Troop();
-                parentTroops.add(mapper.map(entity, troop));
+                Troop troop = mapper.map(entity);
+                parentTroops.add(troop);
             }
         }
         List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
-        user.setTroops(mergeTroops(parentTroops, additionalTroops));
+        List<Troop> mergedTroops = mergeTroops(parentTroops, additionalTroops);
+        for(Troop troop:mergedTroops) {
+            if (apiConfig.isDemoUser()) {
+                troop.setCouncilCode(demoCouncilCode);
+            }
+            setTroopPermissions(apiConfig, troop, user.isAdmin());
+        }
+        user.setTroops(mergedTroops);
+    }
+
+    private void setTroopPermissions(ApiConfig apiConfig, Troop troop, boolean isAdmin) {
+        if (apiConfig.isDemoUser()) {
+            troop.setCouncilCode(demoCouncilCode);
+        }
+        RollType rollType = RollType.valueOf(troop.getRole());
+        troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+        if (rollType.getRollType().equals("PA")) {
+            troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+        }
+        if (rollType.getRollType().equals("DP")) {
+            troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+        }
+        if (isAdmin) {
+            troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+        }
     }
 
     private List<Troop> mergeTroops(List<Troop> A, List<Troop> B) {

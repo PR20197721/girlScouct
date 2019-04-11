@@ -37,8 +37,6 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
 
     private static Logger log = LoggerFactory.getLogger(GirlScoutsSalesForceFileClientImpl.class);
 
-    private ComponentContext context;
-
     private String localJsonPath;
 
 

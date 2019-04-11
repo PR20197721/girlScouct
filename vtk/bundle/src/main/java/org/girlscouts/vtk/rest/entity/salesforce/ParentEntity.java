@@ -22,7 +22,6 @@ public class ParentEntity {
     @SerializedName("Name")
     private String troopName;
 
-
     public String getSfId() {
         return sfId;
     }
@@ -45,5 +44,29 @@ public class ParentEntity {
 
     public void setAttributes(AttributesEntity attributes) {
         this.attributes = attributes;
+    }
+
+    public String getAccountCode() {
+        return accountCode;
+    }
+
+    public void setAccountCode(String accountCode) {
+        this.accountCode = accountCode;
+    }
+
+    public String getGradeLevel() {
+        return gradeLevel;
+    }
+
+    public void setGradeLevel(String gradeLevel) {
+        this.gradeLevel = gradeLevel;
+    }
+
+    public String getTroopName() {
+        return troopName;
+    }
+
+    public void setTroopName(String troopName) {
+        this.troopName = troopName;
     }
 }

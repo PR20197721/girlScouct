@@ -51,7 +51,6 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
     private String gsCertificate;
     private String clientId;
 
-
     @Activate
     private void activate(ComponentContext context) {
         this.context = context;

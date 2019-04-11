@@ -10,8 +10,9 @@ public class UserInfoResponseEntityToUserMapper {
 
     private static Logger log = LoggerFactory.getLogger(UserInfoResponseEntityToUserMapper.class);
 
-    public User map(UserInfoResponseEntity entity, User user){
+    public User map(UserInfoResponseEntity entity){
         try {
+            User user = new User();
             if (entity != null && entity.getUsers() != null && user != null) {
                 UserEntity userEntity = entity.getUsers()[0];
                 try {
@@ -59,6 +60,7 @@ public class UserInfoResponseEntityToUserMapper {
                 } catch (Exception ex) {
                     log.error("Error occurred mapping admin council code to User ", ex);
                 }
+                return user;
             }
         }catch(Exception e){
             log.error("Error occurred mapping UserInfoResponseEntity to User ", e);

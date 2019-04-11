@@ -4,6 +4,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.girlscouts.vtk.sso.AccountSettings;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.security.cert.CertificateException;
@@ -34,20 +35,35 @@ public class Response {
     }
 
     public String getUserId() throws Exception {
-        xmlDoc.toString();
-        NodeList nodes = xmlDoc. getElementsByTagNameNS("urn:oasis:names:tc:SAML:2.0:assertion", "userId");
-
-        if (nodes.getLength() == 0) {
-            throw new Exception("No name id found in Document.");
+        NodeList attributes = xmlDoc.getElementsByTagName("saml:AttributeStatement");
+        if(attributes != null) {
+            NodeList attributeshildNodes = attributes.item(0).getChildNodes();
+            for (int i = 0; i < attributeshildNodes.getLength(); i++) {
+                Node node = attributeshildNodes.item(i);
+                String name = node.getAttributes().getNamedItem("Name").getNodeValue();
+                if ("userId".equals(name)) {
+                    return node.getTextContent();
+                }
+            }
+        }else{
+            throw new Exception("No saml:AttributeStatement element found in SAML response.");
         }
-        return nodes.item(0).getTextContent();
+        return null;
     }
 
     public String getToken() throws Exception {
-        NodeList nodes = xmlDoc.get getElementsByTagNameNS("urn:oasis:names:tc:SAML:2.0:nameid-format:persistent", "saml:NameID");
-        if (nodes.getLength() == 0) {
-            throw new Exception("No name id found in Document.");
+        NodeList subject = xmlDoc.getElementsByTagName("saml:Subject");
+        if(subject != null) {
+            NodeList subjectChildNodes = subject.item(0).getChildNodes();
+            for (int i = 0; i < subjectChildNodes.getLength(); i++) {
+                Node node = subjectChildNodes.item(i);
+                if ("saml:NameID".equals(node.getNodeName())) {
+                    return node.getTextContent();
+                }
+            }
+        }else{
+            throw new Exception("No saml:Subject element found in SAML response.");
         }
-        return nodes.item(0).getTextContent();
+        return null;
     }
 }
