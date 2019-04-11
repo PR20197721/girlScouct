@@ -1,6 +1,6 @@
 package org.girlscouts.vtk.helpers;
 
-import org.girlscouts.vtk.salesforce.Troop;
+import org.girlscouts.vtk.models.Troop;
 
 public interface TroopHashGenerator {
     String hash(String troopId);

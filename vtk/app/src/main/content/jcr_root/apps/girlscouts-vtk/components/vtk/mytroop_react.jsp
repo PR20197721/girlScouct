@@ -11,7 +11,7 @@
 	}
 
 	if( contacts==null ){
-		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory, sling.getService(org.girlscouts.vtk.ejb.SessionFactory.class)).getContacts( user.getApiConfig(), troop.getSfTroopId());
+		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(connectionFactory, sling.getService(org.girlscouts.vtk.ejb.SessionFactory.class)).getContacts( user.getApiConfig(), troop.getSfTroopId());
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}

@@ -193,7 +193,7 @@ public class FinanceUtil {
 			email.setFrom("NOREPLY@girlscouts.org");
 			email.setTo(emailRecipients);
 			email.setSubject("Troop financial Report \""
-					+ troop.getTroop().getTroopName() + "\" - "
+					+ troop.getTroopName() + "\" - "
 					+ user.getApiConfig().getUser().getFirstName() + " : "
 					+ user.getApiConfig().getUser().getLastName());
 			email.attach(new ByteArrayDataSource(csvContents.getBytes(),

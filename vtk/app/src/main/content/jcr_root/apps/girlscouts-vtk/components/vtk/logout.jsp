@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,java.lang.*"%>
+<%@ page import="org.girlscouts.vtk.models.*,org.girlscouts.vtk.ejb.*,java.lang.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 

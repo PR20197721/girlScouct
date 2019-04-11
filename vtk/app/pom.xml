@@ -17,6 +17,9 @@
     <artifactId>girlscouts-vtk-app</artifactId>
     <packaging>content-package</packaging>
     <name>Girl Scouts VTK App Package</name>
+    <properties>
+        <jackson_version>2.9.8</jackson_version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -68,6 +71,21 @@
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.event</artifactId>
             <version>4.2.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson_version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -176,6 +194,21 @@
                         <embedded>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>modified-checker</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>com.fasterxml.jackson.core</groupId>
+                            <artifactId>jackson-annotations</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>com.fasterxml.jackson.core</groupId>
+                            <artifactId>jackson-core</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>com.fasterxml.jackson.core</groupId>
+                            <artifactId>jackson-databind</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
                     </embeddeds>
@@ -289,6 +322,21 @@
                                 <embedded>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>modified-checker</artifactId>
+                                    <target>/apps/girlscouts-vtk/install</target>
+                                </embedded>
+                                <embedded>
+                                    <groupId>com.fasterxml.jackson.core</groupId>
+                                    <artifactId>jackson-annotations</artifactId>
+                                    <target>/apps/girlscouts-vtk/install</target>
+                                </embedded>
+                                <embedded>
+                                    <groupId>com.fasterxml.jackson.core</groupId>
+                                    <artifactId>jackson-core</artifactId>
+                                    <target>/apps/girlscouts-vtk/install</target>
+                                </embedded>
+                                <embedded>
+                                    <groupId>com.fasterxml.jackson.core</groupId>
+                                    <artifactId>jackson-databind</artifactId>
                                     <target>/apps/girlscouts-vtk/install</target>
                                 </embedded>
                             </embeddeds>

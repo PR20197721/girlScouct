@@ -1,16 +1,15 @@
 package org.girlscouts.vtk.impl.helpers;
 
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.models.Troop;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Service;
-import org.girlscouts.vtk.helpers.TroopHashGenerator;
-import org.girlscouts.vtk.salesforce.Troop;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Component
 @Service

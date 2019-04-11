@@ -680,7 +680,7 @@ public class MeetingUtil {
 		String[] split = meeting.getRefId().split("/");
 		String file = split[(split.length - 1)];
 		file = file.substring(0, file.indexOf("_"));
-		String ageLevel = troop.getTroop().getGradeLevel();
+		String ageLevel = troop.getGradeLevel();
 		try {
 			ageLevel = ageLevel.substring(ageLevel.indexOf("-") + 1)
 					.toLowerCase().trim();
@@ -1216,7 +1216,7 @@ public class MeetingUtil {
 			}
 		}
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				troopDAO, connectionFactory, sessionFactory).getContacts(user.getApiConfig(),
+		        connectionFactory, sessionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
 		
 		contacts = contacts.stream()
@@ -1341,7 +1341,7 @@ public class MeetingUtil {
 		}
 
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				troopDAO, connectionFactory, sessionFactory).getContacts(user.getApiConfig(),
+				connectionFactory, sessionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
 		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid

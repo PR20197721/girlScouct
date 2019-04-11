@@ -1,7 +1,7 @@
 <%@page
-	import="java.util.Comparator, org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
-                    org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.cq.wcm.foundation.Image, com.day.cq.commons.Doctype,com.day.cq.wcm.api.components.DropTarget,com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO,
-                    org.girlscouts.vtk.helpers.TroopHashGenerator, org.girlscouts.vtk.models.JcrCollectionHoldString, org.girlscouts.vtk.ejb.CouncilRpt,org.slf4j.Logger,org.slf4j.LoggerFactory"%>
+	import="com.day.cq.commons.Doctype, com.day.cq.commons.ImageHelper,com.day.cq.commons.jcr.JcrUtil,com.day.cq.wcm.api.components.DropTarget, com.day.cq.wcm.foundation.Image, com.day.image.Layer,com.fasterxml.jackson.databind.ObjectMapper,org.apache.commons.codec.binary.Base64,
+                    org.girlscouts.vtk.ejb.CouncilRpt, org.girlscouts.vtk.ejb.EmailMeetingReminder, org.girlscouts.vtk.ejb.VtkYearPlanChangeException,org.girlscouts.vtk.helpers.TroopHashGenerator,org.girlscouts.vtk.models.*, org.girlscouts.vtk.modifiedcheck.ModifiedChecker, org.joda.time.LocalDate, org.slf4j.Logger, org.slf4j.LoggerFactory, javax.imageio.ImageIO, java.awt.geom.Rectangle2D, java.awt.image.BufferedImage, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.util.Collections,
+                    java.util.LinkedList, java.util.List, java.util.StringTokenizer"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:defineObjects />
@@ -16,10 +16,10 @@
 	}
 	String serverName = request.getServerName();
 	try {
-		org.girlscouts.vtk.models.ActionController aContr = null;
+		ActionController aContr = null;
 		try {
 			if (request.getParameter("act") != null){
-				aContr = org.girlscouts.vtk.models.ActionController.valueOf(request.getParameter("act"));
+				aContr = ActionController.valueOf(request.getParameter("act"));
 			}
 		} catch (java.lang.IllegalArgumentException iae) {
 			vtklog.error("Exception occured:",iae);
@@ -182,7 +182,7 @@
 					return;
 				case CreateCustomActivity:
 					yearPlanUtil.createCustActivity(user, troop,
-									(java.util.List<org.girlscouts.vtk.models.Activity>) session
+									(java.util.List<Activity>) session
 											.getValue("vtk_search_activity"), request.getParameter("newCustActivityBean"));
 					return;
 				case isAltered:
@@ -255,7 +255,7 @@
 			emr.setTo(user.getApiConfig().getUser().getEmail());
 			if (email_to_gp.equals("true")) {
 				java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-						troopDAO, connectionFactory).getContacts(
+						connectionFactory).getContacts(
 						user.getApiConfig(), troop.getSfTroopId());
 				String emails = null;
 				for (int i = 0; i < contacts.size(); i++) {
@@ -354,7 +354,7 @@
 		} else if (request.getParameter("addAsset") != null) {
 			vtklog.debug("addAsset");
 			troopUtil.addAsset(user, troop, request.getParameter("meetingUid"),
-					new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset")));
+					new Asset(request.getParameter("addAsset")));
 		} else if (request.getParameter("reactjs") != null || request.getAttribute("reactjs") != null) {
            	vtklog.debug("reactjs");
        		try{
@@ -370,7 +370,7 @@
 					isCng = modifiedChecker.isModified("X" + session.getId(), troop.getYearPlan().getPath());		
 				}
 				if (isFirst || isCng) {
-                	org.girlscouts.vtk.salesforce.Troop prefTroop = null;
+                    Troop prefTroop = null;
                     if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
                             prefTroop = apiConfig.getTroops().get(0);
                     }
@@ -386,7 +386,7 @@
                		VtkUtil.cngYear(request,  user,  troop);
 	                if( !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
 	                     java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);
-	                     org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(prefTroop));
+	                     Troop newTroopCloned = ((Troop)VtkUtil.deepClone(prefTroop));
 	                     newTroopCloned.setPermissionTokens( permis );
 	                     troop.setTroop(newTroopCloned);
 	                }else{
@@ -521,7 +521,7 @@
 					isCng = modifiedChecker.isModified("X" + session.getId(), troop.getYearPlan().getPath());
 				}			
 				if (isFirst || isCng) {
-					org.girlscouts.vtk.salesforce.Troop prefTroop = null;
+					Troop prefTroop = null;
 					if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
 						prefTroop = apiConfig.getTroops().get(0);
 					}
@@ -537,7 +537,7 @@
        				VtkUtil.cngYear(request,  user,  troop);
 			        if( !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
 			             java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);
-			             org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(prefTroop));
+			             Troop newTroopCloned = ((Troop)VtkUtil.deepClone(prefTroop));
 			             newTroopCloned.setPermissionTokens( permis );
 			             troop.setTroop(newTroopCloned);
 			        }else{
@@ -614,7 +614,7 @@
                	isCng = modifiedChecker.isModified("X" + session.getId(), troop.getYearPlan().getPath());
            	}
            	if (isFirst || isCng) {
-               	org.girlscouts.vtk.salesforce.Troop prefTroop = null;
+               	Troop prefTroop = null;
                    if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
                            prefTroop = apiConfig.getTroops().get(0);
                    }
@@ -951,7 +951,7 @@
         	vtklog.debug("cngYearToCurrent");
             user.setCurrentYear( VtkUtil.getCurrentGSYear()+"" );
             java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_LEADER_PERMISSIONS);
-            org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(troop.getTroop()));
+            Troop newTroopCloned = ((Troop)VtkUtil.deepClone(troop.getTroop()));
             newTroopCloned.setPermissionTokens( permis );
             troop.setTroop(newTroopCloned);
             if( !troopDAO.isArchivedYearPlan(user, troop,  ""+VtkUtil.getCurrentGSYear()) ){troop.setYearPlan(null);}
@@ -981,14 +981,14 @@
        	 	if( !isRm ){
        		 	response.sendError(404, "Note not removed.");
        	 	}else{
-       		    java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") );
+       		    java.util.List <Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") );
                 out.println( new ObjectMapper().writeValueAsString(notes));
        	 	}
 	        }else if( request.getParameter("editNote") != null ){  
 	            out.println("{vtkresp:"+ meetingUtil.editNote(user, troop,request.getParameter("nid"), request.getParameter("msg") )+"}");
 	        }else if( request.getParameter("getNotes") != null ){
 	                response.setContentType("application/json");
-	                java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") ); 
+	                java.util.List <Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") );
 	                out.println( new ObjectMapper().writeValueAsString(notes));
 	        }else if(request.getParameter("addMeetings") != null){
 	            meetingUtil.addMeetings(user, troop, request.getParameterValues("addMeetingMulti"));

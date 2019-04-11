@@ -46,7 +46,7 @@
 	if ( request.getParameter("cid") != null) {
 		cid =  (String)request.getParameter("cid");
 	}
-	java.util.List<CouncilRptBean> container = councilRpt.getRpt(cid);
+	java.util.List<CouncilRptBean> container = councilRpt.getRpt(cid, user.getApiConfig());
 	int count=0;
 	for(String ageGroup : ageGroups){
 		java.util.List<CouncilRptBean> brownies= councilRpt.getCollection_byAgeGroup( container, ageGroup);

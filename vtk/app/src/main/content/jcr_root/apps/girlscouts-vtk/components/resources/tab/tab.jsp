@@ -7,15 +7,10 @@
 --%><%
 %><%@page import="java.util.*,
 	com.day.cq.wcm.api.WCMMode,
-	org.girlscouts.vtk.models.Troop,
-	org.girlscouts.vtk.models.*,
-	com.day.cq.wcm.api.components.IncludeOptions,
-	org.girlscouts.vtk.utils.*"%><%
+	com.day.cq.wcm.api.components.IncludeOptions"%><%
 %><%@include file="/libs/foundation/global.jsp"%><%
 %><%@page session="false" %>
 <%
-	User user = (User)request.getAttribute("vtk-request-user");
-	Troop troop = (Troop)request.getAttribute("vtk-request-troop");
 	WCMMode prevMode = (WCMMode)request.getAttribute("VTK_RESOURCES_PREV_MODE");
 	prevMode.toRequest(request);
 
@@ -39,7 +34,6 @@
 				<div class="__complement">
 					<% for (int i = 0; i < levels.length; i++) { %>
 					<% String level = levels[i]; %>
-					<%--  String selected = (level.toLowerCase().replaceAll("-level","").equals(VtkUtil.formatLevel(user, troop)) ? "selected" : "");  --%>
 					<%  String selected = (i == 0 ? "selected" : ""); %> 
  					<li class="_<%= level.toLowerCase() %> <%= selected %>"></li>
 					<% } %>

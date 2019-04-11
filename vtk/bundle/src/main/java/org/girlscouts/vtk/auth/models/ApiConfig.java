@@ -3,7 +3,8 @@ package org.girlscouts.vtk.auth.models;
 import java.io.Serializable;
 
 import org.girlscouts.vtk.ejb.VtkError;
-import org.girlscouts.vtk.salesforce.Troop;
+import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 
 public class ApiConfig implements Serializable {
 
@@ -14,7 +15,7 @@ public class ApiConfig implements Serializable {
 	private static final long serialVersionUID = 7310414085726791761L;
 	private String accessToken, instanceUrl, tokenType, id, refreshToken,
 			userId, webServicesUrl; /* userId should be moved out.User obj exists* */
-	private org.girlscouts.vtk.auth.models.User user;
+	private User user;
 	private java.util.List<Troop> troops;
 	
 	//used in refreshToken
@@ -108,11 +109,11 @@ public class ApiConfig implements Serializable {
 		this.refreshToken = refreshToken;
 	}
 
-	public org.girlscouts.vtk.auth.models.User getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(org.girlscouts.vtk.auth.models.User user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

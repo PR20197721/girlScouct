@@ -26,9 +26,6 @@ public class SalesforceDAOFactory implements ConfigListener {
 	ConfigManager configManager;
 
 	@Reference
-	TroopDAO troopDAO;
-
-	@Reference
 	private ConnectionFactory connectionFactory;
 	
 	@Reference
@@ -45,7 +42,6 @@ public class SalesforceDAOFactory implements ConfigListener {
 		clientSecret = (String) configs.get("clientSecret");
 		OAuthUrl = (String) configs.get("OAuthUrl");
 		callbackUrl = (String) configs.get("callbackUrl");
-
 	}
 
 	@Activate
@@ -54,12 +50,11 @@ public class SalesforceDAOFactory implements ConfigListener {
 	}
 
 	public SalesforceDAO getInstance() {
-		SalesforceDAO dao = new SalesforceDAO(troopDAO, connectionFactory, sessionFactory);
+		SalesforceDAO dao = new SalesforceDAO(connectionFactory, sessionFactory);
 		dao.clientId = clientId;
 		dao.clientSecret = clientSecret;
 		dao.OAuthUrl = OAuthUrl;
 		dao.callbackUrl = callbackUrl;
-
 		return dao;
 	}
 }

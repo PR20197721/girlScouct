@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.ejb;
 
 import java.util.Comparator;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.joda.time.LocalDate;
 import java.util.*;
 import org.girlscouts.vtk.auth.models.ApiConfig;
@@ -395,7 +395,7 @@ public class VtkController {
 
 			if (email_to_gp.equals("true")) {
 				java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-						troopDAO, connectionFactory).getContacts(
+						connectionFactory).getContacts(
 						user.getApiConfig(), troop.getSfTroopId());
 				String emails = null;
 				for (int i = 0; i < contacts.size(); i++) {

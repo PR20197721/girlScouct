@@ -4,8 +4,6 @@
 	java.util.HashSet,
 	java.util.Set,
 	java.util.ArrayList,
-	org.girlscouts.vtk.models.User,
-	org.girlscouts.vtk.dao.TroopDAO,
 	java.util.List" %>
 	<%@include file="/libs/foundation/global.jsp" %>
 	<%@include file="include/session.jsp"%>
