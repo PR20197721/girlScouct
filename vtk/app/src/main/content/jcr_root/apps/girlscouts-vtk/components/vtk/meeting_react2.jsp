@@ -6,8 +6,8 @@ pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
-String readonlyModeStr = VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
-    VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ? "false" : "true";
+String readonlyModeStr = VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
+    VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID) ? "false" : "true";
 
 Cookie cookie = new Cookie("VTKReadonlyMode", readonlyModeStr);
 cookie.setPath("/");
@@ -55,13 +55,13 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
   data-user_current_year="<%= user.getCurrentYear() %>"
   data-vtk_current_year="<%= VtkUtil.getCurrentGSYear() %>"
   data-vtk_server_url='<%= meetingDataUrl %>'
-  data-vtk_troop_hasPermision_edit_yearplan_id = "<%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) %>"
+  data-vtk_troop_hasPermision_edit_yearplan_id = "<%= VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) %>"
 %>
 </div>
 
 
 
-<% if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ){ %>
+<% if( VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID) ){ %>
   <%@include file="include/notes.jsp"%>
 <% } %>
 

@@ -25,13 +25,13 @@
             List <String> sqls = new ArrayList();
     
             //check all meetings
-            sqls.add("select child.* from [nt:unstructured] as parent  INNER JOIN [nt:unstructured] as child on ISCHILDNODE( child, parent)  where ISDESCENDANTNODE (parent, '"+VtkUtil.getYearPlanBase(user, troop) +"') and NAME(parent)='meetingEvents' and child.ocm_classname is null");
+            sqls.add("select child.* from [nt:unstructured] as parent  INNER JOIN [nt:unstructured] as child on ISCHILDNODE( child, parent)  where ISDESCENDANTNODE (parent, '"+VtkUtil.getYearPlanBase(user, selectedTroop) +"') and NAME(parent)='meetingEvents' and child.ocm_classname is null");
             
             //check all activities
-            sqls.add("select child.* from [nt:unstructured] as parent  INNER JOIN [nt:unstructured] as child on ISCHILDNODE( child, parent)  where ISDESCENDANTNODE (parent, '"+VtkUtil.getYearPlanBase(user, troop) +"') and NAME(parent)='activities' and child.ocm_classname is null");
+            sqls.add("select child.* from [nt:unstructured] as parent  INNER JOIN [nt:unstructured] as child on ISCHILDNODE( child, parent)  where ISDESCENDANTNODE (parent, '"+VtkUtil.getYearPlanBase(user, selectedTroop) +"') and NAME(parent)='activities' and child.ocm_classname is null");
             
             //sched
-            sqls.add("select child.* from [nt:unstructured] as parent  INNER JOIN [nt:unstructured] as child on ISCHILDNODE( child, parent)  where ISDESCENDANTNODE (parent, '"+VtkUtil.getYearPlanBase(user, troop) +"') and NAME(child)='schedule' and  (child.dates is null or child.dates ='')");
+            sqls.add("select child.* from [nt:unstructured] as parent  INNER JOIN [nt:unstructured] as child on ISCHILDNODE( child, parent)  where ISDESCENDANTNODE (parent, '"+VtkUtil.getYearPlanBase(user, selectedTroop) +"') and NAME(child)='schedule' and  (child.dates is null or child.dates ='')");
     
             javax.jcr.Session s= null;
             try{ 

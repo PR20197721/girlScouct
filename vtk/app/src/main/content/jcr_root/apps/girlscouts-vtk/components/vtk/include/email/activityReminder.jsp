@@ -35,12 +35,12 @@
 	</ul>
 	<section class="clearfix">
 		<label for="email_to_cc">Enter your own:</label>
-		<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>" placeholder="enter email addresses separated by semicolons"/>
+		<input type="email" id="email_to_cc" value="<%=selectedTroop.getSendingEmail()==null ? "" : selectedTroop.getSendingEmail().getCc()%>" placeholder="enter email addresses separated by semicolons"/>
 	</section>
 	<h6>Compose Email</h6>
 	<section class="clearfix">
 		<label for="email_subj">Subject:</label>
-		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Activity <%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %> - <%=endDateString%>" />	
+		<input type="text" id="email_subj" value="Reminder <%=selectedTroop.getGradeLevel() %> Activity <%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %> - <%=endDateString%>" />
 	</section>
 
 	<div style="background-color:yellow;"></div>
@@ -72,10 +72,10 @@
 		<%if(apiConfig.getUser().getHomePhone()!=null)%><%=apiConfig.getUser().getHomePhone() %>
 		<%if(apiConfig.getUser().getAssistantPhone()!=null)%><%=apiConfig.getUser().getAssistantPhone() %>
 		</p>
-		<br/><p>Thank you for supporting your <%=troop.getTroop().getGradeLevel() %>,</p>
+		<br/><p>Thank you for supporting your <%=selectedTroop.getGradeLevel() %>,</p>
 
 		<br/><p><%if(apiConfig.getUser().getName()!=null)%><%=apiConfig.getUser().getName() %></p>
-		<p><%=troop.getTroop().getTroopName() %></p>
+		<p><%=selectedTroop.getTroopName() %></p>
 		<br/><br/>
 
 		<% }%>

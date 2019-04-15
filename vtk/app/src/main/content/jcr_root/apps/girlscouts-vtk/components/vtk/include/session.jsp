@@ -1,26 +1,33 @@
 <%@page import="org.apache.sling.runmode.RunMode,
+                org.girlscouts.vtk.auth.models.ApiConfig,
                 org.girlscouts.vtk.auth.permission.Permission,
                 org.girlscouts.vtk.auth.permission.PermissionConstants,
+                org.girlscouts.vtk.dao.TroopDAO,
+                org.girlscouts.vtk.ejb.*,
+                org.girlscouts.vtk.helpers.ConfigManager,
+                org.girlscouts.vtk.helpers.CouncilMapper,
                 org.girlscouts.vtk.models.*,
                 org.girlscouts.vtk.utils.VtkUtil,
-                java.util.*,
+                java.text.DecimalFormat,
+                java.text.NumberFormat,
                 java.text.SimpleDateFormat" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Set" %>
 <%!
     // put all static in util classes
-    java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
-    java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat("#,##0.00");
-    boolean isCachableContacts = false;
-
+    final NumberFormat FORMAT_CURRENCY = NumberFormat.getCurrencyInstance();
+    final DecimalFormat FORMAT_COST_CENTS = new DecimalFormat("#,##0.00");
+    final boolean isCachableContacts = false;
     // Feature set toggles
-    boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
-    String SHOW_VALID_SF_USER_FEATURE = "showValidSfUser";
-
-    String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
-    String[] ENABLED_FEATURES = new String[]{SHOW_VALID_SF_USER_FEATURE};
+    final boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
+    final String SHOW_VALID_SF_USER_FEATURE = "showValidSfUser";
+    final String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
+    final String[] ENABLED_FEATURES = new String[]{SHOW_VALID_SF_USER_FEATURE};
 %><%
     String relayUrl = "";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
     boolean isMultiUserFullBlock = true;
-// Why so heavy?  Do we need to load all services here or maybe on demand is better?
+    // Why so heavy?  Do we need to load all services here or maybe on demand is better?
     final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
     final LocationUtil locationUtil = sling.getService(LocationUtil.class);
     final MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
@@ -32,21 +39,15 @@
     final ContactUtil contactUtil = sling.getService(ContactUtil.class);
     final ConnectionFactory connectionFactory = sling.getService(ConnectionFactory.class);
     final VtkUtil vtkUtil = sling.getService(VtkUtil.class);
-    final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
-
-
+    final ConfigManager configManager = sling.getService(ConfigManager.class);
     // Why is this here if it say's not to use?
     //dont use
     final TroopDAO troopDAO = sling.getService(TroopDAO.class);
-    //final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
-    org.girlscouts.vtk.helpers.CouncilMapper councilMapper = sling.getService(org.girlscouts.vtk.helpers.CouncilMapper.class);
+    CouncilMapper councilMapper = sling.getService(CouncilMapper.class);
     User user = null;
-
     HttpSession session = request.getSession();
-
     int timeout = session.getMaxInactiveInterval();
     response.setHeader("Refresh", timeout + "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
-
     if (session.getAttribute(SESSION_FEATURE_MAP) == null) {
         session.setAttribute(SESSION_FEATURE_MAP, new HashSet<String>());
     }
@@ -65,14 +66,12 @@
             }
         }
     }
-
-    org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
+    ApiConfig apiConfig = null;
     try {
-        if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
-            apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
+        if (session.getAttribute(ApiConfig.class.getName()) != null) {
+            apiConfig = ((ApiConfig) session.getAttribute(ApiConfig.class.getName()));
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
             if (session.getAttribute("fatalError") != null) {
 %>
 <div id="panelWrapper" class="row meeting-detail content">
@@ -105,10 +104,8 @@
         out.println("Your session has timed out.  Please login.");
         return;
     }
-
-    if ((apiConfig.getTroops() == null
-            || apiConfig.getTroops().size() <= 0
-            || (apiConfig.getTroops().get(0).getType() == 1))) {
+    List<Troop> userTroops = apiConfig.getUser().getTroops();
+    if ((userTroops == null || userTroops.size() <= 0 || (userTroops.get(0).getType() == 1))) {
         int vtkSignupYear = VtkUtil.getCurrentGSYear() + 1;
 %>
 <div id="panelWrapper" class="row meeting-detail content">
@@ -132,74 +129,37 @@
     </div>
 </div>
 <%
-
         return;
-
     }
-
-
-    user = ((User) session
-            .getAttribute(User.class
-                    .getName()));
+    user = ((User) session.getAttribute(User.class.getName()));
     user.setSid(session.getId());
-
     String errMsg = null;
-    Troop troop = (Troop) session.getValue("VTK_troop");
-
-
-    if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("true")) {
-        troop.getTroop().getPermissionTokens().add(PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
-        troop.getTroop().getPermissionTokens().add(PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
-        troop.getTroop().getPermissionTokens().add(PermissionConstants.PERMISSION_VIEW_REPORT_ID);
-        troop.getTroop().getPermissionTokens().add(PermissionConstants.PERMISSION_EDIT_FINANCE_ID);
-        troop.getTroop().getPermissionTokens().add(PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
-        session.setAttribute("showGamma", "true");
-    } else if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("false")) {
-        troop.getTroop().getPermissionTokens().remove(PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
-        troop.getTroop().getPermissionTokens().remove(PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
-        troop.getTroop().getPermissionTokens().remove(PermissionConstants.PERMISSION_VIEW_REPORT_ID);
-        troop.getTroop().getPermissionTokens().remove(PermissionConstants.PERMISSION_EDIT_FINANCE_ID);
-        troop.getTroop().getPermissionTokens().remove(PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
-        session.setAttribute("showGamma", null);
-    }
-
-    //if (troop == null || troop.isRefresh() || troopUtil.isUpdated(troop)) {
-    if (troop == null || troop.isRefresh()) {
-        if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals("")) {
-            errMsg = troop.getErrCode();
+    Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
+    if (selectedTroop == null || selectedTroop.isRefresh()) {
+        if (selectedTroop != null && selectedTroop.isRefresh() && selectedTroop.getErrCode() != null && !selectedTroop.getErrCode().equals("")) {
+            errMsg = selectedTroop.getErrCode();
         }
-
-        Troop prefTroop = null;
         if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
-            prefTroop = apiConfig.getTroops().get(0);
+            selectedTroop = apiConfig.getTroops().get(0);
         }
-
-        if (troop != null) {
-
-
-            for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
-                if (apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())) {
-                    prefTroop = apiConfig.getTroops().get(ii);
+        if (selectedTroop != null) {
+            for (int ii = 0; ii < userTroops.size(); ii++) {
+                if (userTroops.get(ii).getTroopId().equals(selectedTroop.getSfTroopId())) {
+                    selectedTroop = userTroops.get(ii);
                     break;
                 }
             }
         } else {
-
-
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 theCookie:
                 for (int i = 0; i < cookies.length; i++) {
-
-
                     if (cookies[i].getName().equals("vtk_prefTroop")) {
-
-
                         for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
                             String gradeLevel = apiConfig.getTroops().get(ii).getGradeLevel();
 
                             if (gradeLevel != null && gradeLevel.equals(cookies[i].getValue())) {
-                                prefTroop = apiConfig.getTroops().get(ii);
+                                selectedTroop = userTroops.get(ii);
                                 break theCookie;
                             }
                         }
@@ -207,12 +167,10 @@
                 }
             }
         }
-
+        Troop selectedTroopRepoData = null;
         try {
-            if (!(apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none"))) {
-
-                troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-
+            if (!(apiConfig.getUser().isAdmin() && selectedTroop.getTroopId().equals("none"))) {
+                selectedTroopRepoData = troopUtil.getTroop(user, "" + selectedTroop.getCouncilCode(), selectedTroop.getTroopId());
             }
         } catch (org.girlscouts.vtk.utils.VtkException ec) {
 %>
@@ -229,13 +187,10 @@
 %><span class="error">Sorry, you have no access to view year plan.</span><%
         return;
     }
-
-
-    if (troop == null) {
+    if (selectedTroopRepoData == null) {
         try {
-
-            troop = troopUtil.createTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-        } catch (org.girlscouts.vtk.utils.VtkException e) {
+            selectedTroopRepoData = troopUtil.createTroop(user, "" + selectedTroop.getCouncilCode(), selectedTroop.getTroopId());
+        } catch (Exception e) {
 %>
 <div id="panelWrapper" class="row meeting-detail content">
     <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
@@ -248,37 +203,44 @@
                 return;
             }
         }
-        troop.setTroop(prefTroop);
-        troop.setSfTroopId(troop.getTroop().getTroopId());
-        troop.setSfUserId(user.getApiConfig().getUserId()); //troop.getApiConfig().getUserId());
-        troop.setSfTroopName(troop.getTroop().getTroopName());
-        troop.setSfTroopAge(troop.getTroop().getGradeLevel());
-        troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
-        session.setAttribute("VTK_troop", troop);
+        selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
+        selectedTroop.setPath(selectedTroopRepoData.getPath());
+        selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
+        if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("true")) {
+            selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
+            selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
+            selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_VIEW_REPORT_ID);
+            selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_EDIT_FINANCE_ID);
+            selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
+            session.setAttribute("showGamma", "true");
+        } else if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("false")) {
+            selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
+            selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
+            selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_VIEW_REPORT_ID);
+            selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_EDIT_FINANCE_ID);
+            selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
+            session.setAttribute("showGamma", null);
+        }
+        session.setAttribute("VTK_troop", selectedTroop);
     }
-
-    java.util.List<Troop> troops = (List<Troop>) session.getAttribute("USER_TROOP_LIST");
     if (session.getAttribute("USER_TROOP_LIST") == null) {
-        troops = user.getApiConfig().getTroops();
-        session.setAttribute("USER_TROOP_LIST", troops);
+        session.setAttribute("USER_TROOP_LIST", userTroops);
     }
     //check valid cache url /myvtk/
-    if (!VtkUtil.isValidUrl(user, troop, request.getRequestURI(), councilMapper.getCouncilName(troop.getSfCouncil()))) {
-        response.setStatus(javax.servlet.http.HttpServletResponse.SC_FORBIDDEN);
+    if (!VtkUtil.isValidUrl(user, selectedTroop, request.getRequestURI(), councilMapper.getCouncilName(selectedTroop.getSfCouncil()))) {
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         return;
     }
-
     RunMode runModeService = sling.getService(RunMode.class);
     String apps[] = new String[]{"prod"};
     String prodButDontTrack[] = new String[]{"gspreview"};
-
     if (runModeService.isActive(apps) && !runModeService.isActive(prodButDontTrack)) {
-        String footerScript = "<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('" + troop.getSfTroopName() + "', '" + troop.getSfTroopId() + "', '" + user.getApiConfig().getUser().getSfUserId() + "', '" + troop.getSfCouncil() + "', '" + troop.getSfTroopAge() + "', '" + (troop.getYearPlan() == null ? "" : troop.getYearPlan().getName()) + "'); vtkTrackerPushAction('View'); showSelectedDemoTroop('" + troop.getSfTroopAge() + "');</script>";
+        String footerScript = "<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('" + selectedTroop.getSfTroopName() + "', '" + selectedTroop.getSfTroopId() + "', '" + user.getApiConfig().getUser().getSfUserId() + "', '" + selectedTroop.getSfCouncil() + "', '" + selectedTroop.getSfTroopAge() + "', '" + (selectedTroop.getYearPlan() == null ? "" : selectedTroop.getYearPlan().getName()) + "'); vtkTrackerPushAction('View'); showSelectedDemoTroop('" + selectedTroop.getSfTroopAge() + "');</script>";
         request.setAttribute("footerScript", footerScript);
     } else {
-        String footerScript = "<script>window['ga-disable-UA-2646810-36'] = true; showSelectedDemoTroop('" + troop.getSfTroopAge() + "')</script>";
+        String footerScript = "<script>window['ga-disable-UA-2646810-36'] = true; showSelectedDemoTroop('" + selectedTroop.getSfTroopAge() + "')</script>";
         request.setAttribute("footerScript", footerScript);
     }
     request.setAttribute("vtk-request-user", user);
-    request.setAttribute("vtk-request-troop", troop);
+    request.setAttribute("vtk-request-troop", selectedTroop);
 %>                  

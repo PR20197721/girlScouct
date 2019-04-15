@@ -4,7 +4,7 @@
 <%@include file="../session.jsp"%>
 
 <% 
-EmailMeetingReminder emr = troop.getSendingEmail();
+EmailMeetingReminder emr = selectedTroop.getSendingEmail();
 %>
 <br/>PREVIEW: sending NOW
 

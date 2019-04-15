@@ -51,12 +51,12 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.msGetUserMedia);
 
 <%
-    String _troopId= troop.getTroop().getTroopId();
+    String _troopId= selectedTroop.getTroopId();
     if( _troopId!=null && _troopId.indexOf("_")!=-1 ){
         _troopId= _troopId.substring( _troopId.lastIndexOf("_")+1);
     }
 %>
-var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + _troopId + "/imgLib/troop_pic.png" %>";
+var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ selectedTroop.getCouncilCode() +"/" + _troopId + "/imgLib/troop_pic.png" %>";
 
 var displayCurrent = function(isUploaded){
 	
@@ -92,12 +92,12 @@ var displayCurrent = function(isUploaded){
     imageTool.appendChild(currentDisplay);
     imageTool.appendChild(clearBoth);
     
-    <%if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
+    <%if(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
     	$("<a data-reveal-id=\"modal_upload_image\" title=\"update photo\" href=\"#nogo\" title=\"Upload a new Photo\"><i class=\"icon-photo-camera\"></i></a>").insertAfter($('#current-picture'));
 	<%} %>
 }
 
-<%if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
+<%if(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
 	var removeCurrent = function(){
 		$('#current-display').remove();
 		$('#clear-both').remove();

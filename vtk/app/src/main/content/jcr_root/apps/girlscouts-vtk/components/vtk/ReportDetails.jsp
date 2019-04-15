@@ -138,7 +138,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 	try{	    
 		    for(int i=0;i< container.size();i++){
 		    	org.girlscouts.vtk.models.YearPlanRpt _troop = container.get(i);
-		    	out.println((isHtml ? "<br/>" : "\n") + _troop.getTroop() +","+ _troop.getTroopName() +","+ yearPlans.get(_troop.getTroop()));
+		    	out.println((isHtml ? "<br/>" : "\n") + _troop +","+ _troop.getTroopName() +","+ yearPlans.get(_troop));
 		    }
     }catch(Exception e){e.printStackTrace();}   
 	   }	        

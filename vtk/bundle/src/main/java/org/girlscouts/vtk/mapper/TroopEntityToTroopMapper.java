@@ -14,16 +14,20 @@ public class TroopEntityToTroopMapper {
             Troop troop = new Troop();
             try {
                 troop.setTroopId(entity.getSfParentId());
+                troop.setId(entity.getSfParentId());
+                troop.setSfTroopId(entity.getSfParentId());
             }catch(Exception ex){
                 log.error("Error occurred mapping sfParentId to Troop ", ex);
             }
             try {
                 troop.setTroopName(entity.getParentEntity().getTroopName());
+                troop.setSfTroopName(entity.getParentEntity().getTroopName());
             }catch(Exception ex){
                 log.error("Error occurred mapping TroopName to Troop ", ex);
             }
             try {
                 troop.setCouncilCode(entity.getParentEntity().getCouncilCode());
+                troop.setSfCouncil(String.valueOf(entity.getParentEntity().getCouncilCode()));
             }catch(Exception ex){
                 log.error("Error occurred mapping CouncilCode to Troop ", ex);
             }
@@ -34,6 +38,7 @@ public class TroopEntityToTroopMapper {
             }
             try {
                 troop.setGradeLevel(entity.getParentEntity().getGradeLevel());
+                troop.setSfTroopAge(entity.getParentEntity().getGradeLevel());
             }catch(Exception ex){
                 log.error("Error occurred mapping GradeLevel to Troop ", ex);
             }

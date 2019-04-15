@@ -43,6 +43,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
@@ -78,6 +79,9 @@ public class MeetingUtil {
 	
 	@Reference
 	SessionFactory sessionFactory;
+
+	@Reference
+    GirlScoutsSalesForceService gsSalesForceService;
 	
 	//@Reference
 	//CalendarUtil calendarUtil;
@@ -1215,9 +1219,7 @@ public class MeetingUtil {
 				i++;
 			}
 		}
-		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-		        connectionFactory, sessionFactory).getContacts(user.getApiConfig(),
-				troop.getSfTroopId());
+		java.util.List<org.girlscouts.vtk.models.Contact> contacts = gsSalesForceService.getContactsByTroopId(user.getApiConfig(),troop.getSfTroopId());
 		
 		contacts = contacts.stream()
 				.filter(e-> "GIRL".equals(e.getRole().trim().toUpperCase()) )
@@ -1340,9 +1342,7 @@ public class MeetingUtil {
 			}
 		}
 
-		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				connectionFactory, sessionFactory).getContacts(user.getApiConfig(),
-				troop.getSfTroopId());
+		java.util.List<org.girlscouts.vtk.models.Contact> contacts = gsSalesForceService.getContactsByTroopId(user.getApiConfig(),troop.getSfTroopId());
 		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
 				+ "/achievement";

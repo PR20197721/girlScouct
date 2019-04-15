@@ -5,7 +5,7 @@
 <%@include file="session.jsp"%>
 
 <%
-org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, troop, request);
+org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, selectedTroop, request);
 Activity activity = (Activity)planView.getYearPlanComponent();
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>

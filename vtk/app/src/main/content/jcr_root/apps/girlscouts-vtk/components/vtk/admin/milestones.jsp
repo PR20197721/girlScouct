@@ -9,7 +9,7 @@
 <%
 String activeTab = "admin_milestones";
 
-int councilCode = apiConfig.getTroops().get(0).getCouncilCode();
+int councilCode = userTroops.get(0).getCouncilCode();
 String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
 %>
 <div id="panelWrapper" class="row content milestones meeting-detail">

@@ -40,7 +40,7 @@
 	<h6>Compose Email</h6>
 	<section class="clearfix">
 		<label for="email_subj">Subject:</label>
-		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %> - <%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM,meetingEndDate)%>" />	
+		<input type="text" id="email_subj" value="Reminder <%=selectedTroop.getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %> - <%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM,meetingEndDate)%>" />
 	</section>
 
 	<div style="background-color:yellow;"></div>
@@ -57,16 +57,11 @@
 			</tr>
 			<tr><th>Location:</th>
 				<td><%
-				if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ){
-					for(int k=0;k<troop.getYearPlan().getLocations().size();k++){	
-						if( troop.getYearPlan().getLocations().get(k).getPath().equals( _meeting.getLocationRef() ) ){%>
-						<%=troop.getYearPlan().getLocations().get(k).getName() %>
-						<br/><%=troop.getYearPlan().getLocations().get(k).getAddress() %>
-						<%-- 
-						<%=troop.getYearPlan().getLocations().get(k).getCity() %>
-						<%=troop.getYearPlan().getLocations().get(k).getState() %>
-						<%=troop.getYearPlan().getLocations().get(k).getZip() %> 
-						--%>
+				if( _meeting.getLocationRef()!=null && selectedTroop.getYearPlan().getLocations()!=null ){
+					for(int k=0;k<selectedTroop.getYearPlan().getLocations().size();k++){
+						if( selectedTroop.getYearPlan().getLocations().get(k).getPath().equals( _meeting.getLocationRef() ) ){%>
+						<%=selectedTroop.getYearPlan().getLocations().get(k).getName() %>
+						<br/><%=selectedTroop.getYearPlan().getLocations().get(k).getAddress() %>
 						<% }
 					}
 		   		}
@@ -88,10 +83,10 @@
 		<%if(apiConfig.getUser().getHomePhone()!=null)%><%=apiConfig.getUser().getHomePhone() %>
 		<%if(apiConfig.getUser().getAssistantPhone()!=null)%><%=apiConfig.getUser().getAssistantPhone() %>
 		</p>
-		<br/><p>Thank you for supporting your <%=troop.getTroop().getGradeLevel() %>,</p>
+		<br/><p>Thank you for supporting your <%=selectedTroop.getGradeLevel() %>,</p>
 
 		<br/><p><%if(apiConfig.getUser().getName()!=null)%><%=apiConfig.getUser().getName() %></p>
-		<p><%=troop.getTroop().getTroopName() %></p>
+		<p><%=selectedTroop.getTroopName() %></p>
 		<br/><br/>
 		<div id="aidLinks">
 			<p class="hide">Aids Included: </p>

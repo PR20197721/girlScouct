@@ -1,6 +1,6 @@
 <%
 final org.girlscouts.vtk.dao.MeetingDAO gg = sling.getService(org.girlscouts.vtk.dao.MeetingDAO.class);
-java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  troop, meeting.getUid());// meeting.getPath() );
+java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  selectedTroop, meeting.getUid());// meeting.getPath() );
 %>
 
 
@@ -15,7 +15,7 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
   })
 </script>
 <%
-if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID) ){
+if (user != null  && !userUtil.hasPermission(selectedTroop, Permission.PERMISSION_CREATE_MEETING_ID) ){
     %>No permission to view, edit, remove Notes <%
     return;
 }

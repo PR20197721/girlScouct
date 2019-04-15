@@ -7,11 +7,9 @@
 <%@include file="include/session.jsp"%>
 
 <%
-	if( troop.getYearPlan()!=null || ( troop.getTroop().getRole() !=null &&  troop.getTroop().getRole().equals("PA") ) ){
+	if( selectedTroop.getYearPlan()!=null || ( selectedTroop.getRole() !=null &&  selectedTroop.getRole().equals("PA") ) ){
 		%><%@include file="plan.jsp"%><%
 	}else{
-    //RequestDispatcher rd = request.getRequestDispatcher("/content/girlscouts-vtk/controllers/vtk.explore.html");
-    //rd.forward(request, response);
 		%><script>self.location="/content/girlscouts-vtk/en/vtk.explore.html"; </script><%
 	}
 %>

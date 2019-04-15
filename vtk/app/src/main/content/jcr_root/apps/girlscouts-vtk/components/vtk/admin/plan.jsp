@@ -9,12 +9,12 @@
 
 
 
-if( troop.getYearPlan()==null ){
+if( selectedTroop.getYearPlan()==null ){
 	YearPlan plan = new YearPlan();
 	plan.setName("My custom plan");
 	java.util.List  <MeetingE> meetings = new java.util.ArrayList  <MeetingE> ();
 	plan.setMeetingEvents( meetings );
-	troop.setYearPlan( plan );
+    selectedTroop.setYearPlan( plan );
 	
 }
 

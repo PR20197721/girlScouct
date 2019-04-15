@@ -8,7 +8,7 @@
 <%
 String activeTab = "milestones";
 boolean showVtkNav = true;
-int councilCode = apiConfig.getTroops().get(0).getCouncilCode();
+int councilCode = userTroops.get(0).getCouncilCode();
 String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
 String sectionClassDefinition = "milestones";
 %>

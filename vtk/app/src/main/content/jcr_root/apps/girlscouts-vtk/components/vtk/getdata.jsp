@@ -5,7 +5,7 @@
 <%
 	String toRet="";
 	String query = request.getParameter("q");
-	List<org.girlscouts.vtk.models.Search> countries = yearPlanUtil.getData(user,troop, query);
+	List<org.girlscouts.vtk.models.Search> countries = yearPlanUtil.getData(user,selectedTroop, query);
 	if( countries!=null && countries.size()<=0  ){
 		session.setAttribute("search", countries); 
 		return;

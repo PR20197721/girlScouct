@@ -12,13 +12,13 @@
     
 	StringBuilder csv= new StringBuilder();
 	List<Contact> contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
-	Map<Contact, List<ContactExtras>> contactsExtras= contactUtil.getContactsExtras( user,  troop, contacts);
+	Map<Contact, List<ContactExtras>> contactsExtras= contactUtil.getContactsExtras( user,  selectedTroop, contacts);
 	List <MeetingE> meetingEvents= null;
-	if( troop!=null && troop.getYearPlan()!=null) meetingEvents = troop.getYearPlan().getMeetingEvents();
+	if( selectedTroop!=null && selectedTroop.getYearPlan()!=null) meetingEvents = selectedTroop.getYearPlan().getMeetingEvents();
 	csv.append("Legend:  X = attendance; A = achievement\n");
 	// doc title
 	csv.append(FORMAT_MMM_dd_yyyy.format( new Date() ) +" "+
-		(troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-") +1) )+"  "+troop.getSfTroopName()
+		(selectedTroop.getSfTroopAge().substring( selectedTroop.getSfTroopAge().indexOf("-") +1) )+"  "+selectedTroop.getSfTroopName()
 	);
 
 	//doc header
@@ -26,7 +26,7 @@
 	if(meetingEvents!=null)
 		for( MeetingE meetingEvent: meetingEvents ){
 			if(meetingEvent.getMeetingInfo()==null ){
-				Meeting meetingInfo = yearPlanUtil.getMeeting(user, troop, meetingEvent.getRefId());
+				Meeting meetingInfo = yearPlanUtil.getMeeting(user, selectedTroop, meetingEvent.getRefId());
 				csv.append( fmtValue(meetingInfo.getName()) +",");
 			}else{
 				csv.append( fmtValue( meetingEvent.getMeetingInfo().getName()) +",");
@@ -41,7 +41,7 @@
 				Contact caregiver = VtkUtil.getSubContact( gsContact, 1);
 
 				//check permission again:must be TL
-				if(!(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
+				if(!(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
 						user.getApiConfig()==null || user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId() ) ) ){ continue; }
 
 				csv.append("\n");
@@ -77,9 +77,9 @@
 				// secondary contact
 				if( gsContact.getContacts()!=null )
 					for(Contact contactSub: gsContact.getContacts()){ 
-						if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID ) ){
+						if( !VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID ) ){
 	                       csv.append( fmtValue(contactSub.getFirstName() + " " + contactSub.getLastName()) +",");
-	                       if( VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){
+	                       if( VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){
 	                    	   csv.append( fmtValue(contactSub.getEmail()) +",");
 	                       } else{
                                csv.append (",");

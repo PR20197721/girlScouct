@@ -5,7 +5,7 @@
 <%@include file="../session.jsp"%>	
 	
 <% 
-	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, troop, request);
+	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, selectedTroop, request);
 	java.util.List <String> existingAids = new java.util.ArrayList();
 	List<Asset> _aidTags = planView.getAidTags();	
 
@@ -19,7 +19,7 @@
 	java.util.List<org.girlscouts.vtk.models.Asset> gresources = null;
 System.err.println("test1");	
 	try{
-		gresources= yearPlanUtil.getAllResources(user, troop, MEETING_AID_PATH+"/"); 
+		gresources= yearPlanUtil.getAllResources(user, selectedTroop, MEETING_AID_PATH+"/");
 	
 	}catch(Exception e){e.printStackTrace();}
 System.err.println("test2");	
@@ -50,7 +50,7 @@ System.err.println("test3");
 					 		<td><a class="previewItem LINK" title="<%= a.getTitle() %>" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
 					 		<td class="vtk-oudoor-table-view">
 									<% if(a.getIsOutdoorRelated()){ 
-										if( !existingAids.contains(a.getRefId()) && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) { %>	
+										if( !existingAids.contains(a.getRefId()) && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID ) ) { %>
 											<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png" width="40" height="40">
 									  <%  } else { %>
 											<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png" width="40" height="40">
@@ -58,7 +58,7 @@ System.err.println("test3");
 									   } %>
 					 		</td>
 					 		<td>
-					 			<% if( !existingAids.contains(a.getRefId()) && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){ %>
+					 			<% if( !existingAids.contains(a.getRefId()) && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID ) ){ %>
 					 				 <input type="button" style="    min-width: 100px;     padding: 9px 5px;white-space: normal; word-break: break-word;" value="Add to Meeting" onclick="assignAid('<%=a.getRefId()%>', '<%=planView.getYearPlanComponent().getUid()%>', '<%=a.getTitle()%>','<%=a.getDocType()%>')" class="button linkButton"/>
 					 			<%} else {%>
 									<p class="button disabled" style="    min-width: 100px;    padding: 9px 5px; white-space: normal; word-break: break-word;">Exists</p>

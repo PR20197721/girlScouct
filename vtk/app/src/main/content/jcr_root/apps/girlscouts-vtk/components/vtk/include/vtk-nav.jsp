@@ -1,6 +1,6 @@
 <%
 	if (troops != null && troops.size() > 1) {
-		Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop().getGradeLevel());
+		Cookie cookie = new Cookie("vtk_prefTroop", troop.getGradeLevel());
 		cookie.setMaxAge(-1);
 		response.addCookie(cookie);
 %>
@@ -12,7 +12,7 @@
 				for (int i = 0; i < troops.size(); i++) {
 			%>
 			<option value="<%=troops.get(i).getTroopId()%>"
-				<%=troop.getTroop().getTroopId()
+				<%=troop.getTroopId()
 							.equals(troops.get(i).getTroopId()) ? "SELECTED"
 							: ""%>><%=troops.get(i).getTroopName()%>
 				:

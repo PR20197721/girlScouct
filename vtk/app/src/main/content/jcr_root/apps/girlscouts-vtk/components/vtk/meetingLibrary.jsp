@@ -35,11 +35,11 @@ try{
 	showVtkNav =  false;
   }
 
-  String ageLevel=  troop.getTroop().getGradeLevel();
+  String ageLevel=  selectedTroop.getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
-	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);
-	Set<String> outdoorMeetingIds = meetingUtil.getOutdoorMeetings(user, troop);
-	Set<String> globalMeetingIds = meetingUtil.getGlobalMeetings(user, troop);
+	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,selectedTroop);
+	Set<String> outdoorMeetingIds = meetingUtil.getOutdoorMeetings(user, selectedTroop);
+	Set<String> globalMeetingIds = meetingUtil.getGlobalMeetings(user, selectedTroop);
 	
 java.util.List<Meeting> extraInfoMeetings= new java.util.ArrayList();
 for( int i=0;i<meetings.size();i++){
@@ -102,8 +102,8 @@ instruction="";
 	  <%
 		java.util.List<String> myMeetingIds= new java.util.ArrayList();
 		java.util.List<MeetingE> myMeetings = new java.util.ArrayList();
-		if( troop!=null && troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents()!=null )
-			myMeetings= troop.getYearPlan().getMeetingEvents();
+		if( selectedTroop!=null && selectedTroop.getYearPlan()!=null && selectedTroop.getYearPlan().getMeetingEvents()!=null )
+			myMeetings= selectedTroop.getYearPlan().getMeetingEvents();
 		
 		java.util.List<String> futureMeetings = new java.util.ArrayList<String>();
 		java.util.List<String> reAddMeetings = new java.util.ArrayList<String>();
@@ -113,7 +113,7 @@ instruction="";
 		try{
 			sched = meetingUtil
 					 .getYearPlanSched(user,
-							 troop, troop.getYearPlan(), true, true);
+                             selectedTroop, selectedTroop.getYearPlan(), true, true);
 		}catch(Exception e){e.printStackTrace();}
 		BiMap sched_bm=   HashBiMap.create(sched);
 		com.google.common.collect.BiMap<YearPlanComponent, java.util.Date> sched_bm_inverse = sched_bm.inverse();
@@ -330,7 +330,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 								<span class="container" style="clear:both;">
 								<span class="terminal" data-price="<%if(level.contains("Daisy"))out.println("1");else if(level.contains("Brownie"))out.println("2");else if(level.contains("Junior"))out.println("3");else out.println(100);%>">
 								<div class="small-24 medium-6 column selection-box">
-								<input type="radio" name="_tag_m" id="<%= id%>" value="<%=level %>"  <%=(troop.getTroop().getGradeLevel().contains(level) || troop.getTroop().getGradeLevel().contains(level.replace("_","-")) ) ? "" : "" %>"/>
+								<input type="radio" name="_tag_m" id="<%= id%>" value="<%=level %>"  <%=(selectedTroop.getGradeLevel().contains(level) || selectedTroop.getGradeLevel().contains(level.replace("_","-")) ) ? "" : "" %>"/>
 								<label for="<%= id%>"><span></span><p><%=level.replace("_","-")  %> </p></label>
 								</div>
 								</span>

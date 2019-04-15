@@ -58,6 +58,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
         String path = "";
         try {
             path = getPath(apiConfig, "user");
+            log.debug("Loading user file from "+path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             user = new Gson().fromJson(json, UserInfoResponseEntity.class);
         } catch (Exception e) {
@@ -72,6 +73,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
         String path = "";
         try {
             path = getPath(apiConfig, "troops");
+            log.debug("Loading troops file from "+path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             troopInfoResponseEntity = new Gson().fromJson(json, TroopInfoResponseEntity.class);
         } catch (Exception e) {
@@ -86,6 +88,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
         String path = "";
         try {
             path = getPath(apiConfig, "contacts");
+            log.debug("Loading contacts file from "+path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             contactsInfoResponseEntity = new Gson().fromJson(json, ContactsInfoResponseEntity.class);
         } catch (Exception e) {
@@ -100,6 +103,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
         String path = "";
         try {
             path = getPath(apiConfig, "troop_leaders");
+            log.debug("Loading troop_leaders file from "+path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             troopLeadersInfoResponseEntity = new Gson().fromJson(json, TroopLeadersInfoResponseEntity.class);
         } catch (Exception e) {

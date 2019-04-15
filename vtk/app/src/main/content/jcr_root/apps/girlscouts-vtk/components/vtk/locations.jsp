@@ -56,14 +56,14 @@ function toggleSection(section) {
 		</dl>
 		<div class="tabs-content">
 <%
-if (troop.getYearPlan() != null) {
+if (selectedTroop.getYearPlan() != null) {
 %>
 			<div id="manageCalendarSection">
 				<div class="content clearfix active" id="panel1">
 					<div id="calMng">
 						<%
-						  if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
-    							if( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size() <=0 ){
+						  if( selectedTroop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
+    							if( selectedTroop.getYearPlan().getMeetingEvents()==null || selectedTroop.getYearPlan().getMeetingEvents().size() <=0 ){
                                     %>
                                     <div>
                                         <p>The calendar function is not available as there are no meetings in your Year Plan</p>

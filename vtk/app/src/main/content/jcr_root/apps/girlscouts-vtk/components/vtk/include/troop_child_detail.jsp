@@ -31,12 +31,12 @@
      if( contact.getContacts()!=null )
       for(Contact contactSub: contact.getContacts()){ 
     
-          if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID ) ){%>
+          if( !VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID ) ){%>
              <li class="row">                           
               <p><strong>Secondary Info:</strong></p>
               <div class="row">
                 <span class="column large-5" style="word-wrap:break-word;"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
-                 <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
+                 <%if( VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
                            <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon-mail"></i><%=contactSub.getEmail() %></a>
                 <%} %>
                 <span class="column large-5"><%=contactSub.getPhone()==null ? "" : contactSub.getPhone() %></span>
@@ -82,7 +82,7 @@
             <% 
              
              if(  apiConfig!=null && !apiConfig.isDemoUser() ){
-              if( troop.getTroop().getRole().equals("PA")  ){
+              if( selectedTroop.getRole().equals("PA")  ){
                %>
                 <%if(VtkUtil.isRenewMembership(contact.getMembershipYear())){%>
                 	<a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>

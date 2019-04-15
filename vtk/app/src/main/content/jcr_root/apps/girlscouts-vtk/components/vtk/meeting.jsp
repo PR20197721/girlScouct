@@ -11,11 +11,11 @@
        <%
 
        		String meetingPath = request.getParameter("mid");
-       		java.util.List <MeetingE> meetings= troop.getYearPlan().getMeetingEvents();
+       		java.util.List <MeetingE> meetings= selectedTroop.getYearPlan().getMeetingEvents();
        		
        		java.util.StringTokenizer calT = null;
-       		if( troop.getYearPlan().getSchedule() !=null){
-       			String schedStr = troop.getYearPlan().getSchedule().getDates();
+       		if( selectedTroop.getYearPlan().getSchedule() !=null){
+       			String schedStr = selectedTroop.getYearPlan().getSchedule().getDates();
        			calT= new java.util.StringTokenizer( schedStr, ",");
        		} 
        		java.util.Calendar meetingDate=null;

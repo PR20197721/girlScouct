@@ -45,7 +45,7 @@
 	   				} else{
 	   					//MeetingE curM = planView.getMeeting();
 	   					
-	   					MeetingE curM =  meetingUtil.getMeetingE( user,  troop, 
+	   					MeetingE curM =  meetingUtil.getMeetingE( user,  selectedTroop,
 	 							((MeetingE) planView.getYearPlanComponent()).getPath() );
 	   					if(curM != null){
 		   					List<SentEmail> emails = curM.getSentEmails();

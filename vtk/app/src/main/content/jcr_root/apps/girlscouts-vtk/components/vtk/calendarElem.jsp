@@ -4,7 +4,7 @@
 <%@include file="include/session.jsp"%>
 <!-- apps/girlscouts-vtk/components/vtk/calendarElem.jsp -->
 <%
-java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
+java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(selectedTroop.getYearPlan());
 
 String elem = request.getParameter("elem");
 java.util.Date date = new java.util.Date( Long.parseLong(elem));
@@ -17,11 +17,11 @@ boolean isCancelMeeting= false;
 if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
 	isCancelMeeting=true;
 }
-java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
+java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user, selectedTroop);
 
 %>
 
-<h5><strong><%=yearPlanUtil.getMeeting(user, troop, meeting.getRefId() ).getName() %></strong></h5>
+<h5><strong><%=yearPlanUtil.getMeeting(user, selectedTroop, meeting.getRefId() ).getName() %></strong></h5>
 
 <div id="locMsg"></div>
 

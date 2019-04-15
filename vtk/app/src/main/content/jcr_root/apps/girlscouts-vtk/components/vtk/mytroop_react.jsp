@@ -1,5 +1,6 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 <%@ page import="com.google.common.collect .*"%>
+<%@ page import="org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery-te-1.4.0.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
@@ -11,7 +12,7 @@
 	}
 
 	if( contacts==null ){
-		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(connectionFactory, sling.getService(org.girlscouts.vtk.ejb.SessionFactory.class)).getContacts( user.getApiConfig(), troop.getSfTroopId());
+		contacts =	sling.getService(GirlScoutsSalesForceService.class).getContactsByTroopId(user.getApiConfig(), selectedTroop.getSfTroopId());
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}
@@ -34,14 +35,13 @@
 		
 		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
 		try{
-			 //GOOD-sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
-			sched = meetingUtil.getYearPlanSched(user, troop, troop.getYearPlan(), true, false);
+			sched = meetingUtil.getYearPlanSched(user, selectedTroop, selectedTroop.getYearPlan(), true, false);
 		}catch(Exception e){e.printStackTrace();}
 
 		BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
 
-		 contactsExtras = contactUtil.getContactsExtras( user,  troop, contacts);
+		 contactsExtras = contactUtil.getContactsExtras( user,  selectedTroop, contacts);
 	
 		 
     
@@ -90,12 +90,12 @@
 	
 	
 
-			<% if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)){
+			<% if( !VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)){
 					  
 			
 			       for(int i=0; i<contacts.size(); i++) {
 			            org.girlscouts.vtk.models.Contact contact = contacts.get(i);
-			           // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
+			           // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, selectedTroop, contact);
 			           java.util.List<ContactExtras> infos = contactsExtras.get( contact );
 			           if(!user.getApiConfig().getUser().getContactId().equals(contact.getContactId() ) )
 			        		continue;
@@ -122,8 +122,8 @@
 		  <div class="column large-24 large-centered mytroop">
 		    <dl class="accordion" data-accordion>
 		      <dt data-target="panel1">
-		        <h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
-		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
+		        <h3 class="on"><%=selectedTroop.getSfTroopName() %> INFO</h3>
+		        <% if(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
 		        <div id="mailBtn">
 		           <a id = "#mailTroop" ><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></div>
 		         <%} %>
@@ -143,8 +143,8 @@
 	      <div class="column large-24 large-centered mytroop">
             <dl class="accordion" data-accordion>
               <dt data-target="panel2">
-                <h3 class="on"><%=troop.getSfTroopName() %> VOLUNTEERS</h3>
-                <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
+                <h3 class="on"><%=selectedTroop.getSfTroopName() %> VOLUNTEERS</h3>
+                <% if(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
                   <a style="float:right;margin-right: 20px" href="<%= sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("communityUrl")%>/Membership_Troop_Renewal">Add a New Volunteer <img width="30px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/arrow2-right_yellow.png" valign="middle"> </a>
            
                  <%} %>

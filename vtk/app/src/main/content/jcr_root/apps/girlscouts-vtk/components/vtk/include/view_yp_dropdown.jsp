@@ -5,12 +5,12 @@
 <script>
 
 
-  var ________app________ = "<%=troop.getSfTroopAge()%>".substring("<%=troop.getSfTroopAge()%>".indexOf("-")+1).toLowerCase();
-  var ________app1________ = "<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getRefId()%>";
-  var ________currentYearPlanName________ = "<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>";
+  var ________app________ = "<%=selectedTroop.getSfTroopAge()%>".substring("<%=selectedTroop.getSfTroopAge()%>".indexOf("-")+1).toLowerCase();
+  var ________app1________ = "<%=selectedTroop.getYearPlan()==null ? "" : selectedTroop.getYearPlan().getRefId()%>";
+  var ________currentYearPlanName________ = "<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>";
 
-  var ________isYearPlan________ = <%=troop.getYearPlan()!=null ? true: false %>;
-  var ________troopName________ = "<%=troop.getSfTroopName() %>";  
+  var ________isYearPlan________ = <%=selectedTroop.getYearPlan()!=null ? true: false %>;
+  var ________troopName________ = "<%=selectedTroop.getSfTroopName() %>";
 
 
 

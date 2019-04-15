@@ -30,7 +30,7 @@
 <sling:include path="<%= resourcesPagePath %>" replaceSelectors="content" />
 
 <script>
-	var __currentLevel__ = "<%=VtkUtil.formatLevel(user, troop)%>";
+	var __currentLevel__ = "<%=VtkUtil.formatLevel(user, selectedTroop)%>";
 	var fixVerticalSizing = true;
 	loadNav('resource');
 </script>

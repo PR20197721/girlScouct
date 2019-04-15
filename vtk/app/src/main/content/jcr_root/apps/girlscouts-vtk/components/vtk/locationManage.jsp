@@ -11,9 +11,9 @@
         boolean showVtkNav = true;
 %>
 <%
-java.util.List <Location> locations = troop.getYearPlan().getLocations();
+java.util.List <Location> locations = selectedTroop.getYearPlan().getLocations();
 if( locations==null || locations.size()<=0){
-	out.println("Applies to "+troop.getYearPlan().getMeetingEvents().size()+" of "+troop.getYearPlan().getMeetingEvents().size()+" meetings");
+	out.println("Applies to "+selectedTroop.getYearPlan().getMeetingEvents().size()+" of "+selectedTroop.getYearPlan().getMeetingEvents().size()+" meetings");
 	return;
 }
 %>
@@ -37,8 +37,8 @@ if( locations==null || locations.size()<=0){
           <div class="locationList">
             <ul class="clearfix small-block-grid-3">
               <%
-                if( troop.getYearPlan().getSchedule()!=null) {    
-                java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
+                if( selectedTroop.getYearPlan().getSchedule()!=null) {
+                java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(selectedTroop.getYearPlan());
                 java.util.Iterator itr=  sched.keySet().iterator();
                 int num = 0;
                   while( itr.hasNext()) {

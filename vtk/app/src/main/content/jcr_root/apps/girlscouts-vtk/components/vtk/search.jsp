@@ -5,7 +5,7 @@
 
 <%
 
-SearchTag search = yearPlanUtil.searchA(""+troop.getTroop().getCouncilCode());
+SearchTag search = yearPlanUtil.searchA(user, selectedTroop, String.valueOf(selectedTroop.getCouncilCode()));
 java.util.Map<String, String> levels = search.getLevels();
 java.util.Map<String, String> categories =search.getCategories();
 java.util.Map<String, String> region =search.getRegion();

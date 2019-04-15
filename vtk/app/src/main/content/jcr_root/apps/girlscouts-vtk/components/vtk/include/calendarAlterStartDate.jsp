@@ -7,12 +7,12 @@
   if(startAlterDate!=null && !startAlterDate.equals("") ){ %>
   <p>Configure <%=request.getParameter("mCountUpd") %> meeting dates starting on or after <%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date(Long.parseLong(startAlterDate))) %>:</p>
 <%} %>
-  <input type="hidden" id="orgDt" name="orgDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? startAlterDate:( troop.getYearPlan().getCalStartDate()==null ? "" : new java.util.Date(troop.getYearPlan().getCalStartDate()).getTime() ) %>"/>   
+  <input type="hidden" id="orgDt" name="orgDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? startAlterDate:( selectedTroop.getYearPlan().getCalStartDate()==null ? "" : new java.util.Date(selectedTroop.getYearPlan().getCalStartDate()).getTime() ) %>"/>
   <section class="clearfix">
   <div class="columns small-24 medium-8">
     <div class="row">
           <div class="small-15 medium-19 columns date">
-      <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date( Long.parseLong(startAlterDate))):( troop.getYearPlan().getCalStartDate()==null ? "" : VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date(troop.getYearPlan().getCalStartDate()))) %>" />
+      <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date( Long.parseLong(startAlterDate))):( selectedTroop.getYearPlan().getCalStartDate()==null ? "" : VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date(selectedTroop.getYearPlan().getCalStartDate()))) %>" />
     </div>
     <div class="small-7  medium-5 columns date">
         <label for="calStartDt"><i class="icon-calendar"></i></label>
@@ -24,13 +24,13 @@
 
 
     <div class="small-8 medium-5 columns">
-        <input type="text" placeholder="Time" id="calTime" value="<%=troop.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : VtkUtil.formatDate(VtkUtil.FORMAT_hhmm, new java.util.Date(troop.getYearPlan().getCalStartDate())) %>" />
+        <input type="text" placeholder="Time" id="calTime" value="<%=selectedTroop.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : VtkUtil.formatDate(VtkUtil.FORMAT_hhmm, new java.util.Date(selectedTroop.getYearPlan().getCalStartDate())) %>" />
     </div>
     <div class="small-6  medium-4 columns">
       <select id="calAP">
         <% String AM = "PM";
-          if( troop.getYearPlan().getCalStartDate() !=null ){
-            AM = VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, new java.util.Date(troop.getYearPlan().getCalStartDate()));
+          if( selectedTroop.getYearPlan().getCalStartDate() !=null ){
+            AM = VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, new java.util.Date(selectedTroop.getYearPlan().getCalStartDate()));
           } 
         %>
         <option value="pm" <%=AM.equals("PM") ? " SELECTED" : "" %>>PM</option>
@@ -39,9 +39,9 @@
     </div>
     <div class="small-10   medium-7 columns left">
       <select id="calFreq">
-        <option value="weekly" <%= troop.getYearPlan().getCalFreq().equals("weekly") ? " SELECTED" : "" %>>weekly</option>
-        <option value="biweekly" <%= troop.getYearPlan().getCalFreq().equals("biweekly") ? " SELECTED" : "" %>>biweekly</option>
-        <option value="monthly" <%= troop.getYearPlan().getCalFreq().equals("monthly") ? " SELECTED" : "" %>>monthly</option>
+        <option value="weekly" <%= selectedTroop.getYearPlan().getCalFreq().equals("weekly") ? " SELECTED" : "" %>>weekly</option>
+        <option value="biweekly" <%= selectedTroop.getYearPlan().getCalFreq().equals("biweekly") ? " SELECTED" : "" %>>biweekly</option>
+        <option value="monthly" <%= selectedTroop.getYearPlan().getCalFreq().equals("monthly") ? " SELECTED" : "" %>>monthly</option>
       </select>
     </div>
     </div>
@@ -51,11 +51,11 @@
   <section class="clearfix holidays">
     <p>Do not schedule the meeting the week of:</p>
       <%
-      String exlDates = troop.getYearPlan().getCalExclWeeksOf();
+      String exlDates = selectedTroop.getYearPlan().getCalExclWeeksOf();
       exlDates= exlDates==null ? "" : exlDates.trim();
       String[] split_exclDates = exlDates.split(",");
 
-      java.util.Map<Long, String> holidays = VtkUtil.getVtkHolidays(user, troop);
+      java.util.Map<Long, String> holidays = VtkUtil.getVtkHolidays(user, selectedTroop);
     
       //sort
       holidays= new java.util.TreeMap(holidays);

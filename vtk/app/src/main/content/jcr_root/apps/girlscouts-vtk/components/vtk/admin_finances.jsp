@@ -9,7 +9,7 @@
 String activeTab = "finances";
 %>
 <%@include file="include/bodyTop.jsp" %>
-<% if(!VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ){
+<% if(!VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ){
 	%>
 	  <div class="columns large-20 large-centered">
                 <p>
@@ -38,7 +38,7 @@ String activeTab = "finances";
 	pageContext.setAttribute("activeSubTab", "editFinances");
 	boolean showVtkNav = true;
 
-	FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(user, troop, user.getCurrentYear());
+	FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(user, selectedTroop, user.getCurrentYear());
 
 	List<String> incomeFields = financeConfig.getIncomeFields();
 	List<String> expenseFields = financeConfig.getExpenseFields();

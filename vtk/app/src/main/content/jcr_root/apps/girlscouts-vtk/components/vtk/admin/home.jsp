@@ -41,9 +41,9 @@ style="border: none;">
 Daisy, Brownie, or Junior troop leaders.
 </td></tr>
 <tr><td>
-<%if(troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents()!=null && troop.getYearPlan().getMeetingEvents().size()>0){%>
+<%if(selectedTroop.getYearPlan()!=null && selectedTroop.getYearPlan().getMeetingEvents()!=null && selectedTroop.getYearPlan().getMeetingEvents().size()>0){%>
 	Existing Plans:<br/>
-	<a href="/content/girlscouts-vtk/en/vtk.admin.plan.html">::<%=troop.getYearPlan().getName() %></a> <a href="javascript:void(0)" onclick="rmUser()" style="color:red;">remove</a>
+	<a href="/content/girlscouts-vtk/en/vtk.admin.plan.html">::<%=selectedTroop.getYearPlan().getName() %></a> <a href="javascript:void(0)" onclick="rmUser()" style="color:red;">remove</a>
 <%}%>
 </div>
 

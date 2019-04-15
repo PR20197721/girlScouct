@@ -3,6 +3,7 @@ package org.girlscouts.vtk.osgi.service.impl;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.auth.permission.RollType;
+import org.girlscouts.vtk.mapper.ContactEntityToContactMapper;
 import org.girlscouts.vtk.mapper.ParentEntityToTroopMapper;
 import org.girlscouts.vtk.mapper.TroopEntityToTroopMapper;
 import org.girlscouts.vtk.mapper.UserInfoResponseEntityToUserMapper;
@@ -24,6 +25,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Component(service = {GirlScoutsSalesForceService.class }, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsSalesForceServiceImpl")
 @Designate(ocd = GirlScoutsSalesForceServiceConfig.class)
@@ -54,60 +57,64 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
 
     @Override
     public ApiConfig getApiConfig(String accessToken) {
-        ApiConfig apiConfig = null;
+        ApiConfig apiConfig = new ApiConfig();
         try{
             JWTAuthEntity jwtAuthEntity = sfRestClient.getJWTAuth(accessToken);
             apiConfig = new ApiConfig();
             apiConfig.setAccessToken(jwtAuthEntity.getAccessToken());
             apiConfig.setInstanceUrl(jwtAuthEntity.getInstanceUrl());
-            return apiConfig;
         }catch(Exception e){
             log.error("Error occurred: ", e);
         }
         StringBuffer token = new StringBuffer();
-
-        return null;
+        return apiConfig;
     }
 
     @Override
     public User getUser(ApiConfig apiConfig) {
+        User user = new User();
         try {
             UserInfoResponseEntity userInfoResponseEntity = null;
-            if (!apiConfig.isDemoUser() && !isLoadFromFile) {
-                userInfoResponseEntity = sfRestClient.getUserInfo(apiConfig);
-            }else{
+            if (apiConfig.isDemoUser() || isLoadFromFile) {
                 userInfoResponseEntity = sfFileClient.getUserInfo(apiConfig);
+            }else{
+                userInfoResponseEntity = sfRestClient.getUserInfo(apiConfig);
             }
             UserInfoResponseEntityToUserMapper mapper = new UserInfoResponseEntityToUserMapper();
-            User user = mapper.map(userInfoResponseEntity);
+            user = mapper.map(userInfoResponseEntity);
             addMoreInfo(apiConfig, userInfoResponseEntity, user);
-            return user;
         }catch(Exception e){
             log.error("Error occurred: ", e);
         }
-        return null;
+        return user;
     }
 
     @Override
     public User getUserById(ApiConfig apiConfig, String userId) {
+        User user = new User();
         try{
             UserInfoResponseEntity userInfoResponseEntity = sfRestClient.getUserInfoById(apiConfig, userId);
             UserInfoResponseEntityToUserMapper mapper =  new UserInfoResponseEntityToUserMapper();
-            User user = mapper.map(userInfoResponseEntity);
+            user = mapper.map(userInfoResponseEntity);
             user.setApiConfig(apiConfig);
             addMoreInfo(apiConfig, userInfoResponseEntity, user);
             return user;
         }catch(Exception e){
             log.error("Error occurred: ", e);
         }
-        return null;
+        return user;
     }
 
     @Override
     public List<Troop> getTroopInfoByUserId(ApiConfig apiConfig, String userId) {
         List<Troop> troops = new ArrayList<Troop>();
         try{
-            TroopInfoResponseEntity troopInfoResponseEntity = sfRestClient.getTroopInfoByUserId(apiConfig, userId);
+            TroopInfoResponseEntity troopInfoResponseEntity = null;
+            if (apiConfig.isDemoUser() || isLoadFromFile) {
+                troopInfoResponseEntity = sfFileClient.getTroopInfoByUserId(apiConfig, userId);
+            }else{
+                troopInfoResponseEntity = sfRestClient.getTroopInfoByUserId(apiConfig, userId);
+            }
             if(troopInfoResponseEntity != null){
                 TroopEntityToTroopMapper mapper = new TroopEntityToTroopMapper();
                 TroopEntity[] entities = troopInfoResponseEntity.getTroops();
@@ -129,13 +136,59 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
 
     @Override
     public List<Contact> getContactsByTroopId(ApiConfig apiConfig, String sfTroopId) {
-        List<Contact> contacts = null;
+        List<Contact> contacts = new ArrayList<Contact>();
         try{
-            ContactsInfoResponseEntity contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, sfTroopId);
+            ContactsInfoResponseEntity contactsInfoResponseEntity = null;
+            if (apiConfig.isDemoUser() || isLoadFromFile) {
+                contactsInfoResponseEntity = sfFileClient.getContactsByTroopId(apiConfig, sfTroopId);
+            }else{
+                contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, sfTroopId);
+            }
+            if(contactsInfoResponseEntity != null){
+                ContactEntityToContactMapper mapper = new ContactEntityToContactMapper();
+                ContactEntity[] entities = contactsInfoResponseEntity.getContacts();
+                if(entities != null){
+                    for(ContactEntity entity:entities){
+                        Contact contact = mapper.map(entity);
+                        contacts.add(contact);
+                    }
+                }
+                addRenewals(contacts, contactsInfoResponseEntity);
+            }
         }catch(Exception e){
             log.error("Error occurred: ", e);
         }
         return contacts;
+    }
+
+    private void addRenewals(List<Contact> contacts, ContactsInfoResponseEntity contactsInfoResponseEntity) {
+        CampaignMemberEntity[] cmEntities = contactsInfoResponseEntity.getCampaignMembers();
+        if(cmEntities != null){
+            Map<String, Map> renewals = new TreeMap<>();
+            for(CampaignMemberEntity entity:cmEntities){
+                try {
+                    String cId = entity.getSfContactId();
+                    Map cDetails = renewals.get(cId);
+                    if (cDetails == null) {
+                        cDetails = new TreeMap<String, Object>();
+                        renewals.put(cId, cDetails);
+                    }
+                    cDetails.put("Display_Renewal__c", entity.isDisplayRenewal());
+                    cDetails.put("Membership__r", entity.getMembership().getMembershipYear());
+                } catch (Exception e) {
+                    log.error("Error occured while processing renewals entity: ",e);
+                }
+            }
+            for(Contact contact:contacts) {
+                try {
+                    Boolean isRenewal = (Boolean) renewals.get(contact.getId()).get("Display_Renewal__c");
+                    contact.setRenewalDue(isRenewal == null ? false : isRenewal);
+                    contact.setMembershipYear((Integer) renewals.get(contact.getId()).get("Membership__r"));
+                } catch (Exception e) {
+
+                }
+            }
+        }
     }
 
     @Override
@@ -178,6 +231,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             if (apiConfig.isDemoUser()) {
                 troop.setCouncilCode(demoCouncilCode);
             }
+            troop.setSfUserId(user.getSfUserId());
             setTroopPermissions(apiConfig, troop, user.isAdmin());
         }
         user.setTroops(mergedTroops);

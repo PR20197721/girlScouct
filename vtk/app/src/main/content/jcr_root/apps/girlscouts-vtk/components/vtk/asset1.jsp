@@ -65,7 +65,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 <div class="row modalHeader">
 <%
     String aidId= request.getParameter("aidId");
-    java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
+    java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(selectedTroop.getYearPlan());
     boolean isWarning=false;
     String instruction = null;
     if( sched==null || (sched.size()==0)) {
@@ -114,7 +114,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
                     isActivity = true;
                     break;
                 case MEETING :
-                    Meeting meetingInfo =yearPlanUtil.getMeeting(user, troop, ((MeetingE) _comp).getRefId() );
+                    Meeting meetingInfo =yearPlanUtil.getMeeting(user, selectedTroops, ((MeetingE) _comp).getRefId() );
                     displayName=meetingInfo.getName();
                     assets =  ((MeetingE) _comp).getAssets(); 
                     break;

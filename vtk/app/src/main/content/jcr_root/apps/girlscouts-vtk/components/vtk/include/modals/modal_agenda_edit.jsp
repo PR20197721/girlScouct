@@ -39,7 +39,7 @@
 		<div class="setupCalendar row">
 		<%
 			MeetingE meeting = null;
-			java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+			java.util.List<MeetingE> meetings = selectedTroop.getYearPlan().getMeetingEvents();
 			for (int i = 0; i < meetings.size(); i++)
 				if (meetings.get(i).getUid()
 						.equals(request.getParameter("mid"))) {
@@ -48,7 +48,7 @@
 				}
 
 			if( meeting==null ){
-			    java.util.List<MeetingCanceled> cmeetings = troop.getYearPlan().getMeetingCanceled();
+			    java.util.List<MeetingCanceled> cmeetings = selectedTroop.getYearPlan().getMeetingCanceled();
 	            for (int i = 0; i < cmeetings.size(); i++)
 	                if (cmeetings.get(i).getUid()
 	                        .equals(request.getParameter("mid"))) {
@@ -59,7 +59,7 @@
 			}
 
 
-			Meeting meetingInfo = yearPlanUtil.getMeeting(user,troop,
+			Meeting meetingInfo = yearPlanUtil.getMeeting(user,selectedTroop,
 					meeting.getRefId());
 			java.util.List<Activity> _activities = meetingInfo.getActivities();
 			java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo
@@ -175,7 +175,7 @@
 		<br />
 
 		<div class="columns small-6">
-		<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
+		<% if(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 
 
 
@@ -184,7 +184,7 @@
 
 
 
-				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
+				<% if(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 
 				<option value="0" selected>Time Allotment</option>
 				<option value="5"
@@ -209,7 +209,7 @@
 		%>
 		</div>
 
-		<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
+		<% if(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 			<div class="columns small-18">
 
 

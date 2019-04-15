@@ -5,21 +5,22 @@
 	org.girlscouts.vtk.dao.*,
 	org.girlscouts.vtk.ejb.*,
 	org.girlscouts.vtk.auth.dao.SalesforceDAO"%>
+<%@ page import="org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 <%@include file="../session.jsp"%>
 <% 
 
-	java.util.List<Contact>contacts = new SalesforceDAO(connectionFactory, sessionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+	java.util.List<Contact>contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsByTroopId(user.getApiConfig(), selectedTroop.getSfTroopId());
 	String YEAR_PLAN_EVENT="meetingEvents";
 	String eventType= request.getParameter("eType");
 	if( eventType!=null && eventType.equals("ACTIVITY") )
 			YEAR_PLAN_EVENT="activities";
 	
-	String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/"+YEAR_PLAN_EVENT+"/"+request.getParameter("mid");
+	String path = VtkUtil.getYearPlanBase(user, selectedTroop)+ selectedTroop.getSfCouncil()+"/troops/"+ selectedTroop.getSfTroopId()+"/yearPlan/"+YEAR_PLAN_EVENT+"/"+request.getParameter("mid");
 
-	Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
-	Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
+	Attendance attendance = meetingUtil.getAttendance(user, selectedTroop, path + "/attendance");
+	Achievement achievement = meetingUtil.getAchievement(user, selectedTroop, path + "/achievement");
 
 	boolean isAttendance= true, isAchievement=true;
 	if( attendance==null  ){isAttendance=false;}

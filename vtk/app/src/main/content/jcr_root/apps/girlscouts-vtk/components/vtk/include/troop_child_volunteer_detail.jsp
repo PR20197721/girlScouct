@@ -44,7 +44,7 @@
               <% 
                
                if(  apiConfig!=null && !apiConfig.isDemoUser() ){
-                if( troop.getTroop().getRole().equals("PA")  ){
+                if( selectedTroop.getRole().equals("PA")  ){
                  %>
                  <%if(isRenewMembership(contact.getMembershipYear())){%>
                  	<a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>

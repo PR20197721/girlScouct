@@ -391,7 +391,7 @@ public class VtkUtil implements ConfigListener {
             return null;
         }
 
-        return (Troop) session.getValue("VTK_troop");
+        return (Troop) session.getAttribute("VTK_troop");
     }
 
     public static boolean isValidUrl_withTroop(User user, Troop troop, String uri) {
@@ -527,19 +527,14 @@ public class VtkUtil implements ConfigListener {
         }
     }
 
-    public static void cngYear(HttpServletRequest request, User user, Troop troop) {
-
+    public static void cngYear(HttpServletRequest request, User user) {
         String yr = request.getParameter("cngYear");
-
         if (yr != null && yr.equals(getCurrentGSYear() + ""))
             return;
         else if (yr == null && user.getCurrentYear().equals(getCurrentGSYear() + ""))
             return;
-
         String newYear = yr == null ? user.getCurrentYear() : yr;
         user.setCurrentYear(newYear);
-
-
     }
 
     public static boolean isAnyOutdoorActivitiesInMeeting(Meeting meeting) {

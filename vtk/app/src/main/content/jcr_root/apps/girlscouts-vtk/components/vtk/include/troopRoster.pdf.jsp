@@ -57,7 +57,7 @@
 	             if( caregiver==null) continue;
 	             
 	            //check permission again:must be TL
-	            if(!(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
+	            if(!(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
 	                     user.getApiConfig()==null || user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId() ) ) ){ continue; }
 	            
 	            if( "Girl".equals( gsContact.getRole() ) ){
@@ -79,7 +79,7 @@
 
         
         pdfData.append("<table cellspacing=\"0\" cellpadding=\"2\">");
-		pdfData.append("<tr><td style=\"font-size:22px; text-align:center\">"+ (troop.getSfTroopAge().substring( troop.getSfTroopAge().indexOf("-") +1) )+"  "+troop.getSfTroopName() +"</td></tr>");
+		pdfData.append("<tr><td style=\"font-size:22px; text-align:center\">"+ (selectedTroop.getSfTroopAge().substring( selectedTroop.getSfTroopAge().indexOf("-") +1) )+"  "+selectedTroop.getSfTroopName() +"</td></tr>");
         pdfData.append("<tr><td style=\"font-size:14px;text-align:center;padding:0 0 30px 0;\">"+FORMAT_MMM_dd_yyyy.format( new java.util.Date() )+"<br /><br /></td></tr> ");
         pdfData.append("<tr><td style=\"padding:0 0 0px 0px; font-size:12px;\">&nbsp;&nbsp;&nbsp;&nbsp;"+ girlCounter +" GIRLS</td></tr>");
         

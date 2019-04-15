@@ -8,7 +8,7 @@ String councilCode = request.getParameter("cid");
 
 User impersonateRoot =(User) VtkUtil.deepClone(user);
 Troop _troop = troopUtil.getTroop(impersonateRoot, councilCode, troopId);
-java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,troop,
+java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,selectedTroop,
 		_troop.getYearPlan(), true, true);
 Set distinctGirl = new HashSet();
 int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
@@ -26,7 +26,7 @@ int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
      
      <%
         
-        java.util.List<Contact> leaders = new org.girlscouts.vtk.auth.dao.SalesforceDAO(connectionFactory).getTroopLeaderInfo(user.getApiConfig(), troopId); //troop.getTroop().getTroopId());
+        java.util.List<Contact> leaders = new org.girlscouts.vtk.auth.dao.SalesforceDAO(connectionFactory).getTroopLeaderInfo(user.getApiConfig(), troopId);
         if( leaders!=null ){
             for( int i=0;i<leaders.size();i++){
                    Contact leader = leaders.get(i);

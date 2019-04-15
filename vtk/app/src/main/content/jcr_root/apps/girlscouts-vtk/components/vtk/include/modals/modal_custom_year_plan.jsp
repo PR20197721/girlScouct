@@ -6,9 +6,9 @@
 
 <%
 
-String ageLevel=  troop.getTroop().getGradeLevel();
+String ageLevel=  selectedTroop.getGradeLevel();
 ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
-java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, troop, ageLevel);
+java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, selectedTroop, ageLevel);
 request.setAttribute("meetings", meetings);
 %>
 <style>

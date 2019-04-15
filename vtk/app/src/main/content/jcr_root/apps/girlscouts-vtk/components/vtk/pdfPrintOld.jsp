@@ -20,7 +20,7 @@
 		act = "";
 
 	MeetingE meeting = null;
-	java.util.List<MeetingE> meetings = troop.getYearPlan()
+	java.util.List<MeetingE> meetings = selectedTroop.getYearPlan()
 			.getMeetingEvents();
 	for (int i = 0; i < meetings.size(); i++)
 		if (meetings.get(i).getUid()
@@ -28,7 +28,7 @@
 			meeting = meetings.get(i);
 			break;
 		}
-	Meeting meetingInfo = yearPlanUtil.getMeeting(user,troop,
+	Meeting meetingInfo = yearPlanUtil.getMeeting(user,selectedTroop,
 			meeting.getRefId());
 	//java.util.List<Activity> _activities = meetingInfo.getActivities();
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo

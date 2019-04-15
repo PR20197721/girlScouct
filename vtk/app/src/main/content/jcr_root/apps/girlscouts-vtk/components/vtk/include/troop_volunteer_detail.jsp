@@ -9,7 +9,7 @@
     
     if( !role.equals( contact.getRole() ) ) continue;
     
-      //java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
+      //java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, selectedTroop, contact);
       java.util.List<ContactExtras> infos = contactsExtras.get(contact);
       //-Works !!! String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
       String _email = "";
@@ -18,7 +18,7 @@
       }
     
       Contact caregiver = VtkUtil.getSubContact( contact, 1);
-      if(!(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
+      if(!(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
               user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId() ) ) ){ continue; }
     %>
     
@@ -29,7 +29,7 @@
         <dt data-target="panel<%=i+1%>b" class="clearfix">
           <span class="name column large-6"><%=contact.getFirstName() %> <%=contact.getRole() %> </span>
           <span class="name column large-4"><%= caregiver==null ? "" : ((caregiver.getFirstName()==null ? "" : caregiver.getFirstName()) +" "+ (caregiver.getLastName() ==null ? "" :caregiver.getLastName()  ))%></span>
-	      <%if(contact.getEmail() != null && VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
+	      <%if(contact.getEmail() != null && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
 	      
             <a class="column large-10 email" href="mailto:<%=_email%>">
               <i class="icon-mail"></i> <%=contact.getEmail() %>

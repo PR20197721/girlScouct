@@ -35,7 +35,7 @@
 
 	List<Meeting> raw_meetings = null;
 	try{
-		raw_meetings = meetingUtil.getMeetings( user, troop, level );
+		raw_meetings = meetingUtil.getMeetings( user, selectedTroop, level );
 		
 	}catch( IllegalAccessException illegalUserEx){
 		//TODO 

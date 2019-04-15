@@ -9,7 +9,7 @@
 
 <%
 
-	String troopId= troop.getTroop().getTroopId();
+	String troopId= selectedTroop.getTroopId();
 	if( troopId ==null || troopId.trim().equals("") ){
 	  
 		%>
@@ -18,7 +18,7 @@
 		return;
 	}
 %>
-<b>Troop:<%=troop.getTroop().getTroopName()%></b>
+<b>Troop:<%=selectedTroop.getTroopName()%></b>
 
 <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
               		id="frmImg"	name="frmImg"   enctype="multipart/form-data">
