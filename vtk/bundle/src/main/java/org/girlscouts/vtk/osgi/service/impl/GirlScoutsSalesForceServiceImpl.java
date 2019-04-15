@@ -3,10 +3,7 @@ package org.girlscouts.vtk.osgi.service.impl;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.auth.permission.RollType;
-import org.girlscouts.vtk.mapper.ContactEntityToContactMapper;
-import org.girlscouts.vtk.mapper.ParentEntityToTroopMapper;
-import org.girlscouts.vtk.mapper.TroopEntityToTroopMapper;
-import org.girlscouts.vtk.mapper.UserInfoResponseEntityToUserMapper;
+import org.girlscouts.vtk.mapper.*;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -195,7 +192,22 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     public List<Contact> getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId) {
         List<Contact> contacts = null;
         try{
-            TroopLeadersInfoResponseEntity troopLeadersInfoResponseEntity = sfRestClient.getTroopLeaderInfoByTroopId(apiConfig, sfTroopId);
+            TroopLeadersInfoResponseEntity troopLeadersInfoResponseEntity = null;
+            if (apiConfig.isDemoUser() || isLoadFromFile) {
+                troopLeadersInfoResponseEntity = sfFileClient.getTroopLeaderInfoByTroopId(apiConfig, sfTroopId);
+            }else{
+                troopLeadersInfoResponseEntity = sfRestClient.getTroopLeaderInfoByTroopId(apiConfig, sfTroopId);
+            }
+            if(troopLeadersInfoResponseEntity != null){
+                TroopLeaderEntityToContactMapper mapper = new TroopLeaderEntityToContactMapper();
+                TroopLeaderEntity[] entities = troopLeadersInfoResponseEntity.getTroopLeaders();
+                if(entities != null){
+                    for(TroopLeaderEntity entity:entities){
+                        Contact contact = mapper.map(entity);
+                        contacts.add(contact);
+                    }
+                }
+            }
         }catch(Exception e){
             log.error("Error occurred: ", e);
         }

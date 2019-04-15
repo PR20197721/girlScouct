@@ -13,6 +13,7 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.CouncilRptBean;
+import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -48,6 +49,9 @@ public class CouncilRpt {
 
     @Reference
     private SlingSettingsService slingSettings;
+
+    @Reference
+    private GirlScoutsSalesForceService gsSalesForceService;
 
     @Activate
     void activate(CouncilRptConfiguration config) {
@@ -122,7 +126,6 @@ public class CouncilRpt {
             javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
             result = q.execute();
             if (result != null && result.getRows().hasNext()) {
-                SalesforceDAO dao = new SalesforceDAO(connectionFactory);
                 for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
                     try {
                         String yearPlanName = "", libPath = "", ageGroup = "";
@@ -153,7 +156,7 @@ public class CouncilRpt {
                             String troopId = troop.getProperty("sfTroopId").getString();
                             if (config != null && troopId != null) {
                                 try {
-                                    leaders.addAll(dao.getTroopLeaderInfo(config, troopId));
+                                    leaders.addAll(gsSalesForceService.getTroopLeaderInfoByTroopId(config, troopId));
                                 } catch (Exception e) {
                                     logger.error("Unable to retrieve troop user from salesforce : " + r.getPath(), e);
                                 }

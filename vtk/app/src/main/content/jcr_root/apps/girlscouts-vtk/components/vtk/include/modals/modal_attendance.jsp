@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*,
-	org.girlscouts.vtk.auth.models.ApiConfig,
-	org.girlscouts.vtk.models.*,
-	org.girlscouts.vtk.dao.*,
-	org.girlscouts.vtk.ejb.*,
-	org.girlscouts.vtk.auth.dao.SalesforceDAO"%>
-<%@ page import="org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
+<%@ page import="org.girlscouts.vtk.models.Achievement,
+	org.girlscouts.vtk.models.Attendance,
+	org.girlscouts.vtk.models.Contact,
+	org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 <%@include file="../session.jsp"%>

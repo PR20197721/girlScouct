@@ -16,6 +16,9 @@ public class TroopLeaderEntity {
     @SerializedName("attributes")
     private AttributesEntity attributes;
 
+    @SerializedName("Contact")
+    private Contact contact;
+
     public class Contact{
         @SerializedName("Id")
         private String sfId;
@@ -28,5 +31,77 @@ public class TroopLeaderEntity {
 
         @SerializedName("LastName")
         private String lastName;
+
+        public String getSfId() {
+            return sfId;
+        }
+
+        public void setSfId(String sfId) {
+            this.sfId = sfId;
+        }
+
+        public AttributesEntity getAttributes() {
+            return attributes;
+        }
+
+        public void setAttributes(AttributesEntity attributes) {
+            this.attributes = attributes;
+        }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
+    }
+
+    public String getSfId() {
+        return sfId;
+    }
+
+    public void setSfId(String sfId) {
+        this.sfId = sfId;
+    }
+
+    public int getSfContactId() {
+        return sfContactId;
+    }
+
+    public void setSfContactId(int sfContactId) {
+        this.sfContactId = sfContactId;
+    }
+
+    public int getSfCampaignId() {
+        return sfCampaignId;
+    }
+
+    public void setSfCampaignId(int sfCampaignId) {
+        this.sfCampaignId = sfCampaignId;
+    }
+
+    public AttributesEntity getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(AttributesEntity attributes) {
+        this.attributes = attributes;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 }
