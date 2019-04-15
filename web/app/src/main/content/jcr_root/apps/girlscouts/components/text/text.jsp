@@ -16,7 +16,18 @@
 
   Draws text.
 
---%><%
-%><%@include file="/libs/foundation/global.jsp"%><%
-%><cq:text property="text" escapeXml="true"
+--%><%@include file="/libs/foundation/global.jsp"%>
+<%
+
+String pTop = properties.get("./ptop", "0");
+String pBottom = properties.get("./pbottom", "0");
+String pLeft = properties.get("./pleft", "0");
+String pRight = properties.get("./pright", "0");
+
+String style = "padding: " + pTop + "px " + pRight + "px " + pBottom + "px " + pLeft + "px;";
+
+%>
+<div style="<%= style %>">
+	<cq:text property="text" escapeXml="true"
         placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
+</div>

@@ -23,12 +23,89 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts.components.textimage" /><%
     boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
+	final WCMMode wcmMode = WCMMode.fromRequest(request);
 
-
+	String completePath = currentNode.getPath();
+	String additionalCSS = properties.get("./additionalCss", "");
+	boolean nowrap = additionalCSS.contains("nowrap") ? true : false;
+	boolean nopadding = additionalCSS.contains("nopadding") ? true : false;
+	boolean inAccordion = completePath.contains("accordion") ? true : false;
+	
+	String styleImage = "";
+	String styleCaption = "";
+	String styleComponent = ""; 
+	
+	// padding for the component
+	String pcTop = properties.get("./pctop", "0");
+	String pcBottom = properties.get("./pcbottom", "0");
+	String pcLeft = properties.get("./pcleft", "0");
+	String pcRight = properties.get("./pcright", "0");
+	
+	if (!nopadding) styleComponent += "padding: " + pcTop + "px " + pcRight + "px " + pcBottom + "px " + pcLeft + "px;";	
+	
+%><div style="<%= styleComponent %>">
+<cq:includeClientLib categories="apps.girlscouts.components.textimage" /><%
+	
+	// padding for the image
+	String piTop = properties.get("./pitop", "0");
+	String piBottom = properties.get("./pibottom", "0");
+	String piLeft = properties.get("./pileft", "0");
+	String piRight = properties.get("./piright", "0");	
+	
+	String currentPath = currentPage.getPath();	
+	
+	// Previously, image bottom was padded with <br> for whatever reason
+	// This runs once for old text image component and replaces <br> with padding that can be changed by the user
+	Node node = resource.adaptTo(Node.class);
+	
+	if (node.hasProperty("./runOnce")) {
+		//node.getProperty("runOnce").remove();
+	} else {
+		node.setProperty("runOnce", "corrected");
+		if (node.hasNode("image")) {	// if it has image node, then it's an old component
+			if (currentPath.contains("gsusa")) { //if rendered in gsusa, line height is 24
+				node.setProperty("pibottom", "24");
+				piBottom = "24";
+			} else {
+				if (nowrap) {
+					node.setProperty("pibottom", "0");
+					piBottom = "0";
+				} else if (inAccordion) { 
+					node.setProperty("pibottom", "27");
+					piBottom = "27";
+				} else {
+					node.setProperty("pibottom", "17");
+					piBottom = "17";
+				}
+			}
+		}
+	}
+	try {
+		if (wcmMode == WCMMode.EDIT || wcmMode == WCMMode.PREVIEW) {
+			node.getSession().save();	
+		}
+	} catch(Exception e){
+		e.printStackTrace();		
+	}
+	
+	String width = properties.get("./image/width", "0");
+	String caption = properties.get("./image/jcr:description", "");
+	
+	String padding = piTop + piBottom + piLeft + piRight;
+	if (!padding.equals("0000")) {	// paddings are set, override custom style
+		styleImage = "padding: " + piTop + "px " + piRight + "px " + piBottom + "px " + piLeft + "px;";
+	}
+	if (caption.length() > 0) {
+		styleCaption = "padding: 5px 5px 0px 5px;"; // 5 5 1 5
+	}
+	if (!"0".equals(width)) {
+		// newWidth expands width to accomodate for paddings
+		int newWidth = Integer.parseInt(width) + Integer.parseInt(piLeft) + Integer.parseInt(piRight);
+		styleImage += "width:" + newWidth + "px;";
+	}
+	
     Image image = new Image(resource, "image");
     image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
-    String width = properties.get("./image/width", "0");
-    String height = properties.get("./image/height", "0");
     // don't draw the placeholder in case UI mode touch it will be handled afterwards
     if (isAuthoringUIModeTouch) {
         image.setNoPlaceholder(true);
@@ -46,21 +123,19 @@
         image.addCssClass(ddClassName);
         image.setSelector(".img");
         image.setDoctype(Doctype.fromRequest(request));
-        if (!"0".equals(width)) {
-        	image.addAttribute("width", width + "px");
-    	}
-        if (!"0".equals(height)) {
-        	image.addAttribute("height", height + "px");
-    	}
 
         String divId = "cq-textimage-jsp-" + resource.getPath();
         String imageHeight = image.get(image.getItemName(Image.PN_HEIGHT));
         // div around image for additional formatting
-        %><div class="image" id="<%= divId %>"><%
-        %><% image.draw(out); %><br><%
-    
-        %><cq:text property="image/jcr:description" placeholder="" tagName="small" escapeXml="true"/><%
-        %></div>
+        %><div class="image" id="<%= divId %>" style="<%= styleImage %>"><%
+        %><% image.draw(out); %><%
+		
+        if (caption.length() > 0) {
+        	%><div class="textimage-caption" style="<%= styleCaption %>">
+        		<cq:text property="image/jcr:description" placeholder="" tagName="small" escapeXml="true"/>
+              </div> <%
+        }  %>
+        </div>
         <%@include file="/libs/foundation/components/image/tracking-js.jsp"%>
         <%
     }
@@ -73,3 +148,4 @@
 
 	<%-- fix CQ "new" bar misbehave --%>
 	<div style="clear:both"></div>
+</div>

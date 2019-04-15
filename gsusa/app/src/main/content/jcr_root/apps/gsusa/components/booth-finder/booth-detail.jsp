@@ -154,7 +154,11 @@ String googleMapsAPI = properties.get("mapAPI", "AIzaSyCQ1pG4dKsTrA8mqAo-0qwAI0I
         <section>
             <div>
                 <h5>Location:</h5>
-                <p><%= request.getParameter("Location") %></p>
+
+				<%  String encodingFixedLocationString = new String (request.getParameter("Location").getBytes ("iso-8859-1"), "UTF-8"); %>
+                
+<!--                <p><%= request.getParameter("Location") %></p>		-->
+                <p><%= encodingFixedLocationString %></p>
                 <p><%= request.getParameter("Address1") %></p>
                 <p><%= request.getParameter("Address2") %></p>
                 <p><%= request.getParameter("City") %>, <%= request.getParameter("State") %> <%= request.getParameter("ZipCode") %></p>
@@ -166,7 +170,7 @@ String googleMapsAPI = properties.get("mapAPI", "AIzaSyCQ1pG4dKsTrA8mqAo-0qwAI0I
                 <h5>Date and Time:</h5>
                 <p><%= dateStart %></p>
 <script>
-	$.getJSON("/cookiesapi/booth_list_detail.asp?d=<%= request.getParameter("DateStart") %>&l=<%= URLEncoder.encode(request.getParameter("Location")) %>&a1=<%= URLEncoder.encode(request.getParameter("Address1")) %>&a2=<%= URLEncoder.encode(request.getParameter("Address2")) %>&z=<%= URLEncoder.encode(request.getParameter("ZipCode")) %>", function(data, textStatus, jqXHR){
+	$.getJSON("/cookiesapi/booth_list_detail.asp?d=<%= request.getParameter("DateStart") %>&l=<%= URLEncoder.encode(encodingFixedLocationString, "UTF-8") %>&a1=<%= URLEncoder.encode(request.getParameter("Address1")) %>&a2=<%= URLEncoder.encode(request.getParameter("Address2")) %>&z=<%= URLEncoder.encode(request.getParameter("ZipCode")) %>", function(data, textStatus, jqXHR){
 		var timeslotOutput = '';
 		for(var i = 0; i < data.TimeSlots.length; i++){
 			//alert(data.TimeSlots[i].TroopName+' '+data.TimeSlots[i].TimeOpen);

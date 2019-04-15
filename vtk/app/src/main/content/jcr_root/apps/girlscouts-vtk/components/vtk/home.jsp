@@ -60,6 +60,7 @@
 -->
  
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
+
 <!--PAGE STRUCTURE: MAIN-->
 <div class="row content">
 <!--PAGE STRUCTURE: LEFT CONTENT START-->
@@ -160,4 +161,53 @@
     </div><!--/mainRight-->
   <!--PAGE STRUCTURE: MAIN CONTENT STOP-->
 </div><!--/content-->
+<%
+Resource maintenanceNode = resourceResolver.getResource("/content/vtkcontent/en/vtk-maintenanceBanner/jcr:content/content/middle/par/breaking-news");
+if(maintenanceNode != null){
+    try{
+        Node node = maintenanceNode.adaptTo(Node.class);
+        if(node.hasProperty("newstype")){
+            String popupHeader = "";
+            String popupBody = "";
+            if(!"None".equals(node.getProperty("newstype").getString())){
+                if(node.hasProperty("popupHeader")){
+                    popupHeader = node.getProperty("popupHeader").getString();
+                }
+                if(node.hasProperty("popupBody")){
+                    popupBody = node.getProperty("popupBody").getString();
+                }
+                 %>
+                 <!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
+                 <div id="maintenanceModal" class="maintenance">
+
+                   <!-- Modal content -->
+                   <div class="maintenance-content">
+                       <div class="modal-header">
+                             <div class="vtk-maintenance-news-button">
+                                 <i class="icon-button-circle-cross"></i>
+                           </div>
+                          <div class="maintenanceHeader"><%= popupHeader %> </br></div>
+                      </div>
+                     <div class="modal-body">
+
+                       <p id="maintenanceBody"><%= popupBody %></p>
+                    </div>
+                    <div class="modal-footer">
+                        <strong>-The GSUSA VTK Team</strong>
+                    </div>
+
+                   </div>
+
+                 </div>
+                 <%
+            }
+        }
+    } catch(Exception e){
+		e.printStackTrace();
+    }
+}
+ %>
+
+
+
 

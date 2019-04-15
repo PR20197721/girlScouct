@@ -434,7 +434,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 				.replaceAll("&lt;%council-page%&gt;", councilLivePagePath)
 				.replaceAll("<%council-author-page%>", councilAuthorPagePath)
 				.replaceAll("&lt;%council-author-page%&gt;",
-						"https://author.girlscouts.org/editor.html/" + councilAuthorPagePath)
+						"https://author.girlscouts.org/editor.html" + councilAuthorPagePath)
 				.replaceAll("<%a", "<a").replaceAll("<%/a>", "</a>").replaceAll("&lt;%a", "<a")
 				.replaceAll("&lt;%/a&gt;", "</a>");
 		html = html.replaceAll("&lt;", "<").replaceAll("&gt;", ">");

@@ -1,7 +1,5 @@
 <%@ page
-	import="java.text.Format,
-	java.text.ParseException,
-	java.lang.Exception,
+	import="java.lang.Exception,
 	java.util.Map,
 	java.util.HashMap,
 	java.util.List,
@@ -9,13 +7,10 @@
 	java.util.Iterator,
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
-	com.day.cq.dam.api.Asset,
 	com.day.cq.commons.Doctype,
     com.day.cq.wcm.api.components.DropTarget,
-    com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder,
-	org.girlscouts.vtk.utils.VtkUtil,
-	org.girlscouts.vtk.models.User,
-	javax.servlet.http.HttpSession
+    com.day.cq.wcm.foundation.Image,
+    org.girlscouts.common.events.search.*
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -292,10 +287,15 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	<p>
 	<%
 		try {
-			String imgPath = properties.get("imagePath","");
-			if(!imgPath.isEmpty()){
-				%> <img src="<%= imgPath %>" /> <%
-			}
+			String imgExtPath = properties.get("imagePath","");
+            String imgPath = resource.getPath()+"/image";
+            Node imageNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
+            if(!imgExtPath.isEmpty()){
+                %> <img src="<%= imgExtPath %>" /> <%
+            }
+            else if(imageNode.hasProperty("fileReference")){
+                %> <img src="<%= imageNode.getProperty("fileReference").getString() %>" /> <%
+            }
 			else{
 			    Image image = new Image(resource.getChild("image"));
                 image.setSrc(gsImagePathProvider.getImagePathByLocation(image));

@@ -6,13 +6,14 @@
   <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
   <parent>
-    <groupId>org.girlscouts.web</groupId>
+    <groupId>org.girlscouts.aem</groupId>
     <artifactId>gsusa</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <version>3.0-SNAPSHOT</version>
   </parent>
+  <groupId>org.girlscouts.aem.gsusa</groupId>
   <artifactId>selectiveclean-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
-  <name>Girl Scouts Custom Clean Maven Plugin</name>
+  <name>Girl Scouts USA Selective Clean Maven Plugin</name>
   <!-- FIXME change it to the project's website -->
   <url>http://maven.apache.org</url>
   <properties>

@@ -4,7 +4,7 @@ VERSION=$1
 
 # Get the current version if version number is not specified
 if [ -z $VERSION ]; then
-    VERSION=`head -1 ../VERSIONS.txt | cut -d ' ' -f 1`
+    VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 fi
 
 SERVER_LIST=(localhost)
@@ -18,9 +18,7 @@ for server in ${SERVER_LIST[@]}; do
 		if [ $? -ne 0 ]; then
 			echo "Server $server:$port is down. Skipping..."
 		else
-			curl -u 'admin:admin'  -X POST http://$server:$port/crx/packmgr/service/.json/etc/packages/Girl%20Scouts/girlscouts-vtk-app-$VERSION.zip?cmd=delete
-
-			curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/vtk/girlscouts-vtk-app/$VERSION/girlscouts-vtk-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
+			curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/aem/vtk/girlscouts-vtk-app/$VERSION/girlscouts-vtk-app-$VERSION.zip" -F name="girlscouts-vtk-app" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
 		fi
 	done
 done

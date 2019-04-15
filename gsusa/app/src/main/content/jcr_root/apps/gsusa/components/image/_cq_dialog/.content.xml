@@ -136,6 +136,28 @@
                                 fieldDescription="e.g. display:flex; justify-content:center;"
                                 fieldLabel="Additional CSS Style"
                                 name="./additionalCssStyle"/>
+                            <paddingv jcr:primaryType="nt:unstructured"
+								sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
+								fieldLabel="Padding (Top | Bottom)">
+								<width jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./ptop" />
+								<height jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./pbottom" />
+							</paddingv>
+							<paddingh jcr:primaryType="nt:unstructured"
+								sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
+								fieldLabel="Padding (Left | Right)">                                
+								<width
+									jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./pleft"/>
+								<height
+									jcr:primaryType="nt:unstructured"
+									sling:resourceType="granite/ui/components/foundation/form/numberfield"
+									name="./pright"/>
+							</paddingh>
                         </items>
                     </columns>
                 </items>

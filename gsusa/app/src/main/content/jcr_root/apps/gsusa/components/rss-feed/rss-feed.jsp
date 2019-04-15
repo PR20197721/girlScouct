@@ -136,7 +136,7 @@
 
 
 	// parse into a page, grab all RSS info
-	void fetchPageData(SlingBindings bindings, SlingHttpServletRequest slingRequest, ResourceResolver resourceResolver, String pagePath) {
+	void fetchPageData(SlingBindings bindings, SlingHttpServletRequest slingRequest, ResourceResolver resourceResolver, String pagePath, GirlscoutsImagePathProvider gsImagePathProvider) {
 
 		// get page properties		
 		Page thisPage = resourceResolver.resolve(pagePath).adaptTo(Page.class);
@@ -336,7 +336,7 @@
 		for (Map.Entry<String, HashMap<String,String>> feedPage : feedPages.entrySet()) {
 			String feedPageKey = feedPage.getKey();
 			//out.print("fetching data : " + feedPageKey + "<br>");
-			fetchPageData(bindings, slingRequest, resourceResolver, feedPageKey);
+			fetchPageData(bindings, slingRequest, resourceResolver, feedPageKey, gsImagePathProvider);
 		}
 
 		// need to create a copy, and use it to iterate, otherwise, deleting any items while processing it will cause ConcurrentModificationException

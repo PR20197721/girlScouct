@@ -185,7 +185,7 @@ public class AssetsReferencesReportServlet extends SlingAllMethodsServlet implem
 	private List<String> getAssets(Resource resource) {
 		List<String> results = new ArrayList<String>();
 		if (resource != null && !resource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-			if (resource.isResourceType("sling:OrderedFolder")) {
+			if (resource.isResourceType("sling:OrderedFolder") || resource.isResourceType("sling:Folder")) {
 				Iterable<Resource> children = resource.getChildren();
 				Iterator<Resource> it = children.iterator();
 				if (it != null) {

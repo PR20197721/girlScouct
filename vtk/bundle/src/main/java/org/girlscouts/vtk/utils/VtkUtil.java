@@ -87,7 +87,7 @@ public class VtkUtil  implements ConfigListener{
 	
 	@Reference
 	ConfigManager configManager;
-	
+
 	private static String gsNewYear;
 	private static String vtkHolidays[], gsCouncils[];
 	private static String gsFinanceYearCutoffDate;
@@ -1017,7 +1017,6 @@ public static String getSFActivityDate(String eventStartDateStr, String sfTimeZo
 	return fmtDate;
 	
 }
-
 public static boolean isAllMultiActivitiesSelected(java.util.List<Activity> activities){
 
 	if( activities==null ) return false;
