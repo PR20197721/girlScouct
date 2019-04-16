@@ -111,11 +111,9 @@ public class CouncilRpt {
         ResourceResolver rr = null;
         java.util.List<org.girlscouts.vtk.models.YearPlanRpt> yprs = new java.util.ArrayList<org.girlscouts.vtk.models.YearPlanRpt>();
         String sql = "select  name, altered, refId,jcr:path,excerpt(.) "
-                + " from nt:base "
-                + " where isdescendantnode( '"
+                + " from nt:base where isdescendantnode( '"
                 + VtkUtil.getYearPlanBase(null, null)
-                + sfCouncil
-                + "/troops/') and ocm_classname='org.girlscouts.vtk.models.YearPlan'";
+                + sfCouncil + "/troops/') and ocm_classname='org.girlscouts.vtk.models.YearPlan'";
 
         java.util.List<String> activities = getActivityRpt(sfCouncil);
         javax.jcr.query.QueryResult result = null;

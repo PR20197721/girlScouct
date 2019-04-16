@@ -3,13 +3,14 @@
                 org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
                 org.girlscouts.vtk.helpers.TroopHashGenerator,
                 org.girlscouts.vtk.utils.VtkUtil" %>
+<%@ page import="java.util.List" %>
 <%
     HttpSession session = request.getSession();
     session.invalidate();
     session = request.getSession();
-    session.putValue("VTK_troop", null);
-    session.putValue(User.class.getName(), null);
-    session.putValue(ApiConfig.class.getName(), null);
+    session.setAttribute("VTK_troop", null);
+    session.setAttribute(User.class.getName(), null);
+    session.setAttribute(ApiConfig.class.getName(), null);
     Cookie killMyCookie = new Cookie("girl-scout-name", null);
     killMyCookie.setMaxAge(0);
     killMyCookie.setPath("/");
@@ -23,10 +24,11 @@
 //getUser
     User user = sling.getService(GirlScoutsSalesForceService.class).getUser(apiConfig);
     apiConfig.setUser(user);
+    List<Troop> userTroops = user.getTroops();
     user.setName(contactId);
     session.setAttribute(User.class.getName(), user);
-    for (int i = 0; i < apiConfig.getTroops().size(); i++) {
-        Troop troop = apiConfig.getTroops().get(i);
+    for (int i = 0; i < userTroops.size(); i++) {
+        Troop troop = userTroops.get(i);
         if (!isGroupDemo && troop.getPermissionTokens().contains(13)) { //if not parent
             troop.setTroopId("SHARED_" + session.getId() + "_" + troop.getTroopId()); //group
         } else {
@@ -41,7 +43,7 @@
     session.setAttribute(ApiConfig.class.getName(), apiConfig);
     User vtkUser = new User();
     vtkUser.setApiConfig(apiConfig);
-    if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
+    if (userTroops != null && userTroops.size() > 0) {
         vtkUser.setCurrentYear("" + VtkUtil.getCurrentGSYear());
     }
     session.setAttribute(User.class.getName(), vtkUser);
@@ -57,7 +59,7 @@
         cookie.setPath("/");
         response.addCookie(cookie);
     }//edn if pref level
-    String troopDataPath = sling.getService(TroopHashGenerator.class).hash(apiConfig.getTroops().get(0));
+    String troopDataPath = sling.getService(TroopHashGenerator.class).hash(userTroops.get(0));
     Cookie cookie = new Cookie("troopDataToken", troopDataPath);
     cookie.setPath("/");
     response.addCookie(cookie);

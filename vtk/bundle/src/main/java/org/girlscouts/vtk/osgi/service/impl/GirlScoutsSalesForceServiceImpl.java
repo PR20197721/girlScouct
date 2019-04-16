@@ -79,6 +79,9 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
             UserInfoResponseEntityToUserMapper mapper = new UserInfoResponseEntityToUserMapper();
             user = mapper.map(userInfoResponseEntity);
+            if (apiConfig.isDemoUser()) {
+                user.setAdminCouncilId(demoCouncilCode);
+            }
             addMoreInfo(apiConfig, userInfoResponseEntity, user);
         }catch(Exception e){
             log.error("Error occurred: ", e);
@@ -216,9 +219,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
 
     private void addMoreInfo(ApiConfig apiConfig, UserInfoResponseEntity userInfoResponseEntity, User user) {
         if(user != null && userInfoResponseEntity != null) {
-            if (apiConfig.isDemoUser()) {
-                user.setAdminCouncilId(demoCouncilCode);
-            }
             ParentEntity[] campsTroops = userInfoResponseEntity.getCamps();
             setTroopsForUser(apiConfig, user, campsTroops);
             apiConfig.setTroops(user.getTroops());
@@ -243,8 +243,8 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             if (apiConfig.isDemoUser()) {
                 troop.setCouncilCode(demoCouncilCode);
             }
-            troop.setSfUserId(user.getSfUserId());
             setTroopPermissions(apiConfig, troop, user.isAdmin());
+            troop.setSfUserId(user.getSfUserId());
         }
         user.setTroops(mergedTroops);
     }
@@ -262,6 +262,19 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
         }
         if (isAdmin) {
+            troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+        }
+    }
+    private void setTroopPermissions(User user, Troop troop) {
+        RollType rollType = RollType.valueOf(troop.getRole());
+        troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+        if (rollType.getRollType().equals("PA")) {
+            troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+        }
+        if (rollType.getRollType().equals("DP")) {
+            troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+        }
+        if (user.isAdmin()) {
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
         }
     }

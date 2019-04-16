@@ -5,7 +5,6 @@
                 com.day.cq.wcm.api.components.DropTarget,
                 com.day.cq.wcm.foundation.Image,
                 com.day.image.Layer,
-                com.fasterxml.jackson.databind.ObjectMapper,
                 org.apache.commons.codec.binary.Base64,
                 org.girlscouts.vtk.ejb.CouncilRpt,
                 org.girlscouts.vtk.ejb.EmailMeetingReminder,
@@ -24,6 +23,7 @@
                 java.util.LinkedList,
                 java.util.StringTokenizer" %>
 <%@ page import="org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
+<%@ page import="org.codehaus.jackson.map.ObjectMapper" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects/>
@@ -87,7 +87,7 @@
                     return;
                 case CreateSchedule:
                     try {
-                        session.putValue("VTK_planView_memoPos", null);
+                        session.setAttribute("VTK_planView_memoPos", null);
                         calendarUtil.createSched(user, selectedTroop, request.getParameter("calFreq"), new org.joda.time.DateTime(
                                         VtkUtil.parseDate(VtkUtil.FORMAT_FULL, request.getParameter("calStartDt")
                                                 + " " + request.getParameter("calTime")
@@ -205,7 +205,7 @@
                 case CreateCustomActivity:
                     yearPlanUtil.createCustActivity(user, selectedTroop,
                             (java.util.List<Activity>) session
-                                    .getValue("vtk_search_activity"), request.getParameter("newCustActivityBean"));
+                                    .getAttribute("vtk_search_activity"), request.getParameter("newCustActivityBean"));
                     return;
                 case isAltered:
                     out.println(yearPlanUtil.isYearPlanAltered(user, selectedTroop));
@@ -244,11 +244,11 @@
             }
         }
         if (request.getParameter("admin_login") != null) {
-            if (session.getValue("VTK_ADMIN") == null) {
+            if (session.getAttribute("VTK_ADMIN") == null) {
                 String u = request.getParameter("usr");
                 String p = request.getParameter("pswd");
                 if (u.equals("admin") && p.equals("icruise123")) {
-                    session.putValue("VTK_ADMIN", u);
+                    session.setAttribute("VTK_ADMIN", u);
                 }
             }
             response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.home.html");
@@ -498,7 +498,7 @@
                         helper.setAttendanceCurrent(attendanceCurrent);
                         helper.setAttendanceTotal(attendanceTotal);
                         selectedTroop.getYearPlan().setHelper(helper);
-                        session.putValue("VTK_troop", selectedTroop);
+                        session.setAttribute("VTK_troop", selectedTroop);
                         ObjectMapper mapper = new ObjectMapper();
                         try {
                             response.setContentType("application/json");
@@ -508,7 +508,7 @@
                             vtklog.error("Exception occured:", ee);
                         }
                         selectedTroop.getYearPlan().setMeetingEvents(TMP_meetings);
-                        session.putValue("VTK_troop", selectedTroop);
+                        session.setAttribute("VTK_troop", selectedTroop);
                     } else {
                         if (selectedTroop == null) {
                             vtklog.error("troop:" + selectedTroop);
@@ -539,13 +539,13 @@
                 }
                 if (isFirst || isCng) {
                     Troop prefTroop = null;
-                    if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
-                        prefTroop = apiConfig.getTroops().get(0);
+                    if (userTroops != null && userTroops.size() > 0) {
+                        prefTroop = userTroops.get(0);
                     }
-                    for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
-                        if (apiConfig.getTroops().get(ii).getTroopId()
+                    for (int ii = 0; ii < userTroops.size(); ii++) {
+                        if (userTroops.get(ii).getTroopId()
                                 .equals(selectedTroop.getSfTroopId())) {
-                            prefTroop = apiConfig.getTroops().get(ii);
+                            prefTroop = userTroops.get(ii);
                             break;
                         }
                     }
@@ -583,7 +583,7 @@
                             sched.put(selectedTroop.getYearPlan().getMilestones().get(i).getDate(),
                                     selectedTroop.getYearPlan().getMilestones().get(i));
                     }
-                    session.putValue("VTK_troop", selectedTroop);
+                    session.setAttribute("VTK_troop", selectedTroop);
                     Object tmp[] = sched.values().toArray();
                     for (int i = 0; i < tmp.length; i++) {
                         try {
@@ -630,13 +630,13 @@
             }
             if (isFirst || isCng) {
                 Troop prefTroop = null;
-                if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
-                    prefTroop = apiConfig.getTroops().get(0);
+                if (userTroops != null && userTroops.size() > 0) {
+                    prefTroop = userTroops.get(0);
                 }
-                for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
-                    if (apiConfig.getTroops().get(ii).getTroopId()
+                for (int ii = 0; ii < userTroops.size(); ii++) {
+                    if (userTroops.get(ii).getTroopId()
                             .equals(selectedTroop.getSfTroopId())) {
-                        prefTroop = apiConfig.getTroops().get(ii);
+                        prefTroop = userTroops.get(ii);
                         break;
                     }
                 }
@@ -991,7 +991,7 @@
 
     //Cloned Troop object from archived year plan references archived year plan path ex: "/vtk2014/999/". It is necessary to change Troop path to current year ex: ""/vtk2015/999/"".
     selectedTroop.setPath("/vtk" + VtkUtil.getCurrentGSYear() + "/" + selectedTroop.getSfCouncil() + "/troops/" + selectedTroop.getSfTroopId());
-    session.putValue("VTK_troop", selectedTroop);
+    session.setAttribute("VTK_troop", selectedTroop);
 } else if (request.getParameter("addNote") != null) {
     response.setContentType("application/json");
     vtklog.debug("addNote");

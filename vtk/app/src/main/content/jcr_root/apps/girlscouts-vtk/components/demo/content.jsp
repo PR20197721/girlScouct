@@ -3,9 +3,9 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%
     HttpSession session = request.getSession();
-    session.putValue("VTK_troop", null);
-    session.putValue(User.class.getName(), null);
-    session.putValue(ApiConfig.class.getName(), null);
+    session.setAttribute("VTK_troop", null);
+    session.setAttribute(User.class.getName(), null);
+    session.setAttribute(ApiConfig.class.getName(), null);
     Cookie killMyCookie = new Cookie("girl-scout-name", null);
     killMyCookie.setMaxAge(0);
     killMyCookie.setPath("/");

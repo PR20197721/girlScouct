@@ -1075,7 +1075,7 @@ public class MeetingUtil {
 			searchDate = new java.util.Date(Long.parseLong(elem));
 		} else if (false) {// session.getValue("VTK_planView_memoPos") !=null ){
 			searchDate = new java.util.Date(
-					(Long) session.getValue("VTK_planView_memoPos"));
+					(Long) session.getAttribute("VTK_planView_memoPos"));
 		} else {
 
 			if (troop.getYearPlan().getSchedule() == null)
@@ -1098,7 +1098,7 @@ public class MeetingUtil {
 			nextDate = ((java.util.Date) dates.get(currInd + 1)).getTime();
 		if (currInd > 0)
 			prevDate = ((java.util.Date) dates.get(currInd - 1)).getTime();
-		session.putValue("VTK_planView_memoPos", searchDate.getTime());
+		session.setAttribute("VTK_planView_memoPos", searchDate.getTime());
 		YearPlanComponent _comp = sched.get(searchDate);
 		planView.setSearchDate(searchDate);
 		planView.setPrevDate(prevDate);

@@ -14,10 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.StringTokenizer;
+import java.util.*;
 
 @Component
 @Service(value = TroopUtil.class)
@@ -349,64 +346,47 @@ public class TroopUtil {
 
     }
 
-    public void reLogin(User user, Troop troop, String troopId, HttpSession session) throws IllegalAccessException, VtkException {
-
-        if (troopId == null || troopId.trim().equals("")) {
+    public void reLogin(User user, Troop selectedTroop, String newSelectedTroopId, HttpSession session) throws IllegalAccessException, VtkException {
+        if (newSelectedTroopId == null || newSelectedTroopId.trim().equals("")) {
             log.error("loginAs invalid.abort");
             return;
         }
-
-        java.util.List<Troop> troops = user
-                .getApiConfig().getTroops();
+        List<Troop> troops = user.getTroops();
         session.setAttribute("USER_TROOP_LIST", troops);
-
-        Troop newTroop = null;
-
-        alex:
+        Troop newSelectedTroop = null;
         for (int i = 0; i < troops.size(); i++) {
-            if (troops.get(i).getTroopId().equals(troopId) ||
-                    troops.get(i).getGradeLevel().equals(troopId)) {
-                newTroop = troops.get(i);
-                troopId = troops.get(i).getTroopId(); // in demo env
-                break alex;
+            try {
+                if (troops.get(i).getTroopId().equals(newSelectedTroopId) || troops.get(i).getGradeLevel().equals(newSelectedTroopId)) {
+                    newSelectedTroop = troops.get(i);
+                    newSelectedTroopId = newSelectedTroop.getTroopId(); // in demo env
+                    break;
+                }
+            } catch (Exception e) {
+                log.error("Error occurred:", e);
             }
         }
-
-        if (newTroop == null) return;
-
-
-        Troop new_troop = getTroop(user, newTroop.getCouncilCode() + "", troopId);
-
-        if (new_troop == null) {
-            new_troop = createTroop(user, "" + newTroop.getCouncilCode(),
-                    troopId);
-
+        if (newSelectedTroop == null) {
+            return;
         }
-
-
+        Troop newSelectedTroopRepoData = getTroop(user, newSelectedTroop.getCouncilCode() + "", newSelectedTroopId);
+        if (newSelectedTroopRepoData == null) {
+            newSelectedTroopRepoData = createTroop(user, "" + newSelectedTroop.getCouncilCode(), newSelectedTroopId);
+        }
         //archive
         if (!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) {
-            java.util.Set permis = org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);
-            Troop newTroopCloned = ((Troop) VtkUtil.deepClone(newTroop));
-            newTroopCloned.setPermissionTokens(permis);
-            //new_troop.setTroop(newTroopCloned);
-        } else {
-            //new_troop.setTroop(newTroop);
+            Set permis = Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS);
+            Troop newSelectedTroopCloned = ((Troop) VtkUtil.deepClone(newSelectedTroop));
+            newSelectedTroopCloned.setPermissionTokens(permis);
+            newSelectedTroop = newSelectedTroopCloned;
         }
+        newSelectedTroop.setYearPlan(newSelectedTroopRepoData.getYearPlan());
+        newSelectedTroop.setPath(newSelectedTroopRepoData.getPath());
+        newSelectedTroop.setCurrentTroop(newSelectedTroopRepoData.getCurrentTroop());
         //end archive
-
-
-        //new_troop.setSfTroopId(new_troop.getTroop().getTroopId());
-        new_troop.setSfUserId(user.getApiConfig().getUserId());
-        //new_troop.setSfTroopName(new_troop.getTroop().getTroopName());
-        //new_troop.setSfTroopAge(new_troop.getTroop().getGradeLevel());
-        //new_troop.setSfCouncil(new_troop.getTroop().getCouncilCode() + "");
-
-
-        // logout multi troop
-        logout(user, troop);
-        session.setAttribute("VTK_troop", new_troop);
-        session.putValue("VTK_planView_memoPos", null);
+        // logout multi selectedTroop
+        logout(user, selectedTroop);
+        session.setAttribute("VTK_troop", newSelectedTroop);
+        session.setAttribute("VTK_planView_memoPos", null);
         session.setAttribute("vtk_cachable_contacts", null);
     }
 
@@ -529,7 +509,7 @@ public class TroopUtil {
         //new_troop.setSfTroopAge(new_troop.getTroop().getGradeLevel());
         //new_troop.setSfCouncil(new_troop.getTroop().getCouncilCode() + "");
         session.setAttribute("VTK_troop", new_troop);
-        session.putValue("VTK_planView_memoPos", null);
+        session.setAttribute("VTK_planView_memoPos", null);
         new_troop.setCurrentTroop(session.getId());
     }
 

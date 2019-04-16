@@ -15,7 +15,7 @@
 	String branch = "/content/vtkcontent", councilName="vtkcontent";
 	try{
 		apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
-		int councilIdInt = apiConfig.getTroops().get(0).getCouncilCode();
+		int councilIdInt = userTroops.get(0).getCouncilCode();
 		String councilId = Integer.toString(councilIdInt);
 		branch = sling.getService(CouncilMapper.class).getCouncilBranch(councilId);
 		councilName = sling.getService(CouncilMapper.class).getCouncilName(councilId);

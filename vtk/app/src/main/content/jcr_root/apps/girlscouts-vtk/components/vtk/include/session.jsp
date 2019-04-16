@@ -73,23 +73,23 @@
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             if (session.getAttribute("fatalError") != null) {
-%>
-<div id="panelWrapper" class="row meeting-detail content">
-    <div class="columns large-20 large-centered">
-        <%@include file="vtkError.jsp" %>
-    </div>
-</div>
-<%
-} else {
-%>
-<div id="panelWrapper" class="row meeting-detail content">
-    <div class="columns large-20 large-centered">
-        <p>
-            Your session has timed out. Please refresh this page and login.
-        </p>
-    </div>
-</div>
-<%
+                %>
+                <div id="panelWrapper" class="row meeting-detail content">
+                    <div class="columns large-20 large-centered">
+                        <%@include file="vtkError.jsp" %>
+                    </div>
+                </div>
+                <%
+            } else {
+                %>
+                <div id="panelWrapper" class="row meeting-detail content">
+                    <div class="columns large-20 large-centered">
+                        <p>
+                            Your session has timed out. Please refresh this page and login.
+                        </p>
+                    </div>
+                </div>
+                <%
             }
             return;
         }
@@ -107,57 +107,45 @@
     List<Troop> userTroops = apiConfig.getUser().getTroops();
     if ((userTroops == null || userTroops.size() <= 0 || (userTroops.get(0).getType() == 1))) {
         int vtkSignupYear = VtkUtil.getCurrentGSYear() + 1;
-%>
-<div id="panelWrapper" class="row meeting-detail content">
-    <div class="columns large-20 large-centered">
-        <%@include file="vtkError.jsp" %>
+        %>
+        <div id="panelWrapper" class="row meeting-detail content">
+            <div class="columns large-20 large-centered">
+                <%@include file="vtkError.jsp" %>
 
-        <p>We're sorry you're having trouble logging into the VTK. We're here to help!</p>
-        <p>
-            The Volunteer Toolkit is a digital planning tool currently available for active Troop Leaders and
-            Co-Leaders. To access the VTK, please ensure you have an active <%= vtkSignupYear %> membership. If you're a
-            parent, please make sure your daughter has an active <%= vtkSignupYear %> membership record as well and that
-            she's part of an active troop.
-        </p>
-        <p>
-            Need help? click Contact Us at the top of the page to connect with the customer service team and we'll get
-            it sorted out.
-        </p>
-        <p>
-            Thank you!
-        </p>
-    </div>
-</div>
-<%
+                <p>We're sorry you're having trouble logging into the VTK. We're here to help!</p>
+                <p>
+                    The Volunteer Toolkit is a digital planning tool currently available for active Troop Leaders and
+                    Co-Leaders. To access the VTK, please ensure you have an active <%= vtkSignupYear %> membership. If you're a
+                    parent, please make sure your daughter has an active <%= vtkSignupYear %> membership record as well and that
+                    she's part of an active troop.
+                </p>
+                <p>
+                    Need help? click Contact Us at the top of the page to connect with the customer service team and we'll get
+                    it sorted out.
+                </p>
+                <p>
+                    Thank you!
+                </p>
+            </div>
+        </div>
+        <%
         return;
     }
     user = ((User) session.getAttribute(User.class.getName()));
     user.setSid(session.getId());
-    String errMsg = null;
     Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
-    if (selectedTroop == null || selectedTroop.isRefresh()) {
-        if (selectedTroop != null && selectedTroop.isRefresh() && selectedTroop.getErrCode() != null && !selectedTroop.getErrCode().equals("")) {
-            errMsg = selectedTroop.getErrCode();
+    if (selectedTroop == null) {
+        if (userTroops != null && userTroops.size() > 0) {
+            selectedTroop = userTroops.get(0);
         }
-        if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
-            selectedTroop = apiConfig.getTroops().get(0);
-        }
-        if (selectedTroop != null) {
-            for (int ii = 0; ii < userTroops.size(); ii++) {
-                if (userTroops.get(ii).getTroopId().equals(selectedTroop.getSfTroopId())) {
-                    selectedTroop = userTroops.get(ii);
-                    break;
-                }
-            }
-        } else {
+        if (selectedTroop == null) {
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 theCookie:
                 for (int i = 0; i < cookies.length; i++) {
                     if (cookies[i].getName().equals("vtk_prefTroop")) {
-                        for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
-                            String gradeLevel = apiConfig.getTroops().get(ii).getGradeLevel();
-
+                        for (int ii = 0; ii < userTroops.size(); ii++) {
+                            String gradeLevel = userTroops.get(ii).getGradeLevel();
                             if (gradeLevel != null && gradeLevel.equals(cookies[i].getValue())) {
                                 selectedTroop = userTroops.get(ii);
                                 break theCookie;
@@ -167,45 +155,49 @@
                 }
             }
         }
-        Troop selectedTroopRepoData = null;
-        try {
-            if (!(apiConfig.getUser().isAdmin() && selectedTroop.getTroopId().equals("none"))) {
-                selectedTroopRepoData = troopUtil.getTroop(user, "" + selectedTroop.getCouncilCode(), selectedTroop.getTroopId());
-            }
-        } catch (org.girlscouts.vtk.utils.VtkException ec) {
-%>
-<div id="panelWrapper" class="row meeting-detail content">
-    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
-        <%=ec.getMessage() %>
-        <br/>Please notify Girlscouts VTK support
-    </p>
-</div>
-<%
-    return;
-} catch (IllegalAccessException ex) {
-    ex.printStackTrace();
-%><span class="error">Sorry, you have no access to view year plan.</span><%
-        return;
     }
-    if (selectedTroopRepoData == null) {
-        try {
-            selectedTroopRepoData = troopUtil.createTroop(user, "" + selectedTroop.getCouncilCode(), selectedTroop.getTroopId());
-        } catch (Exception e) {
-%>
-<div id="panelWrapper" class="row meeting-detail content">
-    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
-        <%=e.getMessage() %>
-        <br/>Please notify Girlscouts VTK support
-    </p>
-</div>
-<%
-                e.printStackTrace();
-                return;
+    if(selectedTroop != null){
+        if(selectedTroop.getYearPlan() == null || selectedTroop.isRefresh()) {
+            Troop selectedTroopRepoData = null;
+            try {
+                if (!(apiConfig.getUser().isAdmin() && selectedTroop.getTroopId().equals("none"))) {
+                    selectedTroopRepoData = troopUtil.getTroop(user, "" + selectedTroop.getCouncilCode(), selectedTroop.getTroopId());
+                }
+            } catch (org.girlscouts.vtk.utils.VtkException ec) {
+                %>
+                <div id="panelWrapper" class="row meeting-detail content">
+                    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+                        <%=ec.getMessage() %>
+                        <br/>Please notify Girlscouts VTK support
+                    </p>
+                </div>
+                <%
+                    return;
+            } catch (IllegalAccessException ex) {
+                    ex.printStackTrace();
+                    %><span class="error">Sorry, you have no access to view year plan.</span><%
+                        return;
+                    }
+                    if (selectedTroopRepoData == null) {
+                        try {
+                            selectedTroopRepoData = troopUtil.createTroop(user, "" + selectedTroop.getCouncilCode(), selectedTroop.getTroopId());
+                        } catch (Exception e) {
+                        %>
+                        <div id="panelWrapper" class="row meeting-detail content">
+                            <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+                                <%=e.getMessage() %>
+                                <br/>Please notify Girlscouts VTK support
+                            </p>
+                        </div>
+                        <%
+                    e.printStackTrace();
+                    return;
+                }
             }
+            selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
+            selectedTroop.setPath(selectedTroopRepoData.getPath());
+            selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
         }
-        selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
-        selectedTroop.setPath(selectedTroopRepoData.getPath());
-        selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
         if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("true")) {
             selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
             selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
@@ -222,25 +214,33 @@
             session.setAttribute("showGamma", null);
         }
         session.setAttribute("VTK_troop", selectedTroop);
-    }
-    if (session.getAttribute("USER_TROOP_LIST") == null) {
-        session.setAttribute("USER_TROOP_LIST", userTroops);
-    }
-    //check valid cache url /myvtk/
-    if (!VtkUtil.isValidUrl(user, selectedTroop, request.getRequestURI(), councilMapper.getCouncilName(selectedTroop.getSfCouncil()))) {
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        return;
-    }
-    RunMode runModeService = sling.getService(RunMode.class);
-    String apps[] = new String[]{"prod"};
-    String prodButDontTrack[] = new String[]{"gspreview"};
-    if (runModeService.isActive(apps) && !runModeService.isActive(prodButDontTrack)) {
-        String footerScript = "<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('" + selectedTroop.getSfTroopName() + "', '" + selectedTroop.getSfTroopId() + "', '" + user.getApiConfig().getUser().getSfUserId() + "', '" + selectedTroop.getSfCouncil() + "', '" + selectedTroop.getSfTroopAge() + "', '" + (selectedTroop.getYearPlan() == null ? "" : selectedTroop.getYearPlan().getName()) + "'); vtkTrackerPushAction('View'); showSelectedDemoTroop('" + selectedTroop.getSfTroopAge() + "');</script>";
-        request.setAttribute("footerScript", footerScript);
+        if (session.getAttribute("USER_TROOP_LIST") == null) {
+            session.setAttribute("USER_TROOP_LIST", userTroops);
+        }
+        //check valid cache url /myvtk/
+        if (!VtkUtil.isValidUrl(user, selectedTroop, request.getRequestURI(), councilMapper.getCouncilName(selectedTroop.getSfCouncil()))) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+        RunMode runModeService = sling.getService(RunMode.class);
+        String apps[] = new String[]{"prod"};
+        String prodButDontTrack[] = new String[]{"gspreview"};
+        if (runModeService.isActive(apps) && !runModeService.isActive(prodButDontTrack)) {
+            String footerScript = "<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('" + selectedTroop.getSfTroopName() + "', '" + selectedTroop.getSfTroopId() + "', '" + user.getApiConfig().getUser().getSfUserId() + "', '" + selectedTroop.getSfCouncil() + "', '" + selectedTroop.getSfTroopAge() + "', '" + (selectedTroop.getYearPlan() == null ? "" : selectedTroop.getYearPlan().getName()) + "'); vtkTrackerPushAction('View'); showSelectedDemoTroop('" + selectedTroop.getSfTroopAge() + "');</script>";
+            request.setAttribute("footerScript", footerScript);
+        } else {
+            String footerScript = "<script>window['ga-disable-UA-2646810-36'] = true; showSelectedDemoTroop('" + selectedTroop.getSfTroopAge() + "')</script>";
+            request.setAttribute("footerScript", footerScript);
+        }
+        request.setAttribute("vtk-request-user", user);
+        request.setAttribute("vtk-request-troop", selectedTroop);
     } else {
-        String footerScript = "<script>window['ga-disable-UA-2646810-36'] = true; showSelectedDemoTroop('" + selectedTroop.getSfTroopAge() + "')</script>";
-        request.setAttribute("footerScript", footerScript);
+        %>
+        <div id="panelWrapper" class="row meeting-detail content">
+            <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+                <br/>Please notify Girlscouts VTK support
+            </p>
+        </div>
+        <%
     }
-    request.setAttribute("vtk-request-user", user);
-    request.setAttribute("vtk-request-troop", selectedTroop);
 %>                  

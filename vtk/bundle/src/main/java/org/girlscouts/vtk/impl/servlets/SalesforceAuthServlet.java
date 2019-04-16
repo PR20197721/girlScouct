@@ -198,12 +198,12 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
                     config.setUser(user);
                     config.setTroops(user.getTroops());
                     user.setApiConfig(config);
-                    if (config.getTroops() != null && config.getTroops().size() > 0) {
+                    if (config.getUser().getTroops() != null && config.getUser().getTroops().size() > 0) {
                         user.setCurrentYear("" + VtkUtil.getCurrentGSYear());
                     }
                     session.setAttribute(User.class.getName(), user);
-                    if (config.getTroops() != null && !config.getTroops().isEmpty()) {
-                        String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
+                    if (config.getUser().getTroops() != null && !config.getUser().getTroops().isEmpty()) {
+                        String troopDataPath = troopHashGenerator.hash(config.getUser().getTroops().get(0));
                         Cookie cookie = new Cookie("troopDataToken", troopDataPath);
                         cookie.setPath("/");
                         response.addCookie(cookie);

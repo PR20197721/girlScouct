@@ -128,8 +128,8 @@
 	    <div class="content" id="panel2"><% 
 			String councilId = null;
 			if (apiConfig != null) {
-			    if (apiConfig.getTroops().size() > 0) {
-			        councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+			    if (apiConfig.getUser().getTroops().size() > 0) {
+			        councilId = Integer.toString(apiConfig.getUser().getTroops().get(0).getCouncilCode());
 			    }
 			}
 			CouncilMapper mapper = sling.getService(CouncilMapper.class);

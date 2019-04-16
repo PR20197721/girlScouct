@@ -96,7 +96,7 @@ public class TroopDAOImpl implements TroopDAO {
                 troop.setRetrieveTime(new java.util.Date());
 
             try {
-                if (user.getApiConfig().isDemoUser() && user.getApiConfig().getTroops().get(0).getRole().equals("PA")) {
+                if (user.getApiConfig().isDemoUser() && user.getApiConfig().getUser().getTroops().get(0).getRole().equals("PA")) {
 
                     String DATES = "";
 

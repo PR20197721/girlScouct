@@ -42,7 +42,7 @@ public class Cal extends SlingSafeMethodsServlet {
 				.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
 		
 		
-		Troop troop = (Troop) request.getSession().getValue("VTK_troop");
+		Troop troop = (Troop) request.getSession().getAttribute("VTK_troop");
 		
 		response.setHeader("Content-Disposition", "attachment;filename=\""
 				+ troop.getYearPlan().getName() + ".ics\"");

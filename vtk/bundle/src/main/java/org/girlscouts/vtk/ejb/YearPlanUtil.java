@@ -368,7 +368,7 @@ public class YearPlanUtil {
 					request.getParameter("region"));
 
 			HttpSession session = request.getSession();
-			session.putValue("vtk_search_activity", activities);
+			session.setAttribute("vtk_search_activity", activities);
 
 		} catch (Exception e) {
 			e.printStackTrace();

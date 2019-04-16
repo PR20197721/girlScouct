@@ -1,13 +1,12 @@
 package org.girlscouts.vtk.ejb;
 
 import java.util.Comparator;
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.joda.time.LocalDate;
 import java.util.*;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.dao.*;
-import g.girlscouts.vtk.ejb.*,
+import org.girlscouts.vtk.ejb.*,
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import com.day.image.Layer;
 import java.awt.geom.Rectangle2D;
@@ -669,7 +668,7 @@ public class VtkController {
 					helper.setAttendanceTotal(attendanceTotal);
 					troop.getYearPlan().setHelper(helper);
 
-	                session.putValue("VTK_troop", troop);
+	                session.setAttribute("VTK_troop", troop);
 
                     ObjectMapper mapper = new ObjectMapper();
                     try {
@@ -686,7 +685,7 @@ public class VtkController {
                     }
 
                     troop.getYearPlan().setMeetingEvents(TMP_meetings);
-                    session.putValue("VTK_troop", troop);
+                    session.setAttribute("VTK_troop", troop);
 
 				} else {
 					// error message in logs
@@ -789,7 +788,7 @@ try{
 
 				//edn milestone
 
-				session.putValue("VTK_troop", troop);
+				session.setAttribute("VTK_troop", troop);
 
 	Object tmp[] = sched.values().toArray();
 	for(int i=0;i<tmp.length;i++){
@@ -814,7 +813,7 @@ try{
 	}
 					}
 
-				ObjectMapper mapper = new ObjectMapper();
+				org.codehaus.jackson.map.ObjectMapper mapper = new ObjectMapper();
 				out.println("{\"yearPlan\":\""
 						+ troop.getYearPlan().getName()
 						+ "\",\"schedule\":");

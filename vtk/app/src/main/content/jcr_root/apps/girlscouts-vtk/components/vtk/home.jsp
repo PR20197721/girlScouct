@@ -2,6 +2,8 @@
                 org.girlscouts.vtk.helpers.CouncilMapper,
                 org.girlscouts.vtk.utils.VtkUtil,
                 org.girlscouts.vtk.auth.models.ApiConfig" %>
+<%@ page import="org.girlscouts.vtk.models.Troop" %>
+<%@ page import="java.util.List" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
     CouncilMapper councilMapper = sling.getService(CouncilMapper.class);
@@ -13,19 +15,21 @@
     int councilIdInt = 0;
     String councilId = "0";
     String gradeLevel = "CA";
+    List<Troop> userTroops = null;
     try {
         apiConfig = ((ApiConfig) session.getAttribute(ApiConfig.class.getName()));
     } catch (Exception e) {
         e.printStackTrace();
     }
     if (apiConfig != null && !apiConfig.isFail()) {
+        userTroops =  apiConfig.getUser().getTroops();
         CouncilMapper mapper = sling.getService(CouncilMapper.class);
         String branch = null;
         try {
-            councilIdInt = apiConfig.getTroops().get(0).getCouncilCode();
+            councilIdInt = userTroops.get(0).getCouncilCode();
             councilId = Integer.toString(councilIdInt);
             branch = mapper.getCouncilBranch(councilId);
-            gradeLevel = apiConfig.getTroops().get(0).getGradeLevel();
+            gradeLevel = userTroops.get(0).getGradeLevel();
             gradeLevel = gradeLevel == null ? "CA" : VtkUtil.formatAgeGroup(gradeLevel);
 
         } catch (Exception e) {
@@ -91,8 +95,8 @@
                                     String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
                                     String userRole = null;
                                     if (!apiConfig.isFail()) {
-                                        if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
-                                            userRole = apiConfig.getTroops().get(0).getRole();
+                                        if (userTroops != null && userTroops.size() > 0) {
+                                            userRole = userTroops.get(0).getRole();
                                         }
                                         userRole = userRole == null ? "" : userRole;
                                         if (apiConfig != null && userRole != null && userRole.equals("DP")) {

@@ -5,7 +5,7 @@ boolean showExtra= false;
 boolean isDp= false;
 if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
 	showExtra= true;
-	if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session).getTroops().get(0).getPermissionTokens().contains(270) ){
+	if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session).getUser().getTroops().get(0).getPermissionTokens().contains(270) ){
 		isDp=true;
     }
 }
