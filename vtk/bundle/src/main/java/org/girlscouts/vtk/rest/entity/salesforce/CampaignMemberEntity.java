@@ -75,7 +75,7 @@ public class CampaignMemberEntity {
         private String sfId;
 
         @SerializedName("Membership_Year__c")
-        private String membershipYear;
+        private Integer membershipYear;
 
         @SerializedName("attributes")
         private AttributesEntity attributes;
@@ -88,11 +88,11 @@ public class CampaignMemberEntity {
             this.sfId = sfId;
         }
 
-        public String getMembershipYear() {
+        public Integer getMembershipYear() {
             return membershipYear;
         }
 
-        public void setMembershipYear(String membershipYear) {
+        public void setMembershipYear(Integer membershipYear) {
             this.membershipYear = membershipYear;
         }
 

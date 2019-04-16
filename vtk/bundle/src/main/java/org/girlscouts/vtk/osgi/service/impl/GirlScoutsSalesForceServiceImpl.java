@@ -171,10 +171,10 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                     Map cDetails = renewals.get(cId);
                     if (cDetails == null) {
                         cDetails = new TreeMap<String, Object>();
-                        renewals.put(cId, cDetails);
                     }
                     cDetails.put("Display_Renewal__c", entity.isDisplayRenewal());
                     cDetails.put("Membership__r", entity.getMembership().getMembershipYear());
+                    renewals.put(cId, cDetails);
                 } catch (Exception e) {
                     log.error("Error occured while processing renewals entity: ",e);
                 }
@@ -183,9 +183,13 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 try {
                     Boolean isRenewal = (Boolean) renewals.get(contact.getId()).get("Display_Renewal__c");
                     contact.setRenewalDue(isRenewal == null ? false : isRenewal);
-                    contact.setMembershipYear((Integer) renewals.get(contact.getId()).get("Membership__r"));
+                    Map<String, Object> renewal = renewals.get(contact.getId());
+                    if(renewal != null) {
+                        Integer membershipYear = (Integer) renewal.get("Membership__r");
+                        contact.setMembershipYear(membershipYear);
+                    }
                 } catch (Exception e) {
-
+                    log.error("Error occured: ",e);
                 }
             }
         }

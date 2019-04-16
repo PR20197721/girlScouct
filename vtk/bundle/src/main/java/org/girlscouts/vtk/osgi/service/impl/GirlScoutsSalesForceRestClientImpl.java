@@ -102,7 +102,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
     @Override
     public ContactsInfoResponseEntity getContactsByTroopId(ApiConfig apiConfig, String sfTroopId) {
         ContactsInfoResponseEntity contactsInfoResponseEntity = null;
-        String url = this.sfContactsInfoUrl + "?Troop_ID=" + sfTroopId;
+        String url = this.sfContactsInfoUrl + "?troopId=" + sfTroopId;
         String token = apiConfig.getAccessToken();
         try {
             String json = doGet(url, token);
@@ -151,6 +151,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
             HttpGet getRequest = new HttpGet(url);
             getRequest.addHeader("accept", "application/json");
             getRequest.addHeader("Authorization", "OAuth "+token);
+            log.debug("curl -X GET '"+url+"' -H 'Accept: application/json' -H 'Authorization: OAuth "+token+"'");
             HttpResponse response = httpClient.execute(getRequest);
             String json = getJsonFromResponse(response);
             return json ;
