@@ -2,5 +2,5 @@
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:ClientLibraryFolder"
     categories="apps.girlscouts.components.pdfprint"
-          dependencies="[common.thirdparty.framework.vuejs, common.util.dom-utils, common.thirdparty.style-inliner]"
+          dependencies="[common.thirdparty.style-inliner]"
     embed="[common.thirdparty.style-inliner]"/>

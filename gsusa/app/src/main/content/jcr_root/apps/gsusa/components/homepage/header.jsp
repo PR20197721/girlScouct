@@ -44,6 +44,7 @@ String headerSearchPath = headerPath + "/search";
         <div class="clearfix float-right">
             <cq:include path="<%= headerSearchPath %>" resourceType="gsusa/components/search-box" />
         </div>
+        <cq:include path="content/middle/pdf-print" resourceType="girlscouts/components/pdf-print" />
     </section>
 </div>
 
