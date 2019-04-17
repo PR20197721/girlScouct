@@ -1,0 +1,10 @@
+.search-box{
+    float: right;
+    clear: both;
+}
+.search-box form{
+    margin: 0;
+}
+.search-box form input[type="text"]{
+    margin: 0;
+}
