@@ -1,6 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
-<%@page import="com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.Placeholder, java.util.Random, com.day.cq.wcm.foundation.Image"  %>
+<%@page import="com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.Placeholder, java.util.Random, com.day.cq.wcm.foundation.Image,
+	javax.servlet.http.HttpSession"  %>
 <%@page session="false" %>
 <%@ taglib prefix="gsusa" uri="https://girlscouts.org/gsusa/taglib"%>
 
@@ -15,14 +16,44 @@ public String generateId() {
 }
 %>
 
-<%if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+<%
+final WCMMode wcmMode = WCMMode.fromRequest(request);
+if (wcmMode == WCMMode.EDIT) {
 	%><cq:includeClientLib categories="apps.gsusa.authoring" /><%
+}
+
+Node node = resource.adaptTo(Node.class);
+
+String sfmc = properties.get("sfmc", "");
+
+String dataExtensionName = properties.get("dataextensionname", "");
+String dataExtensionKey = properties.get("dataextensionkey", "");
+
+String triggerSendKey = properties.get("triggersendkey", "");
+
+String source = properties.get("source", ""); 
+String sourceValue = properties.get("sourcevalue", "");
+
+if (sfmc == "" && dataExtensionKey != "") {
+	// retroactive measure
+	// if sfmc doesn't exist, it needs to default to TS that was used with DE terms
+	sfmc = "ts";
+	triggerSendKey = dataExtensionKey;
+	sourceValue = source;
+	
+	if ((wcmMode == WCMMode.EDIT) || (wcmMode == WCMMode.PREVIEW)) {
+		node.setProperty("sfmc", sfmc);
+		node.setProperty("triggersendid", triggerSendKey);
+		node.setProperty("source", "Source_RAG");
+		node.setProperty("sourcevalue", source);
+		node.getSession().save();
+	}
+	
+	source = "Source_RAG";
 }
 
 String url = properties.get("url", "");
 String councilID = properties.get("cid", "");
-String dataExtensionName = properties.get("dataextensionname", "");
-String dataExtensionKey = properties.get("dataextensionkey", "");
 
 String mainText = properties.get("heading", "New article alerts!"); 
 String subText = properties.get("description", "Get updates when new content is available."); 
@@ -44,7 +75,6 @@ String formID = "email_" + generateId();
 boolean topBorder = properties.get("topborder", false);
 boolean bottomBorder = properties.get("bottomborder", false);
 		
-String source = properties.get("source", ""); 
 
 
 %>
@@ -54,12 +84,16 @@ String source = properties.get("source", "");
 $(document).ready(function(){
 	
 	var url = '<%= url %>';
+	var sfmc = '<%= sfmc %>';
 	var cid = '<%= councilID %>';
 	var dename = '<%= dataExtensionName %>';
 	var dekey = '<%= dataExtensionKey %>';
+	var tskey = '<%= triggerSendKey %>';
 	var fieldTextMobile = '<%= fieldTextMobile %>';
 	var source = '<%= source.replaceAll("\'", "\\\\'")%>'; 
+	var sourceValue = '<%= sourceValue.replaceAll("\'", "\\\\'")%>'; 
 	var formID = '#<%= formID %>';
+	
 	
 	$(formID).find('input[name="email"]').keyup(function(event) {
 		var email = $(this).val();
@@ -85,12 +119,12 @@ $(document).ready(function(){
 				alert("Error: API Endpoint is missing!");
 			else if (cid.length == 0)
 				alert("Error: Council ID is missing!");
-			else if (dename.length == 0)
-				alert("Error: DataExtension Name is missing!");
-			else if (dekey.length == 0)
-				alert("Error: DataExtension Key is missing!");
+			//else if (dename.length == 0)
+			//	alert("Error: DataExtension Name is missing!");
+			else if (dekey.length == 0 && tsID.length == 0)
+				alert("Error: Please enter Data Extension Key or Trigger Send ID!");
 			else
-				post(this, url, email, cid, dename, dekey, source);
+				post(this, url, sfmc, email, cid, tskey, dekey, source, sourceValue);
 		}
 		
 	});
@@ -127,7 +161,7 @@ function toDefault(form) {
 	$(form).find('input[name="email"]').css("color", "black");
 }
 
-function post(form, url, email, cid, dename, dekey, source) {
+function post(form, url, sfmc, email, cid, tskey, dekey, source, sourceValue) {
 	//var url = 'http://localhost:4502/campsapi/ajax_camp_result.asp';
 
 	var opts = {
@@ -154,16 +188,17 @@ function post(form, url, email, cid, dename, dekey, source) {
 			};
 	var spinner = new Spinner(opts).spin(form);
 
-	
 	$.ajax({
 		type: 'POST',
 		url: url,
 		data: {
+			sfmc: sfmc,
 			email: email,
 			cid: cid, 
-			deName: dename,
+			tskey: tskey,
 			deKey: dekey,
-			source: source
+			source: source,
+			sourceValue: sourceValue
 			},
 		dataType: 'json', 
 		success: function(data) {
@@ -265,7 +300,7 @@ function validateEmail(email) {
 	          <div class="form-wrapper clearfix">
 	            <input type="text" placeholder="<%= fieldText %>" maxlength="100" title="email address" class="email" name="email">
 	            <input type="submit" class="submit-button" value="<%= submitButtonText %>"/>
-				<gsusa:image relativePath="thankyouimage/image" styleClass="success"/>
+				<gsusa:image relativePath="thankyouimage" styleClass="success"/>
 	          </div>	          
 	        </div>            
 	      </form>

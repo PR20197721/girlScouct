@@ -202,7 +202,7 @@
             
             <sfmc2
                 jcr:primaryType="nt:unstructured"
-                jcr:title="SFMC2"
+                jcr:title="SFMC"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
@@ -217,8 +217,16 @@
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldDescription="Originating source in 300 or less characters"
                                 fieldLabel="Source"
-    							   defaultValue=""
+    							defaultValue=""
                                 name="./source"
+                                required="false"/>
+                            <sourceValue
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Originating source value"
+                                fieldLabel="Source Value"
+    							defaultValue=""
+                                name="./sourcevalue"
                                 required="false"/>
                             <sfmc-select
                                 jcr:primaryType="nt:unstructured"
@@ -226,19 +234,19 @@
                                 class="cq-dialog-dropdown-showhide"
                                 cq-dialog-dropdown-showhide-target=".text-image-hide-show"
                                 fieldLabel="Choose One"
-                                fieldDescription="Choose Data Extension or Trigger Send"
+                                fieldDescription="Choose Data Extension or Triggered Send"
                                 name="./sfmc">
                                 <items jcr:primaryType="nt:unstructured">
+                                	<ts
+                                		jcr:primaryType="nt:unstructured"
+                                		text="Triggered Send"
+                                		value="ts" />
                                 	<de
                                 		jcr:primaryType="nt:unstructured"
                                 		text="Data Extension"
                                 		value="de" />
-                                	<ts
-                                		jcr:primaryType="nt:unstructured"
-                                		text="Trigger Send"
-                                		value="ts" />
                                 </items>
-                            </sfmc-select>
+                            </sfmc-select> 
                             <dataextension
                             	jcr:primaryType="nt:unstructured"
                             	sling:resourceType="granite/ui/components/foundation/container"
@@ -286,8 +294,8 @@
                             				<dataextension
                             					jcr:primaryType="nt:unstructured"
                             					sling:resourceType="granite/ui/components/foundation/form/textfield"
-                            					name="./triggersendid"
-                            					fieldLabel="Trigger Send ID"
+                            					name="./triggersendkey"
+                            					fieldLabel="Triggered Send Key"
                             					fieldDescription="Must be numeric value"
                             					validationPattern="numeric" />                            					
                             			</items>
