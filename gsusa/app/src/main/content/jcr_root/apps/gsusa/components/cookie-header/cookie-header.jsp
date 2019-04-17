@@ -22,13 +22,11 @@ Query query0 = builder.createQuery(PredicateGroup.create(map), resourceResolver.
 map.put("property.value", "gsusa/components/cookie-landing-hero");
 Query query1 = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
 
-long matchNum0 = query0.getResult().getTotalMatches() - (resourceResolver.adaptTo(Session.class).nodeExists(currentPage.getPath() + "/jcr:content/mobile-cookie-header") ? 1 : 0);
-long matchNum1 = query1.getResult().getTotalMatches();
+boolean hasStandalone  = (query0.getResult().getTotalMatches() > 0 ? true : false);
+boolean hasLandingHero = query1.getResult().getTotalMatches() > 0 ? true : false;
 // TODO: Can we consolidate two queries into one?
-boolean hasHeader = (matchNum0 != 0 || matchNum1 != 0);
 boolean isHomepage = currentPage.getPath().equals(currentPage.getAbsoluteParent(2).getPath());
-
-if (hasHeader) {// contains cookie) {
+if (hasStandalone || hasLandingHero) {// contains cookie) {
 	String mobileCookieHeaderPath = isHomepage ? currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/mobile-cookie-header" : "mobile-cookie-header";
 	%>
 	<div class="show-for-small">
@@ -36,7 +34,6 @@ if (hasHeader) {// contains cookie) {
 	</div>
 	<%
 }
-
 %>
 <div data-emptytext="Mobile Cookie Header" class="cq-placeholder">
 </div>

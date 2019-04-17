@@ -11,6 +11,13 @@
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+
+
+<%
+    String placeHold = slingRequest.getParameter("search") != null ? slingRequest.getParameter("search") : "";
+
+ %>
+ <div id="searchedVal" searched = <%=placeHold%>></div>
 <div class="row">
     <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
 </div>
@@ -19,27 +26,31 @@
           <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
       </div>
       <button id="eventSearchSubmit"style="padding:10px; width: 78px; margin-left: -16px; color: white;"type="submit">Go</button>
- </div>
- <div class="row">
-         <span id="advSearch">
-            <a style="margin-left:6px;"href="<%=currentPage.getPath()%>.advanced.html">Advanced Search</a>
-        </span>
+      <span id="advSearch">
+         <a style="margin-left:6px; font-size:1rem;"href="<%=currentPage.getPath()%>.advanced.html">Advanced Search</a>
+      </span>
  </div>
 <script>
+    $(document).ready(function(){
+        var lastSearch = $(".event-search-facets").find("input").attr("searchHolder");
+        if(lastSearch !== ""){
+            $('#mainContent .event-search-facets .search-box .searchField').val(lastSearch);
+        }else{
+            $('#mainContent .event-search-facets .search-box .searchField').val($("#searchedVal").attr("searched"));
+        }
+    });
     $("#eventSearchSubmit").on('click', function(){
-        $($(".event-search-facets").find("form")).submit();
+        $(".event-search-facets").find("form").submit();
     });
     $("#advSearch").on('click', function(){
-        var ref = $($("#advSearch").find("a")).attr("href");
-        if($($(".event-search-facets").find("input")).val() !== ""){
+        var ref = $("#advSearch").find("a").attr("href");
+        if($(".event-search-facets").find("input").val() !== ""){
             if(!ref.includes("?search=")){
-                ref = ref + "?search=" + $($(".event-search-facets").find("input")).val();
+                ref = ref + "?search=" + $(".event-search-facets").find("input").val();
             }else{
-                ref = ref.replace(ref.substring(ref.indexOf("?search=")), "?search=" + $($(".event-search-facets").find("input")).val());
+                ref = ref.replace(ref.substring(ref.indexOf("?search=")), "?search=" + $(".event-search-facets").find("input").val());
             }
-             $($("#advSearch").find("a")).attr("href", ref)
+             $("#advSearch").find("a").attr("href", ref)
         }
-
-
     });
 </script>

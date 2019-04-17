@@ -5,9 +5,13 @@ div.header { display: none; }
 div.left-col { display: none; }
 div.right-col { display: none; }
 footer { display: none; }
+.row {max-width: 130em !important;}
 .three-cols .right-wrapper { width: 100%; }
 .three-cols .middle-col { width: 100%; }
 .standalone-cookie-header { display: none; }
 .dynamic-tag-carousel { display: none; }
 .related-articles { display: none; }
 .article-social-bar { display: none; }
+.accordion .accordion-navigation > .content, .accordion dd > .content { display: block !important; }
+.accordion.section dd { height: auto !important; }
+.accordion.section h6.accordionComponentLabel { color: #00ae58 !important; }
