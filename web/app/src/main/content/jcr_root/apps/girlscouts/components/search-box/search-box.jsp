@@ -1,6 +1,9 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
+<%@taglib prefix="ui" uri="http://www.adobe.com/taglibs/granite/ui/1.0" %>
+<ui:includeClientLib categories="apps.girlscouts.components.searchbox" />
+
 <%
 String placeholderText = properties.get("placeholder-text","");
 String lastSearch = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : "";

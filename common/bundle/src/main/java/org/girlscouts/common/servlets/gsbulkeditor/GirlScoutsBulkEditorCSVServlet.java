@@ -244,7 +244,6 @@ public class GirlScoutsBulkEditorCSVServlet extends SlingAllMethodsServlet {
 			bw.newLine();
 
 			String path = queryString.split(":")[1];
-
 			String year = request.getParameter(YEAR_PARAM);
 			if (null != importType) {
 				if (importType.equals("events")) {
@@ -264,6 +263,7 @@ public class GirlScoutsBulkEditorCSVServlet extends SlingAllMethodsServlet {
 
 		// send string buffer
 		bw.flush();
+		response.setHeader("Content-Disposition", "attachment; filename=\"csv.csv\"");
 		response.setContentType("text/csv");
 		String encoding = request.getParameter(ENCODING_PARAM);
 		response.setCharacterEncoding(StringUtils.isNotBlank(encoding) ? encoding : CHARACTER_ENCODING);
