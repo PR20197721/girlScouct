@@ -123,7 +123,7 @@
 		      !org.apache.log,
 		      !org.girlscouts.web.*,
 		      !org.girlscouts.gsusa.*,
-		      org.girlscouts.common.*,
+                org.girlscouts.common.*;version="3.0.0",
 		      *
             </Import-Package>
             <Export-Package>org.girlscouts.gsusa.*</Export-Package>

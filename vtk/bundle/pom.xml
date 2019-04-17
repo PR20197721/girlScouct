@@ -334,7 +334,7 @@
 							org.osgi.service.component,
 							org.osgi.service.event,
 							org.slf4j,
-							org.girlscouts.common.*
+                            org.girlscouts.common.*;version="3.0.0"
 						</Import-Package>
 						<!-- <Export-Package> net.fortuna.ical4j.data, net.fortuna.ical4j.filter, 
 							net.fortuna.ical4j.model, net.fortuna.ical4j.model.component, net.fortuna.ical4j.model.parameter, 

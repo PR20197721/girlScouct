@@ -119,6 +119,7 @@ if(currentNode.hasNode("navs")){
 		<section class="toggle-section right-small">
 			<a class="right-off-canvas-toggle menu-icon" role="button" href="#"><span></span></a>
 		</section>
+		<cq:include path="content/middle/pdf-print" resourceType="girlscouts/components/pdf-print" />
 	</nav>
     <div class="tab-bar-placeholder"></div>
 	<!-- END NAV.TAB-BAR HIDE-FOR-LARGE-UP -->

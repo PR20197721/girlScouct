@@ -32,6 +32,13 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/container">
                                 <items jcr:primaryType="nt:unstructured">
+                                    <pdfPrint
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                            text="Display Pdf Generation Icon?"
+                                            name="./pdfgenerator"
+                                            value="true"
+                                            rootPath="/content"/>
                                     <global-srch-landing-page
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="girlscouts/components/form/pathfield"

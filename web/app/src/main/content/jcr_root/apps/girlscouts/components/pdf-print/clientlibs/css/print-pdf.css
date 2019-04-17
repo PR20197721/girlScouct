@@ -1,0 +1,24 @@
+.pdf-print{
+    float: right;
+    clear: both;
+    color: white;
+}
+.pdf-print label{
+    color: white;
+}
+@media only screen and (min-width: 40.063em) {
+    #pdfLink{
+        font-size: 30px;
+    }
+}
+@media only screen and (min-width: 60.063em){
+    #pdfLink{
+        font-size: 36px;
+
+    }
+}
+@media only screen and (max-width: 40.062em){
+    #pdfLink{
+        font-size: 25px;
+    }
+}
