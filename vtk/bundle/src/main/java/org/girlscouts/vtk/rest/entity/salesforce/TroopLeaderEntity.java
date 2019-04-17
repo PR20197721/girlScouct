@@ -8,10 +8,10 @@ public class TroopLeaderEntity {
     private String sfId;
 
     @SerializedName("ContactId")
-    private int sfContactId;
+    private String sfContactId;
 
     @SerializedName("CampaignId")
-    private int sfCampaignId;
+    private String sfCampaignId;
 
     @SerializedName("attributes")
     private AttributesEntity attributes;
@@ -73,19 +73,19 @@ public class TroopLeaderEntity {
         this.sfId = sfId;
     }
 
-    public int getSfContactId() {
+    public String getSfContactId() {
         return sfContactId;
     }
 
-    public void setSfContactId(int sfContactId) {
+    public void setSfContactId(String sfContactId) {
         this.sfContactId = sfContactId;
     }
 
-    public int getSfCampaignId() {
+    public String getSfCampaignId() {
         return sfCampaignId;
     }
 
-    public void setSfCampaignId(int sfCampaignId) {
+    public void setSfCampaignId(String sfCampaignId) {
         this.sfCampaignId = sfCampaignId;
     }
 

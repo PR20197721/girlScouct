@@ -20,10 +20,7 @@ import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 @Component(service = {GirlScoutsSalesForceService.class }, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsSalesForceServiceImpl")
 @Designate(ocd = GirlScoutsSalesForceServiceConfig.class)
@@ -197,7 +194,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
 
     @Override
     public List<Contact> getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId) {
-        List<Contact> contacts = null;
+        List<Contact> contacts = new ArrayList<Contact>();
         try{
             TroopLeadersInfoResponseEntity troopLeadersInfoResponseEntity = null;
             if (apiConfig.isDemoUser() || isLoadFromFile) {
@@ -247,16 +244,13 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             if (apiConfig.isDemoUser()) {
                 troop.setCouncilCode(demoCouncilCode);
             }
-            setTroopPermissions(apiConfig, troop, user.isAdmin());
+            setTroopPermissions(troop, user.isAdmin());
             troop.setSfUserId(user.getSfUserId());
         }
         user.setTroops(mergedTroops);
     }
 
-    private void setTroopPermissions(ApiConfig apiConfig, Troop troop, boolean isAdmin) {
-        if (apiConfig.isDemoUser()) {
-            troop.setCouncilCode(demoCouncilCode);
-        }
+    private void setTroopPermissions(Troop troop, boolean isAdmin) {
         RollType rollType = RollType.valueOf(troop.getRole());
         troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
         if (rollType.getRollType().equals("PA")) {
@@ -266,19 +260,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
         }
         if (isAdmin) {
-            troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
-        }
-    }
-    private void setTroopPermissions(User user, Troop troop) {
-        RollType rollType = RollType.valueOf(troop.getRole());
-        troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
-        if (rollType.getRollType().equals("PA")) {
-            troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
-        }
-        if (rollType.getRollType().equals("DP")) {
-            troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
-        }
-        if (user.isAdmin()) {
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
         }
     }
@@ -307,7 +288,14 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                     } catch (Exception e) {
                         log.error("Error occurred while merging troops for user ", e);
                     }
-                    troop.getPermissionTokens().addAll( _troop.getPermissionTokens());
+                    try {
+                        if(troop.getPermissionTokens() == null){
+                            troop.setPermissionTokens(new HashSet<Integer>());
+                        }
+                        troop.getPermissionTokens().addAll( _troop.getPermissionTokens());
+                    } catch (Exception e) {
+                        log.error("Error occurred while merging permissions for troops "+troop.getSfTroopId()+" and "+_troop.getSfTroopId(), e);
+                    }
                 }
             }
         }

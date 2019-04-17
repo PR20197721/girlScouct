@@ -59,10 +59,10 @@
                 <div class="row">
                     <div class="column medium-24">
                         <div class="row titles">
-                            <span class="name column medium-8 medium-text-center">Year Plan</span>
-                            <span class="name column medium-8 medium-text-center">Troop Leaders</span>
-                            <span class="name column medium-5 medium-text-center"># of Troops Adopted</span>
-                            <span class="name column medium-5 medium-text-center"># of Plans Customized</span>
+                            <span class="name column medium-5 medium-text-center">Year Plan</span>
+                            <span class="name column medium-5 medium-text-center">Troop Leaders</span>
+                            <span class="name column medium-4 medium-text-center"># of Troops Adopted</span>
+                            <span class="name column medium-4 medium-text-center"># of Plans Customized</span>
                             <span class="name column medium-6 medium-text-center">Plans with Added Activities</span>
                         </div>
                         <%
@@ -81,16 +81,17 @@
                         <div class="row">
                             <dl class="accordion-inner clearfix" data-accordion="">
                                 <dt data-target="panel<%=count %>_<%=y %>b" class="clearfix">
-                                    <span class="name column medium-8"
+                                    <span class="name column medium-10"
                                           onclick="councilRpt('<%=yearPlanPath %>', '<%=cid%>')"><%=yearPlanName %></span>
-                                    <span class="column medium-5 medium-text-center"><%=yearPlanNameBeans.size() %></span>
-                                    <span class="column medium-5 medium-text-center"><%=countAltered %></span>
+                                    <span class="column medium-4 medium-text-center"><%=yearPlanNameBeans.size() %></span>
+                                    <span class="column medium-4 medium-text-center"><%=countAltered %></span>
                                     <span class="column medium-6 medium-text-center"><%=countActivity %></span>
                                 </dt>
                                 <dd class="accordion-navigation">
                                     <div id="panel<%=count %>_<%=y %>b" class="content">
                                             <%for(CouncilRptBean crb : yearPlanNameBeans ) {%>
                                         <div class="clearfix">
+                                            <div class="column medium-5 medium-text-center medium-push-8"></div>
                                             <div class="column medium-5 medium-text-center medium-push-8">
                                                 <%
                                                     try {
@@ -106,16 +107,14 @@
 
                                                     }
                                                 %>
-                                                </span>
-                                                <span class="column medium-5 medium-text-center medium-push-8">
-                              <a title="<%=crb.getTroopId() %>" data-reveal-id="modal_report_detail"
-                                 data-reveal-ajax="true"
-                                 href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_report_detail.html?cid=<%=cid%>&tid=<%=crb.getTroopId()%>"><span
-                                      id="<%=crb.getTroopId()%>"><%=(crb.getTroopName() != null && !crb.getTroopName().equals("")) ? crb.getTroopName() : crb.getTroopId() %></span></span></a>
-                                                </span>
-                                                <p class="<%=crb.isAltered() ? "check " : "" %> column medium-5 medium-text-center medium-push-8"></p>
-                                                <p class="<%=crb.isActivity() ? "check " : "" %> column medium-6 medium-text-center"></p>
                                             </div>
+                                            <span class="column medium-4 medium-text-center medium-push-8">
+                                                <a title="<%=crb.getTroopId() %>" data-reveal-id="modal_report_detail" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_report_detail.html?cid=<%=cid%>&tid=<%=crb.getTroopId()%>">
+                                                    <span id="<%=crb.getTroopId()%>"><%=(crb.getTroopName() != null && !crb.getTroopName().equals("")) ? crb.getTroopName() : crb.getTroopId() %></span>
+                                                </a>
+                                            </span>
+                                            <p class="<%=crb.isAltered() ? "check " : "" %> column medium-4 medium-text-center medium-push-8"></p>
+                                            <p class="<%=crb.isActivity() ? "check " : "" %> column medium-6 medium-text-center"></p>
                                             <%} %>
                                         </div>
                                 </dd>

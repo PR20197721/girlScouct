@@ -9,4 +9,7 @@ public @interface GirlScoutsSalesForceFileClientConfig {
 
     @AttributeDefinition(name = "Path to json directory", description = "Path to json directory in repository", type = AttributeType.STRING)
     String localJsonPath();
+
+    @AttributeDefinition(name = "Name of demo directory", description = "Name of demo directory in repository. (eg: /demo)", type = AttributeType.STRING)
+    String localDemoFolder();
 }

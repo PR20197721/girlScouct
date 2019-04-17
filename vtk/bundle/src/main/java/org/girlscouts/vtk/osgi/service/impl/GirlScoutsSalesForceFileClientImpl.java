@@ -39,11 +39,14 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
 
     private String localJsonPath;
 
+    private String localDemoFolder;
+
 
     @Activate
     private void activate(ComponentContext context) {
         this.context = context;
         this.localJsonPath = getConfig("localJsonPath");
+        this.localDemoFolder = getConfig("localDemoFolder");
         log.info(this.getClass().getName()+" activated.");
     }
 
@@ -128,7 +131,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
             }
             path = getConfig("localJsonPath") + "/" + councilFolder + "/" + userFolder + "/" + serviceName + ".json";
         }else{
-            path = getConfig("localJsonPath") + "/demo/" + apiConfig.getDemoUserName() + "/" + serviceName + ".json";
+            path = localJsonPath+localDemoFolder + "/" + apiConfig.getDemoUserName() + "/" + serviceName + ".json";
         }
         return path;
     }

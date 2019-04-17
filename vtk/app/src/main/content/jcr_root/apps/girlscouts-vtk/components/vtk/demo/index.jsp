@@ -4,6 +4,9 @@
                 org.girlscouts.vtk.helpers.TroopHashGenerator,
                 org.girlscouts.vtk.utils.VtkUtil" %>
 <%@ page import="java.util.List" %>
+<%@include file="/libs/foundation/global.jsp" %>
+<%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
+<cq:defineObjects/>
 <%
     HttpSession session = request.getSession();
     session.invalidate();
