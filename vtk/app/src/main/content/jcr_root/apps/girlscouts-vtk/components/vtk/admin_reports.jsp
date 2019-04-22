@@ -89,29 +89,12 @@
                                     <div id="panel<%=count %>_<%=y %>b" class="content">
                                         <%for(CouncilRptBean crb : yearPlanNameBeans ) {%>
                                             <div class="clearfix">
-                                                <div class="column medium-8 small-text-left">
-                                                    <strong>Troop Leaders:</strong>
-                                                    <ul>
-                                                    <%
-                                                        try {
-                                                            List<Contact> leaders = crb.getTroopLeaders();
-                                                            if (leaders != null && leaders.size() > 0) {
-                                                                for (Contact leader : leaders) {
-                                                                    %>
-                                                                    <li><%=leader.getFirstName()%> <%=leader.getLastName()%></li>
-                                                                    <%
-                                                                }
-                                                            }
-                                                        } catch (Exception e) {}
-                                                    %>
-                                                    </ul>
-                                                </div>
-                                                <div class="column medium-5 medium-text-center">
+                                                <div class="column medium-5 medium-text-center medium-push-8">
                                                     <a title="<%=crb.getTroopId() %>" data-reveal-id="modal_report_detail" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_report_detail.html?cid=<%=cid%>&tid=<%=crb.getTroopId()%>">
                                                         <span id="<%=crb.getTroopId()%>"><%=(crb.getTroopName() != null && !crb.getTroopName().equals("")) ? crb.getTroopName() : crb.getTroopId() %></span>
                                                     </a>
                                                 </div>
-                                                <div class="<%=crb.isAltered() ? "check " : "" %> column medium-5 medium-text-center"></div>
+                                                <div class="<%=crb.isAltered() ? "check " : "" %> column medium-5 medium-text-center medium-push-8"></div>
                                                 <div class="<%=crb.isActivity() ? "check " : "" %> column medium-6 medium-text-center "></div>
                                             </div>
                                         <%} %>
