@@ -83,7 +83,7 @@ if(mobileImage != null){
                         <input type="tel" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" class="zip-code" name="zip-code" placeholder="ZIP Code" />
                     </div>
                     <div>
-                        <input type="submit" class="link-arrow" value="Go >" />
+                        <input type="submit" class="link-arrow" value="Go >" onclick="location.href='#'"/>
                     </div>
                 </div>
             </form><%
