@@ -44,13 +44,13 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
             addData(config, excelSheet);
             myFirstWbook.write();
         } catch (Exception e) {
-            log.error("Error occured generating Excel: ",e);
+            log.error("Error occurred generating Excel: ",e);
         } finally {
             if (myFirstWbook != null) {
                 try {
                     myFirstWbook.close();
                 } catch (Exception e) {
-                    log.error("Error ocrurred: ",e);
+                    log.error("Error occurred: ",e);
                 }
             }
         }

@@ -42,13 +42,7 @@ public class AdminRpt extends SlingSafeMethodsServlet {
     private final Logger log = LoggerFactory.getLogger("vtk");
 
 	@Reference
-	private ResourceResolverFactory resolverFactory;
-
-	@Reference
     AdminReportExcelGenerator reportGenerator;
-
-	@Reference
-	CouncilRpt councilRpt;
 
 	@Override
 	protected void doGet(SlingHttpServletRequest request,
