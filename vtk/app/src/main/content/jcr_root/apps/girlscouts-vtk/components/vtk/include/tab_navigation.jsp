@@ -327,7 +327,7 @@
 						<% if("reports".equals(activeTab)) { %>
 						<ul class="dropdown">
 							<li><a
-								href="<%=relayUrl %>/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv"
+								href="<%=relayUrl %>/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.xls"
 								title="download admin report">download</a></li>
 						</ul> <% } %>
 					</li>
@@ -370,7 +370,7 @@ if(maintenanceNode != null && (request.getSession().getAttribute("isHideVtkMaint
                 if ("reports".equals(activeTab) &&
                          user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0) { %>
 						<li><a
-							href="<%=relayUrl %>/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv"
+							href="<%=relayUrl %>/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.xls"
 							title="download admin report">download</a></li>
 						<% }
              %>

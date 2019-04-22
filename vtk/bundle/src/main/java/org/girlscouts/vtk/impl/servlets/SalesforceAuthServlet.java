@@ -136,7 +136,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
             String reqString = authReq.getSSOurl(refererCouncil);
             response.sendRedirect(reqString);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occured: ",e);
         }
     }
 

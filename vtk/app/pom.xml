@@ -177,6 +177,11 @@
                             <artifactId>modified-checker</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
+                        <embedded>
+                            <groupId>net.sourceforge.jexcelapi</groupId>
+                            <artifactId>jxl</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
                     </embeddeds>
                     <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
                 </configuration>
@@ -288,6 +293,11 @@
                                 <embedded>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>modified-checker</artifactId>
+                                    <target>/apps/girlscouts-vtk/install</target>
+                                </embedded>
+                                <embedded>
+                                    <groupId>net.sourceforge.jexcelapi</groupId>
+                                    <artifactId>jxl</artifactId>
                                     <target>/apps/girlscouts-vtk/install</target>
                                 </embedded>
                             </embeddeds>

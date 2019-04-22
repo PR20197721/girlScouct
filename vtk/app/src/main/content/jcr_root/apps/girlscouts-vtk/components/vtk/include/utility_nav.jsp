@@ -21,7 +21,7 @@ PlanView planView= meetingUtil.planView(user, selectedTroop, request);
            <%
                 if ("reports".equals(activeTab) && 
                 		 user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0) { %>                   
-                    <li><a href="/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv" title="download admin report">download</a></li>
+                    <li><a href="/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.xls" title="download admin report">download</a></li>
                 <% }
              %>
              

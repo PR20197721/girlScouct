@@ -152,11 +152,6 @@
 			<artifactId>commons-collections4</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>6.0.2</version>
-		</dependency>
-		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<version>2.2.9</version>
@@ -164,12 +159,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>pl.project13.maven</groupId>
-			<artifactId>git-commit-id-plugin</artifactId>
-			<version>2.2.2</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
@@ -205,6 +194,10 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.jexcelapi</groupId>
+            <artifactId>jxl</artifactId>
         </dependency>
 	</dependencies>
 	<!-- ====================================================================== -->
@@ -295,13 +288,6 @@
 							javax.security.auth.x500,
 							javax.servlet,
 							javax.servlet.http,
-							javax.xml,
-							javax.xml.bind,
-							javax.xml.crypto.dsig,
-							javax.xml.crypto.dsig.dom,
-							javax.xml.namespace,
-							javax.xml.stream,
-							javax.xml.xpath,
 							net.fortuna.ical4j.data,
 							net.fortuna.ical4j.model,
 							net.fortuna.ical4j.model.component,
@@ -330,7 +316,6 @@
 							org.apache.sling.commons.json.io,
 							org.apache.sling.jcr.api,
 							org.apache.sling.settings,
-							org.girlscouts.vtk.modifiedcheck,
 							org.ietf.jgss,
 							org.joda.time,
 							org.json,
@@ -339,13 +324,18 @@
 							org.osgi.service.component,
 							org.osgi.service.event,
 							org.slf4j,
+                            javax.xml.bind,
+                            javax.xml.transform,
+                            javax.xml.crypto.dsig,
+                            javax.xml.crypto.dsig.dom,
+                            javax.xml.namespace,
+                            javax.xml.stream,
+                            javax.xml.xpath,
+                            jxl.*,
                             org.girlscouts.common.*;version="3.0.0",
-                            org.girlscouts.vtk.*
+                            org.girlscouts.vtk.modifiedcheck
 						</Import-Package>
-						<!-- <Export-Package> net.fortuna.ical4j.data, net.fortuna.ical4j.filter, 
-							net.fortuna.ical4j.model, net.fortuna.ical4j.model.component, net.fortuna.ical4j.model.parameter, 
-							net.fortuna.ical4j.model.property, net.fortuna.ical4j.transform, net.fortuna.ical4j.util 
-							</Export-Package> -->
+						<Export-Package>org.girlscouts.vtk.*</Export-Package>
 						<!-- Recursively embed dependency jars -->
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>

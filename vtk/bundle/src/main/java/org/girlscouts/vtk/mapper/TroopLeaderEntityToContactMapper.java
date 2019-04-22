@@ -20,12 +20,12 @@ public class TroopLeaderEntityToContactMapper {
             try {
                 contact.setFirstName(entity.getContact().getFirstName());
             }catch(Exception ex){
-                log.error("Error occurred mapping Name to Contact ", ex);
+                log.error("Error occurred mapping FirstName to Contact ", ex);
             }
             try {
-                contact.setFirstName(entity.getContact().getFirstName());
+                contact.setLastName(entity.getContact().getLastName());
             }catch(Exception ex){
-                log.error("Error occurred mapping Name to Contact ", ex);
+                log.error("Error occurred mapping LastName to Contact ", ex);
             }
             return contact;
         }catch(Exception e){
