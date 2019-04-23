@@ -43,14 +43,14 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         //Verify user email request
         HttpSession session = request.getSession();
         if(VtkUtil.getUser(session) != null){
-            sendEmail(request);
+            sendEmail(request, VtkUtil.getApiConfig(session).getUser().getEmail());
         }else{
             log.error("Error sending email: Invalid user");
         }
 
     }
 
-    public void sendEmail(SlingHttpServletRequest slingRequest){
+    public void sendEmail(SlingHttpServletRequest slingRequest, String fromAddress){
         String addressList = slingRequest.getParameter("addresses");
         String[] addresses = addressList.split(",");
         HashSet<GSEmailAttachment> attachments = new HashSet<>();
@@ -68,7 +68,7 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         if(attachments.isEmpty()){
             try {
                 log.debug("Send Email without attachments");
-                gsEmailService.sendEmail(slingRequest.getParameter("subject"), Arrays.asList(addresses),slingRequest.getParameter("message"));
+                gsEmailService.sendEmail(slingRequest.getParameter("subject"), Arrays.asList(addresses),slingRequest.getParameter("message"), fromAddress);
             }catch(Exception e){
                 log.error("Email failed to send without attachments: ", e);
             }
@@ -76,7 +76,7 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         }else{
             try {
                 log.debug("Send Email with attachments");
-                gsEmailService.sendEmail(slingRequest.getParameter("subject"),Arrays.asList(addresses),slingRequest.getParameter("message"), attachments);
+                gsEmailService.sendEmail(slingRequest.getParameter("subject"),Arrays.asList(addresses),slingRequest.getParameter("message"), attachments, fromAddress);
             }catch(Exception e){
                 log.error("Email failed to send with attachments: ", e);
             }
@@ -98,9 +98,6 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         }
 
     }
-
-
-
     /** OptingServlet Acceptance Method **/
     @Override
     public final boolean accepts(SlingHttpServletRequest request) {
