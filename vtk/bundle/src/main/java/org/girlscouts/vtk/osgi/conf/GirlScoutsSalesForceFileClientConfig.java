@@ -12,4 +12,7 @@ public @interface GirlScoutsSalesForceFileClientConfig {
 
     @AttributeDefinition(name = "Name of demo directory", description = "Name of demo directory in repository. (eg: /demo)", type = AttributeType.STRING)
     String localDemoFolder();
+
+    @AttributeDefinition(name = "Name of dummy directory", description = "Name of dummy directory in repository. (eg: /dummy)", type = AttributeType.STRING)
+    String localDummyFolder();
 }

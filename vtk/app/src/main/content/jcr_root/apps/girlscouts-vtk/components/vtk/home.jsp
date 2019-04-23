@@ -12,7 +12,6 @@
     boolean isHideSignIn = false;
     boolean isHideMember = false;
     String communityUrl = "";
-    int councilIdInt = 0;
     String councilId = "0";
     String gradeLevel = "CA";
     List<Troop> userTroops = null;
@@ -26,8 +25,7 @@
         CouncilMapper mapper = sling.getService(CouncilMapper.class);
         String branch = null;
         try {
-            councilIdInt = userTroops.get(0).getCouncilCode();
-            councilId = Integer.toString(councilIdInt);
+            councilId = userTroops.get(0).getCouncilCode();
             branch = mapper.getCouncilBranch(councilId);
             gradeLevel = userTroops.get(0).getGradeLevel();
             gradeLevel = gradeLevel == null ? "CA" : VtkUtil.formatAgeGroup(gradeLevel);

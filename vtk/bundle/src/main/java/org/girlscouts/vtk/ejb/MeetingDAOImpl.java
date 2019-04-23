@@ -1126,7 +1126,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
             String councilId = null;
             if (troop != null) {
-                councilId = Integer.toString(troop.getCouncilCode());
+                councilId = troop.getCouncilCode();
             }
             String branch = councilMapper.getCouncilBranch(councilId);
 
@@ -1679,7 +1679,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
             String councilId = null;
             if (troop != null) {
-                councilId = Integer.toString(troop.getCouncilCode());
+                councilId = troop.getCouncilCode();
             }
             String branch = councilStr; //councilMapper.getCouncilBranch(councilId);
             String namespace = branch.replace("/content/", "");
@@ -2325,7 +2325,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         final String RESOURCES_PATH = "resources";
         String councilId = null;
         if (troop != null) {
-            councilId = Integer.toString(troop.getCouncilCode());
+            councilId = troop.getCouncilCode();
         }
 
         String branch = councilMapper.getCouncilBranch(councilId);

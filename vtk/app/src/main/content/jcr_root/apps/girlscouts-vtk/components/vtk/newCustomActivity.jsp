@@ -282,7 +282,7 @@ function inputLogic(){
             <!-- <div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div> -->
             <div class="errorMsg error"></div>
               <%
-              SearchTag search = yearPlanUtil.searchA(user, selectedTroop,  ""+selectedTroop.getCouncilCode());
+              SearchTag search = yearPlanUtil.searchA(user, selectedTroop, selectedTroop.getCouncilCode());
               java.util.Map<String, String> levels = search.getLevels();
               java.util.Map<String, String> categories =search.getCategories();
               java.util.Map<String, String> region =search.getRegion();

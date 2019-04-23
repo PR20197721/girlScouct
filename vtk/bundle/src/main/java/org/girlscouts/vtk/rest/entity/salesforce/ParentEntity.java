@@ -8,7 +8,7 @@ public class ParentEntity {
     private String sfId;
 
     @SerializedName("Council_Code__c")
-    private int councilCode;
+    private String councilCode;
 
     @SerializedName("attributes")
     private AttributesEntity attributes;
@@ -22,6 +22,9 @@ public class ParentEntity {
     @SerializedName("Name")
     private String troopName;
 
+    @SerializedName("Participation__c")
+    private String participationCode;
+
     public String getSfId() {
         return sfId;
     }
@@ -30,11 +33,9 @@ public class ParentEntity {
         this.sfId = sfId;
     }
 
-    public int getCouncilCode() {
-        return councilCode;
-    }
+    public String getCouncilCode() { return councilCode; }
 
-    public void setCouncilCode(int councilCode) {
+    public void setCouncilCode(String councilCode) {
         this.councilCode = councilCode;
     }
 
@@ -69,4 +70,8 @@ public class ParentEntity {
     public void setTroopName(String troopName) {
         this.troopName = troopName;
     }
+
+    public String getParticipationCode() { return participationCode; }
+
+    public void setParticipationCode(String participationCode) { this.participationCode = participationCode; }
 }

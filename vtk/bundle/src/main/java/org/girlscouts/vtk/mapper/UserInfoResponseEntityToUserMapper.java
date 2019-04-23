@@ -60,6 +60,11 @@ public class UserInfoResponseEntityToUserMapper {
                 } catch (Exception ex) {
                     log.error("Error occurred mapping admin council code to User ", ex);
                 }
+                try {
+                    user.setServiceUnitManager(userEntity.isServiceUserManager());
+                } catch (Exception ex) {
+                    log.error("Error occurred mapping admin council code to User ", ex);
+                }
                 return user;
             }
         }catch(Exception e){

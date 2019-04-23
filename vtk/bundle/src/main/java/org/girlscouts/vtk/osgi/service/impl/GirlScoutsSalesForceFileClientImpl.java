@@ -41,12 +41,15 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
 
     private String localDemoFolder;
 
+    private String localDummyFolder;
+
 
     @Activate
     private void activate(ComponentContext context) {
         this.context = context;
         this.localJsonPath = getConfig("localJsonPath");
         this.localDemoFolder = getConfig("localDemoFolder");
+        this.localDummyFolder = getConfig("localDummyFolder");
         log.info(this.getClass().getName()+" activated.");
     }
 
@@ -80,7 +83,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
             String json = girlScoutsRepoFileIOService.readFile(path);
             troopInfoResponseEntity = new Gson().fromJson(json, TroopInfoResponseEntity.class);
         } catch (Exception e) {
-            log.error("Error occurred getting troop info by user id from salesforce ",e);
+            log.error("Error occurred getting troop info by user id from repository ",e);
         }
         return troopInfoResponseEntity;
     }
@@ -95,7 +98,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
             String json = girlScoutsRepoFileIOService.readFile(path);
             contactsInfoResponseEntity = new Gson().fromJson(json, ContactsInfoResponseEntity.class);
         } catch (Exception e) {
-            log.error("Error occurred getting contacts info by troop id from salesforce ",e);
+            log.error("Error occurred getting contacts info by troop id from repository ",e);
         }
         return contactsInfoResponseEntity;
     }
@@ -110,16 +113,31 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
             String json = girlScoutsRepoFileIOService.readFile(path);
             troopLeadersInfoResponseEntity = new Gson().fromJson(json, TroopLeadersInfoResponseEntity.class);
         } catch (Exception e) {
-            log.error("Error occurred getting troop leader info by troop id from salesforce ",e);
+            log.error("Error occurred getting troop leader info by troop id from repository ",e);
         }
         return troopLeadersInfoResponseEntity;
+    }
+
+    @Override
+    public TroopInfoResponseEntity getServiceUnitManagerTroops() {
+        TroopInfoResponseEntity troopInfoResponseEntity = null;
+        String path = "";
+        try {
+            path = localJsonPath+localDummyFolder + "/su_troops.json";
+            log.debug("Loading troops file from "+path);
+            String json = girlScoutsRepoFileIOService.readFile(path);
+            troopInfoResponseEntity = new Gson().fromJson(json, TroopInfoResponseEntity.class);
+        } catch (Exception e) {
+            log.error("Error occurred getting service unit manager dummy troops from repository ",e);
+        }
+        return troopInfoResponseEntity;
     }
 
     private String getPath(ApiConfig apiConfig, String serviceName) {
         String path = "";
         if(!apiConfig.isDemoUser()) {
             String userFolder = apiConfig.getUser().getFirstName();
-            String councilFolder = String.valueOf(apiConfig.getUser().getTroops().get(0).getCouncilCode());
+            String councilFolder = apiConfig.getUser().getTroops().get(0).getCouncilCode();
             if(userFolder != null){
                 userFolder = userFolder.replace(" ","_");
             }else{

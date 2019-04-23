@@ -410,7 +410,7 @@
                     } else {
                         selectedTroop = prefTroop;
                     }
-                    Troop selectedTroopRepoData = troopUtil.getTroop(user, "" + selectedTroop.getCouncilCode(), selectedTroop.getTroopId());
+                    Troop selectedTroopRepoData = troopUtil.getTroop(user, selectedTroop.getCouncilCode(), selectedTroop.getTroopId());
                     java.util.List<MeetingE> tt = selectedTroopRepoData.getYearPlan().getMeetingEvents();
                     //end archive
                     selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
@@ -560,7 +560,7 @@
                     } else {
                         selectedTroop = prefTroop;
                     }
-                    Troop selectedTroopRepoData = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+                    Troop selectedTroopRepoData = troopUtil.getTroop(user, prefTroop.getCouncilCode(), prefTroop.getTroopId());
                     //end archive
                     selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
                     selectedTroop.setPath(selectedTroopRepoData.getPath());
@@ -690,8 +690,7 @@
                 rr = sessionFactory.getResourceResolver();
                 __session = rr.adaptTo(Session.class);
                 String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data" + VtkUtil.getCurrentGSYear() + "/"
-                        + selectedTroop.getCouncilCode() + "/"
-                        + selectedTroop.getTroopId() + "/imgLib/troop_pic.png";
+                        + selectedTroop.getCouncilCode() + "/" + selectedTroop.getTroopId() + "/imgLib/troop_pic.png";
                 __session.removeItem(troopPhotoUrl);
                 __session.save();
             } catch (Exception e) {
@@ -990,7 +989,7 @@
     }
 
     //Cloned Troop object from archived year plan references archived year plan path ex: "/vtk2014/999/". It is necessary to change Troop path to current year ex: ""/vtk2015/999/"".
-    selectedTroop.setPath("/vtk" + VtkUtil.getCurrentGSYear() + "/" + selectedTroop.getSfCouncil() + "/troops/" + selectedTroop.getSfTroopId());
+    //selectedTroop.setPath("/vtk" + VtkUtil.getCurrentGSYear() + "/" + selectedTroop.getSfCouncil() + "/troops/" + selectedTroop.getSfTroopId());
     session.setAttribute("VTK_troop", selectedTroop);
 } else if (request.getParameter("addNote") != null) {
     response.setContentType("application/json");

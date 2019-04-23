@@ -42,8 +42,7 @@ public class UserUtil {
 			HttpServletRequest request) {
 		String redirectUrl = null;
 		try {
-			String councilId = Integer.toString(apiConfig.getUser().getTroops().get(0)
-					.getCouncilCode());
+			String councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
 			if (councilId == null || councilId.trim().equals(""))
 				redirectUrl = councilMapper.getCouncilUrl(VtkUtil
 						.getCouncilInClient(request));

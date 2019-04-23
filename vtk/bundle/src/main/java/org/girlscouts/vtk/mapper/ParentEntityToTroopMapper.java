@@ -42,6 +42,11 @@ public class ParentEntityToTroopMapper {
             }catch(Exception ex){
                 log.error("Error occurred mapping GradeLevel to Troop ", ex);
             }
+            try {
+                troop.setParticipationCode(entity.getParticipationCode());
+            }catch(Exception ex){
+                log.error("Error occurred mapping ParticipationCode to Troop ", ex);
+            }
             return troop;
         }catch(Exception e){
             log.error("Error occurred mapping ParentEntity to Troop ", e);

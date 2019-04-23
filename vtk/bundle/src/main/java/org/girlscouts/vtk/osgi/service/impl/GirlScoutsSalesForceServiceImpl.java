@@ -12,6 +12,7 @@ import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceFileClient;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceRestClient;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.rest.entity.salesforce.*;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -32,7 +33,9 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     @Reference
     GirlScoutsSalesForceFileClient sfFileClient;
 
-    private Integer demoCouncilCode;
+    private String demoCouncilCode;
+    private String sumCouncilCode;
+    private String irmCouncilCode;
     private Boolean isLoadFromFile;
 
     private static Logger log = LoggerFactory.getLogger(GirlScoutsSalesForceServiceImpl.class);
@@ -41,11 +44,9 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     private void activate(ComponentContext context) {
         this.context = context;
         this.isLoadFromFile = Boolean.parseBoolean(getConfig("isLoadFromFile"));
-        try {
-            this.demoCouncilCode = Integer.parseInt(getConfig("demoCouncilCode"));
-        }catch(Exception e){
-            log.error("Exception is thrown parsint demo council code", e);
-        }
+        this.sumCouncilCode = getConfig("sumCouncilCode");
+        this.irmCouncilCode = getConfig("irmCouncilCode");
+        this.demoCouncilCode = getConfig("demoCouncilCode");
         log.info("Girl Scouts VTK SalesForce Service Activated.");
     }
 
@@ -239,15 +240,65 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
         }
         List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
+        //Service Unit Manager
+        if(user.isServiceUnitManager() || "999".equals(user.getAdminCouncilId())){
+            additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
+        }
         List<Troop> mergedTroops = mergeTroops(parentTroops, additionalTroops);
         for(Troop troop:mergedTroops) {
             if (apiConfig.isDemoUser()) {
                 troop.setCouncilCode(demoCouncilCode);
             }
+            //Independent Registered Member
+            if(troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())){
+                troop.setCouncilCode(irmCouncilCode);
+                troop.setSfCouncil(irmCouncilCode);
+                troop.setSfTroopId(user.getSfUserId());
+                troop.setTroopId(user.getSfUserId());
+                troop.setId(user.getSfUserId());
+            }
             setTroopPermissions(troop, user.isAdmin());
             troop.setSfUserId(user.getSfUserId());
+            setTroopPath(troop);
         }
         user.setTroops(mergedTroops);
+    }
+
+    private void setTroopPath(Troop troop) {
+        String path = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
+        if(sumCouncilCode.equals(troop.getCouncilCode())){
+            path += "/"+troop.getSfUserId();
+        }
+        path += "/troops/" + troop.getSfTroopId();
+        troop.setPath(path);
+    }
+
+    private List<Troop> getServiceUnitManagerTroops(String userId) {
+        List<Troop> troops = new ArrayList<Troop>();
+        try {
+            TroopInfoResponseEntity troopInfoResponseEntity = sfFileClient.getServiceUnitManagerTroops();
+            if (troopInfoResponseEntity != null) {
+                TroopEntityToTroopMapper mapper = new TroopEntityToTroopMapper();
+                TroopEntity[] entities = troopInfoResponseEntity.getTroops();
+                if (entities != null) {
+                    for (TroopEntity entity : entities) {
+                        Troop troop = mapper.map(entity);
+                        String dummyTroopId = troop.getGradeLevel();
+                        dummyTroopId = dummyTroopId.toLowerCase();
+                        troop.setSfUserId(userId);
+                        troop.setCouncilCode(sumCouncilCode);
+                        troop.setSfCouncil(sumCouncilCode);
+                        troop.setSfTroopId(dummyTroopId);
+                        troop.setTroopId(dummyTroopId);
+                        troop.setId(dummyTroopId);
+                        troops.add(troop);
+                    }
+                }
+            }
+        }catch(Exception e){
+            log.error("Error occurred: ", e);
+        }
+        return troops;
     }
 
     private void setTroopPermissions(Troop troop, boolean isAdmin) {
@@ -256,7 +307,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         if (rollType.getRollType().equals("PA")) {
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
         }
-        if (rollType.getRollType().equals("DP")) {
+        if (rollType.getRollType().equals("DP") || troop.getCouncilCode().equals(irmCouncilCode)) {
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
         }
         if (isAdmin) {

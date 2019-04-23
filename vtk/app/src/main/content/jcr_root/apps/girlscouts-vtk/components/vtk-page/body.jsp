@@ -18,7 +18,7 @@
 
 	String branch = "";
 	try {
-	    councilId = Integer.toString(apiConfig.getUser().getTroops().get(0).getCouncilCode());
+	    councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
    		branch = mapper.getCouncilBranch(councilId);
 	} catch (Exception e) {
 	    Cookie[] cookies = request.getCookies();

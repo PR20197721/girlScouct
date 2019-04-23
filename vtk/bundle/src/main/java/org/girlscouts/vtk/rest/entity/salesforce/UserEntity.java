@@ -29,7 +29,7 @@ public class UserEntity {
     private String name;
 
     @SerializedName("SU_AccessUser__c")
-    private boolean isAccessUser;
+    private boolean isServiceUserManager;
 
     @SerializedName("Active_DP__c")
     private boolean isActive;
@@ -129,7 +129,7 @@ public class UserEntity {
             private String sfAccountId;
 
             @SerializedName("Council_Code__c")
-            private int councilCode;
+            private String councilCode;
 
             public String getSfId() {
                 return sfId;
@@ -147,11 +147,11 @@ public class UserEntity {
                 this.sfAccountId = sfAccountId;
             }
 
-            public int getCouncilCode() {
+            public String getCouncilCode() {
                 return councilCode;
             }
 
-            public void setCouncilCode(int councilCode) {
+            public void setCouncilCode(String councilCode) {
                 this.councilCode = councilCode;
             }
         }
@@ -222,12 +222,12 @@ public class UserEntity {
         this.name = name;
     }
 
-    public boolean isAccessUser() {
-        return isAccessUser;
+    public boolean isServiceUserManager() {
+        return isServiceUserManager;
     }
 
-    public void setAccessUser(boolean accessUser) {
-        isAccessUser = accessUser;
+    public void setServiceUserManager(boolean serviceUserManager) {
+        isServiceUserManager = serviceUserManager;
     }
 
     public boolean isActive() {

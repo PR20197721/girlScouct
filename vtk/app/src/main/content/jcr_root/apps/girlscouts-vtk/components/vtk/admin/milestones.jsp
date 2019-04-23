@@ -9,8 +9,8 @@
 <%
 String activeTab = "admin_milestones";
 
-int councilCode = userTroops.get(0).getCouncilCode();
-String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
+String councilCode = userTroops.get(0).getCouncilCode();
+String councilId = request.getParameter("cid")==null? councilCode:request.getParameter("cid");
 %>
 <div id="panelWrapper" class="row content milestones meeting-detail">
 	<div class="columns small-20 small-centered">
@@ -26,7 +26,7 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 			method="POST" id="MileStoneForm">
 			<input type="hidden" name="cid" value="<%=councilId%>" />
 			<%int i=0;
-    		java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(councilId) ;
+    		java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(user, councilId) ;
     		for(; i<milestones.size(); i++ ) { %>
 			<section id="ms-section" class="row">
 

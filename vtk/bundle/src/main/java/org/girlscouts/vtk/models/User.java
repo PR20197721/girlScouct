@@ -23,7 +23,8 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private boolean isAdmin;
-    private int adminCouncilId;
+    private boolean isServiceUnitManager;
+    private String adminCouncilId;
     private List<Troop> troops;
 
     public ApiConfig getApiConfig() {
@@ -154,11 +155,11 @@ public class User implements Serializable {
         isAdmin = admin;
     }
 
-    public int getAdminCouncilId() {
+    public String getAdminCouncilId() {
         return adminCouncilId;
     }
 
-    public void setAdminCouncilId(int adminCouncilId) {
+    public void setAdminCouncilId(String adminCouncilId) {
         this.adminCouncilId = adminCouncilId;
     }
 
@@ -168,5 +169,13 @@ public class User implements Serializable {
 
     public void setTroops(List<Troop> troops) {
         this.troops = troops;
+    }
+
+    public boolean isServiceUnitManager() {
+        return isServiceUnitManager;
+    }
+
+    public void setServiceUnitManager(boolean serviceUnitManager) {
+        isServiceUnitManager = serviceUnitManager;
     }
 }

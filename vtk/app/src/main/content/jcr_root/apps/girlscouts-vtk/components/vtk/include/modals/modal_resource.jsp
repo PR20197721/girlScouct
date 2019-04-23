@@ -34,7 +34,7 @@ Page resourceContent;
 		String councilId = null;
 		if (apiConfig != null) {
 		    if (userTroops.size() > 0) {
-		        councilId = Integer.toString(userTroops.get(0).getCouncilCode());
+		        councilId = userTroops.get(0).getCouncilCode();
 		    }
 		}
 		CouncilMapper mapper = sling.getService(CouncilMapper.class);

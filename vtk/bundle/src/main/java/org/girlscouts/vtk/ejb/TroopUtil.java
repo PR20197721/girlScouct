@@ -368,9 +368,9 @@ public class TroopUtil {
         if (newSelectedTroop == null) {
             return;
         }
-        Troop newSelectedTroopRepoData = getTroop(user, newSelectedTroop.getCouncilCode() + "", newSelectedTroopId);
+        Troop newSelectedTroopRepoData = getTroop(user, newSelectedTroop.getCouncilCode(), newSelectedTroopId);
         if (newSelectedTroopRepoData == null) {
-            newSelectedTroopRepoData = createTroop(user, "" + newSelectedTroop.getCouncilCode(), newSelectedTroopId);
+            newSelectedTroopRepoData = createTroop(user, newSelectedTroop.getCouncilCode(), newSelectedTroopId);
         }
         //archive
         if (!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) {

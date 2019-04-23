@@ -38,7 +38,7 @@ public class Troop implements Serializable {
     private String troopName;
     private String gradeLevel;
     private String councilId;
-    private int councilCode;
+    private String councilCode;
     private int type;
     private Set<Integer> permissionTokens;
     private String role;
@@ -46,6 +46,7 @@ public class Troop implements Serializable {
     private Date retrieveTime;
     private EmailMeetingReminder sendingEmail;
     private boolean isDbUpdate = false;
+    private String participationCode;
 
     public Troop() {
         this.type = 0;
@@ -227,11 +228,11 @@ public class Troop implements Serializable {
         this.councilId = councilId;
     }
 
-    public int getCouncilCode() {
+    public String getCouncilCode() {
         return councilCode;
     }
 
-    public void setCouncilCode(int councilCode) {
+    public void setCouncilCode(String councilCode) {
         this.councilCode = councilCode;
     }
 
@@ -258,4 +259,8 @@ public class Troop implements Serializable {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public String getParticipationCode() { return participationCode; }
+
+    public void setParticipationCode(String participationCode) { this.participationCode = participationCode; }
 }
