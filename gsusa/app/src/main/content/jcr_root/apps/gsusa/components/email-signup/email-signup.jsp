@@ -28,9 +28,11 @@ String sfmc = properties.get("sfmc", "");
 
 String dataExtensionName = properties.get("dataextensionname", "");
 String dataExtensionKey = properties.get("dataextensionkey", "");
+String dataExtensionEmail = properties.get("dataextensionemail", ""); // SFMC Data Extension Field Name for Email
 
 String triggerSendKey = properties.get("triggersendkey", "");
 
+String sourceOption = properties.get("sourceoption", "");
 String source = properties.get("source", ""); 
 String sourceValue = properties.get("sourcevalue", "");
 
@@ -39,11 +41,13 @@ if (sfmc == "" && dataExtensionKey != "") {
 	// if sfmc doesn't exist, it needs to default to TS that was used with DE terms
 	sfmc = "ts";
 	triggerSendKey = dataExtensionKey;
+	sourceOption = "pair";
 	sourceValue = source;
 	
 	if ((wcmMode == WCMMode.EDIT) || (wcmMode == WCMMode.PREVIEW)) {
 		node.setProperty("sfmc", sfmc);
-		node.setProperty("triggersendid", triggerSendKey);
+		node.setProperty("triggersendkey", triggerSendKey);
+		node.setProperty("sourceoption", sourceOption);
 		node.setProperty("source", "Source_RAG");
 		node.setProperty("sourcevalue", source);
 		node.getSession().save();
@@ -88,8 +92,10 @@ $(document).ready(function(){
 	var cid = '<%= councilID %>';
 	var dename = '<%= dataExtensionName %>';
 	var dekey = '<%= dataExtensionKey %>';
+	var deemail = '<%= dataExtensionEmail %>';
 	var tskey = '<%= triggerSendKey %>';
 	var fieldTextMobile = '<%= fieldTextMobile %>';
+	var sourceOption = '<%= sourceOption %>';
 	var source = '<%= source.replaceAll("\'", "\\\\'")%>'; 
 	var sourceValue = '<%= sourceValue.replaceAll("\'", "\\\\'")%>'; 
 	var formID = '#<%= formID %>';
@@ -124,7 +130,7 @@ $(document).ready(function(){
 			else if (dekey.length == 0 && tsID.length == 0)
 				alert("Error: Please enter Data Extension Key or Trigger Send ID!");
 			else
-				post(this, url, sfmc, email, cid, tskey, dekey, source, sourceValue);
+				post(this, url, sfmc, email, cid, tskey, dekey, deemail, source, sourceValue, sourceOption);
 		}
 		
 	});
@@ -161,7 +167,7 @@ function toDefault(form) {
 	$(form).find('input[name="email"]').css("color", "black");
 }
 
-function post(form, url, sfmc, email, cid, tskey, dekey, source, sourceValue) {
+function post(form, url, sfmc, email, cid, tskey, dekey, deemail, source, sourceValue, sourceOption) {
 	//var url = 'http://localhost:4502/campsapi/ajax_camp_result.asp';
 
 	var opts = {
@@ -188,6 +194,12 @@ function post(form, url, sfmc, email, cid, tskey, dekey, source, sourceValue) {
 			};
 	var spinner = new Spinner(opts).spin(form);
 
+	if ((source == "" || sourceValue == "") || sourceOption != "pair")
+	{
+		source = "";
+		sourceValue = "";
+	}
+	
 	$.ajax({
 		type: 'POST',
 		url: url,
@@ -196,9 +208,10 @@ function post(form, url, sfmc, email, cid, tskey, dekey, source, sourceValue) {
 			email: email,
 			cid: cid, 
 			tskey: tskey,
-			deKey: dekey,
+			dekey: dekey,
+			deemail: deemail,
 			source: source,
-			sourceValue: sourceValue
+			sourcevalue: sourceValue
 			},
 		dataType: 'json', 
 		success: function(data) {

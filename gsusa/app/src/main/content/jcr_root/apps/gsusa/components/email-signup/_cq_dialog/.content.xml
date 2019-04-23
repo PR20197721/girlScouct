@@ -212,22 +212,73 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">                        	
-                            <source
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="Originating source in 300 or less characters"
-                                fieldLabel="Source"
-    							defaultValue=""
-                                name="./source"
-                                required="false"/>
-                            <sourceValue
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="Originating source value"
-                                fieldLabel="Source Value"
-    							defaultValue=""
-                                name="./sourcevalue"
-                                required="false"/>
+                            
+                            <source-select
+                            	jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/select"
+                                class="cq-dialog-dropdown-showhide"
+                                cq-dialog-dropdown-showhide-target=".text-image-hide-show1"
+                                fieldLabel="Choose Source Option"
+                                fieldDescription="Omit or add Source for SFMC"
+                                name="./sourceoption">
+                                <items jcr:primaryType="nt:unstructured">
+                                	<none
+                                		jcr:primaryType="nt:unstructured"
+                                		text="None"
+                                		value="none" />
+                                	<source
+                                		jcr:primaryType="nt:unstructured"
+                                		text="Add Source"
+                                		value="pair" />
+                                </items>
+                            </source-select>
+                            <sourcenone
+                            	jcr:primaryType="nt:unstructured"
+                            	sling:resourceType="granite/ui/components/foundation/container"
+                            	class="hide text-image-hide-show1 none"
+                            	showhidetargetvalue="none">
+                            	<items jcr:primaryType="nt:unstructured">
+                            		<heading
+                            			jcr:pimaryType="nt:unstructured"
+                            			level="{Long}4"
+                            			text="Source Pair Heading" />
+                            	</items>
+                            </sourcenone>
+                            <sourcepair
+                            	jcr:primaryType="nt:unstructured"
+                            	sling:resourceType="granite/ui/components/foundation/container"
+                            	class="hide text-image-hide-show1 pair"
+                            	showhidetargetvalue="pair">
+                            	<items jcr:primaryType="nt:unstructured">
+                            		<heading
+                            			jcr:pimaryType="nt:unstructured"
+                            			level="{Long}4"
+                            			text="Source Pair Heading" />
+                            		<well
+                            			jcr:primaryType="nt:unstructured"
+                            			sling:resourceType="granite/ui/components/foundation/container">
+                            			<layout
+                            				jcr:primaryType="nt:unstructured"
+                            				sling:resourceType="granite/ui/components/foundation/layouts/well"/>
+                            			<items jcr:primaryType="nt:unstructured">
+                            				<source
+                            					jcr:primaryType="nt:unstructured"
+                            					sling:resourceType="granite/ui/components/foundation/form/textfield"
+                            					name="./source"
+                            					fieldLabel="SFMC Source Field Name"
+                            					fieldDescription="SFMC Source Field Name"
+                            					validationPattern="string" />
+                            				<sourcevalue
+                            					jcr:primaryType="nt:unstructured"
+                            					sling:resourceType="granite/ui/components/foundation/form/textfield"
+                            					name="./sourcevalue"
+                            					fieldLabel="SFMC Source Value Name"
+                            					fieldDescription="SFMC Source Value"
+                            					validationPattern="string" />           					
+                            			</items>
+                            		</well>
+                            	</items>
+                            </sourcepair>
                             <sfmc-select
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/select"
@@ -269,7 +320,14 @@
                             					sling:resourceType="granite/ui/components/foundation/form/textfield"
                             					name="./dataextensionkey"
                             					fieldLabel="Data Extension Key" 
-                            					validationPattern="string" />                            					
+                            					validationPattern="string" />
+                            				<dataextensionemail
+                            					jcr:primaryType="nt:unstructured"
+                            					sling:resourceType="granite/ui/components/foundation/form/textfield"
+                            					name="./dataextensionemail"
+                            					fieldLabel="Data Extension Email Field Name" 
+                            					fieldDescription="Email name defined in Data Extension (Email, EmailAddress, Email Address, etc.)"
+                            					validationPattern="string" />                    					
                             			</items>
                             		</well>
                             	</items>
