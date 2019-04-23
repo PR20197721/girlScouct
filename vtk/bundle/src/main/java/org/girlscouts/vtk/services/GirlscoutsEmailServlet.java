@@ -50,7 +50,7 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
 
     }
 
-    public void sendEmail(SlingHttpServletRequest slingRequest, String username){
+    public void sendEmail(SlingHttpServletRequest slingRequest, String fromAddress){
         String addressList = slingRequest.getParameter("addresses");
         String[] addresses = addressList.split(",");
         HashSet<GSEmailAttachment> attachments = new HashSet<>();
@@ -68,7 +68,7 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         if(attachments.isEmpty()){
             try {
                 log.debug("Send Email without attachments");
-                gsEmailService.sendEmail(slingRequest.getParameter("subject"), Arrays.asList(addresses),slingRequest.getParameter("message"), username);
+                gsEmailService.sendEmail(slingRequest.getParameter("subject"), Arrays.asList(addresses),slingRequest.getParameter("message"), fromAddress);
             }catch(Exception e){
                 log.error("Email failed to send without attachments: ", e);
             }
@@ -76,7 +76,7 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         }else{
             try {
                 log.debug("Send Email with attachments");
-                gsEmailService.sendEmail(slingRequest.getParameter("subject"),Arrays.asList(addresses),slingRequest.getParameter("message"), attachments, username);
+                gsEmailService.sendEmail(slingRequest.getParameter("subject"),Arrays.asList(addresses),slingRequest.getParameter("message"), attachments, fromAddress);
             }catch(Exception e){
                 log.error("Email failed to send with attachments: ", e);
             }
