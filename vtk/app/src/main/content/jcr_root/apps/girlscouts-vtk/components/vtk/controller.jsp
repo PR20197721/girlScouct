@@ -410,11 +410,11 @@
                     } else {
                         selectedTroop = prefTroop;
                     }
-                    Troop selectedTroopRepoData = troopUtil.getTroop(user, selectedTroop.getCouncilCode(), selectedTroop.getTroopId());
+                    Troop selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
                     java.util.List<MeetingE> tt = selectedTroopRepoData.getYearPlan().getMeetingEvents();
                     //end archive
                     selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
-                    selectedTroop.setPath(selectedTroopRepoData.getPath());
+                    //selectedTroop.setPath(selectedTroopRepoData.getPath());
                     selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
                     PlanView planView = meetingUtil.planView(user, selectedTroop, request);
                     java.util.List<MeetingE> TMP_meetings = (java.util.List<MeetingE>) VtkUtil.deepClone(selectedTroop.getYearPlan().getMeetingEvents());
@@ -560,10 +560,10 @@
                     } else {
                         selectedTroop = prefTroop;
                     }
-                    Troop selectedTroopRepoData = troopUtil.getTroop(user, prefTroop.getCouncilCode(), prefTroop.getTroopId());
+                    Troop selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
                     //end archive
                     selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
-                    selectedTroop.setPath(selectedTroopRepoData.getPath());
+                    //selectedTroop.setPath(selectedTroopRepoData.getPath());
                     selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
                     java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(user, selectedTroop, selectedTroop.getYearPlan(), true, true);
                     //start milestone

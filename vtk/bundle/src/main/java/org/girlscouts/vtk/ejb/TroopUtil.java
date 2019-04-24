@@ -41,10 +41,10 @@ public class TroopUtil {
 
         Troop troop = null;
         troop = troopDAO.getTroop(user, councilId, troopId);
-        if (troop == null)
+        if (troop == null) {
             return troop;
-        if (troop != null && troop.getYearPlan() != null
-                && troop.getYearPlan().getMeetingEvents() != null) {
+        }
+        if (troop != null && troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null) {
             Comparator<MeetingE> comp = new BeanComparator("id");
             Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
             for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
@@ -52,15 +52,37 @@ public class TroopUtil {
             }
         }
 
-        if (troop.getYearPlan() == null)
+        if (troop.getYearPlan() == null) {
             return troop;
+        }
 
         yearPlanUtil.checkCanceledActivity(user, troop);
-        if (troop.getYearPlan() != null
-                && troop.getYearPlan().getCalFreq() == null)
+        if (troop.getYearPlan() != null && troop.getYearPlan().getCalFreq() == null) {
             troop.getYearPlan().setCalFreq("biweekly");
-
+        }
         doDbReset(troop);
+        return troop;
+
+    }
+
+    public Troop getTroopByPath(User user, String troopPath) throws IllegalAccessException, VtkException {
+        Troop troop = troopDAO.getTroop_byPath(user, troopPath);
+        if (troop != null) {
+            if (troop.getYearPlan() != null) {
+                if (troop.getYearPlan().getMeetingEvents() != null) {
+                    Comparator<MeetingE> comp = new BeanComparator("id");
+                    Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
+                    for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
+                        troop.getYearPlan().getMeetingEvents().get(i).setId(i);
+                    }
+                }
+                yearPlanUtil.checkCanceledActivity(user, troop);
+                if (troop.getYearPlan().getCalFreq() == null) {
+                    troop.getYearPlan().setCalFreq("biweekly");
+                }
+                doDbReset(troop);
+            }
+        }
         return troop;
 
     }
@@ -121,7 +143,6 @@ public class TroopUtil {
 
     public Troop createTroop(User user, String councilId, String troopId)
             throws IllegalAccessException, VtkException {
-
         Troop troop = null;
         Council council = councilDAO.getOrCreateCouncil(user, councilId);
         if (council == null)
@@ -320,10 +341,6 @@ public class TroopUtil {
         troopDAO.rmTroop(troop);
     }
 
-    public UserGlobConfig getUserGlobConfig() {
-        return troopDAO.getUserGlobConfig();
-    }
-
     public YearPlan addYearPlan(User user, Troop troop, String yearPlanPath)
             throws java.lang.IllegalAccessException,
             java.lang.IllegalAccessException {
@@ -368,9 +385,9 @@ public class TroopUtil {
         if (newSelectedTroop == null) {
             return;
         }
-        Troop newSelectedTroopRepoData = getTroop(user, newSelectedTroop.getCouncilCode(), newSelectedTroopId);
+        Troop newSelectedTroopRepoData = getTroopByPath(user, newSelectedTroop.getPath());
         if (newSelectedTroopRepoData == null) {
-            newSelectedTroopRepoData = createTroop(user, newSelectedTroop.getCouncilCode(), newSelectedTroopId);
+            newSelectedTroopRepoData = createTroop(user, newSelectedTroop);
         }
         //archive
         if (!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) {
@@ -380,7 +397,7 @@ public class TroopUtil {
             newSelectedTroop = newSelectedTroopCloned;
         }
         newSelectedTroop.setYearPlan(newSelectedTroopRepoData.getYearPlan());
-        newSelectedTroop.setPath(newSelectedTroopRepoData.getPath());
+        //newSelectedTroop.setPath(newSelectedTroopRepoData.getPath());
         newSelectedTroop.setCurrentTroop(newSelectedTroopRepoData.getCurrentTroop());
         //end archive
         // logout multi selectedTroop
@@ -501,7 +518,7 @@ public class TroopUtil {
                             String troopId, HttpSession session) throws IllegalAccessException,
             VtkException {
 
-        Troop new_troop = getTroop(user, councilCode + "", troopId);
+        Troop new_troop = getTroopByPath(user, nothing.getPath());
         //new_troop.setTroop(nothing.getTroop());
         //new_troop.setSfTroopId(new_troop.getTroop().getTroopId());
         //new_troop.setSfUserId(user.getApiConfig().getUserId());

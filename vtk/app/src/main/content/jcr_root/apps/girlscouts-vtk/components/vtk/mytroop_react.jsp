@@ -10,14 +10,11 @@
 	if( isCachableContacts && session.getAttribute("vtk_cachable_contacts")!=null ) {
 		contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
 	}
-
 	if( contacts==null ){
 		contacts =	sling.getService(GirlScoutsSalesForceService.class).getContactsByTroopId(user.getApiConfig(), selectedTroop.getSfTroopId());
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}
-		
-		
 		String emailTo=",";
 		try{
 			for(int i=0;i<contacts.size();i++)
@@ -32,7 +29,6 @@
 				emailTo= emailTo.substring(1, emailTo.length());
 			}
 		}catch(Exception e){e.printStackTrace();}
-		
 		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
 		try{
 			sched = meetingUtil.getYearPlanSched(user, selectedTroop, selectedTroop.getYearPlan(), true, false);
@@ -40,59 +36,48 @@
 
 		BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
-
-		 contactsExtras = contactUtil.getContactsExtras( user,  selectedTroop, contacts);
-	
-		 
-    
+		contactsExtras = contactUtil.getContactsExtras( user,  selectedTroop, contacts);
 	%>
 	<div class="email">
-	<div class="email-content">
-          <div class="email-modal-header">
-       		 <div class="vtk-email-news-button" onclick="cancelEmail()">
-                    <i class="icon-button-circle-cross"></i>
+        <div class="email-content">
+              <div class="email-modal-header">
+                 <div class="vtk-email-news-button" onclick="cancelEmail()">
+                        <i class="icon-button-circle-cross"></i>
+                  </div>
+                 <h3 style="color:white;"class="emailHeader">Troop Email Content </br></h3>
               </div>
-             <h3 style="color:white;"class="emailHeader">Troop Email Content </br></h3>
-      	  </div>
-        <div class="email-modal-body">
-        <h6 class="emailInput"> Email To: </h6>
-            <ul class="small-block-grid-3">
-                <li style="width:100%; padding: 0px;">
-                    <input type="checkbox" id="email_troop" checked />
-                    <label for="email_troop"><p>Troop</p></label>
-                </li>
-                <li style="width:100%; padding: 0px; margin-left: 7px;">
-                    <label for="email_more">Enter additional emails:</label>
-                    <input type="email" id="email_more" placeholder="Enter email addresses separated by semicolons"/>
-                </li>
-
-            </ul>
-            <h6 class="emailInput"> Subject: </h6>
-            <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
-            <h6 style="margin-top:10px;"class="emailInput"> Body and attachments <span id="limit">(25MB limit): </span> </h6>
-            <textarea name="message" class="jqte-test" id="message" rows="10" cols="30"></textarea>
-    	</div>
-    	<form id='file-catcher'>
-          <input id='file-input' type='file' multiple onchange="updateFiles()"/>
-          <div id="email-buttons">
-                <div id="cancelEmail" onclick="cancelEmail()" class = "button tiny add-to-year-plan">Cancel</div>
-                <div id="clearEmail" onclick="clearEmail()" class = "button tiny add-to-year-plan">Clear Attachments</div>
-                <div id="sendEmail"class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
-          </div>
-        </form>
-        <div id='file-list-display'></div>
-    	<div class="email-modal-footer">
-      	</div>
-
-    </div>
+            <div class="email-modal-body">
+            <h6 class="emailInput"> Email To: </h6>
+                <ul class="small-block-grid-3">
+                    <li style="width:100%; padding: 0px;">
+                        <input type="checkbox" id="email_troop" checked />
+                        <label for="email_troop"><p>Troop</p></label>
+                    </li>
+                    <li style="width:100%; padding: 0px; margin-left: 7px;">
+                        <label for="email_more">Enter additional emails:</label>
+                        <input type="email" id="email_more" placeholder="Enter email addresses separated by semicolons"/>
+                    </li>
+                </ul>
+                <h6 class="emailInput"> Subject: </h6>
+                <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
+                <h6 style="margin-top:10px;"class="emailInput"> Body and attachments <span id="limit">(25MB limit): </span> </h6>
+                <textarea name="message" class="jqte-test" id="message" rows="10" cols="30"></textarea>
+            </div>
+            <form id='file-catcher'>
+              <input id='file-input' type='file' multiple onchange="updateFiles()"/>
+              <div id="email-buttons">
+                    <div id="cancelEmail" onclick="cancelEmail()" class = "button tiny add-to-year-plan">Cancel</div>
+                    <div id="clearEmail" onclick="clearEmail()" class = "button tiny add-to-year-plan">Clear Attachments</div>
+                    <div id="sendEmail"class = "button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
+              </div>
+            </form>
+            <div id='file-list-display'></div>
+            <div class="email-modal-footer">
+            </div>
+        </div>
     </div>
 	<%@include file='myTroopImg.jsp' %>
-	
-	
-
 			<% if( !VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)){
-					  
-			
 			       for(int i=0; i<contacts.size(); i++) {
 			            org.girlscouts.vtk.models.Contact contact = contacts.get(i);
 			           // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, selectedTroop, contact);
@@ -111,12 +96,8 @@
 							    </dl>
 							  </div>
 			        <%}//edn for
-			       
-			      
 			 }//edn if %>
-		
 		<%
-		
 		String role="Girl";
 		if( role.equals("Girl") ){ %>
 		  <div class="column large-24 large-centered mytroop">
@@ -127,7 +108,6 @@
 		        <div id="mailBtn">
 		           <a id = "#mailTroop" ><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></div>
 		         <%} %>
-		         
 		      </dt>
 		      <dd class="accordion-navigation">
 		        <div class="content active" id="panel1">
@@ -136,7 +116,6 @@
 		      </dd>
 		    </dl>
 		  </div>
-		  
 	   <%}
 		role="Adult";
 		if( role.equals("Adult") ){ %>
@@ -146,9 +125,7 @@
                 <h3 class="on"><%=selectedTroop.getSfTroopName() %> VOLUNTEERS</h3>
                 <% if(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
                   <a style="float:right;margin-right: 20px" href="<%= sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("communityUrl")%>/Membership_Troop_Renewal">Add a New Volunteer <img width="30px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/arrow2-right_yellow.png" valign="middle"> </a>
-           
                  <%} %>
-                 
               </dt>
               <dd class="accordion-navigation">
                 <div class="content active" id="panel2">                
@@ -158,9 +135,7 @@
             </dl>
           </div>
        <%}//edn else %>
-
 <% }//edn if contact %>
-
 <script>
     var fileInput = document.getElementById('file-input');
     var fileListDisplay = document.getElementById('file-list-display');
@@ -336,8 +311,6 @@
             clearEmail();
              $("#sendEmail").css("margin-left","600%");
         }
-
-
         });
 	    $("#mailBtn").click(function(){
             if( $(".email-content").css("display") === "none" ){

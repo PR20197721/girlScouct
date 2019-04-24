@@ -7,7 +7,7 @@
     String councilCode = request.getParameter("cid");
 
     User impersonateRoot = (User) VtkUtil.deepClone(user);
-    Troop _troop = troopUtil.getTroop(impersonateRoot, councilCode, troopId);
+    Troop _troop = troopUtil.getTroopByPath(impersonateRoot, selectedTroop.getPath());
     java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot, selectedTroop,
             _troop.getYearPlan(), true, true);
     Set distinctGirl = new HashSet();

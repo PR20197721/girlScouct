@@ -1,48 +1,35 @@
-
 <%@ page
   import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
-<!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/vtk.jsp -->
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
-
-<div id="error-message"></div>      
-
+<div id="error-message"></div>
 <%
   String activeTab = "explore";
   boolean showVtkNav = true;
   String sectionClassDefinition="";
 %>
-
 <%@include file="include/bodyTop.jsp" %>
-
 <!-- start body -->
 <%@include file="include/view_yp_dropdown.jsp"%>
 <!-- end body -->
-
-
 <div id="requirementsModal" class="reveal-modal" data-reveal=""></div>
-
 <script>
-loadNav('explore')
-
-
-      var requirementsModal = function(binder, isOutdoorAvailable, isOutdoor, isGlobalAvailable, isGlobal){
-          var imgName;
-           if (isOutdoor) {
-                 imgName =  "outdoor.png";
-              } else {
-                  imgName = "indoor.png";
-              }
-
+    loadNav('explore');
+    var requirementsModal = function(binder, isOutdoorAvailable, isOutdoor, isGlobalAvailable, isGlobal){
+        var imgName;
+        if (isOutdoor) {
+            imgName =  "outdoor.png";
+        } else {
+            imgName = "indoor.png";
+        }
         var globalImageName;
-        if (isGlobbal) {
+        if (isGlobal) {
         	globalImageName =  "globe_selected.png";
         } else {
         	globalImageName = "globe_unselected.png";
         }
         var modal = $('#requirementsModal');
-
         var image = (isOutdoorAvailable)? '<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/'+imgName+'" />':' ';
         if(isGlobalAvailable){
         	if(image.trim().length > 0){
@@ -50,7 +37,6 @@ loadNav('explore')
         	}
         	image +='<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/'+globalImageName+'" />';
         }
-
         var _template = '<div class="modal_resource">'+
                         '<div class="header clearfix">'+
                           '<h3 class="columns large-22">REQUIREMENTS</h3>'+
@@ -71,14 +57,9 @@ loadNav('explore')
                         '</div>'+
                       '</div>';
                       $(document).foundation() 
-                      modal.html(_template)
-                      .foundation('reveal','open');     
-      }
-
-var modalAlert = new ModalVtk('Alert',true);
-modalAlert.init();
-
+                      modal.html(_template).foundation('reveal','open');
+    }
+    var modalAlert = new ModalVtk('Alert',true);
+    modalAlert.init();
 </script>
 <%@include file="include/bodyBottom.jsp" %>
-
-

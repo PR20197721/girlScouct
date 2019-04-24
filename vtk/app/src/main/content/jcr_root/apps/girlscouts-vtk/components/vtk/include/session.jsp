@@ -161,7 +161,7 @@
             Troop selectedTroopRepoData = null;
             try {
                 if (!(apiConfig.getUser().isAdmin() && selectedTroop.getTroopId().equals("none"))) {
-                    selectedTroopRepoData = troopUtil.getTroop(user, selectedTroop.getCouncilCode(), selectedTroop.getTroopId());
+                    selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
                 }
             } catch (org.girlscouts.vtk.utils.VtkException ec) {
                 %>
@@ -180,7 +180,7 @@
                     }
                     if (selectedTroopRepoData == null) {
                         try {
-                            selectedTroopRepoData = troopUtil.createTroop(user, selectedTroop.getCouncilCode(), selectedTroop.getTroopId());
+                            selectedTroopRepoData = troopUtil.createTroop(user, selectedTroop);
                         } catch (Exception e) {
                         %>
                         <div id="panelWrapper" class="row meeting-detail content">
@@ -195,7 +195,7 @@
                 }
             }
             selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
-            selectedTroop.setPath(selectedTroopRepoData.getPath());
+            //selectedTroop.setPath(selectedTroopRepoData.getPath());
             selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
         }
         if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("true")) {
