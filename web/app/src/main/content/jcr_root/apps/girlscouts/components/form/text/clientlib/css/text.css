@@ -1,0 +1,7 @@
+.grid-system .form_leftcollabel{
+    display: inline-block;
+}
+.grid-system .form_leftcolmark{
+    display: inline-block;
+	color: red;
+}
