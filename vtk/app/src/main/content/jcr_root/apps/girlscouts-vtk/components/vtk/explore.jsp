@@ -36,7 +36,7 @@ loadNav('explore')
               }
 
         var globalImageName;
-        if (isGlobbal) {
+        if (isGlobal) {
         	globalImageName =  "globe_selected.png";
         } else {
         	globalImageName = "globe_unselected.png";
