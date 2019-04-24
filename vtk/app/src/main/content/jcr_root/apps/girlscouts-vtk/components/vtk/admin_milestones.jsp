@@ -27,7 +27,7 @@ String sectionClassDefinition = "milestones";
 			<%
 				//If there are milestones show them in the input fields to view/edit
     		try{
-    		java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(user,councilId) ;
+    		List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(user,councilId) ;
 
     		for(int i=0; i<milestones.size(); i++ ) { %>
 				<section class="row">

@@ -5,6 +5,7 @@ import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.auth.permission.RollType;
 import org.girlscouts.vtk.mapper.*;
 import org.girlscouts.vtk.models.Contact;
+import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.osgi.conf.GirlScoutsSalesForceServiceConfig;
@@ -260,6 +261,13 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             setTroopPermissions(troop, user.isAdmin());
             troop.setSfUserId(user.getSfUserId());
             setTroopPath(troop);
+            Council council = new Council();
+            String path = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
+            if(sumCouncilCode.equals(troop.getCouncilCode())){
+                path += "/" + troop.getSfUserId();
+            }
+            council.setPath(path);
+            troop.setCouncil(council);
         }
         user.setTroops(mergedTroops);
     }

@@ -246,9 +246,7 @@ public class YearPlanUtil {
 		return container;
 	}
 
-	public java.util.List<Milestone> getCouncilMilestones(User user,
-			String councilCode) throws IllegalAccessException {
-		// return meetingDAO.getCouncilMilestones(councilCode);
+	public java.util.List<Milestone> getCouncilMilestones(User user, String councilCode) throws IllegalAccessException {
 		return councilDAO.getCouncilMilestones(user, councilCode);
 	}
 

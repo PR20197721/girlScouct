@@ -4,6 +4,7 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -13,6 +14,7 @@ import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.utils.ModifyNodePermissions;
@@ -44,55 +46,44 @@ public class CouncilDAOImpl implements CouncilDAO {
     private ModifyNodePermissions permiss;
     @Reference
 
-    private org.apache.sling.api.resource.ResourceResolverFactory resolverFactory;
+    private Mapper mapper;
 
     @Activate
     void activate() {
+        List<Class> classes = new ArrayList<Class>();
+        classes.add(Council.class);
+        mapper = new AnnotationMapperImpl(classes);
     }
 
-    public Council findCouncil(User user, String councilId)
-            throws IllegalAccessException, VtkException {
+    public Council findCouncil(User user, String path){
         Council council = null;
         Session session = null;
         ResourceResolver rr = null;
-
         try {
             //TODO Permission.PERMISSION_LOGIN_ID
-
             rr = sessionFactory.getResourceResolver();
             session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Council.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-
             ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            String p = VtkUtil.getYearPlanBase(user, null) + councilId;
-
-            council = (Council) ocm.getObject(p);
-
-
-        } catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
-            throw new VtkException("Could not complete intended action due to a server error. Code: " + new java.util.Date().getTime());
-
+            council = (Council) ocm.getObject(path);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occured:",e);
         } finally {
             try {
-                if (rr != null)
+                if (rr != null) {
                     sessionFactory.closeResourceResolver(rr);
-                if (session != null)
+                }
+                if (session != null) {
                     session.logout();
+                }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                log.error("Error occured:",ex);
             }
         }
 
         return council;
     }
 
-    public Council createCouncil(User user, String councilId)
-            throws IllegalAccessException, VtkException {
-
+    public Council createCouncil(User user, Troop troop){
         //TODO Permission.PERMISSION_LOGIN_ID
         Session session = null;
         ResourceResolver rr = null;
@@ -111,58 +102,51 @@ public class CouncilDAOImpl implements CouncilDAO {
             classes.add(Milestone.class);
             classes.add(Troop.class);
             Mapper mapper = new AnnotationMapperImpl(classes);
-
             String vtkBase = VtkUtil.getYearPlanBase(user, null);
             rr = sessionFactory.getResourceResolver();
             session = rr.adaptTo(Session.class);
             if (!session.itemExists(vtkBase)) {
-
                 permiss.modifyNodePermissions(vtkBase, "vtk");
                 permiss.modifyNodePermissions("/content/dam/girlscouts-vtk/troop-data" + VtkUtil.getCurrentGSYear() + "/", "vtk");
             }
-
-
-            council = new Council(vtkBase + councilId);
-
-            if (!session.itemExists(vtkBase + councilId)) {
-                ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-                        mapper);
+            council = troop.getCouncil();
+            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
+            if (!ocm.objectExists(council.getPath())) {
                 ocm.insert(council);
                 ocm.save();
             } else {
-                log.debug(">>>>>>>>>>> INFO : CouncilDAOImpl.createCouncil skipped because council already exists: " + councilId);
+                log.debug(">>>>>>>>>>> INFO : CouncilDAOImpl.createCouncil skipped because council already exists: " + council.getPath());
+                council = (Council)ocm.getObject(Council.class, council.getPath());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ",e);
         } finally {
             try {
-                if (session != null)
+                if (session != null) {
                     session.logout();
-
-                if (rr != null)
+                }
+                if (rr != null) {
                     sessionFactory.closeResourceResolver(rr);
+                }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                log.error("Error occurred: ", ex);
             }
         }
         return council;
 
     }
 
-    public Council getOrCreateCouncil(User user, String councilId)
-            throws IllegalAccessException, VtkException {
-
+    public Council getOrCreateCouncil(User user, Troop troop){
         //TODO Permission.PERMISSION_LOGIN_ID
-        Council council = findCouncil(user, councilId);
-
-        if (council == null) {
-            council = createCouncil(user, councilId);
+        Council troopCouncil = troop.getCouncil();
+        Council councilRepoData = findCouncil(user, troopCouncil.getPath());
+        if(councilRepoData == null){
+            councilRepoData = createCouncil(user, troop);
         }
-        return council;
+        return councilRepoData;
     }
 
-    public void updateCouncil(User user, Council council)
-            throws IllegalAccessException {
+    public void updateCouncil(User user, Council council){
         //TODO Permission.PERMISSION_LOGIN_ID
         Session session = null;
         ResourceResolver rr = null;
@@ -182,43 +166,34 @@ public class CouncilDAOImpl implements CouncilDAO {
             classes.add(Milestone.class);
             classes.add(Troop.class);
             Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-                    mapper);
-
+            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
             ocm.update(council);
             ocm.save();
-
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred:", e);
         } finally {
             try {
-                if (session != null)
+                if (session != null) {
                     session.logout();
-
-                if (rr != null)
+                }
+                if (rr != null) {
                     sessionFactory.closeResourceResolver(rr);
+                }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                log.error("Error occurred:", ex);
             }
         }
     }
 
-    public java.util.List<Milestone> getCouncilMilestones(User user, String councilCode)
-            throws IllegalAccessException {
+    public List<Milestone> getCouncilMilestones(User user, String councilCode){
         //TODO Permission.PERMISSION_VIEW_MILESTONE_ID
         CouncilInfo list = getCouncilInfo(user, councilCode);
-        java.util.List<Milestone> milestones = list.getMilestones();
+        List<Milestone> milestones = list.getMilestones();
         sortMilestonesByDate(milestones);
         return milestones;
     }
 
-    // TODO: Alex - deprecate this method after full testing of method removal
-    private CouncilInfo getCouncilInfo(String councilCode) {
-        return getCouncilInfo(null, councilCode);
-    }
-
     private CouncilInfo getCouncilInfo(User user, String councilCode) {
-
         Session session = null;
         ResourceResolver rr = null;
         CouncilInfo cinfo = null;
@@ -229,8 +204,7 @@ public class CouncilDAOImpl implements CouncilDAO {
             classes.add(Milestone.class);
             classes.add(CouncilInfo.class);
             Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-                    mapper);
+            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
             QueryManager queryManager = ocm.getQueryManager();
             Filter filter = queryManager.createFilter(CouncilInfo.class);
             Query query = queryManager.createQuery(filter);

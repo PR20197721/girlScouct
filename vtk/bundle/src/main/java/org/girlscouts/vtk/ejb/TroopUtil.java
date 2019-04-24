@@ -141,17 +141,8 @@ public class TroopUtil {
 
     }
 
-    public Troop createTroop(User user, String councilId, String troopId)
-            throws IllegalAccessException, VtkException {
-        Troop troop = null;
-        Council council = councilDAO.getOrCreateCouncil(user, councilId);
-        if (council == null)
-            return null;
-        troop = new Troop(troopId);
-        troop.setPath(VtkUtil.getYearPlanBase(user, troop) + councilId
-                + "/troops/" + troopId);
-        return troop;
-
+    public void createCouncil(User user, Troop troop) throws IllegalAccessException, VtkException {
+        Council council = councilDAO.getOrCreateCouncil(user, troop);
     }
 
     public void logout(User user, Troop troop)
@@ -385,30 +376,26 @@ public class TroopUtil {
         if (newSelectedTroop == null) {
             return;
         }
-        Troop newSelectedTroopRepoData = getTroopByPath(user, newSelectedTroop.getPath());
-        if (newSelectedTroopRepoData == null) {
-            newSelectedTroopRepoData = createTroop(user, newSelectedTroop);
-        }
-        //archive
         if (!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) {
             Set permis = Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS);
             Troop newSelectedTroopCloned = ((Troop) VtkUtil.deepClone(newSelectedTroop));
             newSelectedTroopCloned.setPermissionTokens(permis);
             newSelectedTroop = newSelectedTroopCloned;
         }
-        newSelectedTroop.setYearPlan(newSelectedTroopRepoData.getYearPlan());
-        //newSelectedTroop.setPath(newSelectedTroopRepoData.getPath());
-        newSelectedTroop.setCurrentTroop(newSelectedTroopRepoData.getCurrentTroop());
-        //end archive
-        // logout multi selectedTroop
+        Troop newSelectedTroopRepoData = getTroopByPath(user, newSelectedTroop.getPath());
+        if (newSelectedTroopRepoData == null) {
+            createCouncil(user, newSelectedTroop);
+        }else{
+            newSelectedTroop.setYearPlan(newSelectedTroopRepoData.getYearPlan());
+            newSelectedTroop.setCurrentTroop(newSelectedTroopRepoData.getCurrentTroop());
+        }
         logout(user, selectedTroop);
         session.setAttribute("VTK_troop", newSelectedTroop);
         session.setAttribute("VTK_planView_memoPos", null);
         session.setAttribute("vtk_cachable_contacts", null);
     }
 
-    public String bindAssetToYPC(User user, Troop troop, String bindAssetToYPC,
-                                 String _ypcId, String _assetDesc, String _assetTitle)
+    public String bindAssetToYPC(User user, Troop troop, String bindAssetToYPC, String _ypcId, String _assetDesc, String _assetTitle)
             throws IllegalAccessException, VtkException {
 
         String vtkErr = "";
@@ -416,8 +403,7 @@ public class TroopUtil {
         String ypcId = _ypcId;
         String assetDesc = java.net.URLDecoder.decode(_assetDesc);
         String assetTitle = java.net.URLDecoder.decode(_assetTitle);
-        java.util.List<MeetingE> meetings = troop.getYearPlan()
-                .getMeetingEvents();
+        java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
         for (int i = 0; i < meetings.size(); i++) {
             if (meetings.get(i).getUid().equals(ypcId)) {
                 Asset asset = new Asset();

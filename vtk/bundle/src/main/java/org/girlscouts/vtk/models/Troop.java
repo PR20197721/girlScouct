@@ -47,6 +47,7 @@ public class Troop implements Serializable {
     private EmailMeetingReminder sendingEmail;
     private boolean isDbUpdate = false;
     private String participationCode;
+    private Council council;
 
     public Troop() {
         this.type = 0;
@@ -263,4 +264,8 @@ public class Troop implements Serializable {
     public String getParticipationCode() { return participationCode; }
 
     public void setParticipationCode(String participationCode) { this.participationCode = participationCode; }
+
+    public Council getCouncil() {return council;}
+
+    public void setCouncil(Council council) { this.council = council; }
 }

@@ -162,6 +162,8 @@
             try {
                 if (!(apiConfig.getUser().isAdmin() && selectedTroop.getTroopId().equals("none"))) {
                     selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
+                    selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
+                    selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
                 }
             } catch (org.girlscouts.vtk.utils.VtkException ec) {
                 %>
@@ -180,7 +182,7 @@
                     }
                     if (selectedTroopRepoData == null) {
                         try {
-                            selectedTroopRepoData = troopUtil.createTroop(user, selectedTroop);
+                            troopUtil.createCouncil(user, selectedTroop);
                         } catch (Exception e) {
                         %>
                         <div id="panelWrapper" class="row meeting-detail content">
@@ -194,9 +196,6 @@
                     return;
                 }
             }
-            selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
-            //selectedTroop.setPath(selectedTroopRepoData.getPath());
-            selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
         }
         if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("true")) {
             selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_VIEW_FINANCE_ID);

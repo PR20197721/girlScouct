@@ -560,7 +560,7 @@ public class TroopDAOImpl implements TroopDAO {
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (!ocm.objectExists(asset.getPath())) {
                 // check council
-                if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
+                if (councilDAO.findCouncil(user, troop.getCouncil().getPath()) == null) {
                     throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
                 }
                 // check troop
@@ -615,7 +615,7 @@ public class TroopDAOImpl implements TroopDAO {
                     || !ocm.objectExists(troop.getPath()
                     + "/yearPlan/meetingEvents")) {
                 // check council
-                if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
+                if (councilDAO.findCouncil(user, troop.getCouncil().getPath()) == null) {
                     throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
                 }
                 // check troop
@@ -679,7 +679,7 @@ public class TroopDAOImpl implements TroopDAO {
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (activity.getPath() == null) {
                 // check council
-                if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
+                if (councilDAO.findCouncil(user, troop.getCouncil().getPath()) == null) {
                     throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
                 }
                 // check troop
@@ -727,7 +727,7 @@ public class TroopDAOImpl implements TroopDAO {
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (!ocm.objectExists(location.getPath())) {
                 // check council
-                if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
+                if (councilDAO.findCouncil(user, troop.getCouncil().getPath()) == null) {
                     throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
                 }
                 // check troop
@@ -785,7 +785,7 @@ public class TroopDAOImpl implements TroopDAO {
                 troop.getYearPlan().setSchedule(null);
             } else {
                 if (schedule.getPath() == null) {
-                    if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
+                    if (councilDAO.findCouncil(user, troop.getCouncil().getPath()) == null) {
                         throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
                     }
                     // check troop
@@ -866,7 +866,7 @@ public class TroopDAOImpl implements TroopDAO {
             if (troop == null || troop.getYearPlan() == null) {
                 return true;
             }
-            Council council = councilDAO.findCouncil(user, troop.getSfCouncil()); // 0729815
+            Council council = councilDAO.findCouncil(user, troop.getCouncil().getPath());
             if (council == null) {
                 throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
             }
