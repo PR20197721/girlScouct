@@ -255,7 +255,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             			 ValueMap activityValueMap = r_activities.getValueMap();
             			 if( activityValueMap ==null ) continue;
                 		 String isOutdoorAvailable = activityValueMap.get("outdoor") ==null ? null : activityValueMap.get("outdoor").toString();  
-                		 String isGlobalAvailable = activityValueMap.get("globbal") ==null ? null : activityValueMap.get("global").toString();
+                		 String isGlobalAvailable = activityValueMap.get("global") ==null ? null : activityValueMap.get("global").toString();
                 		 if( (isOutdoorAvailable!=null && isOutdoorAvailable.equals("true")) || (isGlobalAvailable!=null && isGlobalAvailable.equals("true")) ) {
                 			 Activity activity = new Activity();
 	                		 if( isOutdoorAvailable!=null && isOutdoorAvailable.equals("true") ) {	                			
