@@ -8,7 +8,13 @@ String text = properties.get("text", "");
 String facebookLink = properties.get("facebookLink", "");
 String resultPage = properties.get("resultPage", currentPage.getPath());
 String[] images = properties.get("images", String[].class);
-
+String relativeResultPath;
+try{
+    relativeResultPath = resourceResolver.map(resultPage).substring(resourceResolver.map(resultPage).indexOf("/en"));
+}catch(Exception e){
+    relativeResultPath = resourceResolver.map(resultPage);
+}
+String relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
 if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.length == 0)) {
     %>Cookie Landing Component. Double click here to edit.<%
 } else {
@@ -49,8 +55,8 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
             bindSubmitHash({
                 formElement: "form[name='find-cookies']",
                 hashElement: "input[name='zip-code']",
-                redirectUrl: "<%=resourceResolver.map(resultPage)%>",
-                currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
+                redirectUrl: "<%=relativeResultPath%>",
+                currentUrl: "<%=relativeCurrentPath%>"
             });
         });
     </script><%

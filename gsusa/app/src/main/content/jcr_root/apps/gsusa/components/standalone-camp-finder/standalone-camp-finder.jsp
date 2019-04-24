@@ -17,7 +17,14 @@ public String generateId() {
 
 <%
 final String text = properties.get("text", "");
-final String resultsPath = properties.get("results", "");
+final String resultPath = properties.get("results", "");
+String relativeResultPath;
+try{
+    relativeResultPath = resourceResolver.map(resultPath).substring(resourceResolver.map(resultPath).indexOf("/en"));
+}catch(Exception e){
+    relativeResultPath = resourceResolver.map(resultPath);
+}
+String relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
 Resource image = resource.getChild("image");
 if (image == null) {
 	if(WCMMode.fromRequest(request) == WCMMode.EDIT){
@@ -33,8 +40,8 @@ if (image == null) {
             bindSubmitHash({
                 formElement: ".find-camp",
                 hashElement: "input[name='zip-code']",
-                redirectUrl: "<%=resourceResolver.map(resultsPath)%>",
-                currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
+                redirectUrl: "<%=relativeResultPath%>",
+                currentUrl: "<%=relativeCurrentPath%>"
             });
         });
 

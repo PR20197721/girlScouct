@@ -8,7 +8,13 @@ boolean state = properties.get("state", false);
 boolean councilName = properties.get("council-name", false);
 String path = properties.get("path","");
 String councilCode = slingRequest.getParameter("council-code") != null ? slingRequest.getParameter("council-code") : "";
-
+String relativeResultPath;
+try{
+    relativeResultPath = resourceResolver.map(path).substring(resourceResolver.map(path).indexOf("/en"));
+}catch(Exception e){
+    relativeResultPath = resourceResolver.map(path);
+}
+String relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
 if (path.equals("") || (!zip && !state && !councilName) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
     %><p>**Please select at least one search type</p><% 
 } else if (zip || state || councilName) {
@@ -86,20 +92,20 @@ if (path.equals("") || (!zip && !state && !councilName) && WCMMode.fromRequest(r
             bindSubmitHash({    // zip
                 formElement: ".council-finder form[name='zipSearch']",
                 hashElement: "input[name='zip-code']",
-                redirectUrl: "<%=resourceResolver.map(path)%>",
-                currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
+                redirectUrl: "<%=relativeResultPath%>",
+                currentUrl: "<%=relativeCurrentPath%>"
             });
             bindSubmitHash({    // state
                 formElement: ".council-finder form[name='stateSearch']",
                 hashElement: "select[name='state']",
-                redirectUrl: "<%=resourceResolver.map(path)%>",
-                currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
+                redirectUrl: "<%=relativeResultPath%>",
+                currentUrl: "<%=relativeCurrentPath%>"
             });
             bindSubmitHash({    // council-code
                 formElement: ".council-finder form[name='councilCodeSearch']",
                 hashElement: "select[name='council-code']",
-                redirectUrl: "<%=resourceResolver.map(path)%>",
-                currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
+                redirectUrl: "<%=relativeResultPath%>",
+                currentUrl: "<%=relativeCurrentPath%>"
             });
         });
     </script><%
