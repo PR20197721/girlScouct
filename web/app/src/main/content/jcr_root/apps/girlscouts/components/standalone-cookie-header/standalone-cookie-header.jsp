@@ -26,6 +26,12 @@ final String shareSectionIcon = properties.get("icon", "icon-social-facebook");
 final String shareSectionText = properties.get("sharetext", "Follow Girl Scouts Cookies");
 String shareSectionLink = properties.get("sharelink", "https://www.facebook.com/GirlScoutCookieProgram/");
 final String cookieBoothLink = properties.get("cookieboothlink", "http://www.girlscouts.org/en/cookies/cookies");
+String relativeCookieBoothLink;
+try{
+    relativeCookieBoothLink = resourceResolver.map(cookieBoothLink).substring(resourceResolver.map(cookieBoothLink).indexOf("/en"));
+}catch(Exception e){
+    relativeCookieBoothLink = resourceResolver.map(cookieBoothLink);
+}
 final String id = generateId();
 Resource thumbnail = resource.getChild("thumbnail");
 String filePath = "";
@@ -93,7 +99,7 @@ $(document).ready(function(){
 		}
 
 	    var zip = $(this).find('input[name="zip-code"]').val(),
-	    	loc = "<%=resourceResolver.map(cookieBoothLink)%>.html";
+	    	loc = "<%=relativeCookieBoothLink%>.html";
 	    var redirectUrl = loc;
 	    var currentUrl = window.location.href;
 	    var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
