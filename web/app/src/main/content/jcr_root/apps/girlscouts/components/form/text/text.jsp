@@ -21,7 +21,11 @@
                    com.day.cq.wcm.foundation.forms.LayoutHelper,
                    com.day.cq.wcm.foundation.forms.FormResourceEdit,
                    java.util.ResourceBundle,
-                   com.day.cq.i18n.I18n" %><%
+                   com.day.cq.i18n.I18n" %>
+
+<%@taglib prefix="ui" uri="http://www.adobe.com/taglibs/granite/ui/1.0" %>
+<ui:includeClientLib categories="girlscouts.components.form.text" />
+<%
 
     final ResourceBundle resourceBundle = slingRequest.getResourceBundle(null);
     I18n i18n = new I18n(resourceBundle);  
