@@ -47,7 +47,7 @@ public class Troop implements Serializable {
     private EmailMeetingReminder sendingEmail;
     private boolean isDbUpdate = false;
     private String participationCode;
-    private Council council;
+    private String councilPath;
 
     public Troop() {
         this.type = 0;
@@ -193,10 +193,6 @@ public class Troop implements Serializable {
         return VtkUtil.getYearPlanBase(null, null).substring(1) + this.getSfCouncil() + "/troops/" + this.getId();
     }
 
-    public String getCouncilPath() {
-        return VtkUtil.getYearPlanBase(null, null).substring(1) + this.getSfCouncil();
-    }
-
     public String getTroopId() {
         return troopId;
     }
@@ -265,7 +261,11 @@ public class Troop implements Serializable {
 
     public void setParticipationCode(String participationCode) { this.participationCode = participationCode; }
 
-    public Council getCouncil() {return council;}
+    public String getCouncilPath() {
+        return councilPath;
+    }
 
-    public void setCouncil(Council council) { this.council = council; }
+    public void setCouncilPath(String councilPath) {
+        this.councilPath = councilPath;
+    }
 }

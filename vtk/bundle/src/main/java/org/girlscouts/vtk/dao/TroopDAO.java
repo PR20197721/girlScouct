@@ -14,9 +14,7 @@ import java.util.Map;
 
 public interface TroopDAO {
 
-	public Troop getTroop(User user, String councilId, String troopId) throws IllegalAccessException, VtkException;
-
-	public Troop getTroop_byPath(User user, String troopPath) throws IllegalAccessException;
+	public Troop getTroopByPath(User user, String troopPath) throws IllegalAccessException;
 
 	public YearPlan addYearPlan1(User user, Troop troop, String yearPlanPath) throws IllegalAccessException;
 

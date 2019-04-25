@@ -162,8 +162,6 @@
             try {
                 if (!(apiConfig.getUser().isAdmin() && selectedTroop.getTroopId().equals("none"))) {
                     selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
-                    selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
-                    selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
                 }
             } catch (org.girlscouts.vtk.utils.VtkException ec) {
                 %>
@@ -174,27 +172,32 @@
                     </p>
                 </div>
                 <%
-                    return;
+                 return;
             } catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
-                    %><span class="error">Sorry, you have no access to view year plan.</span><%
-                        return;
-                    }
-                    if (selectedTroopRepoData == null) {
-                        try {
-                            troopUtil.createCouncil(user, selectedTroop);
-                        } catch (Exception e) {
-                        %>
-                        <div id="panelWrapper" class="row meeting-detail content">
-                            <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
-                                <%=e.getMessage() %>
-                                <br/>Please notify Girlscouts VTK support
-                            </p>
-                        </div>
-                        <%
-                    e.printStackTrace();
+                ex.printStackTrace();
+                %>
+                <span class="error">Sorry, you have no access to view year plan.</span>
+                <%
                     return;
+            }
+            if (selectedTroopRepoData == null) {
+                try {
+                    troopUtil.createCouncil(user, selectedTroop);
+                } catch (Exception e) {
+                    %>
+                    <div id="panelWrapper" class="row meeting-detail content">
+                        <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+                            <%=e.getMessage() %>
+                            <br/>Please notify Girlscouts VTK support
+                        </p>
+                    </div>
+                    <%
+                e.printStackTrace();
+                return;
                 }
+            }else{
+                selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
+                selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
             }
         }
         if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("true")) {

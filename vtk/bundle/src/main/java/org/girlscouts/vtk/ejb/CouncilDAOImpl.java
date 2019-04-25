@@ -4,7 +4,7 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException;
+import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -14,11 +14,9 @@ import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.utils.ModifyNodePermissions;
-import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +42,6 @@ public class CouncilDAOImpl implements CouncilDAO {
     private UserUtil userUtil;
     @Reference
     private ModifyNodePermissions permiss;
-    @Reference
 
     private Mapper mapper;
 
@@ -102,21 +99,24 @@ public class CouncilDAOImpl implements CouncilDAO {
             classes.add(Milestone.class);
             classes.add(Troop.class);
             Mapper mapper = new AnnotationMapperImpl(classes);
-            String vtkBase = VtkUtil.getYearPlanBase(user, null);
+            String vtkCouncilBase = troop.getCouncilPath();
+            vtkCouncilBase = vtkCouncilBase.substring(0,vtkCouncilBase.lastIndexOf("/"));
             rr = sessionFactory.getResourceResolver();
             session = rr.adaptTo(Session.class);
-            if (!session.itemExists(vtkBase)) {
-                permiss.modifyNodePermissions(vtkBase, "vtk");
-                permiss.modifyNodePermissions("/content/dam/girlscouts-vtk/troop-data" + VtkUtil.getCurrentGSYear() + "/", "vtk");
+            if (!session.itemExists(vtkCouncilBase)) {
+                JcrUtils.getOrCreateByPath(vtkCouncilBase,"nt:unstructured", session);
+                permiss.modifyNodePermissions(vtkCouncilBase, "vtk");
+                permiss.modifyNodePermissions("/content/dam/girlscouts-vtk/troop-data" + vtkCouncilBase + "/", "vtk");
             }
-            council = troop.getCouncil();
             ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            if (!ocm.objectExists(council.getPath())) {
+            if (!ocm.objectExists(troop.getCouncilPath())) {
+                council = new Council();
+                council.setPath(troop.getCouncilPath());
                 ocm.insert(council);
                 ocm.save();
             } else {
-                log.debug(">>>>>>>>>>> INFO : CouncilDAOImpl.createCouncil skipped because council already exists: " + council.getPath());
-                council = (Council)ocm.getObject(Council.class, council.getPath());
+                log.debug(">>>>>>>>>>> INFO : CouncilDAOImpl.createCouncil skipped because council already exists: " + troop.getCouncilPath());
+                council = (Council)ocm.getObject(Council.class, troop.getCouncilPath());
             }
         } catch (Exception e) {
             log.error("Error occurred: ",e);
@@ -138,62 +138,22 @@ public class CouncilDAOImpl implements CouncilDAO {
 
     public Council getOrCreateCouncil(User user, Troop troop){
         //TODO Permission.PERMISSION_LOGIN_ID
-        Council troopCouncil = troop.getCouncil();
-        Council councilRepoData = findCouncil(user, troopCouncil.getPath());
+        Council councilRepoData = findCouncil(user, troop.getCouncilPath());
         if(councilRepoData == null){
             councilRepoData = createCouncil(user, troop);
         }
         return councilRepoData;
     }
 
-    public void updateCouncil(User user, Council council){
-        //TODO Permission.PERMISSION_LOGIN_ID
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = sessionFactory.getResourceResolver();
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Council.class);
-            classes.add(YearPlan.class);
-            classes.add(MeetingE.class);
-            classes.add(Location.class);
-            classes.add(Cal.class);
-            classes.add(Activity.class);
-            classes.add(Asset.class);
-            classes.add(SentEmail.class);
-            classes.add(JcrNode.class);
-            classes.add(Milestone.class);
-            classes.add(Troop.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            ocm.update(council);
-            ocm.save();
-        } catch (Exception e) {
-            log.error("Error occurred:", e);
-        } finally {
-            try {
-                if (session != null) {
-                    session.logout();
-                }
-                if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
-                }
-            } catch (Exception ex) {
-                log.error("Error occurred:", ex);
-            }
-        }
-    }
-
-    public List<Milestone> getCouncilMilestones(User user, String councilCode){
+    public List<Milestone> getCouncilMilestones(User user, Troop troop){
         //TODO Permission.PERMISSION_VIEW_MILESTONE_ID
-        CouncilInfo list = getCouncilInfo(user, councilCode);
+        CouncilInfo list = getCouncilInfo(user, troop);
         List<Milestone> milestones = list.getMilestones();
         sortMilestonesByDate(milestones);
         return milestones;
     }
 
-    private CouncilInfo getCouncilInfo(User user, String councilCode) {
+    private CouncilInfo getCouncilInfo(User user, Troop troop) {
         Session session = null;
         ResourceResolver rr = null;
         CouncilInfo cinfo = null;
@@ -208,50 +168,47 @@ public class CouncilDAOImpl implements CouncilDAO {
             QueryManager queryManager = ocm.getQueryManager();
             Filter filter = queryManager.createFilter(CouncilInfo.class);
             Query query = queryManager.createQuery(filter);
-
-            String path = VtkUtil.getYearPlanBase(user, null) + councilCode + "/councilInfo";
+            String path = troop.getCouncilPath() + "/councilInfo";
             if (session.itemExists(path)) {
                 cinfo = (CouncilInfo) ocm.getObject(path);
-                if (cinfo == null)
-                    log.error("OCM failed to retrieve " + VtkUtil.getYearPlanBase(null, null) + councilCode
-                            + "/councilInfo !!!");
+                if (cinfo == null) {
+                    log.error("OCM failed to retrieve " + troop.getCouncilPath() + "/councilInfo !!!");
+                }
                 if (cinfo.getMilestones() == null) {
-                    List<Milestone> milestones = getAllMilestones(councilCode);
+                    List<Milestone> milestones = getAllMilestones(troop.getCouncilCode());
                     cinfo.setMilestones(milestones);
                     ocm.update(cinfo);
                     ocm.save();
                 }
             } else {
-                if (!session.itemExists(VtkUtil.getYearPlanBase(null, null) + councilCode)) {
+                if (!session.itemExists(troop.getCouncilPath())) {
                     // create council, need user permission
-                    log.error(VtkUtil.getYearPlanBase(null, null) + councilCode + "does NOT exist!!!");
+                    log.error(troop.getCouncilPath()+ "does NOT exist!!!");
                 }
                 cinfo = new CouncilInfo(path);
-                List<Milestone> milestones = getAllMilestones(councilCode);
+                List<Milestone> milestones = getAllMilestones(troop.getCouncilCode());
                 cinfo.setMilestones(milestones);
                 ocm.insert(cinfo);
                 ocm.save();
             }
-
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         } finally {
             try {
-                if (session != null)
+                if (session != null) {
                     session.logout();
-
-                if (rr != null)
+                }
+                if (rr != null) {
                     sessionFactory.closeResourceResolver(rr);
+                }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                log.error("Error occurred: ", ex);
             }
         }
         return cinfo;
     }
 
-    public void updateCouncilMilestones(User user, java.util.List<Milestone> milestones, String cid)
-            throws IllegalAccessException {
-
+    public void updateCouncilMilestones(User user, List<Milestone> milestones, Troop troop) throws IllegalAccessException {
         //TODO: permissions here Permission.PERMISSION_EDIT_MILESTONE_ID
         Session session = null;
         ResourceResolver rr = null;
@@ -262,16 +219,13 @@ public class CouncilDAOImpl implements CouncilDAO {
             classes.add(Milestone.class);
             classes.add(CouncilInfo.class);
             Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-                    mapper);
-            CouncilInfo list = getCouncilInfo(user, cid);
+            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
+            CouncilInfo list = getCouncilInfo(user, troop);
             java.util.List<Milestone> oldMilestones = list.getMilestones();
             sortMilestonesByDate(oldMilestones);
             int i = 0;
             for (; i < oldMilestones.size(); i++) {
-                if (milestones.size() > i
-                        && oldMilestones.get(i).getBlurb()
-                        .equals(milestones.get(i).getBlurb())) {
+                if (milestones.size() > i && oldMilestones.get(i).getBlurb().equals(milestones.get(i).getBlurb())) {
                     oldMilestones.get(i).setDate(milestones.get(i).getDate());
                     oldMilestones.get(i).setShow(milestones.get(i).getShow());
                     continue;
@@ -287,24 +241,25 @@ public class CouncilDAOImpl implements CouncilDAO {
             ocm.update(list);
             ocm.save();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         } finally {
             try {
-                if (session != null)
+                if (session != null) {
                     session.logout();
-
-                if (rr != null)
+                }
+                if (rr != null) {
                     sessionFactory.closeResourceResolver(rr);
+                }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                log.error("Error occurred: ", ex);
             }
         }
     }
 
 
-    private java.util.List<Milestone> getAllMilestones(String councilCode) {
+    private List<Milestone> getAllMilestones(String councilCode) {
         String councilPath = councilMapper.getCouncilBranch(councilCode);
-        java.util.List<Milestone> milestones = new ArrayList<Milestone>();
+        List<Milestone> milestones = new ArrayList<Milestone>();
         Session session = null;
         ResourceResolver rr = null;
         try {
@@ -312,17 +267,14 @@ public class CouncilDAOImpl implements CouncilDAO {
             session = rr.adaptTo(Session.class);
             List<Class> classes = new ArrayList<Class>();
             classes.add(Milestone.class);
-
             Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-                    mapper);
+            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
             if (session.itemExists(councilPath + "/en/milestones")) {
                 QueryManager queryManager = ocm.getQueryManager();
                 Filter filter = queryManager.createFilter(Milestone.class);
                 filter.setScope(councilPath + "/en/milestones//");
                 Query query = queryManager.createQuery(filter);
                 milestones = (List<Milestone>) ocm.getObjects(query);
-
                 String newGSYearDateString = "";
                 try {
                     newGSYearDateString = VtkUtil.getNewGSYearDateString();
@@ -330,7 +282,6 @@ public class CouncilDAOImpl implements CouncilDAO {
                     // TODO: use joda time
                     Date newGSYearDate = format.parse(newGSYearDateString);
                     newGSYearDate.setYear(new Date().getYear());
-
                     Date startDate, endDate;
                     if (new Date().compareTo(newGSYearDate) >= 0) {
                         // New troop year has started for this calendar year.
@@ -345,7 +296,6 @@ public class CouncilDAOImpl implements CouncilDAO {
                         startDate = new Date(newGSYearDate.getTime());
                         startDate.setYear(new Date().getYear() - 1);
                     }
-
                     List<Milestone> filteredMilestones = new ArrayList<Milestone>();
                     for (Milestone milestone : milestones) {
                         if (milestone.getDate().before(endDate) && milestone.getDate().compareTo(startDate) >= 0) {
@@ -354,18 +304,15 @@ public class CouncilDAOImpl implements CouncilDAO {
                     }
                     milestones = filteredMilestones;
                 } catch (ParseException pe) {
-                    log.warn("ParseException MMdd for new year " + newGSYearDateString + "\n" +
-                            "No milestones have been filtered.");
+                    log.warn("ParseException MMdd for new year " + newGSYearDateString + "\n" + "No milestones have been filtered.", pe);
                 }
-
                 sortMilestonesByDate(milestones);
             } else {
                 log.error(councilPath + "/en/milestones does NOT exist!");
                 return milestones;
             }
-
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (session != null) {
@@ -375,7 +322,7 @@ public class CouncilDAOImpl implements CouncilDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                log.error("Error occurred: ", ex);
             }
         }
         return milestones;
@@ -412,7 +359,6 @@ public class CouncilDAOImpl implements CouncilDAO {
         allowedReportUsers.add("005G0000006oBVG");
         allowedReportUsers.add("005g0000002G004");
         boolean isHtml = false;
-
         java.util.Map<String, String> cTrans = new java.util.TreeMap();
         cTrans.put("597", "Girl Scouts of Northeast Texas");
         cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
@@ -445,7 +391,6 @@ public class CouncilDAOImpl implements CouncilDAO {
         cTrans.put("514", "Eastern IA & Western IL");
         cTrans.put("524", "Greater Iowa");
         cTrans.put("430", "Greater Chicago and NW  Indiana");
-
         cTrans.put("578", "Central Texas");
         cTrans.put("208", "Kentuckiana");
         cTrans.put("700", "USA Girl Scouts Overseas");
@@ -477,8 +422,6 @@ public class CouncilDAOImpl implements CouncilDAO {
         cTrans.put("687", "Eastern Washington and Northern Idaho");
         cTrans.put("441", "Southwest Indiana");
         cTrans.put("238", "Ohio's Heartland");
-
-
         StringBuffer sb = new StringBuffer();
         try {
             rr = sessionFactory.getResourceResolver();
@@ -486,11 +429,8 @@ public class CouncilDAOImpl implements CouncilDAO {
             sb.append("Council Report generated on " + format1.format(new java.util.Date()) + " \n ");
             String limitRptToCouncil = null;
             limitRptToCouncil = limitRptToCouncil == null ? "" : limitRptToCouncil.trim();
-
-            java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
-
+            HashSet<String> ageGroups = new HashSet<String>();
             String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where isdescendantnode( '" + VtkUtil.getYearPlanBase(null, null) + "" + (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil + "/")) + "') and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
-
             javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
             javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
             java.util.Map container = new java.util.TreeMap();
@@ -505,19 +445,15 @@ public class CouncilDAOImpl implements CouncilDAO {
                 }
                 try {
                     sfTroopAge = r.getValue("sfTroopAge").getString();
-		                /*if(!sfTroopAge.toUpperCase().equals("7-MULTI-LEVEL") && !sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
-		                    continue;
-		                    }
-		                    */
                 } catch (Exception e) {
                 }
                 Integer counter = (Integer) container.get(sfCouncil + "|" + sfTroopAge);
-                if (counter == null)
+                if (counter == null) {
                     container.put(sfCouncil + "|" + sfTroopAge, new Integer(0));
-                else
+                } else {
                     container.put(sfCouncil + "|" + sfTroopAge, new Integer(counter.intValue() + 1));
+                }
             }
-
             java.util.Iterator itr = container.keySet().iterator();
             while (itr.hasNext()) {
                 String key = (String) itr.next();
@@ -525,11 +461,9 @@ public class CouncilDAOImpl implements CouncilDAO {
                 String ageGroup = key.substring(key.indexOf("|") + 1);
                 Integer count = (Integer) container.get(key);
                 sb.append((isHtml ? "<br/>" : "\n") + "\"" + cTrans.get(councilId) + "\"," + councilId + "," + ageGroup + "," + count);
-
             }
-
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (session != null) {
@@ -539,20 +473,16 @@ public class CouncilDAOImpl implements CouncilDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                log.error("Error occurred: ", ex);
             }
         }
         //save to db
         String rptId = councilRpt.saveRpt(sb);
-
         //email rpt
         councilRpt.emailRpt(sb.toString(), "GS Monthly Report"); //"/vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
     }
 
-
     public void GSMonthlyDetailedRpt(String year) {
-
-
         Session session = null;
         ResourceResolver rr = null;
         Set<String> allowedReportUsers = new HashSet<String>();
@@ -561,14 +491,10 @@ public class CouncilDAOImpl implements CouncilDAO {
         allowedReportUsers.add("005G0000006oBVG");
         allowedReportUsers.add("005g0000002G004");
         allowedReportUsers.add("005G0000006oEjsIAE");
-
-
         StringBuffer sb = new StringBuffer();
-
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
         sb.append("Council Report generated on " + format1.format(new java.util.Date()) + " \n");
-
         java.util.Map<String, String> cTrans = new java.util.TreeMap();
         cTrans.put("597", "Girl Scouts of Northeast Texas");
         cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys Inc.");
@@ -632,28 +558,23 @@ public class CouncilDAOImpl implements CouncilDAO {
         cTrans.put("687", "Eastern Washington and Northern Idaho");
         cTrans.put("441", "Southwest Indiana");
         cTrans.put("238", "Ohio's Heartland");
-
         String limitRptToCouncil = null;//request.getParameter("limitRptToCouncil");
         limitRptToCouncil = limitRptToCouncil == null ? "" : limitRptToCouncil.trim();
-
         List<String> councils = VtkUtil.getCouncils();
         String gsYear = null;
-
-        if (year == null || "".equals(year))
+        if (year == null || "".equals(year)) {
             gsYear = VtkUtil.getYearPlanBase(null, null);
-        else
+        } else {
             gsYear = "/vtk" + year + "/";
-
+        }
         try {
             rr = sessionFactory.getResourceResolver();
             session = rr.adaptTo(Session.class);
             for (String council : councils) {
                 String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:unstructured where isdescendantnode( '" + gsYear + "" + council + "/') and ocm_classname= 'org.girlscouts.vtk.models.Troop' and id not like 'SHARED_%'";
-
                 javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
                 javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
                 javax.jcr.query.QueryResult result = q.execute();
-
                 for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
                     javax.jcr.query.Row r = it.nextRow();
                     javax.jcr.Node n = r.getNode();
@@ -661,10 +582,10 @@ public class CouncilDAOImpl implements CouncilDAO {
                     try {
                         n1 = n.getNode("yearPlan");
                     } catch (javax.jcr.PathNotFoundException pnfe) {
-                        System.err.println("Year Plan path not found");
+                        log.error("Year Plan path not found: ", pnfe);
                     }
                     if (n1 == null) {
-                        System.err.println("Year Plan doesnt exists. skipping record " + n.getPath());
+                        log.debug("Year Plan doesnt exists. skipping record " + n.getPath());
                         continue;
                     }
 
@@ -685,20 +606,16 @@ public class CouncilDAOImpl implements CouncilDAO {
                         sfCouncil = r.getValue("sfCouncil").getString();
                     } catch (Exception e) {
                     }
-
                     try {
                         sfTroopAge = r.getValue("sfTroopAge").getString();
 
                     } catch (Exception e) {
                     }
-
                     sb.append("\n \"" + cTrans.get(sfCouncil) + "\"," + sfCouncil + "," + sfTroopAge + ",\"" + yearPlanName + "\"," + sfTroopId + "," + sfTroopName);
-
                 }//edn for
             }//edn for
-
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (session != null) {
@@ -708,16 +625,12 @@ public class CouncilDAOImpl implements CouncilDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                log.error("Error occurred: ", ex);
             }
         }
-
         //email rpt
         councilRpt.emailRpt(sb.toString(), "GS Detailed Report");
-
-
     }
-
 
     public void GSRptCouncilPublishFinance() {
         Session session = null;
@@ -730,7 +643,6 @@ public class CouncilDAOImpl implements CouncilDAO {
         allowedReportUsers.add("005G0000006oBVG");
         allowedReportUsers.add("005g0000002G004");
         boolean isHtml = false;
-
         java.util.Map<String, String> cTrans = new java.util.TreeMap();
         cTrans.put("597", "Girl Scouts of Northeast Texas");
         cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
@@ -794,15 +706,11 @@ public class CouncilDAOImpl implements CouncilDAO {
         cTrans.put("687", "Eastern Washington and Northern Idaho");
         cTrans.put("441", "Southwest Indiana");
         cTrans.put("238", "Ohio's Heartland");
-
-
         StringBuffer sb = new StringBuffer();
         try {
             java.util.List<String> councils = getCouncils(VtkUtil.getYearPlanBase(null, null));
             rr = sessionFactory.getResourceResolver();
             session = rr.adaptTo(Session.class);
-
-
             for (int i = 0; i < councils.size(); i++) {
                 String councilId = councils.get(i);
                 java.util.Date submitTime = null;
@@ -817,18 +725,14 @@ public class CouncilDAOImpl implements CouncilDAO {
                         } catch (Exception e) {
                         }
                     }
-
-
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error occurred: ", e);
                 }
-
                 sb.append((isHtml ? "<br/>" : "\n") + "\"" + cTrans.get(councilId) + "\"," + councilId + "," + (submitTime == null ? "N/A" : submitTime));
             }
-
             councilRpt.emailRpt(sb.toString(), "Report - Current # of Council's Who have Published Finance Form 2.0");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (session != null) {
@@ -838,36 +742,30 @@ public class CouncilDAOImpl implements CouncilDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                log.error("Error occurred: ", ex);
             }
         }
-
-
     }
 
-    public java.util.List<String> getCouncils(String currYearPath) {
-        java.util.List<String> councils = new java.util.ArrayList();
+    public List<String> getCouncils(String currYearPath) {
+        List<String> councils = new ArrayList();
         Session session = null;
         ResourceResolver resourceResolver = null;
         try {
-
             resourceResolver = sessionFactory.getResourceResolver();
             session = resourceResolver.adaptTo(Session.class);
-            //ResourceResolver resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);
             Resource myResource = resourceResolver.getResource(currYearPath);
-            if (myResource == null) return null;
-
+            if (myResource == null) {
+                return null;
+            }
             Iterable<Resource> rcouncils = myResource.getChildren();
             for (Resource rcouncil : rcouncils) {
                 String councilPath = rcouncil.getPath();
-
                 String council = councilPath.substring(councilPath.lastIndexOf("/") + 1);
-
                 councils.add(council);
             }
-
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (session != null) {
@@ -877,10 +775,9 @@ public class CouncilDAOImpl implements CouncilDAO {
                     sessionFactory.closeResourceResolver(resourceResolver);
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                log.error("Error occurred: ", ex);
             }
         }
         return councils;
     }
-
 }

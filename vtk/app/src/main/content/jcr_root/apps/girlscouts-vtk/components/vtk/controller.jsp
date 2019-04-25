@@ -19,11 +19,10 @@
                 java.awt.image.BufferedImage,
                 java.io.ByteArrayInputStream,
                 java.io.ByteArrayOutputStream,
-                java.util.Collections,
-                java.util.LinkedList,
-                java.util.StringTokenizer" %>
-<%@ page import="org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
-<%@ page import="org.codehaus.jackson.map.ObjectMapper" %>
+                org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
+                org.codehaus.jackson.map.ObjectMapper,
+                java.util.*,
+                org.apache.commons.beanutils.BeanComparator" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects/>
@@ -466,7 +465,7 @@
                                     sEmail.setHtmlDiff("tessss123");
                                 }
                             }
-                            java.util.Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
+                            Comparator<Activity> comp = new BeanComparator("activityNumber");
                             Collections.sort(_activities, comp);
                         }
                     }
@@ -569,7 +568,7 @@
                     //start milestone
                     try {
                         if (selectedTroop.getYearPlan() != null) {
-                            selectedTroop.getYearPlan().setMilestones(yearPlanUtil.getCouncilMilestones(user, "" + selectedTroop.getSfCouncil()));
+                            selectedTroop.getYearPlan().setMilestones(yearPlanUtil.getCouncilMilestones(user, selectedTroop));
                         }
                     } catch (Exception e) {
                         vtklog.error("Exception occured:", e);

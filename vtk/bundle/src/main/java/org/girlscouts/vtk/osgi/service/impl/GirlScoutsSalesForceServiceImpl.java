@@ -5,7 +5,6 @@ import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.auth.permission.RollType;
 import org.girlscouts.vtk.mapper.*;
 import org.girlscouts.vtk.models.Contact;
-import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.osgi.conf.GirlScoutsSalesForceServiceConfig;
@@ -258,26 +257,24 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 troop.setTroopId(user.getSfUserId());
                 troop.setId(user.getSfUserId());
             }
-            setTroopPermissions(troop, user.isAdmin());
             troop.setSfUserId(user.getSfUserId());
-            setTroopPath(troop);
-            Council council = new Council();
-            String path = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
-            if(sumCouncilCode.equals(troop.getCouncilCode())){
-                path += "/" + troop.getSfUserId();
-            }
-            council.setPath(path);
-            troop.setCouncil(council);
+            setTroopPermissions(troop, user.isAdmin());
+            setTroopPaths(troop);
         }
         user.setTroops(mergedTroops);
     }
 
-    private void setTroopPath(Troop troop) {
-        String path = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
-        if(sumCouncilCode.equals(troop.getCouncilCode())){
-            path += "/"+troop.getSfUserId();
+    private void setCouncilPath(Troop troop) {
+        String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
+        if (sumCouncilCode.equals(troop.getCouncilCode()) || irmCouncilCode.equals(troop.getCouncilCode())) {
+            councilPath += "/" + troop.getSfUserId();
         }
-        path += "/troops/" + troop.getSfTroopId();
+        troop.setCouncilPath(councilPath);
+    }
+
+    private void setTroopPaths(Troop troop) {
+        setCouncilPath(troop);
+        String path = troop.getCouncilPath()+"/troops/" + troop.getSfTroopId();
         troop.setPath(path);
     }
 

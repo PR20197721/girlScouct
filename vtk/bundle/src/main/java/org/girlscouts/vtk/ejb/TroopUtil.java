@@ -36,37 +36,8 @@ public class TroopUtil {
     @Reference
     private YearPlanUtil yearPlanUtil;
 
-    public Troop getTroop(User user, String councilId, String troopId)
-            throws IllegalAccessException, VtkException {
-
-        Troop troop = null;
-        troop = troopDAO.getTroop(user, councilId, troopId);
-        if (troop == null) {
-            return troop;
-        }
-        if (troop != null && troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null) {
-            Comparator<MeetingE> comp = new BeanComparator("id");
-            Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
-            for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
-                troop.getYearPlan().getMeetingEvents().get(i).setId(i);
-            }
-        }
-
-        if (troop.getYearPlan() == null) {
-            return troop;
-        }
-
-        yearPlanUtil.checkCanceledActivity(user, troop);
-        if (troop.getYearPlan() != null && troop.getYearPlan().getCalFreq() == null) {
-            troop.getYearPlan().setCalFreq("biweekly");
-        }
-        doDbReset(troop);
-        return troop;
-
-    }
-
     public Troop getTroopByPath(User user, String troopPath) throws IllegalAccessException, VtkException {
-        Troop troop = troopDAO.getTroop_byPath(user, troopPath);
+        Troop troop = troopDAO.getTroopByPath(user, troopPath);
         if (troop != null) {
             if (troop.getYearPlan() != null) {
                 if (troop.getYearPlan().getMeetingEvents() != null) {
@@ -84,7 +55,6 @@ public class TroopUtil {
             }
         }
         return troop;
-
     }
 
     private void doDbReset(Troop troop) {
@@ -126,28 +96,20 @@ public class TroopUtil {
 
             }
         }
-
     }
 
     // check if info was updated and need to pull from DB fresh copy
     public boolean isUpdated(Troop troop) {
-
         java.util.Date lastUpdate = yearPlanDAO.getLastModif(troop);
         if (lastUpdate != null && troop.getRetrieveTime().before(lastUpdate)) {
             troop.setRefresh(true);
             return true;
         }
         return false;
-
     }
 
     public void createCouncil(User user, Troop troop) throws IllegalAccessException, VtkException {
         Council council = councilDAO.getOrCreateCouncil(user, troop);
-    }
-
-    public void logout(User user, Troop troop)
-            throws java.lang.IllegalAccessException {
-
     }
 
     public void addAsset(User user, Troop troop, String meetingUid, Asset asset)
@@ -389,7 +351,6 @@ public class TroopUtil {
             newSelectedTroop.setYearPlan(newSelectedTroopRepoData.getYearPlan());
             newSelectedTroop.setCurrentTroop(newSelectedTroopRepoData.getCurrentTroop());
         }
-        logout(user, selectedTroop);
         session.setAttribute("VTK_troop", newSelectedTroop);
         session.setAttribute("VTK_planView_memoPos", null);
         session.setAttribute("vtk_cachable_contacts", null);

@@ -26,7 +26,7 @@ String councilId = request.getParameter("cid")==null? councilCode:request.getPar
 			method="POST" id="MileStoneForm">
 			<input type="hidden" name="cid" value="<%=councilId%>" />
 			<%int i=0;
-    		java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(user, councilId) ;
+    		java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(user, selectedTroop) ;
     		for(; i<milestones.size(); i++ ) { %>
 			<section id="ms-section" class="row">
 

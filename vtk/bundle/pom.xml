@@ -300,6 +300,7 @@
 							org.apache.commons.io,
 							org.apache.commons.io.output,
 							org.apache.commons.mail,
+                            org.apache.commons.beanutils,
 							org.apache.jackrabbit.api,
 							org.apache.jackrabbit.api.security,
 							org.apache.jackrabbit.api.security.user,
