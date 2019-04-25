@@ -9,12 +9,17 @@ String facebookLink = properties.get("facebookLink", "");
 String resultPage = properties.get("resultPage", currentPage.getPath());
 String[] images = properties.get("images", String[].class);
 String relativeResultPath;
+String relativeCurrentPath;
 try{
     relativeResultPath = resourceResolver.map(resultPage).substring(resourceResolver.map(resultPage).indexOf("/en"));
 }catch(Exception e){
     relativeResultPath = resourceResolver.map(resultPage);
 }
-String relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
+try{
+    relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
+}catch(Exception e){
+    relativeCurrentPath = currentPage.getPath();
+}
 if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.length == 0)) {
     %>Cookie Landing Component. Double click here to edit.<%
 } else {

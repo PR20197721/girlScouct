@@ -19,12 +19,17 @@ public String generateId() {
 final String text = properties.get("text", "");
 final String resultPath = properties.get("results", "");
 String relativeResultPath;
+String relativeCurrentPath;
 try{
     relativeResultPath = resourceResolver.map(resultPath).substring(resourceResolver.map(resultPath).indexOf("/en"));
 }catch(Exception e){
     relativeResultPath = resourceResolver.map(resultPath);
 }
-String relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
+try{
+    relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
+}catch(Exception e){
+    relativeCurrentPath = currentPage.getPath();
+}
 Resource image = resource.getChild("image");
 if (image == null) {
 	if(WCMMode.fromRequest(request) == WCMMode.EDIT){

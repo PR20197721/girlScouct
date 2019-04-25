@@ -8,12 +8,17 @@ String resultPath = properties.get("resultPage", currentPage.getPath());
 String formBgImage = properties.get("formbgimages", currentPage.getPath());
 String images = properties.get("images", "");
 String relativeResultPath;
+String relativeCurrentPath;
 try{
     relativeResultPath = resourceResolver.map(resultPath).substring(resourceResolver.map(resultPath).indexOf("/en"));
 }catch(Exception e){
     relativeResultPath = resourceResolver.map(resultPath);
 }
-String relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
+try{
+    relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
+}catch(Exception e){
+    relativeCurrentPath = currentPage.getPath();
+}
 if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == "")) {
    %>Camp Landing Hero. Double click here to edit.<%
 } else {

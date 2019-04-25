@@ -9,12 +9,17 @@ boolean councilName = properties.get("council-name", false);
 String path = properties.get("path","");
 String councilCode = slingRequest.getParameter("council-code") != null ? slingRequest.getParameter("council-code") : "";
 String relativeResultPath;
+String relativeCurrentPath;
 try{
     relativeResultPath = resourceResolver.map(path).substring(resourceResolver.map(path).indexOf("/en"));
 }catch(Exception e){
     relativeResultPath = resourceResolver.map(path);
 }
-String relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
+try{
+    relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
+}catch(Exception e){
+    relativeCurrentPath = currentPage.getPath();
+}
 if (path.equals("") || (!zip && !state && !councilName) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
     %><p>**Please select at least one search type</p><% 
 } else if (zip || state || councilName) {
