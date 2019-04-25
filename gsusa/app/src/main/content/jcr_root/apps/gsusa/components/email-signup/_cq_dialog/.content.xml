@@ -200,7 +200,7 @@
                 </items>
             </thankyou-image>
             
-            <sfmc2
+            <sfmc
                 jcr:primaryType="nt:unstructured"
                 jcr:title="SFMC"
                 sling:resourceType="granite/ui/components/foundation/container">
@@ -212,23 +212,29 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">                        	
-                            
+                            <councilid
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Council ID"
+                                fieldLabel="Council ID"
+                                name="./cid"
+                                required="true"/>
                             <source-select
                             	jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/select"
                                 class="cq-dialog-dropdown-showhide"
                                 cq-dialog-dropdown-showhide-target=".text-image-hide-show1"
-                                fieldLabel="Choose Source Option"
-                                fieldDescription="Omit or add Source for SFMC"
+                                fieldLabel="Send Extra Field Data"
+                                fieldDescription="SFMC Attribute"
                                 name="./sourceoption">
                                 <items jcr:primaryType="nt:unstructured">
                                 	<none
                                 		jcr:primaryType="nt:unstructured"
-                                		text="None"
+                                		text="No"
                                 		value="none" />
                                 	<source
                                 		jcr:primaryType="nt:unstructured"
-                                		text="Add Source"
+                                		text="Send Extra Field Data"
                                 		value="pair" />
                                 </items>
                             </source-select>
@@ -265,15 +271,15 @@
                             					jcr:primaryType="nt:unstructured"
                             					sling:resourceType="granite/ui/components/foundation/form/textfield"
                             					name="./source"
-                            					fieldLabel="SFMC Source Field Name"
-                            					fieldDescription="SFMC Source Field Name"
+                            					fieldLabel="Field Name"
+                            					fieldDescription="Field Name"
                             					validationPattern="string" />
                             				<sourcevalue
                             					jcr:primaryType="nt:unstructured"
                             					sling:resourceType="granite/ui/components/foundation/form/textfield"
                             					name="./sourcevalue"
-                            					fieldLabel="SFMC Source Value Name"
-                            					fieldDescription="SFMC Source Value"
+                            					fieldLabel="Value"
+                            					fieldDescription="Source Value"
                             					validationPattern="string" />           					
                             			</items>
                             		</well>
@@ -363,7 +369,7 @@
                         </items>
                     </columns>
                 </items>
-            </sfmc2>
+            </sfmc>
         
         
         </items>

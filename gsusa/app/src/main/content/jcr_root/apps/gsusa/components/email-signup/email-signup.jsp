@@ -127,7 +127,7 @@ $(document).ready(function(){
 				alert("Error: Council ID is missing!");
 			//else if (dename.length == 0)
 			//	alert("Error: DataExtension Name is missing!");
-			else if (dekey.length == 0 && tsID.length == 0)
+			else if (dekey.length == 0 && tskey.length == 0)
 				alert("Error: Please enter Data Extension Key or Trigger Send ID!");
 			else
 				post(this, url, sfmc, email, cid, tskey, dekey, deemail, source, sourceValue, sourceOption);
