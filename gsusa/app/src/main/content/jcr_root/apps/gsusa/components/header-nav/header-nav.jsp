@@ -94,7 +94,7 @@ if(currentNode.hasNode("navs")){
 	<!-- OFF CANVAS MENU BAR -->
 	<nav class="tab-bar hide-for-medium-up"><%
         String imgAlt = properties.get("imageAlt", "");
-        String headerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/header-nav";  
+        String headerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/header-nav";
         String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/logo";
         Boolean sticky = false;
         try {
@@ -110,22 +110,89 @@ if(currentNode.hasNode("navs")){
         		</div><%
 
             }
+            if(currentNode.hasNode("navs")){
+            	Node navss= currentNode.getNode("navs");
+                NodeIterator iterr = navss.getNodes();
+            %><section class="top-bar-section mobile">
+            			<ul>
+            			<%
+            		    while(iterr.hasNext()){
+            		    	try{
+            					Node linkNode = iterr.nextNode();
+            					String smallLabel = linkNode.hasProperty("small-label") ? linkNode.getProperty("small-label").getString() : "";
+            					String clazz = linkNode.hasProperty("class") ? linkNode.getProperty("class").getString() : "";
+            					String path = linkNode.hasProperty("path") ? linkNode.getProperty("path").getString() : "";
+            					Boolean hideInDesktop = linkNode.hasProperty("hide-in-desktop") ? linkNode.getProperty("hide-in-desktop").getBoolean() : false;
+            					Boolean hideInMobile = linkNode.hasProperty("hide-in-mobile") ? linkNode.getProperty("hide-in-mobile").getBoolean() : false;
+            					Boolean rootLandingPage = linkNode.hasProperty("root-landing-page") ? linkNode.getProperty("root-landing-page").getBoolean() : false;
+            					Boolean newWindow = linkNode.hasProperty("new-window") ? linkNode.getProperty("new-window").getBoolean() : false;
+            					Iterator <Page> slingResourceIter;
+                                String slingResourceType = "girlscouts/components/placeholder-page";
+                        		String contentResourceType="";
+                                try {
+                                    contentResourceType = resource.getResourceResolver().getResource(path+"/jcr:content").getResourceType();
+                                    if(contentResourceType.equals(slingResourceType)){
+                                        slingResourceIter = resource.getResourceResolver().getResource(path).adaptTo(Page.class).listChildren();
+                                        if(slingResourceIter.hasNext()){
+                                            Page firstChild =  slingResourceIter.next();
+                                            path = genLink(resourceResolver, firstChild.getPath());
+                                        }
+                                    }
+                                }catch(Exception e){
+            						log.error("Unable to create placeholder page downlink for GSUSA header-nav component. " +
+                                              "Due to exception: " + e.getClass().getName() + " with message: " + e.getMessage());
+                                }
+
+
+            					String target = newWindow ? "target=\"_blank\"" : "target=\"_self\"";
+            					long headerNavTabindex = 40 + iter.getPosition();
+            					String topPath = rePath(path,4);
+            					String activeClass = "";
+            					Page linkPage = resourceResolver.resolve(path).adaptTo(Page.class);
+            					if(!resourceResolver.resolve(path).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+            						if (linkPage != null && !path.contains(".html")) {
+            							path += ".html";
+            						}
+            						if (currentPage.getPath().startsWith(topPath)) {
+            							activeClass = "active";
+            						}
+            					}
+            					if (!smallLabel.isEmpty() && !hideInMobile) {
+            						if (activeClass.equals("")) { %>
+            							<li id="tag_topnav_<%= linkifyString(smallLabel, 25)%>">
+            						<% } else {%>
+            							<li id="tag_topnav_<%= linkifyString(smallLabel, 25)%>" class="<%=activeClass%>">
+            						<%
+            						}
+            						if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) { %>
+            		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-small-only" href="<%= path %>" title="<%= smallLabel %>" tabindex="<%= headerNavTabindex %>"><%= smallLabel %></a>
+            		                <% } else { %>
+            		                   <a <%= target %> class="show-for-small-only" href="<%= path %>" title="<%= smallLabel %>" tabindex="<%= headerNavTabindex %>"><%= smallLabel %></a>
+            		                <% }
+            		                %>
+            					  </li>
+            					<%
+            					}
+            		    	}catch(Exception e){
+            		    		log.error("Creation of component GSUSA header-nav failed. " +
+                                              "Due to exception: " + e.getClass().getName() + " with message: " + e.getMessage());
+            		    	}
+            		    }
+            			%>
+            			</ul>
+            		</section><%
+            		}
+
         } catch(Exception e) {
 			log.error("GSUSA header-nav component mobile version image rendition failed." +
                                   "Due to exception: " + e.getClass().getName() + " with message: " + e.getMessage());
         }
-        %><section class="search-section">
-<%-- 		   <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" /> --%>
-		   <cq:include script="/apps/gsusa/components/search-box/mobile.jsp" /> 
-		</section>
-		<section class="toggle-section right-small">
-			<a class="right-off-canvas-toggle menu-icon" role="button" href="#"><span></span></a>
-		</section>
-		<cq:include path="content/middle/pdf-print" resourceType="girlscouts/components/pdf-print" />
+        %>
+        <cq:include path="content/middle/pdf-print" resourceType="girlscouts/components/pdf-print" />
 	</nav>
 	<section id="mobileSearch" style="display: none;">
-        <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
-    </section>
+	    <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
+	</section>
     <div class="tab-bar-placeholder"></div>
 	<!-- END NAV.TAB-BAR HIDE-FOR-LARGE-UP -->
 
