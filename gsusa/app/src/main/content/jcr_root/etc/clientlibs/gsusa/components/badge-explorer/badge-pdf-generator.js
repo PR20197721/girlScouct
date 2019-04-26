@@ -247,7 +247,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 	/*
 	 * Separates pages to fit in a standard PDF.  Pages are allowed max of 840px not including header.
 	 */
-	var MAX_PDF_PAGE_HEIGHT = 825;
+	var MAX_PDF_PAGE_HEIGHT = 820;
 	function separatePages(source){
 		var allElements = source.find('.BadgeExplorerElementPdfComponent');
 		var headerDom = $('.BadgePdfLogoWrapper').add('.BadgePdfHeaderTitle').add('.BadgePdfHeader');
