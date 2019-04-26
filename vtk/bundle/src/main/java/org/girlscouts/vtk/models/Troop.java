@@ -48,6 +48,7 @@ public class Troop implements Serializable {
     private boolean isDbUpdate = false;
     private String participationCode;
     private String councilPath;
+    private String hash;
 
     public Troop() {
         this.type = 0;
@@ -261,11 +262,11 @@ public class Troop implements Serializable {
 
     public void setParticipationCode(String participationCode) { this.participationCode = participationCode; }
 
-    public String getCouncilPath() {
-        return councilPath;
-    }
+    public String getCouncilPath() { return councilPath; }
 
-    public void setCouncilPath(String councilPath) {
-        this.councilPath = councilPath;
-    }
+    public void setCouncilPath(String councilPath) { this.councilPath = councilPath;}
+
+    public String getHash() { return hash;}
+
+    public void setHash(String hash) { this.hash = hash;}
 }

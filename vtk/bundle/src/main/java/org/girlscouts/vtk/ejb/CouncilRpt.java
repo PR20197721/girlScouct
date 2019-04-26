@@ -8,7 +8,6 @@ import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.settings.SlingSettingsService;
-import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;

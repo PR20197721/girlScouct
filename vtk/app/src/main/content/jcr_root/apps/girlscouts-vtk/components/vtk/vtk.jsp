@@ -7,7 +7,7 @@
 <%@include file="include/session.jsp"%>
 
 <%
-	if( selectedTroop.getYearPlan()!=null || ( selectedTroop.getRole() !=null &&  selectedTroop.getRole().equals("PA") ) ){
+	if( selectedTroop.getYearPlan() != null || ( selectedTroop.getRole() !=null && selectedTroop.getRole().equals("PA") && "IRM".equals(selectedTroop.getParticipationCode()))){
 		%><%@include file="plan.jsp"%><%
 	}else{
 		%><script>self.location="/content/girlscouts-vtk/en/vtk.explore.html"; </script><%

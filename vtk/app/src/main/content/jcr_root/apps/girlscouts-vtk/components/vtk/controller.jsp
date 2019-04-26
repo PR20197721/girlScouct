@@ -5,12 +5,15 @@
                 com.day.cq.wcm.api.components.DropTarget,
                 com.day.cq.wcm.foundation.Image,
                 com.day.image.Layer,
+                org.apache.commons.beanutils.BeanComparator,
                 org.apache.commons.codec.binary.Base64,
+                org.codehaus.jackson.map.ObjectMapper,
                 org.girlscouts.vtk.ejb.CouncilRpt,
                 org.girlscouts.vtk.ejb.EmailMeetingReminder,
                 org.girlscouts.vtk.ejb.VtkYearPlanChangeException,
                 org.girlscouts.vtk.helpers.TroopHashGenerator,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
+                org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
                 org.joda.time.LocalDate,
                 org.slf4j.Logger,
                 org.slf4j.LoggerFactory,
@@ -19,10 +22,10 @@
                 java.awt.image.BufferedImage,
                 java.io.ByteArrayInputStream,
                 java.io.ByteArrayOutputStream,
-                org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
-                org.codehaus.jackson.map.ObjectMapper,
-                java.util.*,
-                org.apache.commons.beanutils.BeanComparator" %>
+                java.util.Collections" %>
+<%@ page import="java.util.Comparator" %>
+<%@ page import="java.util.LinkedList" %>
+<%@ page import="java.util.StringTokenizer" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects/>
@@ -162,13 +165,12 @@
                     return;
                 case ReLogin:
                     VtkUtil.cngYear(request, user);
-                    troopUtil.reLogin(user, selectedTroop, request.getParameter("loginAs"), session);
+                    troopUtil.selectTroopForView(user, request.getParameter("loginAs"), session);
                     // Generator the new troopDataToken so the client can fetch data from the dispatcher.
                     Troop newTroop = (Troop) session.getAttribute("VTK_troop");
                     String troopId = newTroop.getTroopId();
                     TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
-                    String token = generator.hash(troopId);
-                    Cookie cookie = new Cookie("troopDataToken", token);
+                    Cookie cookie = new Cookie("troopDataToken", newTroop.getHash());
                     cookie.setPath("/");
                     response.addCookie(cookie);
                     return;
@@ -541,10 +543,9 @@
                     if (userTroops != null && userTroops.size() > 0) {
                         prefTroop = userTroops.get(0);
                     }
-                    for (int ii = 0; ii < userTroops.size(); ii++) {
-                        if (userTroops.get(ii).getTroopId()
-                                .equals(selectedTroop.getSfTroopId())) {
-                            prefTroop = userTroops.get(ii);
+                    for (Troop userTroop:userTroops) {
+                        if (userTroop.getSfTroopId().equals(selectedTroop.getSfTroopId())) {
+                            prefTroop = userTroop;
                             break;
                         }
                     }
@@ -561,9 +562,10 @@
                     }
                     Troop selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
                     //end archive
-                    selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
-                    //selectedTroop.setPath(selectedTroopRepoData.getPath());
-                    selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
+                    if(selectedTroopRepoData != null){
+                        selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
+                        selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
+                    }
                     java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(user, selectedTroop, selectedTroop.getYearPlan(), true, true);
                     //start milestone
                     try {
@@ -632,10 +634,9 @@
                 if (userTroops != null && userTroops.size() > 0) {
                     prefTroop = userTroops.get(0);
                 }
-                for (int ii = 0; ii < userTroops.size(); ii++) {
-                    if (userTroops.get(ii).getTroopId()
-                            .equals(selectedTroop.getSfTroopId())) {
-                        prefTroop = userTroops.get(ii);
+                for (Troop userTroop:userTroops) {
+                    if (userTroop.getTroopId().equals(selectedTroop.getSfTroopId())) {
+                        prefTroop = userTroop;
                         break;
                     }
                 }
@@ -878,12 +879,10 @@
 } else if (request.getParameter("printTroopReloginids") != null) {
     vtklog.debug("printTroopReloginids");
 %><select id="reloginid" onchange="relogin()"><%
-    for (int i = 0; i < userTroops.size(); i++) {
+    for (Troop userTroop:userTroops) {
 %>
-    <option value="<%=userTroops.get(i).getTroopId()%>"
-            <%=selectedTroop.getTroopId().equals(userTroops.get(i).getTroopId()) ? "SELECTED"
-                    : ""%>><%=userTroops.get(i).getTroopName()%>
-        :  <%=userTroops.get(i).getGradeLevel()%>
+    <option value="<%=userTroop.getHash()%>"
+            <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%> : <%=userTroop.getGradeLevel()%>
     </option>
     <%
         }

@@ -133,6 +133,21 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
         return troopInfoResponseEntity;
     }
 
+    @Override
+    public UserInfoResponseEntity getIndependentRegisteredMember() {
+        UserInfoResponseEntity user = null;
+        String path = "";
+        try {
+            path = localJsonPath+localDummyFolder + "/irm_troops.json";
+            log.debug("Loading troops file from "+path);
+            String json = girlScoutsRepoFileIOService.readFile(path);
+            user = new Gson().fromJson(json, UserInfoResponseEntity.class);
+        } catch (Exception e) {
+            log.error("Error occurred getting independent registered member dummy user from repository ",e);
+        }
+        return user;
+    }
+
     private String getPath(ApiConfig apiConfig, String serviceName) {
         String path = "";
         if(!apiConfig.isDemoUser()) {

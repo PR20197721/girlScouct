@@ -316,19 +316,18 @@ public class TroopUtil {
 
     }
 
-    public void reLogin(User user, Troop selectedTroop, String newSelectedTroopId, HttpSession session) throws IllegalAccessException, VtkException {
-        if (newSelectedTroopId == null || newSelectedTroopId.trim().equals("")) {
+    public void selectTroopForView(User user, String newSelectedTroopHash, HttpSession session) throws IllegalAccessException, VtkException {
+        if (newSelectedTroopHash == null || newSelectedTroopHash.trim().equals("")) {
             log.error("loginAs invalid.abort");
             return;
         }
         List<Troop> troops = user.getTroops();
         session.setAttribute("USER_TROOP_LIST", troops);
         Troop newSelectedTroop = null;
-        for (int i = 0; i < troops.size(); i++) {
+        for (Troop troop:user.getTroops()) {
             try {
-                if (troops.get(i).getTroopId().equals(newSelectedTroopId) || troops.get(i).getGradeLevel().equals(newSelectedTroopId)) {
-                    newSelectedTroop = troops.get(i);
-                    newSelectedTroopId = newSelectedTroop.getTroopId(); // in demo env
+                if (troop.getHash().equals(newSelectedTroopHash) || troop.getGradeLevel().equals(newSelectedTroopHash)) {
+                    newSelectedTroop = troop;
                     break;
                 }
             } catch (Exception e) {
