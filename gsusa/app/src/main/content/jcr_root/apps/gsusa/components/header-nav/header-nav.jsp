@@ -3,6 +3,8 @@
 				com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
+<%@taglib prefix="ui" uri="http://www.adobe.com/taglibs/granite/ui/1.0" %>
+<ui:includeClientLib categories="apps.gsusa.components.header-nav" />
 <%
 if(currentNode.hasNode("navs")){
 	Node navs = currentNode.getNode("navs");
@@ -121,6 +123,9 @@ if(currentNode.hasNode("navs")){
 		</section>
 		<cq:include path="content/middle/pdf-print" resourceType="girlscouts/components/pdf-print" />
 	</nav>
+	<section id="mobileSearch" style="display: none;">
+        <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
+    </section>
     <div class="tab-bar-placeholder"></div>
 	<!-- END NAV.TAB-BAR HIDE-FOR-LARGE-UP -->
 
