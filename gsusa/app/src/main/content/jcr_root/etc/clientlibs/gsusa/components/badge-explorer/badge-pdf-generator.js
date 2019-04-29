@@ -297,7 +297,13 @@ window.BadgePdfGenerator = (function(window, $, document){
                     if(text.length > 800){
                         $($(allElements[i]).find(".BadgePdfDescription")).children().last().remove();
                     }
-                    $($(allElements[i]).find("ol")).append("<li><strong style='width: 100px'><a style='color:#00AE58; text-decoration: none' href='https://www.girlscouts.org/en/our-program/badges/badge_explorer.html#"+title+"' target='_blank'>Please see badge for more details...</a></strong></li>");
+                    var destination;
+                    if(window.location.href.indexOf("/uat.") > -1){
+                        destination = "uat.girlscouts.org";
+                    }else{
+                        destination = "www.girlscouts.org";
+                    }
+                    $($(allElements[i]).find("ol")).append("<li><strong style='width: 100px'><a style='color:#00AE58; text-decoration: none' href='https://"+destination+"/en/our-program/badges/badge_explorer.html#"+title+"' target='_blank'>Please see badge for more details...</a></strong></li>");
                     $($(allElements[i]).find(".BadgePdfDescription")).append(linkEl);
                 }
             }

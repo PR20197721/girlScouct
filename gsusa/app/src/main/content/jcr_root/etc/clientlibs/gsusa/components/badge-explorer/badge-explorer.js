@@ -29,8 +29,9 @@ $(document).ready(function () {
     }
 
     if(window.location.href.indexOf('#') > -1){
+        var substring = window.location.href.substring(window.location.href.indexOf('#')+1);
         var badgeToOpen = window.location.href.substring(window.location.href.indexOf('#')+1);
-        $(document.getElementById("Journey:_aMAZE!")).find(".badge-image-wrapper").click()
+        $(document.getElementById(substring)).find(".badge-image-wrapper").click()
     }
 
     $(".submenu label").each(function () {
