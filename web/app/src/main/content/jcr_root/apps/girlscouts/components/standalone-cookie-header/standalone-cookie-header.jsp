@@ -94,8 +94,8 @@ $(document).ready(function(){
 
 	    var zip = $(this).find('input[name="zip-code"]').val(),
 	    	loc = "<%=resourceResolver.map(cookieBoothLink)%>.html";
-	    if(!loc.includes("https"))
-	        loc = loc.replace("http", "https");
+	    if(!loc.includes("https:"))
+	        loc = loc.replace("http:", "https:");
 	    var redirectUrl = loc;
 	    var currentUrl = window.location.href;
 	    var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
