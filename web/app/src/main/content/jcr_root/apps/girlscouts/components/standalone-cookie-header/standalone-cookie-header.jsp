@@ -25,7 +25,7 @@ final boolean disableInDesktop = properties.get("disableindesktop", false);
 final String shareSectionIcon = properties.get("icon", "icon-social-facebook");
 final String shareSectionText = properties.get("sharetext", "Follow Girl Scouts Cookies");
 String shareSectionLink = properties.get("sharelink", "https://www.facebook.com/GirlScoutCookieProgram/");
-final String cookieBoothLink = properties.get("cookieboothlink", "http://www.girlscouts.org/en/cookies/cookies");
+final String cookieBoothLink = properties.get("cookieboothlink", "/content/gsusa/en/cookies/cookies");
 final String id = generateId();
 Resource thumbnail = resource.getChild("thumbnail");
 String filePath = "";
@@ -40,7 +40,7 @@ if(thumbnail != null) {
 		thumbnailNode.save();
 		thumbnail = resource.getChild("thumbnail");
 	}catch(Exception e){
-		
+
 	}
 	filePath = "/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder.png";
 }
@@ -57,7 +57,7 @@ if (mobileImage != null) {
 		mobileImageNode.save();
 		mobileImage = resource.getChild("mobileimage");
 	}catch(Exception e){
-		
+
 	}
 	mobileImagePath = "/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder-mobile.png";
 }
@@ -93,7 +93,7 @@ $(document).ready(function(){
 		}
 
 	    var zip = $(this).find('input[name="zip-code"]').val(),
-	    	loc = "<%=resourceResolver.map(cookieBoothLink)%>.html";
+	    	loc = "<%=cookieBoothLink%>.html";
 	    var redirectUrl = loc;
 	    var currentUrl = window.location.href;
 	    var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
