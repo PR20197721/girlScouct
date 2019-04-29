@@ -25,7 +25,7 @@ final boolean disableInDesktop = properties.get("disableindesktop", false);
 final String shareSectionIcon = properties.get("icon", "icon-social-facebook");
 final String shareSectionText = properties.get("sharetext", "Follow Girl Scouts Cookies");
 String shareSectionLink = properties.get("sharelink", "https://www.facebook.com/GirlScoutCookieProgram/");
-final String cookieBoothLink = properties.get("cookieboothlink", "/content/gsusa/en/cookies/cookies");
+final String cookieBoothLink = properties.get("cookieboothlink", "https://www.girlscouts.org/en/cookies/cookies");
 final String id = generateId();
 Resource thumbnail = resource.getChild("thumbnail");
 String filePath = "";
@@ -93,7 +93,9 @@ $(document).ready(function(){
 		}
 
 	    var zip = $(this).find('input[name="zip-code"]').val(),
-	    	loc = "<%=cookieBoothLink%>.html";
+	    	loc = "<%=resourceResolver.map(cookieBoothLink)%>.html";
+	    if(!loc.includes("https"))
+	        loc = loc.replace("http", "https");
 	    var redirectUrl = loc;
 	    var currentUrl = window.location.href;
 	    var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
