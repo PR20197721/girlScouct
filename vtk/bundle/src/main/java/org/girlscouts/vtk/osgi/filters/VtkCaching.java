@@ -1,21 +1,5 @@
-package org.girlscouts.vtk.impl.filters;
+package org.girlscouts.vtk.osgi.filters;
 
-
-
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Dictionary;
-import java.util.StringTokenizer;
-
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -26,6 +10,13 @@ import org.girlscouts.vtk.utils.VtkUtil;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Dictionary;
+import java.util.StringTokenizer;
 
 @Component(metatype = true, immediate = true)
 @Properties({ 

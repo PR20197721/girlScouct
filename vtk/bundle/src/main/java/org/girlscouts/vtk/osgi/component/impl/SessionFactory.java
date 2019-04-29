@@ -1,10 +1,8 @@
-package org.girlscouts.vtk.impl.helpers;
+package org.girlscouts.vtk.osgi.component.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.jcr.LoginException;
-import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.felix.scr.annotations.Component;
@@ -12,7 +10,6 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.jcr.api.SlingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

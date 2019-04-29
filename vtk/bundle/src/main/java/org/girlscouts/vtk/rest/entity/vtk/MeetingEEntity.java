@@ -3,11 +3,10 @@ package org.girlscouts.vtk.rest.entity.vtk;
 import com.google.gson.annotations.SerializedName;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class MeetingE extends BaseEntity{
+public class MeetingEEntity extends BaseEntity{
 
     @SerializedName("path")
 	private String path;
@@ -16,7 +15,7 @@ public class MeetingE extends BaseEntity{
     @SerializedName("locationRef")
 	private String locationRef;
     @SerializedName("meetingInfo")
-	private Meeting meetingInfo;
+	private MeetingEntity meetingInfo;
     @SerializedName("cancelled")
 	private String cancelled;
     @SerializedName("id")
@@ -26,17 +25,17 @@ public class MeetingE extends BaseEntity{
     @SerializedName("emlTemplate")
 	private String emlTemplate;
     @SerializedName("assets")
-	private List<Asset> assets;
+	private List<AssetEntity> assets;
     @SerializedName("sentEmails")
-	private List<SentEmail> sentEmails;
+	private List<SentEmailEntity> sentEmails;
     @SerializedName("lastAssetUpdate")
 	private Date lastAssetUpdate;
     @SerializedName("attendance")
-	private Attendance attendance;
+	private AttendanceEntity attendance;
     @SerializedName("achievement")
-	private Achievement achievement;
+	private AchievementEntity achievement;
     @SerializedName("notes")
-	private List<Note> notes;
+	private List<NoteEntity> notes;
     @SerializedName("isAnyOutdoorActivityInMeeting")
 	private boolean isAnyOutdoorActivityInMeeting;
     @SerializedName("isAnyOutdoorActivityInMeetingAvailable")
@@ -76,11 +75,11 @@ public class MeetingE extends BaseEntity{
         this.locationRef = locationRef;
     }
 
-    public Meeting getMeetingInfo() {
+    public MeetingEntity getMeetingInfo() {
         return meetingInfo;
     }
 
-    public void setMeetingInfo(Meeting meetingInfo) {
+    public void setMeetingInfo(MeetingEntity meetingInfo) {
         this.meetingInfo = meetingInfo;
     }
 
@@ -116,19 +115,19 @@ public class MeetingE extends BaseEntity{
         this.emlTemplate = emlTemplate;
     }
 
-    public List<Asset> getAssets() {
+    public List<AssetEntity> getAssets() {
         return assets;
     }
 
-    public void setAssets(List<Asset> assets) {
+    public void setAssets(List<AssetEntity> assets) {
         this.assets = assets;
     }
 
-    public List<SentEmail> getSentEmails() {
+    public List<SentEmailEntity> getSentEmails() {
         return sentEmails;
     }
 
-    public void setSentEmails(List<SentEmail> sentEmails) {
+    public void setSentEmails(List<SentEmailEntity> sentEmails) {
         this.sentEmails = sentEmails;
     }
 
@@ -140,27 +139,27 @@ public class MeetingE extends BaseEntity{
         this.lastAssetUpdate = lastAssetUpdate;
     }
 
-    public Attendance getAttendance() {
+    public AttendanceEntity getAttendance() {
         return attendance;
     }
 
-    public void setAttendance(Attendance attendance) {
+    public void setAttendance(AttendanceEntity attendance) {
         this.attendance = attendance;
     }
 
-    public Achievement getAchievement() {
+    public AchievementEntity getAchievement() {
         return achievement;
     }
 
-    public void setAchievement(Achievement achievement) {
+    public void setAchievement(AchievementEntity achievement) {
         this.achievement = achievement;
     }
 
-    public List<Note> getNotes() {
+    public List<NoteEntity> getNotes() {
         return notes;
     }
 
-    public void setNotes(List<Note> notes) {
+    public void setNotes(List<NoteEntity> notes) {
         this.notes = notes;
     }
 

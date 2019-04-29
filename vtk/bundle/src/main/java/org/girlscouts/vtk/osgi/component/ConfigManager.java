@@ -1,11 +1,7 @@
-package org.girlscouts.vtk.helpers;
-
-import org.girlscouts.vtk.osgi.component.ConfigListener;
+package org.girlscouts.vtk.osgi.component;
 
 public interface ConfigManager {
 	void register(ConfigListener listener);
-
 	String getConfig(String key);
-	
 	String[] getCouncilMapping();
 }

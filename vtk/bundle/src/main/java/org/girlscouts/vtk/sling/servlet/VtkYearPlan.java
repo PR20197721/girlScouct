@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.impl.servlets;
+package org.girlscouts.vtk.sling.servlet;
 
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;

@@ -2,7 +2,7 @@ package org.girlscouts.vtk.rest.entity.vtk;
 
 import com.google.gson.annotations.SerializedName;
 
-public class EmailMeetingReminder extends BaseEntity {
+public class EmailMeetingReminderEntity extends BaseEntity {
 
     @SerializedName("to")
 	private String to;

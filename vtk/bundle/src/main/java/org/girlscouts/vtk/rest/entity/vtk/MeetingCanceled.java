@@ -1,195 +1,150 @@
-package org.girlscouts.vtk.models;
+package org.girlscouts.vtk.rest.entity.vtk;
 
-import java.io.Serializable;
-
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import com.google.gson.annotations.SerializedName;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
+import java.util.Date;
+import java.util.List;
 
-@Node
-public class MeetingCanceled extends YearPlanComponent implements Serializable{
+public class MeetingCanceled extends BaseEntity{
 
-	public MeetingCanceled(){
-		super.setType(YearPlanComponentType.MEETINGCANCELED);
-		this.uid = "MC" + new java.util.Date().getTime();
-	}
-	
-	@Field(path = true)
-	String path;
-	
-	@Field
-	private String refId; // path to meetingInfo template
-
-	@Field
+    @SerializedName("path")
+	private String path;
+    @SerializedName("refId")
+	private String refId;
+    @SerializedName("locationRef")
 	private String locationRef;
-	private Meeting meetingInfo;
-
-	@Field
+    @SerializedName("meetingInfo")
+	private MeetingEntity meetingInfo;
+    @SerializedName("cancelled")
 	private String cancelled;
-
-	@Field
+    @SerializedName("id")
 	private Integer id;
-
-	@Field(id = true)
-	String uid;
-	
-	@Field
+    @SerializedName("uid")
+	private String uid;
+    @SerializedName("emlTemplate")
 	private String emlTemplate;
+    @SerializedName("assets")
+	private List<AssetEntity> assets;
+    @SerializedName("sentEmails")
+	private List<SentEmailEntity> sentEmails;
+    @SerializedName("lastAssetUpdate")
+    private Date lastAssetUpdate;
+    @SerializedName("date")
+	private Date date;
+    @SerializedName("isDbUpdate")
+    private boolean isDbUpdate;
+    @SerializedName("type")
+    private YearPlanComponentType type;
 
-	@Collection
-	java.util.List<Asset> assets;
-	
-	@Collection
-	java.util.List<SentEmail> sentEmails;
-	
-	@Field
-	java.util.Date lastAssetUpdate;
-	
-	@Field
-	private java.util.Date date;
-	
-	
-    private boolean isDbUpdate=false;
-	public java.util.Date getLastAssetUpdate() {
-		return lastAssetUpdate;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public void setLastAssetUpdate(java.util.Date lastAssetUpdate) {
-		if( (lastAssetUpdate !=null && this.lastAssetUpdate!=null && !this.lastAssetUpdate.equals(lastAssetUpdate)  )	||
-				(lastAssetUpdate!=null && this.lastAssetUpdate==null) )
-			isDbUpdate=true;
-		this.lastAssetUpdate = lastAssetUpdate;
-	
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-	public java.util.List<Asset> getAssets() {
-		return assets;
-	}
+    public String getRefId() {
+        return refId;
+    }
 
-	public void setAssets(java.util.List<Asset> assets) {
-		if( (assets !=null && this.assets!=null && !this.assets.equals(assets)  )	||
-				(assets!=null && this.assets==null) )
-			isDbUpdate=true;
-		this.assets = assets;
-		
-	}
+    public void setRefId(String refId) {
+        this.refId = refId;
+    }
 
-	public String getUid() {
-		return uid;
-	}
+    public String getLocationRef() {
+        return locationRef;
+    }
 
-	public void setUid(String uid) {
-		this.uid = uid;
-		if (uid == null)
-			this.uid = "M" + new java.util.Date().getTime() + "_"
-					+ Math.random();
-		
-	}
+    public void setLocationRef(String locationRef) {
+        this.locationRef = locationRef;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public MeetingEntity getMeetingInfo() {
+        return meetingInfo;
+    }
 
-	public void setId(Integer id) {
-		if( (id !=null && this.id!=null && !this.id.equals(id)  )	||
-				(id!=null && this.id==null) )
-			isDbUpdate=true;
-		this.id = id;
-		
-	}
+    public void setMeetingInfo(MeetingEntity meetingInfo) {
+        this.meetingInfo = meetingInfo;
+    }
 
-	public String getCancelled() {
-		return cancelled;
-	}
+    public String getCancelled() {
+        return cancelled;
+    }
 
-	public void setCancelled(String cancelled) {
-		if( (cancelled !=null && this.cancelled!=null && !this.cancelled.equals(cancelled)  )	||
-				(cancelled!=null && this.cancelled==null) )
-			isDbUpdate=true;
-		this.cancelled = cancelled;
-		
-	}
+    public void setCancelled(String cancelled) {
+        this.cancelled = cancelled;
+    }
 
-	public String getLocationRef() {
-		return locationRef;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setLocationRef(String locationRef) {
-		if( (locationRef !=null && this.locationRef!=null && !this.locationRef.equals(locationRef)  )	||
-				(locationRef!=null && this.locationRef==null) )
-			isDbUpdate=true;
-		
-		this.locationRef = locationRef;
-		
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Meeting getMeetingInfo() {
-		return meetingInfo;
-	}
+    public String getUid() {
+        return uid;
+    }
 
-	public void setMeetingInfo(Meeting meetingInfo) {
-		
-		this.meetingInfo = meetingInfo;
-		
-	}
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
-	public String getRefId() {
-		return refId;
-	}
+    public String getEmlTemplate() {
+        return emlTemplate;
+    }
 
-	public void setRefId(String refId) {
-		if( (refId !=null && this.refId!=null && !this.refId.equals(refId)  )	||
-				(refId!=null && this.refId==null) )
-			isDbUpdate=true;
-		this.refId = refId;
-		
-	}
+    public void setEmlTemplate(String emlTemplate) {
+        this.emlTemplate = emlTemplate;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public List<AssetEntity> getAssets() {
+        return assets;
+    }
 
-	public void setPath(String path) {
-		
-		if( (path !=null && this.path!=null && !this.path.equals(path)  )	||
-				(path!=null && this.path==null) )
-			isDbUpdate=true;
-		
-		this.path = path;
-		
-	}
-	
-	public java.util.List<SentEmail> getSentEmails() {
-		return sentEmails;
-	}
+    public void setAssets(List<AssetEntity> assets) {
+        this.assets = assets;
+    }
 
-	public void setSentEmails(java.util.List<SentEmail> emails) {
-		this.sentEmails = emails;
-	}
-	
-	public String getEmlTemplate() {
-		return emlTemplate;
-	}
+    public List<SentEmailEntity> getSentEmails() {
+        return sentEmails;
+    }
 
-	public void setEmlTemplate(String template) {
-		this.emlTemplate =  template;
-	}
-	
-	public boolean isDbUpdate() {
-		return isDbUpdate;
-	}
+    public void setSentEmails(List<SentEmailEntity> sentEmails) {
+        this.sentEmails = sentEmails;
+    }
 
-	public void setDbUpdate(boolean isDbUpdate) {
-		this.isDbUpdate = isDbUpdate;
-	}
+    public Date getLastAssetUpdate() {
+        return lastAssetUpdate;
+    }
 
-	public java.util.Date getDate() {
-		return date;
-	}
+    public void setLastAssetUpdate(Date lastAssetUpdate) {
+        this.lastAssetUpdate = lastAssetUpdate;
+    }
 
-	public void setDate(java.util.Date date) {
-		this.date = date;
-	}
-	
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public boolean isDbUpdate() {
+        return isDbUpdate;
+    }
+
+    public void setDbUpdate(boolean dbUpdate) {
+        isDbUpdate = dbUpdate;
+    }
+
+    public YearPlanComponentType getType() {
+        return type;
+    }
+
+    public void setType(YearPlanComponentType type) {
+        this.type = type;
+    }
 }

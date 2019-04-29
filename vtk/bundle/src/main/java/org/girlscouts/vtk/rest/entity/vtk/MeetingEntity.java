@@ -6,7 +6,7 @@ import org.girlscouts.vtk.dao.YearPlanComponentType;
 import java.util.List;
 import java.util.Map;
 
-public class Meeting extends BaseEntity {
+public class MeetingEntity extends BaseEntity {
 
     @SerializedName("type")
     private YearPlanComponentType type;
@@ -37,9 +37,9 @@ public class Meeting extends BaseEntity {
     @SerializedName("isAchievement")
 	private Boolean isAchievement;
     @SerializedName("activities")
-	private List<Activity> activities;
+	private List<ActivityEntity> activities;
     @SerializedName("meetingInfo")
-	private Map<String, JcrCollectionHoldString> meetingInfo;
+	private Map<String, JcrCollectionHoldStringEntity> meetingInfo;
     @SerializedName("meetingPlanType")
 	private String meetingPlanType;
     @SerializedName("meetingPlanTypeAlt")
@@ -161,19 +161,19 @@ public class Meeting extends BaseEntity {
         isAchievement = achievement;
     }
 
-    public List<Activity> getActivities() {
+    public List<ActivityEntity> getActivities() {
         return activities;
     }
 
-    public void setActivities(List<Activity> activities) {
+    public void setActivities(List<ActivityEntity> activities) {
         this.activities = activities;
     }
 
-    public Map<String, JcrCollectionHoldString> getMeetingInfo() {
+    public Map<String, JcrCollectionHoldStringEntity> getMeetingInfo() {
         return meetingInfo;
     }
 
-    public void setMeetingInfo(Map<String, JcrCollectionHoldString> meetingInfo) {
+    public void setMeetingInfo(Map<String, JcrCollectionHoldStringEntity> meetingInfo) {
         this.meetingInfo = meetingInfo;
     }
 

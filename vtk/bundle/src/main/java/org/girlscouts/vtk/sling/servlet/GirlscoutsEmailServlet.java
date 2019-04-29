@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.services;
+package org.girlscouts.vtk.sling.servlet;
 
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;

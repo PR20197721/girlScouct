@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.impl.servlets;
+package org.girlscouts.vtk.sling.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,7 +10,7 @@ import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
-import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;

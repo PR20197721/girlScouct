@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.helpers;
+package org.girlscouts.vtk.osgi.component;
 
 import org.girlscouts.vtk.models.Troop;
 

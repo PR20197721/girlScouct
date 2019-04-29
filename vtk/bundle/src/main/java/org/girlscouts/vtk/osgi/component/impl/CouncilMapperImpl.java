@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.impl.helpers;
+package org.girlscouts.vtk.osgi.component.impl;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -7,9 +7,9 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.vtk.helpers.ConfigListener;
-import org.girlscouts.vtk.helpers.ConfigManager;
-import org.girlscouts.vtk.helpers.CouncilMapper;
+import org.girlscouts.vtk.osgi.component.ConfigListener;
+import org.girlscouts.vtk.osgi.component.ConfigManager;
+import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,20 +1,16 @@
-package org.girlscouts.vtk.impl.filters;
+package org.girlscouts.vtk.osgi.filters;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
-import org.apache.felix.scr.annotations.*;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.sling.SlingFilter;
 import org.apache.felix.scr.annotations.sling.SlingFilterScope;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.*;
+import java.io.IOException;
 
 /**
  * Simple servlet filter component that logs incoming requests.

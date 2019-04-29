@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.impl.servlets;
+package org.girlscouts.vtk.sling.servlet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -5,7 +5,7 @@ import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 import java.util.Date;
 
-public class Milestone extends BaseEntity{
+public class MilestoneEntity extends BaseEntity{
 
     @SerializedName("path")
 	private String path;

@@ -2,7 +2,7 @@ package org.girlscouts.vtk.rest.entity.vtk;
 
 import com.google.gson.annotations.SerializedName;
 
-public class JcrCollectionHoldString extends BaseEntity {
+public class JcrCollectionHoldStringEntity extends BaseEntity {
 
     @SerializedName("str")
 	private String str;

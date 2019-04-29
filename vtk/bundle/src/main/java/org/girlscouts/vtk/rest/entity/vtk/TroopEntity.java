@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.Set;
 
-public class Troop extends BaseEntity{
+public class TroopEntity extends BaseEntity{
 
     @SerializedName("path")
     private String path;
     @SerializedName("yearPlan")
-    private YearPlan yearPlan;
+    private YearPlanEntity yearPlan;
     @SerializedName("id")
     private String id;
     @SerializedName("sfUserId")
@@ -50,7 +50,7 @@ public class Troop extends BaseEntity{
     @SerializedName("retrieveTime")
     private Date retrieveTime;
     @SerializedName("sendingEmail")
-    private EmailMeetingReminder sendingEmail;
+    private EmailMeetingReminderEntity sendingEmail;
     @SerializedName("isDbUpdate")
     private boolean isDbUpdate;
     @SerializedName("participationCode")
@@ -68,11 +68,11 @@ public class Troop extends BaseEntity{
         this.path = path;
     }
 
-    public YearPlan getYearPlan() {
+    public YearPlanEntity getYearPlan() {
         return yearPlan;
     }
 
-    public void setYearPlan(YearPlan yearPlan) {
+    public void setYearPlan(YearPlanEntity yearPlan) {
         this.yearPlan = yearPlan;
     }
 
@@ -228,11 +228,11 @@ public class Troop extends BaseEntity{
         this.retrieveTime = retrieveTime;
     }
 
-    public EmailMeetingReminder getSendingEmail() {
+    public EmailMeetingReminderEntity getSendingEmail() {
         return sendingEmail;
     }
 
-    public void setSendingEmail(EmailMeetingReminder sendingEmail) {
+    public void setSendingEmail(EmailMeetingReminderEntity sendingEmail) {
         this.sendingEmail = sendingEmail;
     }
 

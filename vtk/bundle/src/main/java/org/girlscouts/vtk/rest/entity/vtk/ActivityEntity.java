@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.List;
 
-public class Activity extends BaseEntity {
+public class ActivityEntity extends BaseEntity {
 
     @SerializedName("path")
 	private String path;
@@ -36,7 +36,7 @@ public class Activity extends BaseEntity {
     @SerializedName("locationRef")
 	private String locationRef;
     @SerializedName("assets")
-	private List<Asset> assets;
+	private List<AssetEntity> assets;
     @SerializedName("uid")
 	private String uid;
     @SerializedName("cost")
@@ -50,13 +50,13 @@ public class Activity extends BaseEntity {
     @SerializedName("emlTemplate")
 	private String emlTemplate;
     @SerializedName("sentEmails")
-	private List<SentEmail> sentEmails;
+	private List<SentEmailEntity> sentEmails;
     @SerializedName("isDbUpdate")
 	private boolean isDbUpdate;
     @SerializedName("img")
 	private String img;
     @SerializedName("attendance")
-	private Attendance attendance;
+	private AttendanceEntity attendance;
     @SerializedName("duration")
 	private int duration;
     @SerializedName("outdoor")
@@ -64,7 +64,7 @@ public class Activity extends BaseEntity {
     @SerializedName("global")
 	private Boolean global;
     @SerializedName("multiactivities")
-	private List<Activity> multiactivities;
+	private List<ActivityEntity> multiactivities;
     @SerializedName("subtitle")
 	private String subtitle;
     @SerializedName("isSelected")
@@ -182,11 +182,11 @@ public class Activity extends BaseEntity {
         this.locationRef = locationRef;
     }
 
-    public List<Asset> getAssets() {
+    public List<AssetEntity> getAssets() {
         return assets;
     }
 
-    public void setAssets(List<Asset> assets) {
+    public void setAssets(List<AssetEntity> assets) {
         this.assets = assets;
     }
 
@@ -238,11 +238,11 @@ public class Activity extends BaseEntity {
         this.emlTemplate = emlTemplate;
     }
 
-    public List<SentEmail> getSentEmails() {
+    public List<SentEmailEntity> getSentEmails() {
         return sentEmails;
     }
 
-    public void setSentEmails(List<SentEmail> sentEmails) {
+    public void setSentEmails(List<SentEmailEntity> sentEmails) {
         this.sentEmails = sentEmails;
     }
 
@@ -262,11 +262,11 @@ public class Activity extends BaseEntity {
         this.img = img;
     }
 
-    public Attendance getAttendance() {
+    public AttendanceEntity getAttendance() {
         return attendance;
     }
 
-    public void setAttendance(Attendance attendance) {
+    public void setAttendance(AttendanceEntity attendance) {
         this.attendance = attendance;
     }
 
@@ -294,11 +294,11 @@ public class Activity extends BaseEntity {
         this.global = global;
     }
 
-    public List<Activity> getMultiactivities() {
+    public List<ActivityEntity> getMultiactivities() {
         return multiactivities;
     }
 
-    public void setMultiactivities(List<Activity> multiactivities) {
+    public void setMultiactivities(List<ActivityEntity> multiactivities) {
         this.multiactivities = multiactivities;
     }
 

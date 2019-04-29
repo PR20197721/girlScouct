@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class YearPlan extends BaseEntity{
+public class YearPlanEntity extends BaseEntity{
 
     @SerializedName("path")
     private String path;
@@ -21,13 +21,13 @@ public class YearPlan extends BaseEntity{
     @SerializedName("resources")
     private String resources;
     @SerializedName("meetingEvents")
-    private List<MeetingE> meetingEvents;
+    private List<MeetingEEntity> meetingEvents;
     @SerializedName("activities")
-    private List<Activity> activities;
+    private List<ActivityEntity> activities;
     @SerializedName("schedule")
-    private Cal schedule;
+    private CalEntity schedule;
     @SerializedName("locations")
-    private List<Location> locations;
+    private List<LocationEntity> locations;
     @SerializedName("calStartDate")
     private Long calStartDate;
     @SerializedName("calFreq")
@@ -37,11 +37,11 @@ public class YearPlan extends BaseEntity{
     @SerializedName("isDbUpdate")
     private boolean isDbUpdate;
     @SerializedName("milestones")
-    private List<Milestone> milestones;
+    private List<MilestoneEntity> milestones;
     @SerializedName("meetingCanceled")
     private List<MeetingCanceled> meetingCanceled;
     @SerializedName("helper")
-    private Helper helper;
+    private HelperEntity helper;
 
     public String getPath() {
         return path;
@@ -99,35 +99,35 @@ public class YearPlan extends BaseEntity{
         this.resources = resources;
     }
 
-    public List<MeetingE> getMeetingEvents() {
+    public List<MeetingEEntity> getMeetingEvents() {
         return meetingEvents;
     }
 
-    public void setMeetingEvents(List<MeetingE> meetingEvents) {
+    public void setMeetingEvents(List<MeetingEEntity> meetingEvents) {
         this.meetingEvents = meetingEvents;
     }
 
-    public List<Activity> getActivities() {
+    public List<ActivityEntity> getActivities() {
         return activities;
     }
 
-    public void setActivities(List<Activity> activities) {
+    public void setActivities(List<ActivityEntity> activities) {
         this.activities = activities;
     }
 
-    public Cal getSchedule() {
+    public CalEntity getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(Cal schedule) {
+    public void setSchedule(CalEntity schedule) {
         this.schedule = schedule;
     }
 
-    public List<Location> getLocations() {
+    public List<LocationEntity> getLocations() {
         return locations;
     }
 
-    public void setLocations(List<Location> locations) {
+    public void setLocations(List<LocationEntity> locations) {
         this.locations = locations;
     }
 
@@ -163,11 +163,11 @@ public class YearPlan extends BaseEntity{
         isDbUpdate = dbUpdate;
     }
 
-    public List<Milestone> getMilestones() {
+    public List<MilestoneEntity> getMilestones() {
         return milestones;
     }
 
-    public void setMilestones(List<Milestone> milestones) {
+    public void setMilestones(List<MilestoneEntity> milestones) {
         this.milestones = milestones;
     }
 
@@ -179,11 +179,11 @@ public class YearPlan extends BaseEntity{
         this.meetingCanceled = meetingCanceled;
     }
 
-    public Helper getHelper() {
+    public HelperEntity getHelper() {
         return helper;
     }
 
-    public void setHelper(Helper helper) {
+    public void setHelper(HelperEntity helper) {
         this.helper = helper;
     }
 }

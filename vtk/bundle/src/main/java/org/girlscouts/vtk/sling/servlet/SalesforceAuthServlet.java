@@ -1,6 +1,5 @@
-package org.girlscouts.vtk.impl.servlets;
+package org.girlscouts.vtk.sling.servlet;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -11,10 +10,10 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.ejb.TroopUtil;
 import org.girlscouts.vtk.ejb.UserUtil;
 import org.girlscouts.vtk.ejb.VtkError;
-import org.girlscouts.vtk.helpers.ConfigListener;
-import org.girlscouts.vtk.helpers.ConfigManager;
-import org.girlscouts.vtk.helpers.CouncilMapper;
-import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.osgi.component.ConfigListener;
+import org.girlscouts.vtk.osgi.component.ConfigManager;
+import org.girlscouts.vtk.osgi.component.CouncilMapper;
+import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.sso.AccountSettings;
 import org.girlscouts.vtk.sso.AppSettings;
@@ -25,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.rmi.ServerException;
 import java.util.Dictionary;

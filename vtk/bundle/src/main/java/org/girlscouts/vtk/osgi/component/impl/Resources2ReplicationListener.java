@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.impl.helpers;
+package org.girlscouts.vtk.osgi.component.impl;
 
 import java.util.regex.Pattern;
 

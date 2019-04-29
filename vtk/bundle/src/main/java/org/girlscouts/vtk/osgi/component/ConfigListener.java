@@ -1,9 +1,6 @@
-package org.girlscouts.vtk.helpers;
+package org.girlscouts.vtk.osgi.component;
 
 import java.util.Dictionary;
-
-import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.api.SlingHttpServletResponse;
 
 public interface ConfigListener {
 	@SuppressWarnings("rawtypes")

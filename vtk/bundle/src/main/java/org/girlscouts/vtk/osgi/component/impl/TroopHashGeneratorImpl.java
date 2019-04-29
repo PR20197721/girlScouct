@@ -1,8 +1,8 @@
-package org.girlscouts.vtk.impl.helpers;
+package org.girlscouts.vtk.osgi.component.impl;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
-import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.models.Troop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

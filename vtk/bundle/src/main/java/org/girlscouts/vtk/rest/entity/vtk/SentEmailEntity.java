@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class SentEmail extends BaseEntity{
+public class SentEmailEntity extends BaseEntity{
 
     @SerializedName("addressList")
     private String addressList;
