@@ -2,7 +2,7 @@
 <!-- <input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()" class="button" /> -->
 
 	<%
-	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
+	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(selectedTroop.getYearPlan());
 	%>
     <div id="locMsg"></div>
 	<p>Select the <i class="icon-calendar"></i> to change the date, time, or cancel an individual meeting. 
@@ -20,7 +20,7 @@
 			}
 			MeetingE meeting = (MeetingE)sched.get(date);
 			currentMeeting++;
-			Meeting _meeting= yearPlanUtil.getMeeting( user, troop, meeting.getRefId() ); 
+			Meeting _meeting= yearPlanUtil.getMeeting( user, selectedTroop, meeting.getRefId() );
 		%>
 		<tr>
 		  <td>

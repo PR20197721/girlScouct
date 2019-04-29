@@ -16,6 +16,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.models.*;
+import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.vtk.utils.ModifyNodePermissions;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
@@ -33,7 +34,7 @@ import java.util.*;
 public class CouncilDAOImpl implements CouncilDAO {
     private final Logger log = LoggerFactory.getLogger("vtk");
     @Reference
-    org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
+    CouncilMapper councilMapper;
     @Reference
     CouncilRpt councilRpt;
     @Reference

@@ -7,12 +7,11 @@
                 com.day.image.Layer,
                 org.apache.commons.beanutils.BeanComparator,
                 org.apache.commons.codec.binary.Base64,
-                org.codehaus.jackson.map.ObjectMapper,
                 org.girlscouts.vtk.ejb.CouncilRpt,
                 org.girlscouts.vtk.ejb.EmailMeetingReminder,
                 org.girlscouts.vtk.ejb.VtkYearPlanChangeException,
-                org.girlscouts.vtk.helpers.TroopHashGenerator,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
+                org.girlscouts.vtk.auth.permission.Permission,
                 org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
                 org.joda.time.LocalDate,
                 org.slf4j.Logger,
@@ -26,6 +25,7 @@
 <%@ page import="java.util.Comparator" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="java.util.StringTokenizer" %>
+<%@ page import="com.google.gson.Gson" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects/>
@@ -169,7 +169,6 @@
                     // Generator the new troopDataToken so the client can fetch data from the dispatcher.
                     Troop newTroop = (Troop) session.getAttribute("VTK_troop");
                     String troopId = newTroop.getTroopId();
-                    TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
                     Cookie cookie = new Cookie("troopDataToken", newTroop.getHash());
                     cookie.setPath("/");
                     response.addCookie(cookie);
@@ -277,7 +276,7 @@
             emr.setEmailToSelf("true");
             emr.setTo(user.getApiConfig().getUser().getEmail());
             if (email_to_gp.equals("true")) {
-                java.util.List<Contact> contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsByTroopId(user.getApiConfig(), selectedTroop.getSfTroopId());
+                java.util.List<Contact> contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
                 String emails = null;
                 for (int i = 0; i < contacts.size(); i++) {
                     String contactEmail = contacts.get(i).getEmail();
@@ -395,9 +394,9 @@
                     if (userTroops != null && userTroops.size() > 0) {
                         prefTroop = userTroops.get(0);
                     }
-                    for (int ii = 0; ii < userTroops.size(); ii++) {
-                        if (userTroops.get(ii).getTroopId().equals(selectedTroop.getSfTroopId())) {
-                            prefTroop = userTroops.get(ii);
+                    for (Troop userTroop:userTroops) {
+                        if (userTroop.getHash().equals(selectedTroop.getHash())) {
+                            prefTroop = userTroop;
                             break;
                         }
                     }
@@ -500,11 +499,11 @@
                         helper.setAttendanceTotal(attendanceTotal);
                         selectedTroop.getYearPlan().setHelper(helper);
                         session.setAttribute("VTK_troop", selectedTroop);
-                        ObjectMapper mapper = new ObjectMapper();
                         try {
                             response.setContentType("application/json");
-                            out.println(mapper.writeValueAsString(selectedTroop).replaceAll("mailto:", "")
-                                    .replaceAll("</a>\"</a>", "</a>").replaceAll("\"</a>\"", ""));
+                            Gson gson = new Gson();
+                            String json = gson.toJson(selectedTroop);
+                            out.println(json.replaceAll("mailto:", "").replaceAll("</a>\"</a>", "</a>").replaceAll("\"</a>\"", ""));
                         } catch (Exception ee) {
                             vtklog.error("Exception occured:", ee);
                         }
@@ -525,7 +524,6 @@
             vtklog.debug("yearPlanSched");
             try {
                 if (selectedTroop.getYearPlan() == null) {
-                    ObjectMapper mapper = new ObjectMapper();
                     out.println("{\"yearPlan\":\"NYP\"}");
                     return;
                 }
@@ -544,7 +542,7 @@
                         prefTroop = userTroops.get(0);
                     }
                     for (Troop userTroop:userTroops) {
-                        if (userTroop.getSfTroopId().equals(selectedTroop.getSfTroopId())) {
+                        if (userTroop.getHash().equals(selectedTroop.getHash())) {
                             prefTroop = userTroop;
                             break;
                         }
@@ -610,9 +608,10 @@
                         }
                     }
                     response.setContentType("application/json");
-                    ObjectMapper mapper = new ObjectMapper();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(sched);
                     out.println("{\"yearPlan\":\"" + selectedTroop.getYearPlan().getName() + "\",\"schedule\":");
-                    out.println(mapper.writeValueAsString(sched).replaceAll("mailto:", ""));
+                    out.println(json.replaceAll("mailto:", ""));
                     out.println("}");
                 }
             } catch (Exception e) {
@@ -635,7 +634,7 @@
                     prefTroop = userTroops.get(0);
                 }
                 for (Troop userTroop:userTroops) {
-                    if (userTroop.getTroopId().equals(selectedTroop.getSfTroopId())) {
+                    if (userTroop.getHash().equals(selectedTroop.getHash())) {
                         prefTroop = userTroop;
                         break;
                     }
@@ -679,8 +678,9 @@
                 java.util.List<Activity> _activities = new java.util.ArrayList();
                 _activities.add(currentActivity);
                 yearPlan.setActivities(_activities);
-                ObjectMapper mapper = new ObjectMapper();
-                out.println(mapper.writeValueAsString(yearPlan));
+                Gson gson = new Gson();
+                String json = gson.toJson(yearPlan);
+                out.println(json);
             }
         } else if (request.getParameter("isRmTroopImg") != null) {
             vtklog.debug("isRmTroopImg");
@@ -995,7 +995,9 @@
     Note note = null;
     try {
         List<Note> notes = meetingUtil.addNote(user, selectedTroop, request.getParameter("mid"), request.getParameter("message"));
-        out.println(new ObjectMapper().writeValueAsString(notes));
+        Gson gson = new Gson();
+        String json = gson.toJson(notes);
+        out.println(json);
     } catch (Exception e) {
         vtklog.error("Exception occured:", e);
     }
@@ -1012,14 +1014,18 @@
         response.sendError(404, "Note not removed.");
     } else {
         java.util.List<Note> notes = meetingUtil.getNotesByMid(user, selectedTroop, request.getParameter("mid"));
-        out.println(new ObjectMapper().writeValueAsString(notes));
+        Gson gson = new Gson();
+        String json = gson.toJson(notes);
+        out.println(json);
     }
 } else if (request.getParameter("editNote") != null) {
     out.println("{vtkresp:" + meetingUtil.editNote(user, selectedTroop, request.getParameter("nid"), request.getParameter("msg")) + "}");
 } else if (request.getParameter("getNotes") != null) {
     response.setContentType("application/json");
     java.util.List<Note> notes = meetingUtil.getNotesByMid(user, selectedTroop, request.getParameter("mid"));
-    out.println(new ObjectMapper().writeValueAsString(notes));
+    Gson gson = new Gson();
+    String json = gson.toJson(notes);
+    out.println(json);
 } else if (request.getParameter("addMeetings") != null) {
     meetingUtil.addMeetings(user, selectedTroop, request.getParameterValues("addMeetingMulti"));
 %>

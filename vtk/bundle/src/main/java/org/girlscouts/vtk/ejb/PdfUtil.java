@@ -17,7 +17,7 @@ import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.vtk.helpers.ConfigManager;
+import org.girlscouts.vtk.osgi.component.ConfigManager;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;

@@ -1,6 +1,6 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 <%@ page import="com.google.common.collect .*"%>
-<%@ page import="org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
+<%@ page import="org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService, org.girlscouts.vtk.auth.permission.Permission" %>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery-te-1.4.0.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
@@ -11,7 +11,7 @@
 		contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
 	}
 	if( contacts==null ){
-		contacts =	sling.getService(GirlScoutsSalesForceService.class).getContactsByTroopId(user.getApiConfig(), selectedTroop.getSfTroopId());
+		contacts =	sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}
@@ -124,7 +124,7 @@
               <dt data-target="panel2">
                 <h3 class="on"><%=selectedTroop.getSfTroopName() %> VOLUNTEERS</h3>
                 <% if(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
-                  <a style="float:right;margin-right: 20px" href="<%= sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("communityUrl")%>/Membership_Troop_Renewal">Add a New Volunteer <img width="30px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/arrow2-right_yellow.png" valign="middle"> </a>
+                  <a style="float:right;margin-right: 20px" href="<%= sling.getService(ConfigManager.class).getConfig("communityUrl")%>/Membership_Troop_Renewal">Add a New Volunteer <img width="30px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/arrow2-right_yellow.png" valign="middle"> </a>
                  <%} %>
               </dt>
               <dd class="accordion-navigation">

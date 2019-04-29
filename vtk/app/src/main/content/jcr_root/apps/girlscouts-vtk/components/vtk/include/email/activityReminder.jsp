@@ -1,5 +1,3 @@
-
-<%@ page import="org.girlscouts.vtk.helpers.*" %>
 <!--  /apps/girlscouts-vtk/components/vtk/include/email/activityReminder.jsp -->
 <div class="content clearfix">
 

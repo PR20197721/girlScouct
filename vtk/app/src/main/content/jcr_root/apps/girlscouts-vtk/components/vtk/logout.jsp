@@ -1,11 +1,13 @@
 <%@ page import="org.girlscouts.vtk.models.*,org.girlscouts.vtk.ejb.*,java.lang.*"%>
+<%@ page import="org.girlscouts.vtk.osgi.component.CouncilMapper" %>
+<%@ page import="org.girlscouts.vtk.osgi.component.ConfigManager" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 
 <%
     final UserUtil userUtil = sling.getService(UserUtil.class);
-    final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
-    org.girlscouts.vtk.helpers.CouncilMapper councilMapper = sling.getService(org.girlscouts.vtk.helpers.CouncilMapper.class);
+    final ConfigManager configManager = sling.getService(ConfigManager.class);
+    CouncilMapper councilMapper = sling.getService(CouncilMapper.class);
 
     HttpSession session = request.getSession();
     String councilId= request.getParameter("cid");

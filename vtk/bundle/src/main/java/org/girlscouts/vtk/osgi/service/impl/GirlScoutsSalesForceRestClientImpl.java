@@ -77,6 +77,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
         String token = apiConfig.getAccessToken();
         try {
             String json = doGet(url, token);
+            log.debug(json);
             user = new Gson().fromJson(json, UserInfoResponseEntity.class);
         } catch (Exception e) {
             log.error("Error occurred getting user info by id from salesforce ",e);
@@ -92,6 +93,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
         try {
             String json = doGet(url, token);
             json = "{\"troops\":"+json+"}";//Fixing json from salesforce which is coming back in invalid format.
+            log.debug(json);
             troopInfoResponseEntity = new Gson().fromJson(json, TroopInfoResponseEntity.class);
         } catch (Exception e) {
             log.error("Error occurred getting troop info by user id from salesforce ",e);
@@ -106,6 +108,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
         String token = apiConfig.getAccessToken();
         try {
             String json = doGet(url, token);
+            log.debug(json);
             contactsInfoResponseEntity = new Gson().fromJson(json, ContactsInfoResponseEntity.class);
         } catch (Exception e) {
             log.error("Error occurred getting contacts info by troop id from salesforce ",e);
@@ -121,6 +124,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
         try {
             String json = doGet(url, token);
             json = "{\"troopLeaders\":"+json+"}";//Fixing json from salesforce which is coming back in invalid format.
+            log.debug(json);
             troopLeadersInfoResponseEntity = new Gson().fromJson(json, TroopLeadersInfoResponseEntity.class);
         } catch (Exception e) {
             log.error("Error occurred getting troop leader info by troop id from salesforce ",e);
@@ -137,6 +141,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
         try {
             String token = generateJWTAuthToken(is, email);
             String json = doJWTAuth(token);
+            log.debug(json);
             jwtAuthEntity = new Gson().fromJson(json, JWTAuthEntity.class);
         } catch (Exception e) {
             log.error("Error occurred getting contacts info by troop id from salesforce ",e);

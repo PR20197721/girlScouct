@@ -1,5 +1,5 @@
-<%@page import="org.girlscouts.vtk.helpers.ConfigManager,
-                org.girlscouts.vtk.helpers.CouncilMapper,
+<%@page import="org.girlscouts.vtk.osgi.component.ConfigManager,
+                org.girlscouts.vtk.osgi.component.CouncilMapper,
                 org.girlscouts.vtk.utils.VtkUtil,
                 org.girlscouts.vtk.auth.models.ApiConfig" %>
 <%@ page import="org.girlscouts.vtk.models.Troop" %>
@@ -22,11 +22,10 @@
     }
     if (apiConfig != null && !apiConfig.isFail()) {
         userTroops =  apiConfig.getUser().getTroops();
-        CouncilMapper mapper = sling.getService(CouncilMapper.class);
         String branch = null;
         try {
             councilId = userTroops.get(0).getCouncilCode();
-            branch = mapper.getCouncilBranch(councilId);
+            branch = councilMapper.getCouncilBranch(councilId);
             gradeLevel = userTroops.get(0).getGradeLevel();
             gradeLevel = gradeLevel == null ? "CA" : VtkUtil.formatAgeGroup(gradeLevel);
 
@@ -35,7 +34,7 @@
             if (refererCouncil != null && !refererCouncil.isEmpty()) {
                 branch = "/content/" + refererCouncil;
             } else {
-                branch = mapper.getCouncilBranch();
+                branch = councilMapper.getCouncilBranch();
             }
         }
         // language

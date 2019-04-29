@@ -1,13 +1,14 @@
 <%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator,
-org.girlscouts.vtk.helpers.CouncilMapper,
+org.girlscouts.vtk.osgi.component.CouncilMapper,
 org.girlscouts.vtk.auth.models.ApiConfig" %>
+<%@ page import="org.girlscouts.vtk.osgi.component.ConfigManager" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/>
 
 <%
 try{
    HttpSession session = request.getSession();
-   final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
+   final ConfigManager configManager = sling.getService(ConfigManager.class);
    boolean isDemoSite= false;
    
    String _demoSite = configManager.getConfig("isDemoSite");

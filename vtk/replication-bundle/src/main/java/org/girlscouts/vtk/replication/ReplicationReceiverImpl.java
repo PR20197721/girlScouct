@@ -2,16 +2,12 @@ package org.girlscouts.vtk.replication;
 
 import com.day.cq.replication.ReplicationAction;
 import com.day.cq.replication.ReplicationActionType;
-import com.day.cq.replication.ReplicationEvent;
 import com.day.cq.replication.ReplicationException;
-import com.day.cq.replication.ReplicationReceiver;
-import com.day.cq.replication.impl.content.durbo.DurboImportConfigurationProvider;
 import com.day.cq.replication.impl.content.durbo.DurboImportResult;
 import com.day.cq.replication.impl.content.durbo.DurboImporter;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +19,9 @@ import javax.jcr.Session;
 import javax.jcr.nodetype.NodeDefinition;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Modified;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +33,7 @@ import java.util.Calendar;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.Random;
-import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import com.day.cq.replication.impl.content.durbo.DurboImportConfiguration;
 /* Girl Scouts Customization END */
 

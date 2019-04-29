@@ -1,22 +1,20 @@
 <%@page import="org.apache.sling.runmode.RunMode,
                 org.girlscouts.vtk.auth.models.ApiConfig,
-                org.girlscouts.vtk.auth.permission.Permission,
                 org.girlscouts.vtk.auth.permission.PermissionConstants,
                 org.girlscouts.vtk.dao.TroopDAO,
                 org.girlscouts.vtk.ejb.*,
-                org.girlscouts.vtk.helpers.ConfigManager,
-                org.girlscouts.vtk.helpers.CouncilMapper,
+                org.girlscouts.vtk.osgi.component.ConfigManager,
+                org.girlscouts.vtk.osgi.component.CouncilMapper,
                 org.girlscouts.vtk.models.*,
                 org.girlscouts.vtk.utils.VtkUtil,
                 java.text.DecimalFormat,
-                java.text.NumberFormat,
-                java.text.SimpleDateFormat" %>
-<%@ page import="java.util.HashSet" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Set" %>
+                org.slf4j.Logger,
+                org.slf4j.LoggerFactory,
+                java.util.HashSet,
+                java.util.List,
+                java.util.Set" %>
 <%!
     // put all static in util classes
-    final NumberFormat FORMAT_CURRENCY = NumberFormat.getCurrencyInstance();
     final DecimalFormat FORMAT_COST_CENTS = new DecimalFormat("#,##0.00");
     final boolean isCachableContacts = false;
     // Feature set toggles
@@ -25,7 +23,9 @@
     final String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
     final String[] ENABLED_FEATURES = new String[]{SHOW_VALID_SF_USER_FEATURE};
 %><%
-    String relayUrl = "";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
+    Logger sessionlog = LoggerFactory.getLogger(this.getClass().getName());
+    sessionlog.debug("session.jsp");
+    String relayUrl = "";
     boolean isMultiUserFullBlock = true;
     // Why so heavy?  Do we need to load all services here or maybe on demand is better?
     final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
@@ -137,18 +137,18 @@
     if (selectedTroop == null) {
         if (userTroops != null && userTroops.size() > 0) {
             selectedTroop = userTroops.get(0);
-        }
-        if (selectedTroop == null) {
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                theCookie:
-                for (int i = 0; i < cookies.length; i++) {
-                    if (cookies[i].getName().equals("vtk_prefTroop")) {
-                        for (int ii = 0; ii < userTroops.size(); ii++) {
-                            String gradeLevel = userTroops.get(ii).getGradeLevel();
-                            if (gradeLevel != null && gradeLevel.equals(cookies[i].getValue())) {
-                                selectedTroop = userTroops.get(ii);
-                                break theCookie;
+            if (selectedTroop == null) {
+                Cookie[] cookies = request.getCookies();
+                if (cookies != null) {
+                    theCookie:
+                    for (Cookie cookie : cookies) {
+                        if (cookie.getName().equals("vtk_prefTroop")) {
+                            for (Troop userTroop : userTroops) {
+                                String gradeLevel = userTroop.getGradeLevel();
+                                if (gradeLevel != null && gradeLevel.equals(cookie.getValue())) {
+                                    selectedTroop = userTroop;
+                                    break theCookie;
+                                }
                             }
                         }
                     }

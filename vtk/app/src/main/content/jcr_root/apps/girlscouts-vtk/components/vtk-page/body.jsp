@@ -1,5 +1,5 @@
 <%@page import="org.girlscouts.vtk.auth.models.ApiConfig,
-                org.girlscouts.vtk.helpers.CouncilMapper,
+                org.girlscouts.vtk.osgi.component.CouncilMapper,
                 com.day.cq.wcm.api.components.IncludeOptions,
                 org.apache.sling.settings.SlingSettingsService" %>
 <%@include file="/libs/foundation/global.jsp" %>

@@ -19,7 +19,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.girlscouts.vtk.ejb.SessionFactory;
-import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;

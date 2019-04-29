@@ -13,6 +13,6 @@ public interface GirlScoutsSalesForceService {
     public User getUser(ApiConfig apiConfig);
     public User getUserById(ApiConfig apiConfig, String userId);
     public List<Troop> getTroopInfoByUserId(ApiConfig apiConfig, String userId);
-    public List<Contact> getContactsByTroopId(ApiConfig apiConfig, String sfTroopId);
+    public List<Contact> getContactsForTroop(ApiConfig apiConfig, Troop troop);
     public List<Contact> getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId);
 }

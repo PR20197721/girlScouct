@@ -3,7 +3,7 @@ package org.girlscouts.vtk.osgi.service.impl;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.auth.permission.RollType;
-import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.mapper.*;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Troop;
@@ -137,14 +137,18 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     }
 
     @Override
-    public List<Contact> getContactsByTroopId(ApiConfig apiConfig, String sfTroopId) {
+    public List<Contact> getContactsForTroop(ApiConfig apiConfig, Troop troop) {
         List<Contact> contacts = new ArrayList<Contact>();
         try{
             ContactsInfoResponseEntity contactsInfoResponseEntity = null;
-            if (apiConfig.isDemoUser() || isLoadFromFile) {
-                contactsInfoResponseEntity = sfFileClient.getContactsByTroopId(apiConfig, sfTroopId);
-            }else{
-                contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, sfTroopId);
+            if(sumCouncilCode.equals(troop.getCouncilCode())) {
+                contactsInfoResponseEntity = sfFileClient.getServiceUnitManagerContacts();
+            } else {
+                if (apiConfig.isDemoUser() || isLoadFromFile) {
+                    contactsInfoResponseEntity = sfFileClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
+                } else {
+                    contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
+                }
             }
             if(contactsInfoResponseEntity != null){
                 ContactEntityToContactMapper mapper = new ContactEntityToContactMapper();
@@ -175,7 +179,10 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         cDetails = new TreeMap<String, Object>();
                     }
                     cDetails.put("Display_Renewal__c", entity.isDisplayRenewal());
-                    cDetails.put("Membership__r", entity.getMembership().getMembershipYear());
+                    CampaignMemberEntity.Membership membership = entity.getMembership();
+                    if(membership != null) {
+                        cDetails.put("Membership__r", membership.getMembershipYear());
+                    }
                     renewals.put(cId, cDetails);
                 } catch (Exception e) {
                     log.error("Error occured while processing renewals entity: ",e);

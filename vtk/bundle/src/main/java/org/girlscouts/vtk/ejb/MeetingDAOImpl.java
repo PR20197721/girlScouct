@@ -27,6 +27,7 @@ import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.*;
+import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
@@ -51,7 +52,7 @@ public class MeetingDAOImpl implements MeetingDAO {
     public static Map resourceCountMap = new PassiveExpiringMap(MAX_CACHE_AGE_MS);
     private final Logger log = LoggerFactory.getLogger("vtk");
     @Reference
-    org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
+    CouncilMapper councilMapper;
 
     @Reference
     UserUtil userUtil;

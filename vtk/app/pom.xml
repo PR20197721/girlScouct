@@ -69,6 +69,10 @@
             <artifactId>org.apache.sling.event</artifactId>
             <version>4.2.8</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <resources>
@@ -181,6 +185,10 @@
                             <groupId>net.sourceforge.jexcelapi</groupId>
                             <artifactId>jxl</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>org.codehaus.jackson</groupId>
+                            <artifactId>jackson-mapper-asl</artifactId>
                         </embedded>
                     </embeddeds>
                     <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
@@ -299,6 +307,10 @@
                                     <groupId>net.sourceforge.jexcelapi</groupId>
                                     <artifactId>jxl</artifactId>
                                     <target>/apps/girlscouts-vtk/install</target>
+                                </embedded>
+                                <embedded>
+                                    <groupId>org.codehaus.jackson</groupId>
+                                    <artifactId>jackson-mapper-asl</artifactId>
                                 </embedded>
                             </embeddeds>
                             <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>

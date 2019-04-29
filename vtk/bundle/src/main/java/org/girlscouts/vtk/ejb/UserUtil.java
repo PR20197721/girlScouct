@@ -10,7 +10,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.dao.YearPlanDAO;
-import org.girlscouts.vtk.helpers.CouncilMapper;
+import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.utils.VtkUtil;
 

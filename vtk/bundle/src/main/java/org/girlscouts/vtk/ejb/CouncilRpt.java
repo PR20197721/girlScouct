@@ -9,7 +9,7 @@ import org.apache.commons.mail.MultiPartEmail;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.vtk.auth.models.ApiConfig;
-import org.girlscouts.vtk.helpers.ConfigManager;
+import org.girlscouts.vtk.osgi.component.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.CouncilRptBean;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;

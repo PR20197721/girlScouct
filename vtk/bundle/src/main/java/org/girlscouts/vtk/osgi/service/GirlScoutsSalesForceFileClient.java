@@ -13,5 +13,6 @@ public interface GirlScoutsSalesForceFileClient {
     public ContactsInfoResponseEntity getContactsByTroopId(ApiConfig apiConfig, String sfTroopId);
     public TroopLeadersInfoResponseEntity getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId);
     public TroopInfoResponseEntity getServiceUnitManagerTroops();
+    public ContactsInfoResponseEntity getServiceUnitManagerContacts();
     public UserInfoResponseEntity getIndependentRegisteredMember();
 }

@@ -21,7 +21,7 @@ import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
-import org.girlscouts.vtk.helpers.ConfigManager;
+import org.girlscouts.vtk.osgi.component.ConfigManager;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.girlscouts.vtk.utils.VtkException;

@@ -6,9 +6,9 @@ import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 public class YearPlanComponent implements Serializable {
 
-	private java.util.Date date;
+	private transient java.util.Date date;
 	private YearPlanComponentType type;
-	private String uid;
+	private transient String uid;
 
 	public String getUid() {
 		return uid;

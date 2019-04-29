@@ -1,237 +1,226 @@
 package org.girlscouts.vtk.auth.models;
 
-import java.io.Serializable;
-
 import org.girlscouts.vtk.ejb.VtkError;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 
+import java.io.Serializable;
+
 public class ApiConfig implements Serializable {
 
-	
-	/**
-	 * 
-	*/
-	private static final long serialVersionUID = 7310414085726791761L;
-	private String accessToken, instanceUrl, tokenType, id, refreshToken,
-			userId, webServicesUrl; /* userId should be moved out.User obj exists* */
-	private User user;
-	private java.util.List<Troop> troops;
-	
-	//used in refreshToken
-	private String callbackUrl, clientId, clientSecret, OAuthUrl;
-	private long lastTimeTokenRefreshed;
-	
-	//from jcr config -APIs
-	private String vtkApiTroopUri, vtkApiUserUri, vtkApiContactUri, vtkApiTroopLeadersUri;
-	
-	//error msg
-	java.util.List<VtkError> errors;
-	private boolean isFail, accessTokenValid;
-	
-	
-	private boolean demoUser, useAsDemo;
-	private String demoUserName;
-	
-	
-	
-	
-	public String getDemoUserName() {
-		return demoUserName;
-	}
+    private static final long serialVersionUID = 7310414085726791761L;
+    //error msg
+    java.util.List<VtkError> errors;
+    private String accessToken, instanceUrl, tokenType, id, refreshToken, userId, webServicesUrl; /* userId should be moved out.User obj exists* */
+    private User user;
+    private java.util.List<Troop> troops;
+    //used in refreshToken
+    private String callbackUrl, clientId, clientSecret, OAuthUrl;
+    private long lastTimeTokenRefreshed;
+    //from jcr config -APIs
+    private String vtkApiTroopUri, vtkApiUserUri, vtkApiContactUri, vtkApiTroopLeadersUri;
+    private boolean isFail, accessTokenValid;
 
-	public void setDemoUserName(String demoUserName) {
-		this.demoUserName = demoUserName;
-	}
 
-	public boolean isUseAsDemo() {
-		return useAsDemo;
-	}
+    private boolean demoUser, useAsDemo;
+    private String demoUserName;
 
-	public void setUseAsDemo(boolean useAsDemo) {
-		this.useAsDemo = useAsDemo;
-	}
 
-	public boolean isDemoUser() {
-		return demoUser;
-	}
+    public String getDemoUserName() {
+        return demoUserName;
+    }
 
-	public void setDemoUser(boolean demoUser) {
-		this.demoUser = demoUser;
+    public void setDemoUserName(String demoUserName) {
+        this.demoUserName = demoUserName;
+    }
 
-	}
+    public boolean isUseAsDemo() {
+        return useAsDemo;
+    }
 
-	public String getVtkApiTroopLeadersUri() {
-		return vtkApiTroopLeadersUri;
-	}
+    public void setUseAsDemo(boolean useAsDemo) {
+        this.useAsDemo = useAsDemo;
+    }
 
-	public void setVtkApiTroopLeadersUri(String vtkApiTroopLeadersUri) {
-		this.vtkApiTroopLeadersUri = vtkApiTroopLeadersUri;
-	}
+    public boolean isDemoUser() {
+        return demoUser;
+    }
 
-	public String getVtkApiContactUri() {
-		return vtkApiContactUri;
-	}
+    public void setDemoUser(boolean demoUser) {
+        this.demoUser = demoUser;
 
-	public void setVtkApiContactUri(String vtkApiContactUri) {
-		this.vtkApiContactUri = vtkApiContactUri;
-	}
+    }
 
-	public String getVtkApiUserUri() {
-		return vtkApiUserUri;
-	}
+    public String getVtkApiTroopLeadersUri() {
+        return vtkApiTroopLeadersUri;
+    }
 
-	public void setVtkApiUserUri(String vtkApiUserUri) {
-		this.vtkApiUserUri = vtkApiUserUri;
-	}
+    public void setVtkApiTroopLeadersUri(String vtkApiTroopLeadersUri) {
+        this.vtkApiTroopLeadersUri = vtkApiTroopLeadersUri;
+    }
 
-	public String getVtkApiTroopUri() {
-		return vtkApiTroopUri;
-	}
+    public String getVtkApiContactUri() {
+        return vtkApiContactUri;
+    }
 
-	public void setVtkApiTroopUri(String vtkApiTroopUri) {
-		this.vtkApiTroopUri = vtkApiTroopUri;
-	}
+    public void setVtkApiContactUri(String vtkApiContactUri) {
+        this.vtkApiContactUri = vtkApiContactUri;
+    }
 
-	public java.util.List<Troop> getTroops() {
-		return troops;
-	}
+    public String getVtkApiUserUri() {
+        return vtkApiUserUri;
+    }
 
-	public void setTroops(java.util.List<Troop> troops) {
-		this.troops = troops;
-	}
+    public void setVtkApiUserUri(String vtkApiUserUri) {
+        this.vtkApiUserUri = vtkApiUserUri;
+    }
 
-	public String getRefreshToken() {
-		return refreshToken;
-	}
+    public String getVtkApiTroopUri() {
+        return vtkApiTroopUri;
+    }
 
-	public void setRefreshToken(String refreshToken) {
-		this.refreshToken = refreshToken;
-	}
+    public void setVtkApiTroopUri(String vtkApiTroopUri) {
+        this.vtkApiTroopUri = vtkApiTroopUri;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public java.util.List<Troop> getTroops() {
+        return troops;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setTroops(java.util.List<Troop> troops) {
+        this.troops = troops;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public String getRefreshToken() {
+        return refreshToken;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 
-	
+    public User getUser() {
+        return user;
+    }
 
-	public String getAccessToken() {
-		return accessToken;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-		this.lastTimeTokenRefreshed = new java.util.Date().getTime();
-		
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public String getInstanceUrl() {
-		return instanceUrl;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public void setInstanceUrl(String instanceUrl) {
-		this.instanceUrl = instanceUrl;
-	}
 
-	public String getTokenType() {
-		return tokenType;
-	}
+    public String getAccessToken() {
+        return accessToken;
+    }
 
-	public void setTokenType(String tokenType) {
-		this.tokenType = tokenType;
-	}
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+        this.lastTimeTokenRefreshed = new java.util.Date().getTime();
 
-	public String getId() {
-		return id;
-	}
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getInstanceUrl() {
+        return instanceUrl;
+    }
 
-	public String getWebServicesUrl() {
-		return webServicesUrl;
-	}
+    public void setInstanceUrl(String instanceUrl) {
+        this.instanceUrl = instanceUrl;
+    }
 
-	public void setWebServicesUrl(String webServicesUrl) {
-		this.webServicesUrl = webServicesUrl;
-	}
+    public String getTokenType() {
+        return tokenType;
+    }
 
-	public String getCallbackUrl() {
-		return callbackUrl;
-	}
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
+    }
 
-	public void setCallbackUrl(String callbackUrl) {
-		this.callbackUrl = callbackUrl;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getClientId() {
-		return clientId;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
-	}
+    public String getWebServicesUrl() {
+        return webServicesUrl;
+    }
 
-	public String getClientSecret() {
-		return clientSecret;
-	}
+    public void setWebServicesUrl(String webServicesUrl) {
+        this.webServicesUrl = webServicesUrl;
+    }
 
-	public void setClientSecret(String clientSecret) {
-		this.clientSecret = clientSecret;
-	}
+    public String getCallbackUrl() {
+        return callbackUrl;
+    }
 
-	public String getOAuthUrl() {
-		return OAuthUrl;
-	}
+    public void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
+    }
 
-	public void setOAuthUrl(String oAuthUrl) {
-		OAuthUrl = oAuthUrl;
-	}
+    public String getClientId() {
+        return clientId;
+    }
 
-	public long getLastTimeTokenRefreshed() {
-		return lastTimeTokenRefreshed;
-	}
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
 
-	public void setLastTimeTokenRefreshed(long lastTimeTokenRefreshed) {
-		this.lastTimeTokenRefreshed = lastTimeTokenRefreshed;
-	}
+    public String getClientSecret() {
+        return clientSecret;
+    }
 
-	public java.util.List<VtkError> getErrors() {
-		return errors;
-	}
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
 
-	public void setErrors(java.util.List<VtkError> errors) {
-		this.errors = errors;
-	}
+    public String getOAuthUrl() {
+        return OAuthUrl;
+    }
 
-	public boolean isAccessTokenValid() {
-		return accessTokenValid;
-	}
+    public void setOAuthUrl(String oAuthUrl) {
+        OAuthUrl = oAuthUrl;
+    }
 
-	public void setAccessTokenValid(boolean accessTokenValid) {
-		this.accessTokenValid = accessTokenValid;
-	}
+    public long getLastTimeTokenRefreshed() {
+        return lastTimeTokenRefreshed;
+    }
 
-	public boolean isFail() {
-		return isFail;
-	}
+    public void setLastTimeTokenRefreshed(long lastTimeTokenRefreshed) {
+        this.lastTimeTokenRefreshed = lastTimeTokenRefreshed;
+    }
 
-	public void setFail(boolean isFail) {
-		this.isFail = isFail;
-	}
-	
+    public java.util.List<VtkError> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(java.util.List<VtkError> errors) {
+        this.errors = errors;
+    }
+
+    public boolean isAccessTokenValid() {
+        return accessTokenValid;
+    }
+
+    public void setAccessTokenValid(boolean accessTokenValid) {
+        this.accessTokenValid = accessTokenValid;
+    }
+
+    public boolean isFail() {
+        return isFail;
+    }
+
+    public void setFail(boolean isFail) {
+        this.isFail = isFail;
+    }
+
 
 }

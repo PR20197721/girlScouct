@@ -1,5 +1,5 @@
 <%@ page
-  import="java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+  import="java.text.SimpleDateFormat, org.girlscouts.vtk.auth.permission.Permission, java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 <%@include file="session.jsp"%>
@@ -127,6 +127,6 @@ PlanView planView= meetingUtil.planView(user, selectedTroop, request);
 
 %>
     <script>resetIsLoggedIn();</script>
-    <iframe style="display:none;" id="myframe" src="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.include.sfUserLanding.html"/>
+    <iframe style="display:none;" id="myframe" src="<%=sling.getService(ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.include.sfUserLanding.html"/>
 <%} %> 
 

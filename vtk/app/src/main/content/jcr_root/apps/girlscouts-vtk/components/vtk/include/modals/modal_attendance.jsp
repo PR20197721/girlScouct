@@ -8,7 +8,7 @@
 <%@include file="../session.jsp"%>
 <% 
 
-	java.util.List<Contact>contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsByTroopId(user.getApiConfig(), selectedTroop.getSfTroopId());
+	java.util.List<Contact>contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
 	String YEAR_PLAN_EVENT="meetingEvents";
 	String eventType= request.getParameter("eType");
 	if( eventType!=null && eventType.equals("ACTIVITY") )

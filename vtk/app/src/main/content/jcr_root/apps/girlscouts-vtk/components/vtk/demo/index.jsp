@@ -1,7 +1,6 @@
 <%@page import="org.girlscouts.vtk.auth.models.ApiConfig,
                 org.girlscouts.vtk.models.*,
                 org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
-                org.girlscouts.vtk.helpers.TroopHashGenerator,
                 org.girlscouts.vtk.utils.VtkUtil" %>
 <%@ page import="java.util.List" %>
 <%@include file="/libs/foundation/global.jsp" %>
@@ -62,8 +61,7 @@
         cookie.setPath("/");
         response.addCookie(cookie);
     }//edn if pref level
-    String troopDataPath = sling.getService(TroopHashGenerator.class).hash(userTroops.get(0));
-    Cookie cookie = new Cookie("troopDataToken", troopDataPath);
+    Cookie cookie = new Cookie("troopDataToken", userTroops.get(0).getHash());
     cookie.setPath("/");
     response.addCookie(cookie);
     response.sendRedirect("/content/girlscouts-vtk/en/vtk.html");

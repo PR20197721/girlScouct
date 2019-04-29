@@ -1,5 +1,6 @@
 <%@ page
         import="org.girlscouts.vtk.models.Activity,
+                org.girlscouts.vtk.auth.permission.Permission,
                 org.girlscouts.vtk.models.PlanView,
                 org.girlscouts.vtk.models.Troop" %>
 <%@include file="/libs/foundation/global.jsp" %>

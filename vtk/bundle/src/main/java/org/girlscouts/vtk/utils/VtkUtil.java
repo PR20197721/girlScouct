@@ -25,8 +25,8 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.ejb.VtkError;
-import org.girlscouts.vtk.helpers.ConfigListener;
-import org.girlscouts.vtk.helpers.ConfigManager;
+import org.girlscouts.vtk.osgi.component.ConfigListener;
+import org.girlscouts.vtk.osgi.component.ConfigManager;
 import org.girlscouts.vtk.models.*;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -809,9 +809,7 @@ public class VtkUtil implements ConfigListener {
 
         Calendar rightNow = Calendar.getInstance();
 
-        if (membershipYear == rightNow.get(Calendar.YEAR) &&
-                (rightNow.get(Calendar.MONTH) > 2 && rightNow.get(Calendar.MONTH) < 9)
-        ) {
+        if (membershipYear == rightNow.get(Calendar.YEAR) && (rightNow.get(Calendar.MONTH) > 2 && rightNow.get(Calendar.MONTH) < 9)) {
             return true;
         }
         return false;

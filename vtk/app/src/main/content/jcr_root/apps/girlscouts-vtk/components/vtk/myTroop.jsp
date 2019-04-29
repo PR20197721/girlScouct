@@ -1,5 +1,5 @@
 <%@ page
-        import="com.day.text.Text, com.google.common.collect.*, com.google.common.collect.BiMap, com.google.common.collect.HashBiMap,org.girlscouts.vtk.models.Contact,org.girlscouts.vtk.models.ContactExtras" %>
+        import="com.day.text.Text, org.girlscouts.vtk.auth.permission.Permission, com.google.common.collect.*, com.google.common.collect.BiMap, com.google.common.collect.HashBiMap,org.girlscouts.vtk.models.Contact,org.girlscouts.vtk.models.ContactExtras" %>
 <%@ page import="org.girlscouts.vtk.models.YearPlanComponent" %>
 <%@ page import="java.util.Calendar" %>
 <%@include file="/libs/foundation/global.jsp" %>
