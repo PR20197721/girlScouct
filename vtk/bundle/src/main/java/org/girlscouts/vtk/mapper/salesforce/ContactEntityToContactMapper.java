@@ -11,83 +11,83 @@ import java.util.List;
 public class ContactEntityToContactMapper {
     private static Logger log = LoggerFactory.getLogger(ContactEntityToContactMapper.class);
 
-    public static Contact map(ContactEntity entity){
+    public static Contact map(ContactEntity entity) {
         try {
             Contact contact = new Contact();
             contact.setType(0);
             try {
                 contact.setId(entity.getSfId());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping sfId to Contact ", ex);
             }
             try {
                 contact.setFirstName(entity.getName());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping Name to Contact ", ex);
             }
             try {
                 contact.setEmail(entity.getEmail());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping Email to Contact ", ex);
             }
             try {
                 contact.setPhone(entity.getPhone());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping Phone to Contact ", ex);
             }
             try {
                 contact.setAddress(entity.getMailingStreet());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping MailingStreet to Contact ", ex);
             }
             try {
                 contact.setCity(entity.getMailingCity());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping MailingCity to Contact ", ex);
             }
             try {
                 contact.setState(entity.getMailingState());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping MailingStateto Contact ", ex);
             }
             try {
                 contact.setCountry(entity.getMailingCountry());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping MailingCountry to Contact ", ex);
             }
             try {
                 contact.setZip(entity.getMailingPostalCode());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping MailingPostalCode to Contact ", ex);
             }
             try {
                 contact.setAge(entity.getAge());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping Age to Contact ", ex);
             }
             try {
                 contact.setDob(entity.getBirthdate());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping Birthdate to Contact ", ex);
             }
             try {
                 contact.setMembershipYear_adult(entity.getAdultYears());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping AdultYears to Contact ", ex);
             }
             try {
                 contact.setMembershipYear_girl(entity.getGirlYears());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping GirlYears to Contact ", ex);
             }
             try {
                 contact.setRole(entity.getRole());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping Role to Contact ", ex);
             }
             try {
                 contact.setAccountId(entity.getSfAccountId());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 log.error("Error occurred mapping SfAccountId to Contact ", ex);
             }
             try {
@@ -140,7 +140,7 @@ public class ContactEntityToContactMapper {
                 log.error("Error occurred mapping Account to Contact ", ex2);
             }
             return contact;
-        }catch(Exception e){
+        } catch (Exception e) {
             log.error("Error occurred mapping ParentEntity to Troop ", e);
         }
         return null;

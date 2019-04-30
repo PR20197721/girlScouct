@@ -1,5 +1,5 @@
 <%@page import="org.girlscouts.vtk.auth.models.ApiConfig,
-                org.girlscouts.vtk.models.User, java.util.*" %>
+                org.girlscouts.vtk.models.User" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
     HttpSession session = request.getSession();
@@ -11,32 +11,33 @@
     killMyCookie.setPath("/");
     response.addCookie(killMyCookie);
     if (session == null || session.getAttribute("demoSiteUser") == null) {
-        %>
-        <div id="main" class="row content">
-            <div class=" vtk-demo-form-box columns small-20 small-centered medium-10 medium-centered">
-                <div class="vtk-demo-form-top"></div>
-                <div class="vtk-demo-login-form">
-                    <h4 style="font-size: 20px;line-height: 22px;margin-bottom: 20px;">Welcome.</h4>
-                    <form action="/content/girlscouts-demo/en/jcr:content" method="POST">
-                        <h4 style="font-size: 20px;line-height: 26px;">Please enter your council's password to access the Volunteer Toolkit Demo.</h4>
-                        <div class="vtk-demo-form-input">
-                            <input type="password" name="p" value=""/>
-                        </div>
-                        <div style="display:<%=request.getParameter("err") == null ? "none;" : "" %>">
-                            <p style="color:red;">
-                                <%=request.getParameter("err") == null ? "" : request.getParameter("err") %>
-                            </p>
-                        </div>
-                        <div class="vtk-demo-form-input">
-                            <input class="button tiny" type="submit" value="LOG IN" name="login"/>
-                            <!-- <a class="vtk-forgot-link" href="#">Forgot password</a> -->
-                        </div>
-                    </form>
+%>
+<div id="main" class="row content">
+    <div class=" vtk-demo-form-box columns small-20 small-centered medium-10 medium-centered">
+        <div class="vtk-demo-form-top"></div>
+        <div class="vtk-demo-login-form">
+            <h4 style="font-size: 20px;line-height: 22px;margin-bottom: 20px;">Welcome.</h4>
+            <form action="/content/girlscouts-demo/en/jcr:content" method="POST">
+                <h4 style="font-size: 20px;line-height: 26px;">Please enter your council's password to access the
+                    Volunteer Toolkit Demo.</h4>
+                <div class="vtk-demo-form-input">
+                    <input type="password" name="p" value=""/>
                 </div>
-            </div>
+                <div style="display:<%=request.getParameter("err") == null ? "none;" : "" %>">
+                    <p style="color:red;">
+                        <%=request.getParameter("err") == null ? "" : request.getParameter("err") %>
+                    </p>
+                </div>
+                <div class="vtk-demo-form-input">
+                    <input class="button tiny" type="submit" value="LOG IN" name="login"/>
+                    <!-- <a class="vtk-forgot-link" href="#">Forgot password</a> -->
+                </div>
+            </form>
         </div>
-        <%
-                return;
+    </div>
+</div>
+<%
+        return;
     }//end if
     String vTroop = request.getParameter("vTroop") == null ? "" : request.getParameter("vTroop");
 %>
@@ -191,6 +192,7 @@
             var _url = e.options[e.selectedIndex].value;
             self.location = _url;
         }
+
         function xyz(slc) {
             var e = document.getElementById("carlos");
             var strUser = e.options[e.selectedIndex].value;

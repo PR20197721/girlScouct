@@ -7,8 +7,8 @@ import org.girlscouts.vtk.ejb.EmailMeetingReminder;
 import org.girlscouts.vtk.utils.VtkUtil;
 
 import java.io.Serializable;
-import java.util.Set;
 import java.util.Date;
+import java.util.Set;
 
 @Node
 public class Troop implements Serializable {
@@ -258,15 +258,27 @@ public class Troop implements Serializable {
         this.role = role;
     }
 
-    public String getParticipationCode() { return participationCode; }
+    public String getParticipationCode() {
+        return participationCode;
+    }
 
-    public void setParticipationCode(String participationCode) { this.participationCode = participationCode; }
+    public void setParticipationCode(String participationCode) {
+        this.participationCode = participationCode;
+    }
 
-    public String getCouncilPath() { return councilPath; }
+    public String getCouncilPath() {
+        return councilPath;
+    }
 
-    public void setCouncilPath(String councilPath) { this.councilPath = councilPath;}
+    public void setCouncilPath(String councilPath) {
+        this.councilPath = councilPath;
+    }
 
-    public String getHash() { return hash;}
+    public String getHash() {
+        return hash;
+    }
 
-    public void setHash(String hash) { this.hash = hash;}
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
 }

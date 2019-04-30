@@ -21,9 +21,9 @@ import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
-import org.girlscouts.vtk.osgi.component.ConfigManager;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
+import org.girlscouts.vtk.osgi.component.ConfigManager;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
@@ -88,7 +88,7 @@ public class TroopDAOImpl implements TroopDAO {
             QueryManager queryManager = ocm.getQueryManager();
             Filter filter = queryManager.createFilter(Troop.class);
             ocm.refresh(true);
-            log.debug("loading troop data from "+troopPath);
+            log.debug("loading troop data from " + troopPath);
             troop = (Troop) ocm.getObject(troopPath);
             if (troop != null && troop.getYearPlan().getMeetingEvents() != null) {
                 Comparator<MeetingE> comp = new BeanComparator("id");
@@ -134,7 +134,7 @@ public class TroopDAOImpl implements TroopDAO {
                 plan.setCalFreq("biweekly");
             }
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 mySession.logout();
@@ -142,7 +142,7 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred:",es);
+                log.error("Error occurred:", es);
             }
         }
         return plan;
@@ -164,7 +164,7 @@ public class TroopDAOImpl implements TroopDAO {
                 ocm.save();
             }
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 mySession.logout();
@@ -172,7 +172,7 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception e) {
-                log.error("Error occurred:",e);
+                log.error("Error occurred:", e);
             }
         }
     }
@@ -223,10 +223,10 @@ public class TroopDAOImpl implements TroopDAO {
                 result.setExpenses(expensesMap);
                 result.setIncome(incomeMap);
             } catch (PathNotFoundException ex) {
-                log.error("Error occurred:",ex);
+                log.error("Error occurred:", ex);
             }
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 if (sessionFactory != null) {
@@ -237,7 +237,7 @@ public class TroopDAOImpl implements TroopDAO {
                 }
 
             } catch (Exception es) {
-                log.error("Error occurred:",es);
+                log.error("Error occurred:", es);
             }
         }
         return result;
@@ -266,7 +266,7 @@ public class TroopDAOImpl implements TroopDAO {
             this.populateFinanceChildren(incomeNode, expensesNode, params.get("expenses")[0], params.get("income")[0]);
             mySession.save();
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 mySession.logout();
@@ -274,7 +274,7 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred:",es);
+                log.error("Error occurred:", es);
             }
         }
     }
@@ -292,11 +292,11 @@ public class TroopDAOImpl implements TroopDAO {
             try {
                 configNode = mySession.getNode(configPath);
             } catch (PathNotFoundException pfe) {
-                log.error("Error occurred:",pfe);
+                log.error("Error occurred:", pfe);
                 // Path does not exist. Get parent node.
                 Node troopNode = mySession.getNode(councilPath);
                 // Now create and bind it to config
-                configNode = troopNode .addNode(FinanceConfiguration.FINANCE_CONFIG);
+                configNode = troopNode.addNode(FinanceConfiguration.FINANCE_CONFIG);
             }
 
             List<String> expensesList = new ArrayList<String>();
@@ -328,7 +328,7 @@ public class TroopDAOImpl implements TroopDAO {
                 financeConfig.setPersisted(true);
             }
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 if (sessionFactory != null) {
@@ -338,7 +338,7 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred:",es);
+                log.error("Error occurred:", es);
             }
         }
         return financeConfig;
@@ -352,7 +352,7 @@ public class TroopDAOImpl implements TroopDAO {
             rr = sessionFactory.getResourceResolver();
             mySession = rr.adaptTo(Session.class);
             Node rootNode = mySession.getRootNode();
-            String configPath = troop.getCouncilPath() + "/"  + FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
+            String configPath = troop.getCouncilPath() + "/" + FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
             Node financesNode = null;
             if (!rootNode.hasNode(configPath)) {
                 financesNode = this.establishBaseNode(configPath, mySession);
@@ -366,7 +366,7 @@ public class TroopDAOImpl implements TroopDAO {
             configNode.setProperty(FinanceConfiguration.RECIPIENT, recipient);
             mySession.save();
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 mySession.logout();
@@ -374,7 +374,7 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred:",es);
+                log.error("Error occurred:", es);
             }
         }
     }
@@ -484,12 +484,12 @@ public class TroopDAOImpl implements TroopDAO {
         try {
             modifiedChecker.setModified(user.getSid(), troop.getYearPlan().getPath());
         } catch (Exception em) {
-            log.error("Error occurred:",em);
+            log.error("Error occurred:", em);
         }
         return false;
     }
 
-    public boolean modifyAsset(User user, Troop troop, Asset asset){
+    public boolean modifyAsset(User user, Troop troop, Asset asset) {
         if (!asset.isDbUpdate()) {
             return true;
         }
@@ -503,7 +503,7 @@ public class TroopDAOImpl implements TroopDAO {
             if (!ocm.objectExists(asset.getPath())) {
                 // check council
                 if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
-                    throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
+                    throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
                 }
                 // check troop
                 if (getTroopByPath(user, troop.getPath()) == null) {
@@ -515,7 +515,7 @@ public class TroopDAOImpl implements TroopDAO {
                     throw new VtkException("Found no troop when creating asset# " + troop.getTroopPath());
                 }
                 if (!mySession.itemExists(asset.getPath().substring(0, asset.getPath().lastIndexOf("/")))) {
-                    JcrUtils.getOrCreateByPath(asset.getPath().substring(0, asset.getPath().lastIndexOf("/")),"nt:unstructured", mySession);
+                    JcrUtils.getOrCreateByPath(asset.getPath().substring(0, asset.getPath().lastIndexOf("/")), "nt:unstructured", mySession);
                 }
             }
             if (!ocm.objectExists(asset.getPath())) {
@@ -526,7 +526,7 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -536,13 +536,13 @@ public class TroopDAOImpl implements TroopDAO {
                     }
                 }
             } catch (Exception es) {
-                log.error("Error occurred:",es);
+                log.error("Error occurred:", es);
             }
         }
         return isUpdated;
     }
 
-    public boolean modifyMeeting(User user, Troop troop, MeetingE meeting){
+    public boolean modifyMeeting(User user, Troop troop, MeetingE meeting) {
         if (!meeting.isDbUpdate()) {
             return true;
         }
@@ -558,7 +558,7 @@ public class TroopDAOImpl implements TroopDAO {
                     + "/yearPlan/meetingEvents")) {
                 // check council
                 if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
-                    throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
+                    throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
                 }
                 // check troop
                 if (getTroopByPath(user, troop.getPath()) == null) {
@@ -589,9 +589,9 @@ public class TroopDAOImpl implements TroopDAO {
             // same node (most likely)
             // when vtk is calling ajax to this method twice.
             // need to fix the ajax call.
-            log.error(">>>> Skipping stale update for " + meeting.getPath(),iise);
+            log.error(">>>> Skipping stale update for " + meeting.getPath(), iise);
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -601,14 +601,14 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred: ",es);
+                log.error("Error occurred: ", es);
             }
         }
 
         return isUpdated;
     }
 
-    public boolean modifyActivity(User user, Troop troop, Activity activity){
+    public boolean modifyActivity(User user, Troop troop, Activity activity) {
         if (!activity.isDbUpdate()) {
             return true;
         }
@@ -640,7 +640,7 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -650,13 +650,13 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred: ",es);
+                log.error("Error occurred: ", es);
             }
         }
         return isUpdated;
     }
 
-    public boolean modifyLocation(User user, Troop troop, Location location){
+    public boolean modifyLocation(User user, Troop troop, Location location) {
         if (!location.isDbUpdate()) {
             return true;
         }
@@ -688,7 +688,7 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -698,13 +698,13 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred: ",es);
+                log.error("Error occurred: ", es);
             }
         }
         return isUpdated;
     }
 
-    public boolean modifySchedule(User user, Troop troop){
+    public boolean modifySchedule(User user, Troop troop) {
         Cal schedule = troop.getYearPlan().getSchedule();
         if (schedule == null || !schedule.isDbUpdate()) {
             return true;
@@ -748,7 +748,7 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -758,7 +758,7 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred: ",es);
+                log.error("Error occurred: ", es);
             }
         }
         return isUpdated;
@@ -781,7 +781,7 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -791,7 +791,7 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred: ",es);
+                log.error("Error occurred: ", es);
             }
         }
         return isUpdated;
@@ -824,11 +824,11 @@ public class TroopDAOImpl implements TroopDAO {
                 throw new IllegalAccessException();
             }
             troop.setCurrentTroop(user.getSid());// 10/23/14 Documenting the
-            if(ocm.objectExists(troop.getPath())){
+            if (ocm.objectExists(troop.getPath())) {
                 ocm.update(troop);
-            }else{
+            } else {
                 String troopParentNodePath = troop.getPath();
-                troopParentNodePath = troopParentNodePath.substring(0,troopParentNodePath.lastIndexOf("/"));
+                troopParentNodePath = troopParentNodePath.substring(0, troopParentNodePath.lastIndexOf("/"));
                 if (!mySession.itemExists(troopParentNodePath)) {
                     JcrUtils.getOrCreateByPath(troopParentNodePath, "nt:unstructured", mySession);
                 }
@@ -882,7 +882,7 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -892,7 +892,7 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred: ",es);
+                log.error("Error occurred: ", es);
             }
         }
         return isUpdated;
@@ -910,7 +910,7 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -920,7 +920,7 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred: ",es);
+                log.error("Error occurred: ", es);
             }
         }
         return isUpdated;
@@ -938,7 +938,7 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -948,13 +948,13 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred: ",es);
+                log.error("Error occurred: ", es);
             }
         }
         return isUpdated;
     }
 
-    public boolean removeMeetings(User user, Troop troop){
+    public boolean removeMeetings(User user, Troop troop) {
         ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
@@ -967,7 +967,7 @@ public class TroopDAOImpl implements TroopDAO {
             }
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -977,7 +977,7 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred: ",es);
+                log.error("Error occurred: ", es);
             }
         }
         return isUpdated;
@@ -1008,7 +1008,7 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -1018,7 +1018,7 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred: ",es);
+                log.error("Error occurred: ", es);
             }
         }
         return isUpdated;
@@ -1046,7 +1046,7 @@ public class TroopDAOImpl implements TroopDAO {
             session.save();
             emailCronRpt(null);
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
             emailCronRpt(e.toString());
         } finally {
             try {
@@ -1057,7 +1057,7 @@ public class TroopDAOImpl implements TroopDAO {
                     session.logout();
                 }
             } catch (Exception ex) {
-                log.error("Error occurred: ",ex);
+                log.error("Error occurred: ", ex);
             }
         }
     }
@@ -1065,7 +1065,7 @@ public class TroopDAOImpl implements TroopDAO {
     public void emailCronRpt(String msg) {
         try {
             MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-            String DEMO_CRON_EMAIL = (String) configManager.getConfig("DEMO_CRON_EMAIL");
+            String DEMO_CRON_EMAIL = configManager.getConfig("DEMO_CRON_EMAIL");
             HtmlEmail email = new HtmlEmail();
             java.util.List<InternetAddress> toAddresses = new java.util.ArrayList();
             toAddresses.add(new InternetAddress(DEMO_CRON_EMAIL));
@@ -1080,7 +1080,7 @@ public class TroopDAOImpl implements TroopDAO {
             }
             messageGateway.send(email);
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         }
     }
 
@@ -1113,7 +1113,7 @@ public class TroopDAOImpl implements TroopDAO {
                 isArchived = true;
             }
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -1123,13 +1123,13 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred:",es);
+                log.error("Error occurred:", es);
             }
         }
         return isArchived;
     }
 
-    public boolean modifyNote(User user, Troop troop, Note note){
+    public boolean modifyNote(User user, Troop troop, Note note) {
         if (note == null || !note.isDbUpdate()) {
             return true;
         }
@@ -1153,7 +1153,7 @@ public class TroopDAOImpl implements TroopDAO {
         } catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
             log.error(">>>> Skipping stale update for note " + note.getPath(), iise);
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 if (mySession != null) {
@@ -1163,13 +1163,13 @@ public class TroopDAOImpl implements TroopDAO {
                     sessionFactory.closeResourceResolver(rr);
                 }
             } catch (Exception es) {
-                log.error("Error occurred:",es);
+                log.error("Error occurred:", es);
             }
         }
         return isUpdated;
     }
 
-    public void modifyNotes(User user, Troop troop, java.util.List<Note> notes){
+    public void modifyNotes(User user, Troop troop, java.util.List<Note> notes) {
         if (notes != null) {
             for (int i = 0; i < notes.size(); i++) {
                 modifyNote(user, troop, notes.get(i));

@@ -1,51 +1,52 @@
 package org.girlscouts.vtk.models;
 
-import java.io.Serializable;
-import java.util.List;
-
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlscouts.vtk.dao.AssetComponentType;
+
+import java.io.Serializable;
 
 @Node
 public class Achievement implements Serializable {
 
-	@Field(path = true) private String path;
-	@Field(id = true) private String id;
-	@Field String users; // sf id
-	@Field int total;
-	
-	public String getPath() {
-		return path;
-	}
+    @Field
+    String users; // sf id
+    @Field
+    int total;
+    @Field(path = true)
+    private String path;
+    @Field(id = true)
+    private String id;
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getUsers() {
-		return users;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setUsers(String users) {
-		this.users = users;
-	}
+    public String getUsers() {
+        return users;
+    }
 
-	public int getTotal() {
-		return total;
-	}
+    public void setUsers(String users) {
+        this.users = users;
+    }
 
-	public void setTotal(int total) {
-		this.total = total;
-	}
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
 
 }

@@ -5,25 +5,25 @@ import com.google.gson.annotations.SerializedName;
 public class AssetEntity extends BaseEntity {
 
     @SerializedName("type")
-	private String type;
+    private String type;
     @SerializedName("description")
-	private String description;
+    private String description;
     @SerializedName("title")
-	private String title;
+    private String title;
     @SerializedName("docType")
-	private String docType;
+    private String docType;
     @SerializedName("refId")
-	private String refId;
+    private String refId;
     @SerializedName("path")
-	private String path;
+    private String path;
     @SerializedName("isCachable")
-	private Boolean isCachable;
+    private Boolean isCachable;
     @SerializedName("uid")
-	private String uid;
+    private String uid;
     @SerializedName("isOutdoorRelated")
-	private Boolean isOutdoorRelated;
+    private Boolean isOutdoorRelated;
     @SerializedName("isDbUpdate")
-	private Boolean isDbUpdate;
+    private Boolean isDbUpdate;
 
     public String getType() {
         return type;

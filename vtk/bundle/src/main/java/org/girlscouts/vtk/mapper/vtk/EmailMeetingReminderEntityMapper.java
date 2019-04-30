@@ -9,8 +9,8 @@ public class EmailMeetingReminderEntityMapper extends BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(TroopToTroopEntityMapper.class);
 
-    public static EmailMeetingReminderEntity map(EmailMeetingReminder emailMeetingReminder){
-        if(emailMeetingReminder != null) {
+    public static EmailMeetingReminderEntity map(EmailMeetingReminder emailMeetingReminder) {
+        if (emailMeetingReminder != null) {
             try {
                 EmailMeetingReminderEntity entity = new EmailMeetingReminderEntity();
                 entity.setBcc(emailMeetingReminder.getBcc());

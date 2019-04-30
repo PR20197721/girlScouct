@@ -1,12 +1,5 @@
 package org.girlscouts.vtk.sling.servlet;
 
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -14,10 +7,16 @@ import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @SlingServlet(
-		label = "Girl Scouts VTK Data Servlet", 
-		description = "Girl Scouts VTK Data Servlet",
-		paths = {"/bin/vtk-data"} 
+        label = "Girl Scouts VTK Data Servlet",
+        description = "Girl Scouts VTK Data Servlet",
+        paths = {"/bin/vtk-data"}
 )
 public class VTKDataServlet extends SlingSafeMethodsServlet {
     private static final long serialVersionUID = -6183598654546549731L;
@@ -28,7 +27,7 @@ public class VTKDataServlet extends SlingSafeMethodsServlet {
 
     @Override
     protected void doGet(SlingHttpServletRequest request,
-            SlingHttpServletResponse response) throws ServletException,
+                         SlingHttpServletResponse response) throws ServletException,
             IOException {
         String path = request.getRequestURI();
         log.debug("Request path = " + path);
@@ -40,26 +39,26 @@ public class VTKDataServlet extends SlingSafeMethodsServlet {
             suffix = matcher.group(3);
         }
         log.debug("type = " + type + ", id = " + id);
-        
+
         if (type != null && type.equals("year-plan")) {
             forwardYearPlan(request, response, id);
         } else if (type != null && type.equals("meeting")) {
-        	String meetingId= suffix.split("\\.")[0];
-        	forwardMeeting(request, response, id, meetingId);
+            String meetingId = suffix.split("\\.")[0];
+            forwardMeeting(request, response, id, meetingId);
         }
     }
-    
-    private void forwardYearPlan(SlingHttpServletRequest request, 
-            SlingHttpServletResponse response, String id) throws ServletException, IOException {
+
+    private void forwardYearPlan(SlingHttpServletRequest request,
+                                 SlingHttpServletResponse response, String id) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/content/girlscouts-vtk/controllers/vtk.controller.html");
         request.setAttribute("yearPlanSched", "X");
         request.setAttribute("isFirst", "1");
 
         dispatcher.forward(request, response);
     }
-    
-    private void forwardMeeting(SlingHttpServletRequest request, 
-            SlingHttpServletResponse response, String id, String meetingId) throws ServletException, IOException {
+
+    private void forwardMeeting(SlingHttpServletRequest request,
+                                SlingHttpServletResponse response, String id, String meetingId) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/content/girlscouts-vtk/controllers/vtk.controller.html");
         request.setAttribute("reactjs", "asdf");
         request.setAttribute("elem", meetingId);

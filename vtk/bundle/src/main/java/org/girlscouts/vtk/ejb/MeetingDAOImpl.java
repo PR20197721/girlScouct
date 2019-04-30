@@ -522,7 +522,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             javax.jcr.query.Query q = qm.createQuery(sql,
                     javax.jcr.query.Query.JCR_SQL2);
             QueryResult result = q.execute();
-            String str[] = result.getColumnNames();
+            String[] str = result.getColumnNames();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
@@ -1163,7 +1163,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
 
-                Value v[] = r.getValues();
+                Value[] v = r.getValues();
 
                 Activity activity = new Activity();
                 activity.setUid("A" + new java.util.Date().getTime() + "_"
@@ -1855,7 +1855,6 @@ public class MeetingDAOImpl implements MeetingDAO {
                             activity.getDate().equals(endDate) ||
                                     activity.getDate().before(endDate))) {
 
-                        ;
                     } else if (activity.getEndDate() != null && (  //end date
                             activity.getEndDate().equals(endDate) ||
                                     activity.getEndDate().equals(startDate) ||
@@ -1863,7 +1862,6 @@ public class MeetingDAOImpl implements MeetingDAO {
                     )
                     ) {
 
-                        ;
                     } else {
 
                         continue;
@@ -2728,7 +2726,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                     javax.jcr.query.Query.JCR_SQL2);
 
             QueryResult result = q.execute();
-            count = (long) result.getNodes().getSize();
+            count = result.getNodes().getSize();
 
             resourceCountMap.put(path, count);
 
@@ -3069,7 +3067,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             String sql = "select note.message, note.createTime, note.createdByUserId, note.createdByUserName, note.refId, note.uid from [nt:base] as note where ocm_classname='org.girlscouts.vtk.models.Note' and   ISDESCENDANTNODE([" + troop.getYearPlan().getPath() + "]) and note.[uid] = '" + nid + "'";
             javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
             QueryResult result = q.execute();
-            String str[] = result.getColumnNames();
+            String[] str = result.getColumnNames();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 note = new Note();
@@ -3175,7 +3173,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 String path = r.getPath();
-                String pathElements[] = path.split("/");
+                String[] pathElements = path.split("/");
                 if (pathElements != null && pathElements.length > 5) {
                     outdoorMeetings.add(pathElements[6]);
                 }
@@ -3218,7 +3216,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 String path = r.getPath();
-                String pathElements[] = path.split("/");
+                String[] pathElements = path.split("/");
                 if (pathElements != null && pathElements.length > 5) {
                     globalMeetings.add(pathElements[6]);
                 }

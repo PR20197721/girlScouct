@@ -9,8 +9,8 @@ public class CalToCalEntityMapper extends BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(CalToCalEntityMapper.class);
 
-    public static CalEntity map(Cal cal){
-        if(cal != null) {
+    public static CalEntity map(Cal cal) {
+        if (cal != null) {
             try {
                 CalEntity entity = new CalEntity();
                 entity.setDates(cal.getDates());

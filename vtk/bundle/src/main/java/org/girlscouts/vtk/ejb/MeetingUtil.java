@@ -1024,7 +1024,7 @@ public class MeetingUtil {
         } else {
 
             if (troop.getYearPlan().getSchedule() == null)
-                searchDate = (java.util.Date) sched.keySet().iterator().next();
+                searchDate = sched.keySet().iterator().next();
             else {
 
                 java.util.Iterator itr = sched.keySet().iterator();
@@ -1040,9 +1040,9 @@ public class MeetingUtil {
 
         int currInd = dates.indexOf(searchDate);
         if (dates.size() - 1 > currInd)
-            nextDate = ((java.util.Date) dates.get(currInd + 1)).getTime();
+            nextDate = dates.get(currInd + 1).getTime();
         if (currInd > 0)
-            prevDate = ((java.util.Date) dates.get(currInd - 1)).getTime();
+            prevDate = dates.get(currInd - 1).getTime();
         session.setAttribute("VTK_planView_memoPos", searchDate.getTime());
         YearPlanComponent _comp = sched.get(searchDate);
         planView.setSearchDate(searchDate);
@@ -1154,7 +1154,7 @@ public class MeetingUtil {
             YEAR_PLAN_EVENT = "activities";
 
         String mid = request.getParameter("mid");
-        String attendances[] = null;
+        String[] attendances = null;
         if (request.getParameter("attendance") != null) {
             int i = 0;
             StringTokenizer t = new StringTokenizer(
@@ -1274,7 +1274,7 @@ public class MeetingUtil {
                                      javax.servlet.http.HttpServletRequest request) {
 
         String mid = request.getParameter("mid");
-        String attendances[] = null;
+        String[] attendances = null;
         if (request.getParameter("achievement") != null) {
             int i = 0;
             StringTokenizer t = new StringTokenizer(
@@ -1533,7 +1533,6 @@ public class MeetingUtil {
             return null;
         }
         List<Note> notes = getNotesByMid(user, troop, mid);
-        ;
         MeetingE meeting = VtkUtil.findMeetingById(troop.getYearPlan().getMeetingEvents(), mid);
 
 
@@ -1567,7 +1566,7 @@ public class MeetingUtil {
         return isEdit;
     }
 
-    public void addMeetings(User user, Troop troop, String meetings[]) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException {
+    public void addMeetings(User user, Troop troop, String[] meetings) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException {
         for (int i = 0; i < meetings.length; i++) {
             addMeetings(user, troop, meetings[i]);
         }

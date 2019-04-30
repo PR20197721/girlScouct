@@ -2,35 +2,36 @@ package org.girlscouts.vtk.rest.entity.vtk;
 
 import com.google.gson.annotations.SerializedName;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
+
 import java.util.Date;
 import java.util.List;
 
-public class MeetingCanceledEntity extends BaseEntity{
+public class MeetingCanceledEntity extends BaseEntity {
 
     @SerializedName("path")
-	private String path;
+    private String path;
     @SerializedName("refId")
-	private String refId;
+    private String refId;
     @SerializedName("locationRef")
-	private String locationRef;
+    private String locationRef;
     @SerializedName("meetingInfo")
-	private MeetingEntity meetingInfo;
+    private MeetingEntity meetingInfo;
     @SerializedName("cancelled")
-	private String cancelled;
+    private String cancelled;
     @SerializedName("id")
-	private Integer id;
+    private Integer id;
     @SerializedName("uid")
-	private String uid;
+    private String uid;
     @SerializedName("emlTemplate")
-	private String emlTemplate;
+    private String emlTemplate;
     @SerializedName("assets")
-	private List<AssetEntity> assets;
+    private List<AssetEntity> assets;
     @SerializedName("sentEmails")
-	private List<SentEmailEntity> sentEmails;
+    private List<SentEmailEntity> sentEmails;
     @SerializedName("lastAssetUpdate")
     private Date lastAssetUpdate;
     @SerializedName("date")
-	private Date date;
+    private Date date;
     @SerializedName("isDbUpdate")
     private boolean isDbUpdate;
     @SerializedName("type")

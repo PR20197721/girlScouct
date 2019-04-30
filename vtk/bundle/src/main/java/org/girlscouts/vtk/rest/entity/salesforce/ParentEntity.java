@@ -33,7 +33,9 @@ public class ParentEntity {
         this.sfId = sfId;
     }
 
-    public String getCouncilCode() { return councilCode; }
+    public String getCouncilCode() {
+        return councilCode;
+    }
 
     public void setCouncilCode(String councilCode) {
         this.councilCode = councilCode;
@@ -71,7 +73,11 @@ public class ParentEntity {
         this.troopName = troopName;
     }
 
-    public String getParticipationCode() { return participationCode; }
+    public String getParticipationCode() {
+        return participationCode;
+    }
 
-    public void setParticipationCode(String participationCode) { this.participationCode = participationCode; }
+    public void setParticipationCode(String participationCode) {
+        this.participationCode = participationCode;
+    }
 }

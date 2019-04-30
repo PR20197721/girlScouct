@@ -9,8 +9,8 @@ public class JcrCollectionHoldStringToJcrCollectionHoldStringEntity extends Base
 
     private static Logger log = LoggerFactory.getLogger(MeetingToMeetingEntityMapper.class);
 
-    public static JcrCollectionHoldStringEntity map(JcrCollectionHoldString jcrStr){
-        if(jcrStr != null) {
+    public static JcrCollectionHoldStringEntity map(JcrCollectionHoldString jcrStr) {
+        if (jcrStr != null) {
             try {
                 JcrCollectionHoldStringEntity entity = new JcrCollectionHoldStringEntity();
                 entity.setStr(jcrStr.getStr());

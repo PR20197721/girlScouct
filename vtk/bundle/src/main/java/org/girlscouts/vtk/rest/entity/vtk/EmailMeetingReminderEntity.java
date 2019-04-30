@@ -5,27 +5,27 @@ import com.google.gson.annotations.SerializedName;
 public class EmailMeetingReminderEntity extends BaseEntity {
 
     @SerializedName("to")
-	private String to;
+    private String to;
     @SerializedName("from")
-	private String from;
+    private String from;
     @SerializedName("cc")
-	private String cc;
+    private String cc;
     @SerializedName("bcc")
-	private String bcc;
+    private String bcc;
     @SerializedName("template")
-	private String template;
+    private String template;
     @SerializedName("html")
-	private String html;
+    private String html;
     @SerializedName("subj")
-	private String subj;
+    private String subj;
     @SerializedName("emailToGirlParent")
-	private String emailToGirlParent;
+    private String emailToGirlParent;
     @SerializedName("emailToSelf")
-	private String emailToSelf;
+    private String emailToSelf;
     @SerializedName("emailToTroopVolunteer")
-	private String emailToTroopVolunteer;
+    private String emailToTroopVolunteer;
     @SerializedName("meetingId")
-	private String meetingId;
+    private String meetingId;
 
     public String getTo() {
         return to;

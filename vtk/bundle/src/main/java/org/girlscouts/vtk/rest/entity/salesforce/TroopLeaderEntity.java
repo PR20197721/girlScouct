@@ -19,7 +19,47 @@ public class TroopLeaderEntity {
     @SerializedName("Contact")
     private Contact contact;
 
-    public class Contact{
+    public String getSfId() {
+        return sfId;
+    }
+
+    public void setSfId(String sfId) {
+        this.sfId = sfId;
+    }
+
+    public String getSfContactId() {
+        return sfContactId;
+    }
+
+    public void setSfContactId(String sfContactId) {
+        this.sfContactId = sfContactId;
+    }
+
+    public String getSfCampaignId() {
+        return sfCampaignId;
+    }
+
+    public void setSfCampaignId(String sfCampaignId) {
+        this.sfCampaignId = sfCampaignId;
+    }
+
+    public AttributesEntity getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(AttributesEntity attributes) {
+        this.attributes = attributes;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+
+    public class Contact {
         @SerializedName("Id")
         private String sfId;
 
@@ -63,45 +103,5 @@ public class TroopLeaderEntity {
         public void setLastName(String lastName) {
             this.lastName = lastName;
         }
-    }
-
-    public String getSfId() {
-        return sfId;
-    }
-
-    public void setSfId(String sfId) {
-        this.sfId = sfId;
-    }
-
-    public String getSfContactId() {
-        return sfContactId;
-    }
-
-    public void setSfContactId(String sfContactId) {
-        this.sfContactId = sfContactId;
-    }
-
-    public String getSfCampaignId() {
-        return sfCampaignId;
-    }
-
-    public void setSfCampaignId(String sfCampaignId) {
-        this.sfCampaignId = sfCampaignId;
-    }
-
-    public AttributesEntity getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(AttributesEntity attributes) {
-        this.attributes = attributes;
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
     }
 }

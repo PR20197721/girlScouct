@@ -5,90 +5,89 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+public class FinanceConfiguration implements Serializable {
 
-public class FinanceConfiguration implements Serializable{
+    public static final String FINANCE_CONFIG = "finance_configuration";
+    public static final String RECIPIENT = "recipient";
+    private static final long serialVersionUID = 6064391709671475214L;
 
-	public static final String FINANCE_CONFIG = "finance_configuration";
-	public static final String RECIPIENT = "recipient";
-	private static final long serialVersionUID = 6064391709671475214L;
+    private List<String> incomeFields;
 
-	private List<String> incomeFields;
-	
-	private List<String> expenseFields;
-	
-	private String period;
-	
-	private String recipient;
-	
-	private boolean isPersisted;
-	
-	public FinanceConfiguration(){
-		this.isPersisted = false;
-	}
-	
-	public List<String> getIncomeFields() {
-		if(this.incomeFields == null){
-			List<String> income = new ArrayList<String>();
-			income.add("Starting Balance");
-			income.add("Troop Dues");
-			income.add("Sponsorship/Donations");
-			income.add("Product Sales Proceeds");
-			income.add("Approved Money-Earnings Activities");
-			income.add("Interest on Bank Accounts");
-			return income;
-		} else{
-			return this.incomeFields;
-		}
-	}
+    private List<String> expenseFields;
 
-	public void setIncomeFields(List<String> incomeFields) {
-		this.incomeFields = incomeFields;
-	}
+    private String period;
 
-	public List<String> getExpenseFields() {
-		if(this.expenseFields == null){
+    private String recipient;
 
-			List<String> expenses = new ArrayList<String>();
-			expenses.add("GSUSA Registrations");
-			expenses.add("Service Activities/Events");
-			expenses.add("Council Programs/Camp");
-			expenses.add("Troop Activities");
-			expenses.add("Troop Supplies");
-			expenses.add("GS Store Purchase");
-			return expenses;
-		}else{
-			return expenseFields;
-		}
-	}
+    private boolean isPersisted;
 
-	public void setExpenseFields(List<String> expenseFields) {
-		this.expenseFields = expenseFields;
-	}
-	
-	public void setPeriod(String value){
-		this.period = value;
-	}
-	
-	public String getPeriod(){
-		return this.period;
-	}
+    public FinanceConfiguration() {
+        this.isPersisted = false;
+    }
 
-	public String getRecipient() {
-		return recipient;
-	}
+    public List<String> getIncomeFields() {
+        if (this.incomeFields == null) {
+            List<String> income = new ArrayList<String>();
+            income.add("Starting Balance");
+            income.add("Troop Dues");
+            income.add("Sponsorship/Donations");
+            income.add("Product Sales Proceeds");
+            income.add("Approved Money-Earnings Activities");
+            income.add("Interest on Bank Accounts");
+            return income;
+        } else {
+            return this.incomeFields;
+        }
+    }
 
-	public void setRecipient(String recipient) {
-		this.recipient = recipient;
-	}
+    public void setIncomeFields(List<String> incomeFields) {
+        this.incomeFields = incomeFields;
+    }
 
+    public List<String> getExpenseFields() {
+        if (this.expenseFields == null) {
 
-	public boolean isPersisted() {
-		return isPersisted;
-	}
+            List<String> expenses = new ArrayList<String>();
+            expenses.add("GSUSA Registrations");
+            expenses.add("Service Activities/Events");
+            expenses.add("Council Programs/Camp");
+            expenses.add("Troop Activities");
+            expenses.add("Troop Supplies");
+            expenses.add("GS Store Purchase");
+            return expenses;
+        } else {
+            return expenseFields;
+        }
+    }
+
+    public void setExpenseFields(List<String> expenseFields) {
+        this.expenseFields = expenseFields;
+    }
+
+    public String getPeriod() {
+        return this.period;
+    }
+
+    public void setPeriod(String value) {
+        this.period = value;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
 
 
-	public void setPersisted(boolean isPersisted) {
-		this.isPersisted = isPersisted;
-	}
+    public boolean isPersisted() {
+        return isPersisted;
+    }
+
+
+    public void setPersisted(boolean isPersisted) {
+        this.isPersisted = isPersisted;
+    }
 
 }

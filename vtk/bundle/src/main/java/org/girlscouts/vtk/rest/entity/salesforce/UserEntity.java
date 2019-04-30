@@ -43,121 +43,6 @@ public class UserEntity {
     @SerializedName("Contact")
     private Contact contact;
 
-    public class Contact{
-        @SerializedName("Id")
-        private String sfId;
-
-        @SerializedName("AccountId")
-        private String sfAccountId;
-
-        @SerializedName("OwnerId")
-        private String sfOwnerId;
-
-        @SerializedName("attributes")
-        private AttributesEntity attributes;
-
-        @SerializedName("Owner")
-        private Owner owner;
-
-        @SerializedName("rC_Bios__Preferred_Contact__c")
-        private boolean isPreferredContact;
-
-        @SerializedName("VTK_Admin__c")
-        private boolean isVtkAdmin;
-
-        public String getSfId() {
-            return sfId;
-        }
-
-        public void setSfId(String sfId) {
-            this.sfId = sfId;
-        }
-
-        public String getSfAccountId() {
-            return sfAccountId;
-        }
-
-        public void setSfAccountId(String sfAccountId) {
-            this.sfAccountId = sfAccountId;
-        }
-
-        public String getSfOwnerId() {
-            return sfOwnerId;
-        }
-
-        public void setSfOwnerId(String sfOwnerId) {
-            this.sfOwnerId = sfOwnerId;
-        }
-
-        public AttributesEntity getAttributes() {
-            return attributes;
-        }
-
-        public void setAttributes(AttributesEntity attributes) {
-            this.attributes = attributes;
-        }
-
-        public Owner getOwner() {
-            return owner;
-        }
-
-        public void setOwner(Owner owner) {
-            this.owner = owner;
-        }
-
-        public boolean isPreferredContact() {
-            return isPreferredContact;
-        }
-
-        public void setPreferredContact(boolean preferredContact) {
-            isPreferredContact = preferredContact;
-        }
-
-        public boolean isVtkAdmin() {
-            return isVtkAdmin;
-        }
-
-        public void setVtkAdmin(boolean vtkAdmin) {
-            isVtkAdmin = vtkAdmin;
-        }
-
-        public class Owner{
-            @SerializedName("Id")
-            private String sfId;
-
-            @SerializedName("AccountId")
-            private String sfAccountId;
-
-            @SerializedName("Council_Code__c")
-            private String councilCode;
-
-            public String getSfId() {
-                return sfId;
-            }
-
-            public void setSfId(String sfId) {
-                this.sfId = sfId;
-            }
-
-            public String getSfAccountId() {
-                return sfAccountId;
-            }
-
-            public void setSfAccountId(String sfAccountId) {
-                this.sfAccountId = sfAccountId;
-            }
-
-            public String getCouncilCode() {
-                return councilCode;
-            }
-
-            public void setCouncilCode(String councilCode) {
-                this.councilCode = councilCode;
-            }
-        }
-
-    }
-
     public String getSfId() {
         return sfId;
     }
@@ -260,5 +145,120 @@ public class UserEntity {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    public class Contact {
+        @SerializedName("Id")
+        private String sfId;
+
+        @SerializedName("AccountId")
+        private String sfAccountId;
+
+        @SerializedName("OwnerId")
+        private String sfOwnerId;
+
+        @SerializedName("attributes")
+        private AttributesEntity attributes;
+
+        @SerializedName("Owner")
+        private Owner owner;
+
+        @SerializedName("rC_Bios__Preferred_Contact__c")
+        private boolean isPreferredContact;
+
+        @SerializedName("VTK_Admin__c")
+        private boolean isVtkAdmin;
+
+        public String getSfId() {
+            return sfId;
+        }
+
+        public void setSfId(String sfId) {
+            this.sfId = sfId;
+        }
+
+        public String getSfAccountId() {
+            return sfAccountId;
+        }
+
+        public void setSfAccountId(String sfAccountId) {
+            this.sfAccountId = sfAccountId;
+        }
+
+        public String getSfOwnerId() {
+            return sfOwnerId;
+        }
+
+        public void setSfOwnerId(String sfOwnerId) {
+            this.sfOwnerId = sfOwnerId;
+        }
+
+        public AttributesEntity getAttributes() {
+            return attributes;
+        }
+
+        public void setAttributes(AttributesEntity attributes) {
+            this.attributes = attributes;
+        }
+
+        public Owner getOwner() {
+            return owner;
+        }
+
+        public void setOwner(Owner owner) {
+            this.owner = owner;
+        }
+
+        public boolean isPreferredContact() {
+            return isPreferredContact;
+        }
+
+        public void setPreferredContact(boolean preferredContact) {
+            isPreferredContact = preferredContact;
+        }
+
+        public boolean isVtkAdmin() {
+            return isVtkAdmin;
+        }
+
+        public void setVtkAdmin(boolean vtkAdmin) {
+            isVtkAdmin = vtkAdmin;
+        }
+
+        public class Owner {
+            @SerializedName("Id")
+            private String sfId;
+
+            @SerializedName("AccountId")
+            private String sfAccountId;
+
+            @SerializedName("Council_Code__c")
+            private String councilCode;
+
+            public String getSfId() {
+                return sfId;
+            }
+
+            public void setSfId(String sfId) {
+                this.sfId = sfId;
+            }
+
+            public String getSfAccountId() {
+                return sfAccountId;
+            }
+
+            public void setSfAccountId(String sfAccountId) {
+                this.sfAccountId = sfAccountId;
+            }
+
+            public String getCouncilCode() {
+                return councilCode;
+            }
+
+            public void setCouncilCode(String councilCode) {
+                this.councilCode = councilCode;
+            }
+        }
+
     }
 }

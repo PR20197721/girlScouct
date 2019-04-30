@@ -10,7 +10,7 @@ public class MeetingToMeetingEntityMapper extends BaseModelToEntityMapper {
     private static Logger log = LoggerFactory.getLogger(MeetingToMeetingEntityMapper.class);
 
     public static MeetingEntity map(Meeting meeting) {
-        if(meeting != null) {
+        if (meeting != null) {
             try {
                 MeetingEntity entity = new MeetingEntity();
                 entity.setAchievement(meeting.getIsAchievement());

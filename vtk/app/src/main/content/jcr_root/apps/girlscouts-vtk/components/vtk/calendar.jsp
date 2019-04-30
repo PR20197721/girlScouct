@@ -1,5 +1,6 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page
+        import="org.girlscouts.vtk.dao.YearPlanComponentType, org.girlscouts.vtk.ejb.MeetingUtil, org.girlscouts.vtk.models.Meeting,org.girlscouts.vtk.models.MeetingE,org.girlscouts.vtk.models.YearPlanComponent" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%@include file="include/session.jsp"%>
-<%@include file="include/calList.jsp"%>
+<%@include file="include/session.jsp" %>
+<%@include file="include/calList.jsp" %>

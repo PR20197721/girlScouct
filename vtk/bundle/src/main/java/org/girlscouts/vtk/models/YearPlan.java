@@ -31,6 +31,7 @@ public class YearPlan implements Serializable {
     @Collection(autoUpdate = false)
     private java.util.List<MeetingCanceled> meetingCanceled;
     private Helper helper;
+
     public YearPlan() {
         calFreq = "biweekly";
     }

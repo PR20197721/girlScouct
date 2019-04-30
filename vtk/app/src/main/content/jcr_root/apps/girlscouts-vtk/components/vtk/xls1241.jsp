@@ -1,51 +1,51 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
-<%@ page import="com.day.cq.wcm.foundation.Search,
-org.girlscouts.web.search.DocHit,java.io.*,
-com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
-com.day.cq.tagging.TagManager,
-java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
-java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
-com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
-com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,org.apache.commons.beanutils.*,
-java.util.Map,java.util.HashMap,java.util.List" %>
+<%@ page
+        import="com.day.cq.i18n.I18n, com.day.cq.search.Predicate,  com.day.cq.search.PredicateGroup,com.day.cq.search.Query,com.day.cq.search.QueryBuilder" %>
+<%@ page import="com.day.cq.search.eval.FulltextPredicateEvaluator,
+                 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,
+                 com.day.cq.search.result.Hit,
+                 com.day.cq.search.result.SearchResult,
+                 com.day.cq.tagging.TagManager,
+                 com.day.cq.wcm.foundation.Search,
+                 org.girlscouts.web.search.DocHit,
+                 javax.jcr.Node" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%@include file="include/session.jsp"%>
+<%@include file="include/session.jsp" %>
 <%
 
-Set<String> allowedReportUsers = new HashSet<String>();
-allowedReportUsers.add("005g0000002apMT");
-allowedReportUsers.add("005G0000006oEkZ");
-allowedReportUsers.add("005G0000006oBVG");
-allowedReportUsers.add("005g0000002G004");
+    Set<String> allowedReportUsers = new HashSet<String>();
+    allowedReportUsers.add("005g0000002apMT");
+    allowedReportUsers.add("005G0000006oEkZ");
+    allowedReportUsers.add("005G0000006oBVG");
+    allowedReportUsers.add("005g0000002G004");
 
-allowedReportUsers.add("005G0000006oEjsIAE");
-StringBuffer sb= new StringBuffer();
-if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
-    out.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
-    return;
-} else {
+    allowedReportUsers.add("005G0000006oEjsIAE");
+    StringBuffer sb = new StringBuffer();
+    if (false) {// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
+        out.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
+        return;
+    } else {
 
-        boolean isHtml= true;
-        if(request.getParameter("download")!=null){
+        boolean isHtml = true;
+        if (request.getParameter("download") != null) {
             response.setContentType("application/csv");
             isHtml = false;
-        }else{
-            %>
-            <a href="?download=true">download report</a>
-   <!--          || <a href="/content/girlscouts-vtk/controllers/vtk.ReportDetails.html">detailed report</a> -->
-            <br/><br/>
-            <% 
+        } else {
+%>
+<a href="?download=true">download report</a>
+<!-- || <a href="/content/girlscouts-vtk/controllers/vtk.ReportDetails.html">detailed report</a> -->
+<br/><br/>
+<%
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
         //StringBuffer buffer = new StringBuffer("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
-        sb.append("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
-        
-        java.util.Map<String, String> cTrans = new java.util.TreeMap();     
-        cTrans.put("597", "Girl Scouts of Northeast Texas"); 
+        sb.append("Council Report generated on " + format1.format(new java.util.Date()) + " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
+
+        java.util.Map<String, String> cTrans = new java.util.TreeMap();
+        cTrans.put("597", "Girl Scouts of Northeast Texas");
         cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
-        cTrans.put("465", "Girl Scouts of Southeastern Michigan"); 
+        cTrans.put("465", "Girl Scouts of Southeastern Michigan");
         cTrans.put("367", "Girl Scouts - North Carolina Coastal Pines, Inc.");
         cTrans.put("320", "Girl Scouts of West Central Florida, Inc.");
         cTrans.put("388", "Girl Scout Council of the Southern Appalachians, Inc.");
@@ -74,7 +74,7 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
         cTrans.put("514", "Eastern IA & Western IL");
         cTrans.put("524", "Greater Iowa");
         cTrans.put("430", "Greater Chicago and NW  Indiana");
-        
+
         cTrans.put("578", "Central Texas");
         cTrans.put("208", "Kentuckiana");
         cTrans.put("700", "USA Girl Scouts Overseas");
@@ -106,48 +106,58 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
         cTrans.put("687", "Eastern Washington and Northern Idaho");
         cTrans.put("441", "Southwest Indiana");
         cTrans.put("238", "Ohio's Heartland");
-        
-        String limitRptToCouncil= request.getParameter("limitRptToCouncil");
-        limitRptToCouncil= limitRptToCouncil==null ? "" :  limitRptToCouncil.trim() ;
-      
+
+        String limitRptToCouncil = request.getParameter("limitRptToCouncil");
+        limitRptToCouncil = limitRptToCouncil == null ? "" : limitRptToCouncil.trim();
+
         java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
-        javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
-        String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, selectedTroop)+""+ (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil+"/") ) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
-     
+        javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
+        String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, selectedTroop) + "" + (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil + "/")) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
+
         javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
-        javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-        java.util.Map container= new java.util.TreeMap();
+        javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
+        java.util.Map container = new java.util.TreeMap();
         javax.jcr.query.QueryResult result = q.execute();
-     
+
         for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
             javax.jcr.query.Row r = it.nextRow();
 
             javax.jcr.Node n = r.getNode();
             javax.jcr.Node n1 = n.getNode("yearPlan");
-            String yearPlanName=n1.getProperty("name").getValue().getString();
-               
-            String path = r.getValue("jcr:path").getString() ;
-            String sfCouncil = null, sfTroopAge=null, sfTroopName=null, sfTroopId=null;
-            
-            try{ sfTroopId   = r.getValue("sfTroopId").getString() ;}catch(Exception e){}
-            try{ sfTroopName = r.getValue("sfTroopName").getString() ;}catch(Exception e){}
-            try{ sfCouncil   = r.getValue("sfCouncil").getString() ;}catch(Exception e){}          
-            try{
-                sfTroopAge= r.getValue("sfTroopAge").getString(); 
-                if(!sfTroopAge.toUpperCase().equals("7-MULTI-LEVEL") && !sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
-                    continue;
-                    }
-            }catch(Exception e){}
+            String yearPlanName = n1.getProperty("name").getValue().getString();
 
-            out.println( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ "," + yearPlanName  +","+ sfTroopId + ","+sfTroopName );          
-            sb.append( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ "," + yearPlanName  +","+ sfTroopId + ","+sfTroopName );          
+            String path = r.getValue("jcr:path").getString();
+            String sfCouncil = null, sfTroopAge = null, sfTroopName = null, sfTroopId = null;
+
+            try {
+                sfTroopId = r.getValue("sfTroopId").getString();
+            } catch (Exception e) {
+            }
+            try {
+                sfTroopName = r.getValue("sfTroopName").getString();
+            } catch (Exception e) {
+            }
+            try {
+                sfCouncil = r.getValue("sfCouncil").getString();
+            } catch (Exception e) {
+            }
+            try {
+                sfTroopAge = r.getValue("sfTroopAge").getString();
+                if (!sfTroopAge.toUpperCase().equals("7-MULTI-LEVEL") && !sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")) {
+                    continue;
+                }
+            } catch (Exception e) {
+            }
+
+            out.println((isHtml ? "<br/>" : "\n") + "\"" + cTrans.get(sfCouncil) + "\"," + sfCouncil + "," + sfTroopAge + "," + yearPlanName + "," + sfTroopId + "," + sfTroopName);
+            sb.append((isHtml ? "<br/>" : "\n") + "\"" + cTrans.get(sfCouncil) + "\"," + sfCouncil + "," + sfTroopAge + "," + yearPlanName + "," + sfTroopId + "," + sfTroopName);
 
         }
-        
-       
-}
+
+
+    }
 
 
 //email rpt
-councilRpt.emailRpt(sb.toString());
-    %>
+    councilRpt.emailRpt(sb.toString());
+%>

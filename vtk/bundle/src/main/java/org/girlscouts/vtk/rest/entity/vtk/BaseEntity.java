@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 
 public abstract class BaseEntity {
 
-    public String getJson(){
+    public String getJson() {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
                 .enableComplexMapKeySerialization()

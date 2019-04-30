@@ -4,24 +4,24 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class HelperEntity extends BaseEntity{
+public class HelperEntity extends BaseEntity {
 
     @SerializedName("currentDate")
-	private long currentDate;
+    private long currentDate;
     @SerializedName("nextDate")
     private long nextDate;
     @SerializedName("prevDate")
     private long prevDate;
     @SerializedName("permissions")
-	private ArrayList<String> permissions;
+    private ArrayList<String> permissions;
     @SerializedName("achievementCurrent")
-	private int achievementCurrent;
+    private int achievementCurrent;
     @SerializedName("attendanceCurrent")
     private int attendanceCurrent;
     @SerializedName("attendanceTotal")
     private int attendanceTotal;
     @SerializedName("SfTroopAge")
-	private String SfTroopAge;
+    private String SfTroopAge;
 
     public long getCurrentDate() {
         return currentDate;

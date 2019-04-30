@@ -1,64 +1,60 @@
 package org.girlscouts.vtk.sling.servlet;
 
-import java.io.IOException;
-import javax.servlet.ServletOutputStream;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
-import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
-import java.rmi.ServerException;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
+import org.girlscouts.vtk.ejb.YearPlanUtil;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
-import org.girlscouts.vtk.ejb.YearPlanUtil;
+
+import javax.servlet.ServletOutputStream;
+import java.io.IOException;
+import java.rmi.ServerException;
 
 @Component(metatype = true, immediate = true)
 @Service
 @Properties({
-	@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-	@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "ics"),
-	@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET"),
-        @Property(name="label", value="Girl Scouts VTK Upload Servlet"),
-        @Property(name="description", value="Girl Scouts VTK Upload Servlet")
+        @Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
+        @Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "ics"),
+        @Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET"),
+        @Property(name = "label", value = "Girl Scouts VTK Upload Servlet"),
+        @Property(name = "description", value = "Girl Scouts VTK Upload Servlet")
 })
 public class Cal extends SlingSafeMethodsServlet {
 
-	@Reference
-	private ResourceResolverFactory resolverFactory;
+    @Reference
+    YearPlanUtil yearPlanUtil;
+    @Reference
+    private ResourceResolverFactory resolverFactory;
 
-	@Reference
-	YearPlanUtil yearPlanUtil;
+    @Override
+    protected void doGet(SlingHttpServletRequest request,
+                         SlingHttpServletResponse response) throws
+            IOException {
 
-	@Override
-	protected void doGet(SlingHttpServletRequest request,
-			SlingHttpServletResponse response) throws ServerException,
-			IOException {
+        User user = ((org.girlscouts.vtk.models.User) request.getSession()
+                .getAttribute(org.girlscouts.vtk.models.User.class.getName()));
 
-		User user = ((org.girlscouts.vtk.models.User) request.getSession()
-				.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
-		
-		
-		Troop troop = (Troop) request.getSession().getAttribute("VTK_troop");
-		
-		response.setHeader("Content-Disposition", "attachment;filename=\""
-				+ troop.getYearPlan().getName() + ".ics\"");
-		response.setContentType("text/calendar");
 
-		try {
-			
-			net.fortuna.ical4j.model.Calendar calendar = yearPlanUtil.yearPlanCal(user, troop);
-			ServletOutputStream fout = response.getOutputStream();
-			net.fortuna.ical4j.data.CalendarOutputter outputter = new net.fortuna.ical4j.data.CalendarOutputter();
-			outputter.output(calendar, fout);
-			fout.flush();
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+        Troop troop = (Troop) request.getSession().getAttribute("VTK_troop");
+
+        response.setHeader("Content-Disposition", "attachment;filename=\""
+                + troop.getYearPlan().getName() + ".ics\"");
+        response.setContentType("text/calendar");
+
+        try {
+
+            net.fortuna.ical4j.model.Calendar calendar = yearPlanUtil.yearPlanCal(user, troop);
+            ServletOutputStream fout = response.getOutputStream();
+            net.fortuna.ical4j.data.CalendarOutputter outputter = new net.fortuna.ical4j.data.CalendarOutputter();
+            outputter.output(calendar, fout);
+            fout.flush();
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

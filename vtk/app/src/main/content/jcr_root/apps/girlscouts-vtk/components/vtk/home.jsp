@@ -1,8 +1,8 @@
-<%@page import="org.girlscouts.vtk.osgi.component.ConfigManager,
-                org.girlscouts.vtk.osgi.component.CouncilMapper,
-                org.girlscouts.vtk.utils.VtkUtil,
-                org.girlscouts.vtk.auth.models.ApiConfig" %>
-<%@ page import="org.girlscouts.vtk.models.Troop" %>
+<%@page import="org.girlscouts.vtk.auth.models.ApiConfig,
+                org.girlscouts.vtk.models.Troop,
+                org.girlscouts.vtk.osgi.component.ConfigManager,
+                org.girlscouts.vtk.osgi.component.CouncilMapper" %>
+<%@ page import="org.girlscouts.vtk.utils.VtkUtil" %>
 <%@ page import="java.util.List" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
@@ -21,7 +21,7 @@
         e.printStackTrace();
     }
     if (apiConfig != null && !apiConfig.isFail()) {
-        userTroops =  apiConfig.getUser().getTroops();
+        userTroops = apiConfig.getUser().getTroops();
         String branch = null;
         try {
             councilId = userTroops.get(0).getCouncilCode();
@@ -156,29 +156,29 @@
                     if (node.hasProperty("popupBody")) {
                         popupBody = node.getProperty("popupBody").getString();
                     }
-                    %>
-                    <!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
-                    <div id="maintenanceModal" class="maintenance">
-                        <!-- Modal content -->
-                        <div class="maintenance-content">
-                            <div class="modal-header">
-                                <div class="vtk-maintenance-news-button">
-                                    <i class="icon-button-circle-cross"></i>
-                                </div>
-                                <div class="maintenanceHeader"><%= popupHeader %> </br></div>
-                            </div>
-                            <div class="modal-body">
-                                <p id="maintenanceBody"><%= popupBody %>
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <strong>-The GSUSA VTK Team</strong>
-                            </div>
+%>
+<!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
+<div id="maintenanceModal" class="maintenance">
+    <!-- Modal content -->
+    <div class="maintenance-content">
+        <div class="modal-header">
+            <div class="vtk-maintenance-news-button">
+                <i class="icon-button-circle-cross"></i>
+            </div>
+            <div class="maintenanceHeader"><%= popupHeader %> </br></div>
+        </div>
+        <div class="modal-body">
+            <p id="maintenanceBody"><%= popupBody %>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <strong>-The GSUSA VTK Team</strong>
+        </div>
 
-                        </div>
+    </div>
 
-                    </div>
-                    <%
+</div>
+<%
                 }
             }
         } catch (Exception e) {

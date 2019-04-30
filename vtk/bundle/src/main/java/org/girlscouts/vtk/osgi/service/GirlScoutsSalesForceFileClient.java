@@ -7,12 +7,19 @@ import org.girlscouts.vtk.rest.entity.salesforce.TroopLeadersInfoResponseEntity;
 import org.girlscouts.vtk.rest.entity.salesforce.UserInfoResponseEntity;
 
 public interface GirlScoutsSalesForceFileClient {
-    public UserInfoResponseEntity getUserInfo(ApiConfig apiConfig);
-    public UserInfoResponseEntity getUserInfoById(ApiConfig apiConfig, String userId);
-    public TroopInfoResponseEntity getTroopInfoByUserId(ApiConfig apiConfig, String userId);
-    public ContactsInfoResponseEntity getContactsByTroopId(ApiConfig apiConfig, String sfTroopId);
-    public TroopLeadersInfoResponseEntity getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId);
-    public TroopInfoResponseEntity getServiceUnitManagerTroops();
-    public ContactsInfoResponseEntity getServiceUnitManagerContacts();
-    public UserInfoResponseEntity getIndependentRegisteredMember();
+    UserInfoResponseEntity getUserInfo(ApiConfig apiConfig);
+
+    UserInfoResponseEntity getUserInfoById(ApiConfig apiConfig, String userId);
+
+    TroopInfoResponseEntity getTroopInfoByUserId(ApiConfig apiConfig, String userId);
+
+    ContactsInfoResponseEntity getContactsByTroopId(ApiConfig apiConfig, String sfTroopId);
+
+    TroopLeadersInfoResponseEntity getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId);
+
+    TroopInfoResponseEntity getServiceUnitManagerTroops();
+
+    ContactsInfoResponseEntity getServiceUnitManagerContacts();
+
+    UserInfoResponseEntity getIndependentRegisteredMember();
 }

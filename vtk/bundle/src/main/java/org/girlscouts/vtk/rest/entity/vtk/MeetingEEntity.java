@@ -6,46 +6,46 @@ import org.girlscouts.vtk.dao.YearPlanComponentType;
 import java.util.Date;
 import java.util.List;
 
-public class MeetingEEntity extends BaseEntity{
+public class MeetingEEntity extends BaseEntity {
 
     @SerializedName("path")
-	private String path;
+    private String path;
     @SerializedName("refId")
-	private String refId;
+    private String refId;
     @SerializedName("locationRef")
-	private String locationRef;
+    private String locationRef;
     @SerializedName("meetingInfo")
-	private MeetingEntity meetingInfo;
+    private MeetingEntity meetingInfo;
     @SerializedName("cancelled")
-	private String cancelled;
+    private String cancelled;
     @SerializedName("id")
-	private Integer id;
+    private Integer id;
     @SerializedName("uid")
-	private String uid;
+    private String uid;
     @SerializedName("emlTemplate")
-	private String emlTemplate;
+    private String emlTemplate;
     @SerializedName("assets")
-	private List<AssetEntity> assets;
+    private List<AssetEntity> assets;
     @SerializedName("sentEmails")
-	private List<SentEmailEntity> sentEmails;
+    private List<SentEmailEntity> sentEmails;
     @SerializedName("lastAssetUpdate")
-	private Date lastAssetUpdate;
+    private Date lastAssetUpdate;
     @SerializedName("attendance")
-	private AttendanceEntity attendance;
+    private AttendanceEntity attendance;
     @SerializedName("achievement")
-	private AchievementEntity achievement;
+    private AchievementEntity achievement;
     @SerializedName("notes")
-	private List<NoteEntity> notes;
+    private List<NoteEntity> notes;
     @SerializedName("isAnyOutdoorActivityInMeeting")
-	private boolean isAnyOutdoorActivityInMeeting;
+    private boolean isAnyOutdoorActivityInMeeting;
     @SerializedName("isAnyOutdoorActivityInMeetingAvailable")
-	private boolean isAnyOutdoorActivityInMeetingAvailable;
+    private boolean isAnyOutdoorActivityInMeetingAvailable;
     @SerializedName("isAnyGlobalActivityInMeeting")
-	private boolean isAnyGlobalActivityInMeeting;
+    private boolean isAnyGlobalActivityInMeeting;
     @SerializedName("isAnyGlobalActivityInMeetingAvailable")
-	private boolean isAnyGlobalActivityInMeetingAvailable;
+    private boolean isAnyGlobalActivityInMeetingAvailable;
     @SerializedName("isAllMultiActivitiesSelected")
-	private boolean isAllMultiActivitiesSelected;
+    private boolean isAllMultiActivitiesSelected;
     @SerializedName("isDbUpdate")
     private boolean isDbUpdate;
     @SerializedName("type")

@@ -9,20 +9,20 @@ public enum RollType {
 		IP (Indirect Primary)
 		IS (Indirect Secondary)
 	 */
-	
-	DP("DP"), CouncilAdmin("CA"), PA("PA"),
-	DS ("DS"),
-	DO ("DO"),
-	IP ("IP"),
-	IS ("IS");
 
-	String value = null;
+    DP("DP"), CouncilAdmin("CA"), PA("PA"),
+    DS("DS"),
+    DO("DO"),
+    IP("IP"),
+    IS("IS");
 
-	RollType(String x) {
-		value = x;
-	}
+    String value = null;
 
-	public String getRollType() {
-		return this.value;
-	}
+    RollType(String x) {
+        value = x;
+    }
+
+    public String getRollType() {
+        return this.value;
+    }
 }

@@ -6,6 +6,7 @@ import com.day.cq.tagging.TagManager;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.vtk.models.DocumentCategory;
+
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
@@ -25,7 +26,7 @@ public class DocumentUtil {
     private List<TagHolder> allTags;
     private int tagIndex = 0;
 
-    public DocumentUtil(ResourceResolver resolver, JcrTagManagerFactory tagManagerFactory, String councilName) throws PathNotFoundException, RepositoryException {
+    public DocumentUtil(ResourceResolver resolver, JcrTagManagerFactory tagManagerFactory, String councilName) throws RepositoryException {
         //Setup basic access tools
         this.tagManager = tagManagerFactory.getTagManager(resolver);
         String tagsPath = String.format(TAGS_DIRECTORY, councilName);

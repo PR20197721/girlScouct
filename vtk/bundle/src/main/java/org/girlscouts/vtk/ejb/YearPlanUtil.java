@@ -258,11 +258,8 @@ public class YearPlanUtil {
 
     public boolean isYearPlanAltered(User user, Troop troop) {
         if (troop.getYearPlan() != null) {
-            if (troop.getYearPlan().getAltered() != null
-                    && troop.getYearPlan().getAltered().equals("true")) {
-
-                return true;
-            }
+            return troop.getYearPlan().getAltered() != null
+                    && troop.getYearPlan().getAltered().equals("true");
         }
         return false;
     }

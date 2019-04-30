@@ -1,7 +1,8 @@
 <%@page import="org.girlscouts.vtk.auth.models.ApiConfig,
-                org.girlscouts.vtk.models.*,
-                org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
-                org.girlscouts.vtk.utils.VtkUtil" %>
+                org.girlscouts.vtk.models.Troop,
+                org.girlscouts.vtk.models.User,
+                org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
+<%@ page import="org.girlscouts.vtk.utils.VtkUtil" %>
 <%@ page import="java.util.List" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
@@ -17,7 +18,7 @@
     killMyCookie.setMaxAge(0);
     killMyCookie.setPath("/");
     response.addCookie(killMyCookie);
-    boolean isGroupDemo = request.getParameter("isGroupDemo") != null ? true : false;
+    boolean isGroupDemo = request.getParameter("isGroupDemo") != null;
     String contactId = request.getParameter("user");
     ApiConfig apiConfig = new ApiConfig();
     apiConfig.setUserId(contactId);
@@ -50,11 +51,11 @@
     }
     session.setAttribute(User.class.getName(), vtkUser);
     if (request.getParameter("prefGradeLevel") != null) {
-        %>
-        <script>
-            gsusa.component.dropDown('#vtk-dropdown-3333', {local: true}, '<%=request.getParameter("prefGradeLevel")%>');
-        </script>
-        <%
+%>
+<script>
+    gsusa.component.dropDown('#vtk-dropdown-3333', {local: true}, '<%=request.getParameter("prefGradeLevel")%>');
+</script>
+<%
         //set prefTroop
         Cookie cookie = new Cookie("vtk_prefTroop", request.getParameter("prefGradeLevel"));
         cookie.setMaxAge(-1);

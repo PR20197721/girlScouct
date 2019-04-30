@@ -56,7 +56,7 @@
             $('.clearfix.btn-wrap').remove();
             $('#modal_upload_image').foundation('reveal', 'close');
             displayCurrent(true);
-        };
+        }
     </script>
 </div>
 

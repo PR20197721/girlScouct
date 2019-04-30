@@ -31,7 +31,7 @@ public class PDFHtmlFormatter {
         // Stange double quote
         dst = dst.replaceAll("“", "");
         dst = dst.replaceAll("”", "");
-        
+
         // Cleanup html
         doc = Jsoup.parse(dst);
         dst = doc.body().html();

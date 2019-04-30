@@ -9,8 +9,8 @@ public class SentEmailToSentEmailEntityMapper extends BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(SentEmailToSentEmailEntityMapper.class);
 
-    public static SentEmailEntity map(SentEmail sentEmail){
-        if(sentEmail != null) {
+    public static SentEmailEntity map(SentEmail sentEmail) {
+        if (sentEmail != null) {
             try {
                 SentEmailEntity entity = new SentEmailEntity();
                 entity.setAddresses(sentEmail.getAddresses());

@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.mapper.vtk;
 
-import org.girlscouts.vtk.models.*;
-import org.girlscouts.vtk.rest.entity.vtk.*;
+import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.rest.entity.vtk.YearPlanEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,8 +9,8 @@ public class YearPlanToYearPlanEntityMapper extends BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(YearPlanToYearPlanEntityMapper.class);
 
-    public static YearPlanEntity map(YearPlan yearPlan){
-        if(yearPlan != null) {
+    public static YearPlanEntity map(YearPlan yearPlan) {
+        if (yearPlan != null) {
             try {
                 YearPlanEntity entity = new YearPlanEntity();
                 entity.setActivities(mapActivities(yearPlan.getActivities()));

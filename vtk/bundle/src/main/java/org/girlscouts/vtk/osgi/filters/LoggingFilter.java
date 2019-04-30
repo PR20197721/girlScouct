@@ -17,30 +17,30 @@ import java.io.IOException;
  */
 @SlingFilter(generateComponent = false, generateService = true, order = -700, scope = SlingFilterScope.REQUEST)
 @Component(immediate = true, metatype = false)
-@Properties ({
-        @Property(name="label", value="Girl Scouts Logging Filter"),
-        @Property(name="description", value="Girl Scouts Logging Filter")
+@Properties({
+        @Property(name = "label", value = "Girl Scouts Logging Filter"),
+        @Property(name = "description", value = "Girl Scouts Logging Filter")
 })
 public class LoggingFilter implements Filter {
 
-	private Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
+    private Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
 
-	public void init(FilterConfig filterConfig) throws ServletException {
-	}
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
 
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-		// because this is a Sling filter, we can be assured the the request
-		// is an instance of SlingHttpServletRequest
-		SlingHttpServletRequest slingRequest = (SlingHttpServletRequest) request;
-		logger.debug("request for {}, with selector {}", slingRequest
-				.getRequestPathInfo().getResourcePath(), slingRequest
-				.getRequestPathInfo().getSelectorString());
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain) throws IOException, ServletException {
+        // because this is a Sling filter, we can be assured the the request
+        // is an instance of SlingHttpServletRequest
+        SlingHttpServletRequest slingRequest = (SlingHttpServletRequest) request;
+        logger.debug("request for {}, with selector {}", slingRequest
+                .getRequestPathInfo().getResourcePath(), slingRequest
+                .getRequestPathInfo().getSelectorString());
 
-		chain.doFilter(request, response);
-	}
+        chain.doFilter(request, response);
+    }
 
-	public void destroy() {
-	}
+    public void destroy() {
+    }
 
 }

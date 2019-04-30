@@ -5,7 +5,7 @@ import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 import java.util.Date;
 
-public class YearPlanComponentEntity extends BaseEntity{
+public class YearPlanComponentEntity extends BaseEntity {
 
     @SerializedName("date")
     private Date date;

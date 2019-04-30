@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.Set;
 
-public class TroopEntity extends BaseEntity{
+public class TroopEntity extends BaseEntity {
 
     @SerializedName("path")
     private String path;

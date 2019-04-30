@@ -14,7 +14,7 @@ import java.util.Properties;
 public class BuildInfoServlet extends SlingSafeMethodsServlet {
     private static final long serialVersionUID = 5981389970977916595L;
 
-    private static final Logger log = LoggerFactory .getLogger(BuildInfoServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(BuildInfoServlet.class);
 
     @Override
     protected void doGet(SlingHttpServletRequest request,

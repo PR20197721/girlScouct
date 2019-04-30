@@ -283,19 +283,19 @@ public class TroopUtil {
     }
 
     public boolean updateTroop(User user, Troop troop)
-            throws java.lang.IllegalAccessException,
+            throws
             java.lang.IllegalAccessException, VtkException {
         return troopDAO.updateTroop(user, troop);
 
     }
 
-    public void rmTroop(Troop troop) throws java.lang.IllegalAccessException,
+    public void rmTroop(Troop troop) throws
             java.lang.IllegalAccessException {
         troopDAO.rmTroop(troop);
     }
 
     public YearPlan addYearPlan(User user, Troop troop, String yearPlanPath)
-            throws java.lang.IllegalAccessException,
+            throws
             java.lang.IllegalAccessException {
         YearPlan plan = null;
         try {
@@ -324,7 +324,7 @@ public class TroopUtil {
         List<Troop> troops = user.getTroops();
         session.setAttribute("USER_TROOP_LIST", troops);
         Troop newSelectedTroop = null;
-        for (Troop troop:user.getTroops()) {
+        for (Troop troop : user.getTroops()) {
             try {
                 if (troop.getHash().equals(newSelectedTroopHash) || troop.getGradeLevel().equals(newSelectedTroopHash)) {
                     newSelectedTroop = troop;
@@ -346,7 +346,7 @@ public class TroopUtil {
         Troop newSelectedTroopRepoData = getTroopByPath(user, newSelectedTroop.getPath());
         if (newSelectedTroopRepoData == null) {
             createCouncil(user, newSelectedTroop);
-        }else{
+        } else {
             newSelectedTroop.setYearPlan(newSelectedTroopRepoData.getYearPlan());
             newSelectedTroop.setCurrentTroop(newSelectedTroopRepoData.getCurrentTroop());
         }

@@ -5,31 +5,29 @@
                 com.day.cq.wcm.api.components.DropTarget,
                 com.day.cq.wcm.foundation.Image,
                 com.day.image.Layer,
+                com.google.gson.Gson,
+                com.google.gson.GsonBuilder,
                 org.apache.commons.beanutils.BeanComparator,
                 org.apache.commons.codec.binary.Base64,
+                org.girlscouts.vtk.auth.permission.Permission,
                 org.girlscouts.vtk.ejb.CouncilRpt,
                 org.girlscouts.vtk.ejb.EmailMeetingReminder,
                 org.girlscouts.vtk.ejb.VtkYearPlanChangeException,
+                org.girlscouts.vtk.mapper.vtk.BaseModelToEntityMapper,
+                org.girlscouts.vtk.mapper.vtk.TroopToTroopEntityMapper,
+                org.girlscouts.vtk.mapper.vtk.YearPlanToYearPlanEntityMapper,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
-                org.girlscouts.vtk.auth.permission.Permission,
                 org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
                 org.joda.time.LocalDate,
-                org.slf4j.Logger,
-                org.slf4j.LoggerFactory,
                 javax.imageio.ImageIO,
                 java.awt.geom.Rectangle2D,
-                java.awt.image.BufferedImage,
-                java.io.ByteArrayInputStream,
-                java.io.ByteArrayOutputStream,
-                java.util.Collections" %>
+                java.awt.image.BufferedImage" %>
+<%@ page import="java.io.ByteArrayInputStream" %>
+<%@ page import="java.io.ByteArrayOutputStream" %>
+<%@ page import="java.util.Collections" %>
 <%@ page import="java.util.Comparator" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="java.util.StringTokenizer" %>
-<%@ page import="com.google.gson.Gson" %>
-<%@ page import="org.girlscouts.vtk.mapper.vtk.TroopToTroopEntityMapper" %>
-<%@ page import="org.girlscouts.vtk.mapper.vtk.BaseModelToEntityMapper" %>
-<%@ page import="org.girlscouts.vtk.mapper.vtk.YearPlanToYearPlanEntityMapper" %>
-<%@ page import="com.google.gson.GsonBuilder" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects/>
@@ -45,7 +43,7 @@
     int serverPortInt = request.getServerPort();
     String serverPort = "";
     if (serverPortInt != 80 && serverPortInt != 443) {
-        serverPort = ":" + String.valueOf(serverPortInt);
+        serverPort = ":" + serverPortInt;
     }
     String serverName = request.getServerName();
     try {
@@ -403,7 +401,7 @@
                     if (userTroops != null && userTroops.size() > 0) {
                         prefTroop = userTroops.get(0);
                     }
-                    for (Troop userTroop:userTroops) {
+                    for (Troop userTroop : userTroops) {
                         if (userTroop.getHash().equals(selectedTroop.getHash())) {
                             prefTroop = userTroop;
                             break;
@@ -550,7 +548,7 @@
                     if (userTroops != null && userTroops.size() > 0) {
                         prefTroop = userTroops.get(0);
                     }
-                    for (Troop userTroop:userTroops) {
+                    for (Troop userTroop : userTroops) {
                         if (userTroop.getHash().equals(selectedTroop.getHash())) {
                             prefTroop = userTroop;
                             break;
@@ -569,7 +567,7 @@
                     }
                     Troop selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
                     //end archive
-                    if(selectedTroopRepoData != null){
+                    if (selectedTroopRepoData != null) {
                         selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
                         selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
                     }
@@ -591,7 +589,7 @@
                         }
                     }
                     session.setAttribute("VTK_troop", selectedTroop);
-                    Object tmp[] = sched.values().toArray();
+                    Object[] tmp = sched.values().toArray();
                     for (int i = 0; i < tmp.length; i++) {
                         try {
                             if (!(tmp[i] instanceof MeetingE)) {
@@ -641,7 +639,7 @@
                 if (userTroops != null && userTroops.size() > 0) {
                     prefTroop = userTroops.get(0);
                 }
-                for (Troop userTroop:userTroops) {
+                for (Troop userTroop : userTroops) {
                     if (userTroop.getHash().equals(selectedTroop.getHash())) {
                         prefTroop = userTroop;
                         break;
@@ -886,10 +884,11 @@
 } else if (request.getParameter("printTroopReloginids") != null) {
     vtklog.debug("printTroopReloginids");
 %><select id="reloginid" onchange="relogin()"><%
-    for (Troop userTroop:userTroops) {
+    for (Troop userTroop : userTroops) {
 %>
     <option value="<%=userTroop.getHash()%>"
-            <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%> : <%=userTroop.getGradeLevel()%>
+            <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%>
+        : <%=userTroop.getGradeLevel()%>
     </option>
     <%
         }
@@ -913,13 +912,13 @@
     <div class="columns large-push-2 medium-2 medium-push-2 small-2">
         <input type="radio" <%=(selectedTroop.getYearPlan() != null && (yearPlan.getName().equals(selectedTroop.getYearPlan().getName()))) ? " checked " : "" %>
                id="r_<%=yearPlan.getId()%>" class="radio1" name="group1"
-               onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=selectedTroop.getYearPlan()!=null ? true: false %> ,'<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>', false)"/>
+               onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=selectedTroop.getYearPlan() != null %> ,'<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>', false)"/>
         <label for="r_<%=yearPlan.getId()%>"></label>
 
     </div>
     <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
         <a href="#"
-           onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=selectedTroop.getYearPlan()!=null ? true: false %> ,'<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>', false)"><%=yearPlan.getName()%>
+           onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=selectedTroop.getYearPlan() != null %> ,'<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>', false)"><%=yearPlan.getName()%>
         </a>
         <p><%=yearPlan.getDesc()%>
         </p>
@@ -941,13 +940,13 @@
     <div class="columns large-push-2 medium-2 medium-push-2 small-2">
         <input type="radio" <%=(selectedTroop.getYearPlan() != null && (selectedTroop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %>
                id="r_0" class="radio1" name="group1"
-               onclick="chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan', <%=selectedTroop.getYearPlan()!=null ? true: false %> ,'<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>', <%= isMeetingLib %> )"/>
+               onclick="chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan', <%=selectedTroop.getYearPlan() != null %> ,'<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>', <%= isMeetingLib %> )"/>
         <label for="r_0"></label></div>
     <%} %>
     <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2"
          style="<%= condition ? "padding-left:16px" : ""  %>">
         <div style="margin-left:-10px;margin-right: -10px;">
-            <a onclick="return chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan', <%=selectedTroop.getYearPlan()!=null ? true: false %> ,'<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>', <%= isMeetingLib %> )">
+            <a onclick="return chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan', <%=selectedTroop.getYearPlan() != null %> ,'<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>', <%= isMeetingLib %> )">
                 <% if (selectedTroop != null && selectedTroop.getSfTroopAge() != null &&
                         (selectedTroop.getSfTroopAge().toLowerCase().contains("senior") || selectedTroop.getSfTroopAge().toLowerCase().contains("cadette") || selectedTroop.getSfTroopAge().toLowerCase().contains("ambassador"))) {%>
                 Customize Your Troop Year
@@ -967,7 +966,7 @@
             <p style="margin-bottom:15px !important;">You will begin by selecting the Girl Scout Levels and types of
                 meetings you want to see.</p>
             <br/><input type="button" class="button" value="Create Your Year Plan"
-                        onclick="return chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan', <%=isMeetingLib%>"/>
+                        onclick="return chgYearPlan('', '', '<%=confMsg%>', 'Custom Year Plan',; <%=isMeetingLib%>"/>
             <%} else { %>
             Choose this option to create your own year plan using meetings from our meeting library
             <%} %>
@@ -1040,7 +1039,7 @@
             vtklog.debug("cngOutdoor");
             String mid = request.getParameter("mid");
             String aid = request.getParameter("aid");
-            boolean isOutdoor = "true".equals(request.getParameter("isOutdoor")) ? true : false;
+            boolean isOutdoor = "true".equals(request.getParameter("isOutdoor"));
             MeetingE meeting = VtkUtil.findMeetingById(selectedTroop.getYearPlan().getMeetingEvents(), mid);
             Activity activity = VtkUtil.findActivityByPath(meeting.getMeetingInfo().getActivities(), aid);
             //TODO meetingUtil.updateActivityOutdoorStatus(user, selectedTroop, meeting, activity, isOutdoor);

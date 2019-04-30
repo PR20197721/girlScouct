@@ -2,7 +2,8 @@ package org.girlscouts.vtk.osgi.service;
 
 public interface GirlScoutsRepoFileIOService {
 
-    public String readFile(String path);
-    public void writeFile(String path, String content);
+    String readFile(String path);
+
+    void writeFile(String path, String content);
 
 }

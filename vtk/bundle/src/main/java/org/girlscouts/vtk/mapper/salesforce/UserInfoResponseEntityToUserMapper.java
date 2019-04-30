@@ -10,7 +10,7 @@ public class UserInfoResponseEntityToUserMapper {
 
     private static Logger log = LoggerFactory.getLogger(UserInfoResponseEntityToUserMapper.class);
 
-    public static User map(UserInfoResponseEntity entity){
+    public static User map(UserInfoResponseEntity entity) {
         try {
             User user = new User();
             if (entity != null && entity.getUsers() != null && user != null) {
@@ -36,7 +36,7 @@ public class UserInfoResponseEntityToUserMapper {
                     log.error("Error occurred mapping LastName to User ", ex);
                 }
                 try {
-                    user.setName(user.getFirstName()+" "+user.getLastName());
+                    user.setName(user.getFirstName() + " " + user.getLastName());
                 } catch (Exception ex) {
                     log.error("Error occurred mapping Name to User ", ex);
                 }
@@ -67,7 +67,7 @@ public class UserInfoResponseEntityToUserMapper {
                 }
                 return user;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             log.error("Error occurred mapping UserInfoResponseEntity to User ", e);
         }
         return null;

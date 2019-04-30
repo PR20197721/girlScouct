@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="org.girlscouts.vtk.auth.permission.Permission" %>
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.Collections" %>
+<%@ page import="java.util.Comparator" %>
+<%@ page import="java.util.Map" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../session.jsp" %>
@@ -57,76 +59,77 @@
                 Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo.getMeetingInfo();
                 Activity _activity = null;
                 if (request.getParameter("isOverview") != null) {
-                    %>
-                    <div class="editable-textarea column small-20 small-centered" id="editMeetingOverview">
-                        <h5><%=meetingInfo.getName()%>: introduction</h5>
-                        <%=meetingInfoItems.get("overview").getStr()%>
-                    </div>
-                    <%
-                } else if (request.getParameter("isActivity") != null) {
-                        %>
-                        <%@include file="modal_activity_view.jsp" %>
-                        <%
-                        } else if (request.getParameter("isMaterials") != null) {
-                        %>
-                        <div class="editable-textarea column small-20 small-centered" id="editMeetingMaterials">
-                         <%
-                            List<Activity> activities = meetingInfo.getActivities();
-                            //TODO sort
-                            Collections.sort(activities, new Comparator<Activity>() {
-                                public int compare(Activity activity1, Activity activity2) {
-                                    return activity1.getActivityNumber() - activity2.getActivityNumber();
-                                }
-                            });
-                            for (Activity activity : activities) {
-                                List<Activity> subActivities = activity.getMultiactivities();
-                                Activity selectedActivity = VtkUtil.findSelectedActivity(subActivities);
-                                if (selectedActivity == null && (subActivities != null && subActivities.size() > 1)) {
-                                    %>
-                                    <p style="color:red; font-size:18px; font-weight:bold;">Activity <%= activity.getActivityNumber() %> : Select Your Activity</p>
-                                    <%
-                                } else {
-                                    String materials = selectedActivity == null ? subActivities.get(0).getMaterials() : selectedActivity.getMaterials();
-                                    %>
-                                    <p style="font-size:18px; font-weight:bold;">Activity <%= activity.getActivityNumber() %>
-                                        <%if (subActivities.size() != 1) {%> - Choice <%=selectedActivity.getActivityNumber()%> <%}%>
-                                        : <%=subActivities.size() == 1 ? activity.getName() : selectedActivity.getName()%>
-                                        <br/><%=materials == null ? "" : materials%>
-                                    </p>
-                                    <%
-                                }
-                            }
-                            %>
-                        </div>
-                        <%
-                        } else if (request.getParameter("isAgenda") != null) {
-                            try {
-                                meetingUtil.sortActivity(_activities);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            for (int ii = 0; ii < _activities.size(); ii++) {
-                                _activity = _activities.get(ii);
-                                if (ii == Integer.parseInt(request.getParameter("isAgenda"))) {
-                                    break;
-                                }
-                            }
+            %>
+            <div class="editable-textarea column small-20 small-centered" id="editMeetingOverview">
+                <h5><%=meetingInfo.getName()%>: introduction</h5>
+                <%=meetingInfoItems.get("overview").getStr()%>
+            </div>
+            <%
+            } else if (request.getParameter("isActivity") != null) {
+            %>
+            <%@include file="modal_activity_view.jsp" %>
+            <%
+            } else if (request.getParameter("isMaterials") != null) {
+            %>
+            <div class="editable-textarea column small-20 small-centered" id="editMeetingMaterials">
+                <%
+                    List<Activity> activities = meetingInfo.getActivities();
+                    //TODO sort
+                    Collections.sort(activities, new Comparator<Activity>() {
+                        public int compare(Activity activity1, Activity activity2) {
+                            return activity1.getActivityNumber() - activity2.getActivityNumber();
                         }
-                         if (request.getParameter("isAgenda") != null) {%>
-                            <div class="row" style="background-color: white;">
-                                <form onsubmit="return false;">
-                                    <dl class="tabs agenda-tabs">
-                                        <%
-                                            Activity _subActivity_selected = _activity;
-                                            java.util.List<Activity> subActivities = _activity.getMultiactivities();
-                                            if (subActivities != null) {
-                                                for (int sa = 0; sa < subActivities.size(); sa++) {
-                                                    Activity _subActivity = subActivities.get(sa);
-                                                    if (_subActivity.getUid().equals(request.getParameter("uid"))) //.getIsSelected() )
-                                                        _subActivity_selected = _subActivity;
+                    });
+                    for (Activity activity : activities) {
+                        List<Activity> subActivities = activity.getMultiactivities();
+                        Activity selectedActivity = VtkUtil.findSelectedActivity(subActivities);
+                        if (selectedActivity == null && (subActivities != null && subActivities.size() > 1)) {
+                %>
+                <p style="color:red; font-size:18px; font-weight:bold;">Activity <%= activity.getActivityNumber() %> :
+                    Select Your Activity</p>
+                <%
+                } else {
+                    String materials = selectedActivity == null ? subActivities.get(0).getMaterials() : selectedActivity.getMaterials();
+                %>
+                <p style="font-size:18px; font-weight:bold;">Activity <%= activity.getActivityNumber() %>
+                    <%if (subActivities.size() != 1) {%> - Choice <%=selectedActivity.getActivityNumber()%> <%}%>
+                    : <%=subActivities.size() == 1 ? activity.getName() : selectedActivity.getName()%>
+                    <br/><%=materials == null ? "" : materials%>
+                </p>
+                <%
+                        }
+                    }
+                %>
+            </div>
+            <%
+                } else if (request.getParameter("isAgenda") != null) {
+                    try {
+                        meetingUtil.sortActivity(_activities);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    for (int ii = 0; ii < _activities.size(); ii++) {
+                        _activity = _activities.get(ii);
+                        if (ii == Integer.parseInt(request.getParameter("isAgenda"))) {
+                            break;
+                        }
+                    }
+                }
+                if (request.getParameter("isAgenda") != null) {%>
+            <div class="row" style="background-color: white;">
+                <form onsubmit="return false;">
+                    <dl class="tabs agenda-tabs">
+                        <%
+                            Activity _subActivity_selected = _activity;
+                            java.util.List<Activity> subActivities = _activity.getMultiactivities();
+                            if (subActivities != null) {
+                                for (int sa = 0; sa < subActivities.size(); sa++) {
+                                    Activity _subActivity = subActivities.get(sa);
+                                    if (_subActivity.getUid().equals(request.getParameter("uid"))) //.getIsSelected() )
+                                        _subActivity_selected = _subActivity;
 
-                                                    if (_subActivity.getIsSelected()) {
-                                                        _subActivity_selected = _subActivity;
+                                    if (_subActivity.getIsSelected()) {
+                                        _subActivity_selected = _subActivity;
                         %>
                         <dd id="tab_<%= sa %>" data-uid="<%= _subActivity.getUid() %>"><i class="dot on"></i><a
                                 href="#panel_<%= sa %>"><%=_subActivity.getName() %>
@@ -283,9 +286,7 @@
 
             $('.agenda-tabs dd .dot').removeClass('on');
             $('#tab_' + selectedPanel + ' .dot').addClass('on');
-        };
-
-
+        }
         $(document).ready(function () {
 
 
@@ -312,7 +313,6 @@
                     default:
                         agendaTabsClass = 'other';
                 }
-                ;
                 return agendaTabsClass;
             };
 

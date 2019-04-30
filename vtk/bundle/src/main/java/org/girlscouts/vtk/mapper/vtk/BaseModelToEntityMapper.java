@@ -11,13 +11,13 @@ public class BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(BaseModelToEntityMapper.class);
 
-    public static List<ActivityEntity> mapActivities(List<Activity> activities){
-        if(activities != null){
+    public static List<ActivityEntity> mapActivities(List<Activity> activities) {
+        if (activities != null) {
             List<ActivityEntity> entities = new ArrayList<ActivityEntity>();
-            for(Activity activity:activities){
-                try{
+            for (Activity activity : activities) {
+                try {
                     entities.add(ActivityToActivityEntityMapper.map(activity));
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     log.error("Error occurred:", ex);
                 }
             }
@@ -41,14 +41,14 @@ public class BaseModelToEntityMapper {
         return null;
     }
 
-    public static List<MeetingCanceledEntity> mapMeetingsCanceled(List<MeetingCanceled> meetingsCanceled){
-        if(meetingsCanceled != null){
+    public static List<MeetingCanceledEntity> mapMeetingsCanceled(List<MeetingCanceled> meetingsCanceled) {
+        if (meetingsCanceled != null) {
             List<MeetingCanceledEntity> meetingCanceledList = new ArrayList<MeetingCanceledEntity>();
-            for(MeetingCanceled meetingCanceled:meetingsCanceled){
-                try{
+            for (MeetingCanceled meetingCanceled : meetingsCanceled) {
+                try {
                     meetingCanceledList.add(MeetingCanceledToMeetingCanceledEntityMapper.map(meetingCanceled));
-                }catch(Exception ex){
-                    log.error("Error occurred: ",ex);
+                } catch (Exception ex) {
+                    log.error("Error occurred: ", ex);
                 }
             }
             return meetingCanceledList;
@@ -71,14 +71,14 @@ public class BaseModelToEntityMapper {
         return null;
     }
 
-    public static List<MilestoneEntity> mapMilestones(List<Milestone> milestones){
-        if(milestones != null){
+    public static List<MilestoneEntity> mapMilestones(List<Milestone> milestones) {
+        if (milestones != null) {
             List<MilestoneEntity> entities = new ArrayList<MilestoneEntity>();
-            for(Milestone milestone:milestones){
-                try{
+            for (Milestone milestone : milestones) {
+                try {
                     entities.add(MilestoneToMilestoneEntityMapper.map(milestone));
-                }catch (Exception ex){
-                    log.error("Error occurred: ",ex);
+                } catch (Exception ex) {
+                    log.error("Error occurred: ", ex);
                 }
             }
             return entities;
@@ -86,13 +86,13 @@ public class BaseModelToEntityMapper {
         return null;
     }
 
-    public static List<AssetEntity> mapAssets(List<Asset> assets){
-        if(assets != null){
+    public static List<AssetEntity> mapAssets(List<Asset> assets) {
+        if (assets != null) {
             List<AssetEntity> entities = new ArrayList<>();
-            for(Asset asset:assets){
+            for (Asset asset : assets) {
                 try {
                     entities.add(AssetToAssetEntityMapper.map(asset));
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     log.error("Error occurred:", ex);
                 }
             }
@@ -101,15 +101,15 @@ public class BaseModelToEntityMapper {
         return null;
     }
 
-    public static List<SentEmailEntity> mapSentEmails(List<SentEmail> sentEmails, String template){
-        if(sentEmails != null ){
+    public static List<SentEmailEntity> mapSentEmails(List<SentEmail> sentEmails, String template) {
+        if (sentEmails != null) {
             List<SentEmailEntity> entities = new ArrayList<SentEmailEntity>();
-            for(SentEmail sentEmail:sentEmails){
-                try{
+            for (SentEmail sentEmail : sentEmails) {
+                try {
                     SentEmailEntity sentEmailEntity = SentEmailToSentEmailEntityMapper.map(sentEmail);
                     sentEmailEntity.setHtmlMsg(sentEmail.getHtmlMsg(template));
                     entities.add(sentEmailEntity);
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     log.error("Error occurred:", ex);
                 }
             }
@@ -118,8 +118,8 @@ public class BaseModelToEntityMapper {
         return null;
     }
 
-    public static List<NoteEntity> mapNotes(List<Note> notes){
-        if(notes != null) {
+    public static List<NoteEntity> mapNotes(List<Note> notes) {
+        if (notes != null) {
             List<NoteEntity> entities = new ArrayList<NoteEntity>();
             for (Note note : notes) {
                 try {
@@ -134,7 +134,7 @@ public class BaseModelToEntityMapper {
     }
 
     public static Map<String, JcrCollectionHoldStringEntity> mapMeetingInfo(Map<String, JcrCollectionHoldString> meetingInfos) {
-        if(meetingInfos != null) {
+        if (meetingInfos != null) {
             Map<String, JcrCollectionHoldStringEntity> entities = new TreeMap<String, JcrCollectionHoldStringEntity>();
             Set<String> keys = meetingInfos.keySet();
             if (keys != null) {
@@ -151,8 +151,8 @@ public class BaseModelToEntityMapper {
         return null;
     }
 
-    public static  Map<Date, BaseEntity> mapYearPlanComponents(Map<Date, YearPlanComponent > yearPlanComponents){
-        if(yearPlanComponents != null) {
+    public static Map<Date, BaseEntity> mapYearPlanComponents(Map<Date, YearPlanComponent> yearPlanComponents) {
+        if (yearPlanComponents != null) {
             Map<Date, BaseEntity> entities = new TreeMap<Date, BaseEntity>();
             Set<Date> keys = yearPlanComponents.keySet();
             if (keys != null) {
@@ -160,8 +160,8 @@ public class BaseModelToEntityMapper {
                     try {
                         Object o = yearPlanComponents.get(key);
                         Date entityKey = new Date(key.getTime());
-                        while(entities.containsKey(entityKey)){
-                            entityKey.setTime(entityKey.getTime()+10000);
+                        while (entities.containsKey(entityKey)) {
+                            entityKey.setTime(entityKey.getTime() + 10000);
                         }
                         if (o instanceof MeetingE) {
                             entities.put(entityKey, MeetingEToMeetingEEntityMapper.map((MeetingE) o));

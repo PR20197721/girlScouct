@@ -12,29 +12,31 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.jcr.*;
+import javax.jcr.Binary;
+import javax.jcr.Node;
+import javax.jcr.Session;
+import javax.jcr.ValueFactory;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component(service = {GirlScoutsRepoFileIOService.class }, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsRepoFileIOServiceImpl")
+@Component(service = {GirlScoutsRepoFileIOService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsRepoFileIOServiceImpl")
 public class GirlScoutsRepoFileIOServiceImpl extends BasicGirlScoutsService implements GirlScoutsRepoFileIOService {
 
+    private static Logger log = LoggerFactory.getLogger(GirlScoutsRepoFileIOServiceImpl.class);
     @Reference
     private ResourceResolverFactory resolverFactory;
-
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
-
-    private static Logger log = LoggerFactory.getLogger(GirlScoutsRepoFileIOServiceImpl.class);
 
     @Activate
     private void activate(ComponentContext context) {
         this.context = context;
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
-        log.info(this.getClass().getName()+" activated.");
+        log.info(this.getClass().getName() + " activated.");
     }
+
     @Override
     public String readFile(String path) {
         ResourceResolver rr = null;
@@ -46,9 +48,9 @@ public class GirlScoutsRepoFileIOServiceImpl extends BasicGirlScoutsService impl
             return content;
         } catch (Exception e) {
             log.error("Cannot get file node: " + path + " due to ", e);
-        }finally {
+        } finally {
             try {
-                if(rr != null) {
+                if (rr != null) {
                     rr.close();
                 }
             } catch (Exception e) {
@@ -80,9 +82,9 @@ public class GirlScoutsRepoFileIOServiceImpl extends BasicGirlScoutsService impl
             session.save();
         } catch (Exception e) {
             log.error("Cannot get file node: " + path + " due to RepositoryException");
-        }finally {
+        } finally {
             try {
-                if(rr != null) {
+                if (rr != null) {
                     rr.close();
                 }
             } catch (Exception e) {

@@ -1,6 +1,6 @@
 <%@ page
-        import="org.girlscouts.vtk.models.Activity,
-                org.girlscouts.vtk.auth.permission.Permission,
+        import="org.girlscouts.vtk.auth.permission.Permission,
+                org.girlscouts.vtk.models.Activity,
                 org.girlscouts.vtk.models.PlanView,
                 org.girlscouts.vtk.models.Troop" %>
 <%@include file="/libs/foundation/global.jsp" %>
@@ -18,7 +18,7 @@
             isParent = true;
         }
         boolean isTroopLeader = false;
-        if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("DP")|| (selectedTroop.getRole().equals("PA") && "IRM".equals(selectedTroop.getParticipationCode()))) {
+        if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("DP") || (selectedTroop.getRole().equals("PA") && "IRM".equals(selectedTroop.getParticipationCode()))) {
             isTroopLeader = true;
         }
         String vtk_cache_uri = "/content/girlscouts-vtk/en";
@@ -36,7 +36,8 @@
                     cookie.setMaxAge(-1);
                     response.addCookie(cookie);
             %>
-            <select id="reloginid" onchange="relogin()" <%=!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "") ? "disabled" : "" %>>
+            <select id="reloginid"
+                    onchange="relogin()" <%=!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "") ? "disabled" : "" %>>
                 <%
                     if (!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) {
                 %>
@@ -331,7 +332,7 @@
 </div>
 <!-- MaintenanceBanner -->
 <% Resource maintenanceNode = resourceResolver.getResource("/content/vtkcontent/en/vtk-maintenanceBanner/jcr:content/content/middle/par/breaking-news");
-    if (maintenanceNode != null && (request.getSession().getAttribute("isHideVtkMaintenance") != null ? false : true)) { %>
+    if (maintenanceNode != null && (request.getSession().getAttribute("isHideVtkMaintenance") == null)) { %>
 <div id="vtkBreakingNews" class="row">
     <cq:include path="/content/vtkcontent/en/vtk-maintenanceBanner/jcr:content/content/middle/par/breaking-news"
                 resourceType="girlscouts-vtk/components/breaking-news"/>
@@ -539,7 +540,7 @@
                         <%}//edn if archive%>
 
                         <li><a
-                                onclick="javascript:window.print();vtkTrackerPushAction('Print');"
+                                onclick="window.print();vtkTrackerPushAction('Print');"
                                 title="print"><i class="icon-printer"></i></a></li>
 
                         <% } %>

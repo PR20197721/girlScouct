@@ -9,8 +9,8 @@ public class MilestoneToMilestoneEntityMapper extends BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(MilestoneToMilestoneEntityMapper.class);
 
-    public static MilestoneEntity map(Milestone milestone){
-        if(milestone != null) {
+    public static MilestoneEntity map(Milestone milestone) {
+        if (milestone != null) {
             try {
                 MilestoneEntity entity = new MilestoneEntity();
                 entity.setBlurb(milestone.getBlurb());

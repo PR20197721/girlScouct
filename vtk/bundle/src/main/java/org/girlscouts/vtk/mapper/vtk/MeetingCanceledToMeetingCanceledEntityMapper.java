@@ -9,8 +9,8 @@ public class MeetingCanceledToMeetingCanceledEntityMapper extends BaseModelToEnt
 
     private static Logger log = LoggerFactory.getLogger(MeetingCanceledToMeetingCanceledEntityMapper.class);
 
-    public static MeetingCanceledEntity map(MeetingCanceled meetingCanceled){
-        if(meetingCanceled != null) {
+    public static MeetingCanceledEntity map(MeetingCanceled meetingCanceled) {
+        if (meetingCanceled != null) {
             try {
                 MeetingCanceledEntity entity = new MeetingCanceledEntity();
                 entity.setAssets(mapAssets(meetingCanceled.getAssets()));

@@ -1,4 +1,5 @@
-<%@ page import="com.day.cq.i18n.I18n, com.day.cq.search.Predicate,  com.day.cq.search.PredicateGroup,com.day.cq.search.Query,com.day.cq.search.QueryBuilder" %>
+<%@ page
+        import="com.day.cq.i18n.I18n, com.day.cq.search.Predicate,  com.day.cq.search.PredicateGroup,com.day.cq.search.Query,com.day.cq.search.QueryBuilder" %>
 <%@ page import="com.day.cq.search.eval.FulltextPredicateEvaluator,
                  com.day.cq.search.eval.JcrPropertyPredicateEvaluator,
                  com.day.cq.search.result.Hit,

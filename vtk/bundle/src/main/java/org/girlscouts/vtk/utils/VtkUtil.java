@@ -25,9 +25,9 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.ejb.VtkError;
+import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.ConfigListener;
 import org.girlscouts.vtk.osgi.component.ConfigManager;
-import org.girlscouts.vtk.models.*;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.jsoup.Jsoup;
@@ -73,7 +73,8 @@ public class VtkUtil implements ConfigListener {
     public static final SimpleDateFormat FORMAT_YYYYMMdd = new SimpleDateFormat("yyyyMMdd");
     public static final String HASH_SEED = "!3Ar#(8\0102-D\033@";
     private static String gsNewYear;
-    private static String vtkHolidays[], gsCouncils[];
+    private static String[] vtkHolidays;
+    private static String[] gsCouncils;
     private static String gsFinanceYearCutoffDate;
     @Reference
     ConfigManager configManager;
@@ -125,7 +126,7 @@ public class VtkUtil implements ConfigListener {
         MessageDigest md = MessageDigest.getInstance("MD5"); // SHA-256");// 512");
         md.update(str.getBytes());
 
-        byte byteData[] = md.digest();
+        byte[] byteData = md.digest();
 
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < byteData.length; i++) {
@@ -353,10 +354,7 @@ public class VtkUtil implements ConfigListener {
 
     public static boolean hasPermission(Troop troop, int permissionId) {
         java.util.Set<Integer> myPermissionTokens = troop.getPermissionTokens();
-        if (myPermissionTokens != null && myPermissionTokens.contains(permissionId)) {
-            return true;
-        }
-        return false;
+        return myPermissionTokens != null && myPermissionTokens.contains(permissionId);
     }
 
     public static User getUser(HttpSession session) {
@@ -550,7 +548,7 @@ public class VtkUtil implements ConfigListener {
                         .findAny()
                         .orElse(null);
 
-        return (activity == null) ? false : true;
+        return activity != null;
     }
 
     public static boolean isAnyOutdoorActivitiesInMeetingAvailable(Meeting meeting) {
@@ -566,7 +564,7 @@ public class VtkUtil implements ConfigListener {
                         .findAny()
                         .orElse(null);
 
-        return (activity == null) ? false : true;
+        return activity != null;
     }
 
     public static boolean isAnyGlobalActivitiesInMeeting(Meeting meeting) {
@@ -582,7 +580,7 @@ public class VtkUtil implements ConfigListener {
                         .findAny()
                         .orElse(null);
 
-        return (activity == null) ? false : true;
+        return activity != null;
     }
 
     public static boolean isAnyGlobalActivitiesInMeetingAvailable(Meeting meeting) {
@@ -598,7 +596,7 @@ public class VtkUtil implements ConfigListener {
                         .findAny()
                         .orElse(null);
 
-        return (activity == null) ? false : true;
+        return activity != null;
     }
 
     public static String sortDates(String dates) {
@@ -645,43 +643,43 @@ public class VtkUtil implements ConfigListener {
         switch (chngPerm) {
             case 2:
                 troop.setPermissionTokens(
-                                Permission
-                                        .getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+                        Permission
+                                .getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
                 break;
             case 11:
 
                 troop.setPermissionTokens(
-                                Permission
-                                        .getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+                        Permission
+                                .getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
                 break;
             case 12:
 
                 troop.setPermissionTokens(
-                                Permission
-                                        .getPermissionTokens(Permission.GROUP_MEMBER_2G_PERMISSIONS));
+                        Permission
+                                .getPermissionTokens(Permission.GROUP_MEMBER_2G_PERMISSIONS));
                 break;
             case 13:
                 troop.setPermissionTokens(
-                                Permission
-                                        .getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+                        Permission
+                                .getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
                 break;
 
             case 14:
                 troop.setPermissionTokens(
-                                Permission
-                                        .getPermissionTokens(Permission.GROUP_MEMBER_NO_TROOP_PERMISSIONS));
+                        Permission
+                                .getPermissionTokens(Permission.GROUP_MEMBER_NO_TROOP_PERMISSIONS));
                 break;
 
             case 15:
                 troop.setPermissionTokens(
-                                Permission
-                                        .getPermissionTokens(Permission.GROUP_MEMBER_TROOP_PERMISSIONS));
+                        Permission
+                                .getPermissionTokens(Permission.GROUP_MEMBER_TROOP_PERMISSIONS));
                 break;
 
             default:
                 troop.setPermissionTokens(
-                                Permission
-                                        .getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+                        Permission
+                                .getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
                 break;
         }
     }
@@ -809,16 +807,13 @@ public class VtkUtil implements ConfigListener {
 
         Calendar rightNow = Calendar.getInstance();
 
-        if (membershipYear == rightNow.get(Calendar.YEAR) && (rightNow.get(Calendar.MONTH) > 2 && rightNow.get(Calendar.MONTH) < 9)) {
-            return true;
-        }
-        return false;
+        return membershipYear == rightNow.get(Calendar.YEAR) && (rightNow.get(Calendar.MONTH) > 2 && rightNow.get(Calendar.MONTH) < 9);
 
     }
 
     public static JSONObject getJsonFromRequest(SlingHttpServletRequest request) throws IOException {
 
-        HttpServletRequest _request = (HttpServletRequest) request;
+        HttpServletRequest _request = request;
         StringBuilder sb = new StringBuilder();
         BufferedReader br = _request.getReader();
 
@@ -849,7 +844,7 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static List<Meeting> filterUniqMeetingByPath(List<Meeting> meetings) {
-        return (List<Meeting>) meetings.stream().filter(distinctByKey(Meeting::getPath))
+        return meetings.stream().filter(distinctByKey(Meeting::getPath))
                 .collect(Collectors.toList());
     }
 
@@ -960,7 +955,7 @@ public class VtkUtil implements ConfigListener {
             }
 
         }
-        return isFoundMultiActivityNotSelected ? false : true;
+        return !isFoundMultiActivityNotSelected;
     }
 
     public static java.util.List<Activity> getMeetingMultiActivities(java.util.List<Activity> activities) {

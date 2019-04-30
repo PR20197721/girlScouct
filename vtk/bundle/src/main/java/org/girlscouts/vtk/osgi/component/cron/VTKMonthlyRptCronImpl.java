@@ -35,13 +35,13 @@ public class VTKMonthlyRptCronImpl implements Runnable {
         try {
             councilDAO.GSMonthlyRpt();
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         }
         log.debug("Generating report 'detailed' part 2 of 2 ....");
         try {
             councilDAO.GSMonthlyDetailedRpt(VtkUtil.getYearPlanBase(null, null));
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         }
         log.debug("Done generating reports");
     }

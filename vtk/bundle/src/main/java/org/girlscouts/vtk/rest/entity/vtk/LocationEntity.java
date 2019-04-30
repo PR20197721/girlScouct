@@ -5,25 +5,25 @@ import com.google.gson.annotations.SerializedName;
 public class LocationEntity extends BaseEntity {
 
     @SerializedName("path")
-	private String path;
+    private String path;
     @SerializedName("address")
-	private String address;
+    private String address;
     @SerializedName("state")
-	private String state;
+    private String state;
     @SerializedName("city")
     private String city;
     @SerializedName("zip")
     private String zip;
     @SerializedName("name")
-	private String name;
+    private String name;
     @SerializedName("locatinName")
-	private String locatinName;
+    private String locatinName;
     @SerializedName("locationAddress")
     private String locationAddress;
     @SerializedName("uid")
-	private String uid;
+    private String uid;
     @SerializedName("isDbUpdate")
-	private boolean isDbUpdate;
+    private boolean isDbUpdate;
 
     public String getPath() {
         return path;

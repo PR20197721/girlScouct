@@ -246,7 +246,7 @@ public class ContactEntity {
         this.account = account;
     }
 
-    public class PreferredMailingAddress{
+    public class PreferredMailingAddress {
 
         @SerializedName("Id")
         private String sfId;

@@ -1,56 +1,61 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<%@ page import="org.apache.sling.settings.SlingSettingsService,
-				 java.util.Set,
-				 com.day.cq.wcm.api.WCMMode"%><%
+<%@ page import="com.day.cq.wcm.api.WCMMode,
+                 org.apache.sling.settings.SlingSettingsService,
+                 java.util.Set" %>
+<%
 %>
 <div id="mobileView" class="hide-for-large"></div>
 <%
-	String message = properties.get("message","");
-	String url = properties.get("url","");
-	String alert = properties.get("alert","");
-	String newstype = properties.get("newstype","");
-	String bgcolor = properties.get("bgcolor","");
-	String textcolor = properties.get("textcolor","");
+    String message = properties.get("message", "");
+    String url = properties.get("url", "");
+    String alert = properties.get("alert", "");
+    String newstype = properties.get("newstype", "");
+    String bgcolor = properties.get("bgcolor", "");
+    String textcolor = properties.get("textcolor", "");
 
-	Resource thumbnail = resource.getChild("thumbnail");
-	String filePath = "";
-	if(thumbnail != null) {
-		filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
-	}
+    Resource thumbnail = resource.getChild("thumbnail");
+    String filePath = "";
+    if (thumbnail != null) {
+        filePath = ((ValueMap) thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
+    }
 
-	Set<String> runModes = sling.getService(SlingSettingsService.class).getRunModes();
+    Set<String> runModes = sling.getService(SlingSettingsService.class).getRunModes();
 
-	if(!newstype.equals("None")) {
-		if(!bgcolor.equals("") && newstype.equals("Text")) {
+    if (!newstype.equals("None")) {
+        if (!bgcolor.equals("") && newstype.equals("Text")) {
 
-			%><div id="breakingNews" class="inner-wrapper" style="background-color:#<%=bgcolor%>"><%
+%>
+<div id="breakingNews" class="inner-wrapper" style="background-color:#<%=bgcolor%>"><%
 	
 		} else if (newstype.equals("Image")) {
 
-			%><div id="breakingNews" class="inner-wrapper" style="padding: 0;"><%
+			%>
+    <div id="breakingNews" class="inner-wrapper" style="padding: 0;"><%
 		} else {
 
-			%><div id="breakingNews" class="inner-wrapper"><%
-		}
+			%>
+        <div id="breakingNews" class="inner-wrapper"><%
+            }
 
-		if(newstype.equals("Image")) {
-			if(!filePath.equals("")) {
-				if(!url.equals("")) {
+            if (newstype.equals("Image")) {
+                if (!filePath.equals("")) {
+                    if (!url.equals("")) {
 
-					if(url.substring(0,4).equals("http")) {
-   						%><a href="<%=url %>" target="_blank"><% 
+                        if (url.substring(0, 4).equals("http")) {
+        %><a href="<%=url %>" target="_blank"><%
 					} else{
     					String gshtmlUrl = url.replaceAll(".html","") + ".html";
-    					%><a href="<%=gshtmlUrl %>"><% 
-					}
- 
-				}
+    					%><a href="<%=gshtmlUrl %>"><%
+                }
 
-				%><img src="<%= filePath %>" alt="<%=alert%> <%=message%>" title="<%=alert%> <%=message%>" style="max-width:100%;" class="thumbnail"/><%
+            }
 
-				if(!url.equals("")) {
+        %><img src="<%= filePath %>" alt="<%=alert%> <%=message%>" title="<%=alert%> <%=message%>"
+               style="max-width:100%;" class="thumbnail"/><%
 
-					%></a><%
+            if (!url.equals("")) {
+
+        %></a><%
  
 				}
             } 
@@ -62,36 +67,39 @@
    					%><a href="<%=url %>" target="_blank"><% 
 				} else{
     				String gshtmlUrl = url.replaceAll(".html","") + ".html";
-    				%><a href="<%=gshtmlUrl %>"><% 
-				}
-			}
-			if(!textcolor.equals("")) {
+    				%><a href="<%=gshtmlUrl %>"><%
+                }
+            }
+            if (!textcolor.equals("")) {
 
-				%><strong style="color:#<%=textcolor%>"><%= alert %></strong> <span style="color:#<%=textcolor%>"><%= message %></span><%
+        %><strong style="color:#<%=textcolor%>"><%= alert %>
+        </strong> <span style="color:#<%=textcolor%>"><%= message %></span><%
 
-			} else {
+        } else {
 
-				%><strong><%= alert %></strong> <span><%= message %></span><%
-			
-			}
-			if(!url.equals("")) {
+        %><strong><%= alert %>
+        </strong> <span><%= message %></span><%
 
-				%></a><%
+            }
+            if (!url.equals("")) {
+
+        %></a><%
 
 			}
 		}
 
 			%>
-			<div id="breakingNewsBtn" class="vtk-breaking-news-button">
+            <div id="breakingNewsBtn" class="vtk-breaking-news-button">
                 <i class="icon-button-circle-cross"></i>
             </div>
-			</div><%
+        </div>
+            <%
 			
     } else{
     %>
-		<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder">
-		</div>
-    <%
+        <div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder">
+        </div>
+            <%
 }
 
 

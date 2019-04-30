@@ -5,44 +5,44 @@ import com.google.gson.annotations.SerializedName;
 public class AttendanceEntity extends BaseEntity {
 
     @SerializedName("path")
-	private String path;
+    private String path;
     @SerializedName("id")
-	private String id;
+    private String id;
     @SerializedName("users")
-	private String users; // sf id
+    private String users; // sf id
     @SerializedName("total")
-	private int total;
-	
-	public String getPath() {
-		return path;
-	}
+    private int total;
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getUsers() {
-		return users;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setUsers(String users) {
-		this.users = users;
-	}
+    public String getUsers() {
+        return users;
+    }
 
-	public int getTotal() {
-		return total;
-	}
+    public void setUsers(String users) {
+        this.users = users;
+    }
 
-	public void setTotal(int total) {
-		this.total = total;
-	}
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
 
 }

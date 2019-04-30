@@ -9,8 +9,8 @@ public class YearPlanComponentToYearPlanComponentEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(YearPlanComponentToYearPlanComponentEntityMapper.class);
 
-    public static YearPlanComponentEntity map(YearPlanComponent yearPlanComponent){
-        if(yearPlanComponent != null) {
+    public static YearPlanComponentEntity map(YearPlanComponent yearPlanComponent) {
+        if (yearPlanComponent != null) {
             try {
                 YearPlanComponentEntity entity = new YearPlanComponentEntity();
                 entity.setDate(yearPlanComponent.getDate());

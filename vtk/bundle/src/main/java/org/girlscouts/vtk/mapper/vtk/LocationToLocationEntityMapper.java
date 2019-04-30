@@ -9,8 +9,8 @@ public class LocationToLocationEntityMapper extends BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(LocationToLocationEntityMapper.class);
 
-    public static LocationEntity map(Location location){
-        if(location != null) {
+    public static LocationEntity map(Location location) {
+        if (location != null) {
             try {
                 LocationEntity entity = new LocationEntity();
                 entity.setAddress(location.getAddress());

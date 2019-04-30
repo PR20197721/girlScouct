@@ -13,16 +13,16 @@ import java.io.IOException;
 import java.util.Dictionary;
 
 @Component(
-    enabled = false, 
-    label = "Girl Scouts VTK Maintenance Filter",
-    description = "Filter that redirects the user to the maintenance page", 
-    metatype = true
+        enabled = false,
+        label = "Girl Scouts VTK Maintenance Filter",
+        description = "Filter that redirects the user to the maintenance page",
+        metatype = true
 )
 @Service
-@Properties({ 
-    @Property(name = "sling.filter.scope", value = "REQUEST", propertyPrivate = true),
-    @Property(name = "service.ranking", intValue = -1000, propertyPrivate = true),
-    @Property(name = "enabled", boolValue = false, label = "Enabled")
+@Properties({
+        @Property(name = "sling.filter.scope", value = "REQUEST", propertyPrivate = true),
+        @Property(name = "service.ranking", intValue = -1000, propertyPrivate = true),
+        @Property(name = "enabled", boolValue = false, label = "Enabled")
 })
 public class MaintenanceFilter implements javax.servlet.Filter {
 
@@ -34,8 +34,8 @@ public class MaintenanceFilter implements javax.servlet.Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain filterChain) throws IOException, ServletException {
-        SlingHttpServletRequest req = (SlingHttpServletRequest)request;
+                         FilterChain filterChain) throws IOException, ServletException {
+        SlingHttpServletRequest req = (SlingHttpServletRequest) request;
         if (!enabled) {
             filterChain.doFilter(request, response);
             return;
@@ -51,10 +51,10 @@ public class MaintenanceFilter implements javax.servlet.Filter {
                 }
             }
         }
-        
+
         String uri = req.getRequestURI();
         if (uri.startsWith("/content/girlscouts-vtk") &&
-            !uri.startsWith("/content/girlscouts-vtk/controllers/hello.hello.js")) {
+                !uri.startsWith("/content/girlscouts-vtk/controllers/hello.hello.js")) {
             SlingHttpServletResponse res = (SlingHttpServletResponse) response;
             res.sendRedirect("/content/vtk-maintenance.html");
         } else {
@@ -64,12 +64,12 @@ public class MaintenanceFilter implements javax.servlet.Filter {
 
     public void init(FilterConfig config) throws ServletException {
     }
-    
+
     @Activate
-	@Modified
-	private void updateConfig(ComponentContext context) {
-		@SuppressWarnings("rawtypes")
-		Dictionary configs = context.getProperties();
-		enabled = (Boolean)configs.get("enabled");
-	}
+    @Modified
+    private void updateConfig(ComponentContext context) {
+        @SuppressWarnings("rawtypes")
+        Dictionary configs = context.getProperties();
+        enabled = (Boolean) configs.get("enabled");
+    }
 }

@@ -9,8 +9,8 @@ public class AttendanceToAttendanceEntityMapper extends BaseModelToEntityMapper 
 
     private static Logger log = LoggerFactory.getLogger(AttendanceToAttendanceEntityMapper.class);
 
-    public static AttendanceEntity map(Attendance attendance){
-        if(attendance != null) {
+    public static AttendanceEntity map(Attendance attendance) {
+        if (attendance != null) {
             try {
                 AttendanceEntity entity = new AttendanceEntity();
                 entity.setId(attendance.getId());

@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="com.day.cq.tagging.Tag, com.google.common.collect.*, org.girlscouts.vtk.models.Meeting,org.girlscouts.vtk.models.MeetingE,org.girlscouts.vtk.models.YearPlanComponent" %>
-<%@ page import="java.util.*" %>
+<%@ page
+        import="com.day.cq.tagging.Tag, com.google.common.collect.BiMap, com.google.common.collect.HashBiMap,org.girlscouts.vtk.models.Meeting,org.girlscouts.vtk.models.MeetingE" %>
+<%@ page import="org.girlscouts.vtk.models.YearPlanComponent" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.StringTokenizer" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
@@ -137,6 +142,7 @@
             <%}%>
         });
     }
+
     <%
     java.util.Map<String, String> mLevel= new java.util.TreeMap<String, String>();
     java.util.Map<String, String> mTypes= new java.util.TreeMap<String, String>();
@@ -165,7 +171,7 @@
 
             while( t.hasMoreElements() ){
 
-                String theCat= (String) t.nextToken();
+                String theCat= t.nextToken();
 
                 mCats.put(theCat,  "MC_"+new java.util.Date().getTime() +"_"+ Math.random());
 
@@ -195,7 +201,7 @@
             mTypes.put(meeting.getMeetingPlanType(),  "MT_"+new java.util.Date().getTime() +"_"+ Math.random());
         }//edn if
 
-        if( meeting.getMeetingPlanType()!=null && !mTylesPerLevel.get( meeting.getLevel() ).contains( meeting.getMeetingPlanType() ) ){
+        if( meeting.getMeetingPlanType()!=null ){
              mTylesPerLevel.get( meeting.getLevel() ).add(meeting.getMeetingPlanType());
          }
 
@@ -299,7 +305,7 @@
                                         String[] levelArray = new String[]{"Daisy", "Brownie", "Junior", "Cadette", "Senior", "Ambassador", "Multi_level"};
                                         for (int i = 0; i < 7; i++) {
                                             String level = levelArray[i];
-                                            String id = (String) mLevel.get(level);
+                                            String id = mLevel.get(level);
                                     %>
                                     <span class="container" style="clear:both;">
 								<span class="terminal"
@@ -328,7 +334,7 @@
                                         java.util.Iterator itrTypes = mTypes.keySet().iterator();
                                         while (itrTypes.hasNext()) {
                                             String type = (String) itrTypes.next();
-                                            String id = (String) mTypes.get(type);
+                                            String id = mTypes.get(type);
                                     %>
                                     <div class="small-24 medium-6 column selection-box <%= !itrTypes.hasNext() ? "end" : "" %>"
                                          style="display:none;min-height:60px;">
@@ -367,7 +373,7 @@
                                         while (itrCats.hasNext()) {
                                             String cat = (String) itrCats.next();
                                             String cat_fmted = cat.replaceAll("_", " ");
-                                            String id = (String) mCats.get(cat);
+                                            String id = mCats.get(cat);
                                     %>
                                     <div class="small-24 medium-12 large-6 column selection-box  <%= !itrCats.hasNext() ? "end" : "" %>"
                                          style="min-height:70px">
@@ -472,7 +478,7 @@
 
                     for (int i = 0; i < meetings.size(); i++) {
                         Meeting meeting = meetings.get(i);
-                        boolean isReq = (meeting.getReq() == null || "".equals(meeting.getReq())) ? false : true;
+                        boolean isReq = meeting.getReq() != null && !"".equals(meeting.getReq());
 
                         if (!meeting.getLevel().equals(currentLevel)) {
                             currentLevel = meeting.getLevel();
@@ -755,7 +761,7 @@
 
         function renderAmountOfMeeting(numberOfMeeting) {
 
-            var print = (numberOfMeeting == 1) ? " Meeting plan" : " Meeting plans"
+            var print = (numberOfMeeting == 1) ? " Meeting plan" : " Meeting plans";
 
             $('#no-of-meeting>p').html(numberOfMeeting + print);
 
@@ -784,7 +790,7 @@
             $('#meetingSelect').slideUp();
             $('.meeting-age-separator').hide();
 
-            $('#no-of-meeting').hide()
+            $('#no-of-meeting').hide();
 
             //Colapse filter
             $('#vtk-meeting-filter').find('#showHideReveal').removeClass('open');
@@ -793,7 +799,7 @@
 
             var meetingToShow = ArrayToShow.map(function (meeting) {
                 return meeting.id;
-            })
+            });
 
             $('.meeting-item').hide();
 
@@ -853,12 +859,12 @@
                 cache: false,
                 data: JSON.stringify(params.get())
 
-            })
+            });
 
 
             call.done(function (data) {
                 executeShowAndHide(data);
-                $('.meeting-library .loading-meeting').hide()
+                $('.meeting-library .loading-meeting').hide();
                 $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
                 $('.meeting-library #vtk-meeting-filter').fadeIn();
                 $('.meeting-library .list-of-buttons').fadeIn();
@@ -870,7 +876,7 @@
 
                 console.error('error:', err);
 
-                $('.meeting-library .loading-meeting').hide()
+                $('.meeting-library .loading-meeting').hide();
                 $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
                 $('.meeting-library #vtk-meeting-filter').fadeIn();
                 $('.meeting-library .list-of-buttons').fadeIn();
@@ -888,7 +894,7 @@
 
             var somethingFill = keyInObject.some(function (e) {
                 return object[e] !== ''
-            })
+            });
             var isKeyboard = (object['keywords'].length >= 3);
             var isLevel = !!object['level'].length;
 
@@ -912,7 +918,7 @@
         function cleanMeetingCheckbox() {
             $('input[name="addMeetingMulti"]').each(function () {
                 this.checked = false;
-            })
+            });
 
             $('.clear-meeting-filter-result').addClass('inactive-button');
             $('.add-to-year-plan').addClass('inactive-button');
@@ -936,14 +942,14 @@
         //x in input
         $('#vtk-meeting-filter .__search .__X').on('click', function () {
             $('#searchByMeetingTitle').val('');
-            params.add({keywords: ''})
+            params.add({keywords: ''});
             $(this).hide();
             _buttonLogic()
-        })
+        });
         //keywords
         $('#searchByMeetingTitle').on('keyup', function (event) {
             var key = event.target.value, element = $('#vtk-meeting-filter .__search .__X');
-            params.add({keywords: key.split(' ').join(' ')})
+            params.add({keywords: key.split(' ').join(' ')});
 
             if (key.length >= 3) {
                 element.show();
@@ -953,17 +959,17 @@
 
 
             _buttonLogic();
-        })
+        });
         //Age
         $('#vtk-meeting-group-age input').on('click', function () {
-            var Age = []
+            var Age = [];
             $('#vtk-meeting-group-age input').each(function (a, e) {
                 if (e.checked) {
                     Age.push(e.value.replace(/_/g, '-')); //level JSP is parse all '-' to '_' legacy logic.
                 }
             });
 
-            params.add({level: Age})
+            params.add({level: Age});
 
             if (Age.length) {
                 $('#vtk-meeting-group-type').hide();
@@ -1017,7 +1023,7 @@
                 }
             });
 
-            $('#vtk-meeting-filter .vtk-meeting-group .list-of-categories').hide()
+            $('#vtk-meeting-filter .vtk-meeting-group .list-of-categories').hide();
 
             $('[name="_tag_c"]').each(function (idx, ele) {
                 $(ele)[0].checked = false;
@@ -1056,15 +1062,15 @@
         });
         //Category
         $('[name="_tag_c"]').on('click', function () {
-            var Cat = []
+            var Cat = [];
             $('[name="_tag_c"]').each(function (a, e) {
                 if (e.checked) {
                     Cat.push(e.value);
                 }
             });
-            params.add({categoryTags: Cat})
+            params.add({categoryTags: Cat});
             _buttonLogic();
-        })
+        });
 
 
         //Buttoms elements
@@ -1082,14 +1088,14 @@
             cancel: {
                 element: $('#vtk-meeting-group-button_cancel')
             }
-        }
+        };
 
         //Call to the server
         bottoms_library.ok.element.on('click', function () {
             if (!$(this).hasClass('disabled')) {
                 callToserver();
             }
-        })
+        });
 
         //Close Modal
         bottoms_library.cancel.element.on('click', closeModal);
@@ -1158,7 +1164,7 @@
                 if (e.timeStamp > time + 1500) {  //avoid multiple click in the enter buttom (one second and an half)
                     valueSearch = $(this).serializeArray().find(function (e) { //check in the form for the input[name="search"]
                         return e.name == 'search';
-                    })
+                    });
                     if (valueSearch.value.length > 2) { //Check the is more that two character
                         callToserver();
                     }
@@ -1188,7 +1194,7 @@
                 $('.add-to-year-plan').addClass('inactive-button');
             }
 
-        })
+        });
 
         //Lisining for  clear meeting selectect
         $('.clear-meeting-filter-result').on('click', function () {
@@ -1197,7 +1203,7 @@
 
 
         $('#vtk-meeting-filter').find('#showHideReveal').stop().click(function (e) {
-            $(this).toggleClass('open')
+            $(this).toggleClass('open');
             $('.vtk-meeting-group').slideToggle();
             $('.vtk-dropdown_options').hide();
             $('#vtk-meeting-report').hide();

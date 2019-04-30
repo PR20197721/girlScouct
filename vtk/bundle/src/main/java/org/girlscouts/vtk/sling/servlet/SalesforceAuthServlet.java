@@ -5,11 +5,10 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.girlscouts.vtk.auth.models.ApiConfig;
-import org.girlscouts.vtk.sso.saml.Response;
-import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.ejb.TroopUtil;
 import org.girlscouts.vtk.ejb.UserUtil;
 import org.girlscouts.vtk.ejb.VtkError;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.osgi.component.ConfigListener;
 import org.girlscouts.vtk.osgi.component.ConfigManager;
 import org.girlscouts.vtk.osgi.component.CouncilMapper;
@@ -18,6 +17,7 @@ import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.sso.AccountSettings;
 import org.girlscouts.vtk.sso.AppSettings;
 import org.girlscouts.vtk.sso.saml.AuthRequest;
+import org.girlscouts.vtk.sso.saml.Response;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,7 +130,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
             String reqString = authReq.getSSOurl(refererCouncil);
             response.sendRedirect(reqString);
         } catch (Exception e) {
-            log.error("Error occured: ",e);
+            log.error("Error occured: ", e);
         }
     }
 
@@ -145,7 +145,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
     }
 
     @Override
-    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
+    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         ApiConfig config = null;
         HttpSession session = request.getSession();
         session.setAttribute("fatalError", null);
@@ -180,7 +180,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
                     try {
                         user = sfService.getUser(config);
                     } catch (Exception e) {
-                        log.error("Error occurred while getting User from salesforce:",e);
+                        log.error("Error occurred while getting User from salesforce:", e);
                     }
                     if (user == null) {
                         response.setStatus(500);
@@ -200,7 +200,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
                         response.addCookie(cookie);
                     }
                 } catch (Exception e4) {
-                    log.error("Error occured:",e4);
+                    log.error("Error occured:", e4);
                     e4.printStackTrace();
                     VtkError err = new VtkError();
                     err.setName("Error logging in");
@@ -222,7 +222,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
                 redirect(response, targetUrl);
             }
         } catch (Exception e) {
-            log.error("Error occured:",e);
+            log.error("Error occured:", e);
             VtkError err = new VtkError();
             err.setName("Error logging in");
             err.setDescription("Error int SalesForceOAuthServet.doPost: found error while SSO from Salesforce. Exception : " + e.toString());

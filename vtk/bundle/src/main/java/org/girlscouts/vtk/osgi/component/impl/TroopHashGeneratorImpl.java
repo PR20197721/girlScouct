@@ -2,12 +2,13 @@ package org.girlscouts.vtk.osgi.component.impl;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
-import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -21,7 +22,7 @@ public class TroopHashGeneratorImpl implements TroopHashGenerator {
     public String hash(String troopId) {
         byte[] origBytes;
         try {
-            origBytes = (SALT + troopId).getBytes("UTF-8");
+            origBytes = (SALT + troopId).getBytes(StandardCharsets.UTF_8);
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             byte[] digestBytes = md5.digest(origBytes);
             StringBuffer sb = new StringBuffer();
@@ -36,9 +37,6 @@ public class TroopHashGeneratorImpl implements TroopHashGenerator {
             hash = prepend + "_" + hash;
             log.debug("Hash generated: " + hash);
             return hash;
-        } catch (UnsupportedEncodingException e) {
-            log.warn("Cannot generate hash from: " + troopId + ". UnsupportedEncodingException.");
-            return null;
         } catch (NoSuchAlgorithmException e) {
             log.warn("Cannot generate hash from: " + troopId + ". NoSuchAlgorithmException.");
             return null;
@@ -57,7 +55,7 @@ public class TroopHashGeneratorImpl implements TroopHashGenerator {
             log.warn("Could not generate hash, use basic obfuscation instead.");
             String reversed = new StringBuilder(troopId).reverse().toString();
             if (reversed.length() > 3) {
-                return BASE + reversed.substring(3, reversed.length()) + reversed.substring(0, 3);
+                return BASE + reversed.substring(3) + reversed.substring(0, 3);
             } else {
                 return BASE + reversed;
             }
@@ -67,9 +65,9 @@ public class TroopHashGeneratorImpl implements TroopHashGenerator {
     public String getPath(Troop troop) {
         return getPath(troop.getTroopId());
     }
-    
+
     public String getBase() {
         return BASE;
     }
-    
+
 }

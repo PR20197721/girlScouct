@@ -48,7 +48,7 @@ public class AccountEntity {
         this.preferredContact = preferredContact;
     }
 
-    public class PreferredContact{
+    public class PreferredContact {
         @SerializedName("Id")
         private String sfId;
 

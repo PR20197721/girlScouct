@@ -9,8 +9,8 @@ public class ActivityToActivityEntityMapper extends BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(ActivityToActivityEntityMapper.class);
 
-    public static ActivityEntity map(Activity activity){
-        if(activity != null) {
+    public static ActivityEntity map(Activity activity) {
+        if (activity != null) {
             try {
                 ActivityEntity entity = new ActivityEntity();
                 entity.setActivityDescription(activity.getActivityDescription());

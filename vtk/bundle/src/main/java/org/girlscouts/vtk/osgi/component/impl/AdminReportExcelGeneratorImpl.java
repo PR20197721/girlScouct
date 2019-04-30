@@ -2,14 +2,13 @@ package org.girlscouts.vtk.osgi.component.impl;
 
 
 import jxl.Workbook;
-import jxl.format.*;
 import jxl.format.Alignment;
 import jxl.format.Border;
 import jxl.format.BorderLineStyle;
 import jxl.format.Colour;
 import jxl.format.VerticalAlignment;
-import jxl.write.*;
 import jxl.write.Number;
+import jxl.write.*;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.ejb.CouncilRpt;
 import org.girlscouts.vtk.models.Contact;
@@ -26,7 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-@Component(service = {AdminReportExcelGenerator.class }, immediate = true, name = "org.girlscouts.vtk.osgi.component.impl.AdminReportExcelGeneratorImpl")
+@Component(service = {AdminReportExcelGenerator.class}, immediate = true, name = "org.girlscouts.vtk.osgi.component.impl.AdminReportExcelGeneratorImpl")
 public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator {
 
     private static Logger log = LoggerFactory.getLogger(AdminReportExcelGeneratorImpl.class);
@@ -44,13 +43,13 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
             addData(config, excelSheet);
             myFirstWbook.write();
         } catch (Exception e) {
-            log.error("Error occurred generating Excel: ",e);
+            log.error("Error occurred generating Excel: ", e);
         } finally {
             if (myFirstWbook != null) {
                 try {
                     myFirstWbook.close();
                 } catch (Exception e) {
-                    log.error("Error occurred: ",e);
+                    log.error("Error occurred: ", e);
                 }
             }
         }
@@ -69,8 +68,8 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
         ageGroups.add("multi-level");
         try {
             container.sort((CouncilRptBean o1, CouncilRptBean o2) -> String.valueOf(o1.getAgeGroup()).toLowerCase().compareTo(String.valueOf(o2.getAgeGroup()).toLowerCase()));
-        }catch(Exception e){
-            log.error("Failed to sort troops by age for admin report:",e);
+        } catch (Exception e) {
+            log.error("Failed to sort troops by age for admin report:", e);
         }
         int count = 0;
         for (String ageGroup : ageGroups) {
@@ -114,8 +113,8 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
                     number.setCellFormat(getDataStyle());
                     excelSheet.addCell(number);
                 }
-            }catch(Exception e){
-                log.error("Error occurred: ",e);
+            } catch (Exception e) {
+                log.error("Error occurred: ", e);
             }
         }
     }
@@ -143,7 +142,7 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
         try {
             font.setColour(Colour.BLUE);
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         }
         return getCellFormat(font);
     }
@@ -153,7 +152,7 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
         try {
             font.setColour(Colour.BLACK);
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         }
         return getCellFormat(font);
     }

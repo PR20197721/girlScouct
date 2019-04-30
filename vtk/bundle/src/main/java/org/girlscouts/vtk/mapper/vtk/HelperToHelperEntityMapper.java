@@ -9,8 +9,8 @@ public class HelperToHelperEntityMapper extends BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(HelperToHelperEntityMapper.class);
 
-    public static HelperEntity map(Helper helper){
-        if(helper != null) {
+    public static HelperEntity map(Helper helper) {
+        if (helper != null) {
             try {
                 HelperEntity entity = new HelperEntity();
                 entity.setAchievementCurrent(helper.getAchievementCurrent());

@@ -4,7 +4,7 @@ import org.osgi.service.component.ComponentContext;
 
 import java.util.Dictionary;
 
-public class BasicGirlScoutsService{
+public class BasicGirlScoutsService {
 
     protected ComponentContext context;
 

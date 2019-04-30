@@ -9,8 +9,8 @@ public class AchievementToAchievementEntityMapper extends BaseModelToEntityMappe
 
     private static Logger log = LoggerFactory.getLogger(AchievementToAchievementEntityMapper.class);
 
-    public static AchievementEntity map(Achievement achievement){
-        if(achievement != null) {
+    public static AchievementEntity map(Achievement achievement) {
+        if (achievement != null) {
             try {
                 AchievementEntity entity = new AchievementEntity();
                 entity.setId(achievement.getId());

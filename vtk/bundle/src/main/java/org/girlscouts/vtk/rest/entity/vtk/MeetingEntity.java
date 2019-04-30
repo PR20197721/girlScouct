@@ -11,19 +11,19 @@ public class MeetingEntity extends BaseEntity {
     @SerializedName("type")
     private YearPlanComponentType type;
     @SerializedName("path")
-	private String path;
+    private String path;
     @SerializedName("id")
-	private String id;
+    private String id;
     @SerializedName("name")
     private String name;
     @SerializedName("level")
-	private String level;
+    private String level;
     @SerializedName("blurb")
     private String blurb;
     @SerializedName("cat")
     private String cat;
     @SerializedName("aidTags")
-	private String aidTags;
+    private String aidTags;
     @SerializedName("resources")
     private String resources;
     @SerializedName("agenda")
@@ -33,19 +33,19 @@ public class MeetingEntity extends BaseEntity {
     @SerializedName("reqTitle")
     private String reqTitle;
     @SerializedName("position")
-	private Integer position;
+    private Integer position;
     @SerializedName("isAchievement")
-	private Boolean isAchievement;
+    private Boolean isAchievement;
     @SerializedName("activities")
-	private List<ActivityEntity> activities;
+    private List<ActivityEntity> activities;
     @SerializedName("meetingInfo")
-	private Map<String, JcrCollectionHoldStringEntity> meetingInfo;
+    private Map<String, JcrCollectionHoldStringEntity> meetingInfo;
     @SerializedName("meetingPlanType")
-	private String meetingPlanType;
+    private String meetingPlanType;
     @SerializedName("meetingPlanTypeAlt")
     private String meetingPlanTypeAlt;
     @SerializedName("catTags")
-	private String catTags;
+    private String catTags;
     @SerializedName("catTagsAlt")
     private String catTagsAlt;
 

@@ -1,89 +1,94 @@
 package org.girlscouts.vtk.models;
 
-import java.io.Serializable;
-
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlscouts.vtk.dao.YearPlanComponentType;
+
+import java.io.Serializable;
 
 @Node
-public class Note implements Serializable{
+public class Note implements Serializable {
 
-	    @Field private String message;
-		@Field(path = true) String path;		
-		@Field(id = true) String uid;
-		@Field Long createTime;
-		@Field String createdByUserName;
-		@Field String createdByUserId;
-		@Field String refId; //meetingId, activity, anything else
-		
-		private boolean isDbUpdate=false;
-		
-		public Note() {
-			this.uid = "N" + new java.util.Date().getTime() + "_" + Math.random();
-			this.createTime = new java.util.Date().getTime();
-		}
+    @Field(path = true)
+    String path;
+    @Field(id = true)
+    String uid;
+    @Field
+    Long createTime;
+    @Field
+    String createdByUserName;
+    @Field
+    String createdByUserId;
+    @Field
+    String refId; //meetingId, activity, anything else
+    @Field
+    private String message;
+    private boolean isDbUpdate = false;
 
-		public String getMessage() {
-			return message;
-		}
+    public Note() {
+        this.uid = "N" + new java.util.Date().getTime() + "_" + Math.random();
+        this.createTime = new java.util.Date().getTime();
+    }
 
-		public void setMessage(String message) {
-			this.message = message;
-			isDbUpdate=true;
-		}
+    public String getMessage() {
+        return message;
+    }
 
-		public String getPath() {
-			return path;
-		}
+    public void setMessage(String message) {
+        this.message = message;
+        isDbUpdate = true;
+    }
 
-		public void setPath(String path) {
-			this.path = path;
-		}
+    public String getPath() {
+        return path;
+    }
 
-		public String getUid() {
-			return uid;
-		}
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-		public void setUid(String uid) {
-			this.uid = uid;
-		}
+    public String getUid() {
+        return uid;
+    }
 
-		public boolean isDbUpdate() {
-			return isDbUpdate;
-		}
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
-		public long getCreateTime() {
-			return createTime;
-		}
+    public boolean isDbUpdate() {
+        return isDbUpdate;
+    }
 
-		public void setCreateTime(long createTime) {
-			this.createTime = createTime;
-		}
+    public long getCreateTime() {
+        return createTime;
+    }
 
-		public String getCreatedByUserName() {
-			return createdByUserName;
-		}
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
 
-		public void setCreatedByUserName(String createdByUserName) {
-			this.createdByUserName = createdByUserName;
-		}
+    public String getCreatedByUserName() {
+        return createdByUserName;
+    }
 
-		public String getCreatedByUserId() {
-			return createdByUserId;
-		}
+    public void setCreatedByUserName(String createdByUserName) {
+        this.createdByUserName = createdByUserName;
+    }
 
-		public void setCreatedByUserId(String createdByUserId) {
-			this.createdByUserId = createdByUserId;
-		}
+    public String getCreatedByUserId() {
+        return createdByUserId;
+    }
 
-		public String getRefId() {
-			return refId;
-		}
+    public void setCreatedByUserId(String createdByUserId) {
+        this.createdByUserId = createdByUserId;
+    }
 
-		public void setRefId(String refId) {
-			this.refId = refId;
-		}
+    public String getRefId() {
+        return refId;
+    }
 
-	
+    public void setRefId(String refId) {
+        this.refId = refId;
+    }
+
+
 }

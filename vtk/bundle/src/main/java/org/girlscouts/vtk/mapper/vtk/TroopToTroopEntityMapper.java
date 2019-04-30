@@ -9,8 +9,8 @@ public class TroopToTroopEntityMapper extends BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(TroopToTroopEntityMapper.class);
 
-    public static TroopEntity map(Troop troop){
-        if(troop != null) {
+    public static TroopEntity map(Troop troop) {
+        if (troop != null) {
             try {
                 TroopEntity entity = new TroopEntity();
                 entity.setId(troop.getId());

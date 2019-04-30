@@ -1,48 +1,48 @@
 package org.girlscouts.vtk.models;
 
-import java.io.Serializable;
-
 import org.apache.commons.collections4.Predicate;
 
-public class YearPlanRpt implements Serializable,  Predicate {
+import java.io.Serializable;
 
-	String council, troop, troopAge, troopName;
+public class YearPlanRpt implements Serializable, Predicate {
 
-	public String getCouncil() {
-		return council;
-	}
+    String council, troop, troopAge, troopName;
 
-	public void setCouncil(String council) {
-		this.council = council;
-	}
+    public String getCouncil() {
+        return council;
+    }
 
-	public String getTroop() {
-		return troop;
-	}
+    public void setCouncil(String council) {
+        this.council = council;
+    }
 
-	public void setTroop(String troop) {
-		this.troop = troop;
-	}
+    public String getTroop() {
+        return troop;
+    }
 
-	public String getTroopAge() {
-		return troopAge;
-	}
+    public void setTroop(String troop) {
+        this.troop = troop;
+    }
 
-	public void setTroopAge(String troopAge) {
-		this.troopAge = troopAge;
-	}
+    public String getTroopAge() {
+        return troopAge;
+    }
 
-	public String getTroopName() {
-		return troopName;
-	}
+    public void setTroopAge(String troopAge) {
+        this.troopAge = troopAge;
+    }
 
-	public void setTroopName(String troopName) {
-		this.troopName = troopName;
-	}
+    public String getTroopName() {
+        return troopName;
+    }
 
-	public boolean evaluate(Object arg0) {
-		return ((YearPlanRpt)arg0).getTroopAge().equals( this.getTroopAge() );
-		
-	}
+    public void setTroopName(String troopName) {
+        this.troopName = troopName;
+    }
+
+    public boolean evaluate(Object arg0) {
+        return ((YearPlanRpt) arg0).getTroopAge().equals(this.getTroopAge());
+
+    }
 
 }

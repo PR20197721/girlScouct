@@ -1,8 +1,5 @@
 package org.girlscouts.vtk.ejb;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.jcr.Session;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -20,94 +17,98 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.utils.VtkUtil;
 
+import javax.jcr.Session;
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 @Service(value = ContactDAO.class)
 public class ContactDAOImpl implements ContactDAO {
 
-	@Reference
-	private SessionFactory sessionFactory;
+    @Reference
+    private SessionFactory sessionFactory;
 
-	public void save(User user, Troop troop, Contact contact)
-			throws IllegalStateException, IllegalAccessException {
+    public void save(User user, Troop troop, Contact contact)
+            throws IllegalStateException, IllegalAccessException {
 
-		// TODO PERMISSIONS HERE
-		Session session = null;
-		ResourceResolver rr= null;
-		try {
-			rr = sessionFactory.getResourceResolver();
-			session = rr.adaptTo(Session.class);
-			List<Class> classes = new ArrayList<Class>();
-			classes.add(Contact.class);
+        // TODO PERMISSIONS HERE
+        Session session = null;
+        ResourceResolver rr = null;
+        try {
+            rr = sessionFactory.getResourceResolver();
+            session = rr.adaptTo(Session.class);
+            List<Class> classes = new ArrayList<Class>();
+            classes.add(Contact.class);
 
-			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
+            Mapper mapper = new AnnotationMapperImpl(classes);
+            ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+                    mapper);
 
-			if( session.itemExists(contact.getPath())) {
-				ocm.update(contact);
-			} else {
-				JcrUtils.getOrCreateByPath(
-						contact.getPath().substring(0,
-								contact.getPath().lastIndexOf("/")),
-						"nt:unstructured", session);
-				ocm.insert(contact);
-			}
-			ocm.save();
+            if (session.itemExists(contact.getPath())) {
+                ocm.update(contact);
+            } else {
+                JcrUtils.getOrCreateByPath(
+                        contact.getPath().substring(0,
+                                contact.getPath().lastIndexOf("/")),
+                        "nt:unstructured", session);
+                ocm.insert(contact);
+            }
+            ocm.save();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if( rr!=null )
-					sessionFactory.closeResourceResolver( rr );
-				if (session != null)
-					session.logout();
-			} catch (Exception es) {
-				es.printStackTrace();
-			}
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rr != null)
+                    sessionFactory.closeResourceResolver(rr);
+                if (session != null)
+                    session.logout();
+            } catch (Exception es) {
+                es.printStackTrace();
+            }
+        }
 
-	}
+    }
 
-	public Contact retreive(User user, Troop troop, String contactId)
-			throws IllegalStateException, IllegalAccessException {
-		// TODO PERMISSIONS HERE
-		ResourceResolver rr= null;
-		Session session = null;
-		Contact contact = null;
-		try {
-			rr = sessionFactory.getResourceResolver();
-			session = rr.adaptTo(Session.class);
-			List<Class> classes = new ArrayList<Class>();
-			classes.add(Contact.class);
+    public Contact retreive(User user, Troop troop, String contactId)
+            throws IllegalStateException, IllegalAccessException {
+        // TODO PERMISSIONS HERE
+        ResourceResolver rr = null;
+        Session session = null;
+        Contact contact = null;
+        try {
+            rr = sessionFactory.getResourceResolver();
+            session = rr.adaptTo(Session.class);
+            List<Class> classes = new ArrayList<Class>();
+            classes.add(Contact.class);
 
-			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
+            Mapper mapper = new AnnotationMapperImpl(classes);
+            ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+                    mapper);
 
-			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(Contact.class);
+            QueryManager queryManager = ocm.getQueryManager();
+            Filter filter = queryManager.createFilter(Contact.class);
 
-			contact = (Contact) ocm.getObject(VtkUtil.getYearPlanBase(user,
-					troop)
-					+ troop.getSfCouncil()
-					+ "/troops/"
-					+ troop.getId()
-					+ "/contacts/" + contactId);
+            contact = (Contact) ocm.getObject(VtkUtil.getYearPlanBase(user,
+                    troop)
+                    + troop.getSfCouncil()
+                    + "/troops/"
+                    + troop.getId()
+                    + "/contacts/" + contactId);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if( rr!=null )
-					sessionFactory.closeResourceResolver( rr );
-				if (session != null)
-					session.logout();
-			} catch (Exception es) {
-				es.printStackTrace();
-			}
-		}
-		return contact;
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rr != null)
+                    sessionFactory.closeResourceResolver(rr);
+                if (session != null)
+                    session.logout();
+            } catch (Exception es) {
+                es.printStackTrace();
+            }
+        }
+        return contact;
+    }
 
 }

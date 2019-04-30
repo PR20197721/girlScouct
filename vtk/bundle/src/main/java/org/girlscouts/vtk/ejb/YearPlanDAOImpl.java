@@ -63,7 +63,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             Query query = queryManager.createQuery(filter);
             yearPlans = (List<YearPlan>) ocm.getObjects(query);
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 if (rr != null) {
@@ -73,7 +73,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                     session.logout();
                 }
             } catch (Exception ex) {
-                log.error("Error occurred:",ex);
+                log.error("Error occurred:", ex);
             }
         }
         return yearPlans;
@@ -97,7 +97,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             Query query = queryManager.createQuery(filter);
             yearPlan = (YearPlan) ocm.getObject(path);
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 if (rr != null) {
@@ -107,7 +107,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                     session.logout();
                 }
             } catch (Exception ex) {
-                log.error("Error occurred:",ex);
+                log.error("Error occurred:", ex);
             }
         }
         return yearPlan;
@@ -129,7 +129,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                 toRet = new java.util.Date(r.getValue("jcr:lastModified").getLong());
             }
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 if (rr != null) {
@@ -139,7 +139,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                     session.logout();
                 }
             } catch (Exception ex) {
-                log.error("Error occurred:",ex);
+                log.error("Error occurred:", ex);
             }
         }
         return toRet;
@@ -165,7 +165,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                 toRet = new java.util.Date(r.getValue("jcr:lastModified").getLong());
             }
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 if (rr != null) {
@@ -175,7 +175,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                     session.logout();
                 }
             } catch (Exception ex) {
-                log.error("Error occurred:",ex);
+                log.error("Error occurred:", ex);
             }
         }
         return toRet;
@@ -260,7 +260,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             }
             yearPlan.setMeetingEvents(meetingInfos);
         } catch (Exception e) {
-            log.error("Error occurred:",e);
+            log.error("Error occurred:", e);
         } finally {
             try {
                 if (resourceResolver != null) {
@@ -270,7 +270,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                     session.logout();
                 }
             } catch (Exception ex) {
-                log.error("Error occurred:",ex);
+                log.error("Error occurred:", ex);
             }
         }
         return yearPlan;

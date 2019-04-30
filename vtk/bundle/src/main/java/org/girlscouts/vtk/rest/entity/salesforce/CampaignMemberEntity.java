@@ -70,7 +70,7 @@ public class CampaignMemberEntity {
         this.membership = membership;
     }
 
-    public class Membership{
+    public class Membership {
         @SerializedName("Id")
         private String sfId;
 

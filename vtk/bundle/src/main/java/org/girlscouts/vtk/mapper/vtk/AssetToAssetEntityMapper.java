@@ -9,8 +9,8 @@ public class AssetToAssetEntityMapper extends BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(AssetToAssetEntityMapper.class);
 
-    public static AssetEntity map(Asset asset){
-        if(asset != null) {
+    public static AssetEntity map(Asset asset) {
+        if (asset != null) {
             try {
                 AssetEntity entity = new AssetEntity();
                 entity.setCachable(asset.getIsCachable());

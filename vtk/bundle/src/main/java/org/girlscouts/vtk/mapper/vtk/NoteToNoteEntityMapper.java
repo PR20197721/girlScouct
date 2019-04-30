@@ -9,8 +9,8 @@ public class NoteToNoteEntityMapper extends BaseModelToEntityMapper {
 
     private static Logger log = LoggerFactory.getLogger(NoteToNoteEntityMapper.class);
 
-    public static NoteEntity map(Note note){
-        if(note != null) {
+    public static NoteEntity map(Note note) {
+        if (note != null) {
             try {
                 NoteEntity entity = new NoteEntity();
                 entity.setCreatedByUserId(note.getCreatedByUserId());

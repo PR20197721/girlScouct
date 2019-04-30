@@ -53,7 +53,7 @@ public class CouncilDAOImpl implements CouncilDAO {
         mapper = new AnnotationMapperImpl(classes);
     }
 
-    public Council findCouncil(User user, String path){
+    public Council findCouncil(User user, String path) {
         Council council = null;
         Session session = null;
         ResourceResolver rr = null;
@@ -64,7 +64,7 @@ public class CouncilDAOImpl implements CouncilDAO {
             ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
             council = (Council) ocm.getObject(path);
         } catch (Exception e) {
-            log.error("Error occured:",e);
+            log.error("Error occured:", e);
         } finally {
             try {
                 if (rr != null) {
@@ -74,14 +74,14 @@ public class CouncilDAOImpl implements CouncilDAO {
                     session.logout();
                 }
             } catch (Exception ex) {
-                log.error("Error occured:",ex);
+                log.error("Error occured:", ex);
             }
         }
 
         return council;
     }
 
-    public Council createCouncil(User user, Troop troop){
+    public Council createCouncil(User user, Troop troop) {
         //TODO Permission.PERMISSION_LOGIN_ID
         Session session = null;
         ResourceResolver rr = null;
@@ -101,11 +101,11 @@ public class CouncilDAOImpl implements CouncilDAO {
             classes.add(Troop.class);
             Mapper mapper = new AnnotationMapperImpl(classes);
             String vtkCouncilBase = troop.getCouncilPath();
-            vtkCouncilBase = vtkCouncilBase.substring(0,vtkCouncilBase.lastIndexOf("/"));
+            vtkCouncilBase = vtkCouncilBase.substring(0, vtkCouncilBase.lastIndexOf("/"));
             rr = sessionFactory.getResourceResolver();
             session = rr.adaptTo(Session.class);
             if (!session.itemExists(vtkCouncilBase)) {
-                JcrUtils.getOrCreateByPath(vtkCouncilBase,"nt:unstructured", session);
+                JcrUtils.getOrCreateByPath(vtkCouncilBase, "nt:unstructured", session);
                 permiss.modifyNodePermissions(vtkCouncilBase, "vtk");
                 permiss.modifyNodePermissions("/content/dam/girlscouts-vtk/troop-data" + vtkCouncilBase + "/", "vtk");
             }
@@ -117,10 +117,10 @@ public class CouncilDAOImpl implements CouncilDAO {
                 ocm.save();
             } else {
                 log.debug(">>>>>>>>>>> INFO : CouncilDAOImpl.createCouncil skipped because council already exists: " + troop.getCouncilPath());
-                council = (Council)ocm.getObject(Council.class, troop.getCouncilPath());
+                council = (Council) ocm.getObject(Council.class, troop.getCouncilPath());
             }
         } catch (Exception e) {
-            log.error("Error occurred: ",e);
+            log.error("Error occurred: ", e);
         } finally {
             try {
                 if (session != null) {
@@ -137,16 +137,16 @@ public class CouncilDAOImpl implements CouncilDAO {
 
     }
 
-    public Council getOrCreateCouncil(User user, Troop troop){
+    public Council getOrCreateCouncil(User user, Troop troop) {
         //TODO Permission.PERMISSION_LOGIN_ID
         Council councilRepoData = findCouncil(user, troop.getCouncilPath());
-        if(councilRepoData == null){
+        if (councilRepoData == null) {
             councilRepoData = createCouncil(user, troop);
         }
         return councilRepoData;
     }
 
-    public List<Milestone> getCouncilMilestones(User user, Troop troop){
+    public List<Milestone> getCouncilMilestones(User user, Troop troop) {
         //TODO Permission.PERMISSION_VIEW_MILESTONE_ID
         CouncilInfo list = getCouncilInfo(user, troop);
         List<Milestone> milestones = list.getMilestones();
@@ -184,7 +184,7 @@ public class CouncilDAOImpl implements CouncilDAO {
             } else {
                 if (!session.itemExists(troop.getCouncilPath())) {
                     // create council, need user permission
-                    log.error(troop.getCouncilPath()+ "does NOT exist!!!");
+                    log.error(troop.getCouncilPath() + "does NOT exist!!!");
                 }
                 cinfo = new CouncilInfo(path);
                 List<Milestone> milestones = getAllMilestones(troop.getCouncilCode());
