@@ -151,7 +151,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 			}
 		});
 
-		xhr.send($.param({html: pdfHtml}));
+		xhr.send($.param({html: encodeURI(pdfHtml)}));
 
 		return returner;
 	}
@@ -303,7 +303,12 @@ window.BadgePdfGenerator = (function(window, $, document){
                     }else{
                         destination = "www.girlscouts.org";
                     }
-                    $($(allElements[i]).find("ol")).append("<li style='list-style: none; margin-left: -11px;'><strong style='width: 100px'><a style='color:#00AE58; text-decoration: none' href='https://"+destination+"/en/our-program/badges/badge_explorer.html#"+title+"' target='_blank'>Please see badge for more details...</a></strong></li>");
+                    var numEl = $($(allElements[i]).find("ol")).children().length;
+                    $($(allElements[i]).find("ol")).children().each(function(index, element){
+                        if(index === numEl - 1){
+                            $("<strong><span> </span><a margin-left: 1px; style='color:#00AE58;' href='https://"+destination+"/en/our-program/badges/badge_explorer.html#"+title+"' target='_blank'>More Details &#8594;</a></strong>").appendTo(element)
+                        }
+                    })
                     $($(allElements[i]).find(".BadgePdfDescription")).append(linkEl);
                 }
             }
