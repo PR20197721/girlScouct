@@ -234,7 +234,7 @@
                                 		value="none" />
                                 	<source
                                 		jcr:primaryType="nt:unstructured"
-                                		text="Send Extra Field Data"
+                                		text="Yes"
                                 		value="pair" />
                                 </items>
                             </source-select>
