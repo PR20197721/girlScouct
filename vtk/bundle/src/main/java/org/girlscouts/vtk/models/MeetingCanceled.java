@@ -8,7 +8,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 @Node
-public class MeetingCanceled extends YearPlanComponent implements Serializable{
+public class MeetingCanceled extends MeetingE implements Serializable{
 
 	public MeetingCanceled(){
 		super.setType(YearPlanComponentType.MEETINGCANCELED);
@@ -191,5 +191,6 @@ public class MeetingCanceled extends YearPlanComponent implements Serializable{
 	public void setDate(java.util.Date date) {
 		this.date = date;
 	}
-	
+
+
 }

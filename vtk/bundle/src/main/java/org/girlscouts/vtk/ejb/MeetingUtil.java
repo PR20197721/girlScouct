@@ -66,9 +66,8 @@ public class MeetingUtil {
 
             }
         } catch (Exception e) {
-            log.error("ERROR : MeetingUtil.updateMeetingPos");
+            log.error("ERROR : MeetingUtil.updateMeetingPos", e);
             newMeeting = orgMeetings;
-            e.printStackTrace();
         }
 
         return newMeeting;
@@ -246,7 +245,7 @@ public class MeetingUtil {
                         if (meetingEs.size() > count)
                             sched.put(dt, meetingEs.get(count));
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        log.error("Error occurred: ", e);
                     }
                     count++;
 
@@ -302,7 +301,7 @@ public class MeetingUtil {
                 }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
             return null;
         }
 
@@ -323,7 +322,7 @@ public class MeetingUtil {
             rearangedMeetings = updateMeetingPos(troop.getYearPlan()
                     .getMeetingEvents(), newMeetingSetup);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         }
 
         YearPlan plan = troop.getYearPlan();
@@ -644,7 +643,7 @@ public class MeetingUtil {
             ageLevel = ageLevel.substring(ageLevel.indexOf("-") + 1)
                     .toLowerCase().trim();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         }
 
         java.util.List<Meeting> __meetings = meetingDAO.getAllMeetings(user, troop,
@@ -843,7 +842,7 @@ public class MeetingUtil {
                     "activityNumber");
             Collections.sort(_activities, comp);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         }
         return _activities;
 
@@ -857,7 +856,7 @@ public class MeetingUtil {
                     "date");
             Collections.sort(_activities, comp);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         }
         return _activities;
 
@@ -1128,7 +1127,7 @@ public class MeetingUtil {
                     else
                         isRmDt = rmSchedDate(user, troop, meetings.get(i).getDate().getTime());
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error occurred: ", e);
                 }
 
                 if (isRmDt) {
@@ -1374,7 +1373,7 @@ public class MeetingUtil {
                     meetingDAO.updateMeetingEvent(user, troop, meeting);
                     return;
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error occurred: ", e);
                 }
             }
         }
@@ -1398,7 +1397,7 @@ public class MeetingUtil {
                     activityDAO.updateActivity(user, troop, activity);
                     return;
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error occurred: ", e);
                 }
             }
         }
@@ -1487,7 +1486,7 @@ public class MeetingUtil {
     }
 
     public boolean rmNote(User user, Troop troop, String noteId) throws IllegalAccessException, VtkException {
-        System.err.println("inRmNote MeetingUtil: " + noteId);
+        log.debug("inRmNote MeetingUtil: " + noteId);
         return meetingDAO.rmNote(user, troop, noteId);
     }
 
@@ -1633,11 +1632,9 @@ public class MeetingUtil {
                 throw new VtkException("test");
             }
         } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         } catch (VtkException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("Error occurred: ", e);
         }
     }
 
@@ -1667,28 +1664,3 @@ public class MeetingUtil {
     }
 
 }// edn class
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

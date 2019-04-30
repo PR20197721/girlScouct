@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.mapper;
+package org.girlscouts.vtk.mapper.salesforce;
 
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.rest.entity.salesforce.ParentEntity;
@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class ParentEntityToTroopMapper {
     private static Logger log = LoggerFactory.getLogger(ParentEntityToTroopMapper.class);
 
-    public Troop map(ParentEntity entity){
+    public static Troop map(ParentEntity entity){
         try {
             Troop troop = new Troop();
             troop.setRole("PA");

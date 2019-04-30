@@ -3,8 +3,8 @@ package org.girlscouts.vtk.osgi.service.impl;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.auth.permission.RollType;
+import org.girlscouts.vtk.mapper.salesforce.*;
 import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
-import org.girlscouts.vtk.mapper.*;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -79,8 +79,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }else{
                 userInfoResponseEntity = sfRestClient.getUserInfo(apiConfig);
             }
-            UserInfoResponseEntityToUserMapper mapper = new UserInfoResponseEntityToUserMapper();
-            user = mapper.map(userInfoResponseEntity);
+            user = UserInfoResponseEntityToUserMapper.map(userInfoResponseEntity);
             if (apiConfig.isDemoUser()) {
                 user.setAdminCouncilId(demoCouncilCode);
             }
@@ -96,8 +95,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         User user = new User();
         try{
             UserInfoResponseEntity userInfoResponseEntity = sfRestClient.getUserInfoById(apiConfig, userId);
-            UserInfoResponseEntityToUserMapper mapper =  new UserInfoResponseEntityToUserMapper();
-            user = mapper.map(userInfoResponseEntity);
+            user = UserInfoResponseEntityToUserMapper.map(userInfoResponseEntity);
             user.setApiConfig(apiConfig);
             addMoreInfo(apiConfig, userInfoResponseEntity, user);
             return user;
@@ -118,11 +116,10 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 troopInfoResponseEntity = sfRestClient.getTroopInfoByUserId(apiConfig, userId);
             }
             if(troopInfoResponseEntity != null){
-                TroopEntityToTroopMapper mapper = new TroopEntityToTroopMapper();
                 TroopEntity[] entities = troopInfoResponseEntity.getTroops();
                 if(entities != null){
                     for(TroopEntity entity:entities){
-                        Troop troop = mapper.map(entity);
+                        Troop troop = TroopEntityToTroopMapper.map(entity);
                         if (apiConfig.isDemoUser()) {
                             troop.setCouncilCode(demoCouncilCode);
                         }
@@ -151,11 +148,10 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 }
             }
             if(contactsInfoResponseEntity != null){
-                ContactEntityToContactMapper mapper = new ContactEntityToContactMapper();
                 ContactEntity[] entities = contactsInfoResponseEntity.getContacts();
                 if(entities != null){
                     for(ContactEntity entity:entities){
-                        Contact contact = mapper.map(entity);
+                        Contact contact = ContactEntityToContactMapper.map(entity);
                         contacts.add(contact);
                     }
                 }
@@ -215,11 +211,10 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 troopLeadersInfoResponseEntity = sfRestClient.getTroopLeaderInfoByTroopId(apiConfig, sfTroopId);
             }
             if(troopLeadersInfoResponseEntity != null){
-                TroopLeaderEntityToContactMapper mapper = new TroopLeaderEntityToContactMapper();
                 TroopLeaderEntity[] entities = troopLeadersInfoResponseEntity.getTroopLeaders();
                 if(entities != null){
                     for(TroopLeaderEntity entity:entities){
-                        Contact contact = mapper.map(entity);
+                        Contact contact = TroopLeaderEntityToContactMapper.map(entity);
                         contacts.add(contact);
                     }
                 }
@@ -244,9 +239,8 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     private void setTroopsForUser(ApiConfig apiConfig, User user, ParentEntity[] campsTroops) {
         List<Troop> parentTroops = new ArrayList<Troop>();
         if(campsTroops != null && campsTroops.length > 0){
-            ParentEntityToTroopMapper mapper = new ParentEntityToTroopMapper();
             for(ParentEntity entity: campsTroops){
-                Troop troop = mapper.map(entity);
+                Troop troop = ParentEntityToTroopMapper.map(entity);
                 //Independent Registered Member
                 if(troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())){
                     troop.setCouncilCode(irmCouncilCode);
@@ -263,12 +257,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         if(user.isServiceUnitManager()){
             additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
         }
-        //TODO remove after changes made in salesforce and we don't have to force these troops for test council users
-        if("999".equals(user.getAdminCouncilId())){
-            additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
-            additionalTroops.addAll(getIndependentRegisteredMemberTroops(user.getSfUserId()));
-        }
-        //TODO end remove
         List<Troop> mergedTroops = mergeTroops(parentTroops, additionalTroops);
         for(Troop troop:mergedTroops) {
             if (apiConfig.isDemoUser()) {
@@ -302,11 +290,10 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         try {
             TroopInfoResponseEntity troopInfoResponseEntity = sfFileClient.getServiceUnitManagerTroops();
             if (troopInfoResponseEntity != null) {
-                TroopEntityToTroopMapper mapper = new TroopEntityToTroopMapper();
                 TroopEntity[] entities = troopInfoResponseEntity.getTroops();
                 if (entities != null) {
                     for (TroopEntity entity : entities) {
-                        Troop troop = mapper.map(entity);
+                        Troop troop = TroopEntityToTroopMapper.map(entity);
                         setDummyValuesForTroop(troop, sumCouncilCode);
                         troops.add(troop);
                     }
@@ -325,11 +312,10 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             if (independentRegisteredMemberResponseEntity != null) {
                 ParentEntity[] campsTroops = independentRegisteredMemberResponseEntity.getCamps();
                 if(campsTroops != null && campsTroops.length > 0){
-                    ParentEntityToTroopMapper mapper = new ParentEntityToTroopMapper();
                     for(ParentEntity entity: campsTroops){
                         //Independent Registered Member
                         if(entity.getParticipationCode() != null && irmCouncilCode.equals(entity.getParticipationCode())){
-                            Troop troop = mapper.map(entity);
+                            Troop troop = ParentEntityToTroopMapper.map(entity);
                             setDummyValuesForTroop(troop, irmCouncilCode);
                             irmTroops.add(troop);
                         }

@@ -1,9 +1,7 @@
-package org.girlscouts.vtk.mapper;
+package org.girlscouts.vtk.mapper.salesforce;
 
 import org.girlscouts.vtk.models.Contact;
-import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.rest.entity.salesforce.ContactEntity;
-import org.girlscouts.vtk.rest.entity.salesforce.ParentEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +11,7 @@ import java.util.List;
 public class ContactEntityToContactMapper {
     private static Logger log = LoggerFactory.getLogger(ContactEntityToContactMapper.class);
 
-    public Contact map(ContactEntity entity){
+    public static Contact map(ContactEntity entity){
         try {
             Contact contact = new Contact();
             contact.setType(0);

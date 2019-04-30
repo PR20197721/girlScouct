@@ -5,7 +5,7 @@ import org.girlscouts.vtk.dao.YearPlanComponentType;
 import java.util.Date;
 import java.util.List;
 
-public class MeetingCanceled extends BaseEntity{
+public class MeetingCanceledEntity extends BaseEntity{
 
     @SerializedName("path")
 	private String path;

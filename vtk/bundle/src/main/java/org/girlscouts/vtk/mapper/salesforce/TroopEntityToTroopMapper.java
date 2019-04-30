@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.mapper;
+package org.girlscouts.vtk.mapper.salesforce;
 
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.rest.entity.salesforce.TroopEntity;
@@ -9,7 +9,7 @@ public class TroopEntityToTroopMapper {
 
     private static Logger log = LoggerFactory.getLogger(TroopEntityToTroopMapper.class);
 
-    public Troop map(TroopEntity entity){
+    public static Troop map(TroopEntity entity){
         try {
             Troop troop = new Troop();
             try {

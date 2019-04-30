@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.mapper;
+package org.girlscouts.vtk.mapper.salesforce;
 
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.rest.entity.salesforce.UserEntity;
@@ -10,7 +10,7 @@ public class UserInfoResponseEntityToUserMapper {
 
     private static Logger log = LoggerFactory.getLogger(UserInfoResponseEntityToUserMapper.class);
 
-    public User map(UserInfoResponseEntity entity){
+    public static User map(UserInfoResponseEntity entity){
         try {
             User user = new User();
             if (entity != null && entity.getUsers() != null && user != null) {

@@ -39,7 +39,7 @@ public class YearPlanEntity extends BaseEntity{
     @SerializedName("milestones")
     private List<MilestoneEntity> milestones;
     @SerializedName("meetingCanceled")
-    private List<MeetingCanceled> meetingCanceled;
+    private List<MeetingCanceledEntity> meetingCanceled;
     @SerializedName("helper")
     private HelperEntity helper;
 
@@ -171,11 +171,11 @@ public class YearPlanEntity extends BaseEntity{
         this.milestones = milestones;
     }
 
-    public List<MeetingCanceled> getMeetingCanceled() {
+    public List<MeetingCanceledEntity> getMeetingCanceled() {
         return meetingCanceled;
     }
 
-    public void setMeetingCanceled(List<MeetingCanceled> meetingCanceled) {
+    public void setMeetingCanceled(List<MeetingCanceledEntity> meetingCanceled) {
         this.meetingCanceled = meetingCanceled;
     }
 

@@ -18,8 +18,6 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
     <script type="text/javascript">
       var isActivNew=0;
       var aPath;
-      var meetingStartDate="";
-      var meetingEndDate="";
       var activityHelper=null;
       var sentEmails;
       if($("#email-list").length > 0){
@@ -240,14 +238,12 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
                 x= this.state.data.activities[0];
                 aPath= x.path;
-                meetingStartDate=new Date(Number(x.date));
-                meetingEndDate=new Date(Number(x.endDate));
                 activityHelper= this.state.data.helper;
                 getEventImg( x.refUid );
 
                 sendEmails = x.sentEmails;
               return (
-                      React.createElement(Activity, {data: x, meetingTitle: x.name, meetingModMONTH: moment.tz(meetingStartDate,"America/New_York").format('MMMM'), meetingModDAY: moment.tz(meetingStartDate,"America/New_York").format('DD'), meetingModHOUR: moment.tz(meetingStartDate,"America/New_York").format('h:mm a')})
+                      React.createElement(Activity, {data: x, meetingTitle: x.name, meetingModMONTH: moment.tz(x.date,"America/New_York").format('MMMM'), meetingModDAY: moment.tz(x.date,"America/New_York").format('DD'), meetingModHOUR: moment.tz(x.date,"America/New_York").format('h:mm a')})
 
                       );
             }else{

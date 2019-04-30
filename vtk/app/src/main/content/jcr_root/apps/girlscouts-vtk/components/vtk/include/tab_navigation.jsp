@@ -22,7 +22,7 @@
             isTroopLeader = true;
         }
         String vtk_cache_uri = "/content/girlscouts-vtk/en";
-        if (isParent) {
+        if (isParent && !"IRM".equals(selectedTroop.getParticipationCode())) {
             vtk_cache_uri = "/myvtk/" + councilMapper.getCouncilName(selectedTroop.getSfCouncil());
 
         }
@@ -115,7 +115,7 @@
                 <% } %>
                 <%if (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) {%>
                 <dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
-                    <a href="<%=relayUrl %>/myvtk/<%=councilMapper.getCouncilName(selectedTroop.getSfCouncil())%>/vtk.resource.html">Resources</a>
+                    <a href="<%=relayUrl %><%=vtk_cache_uri%>/vtk.resource.html">Resources</a>
                 </dd>
                 <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MILESTONE_ID)) { %>
                 <dd <%= "milestones".equals(activeTab) ? "class='active'" : "" %>>
