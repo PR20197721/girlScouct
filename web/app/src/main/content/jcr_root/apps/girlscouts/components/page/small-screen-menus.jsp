@@ -4,7 +4,7 @@
   String headerPath = (String)request.getAttribute("headerPath");
   int depth = currentPage.getDepth();
 %>
-<aside class="right-off-canvas-menu">
+<aside class="left-off-canvas-menu">
 	<cq:include script="/apps/girlscouts/components/global-navigation/off-canvas-nav.jsp"/>
 
 	<cq:include script="/apps/girlscouts/components/eyebrow-navigation/smaller-view.jsp"/>
