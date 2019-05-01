@@ -218,7 +218,7 @@
                             cursor: 'pointer',
                             paddingTop: '3px'
                         },
-                        "data-tooltip": true,
+                        "data-tooltip": "outdoorIcon",
                         "aria-haspopup": true,
                         title: "<b>Get Girls Outside!</b>"
                     };
@@ -249,7 +249,7 @@
                             cursor: 'pointer',
                             paddingTop: '6px'
                         },
-                        "data-tooltip": true,
+                        "data-tooltip": "globalIcon",
                         "aria-haspopup": true
                         ,
                         title: "<b>Go Global!</b>"
