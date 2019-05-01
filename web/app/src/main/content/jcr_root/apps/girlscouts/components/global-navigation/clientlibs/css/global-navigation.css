@@ -1,0 +1,154 @@
+.login.small-19.columns{
+    position: absolute;
+    color: #FFF;
+    font-weight: 600;
+    z-index: 1001;
+}
+.login.small-19.columns a{
+     position: absolute;
+     color: #FFF;
+     font-weight: 600;
+     font-size: 0.875rem;
+     padding-top: 7px;
+     padding-left: 5px;
+ }
+ .login.small-19.columns a:hover{
+     color: #FFA500;
+ }
+/* Left Canvas Menu CSS */
+.side-nav-el a{
+    width: 70%;
+}
+.left-off-canvas-menu{
+    background-color: #6b6b6b;
+}
+#left-canvas-menu {
+    overflow: hidden;
+}
+#left-canvas-menu a {
+    font-size: 14px;
+    padding: 12px 0px 0px 5px;
+}
+#left-canvas-menu hr{
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 10px;
+    border: 1px solid gray;
+}
+#left-canvas-menu-bottom hr{
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 10px;
+    border: 1px solid gray;
+}
+/* Left Canvas - Side Menu CSS */
+#sub-active ul{
+    display: block;
+}
+.side-nav-el.parentEl:hover{
+    cursor: pointer;
+}
+.side-nav-el.parentEl ul li ul li ul li ul li div a{
+    padding-left: 40px !important;
+}
+.side-nav-el.parentEl ul li ul li ul li div a{
+    padding-left: 35px !important;
+}
+.side-nav-el.parentEl ul li ul li div a{
+    padding-left: 25px !important;
+}
+.side-nav-el.parentEl ul li div a{
+    padding-left: 15px !important;
+}
+.side-nav.search-bar{
+    padding-bottom: 0px;
+    margin-bottom: -16px;
+    width: 90%;
+}
+.side-nav.search-bar .searchField{
+    border: 2px solid #00AE58;
+}
+.side-nav-header{
+    display: inline-flex;
+}
+.side-nav-header #eventSearch{
+    height: 32px;
+    width: 125px;
+}
+.side-nav-el span{
+    color: #ddd;
+    padding: 12px 0px 0px 5px;
+    text-transform: capitalize;
+    display: block;
+    height: 50px;
+    font-size: .9rem;
+}
+#side-nav-active-parent{
+    display: inline-block;
+    padding-left: 0px;
+    margin-left: -9px;
+    color: #FFA500;
+}
+.side-nav-el.active ul{
+     display: block;
+}
+.side-nav-el a{
+     display: inline-block !important;
+}
+.side-nav-expand{
+    display: inline-block !important;
+    float: right !important;
+    padding-right: 2% !important;
+    padding-top: 0 !important;
+    font-size: 30px !important;
+
+}
+.side-nav-expand-child{
+    float: right !important;
+    padding-right: 2% !important;
+    padding-top: 0 !important;
+    font-size: 30px !important;
+}
+/* Mobile Search Bar/Button CSS*/
+#searchBtn{
+    height: 32px;
+    padding: 0;
+    line-height: 0;
+    width: 60px;
+    color: white;
+    background-color: #009447;
+    border: 2px solid white;
+    border-radius: 6px;
+
+}
+#searchBtnHome{
+    height: 32px;
+    padding: 0;
+    line-height: 0;
+    width: 60px;
+    color: white;
+    background-color: #009447;
+    border: 2px solid #FFA500;
+    border-radius: 6px;
+
+}
+#searchIcon{
+    margin-left: 10px;
+}
+#menuIcon{
+    margin-right: 10px;
+}
+#mobileSearchBar{
+    padding: 10px;
+    display: none;
+    background-color: #00AE58;
+}
+.small-22.columns.srch-box{
+    margin-left: 4%;
+}
+.mobileSearch{
+    padding: 0px;
+    background-color: #6b6b6b;
+}
