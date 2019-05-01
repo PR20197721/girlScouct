@@ -4,6 +4,8 @@
                 java.text.SimpleDateFormat,java.util.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<%@taglib prefix="ui" uri="http://www.adobe.com/taglibs/granite/ui/1.0" %>
+<ui:includeClientLib categories="apps.girlscouts.components.global-nav" />
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
 <%!
 public String buildFlyOutMenu(Page parent, String flyRight) throws RepositoryException {
@@ -26,7 +28,7 @@ public String buildFlyOutMenu(Page parent, String flyRight) throws RepositoryExc
 								menuBuilder.append("<li>");
 								menuBuilder.append(createHref(p));
 								menuBuilder.append("</li>");
-							}					
+							}
 						}
 						menuBuilder.append("</ul>");
 					}else{
@@ -57,7 +59,7 @@ public boolean hasVisibleChildren(Page page){
 }
 %>
 <%
-   
+
 final GirlscoutsVtkConfigProvider configManager = sling.getService(GirlscoutsVtkConfigProvider.class);
 //Force currentPage from request
 Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
@@ -70,18 +72,27 @@ String flyoutClass = displaySecondaryNavFlyOut ? "flyout-nav" : "";
 
 HashMap flyoutMap = new HashMap();
 List<String> linksList = new ArrayList<String>();
+List<String> displaySmall = new ArrayList<String>();
 if(currentNode.hasNode("links")){
 	Node links = currentNode.getNode("links");
     NodeIterator iter = links.getNodes();
     while(iter.hasNext()){
 		Node linkNode = iter.nextNode();
-    	if(linkNode.hasProperty("large") && linkNode.hasProperty("url") 
+    	if(linkNode.hasProperty("large") && linkNode.hasProperty("url")
            && linkNode.hasProperty("medium")  && linkNode.hasProperty("small") ){
 			String url = linkNode.getProperty("url").getString();
         	String large = linkNode.getProperty("large").getString();
             String medium = linkNode.getProperty("medium").getString();
             String small = linkNode.getProperty("small").getString();
-
+            if(linkNode.hasProperty("mobileView")){
+                if(!linkNode.getProperty("mobileView").getString().equals("true")){
+                    displaySmall.add("false");
+                }else{
+                    displaySmall.add(linkNode.getProperty("mobileView").getString());
+                }
+            }else{
+                displaySmall.add("false");
+            }
 			String clazz = "";
             if(linkNode.hasProperty("class")){
                 clazz = linkNode.getProperty("class").getString();
@@ -149,7 +160,7 @@ if ((links == null || links.length == 0)) {
                       <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
                        <%if( configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")){ %>
                          <li style="opacity:0.5;"><a href="#" onclick="javascript:void(0)" disabled="true">Member Profile</a></li>
-                         <li><a href="/content/girlscouts-demo/en.html">Demo</a></li>                         
+                         <li><a href="/content/girlscouts-demo/en.html">Demo</a></li>
                       <%}else{ %>
                          <li><a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a></li>
                          <li><a href="<%= path %>">Volunteer Toolkit</a></li>
@@ -178,6 +189,9 @@ if ((links == null || links.length == 0)) {
                     %><li data-link="<%=path%>" class="<%=hasChildren%><%=activeStatus%>">
                         <a class="show-for-large-up menu <%=clazz%>" href="<%=path%>"><%=label%></a>
                         <a class="show-for-medium-only menu <%=clazz%>" href="<%=path%>"><%=mLabel%></a><%
+                        if(displaySmall.get(i).equals("true")){%>
+                            <a class="show-for-small-only menu <%=clazz%>" href="<%=path%>"><%=sLabel%></a><%
+                        }
                         try {
                             if (flyPage != null) {
                                 String flyRight = (i <= links.length/2) ? " right" : "";
