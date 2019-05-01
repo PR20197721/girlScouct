@@ -262,6 +262,21 @@
                 }
             });
 
+            var DirectCalendar = React.createClass({
+                displayName: 'DirectCalendar',
+                close: function () {
+                    this.props.close();
+                    document.body.style.overflowY = ''
+                },
+                getInitialState: function () {
+                    return {
+                        change: false,
+                        time: moment(this.props.time).format('h:mm'),
+                        message: {
+                            type: '',
+                            display: '',
+                        },
+                        design: this.calculateDesign()
 
             var DirectCalendar = React.createClass({
                 displayName: 'DirectCalendar',

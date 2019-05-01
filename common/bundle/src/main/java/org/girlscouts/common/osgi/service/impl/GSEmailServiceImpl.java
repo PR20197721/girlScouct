@@ -85,6 +85,36 @@ public class GSEmailServiceImpl implements GSEmailService {
 					"To addresses or subject are null [subject=" + subject + ", toAddresses=" + toAddresses + "]");
 		}
 	}
+	@Override
+	public void sendEmail(String subject, List<String> toAddresses, String body, String fromAddress)
+			throws EmailException, MessagingException {
+		if (toAddresses != null && !toAddresses.isEmpty() && subject != null && subject.trim().length() > 0) {
+			HtmlEmail email = new HtmlEmail();
+			if (subject != null) {
+				email.setSubject(subject);
+			}
+			if(fromAddress != null){
+				email.setFrom(fromAddress);
+			}
+			setRecipients(toAddresses, email);
+			setBody(body, null, email);
+			email.setHtmlMsg(body);
+			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
+			try {
+				log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}, body:{}", subject,
+						toAddresses.toArray(new String[toAddresses.size()]), body);
+				messageGateway.send(email);
+				log.info("Girlscouts Email Service: Email message sent successfully");
+			} catch (MailingException e) {
+				log.error("Girlscouts Email Service: Failed to send email message subject:%s, toAddresses:{}, body:{}",
+						subject, toAddresses.toArray(new String[toAddresses.size()]), body, e);
+				throw e;
+			}
+		} else {
+			throw new EmailException(
+					"To addresses or subject are null [subject=" + subject + ", toAddresses=" + toAddresses + "]");
+		}
+	}
 
 	@Override
 	public void sendEmail(String subject, List<String> toAddresses, String body, Set<GSEmailAttachment> attachments)
@@ -93,6 +123,36 @@ public class GSEmailServiceImpl implements GSEmailService {
 			HtmlEmail email = new HtmlEmail();
 			if (subject != null) {
 				email.setSubject(subject);
+			}
+			setRecipients(toAddresses, email);
+			setBody(body, attachments, email);
+			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
+			try {
+				log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}", subject,
+						toAddresses.toArray(new String[toAddresses.size()]));
+				messageGateway.send(email);
+				log.info("Girlscouts Email Service: Email message sent successfully");
+			} catch (Exception e) {
+				log.error(
+						"Girlscouts Email Service encountered error: Failed to send email message subject:{}, toAddresses:{}, body:{}",
+						subject, toAddresses.toArray(new String[toAddresses.size()]), body, e);
+				throw e;
+			}
+		} else {
+			throw new EmailException(
+					"To addresses or subject are null [subject=" + subject + ", toAddresses=" + toAddresses + "]");
+		}
+	}
+	@Override
+	public void sendEmail(String subject, List<String> toAddresses, String body, Set<GSEmailAttachment> attachments, String fromAddress)
+			throws EmailException, MessagingException {
+		if (toAddresses != null && !toAddresses.isEmpty() && subject != null && subject.trim().length() > 0) {
+			HtmlEmail email = new HtmlEmail();
+			if (subject != null) {
+				email.setSubject(subject);
+			}
+			if(fromAddress != null){
+				email.setFrom(fromAddress);
 			}
 			setRecipients(toAddresses, email);
 			setBody(body, attachments, email);

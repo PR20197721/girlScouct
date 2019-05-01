@@ -1,8 +1,10 @@
-<sly data-sly-use.print="org.girlscouts.web.components.models.PdfPrint">
-    <span id="pdfGen">
-        <a id="pdfLink" pdfpath = "${print.pdfPath}" title="${print.pageTitle}">Generate PDF</a>
-    </span>
-    <sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
-        <sly data-sly-call="${clientlib.js @ categories='apps.girlscouts.components.pdfprint'}"/>
+<div data-sly-use.print="org.girlscouts.web.components.models.PdfPrint">
+    <sly data-sly-test="${print.showPdf}">
+        <span id="pdfGen">
+             <label id="pdfLink" class="icon-picker-icon icon-pdf-file-extension"  pdfpath = "${print.pdfPath}" title="${print.pageTitle}" ></label>
+        </span>
+        <sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
+            <sly data-sly-call="${clientlib.all @ categories='apps.girlscouts.components.pdfprint'}"/>
+        </sly>
     </sly>
-</sly>
+</div>
