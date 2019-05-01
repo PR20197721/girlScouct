@@ -17,10 +17,10 @@
     outline: none;
 }
 .left-off-canvas-menu ul.off-canvas-list > li.active {
-    border-right: solid 0.625rem #F2C63F;
+    border-right: solid 0.2083rem #F2C63F;
 }
 .left-off-canvas-menu ul.off-canvas-list > li {
-    border-right: solid 0.625rem #E29618;
+    border-right: solid 0.2083rem #E29618;
 }
 #side-nav-active-parent{
     transform: none !important;

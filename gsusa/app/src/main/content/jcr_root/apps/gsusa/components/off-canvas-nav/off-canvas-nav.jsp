@@ -145,13 +145,8 @@
 		        }
 
 		    }
-            String topMenuPath = getTopMenuPath(path);
-            if(!topMenus.contains(topMenuPath)){
-                topMenus.add(topMenuPath);
-                Page topMenuPathPage = rr.resolve(topMenuPath).adaptTo(Page.class);
-                //sb.append("<div>1 submenu for : "+topMenuPathPage.getPath()+"</div>");
-                buildMenu(topMenuPathPage, currentPath, sb, rr);
-            }
+            Page topMenuPathPage = rr.resolve(path).adaptTo(Page.class);
+            buildMenu(topMenuPathPage, currentPath, sb, rr);
 			sb.append("</li>");
 		}catch(Exception e){
 			e.printStackTrace();
