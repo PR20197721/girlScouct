@@ -2,7 +2,6 @@ $(document).ready(function () {
 	$('.dropdown').show();
     $('.badge-grid').show();
 
-	
     var badges = $(".badge-block"),
         filterSets = {},
         filter,
@@ -27,6 +26,12 @@ $(document).ready(function () {
 
     function hasActiveFilters() {
         return Object.keys(activeFilters).length;
+    }
+
+    if(window.location.href.indexOf('#') > -1){
+        var substring = window.location.href.substring(window.location.href.indexOf('#')+1);
+        var badgeToOpen = window.location.href.substring(window.location.href.indexOf('#')+1);
+        $(document.getElementById(substring)).find(".badge-image-wrapper").click()
     }
 
     $(".submenu label").each(function () {
