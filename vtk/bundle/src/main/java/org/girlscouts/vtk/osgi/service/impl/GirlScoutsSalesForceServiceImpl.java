@@ -253,6 +253,12 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         if (user.isServiceUnitManager()) {
             additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
         }
+        //TODO remove after changes made in salesforce and we don't have to force these troops for test council users
+        if("999".equals(user.getAdminCouncilId())){
+            additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
+            additionalTroops.addAll(getIndependentRegisteredMemberTroops(user.getSfUserId()));
+        }
+        //TODO end remove
         List<Troop> mergedTroops = mergeTroops(parentTroops, additionalTroops);
         for (Troop troop : mergedTroops) {
             if (apiConfig.isDemoUser()) {
