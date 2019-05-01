@@ -39,6 +39,7 @@ import org.girlscouts.common.events.search.GSDateTimeFormat;
 import org.girlscouts.common.events.search.GSDateTimeFormatter;
 import org.girlscouts.common.events.search.GSDateTimeZone;
 import org.girlscouts.common.util.PageReplicationUtil;
+import org.joda.time.DateTimeZone;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -1625,6 +1626,8 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 			
 			String startingFormat = formatDate + "T" + time + " -05:00";
 			GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'hh:mm a Z");
+			GSDateTimeZone zone = new GSDateTimeZone(DateTimeZone.forOffsetHours(-5),"EST");
+			dtfIn = dtfIn.withZone(zone);
         	GSDateTime dt = GSDateTime.parse(startingFormat,dtfIn);
         	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
         	String result = dtfOut.print(dt);

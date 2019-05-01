@@ -32,6 +32,18 @@ final String shareSectionIcon = properties.get("icon", "");
 final String shareSectionText = properties.get("sharetext", "");
 String shareSectionLink = properties.get("sharelink", "");
 final String cookieBoothLink = properties.get("cookieboothlink", "");
+String relativeResultPath;
+String relativeCurrentPath;
+if(cookieBoothLink.contains("/en")){
+    relativeResultPath = resourceResolver.map(cookieBoothLink).substring(resourceResolver.map(cookieBoothLink).indexOf("/en"));
+}else{
+    relativeResultPath = resourceResolver.map(cookieBoothLink);
+}
+try{
+    relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
+}catch(Exception e){
+    relativeCurrentPath = currentPage.getPath();
+}
 final String id = generateId();
 Page shareSectionLinkPage = resourceResolver.resolve(shareSectionLink).adaptTo(Page.class);
 if (shareSectionLinkPage != null && !shareSectionLink.contains(".html")) {
@@ -54,7 +66,6 @@ if(mobileImage != null){
 	mobileImage.setSelector("img");
 	mobileImageSrc = mobileImage.getSrc();
 }
-
 %>
 
 <script>
@@ -64,8 +75,8 @@ if(mobileImage != null){
         bindSubmitHash({
             formElement: "form[name='find-cookies']",
             hashElement: "input[name='zip-code']",
-            redirectUrl: "<%=resourceResolver.map(cookieBoothLink)%>",
-            currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
+            redirectUrl: "<%=relativeResultPath%>",
+            currentUrl: "<%=relativeCurrentPath%>"
         });
     });
 </script>
@@ -83,7 +94,7 @@ if(mobileImage != null){
                         <input type="tel" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" class="zip-code" name="zip-code" placeholder="ZIP Code" />
                     </div>
                     <div>
-                        <input type="submit" class="link-arrow" value="Go >" />
+                        <input type="submit" class="link-arrow" value="Go >" onclick="location.href='#'"/>
                     </div>
                 </div>
             </form><%
