@@ -151,7 +151,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 			}
 		});
 
-		xhr.send($.param({html: pdfHtml}));
+		xhr.send($.param({html: encodeURI(pdfHtml)}));
 
 		return returner;
 	}
@@ -247,7 +247,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 	/*
 	 * Separates pages to fit in a standard PDF.  Pages are allowed max of 840px not including header.
 	 */
-	var MAX_PDF_PAGE_HEIGHT = 825;
+	var MAX_PDF_PAGE_HEIGHT = 820;
 	function separatePages(source){
 		var allElements = source.find('.BadgeExplorerElementPdfComponent');
 		var headerDom = $('.BadgePdfLogoWrapper').add('.BadgePdfHeaderTitle').add('.BadgePdfHeader');
@@ -297,7 +297,18 @@ window.BadgePdfGenerator = (function(window, $, document){
                     if(text.length > 800){
                         $($(allElements[i]).find(".BadgePdfDescription")).children().last().remove();
                     }
-                    $($(allElements[i]).find("ol")).append("<li><strong style='width: 100px'><a style='color:#00AE58; text-decoration: none' href='https://www.girlscouts.org/en/our-program/badges/badge_explorer.html#"+title+"' target='_blank'>Please see badge for more details...</a></strong></li>");
+                    var destination;
+                    if(window.location.href.indexOf("/uat.") > -1){
+                        destination = "uat.girlscouts.org";
+                    }else{
+                        destination = "www.girlscouts.org";
+                    }
+                    var numEl = $($(allElements[i]).find("ol")).children().length;
+                    $($(allElements[i]).find("ol")).children().each(function(index, element){
+                        if(index === numEl - 1){
+                            $("<strong><span> </span><a margin-left: 1px; style='color:#00AE58;' href='https://"+destination+"/en/our-program/badges/badge_explorer.html#"+title+"' target='_blank'>More Details &#8594;</a></strong>").appendTo(element)
+                        }
+                    })
                     $($(allElements[i]).find(".BadgePdfDescription")).append(linkEl);
                 }
             }
