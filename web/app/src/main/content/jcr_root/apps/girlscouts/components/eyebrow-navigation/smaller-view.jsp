@@ -20,12 +20,16 @@ for (int i = 0; i < links.length; i++) {
      String clazz = values.length >= 3 ? "class=\""+ values[2] + "\"": "";
      String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ?
              " target=\"_blank\"" : "";
-     if(currPath.equals(menuPath)){%>
-         <li class="active">
+     if(currPath.equals(menuPath) && i == 0){%>
+        <li id="side-nav-bottom-first" class="active">
+     <%}else if(currPath.equals(menuPath)){ %>
+     	<li class="active">
+     <%}else if(i == 0){ %>
+        <li id="side-nav-bottom-first">
      <%}else{ %>
-     	<li>
+        <li>
      <% } %>
-		<div><a <%= clazz %> href="<%= path %>"<%= newWindow %>><%= label %></a></div></li>
+		<div><a <%= clazz %> href="<%= path %>"<%= newWindow %>><%= label %></a></div><hr></li>
  <% } 
 }%>
 </ul>

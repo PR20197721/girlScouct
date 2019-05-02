@@ -50,6 +50,12 @@
 .side-nav-el.parentEl:hover{
     cursor: pointer;
 }
+#side-nav-bottom-first{
+    margin-top: -14px !important;
+}
+.move-right .exit-off-canvas {
+    background: rgba(0, 0, 0, 0.8);
+}
 .side-nav-el.parentEl ul li ul li ul li ul li div a{
     padding-left: 40px !important;
 }
@@ -74,8 +80,20 @@
     display: inline-flex;
 }
 .side-nav-header #eventSearch{
-    height: 32px;
-    width: 125px;
+    height: 28px;
+    width: 135px;
+    margin-left: 10px;
+    margin-top: 1px;
+    border: 2px solid #00AE58;
+}
+.side-nav-header form:after {
+  font-family: "JollyFont";
+  position: absolute;
+  content: "\e66c";
+  color: #00AE58;
+  font-size: 1.25rem;
+  top: 13px;
+  right: 33px;
 }
 .side-nav-el span{
     color: #ddd;
@@ -113,26 +131,24 @@
 }
 /* Mobile Search Bar/Button CSS*/
 #searchBtn{
-    height: 32px;
-    padding: 0;
+    height: 28px;
+    padding: 0 7px 4px 7px;
+    margin-left: 7%;
     line-height: 0;
-    width: 60px;
     color: white;
     background-color: #009447;
-    border: 2px solid white;
+    border: 2px solid lightgray;
     border-radius: 6px;
-
 }
 #searchBtnHome{
-    height: 32px;
-    padding: 0;
+    height: 28px;
+    padding: 0 7px 4px 7px;
+    margin-left: 7%;
     line-height: 0;
-    width: 60px;
     color: white;
     background-color: #009447;
     border: 2px solid #FFA500;
     border-radius: 6px;
-
 }
 #searchIcon{
     margin-left: 10px;
@@ -151,6 +167,9 @@
 .mobileSearch{
     padding: 0px;
     background-color: #6b6b6b;
+}
+.mobile-search-btn-text{
+    font-size: 11px;
 }
 #eventSearch.searchField{
     margin: 0 0 1rem 0;
