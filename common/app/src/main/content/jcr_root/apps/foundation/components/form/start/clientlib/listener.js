@@ -123,94 +123,150 @@
                 }
             });
         }
-
-        
-        var $sfmctab = $form.find("a.coral-TabPanel-tab:contains('SFMC')"), //$form.closest(":contains('SFMC')"),
-        	$sfmc = $form.find("[name='./sfmc']"),
-			sfmc = $form.find("[name='./sfmc']").val(),
-			dataExtensionKey = $form.find("[name='./dataextensionkey']").val(), 
-			$dataExtensionKey = $form.find("[name='./dataextensionkey']"), 
-			$dataExtensionEmail = $form.find("[name='./dataextensionemail']"),
-			dataExtensionEmail = $form.find("[name='./dataextensionemail']").val(),
-			$triggerSendKey = $form.find("[name='./triggersendkey']"),
-			triggerSendKey = $form.find("[name='./triggersendkey']").val(),
-			sourceoption = $form.find("[name='./sourceoption']").val(),
-			$source = $form.find("[name='./source']"),
-			source = $form.find("[name='./source']").val(),
-			$sourceValue = $form.find("[name='./sourcevalue']"),
-			sourceValue = $form.find("[name='./sourcevalue']").val();
-        
-        
-		
-		console.log("sfmc: " + sfmc + " tskey: " + triggerSendKey + " X");
-		
-		if ((sfmc == "ts") && (triggerSendKey == "")) {
-
-			triggerDialogError($triggerSendKey, $sfmctab, "Please enter Triggered Send Key");
-			
-			/*
-			$sfmctab.addClass("is-invalid", true);
-			ns.ui.helpers.prompt({
-                title: Granite.I18n.get("Invalid Input"),
-                message: "Please enter Triggered Send ID",
-                actions: [{
-                    id: "CANCEL",
-                    text: "CANCEL",
-                    className: "coral-Button"
-                }],
-	            callback: function (actionId) {
-	                if (actionId === "CANCEL") {
-	                }
-	            }
-	        });
-	        */
-			return false;
-		}
-		if ((sfmc == "de") && (dataExtensionKey == "" || dataExtensionEmail == "")) {
-			
-			if (dataExtensionKey == "") {
-				triggerDialogError($dataExtensionKey, $sfmctab, "Please enter Data Extension Key");
-			} else if (dataExtensionEmail == "") {
-				triggerDialogError($dataExtensionEmail, $sfmctab, "Please enter Data Extension Email");
-			}
-			return false;
-		}
-		if ((sourceoption  == "pair") && (source == "" || sourceValue == "")) {
-			
-			if (source == "") {
-				triggerDialogError($source, $sfmctab, "Please enter Data Extension Key");
-			} else if (sourceValue == "") {
-				triggerDialogError($sourceValue, $sfmctab, "Please enter Data Extension Email");
-			}
-			return false;
-		}
-		
-		
         
     });
 
-    function triggerDialogError($field, tab, message) {
-    	var $fieldError = $("<span class='coral-Form-fielderror coral-Icon coral-Icon--alert coral-Icon--sizeS' data-init='quicktip' data-quicktip-type='error' />"),
-    		error, arrow;
-    	
-		tab.addClass("is-invalid", true);
-		$field.attr("aria-invalid", "true").addClass("is-invalid", true);
-		$field.nextAll(".coral-Form-fieldinfo")
-			.addClass("u-coral-screenReaderOnly");
+    // email-signup
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "input[name='./source']",
+  		validate: function(el) {
+  			
+  			var source = $(el).val().trim();
+  			var $form = $(el).closest("form.foundation-form");
+  			var $sourceoption = $form.find("[name='./sourceoption']");
+  			
+  			if ($sourceoption.val() == "pair" && source == "") {
+  				return "Please enter source field name";
+  			}
+  			
+  		},
+  		show: function (el, message) {
+  		    showError(el, message);
+  		},
+  		clear: function (el) {
+  			clearError(el);
+  		}
+	});
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "input[name='./sourcevalue']",
+  		validate: function(el) {
+  			
+  			var sourcevalue = $(el).val().trim();
+  			var $form = $(el).closest("form.foundation-form");
+  			var $sourceoption = $form.find("[name='./sourceoption']");
+  			
+  			if ($sourceoption.val() == "pair" && sourcevalue == "") {
+  				return "Please enter source field value";
+  			}
+  			
+  		},
+  		show: function (el, message) {
+  		    showError(el, message);
+  		},
+  		clear: function (el) {
+  			clearError(el);
+  		}
+	});
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "input[name='./triggersendkey']",
+  		validate: function(el) {
+  			
+  			var tskey = $(el).val().trim();
+  			var $form = $(el).closest("form.foundation-form");
+  			var $sfmc = $form.find("[name='./sfmc']");
+  			
+  			if ($sfmc.val() == "ts" && tskey == "") {
+  				return "Please enter Triggered Send Key";
+  			}
+  		},
+  		show: function (el, message) {
+  		    showError(el, message);
+  		},
+  		clear: function (el) {
+  			clearError(el);
+  		}
+	});
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "input[name='./dataextensionkey']",
+  		validate: function(el) {
+  			
+  			var dataextensionkey = $(el).val().trim();
+  			var $form = $(el).closest("form.foundation-form");
+  			var $sfmc = $form.find("[name='./sfmc']");
+  			
+  			if ($sfmc.val() == "de" && dataextensionkey == "") {
+  				return "Please enter Data Extension Key";
+  			}
+  		},
+  		show: function (el, message) {
+  		    showError(el, message);
+  		},
+  		clear: function (el) {
+  			clearError(el);
+  		}
+	});
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "input[name='./dataextensionemail']",
+  		validate: function(el) {
+  			
+  			var dataextensionemail = $(el).val().trim();
+  			var $form = $(el).closest("form.foundation-form");
+  			var $sfmc = $form.find("[name='./sfmc']");
+  			
+  			if ($sfmc.val() == "de" && dataextensionemail == "") {
+  				return "Please enter Data Extension Email";
+  			}
+  		},
+  		show: function (el, message) {
+  		    showError(el, message);
+  		},
+  		clear: function (el) {
+  			clearError(el);
+  		}
+	});
+    
+    
+    function showError(el, message) {
+		var fieldErrorEl,
+		    field,
+		    error,
+		    arrow;
 		
-		error = $field.nextAll(".coral-Form-fielderror");
+		var $form = $(el).closest("form.foundation-form");
+		var $sfmctab = $form.find("a.coral-TabPanel-tab:contains('SFMC')");
+		$sfmctab.addClass("is-invalid", true);
+		
+		fieldErrorEl = $("<span class='coral-Form-fielderror coral-Icon coral-Icon--alert coral-Icon--sizeS' data-init='quicktip' data-quicktip-type='error' />");
+		field = el.closest(".coral-Form-field");
+		
+		$(field).attr("aria-invalid", "true")
+		  .toggleClass("is-invalid", true);
+		
+		$(field).nextAll(".coral-Form-fieldinfo")
+		  .addClass("u-coral-screenReaderOnly");
+		
+		error = $(field).nextAll(".coral-Form-fielderror");
+		
 		if (error.length === 0) {
-			arrow = $field.closest("form").hasClass("coral-Form--vertical") ? "right" : "top";
+		  arrow = $(field).closest("form").hasClass("coral-Form--vertical") ? "right" : "top";
+		
+		  fieldErrorEl
+		    .attr("data-quicktip-arrow", arrow)
+		.attr("data-quicktip-content", message)
+		    .insertAfter($(field));
+		} else {
+		  error.data("quicktipContent", message);
+		}
+	}
+    function clearError(el) {
+    	var field = el.closest(".coral-Form-field");
+    	
+			$(field).removeAttr("aria-invalid").removeClass("is-invalid");
 
-			$fieldError
-				.attr("data-quicktip-arrow", arrow)
-				.attr("data-quicktip-content", message)
-				.insertAfter($field);
-	    } else {
-	    	error.data("quicktipContent", message);
-	    }
+			$(field).nextAll(".coral-Form-fielderror").tooltip("hide").remove();
+			$(field).nextAll(".coral-Form-fieldinfo").removeClass("u-coral-screenReaderOnly");
     }
-
+    
     $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
   		selector: ".gs-email-field",
   		validate: function(el) {
@@ -224,9 +280,6 @@
             }
   		}
 	});
-
-
-
 
     // when dialog gets injected
     $(document).on("foundation-contentloaded", function (e) {
@@ -339,27 +392,5 @@
   		}
 	});
     
-    // email-signup
-    /*
-    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
-  		selector: "[name='./source']",
-  		validate: function(el) {
-  			console.log("validator");
-  			
-  			var value = el.value;
-  			var isVisible = $(el).is(":visible");
-  			
-  			if (isVisible) {
-  				alert("visible!");
-  			} else {
-  				alert("not visible!");
-  			}
-    			
-            //alert("i can see you!");
-            //return "boo!";
-  		}
-	});
-    */
-
 })(document, Granite.$, Granite.author);
       
