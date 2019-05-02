@@ -323,11 +323,11 @@ a:hover {
   }
 }
 @media only screen and (min-width: 60.063em) {
- .right-off-canvas-menu {
+ .left-off-canvas-menu {
     visibility: hidden !important;
     display: none !important;
   }
-  .right-off-canvas-menu * {
+  .left-off-canvas-menu * {
     visibility: hidden !important;
     display: none !important;
   }
@@ -337,7 +337,7 @@ a:hover {
 }
 a.menu {
   color: #C1EAD4;
-  font-size: 1em;
+  font-size: .9em;
 }
 a:hover.menu {
   color: #ffffff;
@@ -380,7 +380,7 @@ a:hover.menuHighlight {
 
 #header .eyebrow-container {
   overflow: auto;
-} 
+}
 #header ul {
   float: right;
 }
@@ -533,7 +533,7 @@ a:hover.menuHighlight {
   padding: 0px;
 }
 #footer a {
-  font-size: 0.9375rem; 
+  font-size: 0.9375rem;
   font-weight: normal;
   margin: 0px 10px 0px 0px;
   color:#C1EAD4;
@@ -706,7 +706,7 @@ a:hover.menuHighlight {
   font-size: 1.8125rem;
 }
 .home-section h3 {
-  color: #00ae58;  
+  color: #00ae58;
   font-size: 1.2em;
 }
 .debug {
@@ -865,14 +865,14 @@ input.form-btn, a.form-btn {
   height: 0;
   width: 0;
   font-size: 1px;
-*/  
+*/
   color: #00A850;
   display:inline-block;
   font-size: 18px;
   transform : scale(1,1.8);
 }
-.fcr-text-arrow::after { 
-  content:"\25BA"; 
+.fcr-text-arrow::after {
+  content:"\25BA";
 }
 .fcl-text-arrow {
 /* using UTF-8 Geometric Shape Pointer instead of 3D CSS arrow since it doesn't work in iOS/Safari
@@ -882,14 +882,14 @@ input.form-btn, a.form-btn {
   height: 0;
   font-size: 0;
   width: 0;
-*/  
+*/
   color: #00A850;
   display:inline-block;
   font-size: 18px;
   transform : scale(1,1.8);
 }
-.fcl-text-arrow::before { 
-  content:"\25C4"; 
+.fcl-text-arrow::before {
+  content:"\25C4";
 }
 .fcr-text-arrow:hover {
 /*
@@ -900,7 +900,7 @@ input.form-btn, a.form-btn {
 .fcl-text-arrow:hover {
 /*
   border-right: 12px solid #008000;
-*/  
+*/
   color: #008000;
 }
 td.fc-header-right {
@@ -913,69 +913,69 @@ td.fc-header-left {
 /***************************SIDE HAMBURGER VIEW************/
 /**********************************************************/
 
-.right-off-canvas-menu.ul {
+.left-off-canvas-menu.ul {
   padding: 0px;
   margin: 0px;
 }
-.right-off-canvas-menu a {
+.left-off-canvas-menu a {
   color: #ddd;
   padding: 10px 0px 0px 10px;
   text-transform: capitalize;
 }
-#right-canvas-menu a {
+#left-canvas-menu a {
   color: #ddd;
   padding: 10px 0px 0px 5px;
   text-transform: capitalize;
 }
-#right-canvas-menu a.homepage {
+#left-canvas-menu a.homepage {
   margin-left: 20px;
 }
-#right-canvas-menu .side-nav li div {
+#left-canvas-menu .side-nav li div {
   padding: 0px 0px 0px 10px;
-  margin-left: 10px;
+  margin-right: 10px;
 }
-#right-canvas-menu li {
+#left-canvas-menu li {
   margin: 0px;
 }
-.right-off-canvas-menu ul {
+.left-off-canvas-menu ul {
   list-style: none;
 }
-#right-canvas-menu-bottom {
+#left-canvas-menu-bottom {
   border-top: 1px solid #464646;
 }
-.right-off-canvas-menu .side-nav li.active>a {
+.left-off-canvas-menu .side-nav li.active>a {
   color: #ffffff;
 }
-.right-off-canvas-menu .side-nav li.divider {
+.left-off-canvas-menu .side-nav li.divider {
   margin: 0px;
   padding: 0px;
   background: none;
 }
-.right-off-canvas-menu .side-nav .active>a {
+.left-off-canvas-menu .side-nav .active>a {
   font-weight: bold;
 }
-.right-off-canvas-menu a {
+.left-off-canvas-menu a {
   color: #ddd;
   height: 50px;
   font-size: 1rem;
 }
-.right-off-canvas-menu .side-nav>li>li a {
+.left-off-canvas-menu .side-nav>li>li a {
   font-weight: normal;
 }
-#right-canvas-menu .side-nav>li {
-  background: url('/etc/designs/girlscouts/images/orange-vertical.png') repeat-y 0px 0px;
+#left-canvas-menu .side-nav>li {
+  background: url('/etc/designs/girlscouts/images/orange-vertical.png') repeat-y 100% 0px;
 }
-#right-canvas-menu .side-nav>li.active {
-  background: url('/etc/designs/girlscouts/images/orange-yellow-vertical.png') repeat-y 0px 0px;
+#left-canvas-menu .side-nav>li.active {
+  background: url('/etc/designs/girlscouts/images/orange-yellow-vertical.png') repeat-y 100% 0px;
   padding: 0px 0px 0px 10px;
 }
-#right-canvas-menu .side-nav>li#sub-active {
-  background: url('/etc/designs/girlscouts/images/orange-yellow-vertical.png') repeat-y 0px 0px;
+#left-canvas-menu .side-nav>li#sub-active {
+  background: url('/etc/designs/girlscouts/images/orange-yellow-vertical.png') repeat-y 100% 0px;
 }
-#right-canvas-menu .side-nav ul#submenu {
+#left-canvas-menu .side-nav ul#submenu {
   padding: 0px;
 }
-.right-off-canvas-menu ul li {
+.left-off-canvas-menu ul li {
   font-size: 1rem;
 }
 .emptyrow {
@@ -1031,26 +1031,26 @@ td.fc-header-left {
 #paddingTop {
   padding-top: 10px;
 }
-.right-off-canvas-menu ul li.active > a {
+.left-off-canvas-menu ul li.active > a {
   background-color: #B0B0B0;
 }
 /* Hamburger Menu Change Start*/
 
-#right-canvas-menu #side-active ul {
+#left-canvas-menu #side-active ul {
   padding: 0px;
   margin: 0px;
 }
-#right-canvas-menu .side-nav #sub-active ul li a {
+#left-canvas-menu .side-nav #sub-active ul li a {
   padding-left: 15px;
 }
-#right-canvas-menu .side-nav li.active > div {
+#left-canvas-menu .side-nav li.active.current > div {
   background-color: #B0B0B0;
 }
-#right-canvas-menu .side-nav #sub-active ul li ul li ul li a {
-  padding-left: 35px;
+#left-canvas-menu .side-nav  ul li ul li ul li a {
+  padding-left: 40px;
 }
-#right-canvas-menu .side-nav #sub-active ul li ul li a {
-  padding-left: 25px;
+#left-canvas-menu .side-nav  ul li ul li a {
+  padding-left: 30px;
 }
 /* Hamburger Menu changes end */
 
@@ -1622,33 +1622,33 @@ div[itemprop="description"] {
 }
 /* Hamburger Menu changes end */
 
-#right-canvas-menu-bottom a {
+#left-canvas-menu-bottom a {
   color: #ddd;
   padding: 10px 0px 0px 5px;
 }
-#right-canvas-menu-bottom li {
+#left-canvas-menu-bottom li {
   margin: 0px;
 }
-#right-canvas-menu-bottom ul {
+#left-canvas-menu-bottom ul {
   list-style: none;
 }
-#right-canvas-menu-bottom .side-nav li div {
+#left-canvas-menu-bottom .side-nav li div {
   padding: 0px 0px 0px 20px;
 }
-#right-canvas-menu-bottom .side-active ul {
+#left-canvas-menu-bottom .side-active ul {
   padding: 0px;
   margin: 0px;
 }
-#right-canvas-menu-bottom .side-nav ul li a {
+#left-canvas-menu-bottom .side-nav ul li a {
   padding-left: 15px;
 }
-#right-canvas-menu-bottom .side-nav li.active > div {
+#left-canvas-menu-bottom .side-nav li.active > div {
   background-color: #B0B0B0;
 }
-#right-canvas-menu-bottom .side-nav ul li ul li ul li a {
+#left-canvas-menu-bottom .side-nav ul li ul li ul li a {
   padding-left: 35px;
 }
-#right-canvas-menu-bottom .side-nav ul li ul li a {
+#left-canvas-menu-bottom .side-nav ul li ul li a {
   padding-left: 25px;
 }
 form .form_captcha_refresh {
