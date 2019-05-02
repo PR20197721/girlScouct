@@ -31,10 +31,7 @@
 
 		    	}
 		    }
-		    //Add main menu link
-            sb.append("<li class='side-nav-el'>");
-            sb.append("<div class='side-nav-wrapper'><a href=\""+ homepagePath +".html\" title=\"MainMenu\">MAIN MENU</a></div><hr>");
-            sb.append("</li>");
+
 		    sb.append("</ul>");
 		sb.append("</div>");
 	sb.append("</div>");

@@ -83,7 +83,7 @@
     height: 28px;
     width: 135px;
     margin-left: 10px;
-    margin-top: 1px;
+    margin-top: -3px !important;
     border: 2px solid #00AE58;
 }
 .side-nav-header form:after {
