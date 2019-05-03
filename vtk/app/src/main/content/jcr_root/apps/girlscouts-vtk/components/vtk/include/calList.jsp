@@ -1,3 +1,4 @@
+<%@ page import="org.girlscouts.vtk.dao.YearPlanComponentType" %>
 <!-- <input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()" class="button" /> -->
 
 <%

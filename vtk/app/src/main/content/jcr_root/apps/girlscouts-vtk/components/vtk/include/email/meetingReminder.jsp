@@ -1,3 +1,5 @@
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.Date" %>
 <!-- /apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp -->
 <div class="content clearfix">
 
@@ -185,15 +187,14 @@
                 <%
                         panelCount++;
                     }
-                } catch (RepositoryException e) {
+                } catch (Exception e) {
                 %><h1>ERROR: Tags Or Documents Not Configured Properly</h1><%
                     }%>
             </div>
         </dd>
     </dl>
     <div class="right clearfix">
-        <input type="button" value="Send email" class="button btn"
-               onclick="this.disabled=true; <%=user.getApiConfig().isDemoUser() ? "" : "sendEmail()"%>" ;"/>
+        <input type="button" value="Send email" class="button btn" onclick="this.disabled=true; <%=user.getApiConfig().isDemoUser() ? "" : "sendEmail()"%> ;"/>
     </div>
     <div id="added">
         <p>Added to email.</p>

@@ -26,12 +26,21 @@
     if (achievement == null) {
         isAchievement = false;
     }
+    String title = "";
+    if("IRM".equals(selectedTroop.getParticipationCode())){
+        title = "Achievements";
+    }else{
+        title = "Attendance";
+        if("meetingEvents".equals(YEAR_PLAN_EVENT)) {
+            title += "and Achievements";
+        }
+    }
 
     boolean showAchievement = request.getParameter("isAch") != null && request.getParameter("isAch").equals("true");
 %>
 <div class="modal-attendance">
     <div class="header clearfix">
-        <h3 class="columns large-22">Attendance <%="meetingEvents".equals(YEAR_PLAN_EVENT) ? " and Achievements" : "" %>
+        <h3 class="columns large-22"><%=title %>
         </h3>
         <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
     </div>
@@ -44,7 +53,9 @@
                     <thead>
                     <tr>
                         <th></th>
+                        <%if(!"IRM".equals(selectedTroop.getParticipationCode())){%>
                         <th>Attendance</th>
+                        <%}%>
                         <%
                             if (showAchievement) {
                         %>
@@ -65,12 +76,14 @@
                             <p><%=contact.getFirstName() %>
                             </p>
                         </td>
+                        <%if("IRM".equals(selectedTroop.getParticipationCode())){%>
                         <td>
                             <input type="checkbox"  <%= ( !isAttendance || (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contact.getId()) ) )  ? "checked" : "" %>
                                    name="attendance" id="a<%=contact.getId() %>" value="<%=contact.getId() %>"
                                    onclick="setDefaultAchievement(this.checked, 'c<%=contact.getId() %>')">
                             <label for="a<%=contact.getId() %>"></label>
                         </td>
+                        <%}%>
                         <%
                             if (showAchievement) {
                         %>
@@ -89,8 +102,7 @@
                     %>
                     </tbody>
                 </table>
-                <input type="button" value="Save" class="btn button right"
-                       onclick="updateAttendAchvm('<%=request.getParameter("mid")%>','<%=request.getParameter("eType")%>')"/>
+                <input type="button" value="Save" class="btn button right" onclick="updateAttendAchvm('<%=request.getParameter("mid")%>','<%=request.getParameter("eType")%>')"/>
             </form>
         </div>
     </div>

@@ -4,6 +4,7 @@ declare const _USER_VARIBLES_;
 
 let InitialState = {
     meeting:undefined,
+    participationCode:undefined,
     loading:false,
     meetingEvents:undefined,
     messages:[],

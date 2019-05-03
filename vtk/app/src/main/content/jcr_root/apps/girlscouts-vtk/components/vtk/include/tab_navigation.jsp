@@ -128,7 +128,7 @@
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
                 </dd>
                 <% } %>
-                <% if (!user.getApiConfig().isDemoUser()) { %>
+                <% if (! (user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
                 <dd
                         <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>

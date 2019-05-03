@@ -121,7 +121,8 @@ export namespace Actions {
 			const time = new Date(response.data.yearPlan.helper.currentDate);
 			const currenTime = time.getHours()*60 + time.getMinutes();
 
-			const data = { 
+			const data = {
+                participationCode:response.data.participationCode,
 				meeting: response.data.yearPlan,
 				meetingEvents: response.data.yearPlan.meetingEvents[0],
 				helper: response.data.yearPlan.helper,
@@ -202,7 +203,8 @@ export namespace Actions {
 
 				const videos = processVideos(response[2].data);
 
-				const data = { 
+				const data = {
+                    participationCode:response[0].data.participationCode,
 					meeting: response[0].data.yearPlan,
 					meetingEvents: response[0].data.yearPlan.meetingEvents[0],
 					helper: response[0].data.yearPlan.helper,
