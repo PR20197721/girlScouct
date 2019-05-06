@@ -1,8 +1,8 @@
-<%@ page import="com.day.cq.search.Query,
-                 java.util.ArrayList" %>
+<%@ page import="com.day.cq.search.Query, java.util.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="include/session.jsp" %>
 <%
+    Logger vtklog = LoggerFactory.getLogger(this.getClass().getName());
     //Permission based on SF user_id
     Set<String> allowedReportUsers = new HashSet<String>();
     allowedReportUsers.add("005G0000006oBVG");// GS Vanessa
@@ -20,7 +20,7 @@
         sqls.add("select child.* from [nt:unstructured] as parent  INNER JOIN [nt:unstructured] as child on ISCHILDNODE( child, parent)  where ISDESCENDANTNODE (parent, '" + VtkUtil.getYearPlanBase(user, selectedTroop) + "') and NAME(child)='schedule' and  (child.dates is null or child.dates ='')");
         javax.jcr.Session s = null;
         try {
-            s = sessionFactory.getSession();
+            s = resourceResolver.adaptTo(javax.jcr.Session.class);
             javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
             javax.jcr.query.Query q = null;
             for (String sql : sqls) {
@@ -38,17 +38,9 @@
                     e.printStackTrace();
                 }
             }
-        } catch (Exception eMain) {
-            eMain.printStackTrace();
-        } finally {
-            try {
-                if (session != null)
-                    sessionFactory.closeSession(s);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+        } catch (Exception e) {
+            vtklog.error("Error Occurred: ", e);
         }
-
     }//edn else
     out.println("<br/><br/>Inconsistancy report completed on " + new java.util.Date());
 %>

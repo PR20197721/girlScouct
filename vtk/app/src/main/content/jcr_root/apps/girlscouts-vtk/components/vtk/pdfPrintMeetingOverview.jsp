@@ -1,13 +1,13 @@
 <%@page import="com.itextpdf.text.Document,
                 com.itextpdf.text.DocumentException,
                 com.itextpdf.text.pdf.PdfWriter,
-                org.girlscouts.vtk.ejb.SessionFactory,
                 javax.jcr.Node,
                 javax.jcr.Session,
-                java.io.ByteArrayOutputStream" %>
+                java.io.ByteArrayOutputStream, org.slf4j.Logger, org.slf4j.LoggerFactory, java.util.Map" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%
+    Logger vtklog = LoggerFactory.getLogger(this.getClass().getName());
     response.setContentType("application/pdf");
     Document document = new Document();
     StringBuilder output = new StringBuilder();
@@ -16,33 +16,18 @@
     if (meetingPath == null) {
         output.append("Meeting overview not found");
     } else {
-        final SessionFactory sessionFactory = sling.getService(SessionFactory.class);
         Session jcr_session = null;
-        ResourceResolver rr = null;
         Node meetingNode = null, meetingInfoNode = null;
         try {
-            rr = sessionFactory.getResourceResolver();
-            jcr_session = rr.adaptTo(Session.class);
+            jcr_session = resourceResolver.adaptTo(Session.class);
             meetingNode = jcr_session.getNode(meetingPath);
             meeting_name = meetingNode.getProperty("name").getString();
             meetingInfoNode = jcr_session.getNode(meetingPath + "/meetingInfo/overview");
             meeting_overview = meetingInfoNode.getProperty("str").getString();
 
         } catch (Exception e) {
-            output.append("Could not retrieve meeting overview.");
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rr != null)
-                    sessionFactory.closeResourceResolver(rr);
-                if (jcr_session != null)
-                    jcr_session.logout();
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            vtklog.error("Error Occurred: ", e);
         }
-
     }
     if (!"".equals(meeting_name)) {
         output.append("<h2>" + meeting_name + ": introduction</h2>");

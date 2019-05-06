@@ -23,11 +23,7 @@
                 java.awt.geom.Rectangle2D,
                 java.awt.image.BufferedImage" %>
 <%@ page import="java.io.ByteArrayInputStream" %>
-<%@ page import="java.io.ByteArrayOutputStream" %>
-<%@ page import="java.util.Collections" %>
-<%@ page import="java.util.Comparator" %>
-<%@ page import="java.util.LinkedList" %>
-<%@ page import="java.util.StringTokenizer" %>
+<%@ page import="java.io.ByteArrayOutputStream, java.util.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects/>
@@ -686,25 +682,14 @@
         } else if (request.getParameter("isRmTroopImg") != null) {
             vtklog.debug("isRmTroopImg");
             Session __session = null;
-            ResourceResolver rr = null;
             try {
-                rr = sessionFactory.getResourceResolver();
-                __session = rr.adaptTo(Session.class);
+                __session = resourceResolver.adaptTo(Session.class);
                 String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data" + VtkUtil.getCurrentGSYear() + "/"
                         + selectedTroop.getCouncilCode() + "/" + selectedTroop.getTroopId() + "/imgLib/troop_pic.png";
                 __session.removeItem(troopPhotoUrl);
                 __session.save();
             } catch (Exception e) {
-                vtklog.error("Exception occured:", e);
-            } finally {
-                try {
-                    if (rr != null)
-                        sessionFactory.closeResourceResolver(rr);
-                    if (__session != null)
-                        __session.logout();
-                } catch (Exception ex) {
-                    vtklog.error("Exception occured:", ex);
-                }
+                vtklog.error("Error Occurred: ", e);
             }
         } else if (request.getParameter("isAdminRpt") != null) {
             vtklog.debug("isAdminRpt");
@@ -778,7 +763,6 @@
     }
 } else if (request.getParameter("imageData") != null) {
     vtklog.debug("imageData");
-    ResourceResolver rr = null;
     Session __session = null;
     try {
         int x1 = -1, x2 = -1, y1 = -1, y2 = -1, width = -1, height = -1;
@@ -830,8 +814,7 @@
         //creates folder path if it doesn't exist yet
         String path = "/content/dam/girlscouts-vtk/troop-data" + VtkUtil.getCurrentGSYear() + "/" + selectedTroop.getCouncilCode() + "/" + selectedTroop.getTroopId() + "/imgLib";
         String pathWithFile = path + "/troop_pic.png/jcr:content";
-        rr = sessionFactory.getResourceResolver();
-        __session = rr.adaptTo(Session.class);
+        __session = resourceResolver.adaptTo(Session.class);
         Node baseNode = JcrUtil.createPath(path, "nt:folder", __session);
         ByteArrayInputStream byteStream = new ByteArrayInputStream(decoded);
         ValueFactory vf = __session.getValueFactory();
@@ -849,16 +832,7 @@
         jcrNode.setProperty("jcr:mimeType", "image/png");
         __session.save();
     } catch (Exception e) {
-        vtklog.error("Exception occured:", e);
-    } finally {
-        try {
-            if (rr != null)
-                sessionFactory.closeResourceResolver(rr);
-            if (__session != null)
-                __session.logout();
-        } catch (Exception ex) {
-            vtklog.error("Exception occured:", ex);
-        }
+        vtklog.error("Error Occurred: ", e);
     }
 } else if (request.getParameter("viewProposedSched") != null) {
     vtklog.debug("viewProposedSched");
