@@ -1,7 +1,6 @@
 <dd class="accordion-navigation clearfix">
     <div id="panel<%=i+1%>b" class="content" style="padding:20px">
         <div class="screenboard-white row">
-
             <div class="row">
                 <div class="column small-24 medium-8">
                     Membership: <%=contact.getMembershipYear() %><br>
@@ -17,20 +16,15 @@
                     <input type="checkbox" <%=contact.isTxtOptIn() ? " CHECKED " : "" %> disabled> Text Opt In
                 </div>
             </div>
-
-
             <div style="margin:15px 0"></div>
-
             <div class="row">
                 <div class="column small-24"> Phone: <%=contact.getPhone() %>
                 </div>
             </div>
-
             <div class="row">
                 <div class="column small-24"> Email: <%=contact.getEmail() %>
                 </div>
             </div>
-
             <div style="margin:15px 0"></div>
             <div class="row">
                 <div class="column small-24"> Home
@@ -40,13 +34,9 @@
                     <%=contact.getZip() == null ? "" : contact.getZip() %> <%=contact.getCountry() == null ? "" : contact.getCountry()%>
                 </div>
             </div>
-
-
             <div class="row">
                 <div style="float:right">
-
                     <%
-
                         if (apiConfig != null && !apiConfig.isDemoUser()) {
                             if (selectedTroop.getRole().equals("PA")) {
                     %>
@@ -75,7 +65,6 @@
                     %>
                 </div>
             </div>
-
         </div>
 </dd>
 

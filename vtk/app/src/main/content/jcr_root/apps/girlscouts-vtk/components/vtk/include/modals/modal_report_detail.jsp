@@ -5,16 +5,13 @@
 <%
     String troopId = request.getParameter("tid");
     String councilCode = request.getParameter("cid");
-
     User impersonateRoot = (User) VtkUtil.deepClone(user);
     Troop _troop = troopUtil.getTroopByPath(impersonateRoot, selectedTroop.getPath());
     java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot, selectedTroop,
             _troop.getYearPlan(), true, true);
     Set distinctGirl = new HashSet();
     int badges_earned = 0, meeting_activities_added = 0, calendar_activities_added = 0;
-
 %>
-
 <div> <!--  id="modal_report_detail" class="reveal-modal" data-reveal> -->
     <div class="header clearfix">
         <h3 class="columns large-22"><%=_troop.getSfTroopName() %> Detail View</h3>
@@ -23,9 +20,7 @@
     <div class="scroll">
         <div class="content">
             <h4 id="troopName">
-
                 <%
-
                     java.util.List<Contact> leaders = sling.getService(GirlScoutsSalesForceService.class).getTroopLeaderInfo(user.getApiConfig(), troopId);
                     if (leaders != null) {
                         for (int i = 0; i < leaders.size(); i++) {
@@ -37,7 +32,6 @@
                         }
                     }
                 %>
-
             </h4>
             <h4 id="distinctGirl"> Girls Enrolled</h4>
             <div class="row bg">
@@ -78,7 +72,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 <%
                     java.util.Iterator itr = sched.keySet().iterator();
                     while (itr.hasNext()) {
@@ -104,8 +97,6 @@
         </div>
     </div>
 </div>
-
-
 <script>
     $("#rpt_badges_earned").html("<%=badges_earned%>");
     $("#meeting_activities_added").html("<%=meeting_activities_added%>");

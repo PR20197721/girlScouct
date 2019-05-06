@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class HelperEntity extends BaseEntity {
-
     @SerializedName("currentDate")
     private long currentDate;
     @SerializedName("nextDate")

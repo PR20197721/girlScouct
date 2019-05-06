@@ -2,8 +2,8 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import VtkMtgPlanMain from './vtk-mtg-main';
-import { Provider } from 'react-redux';
-import { Actions } from './store/actions';
+import {Provider} from 'react-redux';
+import {Actions} from './store/actions';
 
 import store from './store/store';
 
@@ -16,8 +16,8 @@ window['startMtgPlanApp'] = function (URL) {
 
     ReactDOM.render(
         <Provider store={store}>
-            <VtkMtgPlanMain />
+            <VtkMtgPlanMain/>
         </Provider>,
         document.getElementById('vtk-mtg-plan')
     );
-}
+};

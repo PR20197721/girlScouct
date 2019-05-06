@@ -19,7 +19,6 @@
         return;
     }
 %>
-
 <div id="locMsg1"></div>
 <div class="locationListing columns">
     <%
@@ -34,7 +33,6 @@
             <div class="small-14 columns"><h5><%=location.getAddress() %>
             </h5></div>
         </div>
-
         <div class="row">
             <!--  <div class="small-4 columns">&nbsp;</div> -->
             <div class="small-24 columns">

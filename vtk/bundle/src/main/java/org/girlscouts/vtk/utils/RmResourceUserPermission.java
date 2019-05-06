@@ -24,19 +24,12 @@ import javax.jcr.security.AccessControlManager;
 import javax.jcr.security.Privilege;
 import java.security.Principal;
 import java.util.*;
-
 //import org.girlscouts.web.councilrollout.impl.CouncilCreatorImpl;
 
-
 @Component(metatype = false, immediate = true)
-@Properties({
-        @Property(name = Constants.SERVICE_DESCRIPTION, value = "RmResourceUserPermission"),
-        @Property(name = "label", value = "Girl Scouts VTK Modify Node Permissions"),
-        @Property(name = "description", value = "Girl Scouts VTK Modify Node Permissions")
-})
+@Properties({@Property(name = Constants.SERVICE_DESCRIPTION, value = "RmResourceUserPermission"), @Property(name = "label", value = "Girl Scouts VTK Modify Node Permissions"), @Property(name = "description", value = "Girl Scouts VTK Modify Node Permissions")})
 @Service(value = RmResourceUserPermission.class)
 public class RmResourceUserPermission {
-
     private static Logger log = LoggerFactory.getLogger(RmResourceUserPermission.class);
     @Reference
     private SlingRepository repository;
@@ -44,20 +37,14 @@ public class RmResourceUserPermission {
     public void modifyNodePermissions(String nodePath, String groupName, boolean isTrue) {
         Session session = null;
         try {
-
             session = repository.loginAdministrative(null);
-
             UserManager userMgr = ((org.apache.jackrabbit.api.JackrabbitSession) session).getUserManager();
             AccessControlManager accessControlManager = session.getAccessControlManager();
             Authorizable authorizable = userMgr.getAuthorizable("everyone");
-
             try {
                 JackrabbitSession jackSession = (JackrabbitSession) session;
                 JackrabbitAccessControlManager acm = (JackrabbitAccessControlManager) jackSession.getAccessControlManager();
-
-
                 List<JackrabbitAccessControlList> aclList = new ArrayList<JackrabbitAccessControlList>();
-
                 Group group = (Group) userMgr.getAuthorizable(groupName);
                 if (group == null) {
                     log.error(" group does not exist under correct naming conventions.");
@@ -66,41 +53,30 @@ public class RmResourceUserPermission {
                     while (iter.hasNext()) {
                         try {
                             Object x = iter.next();
-
                             if (x instanceof Group) {
-
                                 Group _group = (Group) x;
                                 String group_id = _group.getID();
-
-                                if (!(group_id.contains("-authors") || group_id.contains("-reviewers"))) continue;
+                                if (!(group_id.contains("-authors") || group_id.contains("-reviewers"))) {
+                                    continue;
+                                }
                                 System.err.println("GroupId: " + group_id);
                                 Principal principal = _group.getPrincipal();
                                 String[] parts = group_id.split("-");
                                 String council_name = parts[0];
                                 council_name = "girlscoutsiowa";
-
                                 String role = parts[1];
-
                                 if ("authors".equals(role) || "reviewers".equals(role)) { //TODO CHANGE editors TO authors
                                     if (isTrue) {
                                         //aclList.add(new PermissionsSetter(new Rule(principal, "/content/vtkcontent/en/resources2", "READ", true), acm, session).getPrivilegeList());
                                         aclList.add(new PermissionsSetter(new Rule(principal, "/content/vtkcontent/en/resources2", " WRITE_MODIFY_REPLICATE_DELETE", true), acm, session).getPrivilegeList());
-
-
                                         aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + council_name + "/en/resources2", "READ", true), acm, session).getPrivilegeList());
                                         aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam-resources2/" + council_name, "READ_WRITE", true), acm, session).getPrivilegeList());
                                     } else {
-
                                         aclList.add(new PermissionsSetter(new Rule(principal, "/content/vtkcontent/en/resources2", "WRITE_MODIFY_REPLICATE_DELETE", false), acm, session).getPrivilegeList());
-
-
                                         aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + council_name + "/en/resources2", "WRITE_MODIFY_REPLICATE_DELETE", false), acm, session).getPrivilegeList());
-
                                         aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam-resources2/" + council_name, "REPLICATE_DELETE", false), acm, session).getPrivilegeList());
-
                                         //check/create folder - /content/dam-resources2/girlscourts-[council]
                                         JcrUtils.getOrCreateByPath("/content/dam-resources2/girlscourts-" + council_name, "sling:OrderedFolder", session);
-
                                         //copy from /content/girlscouts-template/en/resources2
                                         if (!session.nodeExists("/content/" + council_name + "/en/resources2")) {
                                             // fail it, fix manually  JcrUtils.getOrCreateByPath("/content/"+ council_name +"/en/resources2", "nt:unstructured", session);
@@ -109,21 +85,18 @@ public class RmResourceUserPermission {
                                     }
 
                                 }
-
                                 if ("authors".equals(role)) {
-
-                                    if (!isTrue)
+                                    if (!isTrue) {
                                         aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam-resources2/girlscourts-" + council_name, "REPLICATE", false), acm, session).getPrivilegeList());
-                                    else
+                                    } else {
                                         aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam-resources2/girlscourts-" + council_name, "WRITE_READ_DELETE", true), acm, session).getPrivilegeList());
+                                    }
 
                                 } else if ("reviewers".equals(role)) {
-
                                     //aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam-resources2/girlscourts-"+council_name, "REPLICATE", false), acm, session).getPrivilegeList());
                                     aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam-resources2/girlscourts-" + council_name, "WRITE_READ_DELETE_REPLICATE", true), acm, session).getPrivilegeList());
 
                                 }
-
 
                             }
                             session.save();
@@ -133,12 +106,12 @@ public class RmResourceUserPermission {
 
                     }
                 }
-
-
                 //Policies are all generated into a list and for loop binds policies to their respective nodes
                 for (JackrabbitAccessControlList l : aclList) {
                     try {
-                        if (l == null) continue;
+                        if (l == null) {
+                            continue;
+                        }
                         acm.setPolicy(l.getPath(), l);
                         session.save();
 
@@ -150,11 +123,9 @@ public class RmResourceUserPermission {
                 }
                 session.save();
 
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             session.save();
 
         } catch (RepositoryException e) {
@@ -162,11 +133,11 @@ public class RmResourceUserPermission {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (session != null)
+            if (session != null) {
                 session.logout();
+            }
         }
     }
-
 
     class Rule {
         Principal principal;
@@ -212,12 +183,9 @@ public class RmResourceUserPermission {
         private JackrabbitAccessControlList getPrivilegeList() {
             Map<String, Privilege[]> privilegesMap = new HashMap<String, Privilege[]>();
             JackrabbitAccessControlPolicy jacp = null;
-
             privilegesMap = setPrivilegesMap(manager);
-
             try {
                 if (privilegesMap.get(this.rule.permission) != null) {
-
                     Privilege[] privileges = privilegesMap.get(this.rule.permission);
                     try {
                         jacp = (JackrabbitAccessControlPolicy) this.manager.getApplicablePolicies(this.rule.contentPath).nextAccessControlPolicy();
@@ -236,8 +204,6 @@ public class RmResourceUserPermission {
                         ((JackrabbitAccessControlList) jacp).addEntry(this.rule.principal, privileges, rule.isAllow, restrictions);
 
                     } else if (this.rule.glob == null) {
-
-
                         ((JackrabbitAccessControlList) jacp).addEntry(this.rule.principal, privileges, rule.isAllow);
                     }
 
@@ -262,7 +228,6 @@ public class RmResourceUserPermission {
          */
         private Map<String, Privilege[]> setPrivilegesMap(JackrabbitAccessControlManager manager) {
             Map<String, Privilege[]> map = new HashMap<String, Privilege[]>();
-
             try {
                 map.put("READ", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ)});
                 map.put("MODIFY", new Privilege[]{manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_REMOVE_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_REMOVE_NODE)});
@@ -270,27 +235,8 @@ public class RmResourceUserPermission {
                 map.put("READ_WRITE", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
                 map.put("READ_WRITE_REPLICATE_DELETE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_WRITE), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
                 map.put("READ_WRITE_MODIFY_REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT)});
-                map.put("WRITE_MODIFY_REPLICATE_DELETE", new Privilege[]{
-                        manager.privilegeFromName(Privilege.JCR_WRITE),
-                        manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE),
-                        manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES),
-                        manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT),
-                        manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES),
-                        manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT),
-                        manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT),
-                        manager.privilegeFromName(Privilege.JCR_REMOVE_NODE)});
-
-                map.put("READ_WRITE_MODIFY_DELETE", new Privilege[]{
-
-                        manager.privilegeFromName(Privilege.JCR_READ),
-                        manager.privilegeFromName(Privilege.JCR_WRITE),
-                        manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES),
-                        manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT),
-                        manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES),
-                        manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT),
-                        manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT),
-                        manager.privilegeFromName(Privilege.JCR_REMOVE_NODE)});
-
+                map.put("WRITE_MODIFY_REPLICATE_DELETE", new Privilege[]{manager.privilegeFromName(Privilege.JCR_WRITE), manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_REMOVE_NODE)});
+                map.put("READ_WRITE_MODIFY_DELETE", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_WRITE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_REMOVE_NODE)});
 
             } catch (RepositoryException e) {
                 log.error("Error occurred while generating privileges in Privilege Map: " + e.toString());

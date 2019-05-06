@@ -434,12 +434,10 @@
                     _meeting.setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
                     boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable(_meeting.getMeetingInfo());
                     _meeting.setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
-
                     boolean isAnyGlobalActivitiesInMeeting = VtkUtil.isAnyGlobalActivitiesInMeeting(_meeting.getMeetingInfo());
                     _meeting.setAnyGlobalActivityInMeeting(isAnyGlobalActivitiesInMeeting);
                     boolean isAnyGlobalActivitiesInMeetingAvailable = VtkUtil.isAnyGlobalActivitiesInMeetingAvailable(_meeting.getMeetingInfo());
                     _meeting.setAnyGlobalActivityInMeetingAvailable(isAnyGlobalActivitiesInMeetingAvailable);
-
                     if (_meeting.getNotes() == null) {
                         _meeting.setNotes(new LinkedList<Note>());
                     }
@@ -554,7 +552,6 @@
                             break;
                         }
                     }
-
                     //archive
                     VtkUtil.cngYear(request, user);
                     if (!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) {
@@ -614,7 +611,6 @@
                         }
                     }
                     response.setContentType("application/json");
-
                     String json = gson.toJson(BaseModelToEntityMapper.mapYearPlanComponents(sched));
                     out.println("{\"yearPlan\":\"" + selectedTroop.getYearPlan().getName() + "\",\"schedule\":");
                     out.println(json.replaceAll("mailto:", ""));
@@ -750,7 +746,6 @@
         height = "0";
     }
     try {
-
         //drop target css class = dd prefix + name of the drop target in the edit config
         image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
         image.loadStyleData(currentStyle);
@@ -762,14 +757,11 @@
         if (!"0".equals(height)) {
             image.addAttribute("height", height + "px");
         }
-
         Boolean newWindow = properties.get("./newWindow", false);
-
         // add design information if not default (i.e. for reference paras)
         if (!currentDesign.equals(resourceDesign)) {
             image.setSuffix(currentDesign.getId());
         }
-
         if (!newWindow) {
             image.draw(out);
         } else { %>
@@ -777,7 +769,6 @@
 <%
                         }
                     } catch (Exception e) {
-
                     }
                 }
             }
@@ -914,7 +905,6 @@
                id="r_<%=yearPlan.getId()%>" class="radio1" name="group1"
                onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=selectedTroop.getYearPlan() != null %> ,'<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>', false)"/>
         <label for="r_<%=yearPlan.getId()%>"></label>
-
     </div>
     <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
         <a href="#"
@@ -991,7 +981,6 @@
     if (!troopDAO.isArchivedYearPlan(user, selectedTroop, "" + VtkUtil.getCurrentGSYear())) {
         selectedTroop.setYearPlan(null);
     }
-
     //Cloned Troop object from archived year plan references archived year plan path ex: "/vtk2014/999/". It is necessary to change Troop path to current year ex: ""/vtk2015/999/"".
     //selectedTroop.setPath("/vtk" + VtkUtil.getCurrentGSYear() + "/" + selectedTroop.getSfCouncil() + "/troops/" + selectedTroop.getSfTroopId());
     session.setAttribute("VTK_troop", selectedTroop);
@@ -1086,7 +1075,6 @@
             vtklog.debug("whatIsMyLevel");
             String myLevel = "";
             if (selectedTroop != null && selectedTroop.getGradeLevel() != null) {
-
                 myLevel = selectedTroop.getGradeLevel();
             }
             response.setContentType("application/json");

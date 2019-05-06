@@ -25,19 +25,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.rmi.ServerException;
 import java.util.Dictionary;
 
 @Component(metatype = true, immediate = true)
 @Service
-@Properties({
-        @Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-        @Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "sfauth"),
-        @Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "html"),
-        @Property(propertyPrivate = true, name = "sling.servlet.methods", value = {"POST", "GET"}),
-        @Property(name = "label", value = "Girl Scouts VTK Salesforce Authentication Servlet"),
-        @Property(name = "description", value = "Girl Scouts VTK Salesforce Authentication Servlet")
-})
+@Properties({@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"), @Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "sfauth"), @Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "html"), @Property(propertyPrivate = true, name = "sling.servlet.methods", value = {"POST", "GET"}), @Property(name = "label", value = "Girl Scouts VTK Salesforce Authentication Servlet"), @Property(name = "description", value = "Girl Scouts VTK Salesforce Authentication Servlet")})
 public class SalesforceAuthServlet extends SlingAllMethodsServlet implements ConfigListener {
     private static final long serialVersionUID = 8152897311719564370L;
     private static final Logger log = LoggerFactory.getLogger(SalesforceAuthServlet.class);
@@ -53,22 +45,16 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
     private String certificateS;
     private AppSettings appSettings;
     private AccountSettings accSettings;
-
     @Reference
     private ConfigManager configManager;
-
     @Reference
     private GirlScoutsSalesForceService sfService;
-
     @Reference
     private CouncilMapper councilMapper;
-
     @Reference
     private TroopUtil troopUtil;
-
     @Reference
     private TroopHashGenerator troopHashGenerator;
-
     @Reference
     private UserUtil userUtil;
 
@@ -139,8 +125,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
         if (request.getParameter("isVtkLogin") != null && request.getParameter("isVtkLogin").equals("true")) {
             isVtkLogin = true;
         }
-        redirect(response, configManager.getConfig("communityUrl")
-                + "/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html" + (isVtkLogin ? "?isVtkLogin=true" : "")));
+        redirect(response, configManager.getConfig("communityUrl") + "/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html" + (isVtkLogin ? "?isVtkLogin=true" : "")));
         return;
     }
 

@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class UserInfoResponseEntityToUserMapper {
-
     private static Logger log = LoggerFactory.getLogger(UserInfoResponseEntityToUserMapper.class);
 
     public static User map(UserInfoResponseEntity entity) {

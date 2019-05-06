@@ -5,32 +5,17 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 import java.io.Serializable;
 
-@Node
-public class Achievement implements Serializable {
+public class Achievement extends JcrNode implements Serializable {
 
-    @Field
-    String users; // sf id
-    @Field
-    int total;
-    @Field(path = true)
-    private String path;
-    @Field(id = true)
-    private String id;
+    private String users; // sf id
+    private int total;
 
-    public String getPath() {
-        return path;
+    public Achievement(){
+
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public Achievement(String path) {
+        super(path);
     }
 
     public String getUsers() {
@@ -48,5 +33,4 @@ public class Achievement implements Serializable {
     public void setTotal(int total) {
         this.total = total;
     }
-
 }

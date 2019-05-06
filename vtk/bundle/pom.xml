@@ -199,6 +199,10 @@
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.13</version>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
 	</dependencies>
 	<!-- ====================================================================== -->
 	<!-- B U I L D D E F I N I T I O N -->

@@ -7,7 +7,6 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.jeditable.js" type="text/javascript"
         charset="utf-8"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/ckeditor/ckeditor.js"></script>
-
 <script src="http://www.appelsiini.net/projects/jeditable/jquery.jeditable.js" type="text/javascript"></script>
 <script src="http://www.appelsiini.net/projects/jeditable/jquery.jeditable.autogrow.js" type="text/javascript"></script>
 <script src="http://www.appelsiini.net/projects/jeditable/jquery.jeditable.ajaxupload.js"
@@ -105,8 +104,6 @@
 
     // ]]>
 </script>
-
-
 <script type="text/javascript" charset="utf-8">
     (function ($) {
         $.generateId = function () {
@@ -500,9 +497,7 @@
     });
 
     */
-
 </script>
-
 <style type="text/css">
     #sidebar {
         width: 0px;
@@ -521,22 +516,12 @@
         color: #0F0;
         font-weight: bold;
     }
-
 </style>
-
-
 <div>
     Admin Tool >> <a href="/content/girlscouts-vtk/en/vtk.admin.home.html">home</a>
 </div>
-
-
 <div style="float:right;">
-
-
     <div class="addthis_sharing_toolbox"></div>
-
-
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53fb53152142ec44"></script>
-
 </div>
 <div></div>

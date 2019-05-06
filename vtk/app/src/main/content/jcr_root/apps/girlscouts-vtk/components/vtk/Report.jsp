@@ -58,16 +58,13 @@
     cTrans.put("514", "Eastern IA & Western IL");
     cTrans.put("524", "Greater Iowa");
     cTrans.put("430", "Greater Chicago and NW  Indiana");
-
     java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
     //String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+"%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
     String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, troop) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
-
     javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
     javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
     int count = 0;
-
     java.util.HashSet councilIds = new java.util.HashSet<String>();
     java.util.List<org.girlscouts.vtk.models.YearPlanRpt> yprs = new java.util.ArrayList<org.girlscouts.vtk.models.YearPlanRpt>();
     javax.jcr.query.QueryResult result = q.execute();
@@ -83,14 +80,12 @@
             sfTroopAge = r.getValue("sfTroopAge").getString();
         } catch (Exception e) {
         }
-
         org.girlscouts.vtk.models.YearPlanRpt ypr = new org.girlscouts.vtk.models.YearPlanRpt();
         ypr.setCouncil(sfCouncil);
         ypr.setTroop(r.getValue("sfTroopId").getString());
         ypr.setTroopName(r.getValue("sfTroopName").getString());
         ypr.setTroopAge(sfTroopAge);
         yprs.add(ypr);
-
         councilIds.add(sfCouncil);
         ageGroups.add(ypr.getTroopAge());
         count++;
@@ -102,7 +97,6 @@
         java.util.Iterator ageGroupIter = ageGroups.iterator();
         while (ageGroupIter.hasNext()) {
             final String ageGroup = (String) ageGroupIter.next();
-
             java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container = (java.util.List<org.girlscouts.vtk.models.YearPlanRpt>) org.apache.commons.collections4.CollectionUtils
                     .select(yprs, new org.apache.commons.collections4.Predicate<org.girlscouts.vtk.models.YearPlanRpt>() {
                         public boolean evaluate(org.girlscouts.vtk.models.YearPlanRpt o) {
@@ -111,7 +105,6 @@
                                             o.getCouncil().equals(councilId);
                         }
                     });
-
             out.println((isHtml ? "<br/>" : "\n") + councilId + "," + ageGroup + "," + container.size());
         }
     }

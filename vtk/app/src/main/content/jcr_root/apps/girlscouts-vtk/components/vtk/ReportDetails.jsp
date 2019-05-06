@@ -23,12 +23,10 @@
 <br/><br/>
 <%
     }
-
     SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
     SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
     StringBuffer buffer = new StringBuffer("Council Report generated on " + format1.format(new java.util.Date()) + " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
     java.util.Map<String, String> cTrans = new java.util.TreeMap();
-
     cTrans.put("597", "Girl Scouts of Northeast Texas");
     cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
     cTrans.put("465", "Girl Scouts of Southeastern Michigan");
@@ -60,11 +58,8 @@
     cTrans.put("514", "Eastern IA & Western IL");
     cTrans.put("524", "Greater Iowa");
     cTrans.put("430", "Greater Chicago and NW  Indiana");
-
     java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
-
-
     //year plans SQL
     java.util.Map<String, String> yearPlans = new java.util.TreeMap<String, String>();
     String sql = "select name,jcr:path from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, troop) + "%' and contains(*, 'org.girlscouts.vtk.models.YearPlan') ";
@@ -82,14 +77,10 @@
         String troopId = getTroopId(path);
         yearPlans.put(troopId, name);
     }
-
-
     //troops SQL
     sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCounci from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, troop) + "%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
-
     q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
     int count = 0;
-
     java.util.HashSet councilIds = new java.util.HashSet<String>();
     java.util.List<org.girlscouts.vtk.models.YearPlanRpt> yprs = new java.util.ArrayList<org.girlscouts.vtk.models.YearPlanRpt>();
     javax.jcr.query.QueryResult result = q.execute();
@@ -101,47 +92,34 @@
         try {
             sfCouncil = r.getValue("sfCouncil").getString();
         } catch (Exception e) {
-
             continue tr;
         }
         try {
             sfTroopAge = r.getValue("sfTroopAge").getString();
         } catch (Exception e) {
         }
-
         org.girlscouts.vtk.models.YearPlanRpt ypr = new org.girlscouts.vtk.models.YearPlanRpt();
         ypr.setCouncil(sfCouncil);
-
         ypr.setTroop(r.getValue("sfTroopId").getString());
         ypr.setTroopName(r.getValue("sfTroopName").getString());
         ypr.setTroopAge(sfTroopAge);
         yprs.add(ypr);
-
         councilIds.add(sfCouncil);
         ageGroups.add(ypr.getTroopAge());
         count++;
     }
-
-
     out.println("Report Generated on " + format1.format(new java.util.Date()) + " ,total results found: " + count + " ,Total council(s): " + councilIds.size());
     java.util.Iterator itr = councilIds.iterator();
-
     while (itr.hasNext()) {
-
         final String councilId = (String) itr.next();
-
         java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container = (java.util.List<org.girlscouts.vtk.models.YearPlanRpt>) org.apache.commons.collections4.CollectionUtils
                 .select(yprs, new org.apache.commons.collections4.Predicate<org.girlscouts.vtk.models.YearPlanRpt>() {
                     public boolean evaluate(org.girlscouts.vtk.models.YearPlanRpt o) {
-
                         return
                                 o.getCouncil().equals(councilId);
                     }
                 });
-
         out.println((isHtml ? "<br/>" : "\n") + councilId + "," + cTrans.get(councilId) + "," + container.size());
-
-
         try {
             for (int i = 0; i < container.size(); i++) {
                 org.girlscouts.vtk.models.YearPlanRpt _troop = container.get(i);
@@ -152,11 +130,8 @@
         }
     }
 %>
-
-
 <%!
     public String getTroopId(String path) {
-
         java.util.StringTokenizer t = new java.util.StringTokenizer(path, "/");
         int count = 0;
         String troopId = "";

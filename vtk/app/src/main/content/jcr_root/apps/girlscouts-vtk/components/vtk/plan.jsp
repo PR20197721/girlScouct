@@ -1,9 +1,7 @@
 <%
-
     String activeTab = "plan";
     boolean showVtkNav = true;
 %>
-
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 <%
@@ -11,14 +9,8 @@
 %>
 <%@include file="include/bodyTop.jsp" %>
 <%@include file="include/modals/modal_help.jsp" %>
-
-
 <%PlanView planView = meetingUtil.planView(user, selectedTroop, request);%>
-
-
 <script>
-
-
     //Pollyfill for Browser  Previous to IE 9
     if (!Object.keys) {
         Object.keys = (function () {
@@ -60,19 +52,11 @@
             };
         }());
     }
-
-
 </script>
-
-
 <div id="yearPlanMeetings"
      class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan year_plan" : "vtk-pastYear-plan year_plan" %>">
-
-
     <div id="thePlan">
-
         <script type="text/javascript">
-
             var isActivNew;
             var isFirst = 1;
             var meetingPassed = true;
@@ -1055,28 +1039,20 @@
                    });
 
             */
-
-
         </script>
-
     </div>
-
     <div style="text-align: center;">
         <button class="btn button btn-line" onclick="doMeetingLib(true)"><i class="icon-search-magnifying-glass"></i>
             SEARCH TO ADD MEETINGS
         </button>
     </div>
 </div>
-
 <div id="requirementsModal" class="reveal-modal" data-reveal=""></div>
 <br/> <br/>
-
 <!-- Hack for NUB in Tooltip -->
 <style>
     .tooltip span.nub {
         left: 18px;
     }
 </style>
-
-
 <%@include file="include/bodyBottom.jsp" %>

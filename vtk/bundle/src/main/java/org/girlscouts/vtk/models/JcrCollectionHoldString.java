@@ -5,10 +5,8 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 import java.io.Serializable;
 
-@Node
 public class JcrCollectionHoldString implements Comparable, Serializable {
 
-    @Field
     private String str;
 
     public JcrCollectionHoldString() {

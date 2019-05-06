@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 
-@SlingServlet(
-        label = "Girl Scouts VTK email servlet", description = "Sends vtk email", paths = {},
-        methods = {"POST"}, // Ignored if paths is set - Defaults to POST if not specified
+@SlingServlet(label = "Girl Scouts VTK email servlet", description = "Sends vtk email", paths = {}, methods = {"POST"}, // Ignored if paths is set - Defaults to POST if not specified
         resourceTypes = {"girlscouts/servlets/email"}, // Ignored if
         // paths is set
         selectors = {}, // Ignored if paths is set
@@ -32,14 +30,11 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
     private static final Logger log = LoggerFactory.getLogger(GirlscoutsEmailServlet.class);
     @Reference
     private transient SlingSettingsService settingsService;
-
     @Reference
     private transient GSEmailService gsEmailService;
 
     @Override
-    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
-            throws ServletException, IOException {
-
+    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
         //Verify user email request
         HttpSession session = request.getSession();
         if (VtkUtil.getUser(session) != null) {
@@ -99,7 +94,6 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         }
 
     }
-
 
     /**
      * OptingServlet Acceptance Method

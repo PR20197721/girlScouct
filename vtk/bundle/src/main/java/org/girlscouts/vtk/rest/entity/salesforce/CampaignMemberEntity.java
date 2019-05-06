@@ -3,22 +3,16 @@ package org.girlscouts.vtk.rest.entity.salesforce;
 import com.google.gson.annotations.SerializedName;
 
 public class CampaignMemberEntity {
-
     @SerializedName("Id")
     private String sfId;
-
     @SerializedName("ContactId")
     private String sfContactId;
-
     @SerializedName("attributes")
     private AttributesEntity attributes;
-
     @SerializedName("Display_Renewal__c")
     private boolean isDisplayRenewal;
-
     @SerializedName("Membership__c")
     private String sfMembershipId;
-
     @SerializedName("Membership__r")
     private Membership membership;
 
@@ -73,10 +67,8 @@ public class CampaignMemberEntity {
     public class Membership {
         @SerializedName("Id")
         private String sfId;
-
         @SerializedName("Membership_Year__c")
         private Integer membershipYear;
-
         @SerializedName("attributes")
         private AttributesEntity attributes;
 

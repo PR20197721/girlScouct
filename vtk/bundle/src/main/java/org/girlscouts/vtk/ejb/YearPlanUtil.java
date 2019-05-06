@@ -19,22 +19,16 @@ import java.util.*;
 @Component
 @Service(value = YearPlanUtil.class)
 public class YearPlanUtil {
-
     @Reference
     TroopDAO troopDAO;
-
     @Reference
     ActivityDAO activityDAO;
-
     @Reference
     YearPlanDAO yearPlanDAO;
-
     @Reference
     private MeetingDAO meetingDAO;
-
     @Reference
     private CouncilDAO councilDAO;
-
     @Reference
     private UserUtil userUtil;
 
@@ -131,40 +125,32 @@ public class YearPlanUtil {
         return calendar;
     }
 
-
     private String getLocation(Troop user, String locationId) {
         String fmtLocation = "";
-        if (locationId == null || user == null || !userUtil.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID))
+        if (locationId == null || user == null || !userUtil.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID)) {
             return fmtLocation;
+        }
         try {
-            if (user != null && user.getYearPlan() != null
-                    && user.getYearPlan().getLocations() != null)
+            if (user != null && user.getYearPlan() != null && user.getYearPlan().getLocations() != null) {
                 for (int i = 0; i < user.getYearPlan().getLocations().size(); i++) {
-                    if (user.getYearPlan().getLocations().get(i).getPath()
-                            .equals(locationId)) {
-                        String lName = user.getYearPlan().getLocations().get(i)
-                                .getName();
-                        String lAddress = user.getYearPlan().getLocations()
-                                .get(i).getAddress();
-                        fmtLocation = (lName == null ? "" : lName) + " "
-                                + (lAddress == null ? "" : lAddress);
+                    if (user.getYearPlan().getLocations().get(i).getPath().equals(locationId)) {
+                        String lName = user.getYearPlan().getLocations().get(i).getName();
+                        String lAddress = user.getYearPlan().getLocations().get(i).getAddress();
+                        fmtLocation = (lName == null ? "" : lName) + " " + (lAddress == null ? "" : lAddress);
                         break;
                     }
                 }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return fmtLocation;
     }
 
-    public java.util.List<Asset> getResources(User user, Troop troop,
-                                              String tags, String meetingName, String uids, String meetingPath)
-            throws IllegalAccessException {
+    public java.util.List<Asset> getResources(User user, Troop troop, String tags, String meetingName, String uids, String meetingPath) throws IllegalAccessException {
         java.util.List<Asset> container = new java.util.ArrayList();
-        container.addAll(meetingDAO.getResource_local(user, troop,
-                meetingName, meetingPath));
-        container.addAll(meetingDAO.getResource_global(user, troop, tags,
-                meetingName));
+        container.addAll(meetingDAO.getResource_local(user, troop, meetingName, meetingPath));
+        container.addAll(meetingDAO.getResource_global(user, troop, tags, meetingName));
         return container;
     }
 
@@ -172,35 +158,28 @@ public class YearPlanUtil {
         return councilDAO.getCouncilMilestones(user, troop);
     }
 
-    public Meeting getMeeting(User user, Troop troop, String path)
-            throws IllegalAccessException, VtkException {
+    public Meeting getMeeting(User user, Troop troop, String path) throws IllegalAccessException, VtkException {
         Meeting meeting = meetingDAO.getMeeting(user, troop, path);
         return meeting;
     }
 
-    public List<org.girlscouts.vtk.models.Search> getData(User user,
-                                                          Troop troop, String query) throws IllegalAccessException {
+    public List<org.girlscouts.vtk.models.Search> getData(User user, Troop troop, String query) throws IllegalAccessException {
         return meetingDAO.getData(user, troop, query);
     }
 
-    public java.util.List<Meeting> getAllMeetings(User user, Troop troop,
-                                                  String gradeLevel) throws IllegalAccessException {
+    public java.util.List<Meeting> getAllMeetings(User user, Troop troop, String gradeLevel) throws IllegalAccessException {
         return meetingDAO.getAllMeetings(user, troop, gradeLevel);
     }
-
 
     public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException {
         return meetingDAO.getAllMeetings(user, troop);
     }
 
-    public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
-                                                               Troop troop, String yearPlanPath) throws IllegalAccessException {
-        return meetingDAO.getAllEventMeetings_byPath(user, troop,
-                yearPlanPath.endsWith("/") ? yearPlanPath : yearPlanPath + "/");
+    public java.util.List<MeetingE> getAllEventMeetings_byPath(User user, Troop troop, String yearPlanPath) throws IllegalAccessException {
+        return meetingDAO.getAllEventMeetings_byPath(user, troop, yearPlanPath.endsWith("/") ? yearPlanPath : yearPlanPath + "/");
     }
 
-    public SearchTag searchA(User user, Troop troop, String councilCode)
-            throws IllegalAccessException {
+    public SearchTag searchA(User user, Troop troop, String councilCode) throws IllegalAccessException {
         return meetingDAO.searchA(user, troop, councilCode);
     }
 
@@ -208,45 +187,31 @@ public class YearPlanUtil {
         return meetingDAO.getGlobalResources(resourceTags);
     }
 
-    public Meeting createCustomMeeting(User user, Troop troop,
-                                       MeetingE meetingEvent) throws IllegalAccessException {
+    public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent) throws IllegalAccessException {
         return meetingDAO.createCustomMeeting(user, troop, meetingEvent);
     }
 
-    public Meeting updateCustomMeeting(User user, Troop troop,
-                                       MeetingE meetingEvent, Meeting meeting)
-            throws IllegalAccessException {
-        return meetingDAO.updateCustomMeeting(user, troop, meetingEvent,
-                meeting);
+    public Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException {
+        return meetingDAO.updateCustomMeeting(user, troop, meetingEvent, meeting);
     }
 
     public void saveCouncilMilestones(User user, List<Milestone> milestones, Troop troop) throws IllegalAccessException {
         councilDAO.updateCouncilMilestones(user, milestones, troop);
     }
 
-    public java.util.List<Activity> searchA1(User user, Troop troop,
-                                             String lvl, String cat, String keywrd, java.util.Date startDate,
-                                             java.util.Date endDate, String region)
-            throws IllegalAccessException {
-        return meetingDAO.searchA1(user, troop, lvl, cat, keywrd, startDate,
-                endDate, region);
+    public java.util.List<Activity> searchA1(User user, Troop troop, String lvl, String cat, String keywrd, java.util.Date startDate, java.util.Date endDate, String region) throws IllegalAccessException {
+        return meetingDAO.searchA1(user, troop, lvl, cat, keywrd, startDate, endDate, region);
     }
 
-    public List<Asset> getAllResources(User user, Troop troop, String path)
-            throws IllegalAccessException {
+    public List<Asset> getAllResources(User user, Troop troop, String path) throws IllegalAccessException {
         return meetingDAO.getAllResources(user, troop, path);
     }
 
-    public Meeting createCustomMeeting(User user, Troop troop,
-                                       MeetingE meetingEvent, Meeting meeting)
-            throws IllegalAccessException {
-        return meetingDAO.createCustomMeeting(user, troop, meetingEvent,
-                meeting);
+    public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException {
+        return meetingDAO.createCustomMeeting(user, troop, meetingEvent, meeting);
     }
 
-    public void createCustActivity(User user, Troop troop,
-                                   java.util.List<org.girlscouts.vtk.models.Activity> activities,
-                                   String activityId) throws IllegalAccessException, VtkException {
+    public void createCustActivity(User user, Troop troop, java.util.List<org.girlscouts.vtk.models.Activity> activities, String activityId) throws IllegalAccessException, VtkException {
         for (int i = 0; i < activities.size(); i++) {
             if (activities.get(i).getUid().equals(activityId)) {
                 createActivity(user, troop, activities.get(i));
@@ -258,30 +223,21 @@ public class YearPlanUtil {
 
     public boolean isYearPlanAltered(User user, Troop troop) {
         if (troop.getYearPlan() != null) {
-            return troop.getYearPlan().getAltered() != null
-                    && troop.getYearPlan().getAltered().equals("true");
+            return troop.getYearPlan().getAltered() != null && troop.getYearPlan().getAltered().equals("true");
         }
         return false;
     }
 
-    public void search(User user, Troop troop,
-                       javax.servlet.http.HttpServletRequest request) {
+    public void search(User user, Troop troop, javax.servlet.http.HttpServletRequest request) {
         try {
             java.util.Date startDate = null, endDate = null;
-            if (request.getParameter("startDate") != null
-                    && !request.getParameter("startDate").equals("")) {
-                startDate = new java.util.Date(
-                        request.getParameter("startDate"));
+            if (request.getParameter("startDate") != null && !request.getParameter("startDate").equals("")) {
+                startDate = new java.util.Date(request.getParameter("startDate"));
             }
-            if (request.getParameter("endDate") != null
-                    && !request.getParameter("endDate").equals("")) {
+            if (request.getParameter("endDate") != null && !request.getParameter("endDate").equals("")) {
                 endDate = new java.util.Date(request.getParameter("endDate"));
             }
-            java.util.List activities = searchA1(user, troop,
-                    request.getParameter("lvl"), request.getParameter("cat"),
-                    request.getParameter("keywrd"), startDate, endDate,
-                    request.getParameter("region"));
-
+            java.util.List activities = searchA1(user, troop, request.getParameter("lvl"), request.getParameter("cat"), request.getParameter("keywrd"), startDate, endDate, request.getParameter("region"));
             HttpSession session = request.getSession();
             session.setAttribute("vtk_search_activity", activities);
 
@@ -290,25 +246,19 @@ public class YearPlanUtil {
         }
     }
 
-    public int getAllResourcesCount(User user, Troop troop, String path)
-            throws IllegalAccessException {
+    public int getAllResourcesCount(User user, Troop troop, String path) throws IllegalAccessException {
         return meetingDAO.getAllResourcesCount(user, troop, path);
     }
 
-
-    public int getAssetCount(User user, Troop troop, String _path)
-            throws IllegalAccessException {
+    public int getAssetCount(User user, Troop troop, String _path) throws IllegalAccessException {
         return meetingDAO.getAssetCount(user, troop, _path);
     }
 
-
-    public int getCountLocalMeetingAidsByLevel(User user, Troop troop, String _path)
-            throws IllegalAccessException {
+    public int getCountLocalMeetingAidsByLevel(User user, Troop troop, String _path) throws IllegalAccessException {
         return meetingDAO.getCountLocalMeetingAidsByLevel(user, troop, _path);
     }
 
-    public java.util.Collection<bean_resource> getResourceData(User user, Troop troop, String _path)
-            throws IllegalAccessException {
+    public java.util.Collection<bean_resource> getResourceData(User user, Troop troop, String _path) throws IllegalAccessException {
         return meetingDAO.getResourceData(user, troop, _path);
     }
 
@@ -320,17 +270,13 @@ public class YearPlanUtil {
         return meetingDAO.getVtkAssetCount(user, troop, path);
     }
 
-
     public void updateMilestones(User user, Troop troop, HttpServletRequest request) throws java.lang.IllegalAccessException {
         String councilId = request.getParameter("cid");
-
         java.util.List<Milestone> milestones = getCouncilMilestones(user, troop);
         for (int i = 0; i < milestones.size(); i++) {
-
             Milestone m = milestones.get(i);
             String blurb = request.getParameter("blurb" + i);
             String date = request.getParameter("date" + i);
-
             m.setBlurb(blurb);
             m.setDate(new java.util.Date(date));
 
@@ -352,15 +298,12 @@ public class YearPlanUtil {
                 boolean show = shows[i].equals("true");
                 java.util.Date date = null;
                 if (!dates[i].isEmpty()) {
-                    date = VtkUtil.parseDate(
-                            VtkUtil.FORMAT_MMddYYYY, dates[i]);
+                    date = VtkUtil.parseDate(VtkUtil.FORMAT_MMddYYYY, dates[i]);
                 }
-
                 Milestone m = new Milestone(blurb, show, date);
                 milestones.add(m);
             }
         }
-
         try {
             saveCouncilMilestones(user, milestones, troop);
         } catch (Exception e) {
@@ -371,7 +314,6 @@ public class YearPlanUtil {
     public void createMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request) throws java.lang.IllegalAccessException {
         String councilId = request.getParameter("cid");
         java.util.List<Milestone> milestones = getCouncilMilestones(user, troop);
-
         Milestone m = new Milestone();
         m.setBlurb(request.getParameter("blurb"));
         m.setDate(new java.util.Date(request.getParameter("date")));
@@ -390,7 +332,6 @@ public class YearPlanUtil {
     }
 
     public YearPlan getYearPlanJson(String yearPlanPath) {
-
         return yearPlanDAO.getYearPlanJson(yearPlanPath);
     }
 }// edn class

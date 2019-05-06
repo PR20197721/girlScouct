@@ -23,11 +23,8 @@
         }
     }
 </script>
-
-
 <div class="header clearfix">
     <%
-
         boolean isWarning = false;
         String instruction = "Select the calendar icon to change the date, time, or cancel an individual meeting.Or select the to use the planning wizard to reconfigure the calendar from that date forward";
     %>

@@ -3,12 +3,10 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../session.jsp" %>
-
 <%
     org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, selectedTroop, request);
     java.util.List<String> existingAids = new java.util.ArrayList();
     List<Asset> _aidTags = planView.getAidTags();
-
     if (_aidTags != null)
         for (int i = 0; i < _aidTags.size(); i++) {
             org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
@@ -27,7 +25,6 @@
     System.err.println("test2");
 %>
 <!-- apps/girlscouts-vtk/components/vtk/include/modals/modal_meeting_aids.jsp -->
-
 <div class="header clearfix">
     <h3 class="columns large-22">Meeting aids</h3>
     <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
@@ -82,7 +79,6 @@
         </table>
     </div>
 </div>
-
 <script>
     function assignAid(aidId, meetingId, assetName, assetDocType) {
         $.ajax({

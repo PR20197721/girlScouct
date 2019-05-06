@@ -1,5 +1,4 @@
 <div class="__overview-types row">
-
     <div class="columns small-24">
         <h5 style="font-weight:bold;margin-bottom:20px;">
             Select the type of meetings you'd like to see
@@ -15,7 +14,6 @@
                     ) </p></label>
         </div>
         <%}%>
-
         <div class="small-24 medium-12 large-8 columns">
             <%if (meetingPlanTypes.size() > 1) {%>
             <input type="radio" name="meetingTypes" id="all" value="" onclick="showAllMeetings()"/>

@@ -127,7 +127,6 @@
                                     Activity _subActivity = subActivities.get(sa);
                                     if (_subActivity.getUid().equals(request.getParameter("uid"))) //.getIsSelected() )
                                         _subActivity_selected = _subActivity;
-
                                     if (_subActivity.getIsSelected()) {
                                         _subActivity_selected = _subActivity;
                         %>
@@ -152,20 +151,13 @@
                             }
                         %>
                     </dl>
-
                     <br/>
-
                     <div class="columns small-6">
                         <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID)) {%>
-
-
                         <select id="_vtk_select_multiple_agenda"
                                 class="<%=(subActivities !=null &&  subActivities.size()>0) ? "multi-agenda-time-options" : "" %>"
                                 onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
-
-
                             <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID)) {%>
-
                             <option value="0" selected>Time Allotment</option>
                             <option value="5"
                                     <%=(_subActivity_selected.getDuration() == 5) ? "SELECTED" : ""%>>5
@@ -191,15 +183,11 @@
                             <%} %>
                         </select>
                         <%
-
                             }// end if
                         %>
                     </div>
-
                     <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID)) {%>
                     <div class="columns small-18">
-
-
                         <%if (subActivities == null || subActivities.size() == 0) { %>
                         <button onclick="location.reload();" class="btn button">Save and Back to meeting</button>
                         <button class="btn button"
@@ -211,10 +199,8 @@
                     <%} %>
                 </form>
             </div>
-
             <section class="row agenda-panelwrap tabs-content" style="background-color: white; margin:0px -5px;">
                 <%
-
                     java.util.List<Activity> _subActivities = _activity.getMultiactivities();
                     if (_subActivities != null) { //multi
                         for (int sa = 0; sa < _subActivities.size(); sa++) {
@@ -222,24 +208,15 @@
                 %>
                 <div class="content panel__xyz" id="panel_<%= sa %>">
                     <div class="row">
-
-
                         <div class="columns small-6">
-
-
                             <p style="margin:0px">
                                 <strong>
                                     Time to Complete
                                 </strong>
                             </p>
-
                             <div id="put-here-time-selection">
-
                             </div>
-
-
                         </div>
-
                         <div class="columns small-18">
                             <div class="select_multiple_agenda" style="margin-top:20px"><input
                                     data-id="<%= _subActivity.getPath().substring(_subActivity.getPath().lastIndexOf("/")+1).replace(".","") %>"
@@ -268,14 +245,11 @@
                 <%
                     }
                 %>
-
             </section>
             <%}%>
         </div>
     </div>
-
     <script type="text/javascript">
-
         function onChangeHandler(e) {
 
             var $this = $(e.target);
@@ -287,6 +261,7 @@
             $('.agenda-tabs dd .dot').removeClass('on');
             $('#tab_' + selectedPanel + ' .dot').addClass('on');
         }
+
         $(document).ready(function () {
 
 

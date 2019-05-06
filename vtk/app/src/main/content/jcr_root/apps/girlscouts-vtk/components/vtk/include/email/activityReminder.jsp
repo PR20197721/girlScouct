@@ -1,6 +1,5 @@
 <!-- /apps/girlscouts-vtk/components/vtk/include/email/activityReminder.jsp -->
 <div class="content clearfix">
-
     <%
         Date searchDate = planView.getSearchDate();
         Activity _activity = (Activity) planView.getYearPlanComponent();
@@ -14,15 +13,12 @@
             endDateString = VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, endDate);
         }
         ;
-
     %>
     <h4>Reminder Activity <%=_activity.getName() %>
         <%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %> - <%=endDateString %>
     </h4>
     <p>Sent: None</p>
-
     <h6>Address List</h6>
-
     <ul class="small-block-grid-3">
         <li style="width:100%">
             <input type="checkbox" id="email_to_gp" checked/>
@@ -45,9 +41,7 @@
         <input type="text" id="email_subj"
                value="Reminder <%=selectedTroop.getGradeLevel() %> Activity <%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %> - <%=endDateString%>"/>
     </section>
-
     <div style="background-color:yellow;"></div>
-
     <textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25">
 		<%if (_activity.getEmlTemplate() != null) {%>
 		<%= _activity.getEmlTemplate()%> 
@@ -83,7 +77,6 @@
 
 		<% }%>
 	</textarea>
-
     <div class="right clearfix">
         <input type="button" value="Send email" class="button btn" onclick="this.disabled=true;sendEmail();"/>
     </div>
@@ -93,11 +86,8 @@
     <div id="after-sent">
         <p>Email(s) sent.</p>
     </div>
-
 </div>
 <!--end of content-->
-
-
 <script>
     var template;
     $(document).ready(function () {
@@ -118,11 +108,13 @@
         template = $('#email_htm').val();
 
     }
+
     function sendEmail() {
         if (validate()) {
             previewMeetingReminderEmail('<%=_activity.getUid()%>', template);
         }
     }
+
     function validate() {
         //allow leading and trailing spaces for every email addr
         var emailReg = /^((\ *[\w-\.]+@([\w-]+\.)+[\w-]{2,4}\ *)\;?)+$/;
@@ -155,12 +147,13 @@
         return true;
 
     }
+
     function removeIndentions(x) {
         return x.replace(/^\s+|\s+$/gim, '');
     }
+
     $("#modal-meeting-reminder").on('change', 'input', function (event) {
         $('input[type="button"]').attr('disabled', false);
     });
-
 </script>
  

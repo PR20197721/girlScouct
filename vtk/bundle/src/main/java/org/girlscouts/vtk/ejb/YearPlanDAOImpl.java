@@ -13,6 +13,7 @@ import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.dao.YearPlanDAO;
 import org.girlscouts.vtk.models.*;
@@ -24,23 +25,20 @@ import javax.jcr.Session;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Component
 @Service(value = YearPlanDAO.class)
 public class YearPlanDAOImpl implements YearPlanDAO {
-    private final Logger log = LoggerFactory.getLogger("vtk");
-    @Reference
-    private SessionFactory sessionFactory;
+    private final Logger log = LoggerFactory.getLogger(YearPlanDAOImpl.class);
 
     @Reference
-    private org.apache.sling.api.resource.ResourceResolverFactory resolverFactory;
+    private ResourceResolverFactory resolverFactory;
+    private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
     @Activate
     void activate() {
+        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
     }
 
     public List<YearPlan> getAllYearPlans(User user, String ageLevel) {
@@ -48,7 +46,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
         Session session = null;
         ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             session = rr.adaptTo(Session.class);
             List<Class> classes = new ArrayList<Class>();
             classes.add(YearPlan.class);
@@ -63,17 +61,14 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             Query query = queryManager.createQuery(filter);
             yearPlans = (List<YearPlan>) ocm.getObjects(query);
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-                if (session != null) {
-                    session.logout();
-                }
-            } catch (Exception ex) {
-                log.error("Error occurred:", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return yearPlans;
@@ -84,11 +79,11 @@ public class YearPlanDAOImpl implements YearPlanDAO {
         Session session = null;
         ResourceResolver rr = null;
         try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             List<Class> classes = new ArrayList<Class>();
             classes.add(YearPlan.class);
             classes.add(Meeting.class);
             classes.add(Cal.class);
-            rr = sessionFactory.getResourceResolver();
             session = rr.adaptTo(Session.class);
             Mapper mapper = new AnnotationMapperImpl(classes);
             ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
@@ -97,17 +92,14 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             Query query = queryManager.createQuery(filter);
             yearPlan = (YearPlan) ocm.getObject(path);
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-                if (session != null) {
-                    session.logout();
-                }
-            } catch (Exception ex) {
-                log.error("Error occurred:", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return yearPlan;
@@ -115,10 +107,10 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 
     public java.util.Date getLastModif(Troop troop) {
         Session session = null;
-        ResourceResolver rr = null;
         java.util.Date toRet = null;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             session = rr.adaptTo(Session.class);
             String sql = "select jcr:lastModified from nt:base where jcr:path = '" + troop.getPath() + "' and jcr:lastModified is not null";
             javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -129,17 +121,14 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                 toRet = new java.util.Date(r.getValue("jcr:lastModified").getLong());
             }
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-                if (session != null) {
-                    session.logout();
-                }
-            } catch (Exception ex) {
-                log.error("Error occurred:", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return toRet;
@@ -150,7 +139,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
         java.util.Date toRet = null;
         ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             session = rr.adaptTo(Session.class);
             String sql = "select jcr:lastModified from nt:base where jcr:path = '" + troop.getPath() + "' and jcr:lastModified is not null";
             if (sessionId != null) {
@@ -165,34 +154,35 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                 toRet = new java.util.Date(r.getValue("jcr:lastModified").getLong());
             }
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-                if (session != null) {
-                    session.logout();
-                }
-            } catch (Exception ex) {
-                log.error("Error occurred:", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return toRet;
     }
 
     public YearPlan getYearPlanJson(String yearPlanPath) {
-        ResourceResolver resourceResolver = null;
         YearPlan yearPlan = null;
         Session session = null;
+        ResourceResolver rr = null;
         try {
-            resourceResolver = sessionFactory.getResourceResolver();
-            session = resourceResolver.adaptTo(Session.class);
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            session = rr.adaptTo(Session.class);
             //year plan info
-            Resource yearPlanResource = resourceResolver.getResource(yearPlanPath);
-            if (yearPlanResource == null) return null;
+            Resource yearPlanResource = rr.getResource(yearPlanPath);
+            if (yearPlanResource == null) {
+                return null;
+            }
             ValueMap yearValueMap = yearPlanResource.getValueMap();
-            if (yearValueMap == null) return null;
+            if (yearValueMap == null) {
+                return null;
+            }
             yearPlan = new YearPlan();
             yearPlan.setName(yearValueMap.get("name") == null ? "" : yearValueMap.get("name").toString());
             yearPlan.setDesc(yearValueMap.get("desc") == null ? "" : yearValueMap.get("desc").toString());
@@ -204,10 +194,14 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                     MeetingE masterMeeting = new MeetingE();
                     String refId = meeting.getValueMap().get("refId").toString();
                     int position = Integer.parseInt(meeting.getValueMap().get("id").toString());
-                    Resource meetingResource = resourceResolver.getResource(refId);
-                    if (meetingResource == null) continue;
+                    Resource meetingResource = rr.getResource(refId);
+                    if (meetingResource == null) {
+                        continue;
+                    }
                     ValueMap valueMap = meetingResource.getValueMap();
-                    if (valueMap == null) continue;
+                    if (valueMap == null) {
+                        continue;
+                    }
                     Meeting meetingInfo = new Meeting();
                     meetingInfo.setName(valueMap.get("name").toString());
                     meetingInfo.setBlurb(valueMap.get("blurb").toString());
@@ -225,7 +219,9 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                     forActivities:
                     for (Resource r_activities : meetingActivitiesResource) {
                         ValueMap activityValueMap = r_activities.getValueMap();
-                        if (activityValueMap == null) continue;
+                        if (activityValueMap == null) {
+                            continue;
+                        }
                         String isOutdoorAvailable = activityValueMap.get("outdoor") == null ? null : activityValueMap.get("outdoor").toString();
                         String isGlobalAvailable = activityValueMap.get("globbal") == null ? null : activityValueMap.get("global").toString();
                         if ((isOutdoorAvailable != null && isOutdoorAvailable.equals("true")) || (isGlobalAvailable != null && isGlobalAvailable.equals("true"))) {
@@ -248,7 +244,6 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                     meetingInfos.add(masterMeeting);
                 }
             }
-
             Comparator<MeetingE> comp = new Comparator<MeetingE>() {
                 public int compare(MeetingE m1, MeetingE m2) {
                     return m1.getMeetingInfo().getPosition().compareTo(m2.getMeetingInfo().getPosition());
@@ -260,17 +255,14 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             }
             yearPlan.setMeetingEvents(meetingInfos);
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (resourceResolver != null) {
-                    sessionFactory.closeResourceResolver(resourceResolver);
+                if (rr != null) {
+                    rr.close();
                 }
-                if (session != null) {
-                    session.logout();
-                }
-            } catch (Exception ex) {
-                log.error("Error occurred:", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return yearPlan;

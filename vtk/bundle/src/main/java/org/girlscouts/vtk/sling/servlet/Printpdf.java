@@ -15,16 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.rmi.ServerException;
 
 @SlingServlet(resourceTypes = "sling/servlet/default", selectors = "pdfPrint", extensions = "html", methods = "GET")
 public class Printpdf extends SlingSafeMethodsServlet {
-
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-
     private static Logger log = LoggerFactory.getLogger(Printpdf.class);
     @Reference
     YearPlanUtil yearPlanUtil;
@@ -34,19 +31,16 @@ public class Printpdf extends SlingSafeMethodsServlet {
     private ResourceResolverFactory resolverFactory;
 
     @Override
-    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
-            throws IOException {
+    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         log.debug("Serving PDF response");
         response.setHeader("Content-Disposition", "inline;filename=\"print.pdf\"");
         response.setContentType("application/pdf");
-
         Troop troop = VtkUtil.getTroop(request.getSession());
         User user = VtkUtil.getUser(request.getSession());
         String act = request.getParameter("act");
         if (act == null) {
             act = "";
         }
-
         pdfUtil.createPrintPdf(act, troop, user, request.getParameter("mid"), response);
 
     }

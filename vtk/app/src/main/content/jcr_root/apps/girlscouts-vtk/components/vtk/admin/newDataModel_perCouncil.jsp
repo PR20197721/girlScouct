@@ -12,10 +12,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp" %>
-
 <%@include file="../admin/toolbar.jsp" %>
-
-
 <table border="1">
     <tr>
         <th>Troop Count
@@ -25,12 +22,9 @@
         <th>lastModified
     </tr>
     <%
-
         java.util.List L_COUNCIL = new java.util.ArrayList();
         int yp_2plus_withTime = 0;
-
         javax.jcr.Session jcr_session = (javax.jcr.Session) resourceResolver.adaptTo(javax.jcr.Session.class);
-
         String sql = "select * from nt:unstructured where jcr:path like '" + VtkUtil.getYearPlanBase(user, selectedTroop) + "%/users/' and ocm_classname ='org.girlscouts.vtk.models.JcrNode'";
         javax.jcr.query.QueryManager qm = jcr_session.getWorkspace().getQueryManager();
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
@@ -40,7 +34,6 @@
             javax.jcr.query.Row r = it.nextRow();
             javax.jcr.Value excerpt = r.getValue("jcr:path");
             String p = excerpt.getString();
-
             javax.jcr.Node t = jcr_session.getNode(p);
             javax.jcr.NodeIterator itr = t.getNodes();
             if (t.getNodes().getSize() > 1) {
@@ -81,15 +74,12 @@
     </tr>
     <%
                 }
-
                 if (NoTs)
                     yp_2plus_withTime++;
             }
         }
     %>
 </table>
-
-
 </br>Total Councils with problem: <%=L_COUNCIL.size() %>
 </br>Year Plan with 2+ plans with NO Time: <%=yp_2plus_withTime%>
 </br>Total overall troops with 2+ year plans <%=count%> 

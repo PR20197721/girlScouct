@@ -4,7 +4,6 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
-
 <%
     String activeTab = "milestones";
     boolean showVtkNav = true;
@@ -12,7 +11,6 @@
     String councilId = request.getParameter("cid") == null ? councilCode : request.getParameter("cid");
     String sectionClassDefinition = "milestones";
 %>
-
 <%@include file="include/bodyTop.jsp" %>
 <div class="columns medium-20 small-centered">
     <p>Edit milestones, add dates, create new milestones, and set to
@@ -65,14 +63,12 @@
         <section class="row">
             <input type="submit" name="saveCouncilMilestones" value="Save To Plans" class="btn right button"/>
         </section>
-
     </form>
 </div>
 <!-- <div id="saved">
 <p>Milestones saved.</p>
 </div> -->
 <%@include file="include/bodyBottom.jsp" %>
-
 <script>
     var n;
     $(document).ready(function () {
@@ -142,5 +138,6 @@
         n++;
         $(".datepicker").datepicker();
     }
+
     loadNav('milestones');
 </script>

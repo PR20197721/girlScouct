@@ -1,11 +1,8 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp" %>
-
 <%@include file="../admin/toolbar.jsp" %>
-
 <script>
-
     function rmUser() {
         $.ajax({
             url: "/content/girlscouts-vtk/controllers/vtk.rmme.html",
@@ -15,16 +12,12 @@
         });
     }
 </script>
-
-
 <h1>VTK Admin Tools</h1>
 <b>Welcome, admin</b>
 <br/><br/>
 <div style="background-color:#efefef;">
-
     <div class="grid-system nopadding section">
         <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
-
             <li style="padding:25px;">
                 <div class="text parbase nopadding section">
                     <table border="0" cellpadding="0" cellspacing="0"
@@ -32,7 +25,6 @@
                         <tbody>
                         <tr>
                             <td>
-
                                 <a href="/content/girlscouts-vtk/en/vtk.admin.plan.html">
                                     <input type="submit" value="Build Your Own"/>
                                 </a>
@@ -52,13 +44,10 @@
                                 </a> <a href="javascript:void(0)" onclick="rmUser()" style="color:red;">remove</a>
                                     <%}%>
                 </div>
-
                 </td>
                 </tr></tbody></table>
     </div>
     </li>
-
-
     <li style="padding:25px;">
         <div class="text parbase nopadding section">
             <table border="0" cellpadding="0" cellspacing="0"
@@ -81,15 +70,12 @@
             </table>
         </div>
     </li>
-
-
     <li style="padding:25px;">
         <div class="text parbase nopadding section">
             <table border="0" cellpadding="0" cellspacing="0" style="border: none;">
                 <tbody>
                 <tr>
                     <td>
-
                         <a href="/content/girlscouts-vtk/en/vtk.admin.milestones.html">
                             <input type="submit" value="Milestones"/>
                         </a>
@@ -103,8 +89,6 @@
             </table>
         </div>
     </li>
-
-
     <li style="padding:25px;">
         <div class="text parbase nopadding section">
             <table border="0" cellpadding="0" cellspacing="0" style="border: none;">
@@ -114,11 +98,9 @@
                         <a href="/content/girlscouts-vtk/en/vtk.admin.councilRpt.html">
                             <input type="submit" value="Report"/>
                         </a>
-
                         <a href="/content/girlscouts-vtk/en/vtk.admin.councilRptSingleCount.html">
                             <input type="submit" value="Report (single count)"/>
                         </a>
-
                     </td>
                 </tr>
                 <tr style="background-color: white;border: none;">
@@ -130,15 +112,12 @@
             </table>
         </div>
     </li>
-
-
     <li style="padding:25px;">
         <div class="text parbase nopadding section">
             <table border="0" cellpadding="0" cellspacing="0" style="border: none;">
                 <tbody>
                 <tr>
                     <td>
-
                         <a href="/content/girlscouts-vtk/en/vtk.admin.ocm.html">UUID</a>
                     </td>
                 </tr>
@@ -150,15 +129,12 @@
             </table>
         </div>
     </li>
-
-
     <li style="padding:25px;">
         <div class="text parbase nopadding section">
             <table border="0" cellpadding="0" cellspacing="0" style="border: none;">
                 <tbody>
                 <tr>
                     <td>
-
                         <a href="/content/girlscouts-vtk/en/vtk.admin.troopPhoto.html">change troop picture</a>
                     </td>
                 </tr>
@@ -170,19 +146,15 @@
             </table>
         </div>
     </li>
-
     <br/>VTK v2::
     <br/><a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=2">Finances TAB</a>
     <br/><a href="/content/girlscouts-vtk/en/vtk.admin.troopPhoto.html">change troop picture</a>
-
     <hr/>
     Use this within rec <a href="/content/girlscouts-vtk/en/vtk.controller.html?resetCal=true">RESET CAL</a>
-
     <div style="background-color:lightyellow;">
         <b>TEST convert data model script </b>
         <br/><a href="/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=u2t">Cast (datamodel) User to Troop</a>
         <!--  chng logic 2 many times from U2T <br/><a href="/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=t2u">Cast (datamodel) Troop to User</a> -->
-
         <div style="padding:5px; width:300px;background-color:red;">
             <form action="/content/girlscouts-vtk/en/vtk.controller.html">
                 <table>
@@ -200,13 +172,9 @@
                 <input type="submit" name="Impersonate4S" value="4Silvia"/>
             </form>
         </div>
-
-
     </div>
     <div style="clear:both"></div>
     </ul></div>
-
 <br/><br/><br/><br/>
 </div>
-
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>

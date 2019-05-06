@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.List;
 
 public class User implements Serializable {
-
     private ApiConfig apiConfig;
     private String sid;
     private String currentYear;

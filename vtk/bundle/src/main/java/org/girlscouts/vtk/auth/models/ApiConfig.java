@@ -7,7 +7,6 @@ import org.girlscouts.vtk.models.User;
 import java.io.Serializable;
 
 public class ApiConfig implements Serializable {
-
     private static final long serialVersionUID = 7310414085726791761L;
     //error msg
     java.util.List<VtkError> errors;
@@ -20,11 +19,8 @@ public class ApiConfig implements Serializable {
     //from jcr config -APIs
     private String vtkApiTroopUri, vtkApiUserUri, vtkApiContactUri, vtkApiTroopLeadersUri;
     private boolean isFail, accessTokenValid;
-
-
     private boolean demoUser, useAsDemo;
     private String demoUserName;
-
 
     public String getDemoUserName() {
         return demoUserName;
@@ -114,7 +110,6 @@ public class ApiConfig implements Serializable {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-
 
     public String getAccessToken() {
         return accessToken;
@@ -221,6 +216,5 @@ public class ApiConfig implements Serializable {
     public void setFail(boolean isFail) {
         this.isFail = isFail;
     }
-
 
 }

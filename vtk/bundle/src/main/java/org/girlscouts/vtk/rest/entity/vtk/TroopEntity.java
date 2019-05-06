@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.Set;
 
 public class TroopEntity extends BaseEntity {
-
     @SerializedName("path")
     private String path;
     @SerializedName("yearPlan")

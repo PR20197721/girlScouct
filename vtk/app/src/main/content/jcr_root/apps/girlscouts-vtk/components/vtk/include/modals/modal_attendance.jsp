@@ -7,18 +7,14 @@
 <cq:defineObjects/>
 <%@include file="../session.jsp" %>
 <%
-
     java.util.List<Contact> contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
     String YEAR_PLAN_EVENT = "meetingEvents";
     String eventType = request.getParameter("eType");
     if (eventType != null && eventType.equals("ACTIVITY"))
         YEAR_PLAN_EVENT = "activities";
-
     String path = VtkUtil.getYearPlanBase(user, selectedTroop) + selectedTroop.getSfCouncil() + "/troops/" + selectedTroop.getSfTroopId() + "/yearPlan/" + YEAR_PLAN_EVENT + "/" + request.getParameter("mid");
-
     Attendance attendance = meetingUtil.getAttendance(user, selectedTroop, path + "/attendance");
     Achievement achievement = meetingUtil.getAchievement(user, selectedTroop, path + "/achievement");
-
     boolean isAttendance = true, isAchievement = true;
     if (attendance == null) {
         isAttendance = false;
@@ -27,15 +23,14 @@
         isAchievement = false;
     }
     String title = "";
-    if("IRM".equals(selectedTroop.getParticipationCode())){
+    if ("IRM".equals(selectedTroop.getParticipationCode())) {
         title = "Achievements";
-    }else{
+    } else {
         title = "Attendance";
-        if("meetingEvents".equals(YEAR_PLAN_EVENT)) {
+        if ("meetingEvents".equals(YEAR_PLAN_EVENT)) {
             title += "and Achievements";
         }
     }
-
     boolean showAchievement = request.getParameter("isAch") != null && request.getParameter("isAch").equals("true");
 %>
 <div class="modal-attendance">
@@ -53,7 +48,7 @@
                     <thead>
                     <tr>
                         <th></th>
-                        <%if(!"IRM".equals(selectedTroop.getParticipationCode())){%>
+                        <%if (!"IRM".equals(selectedTroop.getParticipationCode())) {%>
                         <th>Attendance</th>
                         <%}%>
                         <%
@@ -76,7 +71,7 @@
                             <p><%=contact.getFirstName() %>
                             </p>
                         </td>
-                        <%if("IRM".equals(selectedTroop.getParticipationCode())){%>
+                        <%if ("IRM".equals(selectedTroop.getParticipationCode())) {%>
                         <td>
                             <input type="checkbox"  <%= ( !isAttendance || (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contact.getId()) ) )  ? "checked" : "" %>
                                    name="attendance" id="a<%=contact.getId() %>" value="<%=contact.getId() %>"

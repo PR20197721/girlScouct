@@ -21,7 +21,6 @@
                 if (search.getType() != null) {
                     docType = search.getType().toLowerCase();
                 }
-
                 if (docType != null) {
                     // match by type
                     if (docType.indexOf("pdf") != -1) {
@@ -58,7 +57,6 @@
             if (docTypeImage == null) {
                 docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-unknown.png";
             }
-
     %>
     <li class="searchResultsItem1">
         <table width="100%">

@@ -14,32 +14,25 @@
 <%
     response.setContentType("application/csv");
     response.setHeader("Content-Disposition", "attachment; filename=MeetingRpt.csv");
-
     Set<String> allowedReportUsers = new HashSet<String>();
     allowedReportUsers.add("005g0000002apMT");
     allowedReportUsers.add("005G0000006oEkZ");
     allowedReportUsers.add("005G0000006oBVG");
     allowedReportUsers.add("005g0000002G004");
     allowedReportUsers.add("005G0000006oEjsIAE");
-
     String year = request.getParameter("year");
     if (year == null || "".equals(year))
         year = VtkUtil.getYearPlanBase(null, null);
     else
         year = "/vtk" + year + "/";
-
-
     if (!allowedReportUsers.contains(user.getApiConfig().getUserId())) {
         out.println("You do not have access to this page [" + user.getApiConfig().getUserId() + "].");
         return;
     }
-
     out.println("Meeting Report generated on " + new java.util.Date() + " \nTroop,Meeting, Achievement record for the Troop & Meeting pair  ");
-
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
     java.util.Map<String, String> attendances = new java.util.TreeMap();
     List<String> councils = VtkUtil.getCouncils();
-
     String sql = "select users from nt:unstructured where isdescendantnode('" + year + "') and ocm_classname ='org.girlscouts.vtk.models.Achievement'";
     javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
     javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
@@ -56,10 +49,8 @@
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         attendances.put(path, count);
     }
-
     for (String council : councils) {
         sql = "select refId from nt:unstructured where ocm_classname='org.girlscouts.vtk.models.MeetingE' and isdescendantnode('" + year + council + "/') ";
         q = qm.createQuery(sql, javax.jcr.query.Query.SQL);

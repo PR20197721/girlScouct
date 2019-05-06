@@ -4,21 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class FinanceConfiguration implements Serializable {
-
     public static final String FINANCE_CONFIG = "finance_configuration";
     public static final String RECIPIENT = "recipient";
     private static final long serialVersionUID = 6064391709671475214L;
-
     private List<String> incomeFields;
-
     private List<String> expenseFields;
-
     private String period;
-
     private String recipient;
-
     private boolean isPersisted;
 
     public FinanceConfiguration() {
@@ -46,7 +39,6 @@ public class FinanceConfiguration implements Serializable {
 
     public List<String> getExpenseFields() {
         if (this.expenseFields == null) {
-
             List<String> expenses = new ArrayList<String>();
             expenses.add("GSUSA Registrations");
             expenses.add("Service Activities/Events");
@@ -80,11 +72,9 @@ public class FinanceConfiguration implements Serializable {
         this.recipient = recipient;
     }
 
-
     public boolean isPersisted() {
         return isPersisted;
     }
-
 
     public void setPersisted(boolean isPersisted) {
         this.isPersisted = isPersisted;

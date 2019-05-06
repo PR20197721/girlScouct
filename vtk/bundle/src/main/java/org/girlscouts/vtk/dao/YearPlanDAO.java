@@ -5,7 +5,6 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 
 public interface YearPlanDAO {
-
     java.util.List<YearPlan> getAllYearPlans(User user, String ageLevel);
 
     YearPlan getYearPlan(String path);

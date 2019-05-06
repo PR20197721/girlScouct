@@ -1,10 +1,7 @@
 <section class="yp-wrapper">
     <div id="vtk-yp-main"></div>
 </section>
-
 <script>
-
-
     var ________app________ = "<%=selectedTroop.getSfTroopAge()%>".substring("<%=selectedTroop.getSfTroopAge()%>".indexOf("-") + 1).toLowerCase();
     var ________app1________ = "<%=selectedTroop.getYearPlan()==null ? "" : selectedTroop.getYearPlan().getRefId()%>";
     var ________currentYearPlanName________ = "<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>";
@@ -26,9 +23,6 @@
         $('#panelWrapper').css({'padding-bottom': '20px'})
 
     }
-
 </script>
-
-
 <div id="modal_custom_year_plan" class="reveal-modal" data-reveal></div>
 <script>getCngYearPlan();</script>

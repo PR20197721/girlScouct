@@ -6,39 +6,23 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
-@Node
 public class MeetingCanceled extends MeetingE implements Serializable {
-
-    @Field(path = true)
-    String path;
-    @Field(id = true)
-    String uid;
-    @Collection
-    java.util.List<Asset> assets;
-    @Collection
-    java.util.List<SentEmail> sentEmails;
-    @Field
-    java.util.Date lastAssetUpdate;
-    @Field
+    private List<Asset> assets;
+    private List<SentEmail> sentEmails;
+    private Date lastAssetUpdate;
     private String refId; // path to meetingInfo template
-    @Field
     private String locationRef;
     private Meeting meetingInfo;
-    @Field
     private String cancelled;
-    @Field
-    private Integer id;
-    @Field
     private String emlTemplate;
-    @Field
-    private java.util.Date date;
-    private boolean isDbUpdate = false;
-
+    private Date date;
 
     public MeetingCanceled() {
         super.setType(YearPlanComponentType.MEETINGCANCELED);
-        this.uid = "MC" + new java.util.Date().getTime();
+        this.setUid("MC" + new java.util.Date().getTime());
     }
 
     public java.util.Date getLastAssetUpdate() {
@@ -46,9 +30,9 @@ public class MeetingCanceled extends MeetingE implements Serializable {
     }
 
     public void setLastAssetUpdate(java.util.Date lastAssetUpdate) {
-        if ((lastAssetUpdate != null && this.lastAssetUpdate != null && !this.lastAssetUpdate.equals(lastAssetUpdate)) ||
-                (lastAssetUpdate != null && this.lastAssetUpdate == null))
-            isDbUpdate = true;
+        if ((lastAssetUpdate != null && this.lastAssetUpdate != null && !this.lastAssetUpdate.equals(lastAssetUpdate)) || (lastAssetUpdate != null && this.lastAssetUpdate == null)) {
+            setDbUpdate(true);
+        }
         this.lastAssetUpdate = lastAssetUpdate;
 
     }
@@ -58,35 +42,19 @@ public class MeetingCanceled extends MeetingE implements Serializable {
     }
 
     public void setAssets(java.util.List<Asset> assets) {
-        if ((assets != null && this.assets != null && !this.assets.equals(assets)) ||
-                (assets != null && this.assets == null))
-            isDbUpdate = true;
+        if ((assets != null && this.assets != null && !this.assets.equals(assets)) || (assets != null && this.assets == null)) {
+            setDbUpdate(true);
+        }
         this.assets = assets;
 
     }
 
-    public String getUid() {
-        return uid;
-    }
-
     public void setUid(String uid) {
-        this.uid = uid;
-        if (uid == null)
-            this.uid = "M" + new java.util.Date().getTime() + "_"
-                    + Math.random();
-
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        if ((id != null && this.id != null && !this.id.equals(id)) ||
-                (id != null && this.id == null))
-            isDbUpdate = true;
-        this.id = id;
-
+        if (uid == null) {
+            this.setUid("MC" + new java.util.Date().getTime() + "_" + Math.random());
+        }else{
+            this.setUid(uid);
+        }
     }
 
     public String getCancelled() {
@@ -94,9 +62,9 @@ public class MeetingCanceled extends MeetingE implements Serializable {
     }
 
     public void setCancelled(String cancelled) {
-        if ((cancelled != null && this.cancelled != null && !this.cancelled.equals(cancelled)) ||
-                (cancelled != null && this.cancelled == null))
-            isDbUpdate = true;
+        if ((cancelled != null && this.cancelled != null && !this.cancelled.equals(cancelled)) || (cancelled != null && this.cancelled == null)) {
+            setDbUpdate(true);
+        }
         this.cancelled = cancelled;
 
     }
@@ -106,10 +74,9 @@ public class MeetingCanceled extends MeetingE implements Serializable {
     }
 
     public void setLocationRef(String locationRef) {
-        if ((locationRef != null && this.locationRef != null && !this.locationRef.equals(locationRef)) ||
-                (locationRef != null && this.locationRef == null))
-            isDbUpdate = true;
-
+        if ((locationRef != null && this.locationRef != null && !this.locationRef.equals(locationRef)) || (locationRef != null && this.locationRef == null)) {
+            setDbUpdate(true);
+        }
         this.locationRef = locationRef;
 
     }
@@ -119,7 +86,6 @@ public class MeetingCanceled extends MeetingE implements Serializable {
     }
 
     public void setMeetingInfo(Meeting meetingInfo) {
-
         this.meetingInfo = meetingInfo;
 
     }
@@ -129,24 +95,10 @@ public class MeetingCanceled extends MeetingE implements Serializable {
     }
 
     public void setRefId(String refId) {
-        if ((refId != null && this.refId != null && !this.refId.equals(refId)) ||
-                (refId != null && this.refId == null))
-            isDbUpdate = true;
+        if ((refId != null && this.refId != null && !this.refId.equals(refId)) || (refId != null && this.refId == null)) {
+            setDbUpdate(true);
+        }
         this.refId = refId;
-
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-
-        if ((path != null && this.path != null && !this.path.equals(path)) ||
-                (path != null && this.path == null))
-            isDbUpdate = true;
-
-        this.path = path;
 
     }
 
@@ -166,14 +118,6 @@ public class MeetingCanceled extends MeetingE implements Serializable {
         this.emlTemplate = template;
     }
 
-    public boolean isDbUpdate() {
-        return isDbUpdate;
-    }
-
-    public void setDbUpdate(boolean isDbUpdate) {
-        this.isDbUpdate = isDbUpdate;
-    }
-
     public java.util.Date getDate() {
         return date;
     }
@@ -181,6 +125,5 @@ public class MeetingCanceled extends MeetingE implements Serializable {
     public void setDate(java.util.Date date) {
         this.date = date;
     }
-
 
 }

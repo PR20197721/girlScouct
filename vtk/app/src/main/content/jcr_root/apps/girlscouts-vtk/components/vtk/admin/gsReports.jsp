@@ -14,7 +14,6 @@ throw new ServletException("File doesn't exists on server.");
 43
 }
 44
-
 45
 ServletContext ctx = getServletContext();
 46
@@ -28,7 +27,6 @@ response.setContentLength((int) file.length());
 50
 response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 51
-
 52
 ServletOutputStream os = response.getOutputStream();
 53

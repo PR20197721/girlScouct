@@ -14,10 +14,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 @Component(immediate = true, metatype = true)
-@Properties({
-        @Property(name = "label", value = "Girl Scouts Connection Factory"),
-        @Property(name = "description", value = "Girl Scouts Connection Factory")
-})
+@Properties({@Property(name = "label", value = "Girl Scouts Connection Factory"), @Property(name = "description", value = "Girl Scouts Connection Factory")})
 @Service(value = ConnectionFactory.class)
 public class ConnectionFactory {
     private static final Logger log = LoggerFactory.getLogger(ConnectionFactory.class);
@@ -31,12 +28,7 @@ public class ConnectionFactory {
     }
 
     public CloseableHttpClient getConnection() throws LoginException, KeyManagementException, NoSuchAlgorithmException {
-
-        CloseableHttpClient connection = HttpClientBuilder
-                .create()
-                .setConnectionManager(connMrg)
-                .setSslcontext(SSLContexts.custom().useProtocol("TLSv1.2").build())
-                .build();
+        CloseableHttpClient connection = HttpClientBuilder.create().setConnectionManager(connMrg).setSslcontext(SSLContexts.custom().useProtocol("TLSv1.2").build()).build();
         return connection;
     }
 

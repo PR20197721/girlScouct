@@ -7,20 +7,13 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import java.io.Serializable;
 import java.util.Map;
 
-@Node
-public class Finance implements Serializable {
-
+public class Finance extends JcrNode implements Serializable {
     public static final String INCOME = "income";
     public static final String EXPENSES = "expenses";
     public static final String PERIOD = "period";
     private static final long serialVersionUID = 8084860336298434137L;
-    @Collection
     public Map<String, Double> expenses;
-    @Collection
     public Map<String, Double> income;
-    @Field(path = true)
-    String path;
-    @Field(id = true)
     private int financialQuarter;
 
     public Finance() {
@@ -32,14 +25,6 @@ public class Finance implements Serializable {
 
     public void setIncome(Map<String, Double> income) {
         this.income = income;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public double getExpenseByName(String name) {

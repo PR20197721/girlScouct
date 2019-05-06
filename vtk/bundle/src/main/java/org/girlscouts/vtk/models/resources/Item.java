@@ -10,7 +10,6 @@ public class Item {
         if (uri != null && uri.startsWith("/") && "link".equals(type)) {
             uri += ".html";
         }
-
         this.title = title;
         this.type = type;
         this.uri = uri;

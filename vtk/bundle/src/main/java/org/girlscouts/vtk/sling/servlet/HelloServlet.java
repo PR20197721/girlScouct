@@ -15,12 +15,10 @@ import java.io.PrintWriter;
 @SlingServlet(resourceTypes = "sling/servlet/default", selectors = "hello", extensions = "js", methods = "GET")
 public class HelloServlet extends SlingSafeMethodsServlet {
     private static final long serialVersionUID = 5981389970977916595L;
-
     private static final Logger log = LoggerFactory.getLogger(HelloServlet.class);
 
     @Override
-    protected void doGet(SlingHttpServletRequest request,
-                         SlingHttpServletResponse response) {
+    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         try {
             response.setContentType("application/javascript");
             PrintWriter out = response.getWriter();

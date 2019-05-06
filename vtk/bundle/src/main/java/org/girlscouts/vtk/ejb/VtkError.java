@@ -1,11 +1,11 @@
 package org.girlscouts.vtk.ejb;
 
 public class VtkError {
-
     private String name, errorCode, description, userFormattedMsg, id;
     private boolean singleView;
     private java.util.List<String> targets;
     private long errorTime;
+
     public VtkError() {
         this.singleView = true;
         this.errorTime = new java.util.Date().getTime();
@@ -65,8 +65,9 @@ public class VtkError {
     }
 
     public void addTarget(String target) {
-        if (targets == null)
+        if (targets == null) {
             targets = new java.util.ArrayList<String>();
+        }
         targets.add(target);
     }
 
@@ -77,6 +78,5 @@ public class VtkError {
     public void setId(String id) {
         this.id = id;
     }
-
 
 }

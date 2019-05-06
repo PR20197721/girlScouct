@@ -6,30 +6,19 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 import java.io.Serializable;
+import java.util.List;
 
-@Node
-public class YearPlan implements Serializable {
+public class YearPlan extends JcrNode implements Serializable {
 
-    @Field(path = true)
-    String path;
-    @Field
     private String name, desc, id, refId, altered, resources;
-    @Collection(autoUpdate = false)
     private java.util.List<MeetingE> meetingEvents;
-    @Collection(autoUpdate = false)
     private java.util.List<Activity> activities;
-    @Bean(autoUpdate = false)
     private Cal schedule;
-    @Collection(autoUpdate = false)
-    private java.util.List<Location> locations;
-    @Field
+    private List<Location> locations;
     private Long calStartDate;
-    @Field
     private String calFreq, calExclWeeksOf;
-    private boolean isDbUpdate = false;
-    private java.util.List<Milestone> milestones;
-    @Collection(autoUpdate = false)
-    private java.util.List<MeetingCanceled> meetingCanceled;
+    private List<Milestone> milestones;
+    private List<MeetingCanceled> meetingCanceled;
     private Helper helper;
 
     public YearPlan() {
@@ -50,8 +39,7 @@ public class YearPlan implements Serializable {
 
     public void setResources(String resources) {
         this.resources = resources;
-        isDbUpdate = true;
-
+        this.setDbUpdate(true);
     }
 
     public java.util.List<Milestone> getMilestones() {
@@ -67,13 +55,9 @@ public class YearPlan implements Serializable {
     }
 
     public void setAltered(String altered) {
-
-        if (altered != null && this.altered != null
-                && !this.altered.equals(altered)) {
-            isDbUpdate = true;
-
+        if (altered != null && this.altered != null && !this.altered.equals(altered)) {
+            this.setDbUpdate(true);
         }
-
         this.altered = altered;
 
     }
@@ -84,8 +68,7 @@ public class YearPlan implements Serializable {
 
     public void setCalStartDate(Long calStartDate) {
         this.calStartDate = calStartDate;
-        isDbUpdate = true;
-
+        this.setDbUpdate(true);
     }
 
     public String getCalFreq() {
@@ -94,8 +77,7 @@ public class YearPlan implements Serializable {
 
     public void setCalFreq(String calFreq) {
         this.calFreq = calFreq;
-        isDbUpdate = true;
-
+        this.setDbUpdate(true);
     }
 
     public String getCalExclWeeksOf() {
@@ -104,8 +86,7 @@ public class YearPlan implements Serializable {
 
     public void setCalExclWeeksOf(String calExclWeeksOf) {
         this.calExclWeeksOf = calExclWeeksOf;
-        isDbUpdate = true;
-
+        this.setDbUpdate(true);
     }
 
     public Cal getSchedule() {
@@ -138,8 +119,7 @@ public class YearPlan implements Serializable {
 
     public void setRefId(String refId) {
         this.refId = refId;
-        isDbUpdate = true;
-
+        this.setDbUpdate(true);
     }
 
     public java.util.List<MeetingE> getMeetingEvents() {
@@ -150,27 +130,8 @@ public class YearPlan implements Serializable {
         this.meetingEvents = meetingEvents;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        if (this.path != null && path != null && !path.equals(this.path)) {
-            isDbUpdate = true;
-
-        }
-        this.path = path;
-
-    }
-
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-        isDbUpdate = true;
-
     }
 
     public String getName() {
@@ -179,7 +140,7 @@ public class YearPlan implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-        isDbUpdate = true;
+        this.setDbUpdate(true);
 
     }
 
@@ -189,24 +150,15 @@ public class YearPlan implements Serializable {
 
     public void setDesc(String desc) {
         this.desc = desc;
-        isDbUpdate = true;
+        this.setDbUpdate(true);
 
     }
 
-    public boolean isDbUpdate() {
-        return isDbUpdate;
-    }
-
-    public void setDbUpdate(boolean isDbUpdate) {
-        this.isDbUpdate = isDbUpdate;
-    }
-
-    public java.util.List<MeetingCanceled> getMeetingCanceled() {
+    public List<MeetingCanceled> getMeetingCanceled() {
         return meetingCanceled;
     }
 
-    public void setMeetingCanceled(
-            java.util.List<MeetingCanceled> meetingCanceled) {
+    public void setMeetingCanceled(List<MeetingCanceled> meetingCanceled) {
         this.meetingCanceled = meetingCanceled;
     }
 

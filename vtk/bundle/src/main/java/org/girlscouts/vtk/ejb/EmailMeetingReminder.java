@@ -1,12 +1,9 @@
 package org.girlscouts.vtk.ejb;
 
 public class EmailMeetingReminder {
+    private String to, from, cc, bcc, template, html, subj, emailToGirlParent, emailToSelf, emailToTroopVolunteer, meetingId;
 
-    private String to, from, cc, bcc, template, html, subj, emailToGirlParent,
-            emailToSelf, emailToTroopVolunteer, meetingId;
-
-    public EmailMeetingReminder(String to, String from, String bcc,
-                                String subj, String html) {
+    public EmailMeetingReminder(String to, String from, String bcc, String subj, String html) {
         this.to = to;
         this.from = from;
         this.bcc = bcc;

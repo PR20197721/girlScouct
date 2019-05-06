@@ -6,26 +6,11 @@ import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(
-        metatype = true,
-        immediate = true,
-        label = "GS Monthly Report ",
-        description = "Gs monthly rpt"
-)
-
+@Component(metatype = true, immediate = true, label = "GS Monthly Report ", description = "Gs monthly rpt")
 @Service(value = {Runnable.class})
-@Properties({
-        @Property(name = "service.description", value = "Girl Scouts VTK monthly report job", propertyPrivate = true),
-        @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate = true),
-        @Property(name = "scheduler.expression", label = "scheduler.expression", value = "4 50 4 1 1  ?", description = "cron expression"),
-        @Property(name = "scheduler.concurrent", boolValue = false, propertyPrivate = true),
-        @Property(name = "scheduler.runOn", value = "SINGLE", propertyPrivate = true)
-})
-
+@Properties({@Property(name = "service.description", value = "Girl Scouts VTK monthly report job", propertyPrivate = true), @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate = true), @Property(name = "scheduler.expression", label = "scheduler.expression", value = "4 50 4 1 1  ?", description = "cron expression"), @Property(name = "scheduler.concurrent", boolValue = false, propertyPrivate = true), @Property(name = "scheduler.runOn", value = "SINGLE", propertyPrivate = true)})
 public class VTKMonthlyRptCronImpl implements Runnable {
-
     private static Logger log = LoggerFactory.getLogger(VTKMonthlyRptCronImpl.class);
-
     @Reference
     CouncilDAO councilDAO;
 

@@ -1,6 +1,5 @@
 <%@ page import="org.girlscouts.vtk.dao.YearPlanComponentType" %>
 <!-- <input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()" class="button" /> -->
-
 <%
     java.util.Map<java.util.Date, YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(selectedTroop.getYearPlan());
 %>
@@ -25,13 +24,10 @@
     %>
     <tr>
         <td>
-
             <a onclick="manageCalElem('<%=date.getTime()%>');" title="calendar"><i class="icon-calendar"></i></a>
-
         </td>
         <td><span><%=currentMeeting %></span></td>
         <td><span><%= VtkUtil.formatDate(VtkUtil.FORMAT_CALENDAR_DATE, date) %></span></td>
-
         <td><span><%= _meeting.getName() %>
 				<%if (meeting.getCancelled() != null && meeting.getCancelled().equals("true")) { %>
 					<span class="alert">(Cancelled)</span>

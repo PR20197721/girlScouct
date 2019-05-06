@@ -18,73 +18,45 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.rmi.ServerException;
 
 @Component(metatype = true, immediate = true)
 @Service
-@Properties({
-        @Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-        @Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "asset"),
-        @Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "html"),
-        @Property(propertyPrivate = true, name = "sling.servlet.methods", value = {"POST", "GET"}),
-        @Property(name = "label", value = "Girl Scouts VTK Upload Assets"),
-        @Property(name = "description", value = "Girl Scouts VTK Upload Assets")
-})
+@Properties({@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"), @Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "asset"), @Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "html"), @Property(propertyPrivate = true, name = "sling.servlet.methods", value = {"POST", "GET"}), @Property(name = "label", value = "Girl Scouts VTK Upload Assets"), @Property(name = "description", value = "Girl Scouts VTK Upload Assets")})
 public class Asset extends SlingAllMethodsServlet {
-
     @Reference
     private ResourceResolverFactory resolverFactory;
 
     @Override
-    protected void doGet(SlingHttpServletRequest request,
-                         SlingHttpServletResponse response) throws
-            IOException {
+    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         doPost(request, response);
     }
 
     @Override
-    protected void doPost(SlingHttpServletRequest request,
-                          SlingHttpServletResponse response) throws
-            IOException {
-
+    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         ResourceResolver resourceResolver = null;
         try {
-            final boolean isMultipart = org.apache.commons.fileupload.servlet.ServletFileUpload
-                    .isMultipartContent(request);
+            final boolean isMultipart = org.apache.commons.fileupload.servlet.ServletFileUpload.isMultipartContent(request);
             PrintWriter out = null;
             out = response.getWriter();
             if (isMultipart) {
-                final java.util.Map<String, org.apache.sling.api.request.RequestParameter[]> params = request
-                        .getRequestParameterMap();
-                for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params
-                        .entrySet()) {
+                final java.util.Map<String, org.apache.sling.api.request.RequestParameter[]> params = request.getRequestParameterMap();
+                for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params.entrySet()) {
                     final String k = pairs.getKey();
-                    final org.apache.sling.api.request.RequestParameter[] pArr = pairs
-                            .getValue();
+                    final org.apache.sling.api.request.RequestParameter[] pArr = pairs.getValue();
                     final org.apache.sling.api.request.RequestParameter param = pArr[0];
                     final InputStream stream = param.getInputStream();
                     if (param.isFormField()) {
-                        String t = org.apache.commons.fileupload.util.Streams
-                                .asString(stream);
+                        String t = org.apache.commons.fileupload.util.Streams.asString(stream);
                         if (k.equals("custasset")) {
                             byte[] db64 = Base64.decodeBase64(t);
                             InputStream inn = new ByteArrayInputStream(db64);
-                            resourceResolver = resolverFactory
-                                    .getAdministrativeResourceResolver(null);
-                            Session session = resourceResolver
-                                    .adaptTo(Session.class);
-                            reverseReplicateBinary(session,
-                                    request.getParameter("loc"),
-                                    request.getParameter("id"), inn,
-                                    request.getParameter("assetDesc"),
-                                    request.getParameter("owner"),
-                                    request.getParameter("id"));
+                            resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);
+                            Session session = resourceResolver.adaptTo(Session.class);
+                            reverseReplicateBinary(session, request.getParameter("loc"), request.getParameter("id"), inn, request.getParameter("assetDesc"), request.getParameter("owner"), request.getParameter("id"));
                         }
                     } else {
-                        resourceResolver = resolverFactory
-                                .getAdministrativeResourceResolver(null);
-                        Session session = resourceResolver
-                                .adaptTo(Session.class);
+                        resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);
+                        Session session = resourceResolver.adaptTo(Session.class);
                         String loc = request.getParameter("loc");
                         String name = request.getParameter("id");
                         if (request.getParameter("newvalue") != null) {
@@ -92,51 +64,31 @@ public class Asset extends SlingAllMethodsServlet {
                             name = name + ".png";
 
                         } else if (request.getParameter("upldTroopPic") != null) {
-                            loc = "/content/dam/girlscouts-vtk/troop-data"
-                                    + VtkUtil.getCurrentGSYear() + "/"
-                                    + request.getParameter("councilId") + "/"
-                                    + request.getParameter("troopId")
-                                    + "/imgLib";
+                            loc = "/content/dam/girlscouts-vtk/troop-data" + VtkUtil.getCurrentGSYear() + "/" + request.getParameter("councilId") + "/" + request.getParameter("troopId") + "/imgLib";
                             name = "troop_pic.png";
                         }
-                        reverseReplicateBinary(session, loc, name, stream,
-                                request.getParameter("assetDesc"),
-                                request.getParameter("owner"),
-                                request.getParameter("id"));
+                        reverseReplicateBinary(session, loc, name, stream, request.getParameter("assetDesc"), request.getParameter("owner"), request.getParameter("id"));
                     }
                 }
             } else {
-                final java.util.Map<String, org.apache.sling.api.request.RequestParameter[]> params = request
-                        .getRequestParameterMap();
-                for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params
-                        .entrySet()) {
+                final java.util.Map<String, org.apache.sling.api.request.RequestParameter[]> params = request.getRequestParameterMap();
+                for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params.entrySet()) {
                     // final String k = pairs.getKey();
-                    final org.apache.sling.api.request.RequestParameter[] pArr = pairs
-                            .getValue();
+                    final org.apache.sling.api.request.RequestParameter[] pArr = pairs.getValue();
                     final org.apache.sling.api.request.RequestParameter param = pArr[0];
                     final InputStream stream = param.getInputStream();
                     if (!param.isFormField()) {
-                        resourceResolver = resolverFactory
-                                .getAdministrativeResourceResolver(null);
-                        Session session = resourceResolver
-                                .adaptTo(Session.class);
-                        reverseReplicateBinary(session,
-                                request.getParameter("loc"),
-                                request.getParameter("id"), stream,
-                                request.getParameter("assetDesc"),
-                                request.getParameter("owner"),
-                                request.getParameter("id"));
+                        resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);
+                        Session session = resourceResolver.adaptTo(Session.class);
+                        reverseReplicateBinary(session, request.getParameter("loc"), request.getParameter("id"), stream, request.getParameter("assetDesc"), request.getParameter("owner"), request.getParameter("id"));
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        if (request.getParameter("loc") != null
-                && request.getParameter("loc").contains("/tmp/import/assets")) {
-            response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id="
-                    + request.getParameter("id"));
+        if (request.getParameter("loc") != null && request.getParameter("loc").contains("/tmp/import/assets")) {
+            response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id=" + request.getParameter("id"));
         } else if (request.getParameter("upldTroopPic") != null) {
             try {
                 // wait 1 seconds for image to upload
@@ -153,17 +105,13 @@ public class Asset extends SlingAllMethodsServlet {
         }
     }
 
-    private void reverseReplicateBinary(Session session, String parentPath,
-                                        String name, InputStream is, String desc, String owner, String id)
-            throws RepositoryException {
+    private void reverseReplicateBinary(Session session, String parentPath, String name, InputStream is, String desc, String owner, String id) throws RepositoryException {
         ValueFactory valueFactory = session.getValueFactory();
-        Node page = JcrUtil.createPath(parentPath, "nt:unstructured",
-                "nt:unstructured", session, true);
+        Node page = JcrUtil.createPath(parentPath, "nt:unstructured", "nt:unstructured", session, true);
         Node file = null;
         if (page.hasNode(name)) {
             file = page.getNode(name);
         } else {
-
             try {
                 file = page.addNode(name, "nt:file");
 
@@ -172,7 +120,6 @@ public class Asset extends SlingAllMethodsServlet {
                 ex.printStackTrace();
             }
         }
-
         Node resource = null;
         if (file.hasNode("jcr:content")) {
             resource = file.getNode("jcr:content");

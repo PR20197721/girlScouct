@@ -1,7 +1,6 @@
 <p style="font-weight:bold;">
     Select the meetings you'd like to schedule for the same day
 </p>
-
 <table class="list-of-meeting-calendar combine-meeting yearMeetingList">
     <%
         for (int i = 0; i < meetingsToCancel.size(); i++) {
@@ -34,12 +33,8 @@
         }
     %>
 </table>
-
-
 <div class="row">
-
     <div class="small-24 column">
-
         <div id="dialog-confirm"></div>
         <input type="button" onclick="continueCombine()" value="Continue"
                class="combine-meetings-button inactive-button button btn right">
@@ -47,11 +42,7 @@
         <div id="dialog-confirm"></div>
     </div>
 </div>
-
-
 <script>
-
-
     function tableToJson(table, orden) {
         var finalObject = {};
         var $table = $(table);

@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-
 public class Utils {
     static final String ISO8601DATEFORMAT = "yyyy-MM-ddTHH:mm:ssZ"; //"yyyy-MM-dd'T'HH:mm:ssX"; // "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
     private static final Logger log = LoggerFactory.getLogger(Utils.class);
@@ -34,21 +33,19 @@ public class Utils {
      * @return DOMNodeList The queried node
      * @throws XPathExpressionException
      */
-    public static NodeList query(Document dom, String query, Element context)
-            throws XPathExpressionException {
+    public static NodeList query(Document dom, String query, Element context) throws XPathExpressionException {
         NodeList nodeList;
-
         XPath xpath = XPathFactory.newInstance().newXPath();
         xpath.setNamespaceContext(new NamespaceContext() {
-
             public String getNamespaceURI(String prefix) {
                 String result = null;
-                if (prefix.equals("samlp"))
+                if (prefix.equals("samlp")) {
                     result = Constants.NS_SAMLP;
-                else if (prefix.equals("sml"))
+                } else if (prefix.equals("sml")) {
                     result = Constants.NS_SAML;
-                else if (prefix.equals("ds"))
+                } else if (prefix.equals("ds")) {
                     result = Constants.NS_DS;
+                }
                 return result;
             }
 
@@ -61,13 +58,11 @@ public class Utils {
                 return null;
             }
         });
-
-        if (context == null)
-            nodeList = (NodeList) xpath.evaluate(query, dom,
-                    XPathConstants.NODESET);
-        else
-            nodeList = (NodeList) xpath.evaluate(query, context,
-                    XPathConstants.NODESET);
+        if (context == null) {
+            nodeList = (NodeList) xpath.evaluate(query, dom, XPathConstants.NODESET);
+        } else {
+            nodeList = (NodeList) xpath.evaluate(query, context, XPathConstants.NODESET);
+        }
         return nodeList;
     }
 
@@ -80,27 +75,17 @@ public class Utils {
      */
     public static Map<String, String> getStatus(Document dom) throws Error {
         Map<String, String> status = new HashMap<String, String>();
-
         try {
-            NodeList statusEntry = query(dom, "/samlp:Response/samlp:Status",
-                    null);
+            NodeList statusEntry = query(dom, "/samlp:Response/samlp:Status", null);
             if (statusEntry.getLength() == 0) {
                 throw new Error("Missing Status on response");
             }
-
-            NodeList codeEntry = query(dom,
-                    "/samlp:Response/samlp:Status/samlp:StatusCode",
-                    (Element) statusEntry.item(0));
+            NodeList codeEntry = query(dom, "/samlp:Response/samlp:Status/samlp:StatusCode", (Element) statusEntry.item(0));
             if (codeEntry.getLength() == 0) {
                 throw new Error("Missing Status Code on response");
             }
-            status.put("code",
-                    codeEntry.item(0).getAttributes().getNamedItem("Value")
-                            .getNodeValue());
-
-            NodeList messageEntry = query(dom,
-                    "/samlp:Response/samlp:Status/samlp:StatusMessage",
-                    (Element) statusEntry.item(0));
+            status.put("code", codeEntry.item(0).getAttributes().getNamedItem("Value").getNodeValue());
+            NodeList messageEntry = query(dom, "/samlp:Response/samlp:Status/samlp:StatusMessage", (Element) statusEntry.item(0));
             if (messageEntry.getLength() == 0) {
                 status.put("msg", "");
             } else {
@@ -112,10 +97,8 @@ public class Utils {
         } catch (Exception ex) {
             log.error("Error executing getStatus: " + ex.getMessage(), ex);
         }
-
         return status;
     }
-
 
     /**
      * Load an XML string in a save way. Prevent XEE/XXE Attacks
@@ -126,60 +109,43 @@ public class Utils {
      * @throws Exception
      */
     public static Document loadXML(String xml) throws Exception {
-
-
         String id = xml.substring(xml.indexOf("<saml:NameID Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:persistent\">"));
         id = id.substring(1);
         id = id.substring(74, id.indexOf("<"));
-
-
         if (xml.contains("<!ENTITY")) {
-            throw new Exception(
-                    "Detected use of ENTITY in XML, disabled to prevent XXE/XEE attacks");
+            throw new Exception("Detected use of ENTITY in XML, disabled to prevent XXE/XEE attacks");
         }
-
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
-
         // Add various options explicitly to prevent XXE attacks. add try/catch around every
         // setAttribute just in case a specific parser does not support it.
         try {
-            factory.setAttribute("http://xml.org/sax/features/external-general-entities",
-                    Boolean.FALSE);
+            factory.setAttribute("http://xml.org/sax/features/external-general-entities", Boolean.FALSE);
         } catch (Throwable t) {  /* OK.  Not all parsers will support this attribute */}
         try {
-            factory.setAttribute("http://xml.org/sax/features/external-parameter-entities",
-                    Boolean.FALSE);
+            factory.setAttribute("http://xml.org/sax/features/external-parameter-entities", Boolean.FALSE);
         } catch (Throwable t) {  /* OK.  Not all parsers will support this attribute */}
         try {
-            factory.setAttribute("http://apache.org/xml/features/disallow-doctype-decl",
-                    Boolean.TRUE);
+            factory.setAttribute("http://apache.org/xml/features/disallow-doctype-decl", Boolean.TRUE);
         } catch (Throwable t) {  /* OK.  Not all parsers will support this attribute */}
         try {
-            factory.setAttribute("http://javax.xml.XMLConstants/feature/secure-processing",
-                    Boolean.TRUE);
+            factory.setAttribute("http://javax.xml.XMLConstants/feature/secure-processing", Boolean.TRUE);
         } catch (Throwable t) {  /* OK.  Not all parsers will support this attribute */ }
         try {
-            factory.setAttribute("http://apache.org/xml/features/nonvalidating/load-external-dtd",
-                    Boolean.FALSE);
+            factory.setAttribute("http://apache.org/xml/features/nonvalidating/load-external-dtd", Boolean.FALSE);
         } catch (Throwable t) {  /* OK.  Not all parsers will support this attribute */}
         try {
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         } catch (Throwable t) {  /* OK.  Not all parsers will support this attribute */}
-
         DocumentBuilder builder;
-
         try {
             builder = factory.newDocumentBuilder();
             Document doc = builder.parse(new InputSource(new StringReader(xml)));
-
             // Loop through the doc and tag every element with an ID attribute as an XML ID node.
             XPath xpath = XPathFactory.newInstance().newXPath();
             XPathExpression expr = xpath.compile("//*[@ID]");
             NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-
             for (int i = 0; i < nodeList.getLength(); i++) {
-
                 Element elem = (Element) nodeList.item(i);
                 Attr attr = (Attr) elem.getAttributes().getNamedItem("ID");
                 elem.setIdAttributeNode(attr, true);
@@ -190,6 +156,5 @@ public class Utils {
         }
         return null;
     }
-
 
 }

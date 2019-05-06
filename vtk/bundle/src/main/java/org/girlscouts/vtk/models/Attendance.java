@@ -5,33 +5,9 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 import java.io.Serializable;
 
-@Node
-public class Attendance implements Serializable {
-
-    @Field
-    String users; // sf id
-    @Field
-    int total;
-    @Field(path = true)
-    private String path;
-    @Field(id = true)
-    private String id;
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+public class Attendance extends  JcrNode implements Serializable {
+    private String users;
+    private int total;
 
     public String getUsers() {
         return users;

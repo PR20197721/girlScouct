@@ -5,27 +5,16 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 import java.io.Serializable;
 
-@Node
-public class Note implements Serializable {
+public class Note extends JcrNode implements Serializable {
 
-    @Field(path = true)
-    String path;
-    @Field(id = true)
-    String uid;
-    @Field
-    Long createTime;
-    @Field
-    String createdByUserName;
-    @Field
-    String createdByUserId;
-    @Field
-    String refId; //meetingId, activity, anything else
-    @Field
+    private Long createTime;
+    private String createdByUserName;
+    private String createdByUserId;
+    private String refId; //meetingId, activity, anything else
     private String message;
-    private boolean isDbUpdate = false;
 
     public Note() {
-        this.uid = "N" + new java.util.Date().getTime() + "_" + Math.random();
+        this.setUid("N" + new java.util.Date().getTime() + "_" + Math.random());
         this.createTime = new java.util.Date().getTime();
     }
 
@@ -35,27 +24,7 @@ public class Note implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
-        isDbUpdate = true;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public boolean isDbUpdate() {
-        return isDbUpdate;
+        this.setDbUpdate(true);
     }
 
     public long getCreateTime() {
@@ -89,6 +58,5 @@ public class Note implements Serializable {
     public void setRefId(String refId) {
         this.refId = refId;
     }
-
 
 }

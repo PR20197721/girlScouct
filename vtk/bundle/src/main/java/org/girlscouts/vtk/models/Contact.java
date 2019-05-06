@@ -3,19 +3,14 @@ package org.girlscouts.vtk.models;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node
-public class Contact implements java.io.Serializable, Comparable<Contact> {
+import java.util.List;
 
+public class Contact extends JcrNode implements java.io.Serializable, Comparable<Contact> {
     private static final long serialVersionUID = -9143046810103196285L;
-    @Field(path = true)
-    String path;
-    @Field
-    Integer age, type;
-    @Field(id = true)
-    private String id;
-    @Field
+
+    private Integer age, type;
     private String email, phone, firstName, lastName, address, address1, city, state, zip, suite, role, dob, country, contactId;
-    private java.util.List<Contact> contacts;
+    private List<Contact> contacts;
     private String accountId;
     private boolean renewalDue, emailOptIn, txtOptIn;
     private Integer membershipYear_girl, membershipYear_adult;
@@ -79,14 +74,6 @@ public class Contact implements java.io.Serializable, Comparable<Contact> {
 
     public void setContacts(java.util.List<Contact> contacts) {
         this.contacts = contacts;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public String getFirstName() {
@@ -161,14 +148,6 @@ public class Contact implements java.io.Serializable, Comparable<Contact> {
         this.email = email;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getLastName() {
         return lastName;
     }
@@ -218,14 +197,14 @@ public class Contact implements java.io.Serializable, Comparable<Contact> {
     }
 
     public int compareTo(Contact other) {
-        if (this.id == null && (other == null || other.id == null)) {
+        if (this.getId() == null && (other == null || other.getId() == null)) {
             return 0;
-        } else if (other == null || other.id == null) {
+        } else if (other == null || other.getId() == null) {
             return 1;
-        } else if (this.id == null) {
+        } else if (this.getId() == null) {
             return -1;
         }
-        return id.compareTo(other.id);
+        return getId().compareTo(other.getId());
     }
 
     public String getContactId() {
@@ -243,6 +222,5 @@ public class Contact implements java.io.Serializable, Comparable<Contact> {
     public void setRenewalDue(boolean renewalDue) {
         this.renewalDue = renewalDue;
     }
-
 
 }

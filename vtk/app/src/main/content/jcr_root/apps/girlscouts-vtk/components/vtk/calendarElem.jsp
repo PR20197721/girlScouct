@@ -6,7 +6,6 @@
 <!-- apps/girlscouts-vtk/components/vtk/calendarElem.jsp -->
 <%
     java.util.Map<java.util.Date, YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(selectedTroop.getYearPlan());
-
     String elem = request.getParameter("elem");
     java.util.Date date = new java.util.Date(Long.parseLong(elem));
     MeetingE meeting = (MeetingE) sched.get(date);
@@ -19,14 +18,10 @@
         isCancelMeeting = true;
     }
     java.util.List<MeetingE> meetingsToCancel = meetingUtil.getMeetingToCancel(user, selectedTroop);
-
 %>
-
 <h5><strong><%=yearPlanUtil.getMeeting(user, selectedTroop, meeting.getRefId()).getName() %>
 </strong></h5>
-
 <div id="locMsg"></div>
-
 <div class="modifyCalendarDate clearfix">
     <div class="vtk-meeting-calendar-head column small-24">
         <div class="row">
@@ -34,12 +29,10 @@
                 <input type="radio" value="change" id="cngRadio" CHECKED onchange="tabsVtk.goto('calendar-meeting')"
                        name="goto"/><label for="cngRadio"><p>Change Date / Time</p></label>
             </div>
-
             <div class="column small-24 medium-12 large-8">
                 <input type="radio" value="cancel" id="cclRadio" onchange="tabsVtk.goto('cancel-meeting')" name="goto"/><label
                     for="cclRadio"><p>Cancel Meeting</p></label>
             </div>
-
             <div class="column small-24 medium-12 large-8 end">
                 <input type="radio" value="combine" id="cmlRadio" onchange="tabsVtk.goto('combine-meeting')"
                        name="goto"/><label for="cmlRadio"><p>Combine Meetings</p></label>
@@ -47,8 +40,6 @@
         </div>
     </div>
 </div>
-
-
 <div data-parent="main" data-name="calendar-meeting" data-default="true" data-title="" data-fetch=""
      class="vtk-meeting-calendar-body column small-24">
     <div class="row">
@@ -57,18 +48,15 @@
                 Current Date: <%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, date) %><br/>
                 <strong id="change-new-time" class="hide">New Date: <span></span></strong>
             </p>
-
             <p>
                 Select a <strong>new date or time</strong> for this meeting and "Save" your choice
             </p>
         </div>
-
         <div class="small-24 medium-12 column end">
             <form id="frmCalElem">
                 <!-- <p><strong>Change Date:</strong></p>
                 <span>Select today's date or any future date</span> -->
                 <div id="datepicker"></div>
-
                 <div class="alert-error-display-cancel hide">
                     Enter a valid time
                 </div>
@@ -90,21 +78,15 @@
             </form>
             <span id="cngDate0ErrMsg"></span>
         </div>
-
-
         <div class="vtk-meeting-calendar-foot column small-24 column">
             <div class="row">
                 <input type="button" value="save" id="saveCalElem" onclick="saveCalElem()" class="button btn right">
                 <input type="button" value="cancel" id="cancelCalElem" onclick="cancelModal()" class="button btn right">
             </div>
         </div>
-
-
         <div id="dialog-confirm"></div>
-
     </div>
 </div>
-
 <div data-parent="main" data-name="cancel-meeting" data-title="Cancel Meeting" data-default="false" data-fetch=""
      class="vtk-meeting-calendar-body column small-24">
     <div class="row">
@@ -113,7 +95,6 @@
         </div>
     </div>
 </div>
-
 <div data-parent="main" data-name="cancel-meeting" data-title="Cancel Meeting" data-default="false" data-fetch=""
      class="vtk-meeting-calendar-body column small-24">
     <div class="row">
@@ -122,19 +103,15 @@
         </div>
     </div>
 </div>
-
 <div data-parent="main" data-name="combine-meeting" data-title="Combine Meeting Dates" data-default="false"
      data-fetch="" class="vtk-meeting-calendar-body column small-24">
     <div class="row">
         <div class="small-24 column">
             <%@include file="include/combineMeetings.jsp" %>
         </div>
-
-
     </div>
 </div>
 </div>
-
 <div data-parent="combine-meeting" data-name="combine-meeting-time" data-title="Combine Meeting Dates"
      data-default="false" data-fetch="" class="vtk-meeting-calendar-body column small-24">
     <div class="row">
@@ -143,17 +120,12 @@
         </div>
     </div>
 </div>
-
 <div data-parent="combine-meeting" data-name="select-meeting" data-title="" data-default="false"
      data-fetch="http//localhost:4503" class="vtk-meeting-calendar-body column small-24">
     <div class="row">
     </div>
 </div>
-
-
 <script>
-
-
     function cancelModal() {
         $('#gsModal').children('.header').children('a').children('i').trigger('click');
     }
@@ -228,10 +200,7 @@
         }
     })();
 </script>
-
-
 <script>
-
     var sTimeCancel = selectedTime();
 
     $(function () {
@@ -311,6 +280,7 @@
             }
         }
     }
+
     if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)) {
         if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
             $('select').css('background-image', 'none');
@@ -351,6 +321,4 @@
             }
         });
     }
-
-
 </script>

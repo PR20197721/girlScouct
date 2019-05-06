@@ -12,7 +12,6 @@
                     isHomePage = true;
                 }
             }
-
             java.util.List<org.girlscouts.vtk.ejb.VtkError> errorsToRmAfterShow = new java.util.ArrayList<org.girlscouts.vtk.ejb.VtkError>();
             for (int i = 0; i < errors.size(); i++) {
                 org.girlscouts.vtk.ejb.VtkError err = errors.get(i);

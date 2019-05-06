@@ -3,7 +3,6 @@ package org.girlscouts.vtk.rest.entity.salesforce;
 import com.google.gson.annotations.SerializedName;
 
 public class TroopInfoResponseEntity {
-
     @SerializedName("troops")
     private TroopEntity[] troops;
 

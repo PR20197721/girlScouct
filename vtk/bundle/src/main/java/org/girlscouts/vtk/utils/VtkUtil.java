@@ -46,15 +46,10 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-
 @Component(metatype = true, immediate = true)
 @Service(value = VtkUtil.class)
-@Properties({
-        @Property(name = "label", value = "Girl Scouts VTK Utils"),
-        @Property(name = "description", value = "Girl Scouts VTK Utils")
-})
+@Properties({@Property(name = "label", value = "Girl Scouts VTK Utils"), @Property(name = "description", value = "Girl Scouts VTK Utils")})
 public class VtkUtil implements ConfigListener {
-
     // do not use these objects explicitly as they are not thread safe
     // use the two synchronized  parseDate and formatDate utility methods below
     public static final SimpleDateFormat FORMAT_MMddYYYY = new SimpleDateFormat("MM/dd/yyyy");
@@ -79,8 +74,7 @@ public class VtkUtil implements ConfigListener {
     @Reference
     ConfigManager configManager;
 
-    public static boolean isLocation(java.util.List<Location> locations,
-                                     String locationName) {
+    public static boolean isLocation(java.util.List<Location> locations, String locationName) {
         if (locations != null && locationName != null) {
             for (int i = 0; i < locations.size(); i++) {
                 if (locations.get(i).getName().equals(locationName)) {
@@ -95,8 +89,7 @@ public class VtkUtil implements ConfigListener {
         Double parsedDouble = 0.00d;
         if (o != null) {
             try {
-                String preParsedCost = ((String) o).replaceAll(",", "")
-                        .replaceAll(" ", "");
+                String preParsedCost = ((String) o).replaceAll(",", "").replaceAll(" ", "");
                 parsedDouble = Double.parseDouble(preParsedCost);
             } catch (NumberFormatException npe) {
                 // do nothing -- leave cost at 0.00
@@ -110,8 +103,7 @@ public class VtkUtil implements ConfigListener {
         return parsedDouble;
     }
 
-    public final static String doHash(String str)
-            throws NoSuchAlgorithmException {
+    public final static String doHash(String str) throws NoSuchAlgorithmException {
         /*
          * String plainText = str + "salt";
          *
@@ -120,40 +112,33 @@ public class VtkUtil implements ConfigListener {
          *
          * return new String(hash);
          */
-
         str += HASH_SEED;
-
         MessageDigest md = MessageDigest.getInstance("MD5"); // SHA-256");// 512");
         md.update(str.getBytes());
-
         byte[] byteData = md.digest();
-
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < byteData.length; i++) {
-            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16)
-                    .substring(1));
+            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
         }
-
         return sb.toString();
 
     }
 
     public static final int getMeetingEndTime(Meeting meeting) {
         int total = 0;
-        if (meeting.getActivities() != null)
+        if (meeting.getActivities() != null) {
             for (int i = 0; i < meeting.getActivities().size(); i++) {
                 total += meeting.getActivities().get(i).getDuration();
             }
-
-
+        }
         return total;
     }
 
     public static final java.util.List<java.util.Date> getStrCommDelToArrayDates(String date) {
-
         java.util.List<java.util.Date> sched = new java.util.ArrayList<java.util.Date>();
-        if (date == null || date.equals("")) return sched;
-
+        if (date == null || date.equals("")) {
+            return sched;
+        }
         java.util.StringTokenizer t = new java.util.StringTokenizer(date, ",");
         while (t.hasMoreElements()) {
             sched.add(new java.util.Date(Long.parseLong(t.nextToken())));
@@ -163,10 +148,10 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static final java.util.List<String> getStrCommDelToArrayStr(String date) {
-
         java.util.List<String> sched = new java.util.ArrayList<String>();
-        if (date == null || date.equals("")) return sched;
-
+        if (date == null || date.equals("")) {
+            return sched;
+        }
         java.util.StringTokenizer t = new java.util.StringTokenizer(date, ",");
         while (t.hasMoreElements()) {
             sched.add(t.nextToken());
@@ -176,9 +161,7 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static final String getArrayDateToStringComDelim(java.util.List<java.util.Date> dates) {
-
         String str = "";
-
         for (int i = 0; i < dates.size(); i++) {
             str += dates.get(i) + ",";
         }
@@ -186,23 +169,25 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static final java.util.List<MeetingE> sortMeetingsById(java.util.List<MeetingE> meetings) {
-        if (meetings == null) return meetings;
+        if (meetings == null) {
+            return meetings;
+        }
         Comparator<MeetingE> comp = new BeanComparator("id");
         Collections.sort(meetings, comp);
         return meetings;
     }
 
     public static final java.util.List<MeetingE> setToDbUpdate(java.util.List<MeetingE> meetings) {
-        if (meetings != null)
-            for (int i = 0; i < meetings.size(); i++)
+        if (meetings != null) {
+            for (int i = 0; i < meetings.size(); i++) {
                 meetings.get(i).setDbUpdate(true);
+            }
+        }
         return meetings;
     }
 
     public static final String getArrayDateToLongComDelim(java.util.List<java.util.Date> dates) {
-
         String str = "";
-
         for (int i = 0; i < dates.size(); i++) {
             str += dates.get(i).getTime() + ",";
         }
@@ -210,13 +195,13 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static final Contact getSubContact(Contact contact, int contactType) {
-
-        if (contact.getContacts() != null)
+        if (contact.getContacts() != null) {
             for (Contact subContact : contact.getContacts()) {
-                if (subContact.getType() == 1)
+                if (subContact.getType() == 1) {
                     return subContact;
+                }
             }
-
+        }
         return null;
     }
 
@@ -249,52 +234,50 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static String getYearPlanBase(User user, Troop troop) {
-
         if (user != null && user.getCurrentYear() != null) {
             return "/vtk" + ("2014".equals(user.getCurrentYear()) ? "" : user.getCurrentYear()) + "/";
         }
-
-
         int currentGSYear = getCurrentGSYear();
-        if (currentGSYear == 2014)
+        if (currentGSYear == 2014) {
             return "/vtk/";
-        else
+        } else {
             return "/vtk" + currentGSYear + "/";
+        }
 
     }
 
     public static String getYearPlanBase_previous(User user, Troop troop) {
-
         if (user != null && user.getCurrentYear() != null) {
             int yr = Integer.parseInt(user.getCurrentYear()) - 1;
             return "/vtk" + (yr == 2014 ? "" : yr) + "/";
 
         }
-
-
         int currentGSYear = getCurrentGSYear();
         currentGSYear = currentGSYear - 1;
-
-        if (currentGSYear == 2014)
+        if (currentGSYear == 2014) {
             return "/vtk/";
-        else
+        } else {
             return "/vtk" + currentGSYear + "/";
+        }
 
     }
 
     /*GS Year starts Aug 1 */
     public static int getCurrentGSYear() {
         String _gsNewYear = gsNewYear;
-        if (_gsNewYear == null) _gsNewYear = "0701";
-
+        if (_gsNewYear == null) {
+            _gsNewYear = "0701";
+        }
         int month = Integer.parseInt(_gsNewYear.substring(0, 2));
         int date = Integer.parseInt(_gsNewYear.substring(2));
         java.util.Calendar now = java.util.Calendar.getInstance();
         //if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
         if (now.get(java.util.Calendar.MONTH) >= (month - 1)) //after Aug 1 -> NEXT YEAR
+        {
             return now.get(java.util.Calendar.YEAR);
-        else
+        } else {
             return now.get(java.util.Calendar.YEAR) - 1;
+        }
     }
 
     /*GS Year starts Aug 1 */
@@ -314,7 +297,6 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static java.util.Map<Long, String> getVtkHolidays(User user, Troop troop) {
-
         String[] mappings = vtkHolidays;
         Map<Long, String> councilMap = new HashMap<Long, String>();
         if (mappings != null) {
@@ -327,7 +309,6 @@ public class VtkUtil implements ConfigListener {
                         e.printStackTrace();
                     }
                 } else {
-
                 }
             }
         }
@@ -358,7 +339,6 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static User getUser(HttpSession session) {
-
         org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
         try {
             if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
@@ -369,15 +349,10 @@ public class VtkUtil implements ConfigListener {
         } catch (ClassCastException cce) {
             return null;
         }
-
-
-        return ((org.girlscouts.vtk.models.User) session
-                .getAttribute(org.girlscouts.vtk.models.User.class
-                        .getName()));
+        return ((org.girlscouts.vtk.models.User) session.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
     }
 
     public static Troop getTroop(HttpSession session) {
-
         org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
         try {
             if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
@@ -388,29 +363,25 @@ public class VtkUtil implements ConfigListener {
         } catch (ClassCastException cce) {
             return null;
         }
-
         return (Troop) session.getAttribute("VTK_troop");
     }
 
     public static boolean isValidUrl_withTroop(User user, Troop troop, String uri) {
-
-        if (uri.trim().indexOf("/myvtk/") == -1) return true;
-        if (user == null || troop == null || uri == null || uri.trim().equals(""))
+        if (uri.trim().indexOf("/myvtk/") == -1) {
+            return true;
+        }
+        if (user == null || troop == null || uri == null || uri.trim().equals("")) {
             return false;
-
+        }
         try {
             String str = uri.substring(uri.indexOf("/myvtk/") + 7);
             StringTokenizer t = new StringTokenizer(str, "/");
-
             String cid_tid = t.nextToken();
             //String tid= t.nextToken();
-
             StringTokenizer tt = new StringTokenizer(cid_tid, ".");
             String cid = tt.nextToken();
             String tid = tt.nextToken();
-
-            if (cid.trim().toLowerCase().equals(troop.getSfCouncil().trim().toLowerCase()) &&
-                    (tid.equals("0") || tid.trim().toLowerCase().equals(troop.getSfTroopId().trim().toLowerCase()))) {
+            if (cid.trim().toLowerCase().equals(troop.getSfCouncil().trim().toLowerCase()) && (tid.equals("0") || tid.trim().toLowerCase().equals(troop.getSfTroopId().trim().toLowerCase()))) {
                 return true;
             }
 
@@ -421,18 +392,16 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static boolean isValidUrl(User user, Troop troop, String uri, String councilName) {
-
-        if (uri.trim().indexOf("/myvtk/") == -1) return true;
-        if (user == null || troop == null || uri == null || uri.trim().equals(""))
+        if (uri.trim().indexOf("/myvtk/") == -1) {
+            return true;
+        }
+        if (user == null || troop == null || uri == null || uri.trim().equals("")) {
             return false;
-
+        }
         try {
             String str = uri.substring(uri.indexOf("/myvtk/") + 7);
             StringTokenizer t = new StringTokenizer(str, "/");
-
             String cid = t.nextToken();
-
-
             if (cid.trim().toLowerCase().equals(councilName)) {//troop.getSfCouncil().trim().toLowerCase()) ){
                 return true;
             }
@@ -447,10 +416,10 @@ public class VtkUtil implements ConfigListener {
         java.util.List<String> categories = new java.util.ArrayList<String>();
         java.util.Iterator<bean_resource> itr = resources.iterator();
         while (itr.hasNext()) {
-
             String resource_category = itr.next().getCategoryDisplay();
-            if (!categories.contains(resource_category))
+            if (!categories.contains(resource_category)) {
                 categories.add(resource_category);
+            }
         }
         return categories;
     }
@@ -466,13 +435,14 @@ public class VtkUtil implements ConfigListener {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if (err != null)
+                if (err != null) {
                     errors.add(err);
+                }
             }
-
             ApiConfig apiConfig = getApiConfig(session);
-            if (apiConfig != null && apiConfig.getErrors() != null)
+            if (apiConfig != null && apiConfig.getErrors() != null) {
                 errors.addAll(apiConfig.getErrors());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -481,7 +451,6 @@ public class VtkUtil implements ConfigListener {
 
     public static ApiConfig getApiConfig(HttpSession session) {
         org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
-
         try {
             if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
                 apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
@@ -491,7 +460,6 @@ public class VtkUtil implements ConfigListener {
         } catch (ClassCastException cce) {
             return null;
         }
-
         return apiConfig;
     }
 
@@ -499,8 +467,9 @@ public class VtkUtil implements ConfigListener {
         try {
             HttpSession session = request.getSession();
             ApiConfig apiConfig = getApiConfig(session);
-            if (apiConfig != null && apiConfig.getErrors() != null && errors != null)
+            if (apiConfig != null && apiConfig.getErrors() != null && errors != null) {
                 apiConfig.setErrors(errors);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -510,7 +479,9 @@ public class VtkUtil implements ConfigListener {
     public static void rmVtkError(HttpServletRequest request, String vtkErrId) {
         try {
             java.util.List<VtkError> errors = getVtkErrors(request);
-            if (errors == null || errors.size() <= 0) return;
+            if (errors == null || errors.size() <= 0) {
+                return;
+            }
             for (int i = 0; i < errors.size(); i++) {
                 VtkError error = errors.get(i);
                 if (error != null && error.getId() != null && error.getId().equals(vtkErrId)) {
@@ -527,10 +498,11 @@ public class VtkUtil implements ConfigListener {
 
     public static void cngYear(HttpServletRequest request, User user) {
         String yr = request.getParameter("cngYear");
-        if (yr != null && yr.equals(getCurrentGSYear() + ""))
+        if (yr != null && yr.equals(getCurrentGSYear() + "")) {
             return;
-        else if (yr == null && user.getCurrentYear().equals(getCurrentGSYear() + ""))
+        } else if (yr == null && user.getCurrentYear().equals(getCurrentGSYear() + "")) {
             return;
+        }
         String newYear = yr == null ? user.getCurrentYear() : yr;
         user.setCurrentYear(newYear);
     }
@@ -539,15 +511,7 @@ public class VtkUtil implements ConfigListener {
         if (meeting == null || meeting.getActivities() == null) {
             return false;
         }
-
-        Activity activity =
-                meeting.getActivities().stream()
-                        .filter(x -> (x.getMultiactivities() != null))
-                        .flatMap(x -> x.getMultiactivities().stream())
-                        .filter(a -> a.getOutdoor() && (a.getIsSelected() != null && a.getIsSelected()))
-                        .findAny()
-                        .orElse(null);
-
+        Activity activity = meeting.getActivities().stream().filter(x -> (x.getMultiactivities() != null)).flatMap(x -> x.getMultiactivities().stream()).filter(a -> a.getOutdoor() && (a.getIsSelected() != null && a.getIsSelected())).findAny().orElse(null);
         return activity != null;
     }
 
@@ -555,15 +519,7 @@ public class VtkUtil implements ConfigListener {
         if (meeting == null || meeting.getActivities() == null) {
             return false;
         }
-
-        Activity activity =
-                meeting.getActivities().stream()
-                        .filter(x -> (x.getMultiactivities() != null))
-                        .flatMap(x -> x.getMultiactivities().stream())
-                        .filter(a -> a.getOutdoor())
-                        .findAny()
-                        .orElse(null);
-
+        Activity activity = meeting.getActivities().stream().filter(x -> (x.getMultiactivities() != null)).flatMap(x -> x.getMultiactivities().stream()).filter(a -> a.getOutdoor()).findAny().orElse(null);
         return activity != null;
     }
 
@@ -571,15 +527,7 @@ public class VtkUtil implements ConfigListener {
         if (meeting == null || meeting.getActivities() == null) {
             return false;
         }
-
-        Activity activity =
-                meeting.getActivities().stream()
-                        .filter(x -> (x.getMultiactivities() != null))
-                        .flatMap(x -> x.getMultiactivities().stream())
-                        .filter(a -> a.getGlobal() && (a.getIsSelected() != null && a.getIsSelected()))
-                        .findAny()
-                        .orElse(null);
-
+        Activity activity = meeting.getActivities().stream().filter(x -> (x.getMultiactivities() != null)).flatMap(x -> x.getMultiactivities().stream()).filter(a -> a.getGlobal() && (a.getIsSelected() != null && a.getIsSelected())).findAny().orElse(null);
         return activity != null;
     }
 
@@ -587,15 +535,7 @@ public class VtkUtil implements ConfigListener {
         if (meeting == null || meeting.getActivities() == null) {
             return false;
         }
-
-        Activity activity =
-                meeting.getActivities().stream()
-                        .filter(x -> (x.getMultiactivities() != null))
-                        .flatMap(x -> x.getMultiactivities().stream())
-                        .filter(a -> a.getGlobal())
-                        .findAny()
-                        .orElse(null);
-
+        Activity activity = meeting.getActivities().stream().filter(x -> (x.getMultiactivities() != null)).flatMap(x -> x.getMultiactivities().stream()).filter(a -> a.getGlobal()).findAny().orElse(null);
         return activity != null;
     }
 
@@ -603,11 +543,9 @@ public class VtkUtil implements ConfigListener {
         java.util.List<Date> container = new java.util.ArrayList();
         java.util.StringTokenizer t = new StringTokenizer(dates, ",");
         while (t.hasMoreElements()) {
-
             java.util.Date date = new java.util.Date(Long.parseLong(t.nextToken()));
             container.add(date);
         }
-
         java.util.Collections.sort(container);
         String toRet = "";
         for (int i = 0; i < container.size(); i++) {
@@ -617,88 +555,58 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static MeetingE findMeetingById(java.util.List<MeetingE> meetings, String mid) {//, String aid, boolean isOutdoor){
-
-        if (meetings == null || mid == null) return null;
-
-        return meetings.stream()
-                .filter(meeting -> mid.equals(meeting.getUid()))
-                .findAny()
-                .orElse(null);
+        if (meetings == null || mid == null) {
+            return null;
+        }
+        return meetings.stream().filter(meeting -> mid.equals(meeting.getUid())).findAny().orElse(null);
 
     }
 
     public static Activity findActivityByPath(java.util.List<Activity> activities, String aid) {
-
-        if (activities == null || aid == null) return null;
-
-        return activities.stream()
-                .filter(activity -> aid.equals(activity.getPath()))
-                .findAny()
-                .orElse(null);
+        if (activities == null || aid == null) {
+            return null;
+        }
+        return activities.stream().filter(activity -> aid.equals(activity.getPath())).findAny().orElse(null);
 
     }
 
     public static void changePermission(User user, Troop troop, int chngPerm) {
-
         switch (chngPerm) {
             case 2:
-                troop.setPermissionTokens(
-                        Permission
-                                .getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+                troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
                 break;
             case 11:
-
-                troop.setPermissionTokens(
-                        Permission
-                                .getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+                troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
                 break;
             case 12:
-
-                troop.setPermissionTokens(
-                        Permission
-                                .getPermissionTokens(Permission.GROUP_MEMBER_2G_PERMISSIONS));
+                troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_MEMBER_2G_PERMISSIONS));
                 break;
             case 13:
-                troop.setPermissionTokens(
-                        Permission
-                                .getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+                troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
                 break;
-
             case 14:
-                troop.setPermissionTokens(
-                        Permission
-                                .getPermissionTokens(Permission.GROUP_MEMBER_NO_TROOP_PERMISSIONS));
+                troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_MEMBER_NO_TROOP_PERMISSIONS));
                 break;
-
             case 15:
-                troop.setPermissionTokens(
-                        Permission
-                                .getPermissionTokens(Permission.GROUP_MEMBER_TROOP_PERMISSIONS));
+                troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_MEMBER_TROOP_PERMISSIONS));
                 break;
-
             default:
-                troop.setPermissionTokens(
-                        Permission
-                                .getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+                troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
                 break;
         }
     }
 
     public static java.util.List<Meeting> sortMeetings(java.util.List<Meeting> meetings) {
-        Collections.sort(meetings,
-                java.util.Comparator.comparing(Meeting::getLevel)
-                        .thenComparing(Meeting::getName));
+        Collections.sort(meetings, java.util.Comparator.comparing(Meeting::getLevel).thenComparing(Meeting::getName));
         return meetings;
     }
 
     public static java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings, String sched) {
-
-
         //sort meetings by Date
         Comparator<MeetingE> comp = new BeanComparator("id");
-        if (meetings != null)
+        if (meetings != null) {
             Collections.sort(meetings, comp);
-
+        }
         int count = 0;
         java.util.StringTokenizer t = new StringTokenizer(sched, ",");
         while (t.hasMoreElements()) {
@@ -711,7 +619,6 @@ public class VtkUtil implements ConfigListener {
             count++;
 
         }
-
         return meetings;
     }
 
@@ -726,28 +633,21 @@ public class VtkUtil implements ConfigListener {
     public static int getCurrentGSFinanceYear() {
         java.util.Calendar cutOffDate = java.util.Calendar.getInstance();
         cutOffDate.setTime(new java.util.Date(gsFinanceYearCutoffDate));
-
         java.util.Calendar now = java.util.Calendar.getInstance();
-
-        if (now.getTimeInMillis() < cutOffDate.getTimeInMillis())
+        if (now.getTimeInMillis() < cutOffDate.getTimeInMillis()) {
             return cutOffDate.get(java.util.Calendar.YEAR) - 1;
-        else
+        } else {
             return cutOffDate.get(java.util.Calendar.YEAR);
+        }
 
     }
 
     public static String formatAgeGroup(String sf_age_group) {
-        return (sf_age_group == null || sf_age_group.indexOf("-") == -1) ? sf_age_group :
-                sf_age_group.substring(sf_age_group.indexOf("-") + 1).toLowerCase();
+        return (sf_age_group == null || sf_age_group.indexOf("-") == -1) ? sf_age_group : sf_age_group.substring(sf_age_group.indexOf("-") + 1).toLowerCase();
     }
 
     public static List<String> getDistinctMeetingPlanTypes(List<Meeting> meetings) {
-
-        List<String> meetingTypes =
-                meetings.stream()
-                        .map(e -> e.getMeetingPlanType())
-                        .collect(Collectors.toList());
-
+        List<String> meetingTypes = meetings.stream().map(e -> e.getMeetingPlanType()).collect(Collectors.toList());
         return meetingTypes.stream().distinct().sorted().collect(Collectors.toList());
     }
 
@@ -758,24 +658,17 @@ public class VtkUtil implements ConfigListener {
 
     public static Map<String, List<Meeting>> sortMeetingByMeetingType(List<Meeting> meetings, List<String> meetingPlanTypes) {
         Map<String, List<Meeting>> orderedMeetingsByType = new TreeMap();
-
         for (String meetingType : meetingPlanTypes) {
-            List<Meeting> meetingsByType = meetings.stream()
-                    .filter(meeting -> meetingType.equals(meeting.getMeetingPlanType()))
-                    .collect(Collectors.toList());
-
+            List<Meeting> meetingsByType = meetings.stream().filter(meeting -> meetingType.equals(meeting.getMeetingPlanType())).collect(Collectors.toList());
             //sort by name
-            Collections.sort(meetingsByType,
-                    java.util.Comparator.comparing(Meeting::getName));
-
+            Collections.sort(meetingsByType, java.util.Comparator.comparing(Meeting::getName));
             orderedMeetingsByType.put(meetingType, meetingsByType);
         }
         return orderedMeetingsByType;
     }
 
     public static void sortMeetingsByName(java.util.List<Meeting> meetings) {
-        Collections.sort(meetings,
-                java.util.Comparator.comparing(Meeting::getName));
+        Collections.sort(meetings, java.util.Comparator.comparing(Meeting::getName));
 
     }
 
@@ -786,7 +679,6 @@ public class VtkUtil implements ConfigListener {
             Analyzer analyzer = new SnowballAnalyzer(Version.LUCENE_35, language);
             TokenStream tStream = analyzer.tokenStream("contents", tReader);
             TermAttribute term = tStream.addAttribute(TermAttribute.class);
-
             try {
                 while (tStream.incrementToken()) {
                     result.append(term.term());
@@ -796,45 +688,40 @@ public class VtkUtil implements ConfigListener {
                 System.out.println("Error: " + ioe.getMessage());
             }
         }
-
         // If, for some reason, the stemming did not happen, return the original text
-        if (result.length() == 0)
+        if (result.length() == 0) {
             result.append(text);
+        }
         return result.toString().trim();
     }
 
     public static boolean isRenewMembership(int membershipYear) {
-
         Calendar rightNow = Calendar.getInstance();
-
         return membershipYear == rightNow.get(Calendar.YEAR) && (rightNow.get(Calendar.MONTH) > 2 && rightNow.get(Calendar.MONTH) < 9);
 
     }
 
     public static JSONObject getJsonFromRequest(SlingHttpServletRequest request) throws IOException {
-
         HttpServletRequest _request = request;
         StringBuilder sb = new StringBuilder();
         BufferedReader br = _request.getReader();
-
         String str;
         while ((str = br.readLine()) != null) {
             sb.append(str);
         }
-
-
         JSONObject jsonObject = null;
         try {
             jsonObject = (JSONObject) JSONValue.parse(sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return jsonObject;
     }
 
     public static String formatLevel(User user, Troop troop) {
-        if (troop == null || troop.getGradeLevel() == null) return "";
+        if (troop == null || troop.getGradeLevel() == null) {
+            return "";
+        }
         String level = troop.getGradeLevel().toLowerCase();
         // The field in SF is 1-Brownie, we need brownie
         if (level.contains("-")) {
@@ -844,57 +731,46 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static List<Meeting> filterUniqMeetingByPath(List<Meeting> meetings) {
-        return meetings.stream().filter(distinctByKey(Meeting::getPath))
-                .collect(Collectors.toList());
+        return meetings.stream().filter(distinctByKey(Meeting::getPath)).collect(Collectors.toList());
     }
 
     public static String fmtHtml(String _html) {
         String formattedString;
-
         // Clean the HTML of things that will break the PDF parser.
         try {
             _html = PDFHtmlFormatter.format(_html);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         try {
             String CSS = "";
             CSSResolver cssResolver = new StyleAttrCSSResolver();
             CssFile cssFile = XMLWorkerHelper.getCSS(new ByteArrayInputStream(CSS.getBytes()));
             cssResolver.addCss(cssFile);
-
             // HTML
             HtmlPipelineContext htmlContext = new HtmlPipelineContext(null);
             htmlContext.setTagFactory(Tags.getHtmlTagProcessorFactory());
-
             // Pipelines
             ElementList elements = new ElementList();
             ElementHandlerPipeline pdf = new ElementHandlerPipeline(elements, null);
             HtmlPipeline html = new HtmlPipeline(htmlContext, pdf);
             CssResolverPipeline css = new CssResolverPipeline(cssResolver, html);
-
             XMLWorker worker = new XMLWorker(css, true);
             XMLParser p = new XMLParser(worker);
             p.parse(new ByteArrayInputStream(_html.getBytes()));
-
             formattedString = _html;
         } catch (Exception e) {
             System.err.println("VtkUtil.fmtHtml: Found error parsing html. Html not well formatted." + _html);
             formattedString = Jsoup.parse(_html).text();
         }
-
         return (formattedString == null || "".equals(formattedString.trim())) ? _html : formattedString;
     }
 
     public static Activity findSelectedActivity(java.util.List<Activity> activities) {
-
-        if (activities == null) return null;
-
-        return activities.stream()
-                .filter(activity -> (activity.getIsSelected()))
-                .findAny()
-                .orElse(null);
+        if (activities == null) {
+            return null;
+        }
+        return activities.stream().filter(activity -> (activity.getIsSelected())).findAny().orElse(null);
     }
 
     /*
@@ -909,7 +785,6 @@ public class VtkUtil implements ConfigListener {
             if (sfTimeZoneLabel != null && !"".equals(sfTimeZoneLabel)) {
                 timeZone = sfTimeZoneLabel.substring(sfTimeZoneLabel.lastIndexOf("(") + 1, sfTimeZoneLabel.length() - 1);
             }
-
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             SimpleDateFormat aemFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
             TimeZone UTC_TZ = TimeZone.getTimeZone("UTC");
@@ -921,10 +796,8 @@ public class VtkUtil implements ConfigListener {
                 e.printStackTrace();
                 UTC_DATE = aemFormat.parse(eventStartDateStr);
             }
-
             TimeZone tz = TimeZone.getTimeZone(timeZone);
             dateFormat.setTimeZone(tz);
-
             fmtDate = dateFormat.format(UTC_DATE);
 
         } catch (Exception e) {
@@ -935,20 +808,17 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static boolean isAllMultiActivitiesSelected(java.util.List<Activity> activities) {
-
-        if (activities == null) return false;
+        if (activities == null) {
+            return false;
+        }
         boolean isFoundMultiActivityNotSelected = false;
-
         java.util.List<Activity> multiActivities = getMeetingMultiActivities(activities);
-
         //no multi-activities
-        if (multiActivities == null || multiActivities.size() == 0) return true;
-
+        if (multiActivities == null || multiActivities.size() == 0) {
+            return true;
+        }
         for (Activity _activity : multiActivities) {
-            Activity multiActivity = _activity.getMultiactivities().stream()
-                    .filter(activity -> activity.getIsSelected())
-                    .findAny()
-                    .orElse(null);
+            Activity multiActivity = _activity.getMultiactivities().stream().filter(activity -> activity.getIsSelected()).findAny().orElse(null);
             if (multiActivity == null) {
                 isFoundMultiActivityNotSelected = true;
                 return false;
@@ -959,16 +829,13 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static java.util.List<Activity> getMeetingMultiActivities(java.util.List<Activity> activities) {
-        return activities.stream()
-                .filter(activity -> activity.getMultiactivities().size() > 1)
-                .collect(Collectors.toList());
+        return activities.stream().filter(activity -> activity.getMultiactivities().size() > 1).collect(Collectors.toList());
     }
 
     public static String getYearPlanStartDate(Troop troop) {
-
-        if (troop == null || troop.getYearPlan() == null || troop.getYearPlan().getSchedule() == null || troop.getYearPlan().getSchedule().getDates() == null || "".equals(troop.getYearPlan().getSchedule().getDates()))
+        if (troop == null || troop.getYearPlan() == null || troop.getYearPlan().getSchedule() == null || troop.getYearPlan().getSchedule().getDates() == null || "".equals(troop.getYearPlan().getSchedule().getDates())) {
             return null;
-
+        }
         String startDate = null;
         try {
             StringTokenizer td = new StringTokenizer(troop.getYearPlan().getSchedule().getDates(), ",");
@@ -996,7 +863,6 @@ public class VtkUtil implements ConfigListener {
 
     @SuppressWarnings("rawtypes")
     public void updateConfig(Dictionary configs) {
-
         gsNewYear = (String) configs.get("gsNewYear");
         vtkHolidays = (String[]) configs.get("vtkHolidays");
         gsFinanceYearCutoffDate = (String) configs.get("gsFinanceYearCutoffDate");

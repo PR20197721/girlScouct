@@ -8,14 +8,12 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.vtk.models.DocumentCategory;
 
 import javax.jcr.Node;
-import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class DocumentUtil {
-
     public static final String DOCUMENT_DIRECTORY = "/content/dam/%s/documents";
     public static final String TAGS_DIRECTORY = "/etc/tags/%s/forms_documents";
     public static final String TAG_ID_PREFIX_TEMPLATE = "%s:forms_documents/";
@@ -73,6 +71,5 @@ public class DocumentUtil {
             return this.tagId;
         }
     }
-
 
 }

@@ -3,10 +3,8 @@ package org.girlscouts.vtk.rest.entity.salesforce;
 import com.google.gson.annotations.SerializedName;
 
 public class UserInfoResponseEntity {
-
     @SerializedName("users")
     private UserEntity[] users;
-
     @SerializedName("camps")
     private ParentEntity[] camps;
 

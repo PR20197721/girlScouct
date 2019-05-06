@@ -4,9 +4,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
-
 <script>
-
     function disabledButton(boolean) {
         if (boolean) {
             $('#view_activities_button').addClass('inactive-button');
@@ -198,7 +196,6 @@
         }
     }
 </script>
-
 <div class="header clearfix">
     <%
         boolean isWarning = false;
@@ -212,7 +209,6 @@
     </h3>
     <a class=" columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
 </div>
-
 <div class="tabs-wrapper scroll">
     <dl class="tabs" data-tab>
         <dd id="createActivityTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('create')">Custom
@@ -227,7 +223,6 @@
                     <form class="cmxform" id="signupForm">
                         <!--    <div class="sectionBar">Create a Custom Activity</div> -->
                         <div class="errorMsg error"></div>
-
                         <div class="row">
                             <div class="small-24 large-12 medium-12 columns">
                                 <input type="text" placeholder="Activity Name" name="newCustActivity_name"
@@ -269,9 +264,7 @@
                                 </select>
                             </div>
                         </div><!--/row-->
-
                         <div class="row">
-
                             <div class="small-24 medium-12 large-12 columns">
                                 <input type="text" name="newCustActivity_locName" id="newCustActivity_locName"
                                        placeholder="Location Name" value="" onchange="doChkSubmitValid()"/>
@@ -283,7 +276,6 @@
                                                                                     placeholder="Location Address"/>
                             </div>
                         </div><!--/row-->
-
                         <div class="row">
                             <div class="small-24 medium-12 large-12 columns"><input type="text"
                                                                                     id="newCustActivity_cost" value=""
@@ -293,12 +285,9 @@
                                           placeholder="Activity Description"></textarea>
                             </div>
                         </div><!--/row-->
-
                         <input class="button right" type="button" value="Add Activity" id="newCustActivity" disabled/>
                     </form>
                 </div><!--/create activity-->
-
-
                 <div id="pickActivitySection">
                     <form id="schFrm">
                         <!-- <div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div> -->
@@ -310,15 +299,12 @@
                             java.util.Map<String, String> region = search.getRegion();
                         %>
                         <div class="row">
-
-
                             <div class="small-24 medium-12 large-12 columns">
                                 <label for="sch_keyword" ACCESSKEY="f">Find Activity by:</label>
                                 <div class="looking-glass"><input type="text" id="sch_keyword" placeholder="Keywords"
                                                                   value="" onKeyUp="return submitenter(this,event)"/>
                                 </div>
                             </div>
-
                             <div class="columns large-12 medium-12 small-24 end date">
                                 <label id="dateTitle" ACCESSKEY="r">Date</label>
                                 <div class="small-21 large-9 medium-9 columns">
@@ -338,7 +324,6 @@
                             </div>
                         </div>
                         <p id="dateErrorBox"></p>
-
                         <div class="row">
                             <div class="columns small-24">
                                 <label for="sch_lvl" ACCESSKEY="p">Program Level</label>
@@ -357,8 +342,6 @@
                                 </ul>
                             </div>
                         </div>
-
-
                         <div class="row">
                             <div class="columns small-24">
                                 <label for="sch_cats" ACCESSKEY="i">Categories</label>
@@ -378,14 +361,11 @@
                                         <% } %>
                                     <ul>
                                     </ul>
-
                                         <%if(apiConfig.isDemoUser()){%>
                                     <p style="color:orange;text-align: right; width:100%">Council activities are not
                                         available in the demo at this time.</p>
                                         <%}%>
-
                             </div>
-
                             <input id="view_activities_button" type="button" value="View Activities"
                                    onclick='searchActivities()' class="button btn right inactive-button"/>
                             <div style="clear:both"></div>

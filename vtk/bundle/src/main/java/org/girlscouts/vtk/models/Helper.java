@@ -1,7 +1,6 @@
 package org.girlscouts.vtk.models;
 
 public class Helper {
-
     private long currentDate, nextDate, prevDate;
     private java.util.ArrayList<String> permissions;
     private int achievementCurrent = 0, attendanceCurrent = 0, attendanceTotal = 0;
@@ -70,6 +69,5 @@ public class Helper {
     public void setSfTroopAge(String sfTroopAge) {
         SfTroopAge = sfTroopAge;
     }
-
 
 }

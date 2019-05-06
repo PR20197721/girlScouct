@@ -12,11 +12,9 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
 <%
-
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
     java.util.Map<String, String> attendances = new java.util.TreeMap();
     List<String> councils = VtkUtil.getCouncils();
-
     String sql = "select * from [nt:unstructured] where isdescendantnode('/vtk2015') and ocm_classname='org.girlscouts.vtk.models.Activity'";
     javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
     javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
@@ -26,7 +24,5 @@
         String path = r.getValue("jcr:path").getString();
 
     }
-
-
 %>
 end of report

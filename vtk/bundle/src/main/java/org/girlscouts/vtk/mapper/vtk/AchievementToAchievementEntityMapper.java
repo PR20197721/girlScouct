@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AchievementToAchievementEntityMapper extends BaseModelToEntityMapper {
-
     private static Logger log = LoggerFactory.getLogger(AchievementToAchievementEntityMapper.class);
 
     public static AchievementEntity map(Achievement achievement) {

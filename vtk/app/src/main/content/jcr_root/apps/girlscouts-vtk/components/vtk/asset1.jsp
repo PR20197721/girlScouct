@@ -49,18 +49,13 @@
         });
         applyAids(aidId, assetName);
     }
-
-
 </script>
-
 <div class="header clearfix">
     <h3 class="columns large-22">Add Meeting</h3>
     <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 </div>
 <div class="scroll">
     <div class="content">
-
-
         <div class="row modalHeader">
             <%
                 String aidId = request.getParameter("aidId");
@@ -155,8 +150,6 @@
             <%
                 }
             %>
-
-
         </div>
     </div>
 </div>

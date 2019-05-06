@@ -6,5 +6,4 @@ public interface ConfigListener {
     @SuppressWarnings("rawtypes")
     void updateConfig(Dictionary configs);
 
-
 }

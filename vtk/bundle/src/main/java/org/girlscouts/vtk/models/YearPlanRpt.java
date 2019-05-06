@@ -5,7 +5,6 @@ import org.apache.commons.collections4.Predicate;
 import java.io.Serializable;
 
 public class YearPlanRpt implements Serializable, Predicate {
-
     String council, troop, troopAge, troopName;
 
     public String getCouncil() {

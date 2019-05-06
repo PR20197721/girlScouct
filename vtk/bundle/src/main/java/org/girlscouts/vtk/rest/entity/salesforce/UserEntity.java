@@ -3,43 +3,30 @@ package org.girlscouts.vtk.rest.entity.salesforce;
 import com.google.gson.annotations.SerializedName;
 
 public class UserEntity {
-
     @SerializedName("Id")
     private String sfId;
-
     @SerializedName("ContactId")
     private String sfContactId;
-
     @SerializedName("Council_ID__c")
     private String sfCouncilId;
-
     @SerializedName("Email")
     private String email;
-
     @SerializedName("Phone")
     private String phone;
-
     @SerializedName("FirstName")
     private String firstName;
-
     @SerializedName("LastName")
     private String lastName;
-
     @SerializedName("Name")
     private String name;
-
     @SerializedName("SU_AccessUser__c")
     private boolean isServiceUserManager;
-
     @SerializedName("Active_DP__c")
     private boolean isActive;
-
     @SerializedName("isParent__c")
     private boolean isParent;
-
     @SerializedName("attributes")
     private AttributesEntity attributes;
-
     @SerializedName("Contact")
     private Contact contact;
 
@@ -150,22 +137,16 @@ public class UserEntity {
     public class Contact {
         @SerializedName("Id")
         private String sfId;
-
         @SerializedName("AccountId")
         private String sfAccountId;
-
         @SerializedName("OwnerId")
         private String sfOwnerId;
-
         @SerializedName("attributes")
         private AttributesEntity attributes;
-
         @SerializedName("Owner")
         private Owner owner;
-
         @SerializedName("rC_Bios__Preferred_Contact__c")
         private boolean isPreferredContact;
-
         @SerializedName("VTK_Admin__c")
         private boolean isVtkAdmin;
 
@@ -228,10 +209,8 @@ public class UserEntity {
         public class Owner {
             @SerializedName("Id")
             private String sfId;
-
             @SerializedName("AccountId")
             private String sfAccountId;
-
             @SerializedName("Council_Code__c")
             private String councilCode;
 

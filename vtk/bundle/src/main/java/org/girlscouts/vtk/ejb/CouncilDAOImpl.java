@@ -14,6 +14,7 @@ import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.CouncilMapper;
@@ -32,22 +33,21 @@ import java.util.*;
 @Component
 @Service(value = CouncilDAO.class)
 public class CouncilDAOImpl implements CouncilDAO {
-    private final Logger log = LoggerFactory.getLogger("vtk");
+    private final Logger log = LoggerFactory.getLogger(getClass());
+    @Reference
+    private ResourceResolverFactory resolverFactory;
+    private Map<String, Object> resolverParams = new HashMap<String, Object>();
     @Reference
     CouncilMapper councilMapper;
     @Reference
     CouncilRpt councilRpt;
     @Reference
-    private SessionFactory sessionFactory;
-    @Reference
-    private UserUtil userUtil;
-    @Reference
     private ModifyNodePermissions permiss;
-
     private Mapper mapper;
 
     @Activate
     void activate() {
+        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
         List<Class> classes = new ArrayList<Class>();
         classes.add(Council.class);
         mapper = new AnnotationMapperImpl(classes);
@@ -58,35 +58,31 @@ public class CouncilDAOImpl implements CouncilDAO {
         Session session = null;
         ResourceResolver rr = null;
         try {
-            //TODO Permission.PERMISSION_LOGIN_ID
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             session = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
             council = (Council) ocm.getObject(path);
         } catch (Exception e) {
-            log.error("Error occured:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-                if (session != null) {
-                    session.logout();
-                }
-            } catch (Exception ex) {
-                log.error("Error occured:", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
-
         return council;
     }
 
     public Council createCouncil(User user, Troop troop) {
         //TODO Permission.PERMISSION_LOGIN_ID
         Session session = null;
-        ResourceResolver rr = null;
         Council council = null;
+        ResourceResolver rr = null;
         try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             List<Class> classes = new ArrayList<Class>();
             classes.add(Council.class);
             classes.add(YearPlan.class);
@@ -102,7 +98,6 @@ public class CouncilDAOImpl implements CouncilDAO {
             Mapper mapper = new AnnotationMapperImpl(classes);
             String vtkCouncilBase = troop.getCouncilPath();
             vtkCouncilBase = vtkCouncilBase.substring(0, vtkCouncilBase.lastIndexOf("/"));
-            rr = sessionFactory.getResourceResolver();
             session = rr.adaptTo(Session.class);
             if (!session.itemExists(vtkCouncilBase)) {
                 JcrUtils.getOrCreateByPath(vtkCouncilBase, "nt:unstructured", session);
@@ -120,17 +115,14 @@ public class CouncilDAOImpl implements CouncilDAO {
                 council = (Council) ocm.getObject(Council.class, troop.getCouncilPath());
             }
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (session != null) {
-                    session.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception ex) {
-                log.error("Error occurred: ", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return council;
@@ -156,10 +148,10 @@ public class CouncilDAOImpl implements CouncilDAO {
 
     private CouncilInfo getCouncilInfo(User user, Troop troop) {
         Session session = null;
-        ResourceResolver rr = null;
         CouncilInfo cinfo = null;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             session = rr.adaptTo(Session.class);
             List<Class> classes = new ArrayList<Class>();
             classes.add(Milestone.class);
@@ -193,17 +185,14 @@ public class CouncilDAOImpl implements CouncilDAO {
                 ocm.save();
             }
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (session != null) {
-                    session.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception ex) {
-                log.error("Error occurred: ", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return cinfo;
@@ -214,7 +203,7 @@ public class CouncilDAOImpl implements CouncilDAO {
         Session session = null;
         ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             session = rr.adaptTo(Session.class);
             List<Class> classes = new ArrayList<Class>();
             classes.add(Milestone.class);
@@ -242,21 +231,17 @@ public class CouncilDAOImpl implements CouncilDAO {
             ocm.update(list);
             ocm.save();
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (session != null) {
-                    session.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception ex) {
-                log.error("Error occurred: ", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
     }
-
 
     private List<Milestone> getAllMilestones(String councilCode) {
         String councilPath = councilMapper.getCouncilBranch(councilCode);
@@ -264,7 +249,7 @@ public class CouncilDAOImpl implements CouncilDAO {
         Session session = null;
         ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             session = rr.adaptTo(Session.class);
             List<Class> classes = new ArrayList<Class>();
             classes.add(Milestone.class);
@@ -313,17 +298,14 @@ public class CouncilDAOImpl implements CouncilDAO {
                 return milestones;
             }
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (session != null) {
-                    session.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception ex) {
-                log.error("Error occurred: ", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return milestones;
@@ -351,7 +333,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 
     public void GSMonthlyRpt() {
         Session session = null;
-        ResourceResolver rr = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
         Set<String> allowedReportUsers = new HashSet<String>();
@@ -424,8 +405,9 @@ public class CouncilDAOImpl implements CouncilDAO {
         cTrans.put("441", "Southwest Indiana");
         cTrans.put("238", "Ohio's Heartland");
         StringBuffer sb = new StringBuffer();
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             session = rr.adaptTo(Session.class);
             sb.append("Council Report generated on " + format1.format(new java.util.Date()) + " \n ");
             String limitRptToCouncil = null;
@@ -464,17 +446,14 @@ public class CouncilDAOImpl implements CouncilDAO {
                 sb.append((isHtml ? "<br/>" : "\n") + "\"" + cTrans.get(councilId) + "\"," + councilId + "," + ageGroup + "," + count);
             }
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (session != null) {
-                    session.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception ex) {
-                log.error("Error occurred: ", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         //save to db
@@ -485,7 +464,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 
     public void GSMonthlyDetailedRpt(String year) {
         Session session = null;
-        ResourceResolver rr = null;
         Set<String> allowedReportUsers = new HashSet<String>();
         allowedReportUsers.add("005g0000002apMT");
         allowedReportUsers.add("005G0000006oEkZ");
@@ -568,8 +546,9 @@ public class CouncilDAOImpl implements CouncilDAO {
         } else {
             gsYear = "/vtk" + year + "/";
         }
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             session = rr.adaptTo(Session.class);
             for (String council : councils) {
                 String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:unstructured where isdescendantnode( '" + gsYear + "" + council + "/') and ocm_classname= 'org.girlscouts.vtk.models.Troop' and id not like 'SHARED_%'";
@@ -589,7 +568,6 @@ public class CouncilDAOImpl implements CouncilDAO {
                         log.debug("Year Plan doesnt exists. skipping record " + n.getPath());
                         continue;
                     }
-
                     String yearPlanName = "", sfCouncil = null, sfTroopAge = null, sfTroopName = null, sfTroopId = null;
                     try {
                         yearPlanName = n1.getProperty("name").getValue().getString();
@@ -616,17 +594,14 @@ public class CouncilDAOImpl implements CouncilDAO {
                 }//edn for
             }//edn for
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (session != null) {
-                    session.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception ex) {
-                log.error("Error occurred: ", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         //email rpt
@@ -635,7 +610,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 
     public void GSRptCouncilPublishFinance() {
         Session session = null;
-        ResourceResolver rr = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
         Set<String> allowedReportUsers = new HashSet<String>();
@@ -708,9 +682,10 @@ public class CouncilDAOImpl implements CouncilDAO {
         cTrans.put("441", "Southwest Indiana");
         cTrans.put("238", "Ohio's Heartland");
         StringBuffer sb = new StringBuffer();
+        ResourceResolver rr = null;
         try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             java.util.List<String> councils = getCouncils(VtkUtil.getYearPlanBase(null, null));
-            rr = sessionFactory.getResourceResolver();
             session = rr.adaptTo(Session.class);
             for (int i = 0; i < councils.size(); i++) {
                 String councilId = councils.get(i);
@@ -718,7 +693,9 @@ public class CouncilDAOImpl implements CouncilDAO {
                 try {
                     String timePath = VtkUtil.getYearPlanBase(null, null) + "" + councilId + "/finances/template";
                     String timePathFinalized = VtkUtil.getYearPlanBase(null, null) + "" + councilId + "/finances/finalized";
-                    if (!session.itemExists(timePathFinalized)) continue;
+                    if (!session.itemExists(timePathFinalized)) {
+                        continue;
+                    }
                     Node infoNode = session.getNode(timePath);
                     if (infoNode != null) {
                         try {
@@ -733,17 +710,14 @@ public class CouncilDAOImpl implements CouncilDAO {
             }
             councilRpt.emailRpt(sb.toString(), "Report - Current # of Council's Who have Published Finance Form 2.0");
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (session != null) {
-                    session.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception ex) {
-                log.error("Error occurred: ", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
     }
@@ -751,11 +725,11 @@ public class CouncilDAOImpl implements CouncilDAO {
     public List<String> getCouncils(String currYearPath) {
         List<String> councils = new ArrayList();
         Session session = null;
-        ResourceResolver resourceResolver = null;
+        ResourceResolver rr = null;
         try {
-            resourceResolver = sessionFactory.getResourceResolver();
-            session = resourceResolver.adaptTo(Session.class);
-            Resource myResource = resourceResolver.getResource(currYearPath);
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            session = rr.adaptTo(Session.class);
+            Resource myResource = rr.getResource(currYearPath);
             if (myResource == null) {
                 return null;
             }
@@ -766,17 +740,14 @@ public class CouncilDAOImpl implements CouncilDAO {
                 councils.add(council);
             }
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (session != null) {
-                    session.logout();
+                if (rr != null) {
+                    rr.close();
                 }
-                if (resourceResolver != null) {
-                    sessionFactory.closeResourceResolver(resourceResolver);
-                }
-            } catch (Exception ex) {
-                log.error("Error occurred: ", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return councils;

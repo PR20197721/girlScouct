@@ -22,8 +22,6 @@
             border: 1px solid #999;
         }
     </style>
-
-
     <!--
 to activate key go to:
 https://developers.google.com/maps/documentation/business/clientside/auth#registering_authorized_urls
@@ -33,8 +31,6 @@ Google Enterprise Support Portal
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCAYeuoI0xGM4V5p89BLKZALJoaSbsA17c&sensor=false"></script>
 -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-
-
     <script>
         var geocoder;
         var map;
@@ -65,7 +61,6 @@ Google Enterprise Support Portal
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);
-
     </script>
 </head>
 <body onload="codeAddress()">

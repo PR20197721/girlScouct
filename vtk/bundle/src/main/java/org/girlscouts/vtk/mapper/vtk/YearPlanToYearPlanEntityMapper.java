@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class YearPlanToYearPlanEntityMapper extends BaseModelToEntityMapper {
-
     private static Logger log = LoggerFactory.getLogger(YearPlanToYearPlanEntityMapper.class);
 
     public static YearPlanEntity map(YearPlan yearPlan) {

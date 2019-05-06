@@ -3,7 +3,6 @@ package org.girlscouts.vtk.models;
 import java.util.List;
 
 public class PlanView {
-
     private MeetingE meeting;
     private List<Asset> aidTags;
     private java.util.Date searchDate;
@@ -85,6 +84,5 @@ public class PlanView {
     public void setMeetingLength(int meetingLength) {
         this.meetingLength = meetingLength;
     }
-
 
 }

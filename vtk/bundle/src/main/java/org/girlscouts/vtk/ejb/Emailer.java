@@ -20,31 +20,20 @@ import java.util.stream.Collectors;
 @Service(value = Emailer.class)
 public class Emailer {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-
     @Reference
     UserUtil userUtil;
-
     @Reference
     private MessageGatewayService messageGatewayService;
 
-    public void send(User user, Troop troop, EmailMeetingReminder emr)
-            throws IllegalAccessException {
-
+    public void send(User user, Troop troop, EmailMeetingReminder emr) throws IllegalAccessException {
         ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
         logger.info("VTK Reminder Email Attempt Begin.");
         try {
-            if (user != null
-                    && !(userUtil.hasPermission(troop,
-                    Permission.PERMISSION_SEND_EMAIL_MT_ID) || userUtil
-                    .hasPermission(troop,
-                            Permission.PERMISSION_SEND_EMAIL_ACT_ID)))
+            if (user != null && !(userUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID) || userUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID))) {
                 throw new IllegalAccessException();
-
-            MessageGateway<HtmlEmail> messageGateway = messageGatewayService
-                    .getGateway(HtmlEmail.class);
-
+            }
+            MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
             HtmlEmail email = new HtmlEmail();
-
             String[] bccStrings, toStrings;
             if (emr.getBcc() != null && !emr.getBcc().isEmpty()) {
                 bccStrings = emr.getBcc().split(";");
@@ -58,10 +47,8 @@ public class Emailer {
             if (emr.getTo() != null && !emr.getTo().isEmpty()) {
                 email.addTo(emr.getTo());
             }
-
             try {
                 if (user.getApiConfig().getUser().getEmail() != null && user.getApiConfig().getUser().getEmail().trim().length() > 0) {
-
                     email.addReplyTo(user.getApiConfig().getUser().getEmail());
 
                 }
@@ -69,15 +56,12 @@ public class Emailer {
                 logger.error("VTK Reminder Email Error - Reply To: Recipients: " + emailRecipients.stream().map(InternetAddress::getAddress).collect(Collectors.joining(" : ")));
                 logger.error("VTK Reminder Email Error - Reply To:", e);
             }
-
-
             email.setSubject(emr.getSubj());
             email.setHtmlMsg(emr.getHtml());
             if (!emailRecipients.isEmpty()) {
                 email.setBcc(emailRecipients);
                 messageGateway.send(email);
             }
-
             logger.info("VTK Reminder Email Success!  Sent to: " + emailRecipients.stream().map(InternetAddress::getAddress).collect(Collectors.joining(" : ")));
         } catch (IllegalAccessException iae) {
             logger.error("VTK Reminder Email Error: Recipients: " + emailRecipients.stream().map(InternetAddress::getAddress).collect(Collectors.joining(" : ")));

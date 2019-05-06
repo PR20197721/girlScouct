@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TroopEntityToTroopMapper {
-
     private static Logger log = LoggerFactory.getLogger(TroopEntityToTroopMapper.class);
 
     public static Troop map(TroopEntity entity) {

@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 public class MeetingCanceledEntity extends BaseEntity {
-
     @SerializedName("path")
     private String path;
     @SerializedName("refId")
@@ -19,7 +18,7 @@ public class MeetingCanceledEntity extends BaseEntity {
     @SerializedName("cancelled")
     private String cancelled;
     @SerializedName("id")
-    private Integer id;
+    private String id;
     @SerializedName("uid")
     private String uid;
     @SerializedName("emlTemplate")
@@ -77,11 +76,11 @@ public class MeetingCanceledEntity extends BaseEntity {
         this.cancelled = cancelled;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

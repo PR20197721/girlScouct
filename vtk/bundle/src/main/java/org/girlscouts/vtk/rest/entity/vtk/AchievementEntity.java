@@ -3,7 +3,6 @@ package org.girlscouts.vtk.rest.entity.vtk;
 import com.google.gson.annotations.SerializedName;
 
 public class AchievementEntity extends BaseEntity {
-
     @SerializedName("path")
     private String path;
     @SerializedName("Id")

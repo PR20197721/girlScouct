@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 public class BaseModelToEntityMapper {
-
     private static Logger log = LoggerFactory.getLogger(BaseModelToEntityMapper.class);
 
     public static List<ActivityEntity> mapActivities(List<Activity> activities) {

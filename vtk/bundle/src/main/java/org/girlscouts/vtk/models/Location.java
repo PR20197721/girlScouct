@@ -1,54 +1,27 @@
 package org.girlscouts.vtk.models;
 
+import org.apache.jackrabbit.oak.jcr.Jcr;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 import java.io.Serializable;
 
-@Node
-public class Location implements Serializable {
-
-    @Field(path = true)
-    String path;
-    @Field
+public class Location extends JcrNode implements Serializable {
     private String address, state, city, zip;
-    @Field
     private String name;
-    @Field
     private String locatinName, locationAddress;
-    @Field(id = true)
-    private String uid;
-    private boolean isDbUpdate = false;
 
     public Location() {
-        this.uid = "L" + new java.util.Date().getTime();
+        this.setUid("L" + new java.util.Date().getTime() + "_" + Math.random());
     }
 
-    public Location(String name, String address, String city, String state,
-                    String zip) {
-
-        this.uid = "L" + new java.util.Date().getTime();
+    public Location(String name, String address, String city, String state, String zip) {
+        this.setUid("L" + new java.util.Date().getTime() + "_" + Math.random());
         this.name = name;
         this.address = address;
         this.state = state;
         this.zip = zip;
         this.city = city;
-        isDbUpdate = true;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        if (this.uid != null && uid != null && this.uid.equals(uid)) {
-            isDbUpdate = true;
-        }
-
-        this.uid = uid;
-        if (uid == null)
-            this.uid = "L" + new java.util.Date().getTime() + "_"
-                    + Math.random();
     }
 
     public String getLocatinName() {
@@ -56,8 +29,9 @@ public class Location implements Serializable {
     }
 
     public void setLocatinName(String locatinName) {
-        if (this.locatinName != null && locatinName != null && !this.locatinName.equals(locatinName))
-            isDbUpdate = true;
+        if (this.locatinName != null && locatinName != null && !this.locatinName.equals(locatinName)) {
+            setDbUpdate(true);
+        }
         this.locatinName = locatinName;
     }
 
@@ -66,28 +40,21 @@ public class Location implements Serializable {
     }
 
     public void setLocationAddress(String locationAddress) {
-        if (locationAddress != null && this.locationAddress != null && !locationAddress.equals(this.locationAddress))
-            isDbUpdate = true;
+        if (locationAddress != null && this.locationAddress != null && !locationAddress.equals(this.locationAddress)) {
+            setDbUpdate(true);
+        }
         this.locationAddress = locationAddress;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        if (this.path != null && path != null && this.path.equals(path))
-            isDbUpdate = true;
-        this.path = path;
-    }
 
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
-        if (address != null && this.address != null && !this.address.equals(address))
-            isDbUpdate = true;
+        if (address != null && this.address != null && !this.address.equals(address)) {
+            setDbUpdate(true);
+        }
         this.address = address;
     }
 
@@ -96,8 +63,9 @@ public class Location implements Serializable {
     }
 
     public void setState(String state) {
-        if (state != null && this.state != null && !this.state.equals(state))
-            isDbUpdate = true;
+        if (state != null && this.state != null && !this.state.equals(state)) {
+            setDbUpdate(true);
+        }
         this.state = state;
     }
 
@@ -106,8 +74,9 @@ public class Location implements Serializable {
     }
 
     public void setCity(String city) {
-        if (this.city != null && city != null && this.city.equals(city))
-            isDbUpdate = true;
+        if (this.city != null && city != null && this.city.equals(city)) {
+            setDbUpdate(true);
+        }
         this.city = city;
     }
 
@@ -116,8 +85,9 @@ public class Location implements Serializable {
     }
 
     public void setZip(String zip) {
-        if (this.zip != null && zip != null && !this.zip.equals(zip))
-            isDbUpdate = true;
+        if (this.zip != null && zip != null && !this.zip.equals(zip)) {
+            setDbUpdate(true);
+        }
         this.zip = zip;
     }
 
@@ -126,17 +96,9 @@ public class Location implements Serializable {
     }
 
     public void setName(String name) {
-        if (name != null && this.name != null && !this.name.equals(name))
-            isDbUpdate = true;
+        if (name != null && this.name != null && !this.name.equals(name)) {
+            setDbUpdate(true);
+        }
         this.name = name;
     }
-
-    public boolean isDbUpdate() {
-        return isDbUpdate;
-    }
-
-    public void setDbUpdate(boolean isDbUpdate) {
-        this.isDbUpdate = isDbUpdate;
-    }
-
 }

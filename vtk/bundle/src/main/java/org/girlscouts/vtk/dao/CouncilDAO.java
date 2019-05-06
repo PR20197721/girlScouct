@@ -9,7 +9,6 @@ import org.girlscouts.vtk.utils.VtkException;
 import java.util.List;
 
 public interface CouncilDAO {
-
     Council findCouncil(User user, String path) throws IllegalAccessException, VtkException;
 
     Council createCouncil(User user, Troop troop) throws IllegalAccessException, VtkException;
@@ -25,6 +24,5 @@ public interface CouncilDAO {
     void GSMonthlyDetailedRpt(String year);
 
     void GSRptCouncilPublishFinance();
-
 
 }

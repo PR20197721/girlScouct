@@ -23,8 +23,6 @@
     </div>
     <div class="columns small-24 medium-16">
         <div class="row">
-
-
             <div class="small-8 medium-5 columns">
                 <input type="text" placeholder="Time" id="calTime"
                        value="<%=selectedTroop.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : VtkUtil.formatDate(VtkUtil.FORMAT_hhmm, new java.util.Date(selectedTroop.getYearPlan().getCalStartDate())) %>"/>
@@ -56,21 +54,16 @@
         </div>
     </div>
 </section>
-
 <section class="clearfix holidays">
     <p>Do not schedule the meeting the week of:</p>
     <%
         String exlDates = selectedTroop.getYearPlan().getCalExclWeeksOf();
         exlDates = exlDates == null ? "" : exlDates.trim();
         String[] split_exclDates = exlDates.split(",");
-
         java.util.Map<Long, String> holidays = VtkUtil.getVtkHolidays(user, selectedTroop);
-
         //sort
         holidays = new java.util.TreeMap(holidays);
-
     %>
-
     <ul class="small-block-grid-2 medium-block-grid-3">
         <%
             java.util.Iterator itr = holidays.keySet().iterator();
@@ -144,7 +137,6 @@
                     }//end while
             }//end else
         %>
-
     </ul>
 </section>
 <button class="btn right" onclick="buildSched()">Update Calendar</button>

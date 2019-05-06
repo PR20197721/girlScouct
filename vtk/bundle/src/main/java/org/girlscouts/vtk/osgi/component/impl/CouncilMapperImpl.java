@@ -24,23 +24,16 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
     private static final Logger log = LoggerFactory.getLogger(CouncilMapperImpl.class);
     private String defaultBranch;
     private Map<String, String> councilMap;
-    private ResourceResolver resourceResolver;
-
     @Reference
     private ConfigManager configManager;
-
     @Reference
-    private ResourceResolverFactory resourceResolverFactory;
+    private ResourceResolverFactory resolverFactory;
+    private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
     @Activate
     public void init() {
         configManager.register(this);
-        try {
-            resourceResolver = resourceResolverFactory
-                    .getResourceResolver(null);
-        } catch (LoginException e) {
-            log.error("Cannot get ResourceResolver.");
-        }
+        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
     }
 
     @SuppressWarnings("rawtypes")
@@ -50,7 +43,6 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
             defaultBranch = DEFAULT_BRANCH;
             log.error("Default mapping is null. Use /content/girlscouts-usa");
         }
-
         String[] mappings = (String[]) configs.get("councilMapping");
         councilMap = new HashMap<String, String>();
         if (mappings != null) {
@@ -59,8 +51,7 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
                 if (configRecord.length >= 2) {
                     councilMap.put(configRecord[0], configRecord[1]);
                 } else {
-                    log.error("Malformatted council mapping record: "
-                            + mappings[i]);
+                    log.error("Malformatted council mapping record: " + mappings[i]);
                 }
             }
         } else {
@@ -84,18 +75,31 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
     }
 
     public String getCouncilUrl(String id) {
-        String branch = getCouncilBranch(id);
-        String url = resourceResolver.map(branch + "/");
+        String branch = getCouncilBranch(id) + "/";
+        String url = "";
+        ResourceResolver rr = null;
+        try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            url = rr.map(branch);
+        } catch (Exception e) {
+            log.error("Cannot get file node: " + branch + " due to ", e);
+        } finally {
+            try {
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
+        }
         return url;
     }
 
     public String getCouncilUrl() {
-
         return getCouncilUrl(null);
     }
 
     public String getCouncilName(String councilCode) {
-
         return councilMap.get(councilCode);
     }
 

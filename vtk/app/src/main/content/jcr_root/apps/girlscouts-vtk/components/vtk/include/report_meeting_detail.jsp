@@ -11,7 +11,6 @@
             while (act.hasMoreTokens())
                 distinctGirl.add(act.nextToken());
         }
-
         Achievement achievement = meetingUtil.getAchievement(user, _troop, meeting.getPath() + "/achievement");
         if (achievement != null && achievement.getUsers() != null) {
             StringTokenizer act = new StringTokenizer(achievement.getUsers(), ",");
@@ -21,12 +20,8 @@
         }
 
     }
-
     badges_earned += achievementCurrent;
-
 %>
-
-
 <tr>
     <td><%= (date == null || date.before(new java.util.Date("1/1/2000"))) ? "" : VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, date) %>
     </td>

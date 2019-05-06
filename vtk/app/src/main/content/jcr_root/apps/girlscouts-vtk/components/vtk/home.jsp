@@ -174,9 +174,7 @@
         <div class="modal-footer">
             <strong>-The GSUSA VTK Team</strong>
         </div>
-
     </div>
-
 </div>
 <%
                 }

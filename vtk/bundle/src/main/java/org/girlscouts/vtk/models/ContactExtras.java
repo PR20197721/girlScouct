@@ -1,10 +1,8 @@
 package org.girlscouts.vtk.models;
 
 public class ContactExtras {
-
     private boolean attended, achievement;
     private YearPlanComponent yearPlanComponent;
-
 
     public boolean isAttended() {
         return attended;

@@ -1,5 +1,4 @@
 <!-- apps/girlscouts-vtk/components/vtk/include/modals/modal_view_sent_emails.jsp -->
-
 <div id="modal_view_sent_emails" class="reveal-modal" data-reveal>
     <div class="header clearfix">
         <h3 class="columns large-22">View Sent Emails</h3>
@@ -56,7 +55,6 @@
                     }
                 } else {
                     //MeetingE curM = planView.getMeeting();
-
                     MeetingE curM = meetingUtil.getMeetingE(user, selectedTroop,
                             ((MeetingE) planView.getYearPlanComponent()).getPath());
                     if (curM != null) {
@@ -109,11 +107,9 @@
                         }
                     }%>
             </div>
-
         </div>
     </div>
 </div>
-
 <script>
     $('.browseSentEmails li a').on('click', function () {
         $('.browseSentEmails li').removeClass('active');

@@ -7,7 +7,6 @@ import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -29,7 +28,6 @@ public class TroopHashGeneratorImpl implements TroopHashGenerator {
             for (byte b : digestBytes) {
                 sb.append(String.format("%02x", b & 0xff));
             }
-
             String hash = sb.toString();
             // prepend last seven characters of troopId
             int length = troopId.length();

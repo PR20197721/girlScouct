@@ -5,7 +5,6 @@ import org.girlscouts.vtk.dao.AssetComponentType;
 import java.io.Serializable;
 
 public class Search implements Serializable {
-
     private String path, content, type, desc, subTitle;
     private AssetComponentType assetType;
 

@@ -17,16 +17,10 @@ import javax.jcr.security.AccessControlPolicyIterator;
 import javax.jcr.security.Privilege;
 import java.util.NoSuchElementException;
 
-
 @Component(metatype = false, immediate = true)
-@Properties({
-        @Property(name = Constants.SERVICE_DESCRIPTION, value = "ModifyNodePermissions"),
-        @Property(name = "label", value = "Girl Scouts VTK Modify Node Permissions"),
-        @Property(name = "description", value = "Girl Scouts VTK Modify Node Permissions")
-})
+@Properties({@Property(name = Constants.SERVICE_DESCRIPTION, value = "ModifyNodePermissions"), @Property(name = "label", value = "Girl Scouts VTK Modify Node Permissions"), @Property(name = "description", value = "Girl Scouts VTK Modify Node Permissions")})
 @Service(value = ModifyNodePermissions.class)
 public class ModifyNodePermissions {
-
     private static final Logger log = LoggerFactory.getLogger(ModifyNodePermissions.class);
     @Reference
     private SlingRepository repository;
@@ -34,25 +28,19 @@ public class ModifyNodePermissions {
     public void modifyNodePermissions(String nodePath, String groupName) {
         Session session = null;
         try {
-
             session = repository.loginAdministrative(null);
-
             JcrUtils.getOrCreateByPath(nodePath.substring(0, nodePath.length() - 1), "nt:unstructured", session);
-
             UserManager userMgr = ((org.apache.jackrabbit.api.JackrabbitSession) session).getUserManager();
             AccessControlManager accessControlManager = session.getAccessControlManager();
             Authorizable authorizable = userMgr.getAuthorizable(groupName);
             AccessControlPolicyIterator policyIterator = accessControlManager.getApplicablePolicies(nodePath);
-
             org.apache.jackrabbit.api.security.JackrabbitAccessControlList acl = null;
-
             try {
                 acl = (JackrabbitAccessControlList) policyIterator.nextAccessControlPolicy();
 
             } catch (NoSuchElementException nse) {
                 acl = (JackrabbitAccessControlList) accessControlManager.getPolicies(nodePath)[0];
             }
-
             //Remove the Access Control Entry
      /*for (AccessControlEntry e : acl.getAccessControlEntries()) {    
        if (e.getPrincipal().equals(authorizable.getPrincipal()))
@@ -60,7 +48,6 @@ public class ModifyNodePermissions {
            acl.removeAccessControlEntry(e);
       }
                 }*/
-
             //Allow
    /*Privilege[] allowPrivileges = {accessControlManager.privilegeFromName(Privilege.JCR_REMOVE_NODE),
      accessControlManager.privilegeFromName(Privilege.JCR_REMOVE_CHILD_NODES) };
@@ -74,13 +61,9 @@ public class ModifyNodePermissions {
      accessControlManager.privilegeFromName(Privilege.JCR_REMOVE_CHILD_NODES) };   
    acl.addEntry(authorizable.getPrincipal(), denyPrivileges, false);
    */
-
             //Grant
-            Privilege[] grantPrivileges = {accessControlManager.privilegeFromName(Privilege.JCR_ALL),
-                    accessControlManager.privilegeFromName(Privilege.JCR_ALL)};
+            Privilege[] grantPrivileges = {accessControlManager.privilegeFromName(Privilege.JCR_ALL), accessControlManager.privilegeFromName(Privilege.JCR_ALL)};
             acl.addEntry(authorizable.getPrincipal(), grantPrivileges, true);
-
-
             //Add Policy
             accessControlManager.setPolicy(nodePath, acl);
             //Remove Policy
@@ -92,8 +75,9 @@ public class ModifyNodePermissions {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (session != null)
+            if (session != null) {
                 session.logout();
+            }
         }
     }
 }

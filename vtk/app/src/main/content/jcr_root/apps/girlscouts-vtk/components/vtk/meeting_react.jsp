@@ -1,9 +1,7 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/meeting_react.jsp -->
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- <cq:defineObjects/> -->
-
 <!--%@include file="include/session.jsp"%-->
-
 <%
     //String activeTab = "planView";
     // boolean showVtkNav = true;
@@ -15,7 +13,6 @@
     <!-- %@include file="include/utility_nav.jsp"%-->
     <!--/meeting title and navigation-->
     <!-- %@include file="include/meeting_navigator.jsp"%-->
-
     <!-- %@include file="include/meeting_maininfo.jsp"%-->
     <!-- %@include file="include/meeting_planning.jsp"%-->
     <!-- %@include file="include/meeting_communication.jsp"%-->
@@ -24,8 +21,6 @@
     <!--/TODO this is for text only-->
     <a data-reveal-id="modal_meeting">Replace this meetingA</a>
     <%@include file="include/modals/modal_agenda.jsp" %>
-
     <a data-reveal-id="modal_agenda" className="add-btn"><i className="icon-button-circle-plus"></i> Add Agenda Item</a>
     <%@include file="include/modals/modal_agenda.jsp" %>
-
 </div>

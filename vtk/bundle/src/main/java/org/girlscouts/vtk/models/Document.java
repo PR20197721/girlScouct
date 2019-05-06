@@ -1,7 +1,6 @@
 package org.girlscouts.vtk.models;
 
 public class Document {
-
     private String title;
     private String path;
 

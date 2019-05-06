@@ -12,29 +12,17 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.rmi.ServerException;
 
 @Component(metatype = true, immediate = true)
-@Properties({
-        @Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-        @Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "xls"),
-        @Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "admin_reports_downloadable"),
-        @Property(name = "label", value = "Girl Scouts VTK Admin Report"),
-        @Property(name = "description", value = "Girl Scouts VTK Admin Report Download"),
-        @Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET")
-})
+@Properties({@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"), @Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "xls"), @Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "admin_reports_downloadable"), @Property(name = "label", value = "Girl Scouts VTK Admin Report"), @Property(name = "description", value = "Girl Scouts VTK Admin Report Download"), @Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET")})
 @Service
 public class AdminRpt extends SlingSafeMethodsServlet {
-
     private final Logger log = LoggerFactory.getLogger("vtk");
-
     @Reference
     AdminReportExcelGenerator reportGenerator;
 
     @Override
-    protected void doGet(SlingHttpServletRequest request,
-                         SlingHttpServletResponse response) throws
-            IOException {
+    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=\"admin-report.xls\"");

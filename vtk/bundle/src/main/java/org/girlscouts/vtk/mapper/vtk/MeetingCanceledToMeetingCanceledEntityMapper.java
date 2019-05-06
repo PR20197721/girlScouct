@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MeetingCanceledToMeetingCanceledEntityMapper extends BaseModelToEntityMapper {
-
     private static Logger log = LoggerFactory.getLogger(MeetingCanceledToMeetingCanceledEntityMapper.class);
 
     public static MeetingCanceledEntity map(MeetingCanceled meetingCanceled) {

@@ -7,30 +7,24 @@
                 java.io.ByteArrayOutputStream" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-
 <%
     response.setContentType("application/pdf");
     Document document = new Document();
     StringBuilder output = new StringBuilder();
     String meeting_overview = "", meeting_name = "";
-
     String meetingPath = request.getParameter("meetingPath");
     if (meetingPath == null) {
         output.append("Meeting overview not found");
     } else {
-
         final SessionFactory sessionFactory = sling.getService(SessionFactory.class);
         Session jcr_session = null;
         ResourceResolver rr = null;
         Node meetingNode = null, meetingInfoNode = null;
         try {
-
             rr = sessionFactory.getResourceResolver();
             jcr_session = rr.adaptTo(Session.class);
-
             meetingNode = jcr_session.getNode(meetingPath);
             meeting_name = meetingNode.getProperty("name").getString();
-
             meetingInfoNode = jcr_session.getNode(meetingPath + "/meetingInfo/overview");
             meeting_overview = meetingInfoNode.getProperty("str").getString();
 
@@ -50,16 +44,11 @@
         }
 
     }
-
     if (!"".equals(meeting_name)) {
-
         output.append("<h2>" + meeting_name + ": introduction</h2>");
         output.append(meeting_overview);
     }
-
-
     try {
-
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
@@ -70,5 +59,4 @@
     } catch (DocumentException e) {
         e.printStackTrace();
     }
-
 %>

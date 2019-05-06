@@ -13,18 +13,14 @@
                 java.io.PrintWriter,
                 java.io.StringWriter" %>
 <%@include file="/libs/foundation/global.jsp" %>
-
 <%@include file="../session.jsp" %>
-
 <%
     String resourceName = "";
     if (request.getParameter("resource") != null) {
         resourceName = request.getParameter("resource");
     }
-
     Page resourceContent;
 %>
-
 <% if (!resourceName.equals("")) {
     final PageManager manager = (PageManager) resourceResolver.adaptTo(PageManager.class);
     try {
@@ -36,7 +32,6 @@
         }
         CouncilMapper mapper = sling.getService(CouncilMapper.class);
         String branch = mapper.getCouncilBranch(councilId);
-
         // TODO: language?
         resourceContent = manager.getPage(resourceName);
 %>

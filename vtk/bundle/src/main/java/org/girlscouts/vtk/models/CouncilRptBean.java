@@ -3,11 +3,9 @@ package org.girlscouts.vtk.models;
 import java.util.List;
 
 public class CouncilRptBean {
-
     private String yearPlanName, libPath, ageGroup, yearPlanPath, troopId, troopName;
     private boolean isAltered, isActivity;
     private List<Contact> troopLeaders;
-
 
     public List<Contact> getTroopLeaders() {
         return troopLeaders;

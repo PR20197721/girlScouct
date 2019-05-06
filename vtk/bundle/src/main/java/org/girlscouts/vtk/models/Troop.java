@@ -10,29 +10,16 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-@Node
-public class Troop implements Serializable {
-    @Field(path = true)
-    private String path;
-    @Bean(autoUpdate = false)
+public class Troop extends JcrNode implements Serializable {
+
     private YearPlan yearPlan;
-    @Field(id = true)
-    private String id;
-    @Field
     private String sfUserId;
-    @Field
     private String sfTroopId;
-    @Field
     private String sfTroopName;
-    @Field
     private String sfTroopAge;
-    @Field
     private String sfCouncil;
-    @Field
     private String currentTroop;
-    @Field
     private String errCode;
-    @Field
     private String refId;
     private String troopId;
     private String troopName;
@@ -45,7 +32,6 @@ public class Troop implements Serializable {
     private boolean isRefresh;
     private Date retrieveTime;
     private EmailMeetingReminder sendingEmail;
-    private boolean isDbUpdate = false;
     private String participationCode;
     private String councilPath;
     private String hash;
@@ -54,23 +40,9 @@ public class Troop implements Serializable {
         this.type = 0;
     }
 
-    public Troop(String path, String troopId) {
-        this.id = troopId;
-        this.path = path + troopId;
-        this.setRetrieveTime(new java.util.Date());
-    }
-
     public Troop(String troopId) {
-        this.id = troopId;
+        this.setId(troopId);
         this.setRetrieveTime(new java.util.Date());
-    }
-
-    public boolean isDbUpdate() {
-        return isDbUpdate;
-    }
-
-    public void setDbUpdate(boolean isDbUpdate) {
-        this.isDbUpdate = isDbUpdate;
     }
 
     public java.util.Date getRetrieveTime() {
@@ -95,7 +67,7 @@ public class Troop implements Serializable {
 
     public void setErrCode(String errCode) {
         this.errCode = errCode;
-        isDbUpdate = true;
+        this.setDbUpdate(true);
     }
 
     public String getCurrentTroop() {
@@ -104,7 +76,7 @@ public class Troop implements Serializable {
 
     public void setCurrentTroop(String currentUser) {
         this.currentTroop = currentUser;
-        isDbUpdate = true;
+        this.setDbUpdate(true);
     }
 
     public String getSfCouncil() {
@@ -163,31 +135,13 @@ public class Troop implements Serializable {
         this.yearPlan = yearPlan;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-        isDbUpdate = true;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-        isDbUpdate = true;
-    }
-
     public String getRefId() {
         return refId;
     }
 
     public void setRefId(String refId) {
         this.refId = refId;
-        isDbUpdate = true;
+        this.setDbUpdate(true);
     }
 
     public String getTroopPath() {

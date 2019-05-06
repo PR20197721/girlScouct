@@ -1,11 +1,8 @@
 package org.girlscouts.vtk.models;
 
 public class bean_resource {
-
-
     private int itemCount;
     private String path, title, nodeUri, category, categoryDisplay;
-
 
     public void incrementCount() {
         itemCount++;
@@ -58,6 +55,5 @@ public class bean_resource {
     public void setCategoryDisplay(String categoryDisplay) {
         this.categoryDisplay = categoryDisplay;
     }
-
 
 }

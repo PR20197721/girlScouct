@@ -3,10 +3,8 @@ package org.girlscouts.vtk.rest.entity.salesforce;
 import com.google.gson.annotations.SerializedName;
 
 public class AttributesEntity {
-
     @SerializedName("type")
     private String type;
-
     @SerializedName("url")
     private String url;
 

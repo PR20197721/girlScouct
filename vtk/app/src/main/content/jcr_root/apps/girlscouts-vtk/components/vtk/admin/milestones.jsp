@@ -3,12 +3,10 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp" %>
-
 <script type="text/javascript"
         src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <%
     String activeTab = "admin_milestones";
-
     String councilCode = userTroops.get(0).getCouncilCode();
     String councilId = request.getParameter("cid") == null ? councilCode : request.getParameter("cid");
 %>
@@ -31,7 +29,6 @@
                 for (; i < milestones.size(); i++) {
             %>
             <section id="ms-section" class="row">
-
                 <div class="column large-1 medium-2">
                     <a id="delete" title="remove" class="icon-button-circle-cross"></a>
                 </div>
@@ -97,27 +94,23 @@
                     <label for="ch_<%=i+1 %>"></label>
                 </div>
             </section>
-
             <section class="row">
                 <div class="column large-2">
                     <a onclick="newEntry()" title="add-entry"><i
                             class="icon-button-circle-plus"></i></a>
                 </div>
                 <p>Add a Milestone</p>
-
             </section>
             <section class="row">
                 <input type="submit" name="saveCouncilMilestones"
                        value="Save To Plans" class="btn right button"/>
             </section>
-
         </form>
     </div>
     <!-- 	<div id="saved">
             <p>Milestones saved.</p>
         </div> -->
 </div>
-
 <script>
     var n;
     $(document).ready(function () {
@@ -164,7 +157,6 @@
         $('#MileStoneForm section#ms-section').last().append('<div class="column large-2 large-pull-5"><input type="checkbox" id="ch_' + n + '" name="show_ch[]" unchecked/><label for="ch_' + n + '"></label></div>');
         n++;
     }
-
 </script>
 
 

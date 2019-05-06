@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MilestoneToMilestoneEntityMapper extends BaseModelToEntityMapper {
-
     private static Logger log = LoggerFactory.getLogger(MilestoneToMilestoneEntityMapper.class);
 
     public static MilestoneEntity map(Milestone milestone) {

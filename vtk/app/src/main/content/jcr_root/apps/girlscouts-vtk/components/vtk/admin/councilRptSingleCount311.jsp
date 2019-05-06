@@ -14,52 +14,30 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp" %>
-
 <%@include file="../admin/toolbar.jsp" %>
 <h1>Council Report</h1>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="https://rawgit.com/pablojim/highcharts-ng/master/src/highcharts-ng.js"></script>
 <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-
 <%
-
     java.util.Map<String, String> cTrans = new java.util.TreeMap();
-
     cTrans.put("597", "Girl Scouts of Northeast Texas");
-
     cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
-
     cTrans.put("465", "Girl Scouts of Southeastern Michigan");
-
     cTrans.put("367", "Girl Scouts - North Carolina Coastal Pines, Inc.");
-
     cTrans.put("320", "Girl Scouts of West Central Florida, Inc.");
-
     cTrans.put("388", "Girl Scout Council of the Southern Appalachians, Inc.");
-
     cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
-
-
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
-
-
     String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk/%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
-
-
     javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
     javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-
     int count = 0;
-
     java.util.List unCouncil = new java.util.ArrayList();
     //java.util.Map containeR= new java.util.HashMap();
-
     org.apache.commons.collections.MultiMap containeR = new org.apache.commons.collections.map.MultiValueMap();
-
     java.util.List<org.girlscouts.vtk.models.YearPlanRpt> yprs = new java.util.ArrayList<org.girlscouts.vtk.models.YearPlanRpt>();
-
-
     javax.jcr.query.QueryResult result = q.execute();
     for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
         javax.jcr.query.Row r = it.nextRow();
@@ -69,25 +47,19 @@
             sfCouncil = r.getValue("sfCouncil").getString();
         } catch (Exception e) {
         }
-
         if (sfCouncil == null) {
             StringTokenizer t = new StringTokenizer(path, "/");
             t.nextToken();
             sfCouncil = t.nextToken();
         }
-
         try {
             sfTroopAge = r.getValue("sfTroopAge").getString();
         } catch (Exception e) {
         }
-
-
         if (sfTroopAge == null) {
             Node node = r.getNode().getNode("yearPlan/meetingEvents/").getNodes().nextNode();
-
             String refId = node.getProperty("refId").getString();
             String planId = refId.substring(refId.lastIndexOf("/") + 1).toLowerCase();
-
             if (planId.startsWith("d"))
                 sfTroopAge = ("1-Daisy");
             else if (planId.startsWith("b"))
@@ -96,7 +68,6 @@
                 sfTroopAge = ("3-Junior");
 
         }
-
         org.girlscouts.vtk.models.YearPlanRpt ypr = new org.girlscouts.vtk.models.YearPlanRpt();
         ypr.setCouncil(sfCouncil);
         ypr.setTroop(r.getValue("sfTroopId").getString());
@@ -104,17 +75,11 @@
         ypr.setTroopAge(sfTroopAge);
         // ypr.setPath(path);
         yprs.add(ypr);
-
         if (!unCouncil.contains(sfCouncil))
             unCouncil.add(sfCouncil);
-
         containeR.put(sfCouncil, sfTroopAge);
-
-
         count++;
     }
-
-
     out.println("Total: " + count);
 %>
 <table>
@@ -125,7 +90,6 @@
         <th>Brownie</th>
         <th>Daisy</th>
         <th>Total</th>
-
     </tr>
         <%
 		
@@ -172,7 +136,6 @@
 		    }
 			
 			%>
-
     <tr style="background-color:lightgray;">
         <td><%=councilId_str == null ? council : councilId_str%>
         </td>
@@ -186,7 +149,6 @@
         <td><%=total %>
         </td>
     </tr>
-
         <%
 			
 			int total_dai=0, total_bro=0, total_jun=0, council_total=0;
@@ -229,7 +191,6 @@
 				council_total += troop_total;
 				if( true ){
 					%>
-
     <tr>
         <td><%= troopId%>
         </td>
@@ -244,15 +205,12 @@
         <td><%= troop_total %>
         </td>
     </tr>
-
-
         <%
 				}//edn if false
 				
 			}
 			
 			%>
-
     <tr style="background-color:lightyellow;">
         <td>*<%=councilId_str == null ? council : councilId_str%>
         </td>
@@ -275,8 +233,6 @@
 		
 		
 		%>
-
-
         <%!
 
 

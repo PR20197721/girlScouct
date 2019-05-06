@@ -5,46 +5,34 @@
     pageContext.setAttribute("MEETING_PATH", meeting.getPath());
     pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
     pageContext.setAttribute("DETAIL_TYPE", "meeting");
-
     String readonlyModeStr = VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
             VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID) ? "false" : "true";
-
     Cookie cookie = new Cookie("VTKReadonlyMode", readonlyModeStr);
     cookie.setPath("/");
     response.addCookie(cookie);
-
     String elemParam = request.getParameter("elem");
     if (elemParam == null) {
         elemParam = "first";
     }
     String meetingDataUrl = "meeting." + elemParam + ".json";
 %>
-
 <script>
     //GLOBALS
     var thisMeetingPath = "";
     var thisMeetingDate = '';
     var thisMeetingNotes = '';
 </script>
-
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
-
 <% String sectionClassDefinition = ""; %>
 <%@include file="include/bodyTop.jsp" %>
 <%@include file="include/modals/modal_help.jsp" %>
-
-
 <%@include file="include/modals/modal_agenda.jsp" %>
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
 <%@include file="include/modals/modal_view_sent_emails.jsp" %>
-
 <div id="theMeeting"></div>
-
 <div id="vtk-mtg-plan"></div>
-
 <div id="modal_popup" class="reveal-modal" data-reveal></div>
 <div id="modal_popup_video" class="reveal-modal" data-reveal></div>
-
 <div id="data-log"
      data-permission_view_activity_plan_id="<%= Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID%>"
      data-permission_send_email_mt_id="<%= Permission.PERMISSION_SEND_EMAIL_MT_ID %>"
@@ -57,16 +45,11 @@
      data-vtk_troop_hasPermision_edit_yearplan_id="<%= VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) %>"
      %>
 </div>
-
-
 <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID)) { %>
 <%@include file="include/notes.jsp" %>
 <% } %>
-
 <%@include file="include/bodyBottom.jsp" %>
 <script>
-
-
     var vtkNotesInstances = false;
 
     //Print
@@ -139,5 +122,4 @@
     //Other components in the page
     vtkTrackerPushAction('ViewMeetingDetail');
     loadNav('planView', true);
-
 </script>

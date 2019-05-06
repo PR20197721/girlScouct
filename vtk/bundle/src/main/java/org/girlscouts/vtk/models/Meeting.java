@@ -5,45 +5,32 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
-@Node
 public class Meeting extends YearPlanComponent implements Serializable {
 
-    @Field(path = true)
-    String path;
-    @Field
-    private String id, name;
-    @Field
+    private String  name;
     private String level, blurb, cat;
-    @Field
     private String aidTags, resources, agenda, req, reqTitle;
-    @Field
     private Integer position = 0;
-    @Field
     private Boolean isAchievement;
-    @Collection
-    private java.util.List<Activity> activities;
-    @Collection
-    private java.util.Map<String, JcrCollectionHoldString> meetingInfo;
-    @Field
+    private List<Activity> activities;
+    private Map<String, JcrCollectionHoldString> meetingInfo;
     private String meetingPlanType, meetingPlanTypeAlt;
-    @Field
     private String catTags, catTagsAlt;
 
-
     public Meeting() {
-        this.path = "/meeting";
+        setPath("/meeting");
         this.position = 0;
     }
 
-    public static Object getStaticValue(final String className, final String fieldName) throws SecurityException, NoSuchFieldException, ClassNotFoundException,
-            IllegalArgumentException, IllegalAccessException {
-
-// Get the private field
+    public static Object getStaticValue(final String className, final String fieldName) throws SecurityException, NoSuchFieldException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
+        // Get the private field
         final java.lang.reflect.Field field = Class.forName(className).getDeclaredField(fieldName);
-// Allow modification on the field
+        // Allow modification on the field
         field.setAccessible(true);
-// Return the Obect corresponding to the field
+        // Return the Obect corresponding to the field
         return field.get(Class.forName(className));
     }
 
@@ -59,8 +46,7 @@ public class Meeting extends YearPlanComponent implements Serializable {
         return meetingInfo;
     }
 
-    public void setMeetingInfo(
-            java.util.Map<String, JcrCollectionHoldString> meetingInfo) {
+    public void setMeetingInfo(java.util.Map<String, JcrCollectionHoldString> meetingInfo) {
         this.meetingInfo = meetingInfo;
     }
 
@@ -120,28 +106,12 @@ public class Meeting extends YearPlanComponent implements Serializable {
         this.cat = cat;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public Boolean getIsAchievement() {
@@ -199,6 +169,5 @@ public class Meeting extends YearPlanComponent implements Serializable {
     public void setReqTitle(String reqTitle) {
         this.reqTitle = reqTitle;
     }
-
 
 }

@@ -19,6 +19,7 @@ import com.itextpdf.tool.xml.pipeline.end.ElementHandlerPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
 import org.apache.commons.io.IOUtils;
+import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -38,23 +39,23 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
 @Service(value = PdfUtil.class)
 public class PdfUtil {
-
     private static Logger log = LoggerFactory.getLogger(PdfUtil.class);
     @Reference
     YearPlanUtil yearPlanUtil;
-
-    @Reference
-    ConfigManager configManager;
     @Reference
     private ResourceResolverFactory resolverFactory;
-    @Reference
-    private SessionFactory sessionFactory;
+    private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
+    @Activate
+    void activate() {
+        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
+    }
     //servlet
     public void createPrintPdf(String act, Troop troop, User user, String mid, SlingHttpServletResponse response) {
         try {
@@ -80,7 +81,6 @@ public class PdfUtil {
     public void generate(String act, Troop troop, User user, String mid, java.io.OutputStream outputStream) {
         log.debug("Generating PDf for act=" + act + ", user=" + user.getSid() + ", troop=" + troop.getSfTroopName() + "-" + troop.getSfTroopId() + ", mid=" + mid);
         MeetingE meeting = null;
-        ResourceResolver resourceResolver = null;
         java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
         for (int i = 0; i < meetings.size(); i++) {
             if (meetings.get(i).getUid().equals(mid)) {
@@ -88,7 +88,6 @@ public class PdfUtil {
                 break;
             }
         }
-
         Meeting meetingInfo = null;
         try {
             meetingInfo = yearPlanUtil.getMeeting(user, troop, meeting.getRefId());
@@ -97,13 +96,11 @@ public class PdfUtil {
         }
         String gradeLevel = meetingInfo.getLevel().toLowerCase();
         Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo.getMeetingInfo();
-
         String[] footer = new String[2];
-
+        ResourceResolver rr = null;
         try {
-            resourceResolver = sessionFactory.getResourceResolver();
-            log.debug("resourceResolver=" + resourceResolver);
-            Resource res = resourceResolver.getResource("/content/vtkcontent/en/vtk-pdf/jcr:content/content/middle/par/vtk_pdf");
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            Resource res = rr.getResource("/content/vtkcontent/en/vtk-pdf/jcr:content/content/middle/par/vtk_pdf");
             log.debug("/content/vtkcontent/en/vtk-pdf/jcr:content/content/middle/par/vtk_pdf=" + res);
             if (res != null) {
                 Node node = res.adaptTo(Node.class);
@@ -113,42 +110,36 @@ public class PdfUtil {
         } catch (Exception e) {
             log.error("Exception occured: ", e);
         }
-
         Document document = new Document(PageSize.A4, 20f, 20f, 20f, 50f);
         String CSS = "div{line-height:20px;position:relative;} li{line-height:20px;position:relative;} p{line-height:20px;position:relative;} table {margin-top:10px; margin-left:20px;margin-right:20px;} tr { text-align: center; } th { font-size:12px;} td {font-family: 'Trefoil Sans', Times, serif;text-align:left;font-size:12px;line-height:20px;position:relative;}";
         PdfWriter writer = null;
         try {
             log.debug("Getting instance of PdfWriter");
             writer = PdfWriter.getInstance(document, outputStream);
-            HeaderFooter event = new HeaderFooter(footer, gradeLevel, resourceResolver);
+            HeaderFooter event = new HeaderFooter(footer, gradeLevel, rr);
             writer.setPageEvent(event);
         } catch (Exception e) {
             log.error("Exception occured: ", e);
         }
-
         //TODO: check if writer null
         log.debug("Adding css");
         CSSResolver cssResolver = new StyleAttrCSSResolver();
         CssFile cssFile = XMLWorkerHelper.getCSS(new ByteArrayInputStream(CSS.getBytes()));
         cssResolver.addCss(cssFile);
-
         log.debug("Adding HTML");
         // HTML
         HtmlPipelineContext htmlContext = new HtmlPipelineContext(null);
         htmlContext.setTagFactory(Tags.getHtmlTagProcessorFactory());
-
         // Pipelines
         ElementList elements = new ElementList();
         ElementHandlerPipeline pdf = new ElementHandlerPipeline(elements, null);
         HtmlPipeline html = new HtmlPipeline(htmlContext, pdf);
         CssResolverPipeline css = new CssResolverPipeline(cssResolver, html);
-
         log.debug("Adding XML Worker");
         // XML Worker
         XMLWorker worker = new XMLWorker(css, true);
         log.debug("Adding XML Parser");
         XMLParser p = new XMLParser(worker);
-
         document.open();
         int countElements = 0;
         try {
@@ -168,7 +159,6 @@ public class PdfUtil {
                 }
 
             }
-
             StringBuilder agendaData = new StringBuilder();
             if (act.equals("isAgenda") || act.equals("isActivity") || act.equals("isAll")) {
                 log.debug("Generating PDf for meeting Agenda/Activity/All");
@@ -181,7 +171,6 @@ public class PdfUtil {
                         return activity1.getActivityNumber() - activity2.getActivityNumber();
                     }
                 });
-
                 for (Activity __activity : activities) {
                     java.util.List<Activity> subActivities = __activity.getMultiactivities();
                     Activity selectedActivity = VtkUtil.findSelectedActivity(subActivities);
@@ -197,16 +186,15 @@ public class PdfUtil {
                         title += (": ");
                         title += (subActivities.size() == 1 ? __activity.getName() : selectedActivity.getName());
                         title += ("</b></td></tr> <tr><td style=\"line-height:2px;position:relative;\">&nbsp;</td></tr>");
-
                         agendaData.append(title);
                         agendaData.append("<tr><td>" + VtkUtil.fmtHtml(selectedActivity.getActivityDescription()) + "</td></tr><tr><td style=\"line-height:2px;position:relative;\">&nbsp;</td></tr>");
 
                     }
                 }
-
-
                 agendaData.append("</table>");
-                if (act.equals("isAll")) document.newPage();
+                if (act.equals("isAll")) {
+                    document.newPage();
+                }
                 p.parse(new ByteArrayInputStream(agendaData.toString().getBytes()));
                 try {
                     countElements = addElements(document, elements, countElements);
@@ -214,7 +202,6 @@ public class PdfUtil {
                     log.error("Exception occured while generating Agenda/Activity/All pdf", e);
                 }
             }
-
             StringBuilder materialsData = new StringBuilder();
             if (act.equals("isMaterials") || act.equals("isAll")) {
                 log.debug("Generating PDf for meeting Materials");
@@ -228,7 +215,6 @@ public class PdfUtil {
                         return activity1.getActivityNumber() - activity2.getActivityNumber();
                     }
                 });
-
                 for (Activity activity : activities) {
                     java.util.List<Activity> subActivities = activity.getMultiactivities();
                     Activity selectedActivity = VtkUtil.findSelectedActivity(subActivities);
@@ -236,25 +222,21 @@ public class PdfUtil {
                         materialsData.append("<tr><td><b>Activity " + activity.getActivityNumber() + " : Select Your Activity</b> </td></tr>");
 
                     } else {
-                        String materials = selectedActivity == null ?
-                                subActivities.get(0).getMaterials()
-                                : selectedActivity.getMaterials();
-
+                        String materials = selectedActivity == null ? subActivities.get(0).getMaterials() : selectedActivity.getMaterials();
                         materialsData.append("<tr><td> <b><br/>Activity " + activity.getActivityNumber());
                         if (subActivities.size() != 1) {
                             materialsData.append(" - Choice " + selectedActivity.getActivityNumber());
                         }
-
                         materialsData.append(" : " + (subActivities.size() == 1 ? activity.getName() : selectedActivity.getName()) + "</b></td></tr>");
                         materialsData.append("<tr><td style=\"line-height:20px;position:relative;\"> <br/>" + (materials == null ? "" : materials) + "</td></tr>");
 
                     }
                     materialsData.append("<tr><td style=\"line-height:2px;position:relative;\">&nbsp;</td></tr>");
                 }
-
-
                 materialsData.append("</table>");
-                if (act.equals("isAll")) document.newPage();
+                if (act.equals("isAll")) {
+                    document.newPage();
+                }
                 p.parse(new ByteArrayInputStream(materialsData.toString().getBytes()));
                 try {
                     countElements = addElements(document, elements, countElements);
@@ -270,27 +252,27 @@ public class PdfUtil {
             }
 
         } catch (Exception e) {
-            log.error("Exception occured: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
-            if (resourceResolver != null) {
-                try {
-                    resourceResolver.close();
-                } catch (Exception e) {
-                    log.error("Exception closing resource resolver", e);
+            try {
+                if (rr != null) {
+                    rr.close();
                 }
-
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
     }
 
     private int addElements(Document document, ElementList elements, int countElements) throws Exception {
         for (int i = countElements; i < elements.size(); i++) {
-            if (elements.get(i) instanceof com.itextpdf.text.pdf.PdfPTable)
+            if (elements.get(i) instanceof com.itextpdf.text.pdf.PdfPTable) {
                 document.add(elements.get(i));
-            else if (elements.get(i) instanceof com.itextpdf.text.Paragraph)
+            } else if (elements.get(i) instanceof com.itextpdf.text.Paragraph) {
                 document.add(elements.get(i));
-            else if (elements.get(i) instanceof com.itextpdf.text.List)
+            } else if (elements.get(i) instanceof com.itextpdf.text.List) {
                 document.add(elements.get(i));
+            }
             countElements++;
         }
         return countElements;
@@ -332,14 +314,11 @@ public class PdfUtil {
         @Override
         public void onStartPage(PdfWriter writer, Document document) {
             pagenumber++;
-
             try {
                 PdfPTable tabHead = new PdfPTable(1);
-
                 tabHead.setWidthPercentage(100);
                 tabHead.setSpacingBefore(0f);
                 tabHead.setSpacingAfter(0f);
-
                 tabHead.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
                 PdfPCell cell;
                 cell = new PdfPCell();
@@ -352,23 +331,12 @@ public class PdfUtil {
                 LineSeparator separator = new LineSeparator();
                 Chunk linebreak = new Chunk(separator);
                 separator.setLineColor(BaseColor.BLACK);
-
                 Font ffont = new Font();
                 ffont.setSize(7);
-                ColumnText.showTextAligned(writer.getDirectContent(),
-                        Element.ALIGN_CENTER, new Phrase(linebreak),
-                        (document.left() + document.right()) / 2, document.bottom() - 8, 0);
-
-                ColumnText.showTextAligned(writer.getDirectContent(),
-                        Element.ALIGN_RIGHT, new Phrase(String.format("page %d", pagenumber), ffont),
-                        document.right(), document.bottom() - 38, 0);
-                ColumnText.showTextAligned(writer.getDirectContent(),
-                        Element.ALIGN_LEFT, new Paragraph(footerTxtLine1, ffont),
-                        document.left(), document.bottom() - 18, 0);
-
-                ColumnText.showTextAligned(writer.getDirectContent(),
-                        Element.ALIGN_LEFT, new Phrase(footerTxtLine2, ffont),
-                        document.left(), document.bottom() - 28, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(linebreak), (document.left() + document.right()) / 2, document.bottom() - 8, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_RIGHT, new Phrase(String.format("page %d", pagenumber), ffont), document.right(), document.bottom() - 38, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Paragraph(footerTxtLine1, ffont), document.left(), document.bottom() - 18, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase(footerTxtLine2, ffont), document.left(), document.bottom() - 28, 0);
             } catch (Exception e) {
                 log.error("Exception occured: ", e);
             }

@@ -17,6 +17,7 @@ import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.jackrabbit.util.Text;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
@@ -41,8 +42,6 @@ public class TroopDAOImpl implements TroopDAO {
     @Reference
     ConfigManager configManager;
     @Reference
-    private SessionFactory sessionFactory;
-    @Reference
     private UserUtil userUtil;
     @Reference
     private ModifiedChecker modifiedChecker;
@@ -52,11 +51,14 @@ public class TroopDAOImpl implements TroopDAO {
     private MeetingDAO meetingDAO;
     @Reference
     private MessageGatewayService messageGatewayService;
-
     private Mapper mapper;
+    @Reference
+    private ResourceResolverFactory resolverFactory;
+    private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
     @Activate
     void activate() {
+        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
         List<Class> troopClasses = new ArrayList<Class>();
         troopClasses.add(Troop.class);
         troopClasses.add(YearPlan.class);
@@ -77,12 +79,12 @@ public class TroopDAOImpl implements TroopDAO {
     }
 
     public Troop getTroopByPath(User user, String troopPath) throws IllegalAccessException {
-        ResourceResolver rr = null;
         Session mySession = null;
         Troop troop = null;
         // TODO Permission.PERMISSION_VIEW_YEARPLAN_ID
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             QueryManager queryManager = ocm.getQueryManager();
@@ -95,18 +97,16 @@ public class TroopDAOImpl implements TroopDAO {
                 Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
             }
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                mySession.logout();
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred:", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
-
         return troop;
     }
 
@@ -115,12 +115,12 @@ public class TroopDAOImpl implements TroopDAO {
         if (troop != null && !userUtil.hasPermission(troop, Permission.PERMISSION_ADD_YEARPLAN_ID)) {
             throw new IllegalAccessException();
         }
-        ResourceResolver rr = null;
         Session mySession = null;
         String fmtYearPlanPath = yearPlanPath;
         YearPlan plan = null;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             if (!yearPlanPath.endsWith("/")) {
                 yearPlanPath = yearPlanPath + "/";
@@ -134,29 +134,28 @@ public class TroopDAOImpl implements TroopDAO {
                 plan.setCalFreq("biweekly");
             }
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                mySession.logout();
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred:", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return plan;
     }
 
     public void rmTroop(Troop troop) throws IllegalAccessException {
-        ResourceResolver rr = null;
         Session mySession = null;
+        ResourceResolver rr = null;
         try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             // permission to update
             if (troop != null && !userUtil.hasPermission(troop, Permission.PERMISSION_RM_YEARPLAN_ID)) {
                 throw new IllegalAccessException();
             }
-            rr = sessionFactory.getResourceResolver();
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (troop != null && mySession.itemExists(troop.getPath())) {
@@ -164,26 +163,24 @@ public class TroopDAOImpl implements TroopDAO {
                 ocm.save();
             }
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                mySession.logout();
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
             } catch (Exception e) {
-                log.error("Error occurred:", e);
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
     }
 
-
     public Finance getFinances(Troop troop, int qtr, String currentYear) {
-        ResourceResolver rr = null;
         Session mySession = null;
         Finance result = null;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             result = new Finance();
             result.setFinancialQuarter(qtr);
@@ -226,29 +223,25 @@ public class TroopDAOImpl implements TroopDAO {
                 log.error("Error occurred:", ex);
             }
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (sessionFactory != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-
-            } catch (Exception es) {
-                log.error("Error occurred:", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return result;
     }
 
     public void setFinances(Troop troop, int qtr, String currentYear, java.util.Map<String, String[]> params) {
-        ResourceResolver rr = null;
         Session mySession = null;
+        ResourceResolver rr = null;
         try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             String path = troop.getTroopPath() + "/finances/" + currentYear;
-            rr = sessionFactory.getResourceResolver();
             mySession = rr.adaptTo(Session.class);
             Node rootNode = mySession.getRootNode();
             Node financesNode = null;
@@ -266,25 +259,24 @@ public class TroopDAOImpl implements TroopDAO {
             this.populateFinanceChildren(incomeNode, expensesNode, params.get("expenses")[0], params.get("income")[0]);
             mySession.save();
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                mySession.logout();
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred:", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
     }
 
     public FinanceConfiguration getFinanceConfiguration(Troop troop, String currentYear) {
-        ResourceResolver rr = null;
         Session mySession = null;
         FinanceConfiguration financeConfig = new FinanceConfiguration();
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             String councilPath = "/" + troop.getCouncilPath();
             String configPath = councilPath + "/" + FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
@@ -298,7 +290,6 @@ public class TroopDAOImpl implements TroopDAO {
                 // Now create and bind it to config
                 configNode = troopNode.addNode(FinanceConfiguration.FINANCE_CONFIG);
             }
-
             List<String> expensesList = new ArrayList<String>();
             List<String> incomeList = new ArrayList<String>();
             if (configNode.hasProperty(Finance.EXPENSES)) {
@@ -328,17 +319,14 @@ public class TroopDAOImpl implements TroopDAO {
                 financeConfig.setPersisted(true);
             }
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (sessionFactory != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred:", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return financeConfig;
@@ -346,10 +334,10 @@ public class TroopDAOImpl implements TroopDAO {
 
     public void setFinanceConfiguration(Troop troop, String currentYear, String income, String expenses, String period, String recipient) {
         // TODO PERMISSIONS HERE
-        ResourceResolver rr = null;
         Session mySession = null;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             Node rootNode = mySession.getRootNode();
             String configPath = troop.getCouncilPath() + "/" + FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
@@ -366,23 +354,21 @@ public class TroopDAOImpl implements TroopDAO {
             configNode.setProperty(FinanceConfiguration.RECIPIENT, recipient);
             mySession.save();
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                mySession.logout();
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred:", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
     }
 
     // Populate the two nodes expenses and income with the properties and values
     // enetered into the finance form
-    private void populateFinanceChildren(Node incomeNode, Node expensesNode, String expensesParams, String incomeParams)
-            throws RepositoryException {
+    private void populateFinanceChildren(Node incomeNode, Node expensesNode, String expensesParams, String incomeParams) throws RepositoryException {
         String[] expenses = expensesParams.replaceAll("\\[|\\]", "").split(",");
         String[] income = incomeParams.replaceAll("\\[|\\]", "").split(",");
         for (int i = 0; i < expenses.length; i = i + 2) {
@@ -459,7 +445,6 @@ public class TroopDAOImpl implements TroopDAO {
                 }
             }
         }
-
         // canceled meeting
         if (troop.getYearPlan().getMeetingCanceled() != null) {
             for (int i = 0; i < troop.getYearPlan().getMeetingCanceled().size(); i++) {
@@ -493,11 +478,11 @@ public class TroopDAOImpl implements TroopDAO {
         if (!asset.isDbUpdate()) {
             return true;
         }
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (!ocm.objectExists(asset.getPath())) {
@@ -510,8 +495,7 @@ public class TroopDAOImpl implements TroopDAO {
                     throw new VtkException("Found no troop when creating asset# " + troop.getTroopPath());
                 }
                 // check meeting
-                if (meetingDAO.getMeetingE(user, troop, asset.getPath().substring(0, asset.getPath().lastIndexOf("/"))
-                        .replace("/assets", "")) == null) {
+                if (meetingDAO.getMeetingE(user, troop, asset.getPath().substring(0, asset.getPath().lastIndexOf("/")).replace("/assets", "")) == null) {
                     throw new VtkException("Found no troop when creating asset# " + troop.getTroopPath());
                 }
                 if (!mySession.itemExists(asset.getPath().substring(0, asset.getPath().lastIndexOf("/")))) {
@@ -526,17 +510,14 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                    if (rr != null) {
-                        sessionFactory.closeResourceResolver(rr);
-                    }
+                if (rr != null) {
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred:", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;
@@ -546,25 +527,21 @@ public class TroopDAOImpl implements TroopDAO {
         if (!meeting.isDbUpdate()) {
             return true;
         }
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            if (meeting.getPath() == null
-                    || !ocm.objectExists(troop.getPath()
-                    + "/yearPlan/meetingEvents")) {
+            if (meeting.getPath() == null || !ocm.objectExists(troop.getPath() + "/yearPlan/meetingEvents")) {
                 // check council
                 if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
                     throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
                 }
                 // check troop
                 if (getTroopByPath(user, troop.getPath()) == null) {
-                    throw new VtkException(
-                            "Found no troop when creating sched# "
-                                    + troop.getTroopPath());
+                    throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
                 }
                 if (mySession.itemExists(troop.getPath() + "/yearPlan")) {
                     JcrUtils.getOrCreateByPath(troop.getPath() + "/yearPlan/meetingEvents", "nt:unstructured", mySession);
@@ -591,20 +568,16 @@ public class TroopDAOImpl implements TroopDAO {
             // need to fix the ajax call.
             log.error(">>>> Skipping stale update for " + meeting.getPath(), iise);
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred: ", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
-
         return isUpdated;
     }
 
@@ -612,11 +585,11 @@ public class TroopDAOImpl implements TroopDAO {
         if (!activity.isDbUpdate()) {
             return true;
         }
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (activity.getPath() == null) {
@@ -628,8 +601,9 @@ public class TroopDAOImpl implements TroopDAO {
                 if (getTroopByPath(user, troop.getPath()) == null) {
                     throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
                 }
-                if (!mySession.itemExists(troop.getYearPlan().getPath() + "/activities"))
+                if (!mySession.itemExists(troop.getYearPlan().getPath() + "/activities")) {
                     JcrUtils.getOrCreateByPath(troop.getYearPlan().getPath() + "/activities", "nt:unstructured", mySession);
+                }
                 activity.setPath(troop.getYearPlan().getPath() + "/activities/" + activity.getUid());
             }
             if (!ocm.objectExists(activity.getPath())) {
@@ -640,17 +614,14 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred: ", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;
@@ -660,11 +631,11 @@ public class TroopDAOImpl implements TroopDAO {
         if (!location.isDbUpdate()) {
             return true;
         }
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (!ocm.objectExists(location.getPath())) {
@@ -688,17 +659,14 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred: ", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;
@@ -709,11 +677,11 @@ public class TroopDAOImpl implements TroopDAO {
         if (schedule == null || !schedule.isDbUpdate()) {
             return true;
         }
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (schedule.getDates() == null) {// remove the schedule to reset
@@ -748,17 +716,14 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred: ", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;
@@ -769,11 +734,11 @@ public class TroopDAOImpl implements TroopDAO {
         if (!yearPlan.isDbUpdate()) {
             return true;
         }
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             JcrUtils.getOrCreateByPath(troop.getYearPlan().getPath(), "nt:unstructured", mySession);
@@ -781,17 +746,14 @@ public class TroopDAOImpl implements TroopDAO {
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred: ", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;
@@ -801,10 +763,11 @@ public class TroopDAOImpl implements TroopDAO {
         if (!troop.isDbUpdate()) {
             return true;
         }
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             if (troop == null || troop.getYearPlan() == null) {
                 return true;
             }
@@ -812,7 +775,6 @@ public class TroopDAOImpl implements TroopDAO {
             if (council == null) {
                 throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
             }
-            rr = sessionFactory.getResourceResolver();
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             Comparator<MeetingE> comp = new BeanComparator("id");
@@ -854,112 +816,100 @@ public class TroopDAOImpl implements TroopDAO {
             log.error("Error occurred while saving troop: ", ex);
             throw new VtkException("Could not complete intended action due to a server error. Code: " + new java.util.Date().getTime());
         } catch (Exception e) {
-            log.error("Error occurred while saving troop: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred while saving troop: ", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;
     }
 
     public boolean removeActivity(User user, Troop troop, Activity activity) {
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             ocm.remove(activity);
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred: ", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;
     }
 
     public boolean removeMeeting(User user, Troop troop, MeetingE meeting) {
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             ocm.remove(meeting);
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred: ", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;
     }
 
     public boolean removeAsset(User user, Troop troop, Asset asset) {
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             ocm.remove(asset);
             ocm.save();
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred: ", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;
     }
 
     public boolean removeMeetings(User user, Troop troop) {
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             if (mySession.itemExists(troop.getPath() + "/yearPlan/meetingEvents")) {
                 mySession.removeItem(troop.getPath() + "/yearPlan/meetingEvents");
@@ -967,17 +917,14 @@ public class TroopDAOImpl implements TroopDAO {
             }
             isUpdated = true;
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred: ", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;
@@ -987,11 +934,11 @@ public class TroopDAOImpl implements TroopDAO {
         if (!meeting.isDbUpdate()) {
             return true;
         }
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (meeting.getPath() == null || !ocm.objectExists(troop.getPath() + "/yearPlan/meetingCanceled")) {
@@ -1007,28 +954,25 @@ public class TroopDAOImpl implements TroopDAO {
             }
             ocm.save();
             isUpdated = true;
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
+         } catch (Exception e) {
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred: ", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;
     }
 
     public void removeDemoTroops() {
-        ResourceResolver rr = null;
         Session session = null;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             session = rr.adaptTo(Session.class);
             String sql = "select * from nt:unstructured where jcr:path like '" + VtkUtil.getYearPlanBase(null, null) + "%' and sfTroopId like 'SHARED_%' and ocm_classname='org.girlscouts.vtk.models.Troop'";
             javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -1046,18 +990,14 @@ public class TroopDAOImpl implements TroopDAO {
             session.save();
             emailCronRpt(null);
         } catch (Exception e) {
-            log.error("Error occurred: ", e);
-            emailCronRpt(e.toString());
+            log.error("Error Occurred: ", e);
         } finally {
             try {
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-                if (session != null) {
-                    session.logout();
-                }
-            } catch (Exception ex) {
-                log.error("Error occurred: ", ex);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
     }
@@ -1102,28 +1042,27 @@ public class TroopDAOImpl implements TroopDAO {
     }
 
     public boolean isArchivedYearPlan(User user, Troop troop, String year) {
-        if (user == null || troop == null) return false;
+        if (user == null || troop == null) {
+            return false;
+        }
         boolean isArchived = false;
-        ResourceResolver rr = null;
         Session mySession = null;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             if (mySession.itemExists("/vtk" + year + "/" + troop.getSfCouncil() + "/troops/" + troop.getSfTroopId() + "/yearPlan")) {
                 isArchived = true;
             }
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred:", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isArchived;
@@ -1133,11 +1072,11 @@ public class TroopDAOImpl implements TroopDAO {
         if (note == null || !note.isDbUpdate()) {
             return true;
         }
-        ResourceResolver rr = null;
         Session mySession = null;
         boolean isUpdated = false;
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             mySession = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (!mySession.itemExists(note.getPath().substring(0, note.getPath().lastIndexOf("/")))) {
@@ -1153,17 +1092,14 @@ public class TroopDAOImpl implements TroopDAO {
         } catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
             log.error(">>>> Skipping stale update for note " + note.getPath(), iise);
         } catch (Exception e) {
-            log.error("Error occurred:", e);
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (mySession != null) {
-                    mySession.logout();
-                }
                 if (rr != null) {
-                    sessionFactory.closeResourceResolver(rr);
+                    rr.close();
                 }
-            } catch (Exception es) {
-                log.error("Error occurred:", es);
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return isUpdated;

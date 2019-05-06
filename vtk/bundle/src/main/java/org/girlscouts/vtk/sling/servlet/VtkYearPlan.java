@@ -13,31 +13,20 @@ import java.io.IOException;
 
 @Component(metatype = true, immediate = true)
 @Service
-@Properties({
-        @Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-        @Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "vtkyearplan"),
-        @Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "html"),
-        @Property(propertyPrivate = true, name = "sling.servlet.methods", value = {"POST", "GET"}),
-        @Property(name = "label", value = "Girl Scouts VTK Year Plan Service"),
-        @Property(name = "description", value = "Girl Scouts VTK year plan service")
-})
+@Properties({@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"), @Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "vtkyearplan"), @Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "html"), @Property(propertyPrivate = true, name = "sling.servlet.methods", value = {"POST", "GET"}), @Property(name = "label", value = "Girl Scouts VTK Year Plan Service"), @Property(name = "description", value = "Girl Scouts VTK year plan service")})
 public class VtkYearPlan extends SlingAllMethodsServlet {
-
     @Reference
     YearPlanUtil yearPlanUtil;
     @Reference
     private ResourceResolverFactory resolverFactory;
 
     @Override
-    protected void doGet(SlingHttpServletRequest request,
-                         SlingHttpServletResponse response) throws
-            IOException {
+    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         String yearPlanPath = request.getParameter("ypp");
         if (yearPlanPath == null || "".trim().equals(yearPlanPath)) {
             //TODO error code here
             return;
         }
-
         YearPlan yearPlan = yearPlanUtil.getYearPlanJson(yearPlanPath);
         ObjectMapper mapper = new ObjectMapper();
         response.setCharacterEncoding("utf8");
@@ -46,13 +35,8 @@ public class VtkYearPlan extends SlingAllMethodsServlet {
     }
 
     @Override
-    protected void doPost(SlingHttpServletRequest request,
-                          SlingHttpServletResponse response) throws
-            IOException {
-
-
+    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
     }
-
 
 }
 

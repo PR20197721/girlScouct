@@ -18,7 +18,7 @@ let Link = (props) => {
     let {modal, title, className} = props;
     return <a href="#" style={{fontWeight: 'bold'}} className={className} data-reveal-id={modal}
               title={title}>{title}</a>
-}
+};
 
 
 let EmailMeetingReminderWithSched = (props) => {
@@ -46,7 +46,7 @@ let EmailMeetingReminderWithSched = (props) => {
     }
 
 
-}
+};
 
 let EmailMeetingReminderWithOutSched = (props) => {
     let {meetingEvents, user_variable} = props;
@@ -74,12 +74,12 @@ let EmailMeetingReminderWithOutSched = (props) => {
     } else {
         return null
     }
-}
+};
 
 let Editsendemail = (props) => {
     return (props.user_variable.user_current_year == props.user_variable.vtk_current_year && PERMISSION_CHECK()('permission_send_email_mt_id')) ?
         <EmailMeetingReminderWithSched  {...props}/> : <EmailMeetingReminderWithOutSched {...props}/>
-}
+};
 
 let RecordAchivements = (props) => {
     let {user_variable, helper, meetingEvents, participationCode} = props;
@@ -87,7 +87,7 @@ let RecordAchivements = (props) => {
     var mName = meetingEvents.meetingInfo.name;
     var title = "Record Attendance & Achievements";
     let txt = "";
-    if("IRM" != participationCode) {
+    if ("IRM" != participationCode) {
         if (!helper.attendanceTotal) {
             txt += `0 present, 0 achievements`;
         } else {
@@ -104,7 +104,7 @@ let RecordAchivements = (props) => {
                 txt += `${helper.achievementCurrent} of ${helper.attendanceTotal} achievement(s)`;
             }
         }
-    }else{
+    } else {
         title = "Record Achievements";
         if (!helper.achievementCurrent) {
             txt += `0 achievements`;
@@ -120,17 +120,16 @@ let RecordAchivements = (props) => {
                  href={`/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?eType=${meetingEvents.type}&mid=${meetingEvents.uid}&isAch=${isArch}&mName=${meetingEvents.meetingInfo.name}`}
                  data-reveal-ajax="true">{title}</a>
             : <a className="disabled">{title}</a>}<br/>{`(${txt})`}
-
     </p>
 
 
-}
+};
 
 let Selector = (props) => {
     return (props.links.id == "editsendemail")
         ? <Editsendemail {...props} />
         : <RecordAchivements {...props} />;
-}
+};
 
 
 function VtkMtgPlanCommunications(props: VtkMtgPlanCommunicationsProps) {
@@ -153,7 +152,7 @@ function VtkMtgPlanCommunications(props: VtkMtgPlanCommunicationsProps) {
                         <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
                             {placeholder.map((links) =>
                                 <li key={links.title}>
-                                    <Selector links={links} user_variable={user_variable} helper={helper}  participationCode = {participationCode} meetingEvents={meetingEvents}/>
+                                    <Selector links={links} user_variable={user_variable} helper={helper} participationCode={participationCode} meetingEvents={meetingEvents}/>
                                 </li>)
                             }
                         </ul>
@@ -173,7 +172,7 @@ let mapStatetoProps = (state) => {
         helper: state.helper,
         participationCode: state.participationCode
     };
-}
+};
 
 
 export default connect(mapStatetoProps)(VtkMtgPlanCommunications);

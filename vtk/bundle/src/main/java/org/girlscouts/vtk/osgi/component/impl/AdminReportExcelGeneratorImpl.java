@@ -1,6 +1,5 @@
 package org.girlscouts.vtk.osgi.component.impl;
 
-
 import jxl.Workbook;
 import jxl.format.Alignment;
 import jxl.format.Border;
@@ -27,9 +26,7 @@ import java.util.Map;
 
 @Component(service = {AdminReportExcelGenerator.class}, immediate = true, name = "org.girlscouts.vtk.osgi.component.impl.AdminReportExcelGeneratorImpl")
 public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator {
-
     private static Logger log = LoggerFactory.getLogger(AdminReportExcelGeneratorImpl.class);
-
     @Reference
     CouncilRpt councilRpt;
 
@@ -92,7 +89,6 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
                             troopLeadersInfo.append(userName + ", ");
                         }
                     } catch (Exception e) {
-
                     }
                     int countAltered = councilRpt.countAltered(yearPlanNameBeans);
                     int countActivity = councilRpt.countActivity(yearPlanNameBeans);

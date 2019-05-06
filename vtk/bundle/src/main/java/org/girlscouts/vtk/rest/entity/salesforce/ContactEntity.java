@@ -3,70 +3,48 @@ package org.girlscouts.vtk.rest.entity.salesforce;
 import com.google.gson.annotations.SerializedName;
 
 public class ContactEntity {
-
     @SerializedName("Id")
     private String sfId;
-
     @SerializedName("AccountId")
     private String sfAccountId;
-
     @SerializedName("rC_Bios__Preferred_Mailing_Address__c")
     private String sfPreferredMailingAddressID;
-
     @SerializedName("Email")
     private String email;
-
     @SerializedName("Name")
     private String name;
-
     @SerializedName("Email_Opt_In__c")
     private boolean isEmailOptIn;
-
     @SerializedName("Text_Phone_Opt_In__c")
     private boolean isTextPhoneOptIn;
-
     @SerializedName("Phone")
     private String phone;
-
     @SerializedName("rC_Bios__Role__c")
     private String role;
-
     @SerializedName("Secondary_Role__c")
     private String secondaryRole;
-
     @SerializedName("rC_Bios__Age__c")
     private int age;
-
     @SerializedName("Birthdate")
     private String birthdate;
-
     @SerializedName("MailingStreet")
     private String mailingStreet;
-
     @SerializedName("MailingCity")
     private String mailingCity;
-
     @SerializedName("MailingState")
     private String mailingState;
-
     @SerializedName("MailingPostalCode")
     private String mailingPostalCode;
-
     @SerializedName("MailingCountry")
     private String mailingCountry;
-
     @SerializedName("of_Girl_Years__c")
     private int girlYears;
-
     @SerializedName("of_Adult_Years__c")
     private int adultYears;
-
     @SerializedName("rC_Bios__Preferred_Mailing_Address__r")
     private PreferredMailingAddress preferredMailingAddress;
-
     @SerializedName("attributes")
     private AttributesEntity attributes;
-
     @SerializedName("Account")
     private AccountEntity account;
 
@@ -247,13 +225,10 @@ public class ContactEntity {
     }
 
     public class PreferredMailingAddress {
-
         @SerializedName("Id")
         private String sfId;
-
         @SerializedName("attributes")
         private AttributesEntity attributes;
-
         @SerializedName("rC_Bios__County__c")
         private String county;
 

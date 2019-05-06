@@ -2,7 +2,6 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
 <%
-
     String id = new java.util.Date().getTime() + "_" + Math.random();
     int isFile = 0;
     try {
@@ -12,34 +11,18 @@
     }
 %>
 <a href="javascript:void(0)" onclick="location.reload()">CLOSE</a>
-
 <div style="background-color:orange; <%if(isFile==0){%> display:none; <% } %>">
-
-
     <h4>Upload File</h4>
-
     <%String assetId = new java.util.Date().getTime() + "_" + Math.random(); %>
-
-
     <a href="/content/girlscouts-vtk/en/vtk.test2.html?refId=<%=request.getParameter("refId")%>&myId=<%=request.getParameter("myId")%>">dropbox</a>
-
-
 </div>
-
-
 <% if (isFile == 0) {%>
 <div style="background-color:red; ">CAMERA
-
     <input type="button" value="DESTROY" onclick="stopId()"/>
-
     <div id="example" style="height:300px; width:300px"></div>
-
     <canvas id="myCanvas" width="578" height="200" style="border: 2px solid blue;"></canvas>
-
     <div id="upld" style="background-color:yellow; border:2px solid green;display:none;">
-
         Would you like to upload photo?
-
         <input type="button" value="RESET"
                onclick="container.style.display='inline';gallery.innerHTML=''; document.getElementById( 'upld').style.display='none'; "/>
         </hr>
@@ -48,16 +31,12 @@
         <input type="button" value="UPLOAD" onclick="xx12()"/>
     </div>
     <div id="gallery" style=""></div>
-
-
     <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"
-          id="frmImg" name="frmImg" onsubmit="return bindAssetToYPC( ';<%=VtkUtil.getYearPlanBase(user, selectedTroop)%>
+          id="frmImg" name="frmImg" onsubmit="return bindAssetToYPC( ';;;<%=VtkUtil.getYearPlanBase(user, selectedTroop)%>
         <%=selectedTroop.getCouncilCode()%>/<%=selectedTroop.getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"
           enctype="multipart/form-data">
-
         <input type="hidden" name="loc"
                value="<%=VtkUtil.getYearPlanBase(user, selectedTroop)%><%=selectedTroop.getCouncilCode()%>/<%=selectedTroop.getTroopId() %>/assets"/>
-
         Asset Title: <input type="text" id="assetTitle" name="assetTitle" value=""/>
         Asset Description: <input type="text" id="assetDesc" name="assetDesc" value=""/>
         <input type="hidden" name="id" value="<%=assetId %>"/>
@@ -69,8 +48,6 @@
         <br/>
         <input type="submit" value="Upload Img"/>
     </form>
-
-
     <script>
         container = document.getElementById("example");
         gallery = document.getElementById("gallery");
@@ -103,7 +80,11 @@
             $.ajax({
                 type: "POST",
                 url: "
+
+
             <%=VtkUtil.getYearPlanBase(user, selectedTroop)%><%=selectedTroop.getCouncilCode()%>/
+
+
             <%=selectedTroop.getTroopId() %>/assets",
          		contentType: false,
          		processData: false,
@@ -149,17 +130,27 @@
      		data: {
      			
      			loc: "
+
+
             <%=VtkUtil.getYearPlanBase(user, selectedTroop)%><%=selectedTroop.getCouncilCode()%>/
+
+
             <%=selectedTroop.getTroopId() %>/assets",
      			id:"
+
+
             <%=assetId %>",
      			me:"
+
+
             <%=request.getParameter("myId")%>",
      			assetDesc: aDesc,
      			aType: "AID",
      			assetName : aName,
      			data:data,
      			owner:"
+
+
             <%=selectedTroop.getId()%>"
      			
      		},
@@ -178,7 +169,11 @@
             $.ajax({
                 type: "POST",
                 url: "
+
+
             <%=VtkUtil.getYearPlanBase(user, selectedTroop)%><%=selectedTroop.getCouncilCode()%>/
+
+
             <%=selectedTroop.getTroopId() %>/assets",
        		
        		contentType: false,
@@ -263,6 +258,7 @@
 
 
         }
+
         function toDataUrl(source) {
             var canvas = document.createElement("canvas");
             canvas.width = source.videoWidth || source.width;
@@ -270,6 +266,7 @@
             canvas.getContext("2d").drawImage(source, 0, 0);
             return canvas.toDataURL();
         }
+
         function saveDataUrl(fileName, dataUrl) {
             var dataString = dataUrl.split(",")[1];
             var buffer = new Buffer(dataString, 'base64');
@@ -297,15 +294,10 @@
 
             imageObj.src = dataURL;
         }
-
     </script>
-
-
 </div>
 <%} %>
-
 <script>
-
     function bindAssetToYPC(assetId, ypcId) {
 
         var assetTitle = "tt"; //document.getElementById("assetTitle").value;

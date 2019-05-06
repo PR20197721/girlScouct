@@ -3,10 +3,8 @@ package org.girlscouts.vtk.rest.entity.salesforce;
 import com.google.gson.annotations.SerializedName;
 
 public class JWTAuthEntity {
-
     @SerializedName("access_token")
     private String accessToken;
-
     @SerializedName("instance_url")
     private String instanceUrl;
 

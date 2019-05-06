@@ -7,44 +7,25 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
-@Node
 public class MeetingE extends YearPlanComponent implements Serializable {
-    // This class wraps the web meeting object to implement VTK meeting structure
-
-    @Field(path = true)
-    String path;
-    @Field(id = true)
-    String uid;
-    @Collection(autoUpdate = false)
-    java.util.List<Asset> assets;
-    @Collection
-    java.util.List<SentEmail> sentEmails;
-    @Field
-    java.util.Date lastAssetUpdate;
-    @Bean(autoUpdate = false)
-    Attendance attendance;
-    @Bean(autoUpdate = false)
-    Achievement achievement;
-    @Collection(autoRetrieve = true, autoInsert = true)
-    java.util.List<Note> notes;
-    boolean isAnyOutdoorActivityInMeeting = false, isAnyOutdoorActivityInMeetingAvailable = false, isAnyGlobalActivityInMeeting = false, isAnyGlobalActivityInMeetingAvailable = false,
-            isAllMultiActivitiesSelected = false;
-    @Field
+    private List<Asset> assets;
+    private List<SentEmail> sentEmails;
+    private Date lastAssetUpdate;
+    private Attendance attendance;
+    private Achievement achievement;
+    private List<Note> notes;
+    boolean isAnyOutdoorActivityInMeeting = false, isAnyOutdoorActivityInMeetingAvailable = false, isAnyGlobalActivityInMeeting = false, isAnyGlobalActivityInMeetingAvailable = false, isAllMultiActivitiesSelected = false;
     private String refId; // path to meetingInfo template
-    @Field
     private String locationRef;
     private Meeting meetingInfo;
-    @Field
     private String cancelled;
-    @Field
-    private Integer id;
-    @Field
     private String emlTemplate;
-    private boolean isDbUpdate = false;
 
     public MeetingE() {
-        this.uid = "M" + new java.util.Date().getTime(); // better to be impossible than unlikely
+        this.setUid("M" + new java.util.Date().getTime() + "_" + Math.random()); // better to be impossible than unlikely
         super.setType(YearPlanComponentType.MEETING);
     }
 
@@ -61,9 +42,9 @@ public class MeetingE extends YearPlanComponent implements Serializable {
     }
 
     public void setLastAssetUpdate(java.util.Date lastAssetUpdate) {
-        if ((lastAssetUpdate != null && this.lastAssetUpdate != null && !this.lastAssetUpdate.equals(lastAssetUpdate)) ||
-                (lastAssetUpdate != null && this.lastAssetUpdate == null))
-            isDbUpdate = true;
+        if ((lastAssetUpdate != null && this.lastAssetUpdate != null && !this.lastAssetUpdate.equals(lastAssetUpdate)) || (lastAssetUpdate != null && this.lastAssetUpdate == null)) {
+            setDbUpdate(true);
+        }
         this.lastAssetUpdate = lastAssetUpdate;
 
     }
@@ -73,34 +54,19 @@ public class MeetingE extends YearPlanComponent implements Serializable {
     }
 
     public void setAssets(java.util.List<Asset> assets) {
-        if ((assets != null && this.assets != null && !this.assets.equals(assets)) ||
-                (assets != null && this.assets == null))
-            isDbUpdate = true;
+        if ((assets != null && this.assets != null && !this.assets.equals(assets)) || (assets != null && this.assets == null)) {
+            setDbUpdate(true);
+        }
         this.assets = assets;
 
     }
 
-    public String getUid() {
-        return uid;
-    }
-
     public void setUid(String uid) {
-        this.uid = uid;
-        if (uid == null)
-            this.uid = "M" + new java.util.Date().getTime() + "_"
-                    + Math.random();
-
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        if ((id != null && this.id != null && !this.id.equals(id)) ||
-                (id != null && this.id == null))
-            isDbUpdate = true;
-        this.id = id;
+        if (uid == null) {
+            this.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
+        }else{
+            this.setUid(uid);
+        }
 
     }
 
@@ -108,10 +74,17 @@ public class MeetingE extends YearPlanComponent implements Serializable {
         return cancelled;
     }
 
+    public void setSortOrder(Integer order) {
+        if ((order != null && this.getSortOrder() != null && !this.getSortOrder().equals(order)) || (order != null && this.getSortOrder() == null)) {
+            setDbUpdate(true);
+        }
+        super.setSortOrder(order);
+    }
+
     public void setCancelled(String cancelled) {
-        if ((cancelled != null && this.cancelled != null && !this.cancelled.equals(cancelled)) ||
-                (cancelled != null && this.cancelled == null))
-            isDbUpdate = true;
+        if ((cancelled != null && this.cancelled != null && !this.cancelled.equals(cancelled)) || (cancelled != null && this.cancelled == null)) {
+            setDbUpdate(true);
+        }
         this.cancelled = cancelled;
 
     }
@@ -121,10 +94,9 @@ public class MeetingE extends YearPlanComponent implements Serializable {
     }
 
     public void setLocationRef(String locationRef) {
-        if ((locationRef != null && this.locationRef != null && !this.locationRef.equals(locationRef)) ||
-                (locationRef != null && this.locationRef == null))
-            isDbUpdate = true;
-
+        if ((locationRef != null && this.locationRef != null && !this.locationRef.equals(locationRef)) || (locationRef != null && this.locationRef == null)) {
+            setDbUpdate(true);
+        }
         this.locationRef = locationRef;
 
     }
@@ -134,7 +106,6 @@ public class MeetingE extends YearPlanComponent implements Serializable {
     }
 
     public void setMeetingInfo(Meeting meetingInfo) {
-
         this.meetingInfo = meetingInfo;
 
     }
@@ -144,24 +115,10 @@ public class MeetingE extends YearPlanComponent implements Serializable {
     }
 
     public void setRefId(String refId) {
-        if ((refId != null && this.refId != null && !this.refId.equals(refId)) ||
-                (refId != null && this.refId == null))
-            isDbUpdate = true;
+        if ((refId != null && this.refId != null && !this.refId.equals(refId)) || (refId != null && this.refId == null)) {
+            setDbUpdate(true);
+        }
         this.refId = refId;
-
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-
-        if ((path != null && this.path != null && !this.path.equals(path)) ||
-                (path != null && this.path == null))
-            isDbUpdate = true;
-
-        this.path = path;
 
     }
 
@@ -179,14 +136,6 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
     public void setEmlTemplate(String template) {
         this.emlTemplate = template;
-    }
-
-    public boolean isDbUpdate() {
-        return isDbUpdate;
-    }
-
-    public void setDbUpdate(boolean isDbUpdate) {
-        this.isDbUpdate = isDbUpdate;
     }
 
     public Attendance getAttendance() {

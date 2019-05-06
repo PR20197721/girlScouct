@@ -1,6 +1,5 @@
 <%@ page
-        import="com.day.text.Text, com.google.common.collect.*, com.google.common.collect.BiMap, com.google.common.collect.HashBiMap, org.girlscouts.vtk.models.Contact,org.girlscouts.vtk.models.ContactExtras,org.girlscouts.vtk.models.YearPlanComponent" %>
-<%@ page import="java.util.Calendar" %>
+        import="com.day.text.Text, org.girlscouts.vtk.models.Contact, org.girlscouts.vtk.models.ContactExtras, org.girlscouts.vtk.models.YearPlanComponent, java.util.Calendar" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <cq:defineObjects/>
@@ -23,7 +22,6 @@
 <%!
     public boolean isRenewMembership(int membershipYear) {
         Calendar rightNow = Calendar.getInstance();
-
         return membershipYear == rightNow.get(Calendar.YEAR) &&
                 (rightNow.get(Calendar.MONTH) > 2 && rightNow.get(Calendar.MONTH) < 9);
     }

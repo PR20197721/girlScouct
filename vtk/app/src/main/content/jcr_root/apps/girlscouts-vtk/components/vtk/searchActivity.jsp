@@ -4,7 +4,6 @@
 <%
     java.util.List<org.girlscouts.vtk.models.Activity> activities = (java.util.List<org.girlscouts.vtk.models.Activity>) session.getValue("vtk_search_activity");
 %>
-
 <h3 class="searchResults">Found <%=activities.size()%> Activities</h3>
 <ul>
     <%
@@ -16,7 +15,6 @@
                 e.printStackTrace();
             }
         }
-
         for (int i = 0; i < activities.size(); i++) {
             boolean isExists = false;
             if (selectedTroop.getYearPlan().getActivities() != null) {
@@ -39,7 +37,6 @@
         <p class="activityLocation"><strong>Location:
             <%=activities.get(i).getLocationName() == null ? "" : activities.get(i).getLocationName() %>
             <%=activities.get(i).getLocationAddress() == null ? "Currently no location" : activities.get(i).getLocationAddress() %>
-
             <%if (activities.get(i).getLocationAddress() != null && !activities.get(i).getLocationAddress().trim().equals("")) { %>
             <!-- <input type="button" onclick="showMap('<%=activities.get(i).getLocationAddress().replace("\r","")%>')" value="Map"/> -->
             <a href="javascript:void(0)" class="reserved"
@@ -61,12 +58,10 @@
         <a href="<%=activities.get(i).getRegisterUrl()%>" target="_blank" class="reserved"
            onclick="this.style.display='none'; addActiv3('<%=activities.get(i).getUid()%>', '<%=activities.get(i).getRegisterUrl()%>');">Select
             Activity and Register for event</a>
-
         <%} else { %>
         <a href="#" class="reserved"
            onclick="this.style.display='none'; addActiv3('<%=activities.get(i).getUid()%>', null);">Select Activity</a>
         <%} %>
-
         <%} %>
         <div id="cust_activ_<%=activities.get(i).getUid()%>"></div>
     </li>
@@ -95,7 +90,6 @@
     function showMap(address) {
         window.open('/content/girlscouts-vtk/controllers/vtk.map.html?address=' + address);
     }
-
 </script>
 
 

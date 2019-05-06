@@ -18,13 +18,11 @@
     allowedReportUsers.add("005G0000006oEkZ");
     allowedReportUsers.add("005G0000006oBVG");
     allowedReportUsers.add("005g0000002G004");
-
     StringBuffer sb = new StringBuffer();
     if (!allowedReportUsers.contains(user.getApiConfig().getUserId())) {
         out.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
         return;
     } else {
-
         boolean isHtml = true;
         if (request.getParameter("download") != null) {
             response.setContentType("application/csv");
@@ -40,7 +38,6 @@
         SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
         //StringBuffer buffer = new StringBuffer("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
         sb.append("Council Report generated on " + format1.format(new java.util.Date()) + " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
-
         java.util.Map<String, String> cTrans = new java.util.TreeMap();
         cTrans.put("597", "Girl Scouts of Northeast Texas");
         cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
@@ -73,7 +70,6 @@
         cTrans.put("514", "Eastern IA & Western IL");
         cTrans.put("524", "Greater Iowa");
         cTrans.put("430", "Greater Chicago and NW  Indiana");
-
         cTrans.put("578", "Central Texas");
         cTrans.put("208", "Kentuckiana");
         cTrans.put("700", "USA Girl Scouts Overseas");
@@ -105,22 +101,18 @@
         cTrans.put("687", "Eastern Washington and Northern Idaho");
         cTrans.put("441", "Southwest Indiana");
         cTrans.put("238", "Ohio's Heartland");
-
         String limitRptToCouncil = request.getParameter("limitRptToCouncil");
         limitRptToCouncil = limitRptToCouncil == null ? "" : limitRptToCouncil.trim();
-
         java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
         javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
         String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, selectedTroop) + "" + (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil + "/")) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
         System.err.println("SQL: " + sql);
-
         javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
         java.util.Map container = new java.util.TreeMap();
         javax.jcr.query.QueryResult result = q.execute();
         for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
             javax.jcr.query.Row r = it.nextRow();
-
             String path = r.getValue("jcr:path").getString();
             String sfCouncil = null, sfTroopAge = null;
             try {
@@ -152,10 +144,8 @@
 
         }
     }
-
     final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
     String rptId = councilRpt.saveRpt(sb);
-
 //email rpt
     councilRpt.emailRpt(sb.toString());//vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
 %>

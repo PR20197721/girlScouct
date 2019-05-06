@@ -20,16 +20,12 @@ import org.slf4j.LoggerFactory;
 @Component(service = {GirlScoutsSalesForceFileClient.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsSalesForceFileClientImpl")
 @Designate(ocd = GirlScoutsSalesForceFileClientConfig.class)
 public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService implements GirlScoutsSalesForceFileClient {
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsSalesForceFileClientImpl.class);
     @Reference
     GirlScoutsRepoFileIOService girlScoutsRepoFileIOService;
     private String localJsonPath;
-
     private String localDemoFolder;
-
     private String localDummyFolder;
-
 
     @Activate
     private void activate(ComponentContext context) {

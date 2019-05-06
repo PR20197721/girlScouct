@@ -3,14 +3,10 @@
 %>
 <img id="current-picture" src="" style="margin-left: auto; margin-right: auto; width: 100%"/>
 <%} else {%>
-
 <img id="current-picture" src="" style="display:none;margin-left: auto; margin-right: auto; width: 100%"/>
 <%} %>
-
 <div id="image-tool" style="width:100%"></div>
-
 <script>
-
     var imageTool = document.getElementById("image-tool");
 
     var modal = document.getElementById("upload-crop-area");
@@ -678,5 +674,4 @@
             track.stop();
         }
     }
-
 </script>

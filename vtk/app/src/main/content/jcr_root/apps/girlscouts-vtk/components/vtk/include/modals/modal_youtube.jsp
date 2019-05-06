@@ -11,17 +11,14 @@
                 org.apache.sling.api.resource.ResourceResolver,
                 javax.jcr.Session" %>
 <%@include file="/libs/foundation/global.jsp" %>
-
 <%
     String resourceName = "";
     if (request.getParameter("resource") != null) {
         resourceName = request.getParameter("resource");
         resourceName = resourceName.replaceAll("'", "");
     }
-
 // Page resourceContent;
 %>
-
 <script>
     var resourceName = '<%= resourceName %>';
     var stringNice = '';
@@ -37,8 +34,6 @@
         $('#youtube').attr('src', stringNice);
     })
 </script>
-
-
 <style>
     .video-container {
         position: relative;
@@ -55,9 +50,7 @@
         width: 100%;
         height: 100%;
     }
-
 </style>
-
 <div class="modal_resource">
     <div class="header clearfix">
         <h3 class="columns large-22">

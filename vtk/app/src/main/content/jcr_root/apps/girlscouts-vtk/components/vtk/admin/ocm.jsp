@@ -17,13 +17,8 @@
     <input type="text" value="" name="uuid"/>
     <input type="submit">
 </form>
-
-
 <%
-
-
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
-
     if (request.getParameter("uuid") != null && !"".equals(request.getParameter("uuid"))) {
         out.println("searching for uuid: " + request.getParameter("uuid"));
         try {
@@ -34,7 +29,6 @@
         }
         //if(true)return;
     }
-
     out.println("<hr/>");
 
 

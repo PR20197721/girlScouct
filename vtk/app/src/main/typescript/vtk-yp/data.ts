@@ -1,5 +1,3 @@
-import * as axios from 'axios';
-
 import Axios from 'axios';
 
 export const ULR = 'URL';
@@ -11,38 +9,41 @@ declare var ________currentYearPlanName________: string;
 declare var ________troopName________: string;
 
 
-export function getYearPlan() { 
+export function getYearPlan() {
     const level: string = `${________app________}`;
-    return  Axios.get(
-       window.location.origin + '/content/vtkcontent/en/year-plan-library/'+level+'/_jcr_content/content/middle/par.1.json')
+    return Axios.get(
+        window.location.origin + '/content/vtkcontent/en/year-plan-library/' + level + '/_jcr_content/content/middle/par.1.json')
 
-        .then((data) => { 
+        .then((data) => {
 
             return parseJSONVTK(data.data)
         });
 }
+
 export function getPDF() {
 
-           const level: string = `${________app________}`;
+    const level: string = `${________app________}`;
     return Axios.get(
-        window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/'+level+'.1.json')
+        window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/' + level + '.1.json')
         .then((d: any) => {
-     
+
 
             for (let a in d.data) {
                 if (a.match(/.pdf/)) {
-                    return window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/' + level +'/' + a;
+                    return window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/' + level + '/' + a;
                 }
             }
         });
 }
+
 export function getMeetings(url: string) {
 
-    return Axios.get(window.location.origin+ '/content/girlscouts-vtk/en/vtk.vtkyearplan.html?ypp=' + url).then((data) => { 
+    return Axios.get(window.location.origin + '/content/girlscouts-vtk/en/vtk.vtkyearplan.html?ypp=' + url).then((data) => {
         return parseMeetings(data.data);
     })
 }
-export function parseJSONVTK(json:any) {
+
+export function parseJSONVTK(json: any) {
 
     var parts: any[] = [];
     var currentCategory = 0;
@@ -52,7 +53,7 @@ export function parseJSONVTK(json:any) {
         Category: [],
         bottom: {},
         customizedYearPlanContent: {}
-    }
+    };
 
     for (let part in json) {
 
@@ -65,22 +66,22 @@ export function parseJSONVTK(json:any) {
 
         if (json[part].hasOwnProperty('level')) {
 
-       
+
             if (json[part]['level'] === "Grade") {
                 parts.push(json[part])
             } else if (json[part]['level'] === "Category") {
-            
+
                 json[part]['categories'] = [];
-                parts.push(json[part])
+                parts.push(json[part]);
                 currentCategory = parts.length - 1;
-            
+
             }
         } else {
-        
+
             parts[currentCategory]['categories'].push(json[part])
         }
 
-        if (json[part].hasOwnProperty('linkText')) { 
+        if (json[part].hasOwnProperty('linkText')) {
             OtoR.customizedYearPlanContent['linkText'] = json[part]['linkText'];
             OtoR.customizedYearPlanContent['title'] = json[part]['title'];
         }
@@ -99,14 +100,15 @@ export function parseJSONVTK(json:any) {
         if (idx == parts.length - 1) {
             OtoR['bottom'] = elemen;
         }
-    })
+    });
 
 
     return OtoR;
 
-}    
-export function parseMeetings(json: any) { 
-    
+}
+
+export function parseMeetings(json: any) {
+
     var meetings_ = {
         desc: json.desc,
         name: json.name,
@@ -114,46 +116,46 @@ export function parseMeetings(json: any) {
     };
 
 
- 
-   return meetings_;
+    return meetings_;
 }
+
 export var modal = (function () {
-        
+
     var topics = {};
-      var hOP = topics.hasOwnProperty;
+    var hOP = topics.hasOwnProperty;
 
-  return {
-    subscribe: function (topic, listener) {
+    return {
+        subscribe: function (topic, listener) {
 
-      // Create the topic's object if not yet created
-      if(!hOP.call(topics, topic)) topics[topic] = [];
+            // Create the topic's object if not yet created
+            if (!hOP.call(topics, topic)) topics[topic] = [];
 
-      // Add the listener to queue
-      var index = topics[topic].push(listener) -1;
+            // Add the listener to queue
+            var index = topics[topic].push(listener) - 1;
 
-      // Provide handle back for removal of topic
-      return {
-        remove: function() {
-          delete topics[topic][index];
+            // Provide handle back for removal of topic
+            return {
+                remove: function () {
+                    delete topics[topic][index];
+                }
+            };
+        },
+        publish: function (topic, info) {
+            // If the topic doesn't exist, or there's no listeners in queue, just leave
+            if (!hOP.call(topics, topic)) return;
+
+            // Cycle through topics queue, fire!
+            topics[topic].forEach(function (item) {
+                item(info != undefined ? info : {});
+            });
+        },
+
+
+        print: function () {
+            return topics;
         }
-      };
-    },
-    publish: function(topic, info) {
-      // If the topic doesn't exist, or there's no listeners in queue, just leave
-      if(!hOP.call(topics, topic)) return;
+    };
 
-      // Cycle through topics queue, fire!
-      topics[topic].forEach(function(item) {
-      		item(info != undefined ? info : {});
-      });
-    },
-
-
-    print: function () { 
-        return topics;
-    }
-  };
-  
 })();
 
-export const urlPath:string = '/content/dam/girlscouts-vtkcontent/images/explore/';
+export const urlPath: string = '/content/dam/girlscouts-vtkcontent/images/explore/';

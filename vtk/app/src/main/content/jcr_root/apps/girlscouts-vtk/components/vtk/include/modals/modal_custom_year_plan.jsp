@@ -4,9 +4,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../session.jsp" %>
-
 <%
-
     String ageLevel = selectedTroop.getGradeLevel();
     ageLevel = ageLevel.substring(ageLevel.indexOf("-") + 1).toLowerCase().trim();
     java.util.List<Meeting> meetings = yearPlanUtil.getAllMeetings(user, selectedTroop, ageLevel);
@@ -66,8 +64,6 @@
         });
     }
 </script>
-
-
 <div class="header clearfix">
     <h3 class="columns large-22">CREATE your own year plan</h3>
     <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
@@ -80,18 +76,15 @@
             <div class="columns large-12 medium-12 small-24">
                 <p class="title">MEETINGS LIBRARY</p>
                 <ul id="sortable1" class="connectedSortable" data-equalizer-watch="foo">
-
                     <c:forEach var="meeting" items="${meetings}">
                         <li class="ui-state-default" id="${meeting.path}"><p>${meeting.name}</p>
                             <p>${meeting.cat}</p></li>
                     </c:forEach>
-
                 </ul>
             </div>
             <div class="columns large-12 medium-12 small-24">
                 <p class="title">YOUR YEAR PLAN</p>
                 <ul id="sortable2" class="connectedSortable" data-equalizer-watch="foo">
-
                 </ul>
             </div>
         </div>

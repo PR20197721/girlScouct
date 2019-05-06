@@ -11,10 +11,7 @@
         session.setAttribute("search", countries);
         return;
     }
-
     Iterator<org.girlscouts.vtk.models.Search> iterator = countries.iterator();
     session.setAttribute("search", countries);
 %>
-
-
 [<%=toRet %>{"label" : "alex"}]

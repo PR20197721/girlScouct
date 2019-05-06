@@ -4,7 +4,6 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/vtk.jsp -->
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
-
 <%
     if (selectedTroop.getYearPlan() != null || (selectedTroop.getRole() != null && selectedTroop.getRole().equals("PA") && !"IRM".equals(selectedTroop.getParticipationCode()))) {
 %>

@@ -12,13 +12,10 @@
 <cq:defineObjects/>
 <%@include file="../include/session.jsp" %>
 <%@include file="../admin/toolbar.jsp" %>
-
-
 <form action="/content/girlscouts-vtk/en/vtk.admin.test4.html">
     <input type="text" name="xx44" value=""/>
     <input type="submit" value="User id"/>
 </form>
-
 <%
     try {
     } catch (Exception e) {

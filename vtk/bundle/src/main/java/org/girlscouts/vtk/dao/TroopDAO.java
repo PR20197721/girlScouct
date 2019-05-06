@@ -6,7 +6,6 @@ import org.girlscouts.vtk.utils.VtkException;
 import java.util.Map;
 
 public interface TroopDAO {
-
     Troop getTroopByPath(User user, String troopPath) throws IllegalAccessException;
 
     YearPlan addYearPlan1(User user, Troop troop, String yearPlanPath) throws IllegalAccessException;

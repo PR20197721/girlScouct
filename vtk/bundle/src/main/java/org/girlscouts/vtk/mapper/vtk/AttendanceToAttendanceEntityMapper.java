@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AttendanceToAttendanceEntityMapper extends BaseModelToEntityMapper {
-
     private static Logger log = LoggerFactory.getLogger(AttendanceToAttendanceEntityMapper.class);
 
     public static AttendanceEntity map(Attendance attendance) {

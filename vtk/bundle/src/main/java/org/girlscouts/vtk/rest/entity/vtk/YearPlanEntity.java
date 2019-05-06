@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class YearPlanEntity extends BaseEntity {
-
     @SerializedName("path")
     private String path;
     @SerializedName("name")

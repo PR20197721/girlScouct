@@ -3,50 +3,35 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
-
 <%
-
     SearchTag search = yearPlanUtil.searchA(user, selectedTroop, selectedTroop.getCouncilCode());
     java.util.Map<String, String> levels = search.getLevels();
     java.util.Map<String, String> categories = search.getCategories();
     java.util.Map<String, String> region = search.getRegion();
-
 %>
 <form id="schFrm">
     <input type="text" id="sch_keyword" value=""/>
-
-
     <fieldset>
         <select id="sch_region">
             <option value="">Select Region</option>
             <% java.util.Iterator itr2 = region.keySet().iterator();
-
                 while (itr2.hasNext()) {
                     String str = (String) itr2.next();
             %>
             <option value="<%= str %>"><%= str %>
             </option>
             <% } %>
-
-
         </select>
-
-
         <br/>From Date<input type="text" id="sch_startDate" value=""/>
         <br/>To Date<input type="text" id="sch_endDate" value=""/>
     </fieldset>
-
-
     <h2>Categories</h2>
     <% java.util.Iterator itr = categories.keySet().iterator();
-
         while (itr.hasNext()) {
             String str = (String) itr.next();
     %>
     <%= str %><input type="checkbox" name="sch_cats" value="<%= str %>"/>
     <% } %>
-
-
     <h2>Levels</h2>
     <% java.util.Iterator itr1 = levels.keySet().iterator();
         while (itr1.hasNext()) {
@@ -54,13 +39,9 @@
     %>
     <%= str %><input type="checkbox" name="sch_lvl" value="<%= str %>"/>
     <% } %>
-
     <input type="button" value="Search" onclick='src11()'/>
 </form>
-
-
 <script>
-
     $('#sch_startDate').datepicker({minDate: 0});
     $('#sch_endDate').datepicker({minDate: 0});
 
@@ -126,5 +107,4 @@
 
     }
 </script>
-
 <div id="srch_reslts"></div>

@@ -8,9 +8,7 @@ import org.w3c.dom.NodeList;
 
 import java.security.cert.CertificateException;
 
-
 public class Response {
-
     private final AccountSettings accountSettings;
     private final Certificate certificate;
     private Document xmlDoc;

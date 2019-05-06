@@ -4,19 +4,14 @@
                 java.util.Map" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="session.jsp" %>
-
-
 <div class="header clearfix">
     <i style="position:absolute; top:5px; right:5px;" class="icon-button-circle-cross"
        onclick="(function(){$('#gsModal').dialog('close')})()"></i>
 </div>
 <div class="scroll" style="max-height:601px">
-
     <div id="resource_overview">
         <div class="columns small-24">
-
             <%
-
                 String level = request.getParameter("level");
                 if (null == level || "".equals(level)) {
                     String[] selectors = slingRequest.getRequestPathInfo().getSelectors();
@@ -27,8 +22,6 @@
                         }
                     }
                 }
-
-
                 List<Meeting> raw_meetings = null;
                 try {
                     raw_meetings = meetingUtil.getMeetings(user, selectedTroop, level);
@@ -37,9 +30,7 @@
                     //TODO
                 } catch (Exception genException) {
                     //TODO
-
                 }
-
                 List<String> meetingPlanTypes = null;
                 if (raw_meetings != null) {
                     meetingPlanTypes = VtkUtil.getDistinctMeetingPlanTypes(raw_meetings);
@@ -48,31 +39,21 @@
             <%@include file="resource_overview_types.jsp" %>
             <%
                 }
-
                 VtkUtil.sortMeetingsByName(raw_meetings);
                 for (Meeting meeting : raw_meetings) {
             %>
             <%@include file="resource_overview.jsp" %>
             <%
                 }
-
-
             %>
-
-
         </div>
-
         <div class="__view-all row">
             <div style="text-align:center" class="columns small-24">
                 <p>Show the other <span class="_number"></span></p>
             </div>
         </div>
-
-
     </div>
 </div>
-
-
 <script>
     var meeTingTypeStatus;
 

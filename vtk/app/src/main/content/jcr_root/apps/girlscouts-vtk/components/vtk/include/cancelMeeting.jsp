@@ -1,7 +1,6 @@
 <p style="font-weight:bold;">
     Select the meeting you want to cancel and "Save" your choice.
 </p>
-
 <table class="list-of-meeting-calendar cancel-meeting yearMeetingList">
     <%
         for (int i = 0; i < meetingsToCancel.size(); i++) {
@@ -17,26 +16,18 @@
     %>
     <tr>
         <td>
-
-
             <input type="radio" name="_tag_t" id="x<%=meetingsToCancel.get(i).getUid() %>"
                    value="<%=meetingsToCancel.get(i).getUid()%>"/>
             <label for="x<%=meetingsToCancel.get(i).getUid() %>"><span></span>
                 <p></p></label>
-
-
         </td>
-
-
         <td>
             <%=VtkUtil.formatDate(VtkUtil.FORMAT_CALENDAR_DATE, dt)%>
         </td>
-
         <td><%= meetingsToCancel.get(i).getMeetingInfo().getName()%>
         </td>
         <td class="vtk_age_level <%= meetingsToCancel.get(i).getMeetingInfo().getLevel() %>"><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %>
         </td>
-
     </tr>
     <%
                     }
@@ -44,8 +35,6 @@
 
         } %>
 </table>
-
-
 <div class="row">
     <div class="small-24 column">
         <input type="button" value="save" id="saveCalElem" onclick="saveCalElem()"
@@ -57,7 +46,6 @@
     </div>
 </div>
 <script>
-
     function checkSaveButton(name, className, number) {
 
         function changeButton() {
@@ -86,6 +74,4 @@
     }
 
     checkSaveButton('_tag_t', '.cancel-meetings-button')
-
-
 </script>

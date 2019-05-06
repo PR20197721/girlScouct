@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MeetingSearch {
-
     private int year;
     private java.util.List<String> level;
     private java.util.List<String> categoryTags;
     private String keywords;
     private String meetingPlanType;
-
 
     public int getYear() {
         return year;
@@ -51,6 +49,5 @@ public class MeetingSearch {
     public void setMeetingPlanType(String meetingPlanType) {
         this.meetingPlanType = meetingPlanType;
     }
-
 
 }

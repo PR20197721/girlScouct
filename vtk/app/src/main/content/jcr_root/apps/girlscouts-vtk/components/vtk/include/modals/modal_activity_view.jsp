@@ -5,17 +5,12 @@
             return activity1.getActivityNumber() - activity2.getActivityNumber();
         }
     });
-
     StringBuilder builder = new StringBuilder();
     for (Activity __activity : activities) {
-
         String description = __activity.getActivityDescription();
-
-
         java.util.List<Activity> subActivities = __activity.getMultiactivities();
         Activity selectedActivity = VtkUtil.findSelectedActivity(subActivities);
         if (selectedActivity == null && (subActivities != null && subActivities.size() > 1)) {
-
             builder.append("<p style=\"color:red; font-size:18px; font-weight:bolder;\"><b>Activity " + __activity.getActivityNumber() + " : Select Your Activity </b></p>");
 
         } else {

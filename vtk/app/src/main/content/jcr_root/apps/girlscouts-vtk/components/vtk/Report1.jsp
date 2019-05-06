@@ -58,7 +58,6 @@
     cTrans.put("514", "Eastern IA & Western IL");
     cTrans.put("524", "Greater Iowa");
     cTrans.put("430", "Greater Chicago and NW  Indiana");
-
     java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
     String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, troop) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
@@ -93,5 +92,4 @@
         Integer count = (Integer) container.get(key);
         out.println((isHtml ? "<br/>" : "\n") + councilId + "," + ageGroup + "," + count);
     }
-
 %>

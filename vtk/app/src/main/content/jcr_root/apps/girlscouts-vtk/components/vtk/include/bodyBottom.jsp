@@ -1,5 +1,4 @@
 </div>
-
 <script type="text/javascript">
     $(window).load(function () {
         var vtk_err_desc = document.getElementById("vtkErrMsg_hidden");
@@ -12,10 +11,7 @@
 
     var modalAlert = new ModalVtk('Alert', true);
     modalAlert.init();
-
-
 </script>
-
 <div style="display:none;" id="vtkErrMsg_hidden">
     <%@include file="vtkError.jsp" %>
 </div>

@@ -3,26 +3,22 @@ package org.girlscouts.vtk.models;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class YearPlanComponent implements Serializable {
-
-    private transient java.util.Date date;
+public class YearPlanComponent extends JcrNode implements Serializable {
+    private Date date;
     private YearPlanComponentType type;
-    private transient String uid;
+    private Integer sortOrder;
 
-    public String getUid() {
-        return uid;
+    public YearPlanComponent(){
+
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public java.util.Date getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(java.util.Date date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -34,4 +30,11 @@ public class YearPlanComponent implements Serializable {
         this.type = type;
     }
 
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
 }

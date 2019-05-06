@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public class MeetingEntity extends BaseEntity {
-
     @SerializedName("type")
     private YearPlanComponentType type;
     @SerializedName("path")

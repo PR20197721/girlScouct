@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LocationToLocationEntityMapper extends BaseModelToEntityMapper {
-
     private static Logger log = LoggerFactory.getLogger(LocationToLocationEntityMapper.class);
 
     public static LocationEntity map(Location location) {

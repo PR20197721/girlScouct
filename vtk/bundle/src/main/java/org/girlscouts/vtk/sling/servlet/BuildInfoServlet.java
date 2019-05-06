@@ -13,12 +13,10 @@ import java.util.Properties;
 @SlingServlet(paths = {"/bin/checkup/vtk"})
 public class BuildInfoServlet extends SlingSafeMethodsServlet {
     private static final long serialVersionUID = 5981389970977916595L;
-
     private static final Logger log = LoggerFactory.getLogger(BuildInfoServlet.class);
 
     @Override
-    protected void doGet(SlingHttpServletRequest request,
-                         SlingHttpServletResponse response) {
+    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession(false);
         try {
             if (session == null || session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) == null) {

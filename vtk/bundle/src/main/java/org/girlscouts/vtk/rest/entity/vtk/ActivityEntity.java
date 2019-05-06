@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 public class ActivityEntity extends BaseEntity {
-
     @SerializedName("path")
     private String path;
     @SerializedName("name")

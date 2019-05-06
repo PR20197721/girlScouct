@@ -15,18 +15,14 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@SlingServlet(
-        paths = {"/bin/troophash"}
-)
+@SlingServlet(paths = {"/bin/troophash"})
 public class TroopHashServlet extends SlingSafeMethodsServlet {
     private static Logger log = LoggerFactory.getLogger(TroopHashServlet.class);
     @Reference
     TroopHashGenerator hashGenerator;
 
     @Override
-    protected void doGet(SlingHttpServletRequest request,
-                         SlingHttpServletResponse response) throws ServletException,
-            IOException {
+    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
         String troopId = request.getParameter("troopId");
         PrintWriter out = response.getWriter();
         response.setStatus(500);

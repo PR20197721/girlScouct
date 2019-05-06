@@ -1,7 +1,7 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
-<%@ page import="com.google.common.collect.*" %>
+<%@ page import="com.google.common.collect.BiMap" %>
 <%@ page
-        import="org.girlscouts.vtk.auth.permission.Permission, org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
+        import="com.google.common.collect.HashBiMap, org.girlscouts.vtk.auth.permission.Permission, org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery-te-1.4.0.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
@@ -38,7 +38,6 @@
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
         com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
         contactsExtras = contactUtil.getContactsExtras(user, selectedTroop, contacts);

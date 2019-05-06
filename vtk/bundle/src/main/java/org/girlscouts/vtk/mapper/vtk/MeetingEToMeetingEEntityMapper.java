@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MeetingEToMeetingEEntityMapper extends BaseModelToEntityMapper {
-
     private static Logger log = LoggerFactory.getLogger(MeetingEToMeetingEEntityMapper.class);
 
     public static MeetingEEntity map(MeetingE meetingE) {

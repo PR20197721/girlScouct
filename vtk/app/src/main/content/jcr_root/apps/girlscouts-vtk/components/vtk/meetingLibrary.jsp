@@ -20,24 +20,20 @@
         newItems.add("STEM");
         newItems.add("Journey|Outdoor");
         newItems.add("Outdoor");
-
         boolean showVtkNav = true;
         String activeTab = "resource";
         String meetingPath = request.getParameter("mpath");
         if (meetingPath == null || meetingPath.equals("null") || meetingPath.equals("")) {
             meetingPath = null;
         }
-
         if (meetingPath != null) {
             showVtkNav = false;
         }
-
         String ageLevel = selectedTroop.getGradeLevel();
         ageLevel = ageLevel.substring(ageLevel.indexOf("-") + 1).toLowerCase().trim();
         List<Meeting> meetings = yearPlanUtil.getAllMeetings(user, selectedTroop);
         Set<String> outdoorMeetingIds = meetingUtil.getOutdoorMeetings(user, selectedTroop);
         Set<String> globalMeetingIds = meetingUtil.getGlobalMeetings(user, selectedTroop);
-
         List<Meeting> extraInfoMeetings = new ArrayList();
         for (int i = 0; i < meetings.size(); i++) {
             if (meetings.get(i).getMeetingPlanTypeAlt() != null && !"".equals(meetings.get(i).getMeetingPlanTypeAlt())) {
@@ -51,7 +47,6 @@
         String find = "";
 %>
 <div class="header clearfix">
-
     <h3 class="columns small-20">
         <%if (request.getParameter("newCustYr") != null) { %>
         Create Your Own Year Plan
@@ -65,13 +60,10 @@
 
     </span>
     <a class="columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
-
 </div>
-
 <%
     boolean isWarning = false;
     String instruction = "Select a meeting library and pick the ones that best complete your multi-level Year Plan";
-
     if (request.getParameter("newCustYr") != null) {
         instruction = "Look through the meeting library and pick the ones that best complete your multi-level Year Plan";
     } else {
@@ -79,7 +71,6 @@
 
     }//end else
     instruction = "";
-
     if (isWarning) {
 %>
 <div class="small-4 medium-2 large-2 columns meeting_library">
@@ -96,7 +87,6 @@
         }
         List<String> futureMeetings = new ArrayList<String>();
         List<String> reAddMeetings = new ArrayList<String>();
-
         //add ability to add past meetings again
         Map<Date, YearPlanComponent> sched = null;
         try {
@@ -209,13 +199,8 @@
 
 
    %>
-
 </script>
-
-
 <form id="form-meeting-library" action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="get">
-
-
     <%if (request.getParameter("newCustYr") != null) { %>
     <input type="hidden" name="act" value="CreateCustomYearPlan"/>
     <%} else { %>
@@ -226,33 +211,25 @@
             <div class="columns small-24 small-centered">
                 <p class="instruction " style="float:left;">
                     <span><%= instruction %></span>
-
                 </p>
                 <!-- p class="" style="margin-bottom:0px; float:right">
                 <span><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png" width="30px" vertical-align="baseline" />
                 </span>= <i>Get Girls Outside!</i> Activity Option</p -->
             </div>
-
             <div id="cngMeet"></div>
-
-
             <!--  start carlos 1 -->
-
             <div id="vtk-meeting-filter" class="content">
-
                 <div class="sectionHeader" style="">
                     <div class="column small-22 small-centered" style="display:table;">
                         <!-- span class="vtk-green-box" style="">
                         <span class="icon-search-magnifying-glass" style=""></span>
                         </span -->
                         <table>
-
                             <tr>
                                 <td colspan="2">
                                     <h3>Search to Add a Petal, Badge or Journey Meeting</h3>
                                 </td>
                             </tr>
-
                             <tr>
                                 <td>
                                     <div class="__search row"
@@ -260,37 +237,27 @@
                                         <div class="columns small-2">
                                             <span class="icon-search-magnifying-glass"></span>
                                         </div>
-
                                         <div class="columns small-20">
                                             <input type="text" name="search" maxlength="52"
                                                    placeholder="Search for a badge or journey award by name"
                                                    id="searchByMeetingTitle" value=""/>
                                         </div>
-
                                         <div class="__X columns small-2" style="display:none">
                                             <span class="icon-cross"></span>
                                         </div>
-
-
                                     </div>
                                     <p id="showHideReveal" class="hide-for-print close">Or Use Filters</p>
                                 </td>
                                 <td>
-
                                 </td>
-
-
                             </tr>
                             <tr>
                                 <td>
-
-
                                 </td>
                             </tr>
                         </table>
                     </div>
                 </div>
-
                 <div class="vtk-meeting-group" style="display:none;">
                     <div class="main-filter column small-22 small-centered" style="display:table; padding-left:0;">
                         <div class="row">
@@ -318,8 +285,6 @@
 								</span>
 								</span>
                                     <% } %>
-
-
                                     <!-- carlos 2 start -->
                                 </div>
                             </div>
@@ -328,7 +293,6 @@
                                     you want
                                 </div>
                                 <div class="row">
-
                                     <!--  carlos 2 end  -->
                                     <%
                                         java.util.Iterator itrTypes = mTypes.keySet().iterator();
@@ -346,16 +310,11 @@
                                     <%
                                         }
                                     %>
-
-
                                     <!--  carlos 3 start -->
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="list-of-categories column small-22 small-centered" style="display:none;padding-left:0;">
                         <div class="row">
                             <div class="column small-24">
@@ -363,13 +322,10 @@
                                         id="cat_selected" style="font-size:14px !important;"></span> categories
                                 </div>
                                 <div id="vtk-meeting-group-categories" class="row  wrap-vtk-meeting-group-categories">
-
                                     <!--  end carlos 3  -->
-
                                     <%
                                         java.util.Iterator itrCats = mCats.keySet().iterator();
                                         int index = 1;
-
                                         while (itrCats.hasNext()) {
                                             String cat = (String) itrCats.next();
                                             String cat_fmted = cat.replaceAll("_", " ");
@@ -378,8 +334,6 @@
                                     <div class="small-24 medium-12 large-6 column selection-box  <%= !itrCats.hasNext() ? "end" : "" %>"
                                          style="min-height:70px">
                                         <input type="checkbox" name="_tag_c" id="<%= id%>" value="<%=cat %>"/>
-
-
                                         <label for="<%= id%>"><span></span>
                                             <p>
                                                 <%= cat_fmted %> <% if (newItems.contains(cat_fmted)) { %>
@@ -390,26 +344,14 @@
                                                 <% } %>
                                             </p></label>
                                     </div>
-
-
                                     <% } %>
-
-
                                     <!--  carlos 4 start  -->
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-
-
             </div>
-
-
             <div class="list-of-buttons column small-22 small-centered" style="padding-left:0;">
                 <div class="row">
                     <div id="vtk-meeting-group-button" class="column small-24" style="padding:25px 0 25px 0;">
@@ -418,9 +360,7 @@
                     </div>
                 </div>
             </div>
-
             <div class="loading-meeting" style="display:none"></div>
-
             <div id="meeting-library-no-content" class="no-content column small-24"
                  style="display:none; padding:40px 0 0 25px">
                 <h5></h5>
@@ -429,8 +369,6 @@
             <!--  carlos 4 end  -->
             <div id="meetingSelect" class="meetingSelect column small-24 small-centered" style="display:none;">
                 <!--<div class="row">-->
-
-
                 <%-- // --%>
                 <div style="display: flex;
 			justify-content: center;
@@ -462,38 +400,27 @@
                 <div id="no-of-meeting" class="no-of-meeting" style="display:none;padding-left:25px;">
                     <p></p>
                 </div>
-
-
                 <%
-
                     //sort meetings by this specific order: dAisy > bRownie > jUnior
                     if (meetings != null) {
                         meetings = VtkUtil.sortMeetings(meetings);
                     }
-
                     String currentLevel = "";
-
                     //uniq meeting by path: issue with altTags, altMeetintType
                     meetings = VtkUtil.filterUniqMeetingByPath(meetings);
-
                     for (int i = 0; i < meetings.size(); i++) {
                         Meeting meeting = meetings.get(i);
                         boolean isReq = meeting.getReq() != null && !"".equals(meeting.getReq());
-
                         if (!meeting.getLevel().equals(currentLevel)) {
                             currentLevel = meeting.getLevel();
-
                 %>
                 <div style="display:none;" class="meeting-age-separator column small-24 levelNav_<%= currentLevel %>"
                      id="levelNav_<%= currentLevel %>">
                     <%= currentLevel.replace("_", "-") %>
                 </div>
-
                 <%
                     }
                 %>
-
-
                 <div class="meeting-item column small-24" style="display:none;" data-url="<%=meeting.getPath()%>"
                      id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;<%= meeting.getLevel()%>;
 			<%
@@ -510,8 +437,6 @@
 			}
 			%>
 			">
-
-
                     <div class="row">
                         <div class="column small-24 medium-14">
                             <div style="display:table;min-height:110px">
@@ -519,14 +444,12 @@
                                     <p class="title"><%=meeting.getName()%>  <%=(globalMeetingIds.contains(meeting.getId()) ? "<img data-tooltip aria-haspopup='true' class='has-tip tip-top radius meeting_library' title='<b>Go Global!</b>' style='width:30px;vertical-align:top;padding-top:2px;cursor:auto;border:none' src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png\">" : "")%>
                                         <%=(outdoorMeetingIds.contains(meeting.getId()) ? "<img data-tooltip aria-haspopup='true' class='has-tip tip-top radius meeting_library' title='<b>Get Girls Outside!</b>' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png\">" : "")%>
                                     </p>
-
                                     <p class="blurb"><%=meeting.getBlurb() %>
                                     </p>
                                     <p class="tags">
 									<span>
 										<%
                                             if (meeting.getCatTags() != null) {
-
                                                 java.util.StringTokenizer t = new StringTokenizer(meeting.getCatTags(), ",");
                                                 while (t.hasMoreElements()) {
                                         %><%=t.nextToken().replace("_", " ")%><%=t.hasMoreElements() ? "," : "" %> <%
@@ -542,9 +465,7 @@
                             <div style="display:table;min-height:110px; width: inherit;">
                                 <div style="display:table-cell;height:inherit;vertical-align:middle; text-align:center;">
                                     <% if (request.getParameter("newCustYr") != null || !myMeetingIds.contains(meeting.getId().trim().toLowerCase())) { %>
-
                                     <div class="middle-checkbox" style="text-align:center;">
-
                                         <table>
                                             <tr>
                                                 <td>
@@ -554,8 +475,6 @@
                                                            value="<%=meeting.getPath()%>"/>
                                                     <%} %>
                                                     <label for="<%=meeting.getPath()%>_<%=i%>"><span></span>
-
-
                                                     </label>
                                                 </td>
                                                 <td>
@@ -568,7 +487,6 @@
                                                 </td>
                                             </tr>
                                         </table>
-
                                     </div>
                                     <% } else {%>
                                     <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10"
@@ -589,7 +507,6 @@
                                     %>
                                     <img width="100" <%= function %> class="image <%= isReqClass %>" height="100"
                                          src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
-
                                     <% } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -598,18 +515,14 @@
                             </div>
                         </div>
                     </div>
-
                     <% if (isReq) { %>
                     <div class="__requiments_details row" style="display:none">
                         <div class="column small-24" style="padding:10px;">
-
-
                             <div class="_requiments_description">
                                 <p style="margin-bottom: 5px"><b><%= meeting.getReqTitle() %>
                                 </b></p>
                                 <%= meeting.getReq() %>
                             </div>
-
                             <p style="text-align:center; margin-top:20px">
 								<span class="vtk-button" style="cursor:pointer;" onclick="_closeME(this)">
 									&nbsp;&nbsp;&nbsp;CLOSE&nbsp;&nbsp;&nbsp;
@@ -618,23 +531,13 @@
                         </div>
                     </div>
                     <% } %>
-
                 </div>
                 <% } %>
-
-
             </div>
-
-
         </div>
-
     </div>
-
-
 </form>
 <script>
-
-
     function openRequirementDetail(element) {
         $(element).parents('.meeting-item').find('.__requiments_details').toggle();
     }
@@ -1216,15 +1119,11 @@
         $('.add-to-year-plan').addClass('inactive-button');
     })
 </script>
-
-
 <%
     } catch (Exception e) {
         e.printStackTrace();
     }
 %>
-
-
 <style>
     .tooltip span.nub {
         left: 10px;

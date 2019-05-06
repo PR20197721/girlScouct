@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page
         import="org.apache.commons.lang.StringEscapeUtils, org.girlscouts.vtk.auth.permission.Permission, org.girlscouts.vtk.models.FinanceConfiguration" %>
-
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
@@ -23,7 +22,6 @@
 <%
         return;
     }%>
-
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.custom.extensions.js"></script>
@@ -40,26 +38,19 @@
     //String activeTab = "finances";
     pageContext.setAttribute("activeSubTab", "editFinances");
     boolean showVtkNav = true;
-
     FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(user, selectedTroop, user.getCurrentYear());
-
     List<String> incomeFields = financeConfig.getIncomeFields();
     List<String> expenseFields = financeConfig.getExpenseFields();
-
     String period = financeConfig.getPeriod();
-
     String recipient = financeConfig.getRecipient();
     if (recipient == null) {
         recipient = "";
     }
-
     int incomeCounter = 0;
     int expenseCounter = 0;
-
     boolean hasAdminPermissions = true;
     String financeFieldTag = "";
 %>
-
 <div class="column large-20 medium-20 large-centered medium-centered small-24">
     <form class="cmxform" id="financeAdminForm" onchange="enableSaveButton()">
         <p id="error-message" class="error-message"></p>
@@ -84,7 +75,6 @@
                 </div>
             </section>
         </div>
-
         <div class="row">
             <section class="column large-12 medium-12">
                 <h6>income categories</h6>

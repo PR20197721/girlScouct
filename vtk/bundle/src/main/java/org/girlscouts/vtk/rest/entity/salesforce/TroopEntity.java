@@ -3,19 +3,14 @@ package org.girlscouts.vtk.rest.entity.salesforce;
 import com.google.gson.annotations.SerializedName;
 
 public class TroopEntity {
-
     @SerializedName("Id")
     private String sfId;
-
     @SerializedName("ParentId")
     private String sfParentId;
-
     @SerializedName("Job_Code__c")
     private String jobCode;
-
     @SerializedName("Parent")
     private ParentEntity parentEntity;
-
     @SerializedName("attributes")
     private AttributesEntity attributes;
 

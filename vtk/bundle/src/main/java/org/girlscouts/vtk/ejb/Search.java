@@ -5,37 +5,43 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.vtk.dao.SearchDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.query.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Service(value = SearchDAO.class)
 public class Search implements SearchDAO {
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Reference
-    private SessionFactory sessionFactory;
+    private ResourceResolverFactory resolverFactory;
+    private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
     @Activate
     void activate() {
+        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
     }
 
     public List<String> getData(String query) {
         Session session = null;
-        ResourceResolver rr = null;
         List<String> matched = new ArrayList<String>();
+        ResourceResolver rr = null;
         try {
-            rr = sessionFactory.getResourceResolver();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
-            Query q = qm
-                    .createQuery(
-                            "select jcr:path, excerpt(.) from nt:resource    where isdescendantnode( '/content/dam/' ) and  contains(., '"
-                                    + query + "')", Query.SQL);
+            Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource    where isdescendantnode( '/content/dam/' ) and  contains(., '" + query + "')", Query.SQL);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
@@ -43,15 +49,14 @@ public class Search implements SearchDAO {
                 matched.add(excerpt.getString());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurred: ", e);
         } finally {
             try {
-                if (rr != null)
-                    sessionFactory.closeResourceResolver(rr);
-                if (session != null)
-                    session.logout();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
         return matched;

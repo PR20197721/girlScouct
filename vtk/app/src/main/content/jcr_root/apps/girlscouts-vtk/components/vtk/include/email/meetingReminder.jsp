@@ -2,7 +2,6 @@
 <%@ page import="java.util.Date" %>
 <!-- /apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp -->
 <div class="content clearfix">
-
     <%
         MeetingE _meeting = planView.getMeeting();
         Calendar c = Calendar.getInstance();
@@ -11,16 +10,12 @@
         Date meetingEndDate = c.getTime();
         Date searchDate = planView.getSearchDate();
     %>
-
     <h4>Reminder Meeting #<%=planView.getMeetingCount()%>
         <%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %>
         - <%=VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, meetingEndDate)%>
     </h4>
-
     <p class="sent">Sent: None</p><!--TODO add the date after email is sent-->
-
     <h6>Address List</h6>
-
     <ul class="small-block-grid-3">
         <li style="width:100%">
             <input type="checkbox" id="email_to_gp" checked/>
@@ -45,9 +40,7 @@
         <input type="text" id="email_subj"
                value="Reminder <%=selectedTroop.getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %> - <%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM,meetingEndDate)%>"/>
     </section>
-
     <div style="background-color:yellow;"></div>
-
     <textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25">
  		<%if (_meeting.getEmlTemplate() != null) {%>
 		<%= _meeting.getEmlTemplate()%>  
@@ -102,8 +95,6 @@
 		</div>
 		<% }%>
 	</textarea>
-
-
     <dl class="accordion" data-accordion>
         <dt data-target="panel1"><h6 class="off">Include meeting aid</h6></dt>
         <dd class="accordion-navigation">
@@ -126,7 +117,6 @@
                             class="icon-button-circle-plus"></i></a></li>
                     <%
                             } %>
-
                     <% if (!isAidTag) { %>
                     <li>No Aids found</li>
                     <% }%>
@@ -147,12 +137,10 @@
                 CouncilMapper mapper = sling.getService(CouncilMapper.class);
                 String branch = mapper.getCouncilBranch(councilId);
                 branch = branch.replace("/content/", "");
-
                 //For testing on local set default council since gateway doesn't have tags
                 if (branch == null || branch.isEmpty() || branch.equals("gateway")) {
                     branch = "gsnetx";
                 }
-
                 org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), branch);
                 try {
                     int panelCount = 1;
@@ -194,7 +182,7 @@
         </dd>
     </dl>
     <div class="right clearfix">
-        <input type="button" value="Send email" class="button btn" onclick="this.disabled=true; <%=user.getApiConfig().isDemoUser() ? "" : "sendEmail()"%> ;"/>
+        <input type="button" value="Send email" class="button btn" onclick="this.disabled=true; <%=user.getApiConfig().isDemoUser() ? "" : "sendEmail()"%> "/>
     </div>
     <div id="added">
         <p>Added to email.</p>
@@ -202,11 +190,8 @@
     <div id="after-sent">
         <p>Email(s) sent.</p>
     </div>
-
 </div>
 <!--end of content-->
-
-
 <script>
     var template;
     $(document).ready(function () {
@@ -227,6 +212,7 @@
         template = $('#email_htm').val();
 
     }
+
     function addFormLink(link, formname, categoryId) {
         var url = window.location.href;
         var arr = url.split("/");
@@ -243,6 +229,7 @@
         }, 1000);
 
     }
+
     function addAidLink(refId, title, uid) {
         var url = window.location.href;
         var arr = url.split("/");
@@ -258,11 +245,13 @@
         //addAidToEmail(refId,title,uid);
 
     }
+
     function sendEmail() {
         if (validate()) {
             previewMeetingReminderEmail('<%=_meeting.getUid()%>', template);
         }
     }
+
     function validate() {
         //allow leading and trailing spaces for every email addr
         var emailReg = /^((\ *[\w-\.]+@([\w-]+\.)+[\w-]{2,4}\ *)\;?)+$/;
@@ -295,14 +284,14 @@
         return true;
 
     }
+
     function removeIndentions(x) {
         return x.replace(/^\s+|\s+$/gim, '');
 
     }
+
     $("#modal-meeting-reminder").on('change', 'input', function (event) {
         $('input[type="button"]').attr('disabled', false);
     });
-
-
 </script>
  

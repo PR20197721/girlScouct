@@ -38,9 +38,7 @@ import java.util.List;
 @Component(service = {GirlScoutsSalesForceRestClient.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsSalesForceRestClientImpl")
 @Designate(ocd = GirlScoutsSalesForceRestClientConfig.class)
 public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService implements GirlScoutsSalesForceRestClient {
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsSalesForceRestClientImpl.class);
-
     private String sfRestAPI;
     private String sfUserInfoUrl;
     private String sfTroopInfoUrl;
@@ -202,8 +200,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
     private String getJsonFromResponse(HttpResponse response) throws IOException {
         if (response.getStatusLine().getStatusCode() != 200) {
             log.error("Salesforce API status code: " + response.getStatusLine().getStatusCode() + " : " + response);
-            throw new RuntimeException("Salesforce API : HTTP error code : "
-                    + response.getStatusLine().getStatusCode());
+            throw new RuntimeException("Salesforce API : HTTP error code : " + response.getStatusLine().getStatusCode());
         }
         HttpEntity entity = response.getEntity();
         entity.getContent();

@@ -7,71 +7,41 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
-@Node
 public class Activity extends YearPlanComponent implements Serializable {
-
-    @Field(path = true)
-    String path;
-    @Collection
-    java.util.List<Asset> assets;
-    @Field(id = true)
-    String uid;
-    @Field
-    Double cost;
-    @Field
-    Boolean isEditable;
-    @Collection
-    java.util.List<SentEmail> sentEmails;
-    @Field
-    String img;
-    @Bean(autoUpdate = false)
-    Attendance attendance;
-    //outdoor info
-    //@Field Boolean isOutdoor= false, isOutdoorAvailable=false;
-    //@Field String activityDescription_outdoor, name_outdoor;
-    @Field(jcrDefaultValue = "0")
-    int duration;
-    @Field(jcrDefaultValue = "false")
-    Boolean outdoor = false;
-    @Field(jcrDefaultValue = "false")
-    Boolean global = false;
-    @Collection
-    java.util.List<Activity> multiactivities;
-    @Field
-    String subtitle;
-    @Field
-    Boolean isSelected = false;
-    @Field
+    private List<Asset> assets;
+    private Double cost;
+    private Boolean isEditable;
+    private List<SentEmail> sentEmails;
+    private String img;
+    private Attendance attendance;
+    private int duration;
+    private Boolean outdoor = false;
+    private Boolean global = false;
+    private List<Activity> multiactivities;
+    private String subtitle;
+    private Boolean isSelected = false;
     private String name, activityDescription;
-    @Field
     private int activityNumber;
-    @Field
     private String materials, steps;
-    @Field
-    private java.util.Date endDate, date;
-    @Field
-    private String content, id, refUid;
-    @Field
+    private Date endDate, date;
+    private String content, refUid;
     private String locationName, locationAddress;
-    @Field
     private String locationRef;// depricated
-    @Field
     private String cancelled;
-    @Field
     private String registerUrl;
-    @Field
     private String emlTemplate;
-    private boolean isDbUpdate = false;
+
     public Activity() {
-        this.uid = "A" + new java.util.Date().getTime() + "_" + Math.random();
+        this.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
         super.setType(YearPlanComponentType.ACTIVITY);
         this.cost = 0.00;
         this.isEditable = true;
     }
-    public Activity(String name, String content, java.util.Date date,
-                    java.util.Date endDate, String locationName,
-                    String locationAddress, double cost) {
+
+    public Activity(String name, String content, java.util.Date date, java.util.Date endDate, String locationName, String locationAddress, double cost) {
         this.name = name;
         this.content = content;
         this.date = date;
@@ -79,7 +49,7 @@ public class Activity extends YearPlanComponent implements Serializable {
         this.locationName = locationName;
         this.locationAddress = locationAddress;
         super.setType(YearPlanComponentType.ACTIVITY);
-        this.uid = "A" + new java.util.Date().getTime() + "_" + Math.random();
+        this.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
         this.cost = cost;
         this.isEditable = true;
 
@@ -90,11 +60,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setRegisterUrl(String registerUrl) {
-        if ((registerUrl != null && this.registerUrl != null && !this.registerUrl.equals(registerUrl)) ||
-                (registerUrl != null && this.registerUrl == null))
-            isDbUpdate = true;
-
-
+        if ((registerUrl != null && this.registerUrl != null && !this.registerUrl.equals(registerUrl)) || (registerUrl != null && this.registerUrl == null)) {
+            setDbUpdate(true);
+        }
         this.registerUrl = registerUrl;
     }
 
@@ -103,9 +71,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setCancelled(String cancelled) {
-        if ((cancelled != null && this.cancelled == null) ||
-                this.cancelled != null && cancelled != null && !this.cancelled.equals(cancelled))
-            isDbUpdate = true;
+        if ((cancelled != null && this.cancelled == null) || this.cancelled != null && cancelled != null && !this.cancelled.equals(cancelled)) {
+            setDbUpdate(true);
+        }
         this.cancelled = cancelled;
     }
 
@@ -114,21 +82,20 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setRefUid(String refUid) {
-        if ((this.refUid == null && refUid != null) ||
-                (this.refUid != null && refUid != null && !this.refUid.equals(refUid)))
-            isDbUpdate = true;
+        if ((this.refUid == null && refUid != null) || (this.refUid != null && refUid != null && !this.refUid.equals(refUid))) {
+            setDbUpdate(true);
+        }
         this.refUid = refUid;
     }
 
     public Boolean getIsEditable() {
-
         return isEditable;
     }
 
     public void setIsEditable(Boolean isEditable) {
-        if ((this.isEditable == null && isEditable != null) ||
-                (this.isEditable != null && isEditable != null && this.isEditable.booleanValue() != isEditable.booleanValue()))
-            isDbUpdate = true;
+        if ((this.isEditable == null && isEditable != null) || (this.isEditable != null && isEditable != null && this.isEditable.booleanValue() != isEditable.booleanValue())) {
+            setDbUpdate(true);
+        }
         this.isEditable = isEditable;
     }
 
@@ -137,27 +104,19 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setCost(Double cost) {
-
-        if ((cost != null && this.cost != null && this.cost.doubleValue() != cost.doubleValue()) ||
-                (this.cost == null && cost != null))
-            isDbUpdate = true;
-
-
+        if ((cost != null && this.cost != null && this.cost.doubleValue() != cost.doubleValue()) || (this.cost == null && cost != null)) {
+            setDbUpdate(true);
+        }
         this.cost = cost;
     }
 
-    public String getUid() {
-        if (uid == null)
-            this.uid = "A" + new java.util.Date().getTime() + "_"
-                    + Math.random();
-        return uid;
-    }
-
     public void setUid(String uid) {
-        if ((this.refUid == null && refUid != null) ||
-                (this.refUid != null && refUid != null && !this.refUid.equals(refUid)))
-            isDbUpdate = true;
-        this.uid = uid;
+        if (uid == null) {
+            this.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
+        }else{
+            this.setUid(uid);
+        }
+
     }
 
     public java.util.List<Asset> getAssets() {
@@ -165,9 +124,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setAssets(java.util.List<Asset> assets) {
-        if ((this.assets == null && assets != null) ||
-                (this.assets != null && assets != null && !this.assets.equals(assets)))
-            isDbUpdate = true;
+        if ((this.assets == null && assets != null) || (this.assets != null && assets != null && !this.assets.equals(assets))) {
+            setDbUpdate(true);
+        }
         this.assets = assets;
     }
 
@@ -176,9 +135,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setLocationName(String locationName) {
-        if ((this.locationName == null && locationName != null) ||
-                (this.locationName != null && locationName != null && !this.locationName.equals(locationName)))
-            isDbUpdate = true;
+        if ((this.locationName == null && locationName != null) || (this.locationName != null && locationName != null && !this.locationName.equals(locationName))) {
+            setDbUpdate(true);
+        }
         this.locationName = locationName;
     }
 
@@ -187,9 +146,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setLocationAddress(String locationAddress) {
-        if ((this.locationAddress == null && locationAddress != null) ||
-                (this.locationAddress != null && locationAddress != null && !this.locationAddress.equals(locationAddress)))
-            isDbUpdate = true;
+        if ((this.locationAddress == null && locationAddress != null) || (this.locationAddress != null && locationAddress != null && !this.locationAddress.equals(locationAddress))) {
+            setDbUpdate(true);
+        }
         this.locationAddress = locationAddress;
     }
 
@@ -198,9 +157,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setLocationRef(String locationRef) {
-        if ((this.locationRef == null && locationRef != null) ||
-                (this.locationRef != null && locationRef != null && !this.locationRef.equals(locationRef)))
-            isDbUpdate = true;
+        if ((this.locationRef == null && locationRef != null) || (this.locationRef != null && locationRef != null && !this.locationRef.equals(locationRef))) {
+            setDbUpdate(true);
+        }
         this.locationRef = locationRef;
     }
 
@@ -209,9 +168,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setDate(java.util.Date date) {
-        if ((this.date == null && date != null) ||
-                (this.date != null && date != null && !this.date.equals(date)))
-            isDbUpdate = true;
+        if ((this.date == null && date != null) || (this.date != null && date != null && !this.date.equals(date))) {
+            setDbUpdate(true);
+        }
         this.date = date;
     }
 
@@ -220,9 +179,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setEndDate(java.util.Date endDate) {
-        if ((this.endDate == null && endDate != null) ||
-                (this.endDate != null && endDate != null && !this.endDate.equals(endDate)))
-            isDbUpdate = true;
+        if ((this.endDate == null && endDate != null) || (this.endDate != null && endDate != null && !this.endDate.equals(endDate))) {
+            setDbUpdate(true);
+        }
         this.endDate = endDate;
     }
 
@@ -231,33 +190,10 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setContent(String content) {
-        if ((this.content == null && content != null) ||
-                (this.content != null && content != null && !this.content.equals(content)))
-            isDbUpdate = true;
+        if ((this.content == null && content != null) || (this.content != null && content != null && !this.content.equals(content))) {
+            setDbUpdate(true);
+        }
         this.content = content;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        if ((this.id == null && id != null) ||
-                (this.id != null && id != null && !this.id.equals(id)))
-            isDbUpdate = true;
-        this.id = id;
-    }
-
-    public String getPath() {
-
-        return path;
-    }
-
-    public void setPath(String path) {
-        if ((this.path == null && path != null) ||
-                (this.path != null && path != null && !this.path.equals(path)))
-            isDbUpdate = true;
-        this.path = path;
     }
 
     public String getActivityDescription() {
@@ -265,9 +201,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setActivityDescription(String activityDescription) {
-        if ((this.activityDescription == null && activityDescription != null) ||
-                (this.activityDescription != null && activityDescription != null && !this.activityDescription.equals(activityDescription)))
-            isDbUpdate = true;
+        if ((this.activityDescription == null && activityDescription != null) || (this.activityDescription != null && activityDescription != null && !this.activityDescription.equals(activityDescription))) {
+            setDbUpdate(true);
+        }
         this.activityDescription = activityDescription;
     }
 
@@ -276,9 +212,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setMaterials(String materials) {
-        if ((this.materials == null && materials != null) ||
-                (this.materials != null && materials != null && !this.materials.equals(materials)))
-            isDbUpdate = true;
+        if ((this.materials == null && materials != null) || (this.materials != null && materials != null && !this.materials.equals(materials))) {
+            setDbUpdate(true);
+        }
         this.materials = materials;
     }
 
@@ -287,9 +223,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setSteps(String steps) {
-        if ((this.steps == null && steps != null) ||
-                (this.steps != null && steps != null && !this.steps.equals(steps)))
-            isDbUpdate = true;
+        if ((this.steps == null && steps != null) || (this.steps != null && steps != null && !this.steps.equals(steps))) {
+            setDbUpdate(true);
+        }
         this.steps = steps;
     }
 
@@ -298,30 +234,22 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setName(String name) {
-        if ((this.name == null && name != null) ||
-                (this.name != null && name != null && !this.name.equals(name)))
-            isDbUpdate = true;
+        if ((this.name == null && name != null) || (this.name != null && name != null && !this.name.equals(name))) {
+            setDbUpdate(true);
+        }
         this.name = name;
     }
-
 
     public int getActivityNumber() {
         return activityNumber;
     }
 
     public void setActivityNumber(int activityNumber) {
-        if (activityNumber != this.activityNumber)
-            isDbUpdate = true;
+        if (activityNumber != this.activityNumber) {
+            setDbUpdate(true);
+        }
         this.activityNumber = activityNumber;
 
-    }
-
-    public boolean isDbUpdate() {
-        return isDbUpdate;
-    }
-
-    public void setDbUpdate(boolean isDbUpdate) {
-        this.isDbUpdate = isDbUpdate;
     }
 
     public java.util.List<SentEmail> getSentEmails() {
@@ -347,7 +275,6 @@ public class Activity extends YearPlanComponent implements Serializable {
     public void setImg(String img) {
         this.img = img;
     }
-
 
     public Attendance getAttendance() {
         return attendance;
@@ -378,8 +305,9 @@ public class Activity extends YearPlanComponent implements Serializable {
     }
 
     public void setDuration(int duration) {
-        if (this.duration != duration)
-            isDbUpdate = true;
+        if (this.duration != duration) {
+            setDbUpdate(true);
+        }
         this.duration = duration;
     }
 
@@ -406,6 +334,5 @@ public class Activity extends YearPlanComponent implements Serializable {
     public void setIsSelected(Boolean isSelected) {
         this.isSelected = isSelected;
     }
-
 
 }

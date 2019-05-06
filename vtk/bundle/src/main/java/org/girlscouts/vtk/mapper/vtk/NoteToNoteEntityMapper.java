@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class NoteToNoteEntityMapper extends BaseModelToEntityMapper {
-
     private static Logger log = LoggerFactory.getLogger(NoteToNoteEntityMapper.class);
 
     public static NoteEntity map(Note note) {

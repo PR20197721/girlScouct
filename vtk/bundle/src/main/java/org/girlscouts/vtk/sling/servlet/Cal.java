@@ -11,41 +11,23 @@ import org.girlscouts.vtk.models.User;
 
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
-import java.rmi.ServerException;
 
 @Component(metatype = true, immediate = true)
 @Service
-@Properties({
-        @Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-        @Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "ics"),
-        @Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET"),
-        @Property(name = "label", value = "Girl Scouts VTK Upload Servlet"),
-        @Property(name = "description", value = "Girl Scouts VTK Upload Servlet")
-})
+@Properties({@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"), @Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "ics"), @Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET"), @Property(name = "label", value = "Girl Scouts VTK Upload Servlet"), @Property(name = "description", value = "Girl Scouts VTK Upload Servlet")})
 public class Cal extends SlingSafeMethodsServlet {
-
     @Reference
     YearPlanUtil yearPlanUtil;
     @Reference
     private ResourceResolverFactory resolverFactory;
 
     @Override
-    protected void doGet(SlingHttpServletRequest request,
-                         SlingHttpServletResponse response) throws
-            IOException {
-
-        User user = ((org.girlscouts.vtk.models.User) request.getSession()
-                .getAttribute(org.girlscouts.vtk.models.User.class.getName()));
-
-
+    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
+        User user = ((org.girlscouts.vtk.models.User) request.getSession().getAttribute(org.girlscouts.vtk.models.User.class.getName()));
         Troop troop = (Troop) request.getSession().getAttribute("VTK_troop");
-
-        response.setHeader("Content-Disposition", "attachment;filename=\""
-                + troop.getYearPlan().getName() + ".ics\"");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + troop.getYearPlan().getName() + ".ics\"");
         response.setContentType("text/calendar");
-
         try {
-
             net.fortuna.ical4j.model.Calendar calendar = yearPlanUtil.yearPlanCal(user, troop);
             ServletOutputStream fout = response.getOutputStream();
             net.fortuna.ical4j.data.CalendarOutputter outputter = new net.fortuna.ical4j.data.CalendarOutputter();

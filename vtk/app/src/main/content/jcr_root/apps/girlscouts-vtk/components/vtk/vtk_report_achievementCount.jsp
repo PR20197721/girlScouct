@@ -17,7 +17,6 @@
     String rptForYear = user.getCurrentYear();
     if (request.getParameter("rptForYear") != null)
         rptForYear = request.getParameter("rptForYear");
-
     response.setContentType("application/csv");
     response.setHeader("Content-Disposition", "attachment; filename=MeetingCountReport.csv");
     out.println("\nMeeting ID,# of Troops, # of Girls, Meeting Name, Grade-Level");
@@ -32,7 +31,6 @@
     Multimap<String, String> meetingIds = ArrayListMultimap.create();
     try {
         for (String council : councils) {
-
             sql = "select users from [nt:unstructured] where isdescendantnode( [/vtk" + rptForYear + "/" + council + "/])  and [ocm_classname]='org.girlscouts.vtk.models.Achievement' and [users] <> '' ";
             q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
             result = q.execute();
@@ -52,16 +50,12 @@
     } catch (Exception e) {
         log.debug("Found error in vtk_report_achievementCount.jsp while exec SQL Achievement");
     }
-
-
     sql = "select id,name, level from [nt:unstructured] where isdescendantnode( '/content/girlscouts-vtk/meetings/myyearplan" + rptForYear + "/') and [ocm_classname]='org.girlscouts.vtk.models.Meeting'";
     q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
     result = q.execute();
-
     for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
         javax.jcr.query.Row r = it.nextRow();
         try {
-
             String name = r.getValue("name").getString();
             String id = r.getValue("id").getString();
             String level = r.getValue("level").getString();
@@ -74,7 +68,6 @@
                 StringTokenizer t = new StringTokenizer(girls, ",");
                 countAchv += t.countTokens();
             }
-
             out.println("\n" + id + "," + achv.size() + "," + countAchv + "," +
                     StringEscapeUtils.escapeCsv(name) + "," + StringEscapeUtils.escapeCsv(level)
             );
@@ -83,8 +76,6 @@
             log.debug("Found error in vtk_report_achievementCount.jsp while traversing lib meetings");
         }
     }//edn for
-
-
 %>
 
 

@@ -5,29 +5,17 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 import java.io.Serializable;
+import java.util.List;
 
-@Node
-public class CouncilInfo implements Serializable {
+public class CouncilInfo extends JcrNode implements Serializable {
 
-    @Field(path = true)
-    String path;
-    @Collection
-    java.util.List<Milestone> milestones;
+    private List<Milestone> milestones;
 
     public CouncilInfo() {
-
     }
 
     public CouncilInfo(String path) {
-        this.path = path;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
+        this.setPath(path);
     }
 
     public java.util.List<Milestone> getMilestones() {

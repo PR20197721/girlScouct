@@ -9,12 +9,9 @@
 %>
 <%@include file="include/bodyTop.jsp" %>
 <div id="modal_popup" class="reveal-modal" data-reveal></div>
-
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
 <%@include file="include/modals/modal_view_sent_emails.jsp" %>
 <div id="theActivity">
-
-
     <script type="text/javascript">
         var isActivNew = 0;
         var aPath;

@@ -2,7 +2,6 @@ package org.girlscouts.vtk.osgi.service.impl;
 
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
-import org.girlscouts.vtk.auth.permission.RollType;
 import org.girlscouts.vtk.mapper.salesforce.*;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Troop;
@@ -27,7 +26,6 @@ import java.util.*;
 @Component(service = {GirlScoutsSalesForceService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsSalesForceServiceImpl")
 @Designate(ocd = GirlScoutsSalesForceServiceConfig.class)
 public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService implements GirlScoutsSalesForceService {
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsSalesForceServiceImpl.class);
     @Reference
     GirlScoutsSalesForceRestClient sfRestClient;
@@ -254,7 +252,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
         }
         //TODO remove after changes made in salesforce and we don't have to force these troops for test council users
-        if("999".equals(user.getAdminCouncilId())){
+        if ("999".equals(user.getAdminCouncilId())) {
             additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
             additionalTroops.addAll(getIndependentRegisteredMemberTroops(user.getSfUserId()));
         }
@@ -341,12 +339,12 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     }
 
     private void setTroopPermissions(Troop troop, boolean isAdmin) {
-        RollType rollType = RollType.valueOf(troop.getRole());
+        String roleType = troop.getRole();
         troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
-        if (rollType.getRollType().equals("PA")) {
+        if ("PA".equals(roleType)) {
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
         }
-        if (rollType.getRollType().equals("DP") || troop.getCouncilCode().equals(irmCouncilCode) || troop.getCouncilCode().equals(sumCouncilCode)) {
+        if ("DP".equals(roleType) || troop.getCouncilCode().equals(irmCouncilCode) || troop.getCouncilCode().equals(sumCouncilCode)) {
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
         }
         if (isAdmin) {

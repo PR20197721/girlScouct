@@ -24,7 +24,6 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsRepoFileIOService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsRepoFileIOServiceImpl")
 public class GirlScoutsRepoFileIOServiceImpl extends BasicGirlScoutsService implements GirlScoutsRepoFileIOService {
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsRepoFileIOServiceImpl.class);
     @Reference
     private ResourceResolverFactory resolverFactory;

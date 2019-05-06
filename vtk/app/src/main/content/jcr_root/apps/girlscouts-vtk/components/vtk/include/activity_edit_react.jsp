@@ -3,7 +3,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="session.jsp" %>
-
 <%
     org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, selectedTroop, request);
     Activity activity = (Activity) planView.getYearPlanComponent();
@@ -18,7 +17,6 @@
 <script type="text/javascript"
         src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
-
 <script>
     $(function () {
         $("#newCustActivity_date").datepicker({minDate: 0});
@@ -165,7 +163,6 @@
         isTimeCng = true;
     }
 </script>
-
 <div> <!--   id="editCustActiv"  class="reveal-modal" data-reveal -->
     <div class="header clearfix">
         <h3 class="columns large-22">Edit Activity</h3>
@@ -175,10 +172,8 @@
         <div class="content">
             <form class="cmxform" id="signupForm">
                 <div class="errorMsg error"></div>
-
                 <div class="row">
                     <div class="small-24 large-12 medium-12 columns">
-
                         <input type="text" name="newCustActivity_name" id="newCustActivity_name"
                                value="<%=activity.getName()%>" placeholder="Activity Name"/>
                     </div>
@@ -196,7 +191,6 @@
                                onchange="cngTimeFlag()"/>
                     </div>
                     <div class="small-8 medium-2 large-2 columns">
-
                         <select id="newCustActivity_startTime_AP" class="ampm" onchange="cngTimeFlag()">
                             <option value="AM" <%=VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, activity.getDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : ""%>>
                                 AM
@@ -221,19 +215,16 @@
                         </select>
                     </div>
                 </div><!--/row-->
-
                 <div class="row">
                     <div class="small-24 medium-12 large-12 columns">
                         <input type="text" id="newCustActivity_locName" value="<%=activity.getLocationName()%>"
                                placeholder="Location Name"/>
                     </div>
                     <div class="small-24 medium-12 large-12 columns">
-
                         <input type="text" id="newCustActivity_locAddr" value="<%=activity.getLocationAddress()%>"
                                placeholder="Location Address"/>
                     </div>
                 </div><!--/row-->
-
                 <div class="row">
                     <div class="small-24 medium-12 large-12 columns">
                         <input type="text" name="newCustActivity_cost" id="newCustActivity_cost" placeholder="Cost"
@@ -244,10 +235,7 @@
                                   placeholder="Activity Description"><%=activity.getContent()%></textarea>
                     </div>
                 </div><!--/row-->
-
-
                 <div class="linkButtonWrapper">
-
                     <input class="button linkButton" type="button" value="Save" id="newCustActivity1"
                            onclick="saveActivity()"/>
                     <!--  <input type="button" class="button close" value="Cancel" onclick="closeMe()"/> -->
@@ -256,6 +244,5 @@
             </form>
         </div>
     </div>
-
 </div>
 <!--/create activity-->

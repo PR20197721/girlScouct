@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HelperToHelperEntityMapper extends BaseModelToEntityMapper {
-
     private static Logger log = LoggerFactory.getLogger(HelperToHelperEntityMapper.class);
 
     public static HelperEntity map(Helper helper) {

@@ -3,7 +3,6 @@ package org.girlscouts.vtk.rest.entity.vtk;
 import com.google.gson.annotations.SerializedName;
 
 public class AssetEntity extends BaseEntity {
-
     @SerializedName("type")
     private String type;
     @SerializedName("description")

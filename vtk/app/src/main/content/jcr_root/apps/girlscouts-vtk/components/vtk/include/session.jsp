@@ -107,7 +107,6 @@
 <div id="panelWrapper" class="row meeting-detail content">
     <div class="columns large-20 large-centered">
         <%@include file="vtkError.jsp" %>
-
         <p>We're sorry you're having trouble logging into the VTK. We're here to help!</p>
         <p>
             The Volunteer Toolkit is a digital planning tool currently available for active Troop Leaders and

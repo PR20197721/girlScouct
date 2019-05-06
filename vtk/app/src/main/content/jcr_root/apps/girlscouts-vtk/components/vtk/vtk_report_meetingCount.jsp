@@ -15,7 +15,6 @@
     String rptForYear = user.getCurrentYear();
     if (request.getParameter("rptForYear") != null) //overwrite current year
         rptForYear = request.getParameter("rptForYear");
-
     response.setContentType("application/csv");
     response.setHeader("Content-Disposition", "attachment; filename=MeetingCountReport.csv");
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
@@ -28,7 +27,6 @@
     java.util.List<String> mids = new java.util.ArrayList();
     try {
         for (String council : councils) {
-
             sql = "select refId from nt:unstructured where isdescendantnode( '/vtk" + rptForYear + "/" + council + "/')  and ocm_classname ='org.girlscouts.vtk.models.MeetingE'  and jcr:path not like '%/SHARED_%'";
             q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
             result = q.execute();
@@ -44,16 +42,12 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
-
-
     sql = "select id,name, level, catTags, catTagsAlt from nt:unstructured where isdescendantnode( '/content/girlscouts-vtk/meetings/myyearplan" + rptForYear + "/') and ocm_classname='org.girlscouts.vtk.models.Meeting'";
     q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
     result = q.execute();
-
     for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
         javax.jcr.query.Row r = it.nextRow();
         try {
-
             String name = r.getValue("name").getString();
             String id = r.getValue("id").getString();
             String level = r.getValue("level").getString();
@@ -67,7 +61,6 @@
                 catAlt = r.getValue("catTagsAlt").getString();
             } catch (Exception e) {
             }
-
             int count = Collections.frequency(mids, id);
             out.println("\n" + id + "," + count + "," + StringEscapeUtils.escapeCsv(name) + "," + StringEscapeUtils.escapeCsv(level) + "," + ((cat + "," + catAlt).replaceAll(",,", "")));
 
@@ -75,8 +68,6 @@
             e.printStackTrace();
         }
     }//edn for
-
-
 %>
 
 

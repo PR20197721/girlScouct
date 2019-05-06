@@ -17,16 +17,13 @@ import java.net.URL;
 @Component
 @Service(value = UserUtil.class)
 public class UserUtil {
-
     @Reference
     YearPlanDAO yearPlanDAO;
-
     @Reference
     private CouncilMapper councilMapper;
 
     public boolean hasPermission(java.util.Set<Integer> myPermissionTokens, int permissionId) {
-        return myPermissionTokens != null
-                && myPermissionTokens.contains(permissionId);
+        return myPermissionTokens != null && myPermissionTokens.contains(permissionId);
 
     }
 
@@ -34,37 +31,32 @@ public class UserUtil {
         return troop != null && troop.getPermissionTokens() != null && hasPermission(troop.getPermissionTokens(), permissionId);
     }
 
-    public String getCouncilUrlPath(ApiConfig apiConfig,
-                                    HttpServletRequest request) {
+    public String getCouncilUrlPath(ApiConfig apiConfig, HttpServletRequest request) {
         String redirectUrl = null;
         try {
             String councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
-            if (councilId == null || councilId.trim().equals(""))
-                redirectUrl = councilMapper.getCouncilUrl(VtkUtil
-                        .getCouncilInClient(request));
-            else
+            if (councilId == null || councilId.trim().equals("")) {
+                redirectUrl = councilMapper.getCouncilUrl(VtkUtil.getCouncilInClient(request));
+            } else {
                 redirectUrl = councilMapper.getCouncilUrl(councilId);
+            }
         } catch (Exception e) {
         }
         return redirectUrl;
     }
 
     // aPI logout
-    public boolean logoutApi(ApiConfig apiConfig, boolean isRefreshToken)
-            throws Exception {
-
+    public boolean logoutApi(ApiConfig apiConfig, boolean isRefreshToken) throws Exception {
         DataOutputStream wr = null;
         boolean isSucc = false;
         URL obj = null;
         HttpsURLConnection con = null;
         try {
-
             String url = apiConfig.getInstanceUrl() + "/services/oauth2/revoke";
             obj = new URL(url);
             con = (HttpsURLConnection) obj.openConnection();
             con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             String urlParameters = "token=" + apiConfig.getAccessToken();
             con.setDoOutput(true);
             wr = new DataOutputStream(con.getOutputStream());
@@ -72,8 +64,9 @@ public class UserUtil {
             wr.flush();
             wr.close();
             int responseCode = con.getResponseCode();
-            if (responseCode == 200)
+            if (responseCode == 200) {
                 isSucc = true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

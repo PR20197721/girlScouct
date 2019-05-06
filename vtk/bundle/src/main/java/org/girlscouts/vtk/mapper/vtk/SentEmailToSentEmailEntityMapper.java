@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SentEmailToSentEmailEntityMapper extends BaseModelToEntityMapper {
-
     private static Logger log = LoggerFactory.getLogger(SentEmailToSentEmailEntityMapper.class);
 
     public static SentEmailEntity map(SentEmail sentEmail) {

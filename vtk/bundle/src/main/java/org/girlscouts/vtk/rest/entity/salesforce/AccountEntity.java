@@ -3,16 +3,12 @@ package org.girlscouts.vtk.rest.entity.salesforce;
 import com.google.gson.annotations.SerializedName;
 
 public class AccountEntity {
-
     @SerializedName("Id")
     private String sfId;
-
     @SerializedName("attributes")
     private AttributesEntity attributes;
-
     @SerializedName("rC_Bios__Preferred_Contact__c")
     private String sfPreferredContactId;
-
     @SerializedName("rC_Bios__Preferred_Contact__r")
     private PreferredContact preferredContact;
 
@@ -51,16 +47,12 @@ public class AccountEntity {
     public class PreferredContact {
         @SerializedName("Id")
         private String sfId;
-
         @SerializedName("attributes")
         private AttributesEntity attributes;
-
         @SerializedName("Email")
         private String email;
-
         @SerializedName("FirstName")
         private String firstName;
-
         @SerializedName("LastName")
         private String lastName;
 

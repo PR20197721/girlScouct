@@ -2,8 +2,6 @@
     <div class="column large-20 large-centered">
         <div class="row">
             <dl class="accordion-inner clearfix" data-accordion>
-
-
                 <% for (int i = 0; i < contacts.size(); i++) {
                     org.girlscouts.vtk.models.Contact contact = contacts.get(i);
                     //java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
@@ -21,7 +19,6 @@
                             }
                         }
                     } %>
-
             </dl>
         </div>
     </div>
