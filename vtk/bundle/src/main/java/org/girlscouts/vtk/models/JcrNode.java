@@ -55,6 +55,6 @@ public class JcrNode implements Serializable {
         if ((this.getUid() == null && uid != null) || (this.getUid() != null && uid != null && !this.getUid().equals(uid))) {
             this.isDbUpdate = true;
         }
-        this.setUid(uid);
+        this.uid = uid;
     }
 }

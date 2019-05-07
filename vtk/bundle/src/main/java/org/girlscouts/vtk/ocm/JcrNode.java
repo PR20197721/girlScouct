@@ -9,7 +9,7 @@ public class JcrNode {
     @Field(path = true,jcrMandatory = true)
     private String path;
 
-    @Field(uuid = true)
+    @Field
     private String uuid;
 
     @Field(id = true)

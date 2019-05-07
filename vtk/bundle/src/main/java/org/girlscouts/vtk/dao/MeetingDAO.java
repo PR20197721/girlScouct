@@ -24,8 +24,6 @@ public interface MeetingDAO {
 
     Meeting addActivity(User user, Troop troop, Meeting meeting, Activity activity) throws IllegalAccessException;
 
-    List<Meeting> search();
-
     List<org.girlscouts.vtk.models.Search> getData(User user, Troop troop, String query) throws IllegalAccessException;
 
     SearchTag searchA(User user, Troop troop, String councilCode) throws IllegalAccessException;

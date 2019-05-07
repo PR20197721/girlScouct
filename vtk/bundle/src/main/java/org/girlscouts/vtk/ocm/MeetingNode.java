@@ -1,26 +1,40 @@
-package org.girlscouts.vtk.models;
+package org.girlscouts.vtk.ocm;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.JcrCollectionHoldString;
+import org.girlscouts.vtk.models.YearPlanComponent;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class Meeting extends YearPlanComponent implements Serializable {
+@Node
+public class MeetingNode extends YearPlanComponent implements Serializable {
 
+    @Field
     private String  name;
+    @Field
     private String level, blurb, cat;
+    @Field
     private String aidTags, resources, agenda, req, reqTitle;
+    @Field
     private Integer position = 0;
+    @Field
     private Boolean isAchievement;
+    @Collection
     private List<Activity> activities;
+    @Collection
     private Map<String, JcrCollectionHoldString> meetingInfo;
+    @Field
     private String meetingPlanType, meetingPlanTypeAlt;
+    @Field
     private String catTags, catTagsAlt;
 
-    public Meeting() {
+
+    public MeetingNode() {
         setPath("/meeting");
         this.position = 0;
     }
@@ -42,19 +56,19 @@ public class Meeting extends YearPlanComponent implements Serializable {
         this.position = position;
     }
 
-    public java.util.Map<String, JcrCollectionHoldString> getMeetingInfo() {
+    public Map<String, JcrCollectionHoldString> getMeetingInfo() {
         return meetingInfo;
     }
 
-    public void setMeetingInfo(java.util.Map<String, JcrCollectionHoldString> meetingInfo) {
+    public void setMeetingInfo(Map<String, JcrCollectionHoldString> meetingInfo) {
         this.meetingInfo = meetingInfo;
     }
 
-    public java.util.List<Activity> getActivities() {
+    public List<Activity> getActivities() {
         return activities;
     }
 
-    public void setActivities(java.util.List<Activity> activities) {
+    public void setActivities(List<Activity> activities) {
         this.activities = activities;
     }
 

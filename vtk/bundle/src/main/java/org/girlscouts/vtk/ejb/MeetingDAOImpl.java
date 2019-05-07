@@ -6,19 +6,10 @@ import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections4.map.PassiveExpiringMap;
-import org.apache.commons.io.IOUtils;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
-import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
-import org.apache.jackrabbit.ocm.mapper.Mapper;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
-import org.apache.jackrabbit.ocm.query.Filter;
-import org.apache.jackrabbit.ocm.query.Query;
-import org.apache.jackrabbit.ocm.query.QueryManager;
-import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
@@ -39,8 +30,6 @@ import javax.jcr.*;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
-import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -145,7 +134,6 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-
         if (meeting == null) {
             meeting = getMeeting(user, troop, meetingEvent.getRefId());
         }
@@ -195,30 +183,30 @@ public class MeetingDAOImpl implements MeetingDAO {
             QueryResult result = girlScoutsOCMService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 try {
-                Row r = it.nextRow();
-                Value excerpt = r.getValue("jcr:path");
-                String path = excerpt.getString();
-                if (path.contains("/jcr:content")) {
-                    path = path.substring(0, (path.indexOf("/jcr:content")));
-                }
-                Asset search = new Asset();
-                search.setRefId(path);
-                search.setType(AssetComponentType.AID);
-                search.setIsCachable(true);
-                try {
-                    search.setDescription(r.getValue("dc:description").getString());
-                } catch (Exception e) {
-                    log.error("Global Aid Description missing");
-                }
-                try {
-                    search.setTitle(r.getValue("dc:title").getString());
-                } catch (Exception e) {
-                }
-                try {
-                    search.setIsOutdoorRelated(r.getValue("dc:isOutdoorRelated").getBoolean());
-                } catch (Exception e) {
-                }
-                matched.add(search);
+                    Row r = it.nextRow();
+                    Value excerpt = r.getValue("jcr:path");
+                    String path = excerpt.getString();
+                    if (path.contains("/jcr:content")) {
+                        path = path.substring(0, (path.indexOf("/jcr:content")));
+                    }
+                    Asset search = new Asset();
+                    search.setRefId(path);
+                    search.setType(AssetComponentType.AID);
+                    search.setIsCachable(true);
+                    try {
+                        search.setDescription(r.getValue("dc:description").getString());
+                    } catch (Exception e) {
+                        log.error("Global Aid Description missing");
+                    }
+                    try {
+                        search.setTitle(r.getValue("dc:title").getString());
+                    } catch (Exception e) {
+                    }
+                    try {
+                        search.setIsOutdoorRelated(r.getValue("dc:isOutdoorRelated").getBoolean());
+                    } catch (Exception e) {
+                    }
+                    matched.add(search);
                 } catch (Exception e) {
                     log.error("Error Occurred: ", e);
                 }
@@ -239,11 +227,9 @@ public class MeetingDAOImpl implements MeetingDAO {
     private List<Asset> getLocalAssets(String meetingName, String meetingPath, AssetComponentType type) {
         List<Asset> assets = new ArrayList<Asset>();
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
             // First, respect the "aidPaths" or "resourcePaths" field in the
             // meeting. This field has multiple values.
-            Node meetingNode = session.getNode(meetingPath);
+            Node meetingNode = girlScoutsOCMService.getNode(meetingPath);
             String pathProp;
             switch (type) {
                 case AID:
@@ -260,7 +246,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                 for (int i = 0; i < assetPaths.length; i++) {
                     String assetPath = assetPaths[i].getString();
                     log.debug("Asset Path = " + assetPath);
-                    assets.addAll(getAssetsFromPath(assetPath, type, session));
+                    assets.addAll(getAssetsFromPath(assetPath, type));
                 }
             }
             // Then, generate an "expected" path, check if there is overrides
@@ -277,19 +263,9 @@ public class MeetingDAOImpl implements MeetingDAO {
                     typeString = "aid";
             }
             String rootPath = getSchoolYearDamPath() + "/local/" + typeString + "/meetings/" + meetingName;
-            if (session.nodeExists(rootPath)) {
-                assets.addAll(getAssetsFromPath(rootPath, type, session));
-            }
+            assets.addAll(getAssetsFromPath(rootPath, type));
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return assets;
     }
@@ -359,39 +335,38 @@ public class MeetingDAOImpl implements MeetingDAO {
         return matched;
     }
 
-    private List<Asset> getAssetsFromPath(String rootPath, AssetComponentType type, Session session) {
+    private List<Asset> getAssetsFromPath(String rootPath, AssetComponentType type) {
         List<Asset> assets = new ArrayList<Asset>();
         try {
-            if (!session.nodeExists(rootPath)) {
-                return assets;
-            }
-            Node rootNode = session.getNode(rootPath);
-            NodeIterator iter = rootNode.getNodes();
-            while (iter.hasNext()) {
-                Node node = null;
-                try {
-                    node = iter.nextNode();
-                    if (!node.hasNode("jcr:content")) {
-                        continue;
+            Node rootNode = girlScoutsOCMService.getNode(rootPath);
+            if (rootNode != null) {
+                NodeIterator iter = rootNode.getNodes();
+                while (iter.hasNext()) {
+                    Node node = null;
+                    try {
+                        node = iter.nextNode();
+                        if (!node.hasNode("jcr:content")) {
+                            continue;
+                        }
+                        Node props = node.getNode("jcr:content/metadata");
+                        Asset asset = new Asset();
+                        asset.setRefId(node.getPath());
+                        if (props.hasProperty("dc:isOutdoorRelated")) {
+                            asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
+                        } else {
+                            asset.setIsOutdoorRelated(false);
+                        }
+                        asset.setIsCachable(true);
+                        asset.setType(type);
+                        asset.setDescription(props.getProperty("dc:description").getString());
+                        asset.setTitle(props.getProperty("dc:title").getString());
+                        assets.add(asset);
+                    } catch (Exception e) {
+                        if (node != null) {
+                            log.warn("Cannot get asset " + node.getPath());
+                        }
+                        log.warn("Cannot get asset. rootPath = " + rootPath + ". Root cause was: " + e.getMessage());
                     }
-                    Node props = node.getNode("jcr:content/metadata");
-                    Asset asset = new Asset();
-                    asset.setRefId(node.getPath());
-                    if (props.hasProperty("dc:isOutdoorRelated")) {
-                        asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
-                    } else {
-                        asset.setIsOutdoorRelated(false);
-                    }
-                    asset.setIsCachable(true);
-                    asset.setType(type);
-                    asset.setDescription(props.getProperty("dc:description").getString());
-                    asset.setTitle(props.getProperty("dc:title").getString());
-                    assets.add(asset);
-                } catch (Exception e) {
-                    if (node != null) {
-                        log.warn("Cannot get asset " + node.getPath());
-                    }
-                    log.warn("Cannot get asset. rootPath = " + rootPath + ". Root cause was: " + e.getMessage());
                 }
             }
         } catch (Exception e) {
@@ -420,15 +395,11 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         String councilStr = councilMapper.getCouncilBranch(councilCode);
         councilStr = councilStr.replace("/content/", "");
-        Session session = null;
         SearchTag tags = new SearchTag();
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
             String tagStr = councilStr;
             try {
-                Node homepage = session.getNode("/content/" + councilStr + "/en/jcr:content");
+                Node homepage = girlScoutsOCMService.getNode("/content/" + councilStr + "/en/jcr:content");
                 if (homepage != null) {
                     if (homepage.hasProperty("event-cart")) {
                         if ("true".equals(homepage.getProperty("event-cart").getString())) {
@@ -443,9 +414,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             java.util.Map<String, String> categories = new java.util.TreeMap();
             java.util.Map<String, String> levels = new java.util.TreeMap();
             String sql = "select jcr:title from cq:Tag where ISDESCENDANTNODE( '/etc/tags/" + tagStr + "')";
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 if (r.getPath().startsWith("/etc/tags/" + tagStr + "/categories")) {
@@ -483,14 +452,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return tags;
     }
@@ -499,33 +460,31 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
             throw new IllegalAccessException();
         }
-        Session session = null;
         String councilStr = "girlscouts";
         SearchTag tags = new SearchTag();
-        ResourceResolver rr = null;
+        Map<String, String> categories = new TreeMap();
+        Map<String, String> levels = new TreeMap();
+        String sql = "select jcr:title from cq:Tag where isdescendantnode( '/etc/tags/" + councilStr + "%')";
+        QueryResult result = girlScoutsOCMService.executeQuery(sql);
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            java.util.Map<String, String> categories = new java.util.TreeMap();
-            java.util.Map<String, String> levels = new java.util.TreeMap();
-            String sql = "select jcr:title from cq:Tag where isdescendantnode( '/etc/tags/" + councilStr + "%')";
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
-                Row r = it.nextRow();
-                if (r.getPath().startsWith("/etc/tags/" + councilStr + "/categories")) {
-                    String elem = r.getValue("jcr:title").getString();
-                    if (elem != null) {
-                        elem = elem.toLowerCase().replace("_", "").replace("/", "");
+                try {
+                    Row r = it.nextRow();
+                    if (r.getPath().startsWith("/etc/tags/" + councilStr + "/categories")) {
+                        String elem = r.getValue("jcr:title").getString();
+                        if (elem != null) {
+                            elem = elem.toLowerCase().replace("_", "").replace("/", "");
+                        }
+                        categories.put(elem, null);
+                    } else if (r.getPath().startsWith("/etc/tags/" + councilStr + "/program-level")) {
+                        String elem = r.getValue("jcr:title").getString();
+                        if (elem != null) {
+                            elem = elem.toLowerCase().replace("_", "").replace("/", "");
+                        }
+                        levels.put(elem, null);
                     }
-                    categories.put(elem, null);
-                } else if (r.getPath().startsWith("/etc/tags/" + councilStr + "/program-level")) {
-                    String elem = r.getValue("jcr:title").getString();
-                    if (elem != null) {
-                        elem = elem.toLowerCase().replace("_", "").replace("/", "");
-                    }
-                    levels.put(elem, null);
+                } catch (Exception e) {
+                    log.error("Error Occurred: ", e);
                 }
             }
             if (categories != null) {
@@ -542,165 +501,23 @@ public class MeetingDAOImpl implements MeetingDAO {
             tags.setRegion(searchRegion(user, troop, councilStr));
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return tags;
-    }
-
-    public java.util.List<Activity> searchA2(Troop troop, String tags, String cat, String keywrd, java.util.Date startDate, java.util.Date endDate, String region) {
-        java.util.List<Activity> toRet = new java.util.ArrayList();
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            boolean isTag = false;
-            String sqlTags = "";
-            if (tags.equals("|")) {
-                tags = "";
-            }
-            StringTokenizer t = new StringTokenizer(tags, "|");
-            while (t.hasMoreElements()) {
-                sqlTags += " contains(parent.[cq:tags], 'program-level/" + t.nextToken() + "') ";
-                if (t.hasMoreElements()) {
-                    sqlTags += " or ";
-                }
-                isTag = true;
-            }
-            if (isTag) {
-                sqlTags = " and (" + sqlTags + " ) ";
-            }
-            String sqlCat = "";
-            if (cat.equals("|")) {
-                cat = "";
-            }
-            t = new StringTokenizer(cat, "|");
-            while (t.hasMoreElements()) {
-                sqlCat += " contains(parent.[cq:tags], 'categories/" + t.nextToken() + "') ";
-                if (t.hasMoreElements()) {
-                    sqlCat += " or ";
-                }
-                isTag = true;
-            }
-            if (!sqlCat.equals("")) {
-                sqlCat = " and (" + sqlCat + " ) ";
-            }
-            String regionSql = "";
-            if (region != null && !region.trim().equals("")) {
-                regionSql += " and LOWER(region) ='" + region + "'";
-            }
-            String path = "/content/gateway/en/events/" + VtkUtil.getCurrentGSYear() + "/%";
-            if (!isTag) {
-                path = path + "/data";
-            } else {
-                path = path + "/jcr:content";
-            }
-            String councilId = null;
-            if (troop != null) {
-                councilId = troop.getCouncilCode();
-            }
-            String branch = councilMapper.getCouncilBranch(councilId);
-            branch += "/en";
-            String eventPath = "";
-            try {
-                eventPath = session.getProperty(branch + "/jcr:content/eventPath").getString();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            String sql = "select child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null ";
-            if (keywrd != null && !keywrd.trim().equals(""))// && !isTag )
-            {
-                sql += " and (contains(child.*, '" + keywrd + "') or contains(parent.*, '" + keywrd + "')  )";
-            }
-            if (!isTag) {
-                sql += regionSql;
-            }
-            sql += sqlTags;
-            sql += sqlCat;
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
-            int i = 0;
-            QueryResult result = q.execute();
-            for (RowIterator it = result.getRows(); it.hasNext(); ) {
-                Row r = it.nextRow();
-                Value[] v = r.getValues();
-                Activity activity = new Activity();
-                activity.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
-                activity.setContent(r.getValue("child.details").getString());
-                activity.setDate(r.getValue("child.start").getDate().getTime());
-                try {
-                    activity.setEndDate(r.getValue("child.end").getDate().getTime());
-                } catch (Exception e) {
-                }
-                if ((activity.getDate().before(new java.util.Date()) && activity.getEndDate() == null) || (activity.getEndDate() != null && activity.getEndDate().before(new java.util.Date()))) {
-                    continue;
-                }
-                activity.setLocationName(r.getValue("child.locationLabel").getString());
-                try {
-                    activity.setLocationAddress(r.getValue("child.address").getString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                //activity.setName(r.getValue("child.srchdisp").getString());
-                activity.setName(r.getValue("parent.jcr:title").getString());
-                activity.setType(YearPlanComponentType.ACTIVITY);
-                activity.setId("ACT" + i);
-                // patch
-                if (activity.getDate() != null && activity.getEndDate() == null) {
-                    activity.setEndDate(activity.getDate());
-                }
-                activity.setIsEditable(false);
-                try {
-                    activity.setRefUid(r.getValue("parent.jcr:uuid").getString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                if (startDate != null && endDate != null) {
-                    if ((startDate.after(endDate)) || activity.getEndDate().before(startDate) || ((activity.getDate().before(startDate) || activity.getDate().after(startDate)) && activity.getDate().after(endDate)) || (activity.getEndDate().before(startDate) && (activity.getEndDate().after(endDate) || activity.getEndDate().after(endDate)))) {
-                        continue;
-                    }
-                }
-                toRet.add(activity);
-                i++;
-            }
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return toRet;
     }
 
     public java.util.Map<String, String> searchRegion(User user, Troop troop, String councilStr) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
             throw new IllegalAccessException();
         }
-        java.util.Map<String, String> container = new java.util.TreeMap();
-        Session session = null;
+        Map<String, String> container = new TreeMap();
         Node homepage = null;
         if (councilStr != null && !councilStr.startsWith("/content/")) {
             councilStr = "/content/" + councilStr;
         }
         String repoStr = councilStr + "/en/events-repository";
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
             try {
-                homepage = session.getNode(councilStr + "/en/jcr:content");
+                homepage = girlScoutsOCMService.getNode(councilStr + "/en/jcr:content");
                 if (homepage != null) {
                     if (homepage.hasProperty("eventPath")) {
                         repoStr = homepage.getProperty("eventPath").getString();
@@ -712,9 +529,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             java.util.Map<String, String> categories = new java.util.TreeMap();
             java.util.Map<String, String> levels = new java.util.TreeMap();
             String sql = "select region, start, end from cq:Page where ISDESCENDANTNODE('" + repoStr + "')  and region is not null";
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 String elem = r.getValue("region").getString();
@@ -739,7 +554,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                         continue;
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error Occurred: ", e);
                 }
                 if (!container.containsKey(elem)) {
                     container.put(elem, null);
@@ -747,53 +562,20 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return container;
     }
 
-    public java.util.List<Meeting> getAllMeetings(User user, Troop troop, String gradeLevel) throws IllegalAccessException {
+    public List<Meeting> getAllMeetings(User user, Troop troop, String gradeLevel) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        java.util.List<Meeting> meetings = null;
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Meeting.class);
-            classes.add(Activity.class);
-            classes.add(JcrCollectionHoldString.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            QueryManager queryManager = ocm.getQueryManager();
-            Filter filter = queryManager.createFilter(Meeting.class);
-            filter.setScope("/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/");
-            Query query = queryManager.createQuery(filter);
-            meetings = (List<Meeting>) ocm.getObjects(query);
-            Comparator<Meeting> comp = new BeanComparator("position");
-            if (meetings != null) {
-                Collections.sort(meetings, comp);
-            }
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
+        List<Meeting> meetings = null;
+        String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/";
+        meetings = girlScoutsOCMService.findObjects(path, null, Meeting.class);
+        Comparator<Meeting> comp = new BeanComparator("position");
+        if (meetings != null) {
+            Collections.sort(meetings, comp);
         }
         return meetings;
 
@@ -804,54 +586,47 @@ public class MeetingDAOImpl implements MeetingDAO {
             throw new IllegalAccessException();
         }
         List<Asset> matched = new ArrayList<Asset>();
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path], [dc:isOutdoorRelated] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
-            session = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
-            QueryResult result = q.execute();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
-                Row r = it.nextRow();
-                Asset search = new Asset();
-                search.setRefId(r.getPath().replace("/jcr:content/metadata", ""));
-                search.setIsCachable(true);
-                search.setType(AssetComponentType.RESOURCE);
                 try {
-                    search.setDescription(r.getValue("dc:description").getString());
-                } catch (Exception e) {
-                }
-                try {
-                    search.setTitle(r.getValue("dc:title").getString());
-                } catch (Exception e) {
-                }
-                try {
-                    search.setIsOutdoorRelated(r.getValue("dc:isOutdoorRelated").getBoolean());
-                } catch (Exception e) {
-                }
-                try {
-                    if (r.getPath().indexOf(".") != -1) {
-                        String t = r.getPath().substring(r.getPath().indexOf("."));
-                        t = t.substring(1, t.indexOf("/"));
-                        search.setDocType(t);
+                    Row r = it.nextRow();
+                    Asset search = new Asset();
+                    search.setRefId(r.getPath().replace("/jcr:content/metadata", ""));
+                    search.setIsCachable(true);
+                    search.setType(AssetComponentType.RESOURCE);
+                    try {
+                        search.setDescription(r.getValue("dc:description").getString());
+                    } catch (Exception e) {
+                        log.error("Error Occurred: ", e);
                     }
+                    try {
+                        search.setTitle(r.getValue("dc:title").getString());
+                    } catch (Exception e) {
+                        log.error("Error Occurred: ", e);
+                    }
+                    try {
+                        search.setIsOutdoorRelated(r.getValue("dc:isOutdoorRelated").getBoolean());
+                    } catch (Exception e) {
+                        log.error("Error Occurred: ", e);
+                    }
+                    try {
+                        if (r.getPath().indexOf(".") != -1) {
+                            String t = r.getPath().substring(r.getPath().indexOf("."));
+                            t = t.substring(1, t.indexOf("/"));
+                            search.setDocType(t);
+                        }
+                    } catch (Exception e) {
+                        log.error("Error Occurred: ", e);
+                    }
+                    matched.add(search);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error Occurred: ", e);
                 }
-                matched.add(search);
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return matched;
     }
@@ -861,19 +636,13 @@ public class MeetingDAOImpl implements MeetingDAO {
             throw new IllegalAccessException();
         }
         Asset search = null;
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
             String sql = "";
             if (_path != null && _path.contains("metadata/")) {
                 _path = _path.replace("metadata/", "");
             }
             sql = "select dc:description,dc:format, dc:title,dc:isOutdoorRelated from nt:unstructured where isdescendantnode( '" + _path + "%') and cq:tags is not null";
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 Value excerpt = r.getValue("jcr:path");
@@ -888,32 +657,27 @@ public class MeetingDAOImpl implements MeetingDAO {
                 try {
                     search.setDescription(r.getValue("dc:description").getString());
                 } catch (Exception e) {
+                    log.error("Error Occurred: ", e);
                 }
                 try {
                     search.setTitle(r.getValue("dc:title").getString());
                 } catch (Exception e) {
+                    log.error("Error Occurred: ", e);
                 }
                 try {
                     search.setIsOutdoorRelated(r.getValue("dc:isOutdoorRelated").getBoolean());
                 } catch (Exception e) {
+                    log.error("Error Occurred: ", e);
                 }
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return search;
     }
 
-    public java.util.List<Asset> getGlobalResources(String resourceTags) {
-        java.util.List<Asset> toRet = new java.util.ArrayList();
+    public List<Asset> getGlobalResources(String resourceTags) {
+        List<Asset> toRet = new ArrayList();
         if (resourceTags == null || resourceTags.equals("")) {
             return toRet;
         }
@@ -956,116 +720,38 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return toRet;
     }
 
     public Council getCouncil(User user, Troop troop, String councilId) throws IllegalAccessException {
         // TODO Permission.PERMISSION_VIEW_MEETING_ID
-        Session session = null;
-        Council council = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Council.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            QueryManager queryManager = ocm.getQueryManager();
-            Filter filter = queryManager.createFilter(Troop.class);
-            council = (Council) ocm.getObject(VtkUtil.getYearPlanBase(user, null) + councilId);
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return council;
+        return girlScoutsOCMService.read(troop.getCouncilPath());
     }
 
-    public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
+    public List<Milestone> getCouncilMilestones(String councilCode) {
         String councilStr = councilMapper.getCouncilBranch(councilCode);
         councilStr = councilStr.replace("/content/", "");
-        Session session = null;
-        java.util.List<Milestone> milestones = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Milestone.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            QueryManager queryManager = ocm.getQueryManager();
-            Filter filter = queryManager.createFilter(Milestone.class);
-            filter.setScope("/content/" + councilStr + "//");
-            Query query = queryManager.createQuery(filter);
-            milestones = (java.util.List<Milestone>) ocm.getObjects(query);
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return milestones;
+        String path = "/content/" + councilStr;
+        return girlScoutsOCMService.findObjects(path, null, Milestone.class);
     }
 
     public void saveCouncilMilestones(java.util.List<Milestone> milestones) {
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Milestone.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            for (int i = 0; i < milestones.size(); i++) {
-                ocm.update(milestones.get(i));
+            for (Milestone milestone : milestones) {
+                girlScoutsOCMService.update(milestone);
             }
-            ocm.save();
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
     }
 
-    public java.util.List<Activity> searchA1(User user, Troop troop, String tags, String cat, String keywrd, java.util.Date startDate, java.util.Date endDate, String region) throws IllegalAccessException, IllegalStateException {
-        java.util.List<Activity> toRet = new java.util.ArrayList();
-        Session session = null;
+    public List<Activity> searchA1(User user, Troop troop, String tags, String cat, String keywrd, java.util.Date startDate, java.util.Date endDate, String region) throws IllegalAccessException, IllegalStateException {
+        List<Activity> toRet = new ArrayList();
         if (!userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
             String councilStr = councilMapper.getCouncilBranch(troop.getSfCouncil());
             if (councilStr == null || councilStr.trim().equals("")) {
                 councilStr = "/content/gateway";
@@ -1079,21 +765,19 @@ public class MeetingDAOImpl implements MeetingDAO {
             branch += "/en";
             String eventPath = "";
             try {
-                eventPath = session.getProperty(branch + "/jcr:content/eventPath").getString();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                Node homepage = session.getNode(branch + "/jcr:content");
-                if (homepage != null) {
-                    if (homepage.hasProperty("event-cart")) {
-                        if ("true".equals(homepage.getProperty("event-cart").getString())) {
+                Node jcrContent = girlScoutsOCMService.getNode(branch + "/jcr:content");
+                if (jcrContent != null) {
+                    if (jcrContent.hasProperty("eventPath")) {
+                        eventPath = jcrContent.getProperty("eventPath").getString();
+                    }
+                    if (jcrContent.hasProperty("event-cart")) {
+                        if ("true".equals(jcrContent.getProperty("event-cart").getString())) {
                             namespace = "sf-activities";
                         }
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Error Occurred: ", e);
             }
             boolean isTag = false;
             String sqlTags = "";
@@ -1144,10 +828,8 @@ public class MeetingDAOImpl implements MeetingDAO {
             sql += regionSql;
             sql += sqlTags;
             sql += sqlCat;
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
             int i = 0;
-            QueryResult result = q.execute();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 Node resultNode = r.getNode();
@@ -1183,6 +865,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                     Date eventEndDate = dateFormat.parse(eventEndDateStr);
                     activity.setEndDate(eventEndDate);
                 } catch (Exception e) {
+                    log.error("Error Occurred: ", e);
                 }
                 // TODO: end of hacking timezone
                 if ((activity.getDate().before(new java.util.Date()) && activity.getEndDate() == null) || (activity.getEndDate() != null && activity.getEndDate().before(new java.util.Date()))) {
@@ -1191,12 +874,12 @@ public class MeetingDAOImpl implements MeetingDAO {
                 try {
                     activity.setLocationName(resultNode.getProperty("jcr:content/data/locationLabel").getString());
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error Occurred: ", e);
                 }
                 try {
                     activity.setLocationAddress(resultNode.getProperty("jcr:content/data/address").getString());
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error Occurred: ", e);
                 }
                 activity.setName(resultNode.getProperty("jcr:content/jcr:title").getString());
                 activity.setType(YearPlanComponentType.ACTIVITY);
@@ -1208,7 +891,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                 try {
                     activity.setRefUid(resultNode.getProperty("jcr:content/jcr:uuid").getString());
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error Occurred: ", e);
                 }
                 try {
                     activity.setRegisterUrl(resultNode.getProperty("jcr:content/data/register").getString());
@@ -1233,110 +916,22 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return toRet;
-    }
-
-    public void updateCustMeetingPlansRef(java.util.List<String> meetings, String path) {
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            for (int i = 0; i < meetings.size(); i++) {
-                String meetingPath = meetings.get(i);
-                Node x = session.getNode(meetingPath);
-                String orgPath = x.getProperty("refId").getString();
-                log.debug("orgPath : " + orgPath);
-                String newPath = path + "" + orgPath.substring(orgPath.indexOf("/lib/"));
-                log.debug("Changing cust meeting path from " + path + " to: " + newPath);
-                x.setProperty("refId", newPath);
-                session.save();
-
-            }
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-    }
-
-    public java.util.List<String> getCustMeetings(String path) {
-        java.util.List<String> toRet = new java.util.ArrayList<String>();
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            String sql = "select * from nt:unstructured where jcr:path like '" + path + "/%' and ocm_classname ='org.girlscouts.vtk.models.MeetingE' and refId like '%/users/%_%' ";
-            log.debug("SQL cust" + sql);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
-            for (RowIterator it = result.getRows(); it.hasNext(); ) {
-                Row r = it.nextRow();
-                Value excerpt = r.getValue("jcr:path");
-                toRet.add(excerpt.getString());
-                log.debug("Adding meeting: " + excerpt.getString());
-            }
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return toRet;
     }
 
     public String removeLocation(User user, Troop troop, String locationName) throws IllegalAccessException, IllegalStateException {
-        Session session = null;
         String locationToRmPath = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
                 throw new IllegalAccessException();
             }
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Troop.class);
-            classes.add(Activity.class);
-            classes.add(JcrCollectionHoldString.class);
-            classes.add(YearPlan.class);
-            classes.add(MeetingE.class);
-            classes.add(Note.class);
-            classes.add(Location.class);
-            classes.add(Cal.class);
-            classes.add(Milestone.class);
-            classes.add(Asset.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
             YearPlan plan = troop.getYearPlan();
             List<Location> locations = plan.getLocations();
             for (int i = 0; i < locations.size(); i++) {
                 Location location = locations.get(i);
                 if (location.getUid().equals(locationName)) {
-                    ocm.remove(location);
-                    ocm.save();
+                    girlScoutsOCMService.delete(location);
                     locationToRmPath = location.getPath();
                     locations.remove(location);
                     break;
@@ -1344,202 +939,56 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return locationToRmPath;
     }
 
     public Attendance getAttendance(User user, Troop troop, String mid) {
         Attendance attendance = null;
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Attendance.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            attendance = (Attendance) ocm.getObject(mid);
+            attendance = girlScoutsOCMService.read(mid);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return attendance;
     }
 
     public boolean setAttendance(User user, Troop troop, String mid, Attendance attendance) {
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Attendance.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            if (!session.itemExists(attendance.getPath())) {
-                ocm.insert(attendance);
-            }
-            ocm.update(attendance);
-            ocm.save();
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
+        if (girlScoutsOCMService.create(attendance) != null) {
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     public Achievement getAchievement(User user, Troop troop, String mid) {
-        Achievement attendance = null;
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Achievement.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            QueryManager queryManager = ocm.getQueryManager();
-            attendance = (Achievement) ocm.getObject(mid);
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return attendance;
+        return girlScoutsOCMService.read(mid);
     }
 
-    public boolean setAchievement(User user, Troop troop, String mid, Achievement Achievement) {
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Achievement.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            if (!session.itemExists(Achievement.getPath())) {
-                ocm.insert(Achievement);
-            }
-            ocm.update(Achievement);
-            ocm.save();
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
+    public boolean setAchievement(User user, Troop troop, String mid, Achievement achievement) {
+        if (girlScoutsOCMService.create(achievement) != null) {
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     public boolean updateMeetingEvent(User user, Troop troop, MeetingE meeting) throws IllegalAccessException, IllegalStateException {
-        Session session = null;
         if (troop != null && !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(MeetingE.class);
-            classes.add(Note.class);
-            classes.add(JcrCollectionHoldString.class);
-            classes.add(Asset.class);
-            classes.add(SentEmail.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            ocm.update(meeting);
-            ocm.save();
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
+        if (girlScoutsOCMService.update(meeting) != null) {
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     public MeetingE getMeetingE(User user, Troop troop, String path) throws IllegalAccessException, VtkException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        MeetingE meetingE = null;
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Meeting.class);
-            classes.add(Activity.class);
-            classes.add(MeetingE.class);
-            classes.add(Note.class);
-            classes.add(Achievement.class);
-            classes.add(Asset.class);
-            classes.add(Attendance.class);
-            classes.add(SentEmail.class);
-            classes.add(JcrCollectionHoldString.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            meetingE = (MeetingE) ocm.getObject(path);
-
-        } catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
-            ec.printStackTrace();
-            throw new VtkException("Could not complete intended action due to a server error. Code: " + new java.util.Date().getTime());
-
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return meetingE;
+        return girlScoutsOCMService.read(path);
     }
 
     public int getAllResourcesCount(User user, Troop troop, String _path) throws IllegalAccessException {
@@ -1547,27 +996,12 @@ public class MeetingDAOImpl implements MeetingDAO {
             throw new IllegalAccessException();
         }
         int count = 0;
-        List<Asset> matched = new ArrayList<Asset>();
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
-            session = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
-            QueryResult result = q.execute();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             count = (int) result.getRows().getSize();
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return count;
     }
@@ -1577,17 +1011,17 @@ public class MeetingDAOImpl implements MeetingDAO {
         try {
             data1 = getDataItem(user, troop, _query, null);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurred: ", e);
         }
         try {
             data2 = getDataItem(user, troop, _query, "/content/dam/girlscouts-vtk/global/aid");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurred: ", e);
         }
         try {
             data3 = getDataItem(user, troop, _query, "/content/dam/girlscouts-vtk/global/resource");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurred: ", e);
         }
         data = new java.util.ArrayList();
         if (data1 != null) {
@@ -1634,7 +1068,6 @@ public class MeetingDAOImpl implements MeetingDAO {
             SearchResult result = query.getResult();
             for (Hit hit : result.getHits()) {
                 try {
-                    String path = hit.getPath();
                     java.util.Map<String, String> exc = hit.getExcerpts();
                     java.util.Iterator itr = exc.keySet().iterator();
                     while (itr.hasNext()) {
@@ -1659,18 +1092,13 @@ public class MeetingDAOImpl implements MeetingDAO {
                             if (_search.getContent() == null || _search.getContent().trim().equals("")) {
                                 unq.put(search.getPath(), search);
                             }
-
                         }
-
                     } else {
                         unq.put(search.getPath(), search);
                     }
-
                 } catch (RepositoryException e) {
-                    e.printStackTrace();
-
+                    log.error("Error Occurred: ", e);
                 }
-
             }
             java.util.Iterator itr = unq.keySet().iterator();
             while (itr.hasNext()) {
@@ -1696,30 +1124,12 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (path == null || "".equals(path)) {
             return 0;
         }
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             String sql = "select [jcr:path] " + " from [dam:Asset] as s   where " + " (isdescendantnode (s, [" + path + "]))";
-            session = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
-            QueryResult result = q.execute();
-            NodeIterator itr = result.getNodes();
-            while (itr.hasNext()) {
-                itr.next();
-                count++;
-            }
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            count = (int) result.getNodes().getSize();
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return count;
     }
@@ -1733,54 +1143,28 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (level.contains("-")) {
             level = level.split("-")[1];
         }
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
-            session = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
-            QueryResult result = q.execute();
-            NodeIterator itr = result.getNodes();
-            while (itr.hasNext()) {
-                Node node = (Node) itr.next();
-                if (node.getPath().toLowerCase().contains(("meetings/" + level.charAt(0)).toLowerCase())) {
-                    count++;
-                }
-            }
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            count = (int) result.getNodes().getSize();
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return count;
     }
 
-    public java.util.Collection<bean_resource> getResourceData(User user, Troop troop, String _path) throws IllegalAccessException {
+    public Collection<bean_resource> getResourceData(User user, Troop troop, String _path) throws IllegalAccessException {
         int count = 0;
         if (resourceCountMap.containsKey(_path)) {
             return (java.util.Collection<bean_resource>) resourceCountMap.get(_path);
         }
-        java.util.Map<String, bean_resource> dictionary = null;
-        Session session = null;
-        ResourceResolver rr = null;
+        Map<String, bean_resource> dictionary = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             String sql = "SELECT [jcr:path], [jcr:title] FROM [cq:PageContent] AS s WHERE ISDESCENDANTNODE(s, [" + _path + "])";
-            session = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
-            java.util.Map<String, String> categoryDictionary = new java.util.TreeMap<String, String>();
-            java.util.Map<String, java.util.List<String>> container = new java.util.TreeMap();
-            dictionary = new java.util.TreeMap<String, bean_resource>();
-            QueryResult result = q.execute();
+            Map<String, String> categoryDictionary = new TreeMap<String, String>();
+            Map<String, List<String>> container = new TreeMap();
+            dictionary = new TreeMap<String, bean_resource>();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             NodeIterator itr = result.getNodes();
             while (itr.hasNext()) {
                 Node node = (Node) itr.next();
@@ -1821,14 +1205,6 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         resourceCountMap.put(_path, dictionary.values());
         return dictionary.values();
@@ -1842,31 +1218,10 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (resourceCountMap.containsKey(path)) {
             return ((Integer) resourceCountMap.get(path)).intValue();
         }
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            String sql = "select * from nt:base where isdescendantnode( '" + path + "%' ) and ocm_classname='org.girlscouts.vtk.models.Meeting'";
-            session = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
-            //count = (int) result.getNodes().getSize();
-            Iterator itr = result.getNodes();
-            while (itr.hasNext()) {
-                itr.next();
-                count++;
-            }
+            count = girlScoutsOCMService.findObjects(path, null, Meeting.class).size();
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         resourceCountMap.put(path, count);
         return count;
@@ -1880,27 +1235,13 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (path == null || "".equals(path)) {
             return 0;
         }
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             String sql = "select [jcr:path]  from [nt:unstructured] as s   where  (isdescendantnode (s, [" + path + "])) and [cq:tags] is not null";
-            session = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
-            QueryResult result = q.execute();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             count = result.getNodes().getSize();
             resourceCountMap.put(path, count);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return (int) count;
     }
@@ -1909,85 +1250,19 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        java.util.List<Meeting> meetings = null;
-        Session session = null;
-        ResourceResolver rr = null;
+        List<Meeting> meetings = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Meeting.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            String xmlDescriptor = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<!DOCTYPE jackrabbit-ocm PUBLIC \"-//The Apache Software Foundation//DTD Jackrabbit OCM 1.5//EN\" " + "\"http://jackrabbit.apache.org/dtd/jackrabbit-ocm-1.5.dtd\">" + "<jackrabbit-ocm>" + "<class-descriptor className=\"org.girlscouts.vtk.models.Meeting\" jcrType=\"nt:unstructured\">" + "<field-descriptor fieldName=\"path\" path=\"true\" />" + "<field-descriptor fieldName=\"id\" jcrName=\"id\" />" + "<field-descriptor fieldName=\"level\" jcrName=\"level\"/>" + "<field-descriptor fieldName=\"position\" jcrName=\"position\"/>" + "<field-descriptor fieldName=\"name\" jcrName=\"name\"/>" + "<field-descriptor fieldName=\"blurb\" jcrName=\"blurb\"/>" + "<field-descriptor fieldName=\"cat\" jcrName=\"cat\"/>" + "<field-descriptor fieldName=\"catTags\" jcrName=\"catTags\"/>" + "<field-descriptor fieldName=\"catTagsAlt\" jcrName=\"catTagsAlt\"/>" + "<field-descriptor fieldName=\"meetingPlanTypeAlt\" jcrName=\"meetingPlanTypeAlt\"/>" + "<field-descriptor fieldName=\"meetingPlanType\" jcrName=\"meetingPlanType\"/>" + "<field-descriptor fieldName=\"req\" jcrName=\"req\"/>" + "<field-descriptor fieldName=\"reqTitle\" jcrName=\"reqTitle\"/>" + "</class-descriptor></jackrabbit-ocm>";
-            InputStream[] in = new InputStream[1];
-            in[0] = IOUtils.toInputStream(xmlDescriptor, "UTF-8");
-            session = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, in);//(session,mapper);
-            QueryManager queryManager = ocm.getQueryManager();
-            Field field = new Meeting().getClass().getDeclaredField("activities");
-            org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection anno = field.getAnnotation(org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection.class);
-            Filter filter = queryManager.createFilter(Meeting.class);
-            filter.setScope("/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "//");
-            Query query = queryManager.createQuery(filter);
-            meetings = (List<Meeting>) ocm.getObjects(query);
+            String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "//";
+            meetings = girlScoutsOCMService.findObjects(path, null, Meeting.class);
             Comparator<Meeting> comp = new BeanComparator("position");
             if (meetings != null) {
                 Collections.sort(meetings, comp);
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return meetings;
 
-    }
-
-    //changed to SQL . problem could be with performance. A. cant use path in the filter. Path contains nodes starting with numeric value ex: council 999. Solution need to impl new indexes. Could be problem. Temp solution impl sql see getNotes
-    public java.util.List<Note> getNotes_OCM(User user, Troop troop, String path) throws IllegalAccessException, VtkException {
-        if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
-            throw new IllegalAccessException();
-        }
-        java.util.List<Note> notes = null;
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(MeetingE.class);
-            classes.add(Note.class);
-            classes.add(Achievement.class);
-            classes.add(Attendance.class);
-            session = rr.adaptTo(Session.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            QueryManager queryManager = ocm.getQueryManager();
-            Filter filter = queryManager.createFilter(Note.class);
-            filter.setScope(VtkUtil.getYearPlanBase(user, troop) + "/");
-            filter.addEqualTo("refId", path);
-            Query query = queryManager.createQuery(filter);
-            notes = (List<Note>) ocm.getObjects(query);
-            //sort
-            java.util.Comparator<Note> comp = new org.apache.commons.beanutils.BeanComparator("createTime");
-            Collections.sort(notes, comp);
-            Collections.reverse(notes);
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return notes;
     }
 
     public boolean updateNote(User user, Troop troop, Note note) throws IllegalAccessException {
@@ -1995,36 +1270,15 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        if (!user.getApiConfig().getUser().getSfUserId().equals(note.getCreatedByUserId())) {
+        if (!user.getSfUserId().equals(note.getCreatedByUserId())) {
             throw new IllegalAccessException();
         }
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(MeetingE.class);
-            classes.add(Note.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            if (!session.itemExists(note.getPath())) {
-                ocm.insert(note); // y ??
-            } else {
-                ocm.update(note);
+            if (girlScoutsOCMService.create(note) != null) {
+                isRm = true;
             }
-            ocm.save();
-            isRm = true;
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isRm;
 
@@ -2035,20 +1289,9 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(MeetingE.class);
-            classes.add(Note.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            if (user.getApiConfig().getUser().getSfUserId().equals(note.getCreatedByUserId())) {//session.itemExists(note.getPath())){
-                ocm.remove(note);
-                ocm.save();
-                isRm = true;
+            if (user.getSfUserId().equals(note.getCreatedByUserId())) {
+                isRm = girlScoutsOCMService.delete(note);
             } else {
                 throw new IllegalAccessException();
             }
@@ -2056,14 +1299,6 @@ public class MeetingDAOImpl implements MeetingDAO {
             throw el;
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isRm;
 
@@ -2077,7 +1312,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         Note note = getNote(user, troop, noteId);
         if (note != null) {
             //check if note belongs to logged-in user
-            if (user.getApiConfig().getUser().getSfUserId().equals(note.getCreatedByUserId())) {
+            if (user.getSfUserId().equals(note.getCreatedByUserId())) {
                 rmNote(user, troop, note);
                 isRm = true;
             } else {
@@ -2087,61 +1322,14 @@ public class MeetingDAOImpl implements MeetingDAO {
         return isRm;
     }
 
-    // method to get meeting note. Issue with using jcr:path. path starts with numeric such as /council 999, which creates conflict.
-    //Solution: need to create indexes. for now temp create method using SQL
-    public Note getNote_OCM(User user, Troop troop, String nid) throws IllegalAccessException {
-        if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
-            throw new IllegalAccessException();
-        }
-        Note note = null;
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(MeetingE.class);
-            classes.add(Note.class);
-            classes.add(Achievement.class);
-            classes.add(Attendance.class);
-            session = rr.adaptTo(Session.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            QueryManager queryManager = ocm.getQueryManager();
-            Filter filter = queryManager.createFilter(Note.class);
-            filter.setScope(VtkUtil.getYearPlanBase(user, troop) + "/");
-            filter.addEqualTo("uid", nid);
-            Query query = queryManager.createQuery(filter);
-            note = (Note) ocm.getObject(query);
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return note;
-    }
-
-    //see comments from method getNote_OCM
     public Note getNote(User user, Troop troop, String nid) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
             throw new IllegalAccessException();
         }
         Note note = null;
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
             String sql = "select note.message, note.createTime, note.createdByUserId, note.createdByUserName, note.refId, note.uid from [nt:base] as note where ocm_classname='org.girlscouts.vtk.models.Note' and   ISDESCENDANTNODE([" + troop.getYearPlan().getPath() + "]) and note.[uid] = '" + nid + "'";
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
-            String[] str = result.getColumnNames();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 note = new Note();
@@ -2158,60 +1346,16 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return note;
     }
 
-    //see comments from method getNotes_OCM
-    public java.util.List<Note> getNotes(User user, Troop troop, String refId) throws IllegalAccessException {
+    public List<Note> getNotes(User user, Troop troop, String refId) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        java.util.List<Note> notes = new java.util.ArrayList<Note>();
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            Resource meetingRes = rr.resolve(troop.getYearPlan().getPath() + "/meetingEvents/" + refId);
-            if (meetingRes != null) {
-                Resource notesResource = meetingRes.getChild("notes");
-                if (notesResource != null) {
-                    Iterator<Resource> notesIt = notesResource.listChildren();
-                    while (notesIt.hasNext()) {
-                        Resource noteItr = notesIt.next();
-                        Note note = new Note();
-                        ValueMap values = noteItr.getValueMap();
-                        note.setPath(noteItr.getPath());
-                        note.setMessage(values.get("message", String.class));
-                        note.setUid(values.get("uid", String.class));
-                        note.setCreateTime(values.get("createTime", Long.class));
-                        note.setCreatedByUserName(values.get("createdByUserName", String.class));
-                        note.setCreatedByUserId(values.get("createdByUserId", String.class));
-                        note.setRefId(values.get("refId", String.class));
-                        notes.add(note);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
+        String path = troop.getYearPlan().getPath() + "/meetingEvents/" + refId;
+        List<Note> notes = girlScoutsOCMService.findObjects(path, null, Note.class);
         return notes;
     }
 
@@ -2220,16 +1364,10 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
             throw new IllegalAccessException();
         }
-        Set<String> outdoorMeetings = new java.util.HashSet();
-        Session session = null;
-        ResourceResolver rr = null;
+        Set<String> outdoorMeetings = new HashSet();
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
             String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and outdoor=true and ocm_classname='org.girlscouts.vtk.models.Activity'";
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 String path = r.getPath();
@@ -2240,14 +1378,6 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return outdoorMeetings;
     }
@@ -2258,15 +1388,9 @@ public class MeetingDAOImpl implements MeetingDAO {
             throw new IllegalAccessException();
         }
         Set<String> globalMeetings = new java.util.HashSet();
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
             String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and global=true and ocm_classname='org.girlscouts.vtk.models.Activity'";
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 String path = r.getPath();
@@ -2277,14 +1401,6 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return globalMeetings;
     }
@@ -2293,16 +1409,10 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
             throw new IllegalAccessException();
         }
-        Session session = null;
         List<Meeting> meetings = new ArrayList();
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
             String sql = "select catTags, blurb, id, level, name, meetingPlanType, req, reqTitle from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "')  and ocm_classname='org.girlscouts.vtk.models.Meeting' and level='" + level + "'";
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
+            QueryResult result = girlScoutsOCMService.executeQuery(sql);
             rows:
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
@@ -2318,119 +1428,27 @@ public class MeetingDAOImpl implements MeetingDAO {
                 try {
                     meeting.setCatTags(r.getValue("catTags").getString());
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error Occurred: ", e);
                 }
                 try {
                     meeting.setMeetingPlanType(r.getValue("meetingPlanType").getString());
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println("Missing prop meetingPlanType in : " + path);
+                    log.error("Error Occurred: Missing prop meetingPlanType in : " + path, e);
                     continue rows;
                 }
                 meetings.add(meeting);
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return meetings;
     }
 
     public boolean removeAttendance(User user, Troop troop, Attendance attendance) {
-        Session session = null;
-        boolean isRm = false;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Attendance.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            ocm.remove(attendance);
-            ocm.save();
-            isRm = true;
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return isRm;
+        return girlScoutsOCMService.delete(attendance);
     }
 
     public boolean removeAchievement(User user, Troop troop, Achievement achievement) {
-        Session session = null;
-        boolean isRm = false;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Achievement.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            ocm.remove(achievement);
-            ocm.save();
-            isRm = true;
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return isRm;
+        return girlScoutsOCMService.delete(achievement);
     }
-
-    public java.util.List<Meeting> getAllMeetings() throws IllegalAccessException {
-        java.util.List<Meeting> meetings = null;
-        Session session = null;
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            List<Class> classes = new ArrayList<Class>();
-            classes.add(Meeting.class);
-            classes.add(Activity.class);
-            classes.add(Attendance.class);
-            classes.add(JcrCollectionHoldString.class);
-            Mapper mapper = new AnnotationMapperImpl(classes);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            QueryManager queryManager = ocm.getQueryManager();
-            Filter filter = queryManager.createFilter(Meeting.class);
-            filter.setScope("/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "//");
-            Query query = queryManager.createQuery(filter);
-            meetings = (List<Meeting>) ocm.getObjects(query);
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return meetings;
-
-    }
-
 }// edn class

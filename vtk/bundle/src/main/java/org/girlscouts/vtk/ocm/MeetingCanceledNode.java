@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Node
-public class MeetingCanceledNode extends JcrNode implements Serializable {
+public class MeetingCanceledNode extends YearPlanComponentNode implements Serializable {
     @Collection
     private List<AssetNode> assets;
     @Collection
@@ -24,8 +24,6 @@ public class MeetingCanceledNode extends JcrNode implements Serializable {
     private String cancelled;
     @Field
     private String emlTemplate;
-    @Field
-    private Date date;
 
     public List<AssetNode> getAssets() {
         return assets;
@@ -83,11 +81,4 @@ public class MeetingCanceledNode extends JcrNode implements Serializable {
         this.emlTemplate = emlTemplate;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }

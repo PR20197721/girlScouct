@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Node
-public class MeetingENode extends JcrNode implements Serializable {
+public class MeetingENode extends YearPlanComponentNode implements Serializable {
     @Collection(autoUpdate = false)
     private List<AssetNode> assets;
     @Collection
@@ -31,6 +31,10 @@ public class MeetingENode extends JcrNode implements Serializable {
     private String cancelled;
     @Field
     private String emlTemplate;
+    @Collection
+    private List<String> aidPaths;
+    @Collection
+    private List<String> resoourcePaths;
 
     public List<AssetNode> getAssets() {
         return assets;
@@ -110,5 +114,21 @@ public class MeetingENode extends JcrNode implements Serializable {
 
     public void setEmlTemplate(String emlTemplate) {
         this.emlTemplate = emlTemplate;
+    }
+
+    public List<String> getAidPaths() {
+        return aidPaths;
+    }
+
+    public void setAidPaths(List<String> aidPaths) {
+        this.aidPaths = aidPaths;
+    }
+
+    public List<String> getResoourcePaths() {
+        return resoourcePaths;
+    }
+
+    public void setResoourcePaths(List<String> resoourcePaths) {
+        this.resoourcePaths = resoourcePaths;
     }
 }

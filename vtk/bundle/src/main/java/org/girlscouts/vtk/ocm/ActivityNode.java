@@ -42,7 +42,7 @@ public class ActivityNode extends JcrNode implements Serializable {
     @Field
     private String materials, steps;
     @Field
-    private Date endDate, date;
+    private Date endDate;
     @Field
     private String content, refUid;
     @Field
@@ -198,14 +198,6 @@ public class ActivityNode extends JcrNode implements Serializable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public String getContent() {

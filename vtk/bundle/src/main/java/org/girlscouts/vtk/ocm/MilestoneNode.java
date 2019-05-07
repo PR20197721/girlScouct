@@ -9,13 +9,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Node
-public class MilestoneNode extends JcrNode implements Serializable {
+public class MilestoneNode extends YearPlanComponentNode implements Serializable {
     @Field
     private Boolean show;
     @Field
     private String blurb;
-    @Field
-    private Date date;
 
     public Boolean getShow() {
         return show;
@@ -31,13 +29,5 @@ public class MilestoneNode extends JcrNode implements Serializable {
 
     public void setBlurb(String blurb) {
         this.blurb = blurb;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 }

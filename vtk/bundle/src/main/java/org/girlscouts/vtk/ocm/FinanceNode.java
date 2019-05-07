@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 @Node
-public class Finance extends JcrNode implements Serializable {
+public class FinanceNode extends JcrNode implements Serializable {
     @Collection
     public Map<String, Double> expenses;
     @Collection
@@ -16,7 +16,7 @@ public class Finance extends JcrNode implements Serializable {
     @Field(id = true)
     private int financialQuarter;
 
-    public Finance() {
+    public FinanceNode() {
     }
 
     public void setExpenses(Map<String, Double> expenses) {

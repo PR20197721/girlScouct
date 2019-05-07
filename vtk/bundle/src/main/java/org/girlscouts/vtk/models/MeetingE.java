@@ -23,6 +23,24 @@ public class MeetingE extends YearPlanComponent implements Serializable {
     private Meeting meetingInfo;
     private String cancelled;
     private String emlTemplate;
+    private List<String> aidPaths;
+    private List<String> resoourcePaths;
+
+    public List<String> getAidPaths() {
+        return aidPaths;
+    }
+
+    public void setAidPaths(List<String> aidPaths) {
+        this.aidPaths = aidPaths;
+    }
+
+    public List<String> getResoourcePaths() {
+        return resoourcePaths;
+    }
+
+    public void setResoourcePaths(List<String> resoourcePaths) {
+        this.resoourcePaths = resoourcePaths;
+    }
 
     public MeetingE() {
         this.setUid("M" + new java.util.Date().getTime() + "_" + Math.random()); // better to be impossible than unlikely

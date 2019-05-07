@@ -1,12 +1,16 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import org.girlscouts.vtk.models.JcrNode;
+import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jcr.Node;
 import javax.jcr.query.QueryResult;
 import java.util.List;
 import java.util.Map;
@@ -15,37 +19,44 @@ import java.util.Map;
 public class GirlScoutsOCMServiceImpl implements GirlScoutsOCMService {
     private static Logger log = LoggerFactory.getLogger(GirlScoutsOCMServiceImpl.class);
 
+    @Reference
+    private GirlScoutsOCMRepository girlScoutsOCMRepository;
+
     @Activate
     private void activate() {
         log.info(this.getClass().getName() + " activated.");
     }
 
     @Override
-    public <T extends JcrNode> T create(T object) {
+    public <M extends org.girlscouts.vtk.models.JcrNode, N extends org.girlscouts.vtk.ocm.JcrNode> M create(M object) {
         //TODO need to check if path to object exists if not then create it
         /*if (!session.itemExists(troop.getPath() + "/lib/meetings/")) {
             ocm.insert(new JcrNode(troop.getPath() + "/lib"));
             ocm.insert(new JcrNode(troop.getPath() + "/lib/meetings"));
             ocm.save();
         }*/
-        return read(object.getPath());
+        N node = (N) NodeToModelMapper.INSTANCE.toNode(object);
+        node = girlScoutsOCMRepository.create(node);
+        return (M) NodeToModelMapper.INSTANCE.toModel(node);
     }
 
     @Override
-    public <T extends JcrNode> T update(T object) {
-        return read(object.getPath());
+    public <M extends org.girlscouts.vtk.models.JcrNode, N extends org.girlscouts.vtk.ocm.JcrNode> M update(M object) {
+        N node = (N) NodeToModelMapper.INSTANCE.toNode(object);
+        node = girlScoutsOCMRepository.update(node);
+        return (M) NodeToModelMapper.INSTANCE.toModel(node);
     }
 
     @Override
-    public <T extends JcrNode> T read(String path) {
-        T object = null;
-        return object;
+    public <M extends org.girlscouts.vtk.models.JcrNode, N extends org.girlscouts.vtk.ocm.JcrNode> M read(String path) {
+        N node = girlScoutsOCMRepository.read(path);
+        return (M) NodeToModelMapper.INSTANCE.toModel(node);
     }
 
     @Override
-    public <T extends JcrNode> boolean delete(T object) {
-        boolean isRemoved = false;
-        return isRemoved;
+    public <M extends org.girlscouts.vtk.models.JcrNode, N extends org.girlscouts.vtk.ocm.JcrNode> boolean delete(M object) {
+        N node = (N) NodeToModelMapper.INSTANCE.toNode(object);
+        return girlScoutsOCMRepository.delete(node);
     }
 
     @Override
@@ -60,6 +71,11 @@ public class GirlScoutsOCMServiceImpl implements GirlScoutsOCMService {
 
     @Override
     public QueryResult executeQuery(String query) {
+        return null;
+    }
+
+    @Override
+    public Node getNode(String path) {
         return null;
     }
 

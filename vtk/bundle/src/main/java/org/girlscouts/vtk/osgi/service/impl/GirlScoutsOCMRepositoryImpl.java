@@ -7,6 +7,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.vtk.ocm.*;
@@ -17,6 +18,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jcr.Node;
 import javax.jcr.Session;
 import javax.jcr.query.QueryResult;
 import java.util.*;
@@ -76,7 +78,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
                 log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
-        return read(object.getPath());
+        return (T) read(object.getPath());
     }
 
     @Override
@@ -99,7 +101,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
                 log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
-        return read(object.getPath());
+        return (T) read(object.getPath());
     }
 
     @Override
@@ -122,7 +124,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
                 log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
-        return object;
+        return (T) object;
     }
 
     @Override
@@ -204,6 +206,29 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
             javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
             javax.jcr.query.Query q = qm.createQuery(query, javax.jcr.query.Query.JCR_SQL2);
             return q.execute();
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        } finally {
+            try {
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Node getNode(String path) {
+        ResourceResolver rr = null;
+        try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            Resource resource = rr.resolve(path);
+            if(resource != null){
+                return resource.adaptTo(Node.class);
+            }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         } finally {
