@@ -3,11 +3,12 @@ package org.girlscouts.vtk.models;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 import java.util.Map;
 
-public class Finance extends JcrNode implements Serializable {
+public class Finance extends JcrNode implements Serializable, MappableToNode {
     public static final String INCOME = "income";
     public static final String EXPENSES = "expenses";
     public static final String PERIOD = "period";
@@ -63,4 +64,8 @@ public class Finance extends JcrNode implements Serializable {
         this.financialQuarter = financialQuarter;
     }
 
+    @Override
+    public Object toNode() {
+        return NodeToModelMapper.INSTANCE.toNode(this);
+    }
 }

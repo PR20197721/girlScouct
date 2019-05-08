@@ -4,13 +4,14 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.ejb.EmailMeetingReminder;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import org.girlscouts.vtk.utils.VtkUtil;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-public class Troop extends JcrNode implements Serializable {
+public class Troop extends JcrNode implements Serializable, MappableToNode {
 
     private YearPlan yearPlan;
     private String sfUserId;
@@ -234,5 +235,10 @@ public class Troop extends JcrNode implements Serializable {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+
+    @Override
+    public Object toNode() {
+        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 }

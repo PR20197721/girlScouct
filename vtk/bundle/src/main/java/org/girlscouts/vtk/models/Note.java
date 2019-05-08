@@ -2,10 +2,11 @@ package org.girlscouts.vtk.models;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
-public class Note extends JcrNode implements Serializable {
+public class Note extends JcrNode implements Serializable, MappableToNode {
 
     private Long createTime;
     private String createdByUserName;
@@ -57,6 +58,11 @@ public class Note extends JcrNode implements Serializable {
 
     public void setRefId(String refId) {
         this.refId = refId;
+    }
+
+    @Override
+    public Object toNode() {
+        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 
 }

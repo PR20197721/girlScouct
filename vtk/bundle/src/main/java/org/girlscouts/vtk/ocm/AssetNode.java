@@ -2,11 +2,13 @@ package org.girlscouts.vtk.ocm;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
+import org.girlscouts.vtk.models.Asset;
 
 import java.io.Serializable;
 
 @Node
-public class AssetNode extends JcrNode implements Serializable {
+public class AssetNode extends JcrNode implements Serializable, MappableToModel {
     @Field(jcrDefaultValue = "false")
     private Boolean isCachable;
     @Field
@@ -77,4 +79,10 @@ public class AssetNode extends JcrNode implements Serializable {
     public void setOutdoorRelated(Boolean outdoorRelated) {
         isOutdoorRelated = outdoorRelated;
     }
+
+    @Override
+    public Object toModel() {
+        return NodeToModelMapper.INSTANCE.toModel(this);
+    }
+
 }

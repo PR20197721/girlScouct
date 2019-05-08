@@ -2,11 +2,12 @@ package org.girlscouts.vtk.ocm;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
 @Node
-public class NoteNode extends JcrNode implements Serializable {
+public class NoteNode extends JcrNode implements Serializable, MappableToModel {
     @Field
     private Long createTime;
     @Field
@@ -56,5 +57,10 @@ public class NoteNode extends JcrNode implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public Object toModel() {
+        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 }

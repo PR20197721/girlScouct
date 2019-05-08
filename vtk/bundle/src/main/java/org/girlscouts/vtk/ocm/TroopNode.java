@@ -3,11 +3,12 @@ package org.girlscouts.vtk.ocm;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
 @Node
-public class TroopNode implements Serializable {
+public class TroopNode extends JcrNode implements Serializable, MappableToModel {
 
     @Bean(autoUpdate = false)
     private YearPlanNode yearPlan;
@@ -98,5 +99,10 @@ public class TroopNode implements Serializable {
 
     public void setRefId(String refId) {
         this.refId = refId;
+    }
+
+    @Override
+    public Object toModel() {
+        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 }

@@ -3,13 +3,13 @@ package org.girlscouts.vtk.ocm;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
-import org.girlscouts.vtk.models.JcrNode;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Node
-public class YearPlanComponentNode extends JcrNode implements Serializable {
+public class YearPlanComponentNode extends JcrNode implements Serializable, MappableToModel {
     @Field
     private Date date;
     @Field
@@ -43,5 +43,10 @@ public class YearPlanComponentNode extends JcrNode implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    @Override
+    public Object toModel() {
+        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 }

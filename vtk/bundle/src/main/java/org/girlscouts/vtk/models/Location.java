@@ -3,10 +3,11 @@ package org.girlscouts.vtk.models;
 import org.apache.jackrabbit.oak.jcr.Jcr;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
-public class Location extends JcrNode implements Serializable {
+public class Location extends JcrNode implements Serializable, MappableToNode {
     private String address, state, city, zip;
     private String name;
     private String locatinName, locationAddress;
@@ -100,5 +101,10 @@ public class Location extends JcrNode implements Serializable {
             setDbUpdate(true);
         }
         this.name = name;
+    }
+
+    @Override
+    public Object toNode() {
+        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 }

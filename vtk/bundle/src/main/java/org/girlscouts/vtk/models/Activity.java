@@ -5,12 +5,13 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Activity extends YearPlanComponent implements Serializable {
+public class Activity extends YearPlanComponent implements Serializable, MappableToNode {
     private List<Asset> assets;
     private Double cost;
     private Boolean isEditable;
@@ -335,4 +336,8 @@ public class Activity extends YearPlanComponent implements Serializable {
         this.isSelected = isSelected;
     }
 
+    @Override
+    public Object toNode() {
+        return NodeToModelMapper.INSTANCE.toNode(this);
+    }
 }

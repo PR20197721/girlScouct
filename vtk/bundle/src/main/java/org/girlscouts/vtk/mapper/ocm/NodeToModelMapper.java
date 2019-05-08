@@ -4,7 +4,6 @@ import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.ocm.*;
 import org.girlscouts.vtk.ocm.JcrNode;
 import org.mapstruct.Mapper;
-import org.mapstruct.TargetType;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -33,8 +32,8 @@ public interface NodeToModelMapper {
     public JcrCollectionHoldStringNode toNode(JcrCollectionHoldString jcrCollectionHoldString);
     public JcrCollectionHoldString toModel(JcrCollectionHoldStringNode jcrCollectionHoldStringNode);
 
-    //public JcrNode toNode(org.girlscouts.vtk.models.JcrNode jcrNode);
-    //public org.girlscouts.vtk.models.JcrNode toModel(JcrNode jcrNode);
+    public JcrNode toNode(org.girlscouts.vtk.models.JcrNode jcrNode);
+    public org.girlscouts.vtk.models.JcrNode toModel(JcrNode jcrNode);
 
     public LocationNode toNode(Location location);
     public Location toModel(LocationNode locationNode);

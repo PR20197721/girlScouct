@@ -3,10 +3,11 @@ package org.girlscouts.vtk.models;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.AssetComponentType;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
-public class Asset extends JcrNode implements Serializable {
+public class Asset extends JcrNode implements Serializable, MappableToNode {
     private Boolean isCachable;
     private String type, description, title, docType, refId;
     private Boolean isOutdoorRelated;
@@ -106,4 +107,8 @@ public class Asset extends JcrNode implements Serializable {
         return AssetComponentType.valueOf(this.getType());
     }
 
+    @Override
+    public Object toNode() {
+        return NodeToModelMapper.INSTANCE.toNode(this);
+    }
 }

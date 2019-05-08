@@ -2,11 +2,14 @@ package org.girlscouts.vtk.ocm;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
+import org.girlscouts.vtk.models.Attendance;
+import org.girlscouts.vtk.models.Cal;
 
 import java.io.Serializable;
 
 @Node
-public class CalNode implements Serializable {
+public class CalNode extends JcrNode implements Serializable, MappableToModel {
     @Field
     private String dates;
 
@@ -17,4 +20,10 @@ public class CalNode implements Serializable {
     public void setDates(String dates) {
         this.dates = dates;
     }
+
+    @Override
+    public Object toModel() {
+        return NodeToModelMapper.INSTANCE.toModel(this);
+    }
+
 }

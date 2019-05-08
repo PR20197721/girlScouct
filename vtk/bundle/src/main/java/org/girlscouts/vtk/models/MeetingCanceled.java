@@ -4,12 +4,13 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class MeetingCanceled extends MeetingE implements Serializable {
+public class MeetingCanceled extends MeetingE implements Serializable, MappableToNode {
     private List<Asset> assets;
     private List<SentEmail> sentEmails;
     private Date lastAssetUpdate;
@@ -124,6 +125,11 @@ public class MeetingCanceled extends MeetingE implements Serializable {
 
     public void setDate(java.util.Date date) {
         this.date = date;
+    }
+
+    @Override
+    public Object toNode() {
+        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 
 }

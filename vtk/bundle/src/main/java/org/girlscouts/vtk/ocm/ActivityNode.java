@@ -4,13 +4,15 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
+import org.girlscouts.vtk.models.Activity;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Node
-public class ActivityNode extends JcrNode implements Serializable {
+public class ActivityNode extends JcrNode implements Serializable, MappableToModel {
     @Collection
     private List<AssetNode> assets;
     @Field
@@ -263,4 +265,10 @@ public class ActivityNode extends JcrNode implements Serializable {
     public void setEmlTemplate(String emlTemplate) {
         this.emlTemplate = emlTemplate;
     }
+
+    @Override
+    public Object toModel() {
+        return NodeToModelMapper.INSTANCE.toModel(this);
+    }
+
 }

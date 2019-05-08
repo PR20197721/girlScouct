@@ -84,7 +84,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID)) {
             throw new IllegalAccessException();
         }
-        Meeting meeting = girlScoutsOCMService.read(path);
+        Meeting meeting = girlScoutsOCMService.read(path, Meeting.class);
         if (meeting != null && path != null && path.contains("/lib/meetings/")) {
             Meeting globalMeetingInfo = getMeeting(user, troop, "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "/" + meeting.getLevel().toLowerCase().trim() + "/" + meeting.getId());
             if (globalMeetingInfo != null) {
@@ -726,7 +726,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
     public Council getCouncil(User user, Troop troop, String councilId) throws IllegalAccessException {
         // TODO Permission.PERMISSION_VIEW_MEETING_ID
-        return girlScoutsOCMService.read(troop.getCouncilPath());
+        return girlScoutsOCMService.read(troop.getCouncilPath(), Council.class);
     }
 
     public List<Milestone> getCouncilMilestones(String councilCode) {
@@ -946,7 +946,7 @@ public class MeetingDAOImpl implements MeetingDAO {
     public Attendance getAttendance(User user, Troop troop, String mid) {
         Attendance attendance = null;
         try {
-            attendance = girlScoutsOCMService.read(mid);
+            attendance = girlScoutsOCMService.read(mid,Attendance.class);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         }
@@ -962,7 +962,7 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     public Achievement getAchievement(User user, Troop troop, String mid) {
-        return girlScoutsOCMService.read(mid);
+        return girlScoutsOCMService.read(mid, Achievement.class);
     }
 
     public boolean setAchievement(User user, Troop troop, String mid, Achievement achievement) {
@@ -988,7 +988,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        return girlScoutsOCMService.read(path);
+        return girlScoutsOCMService.read(path, MeetingE.class);
     }
 
     public int getAllResourcesCount(User user, Troop troop, String _path) throws IllegalAccessException {

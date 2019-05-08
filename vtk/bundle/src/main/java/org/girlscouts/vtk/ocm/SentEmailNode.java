@@ -7,6 +7,7 @@ import difflib.StringUtills;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.ejb.EmailMeetingReminder;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Node
-public class SentEmailNode extends JcrNode implements Serializable {
+public class SentEmailNode extends JcrNode implements Serializable, MappableToModel {
     @Field
     private String addressList;
     @Field
@@ -74,5 +75,10 @@ public class SentEmailNode extends JcrNode implements Serializable {
 
     public void setHtmlMsg(String htmlMsg) {
         this.htmlMsg = htmlMsg;
+    }
+
+    @Override
+    public Object toModel() {
+        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 }

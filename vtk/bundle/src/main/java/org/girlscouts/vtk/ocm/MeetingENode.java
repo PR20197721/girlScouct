@@ -4,13 +4,14 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Node
-public class MeetingENode extends YearPlanComponentNode implements Serializable {
+public class MeetingENode extends YearPlanComponentNode implements Serializable, MappableToModel {
     @Collection(autoUpdate = false)
     private List<AssetNode> assets;
     @Collection
@@ -130,5 +131,10 @@ public class MeetingENode extends YearPlanComponentNode implements Serializable 
 
     public void setResoourcePaths(List<String> resoourcePaths) {
         this.resoourcePaths = resoourcePaths;
+    }
+
+    @Override
+    public Object toModel() {
+        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 }

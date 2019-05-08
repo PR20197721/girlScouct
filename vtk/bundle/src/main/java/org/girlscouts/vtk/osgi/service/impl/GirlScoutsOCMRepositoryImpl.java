@@ -56,6 +56,12 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
 
     @Override
     public <T extends JcrNode> T create(T object){
+        //TODO need to check if path to object exists if not then create it
+        /*if (!session.itemExists(troop.getPath() + "/lib/meetings/")) {
+            ocm.insert(new JcrNode(troop.getPath() + "/lib"));
+            ocm.insert(new JcrNode(troop.getPath() + "/lib/meetings"));
+            ocm.save();
+        }*/
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
@@ -78,7 +84,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
                 log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
-        return (T) read(object.getPath());
+        return read(object.getPath());
     }
 
     @Override
@@ -101,11 +107,11 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
                 log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
-        return (T) read(object.getPath());
+        return read(object.getPath());
     }
 
     @Override
-    public <T extends JcrNode> T read(String path){
+    public Object read(String path){
         ResourceResolver rr = null;
         T object = null;
         try {
@@ -124,7 +130,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
                 log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
-        return (T) object;
+        return object;
     }
 
     @Override
@@ -183,52 +189,6 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
             ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
             Query query = getQuery(path, params, clazz, ocm);
             return (List<T>) ocm.getObjects(query);
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public QueryResult executeQuery(String query) {
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(query, javax.jcr.query.Query.JCR_SQL2);
-            return q.execute();
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public Node getNode(String path) {
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Resource resource = rr.resolve(path);
-            if(resource != null){
-                return resource.adaptTo(Node.class);
-            }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         } finally {

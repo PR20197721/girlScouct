@@ -1,8 +1,10 @@
 package org.girlscouts.vtk.models;
 
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
+
 import java.io.Serializable;
 
-public class JcrNode implements Serializable {
+public class JcrNode implements Serializable, MappableToNode {
 
     private String path;
     private String id;
@@ -57,4 +59,10 @@ public class JcrNode implements Serializable {
         }
         this.uid = uid;
     }
+
+    @Override
+    public Object toNode() {
+        return NodeToModelMapper.INSTANCE.toNode(this);
+    }
+    
 }

@@ -2,11 +2,12 @@ package org.girlscouts.vtk.ocm;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
 @Node
-public class LocationNode extends JcrNode implements Serializable {
+public class LocationNode extends JcrNode implements Serializable, MappableToModel {
     @Field
     private String address;
     @Field
@@ -76,6 +77,11 @@ public class LocationNode extends JcrNode implements Serializable {
 
     public void setLocationAddress(String locationAddress) {
         this.locationAddress = locationAddress;
+    }
+
+    @Override
+    public Object toModel() {
+        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 
 }

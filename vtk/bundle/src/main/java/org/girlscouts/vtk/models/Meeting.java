@@ -3,12 +3,13 @@ package org.girlscouts.vtk.models;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class Meeting extends YearPlanComponent implements Serializable {
+public class Meeting extends YearPlanComponent implements Serializable, MappableToNode {
 
     private String  name;
     private String level, blurb, cat;
@@ -176,6 +177,11 @@ public class Meeting extends YearPlanComponent implements Serializable {
 
     public void setAchievement(Boolean achievement) {
         isAchievement = achievement;
+    }
+
+    @Override
+    public Object toNode() {
+        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 
 }

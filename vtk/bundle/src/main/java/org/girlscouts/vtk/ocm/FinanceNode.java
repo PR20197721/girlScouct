@@ -3,12 +3,15 @@ package org.girlscouts.vtk.ocm;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
+import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.Finance;
 
 import java.io.Serializable;
 import java.util.Map;
 
 @Node
-public class FinanceNode extends JcrNode implements Serializable {
+public class FinanceNode extends JcrNode implements Serializable, MappableToModel {
     @Collection
     public Map<String, Double> expenses;
     @Collection
@@ -61,6 +64,11 @@ public class FinanceNode extends JcrNode implements Serializable {
 
     public void setFinancialQuarter(int financialQuarter) {
         this.financialQuarter = financialQuarter;
+    }
+
+    @Override
+    public Object toModel() {
+        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 
 }

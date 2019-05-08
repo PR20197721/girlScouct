@@ -2,9 +2,12 @@ package org.girlscouts.vtk.ocm;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
+
+import java.io.Serializable;
 
 @Node(jcrMixinTypes ="mix:referenceable" )
-public class JcrNode {
+public class JcrNode implements Serializable, MappableToModel {
 
     @Field(path = true,jcrMandatory = true)
     private String path;
@@ -49,4 +52,10 @@ public class JcrNode {
     public void setUid(String uid) {
         this.uid = uid;
     }
+
+    @Override
+    public Object toModel() {
+        return NodeToModelMapper.INSTANCE.toModel(this);
+    }
+
 }

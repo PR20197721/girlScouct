@@ -1,11 +1,10 @@
 package org.girlscouts.vtk.models;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
-public class Achievement extends JcrNode implements Serializable {
+public class Achievement extends JcrNode implements Serializable, MappableToNode {
 
     private String users; // sf id
     private int total;
@@ -32,5 +31,10 @@ public class Achievement extends JcrNode implements Serializable {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    @Override
+    public Object toNode() {
+        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 }

@@ -3,12 +3,13 @@ package org.girlscouts.vtk.models;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Node
-public class Milestone extends YearPlanComponent implements Serializable {
+public class Milestone extends YearPlanComponent implements Serializable, MappableToNode {
 
     private Boolean show;
     private String blurb;
@@ -58,6 +59,11 @@ public class Milestone extends YearPlanComponent implements Serializable {
 
     public void setShow(Boolean showInPlans) {
         this.show = showInPlans;
+    }
+
+    @Override
+    public Object toNode() {
+        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 
 }
