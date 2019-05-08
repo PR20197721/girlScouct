@@ -180,6 +180,43 @@
                             </column>
                         </items>
                     </basic>
+                    <girl-scouts
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Girl Scouts"
+                            sling:resourceType="granite/ui/components/foundation/section">
+                        <layout
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+                                margin="{Boolean}false"/>
+                        <items jcr:primaryType="nt:unstructured">
+                            <column
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/container">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <socialmedia
+                                            cq:showOnCreate="{Boolean}false"
+                                            jcr:primaryType="nt:unstructured"
+                                            jcr:title="Social Media"
+                                            sling:resourceType="granite/ui/components/foundation/form/fieldset">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <fbappid
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    fieldDescription="Default: 419540344831322 "
+                                                    fieldLabel="fb:app_id"
+                                                    name="./fbAppId"/>
+                                            <twitterappid
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    fieldDescription="Default: 419540344831322 "
+                                                    fieldLabel="twitter:app_id"
+                                                    name="./twitterAppId"/>
+                                        </items>
+                                    </socialmedia>
+                                </items>
+                            </column>
+                        </items>
+                    </girl-scouts>
                 </items>
             </tabs>
         </items>

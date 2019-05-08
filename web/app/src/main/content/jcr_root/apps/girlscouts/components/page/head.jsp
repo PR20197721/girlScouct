@@ -32,6 +32,15 @@
     String xs = Doctype.isXHTML(request) ? "/" : "";
     String favIcon = currentDesign.getPath() + "/favicon.ico";
     String reqProtocol = request.getHeader("X-Forwarded-Proto");
+    Page parentPage = currentPage.getAbsoluteParent(2);
+    String fbAppId = parentPage.getProperties().get("facebookId", "419540344831322");
+    String twitterAppId = parentPage.getProperties().get("twitterId", "");
+    if(!"".equals(properties.get("fbAppId",""))){
+        fbAppId = properties.get("fbAppId","");
+    }
+    if(!"".equals(properties.get("twitterAppId",""))){
+            fbAppId = properties.get("twitterAppId","");
+        }
 	if(reqProtocol == null) reqProtocol = "http";
     if (resourceResolver.getResource(favIcon) == null) {
         favIcon = null;
@@ -62,9 +71,16 @@ eventToSalesforce = "<%= eventToSalesforce %>";
 	}
 %>
 	<!-- page category = <%= pageCategory%> -->
+	<% if (fbAppId.length() > 0) {%>
+        <meta property="fb:app_id" content="<%=fbAppId %>"/>
+    <%} %>
+    <% if (twitterAppId.length() > 0) {%>
+            <meta property="twitter:app_id" content="<%=twitterAppId %>"/>
+        <%} %>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"<%=xs%>>
 	<meta name="keywords" content="<%= xssAPI.encodeForHTMLAttr(WCMUtils.getKeywords(currentPage, false)) %>"<%=xs%>>
 	<meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>"<%=xs%>>
+	<meta name="twitter:description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>" />
 	<cq:include script="headlibs.jsp"/>
 	<cq:include script="/libs/wcm/core/components/init/init.jsp"/>
 	<cq:include script="stats.jsp"/>
