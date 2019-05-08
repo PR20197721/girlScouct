@@ -5,4 +5,5 @@
     cq:lastReplicationAction="Activate"
     jcr:mixinTypes="[cq:ReplicationStatus]"
     jcr:primaryType="cq:ClientLibraryFolder"
+    allowProxy="{Boolean}true"
     categories="[girlscouts.components.form.text]"/>
