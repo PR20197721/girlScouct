@@ -171,18 +171,40 @@
                                         jcr:title="Social Media"
                                         sling:resourceType="granite/ui/components/foundation/form/fieldset">
                                         <items jcr:primaryType="nt:unstructured">
+                                            <ogtitle
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    fieldLabel="og:title"
+                                                    name="./ogTitle"/>
+                                            <ogsitename
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    defaultValue="Girl Scouts"
+                                                    fieldDescription="Default: Girl Scouts"
+                                                    fieldLabel="og:site_name"
+                                                    name="./ogSiteName"
+                                                    value="Girl Scouts"/>
+                                            <ogurl
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    fieldLabel="og:url"
+                                                    name="./ogUrl"/>
+                                            <ogdescription
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    fieldLabel="og:description"
+                                                    name="./ogDescription"/>
+                                            <ogimage
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="girlscouts/components/form/pathfield"
+                                                    fieldLabel="og:image"
+                                                    name="./ogImage"
+                                                    rootPath="/content/dam/"/>
                                             <fbappid
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                fieldDescription="Default: 419540344831322 "
                                                 fieldLabel="Facebook Id"
                                                 name="./facebookId"/>
-                                            <twitterappid
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                fieldDescription="Default: 419540344831322 "
-                                                fieldLabel="Twitter Id"
-                                                name="./twitterId"/>
                                         </items>
                                     </socialmedia>
 
