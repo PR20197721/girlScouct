@@ -1,6 +1,8 @@
 <%
     String activeTab = "plan";
     boolean showVtkNav = true;
+    boolean isParent = "PA".equals(troop.getTroop().getRole());
+    boolean isAdmin = user.getApiConfig().getUser().isAdmin();
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
@@ -1041,11 +1043,17 @@
             */
         </script>
     </div>
+    <%
+    if(!isParent || isAdmin){
+    %>
     <div style="text-align: center;">
         <button class="btn button btn-line" onclick="doMeetingLib(true)"><i class="icon-search-magnifying-glass"></i>
             SEARCH TO ADD MEETINGS
         </button>
     </div>
+    <%
+    }
+    %>
 </div>
 <div id="requirementsModal" class="reveal-modal" data-reveal=""></div>
 <br/> <br/>

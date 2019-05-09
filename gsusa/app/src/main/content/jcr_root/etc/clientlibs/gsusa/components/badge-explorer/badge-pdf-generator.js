@@ -151,7 +151,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 			}
 		});
 
-		xhr.send($.param({html: pdfHtml}));
+		xhr.send($.param({html: encodeURI(pdfHtml)}));
 
 		return returner;
 	}
@@ -247,7 +247,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 	/*
 	 * Separates pages to fit in a standard PDF.  Pages are allowed max of 840px not including header.
 	 */
-	var MAX_PDF_PAGE_HEIGHT = 825;
+	var MAX_PDF_PAGE_HEIGHT = 820;
 	function separatePages(source){
 		var allElements = source.find('.BadgeExplorerElementPdfComponent');
 		var headerDom = $('.BadgePdfLogoWrapper').add('.BadgePdfHeaderTitle').add('.BadgePdfHeader');
@@ -255,6 +255,63 @@ window.BadgePdfGenerator = (function(window, $, document){
 		var runningTotalHeight = 0, pageNumber = 0;
 		var elementHeight;
 		for(var i = 0; i < allElements.length; i++){
+		    if($(allElements[i]).outerHeight(true) > 275){
+                $(allElements[i]).outerHeight(275);
+                $(allElements[i]).innerHeight(271);
+                $($(allElements[i]).children()[0]).outerHeight(264);
+                $($(allElements[i]).children()[1]).outerHeight(265);
+                $($(allElements[i]).children()[1]).innerHeight(260);
+
+
+                //Set link css
+                $($(allElements[i]).find(".BadgePdfDescription")).find("a").each(function(){
+                    $(this).css("background-color", "white");
+                    $(this).css("font-weight", "bold");
+                    $(this).css("text-decoration", "none");
+                    $(this).css("color", "#00AE58");
+
+                });
+
+                //title for link to scroll
+                var title = $($(allElements[i]).find(".BadgePdfTitle")).text();
+                title = title.replace(new RegExp(' ', 'g'), "_");
+                var text = $($(allElements[i]).children()[1]).text().replace("Get This Journey", "");
+                text = text.replace("GET THIS BADGE", "");
+                //if characters are longer than 550, remove the last element without a link in it
+                if(text.length > 550){
+                    var linkEl = $(allElements[i]).find(".BadgePdfGetContainer");
+                    $($(allElements[i]).find(".BadgePdfGetContainer").parent()).css("position","relative");
+                    if($($($(allElements[i]).find(".BadgePdfDescription")).children().last()).text().includes("Learn more about how to earn your Take Action Award")){
+                        var el = $($(allElements[i]).find("ol"));
+                        el.css("margin-bottom","0px");
+                        if(el != null){
+                            el.children().last().remove();
+                        }
+                    }else{
+                        $($(allElements[i]).find(".BadgePdfDescription")).children().last().remove();
+                    }
+
+                    linkEl.css("margin",0);
+                    linkEl.css("position","absolute");
+                    linkEl.css("bottom","20px");
+                    if(text.length > 800){
+                        $($(allElements[i]).find(".BadgePdfDescription")).children().last().remove();
+                    }
+                    var destination;
+                    if(window.location.href.indexOf("/uat.") > -1){
+                        destination = "uat.girlscouts.org";
+                    }else{
+                        destination = "www.girlscouts.org";
+                    }
+                    var numEl = $($(allElements[i]).find("ol")).children().length;
+                    $($(allElements[i]).find("ol")).children().each(function(index, element){
+                        if(index === numEl - 1){
+                            $("<strong><span> </span><a margin-left: 1px; style='color:#00AE58;' href='https://"+destination+"/en/our-program/badges/badge_explorer.html#"+title+"' target='_blank'>More Details &#8594;</a></strong>").appendTo(element)
+                        }
+                    })
+                    $($(allElements[i]).find(".BadgePdfDescription")).append(linkEl);
+                }
+            }
 			elementHeight =  $(allElements[i]).outerHeight(true);
 			if(runningTotalHeight + elementHeight > MAX_PDF_PAGE_HEIGHT){
 				var previousElement = $(allElements[i-1]);
