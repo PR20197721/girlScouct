@@ -1,19 +1,19 @@
 package org.girlscouts.vtk.osgi.service;
 
-import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.JcrNode;
 
 import java.util.List;
 import java.util.Map;
 
-public interface GirlScoutsAssetOCMService {
+public interface GirlScoutsJcrNodeOCMService {
 
-    public Asset create(Asset object);
-    public Asset update(Asset object);
+    public JcrNode create(JcrNode object);
+    public JcrNode update(JcrNode object);
 
-    public Asset read(String path);
-    public boolean delete(Asset object);
+    public JcrNode read(String path);
+    public boolean delete(JcrNode object);
 
-    public Asset findObject(String path, Map<String, String> params);
-    public List<Asset> findObjects(String path, Map<String, String> params);
+    public JcrNode findObject(String path, Map<String, String> params);
+    public List<JcrNode> findObjects(String path, Map<String, String> params);
 
 }
