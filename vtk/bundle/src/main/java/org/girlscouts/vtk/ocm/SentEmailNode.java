@@ -1,21 +1,13 @@
 package org.girlscouts.vtk.ocm;
 
-import difflib.DiffUtils;
-import difflib.Patch;
-import difflib.PatchFailedException;
-import difflib.StringUtills;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlscouts.vtk.ejb.EmailMeetingReminder;
-import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 @Node
-public class SentEmailNode extends JcrNode implements Serializable, MappableToModel {
+public class SentEmailNode extends JcrNode implements Serializable {
     @Field
     private String addressList;
     @Field
@@ -77,8 +69,4 @@ public class SentEmailNode extends JcrNode implements Serializable, MappableToMo
         this.htmlMsg = htmlMsg;
     }
 
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
-    }
 }

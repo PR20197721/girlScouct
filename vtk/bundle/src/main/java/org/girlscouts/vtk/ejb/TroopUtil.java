@@ -19,17 +19,13 @@ import java.util.*;
 @Component
 @Service(value = TroopUtil.class)
 public class TroopUtil {
-    private final Logger log = LoggerFactory.getLogger("vtk");
+    private final Logger log = LoggerFactory.getLogger(getClass());
     @Reference
-    TroopDAO troopDAO;
+    private TroopDAO troopDAO;
     @Reference
-    ActivityDAO activityDAO;
+    private CouncilDAO councilDAO;
     @Reference
-    CouncilDAO councilDAO;
-    @Reference
-    MeetingDAO meetingDAO;
-    @Reference
-    YearPlanDAO yearPlanDAO;
+    private YearPlanDAO yearPlanDAO;
     @Reference
     private UserUtil userUtil;
     @Reference

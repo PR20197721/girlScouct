@@ -14,7 +14,7 @@ import java.util.List;
 @Service(LocationUtil.class)
 public class LocationUtil {
     @Reference
-    TroopUtil troopUtil;
+    private TroopUtil troopUtil;
     @Reference
     private UserUtil userUtil;
     @Reference

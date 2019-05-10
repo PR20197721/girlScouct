@@ -2,12 +2,12 @@ package org.girlscouts.vtk.ocm;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 @Node(jcrMixinTypes ="mix:referenceable" )
-public class JcrNode implements Serializable, MappableToModel {
+public class JcrNode implements Serializable {
 
     @Field(path = true,jcrMandatory = true)
     private String path;
@@ -20,6 +20,12 @@ public class JcrNode implements Serializable, MappableToModel {
 
     @Field(id = true)
     private String uid;
+
+    @Field(jcrName = "createdDate", jcrType = "Date", converter = JcrCalendarPropertyConverter.class)
+    private Calendar createdDate;
+
+    @Field(jcrName = "lastModifiedDate", jcrType = "Date", converter = JcrCalendarPropertyConverter.class)
+    private Calendar lastModifiedDate;
 
     public String getPath() {
         return path;
@@ -53,9 +59,19 @@ public class JcrNode implements Serializable, MappableToModel {
         this.uid = uid;
     }
 
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
+    public Calendar getCreatedDate() {
+        return createdDate;
     }
 
+    public void setCreatedDate(Calendar createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Calendar getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Calendar lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
 }

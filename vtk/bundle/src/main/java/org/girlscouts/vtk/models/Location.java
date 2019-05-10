@@ -7,7 +7,7 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
-public class Location extends JcrNode implements Serializable, MappableToNode {
+public class Location extends JcrNode implements Serializable {
     private String address, state, city, zip;
     private String name;
     private String locatinName, locationAddress;
@@ -101,10 +101,5 @@ public class Location extends JcrNode implements Serializable, MappableToNode {
             setDbUpdate(true);
         }
         this.name = name;
-    }
-
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 }

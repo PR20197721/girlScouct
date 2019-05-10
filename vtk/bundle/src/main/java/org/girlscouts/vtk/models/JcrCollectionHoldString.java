@@ -6,7 +6,7 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
-public class JcrCollectionHoldString implements Comparable, Serializable, MappableToNode {
+public class JcrCollectionHoldString implements Comparable, Serializable {
 
     private String str;
 
@@ -28,10 +28,5 @@ public class JcrCollectionHoldString implements Comparable, Serializable, Mappab
     public int compareTo(Object o) {
         // TODO Auto-generated method stub
         return 0;
-    }
-
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 }

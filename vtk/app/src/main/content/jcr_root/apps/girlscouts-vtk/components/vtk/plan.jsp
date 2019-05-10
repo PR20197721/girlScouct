@@ -1,7 +1,7 @@
 <%
     String activeTab = "plan";
     boolean showVtkNav = true;
-    boolean isParent = "PA".equals(troop.getTroop().getRole());
+    boolean isParent = "PA".equals(selectedTroop.getRole());
     boolean isAdmin = user.getApiConfig().getUser().isAdmin();
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>

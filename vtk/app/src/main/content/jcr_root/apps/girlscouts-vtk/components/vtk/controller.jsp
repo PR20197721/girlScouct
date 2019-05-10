@@ -11,7 +11,7 @@
                 org.apache.commons.codec.binary.Base64,
                 org.girlscouts.vtk.auth.permission.Permission,
                 org.girlscouts.vtk.ejb.CouncilRpt,
-                org.girlscouts.vtk.ejb.EmailMeetingReminder,
+                org.girlscouts.vtk.models.EmailMeetingReminder,
                 org.girlscouts.vtk.ejb.VtkYearPlanChangeException,
                 org.girlscouts.vtk.mapper.vtk.BaseModelToEntityMapper,
                 org.girlscouts.vtk.mapper.vtk.TroopToTroopEntityMapper,

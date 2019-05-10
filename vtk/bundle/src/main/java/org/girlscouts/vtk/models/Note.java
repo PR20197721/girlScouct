@@ -6,7 +6,7 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
-public class Note extends JcrNode implements Serializable, MappableToNode {
+public class Note extends JcrNode implements Serializable {
 
     private Long createTime;
     private String createdByUserName;
@@ -58,11 +58,6 @@ public class Note extends JcrNode implements Serializable, MappableToNode {
 
     public void setRefId(String refId) {
         this.refId = refId;
-    }
-
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 
 }

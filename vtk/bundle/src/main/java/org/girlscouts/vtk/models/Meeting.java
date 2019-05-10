@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class Meeting extends YearPlanComponent implements Serializable, MappableToNode {
+public class Meeting extends YearPlanComponent implements Serializable {
 
     private String  name;
     private String level, blurb, cat;
@@ -177,11 +177,6 @@ public class Meeting extends YearPlanComponent implements Serializable, Mappable
 
     public void setAchievement(Boolean achievement) {
         isAchievement = achievement;
-    }
-
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 
 }

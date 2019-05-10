@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Node
-public class MilestoneNode extends YearPlanComponentNode implements Serializable, MappableToModel {
+public class MilestoneNode extends YearPlanComponentNode implements Serializable {
     @Field
     private Boolean show;
     @Field
@@ -30,10 +30,5 @@ public class MilestoneNode extends YearPlanComponentNode implements Serializable
 
     public void setBlurb(String blurb) {
         this.blurb = blurb;
-    }
-
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 }

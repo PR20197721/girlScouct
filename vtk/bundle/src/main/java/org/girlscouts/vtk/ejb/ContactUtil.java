@@ -3,26 +3,14 @@ package org.girlscouts.vtk.ejb;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.girlscouts.vtk.dao.ContactDAO;
 import org.girlscouts.vtk.models.*;
 
 @Component
 @Service(value = ContactUtil.class)
 public class ContactUtil { // utils should probably be in a separate util folder
-    @Reference
-    ContactDAO contactDAO;
-    @Reference
-    MeetingUtil meetingUtil;
-    @Reference
-    YearPlanUtil yearPlanUtil;
 
-    public void saveContact(User user, Troop troop, Contact contact) throws IllegalStateException, IllegalAccessException {
-        contactDAO.save(user, troop, contact);
-    }
-
-    public Contact getContact(User user, Troop troop, String contactId) throws IllegalStateException, IllegalAccessException {
-        return contactDAO.retreive(user, troop, contactId);
-    }
+    @Reference
+    private YearPlanUtil yearPlanUtil;
 
     public java.util.Map<Contact, java.util.List<ContactExtras>> getContactsExtras(User user, Troop troop, java.util.List<Contact> contacts) {
         java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras = new java.util.TreeMap<Contact, java.util.List<ContactExtras>>();

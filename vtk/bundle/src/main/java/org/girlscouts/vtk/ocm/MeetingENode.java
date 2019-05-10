@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Node
-public class MeetingENode extends YearPlanComponentNode implements Serializable, MappableToModel {
+public class MeetingENode extends YearPlanComponentNode implements Serializable {
     @Collection(autoUpdate = false)
     private List<AssetNode> assets;
     @Collection
@@ -131,10 +131,5 @@ public class MeetingENode extends YearPlanComponentNode implements Serializable,
 
     public void setResoourcePaths(List<String> resoourcePaths) {
         this.resoourcePaths = resoourcePaths;
-    }
-
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 }

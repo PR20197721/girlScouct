@@ -7,6 +7,7 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
+import org.girlscouts.vtk.models.EmailMeetingReminder;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.slf4j.Logger;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 public class Emailer {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     @Reference
-    UserUtil userUtil;
+    private UserUtil userUtil;
     @Reference
     private MessageGatewayService messageGatewayService;
 

@@ -9,7 +9,7 @@ import org.girlscouts.vtk.models.Attendance;
 import java.io.Serializable;
 
 @Node
-public class AttendanceNode extends JcrNode implements Serializable, MappableToModel {
+public class AttendanceNode extends JcrNode implements Serializable {
     @Field
     private String users; // sf id
     @Field
@@ -31,8 +31,4 @@ public class AttendanceNode extends JcrNode implements Serializable, MappableToM
         this.total = total;
     }
 
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
-    }
 }

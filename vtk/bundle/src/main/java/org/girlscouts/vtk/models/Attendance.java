@@ -7,7 +7,7 @@ import org.girlscouts.vtk.ocm.AttendanceNode;
 
 import java.io.Serializable;
 
-public class Attendance extends  JcrNode implements Serializable, MappableToNode {
+public class Attendance extends  JcrNode implements Serializable {
     private String users;
     private int total;
 
@@ -27,8 +27,4 @@ public class Attendance extends  JcrNode implements Serializable, MappableToNode
         this.total = total;
     }
 
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
-    }
 }

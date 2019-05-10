@@ -8,7 +8,7 @@ import org.girlscouts.vtk.models.Achievement;
 import java.io.Serializable;
 
 @Node()
-public class AchievementNode extends JcrNode implements Serializable, MappableToModel {
+public class AchievementNode extends JcrNode implements Serializable {
     @Field
     private String users;
     @Field
@@ -30,8 +30,4 @@ public class AchievementNode extends JcrNode implements Serializable, MappableTo
         this.total = total;
     }
 
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
-    }
 }

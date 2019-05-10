@@ -30,9 +30,9 @@ import java.util.stream.Collectors;
 public class FinanceUtil {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     @Reference
-    TroopDAO troopDAO;
+    private TroopDAO troopDAO;
     @Reference
-    UserUtil userUtil;
+    private UserUtil userUtil;
     @Reference
     private MessageGatewayService messageGatewayService;
 

@@ -4,17 +4,13 @@ import difflib.DiffUtils;
 import difflib.Patch;
 import difflib.PatchFailedException;
 import difflib.StringUtills;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlscouts.vtk.ejb.EmailMeetingReminder;
-import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class SentEmail extends JcrNode implements Serializable, MappableToNode {
+public class SentEmail extends JcrNode implements Serializable {
     private String addressList, subject, addresses, htmlDiff;
     private Date sentDate;
     private String htmlMsg;//temp
@@ -106,11 +102,6 @@ public class SentEmail extends JcrNode implements Serializable, MappableToNode {
 
     public void setAddresses(String adrs) {
         this.addresses = adrs;
-    }
-
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 
 }

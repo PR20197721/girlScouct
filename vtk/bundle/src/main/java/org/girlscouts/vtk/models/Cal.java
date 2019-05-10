@@ -7,7 +7,7 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import java.io.Serializable;
 import java.util.StringTokenizer;
 
-public class Cal extends JcrNode implements Serializable, MappableToNode {
+public class Cal extends JcrNode implements Serializable {
 
     private String dates;
 
@@ -78,10 +78,5 @@ public class Cal extends JcrNode implements Serializable, MappableToNode {
             return toRet;
         }
         return null;
-    }
-
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 }

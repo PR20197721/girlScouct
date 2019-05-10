@@ -25,6 +25,7 @@ import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.girlscouts.vtk.osgi.component.ConfigManager;
+import org.girlscouts.vtk.osgi.service.*;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
@@ -38,9 +39,9 @@ import java.util.*;
 @Component
 @Service(value = TroopDAO.class)
 public class TroopDAOImpl implements TroopDAO {
-    private final Logger log = LoggerFactory.getLogger(TroopDAOImpl.class);
+    private final Logger log = LoggerFactory.getLogger(getClass());
     @Reference
-    ConfigManager configManager;
+    private ConfigManager configManager;
     @Reference
     private UserUtil userUtil;
     @Reference
@@ -51,61 +52,42 @@ public class TroopDAOImpl implements TroopDAO {
     private MeetingDAO meetingDAO;
     @Reference
     private MessageGatewayService messageGatewayService;
-    private Mapper mapper;
     @Reference
-    private ResourceResolverFactory resolverFactory;
-    private Map<String, Object> resolverParams = new HashMap<String, Object>();
+    private GirlScoutsTroopOCMService girlScoutsTroopOCMService;
+    @Reference
+    private GirlScoutsYearPlanOCMService girlScoutsYearPlanOCMService;
+    @Reference
+    private GirlScoutsAssetOCMService girlScoutsAssetOCMService;
+    @Reference
+    private GirlScoutsLocationOCMService girlScoutsLocationOCMService;
+    @Reference
+    private GirlScoutsActivityOCMService girlScoutsActivityOCMService;
+    @Reference
+    private GirlScoutsCalOCMService girlScoutsCalOCMService;
+    @Reference
+    private GirlScoutsMeetingEOCMService girlScoutsMeetingEOCMService;
+    @Reference
+    private GirlScoutsNoteOCMService girlScoutsNoteOCMService;
+    @Reference
+    private GirlScoutsMeetingCancelledOCMService girlScoutsMeetingCancelledOCMService;
+    @Reference
+    private GirlScoutsJCRService girlScoutsRepoService;
 
     @Activate
     void activate() {
-        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
-        List<Class> troopClasses = new ArrayList<Class>();
-        troopClasses.add(Troop.class);
-        troopClasses.add(YearPlan.class);
-        troopClasses.add(MeetingE.class);
-        troopClasses.add(Note.class);
-        troopClasses.add(MeetingCanceled.class);
-        troopClasses.add(Activity.class);
-        troopClasses.add(Location.class);
-        troopClasses.add(Asset.class);
-        troopClasses.add(Cal.class);
-        troopClasses.add(Milestone.class);
-        troopClasses.add(SentEmail.class);
-        troopClasses.add(JcrCollectionHoldString.class);
-        troopClasses.add(Attendance.class);
-        troopClasses.add(Achievement.class);
-        troopClasses.add(JcrNode.class);
-        mapper = new AnnotationMapperImpl(troopClasses);
     }
 
     public Troop getTroopByPath(User user, String troopPath) throws IllegalAccessException {
-        Session mySession = null;
         Troop troop = null;
         // TODO Permission.PERMISSION_VIEW_YEARPLAN_ID
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            QueryManager queryManager = ocm.getQueryManager();
-            Filter filter = queryManager.createFilter(Troop.class);
-            ocm.refresh(true);
-            log.debug("loading troop data from " + troopPath);
-            troop = (Troop) ocm.getObject(troopPath);
+            troop = girlScoutsTroopOCMService.read(troopPath);
             if (troop != null && troop.getYearPlan().getMeetingEvents() != null) {
-                Comparator<MeetingE> comp = new BeanComparator("id");
+                Comparator<MeetingE> comp = new BeanComparator("sortOrder");
                 Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return troop;
     }
@@ -115,78 +97,40 @@ public class TroopDAOImpl implements TroopDAO {
         if (troop != null && !userUtil.hasPermission(troop, Permission.PERMISSION_ADD_YEARPLAN_ID)) {
             throw new IllegalAccessException();
         }
-        Session mySession = null;
-        String fmtYearPlanPath = yearPlanPath;
         YearPlan plan = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            if (!yearPlanPath.endsWith("/")) {
-                yearPlanPath = yearPlanPath + "/";
-            }
-            yearPlanPath += "meetings/";
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            QueryManager queryManager = ocm.getQueryManager();
-            Filter filter = queryManager.createFilter(YearPlan.class);
-            plan = (YearPlan) ocm.getObject(fmtYearPlanPath);
+            plan = girlScoutsYearPlanOCMService.read(yearPlanPath);
             if (plan != null && plan.getCalFreq() == null) {
                 plan.setCalFreq("biweekly");
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return plan;
     }
 
     public void rmTroop(Troop troop) throws IllegalAccessException {
-        Session mySession = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             // permission to update
             if (troop != null && !userUtil.hasPermission(troop, Permission.PERMISSION_RM_YEARPLAN_ID)) {
                 throw new IllegalAccessException();
             }
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            if (troop != null && mySession.itemExists(troop.getPath())) {
-                ocm.remove(troop);
-                ocm.save();
+            if (troop != null) {
+                girlScoutsTroopOCMService.delete(troop);
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
     }
 
     public Finance getFinances(Troop troop, int qtr, String currentYear) {
-        Session mySession = null;
         Finance result = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
             result = new Finance();
             result.setFinancialQuarter(qtr);
             String path = "/" + troop.getTroopPath() + "/finances/" + currentYear + "/" + qtr;
             try {
-                Node financeNode = mySession.getNode(path);
+                Node financeNode = girlScoutsRepoService.getNode(path);
                 Node incomeNode = financeNode.getNode("income");
                 Node expensesNode = financeNode.getNode("expenses");
                 PropertyIterator incomeFieldIterator = incomeNode.getProperties();
@@ -224,71 +168,40 @@ public class TroopDAOImpl implements TroopDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return result;
     }
 
     public void setFinances(Troop troop, int qtr, String currentYear, java.util.Map<String, String[]> params) {
-        Session mySession = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             String path = troop.getTroopPath() + "/finances/" + currentYear;
-            mySession = rr.adaptTo(Session.class);
-            Node rootNode = mySession.getRootNode();
-            Node financesNode = null;
-            if (!rootNode.hasNode(path)) {
-                financesNode = this.establishBaseNode(path, mySession);
+            Node financeNode = girlScoutsRepoService.getNode(path);
+            if (financeNode == null) {
+                girlScoutsRepoService.createPath(path);
+                financeNode = girlScoutsRepoService.getNode(path);
             }
-            if (rootNode.hasNode(path + "/" + qtr)) {
-                // Remove quarter specific finance node if one exists
-                Node tempNode = rootNode.getNode(path + "/" + qtr);
-                tempNode.remove();
+            Node financeQtrNode = girlScoutsRepoService.getNode(path+ "/" + qtr);
+            if (financeQtrNode != null) {
+                financeQtrNode.remove();
             }
-            Node financeNode = rootNode.addNode(path + "/" + qtr, "nt:unstructured");
-            Node expensesNode = financeNode.addNode("expenses");
-            Node incomeNode = financeNode.addNode("income");
+            financeQtrNode = girlScoutsRepoService.createPath(path + "/" + qtr);
+            Node expensesNode = girlScoutsRepoService.createPath(path + "/expenses");
+            Node incomeNode = girlScoutsRepoService.createPath(path + "/income");
             this.populateFinanceChildren(incomeNode, expensesNode, params.get("expenses")[0], params.get("income")[0]);
-            mySession.save();
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
     }
 
     public FinanceConfiguration getFinanceConfiguration(Troop troop, String currentYear) {
-        Session mySession = null;
         FinanceConfiguration financeConfig = new FinanceConfiguration();
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
             String councilPath = "/" + troop.getCouncilPath();
             String configPath = councilPath + "/" + FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
-            Node configNode = null;
-            try {
-                configNode = mySession.getNode(configPath);
-            } catch (PathNotFoundException pfe) {
-                log.error("Error occurred:", pfe);
-                // Path does not exist. Get parent node.
-                Node troopNode = mySession.getNode(councilPath);
-                // Now create and bind it to config
-                configNode = troopNode.addNode(FinanceConfiguration.FINANCE_CONFIG);
+            Node configNode = girlScoutsRepoService.getNode(configPath);
+            if(configNode == null) {
+                Node troopNode = girlScoutsRepoService.getNode(councilPath);
+                configNode = girlScoutsRepoService.createPath(councilPath+"/"+FinanceConfiguration.FINANCE_CONFIG);
             }
             List<String> expensesList = new ArrayList<String>();
             List<String> incomeList = new ArrayList<String>();
@@ -320,49 +233,30 @@ public class TroopDAOImpl implements TroopDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return financeConfig;
     }
 
     public void setFinanceConfiguration(Troop troop, String currentYear, String income, String expenses, String period, String recipient) {
         // TODO PERMISSIONS HERE
-        Session mySession = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            Node rootNode = mySession.getRootNode();
             String configPath = troop.getCouncilPath() + "/" + FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
-            Node financesNode = null;
-            if (!rootNode.hasNode(configPath)) {
-                financesNode = this.establishBaseNode(configPath, mySession);
+            Node configNode = girlScoutsRepoService.getNode(configPath);
+            if (configNode == null) {
+                configNode = girlScoutsRepoService.createPath(configPath);
             }
-            Node configNode = mySession.getNode("/" + configPath);
+            Map<String,String> singleProps = new HashMap<String,String>();
+            Map<String,String[]> multiProps = new HashMap<String,String[]>();
             String[] incomeFields = income.replaceAll("\\[|\\]", "").split(",");
             String[] expensesFields = expenses.replaceAll("\\[|\\]", "").split(",");
-            configNode.setProperty(Finance.INCOME, incomeFields);
-            configNode.setProperty(Finance.EXPENSES, expensesFields);
-            configNode.setProperty(Finance.PERIOD, period);
-            configNode.setProperty(FinanceConfiguration.RECIPIENT, recipient);
-            mySession.save();
+            multiProps.put(Finance.INCOME, incomeFields);
+            multiProps.put(Finance.EXPENSES, expensesFields);
+            singleProps.put(Finance.PERIOD, period);
+            singleProps.put(FinanceConfiguration.RECIPIENT, recipient);
+            girlScoutsRepoService.setNodeProperties(configPath,singleProps,multiProps);
+
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
     }
 
@@ -383,24 +277,6 @@ public class TroopDAOImpl implements TroopDAO {
             String fieldValue = income[i + 1].trim();
             incomeNode.setProperty(fieldName, fieldValue);
         }
-    }
-
-    private Node establishBaseNode(String path, Session session) throws RepositoryException {
-        Node rootNode = session.getRootNode();
-        String[] pathElements = path.split("/");
-        String vtkBase = VtkUtil.getYearPlanBase(null, null);
-        vtkBase = vtkBase.replaceAll("/", "");
-        Node currentNode = rootNode.getNode(vtkBase);// "vtk");
-        for (int i = 1; i < pathElements.length; i++) {
-            if (!pathElements[i].equals("")) {
-                if (currentNode.hasNode(pathElements[i])) {
-                    currentNode = currentNode.getNode(pathElements[i]);
-                } else {
-                    currentNode = currentNode.addNode(pathElements[i], "nt:unstructured");
-                }
-            }
-        }
-        return currentNode;
     }
 
     public boolean updateTroop(User user, Troop troop) throws IllegalAccessException, VtkException {
@@ -478,14 +354,10 @@ public class TroopDAOImpl implements TroopDAO {
         if (!asset.isDbUpdate()) {
             return true;
         }
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            if (!ocm.objectExists(asset.getPath())) {
+            Asset assetNode = girlScoutsAssetOCMService.read(asset.getPath());
+            if (assetNode != null) {
                 // check council
                 if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
                     throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
@@ -498,27 +370,13 @@ public class TroopDAOImpl implements TroopDAO {
                 if (meetingDAO.getMeetingE(user, troop, asset.getPath().substring(0, asset.getPath().lastIndexOf("/")).replace("/assets", "")) == null) {
                     throw new VtkException("Found no troop when creating asset# " + troop.getTroopPath());
                 }
-                if (!mySession.itemExists(asset.getPath().substring(0, asset.getPath().lastIndexOf("/")))) {
-                    JcrUtils.getOrCreateByPath(asset.getPath().substring(0, asset.getPath().lastIndexOf("/")), "nt:unstructured", mySession);
-                }
+                girlScoutsAssetOCMService.update(asset);
+            }else{
+                girlScoutsAssetOCMService.create(asset);
             }
-            if (!ocm.objectExists(asset.getPath())) {
-                ocm.insert(asset);
-            } else {
-                ocm.update(asset);
-            }
-            ocm.save();
             isUpdated = true;
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
@@ -527,14 +385,9 @@ public class TroopDAOImpl implements TroopDAO {
         if (!meeting.isDbUpdate()) {
             return true;
         }
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            if (meeting.getPath() == null || !ocm.objectExists(troop.getPath() + "/yearPlan/meetingEvents")) {
+            if (meeting.getPath() == null || girlScoutsRepoService.getNode(troop.getPath() + "/yearPlan/meetingEvents") == null) {
                 // check council
                 if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
                     throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
@@ -543,40 +396,19 @@ public class TroopDAOImpl implements TroopDAO {
                 if (getTroopByPath(user, troop.getPath()) == null) {
                     throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
                 }
-                if (mySession.itemExists(troop.getPath() + "/yearPlan")) {
-                    JcrUtils.getOrCreateByPath(troop.getPath() + "/yearPlan/meetingEvents", "nt:unstructured", mySession);
-
+                if (girlScoutsRepoService.getNode(troop.getPath() + "/yearPlan") != null) {
+                    girlScoutsRepoService.createPath(troop.getPath() + "/yearPlan/meetingEvents");
                 }
                 meeting.setPath(troop.getYearPlan().getPath() + "/meetingEvents/" + meeting.getUid());
             }
-            if (!ocm.objectExists(meeting.getPath())) {
-                ocm.insert(meeting);
+            if (girlScoutsMeetingEOCMService.read(meeting.getPath()) == null) {
+                girlScoutsMeetingEOCMService.create(meeting);
             } else {
-                ocm.update(meeting);
+                girlScoutsMeetingEOCMService.update(meeting);
             }
-            ocm.save();
             isUpdated = true;
-        } catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
-            // org.apache.jackrabbit.ocm.exception.ObjectContentManagerException:
-            // Cannot persist current session changes.; nested exception is
-            // javax.jcr.InvalidItemStateException: Unable to update a stale
-            // item: item.save()
-            // javax.jcr.InvalidItemStateException
-            // skip here because we are getting concurrent modification of the
-            // same node (most likely)
-            // when vtk is calling ajax to this method twice.
-            // need to fix the ajax call.
-            log.error(">>>> Skipping stale update for " + meeting.getPath(), iise);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
@@ -585,13 +417,8 @@ public class TroopDAOImpl implements TroopDAO {
         if (!activity.isDbUpdate()) {
             return true;
         }
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (activity.getPath() == null) {
                 // check council
                 if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
@@ -601,28 +428,16 @@ public class TroopDAOImpl implements TroopDAO {
                 if (getTroopByPath(user, troop.getPath()) == null) {
                     throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
                 }
-                if (!mySession.itemExists(troop.getYearPlan().getPath() + "/activities")) {
-                    JcrUtils.getOrCreateByPath(troop.getYearPlan().getPath() + "/activities", "nt:unstructured", mySession);
-                }
                 activity.setPath(troop.getYearPlan().getPath() + "/activities/" + activity.getUid());
             }
-            if (!ocm.objectExists(activity.getPath())) {
-                ocm.insert(activity);
+            if (girlScoutsActivityOCMService.read(activity.getPath()) == null) {
+                girlScoutsActivityOCMService.create(activity);
             } else {
-                ocm.update(activity);
+                girlScoutsActivityOCMService.update(activity);
             }
-            ocm.save();
             isUpdated = true;
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
@@ -631,14 +446,9 @@ public class TroopDAOImpl implements TroopDAO {
         if (!location.isDbUpdate()) {
             return true;
         }
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            if (!ocm.objectExists(location.getPath())) {
+            if (girlScoutsRepoService.getNode(location.getPath()) == null) {
                 // check council
                 if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
                     throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
@@ -647,27 +457,15 @@ public class TroopDAOImpl implements TroopDAO {
                 if (getTroopByPath(user, troop.getPath()) == null) {
                     throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
                 }
-                if (!mySession.itemExists(location.getPath().substring(0, location.getPath().lastIndexOf("/")))) {
-                    JcrUtils.getOrCreateByPath(location.getPath().substring(0, location.getPath().lastIndexOf("/")), "nt:unstructured", mySession);
-                }
             }
-            if (!ocm.objectExists(location.getPath())) {
-                ocm.insert(location);
+            if (girlScoutsLocationOCMService.read(location.getPath()) == null) {
+                girlScoutsLocationOCMService.create(location);
             } else {
-                ocm.update(location);
+                girlScoutsLocationOCMService.update(location);
             }
-            ocm.save();
             isUpdated = true;
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
@@ -677,20 +475,15 @@ public class TroopDAOImpl implements TroopDAO {
         if (schedule == null || !schedule.isDbUpdate()) {
             return true;
         }
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
             if (schedule.getDates() == null) {// remove the schedule to reset
                 // the yearplan
                 if (schedule.getPath() == null) {
                     schedule.setPath(troop.getYearPlan().getPath() + "/schedule");
                 }
-                if (ocm.objectExists(schedule.getPath())) {
-                    ocm.remove(schedule);
+                if (girlScoutsCalOCMService.read(schedule.getPath()) != null) {
+                    girlScoutsCalOCMService.delete(schedule);
                 }
                 troop.getYearPlan().setSchedule(null);
             } else {
@@ -702,29 +495,17 @@ public class TroopDAOImpl implements TroopDAO {
                     if (getTroopByPath(user, troop.getPath()) == null) {
                         throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
                     }
-                    if (!mySession.itemExists(troop.getYearPlan().getPath() + "/schedule")) {
-                        JcrUtils.getOrCreateByPath(troop.getYearPlan().getPath() + "/schedule", "nt:unstructured", mySession);
-                    }
                     schedule.setPath(troop.getYearPlan().getPath() + "/schedule");
                 }
-                if (ocm.objectExists(schedule.getPath())) {
-                    ocm.update(schedule);
+                if (girlScoutsCalOCMService.read(schedule.getPath()) != null) {
+                    girlScoutsCalOCMService.update(schedule);
                 } else {
-                    ocm.insert(schedule);
+                    girlScoutsCalOCMService.create(schedule);
                 }
             }
-            ocm.save();
             isUpdated = true;
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
@@ -734,27 +515,16 @@ public class TroopDAOImpl implements TroopDAO {
         if (!yearPlan.isDbUpdate()) {
             return true;
         }
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            JcrUtils.getOrCreateByPath(troop.getYearPlan().getPath(), "nt:unstructured", mySession);
-            ocm.update(yearPlan);
-            ocm.save();
+            if(girlScoutsYearPlanOCMService.read(troop.getYearPlan().getPath()) == null){
+                girlScoutsYearPlanOCMService.create(yearPlan);
+            }else{
+                girlScoutsYearPlanOCMService.update(yearPlan);
+            }
             isUpdated = true;
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
@@ -763,11 +533,8 @@ public class TroopDAOImpl implements TroopDAO {
         if (!troop.isDbUpdate()) {
             return true;
         }
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
             if (troop == null || troop.getYearPlan() == null) {
                 return true;
             }
@@ -775,9 +542,7 @@ public class TroopDAOImpl implements TroopDAO {
             if (council == null) {
                 throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
             }
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            Comparator<MeetingE> comp = new BeanComparator("id");
+            Comparator<MeetingE> comp = new BeanComparator("sortOrder");
             if (troop != null && troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null) {
                 Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
             }
@@ -786,17 +551,11 @@ public class TroopDAOImpl implements TroopDAO {
                 throw new IllegalAccessException();
             }
             troop.setCurrentTroop(user.getSid());// 10/23/14 Documenting the
-            if (ocm.objectExists(troop.getPath())) {
-                ocm.update(troop);
+            if (girlScoutsTroopOCMService.read(troop.getPath()) != null) {
+                girlScoutsTroopOCMService.update(troop);
             } else {
-                String troopParentNodePath = troop.getPath();
-                troopParentNodePath = troopParentNodePath.substring(0, troopParentNodePath.lastIndexOf("/"));
-                if (!mySession.itemExists(troopParentNodePath)) {
-                    JcrUtils.getOrCreateByPath(troopParentNodePath, "nt:unstructured", mySession);
-                }
-                ocm.insert(troop);
+                girlScoutsTroopOCMService.create(troop);
             }
-            ocm.save();
             String old_errCode = troop.getErrCode();
             try {
                 troop.setErrCode(null);
@@ -817,115 +576,46 @@ public class TroopDAOImpl implements TroopDAO {
             throw new VtkException("Could not complete intended action due to a server error. Code: " + new java.util.Date().getTime());
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
 
     public boolean removeActivity(User user, Troop troop, Activity activity) {
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            ocm.remove(activity);
-            ocm.save();
-            isUpdated = true;
+            isUpdated = girlScoutsActivityOCMService.delete(activity);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
 
     public boolean removeMeeting(User user, Troop troop, MeetingE meeting) {
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            ocm.remove(meeting);
-            ocm.save();
-            isUpdated = true;
+            isUpdated = girlScoutsMeetingEOCMService.delete(meeting);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
 
     public boolean removeAsset(User user, Troop troop, Asset asset) {
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            ocm.remove(asset);
-            ocm.save();
-            isUpdated = true;
+            isUpdated = girlScoutsAssetOCMService.delete(asset);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
 
     public boolean removeMeetings(User user, Troop troop) {
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            if (mySession.itemExists(troop.getPath() + "/yearPlan/meetingEvents")) {
-                mySession.removeItem(troop.getPath() + "/yearPlan/meetingEvents");
-                mySession.save();
-            }
-            isUpdated = true;
+            isUpdated = girlScoutsRepoService.removeNode(troop.getPath() + "/yearPlan/meetingEvents");
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
@@ -934,71 +624,38 @@ public class TroopDAOImpl implements TroopDAO {
         if (!meeting.isDbUpdate()) {
             return true;
         }
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            if (meeting.getPath() == null || !ocm.objectExists(troop.getPath() + "/yearPlan/meetingCanceled")) {
-                if (!mySession.itemExists(troop.getPath() + "/yearPlan/meetingCanceled")) {
-                    JcrUtils.getOrCreateByPath(troop.getPath() + "/yearPlan/meetingCanceled", "nt:unstructured", mySession);
-                }
+            if (meeting.getPath() == null){
                 meeting.setPath(troop.getYearPlan().getPath() + "/meetingCanceled/" + meeting.getUid());
             }
-            if (!ocm.objectExists(meeting.getPath())) {
-                ocm.insert(meeting);
-            } else {
-                ocm.update(meeting);
+            if(girlScoutsMeetingCancelledOCMService.read(meeting.getPath()) != null){
+                girlScoutsMeetingCancelledOCMService.update(meeting);
+            }else{
+                girlScoutsMeetingCancelledOCMService.create(meeting);
             }
-            ocm.save();
             isUpdated = true;
          } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
 
     public void removeDemoTroops() {
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
             String sql = "select * from nt:unstructured where jcr:path like '" + VtkUtil.getYearPlanBase(null, null) + "%' and sfTroopId like 'SHARED_%' and ocm_classname='org.girlscouts.vtk.models.Troop'";
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
-            java.util.List<Node> nodes2Rm = new java.util.ArrayList();
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             javax.jcr.NodeIterator itr = result.getNodes();
             while (itr.hasNext()) {
-                Node node = itr.nextNode();
-                nodes2Rm.add(node);
+                try{
+                    girlScoutsRepoService.removeNode(itr.nextNode().getPath());
+                }catch(Exception e){
+                    log.error("Error Occurred: ", e);
+                }
             }
-            for (int i = 0; i < nodes2Rm.size(); i++) {
-                nodes2Rm.get(i).remove();
-            }
-            session.save();
             emailCronRpt(null);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
     }
 
@@ -1009,7 +666,7 @@ public class TroopDAOImpl implements TroopDAO {
             HtmlEmail email = new HtmlEmail();
             java.util.List<InternetAddress> toAddresses = new java.util.ArrayList();
             toAddresses.add(new InternetAddress(DEMO_CRON_EMAIL));
-            toAddresses.add(new InternetAddress("alex.yakobovich@ey.com"));
+            toAddresses.add(new InternetAddress("dmitriy.bakum@ey.com"));
             email.setTo(toAddresses);
             if (msg != null) {
                 email.setSubject("GirlScouts VTK Demo Site Cron ERROR");
@@ -1046,24 +703,15 @@ public class TroopDAOImpl implements TroopDAO {
             return false;
         }
         boolean isArchived = false;
-        Session mySession = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            if (mySession.itemExists("/vtk" + year + "/" + troop.getSfCouncil() + "/troops/" + troop.getSfTroopId() + "/yearPlan")) {
+            String currentYearPlanPath = troop.getTroopPath()+ "/yearPlan";
+            String archivedYearPlanPath = "/vtk" + year+currentYearPlanPath.substring(8);
+
+            if (girlScoutsRepoService.getNode(archivedYearPlanPath) != null) {
                 isArchived = true;
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isArchived;
     }
@@ -1072,35 +720,16 @@ public class TroopDAOImpl implements TroopDAO {
         if (note == null || !note.isDbUpdate()) {
             return true;
         }
-        Session mySession = null;
         boolean isUpdated = false;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            mySession = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, mapper);
-            if (!mySession.itemExists(note.getPath().substring(0, note.getPath().lastIndexOf("/")))) {
-                JcrUtils.getOrCreateByPath(note.getPath().substring(0, note.getPath().lastIndexOf("/")), "nt:unstructured", mySession);
-            }
-            if (!ocm.objectExists(note.getPath())) {
-                ocm.insert(note);
+            if (girlScoutsNoteOCMService.read(note.getPath()) != null) {
+                girlScoutsNoteOCMService.update(note);
             } else {
-                ocm.update(note);
+                girlScoutsNoteOCMService.create(note);
             }
-            ocm.save();
             isUpdated = true;
-        } catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
-            log.error(">>>> Skipping stale update for note " + note.getPath(), iise);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return isUpdated;
     }
@@ -1112,5 +741,5 @@ public class TroopDAOImpl implements TroopDAO {
             }
         }
     }
-}// ednclass
+}
 

@@ -1,7 +1,5 @@
 package org.girlscouts.vtk.ejb;
 
-import com.day.cq.search.PredicateGroup;
-import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
 import org.apache.commons.beanutils.BeanComparator;
@@ -10,8 +8,6 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.common.search.DocHit;
 import org.girlscouts.vtk.auth.permission.Permission;
@@ -20,7 +16,7 @@ import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.CouncilMapper;
-import org.girlscouts.vtk.osgi.service.GirlScoutsOCMService;
+import org.girlscouts.vtk.osgi.service.*;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
@@ -41,22 +37,30 @@ public class MeetingDAOImpl implements MeetingDAO {
     private static final String AID_PATHS_PROP = "aidPaths";
     private static final String RESOURCE_PATHS_PROP = "resourcePaths";
     public static Map resourceCountMap = new PassiveExpiringMap(MAX_CACHE_AGE_MS);
-    private final Logger log = LoggerFactory.getLogger(MeetingDAOImpl.class);
+    private final Logger log = LoggerFactory.getLogger(getClass());
     @Reference
-    CouncilMapper councilMapper;
+    private CouncilMapper councilMapper;
     @Reference
-    UserUtil userUtil;
+    private UserUtil userUtil;
     @Reference
-    private ResourceResolverFactory resolverFactory;
-    private Map<String, Object> resolverParams = new HashMap<String, Object>();
+    private GirlScoutsMeetingOCMService girlScoutsMeetingOCMService;
     @Reference
-    private QueryBuilder qBuilder;
+    private GirlScoutsMeetingEOCMService girlScoutsMeetingEOCMService;
     @Reference
-    private GirlScoutsOCMService girlScoutsOCMService;
+    private GirlScoutsMilestoneOCMService girlScoutsMilestoneOCMService;
+    @Reference
+    private GirlScoutsLocationOCMService girlScoutsLocationOCMService;
+    @Reference
+    private GirlScoutsAttendanceOCMService girlScoutsAttendanceOCMService;
+    @Reference
+    private GirlScoutsAchievementOCMService girlScoutsAchievementOCMService;
+    @Reference
+    private GirlScoutsNoteOCMService girlScoutsNoteOCMService;
+    @Reference
+    private GirlScoutsJCRService girlScoutsRepoService;
 
     @Activate
     void activate() {
-        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
         resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
     }
 
@@ -67,7 +71,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         List<MeetingE> meetings = null;
         String path = "/content/girlscouts-vtk/yearPlanTemplates/yearplan" + user.getCurrentYear() + "/brownie/yearPlan" + yearPlanId + "/meetings/";
-        meetings = girlScoutsOCMService.findObjects(path, null, MeetingE.class);
+        meetings = girlScoutsMeetingEOCMService.findObjects(path, null);
         return meetings;
     }
 
@@ -76,7 +80,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        List<MeetingE> meetings = girlScoutsOCMService.findObjects(yearPlanPath, null, MeetingE.class);
+        List<MeetingE> meetings = girlScoutsMeetingEOCMService.findObjects(yearPlanPath, null);
         return meetings;
     }
 
@@ -84,7 +88,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID)) {
             throw new IllegalAccessException();
         }
-        Meeting meeting = girlScoutsOCMService.read(path, Meeting.class);
+        Meeting meeting = girlScoutsMeetingOCMService.read(path);
         if (meeting != null && path != null && path.contains("/lib/meetings/")) {
             Meeting globalMeetingInfo = getMeeting(user, troop, "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "/" + meeting.getLevel().toLowerCase().trim() + "/" + meeting.getId());
             if (globalMeetingInfo != null) {
@@ -101,7 +105,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             throw new IllegalAccessException();
         }
         String path = "/content/girlscouts-vtk/users/" + troop.getId() + "/yearPlan/meetingEvents/";
-        List<MeetingE> meetings = girlScoutsOCMService.findObjects(path, null, MeetingE.class);
+        List<MeetingE> meetings = girlScoutsMeetingEOCMService.findObjects(path, null);
         return meetings;
     }
 
@@ -120,12 +124,12 @@ public class MeetingDAOImpl implements MeetingDAO {
         String newPath = troop.getPath() + "/lib/meetings/" + meeting.getId() + "_" + Math.random();
         if (meetingEvent.getRefId().contains("/lib/meetings/")) {
             newPath = meetingEvent.getRefId();
-            girlScoutsOCMService.delete(meeting);
+            girlScoutsMeetingOCMService.delete(meeting);
         }
         meetingEvent.setRefId(newPath);
         meeting.setPath(newPath);
-        meeting = girlScoutsOCMService.create(meeting);
-        girlScoutsOCMService.update(meetingEvent);
+        meeting = girlScoutsMeetingOCMService.create(meeting);
+        girlScoutsMeetingEOCMService.update(meetingEvent);
         return meeting;
 
     }
@@ -140,8 +144,8 @@ public class MeetingDAOImpl implements MeetingDAO {
         String newPath = meetingEvent.getRefId();
         meetingEvent.setRefId(newPath);
         meeting.setPath(newPath);
-        meeting = girlScoutsOCMService.update(meeting);
-        girlScoutsOCMService.update(meetingEvent);
+        meeting = girlScoutsMeetingOCMService.update(meeting);
+        girlScoutsMeetingEOCMService.update(meetingEvent);
         return meeting;
 
     }
@@ -153,7 +157,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         List<Activity> activities = meeting.getActivities();
         activities.add(activity);
         meeting.setActivities(activities);
-        meeting = girlScoutsOCMService.update(meeting);
+        meeting = girlScoutsMeetingOCMService.update(meeting);
         return meeting;
     }
 
@@ -180,7 +184,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             if (!sql_tag.equals("")) {
                 sql += " and ( " + sql_tag + " )";
             }
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 try {
                     Row r = it.nextRow();
@@ -229,25 +233,24 @@ public class MeetingDAOImpl implements MeetingDAO {
         try {
             // First, respect the "aidPaths" or "resourcePaths" field in the
             // meeting. This field has multiple values.
-            Node meetingNode = girlScoutsOCMService.getNode(meetingPath);
-            String pathProp;
+            MeetingE meetingE = girlScoutsMeetingEOCMService.read(meetingPath);
             switch (type) {
                 case AID:
-                    pathProp = AID_PATHS_PROP;
+                    if(meetingE.getAidPaths() != null){
+                        for (String assetPath:meetingE.getAidPaths()) {
+                            log.debug("Asset Path = " + assetPath);
+                            assets.addAll(getAssetsFromPath(assetPath, type));
+                        }
+                    }
                     break;
                 case RESOURCE:
-                    pathProp = RESOURCE_PATHS_PROP;
+                    if(meetingE.getResoourcePaths() != null) {
+                        for (String assetPath : meetingE.getResoourcePaths()) {
+                            log.debug("Asset Path = " + assetPath);
+                            assets.addAll(getAssetsFromPath(assetPath, type));
+                        }
+                    }
                     break;
-                default:
-                    pathProp = AID_PATHS_PROP;
-            }
-            if (meetingNode.hasProperty(pathProp)) {
-                Value[] assetPaths = meetingNode.getProperty(pathProp).getValues();
-                for (int i = 0; i < assetPaths.length; i++) {
-                    String assetPath = assetPaths[i].getString();
-                    log.debug("Asset Path = " + assetPath);
-                    assets.addAll(getAssetsFromPath(assetPath, type));
-                }
             }
             // Then, generate an "expected" path, check if there is overrides
             // e.g. /content/dam/girlscouts-vtk2014/local/aid/B14B01
@@ -275,11 +278,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             throw new IllegalAccessException();
         }
         List<Asset> matched = new ArrayList<Asset>();
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
             if (tags == null || tags.equals("")) {
                 return matched;
             }
@@ -296,9 +295,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             if (!sql_tag.equals("")) {
                 sql += " and ( " + sql_tag + " )";
             }
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            QueryResult result = q.execute();
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 Value excerpt = r.getValue("jcr:path");
@@ -319,18 +316,9 @@ public class MeetingDAOImpl implements MeetingDAO {
                 } catch (Exception e) {
                 }
                 matched.add(search);
-
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return matched;
     }
@@ -338,7 +326,7 @@ public class MeetingDAOImpl implements MeetingDAO {
     private List<Asset> getAssetsFromPath(String rootPath, AssetComponentType type) {
         List<Asset> assets = new ArrayList<Asset>();
         try {
-            Node rootNode = girlScoutsOCMService.getNode(rootPath);
+            Node rootNode = girlScoutsRepoService.getNode(rootPath);
             if (rootNode != null) {
                 NodeIterator iter = rootNode.getNodes();
                 while (iter.hasNext()) {
@@ -399,7 +387,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         try {
             String tagStr = councilStr;
             try {
-                Node homepage = girlScoutsOCMService.getNode("/content/" + councilStr + "/en/jcr:content");
+                Node homepage = girlScoutsRepoService.getNode("/content/" + councilStr + "/en/jcr:content");
                 if (homepage != null) {
                     if (homepage.hasProperty("event-cart")) {
                         if ("true".equals(homepage.getProperty("event-cart").getString())) {
@@ -414,7 +402,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             java.util.Map<String, String> categories = new java.util.TreeMap();
             java.util.Map<String, String> levels = new java.util.TreeMap();
             String sql = "select jcr:title from cq:Tag where ISDESCENDANTNODE( '/etc/tags/" + tagStr + "')";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 if (r.getPath().startsWith("/etc/tags/" + tagStr + "/categories")) {
@@ -465,7 +453,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         Map<String, String> categories = new TreeMap();
         Map<String, String> levels = new TreeMap();
         String sql = "select jcr:title from cq:Tag where isdescendantnode( '/etc/tags/" + councilStr + "%')";
-        QueryResult result = girlScoutsOCMService.executeQuery(sql);
+        QueryResult result = girlScoutsRepoService.executeQuery(sql);
         try {
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 try {
@@ -517,7 +505,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         String repoStr = councilStr + "/en/events-repository";
         try {
             try {
-                homepage = girlScoutsOCMService.getNode(councilStr + "/en/jcr:content");
+                homepage = girlScoutsRepoService.getNode(councilStr + "/en/jcr:content");
                 if (homepage != null) {
                     if (homepage.hasProperty("eventPath")) {
                         repoStr = homepage.getProperty("eventPath").getString();
@@ -529,7 +517,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             java.util.Map<String, String> categories = new java.util.TreeMap();
             java.util.Map<String, String> levels = new java.util.TreeMap();
             String sql = "select region, start, end from cq:Page where ISDESCENDANTNODE('" + repoStr + "')  and region is not null";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 String elem = r.getValue("region").getString();
@@ -572,7 +560,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         List<Meeting> meetings = null;
         String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/";
-        meetings = girlScoutsOCMService.findObjects(path, null, Meeting.class);
+        meetings = girlScoutsMeetingOCMService.findObjects(path, null);
         Comparator<Meeting> comp = new BeanComparator("position");
         if (meetings != null) {
             Collections.sort(meetings, comp);
@@ -588,7 +576,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         List<Asset> matched = new ArrayList<Asset>();
         try {
             String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path], [dc:isOutdoorRelated] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 try {
                     Row r = it.nextRow();
@@ -642,7 +630,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                 _path = _path.replace("metadata/", "");
             }
             sql = "select dc:description,dc:format, dc:title,dc:isOutdoorRelated from nt:unstructured where isdescendantnode( '" + _path + "%') and cq:tags is not null";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 Value excerpt = r.getValue("jcr:path");
@@ -681,11 +669,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (resourceTags == null || resourceTags.equals("")) {
             return toRet;
         }
-        Session session = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
             java.util.Map<String, String> map = new java.util.HashMap<String, String>();
             map.put("group.p.or", "true");
             resourceTags += ";"; // if 1 tag no delim
@@ -698,10 +682,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             map.put("path", "/content/dam/girlscouts-vtk/global/resource");
             map.put("p.offset", "0"); // same as query.setStart(0) below
             map.put("p.limit", "100"); // same as query.setHitsPerPage(20) below
-            com.day.cq.search.Query query = qBuilder.createQuery(PredicateGroup.create(map), session);
-            query.setStart(0);
-            query.setHitsPerPage(100);
-            SearchResult result = query.getResult();
+            SearchResult result = girlScoutsRepoService.executeQuery(map,0,100,null);
             for (Hit hit : result.getHits()) {
                 try {
                     String path = hit.getPath();
@@ -715,7 +696,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                     asset.setRefId(new DocHit(hit).getURL());
                     toRet.add(asset);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error Occurred: ", e);
                 }
             }
         } catch (Exception e) {
@@ -724,22 +705,17 @@ public class MeetingDAOImpl implements MeetingDAO {
         return toRet;
     }
 
-    public Council getCouncil(User user, Troop troop, String councilId) throws IllegalAccessException {
-        // TODO Permission.PERMISSION_VIEW_MEETING_ID
-        return girlScoutsOCMService.read(troop.getCouncilPath(), Council.class);
-    }
-
     public List<Milestone> getCouncilMilestones(String councilCode) {
         String councilStr = councilMapper.getCouncilBranch(councilCode);
         councilStr = councilStr.replace("/content/", "");
         String path = "/content/" + councilStr;
-        return girlScoutsOCMService.findObjects(path, null, Milestone.class);
+        return girlScoutsMilestoneOCMService.findObjects(path, null);
     }
 
     public void saveCouncilMilestones(java.util.List<Milestone> milestones) {
         try {
             for (Milestone milestone : milestones) {
-                girlScoutsOCMService.update(milestone);
+                girlScoutsMilestoneOCMService.update(milestone);
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
@@ -765,7 +741,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             branch += "/en";
             String eventPath = "";
             try {
-                Node jcrContent = girlScoutsOCMService.getNode(branch + "/jcr:content");
+                Node jcrContent = girlScoutsRepoService.getNode(branch + "/jcr:content");
                 if (jcrContent != null) {
                     if (jcrContent.hasProperty("eventPath")) {
                         eventPath = jcrContent.getProperty("eventPath").getString();
@@ -829,7 +805,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             sql += sqlTags;
             sql += sqlCat;
             int i = 0;
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 Node resultNode = r.getNode();
@@ -931,7 +907,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             for (int i = 0; i < locations.size(); i++) {
                 Location location = locations.get(i);
                 if (location.getUid().equals(locationName)) {
-                    girlScoutsOCMService.delete(location);
+                    girlScoutsLocationOCMService.delete(location);
                     locationToRmPath = location.getPath();
                     locations.remove(location);
                     break;
@@ -946,7 +922,7 @@ public class MeetingDAOImpl implements MeetingDAO {
     public Attendance getAttendance(User user, Troop troop, String mid) {
         Attendance attendance = null;
         try {
-            attendance = girlScoutsOCMService.read(mid,Attendance.class);
+            attendance = girlScoutsAttendanceOCMService.read(mid);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         }
@@ -954,7 +930,7 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     public boolean setAttendance(User user, Troop troop, String mid, Attendance attendance) {
-        if (girlScoutsOCMService.create(attendance) != null) {
+        if (girlScoutsAttendanceOCMService.create(attendance) != null) {
             return true;
         } else {
             return false;
@@ -962,11 +938,11 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     public Achievement getAchievement(User user, Troop troop, String mid) {
-        return girlScoutsOCMService.read(mid, Achievement.class);
+        return girlScoutsAchievementOCMService.read(mid);
     }
 
     public boolean setAchievement(User user, Troop troop, String mid, Achievement achievement) {
-        if (girlScoutsOCMService.create(achievement) != null) {
+        if (girlScoutsAchievementOCMService.create(achievement) != null) {
             return true;
         } else {
             return false;
@@ -977,7 +953,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (troop != null && !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        if (girlScoutsOCMService.update(meeting) != null) {
+        if (girlScoutsMeetingEOCMService.update(meeting) != null) {
             return true;
         } else {
             return false;
@@ -988,7 +964,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        return girlScoutsOCMService.read(path, MeetingE.class);
+        return girlScoutsMeetingEOCMService.read(path);
     }
 
     public int getAllResourcesCount(User user, Troop troop, String _path) throws IllegalAccessException {
@@ -998,7 +974,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         int count = 0;
         try {
             String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             count = (int) result.getRows().getSize();
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
@@ -1041,7 +1017,6 @@ public class MeetingDAOImpl implements MeetingDAO {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
             throw new IllegalAccessException();
         }
-        Session session = null;
         List<org.girlscouts.vtk.models.Search> matched = null;
         final String RESOURCES_PATH = "resources";
         String councilId = null;
@@ -1054,18 +1029,13 @@ public class MeetingDAOImpl implements MeetingDAO {
             PATH = resourceRootPath;
         }
         matched = new ArrayList<org.girlscouts.vtk.models.Search>();
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            java.util.Map<String, String> map = new java.util.HashMap<String, String>();
-            map.put("fulltext", _query);
-            map.put("path", PATH);
-            map.put("type", "dam:Asset");
-            com.day.cq.search.Query query = qBuilder.createQuery(PredicateGroup.create(map), session);
-            query.setExcerpt(true);
+            java.util.Map<String, String> predicates = new java.util.HashMap<String, String>();
+            predicates.put("fulltext", _query);
+            predicates.put("path", PATH);
+            predicates.put("type", "dam:Asset");
+            SearchResult result = girlScoutsRepoService.executeQuery(predicates,null,null,true);
             java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
-            SearchResult result = query.getResult();
             for (Hit hit : result.getHits()) {
                 try {
                     java.util.Map<String, String> exc = hit.getExcerpts();
@@ -1106,14 +1076,6 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return matched;
 
@@ -1126,7 +1088,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         try {
             String sql = "select [jcr:path] " + " from [dam:Asset] as s   where " + " (isdescendantnode (s, [" + path + "]))";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             count = (int) result.getNodes().getSize();
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
@@ -1145,7 +1107,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         try {
             String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             count = (int) result.getNodes().getSize();
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
@@ -1164,7 +1126,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             Map<String, String> categoryDictionary = new TreeMap<String, String>();
             Map<String, List<String>> container = new TreeMap();
             dictionary = new TreeMap<String, bean_resource>();
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             NodeIterator itr = result.getNodes();
             while (itr.hasNext()) {
                 Node node = (Node) itr.next();
@@ -1219,7 +1181,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             return ((Integer) resourceCountMap.get(path)).intValue();
         }
         try {
-            count = girlScoutsOCMService.findObjects(path, null, Meeting.class).size();
+            count = girlScoutsMeetingOCMService.findObjects(path, null).size();
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         }
@@ -1237,7 +1199,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         try {
             String sql = "select [jcr:path]  from [nt:unstructured] as s   where  (isdescendantnode (s, [" + path + "])) and [cq:tags] is not null";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             count = result.getNodes().getSize();
             resourceCountMap.put(path, count);
         } catch (Exception e) {
@@ -1253,7 +1215,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         List<Meeting> meetings = null;
         try {
             String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "//";
-            meetings = girlScoutsOCMService.findObjects(path, null, Meeting.class);
+            meetings = girlScoutsMeetingOCMService.findObjects(path, null);
             Comparator<Meeting> comp = new BeanComparator("position");
             if (meetings != null) {
                 Collections.sort(meetings, comp);
@@ -1274,7 +1236,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             throw new IllegalAccessException();
         }
         try {
-            if (girlScoutsOCMService.create(note) != null) {
+            if (girlScoutsNoteOCMService.create(note) != null) {
                 isRm = true;
             }
         } catch (Exception e) {
@@ -1291,7 +1253,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         try {
             if (user.getSfUserId().equals(note.getCreatedByUserId())) {
-                isRm = girlScoutsOCMService.delete(note);
+                isRm = girlScoutsNoteOCMService.delete(note);
             } else {
                 throw new IllegalAccessException();
             }
@@ -1329,7 +1291,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         Note note = null;
         try {
             String sql = "select note.message, note.createTime, note.createdByUserId, note.createdByUserName, note.refId, note.uid from [nt:base] as note where ocm_classname='org.girlscouts.vtk.models.Note' and   ISDESCENDANTNODE([" + troop.getYearPlan().getPath() + "]) and note.[uid] = '" + nid + "'";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 note = new Note();
@@ -1355,7 +1317,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             throw new IllegalAccessException();
         }
         String path = troop.getYearPlan().getPath() + "/meetingEvents/" + refId;
-        List<Note> notes = girlScoutsOCMService.findObjects(path, null, Note.class);
+        List<Note> notes = girlScoutsNoteOCMService.findObjects(path, null);
         return notes;
     }
 
@@ -1367,7 +1329,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         Set<String> outdoorMeetings = new HashSet();
         try {
             String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and outdoor=true and ocm_classname='org.girlscouts.vtk.models.Activity'";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 String path = r.getPath();
@@ -1390,7 +1352,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         Set<String> globalMeetings = new java.util.HashSet();
         try {
             String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and global=true and ocm_classname='org.girlscouts.vtk.models.Activity'";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 String path = r.getPath();
@@ -1412,7 +1374,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         List<Meeting> meetings = new ArrayList();
         try {
             String sql = "select catTags, blurb, id, level, name, meetingPlanType, req, reqTitle from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "')  and ocm_classname='org.girlscouts.vtk.models.Meeting' and level='" + level + "'";
-            QueryResult result = girlScoutsOCMService.executeQuery(sql);
+            QueryResult result = girlScoutsRepoService.executeQuery(sql);
             rows:
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
@@ -1445,10 +1407,10 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     public boolean removeAttendance(User user, Troop troop, Attendance attendance) {
-        return girlScoutsOCMService.delete(attendance);
+        return girlScoutsAttendanceOCMService.delete(attendance);
     }
 
     public boolean removeAchievement(User user, Troop troop, Achievement achievement) {
-        return girlScoutsOCMService.delete(achievement);
+        return girlScoutsAchievementOCMService.delete(achievement);
     }
 }// edn class

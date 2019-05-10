@@ -6,7 +6,7 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import java.io.Serializable;
 import java.util.Date;
 
-public class YearPlanComponent extends JcrNode implements Serializable, MappableToNode {
+public class YearPlanComponent extends JcrNode implements Serializable {
     private Date date;
     private YearPlanComponentType type;
     private Integer sortOrder;
@@ -39,8 +39,4 @@ public class YearPlanComponent extends JcrNode implements Serializable, Mappable
         this.sortOrder = sortOrder;
     }
 
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
-    }
 }

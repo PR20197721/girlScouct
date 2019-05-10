@@ -12,7 +12,7 @@
                 java.text.DecimalFormat,
                 java.util.HashSet,
                 java.util.List,
-                java.util.Set, org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository, org.girlscouts.vtk.ocm.AchievementNode" %>
+                java.util.Set" %>
 <%!
     // put all static in util classes
     final DecimalFormat FORMAT_COST_CENTS = new DecimalFormat("#,##0.00");
@@ -28,17 +28,6 @@
     String relayUrl = "";
     boolean isMultiUserFullBlock = true;
     // Why so heavy?  Do we need to load all services here or maybe on demand is better?
-    try {
-        final GirlScoutsOCMRepository repoTest = sling.getService(GirlScoutsOCMRepository.class);
-        AchievementNode testNode = new AchievementNode();
-        testNode.setPath("/vtk2018/test");
-        repoTest.create(testNode);
-        AchievementNode testNode2 = repoTest.read("/vtk2018/test2");
-        testNode2.setTotal(2);
-        repoTest.update(testNode2);
-    }catch(Exception ex){
-        sessionlog.error("session.jsp",ex);
-    }
     final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
     final LocationUtil locationUtil = sling.getService(LocationUtil.class);
     final MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
@@ -47,7 +36,6 @@
     final UserUtil userUtil = sling.getService(UserUtil.class);
     final FinanceUtil financeUtil = sling.getService(FinanceUtil.class);
     final ContactUtil contactUtil = sling.getService(ContactUtil.class);
-    final ConnectionFactory connectionFactory = sling.getService(ConnectionFactory.class);
     final VtkUtil vtkUtil = sling.getService(VtkUtil.class);
     final ConfigManager configManager = sling.getService(ConfigManager.class);
     // Why is this here if it say's not to use?

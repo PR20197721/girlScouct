@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class MeetingE extends YearPlanComponent implements Serializable, MappableToNode {
+public class MeetingE extends YearPlanComponent implements Serializable {
     private List<Asset> assets;
     private List<SentEmail> sentEmails;
     private Date lastAssetUpdate;
@@ -211,10 +211,5 @@ public class MeetingE extends YearPlanComponent implements Serializable, Mappabl
 
     public void setAnyGlobalActivityInMeetingAvailable(boolean isAnyGlobalActivityInMeetingAvailable) {
         this.isAnyGlobalActivityInMeetingAvailable = isAnyGlobalActivityInMeetingAvailable;
-    }
-
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 }

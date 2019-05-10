@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Node
-public class ActivityNode extends JcrNode implements Serializable, MappableToModel {
+public class ActivityNode extends JcrNode implements Serializable {
     @Collection
     private List<AssetNode> assets;
     @Field
@@ -264,11 +264,6 @@ public class ActivityNode extends JcrNode implements Serializable, MappableToMod
 
     public void setEmlTemplate(String emlTemplate) {
         this.emlTemplate = emlTemplate;
-    }
-
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 
 }

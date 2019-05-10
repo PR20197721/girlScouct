@@ -9,7 +9,7 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import java.io.Serializable;
 import java.util.List;
 
-public class YearPlan extends JcrNode implements Serializable, MappableToNode {
+public class YearPlan extends JcrNode implements Serializable {
 
     private String name, desc, id, refId, altered, resources;
     private java.util.List<MeetingE> meetingEvents;
@@ -163,8 +163,4 @@ public class YearPlan extends JcrNode implements Serializable, MappableToNode {
         this.meetingCanceled = meetingCanceled;
     }
 
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
-    }
 }

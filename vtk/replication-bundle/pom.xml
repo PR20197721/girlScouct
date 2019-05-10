@@ -167,7 +167,6 @@ org.apache.jackrabbit.util.*,
 org.apache.commons.io.*,
 com.day.durbo.*,
 org.xml.sax.*
-
 </Import-Package>
           </instructions>
         </configuration>

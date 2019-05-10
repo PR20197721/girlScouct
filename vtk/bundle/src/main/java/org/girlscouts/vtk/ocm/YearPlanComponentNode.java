@@ -9,17 +9,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Node
-public class YearPlanComponentNode extends JcrNode implements Serializable, MappableToModel {
+public class YearPlanComponentNode extends JcrNode implements Serializable {
     @Field
     private Date date;
     @Field
     private YearPlanComponentType type;
     @Field
     private Integer sortOrder;
-
-    public YearPlanComponentNode(){
-
-    }
 
     public Date getDate() {
         return date;
@@ -45,8 +41,4 @@ public class YearPlanComponentNode extends JcrNode implements Serializable, Mapp
         this.sortOrder = sortOrder;
     }
 
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
-    }
 }

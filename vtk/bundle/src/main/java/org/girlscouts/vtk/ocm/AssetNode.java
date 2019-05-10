@@ -8,7 +8,7 @@ import org.girlscouts.vtk.models.Asset;
 import java.io.Serializable;
 
 @Node
-public class AssetNode extends JcrNode implements Serializable, MappableToModel {
+public class AssetNode extends JcrNode implements Serializable {
     @Field(jcrDefaultValue = "false")
     private Boolean isCachable;
     @Field
@@ -72,17 +72,12 @@ public class AssetNode extends JcrNode implements Serializable, MappableToModel 
         this.refId = refId;
     }
 
-    public Boolean getOutdoorRelated() {
+    public Boolean getIsOutdoorRelated() {
         return isOutdoorRelated;
     }
 
-    public void setOutdoorRelated(Boolean outdoorRelated) {
+    public void setIsOutdoorRelated(Boolean outdoorRelated) {
         isOutdoorRelated = outdoorRelated;
-    }
-
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 
 }

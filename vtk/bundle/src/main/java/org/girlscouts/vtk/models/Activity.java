@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Activity extends YearPlanComponent implements Serializable, MappableToNode {
+public class Activity extends YearPlanComponent implements Serializable {
     private List<Asset> assets;
     private Double cost;
     private Boolean isEditable;
@@ -336,8 +336,4 @@ public class Activity extends YearPlanComponent implements Serializable, Mappabl
         this.isSelected = isSelected;
     }
 
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
-    }
 }

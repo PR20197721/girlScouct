@@ -4,7 +4,7 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
-public class Achievement extends JcrNode implements Serializable, MappableToNode {
+public class Achievement extends JcrNode implements Serializable {
 
     private String users; // sf id
     private int total;
@@ -31,10 +31,5 @@ public class Achievement extends JcrNode implements Serializable, MappableToNode
 
     public void setTotal(int total) {
         this.total = total;
-    }
-
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 }

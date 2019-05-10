@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.ejb;
+package org.girlscouts.vtk.models;
 
 public class EmailMeetingReminder {
     private String to, from, cc, bcc, template, html, subj, emailToGirlParent, emailToSelf, emailToTroopVolunteer, meetingId;

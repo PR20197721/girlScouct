@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 @Node
-public class FinanceNode extends JcrNode implements Serializable, MappableToModel {
+public class FinanceNode extends JcrNode implements Serializable {
     @Collection
     public Map<String, Double> expenses;
     @Collection
@@ -19,8 +19,6 @@ public class FinanceNode extends JcrNode implements Serializable, MappableToMode
     @Field(id = true)
     private int financialQuarter;
 
-    public FinanceNode() {
-    }
 
     public void setExpenses(Map<String, Double> expenses) {
         this.expenses = expenses;
@@ -64,11 +62,6 @@ public class FinanceNode extends JcrNode implements Serializable, MappableToMode
 
     public void setFinancialQuarter(int financialQuarter) {
         this.financialQuarter = financialQuarter;
-    }
-
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 
 }

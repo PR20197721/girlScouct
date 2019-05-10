@@ -21,21 +21,21 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Service(MeetingUtil.class)
 public class MeetingUtil {
-    private final Logger log = LoggerFactory.getLogger("vtk");
+    private final Logger log = LoggerFactory.getLogger(getClass());
     @Reference
-    TroopUtil troopUtil;
+    private TroopUtil troopUtil;
     @Reference
-    MeetingDAO meetingDAO;
+    private MeetingDAO meetingDAO;
     @Reference
-    ActivityDAO activityDAO;
+    private ActivityDAO activityDAO;
     @Reference
-    UserUtil userUtil;
+    private UserUtil userUtil;
     @Reference
-    YearPlanUtil yearPlanUtil;
+    private YearPlanUtil yearPlanUtil;
     @Reference
-    TroopDAO troopDAO;
+    private TroopDAO troopDAO;
     @Reference
-    GirlScoutsSalesForceService gsSalesForceService;
+    private GirlScoutsSalesForceService gsSalesForceService;
 
     public java.util.List<MeetingE> updateMeetingPos(java.util.List<MeetingE> orgMeetings, java.util.List<Integer> newPoss) {
         java.util.List<MeetingE> newMeeting = new java.util.ArrayList<MeetingE>();// orgMeetings.size());
@@ -1134,7 +1134,7 @@ public class MeetingUtil {
                     if (activity.getEmlTemplate() == null) {
                         activity.setEmlTemplate(troop.getSendingEmail().getTemplate());
                     }
-                    activityDAO.updateActivity(user, troop, activity);
+                    activity = activityDAO.updateActivity(user, troop, activity);
                     return;
                 } catch (Exception e) {
                     log.error("Error occurred: ", e);

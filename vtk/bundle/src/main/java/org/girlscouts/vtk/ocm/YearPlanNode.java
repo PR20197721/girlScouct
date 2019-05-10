@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Node
-public class YearPlanNode extends JcrNode implements Serializable, MappableToModel {
+public class YearPlanNode extends JcrNode implements Serializable {
 
     @Field
     private String name;
@@ -141,10 +141,5 @@ public class YearPlanNode extends JcrNode implements Serializable, MappableToMod
 
     public void setMeetingCanceled(List<MeetingCanceledNode> meetingCanceled) {
         this.meetingCanceled = meetingCanceled;
-    }
-
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 }

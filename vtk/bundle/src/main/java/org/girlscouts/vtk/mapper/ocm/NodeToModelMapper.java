@@ -26,6 +26,12 @@ public interface NodeToModelMapper {
     public CalNode toNode(Cal cal);
     public Cal toModel(CalNode calNode);
 
+    public CouncilNode toNode(Council cal);
+    public Council toModel(CouncilNode calNode);
+
+    public CouncilInfoNode toNode(CouncilInfo councilInfo);
+    public CouncilInfo toModel(CouncilInfoNode CouncilInfoNode);
+
     public FinanceNode toNode(Finance finance);
     public Finance toModel(FinanceNode financeNode);
 

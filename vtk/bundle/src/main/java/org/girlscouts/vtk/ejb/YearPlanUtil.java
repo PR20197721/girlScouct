@@ -20,11 +20,11 @@ import java.util.*;
 @Service(value = YearPlanUtil.class)
 public class YearPlanUtil {
     @Reference
-    TroopDAO troopDAO;
+    private TroopDAO troopDAO;
     @Reference
-    ActivityDAO activityDAO;
+    private ActivityDAO activityDAO;
     @Reference
-    YearPlanDAO yearPlanDAO;
+    private YearPlanDAO yearPlanDAO;
     @Reference
     private MeetingDAO meetingDAO;
     @Reference
@@ -34,7 +34,7 @@ public class YearPlanUtil {
 
     public void createActivity(User user, Troop troop, Activity activity) throws java.lang.IllegalAccessException, VtkException, IllegalStateException {
         activity.setDbUpdate(true);
-        activityDAO.createActivity(user, troop, activity);
+        activityDAO.addToYearPlan(user, troop, activity);
         troop.getYearPlan().setAltered("true");
         troopDAO.updateTroop(user, troop);
     }

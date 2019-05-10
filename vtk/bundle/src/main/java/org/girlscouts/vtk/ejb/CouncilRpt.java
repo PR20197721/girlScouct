@@ -12,7 +12,7 @@ import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.CouncilRptBean;
-import org.girlscouts.vtk.osgi.component.ConfigManager;
+import org.girlscouts.vtk.osgi.service.GirlScoutsJCRService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.osgi.service.component.annotations.Activate;
@@ -35,14 +35,14 @@ public class CouncilRpt {
     @Reference
     private MessageGatewayService messageGatewayService;
     @Reference
-    private ConfigManager configManager;
-    @Reference
     private SlingSettingsService slingSettings;
-    @org.apache.felix.scr.annotations.Reference
-    private ResourceResolverFactory resolverFactory;
-    private Map<String, Object> resolverParams = new HashMap<String, Object>();
     @Reference
     private GirlScoutsSalesForceService gsSalesForceService;
+    @Reference
+    private GirlScoutsJCRService girlScoutsRepoService;
+    @Reference
+    private ResourceResolverFactory resolverFactory;
+    private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
     @Activate
     void activate(CouncilRptConfiguration config) {
@@ -52,16 +52,10 @@ public class CouncilRpt {
     }
 
     public java.util.List<String> getActivityRpt(String sfCouncil) {
-        javax.jcr.Session s = null;
         java.util.List<String> activities = new java.util.ArrayList<String>();
         String sql1 = "select jcr:path " + " from nt:base " + " where isdescendantnode( '/vtk" + VtkUtil.getCurrentGSYear() + "/" + sfCouncil + "/troops/') and ocm_classname='org.girlscouts.vtk.models.Activity'";
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            s = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql1, javax.jcr.query.Query.SQL);
-            javax.jcr.query.QueryResult result = q.execute();
+            javax.jcr.query.QueryResult result = girlScoutsRepoService.executeQuery(sql1);
             for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
                 javax.jcr.query.Row r = it.nextRow();
                 String path = r.getValue("jcr:path").getString();
@@ -74,32 +68,17 @@ public class CouncilRpt {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return activities;
     }
 
     public java.util.List<CouncilRptBean> getRpt(String sfCouncil, ApiConfig config) {
         java.util.List<CouncilRptBean> container = new java.util.ArrayList<CouncilRptBean>();
-        javax.jcr.Session session = null;
         java.util.List<org.girlscouts.vtk.models.YearPlanRpt> yprs = new java.util.ArrayList<org.girlscouts.vtk.models.YearPlanRpt>();
         String sql = "select  name, altered, refId,jcr:path,excerpt(.) " + " from nt:base where isdescendantnode( '" + VtkUtil.getYearPlanBase(null, null) + sfCouncil + "/troops/') and ocm_classname='org.girlscouts.vtk.models.YearPlan'";
         java.util.List<String> activities = getActivityRpt(sfCouncil);
-        javax.jcr.query.QueryResult result = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            session = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-            result = q.execute();
+            javax.jcr.query.QueryResult result = girlScoutsRepoService.executeQuery(sql);
             if (result != null && result.getRows().hasNext()) {
                 for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
                     try {
@@ -185,25 +164,6 @@ public class CouncilRpt {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return container;
-    }
-
-    public void fmtRpt(java.util.List<CouncilRptBean> results) {
-    }
-
-    public Set<String> getDistinctPlanNames(java.util.List<CouncilRptBean> results) {
-        Set<String> container = new HashSet<String>();
-        for (CouncilRptBean bean : results) {
-            container.add(bean.getYearPlanName());
         }
         return container;
     }
@@ -246,16 +206,9 @@ public class CouncilRpt {
 
     public java.util.Map<String, String> getTroopNames(String councilId, String yearPlanPath) {
         java.util.Map<String, String> container = new java.util.TreeMap<String, String>();
-        javax.jcr.Session s = null;
         String sql = "select parent.sfTroopId, parent.sfTroopName from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) " + " where (isdescendantnode (parent, [" + VtkUtil.getYearPlanBase(null, null) + councilId + "/troops/]))  and " + " parent.ocm_classname='org.girlscouts.vtk.models.Troop' and child.refId like '" + yearPlanPath + "%'";
-        javax.jcr.query.QueryResult result = null;
-        ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            s = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
-            result = q.execute();
+            javax.jcr.query.QueryResult result  = girlScoutsRepoService.executeQuery(sql);
             for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
                 javax.jcr.query.Row r = it.nextRow();
                 String troopId = r.getValue("parent.sfTroopId").getString();
@@ -264,14 +217,6 @@ public class CouncilRpt {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
         }
         return container;
     }
@@ -322,7 +267,6 @@ public class CouncilRpt {
             thisRpt.setProperty("rpt", sb.toString());
             thisRpt.setProperty("id", rptId);
             session.save();
-
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         } finally {
@@ -361,5 +305,4 @@ public class CouncilRpt {
             log.info("VTK Monthly Report Email Attempt End.");
         }
     }
-
 }

@@ -8,7 +8,7 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import java.io.Serializable;
 import java.util.Map;
 
-public class Finance extends JcrNode implements Serializable, MappableToNode {
+public class Finance extends JcrNode implements Serializable {
     public static final String INCOME = "income";
     public static final String EXPENSES = "expenses";
     public static final String PERIOD = "period";
@@ -64,8 +64,4 @@ public class Finance extends JcrNode implements Serializable, MappableToNode {
         this.financialQuarter = financialQuarter;
     }
 
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
-    }
 }

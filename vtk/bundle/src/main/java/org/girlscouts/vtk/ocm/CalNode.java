@@ -9,7 +9,7 @@ import org.girlscouts.vtk.models.Cal;
 import java.io.Serializable;
 
 @Node
-public class CalNode extends JcrNode implements Serializable, MappableToModel {
+public class CalNode extends JcrNode implements Serializable {
     @Field
     private String dates;
 
@@ -19,11 +19,6 @@ public class CalNode extends JcrNode implements Serializable, MappableToModel {
 
     public void setDates(String dates) {
         this.dates = dates;
-    }
-
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 
 }

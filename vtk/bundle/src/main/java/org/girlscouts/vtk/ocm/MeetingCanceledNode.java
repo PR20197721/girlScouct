@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Node
-public class MeetingCanceledNode extends YearPlanComponentNode implements Serializable, MappableToModel {
+public class MeetingCanceledNode extends YearPlanComponentNode implements Serializable {
     @Collection
     private List<AssetNode> assets;
     @Collection
@@ -80,11 +80,6 @@ public class MeetingCanceledNode extends YearPlanComponentNode implements Serial
 
     public void setEmlTemplate(String emlTemplate) {
         this.emlTemplate = emlTemplate;
-    }
-
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
     }
 
 }

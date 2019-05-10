@@ -7,7 +7,7 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import java.io.Serializable;
 
 @Node
-public class JcrCollectionHoldStringNode extends JcrNode implements Serializable, MappableToModel {
+public class JcrCollectionHoldStringNode extends JcrNode implements Serializable {
     @Field
     private String str;
 
@@ -19,8 +19,4 @@ public class JcrCollectionHoldStringNode extends JcrNode implements Serializable
         this.str = str;
     }
 
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
-    }
 }

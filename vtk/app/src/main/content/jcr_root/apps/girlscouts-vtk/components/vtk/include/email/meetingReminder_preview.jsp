@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.vtk.ejb.EmailMeetingReminder" %>
+<%@ page import="org.girlscouts.vtk.models.EmailMeetingReminder" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../session.jsp" %>

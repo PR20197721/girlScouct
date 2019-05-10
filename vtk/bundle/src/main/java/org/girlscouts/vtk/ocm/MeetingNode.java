@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Node
-public class MeetingNode extends YearPlanComponentNode implements Serializable, MappableToModel {
+public class MeetingNode extends YearPlanComponentNode implements Serializable {
 
     @Field
     private String  name;
@@ -33,21 +33,6 @@ public class MeetingNode extends YearPlanComponentNode implements Serializable, 
     private String meetingPlanType, meetingPlanTypeAlt;
     @Field
     private String catTags, catTagsAlt;
-
-
-    public MeetingNode() {
-        setPath("/meeting");
-        this.position = 0;
-    }
-
-    public static Object getStaticValue(final String className, final String fieldName) throws SecurityException, NoSuchFieldException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
-        // Get the private field
-        final java.lang.reflect.Field field = Class.forName(className).getDeclaredField(fieldName);
-        // Allow modification on the field
-        field.setAccessible(true);
-        // Return the Obect corresponding to the field
-        return field.get(Class.forName(className));
-    }
 
     public Integer getPosition() {
         return position == null ? 0 : position;
@@ -192,10 +177,4 @@ public class MeetingNode extends YearPlanComponentNode implements Serializable, 
     public void setAchievement(Boolean achievement) {
         isAchievement = achievement;
     }
-
-    @Override
-    public Object toModel() {
-        return NodeToModelMapper.INSTANCE.toModel(this);
-    }
-
 }

@@ -7,7 +7,7 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 
-public class Asset extends JcrNode implements Serializable, MappableToNode {
+public class Asset extends JcrNode implements Serializable {
     private Boolean isCachable;
     private String type, description, title, docType, refId;
     private Boolean isOutdoorRelated;
@@ -107,8 +107,4 @@ public class Asset extends JcrNode implements Serializable, MappableToNode {
         return AssetComponentType.valueOf(this.getType());
     }
 
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
-    }
 }

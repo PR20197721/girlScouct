@@ -17,7 +17,7 @@ import java.util.*;
 @Component
 @Service(value = CalendarUtil.class)
 public class CalendarUtil {
-    private final Logger log = LoggerFactory.getLogger("vtk");
+    private final Logger log = LoggerFactory.getLogger(getClass());
     @Reference
     TroopUtil troopUtil;
     @Reference
@@ -27,56 +27,7 @@ public class CalendarUtil {
     private java.text.SimpleDateFormat fmtDate = new java.text.SimpleDateFormat("MM/dd/yyyy");
     private int weekOfMonth = 0, dayOfWeek = 0;
 
-    public void weeklyCal(java.util.Date startDate) {
-    }
-
-    public java.util.List<java.util.Date> toUtilDate(java.util.List<org.joda.time.DateTime> sched) {
-        java.util.List<java.util.Date> toRet = new java.util.ArrayList<java.util.Date>();
-        for (int i = 0; i < sched.size(); i++) {
-            toRet.add(sched.get(i).toDate());
-        }
-        return toRet;
-    }
-
     // generate sched : by weekly
-    public java.util.List<org.joda.time.DateTime> byWeeklySched(org.joda.time.DateTime _startDate, String freq, java.util.List<org.joda.time.DateTime> exclDates, int numOfMeetings, String existingSched) {
-        org.joda.time.DateTime startDate = new org.joda.time.DateTime(_startDate.toDateMidnight());
-        java.util.List<org.joda.time.DateTime> sched = new java.util.ArrayList();
-        org.joda.time.DateTime date = new org.joda.time.DateTime(startDate);
-        int addedDates = 0;
-        if (existingSched != null) {
-            java.util.StringTokenizer t = new java.util.StringTokenizer(existingSched, ",");
-            while (t.hasMoreElements()) {
-                long existSchedDate = Long.parseLong(t.nextToken());
-                if (new java.util.Date(existSchedDate).before(new java.util.Date())) {
-                    sched.add(new org.joda.time.DateTime(existSchedDate));
-                    addedDates++;
-                }
-            }
-        }
-        for (int i = 1; i < 100; i++) {
-            if (!exclDates.contains(date)) {
-                java.util.Calendar tmp = java.util.Calendar.getInstance();
-                tmp.setTimeInMillis(date.getMillis());
-                tmp.set(java.util.Calendar.HOUR, _startDate.getHourOfDay());
-                tmp.set(java.util.Calendar.MINUTE, _startDate.getMinuteOfHour());
-                sched.add(new org.joda.time.DateTime(tmp.getTimeInMillis()));
-                addedDates++;
-                if (addedDates >= numOfMeetings) {
-                    return sched;
-                }
-            }
-            if (freq.equals("weekly")) {
-                date = date.plusWeeks(1);
-            } else if (freq.equals("monthly")) {
-                date = date.plusMonths(1);
-            } else if (freq.equals("biweekly")) {
-                date = date.plusWeeks(2);
-            }
-        }
-        return sched;
-    }
-
     public java.util.List<String> exclWeek(org.joda.time.DateTime date) {
         java.util.List<String> exclDates = new java.util.ArrayList();
         org.joda.time.DateTime now = new org.joda.time.DateTime(date);

@@ -3,16 +3,17 @@ package org.girlscouts.vtk.models;
 import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
-public class JcrNode implements Serializable, MappableToNode {
-
+public class JcrNode implements Serializable {
     private String path;
     private String id;
     private String uid;
     private boolean isDbUpdate;
+    private Calendar createdDate;
+    private Calendar lastModifiedDate;
 
-    public JcrNode(){
-
+    public JcrNode() {
     }
 
     public JcrNode(String path) {
@@ -60,9 +61,21 @@ public class JcrNode implements Serializable, MappableToNode {
         this.uid = uid;
     }
 
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
+    public Calendar getCreatedDate() {
+        return createdDate;
     }
-    
+
+    public void setCreatedDate(Calendar createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Calendar getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Calendar lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
 }
+
+

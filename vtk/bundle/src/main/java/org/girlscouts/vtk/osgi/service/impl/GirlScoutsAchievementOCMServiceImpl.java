@@ -45,8 +45,8 @@ public class GirlScoutsAchievementOCMServiceImpl implements GirlScoutsAchievemen
 
     @Override
     public Achievement read(String path) {
-        AchievementNode node = (Achievement)girlScoutsOCMRepository.read(path);
-        return (Achievement)(girlScoutsOCMRepository.read(path).toModel());
+        AchievementNode node = (AchievementNode)girlScoutsOCMRepository.read(path);
+        return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
     @Override
@@ -56,14 +56,14 @@ public class GirlScoutsAchievementOCMServiceImpl implements GirlScoutsAchievemen
 
     @Override
     public Achievement findObject(String path, Map<String, String> params) {
-        return (Achievement) girlScoutsOCMRepository.findObject(path, params, AchievementNode.class).toModel();
+        return NodeToModelMapper.INSTANCE.toModel(girlScoutsOCMRepository.findObject(path, params,  AchievementNode.class));
     }
 
     @Override
     public List<Achievement> findObjects(String path, Map<String, String> params) {
         List<AchievementNode> nodes = girlScoutsOCMRepository.findObjects(path, params, AchievementNode.class);
         List<Achievement> models = new ArrayList<>();
-        nodes.forEach(achievementNode -> {models.add((Achievement)achievementNode.toModel());});
+        nodes.forEach(achievementNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(achievementNode));});
         return models;
     }
 

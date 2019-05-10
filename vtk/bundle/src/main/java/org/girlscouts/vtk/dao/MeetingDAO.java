@@ -39,7 +39,6 @@ public interface MeetingDAO {
 
     Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException;
 
-    Council getCouncil(User user, Troop troop, String councilId) throws IllegalAccessException;
 
     java.util.List<Milestone> getCouncilMilestones(String councilCode);
 

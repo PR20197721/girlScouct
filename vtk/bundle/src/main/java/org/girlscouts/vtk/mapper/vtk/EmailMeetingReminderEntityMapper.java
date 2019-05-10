@@ -1,6 +1,6 @@
 package org.girlscouts.vtk.mapper.vtk;
 
-import org.girlscouts.vtk.ejb.EmailMeetingReminder;
+import org.girlscouts.vtk.models.EmailMeetingReminder;
 import org.girlscouts.vtk.rest.entity.vtk.EmailMeetingReminderEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

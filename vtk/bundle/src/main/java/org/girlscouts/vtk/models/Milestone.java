@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Node
-public class Milestone extends YearPlanComponent implements Serializable, MappableToNode {
+public class Milestone extends YearPlanComponent implements Serializable {
 
     private Boolean show;
     private String blurb;
@@ -59,11 +59,6 @@ public class Milestone extends YearPlanComponent implements Serializable, Mappab
 
     public void setShow(Boolean showInPlans) {
         this.show = showInPlans;
-    }
-
-    @Override
-    public Object toNode() {
-        return NodeToModelMapper.INSTANCE.toNode(this);
     }
 
 }

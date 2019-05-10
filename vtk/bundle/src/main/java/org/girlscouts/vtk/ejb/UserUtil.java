@@ -18,8 +18,6 @@ import java.net.URL;
 @Service(value = UserUtil.class)
 public class UserUtil {
     @Reference
-    YearPlanDAO yearPlanDAO;
-    @Reference
     private CouncilMapper councilMapper;
 
     public boolean hasPermission(java.util.Set<Integer> myPermissionTokens, int permissionId) {
