@@ -12,3 +12,6 @@
     cookie.setPath("/content/girlscouts-vtk");
     response.addCookie(cookie);
 %>
+<script>
+    window.location.href = "https://my.girlscouts.org/content/girlscouts-vtk/en/vtk.html";
+</script>
