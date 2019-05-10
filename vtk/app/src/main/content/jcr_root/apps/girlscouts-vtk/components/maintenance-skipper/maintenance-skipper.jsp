@@ -13,5 +13,10 @@
     response.addCookie(cookie);
 %>
 <script>
-    window.location.href = "https://my.girlscouts.org/content/girlscouts-vtk/en/vtk.html";
+    if(window.location.href.includes("uat.")){
+         window.location.replace("https://my-uat.girlscouts.org/content/girlscouts-vtk/en/vtk.html");
+    }else{
+         window.location.replace("https://my.girlscouts.org/content/girlscouts-vtk/en/vtk.html");
+    }
+
 </script>
