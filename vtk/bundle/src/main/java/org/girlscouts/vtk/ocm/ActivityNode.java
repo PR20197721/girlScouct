@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Node
-public class ActivityNode extends JcrNode implements Serializable {
+public class ActivityNode extends YearPlanComponentNode implements Serializable {
     @Collection
     private List<AssetNode> assets;
     @Field
@@ -74,11 +74,11 @@ public class ActivityNode extends JcrNode implements Serializable {
         this.cost = cost;
     }
 
-    public Boolean getEditable() {
+    public Boolean getIsEditable() {
         return isEditable;
     }
 
-    public void setEditable(Boolean editable) {
+    public void setIsEditable(Boolean editable) {
         isEditable = editable;
     }
 
@@ -146,11 +146,11 @@ public class ActivityNode extends JcrNode implements Serializable {
         this.subtitle = subtitle;
     }
 
-    public Boolean getSelected() {
+    public Boolean getIsSelected() {
         return isSelected;
     }
 
-    public void setSelected(Boolean selected) {
+    public void setIsSelected(Boolean selected) {
         isSelected = selected;
     }
 

@@ -21,10 +21,10 @@ public class JcrNode implements Serializable {
     @Field(id = true)
     private String uid;
 
-    @Field(jcrName = "createdDate", jcrType = "Date", converter = JcrCalendarPropertyConverter.class)
+    @Field(jcrName = "createdDate", jcrType = "Date", converter = CalendarOCMPropertyConverter.class)
     private Calendar createdDate;
 
-    @Field(jcrName = "lastModifiedDate", jcrType = "Date", converter = JcrCalendarPropertyConverter.class)
+    @Field(jcrName = "lastModifiedDate", jcrType = "Date", converter = CalendarOCMPropertyConverter.class)
     private Calendar lastModifiedDate;
 
     public String getPath() {

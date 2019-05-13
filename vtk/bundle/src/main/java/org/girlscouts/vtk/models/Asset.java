@@ -13,14 +13,14 @@ public class Asset extends JcrNode implements Serializable {
     private Boolean isOutdoorRelated;
 
     public Asset() {
-        this.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
+        super.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
         this.isCachable = false;
         this.type = "AID";
     }
 
     public Asset(String path) {
         this.setPath(path);
-        this.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
+        super.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
         this.isCachable = false;
         this.type = "AID";
     }

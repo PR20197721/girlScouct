@@ -12,7 +12,7 @@ import java.util.Date;
 public class YearPlanComponentNode extends JcrNode implements Serializable {
     @Field
     private Date date;
-    @Field
+    @Field(jcrType = "String", converter = YearPlanComponentTypeOCMPropertyConverter.class)
     private YearPlanComponentType type;
     @Field
     private Integer sortOrder;

@@ -20,6 +20,24 @@ public class Meeting extends YearPlanComponent implements Serializable {
     private Map<String, JcrCollectionHoldString> meetingInfo;
     private String meetingPlanType, meetingPlanTypeAlt;
     private String catTags, catTagsAlt;
+    private List<String> aidPaths;
+    private List<String> resourcePaths;
+
+    public List<String> getAidPaths() {
+        return aidPaths;
+    }
+
+    public void setAidPaths(List<String> aidPaths) {
+        this.aidPaths = aidPaths;
+    }
+
+    public List<String> getResourcePaths() {
+        return resourcePaths;
+    }
+
+    public void setResourcePaths(List<String> resourcePaths) {
+        this.resourcePaths = resourcePaths;
+    }
 
     public Meeting() {
         setPath("/meeting");

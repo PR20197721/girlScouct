@@ -36,7 +36,7 @@ public class Activity extends YearPlanComponent implements Serializable {
     private String emlTemplate;
 
     public Activity() {
-        this.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
+        super.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
         super.setType(YearPlanComponentType.ACTIVITY);
         this.cost = 0.00;
         this.isEditable = true;
@@ -50,7 +50,7 @@ public class Activity extends YearPlanComponent implements Serializable {
         this.locationName = locationName;
         this.locationAddress = locationAddress;
         super.setType(YearPlanComponentType.ACTIVITY);
-        this.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
+        super.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
         this.cost = cost;
         this.isEditable = true;
 
@@ -113,9 +113,9 @@ public class Activity extends YearPlanComponent implements Serializable {
 
     public void setUid(String uid) {
         if (uid == null) {
-            this.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
+            super.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
         }else{
-            this.setUid(uid);
+            super.setUid(uid);
         }
 
     }

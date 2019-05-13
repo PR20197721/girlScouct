@@ -26,9 +26,9 @@ public class MeetingNode extends YearPlanComponentNode implements Serializable {
     @Field
     private Boolean isAchievement;
     @Collection
-    private List<Activity> activities;
+    private List<ActivityNode> activities;
     @Collection
-    private Map<String, JcrCollectionHoldString> meetingInfo;
+    private Map<String, JcrCollectionHoldStringNode> meetingInfo;
     @Field
     private String meetingPlanType, meetingPlanTypeAlt;
     @Field
@@ -42,20 +42,20 @@ public class MeetingNode extends YearPlanComponentNode implements Serializable {
         this.position = position;
     }
 
-    public Map<String, JcrCollectionHoldString> getMeetingInfo() {
-        return meetingInfo;
-    }
-
-    public void setMeetingInfo(Map<String, JcrCollectionHoldString> meetingInfo) {
-        this.meetingInfo = meetingInfo;
-    }
-
-    public List<Activity> getActivities() {
+    public List<ActivityNode> getActivities() {
         return activities;
     }
 
-    public void setActivities(List<Activity> activities) {
+    public void setActivities(List<ActivityNode> activities) {
         this.activities = activities;
+    }
+
+    public Map<String, JcrCollectionHoldStringNode> getMeetingInfo() {
+        return meetingInfo;
+    }
+
+    public void setMeetingInfo(Map<String, JcrCollectionHoldStringNode> meetingInfo) {
+        this.meetingInfo = meetingInfo;
     }
 
     public String getAidTags() {

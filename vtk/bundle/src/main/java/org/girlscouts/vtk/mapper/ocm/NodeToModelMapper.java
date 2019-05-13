@@ -1,9 +1,12 @@
 package org.girlscouts.vtk.mapper.ocm;
 
+import com.drew.lang.annotations.NotNull;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.ocm.*;
 import org.girlscouts.vtk.ocm.JcrNode;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -15,6 +18,7 @@ public interface NodeToModelMapper {
     public Achievement toModel(AchievementNode achievementNode);
 
     public ActivityNode toNode(Activity activity);
+    @Mapping(source = "type", target = "type", ignore = true)
     public Activity toModel(ActivityNode achievementNode);
 
     public AssetNode toNode(Asset asset);
@@ -45,15 +49,20 @@ public interface NodeToModelMapper {
     public Location toModel(LocationNode locationNode);
 
     public MeetingCanceledNode toNode(MeetingCanceled meetingCanceled);
+    @Mapping(source = "type", target = "type", ignore = true)
     public MeetingCanceled toModel(MeetingCanceledNode meetingCanceledNode);
 
+
     public MeetingNode toNode(Meeting meeting);
+    @Mapping(source = "type", target = "type", ignore = true)
     public Meeting toModel(MeetingNode meetingNode);
 
     public MeetingENode toNode(MeetingE meetingE);
+    @Mapping(source = "type", target = "type", ignore = true)
     public MeetingE toModel(MeetingENode meetingENode);
 
     public MilestoneNode toNode(Milestone milestone);
+    @Mapping(source = "type", target = "type", ignore = true)
     public Milestone toModel(MilestoneNode milestoneNode);
 
     public NoteNode toNode(Note note);

@@ -16,12 +16,12 @@ public class Milestone extends YearPlanComponent implements Serializable {
     private Date date;
 
     public Milestone() {
-        this.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
+        super.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
         this.setType(YearPlanComponentType.MILESTONE);
     }
 
     public Milestone(String blurb, boolean show, java.util.Date date) {
-        this.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
+        super.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
         super.setType(YearPlanComponentType.MILESTONE);
         this.blurb = blurb;
         this.show = new Boolean(show);
@@ -46,9 +46,9 @@ public class Milestone extends YearPlanComponent implements Serializable {
 
     public void setUid(String uid) {
         if (uid == null) {
-            this.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
+            super.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
         }else{
-            this.setUid(uid);
+            super.setUid(uid);
         }
 
     }

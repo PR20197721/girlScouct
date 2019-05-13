@@ -8,9 +8,11 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
-import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.models.Council;
+import org.girlscouts.vtk.models.Finance;
 import org.girlscouts.vtk.ocm.*;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
 import org.girlscouts.vtk.utils.VtkException;
@@ -20,11 +22,8 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.jcr.Node;
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeType;
-import javax.jcr.query.QueryResult;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Component(service = {GirlScoutsOCMRepository.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsOCMRepositoryImpl")
@@ -39,21 +38,26 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
     private void activate() {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
         List<Class> ocmClasses = new ArrayList<Class>();
-        ocmClasses.add(TroopNode.class);
-        ocmClasses.add(YearPlanNode.class);
-        ocmClasses.add(MeetingENode.class);
-        ocmClasses.add(NoteNode.class);
-        ocmClasses.add(MeetingCanceledNode.class);
-        ocmClasses.add(ActivityNode.class);
-        ocmClasses.add(LocationNode.class);
-        ocmClasses.add(AssetNode.class);
-        ocmClasses.add(CalNode.class);
-        ocmClasses.add(MilestoneNode.class);
-        ocmClasses.add(SentEmailNode.class);
-        ocmClasses.add(JcrCollectionHoldStringNode.class);
-        ocmClasses.add(AttendanceNode.class);
         ocmClasses.add(AchievementNode.class);
+        ocmClasses.add(ActivityNode.class);
+        ocmClasses.add(AssetNode.class);
+        ocmClasses.add(AttendanceNode.class);
+        ocmClasses.add(CalNode.class);
+        ocmClasses.add(CouncilInfoNode.class);
+        ocmClasses.add(CouncilNode.class);
+        ocmClasses.add(FinanceNode.class);
+        ocmClasses.add(JcrCollectionHoldStringNode.class);
         ocmClasses.add(JcrNode.class);
+        ocmClasses.add(LocationNode.class);
+        ocmClasses.add(MeetingCanceledNode.class);
+        ocmClasses.add(MeetingENode.class);
+        ocmClasses.add(MeetingNode.class);
+        ocmClasses.add(MilestoneNode.class);
+        ocmClasses.add(NoteNode.class);
+        ocmClasses.add(SentEmailNode.class);
+        ocmClasses.add(TroopNode.class);
+        ocmClasses.add(YearPlanComponentNode.class);
+        ocmClasses.add(YearPlanNode.class);
         mapper = new AnnotationMapperImpl(ocmClasses);
         log.info(this.getClass().getName() + " activated.");
     }
@@ -225,7 +229,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
     private Query getQuery(String path, Map<String, String> params, Class clazz, ObjectContentManager ocm) {
         QueryManager queryManager = ocm.getQueryManager();
         Filter filter = queryManager.createFilter(clazz);
-        filter.setScope(path);
+        filter.setScope(path+"/");
         if(params != null){
             for(String paramName:params.keySet()){
                 filter.addEqualTo(paramName,params.get(paramName));

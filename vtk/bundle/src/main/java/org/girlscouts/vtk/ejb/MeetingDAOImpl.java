@@ -233,19 +233,19 @@ public class MeetingDAOImpl implements MeetingDAO {
         try {
             // First, respect the "aidPaths" or "resourcePaths" field in the
             // meeting. This field has multiple values.
-            MeetingE meetingE = girlScoutsMeetingEOCMService.read(meetingPath);
+            Meeting templateMeeting = girlScoutsMeetingOCMService.read(meetingPath);
             switch (type) {
                 case AID:
-                    if(meetingE.getAidPaths() != null){
-                        for (String assetPath:meetingE.getAidPaths()) {
+                    if(templateMeeting.getAidPaths() != null){
+                        for (String assetPath:templateMeeting.getAidPaths()) {
                             log.debug("Asset Path = " + assetPath);
                             assets.addAll(getAssetsFromPath(assetPath, type));
                         }
                     }
                     break;
                 case RESOURCE:
-                    if(meetingE.getResoourcePaths() != null) {
-                        for (String assetPath : meetingE.getResoourcePaths()) {
+                    if(templateMeeting.getResourcePaths() != null) {
+                        for (String assetPath : templateMeeting.getResourcePaths()) {
                             log.debug("Asset Path = " + assetPath);
                             assets.addAll(getAssetsFromPath(assetPath, type));
                         }

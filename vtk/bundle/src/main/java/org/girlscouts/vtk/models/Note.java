@@ -15,7 +15,7 @@ public class Note extends JcrNode implements Serializable {
     private String message;
 
     public Note() {
-        this.setUid("N" + new java.util.Date().getTime() + "_" + Math.random());
+        super.setUid("N" + new java.util.Date().getTime() + "_" + Math.random());
         this.createTime = new java.util.Date().getTime();
     }
 

@@ -19,41 +19,20 @@ public class FinanceNode extends JcrNode implements Serializable {
     @Field(id = true)
     private int financialQuarter;
 
+    public Map<String, Double> getExpenses() {
+        return expenses;
+    }
 
     public void setExpenses(Map<String, Double> expenses) {
         this.expenses = expenses;
     }
 
+    public Map<String, Double> getIncome() {
+        return income;
+    }
+
     public void setIncome(Map<String, Double> income) {
         this.income = income;
-    }
-
-    public double getExpenseByName(String name) {
-        if (this.expenses == null) {
-            return 0.0;
-        } else {
-            Double result = this.expenses.get(name);
-            if (result == null) {
-                return 0.0;
-
-            } else {
-                return result.doubleValue();
-            }
-        }
-    }
-
-    public double getIncomeByName(String name) {
-        if (this.income == null) {
-            return 0.0;
-        } else {
-            Double result = this.income.get(name);
-            if (result == null) {
-                return 0.0;
-
-            } else {
-                return result.doubleValue();
-            }
-        }
     }
 
     public int getFinancialQuarter() {
@@ -63,5 +42,4 @@ public class FinanceNode extends JcrNode implements Serializable {
     public void setFinancialQuarter(int financialQuarter) {
         this.financialQuarter = financialQuarter;
     }
-
 }

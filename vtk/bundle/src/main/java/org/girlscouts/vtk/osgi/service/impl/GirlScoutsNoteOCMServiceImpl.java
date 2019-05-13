@@ -56,15 +56,23 @@ public class GirlScoutsNoteOCMServiceImpl implements GirlScoutsNoteOCMService {
 
     @Override
     public Note findObject(String path, Map<String, String> params) {
-        return NodeToModelMapper.INSTANCE.toModel(girlScoutsOCMRepository.findObject(path, params, NoteNode.class));
+        NoteNode node = girlScoutsOCMRepository.findObject(path, params, NoteNode.class);
+        if(node != null) {
+            return NodeToModelMapper.INSTANCE.toModel(node);
+        }else{
+            return null;
+        }
     }
 
     @Override
     public List<Note> findObjects(String path, Map<String, String> params) {
         List<NoteNode> nodes = girlScoutsOCMRepository.findObjects(path, params, NoteNode.class);
-        List<Note> models = new ArrayList<>();
-        nodes.forEach(noteNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(noteNode));});
-        return models;
+        if(nodes != null){
+            List<Note> models = new ArrayList<>();
+            nodes.forEach(noteNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(noteNode));});
+            return models;
+        }else{
+            return null;
+        }
     }
-
 }

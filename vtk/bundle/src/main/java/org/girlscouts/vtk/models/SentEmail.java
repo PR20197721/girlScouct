@@ -16,13 +16,13 @@ public class SentEmail extends JcrNode implements Serializable {
     private String htmlMsg;//temp
 
     public SentEmail() {
-        this.setUid("MR" + new Date().getTime() + "_" + Math.random());
+        super.setUid("MR" + new Date().getTime() + "_" + Math.random());
         this.sentDate = new Date();
 
     }
 
     public SentEmail(EmailMeetingReminder emr) {
-        this.setUid("MR" + new Date().getTime() + "_" + Math.random());
+        super.setUid("MR" + new Date().getTime() + "_" + Math.random());
         this.sentDate = new Date();
         if (emr.getCc() != null && !emr.getCc().isEmpty()) {
             addresses += emr.getCc();

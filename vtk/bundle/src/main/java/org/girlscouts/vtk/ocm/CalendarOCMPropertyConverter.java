@@ -9,9 +9,9 @@ import javax.jcr.ValueFactory;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class JcrCalendarPropertyConverter implements AtomicTypeConverter {
+public class CalendarOCMPropertyConverter implements AtomicTypeConverter {
 
-    private static Logger log = LoggerFactory.getLogger(JcrCalendarPropertyConverter.class);
+    private static Logger log = LoggerFactory.getLogger(CalendarOCMPropertyConverter.class);
     private final SimpleDateFormat jcrTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.sssZ");
 
     @Override

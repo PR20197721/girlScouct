@@ -35,7 +35,7 @@ public class MeetingENode extends YearPlanComponentNode implements Serializable 
     @Collection
     private List<String> aidPaths;
     @Collection
-    private List<String> resoourcePaths;
+    private List<String> resourcePaths;
 
     public List<AssetNode> getAssets() {
         return assets;
@@ -125,11 +125,11 @@ public class MeetingENode extends YearPlanComponentNode implements Serializable 
         this.aidPaths = aidPaths;
     }
 
-    public List<String> getResoourcePaths() {
-        return resoourcePaths;
+    public List<String> getResourcePaths() {
+        return resourcePaths;
     }
 
-    public void setResoourcePaths(List<String> resoourcePaths) {
-        this.resoourcePaths = resoourcePaths;
+    public void setResourcePaths(List<String> resourcePaths) {
+        this.resourcePaths = resourcePaths;
     }
 }

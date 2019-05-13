@@ -24,11 +24,11 @@ public class AssetNode extends JcrNode implements Serializable {
     @Field(jcrDefaultValue = "false")
     private Boolean isOutdoorRelated;
 
-    public Boolean getCachable() {
+    public Boolean getIsCachable() {
         return isCachable;
     }
 
-    public void setCachable(Boolean cachable) {
+    public void setIsCachable(Boolean cachable) {
         isCachable = cachable;
     }
 

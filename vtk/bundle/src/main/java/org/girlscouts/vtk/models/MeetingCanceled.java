@@ -23,7 +23,7 @@ public class MeetingCanceled extends MeetingE implements Serializable {
 
     public MeetingCanceled() {
         super.setType(YearPlanComponentType.MEETINGCANCELED);
-        this.setUid("MC" + new java.util.Date().getTime());
+        super.setUid("MC" + new java.util.Date().getTime());
     }
 
     public java.util.Date getLastAssetUpdate() {
@@ -52,9 +52,9 @@ public class MeetingCanceled extends MeetingE implements Serializable {
 
     public void setUid(String uid) {
         if (uid == null) {
-            this.setUid("MC" + new java.util.Date().getTime() + "_" + Math.random());
+            super.setUid("MC" + new java.util.Date().getTime() + "_" + Math.random());
         }else{
-            this.setUid(uid);
+            super.setUid(uid);
         }
     }
 

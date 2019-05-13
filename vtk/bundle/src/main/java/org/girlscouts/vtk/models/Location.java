@@ -13,11 +13,11 @@ public class Location extends JcrNode implements Serializable {
     private String locatinName, locationAddress;
 
     public Location() {
-        this.setUid("L" + new java.util.Date().getTime() + "_" + Math.random());
+        super.setUid("L" + new java.util.Date().getTime() + "_" + Math.random());
     }
 
     public Location(String name, String address, String city, String state, String zip) {
-        this.setUid("L" + new java.util.Date().getTime() + "_" + Math.random());
+        super.setUid("L" + new java.util.Date().getTime() + "_" + Math.random());
         this.name = name;
         this.address = address;
         this.state = state;

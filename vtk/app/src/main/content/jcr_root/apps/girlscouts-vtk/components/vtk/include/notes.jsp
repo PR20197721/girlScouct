@@ -1,20 +1,6 @@
 <%
-    final org.girlscouts.vtk.dao.MeetingDAO gg = sling.getService(org.girlscouts.vtk.dao.MeetingDAO.class);
-    java.util.List<org.girlscouts.vtk.models.Note> notes = gg.getNotes(user, selectedTroop, meeting.getUid());// meeting.getPath() );
-%>
-<script>
-    var appVTK;
-    $(function () {
-
-
-        // appVTK.getNotes('<%=meeting.getUid()%>','<%=user.getApiConfig().getUser().getSfUserId()%>').done(function(json){
-        //     appVTK.interateNotes(json);
-        // });
-    })
-</script>
-<%
     if (user != null && !userUtil.hasPermission(selectedTroop, Permission.PERMISSION_CREATE_MEETING_ID)) {
-%>No permission to view, edit, remove Notes <%
+        %>No permission to view, edit, remove Notes <%
         return;
     }
 %>
@@ -59,5 +45,3 @@
         </div>
     </div>
 </form>
-
-

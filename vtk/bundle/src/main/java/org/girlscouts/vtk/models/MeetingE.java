@@ -1,11 +1,6 @@
 package org.girlscouts.vtk.models;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
-import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +20,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
     private String cancelled;
     private String emlTemplate;
     private List<String> aidPaths;
-    private List<String> resoourcePaths;
+    private List<String> resourcePaths;
 
     public List<String> getAidPaths() {
         return aidPaths;
@@ -35,16 +30,16 @@ public class MeetingE extends YearPlanComponent implements Serializable {
         this.aidPaths = aidPaths;
     }
 
-    public List<String> getResoourcePaths() {
-        return resoourcePaths;
+    public List<String> getResourcePaths() {
+        return resourcePaths;
     }
 
-    public void setResoourcePaths(List<String> resoourcePaths) {
-        this.resoourcePaths = resoourcePaths;
+    public void setResourcePaths(List<String> resourcePaths) {
+        this.resourcePaths = resourcePaths;
     }
 
     public MeetingE() {
-        this.setUid("M" + new java.util.Date().getTime() + "_" + Math.random()); // better to be impossible than unlikely
+        super.setUid("M" + new java.util.Date().getTime() + "_" + Math.random()); // better to be impossible than unlikely
         super.setType(YearPlanComponentType.MEETING);
     }
 
@@ -82,9 +77,9 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
     public void setUid(String uid) {
         if (uid == null) {
-            this.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
+            super.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
         }else{
-            this.setUid(uid);
+            super.setUid(uid);
         }
 
     }
