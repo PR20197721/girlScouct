@@ -31,7 +31,17 @@
 					java.util.Set" %><%
     String xs = Doctype.isXHTML(request) ? "/" : "";
     String favIcon = currentDesign.getPath() + "/favicon.ico";
+    String ogTitle = properties.get("ogTitle", "");
+    String ogSiteName = properties.get("ogSiteName", "Girl Scouts of the USA");
+    String ogUrl = properties.get("ogUrl", "");
+    String ogDescription = properties.get("ogDescription", "");
+    String ogImage = properties.get("ogImage", "");
     String reqProtocol = request.getHeader("X-Forwarded-Proto");
+    Page parentPage = currentPage.getAbsoluteParent(2);
+    String fbAppId = parentPage.getProperties().get("facebookId", "");
+    if(!"".equals(properties.get("fbAppId",""))){
+        fbAppId = properties.get("fbAppId","");
+    }
 	if(reqProtocol == null) reqProtocol = "http";
     if (resourceResolver.getResource(favIcon) == null) {
         favIcon = null;
@@ -62,9 +72,35 @@ eventToSalesforce = "<%= eventToSalesforce %>";
 	}
 %>
 	<!-- page category = <%= pageCategory%> -->
+	<meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@girlscouts" />
+
+    <% if (ogTitle.length() > 0) {%>
+        <meta property="og:title" content="<%=ogTitle %>"/>
+        <meta name="twitter:title" content="<%=ogTitle %>" />
+    <%} %>
+    <% if (ogSiteName.length() > 0) {%>
+        <meta property="og:site_name" content="<%=ogSiteName %>"/>
+    <%} %>
+    <% if (ogUrl.length() > 0) {%>
+        <meta property="og:url" content="<%=ogUrl%>"/>
+    <%} %>
+    <% if (ogDescription.length() > 0) {%>
+        <meta property="og:description" content="<%=ogDescription %>"/>
+        <meta name="twitter:description" content="<%=ogDescription %>" />
+    <%} %>
+    <% if (ogImage.length() > 0) {%>
+            <meta property="og:image" content="<%=ogImage %>"/>
+            <meta name="twitter:image" content="<%=ogImage %>" />
+    <%} %>
+    <% if (fbAppId.length() > 0) {%>
+        <meta property="fb:app_id" content="<%=fbAppId %>"/>
+    <%} %>
+
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"<%=xs%>>
 	<meta name="keywords" content="<%= xssAPI.encodeForHTMLAttr(WCMUtils.getKeywords(currentPage, false)) %>"<%=xs%>>
 	<meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>"<%=xs%>>
+	<meta name="twitter:description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>" />
 	<cq:include script="headlibs.jsp"/>
 	<cq:include script="/libs/wcm/core/components/init/init.jsp"/>
 	<cq:include script="stats.jsp"/>
