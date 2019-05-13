@@ -29,7 +29,7 @@
                                 fieldDescription="API url to send email info"
                                 fieldLabel="API Endpoint"
                                 name="./url"
-                                required="false"/>
+                                required="true"/>
                             <heading
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
@@ -42,14 +42,6 @@
                                 fieldDescription=""
                                 fieldLabel="Description"
                                 name="./description"/>
-                            <source
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="Originating source in 300 or less characters"
-                                fieldLabel="Source"
-    							   defaultValue=""
-                                name="./source"
-                                required="false"/>
                             <emailplaceholder
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
@@ -219,25 +211,161 @@
                     <columns
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
-                        <items jcr:primaryType="nt:unstructured">
+                        <items jcr:primaryType="nt:unstructured">                        	
                             <councilid
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription="3 digit Council ID"
+                                fieldDescription="Council ID"
                                 fieldLabel="Council ID"
-                                name="./cid"/>
-                            <dataextensionname
+                                name="./cid"
+                                required="true"/>
+                            <source-select
+                            	jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/select"
+                                class="cq-dialog-dropdown-showhide"
+                                cq-dialog-dropdown-showhide-target=".text-image-hide-show1"
+                                fieldLabel="Send Extra Field Data"
+                                fieldDescription="SFMC Attribute"
+                                name="./sourceoption">
+                                <items jcr:primaryType="nt:unstructured">
+                                	<none
+                                		jcr:primaryType="nt:unstructured"
+                                		text="No"
+                                		value="none" />
+                                	<source
+                                		jcr:primaryType="nt:unstructured"
+                                		text="Yes"
+                                		value="pair" />
+                                </items>
+                            </source-select>
+                            <sourcenone
+                            	jcr:primaryType="nt:unstructured"
+                            	sling:resourceType="granite/ui/components/foundation/container"
+                            	class="hide text-image-hide-show1 none"
+                            	showhidetargetvalue="none">
+                            	<items jcr:primaryType="nt:unstructured">
+                            		<heading
+                            			jcr:pimaryType="nt:unstructured"
+                            			level="{Long}4"
+                            			text="Source Pair Heading" />
+                            	</items>
+                            </sourcenone>
+                            <sourcepair
+                            	jcr:primaryType="nt:unstructured"
+                            	sling:resourceType="granite/ui/components/foundation/container"
+                            	class="hide text-image-hide-show1 pair"
+                            	showhidetargetvalue="pair">
+                            	<items jcr:primaryType="nt:unstructured">
+                            		<heading
+                            			jcr:pimaryType="nt:unstructured"
+                            			level="{Long}4"
+                            			text="Source Pair Heading" />
+                            		<well
+                            			jcr:primaryType="nt:unstructured"
+                            			sling:resourceType="granite/ui/components/foundation/container">
+                            			<layout
+                            				jcr:primaryType="nt:unstructured"
+                            				sling:resourceType="granite/ui/components/foundation/layouts/well"/>
+                            			<items jcr:primaryType="nt:unstructured">
+                            				<source
+                            					jcr:primaryType="nt:unstructured"
+                            					sling:resourceType="granite/ui/components/foundation/form/textfield"
+                            					name="./source"
+                            					fieldLabel="Field Name"
+                            					fieldDescription="Field Name"
+                            					validationPattern="string" />
+                            				<sourcevalue
+                            					jcr:primaryType="nt:unstructured"
+                            					sling:resourceType="granite/ui/components/foundation/form/textfield"
+                            					name="./sourcevalue"
+                            					fieldLabel="Value"
+                            					fieldDescription="Source Value"
+                            					validationPattern="string" />           					
+                            			</items>
+                            		</well>
+                            	</items>
+                            </sourcepair>
+                            <sfmc-select
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription=""
-                                fieldLabel="Data Extension Name"
-                                name="./dataextensionname"/>
-                            <dataextensionkey
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldDescription=""
-                                fieldLabel="Data Extension Key"
-                                name="./dataextensionkey"/>
+                                sling:resourceType="granite/ui/components/foundation/form/select"
+                                class="cq-dialog-dropdown-showhide"
+                                cq-dialog-dropdown-showhide-target=".text-image-hide-show"
+                                fieldLabel="Choose One"
+                                fieldDescription="Choose Data Extension or Triggered Send"
+                                name="./sfmc">
+                                <items jcr:primaryType="nt:unstructured">
+                                	<ts
+                                		jcr:primaryType="nt:unstructured"
+                                		text="Triggered Send"
+                                		value="ts" />
+                                	<de
+                                		jcr:primaryType="nt:unstructured"
+                                		text="Data Extension"
+                                		value="de" />
+                                </items>
+                            </sfmc-select> 
+                            <dataextension
+                            	jcr:primaryType="nt:unstructured"
+                            	sling:resourceType="granite/ui/components/foundation/container"
+                            	class="hide text-image-hide-show de"
+                            	showhidetargetvalue="de">
+                            	<items jcr:primaryType="nt:unstructured">
+                            		<heading
+                            			jcr:pimaryType="nt:unstructured"
+                            			level="{Long}4"
+                            			text="DataExtension Heading" />
+                            		<well
+                            			jcr:primaryType="nt:unstructured"
+                            			sling:resourceType="granite/ui/components/foundation/container">
+                            			<layout
+                            				jcr:primaryType="nt:unstructured"
+                            				sling:resourceType="granite/ui/components/foundation/layouts/well"/>
+                            			<items jcr:primaryType="nt:unstructured">
+                            				<dataextension
+                            					jcr:primaryType="nt:unstructured"
+                            					sling:resourceType="granite/ui/components/foundation/form/textfield"
+                            					name="./dataextensionkey"
+                            					fieldLabel="Data Extension Key" 
+                            					validationPattern="string" />
+                            				<dataextensionemail
+                            					jcr:primaryType="nt:unstructured"
+                            					sling:resourceType="granite/ui/components/foundation/form/textfield"
+                            					name="./dataextensionemail"
+                            					fieldLabel="Data Extension Email Field Name" 
+                            					fieldDescription="Email name defined in Data Extension (Email, EmailAddress, Email Address, etc.)"
+                            					validationPattern="string" />                    					
+                            			</items>
+                            		</well>
+                            	</items>
+                            </dataextension>
+                            <triggersend
+                            	jcr:primaryType="nt:unstructured"
+                            	sling:resourceType="granite/ui/components/foundation/container"
+                            	class="hide text-image-hide-show ts"
+                            	showhidetargetvalue="ts">
+                            	<items jcr:primaryType="nt:unstructured">
+                            		<heading
+                            			jcr:pimaryType="nt:unstructured"
+                            			level="{Long}4"
+                            			text="TriggerSend Heading" />
+                            		<well
+                            			jcr:primaryType="nt:unstructured"
+                            			sling:resourceType="granite/ui/components/foundation/container">
+                            			<layout
+                            				jcr:primaryType="nt:unstructured"
+                            				sling:resourceType="granite/ui/components/foundation/layouts/well"/>
+                            			<items jcr:primaryType="nt:unstructured">
+                            				<dataextension
+                            					jcr:primaryType="nt:unstructured"
+                            					sling:resourceType="granite/ui/components/foundation/form/textfield"
+                            					name="./triggersendkey"
+                            					fieldLabel="Triggered Send Key"
+                            					fieldDescription="Must be numeric value"
+                            					validationPattern="numeric" />                            					
+                            			</items>
+                            		</well>
+                            	</items>
+                            </triggersend>
                         </items>
                     </columns>
                 </items>
