@@ -2,6 +2,8 @@
 %><%@ page import="org.apache.commons.lang3.StringEscapeUtils,
         com.day.cq.commons.Doctype,
         com.day.cq.commons.DiffInfo,
+        javax.jcr.NodeIterator,
+        javax.jcr.Node,
         com.day.cq.commons.DiffService,
         org.apache.sling.api.resource.ResourceUtil" %>
         <%@page import="com.day.cq.wcm.api.WCMMode" %>
@@ -17,7 +19,32 @@
   if (title == null || title.equals("")) 
     {
        title = currentPage.getTitle();
-    }    
+    }
+    Node pageNode = currentPage.getContentResource().adaptTo(Node.class);
+      boolean showButton;
+      try{
+         showButton = pageNode.getProperty("cssPrint").getBoolean();
+      }catch(Exception e){
+         showButton = false;
+      }
+      String buttonPath = currentPage.getPath() + "/print-css";
+    NodeIterator nodeItrFirstEl = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
+    NodeIterator nodeItr = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
+    Node currNode = nodeItrFirstEl.nextNode();
+    if(showButton){
+        if(!"girlscouts/components/image".equals(currNode.getProperty("sling:resourceType").getString())){
+            while(nodeItr.hasNext()){
+                Node node = nodeItr.nextNode();
+                if("girlscouts/components/title".equals(node.getProperty("sling:resourceType").getString())){
+                %>
+                    <cq:include path="<%= buttonPath %>" resourceType="girlscouts/components/print-css" />
+              <% }
+
+
+            }
+         }
+     }
+
   if (title==null)
   {
   %><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><% }else
