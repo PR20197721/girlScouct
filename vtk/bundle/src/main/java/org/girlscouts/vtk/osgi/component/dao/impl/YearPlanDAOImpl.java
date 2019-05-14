@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.dao.impl;
+package org.girlscouts.vtk.osgi.component.dao.impl;
 
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Activate;
@@ -6,7 +6,7 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.vtk.dao.YearPlanDAO;
+import org.girlscouts.vtk.osgi.component.dao.YearPlanDAO;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.service.*;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
@@ -68,6 +68,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             QueryManager qm = session.getWorkspace().getQueryManager();
             String sql = "select jcr:lastModified from nt:base where jcr:path = '" + troop.getPath() + "' and jcr:lastModified is not null";
             Query q = qm.createQuery(sql, Query.SQL);
+            log.debug("Executing JCR query: "+sql);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
@@ -99,6 +100,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
             Query q = qm.createQuery(sql, Query.SQL);
+            log.debug("Executing JCR query: "+sql);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();

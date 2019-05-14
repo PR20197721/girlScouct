@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.dao.impl;
+package org.girlscouts.vtk.osgi.component.dao.impl;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -6,7 +6,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.vtk.dao.CouncilDAO;
+import org.girlscouts.vtk.osgi.component.dao.CouncilDAO;
 import org.girlscouts.vtk.osgi.component.util.CouncilRpt;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.CouncilMapper;
@@ -300,6 +300,7 @@ public class CouncilDAOImpl implements CouncilDAO {
             String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where isdescendantnode( '" + VtkUtil.getYearPlanBase(null, null) + "" + (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil + "/")) + "') and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
             javax.jcr.query.Query q = qm.createQuery(sql, Query.SQL);
             java.util.Map container = new java.util.TreeMap();
+            log.debug("Executing JCR query: "+sql);
             javax.jcr.query.QueryResult result = q.execute();
             for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
                 javax.jcr.query.Row r = it.nextRow();
@@ -436,6 +437,7 @@ public class CouncilDAOImpl implements CouncilDAO {
             for (String council : councils) {
                 String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:unstructured where isdescendantnode( '" + gsYear + "" + council + "/') and ocm_classname= 'org.girlscouts.vtk.models.Troop' and id not like 'SHARED_%'";
                 javax.jcr.query.Query q = qm.createQuery(sql, Query.SQL);
+                log.debug("Executing JCR query: "+sql);
                 javax.jcr.query.QueryResult result = q.execute();
                 for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
                     javax.jcr.query.Row r = it.nextRow();

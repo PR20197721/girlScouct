@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.dao.impl;
+package org.girlscouts.vtk.osgi.component.dao.impl;
 
 import com.day.cq.commons.jcr.JcrConstants;
 import org.apache.commons.beanutils.BeanComparator;
@@ -10,14 +10,14 @@ import org.apache.jackrabbit.util.Text;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.auth.permission.Permission;
-import org.girlscouts.vtk.dao.CouncilDAO;
-import org.girlscouts.vtk.dao.MeetingDAO;
-import org.girlscouts.vtk.dao.TroopDAO;
+import org.girlscouts.vtk.osgi.component.dao.CouncilDAO;
+import org.girlscouts.vtk.osgi.component.dao.MeetingDAO;
+import org.girlscouts.vtk.osgi.component.dao.TroopDAO;
 import org.girlscouts.vtk.osgi.component.util.UserUtil;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.girlscouts.vtk.osgi.service.*;
-import org.girlscouts.vtk.utils.VtkException;
+import org.girlscouts.vtk.exception.VtkException;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

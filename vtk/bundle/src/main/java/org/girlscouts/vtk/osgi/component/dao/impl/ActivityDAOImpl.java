@@ -1,10 +1,10 @@
-package org.girlscouts.vtk.dao.impl;
+package org.girlscouts.vtk.osgi.component.dao.impl;
 
 import com.day.cq.commons.jcr.JcrConstants;
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.auth.permission.Permission;
-import org.girlscouts.vtk.dao.ActivityDAO;
+import org.girlscouts.vtk.osgi.component.dao.ActivityDAO;
 import org.girlscouts.vtk.osgi.component.util.UserUtil;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.service.GirlScoutsActivityOCMService;
