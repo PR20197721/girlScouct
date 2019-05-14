@@ -17,13 +17,20 @@
 
 --%><%@ page import="com.day.cq.commons.Doctype,
     com.day.cq.wcm.api.components.DropTarget,
-    com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
+    com.day.cq.wcm.foundation.Image, javax.jcr.NodeIterator,javax.jcr.Node,com.day.cq.wcm.foundation.Placeholder" %><%
 %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts.components.image" /><%
 	String divId = "cq-image-jsp-" + resource.getPath();
 
+    Node pageNode = currentPage.getContentResource().adaptTo(Node.class);
+    boolean showButton;
+     try{
+        showButton = pageNode.getProperty("cssPrint").getBoolean();
+     }catch(Exception e){
+        showButton = false;
+     }
 	String styleImage = "";
 	String styleCaption = "";
 	
@@ -33,7 +40,9 @@
 	String pRight = properties.get("./pright", "0");
 	String imageWidth = properties.get("./width", "0");
 	String caption = properties.get("./jcr:description", "");
-		
+
+
+    String buttonPath = currentPage.getPath() + "/print-css";
 	String padding = pTop + pBottom + pLeft + pRight;
 	String currentPath = currentPage.getPath();
 	
@@ -90,5 +99,14 @@
 			<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
 		</div>
 	</div>
-	
     <%@include file="/libs/foundation/components/image/tracking-js.jsp"%>
+    <%
+    NodeIterator nodeItr = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
+    Node currNode = nodeItr.nextNode();
+    if(showButton){
+        if("girlscouts/components/image".equals(currNode.getProperty("sling:resourceType").getString()) && currentNode.getPath().equals(currNode.getPath())){
+        %>
+            <cq:include path="<%= buttonPath %>" resourceType="girlscouts/components/print-css" />
+       <% }
+    }
+    %>
