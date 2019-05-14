@@ -47,7 +47,7 @@ public class GirlScoutsJCRRepositoryImpl implements GirlScoutsJCRRepository {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Resource resource = rr.resolve(path);
             if(resource != null){
-                return resource.getValueMap();
+                return resource.getValueMap().;
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);

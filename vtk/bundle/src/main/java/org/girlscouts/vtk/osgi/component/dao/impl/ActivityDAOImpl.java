@@ -2,6 +2,7 @@ package org.girlscouts.vtk.osgi.component.dao.impl;
 
 import com.day.cq.commons.jcr.JcrConstants;
 import org.apache.felix.scr.annotations.*;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.osgi.component.dao.ActivityDAO;
@@ -12,7 +13,9 @@ import org.girlscouts.vtk.osgi.service.GirlScoutsJCRService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component(metatype = true, immediate = true)
 @Service(value = ActivityDAO.class)
@@ -24,14 +27,15 @@ public class ActivityDAOImpl implements ActivityDAO {
     private UserUtil userUtil;
 
     @Reference
-    private GirlScoutsJCRService girlScoutsRepoService;
+    private ResourceResolverFactory resolverFactory;
+    private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
     @Reference
     private GirlScoutsActivityOCMService girlScoutsActivityOCMService;
 
     @Activate
     void activate() {
-
+        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
     }
 
     public void addToYearPlan(User user, Troop troop, Activity activity) throws IllegalStateException, IllegalAccessException {
