@@ -32,12 +32,25 @@
     String xs = Doctype.isXHTML(request) ? "/" : "";
     String favIcon = currentDesign.getPath() + "/favicon.ico";
     String ogTitle = properties.get("ogTitle", "");
-    String ogSiteName = properties.get("ogSiteName", "Girl Scouts of the USA");
+    String ogSiteName = properties.get("ogSiteName", "Girl Scouts");
     String ogUrl = properties.get("ogUrl", "");
     String ogDescription = properties.get("ogDescription", "");
     String ogImage = properties.get("ogImage", "");
     String reqProtocol = request.getHeader("X-Forwarded-Proto");
     Page parentPage = currentPage.getAbsoluteParent(2);
+    String canonicalUrl = properties.get("canonicalUrl", "");
+    if("".equals(canonicalUrl) == false){
+        // resolve only if this is relative path
+        if(canonicalUrl.startsWith("/")) {
+            Page canonicalUrlPage = resourceResolver.resolve(canonicalUrl).adaptTo(Page.class);
+            if (canonicalUrlPage != null && !canonicalUrl.contains(".html")) {
+                canonicalUrl += ".html";
+            }
+            Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+            canonicalUrl = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, canonicalUrl);
+            canonicalUrl = canonicalUrl.replace(":80/","/");
+        }
+    }
     String fbAppId = parentPage.getProperties().get("facebookId", "");
     if(!"".equals(properties.get("fbAppId",""))){
         fbAppId = properties.get("fbAppId","");
@@ -101,6 +114,11 @@ eventToSalesforce = "<%= eventToSalesforce %>";
 	<meta name="keywords" content="<%= xssAPI.encodeForHTMLAttr(WCMUtils.getKeywords(currentPage, false)) %>"<%=xs%>>
 	<meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>"<%=xs%>>
 	<meta name="twitter:description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>" />
+
+	<% if (canonicalUrl.length() > 0) {%>
+        <link rel="canonical" href="<%=canonicalUrl%>" />
+    <% } %>
+
 	<cq:include script="headlibs.jsp"/>
 	<cq:include script="/libs/wcm/core/components/init/init.jsp"/>
 	<cq:include script="stats.jsp"/>
