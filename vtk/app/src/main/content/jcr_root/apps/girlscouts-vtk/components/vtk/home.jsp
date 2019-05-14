@@ -2,7 +2,7 @@
                 org.girlscouts.vtk.models.Troop,
                 org.girlscouts.vtk.osgi.component.ConfigManager,
                 org.girlscouts.vtk.osgi.component.CouncilMapper" %>
-<%@ page import="org.girlscouts.vtk.utils.VtkUtil" %>
+<%@ page import="org.girlscouts.vtk.osgi.component.util.VtkUtil" %>
 <%@ page import="java.util.List" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%

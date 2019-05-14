@@ -1,5 +1,5 @@
 <%@ page
-        import="org.girlscouts.vtk.ejb.MeetingUtil" %>
+        import="org.girlscouts.vtk.osgi.component.util.MeetingUtil" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <!-- PAGE START asset.jsp -->

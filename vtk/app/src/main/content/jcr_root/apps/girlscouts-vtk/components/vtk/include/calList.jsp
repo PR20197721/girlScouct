@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.vtk.dao.YearPlanComponentType" %>
+<%@ page import="org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType, org.girlscouts.vtk.osgi.component.util.MeetingUtil" %>
 <!-- <input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()" class="button" /> -->
 <%
     java.util.Map<java.util.Date, YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(selectedTroop.getYearPlan());

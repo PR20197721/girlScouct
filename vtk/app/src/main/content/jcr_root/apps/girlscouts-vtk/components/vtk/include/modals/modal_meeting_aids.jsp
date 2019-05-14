@@ -10,7 +10,7 @@
     if (_aidTags != null)
         for (int i = 0; i < _aidTags.size(); i++) {
             org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
-            if (asset.getType(false) != org.girlscouts.vtk.dao.AssetComponentType.AID) continue;
+            if (asset.getType(false) != org.girlscouts.vtk.osgi.component.dao.AssetComponentType.AID) continue;
             existingAids.add(asset.getRefId());
         }
     final String MEETING_AID_PATH = "/content/dam/girlscouts-vtk/global/aid";

@@ -2,7 +2,7 @@
                 org.girlscouts.vtk.models.Troop,
                 org.girlscouts.vtk.models.User,
                 org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
-<%@ page import="org.girlscouts.vtk.utils.VtkUtil" %>
+<%@ page import="org.girlscouts.vtk.osgi.component.util.VtkUtil" %>
 <%@ page import="java.util.List" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>

@@ -6,11 +6,11 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
-import org.girlscouts.vtk.ejb.PdfUtil;
-import org.girlscouts.vtk.ejb.YearPlanUtil;
+import org.girlscouts.vtk.osgi.component.util.PdfUtil;
+import org.girlscouts.vtk.osgi.component.util.YearPlanUtil;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
-import org.girlscouts.vtk.utils.VtkUtil;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

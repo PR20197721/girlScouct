@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.rest.entity.vtk;
 
 import com.google.gson.annotations.SerializedName;
-import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType;
 
 import java.util.Date;
 

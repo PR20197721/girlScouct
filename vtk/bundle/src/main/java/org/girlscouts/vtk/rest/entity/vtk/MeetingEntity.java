@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.rest.entity.vtk;
 
 import com.google.gson.annotations.SerializedName;
-import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType;
 
 import java.util.List;
 import java.util.Map;
@@ -13,6 +13,8 @@ public class MeetingEntity extends BaseEntity {
     private String path;
     @SerializedName("id")
     private String id;
+    @SerializedName("sortOrder")
+    private Integer sortOrder;
     @SerializedName("name")
     private String name;
     @SerializedName("level")
@@ -206,5 +208,13 @@ public class MeetingEntity extends BaseEntity {
 
     public void setCatTagsAlt(String catTagsAlt) {
         this.catTagsAlt = catTagsAlt;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }

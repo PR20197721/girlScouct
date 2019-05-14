@@ -1,6 +1,6 @@
 <%@ page import="org.apache.commons.lang.StringEscapeUtils,
-                 org.girlscouts.vtk.dao.YearPlanComponentType,
-                 org.girlscouts.vtk.ejb.MeetingUtil,
+                 org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType,
+                 org.girlscouts.vtk.osgi.component.util.MeetingUtil,
                  org.girlscouts.vtk.models.Location,
                  org.girlscouts.vtk.models.MeetingE,
                  org.girlscouts.vtk.models.YearPlanComponent" %>

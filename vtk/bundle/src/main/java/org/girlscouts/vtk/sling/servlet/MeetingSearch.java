@@ -3,6 +3,7 @@ package org.girlscouts.vtk.sling.servlet;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
@@ -12,7 +13,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.girlscouts.vtk.models.Meeting;
-import org.girlscouts.vtk.utils.VtkUtil;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,11 @@ public class MeetingSearch extends SlingAllMethodsServlet {
     private ResourceResolverFactory resolverFactory;
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
+    @Activate
+    private void activate() {
+        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
+        log.info(this.getClass().getName() + " activated.");
+    }
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         java.util.List<Meeting> meetings = new java.util.ArrayList();
         Session session = null;
@@ -51,7 +57,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             org.girlscouts.vtk.models.MeetingSearch search = mapper.readValue(VtkUtil.getJsonFromRequest(request).toString(), org.girlscouts.vtk.models.MeetingSearch.class);
             session = rr.adaptTo(Session.class);
             javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            String sql = "select [id],[name],[position] from [nt:unstructured] where [ocm_classname]='org.girlscouts.vtk.models.Meeting' " + " and isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + search.getYear() + "/')  ";
+            String sql = "select [id],[name],[position] from [nt:unstructured] where [ocm_classname]='org.girlscouts.vtk.ocm.MeetingNode' " + " and isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + search.getYear() + "/')  ";
             if (search.getLevel() != null && search.getLevel().size() > 0) {
                 sql += " and  contains([level] ,  '" + fmtMultiContainsSql(search.getLevel()) + "') ";
             }

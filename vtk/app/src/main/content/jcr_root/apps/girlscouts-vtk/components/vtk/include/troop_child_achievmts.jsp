@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.vtk.dao.YearPlanComponentType" %>
+<%@ page import="org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType" %>
 <div class="row">
     <div class="column large-20 large-centered">
         <div class="row">

@@ -5,7 +5,7 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
-import org.girlscouts.vtk.ejb.YearPlanUtil;
+import org.girlscouts.vtk.osgi.component.util.YearPlanUtil;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 

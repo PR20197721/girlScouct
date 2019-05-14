@@ -1,5 +1,5 @@
 <%@ page
-        import="org.girlscouts.vtk.ejb.CouncilRpt, org.girlscouts.vtk.models.CouncilRptBean,  org.girlscouts.vtk.models.User,org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,java.util.Map" %>
+        import="org.girlscouts.vtk.osgi.component.util.CouncilRpt, org.girlscouts.vtk.models.CouncilRptBean,  org.girlscouts.vtk.models.User,org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,java.util.Map" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <!-- %@include file="include/session.jsp"% -->

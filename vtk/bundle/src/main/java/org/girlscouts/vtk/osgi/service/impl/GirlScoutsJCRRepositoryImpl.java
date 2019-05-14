@@ -8,6 +8,7 @@ import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.osgi.service.GirlScoutsJCRRepository;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -19,6 +20,7 @@ import javax.jcr.Node;
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeType;
 import javax.jcr.query.Query;
+import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +30,9 @@ public class GirlScoutsJCRRepositoryImpl implements GirlScoutsJCRRepository {
     private static Logger log = LoggerFactory.getLogger(GirlScoutsJCRRepositoryImpl.class);
     @Reference
     private ResourceResolverFactory resolverFactory;
+    private Map<String, Object> resolverParams = new HashMap<String, Object>();
     @Reference
     private QueryBuilder qBuilder;
-    private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
     @Activate
     private void activate() {
@@ -39,67 +41,13 @@ public class GirlScoutsJCRRepositoryImpl implements GirlScoutsJCRRepository {
     }
 
     @Override
-    public QueryResult executeQuery(String query) {
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-            javax.jcr.query.Query q = qm.createQuery(query, Query.SQL);
-            return q.execute();
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public SearchResult executeQuery(Map<String, String> predicates, Integer start, Integer hitsPerPage, Boolean excerpt) {
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            com.day.cq.search.Query query = qBuilder.createQuery(PredicateGroup.create(predicates), session);
-            if(excerpt != null) {
-                query.setExcerpt(excerpt);
-            }
-            if(start != null){
-                query.setStart(start);
-            }
-            if(hitsPerPage != null){
-                query.setHitsPerPage(hitsPerPage);
-            }
-            return query.getResult();
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public Node getNode(String path) {
+    public ValueMap getNode(String path) {
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Resource resource = rr.resolve(path);
             if(resource != null){
-                return resource.adaptTo(Node.class);
+                return resource.getValueMap();
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
@@ -116,12 +64,14 @@ public class GirlScoutsJCRRepositoryImpl implements GirlScoutsJCRRepository {
     }
 
     @Override
-    public Node getNodeById(String id) {
+    public ValueMap getNodeById(String id) {
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
-            return session.getNodeByIdentifier(id);
+            Node node = session.getNodeByIdentifier(id);
+            Resource resource = rr.resolve(node.getPath());
+            return resource.getValueMap();
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         } finally {
@@ -137,12 +87,16 @@ public class GirlScoutsJCRRepositoryImpl implements GirlScoutsJCRRepository {
     }
 
     @Override
-    public Node createPath(String path) {
+    public ValueMap createPath(String path) {
         ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            return JcrUtils.getOrCreateByPath(path, NodeType.NT_UNSTRUCTURED, session);
+            if(path != null && !path.startsWith("/content/girlscouts-vtk")) {
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Session session = rr.adaptTo(Session.class);
+                Node node = JcrUtils.getOrCreateByPath(path, NodeType.NT_UNSTRUCTURED, session);
+                Resource resource = rr.resolve(node.getPath());
+                return resource.getValueMap();
+            }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         } finally {
@@ -161,13 +115,15 @@ public class GirlScoutsJCRRepositoryImpl implements GirlScoutsJCRRepository {
     public boolean removeNode(String path) {
         ResourceResolver rr = null;
         try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            if(session.itemExists(path)){
-                session.removeItem(path);
-                session.save();
+            if(path != null && !path.startsWith("/content/girlscouts-vtk")) {
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Session session = rr.adaptTo(Session.class);
+                if (session.itemExists(path)) {
+                    session.removeItem(path);
+                    session.save();
+                }
+                return true;
             }
-            return true;
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         } finally {
@@ -184,7 +140,7 @@ public class GirlScoutsJCRRepositoryImpl implements GirlScoutsJCRRepository {
 
     @Override
     public boolean setNodeProperties(String nodePath, Map<String, String> singleProps, Map<String, String[]> multiProps) {
-        if((singleProps != null && !singleProps.isEmpty() || (multiProps != null && !multiProps.isEmpty()))) {
+        if((singleProps != null && !singleProps.isEmpty() || (multiProps != null && !multiProps.isEmpty())) && nodePath != null && !nodePath.startsWith("/content/girlscouts-vtk")) {
             ResourceResolver rr = null;
             try {
                 rr = resolverFactory.getServiceResourceResolver(resolverParams);

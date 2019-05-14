@@ -52,7 +52,7 @@
         attendances.put(path, count);
     }
     for (String council : councils) {
-        sql = "select refId from nt:unstructured where ocm_classname='org.girlscouts.vtk.models.MeetingE' and isdescendantnode('" + year + council + "/') ";
+        sql = "select refId from nt:unstructured where ocm_classname='org.girlscouts.vtk.ocm.MeetingENode' and isdescendantnode('" + year + council + "/') ";
         q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
         result = q.execute();
         for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {

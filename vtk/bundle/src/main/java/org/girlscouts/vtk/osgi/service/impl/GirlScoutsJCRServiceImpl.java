@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
 import com.day.cq.search.result.SearchResult;
-import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.osgi.service.GirlScoutsJCRService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsJCRRepository;
 import org.osgi.service.component.annotations.Activate;
@@ -10,7 +10,6 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.jcr.Node;
 import javax.jcr.query.QueryResult;
 import java.util.Map;
 
@@ -28,27 +27,17 @@ public class GirlScoutsJCRServiceImpl implements GirlScoutsJCRService {
     }
 
     @Override
-    public QueryResult executeQuery(String query) {
-        return girlScoutsJCRRepository.executeQuery(query);
-    }
-
-    @Override
-    public SearchResult executeQuery(Map<String, String> predicates, Integer start, Integer hitsPerPage, Boolean excerpt) {
-        return girlScoutsJCRRepository.executeQuery(predicates,start,hitsPerPage,excerpt);
-    }
-
-    @Override
-    public Node getNode(String path) {
+    public ValueMap getNode(String path) {
         return girlScoutsJCRRepository.getNode(path);
     }
 
     @Override
-    public Node getNodeById(String id) {
+    public ValueMap getNodeById(String id) {
         return girlScoutsJCRRepository.getNodeById(id);
     }
 
     @Override
-    public Node createPath(String path) {
+    public ValueMap createPath(String path) {
         return girlScoutsJCRRepository.createPath(path);
     }
 

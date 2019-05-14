@@ -1,8 +1,8 @@
 package org.girlscouts.vtk.osgi.component.cron;
 
 import org.apache.felix.scr.annotations.*;
-import org.girlscouts.vtk.dao.CouncilDAO;
-import org.girlscouts.vtk.utils.VtkUtil;
+import org.girlscouts.vtk.osgi.component.dao.CouncilDAO;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

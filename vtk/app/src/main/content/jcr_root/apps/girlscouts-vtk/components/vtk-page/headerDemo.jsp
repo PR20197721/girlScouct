@@ -1,11 +1,12 @@
+<%@ page import="org.girlscouts.vtk.osgi.component.util.VtkUtil" %>
 <script>document.title = "VTK Demo Site"</script>
 
 <%
     boolean showExtra = false;
     boolean isDp = false;
-    if (org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) != null) {
+    if (VtkUtil.getApiConfig(session) != null) {
         showExtra = true;
-        if (org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session).getUser().getTroops().get(0).getPermissionTokens().contains(270)) {
+        if (VtkUtil.getApiConfig(session).getUser().getTroops().get(0).getPermissionTokens().contains(270)) {
             isDp = true;
         }
     }

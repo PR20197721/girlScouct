@@ -1,12 +1,14 @@
 package org.girlscouts.vtk.sling.servlet;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
-import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.girlscouts.vtk.ejb.YearPlanUtil;
+import org.girlscouts.vtk.osgi.component.util.YearPlanUtil;
+import org.girlscouts.vtk.mapper.vtk.ModelToRestEntityMapper;
 import org.girlscouts.vtk.models.YearPlan;
 
 import java.io.IOException;
@@ -17,8 +19,7 @@ import java.io.IOException;
 public class VtkYearPlan extends SlingAllMethodsServlet {
     @Reference
     YearPlanUtil yearPlanUtil;
-    @Reference
-    private ResourceResolverFactory resolverFactory;
+    private final String jsonDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
@@ -28,10 +29,16 @@ public class VtkYearPlan extends SlingAllMethodsServlet {
             return;
         }
         YearPlan yearPlan = yearPlanUtil.getYearPlanJson(yearPlanPath);
+
+        Gson gson = new GsonBuilder()
+                .setDateFormat(jsonDateFormat)
+                .enableComplexMapKeySerialization()
+                .create();
+        String json = gson.toJson(ModelToRestEntityMapper.INSTANCE.toEntity(yearPlan));
         ObjectMapper mapper = new ObjectMapper();
         response.setCharacterEncoding("utf8");
         response.setContentType("application/json");
-        response.getWriter().write((mapper.writeValueAsString(yearPlan)));
+        response.getWriter().write(json);
     }
 
     @Override

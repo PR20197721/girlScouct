@@ -10,12 +10,10 @@
                 org.apache.commons.beanutils.BeanComparator,
                 org.apache.commons.codec.binary.Base64,
                 org.girlscouts.vtk.auth.permission.Permission,
-                org.girlscouts.vtk.ejb.CouncilRpt,
+                org.girlscouts.vtk.osgi.component.util.CouncilRpt,
                 org.girlscouts.vtk.models.EmailMeetingReminder,
-                org.girlscouts.vtk.ejb.VtkYearPlanChangeException,
-                org.girlscouts.vtk.mapper.vtk.BaseModelToEntityMapper,
-                org.girlscouts.vtk.mapper.vtk.TroopToTroopEntityMapper,
-                org.girlscouts.vtk.mapper.vtk.YearPlanToYearPlanEntityMapper,
+                org.girlscouts.vtk.osgi.component.util.VtkYearPlanChangeException,
+                org.girlscouts.vtk.mapper.vtk.CollectionModelToEntityMapper,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
                 org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
                 org.joda.time.LocalDate,
@@ -23,13 +21,13 @@
                 java.awt.geom.Rectangle2D,
                 java.awt.image.BufferedImage" %>
 <%@ page import="java.io.ByteArrayInputStream" %>
-<%@ page import="java.io.ByteArrayOutputStream, java.util.*" %>
+<%@ page import="java.io.ByteArrayOutputStream, java.util.*, org.girlscouts.vtk.mapper.vtk.ModelToRestEntityMapper, org.girlscouts.vtk.osgi.component.util.Emailer" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
 <%
-    final String jsonDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+    final String jsonDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     Gson gson = new GsonBuilder()
             .setDateFormat(jsonDateFormat)
             .enableComplexMapKeySerialization()
@@ -301,7 +299,7 @@
             if (selectedTroop.getSendingEmail() != null) {
                 emr = selectedTroop.getSendingEmail();
             }
-            org.girlscouts.vtk.ejb.Emailer emailer = sling.getService(org.girlscouts.vtk.ejb.Emailer.class);
+            Emailer emailer = sling.getService(Emailer.class);
             emailer.send(user, selectedTroop, emr);
             try {
                 meetingUtil.saveEmail(user, selectedTroop, emr.getMeetingId());
@@ -502,7 +500,7 @@
                         session.setAttribute("VTK_troop", selectedTroop);
                         try {
                             response.setContentType("application/json");
-                            String json = TroopToTroopEntityMapper.map(selectedTroop).getJson();
+                            String json = ModelToRestEntityMapper.INSTANCE.toEntity(selectedTroop).getJson();
                             out.println(json.replaceAll("mailto:", "").replaceAll("</a>\"</a>", "</a>").replaceAll("\"</a>\"", ""));
                         } catch (Exception ee) {
                             vtklog.error("Exception occured:", ee);
@@ -607,7 +605,7 @@
                         }
                     }
                     response.setContentType("application/json");
-                    String json = gson.toJson(BaseModelToEntityMapper.mapYearPlanComponents(sched));
+                    String json = gson.toJson(CollectionModelToEntityMapper.mapYearPlanComponents(sched));
                     out.println("{\"yearPlan\":\"" + selectedTroop.getYearPlan().getName() + "\",\"schedule\":");
                     out.println(json.replaceAll("mailto:", ""));
                     out.println("}");
@@ -676,7 +674,7 @@
                 java.util.List<Activity> _activities = new java.util.ArrayList();
                 _activities.add(currentActivity);
                 yearPlan.setActivities(_activities);
-                String json = YearPlanToYearPlanEntityMapper.map(yearPlan).getJson();
+                String json = ModelToRestEntityMapper.INSTANCE.toEntity(yearPlan).getJson();
                 out.println(json);
             }
         } else if (request.getParameter("isRmTroopImg") != null) {
@@ -707,7 +705,7 @@
         String imgDataPath = request.getParameter("path") + "/jcr:content/data";
         String imgPath = request.getParameter("path") + "/jcr:content/data/image";
         Node imgData = resourceResolver.resolve(imgDataPath).adaptTo(Node.class);
-        if (imgData.hasProperty("imagePath") && !"".equals(imgData.getProperty("imagePath").getString())) {
+        if (imgData != null && imgData.hasProperty("imagePath") && !"".equals(imgData.getProperty("imagePath").getString())) {
 %> <img src="<%= imgData.getProperty("imagePath").getString() %>"/> <%
 } else {
     Resource imgResource = resourceResolver.getResource(imgPath);
@@ -964,7 +962,7 @@
     Note note = null;
     try {
         List<Note> notes = meetingUtil.addNote(user, selectedTroop, request.getParameter("mid"), request.getParameter("message"));
-        String json = gson.toJson(BaseModelToEntityMapper.mapNotes(notes));
+        String json = gson.toJson(CollectionModelToEntityMapper.mapNotes(notes));
         out.println(json);
     } catch (Exception e) {
         vtklog.error("Exception occured:", e);
@@ -982,7 +980,7 @@
         response.sendError(404, "Note not removed.");
     } else {
         java.util.List<Note> notes = meetingUtil.getNotesByMid(user, selectedTroop, request.getParameter("mid"));
-        String json = gson.toJson(BaseModelToEntityMapper.mapNotes(notes));
+        String json = gson.toJson(CollectionModelToEntityMapper.mapNotes(notes));
         out.println(json);
     }
 } else if (request.getParameter("editNote") != null) {
@@ -991,7 +989,7 @@
 } else if (request.getParameter("getNotes") != null) {
     response.setContentType("application/json");
     java.util.List<Note> notes = meetingUtil.getNotesByMid(user, selectedTroop, request.getParameter("mid"));
-    String json = gson.toJson(BaseModelToEntityMapper.mapNotes(notes));
+    String json = gson.toJson(CollectionModelToEntityMapper.mapNotes(notes));
     out.println(json);
 } else if (request.getParameter("addMeetings") != null) {
     meetingUtil.addMeetings(user, selectedTroop, request.getParameterValues("addMeetingMulti"));

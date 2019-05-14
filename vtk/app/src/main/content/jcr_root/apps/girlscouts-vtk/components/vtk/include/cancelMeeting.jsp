@@ -11,7 +11,7 @@
                     continue;
                 }
                 MeetingE me = (MeetingE) sched.get(dt);
-                if (me.getType() == org.girlscouts.vtk.dao.YearPlanComponentType.MEETING)
+                if (me.getType() == org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType.MEETING)
                     if (me.getRefId().equals(meetingsToCancel.get(i).getRefId())) {
     %>
     <tr>

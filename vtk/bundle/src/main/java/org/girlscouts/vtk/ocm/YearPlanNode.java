@@ -25,6 +25,8 @@ public class YearPlanNode extends JcrNode implements Serializable {
     @Collection(autoUpdate = false)
     private List<MeetingENode> meetingEvents;
     @Collection(autoUpdate = false)
+    private List<MeetingENode> meetings;
+    @Collection(autoUpdate = false)
     private List<ActivityNode> activities;
     @Bean(autoUpdate = false)
     private CalNode schedule;
@@ -141,5 +143,13 @@ public class YearPlanNode extends JcrNode implements Serializable {
 
     public void setMeetingCanceled(List<MeetingCanceledNode> meetingCanceled) {
         this.meetingCanceled = meetingCanceled;
+    }
+
+    public List<MeetingENode> getMeetings() {
+        return meetings;
+    }
+
+    public void setMeetings(List<MeetingENode> meetings) {
+        this.meetings = meetings;
     }
 }

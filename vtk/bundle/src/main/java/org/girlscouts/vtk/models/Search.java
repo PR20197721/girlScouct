@@ -1,6 +1,6 @@
 package org.girlscouts.vtk.models;
 
-import org.girlscouts.vtk.dao.AssetComponentType;
+import org.girlscouts.vtk.osgi.component.dao.AssetComponentType;
 
 import java.io.Serializable;
 

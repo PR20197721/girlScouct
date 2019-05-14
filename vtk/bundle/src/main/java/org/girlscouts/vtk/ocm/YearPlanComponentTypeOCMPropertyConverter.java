@@ -1,14 +1,12 @@
 package org.girlscouts.vtk.ocm;
 
 import org.apache.jackrabbit.ocm.manager.atomictypeconverter.AtomicTypeConverter;
-import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.Value;
 import javax.jcr.ValueFactory;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class YearPlanComponentTypeOCMPropertyConverter implements AtomicTypeConverter {
 

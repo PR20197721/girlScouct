@@ -1,6 +1,6 @@
 package org.girlscouts.vtk.models;
 
-import org.girlscouts.vtk.utils.VtkUtil;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 
 import java.io.Serializable;
 import java.util.Date;

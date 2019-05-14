@@ -648,8 +648,8 @@
                                             return (
                                                 React.createElement("li", {
                                                         className: <%if( !VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment(new Date()) && (moment(comment).get('year') > 2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default',
-                                                        key: obj[comment].id,
-                                                        id: obj[comment].id + 1
+                                                        key: obj[comment].sortOrder,
+                                                        id: obj[comment].sortOrder + 1
                                                     },
                                                     React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                                                         React.createElement("img", {
@@ -1017,10 +1017,10 @@
                                 }
                             },
                             React.createElement("div", {className: bgcolor(obj, comment, 1)},
-                                React.createElement("div", {className: (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED') ? "hide" : "count"}, (obj[comment].id) + 1),
+                                React.createElement("div", {className: (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED') ? "hide" : "count"}, (obj[comment].sortOrder) + 1),
                                 React.createElement("div", {className: "date"},
                                     React.createElement("p", {className: "month"}, moment.tz(comment, "America/New_York").get('year') < 1978 ? "meeting" : moment.tz(comment, "America/New_York").format('MMM')),
-                                    React.createElement("p", {className: "day"}, moment.tz(comment, "America/New_York").get('year') < 1978 ? (obj[comment].id) + 1 : moment.tz(comment, "America/New_York").format('DD')),
+                                    React.createElement("p", {className: "day"}, moment.tz(comment, "America/New_York").get('year') < 1978 ? (obj[comment].sortOrder)+1 : moment.tz(comment, "America/New_York").format('DD')),
                                     React.createElement("p", {className: "hour"}, moment.tz(comment, "America/New_York").get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('hh:mm a'))
                                 )
                             )

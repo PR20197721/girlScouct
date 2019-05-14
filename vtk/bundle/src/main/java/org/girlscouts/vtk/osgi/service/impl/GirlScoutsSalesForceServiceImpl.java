@@ -12,7 +12,7 @@ import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceFileClient;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceRestClient;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.rest.entity.salesforce.*;
-import org.girlscouts.vtk.utils.VtkUtil;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;

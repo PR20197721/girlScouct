@@ -1,5 +1,5 @@
 <%@ page import="org.apache.commons.lang3.StringEscapeUtils,
-                 org.girlscouts.vtk.dao.YearPlanComponentType,
+                 org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType,
                  org.girlscouts.vtk.models.Contact,
                  org.girlscouts.vtk.models.ContactExtras,
                  org.girlscouts.vtk.models.Meeting"

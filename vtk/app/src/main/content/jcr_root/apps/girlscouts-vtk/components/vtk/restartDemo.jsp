@@ -1,5 +1,5 @@
 <%@ page
-        import="org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.ejb.TroopUtil, org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.models.User, org.girlscouts.vtk.utils.VtkUtil" %>
+        import="org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.osgi.component.util.TroopUtil, org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.models.User, org.girlscouts.vtk.osgi.component.util.VtkUtil" %>
 <%@ page import="javax.servlet.http.Cookie" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>

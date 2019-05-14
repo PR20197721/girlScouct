@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.rest.entity.vtk;
 
 import com.google.gson.annotations.SerializedName;
-import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType;
 
 import java.util.Date;
 import java.util.List;
@@ -27,6 +27,8 @@ public class ActivityEntity extends BaseEntity {
     private String content;
     @SerializedName("id")
     private String id;
+    @SerializedName("sortOrder")
+    private Integer sortOrder;
     @SerializedName("refUid")
     private String refUid;
     @SerializedName("locationName")
@@ -326,5 +328,13 @@ public class ActivityEntity extends BaseEntity {
 
     public void setType(YearPlanComponentType type) {
         this.type = type;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }

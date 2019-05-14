@@ -8,7 +8,7 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <ocm_classname
                     jcr:primaryType="cq:Widget"
-                    value="org.girlscouts.vtk.models.Meeting"
+                    value="org.girlscouts.vtk.ocm.MeetingNode"
                     name="./ocm_classname"
                     xtype="hidden"/>
                 <resType

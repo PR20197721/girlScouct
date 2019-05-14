@@ -6,7 +6,7 @@
                  com.day.cq.search.result.SearchResult,
                  com.day.cq.tagging.TagManager,
                  com.day.cq.wcm.foundation.Search,
-                 org.girlscouts.vtk.ejb.CouncilRpt,
+                 org.girlscouts.vtk.osgi.component.util.CouncilRpt,
                  org.girlscouts.web.search.DocHit,
                  javax.jcr.Node" %>
 <%@include file="/libs/foundation/global.jsp" %>

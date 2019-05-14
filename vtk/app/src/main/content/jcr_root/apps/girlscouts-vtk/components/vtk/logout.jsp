@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.vtk.ejb.UserUtil,org.girlscouts.vtk.models.Troop,org.girlscouts.vtk.models.User" %>
+<%@ page import="org.girlscouts.vtk.osgi.component.util.UserUtil,org.girlscouts.vtk.models.Troop,org.girlscouts.vtk.models.User" %>
 <%@ page import="org.girlscouts.vtk.osgi.component.ConfigManager" %>
 <%@ page import="org.girlscouts.vtk.osgi.component.CouncilMapper" %>
 <%@include file="/libs/foundation/global.jsp" %>

@@ -3,7 +3,7 @@
                                                                        com.day.cq.wcm.foundation.ELEvaluator,
                                                                        org.girlscouts.vtk.auth.models.ApiConfig,
                                                                        org.girlscouts.vtk.osgi.component.ConfigManager" %>
-<%@ page import="org.girlscouts.vtk.osgi.component.CouncilMapper" %>
+<%@ page import="org.girlscouts.vtk.osgi.component.CouncilMapper, org.girlscouts.vtk.osgi.component.util.UserUtil" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
 <cq:defineObjects/>
@@ -118,7 +118,7 @@
 <html <%= wcmModeIsPreview ? "class=\"preview\"" : ""%>>
 
 <%
-    final org.girlscouts.vtk.ejb.UserUtil userUtilHead = sling.getService(org.girlscouts.vtk.ejb.UserUtil.class);
+    final UserUtil userUtilHead = sling.getService(UserUtil.class);
     String referer = userUtilHead.getCouncilUrlPath((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()), request);
     referer = referer + "en/site-search";
     request.setAttribute("altSearchPath", referer);

@@ -46,6 +46,9 @@ public class GirlScoutsYearPlanOCMServiceImpl implements GirlScoutsYearPlanOCMSe
     @Override
     public YearPlan read(String path) {
         YearPlanNode node = (YearPlanNode)girlScoutsOCMRepository.read(path);
+        if(node != null && (node.getMeetingEvents() == null || node.getMeetingEvents().isEmpty())){
+            node.setMeetingEvents(node.getMeetings());
+        }
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 

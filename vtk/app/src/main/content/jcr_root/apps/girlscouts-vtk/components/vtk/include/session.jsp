@@ -1,18 +1,18 @@
 <%@page import="org.apache.sling.runmode.RunMode,
                 org.girlscouts.vtk.auth.models.ApiConfig,
                 org.girlscouts.vtk.auth.permission.PermissionConstants,
-                org.girlscouts.vtk.dao.TroopDAO,
-                org.girlscouts.vtk.ejb.*,
+                org.girlscouts.vtk.osgi.component.dao.TroopDAO,
+                org.girlscouts.vtk.osgi.component.util.*,
                 org.girlscouts.vtk.models.*,
+                org.girlscouts.vtk.exception.*,
                 org.girlscouts.vtk.osgi.component.ConfigManager,
                 org.girlscouts.vtk.osgi.component.CouncilMapper,
-                org.girlscouts.vtk.utils.VtkUtil,
                 org.slf4j.Logger,
                 org.slf4j.LoggerFactory,
                 java.text.DecimalFormat,
                 java.util.HashSet,
                 java.util.List,
-                java.util.Set" %>
+                java.util.Set, org.girlscouts.vtk.exception.VtkException" %>
 <%!
     // put all static in util classes
     final DecimalFormat FORMAT_COST_CENTS = new DecimalFormat("#,##0.00");
@@ -156,7 +156,7 @@
                 if (!(apiConfig.getUser().isAdmin() && selectedTroop.getTroopId().equals("none"))) {
                     selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
                 }
-            } catch (org.girlscouts.vtk.utils.VtkException ec) {
+            } catch (VtkException ec) {
 %>
 <div id="panelWrapper" class="row meeting-detail content">
     <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">

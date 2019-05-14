@@ -1,5 +1,5 @@
 <%@ page
-        import="org.girlscouts.vtk.auth.permission.Permission,org.girlscouts.vtk.dao.YearPlanComponentType,org.girlscouts.vtk.models.MeetingE" %>
+        import="org.girlscouts.vtk.auth.permission.Permission,org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType,org.girlscouts.vtk.models.MeetingE" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>

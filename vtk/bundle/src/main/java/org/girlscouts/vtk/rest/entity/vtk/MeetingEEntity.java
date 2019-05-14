@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.rest.entity.vtk;
 
 import com.google.gson.annotations.SerializedName;
-import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +19,8 @@ public class MeetingEEntity extends BaseEntity {
     private String cancelled;
     @SerializedName("id")
     private String id;
+    @SerializedName("sortOrder")
+    private Integer sortOrder;
     @SerializedName("uid")
     private String uid;
     @SerializedName("emlTemplate")
@@ -216,5 +218,13 @@ public class MeetingEEntity extends BaseEntity {
 
     public void setType(YearPlanComponentType type) {
         this.type = type;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }

@@ -9,7 +9,7 @@ import jxl.format.VerticalAlignment;
 import jxl.write.Number;
 import jxl.write.*;
 import org.girlscouts.vtk.auth.models.ApiConfig;
-import org.girlscouts.vtk.ejb.CouncilRpt;
+import org.girlscouts.vtk.osgi.component.util.CouncilRpt;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.CouncilRptBean;
 import org.girlscouts.vtk.osgi.component.AdminReportExcelGenerator;

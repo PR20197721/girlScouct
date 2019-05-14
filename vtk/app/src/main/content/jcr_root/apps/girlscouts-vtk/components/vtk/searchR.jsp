@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"
-         import="org.girlscouts.vtk.auth.permission.Permission, org.girlscouts.vtk.dao.AssetComponentType" %>
+         import="org.girlscouts.vtk.auth.permission.Permission, org.girlscouts.vtk.osgi.component.dao.AssetComponentType" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>

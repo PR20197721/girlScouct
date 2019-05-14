@@ -1,5 +1,5 @@
 <%@ page
-        import="org.girlscouts.vtk.dao.MeetingDAO" %>
+        import="org.girlscouts.vtk.osgi.component.dao.MeetingDAO" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp" %>

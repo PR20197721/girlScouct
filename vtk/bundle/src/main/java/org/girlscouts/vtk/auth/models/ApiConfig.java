@@ -1,6 +1,6 @@
 package org.girlscouts.vtk.auth.models;
 
-import org.girlscouts.vtk.ejb.VtkError;
+import org.girlscouts.vtk.exception.VtkError;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 

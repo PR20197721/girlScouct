@@ -5,17 +5,11 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
-import org.apache.jackrabbit.ocm.query.Filter;
-import org.apache.jackrabbit.ocm.query.Query;
-import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.vtk.dao.YearPlanComponentType;
-import org.girlscouts.vtk.models.Council;
-import org.girlscouts.vtk.models.Finance;
 import org.girlscouts.vtk.ocm.*;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
-import org.girlscouts.vtk.utils.VtkException;
+import org.girlscouts.vtk.exception.VtkException;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -24,6 +18,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeType;
+import javax.jcr.query.Query;
+import javax.jcr.query.QueryManager;
 import java.util.*;
 
 @Component(service = {GirlScoutsOCMRepository.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsOCMRepositoryImpl")
@@ -64,61 +60,70 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
 
     @Override
     public <T extends JcrNode> T create(T object){
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            if(!ocm.objectExists(object.getPath())){
-                object.setCreatedDate(new GregorianCalendar());
-                String path = object.getPath();
-                String parentPath = path.substring(0,path.lastIndexOf("/"));
-                if(!session.itemExists(parentPath)) {
-                    JcrUtil.createPath(parentPath, NodeType.NT_UNSTRUCTURED, session);
-                }
-                log.debug("Inserting node at: "+object.getPath());
-                ocm.insert(object);
-                ocm.save();
-            }else{
-                throw new VtkException("Node at: "+object.getPath()+" already exists!");
-            }
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
+        if(object != null &&  object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
+            ResourceResolver rr = null;
             try {
-                if (rr != null) {
-                    rr.close();
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Session session = rr.adaptTo(Session.class);
+                ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
+                if (!ocm.objectExists(object.getPath())) {
+                    object.setCreatedDate(new GregorianCalendar());
+                    String path = object.getPath();
+                    String parentPath = path.substring(0, path.lastIndexOf("/"));
+                    if (!session.itemExists(parentPath)) {
+                        JcrUtil.createPath(parentPath, NodeType.NT_UNSTRUCTURED, session);
+                    }
+                    log.debug("Inserting node at: " + object.getPath());
+                    ocm.insert(object);
+                    ocm.save();
+                } else {
+                    throw new VtkException("Node at: " + object.getPath() + " already exists!");
                 }
             } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
+                log.error("Error Occurred: ", e);
+            } finally {
+                try {
+                    if (rr != null) {
+                        rr.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
+                }
             }
+            return (T) read(object.getPath());
+        }else{
+            return null;
         }
-        return (T) read(object.getPath());
     }
 
     @Override
     public <T extends JcrNode> T update(T object){
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            object.setLastModifiedDate(new GregorianCalendar());
-            log.debug("Updating node at: "+object.getPath());
-            ocm.update(object);
-            ocm.save();
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
+        if(object != null && object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
+            ResourceResolver rr = null;
             try {
-                if (rr != null) {
-                    rr.close();
-                }
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Session session = rr.adaptTo(Session.class);
+                ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
+                object.setLastModifiedDate(new GregorianCalendar());
+                log.debug("Updating node at: " + object.getPath());
+                ocm.update(object);
+                ocm.save();
             } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
+                log.error("Error Occurred: ", e);
+            } finally {
+                try {
+                    if (rr != null) {
+                        rr.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
+                }
             }
+            return (T) read(object.getPath());
+        }else{
+            return null;
         }
-        return (T) read(object.getPath());
+
     }
 
     @Override
@@ -147,53 +152,39 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
 
     @Override
     public <T extends JcrNode> boolean delete(T object){
-        ResourceResolver rr = null;
-        boolean isRemoved = false;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            log.debug("Removing node at: "+object.getPath());
-            ocm.remove(object.getPath());
-            isRemoved = true;
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
+        if(object != null && object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
+            ResourceResolver rr = null;
+            boolean isRemoved = false;
             try {
-                if (rr != null) {
-                    rr.close();
-                }
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Session session = rr.adaptTo(Session.class);
+                ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
+                log.debug("Removing node at: " + object.getPath());
+                ocm.remove(object.getPath());
+                ocm.save();
+                isRemoved = true;
             } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
+                log.error("Error Occurred: ", e);
+            } finally {
+                try {
+                    if (rr != null) {
+                        rr.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
+                }
             }
+            return isRemoved;
+        }else{
+            return false;
         }
-        return isRemoved;
     }
 
     @Override
     public <T extends JcrNode> T findObject(String path, Map<String, String> params, Class<T> clazz) {
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            if(session.itemExists(path)) {
-                ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-                Query query = getQuery(path, params, clazz, ocm);
-                log.debug("Looking up Object of type" + clazz.getName() + " at: " + path);
-                return (T) ocm.getObject(query);
-            }else{
-                log.debug("Path does not exist: "+path);
-            }
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
+        List<T> results = findObjects(path, params, clazz);
+        if(results != null && !results.isEmpty()){
+            return results.get(0);
         }
         return null;
     }
@@ -206,9 +197,9 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
             Session session = rr.adaptTo(Session.class);
             if(session.itemExists(path)) {
                 ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-                Query query = getQuery(path, params, clazz, ocm);
-                log.debug("Looking up Objects of type" +clazz.getName()+" at: "+path);
-                return (List<T>) ocm.getObjects(query);
+                String query = getJCRSQL2Query(path, params, clazz.getName(),  session);
+                log.debug("Looking up OCM Objects :" +query);
+                return (List<T>) ocm.getObjects(query, javax.jcr.query.Query.JCR_SQL2);
             }else{
                 log.debug("Path does not exist: "+path);
             }
@@ -226,16 +217,20 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
         return null;
     }
 
-    private Query getQuery(String path, Map<String, String> params, Class clazz, ObjectContentManager ocm) {
-        QueryManager queryManager = ocm.getQueryManager();
-        Filter filter = queryManager.createFilter(clazz);
-        filter.setScope(path+"/");
-        if(params != null){
-            for(String paramName:params.keySet()){
-                filter.addEqualTo(paramName,params.get(paramName));
+    private String getJCRSQL2Query(String path, Map<String, String> params, String ocm_classname, Session session){
+        try {
+            String sql = "SELECT s.* FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(["+path+"]) AND s.[ocm_classname] = '"+ocm_classname + "'";
+            final QueryManager queryManager = session.getWorkspace().getQueryManager();
+            if(params != null && !params.isEmpty()){
+                for(String paramName:params.keySet()){
+                    sql +=  " AND s.["+paramName+"] = '"+params.get(paramName) + "'";
+                }
             }
+            Query query = queryManager.createQuery(sql, Query.JCR_SQL2);
+            return query.getStatement();
+        }catch (Exception e){
+            log.error("Error Occurred: ", e);
         }
-        return queryManager.createQuery(filter);
+        return null;
     }
-
 }
