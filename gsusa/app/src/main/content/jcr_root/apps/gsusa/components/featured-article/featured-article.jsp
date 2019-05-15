@@ -21,6 +21,11 @@
 	if(!titleLink.isEmpty())
 		titleLink = titleLink + ".html";
 
+	
+	String articlePath = properties.get("articlePath", "");
+	articlePath = "/content/gsusa/en/about-girl-scouts/our-stories/girl-scouts/outdoor/nations-first-scuba-troop-takes-girl-scouting-to-new-depths";
+	
+	/*
 	String[] tags = (String[])properties.get("tag",String[].class);
 
 	int num = Integer.parseInt(properties.get("num","10"));
@@ -53,7 +58,8 @@
 		request.setAttribute("linkTagAnchors", anchorsBuilder.toString());
 		hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortByPriority);
     }
-
+	*/
+	
 
 if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 %>
@@ -67,10 +73,10 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 } %>
 
 	<%
-    if(hits.size() > 0) {
-    	Hit h = hits.get(0);
+    if(articlePath.length() > 0) {
+    	//Hit h = hits.get(0);
 
-    	request.setAttribute("articlePath", h.getPath());%>
+    	request.setAttribute("articlePath", articlePath);%>
 	<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
 
     <%} else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
@@ -79,10 +85,13 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 	<div class="article-tile"></div>
 	<%}%>
 	<div class="block-grid">
-		<h4>FEATURED PROFILE</h4> 
+		<p>FEATURED PROFILE</p>
     	<h3>How to Use Social Media to Improve Your Career</h3>
     	<p> Emily Miethner believes there's magic in connecting people. And whether working as CEO of FindSpark, an online community
     	for young professionals seeking career success, or teaching social media courses at the Fashion Institute of Technology 
-    	in New York City, she makes the magic happen.</p>
+    	in New York City, she makes the magic happen!</p>
+    	<div class="button">
+    		MORE
+    	</div>
     </div>
 
