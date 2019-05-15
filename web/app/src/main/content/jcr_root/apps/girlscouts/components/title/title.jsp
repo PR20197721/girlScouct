@@ -43,6 +43,18 @@
 
             }
          }
+         else if("girlscouts/components/hero-banner".equals(currNode.getProperty("sling:resourceType").getString())){
+               while(nodeItr.hasNext()){
+                   Node node = nodeItr.nextNode();
+                   if("girlscouts/components/title".equals(node.getProperty("sling:resourceType").getString())){
+                   %>
+                    <div style="padding-top: 5px;">
+                       <cq:include path="<%= buttonPath %>" resourceType="girlscouts/components/print-css" />
+                    </div>
+                 <% }
+
+               }
+         }
      }
 
   if (title==null)
