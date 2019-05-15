@@ -193,6 +193,21 @@
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/container">
                                 <items jcr:primaryType="nt:unstructured">
+                                    <pageprint
+                                            cq:showOnCreate="{Boolean}false"
+                                            jcr:primaryType="nt:unstructured"
+                                            jcr:title="Page Print"
+                                            sling:resourceType="granite/ui/components/foundation/form/fieldset">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <cssprint
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                                    name="./cssPrint"
+                                                    text="Add CSS Print Icon?"
+                                                    uncheckedValue="{Boolean}false"
+                                                    value="{Boolean}true"/>
+                                        </items>
+                                    </pageprint>
                                     <socialmedia
                                             cq:showOnCreate="{Boolean}false"
                                             jcr:primaryType="nt:unstructured"
