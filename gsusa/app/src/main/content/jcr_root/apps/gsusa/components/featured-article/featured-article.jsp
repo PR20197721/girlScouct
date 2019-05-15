@@ -79,55 +79,10 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 	<div class="article-tile"></div>
 	<%}%>
 	<div class="block-grid">
-    	<ul>
-    		<li>
-                <%
-        		if(hits.size() > 1) {
-    				Hit h = hits.get(1);
-        			request.setAttribute("articlePath", h.getPath());%>
-				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
-       			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
-    			<div class="article-tile"><h3>ARTICLE 1</h3></div>
-				<%} else{%>
-				<div class="article-tile"></div>
-				<%}%>
-            </li>
-            <li>
-                <%
-        		if(hits.size() > 2) {
-    				Hit h = hits.get(2);
-        			request.setAttribute("articlePath", h.getPath());%>
-				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
-       			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
-   				<div class="article-tile"><h3>ARTICLE 2</h3></div>
-				<%} else{%>
-				<div class="article-tile"></div>
-				<%}%>
-            </li>
-    		<li>
-                <%
-        		if(hits.size() > 3) {
-    				Hit h = hits.get(3);
-        			request.setAttribute("articlePath", h.getPath());%>
-				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
-       			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
-    			<div class="article-tile"><h3>ARTICLE 3</h3></div>
-				<%} else{%>
-				<div class="article-tile"></div>
-				<%}%>
-            </li>
-            <li>
-                <%
-        		if(hits.size() > 4) {
-    				Hit h = hits.get(4);
-        			request.setAttribute("articlePath", h.getPath());%>
-				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
-       			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
-    			<div class="article-tile"><h3>ARTICLE 4</h3></div>
-				<%} else{%>
-				<div class="article-tile"></div>
-				<%}%>
-            </li>
-        </ul>
+		<h4>FEATURED PROFILE</h4> 
+    	<h3>How to Use Social Media to Improve Your Career</h3>
+    	<p> Emily Miethner believes there's magic in connecting people. And whether working as CEO of FindSpark, an online community
+    	for young professionals seeking career success, or teaching social media courses at the Fashion Institute of Technology 
+    	in New York City, she makes the magic happen.</p>
     </div>
 
