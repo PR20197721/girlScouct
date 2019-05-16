@@ -1,17 +1,11 @@
 package org.girlscouts.vtk.models;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 public class Meeting extends YearPlanComponent implements Serializable {
-
-    private String  name;
+    private String name;
     private String level, blurb, cat;
     private String aidTags, resources, agenda, req, reqTitle;
     private Integer position = 0;
@@ -22,6 +16,20 @@ public class Meeting extends YearPlanComponent implements Serializable {
     private String catTags, catTagsAlt;
     private List<String> aidPaths;
     private List<String> resourcePaths;
+
+    public Meeting() {
+        setPath("/meeting");
+        this.position = 0;
+    }
+
+    public static Object getStaticValue(final String className, final String fieldName) throws SecurityException, NoSuchFieldException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
+        // Get the private field
+        final java.lang.reflect.Field field = Class.forName(className).getDeclaredField(fieldName);
+        // Allow modification on the field
+        field.setAccessible(true);
+        // Return the Obect corresponding to the field
+        return field.get(Class.forName(className));
+    }
 
     public List<String> getAidPaths() {
         return aidPaths;
@@ -37,20 +45,6 @@ public class Meeting extends YearPlanComponent implements Serializable {
 
     public void setResourcePaths(List<String> resourcePaths) {
         this.resourcePaths = resourcePaths;
-    }
-
-    public Meeting() {
-        setPath("/meeting");
-        this.position = 0;
-    }
-
-    public static Object getStaticValue(final String className, final String fieldName) throws SecurityException, NoSuchFieldException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
-        // Get the private field
-        final java.lang.reflect.Field field = Class.forName(className).getDeclaredField(fieldName);
-        // Allow modification on the field
-        field.setAccessible(true);
-        // Return the Obect corresponding to the field
-        return field.get(Class.forName(className));
     }
 
     public Integer getPosition() {

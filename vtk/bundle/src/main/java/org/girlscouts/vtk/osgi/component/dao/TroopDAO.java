@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.osgi.component.dao;
 
-import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.exception.VtkException;
+import org.girlscouts.vtk.models.*;
 
 import java.util.Map;
 

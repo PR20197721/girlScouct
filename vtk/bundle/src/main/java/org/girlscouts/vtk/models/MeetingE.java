@@ -7,13 +7,13 @@ import java.util.Date;
 import java.util.List;
 
 public class MeetingE extends YearPlanComponent implements Serializable {
+    boolean isAnyOutdoorActivityInMeeting = false, isAnyOutdoorActivityInMeetingAvailable = false, isAnyGlobalActivityInMeeting = false, isAnyGlobalActivityInMeetingAvailable = false, isAllMultiActivitiesSelected = false;
     private List<Asset> assets;
     private List<SentEmail> sentEmails;
     private Date lastAssetUpdate;
     private Attendance attendance;
     private Achievement achievement;
     private List<Note> notes;
-    boolean isAnyOutdoorActivityInMeeting = false, isAnyOutdoorActivityInMeetingAvailable = false, isAnyGlobalActivityInMeeting = false, isAnyGlobalActivityInMeetingAvailable = false, isAllMultiActivitiesSelected = false;
     private String refId; // path to meetingInfo template
     private String locationRef;
     private Meeting meetingInfo;
@@ -21,6 +21,11 @@ public class MeetingE extends YearPlanComponent implements Serializable {
     private String emlTemplate;
     private List<String> aidPaths;
     private List<String> resourcePaths;
+
+    public MeetingE() {
+        super.setUid("M" + new java.util.Date().getTime() + "_" + Math.random()); // better to be impossible than unlikely
+        super.setType(YearPlanComponentType.MEETING);
+    }
 
     public List<String> getAidPaths() {
         return aidPaths;
@@ -36,11 +41,6 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
     public void setResourcePaths(List<String> resourcePaths) {
         this.resourcePaths = resourcePaths;
-    }
-
-    public MeetingE() {
-        super.setUid("M" + new java.util.Date().getTime() + "_" + Math.random()); // better to be impossible than unlikely
-        super.setType(YearPlanComponentType.MEETING);
     }
 
     public boolean isAllMultiActivitiesSelected() {
@@ -78,7 +78,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
     public void setUid(String uid) {
         if (uid == null) {
             super.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
-        }else{
+        } else {
             super.setUid(uid);
         }
 
@@ -88,19 +88,19 @@ public class MeetingE extends YearPlanComponent implements Serializable {
         return cancelled;
     }
 
-    public void setSortOrder(Integer order) {
-        if ((order != null && this.getSortOrder() != null && !this.getSortOrder().equals(order)) || (order != null && this.getSortOrder() == null)) {
-            setDbUpdate(true);
-        }
-        super.setSortOrder(order);
-    }
-
     public void setCancelled(String cancelled) {
         if ((cancelled != null && this.cancelled != null && !this.cancelled.equals(cancelled)) || (cancelled != null && this.cancelled == null)) {
             setDbUpdate(true);
         }
         this.cancelled = cancelled;
 
+    }
+
+    public void setSortOrder(Integer order) {
+        if ((order != null && this.getSortOrder() != null && !this.getSortOrder().equals(order)) || (order != null && this.getSortOrder() == null)) {
+            setDbUpdate(true);
+        }
+        super.setSortOrder(order);
     }
 
     public String getLocationRef() {

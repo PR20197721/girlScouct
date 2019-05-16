@@ -3,8 +3,8 @@ package org.girlscouts.vtk.osgi.service.impl;
 import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.ocm.SentEmailNode;
-import org.girlscouts.vtk.osgi.service.GirlScoutsSentEmailOCMService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
+import org.girlscouts.vtk.osgi.service.GirlScoutsSentEmailOCMService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsSentEmailOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsSentEmailOCMServiceImpl")
 public class GirlScoutsSentEmailOCMServiceImpl implements GirlScoutsSentEmailOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsSentEmailOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsSentEmailOCMServiceImpl implements GirlScoutsSentEmailOCM
 
     @Override
     public SentEmail read(String path) {
-        SentEmailNode node = (SentEmailNode)girlScoutsOCMRepository.read(path);
+        SentEmailNode node = (SentEmailNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -63,7 +60,9 @@ public class GirlScoutsSentEmailOCMServiceImpl implements GirlScoutsSentEmailOCM
     public List<SentEmail> findObjects(String path, Map<String, String> params) {
         List<SentEmailNode> nodes = girlScoutsOCMRepository.findObjects(path, params, SentEmailNode.class);
         List<SentEmail> models = new ArrayList<>();
-        nodes.forEach(sentEmailNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(sentEmailNode));});
+        nodes.forEach(sentEmailNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(sentEmailNode));
+        });
         return models;
     }
 

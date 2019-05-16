@@ -13,7 +13,6 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.CouncilRptBean;
 import org.girlscouts.vtk.models.YearPlanRpt;
-import org.girlscouts.vtk.osgi.service.GirlScoutsJCRService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -39,8 +38,6 @@ public class CouncilRpt {
     private SlingSettingsService slingSettings;
     @Reference
     private GirlScoutsSalesForceService gsSalesForceService;
-    @Reference
-    private GirlScoutsJCRService girlScoutsRepoService;
     @Reference
     private ResourceResolverFactory resolverFactory;
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
@@ -74,7 +71,7 @@ public class CouncilRpt {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        }finally {
+        } finally {
             try {
                 if (rr != null) {
                     rr.close();
@@ -183,7 +180,7 @@ public class CouncilRpt {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        }finally {
+        } finally {
             try {
                 if (rr != null) {
                     rr.close();
@@ -240,7 +237,7 @@ public class CouncilRpt {
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
             Query q = qm.createQuery(sql, Query.SQL);
-            QueryResult result  = q.execute();
+            QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
                 String troopId = r.getValue("parent.sfTroopId").getString();
@@ -249,7 +246,7 @@ public class CouncilRpt {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        }finally {
+        } finally {
             try {
                 if (rr != null) {
                     rr.close();

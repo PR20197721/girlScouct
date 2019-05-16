@@ -1,82 +1,98 @@
 package org.girlscouts.vtk.mapper.ocm;
 
-import com.drew.lang.annotations.NotNull;
 import org.girlscouts.vtk.models.*;
-import org.girlscouts.vtk.ocm.*;
 import org.girlscouts.vtk.ocm.JcrNode;
+import org.girlscouts.vtk.ocm.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface NodeToModelMapper {
+    NodeToModelMapper INSTANCE = Mappers.getMapper(NodeToModelMapper.class);
 
-    NodeToModelMapper INSTANCE = Mappers.getMapper( NodeToModelMapper.class );
+    AchievementNode toNode(Achievement achievement);
 
-    public AchievementNode toNode(Achievement achievement);
-    public Achievement toModel(AchievementNode achievementNode);
+    Achievement toModel(AchievementNode achievementNode);
 
-    public ActivityNode toNode(Activity activity);
+    ActivityNode toNode(Activity activity);
+
     @Mapping(source = "type", target = "type", ignore = true)
-    public Activity toModel(ActivityNode achievementNode);
+    Activity toModel(ActivityNode achievementNode);
 
-    public AssetNode toNode(Asset asset);
-    public Asset toModel(AssetNode assetNode);
+    AssetNode toNode(Asset asset);
 
-    public AttendanceNode toNode(Attendance attendance);
-    public Attendance toModel(AttendanceNode assetNode);
+    Asset toModel(AssetNode assetNode);
 
-    public CalNode toNode(Cal cal);
-    public Cal toModel(CalNode calNode);
+    AttendanceNode toNode(Attendance attendance);
 
-    public CouncilNode toNode(Council cal);
-    public Council toModel(CouncilNode calNode);
+    Attendance toModel(AttendanceNode assetNode);
 
-    public CouncilInfoNode toNode(CouncilInfo councilInfo);
-    public CouncilInfo toModel(CouncilInfoNode CouncilInfoNode);
+    CalNode toNode(Cal cal);
 
-    public FinanceNode toNode(Finance finance);
-    public Finance toModel(FinanceNode financeNode);
+    Cal toModel(CalNode calNode);
 
-    public JcrCollectionHoldStringNode toNode(JcrCollectionHoldString jcrCollectionHoldString);
-    public JcrCollectionHoldString toModel(JcrCollectionHoldStringNode jcrCollectionHoldStringNode);
+    CouncilNode toNode(Council cal);
 
-    public JcrNode toNode(org.girlscouts.vtk.models.JcrNode jcrNode);
-    public org.girlscouts.vtk.models.JcrNode toModel(JcrNode jcrNode);
+    Council toModel(CouncilNode calNode);
 
-    public LocationNode toNode(Location location);
-    public Location toModel(LocationNode locationNode);
+    CouncilInfoNode toNode(CouncilInfo councilInfo);
 
-    public MeetingCanceledNode toNode(MeetingCanceled meetingCanceled);
+    CouncilInfo toModel(CouncilInfoNode CouncilInfoNode);
+
+    FinanceNode toNode(Finance finance);
+
+    Finance toModel(FinanceNode financeNode);
+
+    JcrCollectionHoldStringNode toNode(JcrCollectionHoldString jcrCollectionHoldString);
+
+    JcrCollectionHoldString toModel(JcrCollectionHoldStringNode jcrCollectionHoldStringNode);
+
+    JcrNode toNode(org.girlscouts.vtk.models.JcrNode jcrNode);
+
+    org.girlscouts.vtk.models.JcrNode toModel(JcrNode jcrNode);
+
+    LocationNode toNode(Location location);
+
+    Location toModel(LocationNode locationNode);
+
+    MeetingCanceledNode toNode(MeetingCanceled meetingCanceled);
+
     @Mapping(source = "type", target = "type", ignore = true)
-    public MeetingCanceled toModel(MeetingCanceledNode meetingCanceledNode);
+    MeetingCanceled toModel(MeetingCanceledNode meetingCanceledNode);
 
+    MeetingNode toNode(Meeting meeting);
 
-    public MeetingNode toNode(Meeting meeting);
     @Mapping(source = "type", target = "type", ignore = true)
-    public Meeting toModel(MeetingNode meetingNode);
+    Meeting toModel(MeetingNode meetingNode);
 
-    public MeetingENode toNode(MeetingE meetingE);
+    MeetingENode toNode(MeetingE meetingE);
+
     @Mapping(source = "type", target = "type", ignore = true)
-    public MeetingE toModel(MeetingENode meetingENode);
+    MeetingE toModel(MeetingENode meetingENode);
 
-    public MilestoneNode toNode(Milestone milestone);
+    MilestoneNode toNode(Milestone milestone);
+
     @Mapping(source = "type", target = "type", ignore = true)
-    public Milestone toModel(MilestoneNode milestoneNode);
+    Milestone toModel(MilestoneNode milestoneNode);
 
-    public NoteNode toNode(Note note);
-    public Note toModel(NoteNode noteNode);
+    NoteNode toNode(Note note);
 
-    public SentEmailNode toNode(SentEmail sentEmail);
-    public SentEmail toModel(SentEmailNode sentEmailNode);
+    Note toModel(NoteNode noteNode);
 
-    public TroopNode toNode(Troop troop);
-    public Troop toModel(TroopNode troopNode);
+    SentEmailNode toNode(SentEmail sentEmail);
 
-    public YearPlanComponentNode toNode(YearPlanComponent yearPlanComponent);
-    public YearPlanComponent toModel(YearPlanComponentNode yearPlanComponentNode);
+    SentEmail toModel(SentEmailNode sentEmailNode);
 
-    public YearPlanNode toNode(YearPlan yearPlan);
-    public YearPlan toModel(YearPlanNode yearPlanNode);
+    TroopNode toNode(Troop troop);
+
+    Troop toModel(TroopNode troopNode);
+
+    YearPlanComponentNode toNode(YearPlanComponent yearPlanComponent);
+
+    YearPlanComponent toModel(YearPlanComponentNode yearPlanComponentNode);
+
+    YearPlanNode toNode(YearPlan yearPlan);
+
+    YearPlan toModel(YearPlanNode yearPlanNode);
 }

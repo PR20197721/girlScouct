@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsMeetingCancelledOCMService {
+    MeetingCanceled create(MeetingCanceled object);
 
-    public MeetingCanceled create(MeetingCanceled object);
-    public MeetingCanceled update(MeetingCanceled object);
+    MeetingCanceled update(MeetingCanceled object);
 
-    public MeetingCanceled read(String path);
-    public boolean delete(MeetingCanceled object);
+    MeetingCanceled read(String path);
 
-    public MeetingCanceled findObject(String path, Map<String, String> params);
-    public List<MeetingCanceled> findObjects(String path, Map<String, String> params);
+    boolean delete(MeetingCanceled object);
+
+    MeetingCanceled findObject(String path, Map<String, String> params);
+
+    List<MeetingCanceled> findObjects(String path, Map<String, String> params);
 
 }

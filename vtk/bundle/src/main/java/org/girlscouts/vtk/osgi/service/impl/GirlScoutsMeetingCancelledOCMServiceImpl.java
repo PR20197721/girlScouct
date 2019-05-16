@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsMeetingCancelledOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsMeetingCancelledOCMServiceImpl")
 public class GirlScoutsMeetingCancelledOCMServiceImpl implements GirlScoutsMeetingCancelledOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsMeetingCancelledOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsMeetingCancelledOCMServiceImpl implements GirlScoutsMeeti
 
     @Override
     public MeetingCanceled read(String path) {
-        MeetingCanceledNode node = (MeetingCanceledNode)girlScoutsOCMRepository.read(path);
+        MeetingCanceledNode node = (MeetingCanceledNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -63,7 +60,9 @@ public class GirlScoutsMeetingCancelledOCMServiceImpl implements GirlScoutsMeeti
     public List<MeetingCanceled> findObjects(String path, Map<String, String> params) {
         List<MeetingCanceledNode> nodes = girlScoutsOCMRepository.findObjects(path, params, MeetingCanceledNode.class);
         List<MeetingCanceled> models = new ArrayList<>();
-        nodes.forEach(meetingCanceledNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(meetingCanceledNode));});
+        nodes.forEach(meetingCanceledNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(meetingCanceledNode));
+        });
         return models;
     }
 

@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsMeetingEOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsMeetingEOCMServiceImpl")
 public class GirlScoutsMeetingEOCMServiceImpl implements GirlScoutsMeetingEOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsMeetingEOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsMeetingEOCMServiceImpl implements GirlScoutsMeetingEOCMSe
 
     @Override
     public MeetingE read(String path) {
-        MeetingENode node = (MeetingENode)girlScoutsOCMRepository.read(path);
+        MeetingENode node = (MeetingENode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -63,7 +60,9 @@ public class GirlScoutsMeetingEOCMServiceImpl implements GirlScoutsMeetingEOCMSe
     public List<MeetingE> findObjects(String path, Map<String, String> params) {
         List<MeetingENode> nodes = girlScoutsOCMRepository.findObjects(path, params, MeetingENode.class);
         List<MeetingE> models = new ArrayList<>();
-        nodes.forEach(meetingENode -> {models.add(NodeToModelMapper.INSTANCE.toModel(meetingENode));});
+        nodes.forEach(meetingENode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(meetingENode));
+        });
         return models;
     }
 

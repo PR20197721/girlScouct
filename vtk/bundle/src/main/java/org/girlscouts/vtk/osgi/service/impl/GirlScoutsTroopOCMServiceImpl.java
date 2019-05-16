@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsTroopOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsTroopOCMServiceImpl")
 public class GirlScoutsTroopOCMServiceImpl implements GirlScoutsTroopOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsTroopOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsTroopOCMServiceImpl implements GirlScoutsTroopOCMService 
 
     @Override
     public Troop read(String path) {
-        TroopNode node = (TroopNode)girlScoutsOCMRepository.read(path);
+        TroopNode node = (TroopNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -63,7 +60,9 @@ public class GirlScoutsTroopOCMServiceImpl implements GirlScoutsTroopOCMService 
     public List<Troop> findObjects(String path, Map<String, String> params) {
         List<TroopNode> nodes = girlScoutsOCMRepository.findObjects(path, params, TroopNode.class);
         List<Troop> models = new ArrayList<>();
-        nodes.forEach(troopNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(troopNode));});
+        nodes.forEach(troopNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(troopNode));
+        });
         return models;
     }
 

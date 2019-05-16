@@ -8,11 +8,11 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
-import org.girlscouts.vtk.osgi.component.dao.TroopDAO;
 import org.girlscouts.vtk.models.Finance;
 import org.girlscouts.vtk.models.FinanceConfiguration;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.osgi.component.dao.TroopDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

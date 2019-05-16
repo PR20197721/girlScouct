@@ -4,7 +4,6 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.ocm.AssetNode;
 import org.girlscouts.vtk.osgi.service.GirlScoutsAssetOCMService;
-import org.girlscouts.vtk.osgi.service.GirlScoutsAssetOCMService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -18,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsAssetOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsAssetOCMServiceImpl")
 public class GirlScoutsAssetOCMServiceImpl implements GirlScoutsAssetOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsAssetOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -46,7 +42,7 @@ public class GirlScoutsAssetOCMServiceImpl implements GirlScoutsAssetOCMService 
 
     @Override
     public Asset read(String path) {
-        AssetNode node = (AssetNode)girlScoutsOCMRepository.read(path);
+        AssetNode node = (AssetNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -64,7 +60,9 @@ public class GirlScoutsAssetOCMServiceImpl implements GirlScoutsAssetOCMService 
     public List<Asset> findObjects(String path, Map<String, String> params) {
         List<AssetNode> nodes = girlScoutsOCMRepository.findObjects(path, params, AssetNode.class);
         List<Asset> models = new ArrayList<>();
-        nodes.forEach(assetNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(assetNode));});
+        nodes.forEach(assetNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(assetNode));
+        });
         return models;
     }
 

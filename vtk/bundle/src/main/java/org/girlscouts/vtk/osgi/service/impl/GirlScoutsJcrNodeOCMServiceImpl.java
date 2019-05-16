@@ -16,10 +16,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsJcrNodeOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsJcrNodeOCMServiceImpl")
 public class GirlScoutsJcrNodeOCMServiceImpl implements GirlScoutsJcrNodeOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsJcrNodeOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -44,7 +41,7 @@ public class GirlScoutsJcrNodeOCMServiceImpl implements GirlScoutsJcrNodeOCMServ
 
     @Override
     public JcrNode read(String path) {
-        org.girlscouts.vtk.ocm.JcrNode node = (org.girlscouts.vtk.ocm.JcrNode)girlScoutsOCMRepository.read(path);
+        org.girlscouts.vtk.ocm.JcrNode node = (org.girlscouts.vtk.ocm.JcrNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -62,7 +59,9 @@ public class GirlScoutsJcrNodeOCMServiceImpl implements GirlScoutsJcrNodeOCMServ
     public List<JcrNode> findObjects(String path, Map<String, String> params) {
         List<org.girlscouts.vtk.ocm.JcrNode> nodes = girlScoutsOCMRepository.findObjects(path, params, org.girlscouts.vtk.ocm.JcrNode.class);
         List<JcrNode> models = new ArrayList<>();
-        nodes.forEach(jcrNodeNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(jcrNodeNode));});
+        nodes.forEach(jcrNodeNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(jcrNodeNode));
+        });
         return models;
     }
 

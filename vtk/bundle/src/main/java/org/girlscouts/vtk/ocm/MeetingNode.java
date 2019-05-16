@@ -3,10 +3,6 @@ package org.girlscouts.vtk.ocm;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
-import org.girlscouts.vtk.models.Activity;
-import org.girlscouts.vtk.models.JcrCollectionHoldString;
-import org.girlscouts.vtk.models.YearPlanComponent;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,9 +10,8 @@ import java.util.Map;
 
 @Node
 public class MeetingNode extends YearPlanComponentNode implements Serializable {
-
     @Field
-    private String  name;
+    private String name;
     @Field
     private String level, blurb, cat;
     @Field

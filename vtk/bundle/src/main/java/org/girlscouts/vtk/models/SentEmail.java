@@ -63,7 +63,6 @@ public class SentEmail extends JcrNode implements Serializable {
         return htmlMsg;
     }
 
-
     public Date getSentDate() {
         return sentDate;
     }

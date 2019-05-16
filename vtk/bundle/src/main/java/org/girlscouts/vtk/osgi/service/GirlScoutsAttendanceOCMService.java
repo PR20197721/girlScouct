@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsAttendanceOCMService {
+    Attendance create(Attendance object);
 
-    public Attendance create(Attendance object);
-    public Attendance update(Attendance object);
+    Attendance update(Attendance object);
 
-    public Attendance read(String path);
-    public boolean delete(Attendance object);
+    Attendance read(String path);
 
-    public Attendance findObject(String path, Map<String, String> params);
-    public List<Attendance> findObjects(String path, Map<String, String> params);
+    boolean delete(Attendance object);
+
+    Attendance findObject(String path, Map<String, String> params);
+
+    List<Attendance> findObjects(String path, Map<String, String> params);
 
 }

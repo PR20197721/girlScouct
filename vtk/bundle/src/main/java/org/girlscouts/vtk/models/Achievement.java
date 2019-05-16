@@ -1,16 +1,12 @@
 package org.girlscouts.vtk.models;
 
-import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
-
 import java.io.Serializable;
 
 public class Achievement extends JcrNode implements Serializable {
-
     private String users; // sf id
     private int total;
 
-    public Achievement(){
-
+    public Achievement() {
     }
 
     public Achievement(String path) {

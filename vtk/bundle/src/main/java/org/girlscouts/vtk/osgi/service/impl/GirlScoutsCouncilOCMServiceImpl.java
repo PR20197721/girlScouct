@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsCouncilOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsCouncilOCMServiceImpl")
 public class GirlScoutsCouncilOCMServiceImpl implements GirlScoutsCouncilOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsCouncilOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsCouncilOCMServiceImpl implements GirlScoutsCouncilOCMServ
 
     @Override
     public Council read(String path) {
-        org.girlscouts.vtk.ocm.CouncilNode node = (org.girlscouts.vtk.ocm.CouncilNode)girlScoutsOCMRepository.read(path);
+        org.girlscouts.vtk.ocm.CouncilNode node = (org.girlscouts.vtk.ocm.CouncilNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -63,7 +60,9 @@ public class GirlScoutsCouncilOCMServiceImpl implements GirlScoutsCouncilOCMServ
     public List<Council> findObjects(String path, Map<String, String> params) {
         List<CouncilNode> nodes = girlScoutsOCMRepository.findObjects(path, params, CouncilNode.class);
         List<Council> models = new ArrayList<>();
-        nodes.forEach(councilNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(councilNode));});
+        nodes.forEach(councilNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(councilNode));
+        });
         return models;
     }
 

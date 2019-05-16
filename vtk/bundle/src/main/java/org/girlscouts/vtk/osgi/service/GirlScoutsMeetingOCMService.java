@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsMeetingOCMService {
+    Meeting create(Meeting object);
 
-    public Meeting create(Meeting object);
-    public Meeting update(Meeting object);
+    Meeting update(Meeting object);
 
-    public Meeting read(String path);
-    public boolean delete(Meeting object);
+    Meeting read(String path);
 
-    public Meeting findObject(String path, Map<String, String> params);
-    public List<Meeting> findObjects(String path, Map<String, String> params);
+    boolean delete(Meeting object);
+
+    Meeting findObject(String path, Map<String, String> params);
+
+    List<Meeting> findObjects(String path, Map<String, String> params);
 
 }

@@ -1,8 +1,8 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
 import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
-import org.girlscouts.vtk.models.*;
-import org.girlscouts.vtk.ocm.*;
+import org.girlscouts.vtk.models.Achievement;
+import org.girlscouts.vtk.ocm.AchievementNode;
 import org.girlscouts.vtk.osgi.service.GirlScoutsAchievementOCMService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
 import org.osgi.service.component.annotations.Activate;
@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsAchievementOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsAchievementOCMServiceImpl")
 public class GirlScoutsAchievementOCMServiceImpl implements GirlScoutsAchievementOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsAchievementOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsAchievementOCMServiceImpl implements GirlScoutsAchievemen
 
     @Override
     public Achievement read(String path) {
-        AchievementNode node = (AchievementNode)girlScoutsOCMRepository.read(path);
+        AchievementNode node = (AchievementNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -56,14 +53,16 @@ public class GirlScoutsAchievementOCMServiceImpl implements GirlScoutsAchievemen
 
     @Override
     public Achievement findObject(String path, Map<String, String> params) {
-        return NodeToModelMapper.INSTANCE.toModel(girlScoutsOCMRepository.findObject(path, params,  AchievementNode.class));
+        return NodeToModelMapper.INSTANCE.toModel(girlScoutsOCMRepository.findObject(path, params, AchievementNode.class));
     }
 
     @Override
     public List<Achievement> findObjects(String path, Map<String, String> params) {
         List<AchievementNode> nodes = girlScoutsOCMRepository.findObjects(path, params, AchievementNode.class);
         List<Achievement> models = new ArrayList<>();
-        nodes.forEach(achievementNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(achievementNode));});
+        nodes.forEach(achievementNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(achievementNode));
+        });
         return models;
     }
 

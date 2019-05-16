@@ -5,9 +5,11 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
-import org.girlscouts.vtk.osgi.component.dao.*;
-import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.exception.VtkException;
+import org.girlscouts.vtk.models.*;
+import org.girlscouts.vtk.osgi.component.dao.CouncilDAO;
+import org.girlscouts.vtk.osgi.component.dao.TroopDAO;
+import org.girlscouts.vtk.osgi.component.dao.YearPlanDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -237,7 +239,7 @@ public class TroopUtil {
             plan = troopDAO.addYearPlan1(user, troop, yearPlanPath);
             plan.setRefId(yearPlanPath);
             plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user, troop, yearPlanPath.endsWith("/meetings/") ? yearPlanPath : (yearPlanPath + "/meetings/")));
-            Comparator<MeetingE> comp = new BeanComparator("id");
+            Comparator<MeetingE> comp = new BeanComparator("sortOrder");
             Collections.sort(plan.getMeetingEvents(), comp);
         } catch (Exception e) {
             e.printStackTrace();
@@ -431,12 +433,12 @@ public class TroopUtil {
         }
         YearPlan oldPlan = troop.getYearPlan();
         // SORT Meetings - new
-        newYearPlan.setMeetingEvents(VtkUtil.sortMeetingsById(newYearPlan.getMeetingEvents()));
+        newYearPlan.setMeetingEvents(VtkUtil.sortMeetings(newYearPlan.getMeetingEvents()));
         if (oldPlan == null || oldPlan.getSchedule() == null) {
             return newYearPlan.getMeetingEvents();
         }
         // SORT MEETINGS -old
-        oldPlan.setMeetingEvents(VtkUtil.sortMeetingsById(oldPlan.getMeetingEvents()));
+        oldPlan.setMeetingEvents(VtkUtil.sortMeetings(oldPlan.getMeetingEvents()));
         // get Number Of Past meetings
         int numOfPastMeetings = 0;
         java.util.List<java.util.Date> dates = VtkUtil.getStrCommDelToArrayDates(oldPlan.getSchedule().getDates());
@@ -552,7 +554,7 @@ public class TroopUtil {
         }
         java.util.List<MeetingE> allMeetings = troop.getYearPlan().getMeetingEvents();
         if (allMeetings != null) {
-            Comparator<MeetingE> comp = new BeanComparator("id");
+            Comparator<MeetingE> comp = new BeanComparator("sortOrder");
             Collections.sort(allMeetings, comp);
         }
         long timeNow = new java.util.Date().getTime();
@@ -576,13 +578,6 @@ public class TroopUtil {
             if (m.getUid().equals(request.getParameter("removeCouncilMilestones"))) {
                 milestones.remove(m);
                 boolean isUsrUpd = updateTroop(user, troop);
-				/*
-				if (!isUsrUpd)
-					vtkErr += vtkErr
-							.concat("Warning: You last change was not saved.");
-
-				//response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
-				*/
                 return false;
             }
         }

@@ -6,19 +6,20 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.jackrabbit.util.Text;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.auth.permission.Permission;
+import org.girlscouts.vtk.exception.VtkException;
+import org.girlscouts.vtk.models.*;
+import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.girlscouts.vtk.osgi.component.dao.CouncilDAO;
 import org.girlscouts.vtk.osgi.component.dao.MeetingDAO;
 import org.girlscouts.vtk.osgi.component.dao.TroopDAO;
 import org.girlscouts.vtk.osgi.component.util.UserUtil;
-import org.girlscouts.vtk.models.*;
-import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
-import org.girlscouts.vtk.osgi.service.*;
-import org.girlscouts.vtk.exception.VtkException;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
+import org.girlscouts.vtk.osgi.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +61,7 @@ public class TroopDAOImpl implements TroopDAO {
     @Reference
     private ResourceResolverFactory resolverFactory;
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
+
     @Activate
     void activate() {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
@@ -117,41 +119,53 @@ public class TroopDAOImpl implements TroopDAO {
             result = new Finance();
             result.setFinancialQuarter(qtr);
             String path = "/" + troop.getTroopPath() + "/finances/" + currentYear + "/" + qtr;
+            ResourceResolver rr = null;
             try {
-                ValueMap incomeValueMap = girlScoutsRepoService.getNode(path+"/income");
-                if(incomeValueMap != null) {
-                    Set<String> incomeProps = incomeValueMap.keySet();
-                    Map<String, Double> incomeMap = new HashMap<String, Double>();
-                    for (String prop : incomeProps) {
-                        prop = Text.unescapeIllegalJcrChars(prop);
-                        String value = incomeValueMap.get(prop, "");
-                        if (value.isEmpty()) {
-                            value = "0.00";
-                        }
-                        if (!prop.equals("jcr:primaryType")) {
-                            incomeMap.put(prop, Double.parseDouble(value));
-                        }
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Session session = rr.adaptTo(Session.class);
+                Node financeNode = session.getNode(path);
+                Node incomeNode = financeNode.getNode("income");
+                Node expensesNode = financeNode.getNode("expenses");
+                PropertyIterator incomeFieldIterator = incomeNode.getProperties();
+                PropertyIterator expensesFieldIterator = expensesNode.getProperties();
+                Map<String, Double> incomeMap = new HashMap<String, Double>();
+                while (incomeFieldIterator.hasNext()) {
+                    Property temp = incomeFieldIterator.nextProperty();
+                    String fieldName = temp.getName();
+                    fieldName = Text.unescapeIllegalJcrChars(fieldName);
+                    String value = temp.getValue().getString();
+                    if (value.isEmpty()) {
+                        value = "0.00";
                     }
-                    result.setIncome(incomeMap);
-                }
-                ValueMap expensesValueMap = girlScoutsRepoService.getNode(path+"/expenses");
-                if(expensesValueMap != null){
-                    Set<String> expensesProps = incomeValueMap.keySet();
-                    Map<String, Double> expensesMap = new HashMap<String, Double>();
-                    for(String prop:expensesProps){
-                        prop = Text.unescapeIllegalJcrChars(prop);
-                        String value = expensesValueMap.get(prop,"");
-                        if (value.isEmpty()) {
-                            value = "0.00";
-                        }
-                        if (!prop.equals("jcr:primaryType")) {
-                            expensesMap.put(prop, Double.parseDouble(value));
-                        }
+                    if (!fieldName.equals("jcr:primaryType")) {
+                        incomeMap.put(fieldName, Double.parseDouble(value));
                     }
-                    result.setExpenses(expensesMap);
                 }
+                Map<String, Double> expensesMap = new HashMap<String, Double>();
+                while (expensesFieldIterator.hasNext()) {
+                    Property temp = expensesFieldIterator.nextProperty();
+                    String fieldName = temp.getName();
+                    fieldName = Text.unescapeIllegalJcrChars(fieldName);
+                    String value = temp.getValue().getString();
+                    if (value.isEmpty()) {
+                        value = "0.00";
+                    }
+                    if (!fieldName.equals("jcr:primaryType")) {
+                        expensesMap.put(fieldName, Double.parseDouble(value));
+                    }
+                }
+                result.setExpenses(expensesMap);
+                result.setIncome(incomeMap);
             } catch (Exception ex) {
                 log.error("Error occurred:", ex);
+            } finally {
+                try {
+                    if (rr != null) {
+                        rr.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
+                }
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
@@ -160,96 +174,115 @@ public class TroopDAOImpl implements TroopDAO {
     }
 
     public void setFinances(Troop troop, int qtr, String currentYear, java.util.Map<String, String[]> params) {
+        ResourceResolver rr = null;
         try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            Session session = rr.adaptTo(Session.class);
             String path = troop.getTroopPath() + "/finances/" + currentYear;
-            ValueMap financeValueMap = girlScoutsRepoService.getNode(path);
-            if (financeValueMap == null) {
-                girlScoutsRepoService.createPath(path);
-                financeValueMap = girlScoutsRepoService.getNode(path);
+            Node financesNode = JcrUtils.getOrCreateByPath(path, JcrConstants.NT_UNSTRUCTURED, session);
+            if (financesNode.hasNode(String.valueOf(qtr))) {
+                session.removeItem(path + "/" + qtr);
             }
-            ValueMap financeQtrValueMap = girlScoutsRepoService.getNode(path+ "/" + qtr);
-            if (financeQtrValueMap != null) {
-                girlScoutsRepoService.removeNode(JcrConstants.JCR_PATH);
-            }
-            financeQtrValueMap = girlScoutsRepoService.createPath(path + "/" + qtr);
-            ValueMap expensesValueMap = girlScoutsRepoService.createPath(path + "/expenses");
-            ValueMap incomeValueMap = girlScoutsRepoService.createPath(path + "/income");
-            this.populateFinanceChildren(incomeValueMap, expensesValueMap, params.get("expenses")[0], params.get("income")[0]);
+            Node expensesNode = JcrUtils.getOrCreateByPath(path + "/expenses" + qtr, JcrConstants.NT_UNSTRUCTURED, session);
+            Node incomeNode = JcrUtils.getOrCreateByPath(path + "/income", JcrConstants.NT_UNSTRUCTURED, session);
+            populateFinanceChildren(expensesNode, incomeNode, params.get("expenses")[0], params.get("income")[0]);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
+        } finally {
+            try {
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
         }
     }
 
     public FinanceConfiguration getFinanceConfiguration(Troop troop, String currentYear) {
         FinanceConfiguration financeConfig = new FinanceConfiguration();
+        ResourceResolver rr = null;
         try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            Session session = rr.adaptTo(Session.class);
             String councilPath = "/" + troop.getCouncilPath();
             String configPath = councilPath + "/" + FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
-            ValueMap configValueMap = girlScoutsRepoService.getNode(configPath);
-            if(configValueMap == null) {
-                configValueMap = girlScoutsRepoService.createPath(councilPath+"/"+FinanceConfiguration.FINANCE_CONFIG);
-            }
+            Node configNode = JcrUtils.getOrCreateByPath(councilPath + "/" + FinanceConfiguration.FINANCE_CONFIG, JcrConstants.NT_UNSTRUCTURED, session);
             List<String> expensesList = new ArrayList<String>();
             List<String> incomeList = new ArrayList<String>();
-            if (configValueMap.get(Finance.EXPENSES) != null) {
-                String[] expensesValues = configValueMap.get(Finance.EXPENSES, new String[]{});
-                for (String tempValue : expensesValues) {
-                    expensesList.add(tempValue);
+            if (configNode.hasProperty(Finance.EXPENSES) && configNode.getProperty(Finance.EXPENSES) != null) {
+                Value[] expensesValues = configNode.getProperty(Finance.EXPENSES).getValues();
+                for (Value tempValue : expensesValues) {
+                    expensesList.add(tempValue.getString());
                 }
                 financeConfig.setExpenseFields(expensesList);
                 financeConfig.setPersisted(true);
             }
-            if (configValueMap.get(Finance.INCOME) != null) {
-
-                String[] incomeValues = configValueMap.get(Finance.INCOME, new String[]{});
-                for (String tempValue : incomeValues) {
-                    incomeList.add(tempValue);
+            if (configNode.hasProperty(Finance.INCOME) && configNode.getProperty(Finance.INCOME) != null) {
+                Value[] incomeValues = configNode.getProperty(Finance.INCOME).getValues();
+                for (Value tempValue : incomeValues) {
+                    incomeList.add(tempValue.getString());
                 }
                 financeConfig.setIncomeFields(incomeList);
                 financeConfig.setPersisted(true);
             }
-            if (configValueMap.get(Finance.PERIOD) != null) {
-                String period = configValueMap.get(Finance.PERIOD, "");
+            if (configNode.hasProperty(Finance.PERIOD) && configNode.getProperty(Finance.PERIOD) != null) {
+                String period = configNode.getProperty(Finance.PERIOD).getString();
                 financeConfig.setPeriod(period);
                 financeConfig.setPersisted(true);
             }
-            if (configValueMap.get(FinanceConfiguration.RECIPIENT) != null) {
-                String recipient = configValueMap.get(FinanceConfiguration.RECIPIENT, "");
+            if (configNode.hasProperty(FinanceConfiguration.RECIPIENT) && configNode.getProperty(FinanceConfiguration.RECIPIENT) != null) {
+                String recipient = configNode.getProperty(FinanceConfiguration.RECIPIENT).getString();
                 financeConfig.setRecipient(recipient);
                 financeConfig.setPersisted(true);
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
+        } finally {
+            try {
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
         }
         return financeConfig;
     }
 
     public void setFinanceConfiguration(Troop troop, String currentYear, String income, String expenses, String period, String recipient) {
         // TODO PERMISSIONS HERE
+        ResourceResolver rr = null;
         try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            Session session = rr.adaptTo(Session.class);
             String configPath = troop.getCouncilPath() + "/" + FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
-            ValueMap configNode = girlScoutsRepoService.getNode(configPath);
+            Node configNode = session.getNode(configPath);
             if (configNode == null) {
-                configNode = girlScoutsRepoService.createPath(configPath);
+                configNode = JcrUtils.getOrCreateByPath(configPath, JcrConstants.NT_UNSTRUCTURED, session);
             }
-            Map<String,String> singleProps = new HashMap<String,String>();
-            Map<String,String[]> multiProps = new HashMap<String,String[]>();
             String[] incomeFields = income.replaceAll("\\[|\\]", "").split(",");
             String[] expensesFields = expenses.replaceAll("\\[|\\]", "").split(",");
-            multiProps.put(Finance.INCOME, incomeFields);
-            multiProps.put(Finance.EXPENSES, expensesFields);
-            singleProps.put(Finance.PERIOD, period);
-            singleProps.put(FinanceConfiguration.RECIPIENT, recipient);
-            girlScoutsRepoService.setNodeProperties(configPath,singleProps,multiProps);
-
+            configNode.setProperty(Finance.INCOME, incomeFields);
+            configNode.setProperty(Finance.EXPENSES, expensesFields);
+            configNode.setProperty(Finance.PERIOD, period);
+            configNode.setProperty(FinanceConfiguration.RECIPIENT, recipient);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
+        } finally {
+            try {
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
         }
     }
 
     // Populate the two nodes expenses and income with the properties and values
     // enetered into the finance form
-    private void populateFinanceChildren(ValueMap incomeValueMap, ValueMap expensesValueMap, String expensesParams, String incomeParams) throws RepositoryException {
+    private void populateFinanceChildren(Node incomeNode, Node expensesNode, String expensesParams, String incomeParams) throws RepositoryException {
         String[] expenses = expensesParams.replaceAll("\\[|\\]", "").split(",");
         String[] income = incomeParams.replaceAll("\\[|\\]", "").split(",");
         Map<String, String> incomeParamsMap = new HashMap<>();
@@ -259,15 +292,14 @@ public class TroopDAOImpl implements TroopDAO {
             fieldName = Text.escapeIllegalJcrChars(fieldName);
             String fieldValue = expenses[i + 1].trim();
             expensesParamsMap.put(fieldName, fieldValue);
+            expensesNode.setProperty(fieldName, fieldValue);
         }
-        girlScoutsRepoService.setNodeProperties(expensesValueMap.get(JcrConstants.JCR_PATH,""), expensesParamsMap, null);
         for (int i = 0; i < income.length; i = i + 2) {
             String fieldName = income[i].trim();
             fieldName = Text.escapeIllegalJcrChars(fieldName);
             String fieldValue = income[i + 1].trim();
-            incomeParamsMap.put(fieldName, fieldValue);
+            incomeNode.setProperty(fieldName, fieldValue);
         }
-        girlScoutsRepoService.setNodeProperties(incomeValueMap.get(JcrConstants.JCR_PATH,""),incomeParamsMap,null);
     }
 
     public boolean updateTroop(User user, Troop troop) throws IllegalAccessException, VtkException {
@@ -365,7 +397,7 @@ public class TroopDAOImpl implements TroopDAO {
             }
             if (girlScoutsAssetOCMService.read(asset.getPath()) == null) {
                 girlScoutsAssetOCMService.create(asset);
-            }else{
+            } else {
                 girlScoutsAssetOCMService.update(asset);
             }
             isUpdated = true;
@@ -509,9 +541,9 @@ public class TroopDAOImpl implements TroopDAO {
         }
         boolean isUpdated = false;
         try {
-            if(girlScoutsYearPlanOCMService.read(troop.getYearPlan().getPath()) == null){
+            if (girlScoutsYearPlanOCMService.read(troop.getYearPlan().getPath()) == null) {
                 girlScoutsYearPlanOCMService.create(yearPlan);
-            }else{
+            } else {
                 girlScoutsYearPlanOCMService.update(yearPlan);
             }
             isUpdated = true;
@@ -530,10 +562,10 @@ public class TroopDAOImpl implements TroopDAO {
             if (troop == null || troop.getYearPlan() == null) {
                 return true;
             }
-            Council council = councilDAO.findCouncil(user, troop.getCouncilPath());
-            if (council == null) {
-                throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
-            }
+            //Council council = councilDAO.findCouncil(user, troop.getCouncilPath());
+            //if (council == null) {
+            //throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
+            //}
             Comparator<MeetingE> comp = new BeanComparator("sortOrder");
             if (troop != null && troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null) {
                 Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
@@ -563,9 +595,6 @@ public class TroopDAOImpl implements TroopDAO {
                 troop.setErrCode(old_errCode);
                 troop.setRefresh(true);
             }
-        } catch (VtkException ex) {
-            log.error("Error occurred while saving troop: ", ex);
-            throw new VtkException("Could not complete intended action due to a server error. Code: " + new java.util.Date().getTime());
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         }
@@ -626,16 +655,16 @@ public class TroopDAOImpl implements TroopDAO {
             if (getTroopByPath(user, troop.getPath()) == null) {
                 throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
             }
-            if (meeting.getPath() == null){
+            if (meeting.getPath() == null) {
                 meeting.setPath(troop.getYearPlan().getPath() + "/meetingCanceled/" + meeting.getUid());
             }
-            if(girlScoutsMeetingCancelledOCMService.read(meeting.getPath()) != null){
+            if (girlScoutsMeetingCancelledOCMService.read(meeting.getPath()) != null) {
                 girlScoutsMeetingCancelledOCMService.update(meeting);
-            }else{
+            } else {
                 girlScoutsMeetingCancelledOCMService.create(meeting);
             }
             isUpdated = true;
-         } catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error Occurred: ", e);
         }
         return isUpdated;
@@ -664,9 +693,8 @@ public class TroopDAOImpl implements TroopDAO {
         }
         boolean isArchived = false;
         try {
-            String currentYearPlanPath = troop.getTroopPath()+ "/yearPlan";
-            String archivedYearPlanPath = "/vtk" + year+currentYearPlanPath.substring(8);
-
+            String currentYearPlanPath = troop.getTroopPath() + "/yearPlan";
+            String archivedYearPlanPath = "/vtk" + year + currentYearPlanPath.substring(8);
             if (girlScoutsYearPlanOCMService.read(archivedYearPlanPath) != null) {
                 isArchived = true;
             }

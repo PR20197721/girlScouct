@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.Set;
 
 public class Troop extends JcrNode implements Serializable {
-
     private YearPlan yearPlan;
     private String sfUserId;
     private String sfTroopId;

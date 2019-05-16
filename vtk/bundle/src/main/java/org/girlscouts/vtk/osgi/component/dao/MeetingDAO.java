@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.osgi.component.dao;
 
-import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.exception.VtkException;
+import org.girlscouts.vtk.models.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,7 +38,6 @@ public interface MeetingDAO {
     // ';'
 
     Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException;
-
 
     java.util.List<Milestone> getCouncilMilestones(String councilCode);
 

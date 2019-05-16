@@ -19,7 +19,7 @@ import java.io.IOException;
 @Component(immediate = true, metatype = false)
 @Properties({@Property(name = "label", value = "Girl Scouts Logging Filter"), @Property(name = "description", value = "Girl Scouts Logging Filter")})
 public class LoggingFilter implements Filter {
-    private Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
+    private Logger logger = LoggerFactory.getLogger("org.girlscouts.log.filter.vtk");
 
     public void init(FilterConfig filterConfig) throws ServletException {
     }

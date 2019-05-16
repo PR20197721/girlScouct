@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsFinanceOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsFinanceOCMServiceImpl")
 public class GirlScoutsFinanceOCMServiceImpl implements GirlScoutsFinanceOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsFinanceOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsFinanceOCMServiceImpl implements GirlScoutsFinanceOCMServ
 
     @Override
     public Finance read(String path) {
-        FinanceNode node = (FinanceNode)girlScoutsOCMRepository.read(path);
+        FinanceNode node = (FinanceNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -63,7 +60,9 @@ public class GirlScoutsFinanceOCMServiceImpl implements GirlScoutsFinanceOCMServ
     public List<Finance> findObjects(String path, Map<String, String> params) {
         List<FinanceNode> nodes = girlScoutsOCMRepository.findObjects(path, params, FinanceNode.class);
         List<Finance> models = new ArrayList<>();
-        nodes.forEach(financeNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(financeNode));});
+        nodes.forEach(financeNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(financeNode));
+        });
         return models;
     }
 

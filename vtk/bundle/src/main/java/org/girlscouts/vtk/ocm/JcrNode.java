@@ -6,24 +6,18 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import java.io.Serializable;
 import java.util.Calendar;
 
-@Node(jcrMixinTypes ="mix:referenceable" )
+@Node(jcrMixinTypes = "mix:referenceable")
 public class JcrNode implements Serializable {
-
-    @Field(path = true,jcrMandatory = true)
+    @Field(path = true, jcrMandatory = true)
     private String path;
-
     @Field
     private String uuid;
-
     @Field(id = true)
     private String id;
-
     @Field(id = true)
     private String uid;
-
     @Field(jcrName = "createdDate", jcrType = "Date", converter = CalendarOCMPropertyConverter.class)
     private Calendar createdDate;
-
     @Field(jcrName = "lastModifiedDate", jcrType = "Date", converter = CalendarOCMPropertyConverter.class)
     private Calendar lastModifiedDate;
 

@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsJcrCollectionHoldStringOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsJcrCollectionHoldStringOCMServiceImpl")
 public class GirlScoutsJcrCollectionHoldStringOCMServiceImpl implements GirlScoutsJcrCollectionHoldStringOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsJcrCollectionHoldStringOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsJcrCollectionHoldStringOCMServiceImpl implements GirlScou
 
     @Override
     public JcrCollectionHoldString read(String path) {
-        JcrCollectionHoldStringNode node = (JcrCollectionHoldStringNode)girlScoutsOCMRepository.read(path);
+        JcrCollectionHoldStringNode node = (JcrCollectionHoldStringNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -63,7 +60,9 @@ public class GirlScoutsJcrCollectionHoldStringOCMServiceImpl implements GirlScou
     public List<JcrCollectionHoldString> findObjects(String path, Map<String, String> params) {
         List<JcrCollectionHoldStringNode> nodes = girlScoutsOCMRepository.findObjects(path, params, JcrCollectionHoldStringNode.class);
         List<JcrCollectionHoldString> models = new ArrayList<>();
-        nodes.forEach(jcrCollectionHoldStringNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(jcrCollectionHoldStringNode));});
+        nodes.forEach(jcrCollectionHoldStringNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(jcrCollectionHoldStringNode));
+        });
         return models;
     }
 

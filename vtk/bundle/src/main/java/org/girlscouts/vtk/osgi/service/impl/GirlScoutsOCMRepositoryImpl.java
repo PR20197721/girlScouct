@@ -7,9 +7,9 @@ import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.girlscouts.vtk.exception.VtkException;
 import org.girlscouts.vtk.ocm.*;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
-import org.girlscouts.vtk.exception.VtkException;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -59,8 +59,8 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
     }
 
     @Override
-    public <T extends JcrNode> T create(T object){
-        if(object != null &&  object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
+    public <T extends JcrNode> T create(T object) {
+        if (object != null && object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
             ResourceResolver rr = null;
             try {
                 rr = resolverFactory.getServiceResourceResolver(resolverParams);
@@ -91,14 +91,14 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
                 }
             }
             return (T) read(object.getPath());
-        }else{
+        } else {
             return null;
         }
     }
 
     @Override
-    public <T extends JcrNode> T update(T object){
-        if(object != null && object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
+    public <T extends JcrNode> T update(T object) {
+        if (object != null && object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
             ResourceResolver rr = null;
             try {
                 rr = resolverFactory.getServiceResourceResolver(resolverParams);
@@ -120,21 +120,21 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
                 }
             }
             return (T) read(object.getPath());
-        }else{
+        } else {
             return null;
         }
 
     }
 
     @Override
-    public Object read(String path){
+    public Object read(String path) {
         ResourceResolver rr = null;
         Object object = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            log.debug("Reading node at: "+path);
+            log.debug("Reading node at: " + path);
             object = ocm.getObject(path);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
@@ -151,8 +151,8 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
     }
 
     @Override
-    public <T extends JcrNode> boolean delete(T object){
-        if(object != null && object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
+    public <T extends JcrNode> boolean delete(T object) {
+        if (object != null && object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
             ResourceResolver rr = null;
             boolean isRemoved = false;
             try {
@@ -175,7 +175,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
                 }
             }
             return isRemoved;
-        }else{
+        } else {
             return false;
         }
     }
@@ -183,7 +183,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
     @Override
     public <T extends JcrNode> T findObject(String path, Map<String, String> params, Class<T> clazz) {
         List<T> results = findObjects(path, params, clazz);
-        if(results != null && !results.isEmpty()){
+        if (results != null && !results.isEmpty()) {
             return results.get(0);
         }
         return null;
@@ -195,13 +195,13 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
-            if(session.itemExists(path)) {
+            if (session.itemExists(path)) {
                 ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-                String query = getJCRSQL2Query(path, params, clazz.getName(),  session);
-                log.debug("Looking up OCM Objects :" +query);
+                String query = getJCRSQL2Query(path, params, clazz.getName(), session);
+                log.debug("Looking up OCM Objects :" + query);
                 return (List<T>) ocm.getObjects(query, javax.jcr.query.Query.JCR_SQL2);
-            }else{
-                log.debug("Path does not exist: "+path);
+            } else {
+                log.debug("Path does not exist: " + path);
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
@@ -217,18 +217,18 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
         return null;
     }
 
-    private String getJCRSQL2Query(String path, Map<String, String> params, String ocm_classname, Session session){
+    private String getJCRSQL2Query(String path, Map<String, String> params, String ocm_classname, Session session) {
         try {
-            String sql = "SELECT s.* FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(["+path+"]) AND s.[ocm_classname] = '"+ocm_classname + "'";
+            String sql = "SELECT s.* FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([" + path + "]) AND s.[ocm_classname] = '" + ocm_classname + "'";
             final QueryManager queryManager = session.getWorkspace().getQueryManager();
-            if(params != null && !params.isEmpty()){
-                for(String paramName:params.keySet()){
-                    sql +=  " AND s.["+paramName+"] = '"+params.get(paramName) + "'";
+            if (params != null && !params.isEmpty()) {
+                for (String paramName : params.keySet()) {
+                    sql += " AND s.[" + paramName + "] = '" + params.get(paramName) + "'";
                 }
             }
             Query query = queryManager.createQuery(sql, Query.JCR_SQL2);
             return query.getStatement();
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Error Occurred: ", e);
         }
         return null;

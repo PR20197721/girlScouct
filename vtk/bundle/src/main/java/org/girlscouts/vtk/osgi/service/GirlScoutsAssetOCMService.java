@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsAssetOCMService {
+    Asset create(Asset object);
 
-    public Asset create(Asset object);
-    public Asset update(Asset object);
+    Asset update(Asset object);
 
-    public Asset read(String path);
-    public boolean delete(Asset object);
+    Asset read(String path);
 
-    public Asset findObject(String path, Map<String, String> params);
-    public List<Asset> findObjects(String path, Map<String, String> params);
+    boolean delete(Asset object);
+
+    Asset findObject(String path, Map<String, String> params);
+
+    List<Asset> findObjects(String path, Map<String, String> params);
 
 }

@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsTroopOCMService {
+    Troop create(Troop object);
 
-    public Troop create(Troop object);
-    public Troop update(Troop object);
+    Troop update(Troop object);
 
-    public Troop read(String path);
-    public boolean delete(Troop object);
+    Troop read(String path);
 
-    public Troop findObject(String path, Map<String, String> params);
-    public List<Troop> findObjects(String path, Map<String, String> params);
+    boolean delete(Troop object);
+
+    Troop findObject(String path, Map<String, String> params);
+
+    List<Troop> findObjects(String path, Map<String, String> params);
 
 }

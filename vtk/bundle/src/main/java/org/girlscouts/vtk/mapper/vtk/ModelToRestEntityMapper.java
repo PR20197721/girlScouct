@@ -7,38 +7,37 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface ModelToRestEntityMapper {
+    ModelToRestEntityMapper INSTANCE = Mappers.getMapper(ModelToRestEntityMapper.class);
 
-    ModelToRestEntityMapper INSTANCE = Mappers.getMapper( ModelToRestEntityMapper.class );
+    AchievementEntity toEntity(Achievement achievement);
 
-    public AchievementEntity toEntity(Achievement achievement);
+    ActivityEntity toEntity(Activity activity);
 
-    public ActivityEntity toEntity(Activity activity);
+    AssetEntity toEntity(Asset asset);
 
-    public AssetEntity toEntity(Asset asset);
+    AttendanceEntity toEntity(Attendance attendance);
 
-    public AttendanceEntity toEntity(Attendance attendance);
+    CalEntity toEntity(Cal cal);
 
-    public CalEntity toEntity(Cal cal);
+    JcrCollectionHoldStringEntity toEntity(JcrCollectionHoldString jcrCollectionHoldString);
 
-    public JcrCollectionHoldStringEntity toEntity(JcrCollectionHoldString jcrCollectionHoldString);
+    LocationEntity toEntity(Location location);
 
-    public LocationEntity toEntity(Location location);
+    MeetingCanceledEntity toEntity(MeetingCanceled meetingCanceled);
 
-    public MeetingCanceledEntity toEntity(MeetingCanceled meetingCanceled);
+    MeetingEntity toEntity(Meeting meeting);
 
-    public MeetingEntity toEntity(Meeting meeting);
+    MeetingEEntity toEntity(MeetingE meetingE);
 
-    public MeetingEEntity toEntity(MeetingE meetingE);
+    MilestoneEntity toEntity(Milestone milestone);
 
-    public MilestoneEntity toEntity(Milestone milestone);
+    NoteEntity toEntity(Note note);
 
-    public NoteEntity toEntity(Note note);
+    SentEmailEntity toEntity(SentEmail sentEmail);
 
-    public SentEmailEntity toEntity(SentEmail sentEmail);
+    TroopEntity toEntity(Troop troop);
 
-    public TroopEntity toEntity(Troop troop);
+    YearPlanComponentEntity toEntity(YearPlanComponent yearPlanComponent);
 
-    public YearPlanComponentEntity toEntity(YearPlanComponent yearPlanComponent);
-
-    public YearPlanEntity toEntity(YearPlan yearPlan);
+    YearPlanEntity toEntity(YearPlan yearPlan);
 }

@@ -16,11 +16,6 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.*;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.snowball.SnowballAnalyzer;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
-import org.apache.lucene.util.Version;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
@@ -37,8 +32,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -104,27 +97,6 @@ public class VtkUtil implements ConfigListener {
         return parsedDouble;
     }
 
-    public final static String doHash(String str) throws NoSuchAlgorithmException {
-        /*
-         * String plainText = str + "salt";
-         *
-         * MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
-         * byte[] hash = messageDigest.digest( plainText.getBytes() );
-         *
-         * return new String(hash);
-         */
-        str += HASH_SEED;
-        MessageDigest md = MessageDigest.getInstance("MD5"); // SHA-256");// 512");
-        md.update(str.getBytes());
-        byte[] byteData = md.digest();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < byteData.length; i++) {
-            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-        }
-        return sb.toString();
-
-    }
-
     public static final int getMeetingEndTime(Meeting meeting) {
         int total = 0;
         if (meeting.getActivities() != null) {
@@ -161,19 +133,11 @@ public class VtkUtil implements ConfigListener {
 
     }
 
-    public static final String getArrayDateToStringComDelim(java.util.List<java.util.Date> dates) {
-        String str = "";
-        for (int i = 0; i < dates.size(); i++) {
-            str += dates.get(i) + ",";
-        }
-        return str;
-    }
-
-    public static final java.util.List<MeetingE> sortMeetingsById(java.util.List<MeetingE> meetings) {
+    public static final java.util.List<MeetingE> sortMeetings(java.util.List<MeetingE> meetings) {
         if (meetings == null) {
             return meetings;
         }
-        Comparator<MeetingE> comp = new BeanComparator("id");
+        Comparator<MeetingE> comp = new BeanComparator("sortOrder");
         Collections.sort(meetings, comp);
         return meetings;
     }
@@ -239,22 +203,6 @@ public class VtkUtil implements ConfigListener {
             return "/vtk" + ("2014".equals(user.getCurrentYear()) ? "" : user.getCurrentYear()) + "/";
         }
         int currentGSYear = getCurrentGSYear();
-        if (currentGSYear == 2014) {
-            return "/vtk/";
-        } else {
-            return "/vtk" + currentGSYear + "/";
-        }
-
-    }
-
-    public static String getYearPlanBase_previous(User user, Troop troop) {
-        if (user != null && user.getCurrentYear() != null) {
-            int yr = Integer.parseInt(user.getCurrentYear()) - 1;
-            return "/vtk" + (yr == 2014 ? "" : yr) + "/";
-
-        }
-        int currentGSYear = getCurrentGSYear();
-        currentGSYear = currentGSYear - 1;
         if (currentGSYear == 2014) {
             return "/vtk/";
         } else {
@@ -367,31 +315,6 @@ public class VtkUtil implements ConfigListener {
         return (Troop) session.getAttribute("VTK_troop");
     }
 
-    public static boolean isValidUrl_withTroop(User user, Troop troop, String uri) {
-        if (uri.trim().indexOf("/myvtk/") == -1) {
-            return true;
-        }
-        if (user == null || troop == null || uri == null || uri.trim().equals("")) {
-            return false;
-        }
-        try {
-            String str = uri.substring(uri.indexOf("/myvtk/") + 7);
-            StringTokenizer t = new StringTokenizer(str, "/");
-            String cid_tid = t.nextToken();
-            //String tid= t.nextToken();
-            StringTokenizer tt = new StringTokenizer(cid_tid, ".");
-            String cid = tt.nextToken();
-            String tid = tt.nextToken();
-            if (cid.trim().toLowerCase().equals(troop.getSfCouncil().trim().toLowerCase()) && (tid.equals("0") || tid.trim().toLowerCase().equals(troop.getSfTroopId().trim().toLowerCase()))) {
-                return true;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     public static boolean isValidUrl(User user, Troop troop, String uri, String councilName) {
         if (uri.trim().indexOf("/myvtk/") == -1) {
             return true;
@@ -411,18 +334,6 @@ public class VtkUtil implements ConfigListener {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public static java.util.List<String> countResourseCategories(java.util.Collection<bean_resource> resources) {
-        java.util.List<String> categories = new java.util.ArrayList<String>();
-        java.util.Iterator<bean_resource> itr = resources.iterator();
-        while (itr.hasNext()) {
-            String resource_category = itr.next().getCategoryDisplay();
-            if (!categories.contains(resource_category)) {
-                categories.add(resource_category);
-            }
-        }
-        return categories;
     }
 
     public static java.util.List<VtkError> getVtkErrors(HttpServletRequest request) {
@@ -462,19 +373,6 @@ public class VtkUtil implements ConfigListener {
             return null;
         }
         return apiConfig;
-    }
-
-    public static void setVtkErrors(HttpServletRequest request, java.util.List<VtkError> errors) {
-        try {
-            HttpSession session = request.getSession();
-            ApiConfig apiConfig = getApiConfig(session);
-            if (apiConfig != null && apiConfig.getErrors() != null && errors != null) {
-                apiConfig.setErrors(errors);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
     public static void rmVtkError(HttpServletRequest request, String vtkErrId) {
@@ -597,14 +495,14 @@ public class VtkUtil implements ConfigListener {
         }
     }
 
-    public static java.util.List<Meeting> sortMeetings(java.util.List<Meeting> meetings) {
+    public static java.util.List<Meeting> sortMeetingsByLevel(java.util.List<Meeting> meetings) {
         Collections.sort(meetings, java.util.Comparator.comparing(Meeting::getLevel).thenComparing(Meeting::getName));
         return meetings;
     }
 
     public static java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings, String sched) {
         //sort meetings by Date
-        Comparator<MeetingE> comp = new BeanComparator("id");
+        Comparator<MeetingE> comp = new BeanComparator("sortOrder");
         if (meetings != null) {
             Collections.sort(meetings, comp);
         }
@@ -621,26 +519,6 @@ public class VtkUtil implements ConfigListener {
 
         }
         return meetings;
-    }
-
-    public static Map<String, Long> countUniq(java.util.List<String> container) {
-        return container.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-    }
-
-    /*
-     * GS Finance Year
-     * IF NOT CONFIG, then let it fail
-     * */
-    public static int getCurrentGSFinanceYear() {
-        java.util.Calendar cutOffDate = java.util.Calendar.getInstance();
-        cutOffDate.setTime(new java.util.Date(gsFinanceYearCutoffDate));
-        java.util.Calendar now = java.util.Calendar.getInstance();
-        if (now.getTimeInMillis() < cutOffDate.getTimeInMillis()) {
-            return cutOffDate.get(java.util.Calendar.YEAR) - 1;
-        } else {
-            return cutOffDate.get(java.util.Calendar.YEAR);
-        }
-
     }
 
     public static String formatAgeGroup(String sf_age_group) {
@@ -671,29 +549,6 @@ public class VtkUtil implements ConfigListener {
     public static void sortMeetingsByName(java.util.List<Meeting> meetings) {
         Collections.sort(meetings, java.util.Comparator.comparing(Meeting::getName));
 
-    }
-
-    public static String Stem(String text, String language) throws Exception {
-        StringBuffer result = new StringBuffer();
-        if (text != null && text.trim().length() > 0) {
-            StringReader tReader = new StringReader(text);
-            Analyzer analyzer = new SnowballAnalyzer(Version.LUCENE_35, language);
-            TokenStream tStream = analyzer.tokenStream("contents", tReader);
-            TermAttribute term = tStream.addAttribute(TermAttribute.class);
-            try {
-                while (tStream.incrementToken()) {
-                    result.append(term.term());
-                    result.append(" ");
-                }
-            } catch (IOException ioe) {
-                System.out.println("Error: " + ioe.getMessage());
-            }
-        }
-        // If, for some reason, the stemming did not happen, return the original text
-        if (result.length() == 0) {
-            result.append(text);
-        }
-        return result.toString().trim();
     }
 
     public static boolean isRenewMembership(int membershipYear) {

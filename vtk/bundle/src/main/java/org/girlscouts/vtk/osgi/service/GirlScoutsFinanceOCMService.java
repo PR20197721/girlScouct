@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsFinanceOCMService {
+    Finance create(Finance object);
 
-    public Finance create(Finance object);
-    public Finance update(Finance object);
+    Finance update(Finance object);
 
-    public Finance read(String path);
-    public boolean delete(Finance object);
+    Finance read(String path);
 
-    public Finance findObject(String path, Map<String, String> params);
-    public List<Finance> findObjects(String path, Map<String, String> params);
+    boolean delete(Finance object);
+
+    Finance findObject(String path, Map<String, String> params);
+
+    List<Finance> findObjects(String path, Map<String, String> params);
 
 }

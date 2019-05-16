@@ -48,7 +48,6 @@ public class VTKDemoTroopsCleanUpCronImpl implements Runnable {
     private void removeDemoTroops() {
         ResourceResolver rr = null;
         try {
-
             String sql = "SELECT * FROM [nt:unstructured] as s where ISDESCENDANTNODE([/vtk" + VtkUtil.getYearPlanBase(null, null) + "]) and s.[sfTroopId] like 'SHARED_%' and (s.[ocm_classname]='org.girlscouts.vtk.models.Troop' OR s.[ocm_classname]='org.girlscouts.vtk.ocm.TroopNode')";
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
@@ -57,9 +56,9 @@ public class VTKDemoTroopsCleanUpCronImpl implements Runnable {
             QueryResult result = q.execute();
             NodeIterator itr = result.getNodes();
             while (itr.hasNext()) {
-                try{
+                try {
                     session.removeItem(itr.nextNode().getPath());
-                }catch(Exception e){
+                } catch (Exception e) {
                     log.error("Error Occurred: ", e);
                 }
             }
@@ -67,7 +66,7 @@ public class VTKDemoTroopsCleanUpCronImpl implements Runnable {
             emailCronRpt(null);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        }finally {
+        } finally {
             try {
                 if (rr != null) {
                     rr.close();
@@ -77,6 +76,7 @@ public class VTKDemoTroopsCleanUpCronImpl implements Runnable {
             }
         }
     }
+
     public void emailCronRpt(String msg) {
         try {
             MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);

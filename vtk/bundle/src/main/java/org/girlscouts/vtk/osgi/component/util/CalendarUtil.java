@@ -5,8 +5,8 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
-import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.exception.VtkException;
+import org.girlscouts.vtk.models.*;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -191,7 +191,7 @@ public class CalendarUtil {
         calendar.setDates(dates);
         calendar.setDbUpdate(true);
         plan.setSchedule(calendar);
-        Comparator<MeetingE> comp = new BeanComparator("id");
+        Comparator<MeetingE> comp = new BeanComparator("sortOrder");
         Collections.sort(plan.getMeetingEvents(), comp);
         return plan;
     }

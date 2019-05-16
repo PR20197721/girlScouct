@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsMilestoneOCMService {
+    Milestone create(Milestone object);
 
-    public Milestone create(Milestone object);
-    public Milestone update(Milestone object);
+    Milestone update(Milestone object);
 
-    public Milestone read(String path);
-    public boolean delete(Milestone object);
+    Milestone read(String path);
 
-    public Milestone findObject(String path, Map<String, String> params);
-    public List<Milestone> findObjects(String path, Map<String, String> params);
+    boolean delete(Milestone object);
+
+    Milestone findObject(String path, Map<String, String> params);
+
+    List<Milestone> findObjects(String path, Map<String, String> params);
 
 }

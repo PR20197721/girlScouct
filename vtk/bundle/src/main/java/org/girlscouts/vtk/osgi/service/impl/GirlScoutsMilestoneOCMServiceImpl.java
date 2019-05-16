@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsMilestoneOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsMilestoneOCMServiceImpl")
 public class GirlScoutsMilestoneOCMServiceImpl implements GirlScoutsMilestoneOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsMilestoneOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsMilestoneOCMServiceImpl implements GirlScoutsMilestoneOCM
 
     @Override
     public Milestone read(String path) {
-        MilestoneNode node = (MilestoneNode)girlScoutsOCMRepository.read(path);
+        MilestoneNode node = (MilestoneNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -63,7 +60,9 @@ public class GirlScoutsMilestoneOCMServiceImpl implements GirlScoutsMilestoneOCM
     public List<Milestone> findObjects(String path, Map<String, String> params) {
         List<MilestoneNode> nodes = girlScoutsOCMRepository.findObjects(path, params, MilestoneNode.class);
         List<Milestone> models = new ArrayList<>();
-        nodes.forEach(milestoneNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(milestoneNode));});
+        nodes.forEach(milestoneNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(milestoneNode));
+        });
         return models;
     }
 

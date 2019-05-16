@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsJcrNodeOCMService {
+    JcrNode create(JcrNode object);
 
-    public JcrNode create(JcrNode object);
-    public JcrNode update(JcrNode object);
+    JcrNode update(JcrNode object);
 
-    public JcrNode read(String path);
-    public boolean delete(JcrNode object);
+    JcrNode read(String path);
 
-    public JcrNode findObject(String path, Map<String, String> params);
-    public List<JcrNode> findObjects(String path, Map<String, String> params);
+    boolean delete(JcrNode object);
+
+    JcrNode findObject(String path, Map<String, String> params);
+
+    List<JcrNode> findObjects(String path, Map<String, String> params);
 
 }

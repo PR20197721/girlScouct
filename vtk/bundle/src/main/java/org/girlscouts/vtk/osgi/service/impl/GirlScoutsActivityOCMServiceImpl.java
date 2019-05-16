@@ -2,9 +2,7 @@ package org.girlscouts.vtk.osgi.service.impl;
 
 import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import org.girlscouts.vtk.models.Activity;
-import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.ocm.ActivityNode;
-import org.girlscouts.vtk.osgi.service.GirlScoutsActivityOCMService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsActivityOCMService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
 import org.osgi.service.component.annotations.Activate;
@@ -19,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsActivityOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsActivityOCMServiceImpl")
 public class GirlScoutsActivityOCMServiceImpl implements GirlScoutsActivityOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsActivityOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -47,7 +42,7 @@ public class GirlScoutsActivityOCMServiceImpl implements GirlScoutsActivityOCMSe
 
     @Override
     public Activity read(String path) {
-        ActivityNode node = (ActivityNode)girlScoutsOCMRepository.read(path);
+        ActivityNode node = (ActivityNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -65,7 +60,9 @@ public class GirlScoutsActivityOCMServiceImpl implements GirlScoutsActivityOCMSe
     public List<Activity> findObjects(String path, Map<String, String> params) {
         List<ActivityNode> nodes = girlScoutsOCMRepository.findObjects(path, params, ActivityNode.class);
         List<Activity> models = new ArrayList<>();
-        nodes.forEach(activityNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(activityNode));});
+        nodes.forEach(activityNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(activityNode));
+        });
         return models;
     }
 

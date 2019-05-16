@@ -1,13 +1,8 @@
 package org.girlscouts.vtk.models;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
-import org.girlscouts.vtk.ocm.AttendanceNode;
-
 import java.io.Serializable;
 
-public class Attendance extends  JcrNode implements Serializable {
+public class Attendance extends JcrNode implements Serializable {
     private String users;
     private int total;
 

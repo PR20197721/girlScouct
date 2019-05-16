@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsLocationOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsLocationOCMServiceImpl")
 public class GirlScoutsLocationOCMServiceImpl implements GirlScoutsLocationOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsLocationOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsLocationOCMServiceImpl implements GirlScoutsLocationOCMSe
 
     @Override
     public Location read(String path) {
-        LocationNode node = (LocationNode)girlScoutsOCMRepository.read(path);
+        LocationNode node = (LocationNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -63,7 +60,9 @@ public class GirlScoutsLocationOCMServiceImpl implements GirlScoutsLocationOCMSe
     public List<Location> findObjects(String path, Map<String, String> params) {
         List<LocationNode> nodes = girlScoutsOCMRepository.findObjects(path, params, LocationNode.class);
         List<Location> models = new ArrayList<>();
-        nodes.forEach(locationNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(locationNode));});
+        nodes.forEach(locationNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(locationNode));
+        });
         return models;
     }
 

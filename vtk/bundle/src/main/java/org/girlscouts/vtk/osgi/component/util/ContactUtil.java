@@ -8,7 +8,6 @@ import org.girlscouts.vtk.models.*;
 @Component
 @Service(value = ContactUtil.class)
 public class ContactUtil { // utils should probably be in a separate util folder
-
     @Reference
     private YearPlanUtil yearPlanUtil;
 

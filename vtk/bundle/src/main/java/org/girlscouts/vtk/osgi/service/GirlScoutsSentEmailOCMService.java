@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsSentEmailOCMService {
+    SentEmail create(SentEmail object);
 
-    public SentEmail create(SentEmail object);
-    public SentEmail update(SentEmail object);
+    SentEmail update(SentEmail object);
 
-    public SentEmail read(String path);
-    public boolean delete(SentEmail object);
+    SentEmail read(String path);
 
-    public SentEmail findObject(String path, Map<String, String> params);
-    public List<SentEmail> findObjects(String path, Map<String, String> params);
+    boolean delete(SentEmail object);
+
+    SentEmail findObject(String path, Map<String, String> params);
+
+    List<SentEmail> findObjects(String path, Map<String, String> params);
 
 }

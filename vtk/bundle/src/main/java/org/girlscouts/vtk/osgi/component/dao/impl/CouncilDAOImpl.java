@@ -6,16 +6,15 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.vtk.osgi.component.dao.CouncilDAO;
-import org.girlscouts.vtk.osgi.component.util.CouncilRpt;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.CouncilMapper;
+import org.girlscouts.vtk.osgi.component.dao.CouncilDAO;
+import org.girlscouts.vtk.osgi.component.util.CouncilRpt;
+import org.girlscouts.vtk.osgi.component.util.ModifyNodePermissions;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.service.GirlScoutsCouncilInfoOCMService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsCouncilOCMService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsMilestoneOCMService;
-import org.girlscouts.vtk.osgi.service.GirlScoutsJCRService;
-import org.girlscouts.vtk.osgi.component.util.ModifyNodePermissions;
-import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +30,6 @@ import java.util.*;
 @Service(value = CouncilDAO.class)
 public class CouncilDAOImpl implements CouncilDAO {
     private final Logger log = LoggerFactory.getLogger(getClass());
-
     @Reference
     private CouncilMapper councilMapper;
     @Reference
@@ -44,8 +42,6 @@ public class CouncilDAOImpl implements CouncilDAO {
     private GirlScoutsCouncilInfoOCMService girlScoutsCouncilInfoOCMService;
     @Reference
     private GirlScoutsMilestoneOCMService girlScoutsMilestoneOCMService;
-    @Reference
-    private GirlScoutsJCRService girlScoutsRepoService;
     @Reference
     private ResourceResolverFactory resolverFactory;
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
@@ -64,7 +60,7 @@ public class CouncilDAOImpl implements CouncilDAO {
         Council council = null;
         try {
             council = girlScoutsCouncilOCMService.read(troop.getCouncilPath());
-            if(council == null){
+            if (council == null) {
                 String vtkCouncilBase = troop.getCouncilPath();
                 //TODO: Is modifying node permissions necessary? we are using vtkService system user which has admin rights
                 council = new Council();
@@ -300,7 +296,7 @@ public class CouncilDAOImpl implements CouncilDAO {
             String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where isdescendantnode( '" + VtkUtil.getYearPlanBase(null, null) + "" + (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil + "/")) + "') and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
             javax.jcr.query.Query q = qm.createQuery(sql, Query.SQL);
             java.util.Map container = new java.util.TreeMap();
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             javax.jcr.query.QueryResult result = q.execute();
             for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
                 javax.jcr.query.Row r = it.nextRow();
@@ -331,7 +327,7 @@ public class CouncilDAOImpl implements CouncilDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        }finally {
+        } finally {
             try {
                 if (rr != null) {
                     rr.close();
@@ -437,7 +433,7 @@ public class CouncilDAOImpl implements CouncilDAO {
             for (String council : councils) {
                 String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:unstructured where isdescendantnode( '" + gsYear + "" + council + "/') and ocm_classname= 'org.girlscouts.vtk.models.Troop' and id not like 'SHARED_%'";
                 javax.jcr.query.Query q = qm.createQuery(sql, Query.SQL);
-                log.debug("Executing JCR query: "+sql);
+                log.debug("Executing JCR query: " + sql);
                 javax.jcr.query.QueryResult result = q.execute();
                 for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
                     javax.jcr.query.Row r = it.nextRow();
@@ -479,7 +475,7 @@ public class CouncilDAOImpl implements CouncilDAO {
             }//edn for
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        }finally {
+        } finally {
             try {
                 if (rr != null) {
                     rr.close();
@@ -599,7 +595,7 @@ public class CouncilDAOImpl implements CouncilDAO {
         List<String> councils = new ArrayList();
         try {
             List<Council> councilObjs = girlScoutsCouncilOCMService.findObjects(currYearPath, null);
-            for(Council council:councilObjs){
+            for (Council council : councilObjs) {
                 String councilPath = council.getPath();
                 councils.add(councilPath);
             }

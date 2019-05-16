@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsCalOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsCalOCMServiceImpl")
 public class GirlScoutsCalOCMServiceImpl implements GirlScoutsCalOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsCalOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsCalOCMServiceImpl implements GirlScoutsCalOCMService {
 
     @Override
     public Cal read(String path) {
-        CalNode node = (CalNode)girlScoutsOCMRepository.read(path);
+        CalNode node = (CalNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -63,7 +60,9 @@ public class GirlScoutsCalOCMServiceImpl implements GirlScoutsCalOCMService {
     public List<Cal> findObjects(String path, Map<String, String> params) {
         List<CalNode> nodes = girlScoutsOCMRepository.findObjects(path, params, CalNode.class);
         List<Cal> models = new ArrayList<>();
-        nodes.forEach(calNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(calNode));});
+        nodes.forEach(calNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(calNode));
+        });
         return models;
     }
 

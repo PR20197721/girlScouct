@@ -1,14 +1,9 @@
 package org.girlscouts.vtk.models;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
-
 import java.io.Serializable;
 import java.util.StringTokenizer;
 
 public class Cal extends JcrNode implements Serializable {
-
     private String dates;
 
     public String getDates() {

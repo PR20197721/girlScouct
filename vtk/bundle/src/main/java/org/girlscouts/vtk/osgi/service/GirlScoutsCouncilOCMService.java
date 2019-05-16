@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsCouncilOCMService {
+    Council create(Council object);
 
-    public Council create(Council object);
-    public Council update(Council object);
+    Council update(Council object);
 
-    public Council read(String path);
-    public boolean delete(Council object);
+    Council read(String path);
 
-    public Council findObject(String path, Map<String, String> params);
-    public List<Council> findObjects(String path, Map<String, String> params);
+    boolean delete(Council object);
+
+    Council findObject(String path, Map<String, String> params);
+
+    List<Council> findObjects(String path, Map<String, String> params);
 
 }

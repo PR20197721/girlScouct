@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsLocationOCMService {
+    Location create(Location object);
 
-    public Location create(Location object);
-    public Location update(Location object);
+    Location update(Location object);
 
-    public Location read(String path);
-    public boolean delete(Location object);
+    Location read(String path);
 
-    public Location findObject(String path, Map<String, String> params);
-    public List<Location> findObjects(String path, Map<String, String> params);
+    boolean delete(Location object);
+
+    Location findObject(String path, Map<String, String> params);
+
+    List<Location> findObjects(String path, Map<String, String> params);
 
 }

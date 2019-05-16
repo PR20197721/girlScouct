@@ -1,15 +1,17 @@
 package org.girlscouts.vtk.osgi.component.dao.impl;
 
-import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.vtk.osgi.component.dao.YearPlanDAO;
 import org.girlscouts.vtk.models.*;
-import org.girlscouts.vtk.osgi.service.*;
+import org.girlscouts.vtk.osgi.component.dao.YearPlanDAO;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
+import org.girlscouts.vtk.osgi.service.GirlScoutsActivityOCMService;
+import org.girlscouts.vtk.osgi.service.GirlScoutsMeetingOCMService;
+import org.girlscouts.vtk.osgi.service.GirlScoutsYearPlanOCMService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,11 +23,8 @@ import java.util.*;
 @Service(value = YearPlanDAO.class)
 public class YearPlanDAOImpl implements YearPlanDAO {
     private final Logger log = LoggerFactory.getLogger(YearPlanDAOImpl.class);
-
     @Reference
     private GirlScoutsYearPlanOCMService girlScoutsYearPlanOCMService;
-    @Reference
-    private GirlScoutsJCRService girlScoutsRepoService;
     @Reference
     private GirlScoutsActivityOCMService girlScoutsActivityOCMService;
     @Reference
@@ -33,6 +32,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
     @Reference
     private ResourceResolverFactory resolverFactory;
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
+
     @Activate
     void activate() {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
@@ -68,7 +68,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             QueryManager qm = session.getWorkspace().getQueryManager();
             String sql = "select jcr:lastModified from nt:base where jcr:path = '" + troop.getPath() + "' and jcr:lastModified is not null";
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
@@ -100,7 +100,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
@@ -108,7 +108,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        }finally {
+        } finally {
             try {
                 if (rr != null) {
                     rr.close();
@@ -155,8 +155,8 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                     //get activities
                     List<Activity> activitiesFromTemplate = girlScoutsActivityOCMService.findObjects(refId, null);
                     List<Activity> activities = new ArrayList();
-                    if(activitiesFromTemplate != null){
-                        for(Activity activitiyFromTemplate:activitiesFromTemplate){
+                    if (activitiesFromTemplate != null) {
+                        for (Activity activitiyFromTemplate : activitiesFromTemplate) {
                             boolean isOutdoorAvailable = activitiyFromTemplate.getOutdoor();
                             boolean isGlobalAvailable = activitiyFromTemplate.getGlobal();
                             if (isOutdoorAvailable || isGlobalAvailable) {
@@ -170,7 +170,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                                     masterMeeting.setAnyGlobalActivityInMeetingAvailable(true);
                                 }
                                 activities.add(activity);
-                                break ;
+                                break;
                             }
                         }
                         meetingInfo.setActivities(activities);

@@ -403,7 +403,7 @@
                 <%
                     //sort meetings by this specific order: dAisy > bRownie > jUnior
                     if (meetings != null) {
-                        meetings = VtkUtil.sortMeetings(meetings);
+                        meetings = VtkUtil.sortMeetingsByLevel(meetings);
                     }
                     String currentLevel = "";
                     //uniq meeting by path: issue with altTags, altMeetintType

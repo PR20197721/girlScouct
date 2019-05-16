@@ -12,18 +12,17 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.common.search.DocHit;
 import org.girlscouts.vtk.auth.permission.Permission;
+import org.girlscouts.vtk.exception.VtkException;
+import org.girlscouts.vtk.models.*;
+import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.vtk.osgi.component.dao.AssetComponentType;
 import org.girlscouts.vtk.osgi.component.dao.MeetingDAO;
 import org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType;
 import org.girlscouts.vtk.osgi.component.util.UserUtil;
-import org.girlscouts.vtk.models.*;
-import org.girlscouts.vtk.osgi.component.CouncilMapper;
-import org.girlscouts.vtk.osgi.service.*;
-import org.girlscouts.vtk.exception.VtkException;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
+import org.girlscouts.vtk.osgi.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,8 +60,6 @@ public class MeetingDAOImpl implements MeetingDAO {
     private GirlScoutsAchievementOCMService girlScoutsAchievementOCMService;
     @Reference
     private GirlScoutsNoteOCMService girlScoutsNoteOCMService;
-    @Reference
-    private GirlScoutsJCRService girlScoutsRepoService;
     @Reference
     private ResourceResolverFactory resolverFactory;
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
@@ -198,7 +195,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                 sql += " and ( " + sql_tag + " )";
             }
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 try {
@@ -232,7 +229,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        }finally {
+        } finally {
             try {
                 if (rr != null) {
                     rr.close();
@@ -324,7 +321,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                 Session session = rr.adaptTo(Session.class);
                 javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
                 javax.jcr.query.Query q = qm.createQuery(sql, Query.SQL);
-                log.debug("Executing JCR query: "+sql);
+                log.debug("Executing JCR query: " + sql);
                 QueryResult result = q.execute();
                 for (RowIterator it = result.getRows(); it.hasNext(); ) {
                     Row r = it.nextRow();
@@ -443,10 +440,10 @@ public class MeetingDAOImpl implements MeetingDAO {
             QueryManager qm = session.getWorkspace().getQueryManager();
             String tagStr = councilStr;
             try {
-                ValueMap homepage = girlScoutsRepoService.getNode("/content/" + councilStr + "/en/jcr:content");
+                Node homepage = session.getNode("/content/" + councilStr + "/en/jcr:content");
                 if (homepage != null) {
-                    if (homepage.get("event-cart") != null) {
-                        if ("true".equals(homepage.get("event-cart", String.class))) {
+                    if (homepage.hasProperty("event-cart") && homepage.getProperty("event-cart") != null) {
+                        if ("true".equals(homepage.getProperty("event-cart"))) {
                             tagStr = "sf-activities";
                         }
                     }
@@ -459,7 +456,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             java.util.Map<String, String> levels = new java.util.TreeMap();
             String sql = "select jcr:title from cq:Tag where ISDESCENDANTNODE( '/etc/tags/" + tagStr + "')";
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
@@ -498,7 +495,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        }finally {
+        } finally {
             try {
                 if (rr != null) {
                     rr.close();
@@ -525,7 +522,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 try {
@@ -561,7 +558,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             tags.setRegion(searchRegion(user, troop, councilStr));
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        }finally {
+        } finally {
             try {
                 if (rr != null) {
                     rr.close();
@@ -588,11 +585,9 @@ public class MeetingDAOImpl implements MeetingDAO {
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
             try {
-                ValueMap homepage = girlScoutsRepoService.getNode(councilStr + "/en/jcr:content");
-                if (homepage != null) {
-                    if (homepage.get("eventPath") != null) {
-                        repoStr = homepage.get("eventPath", String.class);
-                    }
+                Node homepage = session.getNode(councilStr + "/en/jcr:content");
+                if (homepage != null && homepage.hasProperty("eventPath") && homepage.getProperty("eventPath") != null) {
+                    repoStr = homepage.getProperty("eventPath").getString();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -601,7 +596,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             java.util.Map<String, String> levels = new java.util.TreeMap();
             String sql = "select region, start, end from cq:Page where ISDESCENDANTNODE('" + repoStr + "')  and region is not null";
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
@@ -672,10 +667,9 @@ public class MeetingDAOImpl implements MeetingDAO {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
-
             String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path], [dc:isOutdoorRelated] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 try {
@@ -743,7 +737,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                 rr = resolverFactory.getServiceResourceResolver(resolverParams);
                 Session session = rr.adaptTo(Session.class);
                 QueryManager qm = session.getWorkspace().getQueryManager();
-                log.debug("Executing JCR query: "+sql);
+                log.debug("Executing JCR query: " + sql);
                 Query q = qm.createQuery(sql, Query.SQL);
                 QueryResult result = q.execute();
                 for (RowIterator it = result.getRows(); it.hasNext(); ) {
@@ -880,20 +874,31 @@ public class MeetingDAOImpl implements MeetingDAO {
             String namespace = branch.replace("/content/", "");
             branch += "/en";
             String eventPath = "";
+            ResourceResolver rr = null;
             try {
-                ValueMap jcrContent = girlScoutsRepoService.getNode(branch + "/jcr:content");
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Session session = rr.adaptTo(Session.class);
+                Node jcrContent = session.getNode(branch + "/jcr:content");
                 if (jcrContent != null) {
-                    if (jcrContent.get("eventPath") != null) {
-                        eventPath = jcrContent.get("eventPath", String.class);
+                    if (jcrContent.hasProperty("eventPath") && jcrContent.getProperty("eventPath") != null) {
+                        eventPath = jcrContent.getProperty("eventPath").getString();
                     }
-                    if (jcrContent.get("event-cart") != null) {
-                        if ("true".equals(jcrContent.get("event-cart", String.class))) {
+                    if (jcrContent.hasProperty("event-cart") && jcrContent.getProperty("event-cart") != null) {
+                        if ("true".equals(jcrContent.getProperty("event-cart").getString())) {
                             namespace = "sf-activities";
                         }
                     }
                 }
             } catch (Exception e) {
                 log.error("Error Occurred: ", e);
+            } finally {
+                try {
+                    if (rr != null) {
+                        rr.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
+                }
             }
             boolean isTag = false;
             String sqlTags = "";
@@ -945,12 +950,11 @@ public class MeetingDAOImpl implements MeetingDAO {
             sql += sqlTags;
             sql += sqlCat;
             int i = 0;
-            ResourceResolver rr = null;
             try {
                 rr = resolverFactory.getServiceResourceResolver(resolverParams);
                 Session session = rr.adaptTo(Session.class);
                 QueryManager qm = session.getWorkspace().getQueryManager();
-                log.debug("Executing JCR query: "+sql);
+                log.debug("Executing JCR query: " + sql);
                 Query q = qm.createQuery(sql, Query.SQL);
                 QueryResult result = q.execute();
                 for (RowIterator it = result.getRows(); it.hasNext(); ) {
@@ -1085,11 +1089,7 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     public boolean setAttendance(User user, Troop troop, String mid, Attendance attendance) {
-        if (girlScoutsAttendanceOCMService.create(attendance) != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return girlScoutsAttendanceOCMService.create(attendance) != null;
     }
 
     public Achievement getAchievement(User user, Troop troop, String mid) {
@@ -1097,22 +1097,14 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     public boolean setAchievement(User user, Troop troop, String mid, Achievement achievement) {
-        if (girlScoutsAchievementOCMService.create(achievement) != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return girlScoutsAchievementOCMService.create(achievement) != null;
     }
 
     public boolean updateMeetingEvent(User user, Troop troop, MeetingE meeting) throws IllegalAccessException, IllegalStateException {
         if (troop != null && !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        if (girlScoutsMeetingEOCMService.update(meeting) != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return girlScoutsMeetingEOCMService.update(meeting) != null;
     }
 
     public MeetingE getMeetingE(User user, Troop troop, String path) throws IllegalAccessException, VtkException {
@@ -1134,7 +1126,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             Session session = rr.adaptTo(Session.class);
             javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
             javax.jcr.query.Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             count = (int) result.getRows().getSize();
         } catch (Exception e) {
@@ -1263,7 +1255,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             String sql = "select [jcr:path] " + " from [dam:Asset] as s where " + " (isdescendantnode (s, [" + path + "]))";
             QueryManager qm = session.getWorkspace().getQueryManager();
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             NodeIterator itr = result.getNodes();
             while (itr.hasNext()) {
@@ -1300,7 +1292,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             NodeIterator itr = result.getNodes();
             while (itr.hasNext()) {
@@ -1339,7 +1331,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             Map<String, List<String>> container = new TreeMap();
             dictionary = new TreeMap<String, bean_resource>();
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             NodeIterator itr = result.getNodes();
             while (itr.hasNext()) {
@@ -1426,7 +1418,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             QueryManager qm = session.getWorkspace().getQueryManager();
             String sql = "select [jcr:path]  from [nt:unstructured] as s   where  (isdescendantnode (s, [" + path + "])) and [cq:tags] is not null";
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             count = result.getNodes().getSize();
             resourceCountMap.put(path, count);
@@ -1558,7 +1550,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             QueryManager qm = session.getWorkspace().getQueryManager();
             String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and outdoor=true and ocm_classname='org.girlscouts.vtk.models.Activity'";
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();
@@ -1570,7 +1562,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
-        }finally {
+        } finally {
             try {
                 if (rr != null) {
                     rr.close();
@@ -1595,7 +1587,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             QueryManager qm = session.getWorkspace().getQueryManager();
             String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and global=true and ocm_classname='org.girlscouts.vtk.models.Activity'";
             Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: "+sql);
+            log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             for (RowIterator it = result.getRows(); it.hasNext(); ) {
                 Row r = it.nextRow();

@@ -9,12 +9,11 @@ import javax.jcr.Value;
 import javax.jcr.ValueFactory;
 
 public class YearPlanComponentTypeOCMPropertyConverter implements AtomicTypeConverter {
-
     private static Logger log = LoggerFactory.getLogger(YearPlanComponentTypeOCMPropertyConverter.class);
 
     @Override
     public Value getValue(ValueFactory valueFactory, Object propValue) {
-        if (propValue == null){
+        if (propValue == null) {
             return null;
         }
         return valueFactory.createValue(String.valueOf(propValue));
@@ -22,7 +21,7 @@ public class YearPlanComponentTypeOCMPropertyConverter implements AtomicTypeConv
 
     @Override
     public Object getObject(Value value) {
-        if (value == null){
+        if (value == null) {
             return null;
         }
         try {
@@ -36,9 +35,8 @@ public class YearPlanComponentTypeOCMPropertyConverter implements AtomicTypeConv
                 case "MILESTONE":
                     return YearPlanComponentType.MILESTONE;
             }
-        }catch(Exception e){
-
-            }
+        } catch (Exception e) {
+        }
         return YearPlanComponentType.MEETING;
     }
 

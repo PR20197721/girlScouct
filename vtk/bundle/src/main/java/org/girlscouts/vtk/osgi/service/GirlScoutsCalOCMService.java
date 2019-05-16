@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsCalOCMService {
+    Cal create(Cal object);
 
-    public Cal create(Cal object);
-    public Cal update(Cal object);
+    Cal update(Cal object);
 
-    public Cal read(String path);
-    public boolean delete(Cal object);
+    Cal read(String path);
 
-    public Cal findObject(String path, Map<String, String> params);
-    public List<Cal> findObjects(String path, Map<String, String> params);
+    boolean delete(Cal object);
+
+    Cal findObject(String path, Map<String, String> params);
+
+    List<Cal> findObjects(String path, Map<String, String> params);
 
 }

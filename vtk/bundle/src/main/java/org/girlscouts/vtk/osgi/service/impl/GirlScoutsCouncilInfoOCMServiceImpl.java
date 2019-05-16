@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsCouncilInfoOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsCouncilInfoOCMServiceImpl")
 public class GirlScoutsCouncilInfoOCMServiceImpl implements GirlScoutsCouncilInfoOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsCouncilInfoOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,7 +42,7 @@ public class GirlScoutsCouncilInfoOCMServiceImpl implements GirlScoutsCouncilInf
 
     @Override
     public CouncilInfo read(String path) {
-        CouncilInfoNode node = (CouncilInfoNode)girlScoutsOCMRepository.read(path);
+        CouncilInfoNode node = (CouncilInfoNode) girlScoutsOCMRepository.read(path);
         return NodeToModelMapper.INSTANCE.toModel(node);
     }
 
@@ -63,7 +60,9 @@ public class GirlScoutsCouncilInfoOCMServiceImpl implements GirlScoutsCouncilInf
     public List<CouncilInfo> findObjects(String path, Map<String, String> params) {
         List<CouncilInfoNode> nodes = girlScoutsOCMRepository.findObjects(path, params, CouncilInfoNode.class);
         List<CouncilInfo> models = new ArrayList<>();
-        nodes.forEach(CouncilInfoNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(CouncilInfoNode));});
+        nodes.forEach(CouncilInfoNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(CouncilInfoNode));
+        });
         return models;
     }
 

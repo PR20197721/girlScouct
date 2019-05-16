@@ -43,6 +43,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
         log.info(this.getClass().getName() + " activated.");
     }
+
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         java.util.List<Meeting> meetings = new java.util.ArrayList();
         Session session = null;

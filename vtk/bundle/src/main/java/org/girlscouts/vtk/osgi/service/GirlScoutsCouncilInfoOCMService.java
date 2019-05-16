@@ -1,20 +1,21 @@
 package org.girlscouts.vtk.osgi.service;
 
-import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.CouncilInfo;
 
 import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsCouncilInfoOCMService {
+    CouncilInfo create(CouncilInfo object);
 
-    public CouncilInfo create(CouncilInfo object);
-    public CouncilInfo update(CouncilInfo object);
+    CouncilInfo update(CouncilInfo object);
 
-    public CouncilInfo read(String path);
-    public boolean delete(CouncilInfo object);
+    CouncilInfo read(String path);
 
-    public CouncilInfo findObject(String path, Map<String, String> params);
-    public List<CouncilInfo> findObjects(String path, Map<String, String> params);
+    boolean delete(CouncilInfo object);
+
+    CouncilInfo findObject(String path, Map<String, String> params);
+
+    List<CouncilInfo> findObjects(String path, Map<String, String> params);
 
 }

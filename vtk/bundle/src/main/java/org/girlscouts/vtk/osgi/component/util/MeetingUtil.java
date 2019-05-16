@@ -6,10 +6,10 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
-import org.girlscouts.vtk.osgi.component.dao.*;
-import org.girlscouts.vtk.models.*;
-import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.exception.VtkException;
+import org.girlscouts.vtk.models.*;
+import org.girlscouts.vtk.osgi.component.dao.*;
+import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,17 +59,6 @@ public class MeetingUtil {
         }
         return newMeeting;
 
-    }
-
-    public Activity getActivity(String activityId, java.util.List<Activity> activities) {
-        Activity _activity = null;
-        for (Activity activity : activities) {
-            if (activity.getId().equals(activityId)) {
-                _activity = activity;
-                break;
-            }
-        }
-        return _activity;
     }
 
     public java.util.Map getYearPlanSched(User user, Troop troop, YearPlan plan, boolean meetingPlanSpecialSort) throws IllegalAccessException, VtkException {
@@ -382,15 +371,6 @@ public class MeetingUtil {
         meetingInfo.setActivities(newActivity);
         // create custom meeting
         MeetingE meetingE = getMeeting(troop.getYearPlan().getMeetingEvents(), meetingPath);
-		/*
-		if (meetingE.getRefId().contains("_"))
-			meetingDAO.updateCustomMeeting(user, troop, meetingE, meetingInfo);
-		else
-			meetingDAO.createCustomMeeting(user, troop, meetingE, meetingInfo);
-
-		troop.getYearPlan().setAltered("true");
-		troopUtil.updateTroop(user, troop);
-		*/
         createOrUpdateCustomMeeting(user, troop, meetingE, meetingInfo);
     }
 
@@ -413,15 +393,9 @@ public class MeetingUtil {
         }
         MeetingE meeting = new MeetingE();
         meeting.setRefId(newMeetingPath);
-        int maxMeetEId = 0;
-        if (troop.getYearPlan().getMeetingEvents() != null) {
-            for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
-                if (maxMeetEId < troop.getYearPlan().getMeetingEvents().get(i).getSortOrder()) {
-                    maxMeetEId = troop.getYearPlan().getMeetingEvents().get(i).getSortOrder();
-                }
-            }
-        }
-        meeting.setSortOrder(maxMeetEId + 1);
+        int meetingsNum = troop.getYearPlan().getMeetingEvents().size();
+        meeting.setId(String.valueOf(meetingsNum));
+        meeting.setSortOrder(meetingsNum);
         meeting.setDbUpdate(true);
         if (troop.getYearPlan().getMeetingEvents() == null) {
             troop.getYearPlan().setMeetingEvents(new java.util.ArrayList());
@@ -429,9 +403,8 @@ public class MeetingUtil {
         troop.getYearPlan().getMeetingEvents().add(meeting);
         if (troop.getYearPlan().getSchedule() != null) {
             java.util.List<java.util.Date> sched = VtkUtil.getStrCommDelToArrayDates(troop.getYearPlan().getSchedule().getDates());
-            long newDate = new java.util.Date().getTime() + 5000;
             if (!troop.getYearPlan().getSchedule().getDates().trim().equals("")) {
-                newDate = new CalendarUtil().getNextDate(VtkUtil.getStrCommDelToArrayStr(troop.getYearPlan().getCalExclWeeksOf()), sched.get(sched.size() - 1).getTime(), troop.getYearPlan().getCalFreq(), false);
+                long newDate = new CalendarUtil().getNextDate(VtkUtil.getStrCommDelToArrayStr(troop.getYearPlan().getCalExclWeeksOf()), sched.get(sched.size() - 1).getTime(), troop.getYearPlan().getCalFreq(), false);
                 sched.add(new java.util.Date(newDate));
                 troop.getYearPlan().getSchedule().setDates(VtkUtil.getArrayDateToLongComDelim(sched));
             }
@@ -665,12 +638,6 @@ public class MeetingUtil {
 
     }
 
-    public java.util.List<MeetingE> sortById(java.util.List<MeetingE> meetings) {
-        Comparator<MeetingE> comp = new org.apache.commons.beanutils.BeanComparator("id");
-        Collections.sort(meetings, comp);
-        return meetings;
-    }
-
     public java.util.List<Activity> sortActivity(java.util.List<Activity> _activities) {
         try {
             Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
@@ -766,7 +733,6 @@ public class MeetingUtil {
                         }
                     }
                     _aidTags.add(__resources.get(y));
-
                 }
             }
             meeting.setLastAssetUpdate(new java.util.Date());
@@ -819,10 +785,8 @@ public class MeetingUtil {
                     if (searchDate.after(new java.util.Date())) {
                         break;
                     }
-
                 }
             }
-
         }
         int currInd = dates.indexOf(searchDate);
         if (dates.size() - 1 > currInd) {
@@ -906,7 +870,6 @@ public class MeetingUtil {
                 if (isRmDt) {
                     troopDAO.removeMeeting(user, troop, meetings.get(i));
                     meetings.remove(i);
-
                 }
             }
         }
@@ -1143,19 +1106,6 @@ public class MeetingUtil {
 
     }
 
-    public void createMeetingCanceled(User user, Troop troop, String meetingRefId, long meetingDate) throws IllegalAccessException, VtkException {
-        MeetingCanceled meeting = new MeetingCanceled();
-        meeting.setDate(new java.util.Date(meetingDate));
-        meeting.setRefId(meetingRefId);
-        meeting.setCancelled("true");
-        meeting.setDbUpdate(true);
-        java.util.List<MeetingCanceled> meetingsCanceled = troop.getYearPlan().getMeetingCanceled();
-        meetingsCanceled = meetingsCanceled == null ? new java.util.ArrayList<MeetingCanceled>() : meetingsCanceled;
-        meetingsCanceled.add(meeting);
-        troop.getYearPlan().setMeetingCanceled(meetingsCanceled);
-        troopDAO.updateTroop(user, troop);
-    }
-
     public void createCustomYearPlan(User user, Troop troop, String mids) throws IllegalAccessException, VtkYearPlanChangeException, VtkException {
         String potentialFirstDate = VtkUtil.getYearPlanStartDate(troop);
         troopUtil.selectYearPlan(user, troop, "", "Custom Year Plan");
@@ -1204,10 +1154,6 @@ public class MeetingUtil {
         return meetingDAO.rmNote(user, troop, noteId);
     }
 
-    public void createOrUpdateCustomMeeting(User user, Troop troop, MeetingE meetingE) throws IllegalAccessException, VtkException {
-        createOrUpdateCustomMeeting(user, troop, meetingE, meetingE.getMeetingInfo());
-    }
-
     public void createOrUpdateCustomMeeting(User user, Troop troop, MeetingE meetingE, Meeting meetingInfo) throws IllegalAccessException, VtkException {
         if (meetingE.getRefId().contains("_")) {
             meetingDAO.updateCustomMeeting(user, troop, meetingE, meetingInfo);
@@ -1218,27 +1164,6 @@ public class MeetingUtil {
         troopUtil.updateTroop(user, troop);
     }
 
-    /*
-    public boolean updateActivityOutdoorStatus(User user, Troop troop, String mid, String aid, boolean isOutdoor) throws IllegalAccessException, VtkException{
-
-        MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
-        Activity activity = VtkUtil.findActivityByPath( meeting.getMeetingInfo().getActivities(), aid );
-        return updateActivityOutdoorStatus( user, troop, meeting, activity, isOutdoor );
-
-    }
-
-    public boolean updateActivityOutdoorStatus(User user, Troop troop, MeetingE meetingE, Activity activity, boolean isOutdoor) throws IllegalAccessException, VtkException{
-        boolean isUpdated= false;
-        for(int i=0;i<meetingE.getMeetingInfo().getActivities().size();i++){
-            if( activity.getUid().equals( meetingE.getMeetingInfo().getActivities().get(i).getUid()) ){
-                meetingE.getMeetingInfo().getActivities().get(i).setIsOutdoor(isOutdoor);
-                createOrUpdateCustomMeeting(user, troop, meetingE );
-                isUpdated=true;
-            }
-        }
-        return isUpdated;
-    }
-    */
     public List<Note> addNote(User user, Troop troop, String mid, String message) throws java.lang.IllegalAccessException, VtkException {
         if (mid == null || message == null || message.trim().equals("")) {
             return null;
@@ -1270,12 +1195,6 @@ public class MeetingUtil {
             isEdit = updateNote(user, troop, note);
         }//edn if
         return isEdit;
-    }
-
-    public void addMeetings(User user, Troop troop, String[] meetings) throws java.lang.IllegalAccessException, VtkException {
-        for (int i = 0; i < meetings.length; i++) {
-            addMeetings(user, troop, meetings[i]);
-        }
     }
 
     public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException {

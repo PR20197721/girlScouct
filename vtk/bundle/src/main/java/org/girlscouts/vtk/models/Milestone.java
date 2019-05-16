@@ -8,7 +8,6 @@ import java.util.Date;
 
 @Node
 public class Milestone extends YearPlanComponent implements Serializable {
-
     private Boolean show;
     private String blurb;
     private Date date;
@@ -45,7 +44,7 @@ public class Milestone extends YearPlanComponent implements Serializable {
     public void setUid(String uid) {
         if (uid == null) {
             super.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
-        }else{
+        } else {
             super.setUid(uid);
         }
 

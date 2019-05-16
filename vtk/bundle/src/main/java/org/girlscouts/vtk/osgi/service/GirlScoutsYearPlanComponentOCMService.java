@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsYearPlanComponentOCMService {
+    YearPlanComponent create(YearPlanComponent object);
 
-    public YearPlanComponent create(YearPlanComponent object);
-    public YearPlanComponent update(YearPlanComponent object);
+    YearPlanComponent update(YearPlanComponent object);
 
-    public YearPlanComponent read(String path);
-    public boolean delete(YearPlanComponent object);
+    YearPlanComponent read(String path);
 
-    public YearPlanComponent findObject(String path, Map<String, String> params);
-    public List<YearPlanComponent> findObjects(String path, Map<String, String> params);
+    boolean delete(YearPlanComponent object);
+
+    YearPlanComponent findObject(String path, Map<String, String> params);
+
+    List<YearPlanComponent> findObjects(String path, Map<String, String> params);
 
 }

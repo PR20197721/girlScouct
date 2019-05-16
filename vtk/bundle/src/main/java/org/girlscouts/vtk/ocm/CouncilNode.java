@@ -6,6 +6,4 @@ import java.io.Serializable;
 
 @Node
 public class CouncilNode extends JcrNode implements Serializable {
-
-
 }

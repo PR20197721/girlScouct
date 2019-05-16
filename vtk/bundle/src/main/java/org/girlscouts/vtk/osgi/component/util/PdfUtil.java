@@ -54,6 +54,7 @@ public class PdfUtil {
     void activate() {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
     }
+
     //servlet
     public void createPrintPdf(String act, Troop troop, User user, String mid, SlingHttpServletResponse response) {
         try {

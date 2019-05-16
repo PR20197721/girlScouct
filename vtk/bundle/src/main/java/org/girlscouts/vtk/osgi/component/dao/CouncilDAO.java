@@ -1,10 +1,10 @@
 package org.girlscouts.vtk.osgi.component.dao;
 
+import org.girlscouts.vtk.exception.VtkException;
 import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
-import org.girlscouts.vtk.exception.VtkException;
 
 import java.util.List;
 

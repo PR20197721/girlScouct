@@ -1,7 +1,5 @@
 package org.girlscouts.vtk.models;
 
-import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
-
 import java.io.Serializable;
 import java.util.Calendar;
 

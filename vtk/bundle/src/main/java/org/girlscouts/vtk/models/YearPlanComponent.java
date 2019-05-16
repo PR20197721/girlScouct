@@ -10,8 +10,7 @@ public class YearPlanComponent extends JcrNode implements Serializable {
     private YearPlanComponentType type;
     private Integer sortOrder;
 
-    public YearPlanComponent(){
-
+    public YearPlanComponent() {
     }
 
     public Date getDate() {

@@ -1,16 +1,9 @@
 package org.girlscouts.vtk.models;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
-
 import java.io.Serializable;
 import java.util.List;
 
 public class YearPlan extends JcrNode implements Serializable {
-
     private String name, desc, id, refId, altered, resources;
     private java.util.List<MeetingE> meetingEvents;
     private java.util.List<Activity> activities;

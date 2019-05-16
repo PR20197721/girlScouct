@@ -24,7 +24,7 @@
     }
     if (councilId == null || councilId.equals("") && user != null) {
         try {
-            councilId = "" + user.getApiConfig().getUser().getAdminCouncilId();
+            councilId = "" + user.getAdminCouncilId();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,7 +45,6 @@
         //String councilHomeUrl = configManager.getConfig("baseUrl") +  councilMapper.getCouncilUrl(councilId) +"en.html"; //baseUrl for local. no etc mapping
         String councilHomeUrl = "";
         try {
-            Integer.parseInt(councilId);
             councilHomeUrl = councilMapper.getCouncilUrl(councilId) + "en.html";
 
         } catch (Exception e) {

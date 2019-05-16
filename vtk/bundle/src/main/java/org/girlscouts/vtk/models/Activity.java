@@ -109,7 +109,7 @@ public class Activity extends YearPlanComponent implements Serializable {
     public void setUid(String uid) {
         if (uid == null) {
             super.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
-        }else{
+        } else {
             super.setUid(uid);
         }
 

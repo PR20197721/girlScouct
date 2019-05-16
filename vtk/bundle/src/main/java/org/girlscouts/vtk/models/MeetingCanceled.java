@@ -49,7 +49,7 @@ public class MeetingCanceled extends MeetingE implements Serializable {
     public void setUid(String uid) {
         if (uid == null) {
             super.setUid("MC" + new java.util.Date().getTime() + "_" + Math.random());
-        }else{
+        } else {
             super.setUid(uid);
         }
     }

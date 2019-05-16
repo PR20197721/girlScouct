@@ -1,20 +1,21 @@
 package org.girlscouts.vtk.osgi.service;
 
-import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
 
 import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsActivityOCMService {
+    Activity create(Activity object);
 
-    public Activity create(Activity object);
-    public Activity update(Activity object);
+    Activity update(Activity object);
 
-    public Activity read(String path);
-    public boolean delete(Activity object);
+    Activity read(String path);
 
-    public Activity findObject(String path, Map<String, String> params);
-    public List<Activity> findObjects(String path, Map<String, String> params);
+    boolean delete(Activity object);
+
+    Activity findObject(String path, Map<String, String> params);
+
+    List<Activity> findObjects(String path, Map<String, String> params);
 
 }

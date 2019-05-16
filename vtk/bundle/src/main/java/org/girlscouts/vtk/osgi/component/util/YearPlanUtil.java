@@ -7,9 +7,9 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
-import org.girlscouts.vtk.osgi.component.dao.*;
-import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.exception.VtkException;
+import org.girlscouts.vtk.models.*;
+import org.girlscouts.vtk.osgi.component.dao.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

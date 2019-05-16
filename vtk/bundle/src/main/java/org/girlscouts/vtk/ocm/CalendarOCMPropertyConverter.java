@@ -10,13 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class CalendarOCMPropertyConverter implements AtomicTypeConverter {
-
     private static Logger log = LoggerFactory.getLogger(CalendarOCMPropertyConverter.class);
     private final SimpleDateFormat jcrTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.sssZ");
 
     @Override
     public Value getValue(ValueFactory valueFactory, Object propValue) {
-        if (propValue == null){
+        if (propValue == null) {
             return null;
         }
         return valueFactory.createValue((Calendar) propValue);
@@ -24,13 +23,13 @@ public class CalendarOCMPropertyConverter implements AtomicTypeConverter {
 
     @Override
     public Object getObject(Value value) {
-        if (value == null){
+        if (value == null) {
             return null;
         }
         Calendar cal = null;
-        try{
+        try {
             cal = value.getDate();
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Error occurred:", e);
         }
         return cal;
@@ -38,6 +37,6 @@ public class CalendarOCMPropertyConverter implements AtomicTypeConverter {
 
     @Override
     public String getXPathQueryValue(ValueFactory valueFactory, Object object) {
-        return jcrTimeFormat.format((Calendar) object);
+        return jcrTimeFormat.format(object);
     }
 }

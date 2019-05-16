@@ -8,7 +8,6 @@ import java.util.List;
 
 @Node
 public class CouncilInfoNode extends JcrNode implements Serializable {
-
     @Collection(autoUpdate = false)
     private List<MilestoneNode> milestones;
 

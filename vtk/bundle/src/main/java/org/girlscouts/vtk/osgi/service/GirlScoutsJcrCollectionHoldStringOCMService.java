@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface GirlScoutsJcrCollectionHoldStringOCMService {
+    JcrCollectionHoldString create(JcrCollectionHoldString object);
 
-    public JcrCollectionHoldString create(JcrCollectionHoldString object);
-    public JcrCollectionHoldString update(JcrCollectionHoldString object);
+    JcrCollectionHoldString update(JcrCollectionHoldString object);
 
-    public JcrCollectionHoldString read(String path);
-    public boolean delete(JcrCollectionHoldString object);
+    JcrCollectionHoldString read(String path);
 
-    public JcrCollectionHoldString findObject(String path, Map<String, String> params);
-    public List<JcrCollectionHoldString> findObjects(String path, Map<String, String> params);
+    boolean delete(JcrCollectionHoldString object);
+
+    JcrCollectionHoldString findObject(String path, Map<String, String> params);
+
+    List<JcrCollectionHoldString> findObjects(String path, Map<String, String> params);
 
 }

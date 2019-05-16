@@ -1,13 +1,9 @@
 package org.girlscouts.vtk.models;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-
 import java.util.List;
 
 public class Contact extends JcrNode implements java.io.Serializable, Comparable<Contact> {
     private static final long serialVersionUID = -9143046810103196285L;
-
     private Integer age, type;
     private String email, phone, firstName, lastName, address, address1, city, state, zip, suite, role, dob, country, contactId;
     private List<Contact> contacts;

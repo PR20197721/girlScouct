@@ -17,10 +17,7 @@ import java.util.Map;
 
 @Component(service = {GirlScoutsYearPlanOCMService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsYearPlanOCMServiceImpl")
 public class GirlScoutsYearPlanOCMServiceImpl implements GirlScoutsYearPlanOCMService {
-
-
     private static Logger log = LoggerFactory.getLogger(GirlScoutsYearPlanOCMServiceImpl.class);
-
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
 
@@ -45,8 +42,8 @@ public class GirlScoutsYearPlanOCMServiceImpl implements GirlScoutsYearPlanOCMSe
 
     @Override
     public YearPlan read(String path) {
-        YearPlanNode node = (YearPlanNode)girlScoutsOCMRepository.read(path);
-        if(node != null && (node.getMeetingEvents() == null || node.getMeetingEvents().isEmpty())){
+        YearPlanNode node = (YearPlanNode) girlScoutsOCMRepository.read(path);
+        if (node != null && (node.getMeetingEvents() == null || node.getMeetingEvents().isEmpty())) {
             node.setMeetingEvents(node.getMeetings());
         }
         return NodeToModelMapper.INSTANCE.toModel(node);
@@ -66,7 +63,9 @@ public class GirlScoutsYearPlanOCMServiceImpl implements GirlScoutsYearPlanOCMSe
     public List<YearPlan> findObjects(String path, Map<String, String> params) {
         List<YearPlanNode> nodes = girlScoutsOCMRepository.findObjects(path, params, YearPlanNode.class);
         List<YearPlan> models = new ArrayList<>();
-        nodes.forEach(yearPlanNode -> {models.add(NodeToModelMapper.INSTANCE.toModel(yearPlanNode));});
+        nodes.forEach(yearPlanNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(yearPlanNode));
+        });
         return models;
     }
 
