@@ -1,6 +1,5 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
-import com.day.cq.search.QueryBuilder;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.vtk.osgi.service.GirlScoutsJCRRepository;
@@ -20,8 +19,6 @@ public class GirlScoutsJCRRepositoryImpl implements GirlScoutsJCRRepository {
     @Reference
     private ResourceResolverFactory resolverFactory;
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
-    @Reference
-    private QueryBuilder qBuilder;
 
     @Activate
     private void activate() {
