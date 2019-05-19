@@ -1,7 +1,7 @@
 package org.girlscouts.web.components.models;
 
 import com.day.cq.wcm.api.Page;
-import jdk.nashorn.internal.ir.annotations.Reference;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
