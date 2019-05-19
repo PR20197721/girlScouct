@@ -1,6 +1,19 @@
 <%@include file="/libs/foundation/global.jsp"%>
+<%@page import="javax.jcr.Node"  %>
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
 <!--PAGE STRUCTURE: MAIN-->
+<%
+    Node logoNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
+    try{
+        if(logoNode.hasNode("jcr:content/header/logo/regular"))
+            logoNode = logoNode.getNode("jcr:content/header/logo/regular")
+    }catch(Exception e){
+
+    }
+    String logoPath = logoNode.getProperty("fileReference").getString();
+
+%>
+<img id="printPageImg"style = "display: none;" src="<%= logoPath %>"/>
 <div id="main" class="row content">
 		<!--PAGE STRUCTURE: LEFT CONTENT START-->
 		<div class="large-5 hide-for-medium hide-for-small columns mainLeft">
