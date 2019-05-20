@@ -1,7 +1,6 @@
 package org.girlscouts.web.components.models;
 
 import com.day.cq.wcm.api.Page;
-import org.apache.felix.scr.annotations.Reference;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
@@ -9,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 
@@ -18,7 +18,7 @@ public class PrintCss {
     @Self
     private SlingHttpServletRequest request;
 
-    @Reference
+    @Inject
     private Page currentPage;
 
     private boolean addSpacing;
