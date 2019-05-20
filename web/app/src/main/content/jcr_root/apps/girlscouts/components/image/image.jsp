@@ -101,7 +101,12 @@
 	</div>
     <%@include file="/libs/foundation/components/image/tracking-js.jsp"%>
     <%
-    NodeIterator nodeItr = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
+    NodeIterator nodeItr;
+    try{
+         nodeItr = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
+    }catch(Exception e){
+         nodeItr = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle").getNodes();
+    }
     Node currNode = nodeItr.nextNode();
     if(showButton){
         if("girlscouts/components/image".equals(currNode.getProperty("sling:resourceType").getString()) && currentNode.getPath().equals(currNode.getPath())){

@@ -6,7 +6,7 @@
     Node logoNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
     try{
         if(logoNode.hasNode("jcr:content/header/logo/regular"))
-            logoNode = logoNode.getNode("jcr:content/header/logo/regular")
+            logoNode = logoNode.getNode("jcr:content/header/logo/regular");
     }catch(Exception e){
 
     }
