@@ -1,5 +1,18 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%@page import="javax.jcr.Node"  %>
+<%
+    Node logoNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
+    try{
+        if(logoNode.hasNode("jcr:content/header/logo/regular"))
+            logoNode = logoNode.getNode("jcr:content/header/logo/image");
+    }catch(Exception e){
+
+    }
+    String logoPath = logoNode.getProperty("fileReference").getString();
+
+    %>
 <!-- content -->
+<img id="printPageImg"style = "display: none;" src="<%= logoPath %>"/>
 <div id="main" class="two-cols">
     <cq:include path="content/top/par" resourceType="girlscouts-common/components/styled-parsys" />
     <div class="left-col">
