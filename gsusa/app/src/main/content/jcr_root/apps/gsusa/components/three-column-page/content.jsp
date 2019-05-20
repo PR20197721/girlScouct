@@ -11,7 +11,7 @@
     String cookieHeaderPath = headerPath + "/cookie-header";
     Node logoNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
     try{
-        if(logoNode.hasNode("jcr:content/header/logo/regular"))
+        if(logoNode.hasNode("jcr:content/header/logo/image"))
             logoNode = logoNode.getNode("jcr:content/header/logo/image");
     }catch(Exception e){
 
