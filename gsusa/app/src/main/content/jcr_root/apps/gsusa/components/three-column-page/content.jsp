@@ -16,11 +16,11 @@
     }catch(Exception e){
 
     }
-    String logoPath = logoNode.getProperty("fileReference").getString();
+    String logoPaths = logoNode.getProperty("fileReference").getString();
 
     %>
 <!-- content -->
-<img id="printPageImg"style = "display: none;" src="<%= logoPath %>"/>
+<img id="printPageImg"style = "display: none;" src="<%= logoPaths %>"/>
 <div id="main" class="three-cols">
     <cq:include path="content/top/par" resourceType="girlscouts-common/components/styled-parsys" />
 
