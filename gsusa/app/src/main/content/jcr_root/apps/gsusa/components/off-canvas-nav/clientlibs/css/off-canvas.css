@@ -20,6 +20,9 @@ ul.off-canvas-list li a {
   color: black;
   font-weight: bold;
 }
+.side-nav-wrapper span:hover{
+    font-weight: bold;
+}
 .menu-wrapper-el a:hover {
   cursor: pointer;
   color: black !important;

@@ -125,13 +125,13 @@
 		    } else {
 		        if(parent){
 		            if(isPlaceholder && !eyebrowNavVal){
-		                sb.append("<div class="+sideNavClass+"><span id='side-nav-active-parent' style='padding-top: 17px; padding-bottom: 17px; display: inline-block; padding-left: 0px; margin-left: -9px;' title=\"" + label + "\">" + "< "+ label + "</span><span class='side-nav-expand'>></span></div><hr>");
+		                sb.append("<div class="+sideNavClass+"><span class="" id='side-nav-active-parent' style='color: #FFA500 !important; padding-top: 17px; padding-bottom: 17px; display: inline-block; padding-left: 0px; margin-left: -9px;' title=\"" + label + "\">" + "< "+ label + "</span><span class='side-nav-expand'>></span></div><hr>");
 		            }else if(isParent && !eyebrowNavVal){
-		                sb.append("<div class="+sideNavClass+"><a style='color: #FFA500; padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + "< "+ label + "</a><span class='side-nav-expand'>></span></div><hr>");
+		                sb.append("<div class="+sideNavClass+"><a style='color: #FFA500 !important; padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + "< "+ label + "</a><span class='side-nav-expand'>></span></div><hr>");
 		            }else if(eyebrowNavVal){
 		                sb.append("<div class="+sideNavClass+"><a style='padding-left: 10px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" +  label + "</a></div><hr>");
 		            }else{
-                        sb.append("<div class="+sideNavClass+"><a style='color: #FFA500; padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + "< "+ label + "</a></div><hr>");
+                        sb.append("<div class="+sideNavClass+"><a style='color: #FFA500 !important; padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + "< "+ label + "</a></div><hr>");
 		            }
 		        }else{
 		            Node nodePath = rr.resolve(path).adaptTo(Node.class);
