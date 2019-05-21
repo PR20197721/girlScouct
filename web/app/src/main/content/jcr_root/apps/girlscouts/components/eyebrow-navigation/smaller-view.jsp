@@ -32,9 +32,8 @@ for (int i = 0; i < links.length; i++) {
 		<div><a <%= clazz %> href="<%= path %>"<%= newWindow %>><%= label %></a></div><hr></li>
  <% } 
 }%>
-//Add main menu link
 <li class='side-nav-el'>
-<div class='side-nav-wrapper'><a href=\""+ homepagePath +".html\" title=\"MainMenu\">MAIN MENU</a></div><hr>
+    <div class='side-nav-wrapper'><a href=\""+ homepagePath +".html\" title=\"MainMenu\">MAIN MENU</a></div><hr>
 </li>
 </ul>
 </div>
