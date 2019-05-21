@@ -2,7 +2,7 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@page import="javax.jcr.Node"  %>
 <%
-    Node logoNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
+    Node logoNode = currentPage.adaptTo(Node.class);
     String logoPath = "";
     try{
         if(logoNode.hasNode("jcr:content/header/logo/regular")){
