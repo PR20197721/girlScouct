@@ -48,13 +48,4 @@ $(document).ready(function(){
             $(this).closest(".side-nav-el").children("ul").slideUp();
         }
     });
-    $(".left-off-canvas-toggle.menu-icon").on("click", function(){
-        setTimeout(function(){
-            $("body").css("overflow", "hidden");
-            $("html").css("overflow", "hidden");
-        }, 500);
-    });
-    $(".exit-off-canvas").on("click", function(){
-        $("body").css("overflow", "auto");
-    });
 });

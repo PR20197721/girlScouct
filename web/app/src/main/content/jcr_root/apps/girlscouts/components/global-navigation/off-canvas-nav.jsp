@@ -22,7 +22,7 @@
 
 	sb.append("<div class=\"global-navigation global-nav\">");
 	    sb.append("<div id=\"left-canvas-menu\">");
-			sb.append("<ul class=\"side-nav\" style=\"padding:0px; background-color:#6b6b6b;\">");
+			sb.append("<ul class=\"side-nav\" style=\"padding:0px; background-color:#e6e7e8;\">");
 			List<String> topMenus = new ArrayList<String>();
 		    if(headerNavs != null && headerNavs.getSize() > 0){
 		    	while(headerNavs.hasNext()){

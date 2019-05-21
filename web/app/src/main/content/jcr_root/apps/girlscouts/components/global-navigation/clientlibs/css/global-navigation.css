@@ -96,7 +96,7 @@
   right: 33px;
 }
 .side-nav-el span{
-    color: #ddd;
+    color: black;
     padding: 12px 0px 0px 5px;
     text-transform: capitalize;
     display: block;
@@ -166,7 +166,7 @@
 }
 .mobileSearch{
     padding: 0px;
-    background-color: #6b6b6b;
+    background-color: #e6e7e8;
 }
 .mobile-search-btn-text{
     font-size: 11px;
@@ -175,7 +175,7 @@
     margin: 0 0 1rem 0;
 }
 .side-nav-el a{
-    color: #ddd !important;
+    color: black !important;
 }
 .side-nav-el div{
     padding-bottom: 16px;
