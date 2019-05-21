@@ -3,13 +3,15 @@
 <%@page import="javax.jcr.Node"  %>
 <%
     Node logoNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
+    String logoPath = "";
     try{
-        if(logoNode.hasNode("jcr:content/header/logo/regular"))
+        if(logoNode.hasNode("jcr:content/header/logo/regular")){
             logoNode = logoNode.getNode("jcr:content/header/logo/regular");
+            logoPath = logoNode.getProperty("fileReference").getString();
+        }
     }catch(Exception e){
 
     }
-    String logoPath = logoNode.getProperty("fileReference").getString();
 
 %>
 <img id="printPageImg"style = "display: none;" src="<%= logoPath %>"/>

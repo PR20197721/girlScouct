@@ -10,13 +10,15 @@
     String headerSearchPath = headerPath + "/search";
     String cookieHeaderPath = headerPath + "/cookie-header";
     Node logoNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
+    String logoPaths = "";
     try{
-        if(logoNode.hasNode("jcr:content/header/logo/image"))
+        if(logoNode.hasNode("jcr:content/header/logo/image")){
             logoNode = logoNode.getNode("jcr:content/header/logo/image");
+            logoPaths = logoNode.getProperty("fileReference").getString();
+        }
     }catch(Exception e){
 
     }
-    String logoPaths = logoNode.getProperty("fileReference").getString();
 
     %>
 <!-- content -->
