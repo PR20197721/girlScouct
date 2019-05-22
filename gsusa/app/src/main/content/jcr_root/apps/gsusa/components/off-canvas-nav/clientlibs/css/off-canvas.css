@@ -101,6 +101,9 @@ ul.off-canvas-list li a {
 .side-nav-header{
     display: inline-flex;
 }
+.side-nav-wrapper span.side-nav-expand:hover{
+	font-weight: normal !important;
+}
 .side-nav-header #eventSearch{
     height: 28px;
     width: 135px;
