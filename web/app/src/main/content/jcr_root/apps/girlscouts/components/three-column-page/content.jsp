@@ -26,9 +26,10 @@
     }
 
     if(addHeaderImage){
-%>  <img src='<%= headerImagePath%>'/>
-
-    <img id="printPageImg"style = "display: none;" src="<%= logoPath %>"/>
+%>
+    <div id="printImgBackground" style="display: none; background-image: url('<%= headerImagePath%>') !important">
+        <img id="printPageImg"style = "display: none;" src="<%= logoPath %>"/>
+    </div>
 <% }
 else{ %>
     <img id="printPageImg"style = "background-color: #00ae58 !important; display: none;" src="<%= logoPath %>"/>

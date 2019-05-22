@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
-img#printPageImg { transform: scale(2); display: block !important; height: 135px; !important; padding-left: 550px !important; background-color: #00ae58 !important; padding-top: 40px !important; padding-right: 1200px;}
+img#printPageImg { transform: scale(2); display: block !important; height: 135px; !important; padding-left: 550px !important; padding-top: 40px !important; padding-right: 1200px;}
+div#printImgBackground{ display: block !important; height:170px; }
 div.header { display: none; }
 div.left-col { display: none; }
 div.right-col { display: none; }

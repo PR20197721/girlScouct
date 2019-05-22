@@ -2,7 +2,19 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@page import="javax.jcr.Node"  %>
 <%
-    Node logoNode = currentPage.adaptTo(Node.class);
+
+    Node homeNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
+    Node logoNode = logoNode;
+    String headerImagePath = "";
+    boolean addHeaderImage;
+    try{
+        homeNode = homeNode.getNode("jcr:content");
+        headerImagePath = homeNode.getProperty("headerImagePath").getString();
+        addHeaderImage = (!headerImagePath.equals("") && headerImagePath != null);
+    }catch(Exception e){
+        addHeaderImage = false;
+    }
+
     String logoPath = "";
     try{
         if(logoNode.hasNode("jcr:content/header/logo/regular")){
@@ -10,9 +22,19 @@
             logoPath = logoNode.getProperty("fileReference").getString();
         }
     }catch(Exception e){
+
     }
-%>
-    <img id="printPageImg"style = "display: none;" src="<%= logoPath %>"/>
+
+ if(addHeaderImage){
+ %>
+<!-- content -->
+    <div id="printImgBackground" style="display: none; background-image: url('<%= headerImagePath%>') !important">
+        <img id="printPageImg"style = "display: none;" src="<%= logoPath %>"/>
+    </div>
+<% }
+else{ %>
+    <img id="printPageImg"style = "background-color: #00ae58 !important; display: none;" src="<%= logoPath %>"/>
+<% } %>
 <!--PAGE STRUCTURE: MAIN-->
   <div id="main" class="row collapse">
 <!--<div class="large-24 medium-24 small-24 columns"> -->
