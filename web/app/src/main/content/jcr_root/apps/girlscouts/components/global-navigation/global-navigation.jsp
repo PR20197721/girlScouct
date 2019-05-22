@@ -86,9 +86,9 @@ if(currentNode.hasNode("links")){
             String small = linkNode.getProperty("small").getString();
             if(linkNode.hasProperty("mobileView")){
                 if(!linkNode.getProperty("mobileView").getString().equals("true")){
-                    displaySmall.add("false");
+                    displaySmall.add("true");
                 }else{
-                    displaySmall.add(linkNode.getProperty("mobileView").getString());
+                    displaySmall.add("false");
                 }
             }else{
                 displaySmall.add("false");
