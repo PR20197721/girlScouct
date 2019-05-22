@@ -16,20 +16,20 @@
   Draws an image. 
 
 --%><%@ page import="com.day.cq.commons.Doctype,
-    com.day.cq.wcm.api.components.DropTarget,
+    com.day.cq.wcm.api.components.DropTarget, org.slf4j.Logger, org.slf4j.LoggerFactory
     com.day.cq.wcm.foundation.Image, javax.jcr.NodeIterator,javax.jcr.Node,com.day.cq.wcm.foundation.Placeholder" %><%
 %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts.components.image" /><%
 	String divId = "cq-image-jsp-" + resource.getPath();
-
+    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     Node pageNode = currentPage.getContentResource().adaptTo(Node.class);
-    boolean showButton;
+    boolean showButton = false;
      try{
         showButton = pageNode.getProperty("cssPrint").getBoolean();
      }catch(Exception e){
-        showButton = false;
+        log.error("Error finding cssPrint property: ",e)
      }
 	String styleImage = "";
 	String styleCaption = "";
@@ -107,6 +107,7 @@
          nodeItr = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
          currNode = nodeItr.nextNode();
     }catch(Exception e){
+        log.error("Error getting first page component: ",e)
     }
 
     if(showButton){

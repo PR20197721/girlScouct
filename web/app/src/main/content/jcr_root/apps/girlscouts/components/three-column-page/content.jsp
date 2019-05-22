@@ -1,18 +1,19 @@
 <%@include file="/libs/foundation/global.jsp"%>
-<%@page import="javax.jcr.Node"  %>
+<%@page import="javax.jcr.Node, org.slf4j.Logger, org.slf4j.LoggerFactory"  %>
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
 <!--PAGE STRUCTURE: MAIN-->
 <%
+    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     Node homeNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
     Node logoNode = homeNode;
     String headerImagePath = "";
-    boolean addHeaderImage;
+    boolean addHeaderImage = false;
     try{
         homeNode = homeNode.getNode("jcr:content");
         headerImagePath = homeNode.getProperty("headerImagePath").getString();
         addHeaderImage = (!headerImagePath.equals("") && headerImagePath != null);
     }catch(Exception e){
-        addHeaderImage = false;
+        log.error("Error finding header background: ",e);
     }
 
     String logoPath = "";
@@ -22,7 +23,7 @@
             logoPath = logoNode.getProperty("fileReference").getString();
         }
     }catch(Exception e){
-
+        log.error("Error finding Logo: ",e);
     }
 
     if(addHeaderImage){
