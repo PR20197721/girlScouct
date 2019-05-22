@@ -40,8 +40,6 @@
 	String pRight = properties.get("./pright", "0");
 	String imageWidth = properties.get("./width", "0");
 	String caption = properties.get("./jcr:description", "");
-
-
     String buttonPath = currentPage.getPath() + "/print-css";
 	String padding = pTop + pBottom + pLeft + pRight;
 	String currentPath = currentPage.getPath();
