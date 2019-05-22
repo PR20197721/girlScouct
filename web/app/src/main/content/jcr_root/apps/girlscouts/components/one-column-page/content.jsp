@@ -2,7 +2,7 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@page import="javax.jcr.Node, org.slf4j.Logger, org.slf4j.LoggerFactory"  %>
 <%
-    Logger log = LoggerFactory.getLogger(this.getClass().getName());
+    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     Node homeNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
     Node logoNode = homeNode;
     String headerImagePath = "";
@@ -12,7 +12,7 @@
         headerImagePath = homeNode.getProperty("headerImagePath").getString();
         addHeaderImage = (!headerImagePath.equals("") && headerImagePath != null);
     }catch(Exception e){
-        log.error("Error finding header background: ",e);
+        logger.error("Error finding header background: ",e);
     }
 
     String logoPath = "";
@@ -22,7 +22,7 @@
             logoPath = logoNode.getProperty("fileReference").getString();
         }
     }catch(Exception e){
-        log.error("Error finding Logo: ",e);
+        logger.error("Error finding Logo: ",e);
     }
 
  if(addHeaderImage){

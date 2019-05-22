@@ -23,13 +23,13 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts.components.image" /><%
 	String divId = "cq-image-jsp-" + resource.getPath();
-    Logger log = LoggerFactory.getLogger(this.getClass().getName());
+    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     Node pageNode = currentPage.getContentResource().adaptTo(Node.class);
     boolean showButton = false;
      try{
         showButton = pageNode.getProperty("cssPrint").getBoolean();
      }catch(Exception e){
-        log.error("Error finding cssPrint property: ",e)
+        logger.error("Error finding cssPrint property: ",e)
      }
 	String styleImage = "";
 	String styleCaption = "";
@@ -105,7 +105,7 @@
          nodeItr = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
          currNode = nodeItr.nextNode();
     }catch(Exception e){
-        log.error("Error getting first page component: ",e)
+        logger.error("Error getting first page component: ",e)
     }
 
     if(showButton){

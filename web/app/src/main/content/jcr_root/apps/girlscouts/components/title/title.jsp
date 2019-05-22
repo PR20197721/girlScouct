@@ -12,7 +12,7 @@
         
      
 <%
-  Logger log = LoggerFactory.getLogger(this.getClass().getName());
+  Logger logger= LoggerFactory.getLogger(this.getClass().getName());
   String title = properties.get("title", String.class);
 
   if(title == null || title.equals(""))
@@ -28,7 +28,7 @@
       try{
          showButton = pageNode.getProperty("cssPrint").getBoolean();
       }catch(Exception e){
-         log.error("Error finding cssPrint property: ",e)
+         logger.error("Error finding cssPrint property: ",e)
       }
       String buttonPath = currentPage.getPath() + "/print-css";
     NodeIterator nodeItrFirstEl = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
