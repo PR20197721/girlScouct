@@ -25,6 +25,9 @@
 .side-nav-wrapper span:hover{
     font-weight: bold;
 }
+.side-nav-wrapper span.side-nav-expand:hover{
+    font-weight: normal !important;
+}
 .side-nav.search-bar li{
     border-right: none;
 }
@@ -76,6 +79,15 @@
 }
 .side-nav-el.parentEl ul li ul li ul li ul li div a{
     padding-left: 95px ;
+}
+.side-nav-el.parentEl ul li ul li ul li div a{
+    padding-left: 75px !important;
+}
+.side-nav-el.parentEl ul li ul li div a{
+    padding-left: 55px !important;
+}
+.side-nav-el.parentEl ul li div a{
+    padding-left: 35px !important;
 }
 .side-nav.search-bar{
     padding-bottom: 0px;
@@ -155,8 +167,8 @@
 /* Mobile Search Bar/Button CSS*/
 #searchBtn{
     height: 28px;
-    padding: 0 7px 4px 7px;
-    margin-left: 7%;
+    padding: 0 12px 4px 12px;
+    margin-left: 4%;
     line-height: 0;
     color: white;
     background-color: #009447;
@@ -165,8 +177,8 @@
 }
 #searchBtnHome{
     height: 28px;
-    padding: 0 7px 4px 7px;
-    margin-left: 7%;
+    padding: 0 12px 4px 12px;
+    margin-left: 4%;
     line-height: 0;
     color: white;
     background-color: #009447;

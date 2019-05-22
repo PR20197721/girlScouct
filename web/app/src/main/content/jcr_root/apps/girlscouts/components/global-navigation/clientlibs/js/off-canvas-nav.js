@@ -1,6 +1,5 @@
 //expand elements for current page
 function init(){
-    $(".left-off-canvas-menu").css("height", window.innerHeight)
     $(".side-nav-el.active").children("ul").css("display", "block");
     $(".side-nav-el.active").children("div").children("span").css({'transform' : 'rotate(90deg)'});
     $("#sub-active").children("ul").css("display", "block");
