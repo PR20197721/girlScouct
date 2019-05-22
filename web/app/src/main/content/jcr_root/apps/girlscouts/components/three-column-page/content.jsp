@@ -3,7 +3,18 @@
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
 <!--PAGE STRUCTURE: MAIN-->
 <%
-    Node logoNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
+    Node homeNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
+    Node logoNode = homeNode;
+    String headerImagePath = "";
+    boolean addHeaderImage;
+    try{
+        homeNode = homeNode.getNode("jcr:content");
+        headerImagePath = homeNode.getProperty("headerImagePath").getString();
+        addHeaderImage = (!headerImagePath.equals("") && headerImagePath != null);
+    }catch(Exception e){
+        addHeaderImage = false;
+    }
+
     String logoPath = "";
     try{
         if(logoNode.hasNode("jcr:content/header/logo/regular")){
@@ -14,9 +25,14 @@
 
     }
 
+    if(addHeaderImage){
+%>  <img src='<%= headerImagePath%>'/>
 
-%>
-<img id="printPageImg"style = "display: none;" src="<%= logoPath %>"/>
+    <img id="printPageImg"style = "display: none;" src="<%= logoPath %>"/>
+<% }
+else{ %>
+    <img id="printPageImg"style = "background-color: #00ae58 !important; display: none;" src="<%= logoPath %>"/>
+<% } %>
 <div id="main" class="row content">
 		<!--PAGE STRUCTURE: LEFT CONTENT START-->
 		<div class="large-5 hide-for-medium hide-for-small columns mainLeft">
