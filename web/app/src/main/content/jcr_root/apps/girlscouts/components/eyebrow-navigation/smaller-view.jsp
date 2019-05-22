@@ -8,6 +8,7 @@
 <div id="right-canvas-menu-bottom">
   <ul class="side-nav" style="background-color: #e6e7e8;">
 <%
+String homepagePath = currentPage.getAbsoluteParent(2).getPath();
 String currPath = currentPage.getPath();
 String[] links = (String[])(request.getAttribute("links"));
 if(links != null){
@@ -33,7 +34,10 @@ for (int i = 0; i < links.length; i++) {
  <% } 
 }%>
 <li class='side-nav-el'>
-    <div class='side-nav-wrapper'><a style="padding-top: 17px; padding-bottom: 17px;"href=\""+ homepagePath +".html\" title=\"MainMenu\">MAIN MENU</a></div><hr>
+    <div class='side-nav-wrapper'>
+        <a style="padding-top: 17px; padding-bottom: 17px;"href="<%= homepagePath %>.html">MAIN MENU</a>
+    </div>
+    <hr>
 </li>
 </ul>
 </div>

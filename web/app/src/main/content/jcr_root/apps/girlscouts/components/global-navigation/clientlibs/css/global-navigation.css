@@ -18,6 +18,16 @@
  .search-box{
     margin-top: 3px;
  }
+ #searchIcon{
+    float: right;
+    clear: both;
+    margin-top: -22px;
+ }
+ #menuIcon{
+    float: left;
+    clear: both;
+    padding-top: 33px;
+ }
 /* Left Canvas Menu CSS */
 .side-nav-el a{
     width: 70%;
@@ -32,7 +42,7 @@
     border-right: none;
 }
 .left-off-canvas-menu{
-    background-color: #6b6b6b;
+    background-color: #e6e7e8;
 }
 #left-canvas-menu a {
     font-size: 14px;
