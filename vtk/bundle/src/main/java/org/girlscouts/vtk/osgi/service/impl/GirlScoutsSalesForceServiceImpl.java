@@ -138,7 +138,17 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 if (apiConfig.isDemoUser() || isLoadFromFile) {
                     contactsInfoResponseEntity = sfFileClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
                 } else {
-                    contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
+                    if(troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())){
+                        Contact irmContact = new Contact();
+                        irmContact.setFirstName(apiConfig.getUser().getFirstName());
+                        irmContact.setLastName(apiConfig.getUser().getLastName());
+                        irmContact.setEmail(apiConfig.getUser().getEmail());
+                        irmContact.setRole("Girl");
+                        irmContact.setPhone(apiConfig.getUser().getPhone());
+                        contacts.add(irmContact);
+                    }else {
+                        contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
+                    }
                 }
             }
             if (contactsInfoResponseEntity != null) {
@@ -252,10 +262,10 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
         }
         //TODO remove after changes made in salesforce and we don't have to force these troops for test council users
-        if ("999".equals(user.getAdminCouncilId())) {
+        /*if ("999".equals(user.getAdminCouncilId())) {
             additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
             additionalTroops.addAll(getIndependentRegisteredMemberTroops(user.getSfUserId()));
-        }
+        }*/
         //TODO end remove
         List<Troop> mergedTroops = mergeTroops(parentTroops, additionalTroops);
         for (Troop troop : mergedTroops) {

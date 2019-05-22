@@ -170,6 +170,19 @@ public class VtkUtil implements ConfigListener {
         return null;
     }
 
+    public static int getCurrentGSFinanceYear(){
+        java.util.Calendar cutOffDate= java.util.Calendar.getInstance();
+        cutOffDate.setTime(new java.util.Date(gsFinanceYearCutoffDate) );
+
+        java.util.Calendar now = java.util.Calendar.getInstance();
+
+        if( now.getTimeInMillis() < cutOffDate.getTimeInMillis())
+            return cutOffDate.get(java.util.Calendar.YEAR) -1 ;
+        else
+            return cutOffDate.get(java.util.Calendar.YEAR);
+
+    }
+
     public static final boolean isSameDate(java.util.Date date1, java.util.Date date2) {
         return DateUtils.isSameDay(date1, date2);
     }
