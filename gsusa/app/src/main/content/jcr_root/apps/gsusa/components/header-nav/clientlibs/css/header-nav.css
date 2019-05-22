@@ -75,7 +75,8 @@
     padding-top: 27px;
 }
 #searchIcon{
-    margin-left: 8px;
     float: right;
     padding-top: 34px;
+    padding-right: 12px;
+    margin-left: -4px;
 }
