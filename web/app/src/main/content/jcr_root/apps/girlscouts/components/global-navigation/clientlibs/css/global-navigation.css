@@ -15,15 +15,21 @@
  .login.small-19.columns a:hover{
      color: #FFA500;
  }
+ .search-box{
+    margin-top: 3px;
+ }
 /* Left Canvas Menu CSS */
 .side-nav-el a{
     width: 70%;
 }
+.side-nav-wrapper span:hover{
+    font-weight: bold;
+}
+.side-nav.search-bar li{
+    border-right: none;
+}
 .left-off-canvas-menu{
     background-color: #6b6b6b;
-}
-#left-canvas-menu {
-    overflow: hidden;
 }
 #left-canvas-menu a {
     font-size: 14px;
@@ -33,8 +39,11 @@
     margin-top: 0;
     margin-bottom: 0;
     margin-left: 0;
-    margin-right: 10px;
     border: 1px solid gray;
+}
+#left-canvas-menu .side-nav>li {
+    background: none !important;
+    border-right: solid 0.625rem #00ae58;
 }
 #left-canvas-menu-bottom hr{
     margin-top: 0;
@@ -43,12 +52,21 @@
     margin-right: 10px;
     border: 1px solid gray;
 }
+#right-canvas-menu-bottom a{
+	color: black;
+}
+#right-canvas-menu-bottom a:hover{
+	font-weight: bold;
+}
 /* Left Canvas - Side Menu CSS */
 #sub-active ul{
     display: block;
 }
 .side-nav-el.parentEl:hover{
     cursor: pointer;
+}
+.side-nav-el a:hover{
+    font-weight: bold;
 }
 #side-nav-bottom-first{
     margin-top: -14px !important;
@@ -57,16 +75,7 @@
     background: rgba(0, 0, 0, 0.8);
 }
 .side-nav-el.parentEl ul li ul li ul li ul li div a{
-    padding-left: 40px !important;
-}
-.side-nav-el.parentEl ul li ul li ul li div a{
-    padding-left: 35px !important;
-}
-.side-nav-el.parentEl ul li ul li div a{
-    padding-left: 25px !important;
-}
-.side-nav-el.parentEl ul li div a{
-    padding-left: 15px !important;
+    padding-left: 95px ;
 }
 .side-nav.search-bar{
     padding-bottom: 0px;
@@ -101,7 +110,7 @@
     text-transform: capitalize;
     display: block;
     height: 50px;
-    font-size: .9rem;
+    font-size: 15.5px;
 }
 #side-nav-active-parent{
     display: inline-block;
@@ -114,6 +123,7 @@
 }
 .side-nav-el a{
      display: inline-block !important;
+     font-size: 15.5px;
 }
 .side-nav-expand{
     display: inline-block !important;
@@ -128,6 +138,19 @@
     padding-right: 2% !important;
     padding-top: 0 !important;
     font-size: 30px !important;
+}
+.side-nav-el a{
+    color: black !important;
+}
+.side-nav-el div{
+    padding-bottom: 16px;
+}
+.side-nav-el.active.current > div{
+    background-color: #B0B0AF;
+}
+.tab-selected{
+    display: inline;
+    color: black !important;
 }
 /* Mobile Search Bar/Button CSS*/
 #searchBtn{
@@ -173,13 +196,4 @@
 }
 #eventSearch.searchField{
     margin: 0 0 1rem 0;
-}
-.side-nav-el a{
-    color: black !important;
-}
-.side-nav-el div{
-    padding-bottom: 16px;
-}
-.side-nav-el.active.current > div{
-    background-color: #B0B0AF;
 }

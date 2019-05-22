@@ -6,7 +6,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <div id="right-canvas-menu-bottom">
-  <ul class="side-nav" style="background-color:#6b6b6b;">
+  <ul class="side-nav" style="background-color: #e6e7e8;">
 <%
 String currPath = currentPage.getPath();
 String[] links = (String[])(request.getAttribute("links"));
@@ -33,7 +33,7 @@ for (int i = 0; i < links.length; i++) {
  <% } 
 }%>
 <li class='side-nav-el'>
-    <div class='side-nav-wrapper'><a href=\""+ homepagePath +".html\" title=\"MainMenu\">MAIN MENU</a></div><hr>
+    <div class='side-nav-wrapper'><a style="padding-top: 17px; padding-bottom: 17px;"href=\""+ homepagePath +".html\" title=\"MainMenu\">MAIN MENU</a></div><hr>
 </li>
 </ul>
 </div>

@@ -932,7 +932,6 @@ td.fc-header-left {
 }
 #left-canvas-menu .side-nav li div {
   padding: 0px 0px 0px 10px;
-  margin-right: 10px;
 }
 #left-canvas-menu li {
   margin: 0px;
@@ -961,16 +960,6 @@ td.fc-header-left {
 }
 .left-off-canvas-menu .side-nav>li>li a {
   font-weight: normal;
-}
-#left-canvas-menu .side-nav>li {
-  background: url('/etc/designs/girlscouts/images/orange-vertical.png') repeat-y 100% 0px;
-}
-#left-canvas-menu .side-nav>li.active {
-  background: url('/etc/designs/girlscouts/images/orange-yellow-vertical.png') repeat-y 100% 0px;
-  padding: 0px 0px 0px 10px;
-}
-#left-canvas-menu .side-nav>li#sub-active {
-  background: url('/etc/designs/girlscouts/images/orange-yellow-vertical.png') repeat-y 100% 0px;
 }
 #left-canvas-menu .side-nav ul#submenu {
   padding: 0px;
@@ -1041,16 +1030,16 @@ td.fc-header-left {
   margin: 0px;
 }
 #left-canvas-menu .side-nav #sub-active ul li a {
-  padding-left: 15px;
+  padding-left: 35px;
 }
 #left-canvas-menu .side-nav li.active.current > div {
   background-color: #B0B0B0;
 }
 #left-canvas-menu .side-nav  ul li ul li ul li a {
-  padding-left: 40px;
+  padding-left: 75px;
 }
 #left-canvas-menu .side-nav  ul li ul li a {
-  padding-left: 30px;
+  padding-left: 55px;
 }
 /* Hamburger Menu changes end */
 
