@@ -4,7 +4,7 @@
 <%
 
     Node homeNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
-    Node logoNode = logoNode;
+    Node logoNode = homeNode;
     String headerImagePath = "";
     boolean addHeaderImage;
     try{
