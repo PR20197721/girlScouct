@@ -2,7 +2,7 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@page import="javax.jcr.Node, org.slf4j.Logger, org.slf4j.LoggerFactory"  %>
 <%
-    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    Logger log = LoggerFactory.getLogger(this.getClass().getName());
     Node homeNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
     Node logoNode = homeNode;
     String headerImagePath = "";

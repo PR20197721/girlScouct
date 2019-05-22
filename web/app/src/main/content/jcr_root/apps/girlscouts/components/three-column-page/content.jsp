@@ -3,7 +3,7 @@
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
 <!--PAGE STRUCTURE: MAIN-->
 <%
-    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    Logger log = LoggerFactory.getLogger(this.getClass().getName());
     Node homeNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
     Node logoNode = homeNode;
     String headerImagePath = "";

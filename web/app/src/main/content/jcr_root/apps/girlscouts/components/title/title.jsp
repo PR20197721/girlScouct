@@ -5,11 +5,14 @@
         javax.jcr.NodeIterator,
         javax.jcr.Node,
         com.day.cq.commons.DiffService,
+        org.slf4j.Logger,
+        org.slf4j.LoggerFactory,
         org.apache.sling.api.resource.ResourceUtil" %>
         <%@page import="com.day.cq.wcm.api.WCMMode" %>
         
      
 <%
+  Logger log = LoggerFactory.getLogger(this.getClass().getName());
   String title = properties.get("title", String.class);
 
   if(title == null || title.equals(""))
@@ -21,11 +24,11 @@
        title = currentPage.getTitle();
     }
     Node pageNode = currentPage.getContentResource().adaptTo(Node.class);
-      boolean showButton;
+      boolean showButton = false;
       try{
          showButton = pageNode.getProperty("cssPrint").getBoolean();
       }catch(Exception e){
-         showButton = false;
+         log.error("Error finding cssPrint property: ",e)
       }
       String buttonPath = currentPage.getPath() + "/print-css";
     NodeIterator nodeItrFirstEl = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();

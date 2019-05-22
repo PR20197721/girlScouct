@@ -16,14 +16,14 @@
   Draws an image. 
 
 --%><%@ page import="com.day.cq.commons.Doctype,
-    com.day.cq.wcm.api.components.DropTarget, org.slf4j.Logger, org.slf4j.LoggerFactory
+    com.day.cq.wcm.api.components.DropTarget, org.slf4j.Logger, org.slf4j.LoggerFactory,
     com.day.cq.wcm.foundation.Image, javax.jcr.NodeIterator,javax.jcr.Node,com.day.cq.wcm.foundation.Placeholder" %><%
 %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts.components.image" /><%
 	String divId = "cq-image-jsp-" + resource.getPath();
-    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    Logger log = LoggerFactory.getLogger(this.getClass().getName());
     Node pageNode = currentPage.getContentResource().adaptTo(Node.class);
     boolean showButton = false;
      try{
