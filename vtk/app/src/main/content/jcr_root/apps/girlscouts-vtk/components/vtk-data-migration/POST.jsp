@@ -1,296 +1,319 @@
-<%@page session="false" import="javax.jcr.*,
-        com.day.cq.wcm.api.Page,
-        com.day.cq.wcm.api.PageManager,
-        org.apache.sling.api.resource.Resource,
-        com.day.cq.wcm.commons.WCMUtils,
-        com.day.cq.wcm.api.NameConstants,
-        com.day.cq.wcm.api.designer.Designer,
-        com.day.cq.wcm.api.designer.Design,
-        com.day.cq.wcm.api.designer.Style,
-        org.apache.sling.api.resource.ValueMap,
-        com.day.cq.wcm.api.components.ComponentContext,
-        com.day.cq.wcm.api.components.EditContext,
-        java.util.Date, java.text.SimpleDateFormat, 
-        java.text.FieldPosition, java.text.ParsePosition,
-        java.util.Iterator,
-        java.util.Calendar,
-        javax.jcr.Property,
-        javax.jcr.Node,
-        javax.jcr.NodeIterator,
-        javax.jcr.PropertyType,
-        javax.jcr.Session,
-		javax.jcr.version.*,
-        org.slf4j.Logger,
-        org.slf4j.LoggerFactory,
-        java.util.List,
-        java.util.ArrayList,
-         org.apache.sling.api.resource.ResourceResolver,
-         org.apache.sling.jcr.api.SlingRepository,
-com.day.cq.workflow.*,
-com.day.cq.workflow.model.*,
-com.day.cq.workflow.exec.*" %><%
-%><%@include file="/libs/foundation/global.jsp"%>
+<%@page session="false" import="com.day.cq.wcm.api.NameConstants,
+                                com.day.cq.wcm.api.Page,
+                                com.day.cq.wcm.api.PageManager,
+                                com.day.cq.wcm.api.components.ComponentContext,
+                                com.day.cq.wcm.api.components.EditContext,
+                                com.day.cq.wcm.api.designer.Design,
+                                com.day.cq.wcm.api.designer.Designer,
+                                com.day.cq.wcm.api.designer.Style,
+                                com.day.cq.wcm.commons.WCMUtils,
+                                org.apache.sling.api.resource.Resource,
+                                org.apache.sling.api.resource.ResourceResolver,
+                                org.apache.sling.api.resource.ResourceResolverFactory,
+                                org.apache.sling.api.resource.ValueMap,
+                                org.apache.sling.jcr.api.SlingRepository,
+                                org.slf4j.Logger,
+                                org.slf4j.LoggerFactory,
+                                javax.jcr.*,
+                                javax.jcr.query.*,
+                                java.util.HashMap,
+                                java.util.HashSet,
+                                java.util.Map,
+                                java.util.Set,
+                                java.util.Iterator" %>
+<%
+%>
+<%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%!
-public static final String THREAD_NAME = "thread";
-public static final String RUNNABLE_NAME = "runnable";
-
+    public static final String THREAD_NAME = "thread";
+    public static final String RUNNABLE_NAME = "runnable";
+    public static ResourceResolverFactory resolverFactory;
 %><%
-ServletContext ctxt = application.getContext("/apps/tools/components/fixAssets");
-String cmd = (request.getParameter("cmd") != null)?request.getParameter("cmd"):"";
-boolean threadExists = ctxt.getAttribute(THREAD_NAME) != null;
-boolean threadIsAlive = threadExists && ((Thread)(ctxt.getAttribute(THREAD_NAME))).isAlive();
-
-long sleepMillis = 100;
-long nodesPerSave = 20;
-boolean dryRun = false;
-
-String path = "/content/dam";
-if(request.getParameter("nodes_per_save") != null) {
-    try {
-      long nodesPerSaveTmp = Long.parseLong(request.getParameter("nodes_per_save"));
-      if(nodesPerSaveTmp > 0) nodesPerSave = nodesPerSaveTmp; 
-    } catch(Exception e) {
-    %><cq:include script="form.jsp"/><br/>Invalid entry for "Nodes per save".  The value must be a positive integer.<%
+    resolverFactory = sling.getService(ResourceResolverFactory.class);
+    ServletContext ctxt = application.getContext("/apps/girlscouts-vtk/components/vtk-data-migration");
+    String cmd = (request.getParameter("cmd") != null) ? request.getParameter("cmd") : "";
+    boolean threadExists = ctxt.getAttribute(THREAD_NAME) != null;
+    boolean threadIsAlive = threadExists && ((Thread) (ctxt.getAttribute(THREAD_NAME))).isAlive();
+    boolean dryRun = false;
+    if (request.getParameter("dry_run") != null) {
+        dryRun = true;
     }
-}
-
-if(request.getParameter("sleep_interval") != null) {
-    try {
-      long sleepMillisTmp = Long.parseLong(request.getParameter("sleep_interval"));
-      if(sleepMillisTmp > 0) sleepMillis = sleepMillisTmp;
-    } catch(Exception e) {
-    %><cq:include script="form.jsp"/><br/>Invalid entry for "Sleep time between saves".  The value must be a positive integer.<%
+    if ("stop".equals(cmd) && threadIsAlive) {
+        ((MigrateVtkDataThread) (ctxt.getAttribute(RUNNABLE_NAME))).requestStop();
+        ((Thread) (ctxt.getAttribute(THREAD_NAME))).join();
+%>stopped<%
+} else if (!threadIsAlive && "run".equals(cmd)) {
+    SlingRepository repository = sling.getService(SlingRepository.class);
+    MigrateVtkDataThread wft = new MigrateVtkDataThread(getServletContext(), repository, dryRun);
+    Thread t = new Thread(wft);
+    ctxt.setAttribute(THREAD_NAME, t);
+    ctxt.setAttribute(RUNNABLE_NAME, wft);
+    t.start();
+%>started<%
+} else if (threadIsAlive) {
+%>running<%
+} else if (!threadIsAlive) {
+%>not running<%
     }
-}
-if(request.getParameter("path") != null) {
-    path = request.getParameter("path");
-}
-
-if(request.getParameter("dry_run") != null) {
-    dryRun = true;
-}
-
-if("stop".equals(cmd) && threadIsAlive) {
-        ((FixAssetsThread)(ctxt.getAttribute(RUNNABLE_NAME))).requestStop();
-        ((Thread)(ctxt.getAttribute(THREAD_NAME))).join();
-        %>stopped<%
-} else if(!threadIsAlive && "run".equals(cmd)) {
-        SlingRepository repository = sling.getService(SlingRepository.class);
-        FixAssetsThread wft = new FixAssetsThread(getServletContext(), nodesPerSave, sleepMillis, path, repository, sling.getService(WorkflowService.class), dryRun);
-        Thread t = new Thread(wft);
-        ctxt.setAttribute(THREAD_NAME,t);
-        ctxt.setAttribute(RUNNABLE_NAME,wft);
-        t.start();
-        %>started<%
-} else if(threadIsAlive) {
-        %>running<%
-} else if(!threadIsAlive) {
-        %>not running<%
-}
-
-
 %><%!
-public class FixAssetsThread implements Runnable {
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
-    private ServletContext ctxt;
-    private boolean clearRunning;
-    private List listeners;
-    //private ResourceResolver resourceResolver;
-    private SlingRepository repository;
-    private Session jcrSession ;
-    private volatile boolean stop;
-    private String currentNodePath = null;
-    private boolean dryRun = true;
+    public class MigrateVtkDataThread implements Runnable {
+        private Set<String> paths = new HashSet<String>();
+        private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
+        private ServletContext ctxt;
+        private volatile boolean stop;
+        private boolean dryRun = true;
+        private long currentTimeMs = 0;
+        private long sleepMillis = 100;
+        private long nodesPerSave = 1000;
+        private long nodesSaved = 0;
+        private long nodeSaveCounter = 0;
+        private SlingRepository repository;
+        private Session jcrSession ;
+        private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
-    private long currentTimeMs = 0;
-    private static final String ASSET_ROOT_PATH = "/content/dam";
-    private long sleepMillis = 100;
-    private long nodesPerSave = 20;
-    private long nodeSaveCounter = 0;
-    private boolean isStoppingMessageOutput = false;
-	WorkflowSession wfSession;
-    private String DAM_WORKFLOW_MODEL = "/etc/workflow/models/dam/update_asset/jcr:content/model";
-	private String rootPath = ASSET_ROOT_PATH;
-
-	private WorkflowService wfService;
-
-    public FixAssetsThread(ServletContext ctxt, long nodesPerSave, long sleepMillis, String path, SlingRepository repository, WorkflowService wfService, boolean dryRun) {
-        this.ctxt = ctxt; 
-        this.clearRunning = clearRunning;
-        this.repository = repository ;
-        this.sleepMillis = sleepMillis;
-        this.nodesPerSave = nodesPerSave;
-        this.wfService = wfService;
-        this.dryRun = dryRun;
-        if(path != null) this.rootPath = path;
-        try {
-        	jcrSession = repository.loginAdministrative(null) ;
-            wfSession = wfService.getWorkflowSession(jcrSession);
-        } catch (RepositoryException e) {
-            log.error("fixAssets interrupted due to exception", e);
-        }
-    }
-
-    public void updateBuffer(String msg) {
-        log.info(msg);
-    }
-
-    public void requestStop() {
-        stop = true;   
-    }
-
-    public void run() {
-
-        try {
-            log.info("Running assets fix for path: " + this.rootPath + ((this.dryRun)?" (Dry Run)":""));
+        public MigrateVtkDataThread(ServletContext ctxt, SlingRepository repository, boolean dryRun) {
+            this.ctxt = ctxt;
+            this.repository = repository ;
+            this.paths.add("/vtk2018");
+            this.paths.add("/vtk2017");
+            this.paths.add("/vtk2016");
+            this.paths.add("/vtk2015");
+            this.paths.add("/vtk");
+            this.paths.add("/content/girlscouts-vtk");
+            this.dryRun = dryRun;
+            this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
             try {
-                currentTimeMs = System.currentTimeMillis();
-
-                long count = traverse((Node) jcrSession.getItem(this.rootPath), 0);
-				if((!this.dryRun) && (this.nodeSaveCounter % this.nodesPerSave) > 0 ) jcrSession.save();
-                log.info("fixAssets completed, total nodes: " + count + ", total nodes updated: " + this.nodeSaveCounter + ", total time: " + (System.currentTimeMillis()-currentTimeMs) + "ms");
+                jcrSession = repository.loginAdministrative(null) ;
             } catch (RepositoryException e) {
                 log.error("fixAssets interrupted due to exception", e);
             }
-        } catch(Exception ie) {
-            log.info("FixAssetsThread: interrupted");
-        } finally {
-          if (jcrSession != null) {
-            jcrSession.logout();
-            jcrSession = null;
-            } 
-            disposeOfThread();
         }
-    }
 
-    public long traverse(Node n, int level) throws RepositoryException {
-        long count = 1;
-        if (stop) {
-            if(!isStoppingMessageOutput) {
-                isStoppingMessageOutput = true;
-            }
-            return count;
+        public void requestStop() {
+            log.debug("Requesting stop");
+            this.stop = true;
         }
-        String path = n.getPath();
-        currentNodePath = path;
-        try {
-			Thread.sleep(sleepMillis);
-        } catch (InterruptedException ie) {
-            requestStop();
-			return level;
-        }
-        String nodeTypeName = n.getPrimaryNodeType().getName();
-        String assetPath = n.getPath();
-		boolean changesPending = false;
-        if (nodeTypeName.equals("dam:Asset")) {
-            /*
-            if(n.hasNode("jcr:content/metadata")) {
-				Node metadataNode = n.getNode("jcr:content/metadata");
-                if(metadataNode.hasProperty("dam:Comments")) {
-                    Property damComments = metadataNode.getProperty("dam:Comments");
-                    if(damComments.getString().startsWith("XML:")) {
-                        log.debug("Removing dam:Comments property from " + metadataNode.getPath());
-						damComments.remove();
-                        changesPending = true;
-                    }
-                  }
 
-            }
-            */
-			if(n.hasNode("jcr:content/renditions/original/jcr:content")) {
-    			Property binProp = n.getNode("jcr:content/renditions/original/jcr:content").getProperty("jcr:data");
-    			long size = binProp.getBinary().getSize();
-                //log.debug("Asset size " + size + " bytes, " + n.getPath());
-				Node version = getVersionWithSmallerFiles(n.getSession(), n, size);
-                if(version != null) {
-                    Node versionOrigContent = version.getNode("jcr:content/renditions/original/jcr:content");
-					Property versionBinProp = versionOrigContent.getProperty("jcr:data");
-                    String mime = n.getNode("jcr:content/renditions/original/jcr:content").getProperty("jcr:mimeType").getString();
-                    String versionMime = versionOrigContent.getProperty("jcr:mimeType").getString();
-                    log.debug("Updating " + n.getPath() + " with new binary" + ((this.dryRun)?" (Dry Run)":""));
-                    if(!this.dryRun) binProp.setValue(versionBinProp.getBinary());
-                    changesPending = true;
-                }
-            }
-            if(changesPending) {
-                this.nodeSaveCounter++;
-                if((this.nodeSaveCounter % this.nodesPerSave) == 0) {
-                    log.info("Saving changes for " + this.nodesPerSave + " assets." + ((this.dryRun)?" (Dry Run)":""));
-                    if(!this.dryRun) n.getSession().save();
-                }
-            }
-
-            /*if(!n.hasNode("jcr:content/renditions/cq5dam.thumbnail.140.100.png") || !n.hasNode("jcr:content/renditions/cq5dam.thumbnail.319.319.png") || !n.hasNode("jcr:content/renditions/cq5dam.thumbnail.48.48.png") ) {
-             runWorkflowOnNode(n, DAM_WORKFLOW_MODEL);
-          } else if(n.hasNode("jcr:content/renditions/original/jcr:content") && !n.hasNode("jcr:content/metadata")) {
+        public void run() {
+            //ResourceResolver rr = null;
             try {
-            	Node contentNode = n.getNode("jcr:content");
-            	contentNode.addNode("metadata");
-            	contentNode.getSession().save();
-            } catch (Exception e) {
-                log.error("Failed to create metadata node for asset: " + n.getPath());
-            }
-			runWorkflowOnNode(n, DAM_WORKFLOW_MODEL);
-          } else if(!n.hasNode("jcr:content/renditions/original/jcr:content")) {
-			log.error("Asset missing original rendition!! " + n.getPath());
-            }*/
+                //rr = resolverFactory.getServiceResourceResolver(this.resolverParams);
+                //Session session = rr.adaptTo(Session.class);
+                log.info("Running MigrateVtkDataThread " + ((this.dryRun) ? " (Dry Run)" : ""));
+                try {
+                    QueryResult result = null;
+                    currentTimeMs = System.currentTimeMillis();
+                    for (String path : this.paths) {
+                        try {
+                            Node yearNode = this.jcrSession.getNode(path);
+                            NodeIterator councils = yearNode.getNodes();
+                            while (councils.hasNext()) {
+                            Node councilNode = councils.nextNode();
+                                if (councilNode.hasProperty("ocm_classname") || "/content/girlscouts-vtk".equals(path)) {
+                                    if (councilNode.hasProperty("ocm_classname")) {
+                                        String councilOcmClassName = councilNode.getProperty("ocm_classname").getString();
+                                        if (!"org.girlscouts.vtk.ocm.CouncilNode".equals(councilOcmClassName)) {
+                                            councilNode.setProperty("ocm_classname_backup", councilOcmClassName);
+                                            councilOcmClassName = "org.girlscouts.vtk.ocm.CouncilNode";
+                                            councilNode.setProperty("ocm_classname", councilOcmClassName);
+                                            log.debug("Setting " + councilNode.getPath() + " with ocm_classname=" + councilOcmClassName);
+                                            this.nodeSaveCounter++;
+                                        }
+                                    }
+                                    String EXPRESSION1 = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([" + councilNode.getPath() + "]) and s.[ocm_classname] LIKE 'org.girlscouts.vtk.models%'";
+                                    String EXPRESSION2 = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([" + councilNode.getPath() + "]) and s.[ocm_classname] LIKE 'org.girlscouts.vtk.dao%'";
+                                    String EXPRESSION3 = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([" + councilNode.getPath() + "]) and s.[ocm_classname] = 'org.girlscouts.vtk.ocm.MeetingENode'";
+                                    if (!this.stop) {
+                                        result = search(EXPRESSION1);
+                                        if (result != null) {
+                                            try {
+                                                RowIterator rowIter = result.getRows();
+                                                log.debug("Processing " + rowIter.getSize() + " nodes");
+                                                while (rowIter.hasNext()) {
+                                                    if (this.stop) {break;}
+                                                    try {
+                                                        Row row = rowIter.nextRow();
+                                                        Node node = row.getNode();
+                                                        String ocmClassName = node.getProperty("ocm_classname").getString();
+                                                        node.setProperty("ocm_classname_backup", ocmClassName);
+                                                        ocmClassName = ocmClassName.replace("org.girlscouts.vtk.models", "org.girlscouts.vtk.ocm") + "Node";
+                                                        node.setProperty("ocm_classname", ocmClassName);
+                                                        log.debug("Setting " + node.getPath() + " with ocm_classname=" + ocmClassName);
+                                                        this.nodeSaveCounter++;
+                                                        if ((!this.dryRun) && (this.nodeSaveCounter % this.nodesPerSave) == 0) {
+                                                            log.debug("Saving " + this.nodesPerSave + " nodes");
+                                                            this.jcrSession.save();
+                                                            this.jcrSession.refresh(false);
+                                                            this.nodesSaved = this.nodeSaveCounter;
+                                                            try {
+                                                                log.debug("Sleeping for " + this.sleepMillis + " milliseconds");
+                                                                Thread.sleep(this.sleepMillis);
+                                                            } catch (InterruptedException ie) {
+                                                                requestStop();
+                                                            }
+                                                        }
+                                                    } catch (Exception e) {
+                                                    }
+                                                }
+                                                if ((!this.dryRun)) {
+                                                    log.debug("Saving before next step");
+                                                    this.jcrSession.save();
+                                                    this.jcrSession.refresh(false);
+                                                    this.nodesSaved = this.nodeSaveCounter;
+                                                    try {
+                                                        log.debug("Sleeping for " + this.sleepMillis + " milliseconds");
+                                                        Thread.sleep(this.sleepMillis);
+                                                    } catch (InterruptedException ie) {
+                                                        requestStop();
+                                                    }
+                                                }
+                                            } catch (Exception e1) {
+                                            }
+                                        }
+                                    }
+                                    if (!this.stop) {
+                                        result = search(EXPRESSION2);
+                                        if (result != null) {
+                                            try {
+                                                RowIterator rowIter = result.getRows();
+                                                log.debug("Processing " + rowIter.getSize() + " nodes");
+                                                while (rowIter.hasNext()) {
+                                                    if (this.stop) {break;}
+                                                    try {
+                                                        Row row = rowIter.nextRow();
+                                                        Node node = row.getNode();
+                                                        String ocmClassName = node.getProperty("ocm_classname").getString();
+                                                        node.setProperty("ocm_classname_backup", ocmClassName);
+                                                        ocmClassName = ocmClassName.replace("org.girlscouts.vtk.dao", "org.girlscouts.vtk.ocm") + "Node";
+                                                        log.debug("Setting " + node.getPath() + " with ocm_classname=" + ocmClassName);
+                                                        node.setProperty("ocm_classname", ocmClassName);
+                                                        this.nodeSaveCounter++;
+                                                        if ((!this.dryRun) && (this.nodeSaveCounter % this.nodesPerSave) == 0) {
+                                                            log.debug("Saving " + this.nodesPerSave + " nodes");
+                                                            this.jcrSession.save();
+                                                            this.jcrSession.refresh(false);
+                                                            this.nodesSaved = this.nodeSaveCounter;
+                                                            try {
+                                                                log.debug("Sleeping for " + this.sleepMillis + " milliseconds");
+                                                                Thread.sleep(this.sleepMillis);
+                                                            } catch (InterruptedException ie) {
+                                                                requestStop();
+                                                            }
+                                                        }
+                                                    } catch (Exception e) {
+                                                    }
+                                                }
+                                                if ((!this.dryRun)) {
+                                                    log.debug("Saving before next step");
+                                                    this.jcrSession.save();
+                                                    this.jcrSession.refresh(false);
+                                                    this.nodesSaved = this.nodeSaveCounter;
+                                                    try {
+                                                        log.debug("Sleeping for " + this.sleepMillis + " milliseconds");
+                                                        Thread.sleep(this.sleepMillis);
+                                                    } catch (InterruptedException ie) {
+                                                        requestStop();
+                                                    }
+                                                }
+                                            } catch (Exception e1) {
+                                            }
+                                        }
+                                    }
+                                    if (!this.stop) {
+                                        result = search(EXPRESSION3);
+                                        if (result != null) {
+                                            try {
+                                                RowIterator rowIter = result.getRows();
+                                                log.debug("Processing " + rowIter.getSize() + " nodes");
+                                                while (rowIter.hasNext()) {
+                                                    if (this.stop) {break;}
+                                                    try {
+                                                        Row row = rowIter.nextRow();
+                                                        Node node = row.getNode();
+                                                        if (!node.hasProperty("sortOrder")) {
+                                                            String id = node.getProperty("id").getString();
+                                                            Integer sortOrder = Integer.parseInt(id);
+                                                            log.debug("Setting " + node.getPath() + " with sortOrder=" + sortOrder);
+                                                            node.setProperty("sortOrder", sortOrder);
+                                                            this.nodeSaveCounter++;
+                                                            if ((!this.dryRun) && (this.nodeSaveCounter % this.nodesPerSave) == 0) {
+                                                                log.debug("Saving " + this.nodesPerSave + " nodes");
+                                                                this.jcrSession.save();
+                                                                this.jcrSession.refresh(false);
+                                                                this.nodesSaved = this.nodeSaveCounter;
+                                                                try {
+                                                                    log.debug("Sleeping for " + this.sleepMillis + " milliseconds");
+                                                                    Thread.sleep(this.sleepMillis);
+                                                                } catch (InterruptedException ie) {
+                                                                    requestStop();
+                                                                }
+                                                            }
+                                                        }
+                                                    } catch (Exception e) {
+                                                    }
+                                                }
+                                                if ((!this.dryRun)) {
+                                                    log.debug("Saving before next step");
+                                                    this.jcrSession.save();
+                                                    this.jcrSession.refresh(false);
+                                                    this.nodesSaved = this.nodeSaveCounter;
+                                                    try {
+                                                        log.debug("Sleeping for " + this.sleepMillis + " milliseconds");
+                                                        Thread.sleep(this.sleepMillis);
+                                                    } catch (InterruptedException ie) {
+                                                        requestStop();
+                                                    }
+                                                }
+                                            } catch (Exception e1) {
+                                            }
+                                        }
+                                    }
+                                }
 
-		  return count;
-        } else if(nodeTypeName.equals("sling:Folder") || nodeTypeName.equals("sling:OrderedFolder")) {
-            log.debug("Traversing folder: " + n.getPath());
-            NodeIterator nIter = n.getNodes();
-            while (nIter.hasNext()) {
-            	count += traverse(nIter.nextNode(), level + 1);
-            }
-        }
-        return count;
-
-    }
-
-    private Node getVersionWithSmallerFiles(Session session, Node n, long size) throws RepositoryException { 
-        if(n.isNodeType("mix:versionable")) {
-            VersionManager mgr = session.getWorkspace().getVersionManager();
-            VersionHistory vh = mgr.getVersionHistory(n.getPath());
-            VersionIterator vi = vh.getAllVersions();
-            while(vi.hasNext()) {
-                Version v = vi.nextVersion();
-                Node frNode = v.getFrozenNode();
-                if(frNode.hasNode("jcr:content/renditions/original/jcr:content")) {
-                    Property binProp = frNode.getNode("jcr:content/renditions/original/jcr:content").getProperty("jcr:data");
-                    long verSize = binProp.getBinary().getSize();
-                    if(size > verSize && (size - verSize) > 100000) {
-                        log.info(n.getPath() + ": Version " + v.getName() + " is smaller by " + (size - verSize) + " bytes");
-                        return frNode;
+                            }
+                        }catch (Exception e) {
+                            log.error("Could not process "+path+" successfully", e);
+                        }
                     }
+                    if (!this.stop) {
+                        log.debug("MigrateVtkDataThread completed, Updated " + this.nodesSaved + " nodes, total time: " + (System.currentTimeMillis() - currentTimeMs) + "ms");
+                    } else {
+                        log.debug("MigrateVtkDataThread stopped, Updated " + this.nodesSaved + " nodes, total time: " + (System.currentTimeMillis() - currentTimeMs) + "ms");
+                    }
+                } catch (Exception e) {
+                    log.error("MigrateVtkDataThread interrupted due to exception", e);
                 }
+            } catch (Exception ie) {
+                log.info("MigrateVtkDataThread: interrupted");
+            } finally {
+                if (jcrSession != null) {
+                    jcrSession.logout();
+                    jcrSession = null;
+                }
+                disposeOfThread();
             }
         }
-        return null;
-    }
 
-    public void runWorkflowOnNode(Node n, String modelPath) {
-			 String nodePath = null;
-             try {
-				nodePath = n.getPath();
-				log.info("Starting workflow for " + nodePath);
-			 // Get the workflow data
-         	 // The first param in the newWorkflowData method is the payloadType.  Just a fancy name to let it know what type of workflow it is working with.
-         		WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH", n.getPath());
-                WorkflowModel wfModel = wfSession.getModel(modelPath);
+        public void disposeOfThread() {
+            synchronized (this.ctxt) {
+                this.ctxt.removeAttribute(THREAD_NAME);
+                this.ctxt.removeAttribute(RUNNABLE_NAME);
+            }
+        }
 
-          	 // Run the Workflow.
-            	wfSession.startWorkflow(wfModel, wfData);
+        public QueryResult search(String EXPRESSION) {
+            String QUERY_LANGUAGE = "JCR-SQL2";
+            log.debug(EXPRESSION);
+            QueryResult result = null;
+            try {
+                QueryManager queryManager = this.jcrSession.getWorkspace().getQueryManager();
+                Query sql2Query = queryManager.createQuery(EXPRESSION, QUERY_LANGUAGE);
+                return sql2Query.execute();
             } catch (Exception e) {
-				log.error("Failed to run workflow for " + nodePath, e);
+                log.error("JCR SQL2 query encountered error ", e);
             }
-    }
-
-    public void disposeOfThread() {
-        synchronized(this.ctxt) {
-            this.ctxt.removeAttribute(THREAD_NAME);
-            this.ctxt.removeAttribute(RUNNABLE_NAME);
+            return result;
         }
     }
-}
 %>
