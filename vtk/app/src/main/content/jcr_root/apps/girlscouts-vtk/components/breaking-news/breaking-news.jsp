@@ -72,8 +72,7 @@
             }
             if (!textcolor.equals("")) {
 
-        %><strong style="color:#<%=textcolor%>"><%= alert %>
-        </strong> <span style="color:#<%=textcolor%>"><%= message %></span><%
+				%><strong style="color:#<%=textcolor%>"><%= alert %></strong> <span style="color:#<%=textcolor%>; width: 92%; display: inline-block;"><%= message %></span><%
 
         } else {
 
