@@ -39,11 +39,7 @@ else{ %>
         var mediaQueryList = window.matchMedia('print');
         mediaQueryList.addListener(function(mql) {
       		if(mql.matches) {
-        		if(headerColor === "rgb(255, 255, 255)"){
-                    $("#printPageImg").attr("style","background-color: white !important; display: none;");
-                }else{
-                    $("#printPageImg").attr("style","background-color: #00ae58 !important; display: none;");
-                }
+                $("#printPageImg").attr("style","background-color: "+ headerColor +" !important; display: none;");
      	 	}
         });
     </script>
