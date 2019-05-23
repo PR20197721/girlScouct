@@ -35,7 +35,7 @@
 else{ %>
     <img id="printPageImg" style = "background-color: #00ae58 !important; display: none;" src="<%= logoPath %>"/>
     <script>
-        var headerColor = $("#header").css("color");
+        var headerColor = $(".header-wrapper").css("background-color");
         var mediaQueryList = window.matchMedia('print');
         mediaQueryList.addListener(function(mql) {
       		if(mql.matches) {
