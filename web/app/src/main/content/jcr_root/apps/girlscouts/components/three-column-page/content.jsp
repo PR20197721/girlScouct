@@ -34,6 +34,19 @@
 <% }
 else{ %>
     <img id="printPageImg"style = "background-color: #00ae58 !important; display: none;" src="<%= logoPath %>"/>
+    <script>
+        var headerColor = $("#header").css("color");
+        var mediaQueryList = window.matchMedia('print');
+        mediaQueryList.addListener(function(mql) {
+            if(mql.matches) {
+                if(headerColor === "rgb(255, 255, 255)"){
+                    $("#printPageImg").attr("style","background-color: white !important; display: none;");
+                }else{
+                    $("#printPageImg").attr("style","background-color: #00ae58 !important; display: none;");
+                }
+            }
+        });
+    </script>
 <% } %>
 <div id="main" class="row content">
 		<!--PAGE STRUCTURE: LEFT CONTENT START-->
