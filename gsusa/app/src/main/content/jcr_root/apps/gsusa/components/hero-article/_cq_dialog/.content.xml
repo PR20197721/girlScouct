@@ -33,7 +33,14 @@
                                 fieldLabel="Article Path"
                                 rootPath="/content/gsusa/en" 
                                 required="true"
-                                name="./articlepath" /> 
+                                name="./articlepath" />
+                            <titlelink
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                name="./titlelink"
+                                text="Link Title to Article"
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                         </items>
                     </columns>
                 </items>

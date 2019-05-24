@@ -1,29 +1,28 @@
 <%--
   blockquote component.
 --%><%
-%><%@include file="/libs/foundation/global.jsp"%>
+%>
+<%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp"%>
 <%@page import="com.day.cq.wcm.api.WCMMode,
      			com.day.cq.search.result.Hit,
-				java.util.List,
+     			com.adobe.granite.ui.components.Config,
+     			com.adobe.granite.ui.components.ComponentHelper,
+				java.util.List, 
 				java.util.ArrayList,
 				java.lang.StringBuilder,
 				com.day.cq.search.QueryBuilder" %>
 <%@page session="false" %>
-
 <%
 	String title = properties.get("title", "");
 	String articlePath = properties.get("articlepath", "");
-	String titleLink = articlePath;
-
-	if(!titleLink.isEmpty())
-		titleLink = titleLink + ".html";
+	Boolean titleLink = properties.get("titlelink", false);
 	
 if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 %> 
 <% }else{
-    if(!titleLink.isEmpty()) {
-        %>  <h4><%=title%></h4><%
+    if (titleLink == true) {
+        %>  <h4><a href="<%= articlePath %>.html"><%=title%></a></h4><%
     } else {
 		%> <h4><%=title%></h4> <%
     }
