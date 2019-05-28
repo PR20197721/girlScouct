@@ -1,6 +1,7 @@
 <dd class="accordion-navigation clearfix">
     <div id="panel<%=i+1%>b" class="content clearfix">
         <ul class="column large-4">
+            <%if (contact.getDob() != null) {%>
             <li>DOB:
                 <%
                     if (contact.getDob() != null) {
@@ -14,9 +15,13 @@
                     }
                 %>
             </li>
+            <%}%>
+            <%if (contact.getAge() != null) {%>
             <li>AGE: <%=contact.getAge() %>
             </li>
+            <%}%>
         </ul>
+        <%if (contact.getAddress() != null) {%>
         <ul class="column large-18 right">
             <li>
                 <address><p>
@@ -27,26 +32,25 @@
                 </p></address>
             </li>
         </ul>
+        <%}%>
         <ul class="column large-18">
             <%
-                if (contact.getContacts() != null)
+                if (contact.getContacts() != null) {
                     for (Contact contactSub : contact.getContacts()) {
                         if (!VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)) {%>
             <li class="row">
-                <p><strong>Secondary Info:</strong></p>
+                <p><strong> Secondary Info:</strong></p>
                 <div class="row">
-                                    <span class="column large-5"
-                                          style="word-wrap:break-word;"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
-                    <%if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)) { %>
-                    <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i
-                            class="icon-mail"></i><%=contactSub.getEmail() %>
-                    </a>
-                    <%} %>
+                    <span class="column large-5" style="word-wrap:break-word;"><%=contactSub.getFirstName()%> <%=contactSub.getLastName() %></span>
+                        <%if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)) { %>
+                            <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon-mail"></i><%=contactSub.getEmail()%></a>
+                        <%} %>
                     <span class="column large-5"><%=contactSub.getPhone() == null ? "" : contactSub.getPhone() %></span>
-                </div>
-            </li>
-            <%} %>
-            <%} %>
+                </div >
+            </li >
+                        <%} %>
+            <%}
+        } %>
             <li class="row">
                 <p><strong>Achievements:</strong></p>
                 <p>
@@ -64,6 +68,7 @@
                     %>
                 </p>
             </li>
+            <%if (selectedTroop.getParticipationCode() != null && !"IRM".equals(selectedTroop.getParticipationCode())) {%>
             <li class="row">
                 <p><strong> Attendance:</strong></p>
                 <p>
@@ -75,10 +80,11 @@
                     } %>
                 </p>
             </li>
+            <%}%>
             <li class="row">
                 <div style="float:right">
                     <%
-                        if (apiConfig != null && !apiConfig.isDemoUser()) {
+                        if (apiConfig != null && !apiConfig.isDemoUser() && (selectedTroop.getParticipationCode() != null && !"IRM".equals(selectedTroop.getParticipationCode()))) {
                             if (selectedTroop.getRole().equals("PA")) {
                     %>
                     <%if (VtkUtil.isRenewMembership(contact.getMembershipYear())) {%>

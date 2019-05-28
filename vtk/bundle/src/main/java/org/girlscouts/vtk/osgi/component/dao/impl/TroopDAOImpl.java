@@ -380,9 +380,9 @@ public class TroopDAOImpl implements TroopDAO {
         boolean isUpdated = false;
         try {
             // check council
-            if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
+            /*if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
                 throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
-            }
+            }*/
             // check troop
             if (getTroopByPath(user, troop.getPath()) == null) {
                 throw new VtkException("Found no troop when creating asset# " + troop.getTroopPath());
@@ -414,9 +414,9 @@ public class TroopDAOImpl implements TroopDAO {
         boolean isUpdated = false;
         try {
             // check council
-            if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
+            /*if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
                 throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
-            }
+            }*/
             // check troop
             if (getTroopByPath(user, troop.getPath()) == null) {
                 throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
@@ -443,9 +443,9 @@ public class TroopDAOImpl implements TroopDAO {
         boolean isUpdated = false;
         try {
             // check council
-            if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
+            /*if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
                 throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
-            }
+            }*/
             // check troop
             if (getTroopByPath(user, troop.getPath()) == null) {
                 throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
@@ -472,9 +472,9 @@ public class TroopDAOImpl implements TroopDAO {
         boolean isUpdated = false;
         try {
             // check council
-            if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
+            /*if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
                 throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
-            }
+            }*/
             // check troop
             if (getTroopByPath(user, troop.getPath()) == null) {
                 throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
@@ -511,9 +511,9 @@ public class TroopDAOImpl implements TroopDAO {
                 }
                 troop.getYearPlan().setSchedule(null);
             } else {
-                if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
+                /*if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
                     throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
-                }
+                }*/
                 // check troop
                 if (getTroopByPath(user, troop.getPath()) == null) {
                     throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
@@ -648,9 +648,9 @@ public class TroopDAOImpl implements TroopDAO {
         boolean isUpdated = false;
         try {
             // check council
-            if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
+            /*if (councilDAO.findCouncil(user, troop.getCouncilPath()) == null) {
                 throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
-            }
+            }*/
             // check troop
             if (getTroopByPath(user, troop.getPath()) == null) {
                 throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());

@@ -382,7 +382,11 @@ public class MeetingUtil {
         }
         return null;
     }
-
+    public void addMeetings(User user, Troop troop, String[] meetings) throws java.lang.IllegalAccessException, VtkException {
+        for (int i = 0; i < meetings.length; i++) {
+            addMeetings(user, troop, meetings[i]);
+        }
+    }
     public void addMeetings(User user, Troop troop, String newMeetingPath) throws java.lang.IllegalAccessException, VtkException {
         addMeetings(user, troop, newMeetingPath, null);
     }

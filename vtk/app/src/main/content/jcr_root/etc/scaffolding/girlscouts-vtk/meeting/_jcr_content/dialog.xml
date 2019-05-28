@@ -547,7 +547,7 @@
                 <overview_ocm
                     jcr:primaryType="cq:Widget"
                     name="./meetingInfo/overview/ocm_classname"
-                    value="org.girlscouts.vtk.models.JcrCollectionHoldString"
+                    value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
                     xtype="hidden"/>
                 <detailed_activity_plan
                     jcr:primaryType="cq:Widget"
@@ -698,7 +698,7 @@
                 <detailed_activity_plan_ocm
                     jcr:primaryType="cq:Widget"
                     name="./meetingInfo/detailed activity plan/ocm_classname"
-                    value="org.girlscouts.vtk.models.JcrCollectionHoldString"
+                    value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
                     xtype="hidden"/>
                 <materials
                     jcr:primaryType="cq:Widget"
@@ -849,7 +849,7 @@
                 <materials_ocm
                     jcr:primaryType="cq:Widget"
                     name="./meetingInfo/materials/ocm_classname"
-                    value="org.girlscouts.vtk.models.JcrCollectionHoldString"
+                    value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
                     xtype="hidden"/>
                     
                     
@@ -1009,7 +1009,7 @@
                 <req_ocm
                     jcr:primaryType="cq:Widget"
                     name="./meetingInfo/req/ocm_classname"
-                    value="org.girlscouts.vtk.models.JcrCollectionHoldString"
+                    value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
                     xtype="hidden"/>
                     
                     
@@ -1166,7 +1166,7 @@
                 <email_invite_ocm
                     jcr:primaryType="cq:Widget"
                     name="./meetingInfo/email invite/ocm_classname"
-                    value="org.girlscouts.vtk.models.JcrCollectionHoldString"
+                    value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
                     xtype="hidden"/>
                 <email_summary
                     jcr:primaryType="cq:Widget"
@@ -1316,7 +1316,7 @@
                 <email_summary_ocm
                     jcr:primaryType="cq:Widget"
                     name="./meetingInfo/email summary/ocm_classname"
-                    value="org.girlscouts.vtk.models.JcrCollectionHoldString"
+                    value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
                     xtype="hidden"/>
                 <agenda-label
                     jcr:primaryType="cq:Widget"

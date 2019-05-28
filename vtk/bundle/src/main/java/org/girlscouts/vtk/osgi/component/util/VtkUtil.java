@@ -301,17 +301,16 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static User getUser(HttpSession session) {
-        org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
+        ApiConfig apiConfig = null;
         try {
-            if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
-                apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
-            } else {
-                return null;
+            if (session.getAttribute(ApiConfig.class.getName()) != null) {
+                apiConfig = ((ApiConfig) session.getAttribute(ApiConfig.class.getName()));
+                return apiConfig.getUser();
             }
         } catch (ClassCastException cce) {
             return null;
         }
-        return ((org.girlscouts.vtk.models.User) session.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
+        return null;
     }
 
     public static Troop getTroop(HttpSession session) {
