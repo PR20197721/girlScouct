@@ -1,28 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%@page import="javax.jcr.Node, org.slf4j.Logger, org.slf4j.LoggerFactory"  %>
-<%
-    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
-    String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
-    String logoPath = headerPath + "/logo";
-    String headerNavPath = headerPath + "/header-nav";
-    String eyebrowNavPath = headerPath + "/eyebrow-nav";
-    String headerSearchPath = headerPath + "/search";
-    String cookieHeaderPath = headerPath + "/cookie-header";
-    Node logoNode = currentPage.getAbsoluteParent(2).adaptTo(Node.class);
-    String logoPaths = "";
-    try{
-        if(logoNode.hasNode("jcr:content/header/logo/image")){
-            logoNode = logoNode.getNode("jcr:content/header/logo/image");
-            logoPaths = logoNode.getProperty("fileReference").getString();
-        }
-    }catch(Exception e){
-        logger.error("Error finding Logo: ",e);
-    }
-
-    %>
 <!-- content -->
-<img id="printPageImg"style = "display: none;" src="<%= logoPaths %>"/>
 <div id="main" class="three-cols">
     <cq:include path="content/top/par" resourceType="girlscouts-common/components/styled-parsys" />
 
