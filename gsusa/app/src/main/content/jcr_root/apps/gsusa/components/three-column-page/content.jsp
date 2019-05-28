@@ -1,6 +1,16 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%@page import="javax.jcr.Node, org.slf4j.Logger, org.slf4j.LoggerFactory"  %>
+<%
+    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
+    String logoPath = headerPath + "/logo";
+    String headerNavPath = headerPath + "/header-nav";
+    String eyebrowNavPath = headerPath + "/eyebrow-nav";
+    String headerSearchPath = headerPath + "/search";
+    String cookieHeaderPath = headerPath + "/cookie-header";
+
+    %>
 <!-- content -->
 <div id="main" class="three-cols">
     <cq:include path="content/top/par" resourceType="girlscouts-common/components/styled-parsys" />
