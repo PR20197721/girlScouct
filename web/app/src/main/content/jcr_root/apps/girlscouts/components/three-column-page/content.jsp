@@ -31,6 +31,7 @@
     <div id="printImgBackground" style="display: none; background-image: url('<%= headerImagePath%>') !important">
         <img id="printPageImg"style = "display: none;" src="<%= logoPath %>"/>
     </div>
+<div id="main" class="row content mainBackground">
 <% }
 else{ %>
     <img id="printPageImg"style = "background-color: #00ae58 !important; display: none;" src="<%= logoPath %>"/>
@@ -43,8 +44,9 @@ else{ %>
             }
         });
     </script>
-<% } %>
 <div id="main" class="row content">
+<% } %>
+
 		<!--PAGE STRUCTURE: LEFT CONTENT START-->
 		<div class="large-5 hide-for-medium hide-for-small columns mainLeft">
 			<div id="leftContent">

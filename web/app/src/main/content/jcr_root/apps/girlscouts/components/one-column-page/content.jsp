@@ -31,6 +31,7 @@
     <div id="printImgBackground" style="display: none; background-image: url('<%= headerImagePath%>') !important">
         <img id="printPageImg" style = "display: none;" src="<%= logoPath %>"/>
     </div>
+<div id="main" class="row content mainBackground">
 <% }
 else{ %>
     <img id="printPageImg" style = "background-color: #00ae58 !important; display: none;" src="<%= logoPath %>"/>
@@ -43,8 +44,8 @@ else{ %>
      	 	}
         });
     </script>
-<% } %>
 <div id="main" class="content row">
+<% } %>
 		<div class="large-24 medium-24 small-24 columns">
 			<div class="breadcrumbWrapper">
 				<cq:include path="content/middle/breadcrumb" resourceType="girlscouts/components/breadcrumb-trail" />
