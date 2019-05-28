@@ -3,6 +3,8 @@
 img#printPageImg { display: block !important; margin-top: -20px; margin-bottom: -60px; margin-left: 10px; padding-right: 600px; padding-left: 10px; padding-top: 10px; margin-top: 10px;}
 div#printImgBackground{  display: block !important; height: 100px;}
 div#printImgBackground img#printPageImg{ height: 90px; }
+#main{ margin-top: 100px; }
+.mainBackground{ margin-top: 0 !important; }
 div.video{ display: none; }
 div.header { display: none; }
 div.left-col { display: none; }
