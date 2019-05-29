@@ -694,7 +694,7 @@ public class TroopDAOImpl implements TroopDAO {
         boolean isArchived = false;
         try {
             String currentYearPlanPath = troop.getTroopPath() + "/yearPlan";
-            String archivedYearPlanPath = "/vtk" + year + currentYearPlanPath.substring(8);
+            String archivedYearPlanPath = "/vtk" + year +"/"+ currentYearPlanPath.substring(8);
             if (girlScoutsYearPlanOCMService.read(archivedYearPlanPath) != null) {
                 isArchived = true;
             }

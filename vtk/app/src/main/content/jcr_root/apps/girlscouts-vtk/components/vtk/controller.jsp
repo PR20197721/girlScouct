@@ -27,6 +27,11 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
 <%
+    response.addHeader("Cache-Control", "no-cache");
+    response.addHeader("Cache-Control", "no-store");
+    response.addHeader("Cache-Control", "must-revalidate");
+    response.addHeader("pragma", "no-cache");
+    response.addHeader("expires", "0");
     final String jsonDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     Gson gson = new GsonBuilder()
             .setDateFormat(jsonDateFormat)
