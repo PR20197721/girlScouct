@@ -170,10 +170,6 @@
 .side-nav-el.active.current > div{
     background-color: #B0B0AF;
 }
-.tab-selected{
-    display: inline;
-    color: black !important;
-}
 /* Mobile Search Bar/Button CSS*/
 #searchBtn{
     height: 28px;

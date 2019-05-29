@@ -88,7 +88,7 @@
 			}
 			if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) {
 			    if(parent){
-			          sb.append("<div class='side-nav-wrapper'><a style='padding-left: 0px;' x-cq-linkchecker=\"skip\" href=\"" + genLink(rr, path) + "\" title=\"" +label + "\">"+ "<div class='tab-selected'>< </div>"+ label + "</a></div><hr>");
+			          sb.append("<div class='side-nav-wrapper'><a style='padding-left: 0px;' x-cq-linkchecker=\"skip\" href=\"" + genLink(rr, path) + "\" title=\"" +label + "\">"+ label + "</a></div><hr>");
 			    }else{
 			          sb.append("<div class='side-nav-wrapper'><a x-cq-linkchecker=\"skip\" href=\"" + genLink(rr, path) + "\" title=\"" +label + "\">" + label + "</a></div><hr>");
 			    }
@@ -97,9 +97,9 @@
 
 		     if(parent){
 		        if(isPlaceholder){
-		            sb.append("<div class='side-nav-wrapper'><span id='side-nav-active-parent' style='display: inline-block; padding-left: 0px; margin-left: -9px;' title=\"" + label + "\">" + "<div class='tab-selected'>< </div>"+ label + "</span><span class='side-nav-expand'>></span></div><hr>");
+		            sb.append("<div class='side-nav-wrapper'><span id='side-nav-active-parent' style='display: inline-block; padding-left: 0px; margin-left: 6px;' title=\"" + label + "\">" + label + "</span><span class='side-nav-expand'>></span></div><hr>");
 		        }else{
-		            sb.append("<div class='side-nav-wrapper'><a style='padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + "<div class='tab-selected'>< </div>"+ label + "</a></div><hr>");
+		            sb.append("<div class='side-nav-wrapper'><a style='padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
 		        }
 		     }else{
 		        Node nodePath = rr.resolve(path).adaptTo(Node.class);
