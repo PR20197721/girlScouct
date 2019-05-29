@@ -1,10 +1,6 @@
 .move-right .exit-off-canvas {
     background: rgba(0, 0, 0, 0.8);
 }
-.tab-selected{
-    display: inline;
-    color: black !important;
-}
 .side-nav.search-bar{
     padding-bottom: 0px;
     margin-bottom: -16px;
