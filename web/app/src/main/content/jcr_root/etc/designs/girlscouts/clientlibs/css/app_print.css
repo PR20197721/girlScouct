@@ -1,9 +1,7 @@
 @charset "UTF-8";
 
-img#printPageImg { display: block !important; margin-top: -20px; margin-bottom: -60px; margin-left: 10px; padding-right: 550px; padding-left: 10px; padding-top: 10px; margin-top: 10px;}
-div#printImgBackground{  display: block !important; height: 100px;}
-div#printImgBackground img#printPageImg{ height: 90px; }
-#main{ margin-top: 100px; }
+img#printPageImg { display: block !important; height: 300px; margin-top: -112px; padding-top: -100px; margin-left: -50px;}
+#imgContainer{ display: block !important; overflow: hidden; height: 100px; margin-top: 12px;}
 .mainBackground{ margin-top: 0 !important; }
 div.video{ display: none; }
 div.header { display: none; }
