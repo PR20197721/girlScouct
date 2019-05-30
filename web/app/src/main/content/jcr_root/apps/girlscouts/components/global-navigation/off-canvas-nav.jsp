@@ -204,7 +204,7 @@
                 } else {
                     sb.append("<li class='side-nav-el'>");
                 }
-                sb.append("<div style='position: relative;'><a href=\"" + page.getPath() + ".html\">");
+                sb.append("<div class='side-nav-wrapper' style='position: relative;'><a href=\"" + page.getPath() + ".html\">");
                 sb.append(title);
                 sb.append("</a>");
                 Page currPage = rr.resolve(path).adaptTo(Page.class);

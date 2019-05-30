@@ -32,6 +32,10 @@
 .side-nav-el a{
     width: 70%;
 }
+.side-nav-wrapper{
+	padding-top: 7px !important;
+    padding-bottom: 7px !important;
+}
 .side-nav-wrapper span:hover{
     font-weight: bold;
 }
@@ -92,11 +96,9 @@
 }
 .side-nav-el.parentEl ul li ul li ul li div a{
     padding-left: 75px !important;
-    width: 140px;
 }
 .side-nav-el.parentEl ul li ul li div a{
     padding-left: 55px !important;
-    width: 145px;
 }
 .side-nav-el.parentEl ul li div a{
     padding-left: 35px !important;
