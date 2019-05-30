@@ -92,9 +92,11 @@
 }
 .side-nav-el.parentEl ul li ul li ul li div a{
     padding-left: 75px !important;
+    width: 100px;
 }
 .side-nav-el.parentEl ul li ul li div a{
     padding-left: 55px !important;
+    width: 145px;
 }
 .side-nav-el.parentEl ul li div a{
     padding-left: 35px !important;
