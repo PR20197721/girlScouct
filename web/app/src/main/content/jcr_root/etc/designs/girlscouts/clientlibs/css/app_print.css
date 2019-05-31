@@ -1,10 +1,14 @@
 @charset "UTF-8";
 
-img#mainGSLogoPrint { display: block !important; margin-bottom: 20px;}
+img#printPageImg { display: block !important; height: 300px; margin-top: -112px; padding-top: -100px; margin-left: -10px;}
+#imgContainer{ display: block !important; overflow: hidden; height: 100px; margin-top: 12px;}
+.mainBackground{ margin-top: 0 !important; }
+div.video{ display: none; }
 div.header { display: none; }
 div.left-col { display: none; }
 div.right-col { display: none; }
 footer { display: none; }
+.print-css{ display: none; }
 .side-nav{ display: none; }
 .row {max-width: 130em !important;}
 .three-cols .right-wrapper { width: 100%; }

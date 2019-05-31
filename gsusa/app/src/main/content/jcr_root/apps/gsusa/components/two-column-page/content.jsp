@@ -1,5 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<!-- content -->
+<%@page import="javax.jcr.Node, org.slf4j.Logger, org.slf4j.LoggerFactory"  %>
 <div id="main" class="two-cols">
     <cq:include path="content/top/par" resourceType="girlscouts-common/components/styled-parsys" />
     <div class="left-col">
