@@ -6,6 +6,7 @@
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery-te-1.4.0.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <%
+    Logger mytroopreactlogger = LoggerFactory.getLogger(this.getClass().getName());
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras = null;
     java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
     if (isCachableContacts && session.getAttribute("vtk_cachable_contacts") != null) {
@@ -18,10 +19,11 @@
         }
         String emailTo = ",";
         try {
-            for (int i = 0; i < contacts.size(); i++)
+            for (int i = 0; i < contacts.size(); i++) {
                 if (contacts.get(i).getEmail() != null && !contacts.get(i).getEmail().trim().equals("") && !emailTo.contains(contacts.get(i).getEmail().trim() + ",")) {
                     emailTo += (contacts.get(i).getFirstName() != null ? contacts.get(i).getFirstName().replace(" ", "%20") : "") + java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() + ">") + ",";
                 }
+            }
             emailTo = emailTo.trim();
             if (emailTo.endsWith(",")) {
                 emailTo = emailTo.substring(0, emailTo.length() - 1);
@@ -30,13 +32,13 @@
                 emailTo = emailTo.substring(1);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            mytroopreactlogger.error("Error occured:",e);
         }
         java.util.Map<java.util.Date, YearPlanComponent> sched = null;
         try {
             sched = meetingUtil.getYearPlanSched(user, selectedTroop, selectedTroop.getYearPlan(), true, false);
         } catch (Exception e) {
-            e.printStackTrace();
+            mytroopreactlogger.error("Error occured:",e);
         }
         BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
         com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
@@ -87,8 +89,7 @@
         org.girlscouts.vtk.models.Contact contact = contacts.get(i);
         // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, selectedTroop, contact);
         java.util.List<ContactExtras> infos = contactsExtras.get(contact);
-        if (!user.getApiConfig().getUser().getContactId().equals(contact.getContactId()))
-            continue;
+        if (user.getContactId().equals(contact.getContactId())) {
 %>
 <div class="column large-24 large-centered mytroop">
     <dl class="accordion" data-accordion>
@@ -96,12 +97,17 @@
         </h3></dt>
         <dd class="accordion-navigation">
             <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
-                <%@include file='include/troop_child_achievmts.jsp' %>
+                <%try{%>
+                    <%@include file='include/troop_child_achievmts.jsp' %>
+                <%}catch(Exception e){
+                    mytroopreactlogger.error("Error occured:",e);
+                }%>
             </div>
         </dd>
     </dl>
 </div>
 <%
+            }
         }//edn for
     }//edn if
 %>
@@ -119,7 +125,11 @@
         </dt>
         <dd class="accordion-navigation">
             <div class="content active" id="panel1">
-                <%@include file='include/troop_member_detail.jsp' %>
+                <%try{%>
+                    <%@include file='include/troop_member_detail.jsp' %>
+                <%}catch(Exception e){
+                    mytroopreactlogger.error("Error occured:",e);
+                }%>
             </div>
         </dd>
     </dl>
@@ -129,7 +139,7 @@
     role = "Adult";
     if (role.equals("Adult")) {
 %>
-<%if(selectedTroop.getParticipationCode() != null && !"IRM".equals(selectedTroop.getParticipationCode())){%>
+<%if (selectedTroop.getParticipationCode() != null && !"IRM".equals(selectedTroop.getParticipationCode())) {%>
     <div class="column large-24 large-centered mytroop">
         <dl class="accordion" data-accordion>
             <dt data-target="panel2">
@@ -144,7 +154,11 @@
             </dt>
             <dd class="accordion-navigation">
                 <div class="content active" id="panel2">
-                    <%@include file='include/troop_volunteer_detail.jsp' %>
+                    <%try{%>
+                        <%@include file='include/troop_volunteer_detail.jsp' %>
+                    <%}catch(Exception e){
+                        mytroopreactlogger.error("Error occured:",e);
+                    }%>
                 </div>
             </dd>
         </dl>

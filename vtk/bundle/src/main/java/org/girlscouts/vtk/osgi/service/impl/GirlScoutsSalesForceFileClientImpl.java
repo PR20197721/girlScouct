@@ -46,7 +46,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
         UserInfoResponseEntity user = null;
         String path = "";
         try {
-            path = getPath(apiConfig, "user");
+            path = getPath(apiConfig, userId, "user");
             log.debug("Loading user file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             log.debug(json);
@@ -62,7 +62,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
         TroopInfoResponseEntity troopInfoResponseEntity = null;
         String path = "";
         try {
-            path = getPath(apiConfig, "troops");
+            path = getPath(apiConfig, userId, "troops");
             log.debug("Loading troops file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             troopInfoResponseEntity = new Gson().fromJson(json, TroopInfoResponseEntity.class);
@@ -77,7 +77,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
         ContactsInfoResponseEntity contactsInfoResponseEntity = null;
         String path = "";
         try {
-            path = getPath(apiConfig, "contacts");
+            path = getPath(apiConfig, apiConfig.getUser().getSfUserId(), "contacts");
             log.debug("Loading contacts file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             log.debug(json);
@@ -93,7 +93,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
         TroopLeadersInfoResponseEntity troopLeadersInfoResponseEntity = null;
         String path = "";
         try {
-            path = getPath(apiConfig, "troop_leaders");
+            path = getPath(apiConfig, apiConfig.getUser().getSfUserId(), "troop_leaders");
             log.debug("Loading troop_leaders file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             log.debug(json);
@@ -152,21 +152,16 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
         return user;
     }
 
-    private String getPath(ApiConfig apiConfig, String serviceName) {
+    private String getPath(ApiConfig apiConfig, String sfUserId,  String serviceName) {
         String path = "";
         if (!apiConfig.isDemoUser()) {
-            String userFolder = apiConfig.getUser().getFirstName();
-            String councilFolder = apiConfig.getUser().getTroops().get(0).getCouncilCode();
+            String userFolder = sfUserId;
             if (userFolder != null) {
                 userFolder = userFolder.replace(" ", "_");
             } else {
                 userFolder = "no_name";
             }
-            userFolder += "_" + apiConfig.getUser().getSfUserId();
-            if (councilFolder == null || councilFolder.length() == 0) {
-                councilFolder = "no_council";
-            }
-            path = getConfig("localJsonPath") + "/" + councilFolder + "/" + userFolder + "/" + serviceName + ".json";
+            path = getConfig("localJsonPath") + "/" + userFolder + "/" + serviceName + ".json";
         } else {
             path = localJsonPath + localDemoFolder + "/" + apiConfig.getDemoUserName() + "/" + serviceName + ".json";
         }

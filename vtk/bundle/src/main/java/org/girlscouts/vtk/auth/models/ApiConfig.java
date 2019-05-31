@@ -1,10 +1,14 @@
 package org.girlscouts.vtk.auth.models;
 
 import org.girlscouts.vtk.exception.VtkError;
+import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ApiConfig implements Serializable {
     private static final long serialVersionUID = 7310414085726791761L;
@@ -21,6 +25,8 @@ public class ApiConfig implements Serializable {
     private boolean isFail, accessTokenValid;
     private boolean demoUser, useAsDemo;
     private String demoUserName;
+
+    private Map<String, List<Contact>> cachedContacts = new HashMap<String, List<Contact>>();
 
     public String getDemoUserName() {
         return demoUserName;
@@ -217,4 +223,11 @@ public class ApiConfig implements Serializable {
         this.isFail = isFail;
     }
 
+    public void cacheTroopContacts(String key,  List<Contact> contacts){
+        cachedContacts.put(key, contacts);
+    }
+
+    public List<Contact> loadTroopContactsFromCache(String key){
+        return cachedContacts.get(key);
+    }
 }

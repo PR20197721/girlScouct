@@ -4,7 +4,7 @@ import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
-@ObjectClassDefinition(name = "Girl Scouts VTK SalesForce file client configuration", description = "Girl Scouts VTK SalesForce file client configuration")
+@ObjectClassDefinition(name = "Girl Scouts VTK SalesForce Service configuration", description = "Girl Scouts VTK SalesForce Service configuration")
 public @interface GirlScoutsSalesForceServiceConfig {
     @AttributeDefinition(name = "Load json from file", description = "Force VTK to load json from file in repository", type = AttributeType.BOOLEAN) boolean isLoadFromFile();
 

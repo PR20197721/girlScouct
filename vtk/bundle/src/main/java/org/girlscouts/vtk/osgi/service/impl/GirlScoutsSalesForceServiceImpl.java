@@ -131,39 +131,45 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     public List<Contact> getContactsForTroop(ApiConfig apiConfig, Troop troop) {
         List<Contact> contacts = new ArrayList<Contact>();
         try {
-            ContactsInfoResponseEntity contactsInfoResponseEntity = null;
-            if (sumCouncilCode.equals(troop.getCouncilCode())) {
-                contactsInfoResponseEntity = sfFileClient.getServiceUnitManagerContacts();
-            } else {
-                if (apiConfig.isDemoUser() || isLoadFromFile) {
-                    contactsInfoResponseEntity = sfFileClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
+            if(apiConfig.loadTroopContactsFromCache(troop.getHash()) == null) {
+                ContactsInfoResponseEntity contactsInfoResponseEntity = null;
+                if (sumCouncilCode.equals(troop.getCouncilCode())) {
+                    contactsInfoResponseEntity = sfFileClient.getServiceUnitManagerContacts();
                 } else {
-                    if(troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())){
-                        Contact irmContact = new Contact();
-                        irmContact.setFirstName(apiConfig.getUser().getFirstName());
-                        irmContact.setLastName(apiConfig.getUser().getLastName());
-                        irmContact.setEmail(apiConfig.getUser().getEmail());
-                        irmContact.setRole("Girl");
-                        irmContact.setPhone(apiConfig.getUser().getPhone());
-                        contacts.add(irmContact);
-                    }else {
-                        contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
+                    if (apiConfig.isDemoUser() || isLoadFromFile) {
+                        contactsInfoResponseEntity = sfFileClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
+                    } else {
+                        /*if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
+                            Contact irmContact = new Contact();
+                            irmContact.setFirstName(apiConfig.getUser().getFirstName());
+                            irmContact.setLastName(apiConfig.getUser().getLastName());
+                            irmContact.setEmail(apiConfig.getUser().getEmail());
+                            irmContact.setRole("Girl");
+                            irmContact.setPhone(apiConfig.getUser().getPhone());
+                            contacts.add(irmContact);
+                        } else {*/
+                            contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
+                        //}
                     }
                 }
-            }
-            if (contactsInfoResponseEntity != null) {
-                ContactEntity[] entities = contactsInfoResponseEntity.getContacts();
-                if (entities != null) {
-                    for (ContactEntity entity : entities) {
-                        Contact contact = ContactEntityToContactMapper.map(entity);
-                        contacts.add(contact);
+                if (contactsInfoResponseEntity != null) {
+                    ContactEntity[] entities = contactsInfoResponseEntity.getContacts();
+                    if (entities != null) {
+                        for (ContactEntity entity : entities) {
+                            Contact contact = ContactEntityToContactMapper.map(entity);
+                            contacts.add(contact);
+                        }
                     }
+                    addRenewals(contacts, contactsInfoResponseEntity);
                 }
-                addRenewals(contacts, contactsInfoResponseEntity);
+            }else{
+                log.debug("");
+                return apiConfig.loadTroopContactsFromCache(troop.getHash());
             }
         } catch (Exception e) {
             log.error("Error occurred: ", e);
         }
+        apiConfig.cacheTroopContacts(troop.getHash(),contacts);
         return contacts;
     }
 
