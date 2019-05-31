@@ -102,9 +102,13 @@ eventToSalesforce = "<%= eventToSalesforce %>";
         <meta property="og:description" content="<%=ogDescription %>"/>
         <meta name="twitter:description" content="<%=ogDescription %>" />
     <%} %>
-    <% if (ogImage.length() > 0) {%>
-            <meta property="og:image" content="<%=ogImage %>"/>
-            <meta name="twitter:image" content="<%=ogImage %>" />
+    <% if (ogImage.length() > 0) {
+        Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+        ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+        ogImage = ogImage.replace(":80/","/");
+    %>
+    <meta property="og:image" content="<%=ogImage %>"/>
+    <meta name="twitter:image" content="<%=ogImage %>" />
     <%} %>
     <% if (fbAppId.length() > 0) {%>
         <meta property="fb:app_id" content="<%=fbAppId %>"/>
