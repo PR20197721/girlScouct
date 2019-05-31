@@ -23,7 +23,7 @@
     
         });
     });
-
+    
     $(document).on("click", ".cq-dialog-submit", function (e) {
         var message = null;
 
@@ -123,28 +123,150 @@
                 }
             });
         }
-
-        if(message) {
-        		e.stopPropagation();
-            	e.preventDefault();
-            	ns.ui.helpers.prompt({
-		        title: Granite.I18n.get("Invalid Input"),
-			    message: message,
-			    actions: [{
-			        id: "CANCEL",
-			        text: "OK",
-			        className: "coral-Button"
-			    }],
-				callback: function (actionId) {
-				    if (actionId === "CANCEL") {
-				    }
-				}
-			 });
-        }
+        
     });
 
+    // email-signup
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "input[name='./source']",
+  		validate: function(el) {
+  			
+  			var source = $(el).val().trim();
+  			var $form = $(el).closest("form.foundation-form");
+  			var $sourceoption = $form.find("[name='./sourceoption']");
+  			
+  			if ($sourceoption.val() == "pair" && source == "") {
+  				return "Please enter source field name";
+  			}
+  			
+  		},
+  		show: function (el, message) {
+  		    showError(el, message);
+  		},
+  		clear: function (el) {
+  			clearError(el);
+  		}
+	});
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "input[name='./sourcevalue']",
+  		validate: function(el) {
+  			
+  			var sourcevalue = $(el).val().trim();
+  			var $form = $(el).closest("form.foundation-form");
+  			var $sourceoption = $form.find("[name='./sourceoption']");
+  			
+  			if ($sourceoption.val() == "pair" && sourcevalue == "") {
+  				return "Please enter source field value";
+  			}
+  			
+  		},
+  		show: function (el, message) {
+  		    showError(el, message);
+  		},
+  		clear: function (el) {
+  			clearError(el);
+  		}
+	});
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "input[name='./triggersendkey']",
+  		validate: function(el) {
+  			
+  			var tskey = $(el).val().trim();
+  			var $form = $(el).closest("form.foundation-form");
+  			var $sfmc = $form.find("[name='./sfmc']");
+  			
+  			if ($sfmc.val() == "ts" && tskey == "") {
+  				return "Please enter Triggered Send Key";
+  			}
+  		},
+  		show: function (el, message) {
+  		    showError(el, message);
+  		},
+  		clear: function (el) {
+  			clearError(el);
+  		}
+	});
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "input[name='./dataextensionkey']",
+  		validate: function(el) {
+  			
+  			var dataextensionkey = $(el).val().trim();
+  			var $form = $(el).closest("form.foundation-form");
+  			var $sfmc = $form.find("[name='./sfmc']");
+  			
+  			if ($sfmc.val() == "de" && dataextensionkey == "") {
+  				return "Please enter Data Extension Key";
+  			}
+  		},
+  		show: function (el, message) {
+  		    showError(el, message);
+  		},
+  		clear: function (el) {
+  			clearError(el);
+  		}
+	});
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "input[name='./dataextensionemail']",
+  		validate: function(el) {
+  			
+  			var dataextensionemail = $(el).val().trim();
+  			var $form = $(el).closest("form.foundation-form");
+  			var $sfmc = $form.find("[name='./sfmc']");
+  			
+  			if ($sfmc.val() == "de" && dataextensionemail == "") {
+  				return "Please enter Data Extension Email";
+  			}
+  		},
+  		show: function (el, message) {
+  		    showError(el, message);
+  		},
+  		clear: function (el) {
+  			clearError(el);
+  		}
+	});
+    
+    
+    function showError(el, message) {
+		var fieldErrorEl,
+		    field,
+		    error,
+		    arrow;
+		
+		var $form = $(el).closest("form.foundation-form");
+		var $sfmctab = $form.find("a.coral-TabPanel-tab:contains('SFMC')");
+		$sfmctab.addClass("is-invalid", true);
+		
+		fieldErrorEl = $("<span class='coral-Form-fielderror coral-Icon coral-Icon--alert coral-Icon--sizeS' data-init='quicktip' data-quicktip-type='error' />");
+		field = el.closest(".coral-Form-field");
+		
+		$(field).attr("aria-invalid", "true")
+		  .toggleClass("is-invalid", true);
+		
+		$(field).nextAll(".coral-Form-fieldinfo")
+		  .addClass("u-coral-screenReaderOnly");
+		
+		error = $(field).nextAll(".coral-Form-fielderror");
+		
+		if (error.length === 0) {
+		  arrow = $(field).closest("form").hasClass("coral-Form--vertical") ? "right" : "top";
+		
+		  fieldErrorEl
+		    .attr("data-quicktip-arrow", arrow)
+		.attr("data-quicktip-content", message)
+		    .insertAfter($(field));
+		} else {
+		  error.data("quicktipContent", message);
+		}
+	}
+    function clearError(el) {
+    	var field = el.closest(".coral-Form-field");
+    	
+			$(field).removeAttr("aria-invalid").removeClass("is-invalid");
 
-
+			$(field).nextAll(".coral-Form-fielderror").tooltip("hide").remove();
+			$(field).nextAll(".coral-Form-fieldinfo").removeClass("u-coral-screenReaderOnly");
+    }
+    
     $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
   		selector: ".gs-email-field",
   		validate: function(el) {
@@ -158,9 +280,6 @@
             }
   		}
 	});
-
-
-
 
     // when dialog gets injected
     $(document).on("foundation-contentloaded", function (e) {
@@ -191,7 +310,6 @@
 
     function showHideHandler(el) {
         el.each(function (i, element) {
-            console.log(element);
             if($(element).is("coral-select")) {
                 // handle Coral3 base drop-down
                 Coral.commons.ready(element, function (component) {
@@ -237,5 +355,42 @@
             });
         }
     }
+    
+    $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
+  		selector: "[data-validationpattern]",
+  		validate: function(el) {
+    		var value = el.value;
+            var validation = $(el).data("validationpattern");
+            var isVisible = $(el).is(":visible");
+            var patterns = {
+                numeric: 	/^(\d)+(-(\d)+)*$/,
+                string:		/^.+$/i
+            };
 
+            if (isVisible) {
+
+                switch (validation) {
+                    case 'numeric':
+                        console.log("testing against numeric");
+                        if (!patterns["numeric"].test(value)) {
+                            return "Please input numerics";
+                        }
+                        break;
+                    case 'string':
+                    default:
+                        console.log("testing against string or default");
+                        if (!value) {
+                            return "Please enter alphanumeric value";
+                        }
+                        else if (!patterns["string"].test(value)) {
+                            return "Please input string.";
+                        }
+                        break;
+
+                }
+            }
+  		}
+	});
+    
 })(document, Granite.$, Granite.author);
+      
