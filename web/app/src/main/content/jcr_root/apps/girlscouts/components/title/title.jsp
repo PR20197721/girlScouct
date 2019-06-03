@@ -33,20 +33,24 @@
       String buttonPath = currentPage.getPath() + "/print-css";
     NodeIterator nodeItrFirstEl = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
     NodeIterator nodeItr = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
-    Node currNode = nodeItrFirstEl.nextNode();
-    if(showButton){
-        if(!"girlscouts/components/image".equals(currNode.getProperty("sling:resourceType").getString())){
-            while(nodeItr.hasNext()){
-                Node node = nodeItr.nextNode();
-                if("girlscouts/components/title".equals(node.getProperty("sling:resourceType").getString())){
-                %>
-                    <cq:include path="<%= buttonPath %>" resourceType="girlscouts/components/print-css" />
-              <% }
+    try{
+        Node currNode = nodeItrFirstEl.nextNode();
+        if(showButton){
+            if(!"girlscouts/components/image".equals(currNode.getProperty("sling:resourceType").getString())){
+                while(nodeItr.hasNext()){
+                    Node node = nodeItr.nextNode();
+                    if("girlscouts/components/title".equals(node.getProperty("sling:resourceType").getString())){
+                    %>
+                        <cq:include path="<%= buttonPath %>" resourceType="girlscouts/components/print-css" />
+                  <% }
 
 
-            }
+                }
+             }
          }
-     }
+    }catch(Exception e){
+        logger.error("Error occurred: ",e);
+    }
 
   if (title==null)
   {
