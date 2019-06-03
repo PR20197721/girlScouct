@@ -1,6 +1,22 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-<div id="main" class="content row">
+<%@page import="javax.jcr.Node, org.slf4j.Logger, org.slf4j.LoggerFactory"  %>
+<%
+   Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+   Node homeNode = currentPage.getAbsoluteParent(1).adaptTo(Node.class);
+   String logoPath = "/content/dam/girlscouts-shared/print-logos";
+   try{
+       String councilName = homeNode.getPath().substring(homeNode.getPath().lastIndexOf("/"));
+       logoPath = logoPath + councilName + "-printlogo.jpg";
+   }catch(Exception e){
+       logger.error("Error finding Logo: ",e);
+   }
+
+    %>
+<div id="imgContainer" style="display: none;">
+    <img id="printPageImg" style = "display: none;" src="<%= logoPath %>"/>
+</div>
+<div id="main" class="row content">
 		<div class="large-24 medium-24 small-24 columns">
 			<div class="breadcrumbWrapper">
 				<cq:include path="content/middle/breadcrumb" resourceType="girlscouts/components/breadcrumb-trail" />
