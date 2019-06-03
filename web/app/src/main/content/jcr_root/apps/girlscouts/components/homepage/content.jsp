@@ -1,7 +1,22 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<%@page import="javax.jcr.Node, org.slf4j.Logger, org.slf4j.LoggerFactory"  %>
+<%
+    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    Node homeNode = currentPage.getAbsoluteParent(1).adaptTo(Node.class);
+    String logoPath = "/content/dam/girlscouts-shared/print-logos";
+    try{
+        String councilName = homeNode.getPath().substring(homeNode.getPath().lastIndexOf("/"));
+        logoPath = logoPath + councilName + "-printlogo.jpg";
+    }catch(Exception e){
+        logger.error("Error finding Logo: ",e);
+    }
+ %>
+<div id="imgContainer" style="display: none;">
+   <img id="printPageImg" style = "display: none;" src="<%= logoPath %>"/>
+</div>
+<div id="main" class="row collapse">
 <!--PAGE STRUCTURE: MAIN-->
-  <div id="main" class="row collapse">
 <!--<div class="large-24 medium-24 small-24 columns"> -->
     <cq:include path="content/breaking-news" resourceType="girlscouts/components/breaking-news" />
     <cq:include path="content/styled-subpar" resourceType="girlscouts/components/styled-subparsys"/>

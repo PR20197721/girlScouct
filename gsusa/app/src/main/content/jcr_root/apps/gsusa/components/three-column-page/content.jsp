@@ -1,7 +1,8 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
+<%@page import="javax.jcr.Node, org.slf4j.Logger, org.slf4j.LoggerFactory"  %>
 <%
-
+    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
     String logoPath = headerPath + "/logo";
     String headerNavPath = headerPath + "/header-nav";

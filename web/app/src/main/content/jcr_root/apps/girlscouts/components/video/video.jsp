@@ -9,7 +9,7 @@
     } else {
         // Mike Z. We need this extra div because of a CQ bug on iframe.
         // It is trying to correct iframe height but in a wrong way.
-        // Widget.js 1449975 
+        // Widget.js 1449975
         // //in case of an iframe element height is not correct
         // var iframe = this.element.first("iframe");
         // if (iframe) {

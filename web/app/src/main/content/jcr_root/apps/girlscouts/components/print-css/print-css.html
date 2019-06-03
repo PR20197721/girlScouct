@@ -1,0 +1,19 @@
+<sly data-sly-use.print="org.girlscouts.web.components.models.PrintCss">
+    <div class="print-css">
+        <span style="height: 28px; display: inline-block; text-align: right;"></span>
+        <sly data-sly-test="${print.addSpacing}">
+            <span style="display: inline-block; float: right; padding-top: 10px;">
+                <a style="float: right;" class="addthis_button_print icon-printer at300b" onclick="window.print()"title="Print" href="#"><!-- <span></span> --></a>
+            </span>
+        </sly>
+        <sly data-sly-test="${!print.addSpacing}">
+            <span style="display: inline-block; float: right; padding-top: 10px;">
+                <a style="float: right;" class="addthis_button_print icon-printer at300b" onclick="window.print()"title="Print" href="#"><!-- <span></span> --></a>
+            </span>
+        </sly>
+
+    </div>
+</sly>
+
+
+
