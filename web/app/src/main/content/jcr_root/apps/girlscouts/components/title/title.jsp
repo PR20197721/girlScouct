@@ -45,16 +45,19 @@
     }
     if(showButton){
         if(currNode.hasProperty("sling:resourceType") && !"girlscouts/components/image".equals(currNode.getProperty("sling:resourceType").getString())){
-            while(nodeItr.hasNext()){
-                Node node = nodeItr.nextNode();
-                if(node.hasProperty("sling:resourceType") && "girlscouts/components/title".equals(node.getProperty("sling:resourceType").getString())){
-                %>
-                    <cq:include path="<%= buttonPath %>" resourceType="girlscouts/components/print-css" />
-              <% }
+            try{
+                while(nodeItr.hasNext()){
+                    Node node = nodeItr.nextNode();
+                    if(node.hasProperty("sling:resourceType") && "girlscouts/components/title".equals(node.getProperty("sling:resourceType").getString())){
+                    %>
+                        <cq:include path="<%= buttonPath %>" resourceType="girlscouts/components/print-css" />
+                  <% }
+    
 
-
-            }
-         }
+                }
+             }catch(Exception e){
+                logger.error("Error occurred: ",e);
+             }
      }
 
   if (title==null)
