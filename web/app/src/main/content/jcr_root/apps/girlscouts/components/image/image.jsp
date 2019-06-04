@@ -110,7 +110,7 @@
     }
 
     if(showButton){
-        if("girlscouts/components/image".equals(currNode.getProperty("sling:resourceType").getString()) && currentNode.getPath().equals(currNode.getPath())){
+        if(currNode.hasProperty("sling:resourceType") && "girlscouts/components/image".equals(currNode.getProperty("sling:resourceType").getString()) && currentNode.getPath().equals(currNode.getPath())){
         %>
             <cq:include path="<%= buttonPath %>" resourceType="girlscouts/components/print-css" />
        <% }
