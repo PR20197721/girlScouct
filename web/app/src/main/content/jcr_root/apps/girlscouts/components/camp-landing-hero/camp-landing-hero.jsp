@@ -1,6 +1,8 @@
 <%@page import="com.day.cq.wcm.api.WCMMode"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false"%>
+<%@taglib prefix="ui" uri="http://www.adobe.com/taglibs/granite/ui/1.0" %>
+<ui:includeClientLib categories="apps.girlscouts.components.camplandinghero" />
 
 <%
 String text = properties.get("text", "");
