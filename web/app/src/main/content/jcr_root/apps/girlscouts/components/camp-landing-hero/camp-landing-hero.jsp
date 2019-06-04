@@ -4,16 +4,10 @@
 
 <%
 String text = properties.get("text", "");
-String resultPath = properties.get("resultPage", currentPage.getPath());
+String resultPath = properties.get("resultPage", "https://www.girlscouts.org/en/our-program/ways-to-participate/camp-and-outdoors/camp-finder/camp-finder-results.html");
 String formBgImage = properties.get("formbgimages", currentPage.getPath());
 String images = properties.get("images", "");
-String relativeResultPath;
 String relativeCurrentPath;
-try{
-    relativeResultPath = resourceResolver.map(resultPath).substring(resourceResolver.map(resultPath).indexOf("/en"));
-}catch(Exception e){
-    relativeResultPath = resourceResolver.map(resultPath);
-}
 try{
     relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
 }catch(Exception e){
@@ -27,7 +21,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == "")) {
             bindSubmitHash({
                 formElement: ".find-camp",
                 hashElement: "input[name='zip-code']",
-                redirectUrl: "<%=relativeResultPath%>",
+                redirectUrl: "<%=resultPath%>",
                 currentUrl: "<%=relativeCurrentPath%>"
             });
         });

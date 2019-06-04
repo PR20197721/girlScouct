@@ -33,8 +33,9 @@
                                 sling:resourceType="girlscouts/components/form/pathfield"
                                 fieldDescription="Result page that will show the camp finder"
                                 fieldLabel="Result Page"
+                                value="https://www.girlscouts.org/en/our-program/ways-to-participate/camp-and-outdoors/camp-finder/camp-finder-results.html"
                                 name="./resultPage"
-                                rootPath="/content/gsusa"/>
+                                rootPath="/content"/>
                             <images
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
