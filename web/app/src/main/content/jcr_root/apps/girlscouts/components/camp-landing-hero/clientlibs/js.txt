@@ -1,3 +1,0 @@
-#base=js
-
-camp-landing-hero.js
