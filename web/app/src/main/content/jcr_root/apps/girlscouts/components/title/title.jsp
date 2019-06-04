@@ -26,7 +26,8 @@
     Node pageNode = currentPage.getContentResource().adaptTo(Node.class);
       boolean showButton = false;
       try{
-         showButton = pageNode.getProperty("cssPrint").getBoolean();
+         if(pageNode.hasProperty("cssPrint"))
+            showButton = pageNode.getProperty("cssPrint").getBoolean();
       }catch(Exception e){
          logger.error("Error finding cssPrint property: ",e);
       }
