@@ -44,7 +44,7 @@
     try{
         Node currNode = nodeItrFirstEl.nextNode();
         if(showButton){
-            if(!"girlscouts/components/image".equals(currNode.getProperty("sling:resourceType").getString())){
+            if(currNode.hasProperty("sling:resourceType") && !"girlscouts/components/image".equals(currNode.getProperty("sling:resourceType").getString())){
                 while(nodeItr.hasNext()){
                     Node node = nodeItr.nextNode();
                     if("girlscouts/components/title".equals(node.getProperty("sling:resourceType").getString())){
