@@ -49,7 +49,7 @@ function bindSubmitHash(form) {
             location.hash = hash;
             window.location.reload();
         }else{
-        	window.open(form.redirectUrl + ".html" + (window.location.search != "" ? window.location.search : "?") + "#" + hash, '_blank')
+        	window.location = form.redirectUrl + ".html" + (window.location.search != "" ? window.location.search : "?") + "#" + hash;
         }
 
         form.submitted = true;
