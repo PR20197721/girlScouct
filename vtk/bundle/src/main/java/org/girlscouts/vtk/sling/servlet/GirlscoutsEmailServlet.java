@@ -20,68 +20,72 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 
-@SlingServlet(label = "Girl Scouts VTK email servlet", description = "Sends vtk email", paths = {}, methods = {"POST"}, // Ignored if paths is set - Defaults to POST if not specified
-        resourceTypes = {"girlscouts/servlets/email"}, // Ignored if
+@SlingServlet(
+        label = "Girl Scouts VTK email servlet", description = "Sends vtk email", paths = {},
+        methods = { "POST" }, // Ignored if paths is set - Defaults to POST if not specified
+        resourceTypes = { "girlscouts/servlets/email" }, // Ignored if
         // paths is set
         selectors = {}, // Ignored if paths is set
-        extensions = {"html", "htm"}  // Ignored if paths is set
+        extensions = { "html", "htm" }  // Ignored if paths is set
 )
 public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements OptingServlet {
     private static final Logger log = LoggerFactory.getLogger(GirlscoutsEmailServlet.class);
     @Reference
     private transient SlingSettingsService settingsService;
+
     @Reference
     private transient GSEmailService gsEmailService;
 
     @Override
-    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
+            throws ServletException, IOException {
+
         //Verify user email request
         HttpSession session = request.getSession();
-        if (VtkUtil.getUser(session) != null) {
-            sendEmail(request);
-        } else {
+        if(VtkUtil.getUser(session) != null){
+            sendEmail(request, VtkUtil.getApiConfig(session).getUser().getEmail());
+        }else{
             log.error("Error sending email: Invalid user");
         }
 
     }
 
-    public void sendEmail(SlingHttpServletRequest slingRequest) {
+    public void sendEmail(SlingHttpServletRequest slingRequest, String fromAddress){
         String addressList = slingRequest.getParameter("addresses");
         String[] addresses = addressList.split(",");
         HashSet<GSEmailAttachment> attachments = new HashSet<>();
         int count = 1;
         //parse files, get bytes, name, and mimeType
-        try {
-            while (slingRequest.getParameterMap().containsKey("file" + count)) {
+        try{
+            while(slingRequest.getParameterMap().containsKey("file"+count)) {
                 addAttachment(slingRequest, attachments, count);
                 count++;
             }
-        } catch (Exception e) {
+        }catch (Exception e){
             log.error("Failed to parse attachment file data.... Sending without attachments: ", e);
             attachments.clear();
         }
-        if (attachments.isEmpty()) {
+        if(attachments.isEmpty()){
             try {
                 log.debug("Send Email without attachments");
-                gsEmailService.sendEmail(slingRequest.getParameter("subject"), Arrays.asList(addresses), slingRequest.getParameter("message"));
-            } catch (Exception e) {
+                gsEmailService.sendEmail(slingRequest.getParameter("subject"), Arrays.asList(addresses),slingRequest.getParameter("message"), fromAddress);
+            }catch(Exception e){
                 log.error("Email failed to send without attachments: ", e);
             }
 
-        } else {
+        }else{
             try {
                 log.debug("Send Email with attachments");
-                gsEmailService.sendEmail(slingRequest.getParameter("subject"), Arrays.asList(addresses), slingRequest.getParameter("message"), attachments);
-            } catch (Exception e) {
+                gsEmailService.sendEmail(slingRequest.getParameter("subject"),Arrays.asList(addresses),slingRequest.getParameter("message"), attachments, fromAddress);
+            }catch(Exception e){
                 log.error("Email failed to send with attachments: ", e);
             }
         }
     }
-
-    private void addAttachment(SlingHttpServletRequest slingRequest, HashSet<GSEmailAttachment> attachments, int count) {
-        try {
+    private void addAttachment(SlingHttpServletRequest slingRequest,HashSet<GSEmailAttachment> attachments, int count){
+        try{
             RequestParameter reqFile = slingRequest.getRequestParameter("file" + count);
-            if (reqFile != null) {
+            if(reqFile != null){
                 String fN = slingRequest.getParameter("file" + count + "Name");
                 String fT = reqFile.getContentType() != null ? reqFile.getContentType() : "";
                 fT = fT.replaceAll("/", "_");
@@ -89,15 +93,12 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
                 byte[] fB = reqFile.get();
                 attachments.add(new GSEmailAttachment(fN, fB, "", GSEmailAttachment.MimeType.valueOf(fT)));
             }
-        } catch (Exception e) {
+        }catch (Exception e){
             log.error("Error adding attachment: ", e);
         }
 
     }
-
-    /**
-     * OptingServlet Acceptance Method
-     **/
+    /** OptingServlet Acceptance Method **/
     @Override
     public final boolean accepts(SlingHttpServletRequest request) {
         /*
