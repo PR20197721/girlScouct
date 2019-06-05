@@ -38,16 +38,6 @@
 		    buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus, false);
     	}
     }
-	if(eyebrowNavs != null && eyebrowNavs.getSize() > 0){
-		while(eyebrowNavs.hasNext()){
-			Node nav = eyebrowNavs.nextNode();
-			buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus, true);
-    	}
-    }
-    //Add main menu link
-                sb.append("<li class='side-nav-el parentEl'>");
-                sb.append("<div class='side-nav-wrapper'><a style='padding-left: 5px;'href=\""+ englishPath +".html\" title=\"MainMenu\">MAIN MENU</a></div><hr>");
-                sb.append("</li>");
     	sb.append("</ul>");
 	sb.append("</nav>");
 %>
