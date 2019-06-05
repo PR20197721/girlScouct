@@ -38,6 +38,12 @@
 		    buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus, false);
     	}
     }
+	if(eyebrowNavs != null && eyebrowNavs.getSize() > 0){
+		while(eyebrowNavs.hasNext()){
+			Node nav = eyebrowNavs.nextNode();
+			buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus, true);
+    	}
+    }
     	sb.append("</ul>");
 	sb.append("</nav>");
 %>
