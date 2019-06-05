@@ -94,18 +94,18 @@
 }
 @media only screen and (min-width: 48.1225em) {
   /* line 321, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
-  .three-cols .middle-col .standalone-camp-finder form label {
+  .three-column .middle-col .standalone-camp-finder form label {
     margin-right: 0;
     font-size: 1.25rem;
     margin-bottom: 0.9375rem;
   }
   /* line 326, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
-  .three-cols .middle-col .standalone-camp-finder form .form-wrapper {
+  .three-column .middle-col .standalone-camp-finder form .form-wrapper {
     width: 70%;
     margin: 0 auto 0.9375rem;
   }
   /* line 331, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
-  .three-cols .middle-col .standalone-camp-finder form.small {
+  .three-column .middle-col .standalone-camp-finder form.small {
     width: 65%;
     margin-left: auto;
   }
