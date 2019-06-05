@@ -15,7 +15,7 @@
                  com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext,
                  org.girlscouts.vtk.models.Contact,
                  java.io.ByteArrayInputStream,
-                 java.io.ByteArrayOutputStream" %>
+                 java.io.ByteArrayOutputStream, java.text.SimpleDateFormat, org.girlscouts.vtk.auth.permission.Permission" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="session.jsp" %>
 <%

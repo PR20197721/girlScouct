@@ -1,6 +1,5 @@
 package org.girlscouts.vtk.osgi.component.util;
 
-import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -10,6 +9,7 @@ import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.dao.CouncilDAO;
 import org.girlscouts.vtk.osgi.component.dao.TroopDAO;
 import org.girlscouts.vtk.osgi.component.dao.YearPlanDAO;
+import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +37,7 @@ public class TroopUtil {
         if (troop != null) {
             if (troop.getYearPlan() != null) {
                 if (troop.getYearPlan().getMeetingEvents() != null) {
-                    Comparator<MeetingE> comp = new BeanComparator("sortOrder");
-                    Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
+                    Collections.sort(troop.getYearPlan().getMeetingEvents(), new MeetingESortOrderComparator());
                     for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
                         troop.getYearPlan().getMeetingEvents().get(i).setSortOrder(i);
                     }
@@ -239,8 +238,7 @@ public class TroopUtil {
             plan = troopDAO.addYearPlan1(user, troop, yearPlanPath);
             plan.setRefId(yearPlanPath);
             plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user, troop, yearPlanPath.endsWith("/meetings/") ? yearPlanPath : (yearPlanPath + "/meetings/")));
-            Comparator<MeetingE> comp = new BeanComparator("sortOrder");
-            Collections.sort(plan.getMeetingEvents(), comp);
+            Collections.sort(plan.getMeetingEvents(), new MeetingESortOrderComparator());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -554,8 +552,7 @@ public class TroopUtil {
         }
         java.util.List<MeetingE> allMeetings = troop.getYearPlan().getMeetingEvents();
         if (allMeetings != null) {
-            Comparator<MeetingE> comp = new BeanComparator("sortOrder");
-            Collections.sort(allMeetings, comp);
+            Collections.sort(allMeetings, new MeetingESortOrderComparator());
         }
         long timeNow = new java.util.Date().getTime();
         int countMeetings = 0;

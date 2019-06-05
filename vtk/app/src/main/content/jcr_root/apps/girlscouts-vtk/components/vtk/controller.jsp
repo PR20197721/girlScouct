@@ -21,7 +21,7 @@
                 java.awt.geom.Rectangle2D,
                 java.awt.image.BufferedImage" %>
 <%@ page import="java.io.ByteArrayInputStream" %>
-<%@ page import="java.io.ByteArrayOutputStream, java.util.*, org.girlscouts.vtk.mapper.vtk.ModelToRestEntityMapper, org.girlscouts.vtk.osgi.component.util.Emailer" %>
+<%@ page import="java.io.ByteArrayOutputStream, java.util.*, org.girlscouts.vtk.mapper.vtk.ModelToRestEntityMapper, org.girlscouts.vtk.osgi.component.util.Emailer, org.girlscouts.vtk.utils.ActivityNumberComparator" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects/>
@@ -470,8 +470,7 @@
                                     sEmail.setHtmlDiff("tessss123");
                                 }
                             }
-                            Comparator<Activity> comp = new BeanComparator("activityNumber");
-                            Collections.sort(_activities, comp);
+                            Collections.sort(_activities, new ActivityNumberComparator());
                         }
                     }
                     if (selectedTroop != null && selectedTroop.getYearPlan() != null) {

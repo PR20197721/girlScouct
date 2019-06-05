@@ -207,4 +207,9 @@ public class MeetingE extends YearPlanComponent implements Serializable {
     public void setAnyGlobalActivityInMeetingAvailable(boolean isAnyGlobalActivityInMeetingAvailable) {
         this.isAnyGlobalActivityInMeetingAvailable = isAnyGlobalActivityInMeetingAvailable;
     }
+
+    @Override
+    public String toString() {
+        return "MeetingE{" + "path='" + this.getPath()  + '}';
+    }
 }

@@ -331,4 +331,8 @@ public class Activity extends YearPlanComponent implements Serializable {
         this.isSelected = isSelected;
     }
 
+    @Override
+    public String toString() {
+        return "Activity{" + "path=" + this.getPath() + '}';
+    }
 }

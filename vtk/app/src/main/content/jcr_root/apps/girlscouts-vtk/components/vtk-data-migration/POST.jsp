@@ -7,6 +7,7 @@
                                 com.day.cq.wcm.api.designer.Designer,
                                 com.day.cq.wcm.api.designer.Style,
                                 com.day.cq.wcm.commons.WCMUtils,
+                                com.day.cq.commons.jcr.JcrUtil,
                                 org.apache.sling.api.resource.Resource,
                                 org.apache.sling.api.resource.ResourceResolver,
                                 org.apache.sling.api.resource.ResourceResolverFactory,
@@ -15,12 +16,7 @@
                                 org.slf4j.Logger,
                                 org.slf4j.LoggerFactory,
                                 javax.jcr.*,
-                                javax.jcr.query.*,
-                                java.util.HashMap,
-                                java.util.HashSet,
-                                java.util.Map,
-                                java.util.Set,
-                                java.util.Iterator" %>
+                                javax.jcr.query.*, java.text.SimpleDateFormat, java.util.*" %>
 <%
 %>
 <%@include file="/libs/foundation/global.jsp" %>
@@ -71,6 +67,8 @@
         private SlingRepository repository;
         private Session jcrSession ;
         private Map<String, Object> resolverParams = new HashMap<String, Object>();
+        String pattern = "MMddyyyyhhmmss";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
         public MigrateVtkDataThread(ServletContext ctxt, SlingRepository repository, boolean dryRun) {
             this.ctxt = ctxt;
@@ -103,10 +101,17 @@
                 log.info("Running MigrateVtkDataThread " + ((this.dryRun) ? " (Dry Run)" : ""));
                 try {
                     QueryResult result = null;
+                    Workspace workspace = this.jcrSession.getWorkspace();
                     currentTimeMs = System.currentTimeMillis();
                     for (String path : this.paths) {
                         try {
                             Node yearNode = this.jcrSession.getNode(path);
+                            String destinationPath = yearNode.getName()+"-backup-"+simpleDateFormat.format(new Date());
+                            Node root = this.jcrSession.getRootNode();
+                            log.debug("Copying "+path+" to /"+destinationPath);
+                            JcrUtil.copy(yearNode,  root, destinationPath);
+                            //workspace.copy(path, destinationPath);
+                            this.jcrSession.save();
                             NodeIterator councils = yearNode.getNodes();
                             while (councils.hasNext()) {
                             Node councilNode = councils.nextNode();

@@ -6,7 +6,7 @@
 %>
 <%@ page import="org.girlscouts.vtk.models.MeetingE" %>
 <%@ page import="java.util.Date" %>
-<%@ page import="java.util.Map" %>
+<%@ page import="java.util.Map, java.text.SimpleDateFormat, org.girlscouts.vtk.auth.permission.Permission" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="session.jsp" %>
 <%

@@ -23,6 +23,7 @@ import org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType;
 import org.girlscouts.vtk.osgi.component.util.UserUtil;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.service.*;
+import org.girlscouts.vtk.utils.MeetingPositionComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -649,9 +650,8 @@ public class MeetingDAOImpl implements MeetingDAO {
         List<Meeting> meetings = null;
         String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/";
         meetings = girlScoutsMeetingOCMService.findObjects(path, null);
-        Comparator<Meeting> comp = new BeanComparator("position");
         if (meetings != null) {
-            Collections.sort(meetings, comp);
+            Collections.sort(meetings, new MeetingPositionComparator());
         }
         return meetings;
 
@@ -1444,9 +1444,8 @@ public class MeetingDAOImpl implements MeetingDAO {
         try {
             String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear();
             meetings = girlScoutsMeetingOCMService.findObjects(path, null);
-            Comparator<Meeting> comp = new BeanComparator("position");
             if (meetings != null) {
-                Collections.sort(meetings, comp);
+                Collections.sort(meetings, new MeetingPositionComparator());
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);

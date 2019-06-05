@@ -7,6 +7,8 @@ import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.exception.VtkException;
 import org.girlscouts.vtk.models.*;
+import org.girlscouts.vtk.utils.MeetingEDateComparator;
+import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,9 +73,8 @@ public class CalendarUtil {
         sched = sched.replace("" + currDate, newDate.getTime() + "");
         updateSchedMeetings(meetings, currDate, newDate.getTime());
         //sort meetings by Date
-        Comparator<MeetingE> comp = new BeanComparator("date");
         if (meetings != null) {
-            Collections.sort(meetings, comp);
+            Collections.sort(meetings, new MeetingEDateComparator());
         }
         for (int i = 0; i < meetings.size(); i++) {
             if (meetings.get(i).getSortOrder() != (i)) {
@@ -191,8 +192,7 @@ public class CalendarUtil {
         calendar.setDates(dates);
         calendar.setDbUpdate(true);
         plan.setSchedule(calendar);
-        Comparator<MeetingE> comp = new BeanComparator("sortOrder");
-        Collections.sort(plan.getMeetingEvents(), comp);
+        Collections.sort(plan.getMeetingEvents(), new MeetingESortOrderComparator());
         return plan;
     }
 
@@ -362,9 +362,8 @@ public class CalendarUtil {
         sched = sched.replace("" + currDate, newDate + "");
         updateSchedMeetings(meetings, currDate, newDate);
         //sort meetings by Date
-        Comparator<MeetingE> comp = new BeanComparator("date");
         if (meetings != null) {
-            Collections.sort(meetings, comp);
+            Collections.sort(meetings, new MeetingEDateComparator());
         }
         for (int i = 0; i < meetings.size(); i++) {
             if (meetings.get(i).getSortOrder() != i) {

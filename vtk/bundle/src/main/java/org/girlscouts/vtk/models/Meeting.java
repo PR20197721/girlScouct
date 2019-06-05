@@ -191,4 +191,8 @@ public class Meeting extends YearPlanComponent implements Serializable {
         isAchievement = achievement;
     }
 
+    @Override
+    public String toString() {
+        return "Meeting{" + "path='" + this.getPath() + '\'' + '}';
+    }
 }

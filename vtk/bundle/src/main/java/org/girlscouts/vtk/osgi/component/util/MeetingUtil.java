@@ -10,6 +10,10 @@ import org.girlscouts.vtk.exception.VtkException;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.dao.*;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
+import org.girlscouts.vtk.utils.ActivityDateComparator;
+import org.girlscouts.vtk.utils.ActivityNumberComparator;
+import org.girlscouts.vtk.utils.MeetingEDateComparator;
+import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -163,8 +167,7 @@ public class MeetingUtil {
             List<Activity> activities = plan.getActivities();
             java.util.List<MeetingE> meetingEs = plan.getMeetingEvents();
             if (meetingEs != null) {
-                Comparator<MeetingE> comp = new BeanComparator("sortOrder");
-                Collections.sort(meetingEs, comp);
+                Collections.sort(meetingEs, new MeetingESortOrderComparator());
             }
             if (plan.getSchedule() != null) {
                 String calMeeting = plan.getSchedule().getDates();
@@ -435,8 +438,7 @@ public class MeetingUtil {
                 for (int y = 0; y < activities.size(); y++) {
                     if (activities.get(y).getPath().equals(agendaPathToRm)) {
                         activities.remove(y);
-                        Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
-                        Collections.sort(activities, comp);
+                        Collections.sort(activities, new ActivityNumberComparator());
                         for (int ii = 0; ii < activities.size(); ii++) {
                             activities.get(ii).setActivityNumber(ii + 1);
                         }
@@ -643,23 +645,13 @@ public class MeetingUtil {
     }
 
     public java.util.List<Activity> sortActivity(java.util.List<Activity> _activities) {
-        try {
-            Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
-            Collections.sort(_activities, comp);
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
+        Collections.sort(_activities, new ActivityNumberComparator());
         return _activities;
 
     }
 
     public java.util.List<Activity> sortActivityByDate(java.util.List<Activity> _activities) {
-        try {
-            Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("date");
-            Collections.sort(_activities, comp);
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
+        Collections.sort(_activities, new ActivityDateComparator());
         return _activities;
 
     }

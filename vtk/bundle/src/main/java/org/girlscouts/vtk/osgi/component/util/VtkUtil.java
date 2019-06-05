@@ -23,6 +23,7 @@ import org.girlscouts.vtk.exception.VtkError;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.ConfigListener;
 import org.girlscouts.vtk.osgi.component.ConfigManager;
+import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
 import org.girlscouts.vtk.utils.PDFHtmlFormatter;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -137,8 +138,7 @@ public class VtkUtil implements ConfigListener {
         if (meetings == null) {
             return meetings;
         }
-        Comparator<MeetingE> comp = new BeanComparator("sortOrder");
-        Collections.sort(meetings, comp);
+        Collections.sort(meetings, new MeetingESortOrderComparator());
         return meetings;
     }
 
@@ -227,15 +227,19 @@ public class VtkUtil implements ConfigListener {
     /*GS Year starts Aug 1 */
     public static int getCurrentGSYear() {
         String _gsNewYear = gsNewYear;
-        if (_gsNewYear == null) {
-            _gsNewYear = "0701";
+        int month = 7;
+        int date = 1;
+        if(gsNewYear != null && gsNewYear.length() == 4) {
+            try {
+                month = Integer.parseInt(_gsNewYear.substring(0, 2));
+                date = Integer.parseInt(_gsNewYear.substring(2));
+            } catch (Exception e) {
+                month = 7;
+                date = 1;
+            }
         }
-        int month = Integer.parseInt(_gsNewYear.substring(0, 2));
-        int date = Integer.parseInt(_gsNewYear.substring(2));
-        java.util.Calendar now = java.util.Calendar.getInstance();
-        //if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
-        if (now.get(java.util.Calendar.MONTH) >= (month - 1)) //after Aug 1 -> NEXT YEAR
-        {
+        Calendar now = Calendar.getInstance();
+        if (now.get(Calendar.MONTH) >= (month - 1) && now.get(Calendar.DATE) >= date){
             return now.get(java.util.Calendar.YEAR);
         } else {
             return now.get(java.util.Calendar.YEAR) - 1;
@@ -514,9 +518,8 @@ public class VtkUtil implements ConfigListener {
 
     public static java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings, String sched) {
         //sort meetings by Date
-        Comparator<MeetingE> comp = new BeanComparator("sortOrder");
         if (meetings != null) {
-            Collections.sort(meetings, comp);
+            Collections.sort(meetings, new MeetingESortOrderComparator());
         }
         int count = 0;
         java.util.StringTokenizer t = new StringTokenizer(sched, ",");

@@ -20,6 +20,7 @@ import org.girlscouts.vtk.osgi.component.dao.TroopDAO;
 import org.girlscouts.vtk.osgi.component.util.UserUtil;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.service.*;
+import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,8 +74,7 @@ public class TroopDAOImpl implements TroopDAO {
         try {
             troop = girlScoutsTroopOCMService.read(troopPath);
             if (troop != null && troop.getYearPlan().getMeetingEvents() != null) {
-                Comparator<MeetingE> comp = new BeanComparator("sortOrder");
-                Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
+                Collections.sort(troop.getYearPlan().getMeetingEvents(), new MeetingESortOrderComparator());
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
@@ -566,9 +566,8 @@ public class TroopDAOImpl implements TroopDAO {
             //if (council == null) {
             //throw new VtkException("Found no council when creating troop# " + troop.getTroopPath());
             //}
-            Comparator<MeetingE> comp = new BeanComparator("sortOrder");
             if (troop != null && troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null) {
-                Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
+                Collections.sort(troop.getYearPlan().getMeetingEvents(), new MeetingESortOrderComparator());
             }
             // permission to update
             if (troop != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) {
