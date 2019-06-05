@@ -32,7 +32,7 @@
 				<cq:include path="content/middle/breadcrumb" resourceType="girlscouts/components/breadcrumb-trail" />
 			</div>
 			<div class="row mainRightBottom">
-				<div class="large-18 medium-18 small-24 columns rightBodyLeft">
+				<div class="large-18 medium-18 small-24 columns rightBodyLeft middle-col">
 					<!--PAGE STRUCTURE: MIDDLE CONTENT START-->
 					<cq:include script="middle.jsp" />
 	          <!--PAGE STRUCTURE: MIDDLE CONTENT STOP-->
