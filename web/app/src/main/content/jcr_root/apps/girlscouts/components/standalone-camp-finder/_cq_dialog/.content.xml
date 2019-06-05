@@ -63,6 +63,7 @@
                                 mimeTypes="[image]"
                                 multiple="{Boolean}false"
                                 name="./file"
+                                value="/content/dam/girlscouts-shared/images/camp/18_MarComm_CampFinder_Graphic_505x128_3-col_mobile.jpg"
                                 title="Image"
                                 uploadUrl="${suffix.path}"
                                 useHTML5="{Boolean}true"/>
