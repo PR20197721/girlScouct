@@ -30,7 +30,7 @@ for (int i = 0; i < links.length; i++) {
      <%}else{ %>
         <li>
      <% } %>
-		<div><a <%= clazz %> href="<%= path %>"<%= newWindow %>><%= label %></a></div><hr></li>
+		<div class="side-nav-wrapper"><a <%= clazz %> href="<%= path %>"<%= newWindow %>><%= label %></a></div><hr></li>
  <% } 
 }%>
 </ul>
