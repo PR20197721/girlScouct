@@ -43,7 +43,6 @@ $(document).ready(function(){
 });
 $(window).resize(function() {
     if( $(this).width() >= 961.008){
-       console.log("test");
        $(".exit-off-canvas-el").click();
     }
 });
