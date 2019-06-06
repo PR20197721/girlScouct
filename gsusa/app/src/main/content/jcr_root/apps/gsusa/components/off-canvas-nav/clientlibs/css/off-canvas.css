@@ -14,6 +14,7 @@ ul.off-canvas-list li a {
 }
 .left-off-canvas-menu{
     background-color: #e6e7e8 !important;
+    z-index: 10006;
 }
 .left-off-canvas-menu.closed{
     transition: 500ms;
