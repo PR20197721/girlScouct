@@ -1,5 +1,23 @@
-.move-right .exit-off-canvas {
-    background: rgba(0, 0, 0, 0.8);
+@media only screen and (max-width: 40.062em){
+    .left-off-canvas-menu.open{
+        transition: 500ms;
+        margin-left: 250px;
+    }
+}
+@media only screen and (min-width: 40.063em) {
+    .left-off-canvas-menu.open{
+        transition: 500ms;
+        margin-left: 75%;
+    }
+    .left-off-canvas-menu{
+        width: 75%;
+    }
+    .side-nav-header form:after{
+        left: 195px;
+    }
+    .left-off-canvas-menu ul.off-canvas-list > li {
+        border-right: solid 0.625rem #00ae58;
+    }
 }
 .side-nav.search-bar{
     padding-bottom: 0px;
@@ -19,10 +37,6 @@ ul.off-canvas-list li a {
 .left-off-canvas-menu.closed{
     transition: 500ms;
     margin-left: 0;
-}
-.left-off-canvas-menu.open{
-    transition: 500ms;
-    margin-left: 250px;
 }
 .side-nav-wrapper a:hover {
   cursor: pointer;
