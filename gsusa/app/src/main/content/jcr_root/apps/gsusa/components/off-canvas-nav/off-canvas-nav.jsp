@@ -47,7 +47,7 @@
     	sb.append("</ul>");
 	sb.append("</nav>");
 %>
-<nav class="left-off-canvas-menu" tabindex="-1">
+<nav class="left-off-canvas-menu closed" tabindex="-1">
 <div id="left-canvas-menu" class="mobileSearch">
 <ul class="off-canvas-list" >
     <li style="background: none; padding-top: 10px;">

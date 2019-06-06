@@ -15,6 +15,14 @@ ul.off-canvas-list li a {
 .left-off-canvas-menu{
     background-color: #e6e7e8 !important;
 }
+.left-off-canvas-menu.closed{
+    transition: 500ms;
+    margin-left: 0;
+}
+.left-off-canvas-menu.open{
+    transition: 500ms;
+    margin-left: 250px;
+}
 .side-nav-wrapper a:hover {
   cursor: pointer;
   color: black;
