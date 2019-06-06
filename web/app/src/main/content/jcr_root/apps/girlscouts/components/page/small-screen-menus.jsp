@@ -9,4 +9,4 @@
 
 	<cq:include script="/apps/girlscouts/components/eyebrow-navigation/smaller-view.jsp"/>
 </aside>
-<a class="exit-off-canvas"></a>
+<a class="exit-off-canvas-el"></a>
