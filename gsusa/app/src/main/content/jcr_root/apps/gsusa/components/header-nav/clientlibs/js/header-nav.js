@@ -41,3 +41,8 @@ $(document).ready(function(){
         event.stopPropagation();
     });
 })
+$(window).resize(function() {
+    if( $(this).width() >= 961.008){
+       $(".exit-off-canvas-el").click();
+    }
+});
