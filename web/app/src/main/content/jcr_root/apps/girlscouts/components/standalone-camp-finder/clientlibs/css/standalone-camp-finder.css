@@ -97,11 +97,10 @@
   .three-column .middle-col .standalone-camp-finder form label {
     margin-right: 0;
     font-size: 1.25rem;
-    margin-bottom: 0.9375rem;
   }
   /* line 326, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .three-column .middle-col .standalone-camp-finder form .form-wrapper {
-    width: 70%;
+    width: 40%;
     margin: 0 auto 0.9375rem;
   }
   /* line 331, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */

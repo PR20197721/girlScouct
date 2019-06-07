@@ -1,5 +1,8 @@
 <%@page import="com.day.cq.wcm.api.WCMMode, 
-                java.util.Random"%>
+                java.util.Random,
+                javax.jcr.Node,
+                org.slf4j.Logger,
+                org.slf4j.LoggerFactory"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp"%>
 <%@page session="false"%>
@@ -18,6 +21,7 @@ public String generateId() {
 %>
 
 <%
+Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 final String text = properties.get("text", "");
 final String resultPath = properties.get("results", "https://www.girlscouts.org/en/our-program/ways-to-participate/camp-and-outdoors/camp-finder/camp-finder-results.html");
 String relativeCurrentPath;
@@ -32,6 +36,26 @@ if (image == null) {
 		%> *** Please select an image *** <%
 	}
 } else {
+    String imagePath = image.getPath();
+    Node currNode = currentPage.adaptTo(Node.class);
+    try{
+        if(!currNode.hasNode("mobile-camp-finder"))
+            currNode.getNode("jcr:content").addNode("mobile-camp-finder","nt:unstructured");
+        Node mobile = currNode.getNode("jcr:content/mobile-camp-finder");
+        mobile.setProperty("results", resultPath);
+        mobile.setProperty("text", text);
+        mobile.setProperty("sling:resourceType", "girlscouts/components/standalone-camp-finder");
+        if(!mobile.hasNode("image"))
+            mobile.addNode("image", "nt:unstructured");
+        mobile = mobile.getNode("image");
+        mobile.setProperty("fileReference", imagePath);
+        mobile.setProperty("sling:resourceType", "foundation/components/image");
+        mobile.setProperty("imageRotate", 0);
+    }catch(Exception e){
+        logger.error("Error creating node: ",e);
+    }
+    Session session = resourceResolver.adaptTo(Session.class);
+    session.save();
 	String id = generateId();
 	final String resPath = resource.getPath();
     String imageRendition = gsImagePathProvider.getImagePathByLocation(image);
