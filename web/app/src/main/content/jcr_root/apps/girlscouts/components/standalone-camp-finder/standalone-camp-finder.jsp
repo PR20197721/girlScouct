@@ -36,7 +36,7 @@ if (image == null) {
 		%> *** Please select an image *** <%
 	}
 } else {
-    String imagePath = image.getPath();
+    //Generate mobile camp finder node
     Node currNode = currentPage.adaptTo(Node.class);
     try{
         if(!currNode.hasNode("mobile-camp-finder"))
@@ -48,7 +48,7 @@ if (image == null) {
         if(!mobile.hasNode("image"))
             mobile.addNode("image", "nt:unstructured");
         mobile = mobile.getNode("image");
-        mobile.setProperty("fileReference", imagePath);
+        mobile.setProperty("fileReference", image.adaptTo(Node.class).getProperty("fileReference").getString());
         mobile.setProperty("sling:resourceType", "foundation/components/image");
         mobile.setProperty("imageRotate", 0);
     }catch(Exception e){
@@ -56,6 +56,7 @@ if (image == null) {
     }
     Session session = resourceResolver.adaptTo(Session.class);
     session.save();
+    //end mobile camp finder node
 	String id = generateId();
 	final String resPath = resource.getPath();
     String imageRendition = gsImagePathProvider.getImagePathByLocation(image);
