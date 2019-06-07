@@ -109,3 +109,16 @@
     margin-left: auto;
   }
 }
+@media only screen and (min-width: 49.0em) {
+  .mobile-camp-finder{
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 48.999em) {
+  .standalone-camp-finder{
+    display: none;
+  }
+  .mobile-camp-finder{
+    display: block !important;
+  }
+}
