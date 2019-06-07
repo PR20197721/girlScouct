@@ -21,6 +21,7 @@ public String generateId() {
 %>
 
 <%
+Session session = resourceResolver.adaptTo(Session.class);
 Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 final String text = properties.get("text", "");
 final String resultPath = properties.get("results", "https://www.girlscouts.org/en/our-program/ways-to-participate/camp-and-outdoors/camp-finder/camp-finder-results.html");
@@ -39,8 +40,13 @@ if (image == null) {
     //Generate mobile camp finder node
     Node currNode = currentPage.adaptTo(Node.class);
     try{
-        if(!currNode.hasNode("mobile-camp-finder"))
+        if(!currNode.hasNode("mobile-camp-finder")){
             currNode.getNode("jcr:content").addNode("mobile-camp-finder","nt:unstructured");
+        }
+        else{
+            currNode.getNode("jcr:content/mobile-camp-finder").remove();
+            session.save();
+        }
         Node mobile = currNode.getNode("jcr:content/mobile-camp-finder");
         mobile.setProperty("results", resultPath);
         mobile.setProperty("text", text);
@@ -54,7 +60,6 @@ if (image == null) {
     }catch(Exception e){
         logger.error("Error creating node: ",e);
     }
-    Session session = resourceResolver.adaptTo(Session.class);
     session.save();
     //end mobile camp finder node
 	String id = generateId();
