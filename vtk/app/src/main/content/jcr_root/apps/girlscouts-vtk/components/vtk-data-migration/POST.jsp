@@ -35,13 +35,17 @@
     if (request.getParameter("dry_run") != null) {
         dryRun = true;
     }
+    boolean backup = false;
+    if (request.getParameter("backup") != null) {
+        backup = true;
+    }
     if ("stop".equals(cmd) && threadIsAlive) {
         ((MigrateVtkDataThread) (ctxt.getAttribute(RUNNABLE_NAME))).requestStop();
         ((Thread) (ctxt.getAttribute(THREAD_NAME))).join();
 %>stopped<%
 } else if (!threadIsAlive && "run".equals(cmd)) {
     SlingRepository repository = sling.getService(SlingRepository.class);
-    MigrateVtkDataThread wft = new MigrateVtkDataThread(getServletContext(), repository, dryRun);
+    MigrateVtkDataThread wft = new MigrateVtkDataThread(getServletContext(), repository, dryRun, backup);
     Thread t = new Thread(wft);
     ctxt.setAttribute(THREAD_NAME, t);
     ctxt.setAttribute(RUNNABLE_NAME, wft);
@@ -59,6 +63,7 @@
         private ServletContext ctxt;
         private volatile boolean stop;
         private boolean dryRun = true;
+        private boolean backup = true;
         private long currentTimeMs = 0;
         private long sleepMillis = 100;
         private long nodesPerSave = 1000;
@@ -70,7 +75,7 @@
         String pattern = "MMddyyyyhhmmss";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-        public MigrateVtkDataThread(ServletContext ctxt, SlingRepository repository, boolean dryRun) {
+        public MigrateVtkDataThread(ServletContext ctxt, SlingRepository repository, boolean dryRun, boolean backup) {
             this.ctxt = ctxt;
             this.repository = repository ;
             this.paths.add("/vtk2018");
@@ -79,6 +84,7 @@
             this.paths.add("/vtk2015");
             this.paths.add("/vtk");
             this.paths.add("/content/girlscouts-vtk");
+            this.backup = backup;
             this.dryRun = dryRun;
             this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
             try {
@@ -108,8 +114,10 @@
                             Node yearNode = this.jcrSession.getNode(path);
                             String destinationPath = yearNode.getName()+"-backup-"+simpleDateFormat.format(new Date());
                             Node root = this.jcrSession.getRootNode();
-                            log.debug("Copying "+path+" to /"+destinationPath);
-                            JcrUtil.copy(yearNode,  root, destinationPath);
+                            if(backup) {
+                                log.debug("Copying " + path + " to /" + destinationPath);
+                                JcrUtil.copy(yearNode, root, destinationPath);
+                            }
                             //workspace.copy(path, destinationPath);
                             this.jcrSession.save();
                             NodeIterator councils = yearNode.getNodes();
@@ -126,10 +134,10 @@
                                             this.nodeSaveCounter++;
                                         }
                                     }
-                                    String EXPRESSION1 = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([" + councilNode.getPath() + "]) and s.[ocm_classname] LIKE 'org.girlscouts.vtk.models%'";
-                                    String EXPRESSION2 = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([" + councilNode.getPath() + "]) and s.[ocm_classname] LIKE 'org.girlscouts.vtk.dao%'";
-                                    String EXPRESSION3 = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([" + councilNode.getPath() + "]) and s.[ocm_classname] = 'org.girlscouts.vtk.ocm.MeetingENode'";
-                                    String EXPRESSION4 = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([" + councilNode.getPath() + "]) and s.[ocm_classname] = 'org.girlscouts.vtk.ocm.YearPlanNode'";
+                                    String EXPRESSION1 = "SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([" + councilNode.getPath() + "]) and s.[ocm_classname] LIKE 'org.girlscouts.vtk.models%'";
+                                    String EXPRESSION2 = "SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([" + councilNode.getPath() + "]) and s.[ocm_classname] LIKE 'org.girlscouts.vtk.dao%'";
+                                    String EXPRESSION3 = "SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([" + councilNode.getPath() + "]) and s.[ocm_classname] = 'org.girlscouts.vtk.ocm.MeetingENode'";
+                                    String EXPRESSION4 = "SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([" + councilNode.getPath() + "]) and s.[ocm_classname] = 'org.girlscouts.vtk.ocm.YearPlanNode'";
                                     if (!this.stop) {
                                         result = search(EXPRESSION1);
                                         if (result != null) {
@@ -139,6 +147,7 @@
                                                 while (rowIter.hasNext()) {
                                                     if (this.stop) {break;}
                                                     try {
+                                                        boolean countedToSave = false;
                                                         Row row = rowIter.nextRow();
                                                         Node node = row.getNode();
                                                         String ocmClassName = node.getProperty("ocm_classname").getString();
@@ -147,6 +156,37 @@
                                                         node.setProperty("ocm_classname", ocmClassName);
                                                         log.debug("Setting " + node.getPath() + " with ocm_classname=" + ocmClassName);
                                                         this.nodeSaveCounter++;
+                                                        if("org.girlscouts.vtk.ocm.MeetingENode".equals(ocmClassName)){
+                                                            String id = node.getProperty("id").getString();
+                                                            Integer sortOrder = Integer.parseInt(id);
+                                                            log.debug("Setting " + node.getPath() + " with sortOrder=" + sortOrder);
+                                                            node.setProperty("sortOrder", sortOrder);
+                                                        }
+                                                        if("org.girlscouts.vtk.ocm.MeetingNode".equals(ocmClassName)){
+                                                            if(node.hasNode("meetingInfo/req")){
+                                                                Node req = node.getNode("meetingInfo/req");
+                                                                if(!req.hasProperty("ocm_classname") || !"org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode".equals(req.getProperty("ocm_classname").getString())){
+                                                                    req.setProperty("ocm_classname","org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode");
+                                                                }
+                                                            }
+                                                            if(node.hasNode("meetingInfo/meeting short description") ){
+                                                                Node desc = node.getNode("meetingInfo/meeting short description");
+                                                                if(!desc.hasProperty("ocm_classname") || !"org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode".equals(desc.getProperty("ocm_classname").getString())){
+                                                                    desc.setProperty("ocm_classname","org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode");
+                                                                }
+                                                            }
+                                                        }
+                                                        if("org.girlscouts.vtk.ocm.YearPlanNode".equals(ocmClassName)){
+                                                            if (node.hasNode("schedule")) {
+                                                                Node schedule = node.getNode("schedule");
+                                                                if(!schedule.hasProperty("ocm_classname") || !"org.girlscouts.vtk.ocm.CalNode".equals(schedule.getProperty("ocm_classname").getString())){
+                                                                    log.debug("Setting " + schedule.getPath() + " with ocm_classname = org.girlscouts.vtk.ocm.CalNode");
+                                                                    schedule.setProperty("ocm_classname","org.girlscouts.vtk.ocm.CalNode");
+                                                                }
+                                                            }else{
+                                                                log.debug("No schedule at "+node.getPath());
+                                                            }
+                                                        }
                                                         if ((!this.dryRun) && (this.nodeSaveCounter % this.nodesPerSave) == 0) {
                                                             log.debug("Saving " + this.nodesPerSave + " nodes");
                                                             this.jcrSession.save();
@@ -195,6 +235,37 @@
                                                         log.debug("Setting " + node.getPath() + " with ocm_classname=" + ocmClassName);
                                                         node.setProperty("ocm_classname", ocmClassName);
                                                         this.nodeSaveCounter++;
+                                                        if("org.girlscouts.vtk.ocm.MeetingENode".equals(ocmClassName)){
+                                                            String id = node.getProperty("id").getString();
+                                                            Integer sortOrder = Integer.parseInt(id);
+                                                            log.debug("Setting " + node.getPath() + " with sortOrder=" + sortOrder);
+                                                            node.setProperty("sortOrder", sortOrder);
+                                                        }
+                                                        if("org.girlscouts.vtk.ocm.MeetingNode".equals(ocmClassName)){
+                                                            if(node.hasNode("meetingInfo/req")){
+                                                                Node req = node.getNode("meetingInfo/req");
+                                                                if(!req.hasProperty("ocm_classname") || !"org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode".equals(req.getProperty("ocm_classname").getString())){
+                                                                    req.setProperty("ocm_classname","org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode");
+                                                                }
+                                                            }
+                                                            if(node.hasNode("meetingInfo/meeting short description") ){
+                                                                Node desc = node.getNode("meetingInfo/meeting short description");
+                                                                if(!desc.hasProperty("ocm_classname") || !"org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode".equals(desc.getProperty("ocm_classname").getString())){
+                                                                    desc.setProperty("ocm_classname","org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode");
+                                                                }
+                                                            }
+                                                        }
+                                                        if("org.girlscouts.vtk.ocm.YearPlanNode".equals(ocmClassName)){
+                                                            if (node.hasNode("schedule")) {
+                                                                Node schedule = node.getNode("schedule");
+                                                                if(!schedule.hasProperty("ocm_classname") || !"org.girlscouts.vtk.ocm.CalNode".equals(schedule.getProperty("ocm_classname").getString())){
+                                                                    log.debug("Setting " + schedule.getPath() + " with ocm_classname = org.girlscouts.vtk.ocm.CalNode");
+                                                                    schedule.setProperty("ocm_classname","org.girlscouts.vtk.ocm.CalNode");
+                                                                }
+                                                            }else{
+                                                                log.debug("No schedule at "+node.getPath());
+                                                            }
+                                                        }
                                                         if ((!this.dryRun) && (this.nodeSaveCounter % this.nodesPerSave) == 0) {
                                                             log.debug("Saving " + this.nodesPerSave + " nodes");
                                                             this.jcrSession.save();
@@ -226,6 +297,7 @@
                                             }
                                         }
                                     }
+                                    /*
                                     if (!this.stop) {
                                         result = search(EXPRESSION3);
                                         if (result != null) {
@@ -327,13 +399,15 @@
                                             }
                                         }
                                     }
-                                }
 
+                                     */
+                                }
                             }
                         }catch (Exception e) {
                             log.error("Could not process "+path+" successfully", e);
                         }
                     }
+                    /*
                     String EXPRESSION5 = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([/content/girlscouts-vtk]) and s.[ocm_classname] = 'org.girlscouts.vtk.ocm.MeetingNode'";
                     if (!this.stop) {
                         result = search(EXPRESSION5);
@@ -402,7 +476,7 @@
                             } catch (Exception e1) {
                             }
                         }
-                    }
+                    }*/
                     if (!this.stop) {
                         log.debug("MigrateVtkDataThread completed, Updated " + this.nodesSaved + " nodes, total time: " + (System.currentTimeMillis() - currentTimeMs) + "ms");
                     } else {

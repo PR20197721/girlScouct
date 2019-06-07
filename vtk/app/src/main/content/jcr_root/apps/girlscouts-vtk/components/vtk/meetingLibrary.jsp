@@ -140,62 +140,49 @@
 
     java.util.Map<String, java.util.Set> mTylesPerLevel = new java.util.TreeMap();
     java.util.Map<String, java.util.Set> mCatsPerType  = new java.util.TreeMap();
-    if( meetings!=null)
-     for(int i=0;i<meetings.size();i++){
-        Meeting meeting = meetings.get(i);
-        meeting.setLevel( meeting.getLevel().replace("-","_"));
+        if (meetings != null) {
+            for (int i = 0; i < meetings.size(); i++) {
+                Meeting meeting = meetings.get(i);
+                meeting.setLevel(meeting.getLevel().replace("-", "_"));
+                if (meeting != null && meeting.getCatTags() != null) {
+                    meeting.setCatTags(meeting.getCatTags().replaceAll(" ", "_"));
+                }
+                if (meeting != null && meeting.getMeetingPlanType() != null) {
+                    meeting.setMeetingPlanType(meeting.getMeetingPlanType().replaceAll(" ", "_"));
+                }
+                if (meeting.getLevel() != null && !mLevel.containsKey(meeting.getLevel())) {
+                    mLevel.put(meeting.getLevel(), "ML_" + new java.util.Date().getTime() + "_" + Math.random());
+                    mTylesPerLevel.put(meeting.getLevel(), new java.util.HashSet<String>());
+                }
+                String cats = meeting.getCatTags();
+                if (cats != null) {
+                    StringTokenizer t = new StringTokenizer(cats, ",");
+                    while (t.hasMoreElements()) {
+                        String theCat = t.nextToken();
+                        mCats.put(theCat, "MC_" + new java.util.Date().getTime() + "_" + Math.random());
+                        if (meeting.getMeetingPlanType() != null && meeting.getCatTags() != null) {
+                            java.util.Set _x = mCatsPerType.get(meeting.getMeetingPlanType());
+                            if (_x == null) {
+                                java.util.Set _y = new java.util.HashSet();
+                                _y.add(theCat);
+                                mCatsPerType.put(meeting.getMeetingPlanType(), _y);
 
-  if( meeting!=null && meeting.getCatTags()!=null)
-      meeting.setCatTags( meeting.getCatTags().replaceAll(" ","_") );
-  if( meeting!=null && meeting.getMeetingPlanType()!=null)
-      meeting.setMeetingPlanType(meeting.getMeetingPlanType().replaceAll(" ","_"));
+                            } else if (_x != null && !_x.contains(theCat)) {
+                                mCatsPerType.get(meeting.getMeetingPlanType()).add(theCat);
+                            }
+                        }//end if
 
-        if( meeting.getLevel()!=null && !mLevel.containsKey( meeting.getLevel() ) ){
-            mLevel.put(meeting.getLevel(), "ML_"+new java.util.Date().getTime() +"_"+ Math.random());
-            mTylesPerLevel.put(meeting.getLevel(), new java.util.HashSet<String>() );
-        }
-        String cats = meeting.getCatTags();
-        if( cats!=null){
-
-         StringTokenizer t = new StringTokenizer(cats, ",");
-
-            while( t.hasMoreElements() ){
-
-                String theCat= t.nextToken();
-
-                mCats.put(theCat,  "MC_"+new java.util.Date().getTime() +"_"+ Math.random());
-
-                if( meeting.getMeetingPlanType()!=null && meeting.getCatTags()!=null){
-                    java.util.Set _x = mCatsPerType.get(meeting.getMeetingPlanType());
-
-                    if( _x==null ){
-
-                        java.util.Set _y =new java.util.HashSet();
-                        _y.add(theCat);
-                        mCatsPerType.put( meeting.getMeetingPlanType(), _y );
-
-                    }else if( _x!=null && !_x.contains(theCat)  ){
-
-
-                     mCatsPerType.get( meeting.getMeetingPlanType()).add( theCat );
-                    }
+                    }//edn whle
                 }//end if
+                if (meeting.getMeetingPlanType() != null && !mTypes.containsKey(meeting.getMeetingPlanType())) {
+                    mTypes.put(meeting.getMeetingPlanType(), "MT_" + new java.util.Date().getTime() + "_" + Math.random());
+                }//edn if
+                if (meeting.getMeetingPlanType() != null) {
+                    mTylesPerLevel.get(meeting.getLevel()).add(meeting.getMeetingPlanType());
+                }
 
-            }//edn whle
-        }//end if
-
-
-
-
-        if( meeting.getMeetingPlanType()!=null && !mTypes.containsKey( meeting.getMeetingPlanType() ) ){
-            mTypes.put(meeting.getMeetingPlanType(),  "MT_"+new java.util.Date().getTime() +"_"+ Math.random());
-        }//edn if
-
-        if( meeting.getMeetingPlanType()!=null ){
-             mTylesPerLevel.get( meeting.getLevel() ).add(meeting.getMeetingPlanType());
-         }
-
-      }//end for
+            }//end for
+        }
 
 
    %>
@@ -276,7 +263,15 @@
                                     %>
                                     <span class="container" style="clear:both;">
 								<span class="terminal"
-                                      data-price="<%if(level.contains("Daisy"))out.println("1");else if(level.contains("Brownie"))out.println("2");else if(level.contains("Junior"))out.println("3");else out.println(100);%>">
+                                      data-price="<%if (level.contains("Daisy")) {
+                                                out.println("1");
+                                            } else if (level.contains("Brownie")) {
+                                                out.println("2");
+                                            } else if (level.contains("Junior")) {
+                                                out.println("3");
+                                            } else {
+                                                out.println(100);
+                                            }%>">
 								<div class="small-24 medium-6 column selection-box">
 								<input type="radio" name="_tag_m" id="<%= id%>"
                                        value="<%=level %>"  <%=(selectedTroop.getGradeLevel().contains(level) || selectedTroop.getGradeLevel().contains(level.replace("_", "-"))) ? "" : "" %>"/>
@@ -430,7 +425,9 @@
 					java.util.Iterator itrCat = cats.iterator();
 					while( itrCat.hasNext() ){
 						String x = (String) itrCat.next();
-						if(!meeting.getCatTags().contains( x ) )continue;
+                        if (!meeting.getCatTags().contains(x)) {
+                            continue;
+                        }
 						%><%= mCats.get(x) %><%=itrCat.hasNext() ? ";" : ""%><%
 					}
 				}
@@ -501,7 +498,9 @@
                                     <% try { %>
                                     <%
                                         String img = meeting.getId().substring(meeting.getId().lastIndexOf("/") + 1).toUpperCase();
-                                        if (img.contains("_")) img = img.substring(0, img.indexOf("_"));
+                                        if (img.contains("_")) {
+                                            img = img.substring(0, img.indexOf("_"));
+                                        }
                                         String isReqClass = isReq ? " _requirement_modal" : "";
                                         String function = isReq ? "onclick=openRequirementDetail(this)" : "";
                                     %>

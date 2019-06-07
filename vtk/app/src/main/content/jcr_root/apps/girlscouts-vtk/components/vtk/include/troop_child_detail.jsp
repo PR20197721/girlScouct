@@ -84,31 +84,27 @@
             <li class="row">
                 <div style="float:right">
                     <%
-                        if (apiConfig != null && !apiConfig.isDemoUser() && (selectedTroop.getParticipationCode() != null && !"IRM".equals(selectedTroop.getParticipationCode()))) {
-                            if (selectedTroop.getRole().equals("PA")) {
-                    %>
-                    <%if (VtkUtil.isRenewMembership(contact.getMembershipYear())) {%>
-                    <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW
-                        NOW</a>
-                    <%}%>
-                    <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">UPDATE
-                        CONTACT INFO</a>
-                    <%
-                    } else {
-                    %>
-                    <%if (VtkUtil.isRenewMembership(contact.getMembershipYear())) {%>
-                    <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW
-                        NOW</a>
-                    <%}%>
-                    <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">UPDATE
-                        CONTACT INFO</a>
-                    <%
+                    if (apiConfig != null && !apiConfig.isDemoUser() && (selectedTroop.getParticipationCode() == null || (selectedTroop.getParticipationCode() != null && !"IRM".equals(selectedTroop.getParticipationCode())))) {
+                        if (selectedTroop.getRole().equals("PA")) {
+                            %>
+                            <%if (VtkUtil.isRenewMembership(contact.getMembershipYear())) {%>
+                                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
+                            <%}%>
+                                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">UPDATE CONTACT INFO</a>
+                            <%
+                        } else {
+                            %>
+                            <%if (VtkUtil.isRenewMembership(contact.getMembershipYear())) {%>
+                                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
+                            <%}%>
+                                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>
+                            <%
                         }
                     } else {
-                    %>
-                    <a href="javascript:void(0)" class="button" disabled=true>UPDATE CONTACT INFO</a>
-                    <%
-                        }
+                        %>
+                        <a href="javascript:void(0)" class="button" disabled=true>UPDATE CONTACT INFO</a>
+                        <%
+                    }
                     %>
                 </div>
             </li>
