@@ -21,47 +21,46 @@ public String generateId() {
 %>
 
 <%
-Session session = resourceResolver.adaptTo(Session.class);
+Resource image = resource.getChild("image");
 Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 final String text = properties.get("text", "");
 final String resultPath = properties.get("results", "https://www.girlscouts.org/en/our-program/ways-to-participate/camp-and-outdoors/camp-finder/camp-finder-results.html");
+Session session = resourceResolver.adaptTo(Session.class);
+//Generate mobile camp finder node
+Node currNode = currentPage.adaptTo(Node.class);
+try{
+    if(!currNode.getNode("jcr:content").hasNode("mobile-camp-finder")){
+        currNode.getNode("jcr:content").addNode("mobile-camp-finder","nt:unstructured");
+    }
+    Node mobile = currNode.getNode("jcr:content/mobile-camp-finder");
+    mobile.setProperty("results", resultPath);
+    mobile.setProperty("text", text);
+    mobile.setProperty("sling:resourceType", "girlscouts/components/standalone-camp-finder");
+    if(!mobile.hasNode("image")){
+        mobile.addNode("image", "nt:unstructured");
+    }
+    mobile = mobile.getNode("image");
+    mobile.setProperty("fileReference", image.adaptTo(Node.class).getProperty("fileReference").getString());
+    mobile.setProperty("sling:resourceType", "foundation/components/image");
+    mobile.setProperty("imageRotate", 0);
+}catch(Exception e){
+    logger.error("Error creating node: ",e);
+}
+session.save();
+//end mobile camp finder node
+
 String relativeCurrentPath;
 try{
     relativeCurrentPath = currentPage.getPath().substring(currentPage.getPath().indexOf("/en"));
 }catch(Exception e){
     relativeCurrentPath = currentPage.getPath();
 }
-Resource image = resource.getChild("image");
+
 if (image == null) {
 	if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 		%> *** Please select an image *** <%
 	}
 } else {
-    //Generate mobile camp finder node
-    Node currNode = currentPage.adaptTo(Node.class);
-    try{
-        if(!currNode.hasNode("mobile-camp-finder")){
-            currNode.getNode("jcr:content").addNode("mobile-camp-finder","nt:unstructured");
-        }
-        else{
-            currNode.getNode("jcr:content/mobile-camp-finder").remove();
-            session.save();
-        }
-        Node mobile = currNode.getNode("jcr:content/mobile-camp-finder");
-        mobile.setProperty("results", resultPath);
-        mobile.setProperty("text", text);
-        mobile.setProperty("sling:resourceType", "girlscouts/components/standalone-camp-finder");
-        if(!mobile.hasNode("image"))
-            mobile.addNode("image", "nt:unstructured");
-        mobile = mobile.getNode("image");
-        mobile.setProperty("fileReference", image.adaptTo(Node.class).getProperty("fileReference").getString());
-        mobile.setProperty("sling:resourceType", "foundation/components/image");
-        mobile.setProperty("imageRotate", 0);
-    }catch(Exception e){
-        logger.error("Error creating node: ",e);
-    }
-    session.save();
-    //end mobile camp finder node
 	String id = generateId();
 	final String resPath = resource.getPath();
     String imageRendition = gsImagePathProvider.getImagePathByLocation(image);
