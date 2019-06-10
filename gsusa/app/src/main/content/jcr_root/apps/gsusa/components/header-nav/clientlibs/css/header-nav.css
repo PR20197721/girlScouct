@@ -70,7 +70,9 @@
 }
 
 #menuIcon{
-   width: 0 !important;
+   margin-right: 20px;
+   float: left;
+   padding-top: 27px;
 }
 #searchIcon{
     float: right;

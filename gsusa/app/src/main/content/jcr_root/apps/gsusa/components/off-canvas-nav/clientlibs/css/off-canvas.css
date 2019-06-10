@@ -76,7 +76,7 @@ ul.off-canvas-list li a {
 .side-nav-el.active.current{
     background-color: #00AE58;
 }
-.side-nav-el.active.current div a{
+.side-nav-el.active.current > div > a{
     color: white;
 }
 .side-nav-el.active.current ul{
