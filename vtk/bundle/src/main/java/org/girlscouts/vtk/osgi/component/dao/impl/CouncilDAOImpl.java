@@ -293,7 +293,7 @@ public class CouncilDAOImpl implements CouncilDAO {
             String limitRptToCouncil = null;
             limitRptToCouncil = limitRptToCouncil == null ? "" : limitRptToCouncil.trim();
             HashSet<String> ageGroups = new HashSet<String>();
-            String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where isdescendantnode( '" + VtkUtil.getYearPlanBase(null, null) + "" + (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil + "/")) + "') and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
+            String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where isdescendantnode( '" + VtkUtil.getYearPlanBase(null, null) + "" + (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil + "/")) + "') and ocm_classname= 'org.girlscouts.vtk.ocm.TroopNode'";
             javax.jcr.query.Query q = qm.createQuery(sql, Query.SQL);
             java.util.Map container = new java.util.TreeMap();
             log.debug("Executing JCR query: " + sql);
@@ -431,7 +431,7 @@ public class CouncilDAOImpl implements CouncilDAO {
             Session session = rr.adaptTo(Session.class);
             javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
             for (String council : councils) {
-                String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:unstructured where isdescendantnode( '" + gsYear + "" + council + "/') and ocm_classname= 'org.girlscouts.vtk.models.Troop' and id not like 'SHARED_%'";
+                String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:unstructured where isdescendantnode( '" + gsYear + "" + council + "/') and ocm_classname= 'org.girlscouts.vtk.ocm.TroopNode' and id not like 'SHARED_%'";
                 javax.jcr.query.Query q = qm.createQuery(sql, Query.SQL);
                 log.debug("Executing JCR query: " + sql);
                 javax.jcr.query.QueryResult result = q.execute();

@@ -69,32 +69,36 @@
                 </p>
             </li>
             <%if (selectedTroop.getParticipationCode() != null && !"IRM".equals(selectedTroop.getParticipationCode())) {%>
-            <li class="row">
-                <p><strong> Attendance:</strong></p>
-                <p>
-                    <% for (int y = 0; y < infos.size(); y++) {
-                        if (infos.get(y).isAttended()) {
-                            out.println(VtkUtil.formatDate(VtkUtil.FORMAT_Md, (java.util.Date) sched_bm_inverse.get(infos.get(y).getYearPlanComponent())));
-                            out.println((infos.size() > 1 && infos.size() - 1 != y) ? "," : "");
-                        }
-                    } %>
-                </p>
-            </li>
+                <li class="row">
+                    <p><strong> Attendance:</strong></p>
+                    <p>
+                        <% for (int y = 0; y < infos.size(); y++) {
+                            if (infos.get(y).isAttended()) {
+                                out.println(VtkUtil.formatDate(VtkUtil.FORMAT_Md, (java.util.Date) sched_bm_inverse.get(infos.get(y).getYearPlanComponent())));
+                                out.println((infos.size() > 1 && infos.size() - 1 != y) ? "," : "");
+                            }
+                        } %>
+                    </p>
+                </li>
             <%}%>
             <li class="row">
                 <div style="float:right">
                     <%
-                    if (apiConfig != null && !apiConfig.isDemoUser() && (selectedTroop.getParticipationCode() == null || (selectedTroop.getParticipationCode() != null && !"IRM".equals(selectedTroop.getParticipationCode())))) {
+                        boolean isIRM = false;
+                        if(selectedTroop.getParticipationCode() != null && "IRM".equals(selectedTroop.getParticipationCode())){
+                            isIRM = true;
+                        }
+                    if (apiConfig != null && !apiConfig.isDemoUser()) {
                         if (selectedTroop.getRole().equals("PA")) {
                             %>
-                            <%if (VtkUtil.isRenewMembership(contact.getMembershipYear())) {%>
+                            <%if (!isIRM && VtkUtil.isRenewMembership(contact.getMembershipYear())) {%>
                                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
                             <%}%>
                                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">UPDATE CONTACT INFO</a>
                             <%
                         } else {
                             %>
-                            <%if (VtkUtil.isRenewMembership(contact.getMembershipYear())) {%>
+                            <%if (!isIRM && VtkUtil.isRenewMembership(contact.getMembershipYear())) {%>
                                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
                             <%}%>
                                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>

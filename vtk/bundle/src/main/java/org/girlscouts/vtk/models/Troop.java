@@ -13,6 +13,7 @@ public class Troop extends JcrNode implements Serializable {
     private String sfTroopName;
     private String sfTroopAge;
     private String sfCouncil;
+    private String irmTroopId;
     private String currentTroop;
     private String errCode;
     private String refId;
@@ -140,7 +141,7 @@ public class Troop extends JcrNode implements Serializable {
     }
 
     public String getTroopPath() {
-        return VtkUtil.getYearPlanBase(null, null).substring(1) + this.getSfCouncil() + "/troops/" + this.getId();
+        return getPath();
     }
 
     public String getTroopId() {
@@ -231,4 +232,11 @@ public class Troop extends JcrNode implements Serializable {
         this.hash = hash;
     }
 
+    public String getIrmTroopId() {
+        return irmTroopId;
+    }
+
+    public void setIrmTroopId(String irmTroopId) {
+        this.irmTroopId = irmTroopId;
+    }
 }

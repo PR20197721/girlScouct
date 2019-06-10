@@ -102,8 +102,7 @@
         limitRptToCouncil = limitRptToCouncil == null ? "" : limitRptToCouncil.trim();
         java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
         javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
-        String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, troop) + "" + (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil + "/")) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
-        sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk2015/%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
+        String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk2015/%' and ocm_classname= 'org.girlscouts.vtk.ocm.TroopNode'";
         javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
         java.util.Map container = new java.util.TreeMap();

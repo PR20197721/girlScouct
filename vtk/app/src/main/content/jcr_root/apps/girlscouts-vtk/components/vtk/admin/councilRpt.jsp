@@ -57,7 +57,7 @@
     cTrans.put("524", "Greater Iowa");
     cTrans.put("430", "Greater Chicago and NW  Indiana");
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
-    String sql = "select  sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, selectedTroop) + "%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
+    String sql = "select  sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, selectedTroop) + "%' and contains(*, 'org.girlscouts.vtk.ocm.TroopNode') ";
     javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
     javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
     int count = 0;

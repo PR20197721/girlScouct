@@ -33,7 +33,7 @@
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
     java.util.Map<String, String> attendances = new java.util.TreeMap();
     List<String> councils = VtkUtil.getCouncils();
-    String sql = "select users from nt:unstructured where isdescendantnode('" + year + "') and ocm_classname ='org.girlscouts.vtk.models.Achievement'";
+    String sql = "select users from nt:unstructured where isdescendantnode('" + year + "') and ocm_classname ='org.girlscouts.vtk.ocm.AchievementNode'";
     javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
     javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
     javax.jcr.query.QueryResult result = q.execute();

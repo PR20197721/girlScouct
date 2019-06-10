@@ -37,16 +37,20 @@
             <div class="row">
                 <div style="float:right">
                     <%
-                        if (apiConfig != null && !apiConfig.isDemoUser() && (selectedTroop.getParticipationCode() == null || (selectedTroop.getParticipationCode() != null && !"IRM".equals(selectedTroop.getParticipationCode())))) {
+                        boolean isIRM = false;
+                        if(selectedTroop.getParticipationCode() != null && "IRM".equals(selectedTroop.getParticipationCode())){
+                            isIRM = true;
+                        }
+                        if (apiConfig != null && !apiConfig.isDemoUser()) {
                             if (selectedTroop.getRole().equals("PA")) {
                                 %>
-                                <%if (isRenewMembership(contact.getMembershipYear())) {%>
+                                <%if (!isIRM && isRenewMembership(contact.getMembershipYear())) {%>
                                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
                                 <%}%>
                                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">UPDATE CONTACT INFO</a>
                                 <%
                             } else {
-                                if (isRenewMembership(contact.getMembershipYear())) {%>
+                                if (!isIRM && isRenewMembership(contact.getMembershipYear())) {%>
                                     <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
                                 <%}%>
                                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>

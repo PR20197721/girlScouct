@@ -62,7 +62,7 @@
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
     //year plans SQL
     java.util.Map<String, String> yearPlans = new java.util.TreeMap<String, String>();
-    String sql = "select name,jcr:path from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, troop) + "%' and contains(*, 'org.girlscouts.vtk.models.YearPlan') ";
+    String sql = "select name,jcr:path from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, troop) + "%' and contains(*, 'org.girlscouts.vtk.ocm.YearPlanNode') ";
     javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
     javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
     javax.jcr.query.QueryResult result1 = q.execute();
@@ -78,7 +78,7 @@
         yearPlans.put(troopId, name);
     }
     //troops SQL
-    sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCounci from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, troop) + "%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
+    sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCounci from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, troop) + "%' and contains(*, 'org.girlscouts.vtk.ocm.TroopNode') ";
     q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
     int count = 0;
     java.util.HashSet councilIds = new java.util.HashSet<String>();

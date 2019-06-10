@@ -1,5 +1,5 @@
 <%@ page
-        import="org.girlscouts.vtk.osgi.component.util.CouncilRpt, org.girlscouts.vtk.models.CouncilRptBean,  org.girlscouts.vtk.models.User,org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,java.util.Map" %>
+        import="org.girlscouts.vtk.osgi.component.util.CouncilRpt, org.girlscouts.vtk.models.CouncilRptBean,  org.girlscouts.vtk.models.User,org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,java.util.Map, org.apache.commons.lang3.StringUtils" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <!-- %@include file="include/session.jsp"% -->
@@ -14,8 +14,8 @@
         HttpSession session = request.getSession();
         User user = ((org.girlscouts.vtk.models.User) session.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
         //security concern.
-        String cid = user.getApiConfig().getUser().getAdminCouncilId() + "";
-        if (!(user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId() > 0)) {
+        String cid = user.getAdminCouncilId();
+        if (!(user.isAdmin() && StringUtils.isNotBlank(user.getAdminCouncilId()))) {
     %>
     <div class="columns medium-20 medium-centered">
         <p>

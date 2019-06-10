@@ -28,7 +28,7 @@
     } else {
         title = "Attendance";
         if ("meetingEvents".equals(YEAR_PLAN_EVENT)) {
-            title += "and Achievements";
+            title += " and Achievements";
         }
     }
     boolean showAchievement = request.getParameter("isAch") != null && request.getParameter("isAch").equals("true");
@@ -71,7 +71,7 @@
                             <p><%=contact.getFirstName() %>
                             </p>
                         </td>
-                        <%if ("IRM".equals(selectedTroop.getParticipationCode())) {%>
+                        <%if (!"IRM".equals(selectedTroop.getParticipationCode())) {%>
                         <td>
                             <input type="checkbox"  <%= ( !isAttendance || (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contact.getId()) ) )  ? "checked" : "" %>
                                    name="attendance" id="a<%=contact.getId() %>" value="<%=contact.getId() %>"

@@ -48,7 +48,7 @@ public class VTKDemoTroopsCleanUpCronImpl implements Runnable {
     private void removeDemoTroops() {
         ResourceResolver rr = null;
         try {
-            String sql = "SELECT * FROM [nt:unstructured] as s where ISDESCENDANTNODE([/vtk" + VtkUtil.getYearPlanBase(null, null) + "]) and s.[sfTroopId] like 'SHARED_%' and (s.[ocm_classname]='org.girlscouts.vtk.models.Troop' OR s.[ocm_classname]='org.girlscouts.vtk.ocm.TroopNode')";
+            String sql = "SELECT * FROM [nt:unstructured] as s where ISDESCENDANTNODE([/vtk" + VtkUtil.getYearPlanBase(null, null) + "]) and s.[sfTroopId] like 'SHARED_%' and s.[ocm_classname]='org.girlscouts.vtk.ocm.TroopNode'";
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();

@@ -45,8 +45,8 @@ public class ReplicationReceiverImpl
   private static final Logger log = LoggerFactory.getLogger(ReplicationReceiverImpl.class);
   
   /* Girl Scouts Customization BEGIN */
-  private static final Pattern TROOP_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/troops/([^/]+)");
-  private static final Pattern COUNCILINFO_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/councilInfo/.*");
+  private static final Pattern TROOP_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9A-Z]+/troops/([^/]+)");
+  private static final Pattern COUNCILINFO_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9A-Z]+(/[0-9a-zA-Z]+)?/councilInfo/.*");
   
   @Reference
   private VTKDataCacheInvalidator invalidator;

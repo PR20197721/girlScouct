@@ -30,7 +30,7 @@
     cTrans.put("388", "Girl Scout Council of the Southern Appalachians, Inc.");
     cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
     javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
-    String sql = "select  sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk/%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
+    String sql = "select  sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk/%' and contains(*, 'org.girlscouts.vtk.ocm.TroopNode') ";
     javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
     javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
     int count = 0;

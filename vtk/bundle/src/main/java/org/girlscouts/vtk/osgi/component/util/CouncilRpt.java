@@ -1,11 +1,14 @@
 package org.girlscouts.vtk.osgi.component.util;
 
+import com.day.cq.commons.jcr.JcrConstants;
+import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.MultiPartEmail;
+import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.settings.SlingSettingsService;
@@ -23,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.activation.DataSource;
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.Session;
 import javax.jcr.query.*;
 import java.util.*;
@@ -51,7 +55,7 @@ public class CouncilRpt {
 
     public List<String> getActivityRpt(String sfCouncil) {
         List<String> activities = new ArrayList<String>();
-        String sql1 = "select jcr:path " + " from nt:base " + " where isdescendantnode( '/vtk" + VtkUtil.getCurrentGSYear() + "/" + sfCouncil + "/troops/') and ocm_classname='org.girlscouts.vtk.models.Activity'";
+        String sql1 = "select jcr:path " + " from nt:base " + " where isdescendantnode( '/vtk" + VtkUtil.getCurrentGSYear() + "/" + sfCouncil + "/troops/') and ocm_classname='org.girlscouts.vtk.ocm.ActivityNode'";
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
@@ -85,35 +89,35 @@ public class CouncilRpt {
 
     public List<CouncilRptBean> getRpt(String sfCouncil, ApiConfig config) {
         List<CouncilRptBean> container = new ArrayList<CouncilRptBean>();
-        List<YearPlanRpt> yprs = new ArrayList<YearPlanRpt>();
-        String sql = "select  name, altered, refId,jcr:path,excerpt(.) " + " from nt:base where isdescendantnode( '" + VtkUtil.getYearPlanBase(null, null) + sfCouncil + "/troops/') and ocm_classname='org.girlscouts.vtk.models.YearPlan'";
+        String sql = "SELECT s.* from [nt:unstructured] as s where ISDESCENDANTNODE([" + VtkUtil.getYearPlanBase(null, null) + sfCouncil + "/troops/]) and s.[ocm_classname] = 'org.girlscouts.vtk.ocm.YearPlanNode'";
         List<String> activities = getActivityRpt(sfCouncil);
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
-            Query q = qm.createQuery(sql, Query.SQL);
+            Query q = qm.createQuery(sql, Query.JCR_SQL2);
+            log.debug("Executing query: "+sql);
             QueryResult result = q.execute();
-            if (result != null && result.getRows().hasNext()) {
-                for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
+            if (result != null && result.getNodes().hasNext()) {
+                for (NodeIterator it = result.getNodes(); it.hasNext(); ) {
                     try {
                         String yearPlanName = "", libPath = "", ageGroup = "";
                         boolean isAltered = false;
-                        javax.jcr.query.Row r = it.nextRow();
-                        String path = r.getValue("jcr:path").getString();
+                        Node node = it.nextNode();
+                        String path = node.getPath();
                         try {
-                            isAltered = r.getValue("altered").getBoolean();
+                            isAltered = node.getProperty("altered").getBoolean();
                         } catch (Exception e) {
                             log.error("Error occured:", e);
                         }
                         try {
-                            yearPlanName = r.getValue("name").getString();
+                            yearPlanName = node.getProperty("name").getString();
                         } catch (Exception e) {
                             log.error("Error occured:", e);
                         }
                         try {
-                            libPath = r.getValue("refId").getString();
+                            libPath = node.getProperty("refId").getString();
                         } catch (Exception e) {
                             log.error("Error occured:", e);
                         }
@@ -121,18 +125,18 @@ public class CouncilRpt {
                         Node troop = null;
                         List<Contact> leaders = new ArrayList<Contact>();
                         try {
-                            troop = r.getNode().getParent();
+                            troop = node.getParent();
                             troopName = troop.getProperty("sfTroopName").getString();
                             String troopId = troop.getProperty("sfTroopId").getString();
                             if (config != null && troopId != null) {
                                 try {
                                     leaders.addAll(gsSalesForceService.getTroopLeaderInfoByTroopId(config, troopId));
                                 } catch (Exception e) {
-                                    log.error("Unable to retrieve troop user from salesforce : " + r.getPath(), e);
+                                    log.error("Unable to retrieve troop user from salesforce : " + node.getPath(), e);
                                 }
                             }
                         } catch (Exception e) {
-                            log.error("Unable to resolve troop name for troop : " + r.getPath(), e);
+                            log.error("Unable to resolve troop name for troop : " + node.getPath(), e);
                         }
                         if (troop != null && (libPath == null || libPath.equals("") || (yearPlanName != null && yearPlanName.trim().toLowerCase().equals("custom year plan")))) {
                             try {
@@ -230,7 +234,7 @@ public class CouncilRpt {
 
     public Map<String, String> getTroopNames(String councilId, String yearPlanPath) {
         Map<String, String> container = new TreeMap<String, String>();
-        String sql = "select parent.sfTroopId, parent.sfTroopName from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) " + " where (isdescendantnode (parent, [" + VtkUtil.getYearPlanBase(null, null) + councilId + "/troops/]))  and " + " parent.ocm_classname='org.girlscouts.vtk.models.Troop' and child.refId like '" + yearPlanPath + "%'";
+        String sql = "select parent.sfTroopId, parent.sfTroopName from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) " + " where (isdescendantnode (parent, [" + VtkUtil.getYearPlanBase(null, null) + councilId + "/troops/]))  and " + " parent.ocm_classname='org.girlscouts.vtk.ocm.TroopNode' and child.refId like '" + yearPlanPath + "%'";
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);

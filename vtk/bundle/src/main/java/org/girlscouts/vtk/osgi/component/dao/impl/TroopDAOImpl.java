@@ -118,7 +118,7 @@ public class TroopDAOImpl implements TroopDAO {
         try {
             result = new Finance();
             result.setFinancialQuarter(qtr);
-            String path = "/" + troop.getTroopPath() + "/finances/" + currentYear + "/" + qtr;
+            String path = troop.getPath() + "/finances/" + currentYear + "/" + qtr;
             ResourceResolver rr = null;
             try {
                 rr = resolverFactory.getServiceResourceResolver(resolverParams);
@@ -178,7 +178,7 @@ public class TroopDAOImpl implements TroopDAO {
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
-            String path = troop.getTroopPath() + "/finances/" + currentYear;
+            String path = troop.getPath() + "/finances/" + currentYear;
             Node financesNode = JcrUtils.getOrCreateByPath(path, JcrConstants.NT_UNSTRUCTURED, session);
             if (financesNode.hasNode(String.valueOf(qtr))) {
                 session.removeItem(path + "/" + qtr);
@@ -385,12 +385,12 @@ public class TroopDAOImpl implements TroopDAO {
             }*/
             // check troop
             if (getTroopByPath(user, troop.getPath()) == null) {
-                throw new VtkException("Found no troop when creating asset# " + troop.getTroopPath());
+                throw new VtkException("Found no troop when creating asset# " + troop.getPath());
             }
             // check meeting
             MeetingE meeting = meetingDAO.getMeetingE(user, troop, asset.getPath().substring(0, asset.getPath().lastIndexOf("/")).replace("/assets", ""));
             if (meeting == null) {
-                throw new VtkException("Found no troop when creating asset# " + troop.getTroopPath());
+                throw new VtkException("Found no troop when creating asset# " + troop.getPath());
             }
             if (asset.getPath() == null) {
                 asset.setPath(meeting.getPath() + "/assets/" + asset.getUid());
@@ -419,7 +419,7 @@ public class TroopDAOImpl implements TroopDAO {
             }*/
             // check troop
             if (getTroopByPath(user, troop.getPath()) == null) {
-                throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
+                throw new VtkException("Found no troop when creating sched# " + troop.getPath());
             }
             if (meeting.getPath() == null) {
                 meeting.setPath(troop.getYearPlan().getPath() + "/meetingEvents/" + meeting.getUid());
@@ -448,7 +448,7 @@ public class TroopDAOImpl implements TroopDAO {
             }*/
             // check troop
             if (getTroopByPath(user, troop.getPath()) == null) {
-                throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
+                throw new VtkException("Found no troop when creating sched# " + troop.getPath());
             }
             if (activity.getPath() == null) {
                 activity.setPath(troop.getYearPlan().getPath() + "/activities/" + activity.getUid());
@@ -477,7 +477,7 @@ public class TroopDAOImpl implements TroopDAO {
             }*/
             // check troop
             if (getTroopByPath(user, troop.getPath()) == null) {
-                throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
+                throw new VtkException("Found no troop when creating sched# " + troop.getPath());
             }
             if (location.getPath() == null) {
                 location.setPath(troop.getYearPlan().getPath() + "/locations/" + location.getUid());
@@ -516,7 +516,7 @@ public class TroopDAOImpl implements TroopDAO {
                 }*/
                 // check troop
                 if (getTroopByPath(user, troop.getPath()) == null) {
-                    throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
+                    throw new VtkException("Found no troop when creating sched# " + troop.getPath());
                 }
                 if (schedule.getPath() == null) {
                     schedule.setPath(troop.getYearPlan().getPath() + "/schedule");
@@ -652,7 +652,7 @@ public class TroopDAOImpl implements TroopDAO {
             }*/
             // check troop
             if (getTroopByPath(user, troop.getPath()) == null) {
-                throw new VtkException("Found no troop when creating sched# " + troop.getTroopPath());
+                throw new VtkException("Found no troop when creating sched# " + troop.getPath());
             }
             if (meeting.getPath() == null) {
                 meeting.setPath(troop.getYearPlan().getPath() + "/meetingCanceled/" + meeting.getUid());
@@ -692,8 +692,8 @@ public class TroopDAOImpl implements TroopDAO {
         }
         boolean isArchived = false;
         try {
-            String currentYearPlanPath = troop.getTroopPath() + "/yearPlan";
-            String archivedYearPlanPath = "/vtk" + year +"/"+ currentYearPlanPath.substring(8);
+            String currentYearPlanPath = troop.getPath() + "/yearPlan";
+            String archivedYearPlanPath = "/vtk" + year + currentYearPlanPath.substring(8);
             if (girlScoutsYearPlanOCMService.read(archivedYearPlanPath) != null) {
                 isArchived = true;
             }

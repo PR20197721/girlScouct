@@ -17,6 +17,7 @@ import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -398,15 +399,15 @@ public class MeetingUtil {
         if (troop != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
             throw new IllegalAccessException();
         }
+        if (troop.getYearPlan().getMeetingEvents() == null) {
+            troop.getYearPlan().setMeetingEvents(new ArrayList());
+        }
         MeetingE meeting = new MeetingE();
         meeting.setRefId(newMeetingPath);
         int meetingsNum = troop.getYearPlan().getMeetingEvents().size();
         meeting.setId(String.valueOf(meetingsNum));
         meeting.setSortOrder(meetingsNum);
         meeting.setDbUpdate(true);
-        if (troop.getYearPlan().getMeetingEvents() == null) {
-            troop.getYearPlan().setMeetingEvents(new java.util.ArrayList());
-        }
         troop.getYearPlan().getMeetingEvents().add(meeting);
         if (troop.getYearPlan().getSchedule() != null) {
             java.util.List<java.util.Date> sched = VtkUtil.getStrCommDelToArrayDates(troop.getYearPlan().getSchedule().getDates());
@@ -897,7 +898,7 @@ public class MeetingUtil {
         }
         java.util.List<org.girlscouts.vtk.models.Contact> contacts = gsSalesForceService.getContactsForTroop(user.getApiConfig(), troop);
         contacts = contacts.stream().filter(e -> "GIRL".equals(e.getRole().trim().toUpperCase())).collect(java.util.stream.Collectors.toList());
-        String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/" + troop.getSfTroopId() + "/yearPlan/" + YEAR_PLAN_EVENT + "/" + mid + "/attendance";
+        String path = troop.getPath() + "/yearPlan/" + YEAR_PLAN_EVENT + "/" + mid + "/attendance";
         java.util.List<String> Attendances = new java.util.ArrayList<String>();
         Attendance ATTENDANCES = getAttendance(user, troop, path);
         if (ATTENDANCES == null) {
@@ -985,76 +986,48 @@ public class MeetingUtil {
         return meetingDAO.setAchievement(user, troop, mid, achievement);
     }
 
-    public boolean updateAchievement(User user, Troop troop, javax.servlet.http.HttpServletRequest request) {
+    public boolean updateAchievement(User user, Troop troop, HttpServletRequest request) {
         String mid = request.getParameter("mid");
-        String[] attendances = null;
         if (request.getParameter("achievement") != null) {
-            int i = 0;
+            String achievementPath = troop.getPath() + "/yearPlan/meetingEvents/" + mid + "/achievement";
+            Achievement achievement = getAchievement(user, troop, achievementPath);
+            if (achievement == null) {
+                achievement = new Achievement();
+                achievement.setPath(achievementPath);
+            }
+            Set<String> achievers = new HashSet<String>();
+            if (achievement.getUsers() != null) {
+                StringTokenizer t2 = new StringTokenizer(achievement.getUsers(), ",");
+                while (t2.hasMoreElements()) {
+                    achievers.add(t2.nextToken());
+                }
+            }
+            List<String> contactIds = new ArrayList<String>();
+            List<Contact> contacts = gsSalesForceService.getContactsForTroop(user.getApiConfig(), troop);
+            for (int i = 0; i < contacts.size(); i++) {
+                contactIds.add(contacts.get(i).getId());
+            }
             StringTokenizer t = new StringTokenizer(request.getParameter("achievement"), ",");
             while (t.hasMoreElements()) {
-                if (attendances == null) {
-                    attendances = new String[t.countTokens()];
-                }
-                attendances[i] = t.nextToken();
-                i++;
+                achievers.add(t.nextToken());
             }
-        }
-        java.util.List<org.girlscouts.vtk.models.Contact> contacts = gsSalesForceService.getContactsForTroop(user.getApiConfig(), troop);
-        String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/" + troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid + "/achievement";
-        java.util.List<String> Attendances = new java.util.ArrayList<String>();
-        Achievement ATTENDANCES = getAchievement(user, troop, path);
-        if (ATTENDANCES == null) {
-            ATTENDANCES = new Achievement();
-            ATTENDANCES.setPath(path);
-        }
-        if (ATTENDANCES != null && ATTENDANCES.getUsers() != null) {
-            StringTokenizer t = new StringTokenizer(ATTENDANCES.getUsers(), ",");
-            while (t.hasMoreElements()) {
-                Attendances.add(t.nextToken());
-            }
-        }
-        java.util.List<String> CURRENT_CONTACT_LIST = new java.util.ArrayList<String>();
-        for (int i = 0; i < contacts.size(); i++) {
-            CURRENT_CONTACT_LIST.add(contacts.get(i).getId());
-        }
-        // add
-        if (attendances != null) {
-            for (int i = 0; i < attendances.length; i++) {
-                if (!Attendances.contains(attendances[i])) {
-                    Attendances.add(attendances[i]);
+            Set<String> achieverIdToRm = new HashSet<String>();
+            for(String achieverId:achievers){
+                if(!contactIds.contains(achieverId)){
+                    achieverIdToRm.add(achieverId);
                 }
             }
-        }
-        // rm
-        java.util.List<String> attendances_toRm = new java.util.ArrayList<String>();
-        for (int i = 0; i < Attendances.size(); i++) {
-            String contactId = Attendances.get(i);
-            boolean isExists = false;
-            if (CURRENT_CONTACT_LIST.contains(contactId)) {
-                if (attendances != null) {
-                    for (int y = 0; y < attendances.length; y++) {
-                        if (attendances[y].equals(contactId)) {
-                            isExists = true;
-                        }
-                    }
+            achievers.removeAll(achieverIdToRm);
+            StringBuilder achieversStr = new StringBuilder();
+            if (achievers != null) {
+                for (String achiever:achievers) {
+                    achieversStr.append(achiever+ ",");
                 }
             }
-            if (!isExists) {
-                attendances_toRm.add(contactId);
-            }
+            achievement.setUsers(achieversStr.toString());
+            achievement.setTotal(contacts.size());
+            setAchievement(user, troop, mid, achievement);
         }
-        for (int i = 0; i < attendances_toRm.size(); i++) {
-            Attendances.remove(attendances_toRm.get(i));
-        }
-        String _attendances = "";
-        if (Attendances != null) {
-            for (int i = 0; i < Attendances.size(); i++) {
-                _attendances += Attendances.get(i) + ",";
-            }
-        }
-        ATTENDANCES.setUsers(_attendances);
-        ATTENDANCES.setTotal(contacts.size());
-        setAchievement(user, troop, mid, ATTENDANCES);
         return false;
     }
 
@@ -1264,7 +1237,7 @@ public class MeetingUtil {
         if (System.currentTimeMillis() < planView.getSearchDate().getTime()) {
             return true;
         }
-        String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/" + troop.getSfTroopId() + "/yearPlan/meetingEvents/" + meeting.getUid();
+        String path = troop.getPath() + "/yearPlan/meetingEvents/" + meeting.getUid();
         Attendance attendance = this.getAttendance(user, troop, path + "/attendance");
         Achievement achievement = this.getAchievement(user, troop, path + "/achievement");
         boolean hasAttendanceUsers = attendance == null ? false : Optional.ofNullable(attendance.getUsers()).map(StringUtils::isNotBlank).orElse(false);

@@ -1089,7 +1089,11 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     public boolean setAttendance(User user, Troop troop, String mid, Attendance attendance) {
-        return girlScoutsAttendanceOCMService.create(attendance) != null;
+        if(girlScoutsAttendanceOCMService.read(attendance.getPath()) == null){
+            return girlScoutsAttendanceOCMService.create(attendance) != null;
+        }else{
+            return girlScoutsAttendanceOCMService.update(attendance) != null;
+        }
     }
 
     public Achievement getAchievement(User user, Troop troop, String mid) {
@@ -1097,7 +1101,12 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     public boolean setAchievement(User user, Troop troop, String mid, Achievement achievement) {
-        return girlScoutsAchievementOCMService.create(achievement) != null;
+        if(girlScoutsAchievementOCMService.read(achievement.getPath()) == null){
+            return girlScoutsAchievementOCMService.create(achievement) != null;
+        }else{
+            return girlScoutsAchievementOCMService.update(achievement) != null;
+        }
+
     }
 
     public boolean updateMeetingEvent(User user, Troop troop, MeetingE meeting) throws IllegalAccessException, IllegalStateException {
@@ -1547,7 +1556,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
-            String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and outdoor=true and ocm_classname='org.girlscouts.vtk.models.Activity'";
+            String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and outdoor=true and ocm_classname='org.girlscouts.vtk.ocm.ActivityNode'";
             Query q = qm.createQuery(sql, Query.SQL);
             log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
@@ -1584,7 +1593,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
-            String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and global=true and ocm_classname='org.girlscouts.vtk.models.Activity'";
+            String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and global=true and ocm_classname='org.girlscouts.vtk.ocm.ActivityNode'";
             Query q = qm.createQuery(sql, Query.SQL);
             log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
