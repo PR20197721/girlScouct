@@ -88,8 +88,7 @@
 						}
 					}
                 }else{
-                    csv.append (",");
-                    csv.append (",");
+                    csv.append (",,");
                 }
 				// meetings/ girl
 				if(meetingEvents!=null){
