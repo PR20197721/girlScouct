@@ -74,7 +74,10 @@ ul.off-canvas-list li a {
     padding-right: 2%;
 }
 .side-nav-el.active.current{
-    background-color: #B0B0B0;
+    background-color: #00AE58;
+}
+.side-nav-el.active.current div a{
+    color: white;
 }
 .side-nav-el.active.current ul{
     background-color: #e6e7e8;
@@ -130,6 +133,7 @@ ul.off-canvas-list li a {
     width: 135px;
     margin-left: 10px;
     margin-top: 1px;
+    padding-left: 5px;
     border: 2px solid #00AE58;
 }
 .side-nav-el span{
@@ -159,6 +163,12 @@ ul.off-canvas-list li a {
 .side-nav-el a{
      display: inline-block !important;
 }
+.side-nav-el{
+     font-size: 14px;
+}
+.parentEl{
+     font-size: 15px;
+}
 .side-nav-expand{
     display: inline-block !important;
     float: right !important;
@@ -185,7 +195,6 @@ ul.off-canvas-list li a {
     color: white;
     background-color: #009447;
     border: 2px solid lightgray;
-    border-radius: 6px;
 
 }
 #searchBtnHome{
@@ -208,4 +217,16 @@ ul.off-canvas-list li a {
   font-size: 1.25rem;
   top: 13px;
   right: 33px;
+}
+.color0{
+    background-color: #d1d3d4;
+}
+.color1{
+    background-color: #bcbec0;
+}
+.color2{
+    background-color: #a7a9ab;
+}
+.color3{
+    background-color: #e6e7e7;
 }
