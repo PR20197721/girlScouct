@@ -75,7 +75,7 @@
 				csv.append( fmtValue(address) +",");
 
 				// secondary contact
-				if( gsContact.getContacts()!=null )
+				if( gsContact.getContacts()!=null ){
 					for(Contact contactSub: gsContact.getContacts()){ 
 						if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID ) ){
 	                       csv.append( fmtValue(contactSub.getFirstName() + " " + contactSub.getLastName()) +",");
@@ -87,7 +87,9 @@
                            }
 						}
 					}
-
+                }else{
+                    csv.append (",,");
+                }
 				// meetings/ girl
 				if(meetingEvents!=null){
 					List<ContactExtras> infos = contactsExtras.get( gsContact );
