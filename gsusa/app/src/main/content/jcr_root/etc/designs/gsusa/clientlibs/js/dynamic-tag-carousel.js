@@ -25,6 +25,15 @@
 		// After Load the content to the selector trigger the callback
 		//  in this case going to be the article style in app.js
 		$(selector).load(url, loadArticleCarousel);
+		$.ajax({
+            cache: false,
+            url: '/content/gsusa/servlets/DynamicTagServlet',
+            type: 'GET',
+            success: function(result) {
+                alert("test");
+            }
+        });
+
 	};
 	function loadArticleCarousel() {
         var TILES_SELECTOR = '.article-detail-carousel .article-tile';
