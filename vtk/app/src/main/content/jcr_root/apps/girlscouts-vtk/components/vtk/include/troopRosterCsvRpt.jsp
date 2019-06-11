@@ -88,6 +88,7 @@
 						else{
                            csv.append (",");
                         }
+                        
 					}
                 }else{
                     csv.append (",,");
