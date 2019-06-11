@@ -1,5 +1,5 @@
 (function(){
-	var END_POINT = '/content/gsusa/en/components_old/article-hub/dynamic-tag-carousel';
+	var END_POINT = '/content/gsusa/servlets/DynamicTagServlet';
 
 	DynamicTagCarousel = function(id, num, defaultTag) {
 		this.id = id;
@@ -24,16 +24,8 @@
 
 		// After Load the content to the selector trigger the callback
 		//  in this case going to be the article style in app.js
-		$(selector).load(url, loadArticleCarousel);
-		$.ajax({
-            cache: false,
-            url: '/content/gsusa/servlets/DynamicTagServlet',
-            type: 'GET',
-            success: function(result) {
-                alert("test");
-            }
-        });
 
+		$(selector).load(url, loadArticleCarousel);
 	};
 	function loadArticleCarousel() {
         var TILES_SELECTOR = '.article-detail-carousel .article-tile';
