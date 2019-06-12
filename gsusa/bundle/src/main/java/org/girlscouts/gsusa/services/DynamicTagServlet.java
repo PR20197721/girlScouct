@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 @SlingServlet(
-        label = "GSUSA ResourceType servlet", description = "Gets resourceType property for Article Tile and Dynamic Tag Carousel", paths = {},
+        label = "GSUSA Dynamic Tag servlet", description = "Gets resourceType property for Article Tile and Dynamic Tag Carousel", paths = {},
         methods = { "GET" }, // Ignored if paths is set - Defaults to POST if not specified
         resourceTypes = { "gsusa/servlet/article-detail-carousel-content" }, // Ignored if
         // paths is set
