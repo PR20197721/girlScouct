@@ -1,5 +1,5 @@
 (function(){
-	var END_POINT = '/content/gsusa/servlets/DynamicTagServlet';
+	var END_POINT = '/etc/servlets/dynamic-tag-servlet';
 
 	DynamicTagCarousel = function(id, num, defaultTag) {
 		this.id = id;
