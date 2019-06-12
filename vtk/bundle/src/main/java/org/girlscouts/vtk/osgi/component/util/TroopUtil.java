@@ -239,6 +239,7 @@ public class TroopUtil {
             plan.setRefId(yearPlanPath);
             plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user, troop, yearPlanPath.endsWith("/meetings/") ? yearPlanPath : (yearPlanPath + "/meetings/")));
             Collections.sort(plan.getMeetingEvents(), new MeetingESortOrderComparator());
+            plan.setPath(troop.getPath()+"/yearPlan");
         } catch (Exception e) {
             e.printStackTrace();
         }

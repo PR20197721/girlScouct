@@ -160,7 +160,6 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
                     config.setOAuthUrl(OAuthUrl);
                     config.setAccessTokenValid(true);
                     config.setUseAsDemo(useAsDemo);
-                    session.setAttribute(ApiConfig.class.getName(), config);
                     User user = null;
                     try {
                         user = sfService.getUser(config);
@@ -173,10 +172,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
                     }
                     config.setUser(user);
                     config.setTroops(user.getTroops());
-                    user.setApiConfig(config);
-                    if (config.getUser().getTroops() != null && config.getUser().getTroops().size() > 0) {
-                        user.setCurrentYear("" + VtkUtil.getCurrentGSYear());
-                    }
+                    session.setAttribute(ApiConfig.class.getName(), config);
                     session.setAttribute(User.class.getName(), user);
                     if (config.getUser().getTroops() != null && !config.getUser().getTroops().isEmpty()) {
                         String troopDataPath = troopHashGenerator.hash(config.getUser().getTroops().get(0));

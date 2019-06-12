@@ -185,9 +185,6 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                 }
             };
             Collections.sort(meetingInfos, comp);
-            for (int i = 0; i < meetingInfos.size(); i++) {
-                log.debug("test sort: " + meetingInfos.get(i).getMeetingInfo().getSortOrder());
-            }
             yearPlan.setMeetingEvents(meetingInfos);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);

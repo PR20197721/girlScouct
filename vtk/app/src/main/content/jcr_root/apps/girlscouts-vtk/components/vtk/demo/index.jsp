@@ -3,7 +3,7 @@
                 org.girlscouts.vtk.models.User,
                 org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
 <%@ page import="org.girlscouts.vtk.osgi.component.util.VtkUtil" %>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List, java.util.Set" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
 <cq:defineObjects/>
@@ -26,30 +26,23 @@
     apiConfig.setDemoUserName(contactId);
 //getUser
     User user = sling.getService(GirlScoutsSalesForceService.class).getUser(apiConfig);
-    apiConfig.setUser(user);
     List<Troop> userTroops = user.getTroops();
     user.setName(contactId);
-    session.setAttribute(User.class.getName(), user);
-    for (int i = 0; i < userTroops.size(); i++) {
-        Troop troop = userTroops.get(i);
+    for (Troop troop:userTroops) {
         if (!isGroupDemo && troop.getPermissionTokens().contains(13)) { //if not parent
-            troop.setTroopId("SHARED_" + session.getId() + "_" + troop.getTroopId()); //group
-        } else {
-            troop.setTroopId(troop.getTroopId());
+            troop.setTroopId("SHARED_" + session.getId() + "_" + troop.getSfTroopId()); //group
+            troop.setPath(troop.getPath().replace(troop.getSfTroopId(),troop.getTroopId()));
+            troop.setSfTroopId(troop.getTroopId());
+            troop.setId(troop.getTroopId());
         }
-        java.util.Set perms = troop.getPermissionTokens();
+        Set perms = troop.getPermissionTokens();
         perms.remove(304); //edit troop photo
         perms.remove(641); //PERMISSION_SEND_EMAIL_act_ID
         perms.remove(642); //email all parents
         troop.setPermissionTokens(perms);
     }
     session.setAttribute(ApiConfig.class.getName(), apiConfig);
-    User vtkUser = new User();
-    vtkUser.setApiConfig(apiConfig);
-    if (userTroops != null && userTroops.size() > 0) {
-        vtkUser.setCurrentYear("" + VtkUtil.getCurrentGSYear());
-    }
-    session.setAttribute(User.class.getName(), vtkUser);
+    session.setAttribute(User.class.getName(), user);
     if (request.getParameter("prefGradeLevel") != null) {
 %>
 <script>

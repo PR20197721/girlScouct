@@ -77,6 +77,8 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             if (apiConfig.isDemoUser()) {
                 user.setAdminCouncilId(demoCouncilCode);
             }
+            user.setApiConfig(apiConfig);
+            user.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
             addMoreInfo(apiConfig, userInfoResponseEntity, user);
         } catch (Exception e) {
             log.error("Error occurred: ", e);
@@ -91,6 +93,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             UserInfoResponseEntity userInfoResponseEntity = sfRestClient.getUserInfoById(apiConfig, userId);
             user = UserInfoResponseEntityToUserMapper.map(userInfoResponseEntity);
             user.setApiConfig(apiConfig);
+            user.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
             addMoreInfo(apiConfig, userInfoResponseEntity, user);
             return user;
         } catch (Exception e) {
