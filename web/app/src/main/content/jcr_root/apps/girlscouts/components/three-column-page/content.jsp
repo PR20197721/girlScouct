@@ -16,7 +16,7 @@
  <div id="imgContainer" style="display: none;">
     <img id="printPageImg" style = "display: none;" src="<%= logoPath %>"/>
 </div>
-<div id="main" class="row content">
+<div id="main" class="row content three-column">
 
 		<!--PAGE STRUCTURE: LEFT CONTENT START-->
 		<div class="large-5 hide-for-medium hide-for-small columns mainLeft">
@@ -32,7 +32,7 @@
 				<cq:include path="content/middle/breadcrumb" resourceType="girlscouts/components/breadcrumb-trail" />
 			</div>
 			<div class="row mainRightBottom">
-				<div class="large-18 medium-18 small-24 columns rightBodyLeft">
+				<div class="large-18 medium-18 small-24 columns rightBodyLeft middle-col">
 					<!--PAGE STRUCTURE: MIDDLE CONTENT START-->
 					<cq:include script="middle.jsp" />
 	          <!--PAGE STRUCTURE: MIDDLE CONTENT STOP-->
