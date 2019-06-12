@@ -6,6 +6,7 @@ import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
 import com.day.cq.wcm.api.WCMMode;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -265,29 +266,29 @@ public class DynamicTagServlet extends SlingAllMethodsServlet implements OptingS
         if(linkTagAnchors != null){
             linkToArticle += linkTagAnchors;
         }
-        articleTileHtml(sb, type, playOnClick, openInNewWindow, tileTitle, tileText);
+        articleTileHtml(sb, type, playOnClick, videoLink, linkToArticle, openInNewWindow, tileTitle, tileText, imageSrc, image2xSrc, rgba, request.getResourceResolver(), externalLink);
 
     }
-    private void articleTileHtml(StringBuilder sb, String type, boolean playOnClick, boolean openInNewWindow, String tileTitle, String tileText){
+    private void articleTileHtml(StringBuilder sb, String type, boolean playOnClick, String videoLink, String linkToArticle, boolean openInNewWindow, String tileTitle, String tileText, String imageSrc, String image2xSrc, String rgba, ResourceResolver resourceResolver, String externalLink){
         sb.append("<div class=\"article-tile\">");
         sb.append("<section>");
         if(type.equals("video")){
             if(playOnClick){
-                sb.append("<a class=\"video\" href=\"\" onclick=\"populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml4(videoLink)%>','#FFFFFF')\" data-reveal-id=\"gsusaHiddenModal\">");
+                sb.append("<a class=\"video\" href=\"\" onclick=\"populateVideoIntoModal('gsusaHiddenModal','" + StringEscapeUtils.escapeHtml4(videoLink) + "','#FFFFFF')\" data-reveal-id=\"gsusaHiddenModal\">");
             } else {
-                sb.append("<a class=\"video non-click\" href=\"<%=linkToArticle%>\">");
+                sb.append("<a class=\"video non-click\" href=\"" + linkToArticle + "\">");
             }
         } else if(type.equals("link")){
             if(openInNewWindow){
-                sb.append("<a x-cq-linkchecker=\"valid\" href=\"<%=genLink(resourceResolver, externalLink)%>\" target=\"_blank\">");
+                sb.append("<a x-cq-linkchecker=\"valid\" href=\"" + genLink(resourceResolver, externalLink) + "\" target=\"_blank\">");
             } else {
-                sb.append("<a x-cq-linkchecker=\"valid\" href=\"<%=genLink(resourceResolver, externalLink)%>\">");
+                sb.append("<a x-cq-linkchecker=\"valid\" href=\"" + genLink(resourceResolver, externalLink) + "\">");
             }
         } else {
-            sb.append("<a class=\"photo\" href=\"<%=linkToArticle%>\">");
+            sb.append("<a class=\"photo\" href=\"" + linkToArticle + "\">");
         }
-        sb.append("<img src=\"<%=imageSrc%>\" <%-- data-at2x=\"<%= image2xSrc %>\" --%> />");
-        sb.append("<div class=\"text-content\" style=\"background: <%=rgba%>\">");
+        sb.append("<img src=\"" + imageSrc + "\" <%-- data-at2x=\"" + image2xSrc  + "\" --%> />");
+        sb.append("<div class=\"text-content\" style=\"background: " + rgba + "\">");
         sb.append("<div class=\"text-wrapper\">");
         sb.append("<div class=\"text-inner\">");
         sb.append("<h3>");
@@ -301,7 +302,15 @@ public class DynamicTagServlet extends SlingAllMethodsServlet implements OptingS
         sb.append("</section>");
         sb.append("</div>");
     }
-
+    public String genLink(ResourceResolver rr, String link) {
+        // This is a Page resource but yet not end with ".html": append ".html"
+        if (!link.contains(".html") && rr.resolve(link).getResourceType().equals("cq:Page")  ) {
+            return link + ".html";
+            // Well, do nothing
+        } else {
+            return link;
+        }
+    }
     /** OptingServlet Acceptance Method **/
     @Override
     public final boolean accepts(SlingHttpServletRequest request) {
