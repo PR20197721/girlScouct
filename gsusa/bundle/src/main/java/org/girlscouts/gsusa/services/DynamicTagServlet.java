@@ -13,10 +13,14 @@ import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+import org.girlscouts.common.osgi.component.GirlscoutsImagePathProvider;
+import org.girlscouts.gsusa.access.ResolverAccessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jcr.Node;
 import javax.jcr.Session;
+import javax.jcr.Value;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -39,6 +43,12 @@ public class DynamicTagServlet extends SlingAllMethodsServlet implements OptingS
 
     @Reference
     private transient QueryBuilder queryBuilder;
+
+    @Reference
+    private transient GirlscoutsImagePathProvider gsImagePathProvider;
+
+    @Reference
+    private transient ResolverAccessService resolverAccessService;
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
@@ -83,13 +93,18 @@ public class DynamicTagServlet extends SlingAllMethodsServlet implements OptingS
                 log.error("Error setting request attribute articlePath: ",e);
             }
             sb.append("<div>");
-            sb.append("<cq:include path=\"article-tile\" resourceType=\"gsusa/components/article-tile\" />");
+            try {
+                articleTile(sb, h.getPath(), request);
+            }catch (Exception e){
+                log.error("Error including article tile: ",e);
+            }
+            //sb.append("<cq:include path=\"article-tile\" resourceType=\"gsusa/components/article-tile\" />");
             sb.append("</div>");
         }
         sb.append("<div>");
-            sb.append("<div class=\"article-tile last\">");
-                sb.append("<section><a>See More</a></section>");
-            sb.append("</div>");
+        sb.append("<div class=\"article-tile last\">");
+        sb.append("<section><a>See More</a></section>");
+        sb.append("</div>");
 
         sb.append("</div>");
         sb.append("</div>");
@@ -138,7 +153,154 @@ public class DynamicTagServlet extends SlingAllMethodsServlet implements OptingS
         return sr;
 
     }
+    public void articleTile(StringBuilder sb, String articlePathStr, SlingHttpServletRequest request){
+        String articlePath = (String)request.getAttribute("articlePath");
+        if (articlePath == null) {
+            articlePath = request.getParameter("articlePath");
+            if (articlePath.endsWith(".html")) {
+                articlePath = articlePath.substring(0, articlePath.length() - 5);
+            }
+            if (!articlePath.startsWith("/content/gsusa")) {
+                articlePath = "/content/gsusa" + articlePath;
+            }
+        }
+        String linkTagAnchors = (String)request.getAttribute("linkTagAnchors");
 
+        String tileTitle = "";
+        String tileText = "";
+        long priority = 0;
+        String type = "";
+        String videoLink = "";
+        String externalLink = "";
+        String editedDate = "";
+
+        boolean playOnClick = false;
+        boolean openInNewWindow = false;
+
+        String divId = (String)request.getAttribute("tileModalDivId");
+
+        String imageSrc = "";
+        String image2xSrc = "";
+
+        String hexColor = "FFFFFF";
+
+        String rgba = "rgba(166, 206, 56, 0.8)";
+
+        Value[] tags = null;
+
+        String linkToArticle = "";
+
+        try{
+
+            Node node =   request.getResourceResolver().resolve(articlePath).adaptTo(Node.class);
+            Node propNode = node.getNode("jcr:content");
+            linkToArticle = node.getPath() + ".html";
+
+            if(propNode.hasProperty("jcr:title"))
+                tileTitle = propNode.getProperty("jcr:title").getString();
+
+            if(propNode.hasProperty("shortTitle"))
+                tileTitle = propNode.getProperty("shortTitle").getString();
+
+            if(propNode.hasProperty("jcr:description"))
+                tileText = propNode.getProperty("jcr:description").getString();
+
+            if(propNode.hasProperty("type"))
+                type = propNode.getProperty("type").getString();
+
+            if(propNode.hasProperty("videoLink"))
+                videoLink = propNode.getProperty("videoLink").getString();
+
+            if(propNode.hasProperty("externalLink"))
+                externalLink = propNode.getProperty("externalLink").getString();
+
+            if(propNode.hasProperty("editedDate"))
+                editedDate = propNode.getProperty("editedDate").getString();
+
+            if(propNode.hasProperty("cq:tags"))
+                tags = propNode.getProperty("cq:tags").getValues();
+
+            if(propNode.hasProperty("playOnClick")){
+                String isOn = propNode.getProperty("playOnClick").getString();
+                if(isOn.equals("on"))
+                    playOnClick = true;
+            }
+
+            if(propNode.hasProperty("openInNewWindow")){
+                String openIn = propNode.getProperty("openInNewWindow").getString();
+                if(openIn.equals("on"))
+                    openInNewWindow = true;
+            }
+
+            if(propNode.hasNode("tileimage")){
+                Node thumbnailNode = propNode.getNode("tileimage");
+                imageSrc = thumbnailNode.getPath() + ".img.png";
+                image2xSrc = thumbnailNode.getPath() + "2x.img.png";
+            } else{
+                Node imageNode = propNode.getNode("image");
+                imageSrc = imageNode.getProperty("fileReference").getString();
+                image2xSrc = gsImagePathProvider.getImagePath(imageSrc,"cq5dam.npd.tile@2x");
+                imageSrc = gsImagePathProvider.getImagePath(imageSrc,"cq5dam.npd.tile");
+            }
+
+        } catch(Exception e){
+            log.error("Error retrieving node properties: ", e);
+        }
+
+        if(!articlePath.isEmpty())
+            articlePath = articlePath + ".html";
+
+        if(tags != null && tags.length > 0){
+            String primaryTagId = "";
+            try{
+                primaryTagId = tags[0].getString();
+                String tagColor  = resolverAccessService.getColorFromTagNode(primaryTagId);
+                if(tagColor != null ){
+                    rgba = tagColor;
+                }
+            }catch(Exception e){
+                log.error("Tag: " + primaryTagId + " is not found for article: " + articlePath, e);
+            }
+        }
+        if(linkTagAnchors != null){
+            linkToArticle += linkTagAnchors;
+        }
+        articleTileHtml(sb, type, playOnClick, openInNewWindow, tileTitle, tileText);
+
+    }
+    private void articleTileHtml(StringBuilder sb, String type, boolean playOnClick, boolean openInNewWindow, String tileTitle, String tileText){
+        sb.append("<div class=\"article-tile\">");
+        sb.append("<section>");
+        if(type.equals("video")){
+            if(playOnClick){
+                sb.append("<a class=\"video\" href=\"\" onclick=\"populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml4(videoLink)%>','#FFFFFF')\" data-reveal-id=\"gsusaHiddenModal\">");
+            } else {
+                sb.append("<a class=\"video non-click\" href=\"<%=linkToArticle%>\">");
+            }
+        } else if(type.equals("link")){
+            if(openInNewWindow){
+                sb.append("<a x-cq-linkchecker=\"valid\" href=\"<%=genLink(resourceResolver, externalLink)%>\" target=\"_blank\">");
+            } else {
+                sb.append("<a x-cq-linkchecker=\"valid\" href=\"<%=genLink(resourceResolver, externalLink)%>\">");
+            }
+        } else {
+            sb.append("<a class=\"photo\" href=\"<%=linkToArticle%>\">");
+        }
+        sb.append("<img src=\"<%=imageSrc%>\" <%-- data-at2x=\"<%= image2xSrc %>\" --%> />");
+        sb.append("<div class=\"text-content\" style=\"background: <%=rgba%>\">");
+        sb.append("<div class=\"text-wrapper\">");
+        sb.append("<div class=\"text-inner\">");
+        sb.append("<h3>");
+        sb.append(tileTitle);
+        sb.append("<p>" + tileText + "</p>");
+        sb.append("</h3>");
+        sb.append("</div>");
+        sb.append("</div>");
+        sb.append("</div>");
+        sb.append("</a>");
+        sb.append("</section>");
+        sb.append("</div>");
+    }
 
     /** OptingServlet Acceptance Method **/
     @Override
