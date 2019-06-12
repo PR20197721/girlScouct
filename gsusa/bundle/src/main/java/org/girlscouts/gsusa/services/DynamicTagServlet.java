@@ -287,7 +287,7 @@ public class DynamicTagServlet extends SlingAllMethodsServlet implements OptingS
         } else {
             sb.append("<a class=\"photo\" href=\"" + linkToArticle + "\">");
         }
-        sb.append("<img src=\"" + imageSrc + "\" <%-- data-at2x=\"" + image2xSrc  + "\" --%> />");
+        sb.append("<img src=\"" + imageSrc + "\" data-at2x=\"" + image2xSrc  + "\"/>");
         sb.append("<div class=\"text-content\" style=\"background: " + rgba + "\">");
         sb.append("<div class=\"text-wrapper\">");
         sb.append("<div class=\"text-inner\">");
