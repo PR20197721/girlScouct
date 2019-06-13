@@ -1,0 +1,143 @@
+{
+  "troops": [
+    {
+      "Id": "daisy",
+      "Job_Code__c": "DP",
+      "Parent": {
+        "Account__c": " ",
+        "Council_Code__c": "SUM",
+        "Id": "daisy",
+        "Name": "SU-Troop",
+        "Program_Grade_Level__c": "1-Daisy",
+        "attributes": {
+          "type": " ",
+          "url": " "
+        }
+      },
+      "ParentId": " ",
+      "attributes": {
+        "type": " ",
+        "url": " "
+      }
+    },{
+      "Id": "brownie",
+      "Job_Code__c": "DP",
+      "Parent": {
+        "Account__c": " ",
+        "Council_Code__c": "SUM",
+        "Id": "brownie",
+        "Name": "SU-Troop",
+        "Program_Grade_Level__c": "2-Brownie",
+        "attributes": {
+          "type": " ",
+          "url": " "
+        }
+      },
+      "ParentId": " ",
+      "attributes": {
+        "type": " ",
+        "url": " "
+      }
+    },
+    {
+      "Id": "junior",
+      "Job_Code__c": "DP",
+      "Parent": {
+        "Account__c": " ",
+        "Council_Code__c": "SUM",
+        "Id": "junior",
+        "Name": "SU-Troop",
+        "Program_Grade_Level__c": "3-Junior",
+        "attributes": {
+          "type": " ",
+          "url": " "
+        }
+      },
+      "ParentId": " ",
+      "attributes": {
+        "type": " ",
+        "url": " "
+      }
+    },
+    {
+      "Id": "cadette",
+      "Job_Code__c": "DP",
+      "Parent": {
+        "Account__c": " ",
+        "Council_Code__c": "SUM",
+        "Id": "cadette",
+        "Name": "SU-Troop",
+        "Program_Grade_Level__c": "4-Cadette",
+        "attributes": {
+          "type": " ",
+          "url": " "
+        }
+      },
+      "ParentId": " ",
+      "attributes": {
+        "type": " ",
+        "url": " "
+      }
+    },
+    {
+      "Id": "senior",
+      "Job_Code__c": "DP",
+      "Parent": {
+        "Account__c": " ",
+        "Council_Code__c": "SUM",
+        "Id": "senior",
+        "Name": "SU-Troop",
+        "Program_Grade_Level__c": "5-Senior",
+        "attributes": {
+          "type": " ",
+          "url": " "
+        }
+      },
+      "ParentId": " ",
+      "attributes": {
+        "type": " ",
+        "url": " "
+      }
+    },
+    {
+      "Id": "ambassador",
+      "Job_Code__c": "DP",
+      "Parent": {
+        "Account__c": " ",
+        "Council_Code__c": "SUM",
+        "Id": "ambassador",
+        "Name": "SU-Troop",
+        "Program_Grade_Level__c": "6-Ambassador",
+        "attributes": {
+          "type": " ",
+          "url": " "
+        }
+      },
+      "ParentId": " ",
+      "attributes": {
+        "type": " ",
+        "url": " "
+      }
+    },
+    {
+      "Id": "multi-level",
+      "Job_Code__c": "DP",
+      "Parent": {
+        "Account__c": " ",
+        "Council_Code__c": "SUM",
+        "Id": "multi-level",
+        "Name": "SU-Troop",
+        "Program_Grade_Level__c": "7-multi-level",
+        "attributes": {
+          "type": " ",
+          "url": " "
+        }
+      },
+      "ParentId": " ",
+      "attributes": {
+        "type": " ",
+        "url": " "
+      }
+    }
+  ]
+}
