@@ -69,10 +69,10 @@
     <div class="hide-for-print tab-wrapper <%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear" : "vtk-pastYear" %> row">
         <div class="columns large-22 large-centered small-24">
             <dl class="tabs show-for-large-up">
-                <% if (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "") && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
-                <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
-                    <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
-                </dd>
+                <% if (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "") && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_VIEW_TROOP_ID) && !"SUM".equals(selectedTroop.getCouncilCode())) { %>
+                    <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
+                        <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
+                    </dd>
                 <%} %>
                 <%
                     if (isTroopLeader && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) && (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + ""))) {
@@ -141,7 +141,7 @@
                    onclick="$('#vtk-main-menu').slideToggle('slow');$(this).toggleClass('collapse')"
                    class="expand">Menu</a>
                 <ul id="vtk-main-menu" class="hide-for-print" style="display: none;">
-                    <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
+                    <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_VIEW_TROOP_ID) && !"SUM".equals(selectedTroop.getCouncilCode())) { %>
                     <li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'>
                         <%
                             if (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "") &&
