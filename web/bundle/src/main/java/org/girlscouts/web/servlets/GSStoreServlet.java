@@ -15,8 +15,6 @@ import com.adobe.granite.workflow.exec.WorkflowData;
 import com.adobe.granite.workflow.model.WorkflowModel;
 import com.adobe.granite.workflow.*;
 import com.day.cq.mailer.MailService;
-import com.day.cq.replication.ReplicationActionType;
-import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsConstants;
@@ -108,9 +106,7 @@ public class GSStoreServlet
     
     @Reference(policy=ReferencePolicy.STATIC)
     private SlingSettingsService slingSettings;
-    
-    @Reference 
-	private Replicator replicator;
+
 
     @Property(value = {
             "/content",
