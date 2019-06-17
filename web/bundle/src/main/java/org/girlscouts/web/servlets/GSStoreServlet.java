@@ -11,6 +11,8 @@
  */
 package org.girlscouts.web.servlets;
 
+import com.adobe.granite.workflow.exec.WorkflowData;
+import com.adobe.granite.workflow.model.WorkflowModel;
 import com.day.cq.mailer.MailService;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.Replicator;
@@ -19,6 +21,8 @@ import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsConstants;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 import com.google.common.collect.Lists;
+
+import com.adobe.granite.workflow.*;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -106,6 +110,9 @@ public class GSStoreServlet
     
     @Reference 
 	private Replicator replicator;
+
+    //@Reference
+    //private WorkflowSession wfSession;
     
     @Property(value = {
             "/content",
@@ -286,7 +293,11 @@ public class GSStoreServlet
             			}
             		}
             		if(isPublish) {
-            			replicator.replicate(contentBaseNode.getSession(), ReplicationActionType.INTERNAL_POLL, submissionNode.getPath());
+            		    WorkflowSession wfSession = rr.adaptTo(WorkflowSession.class);
+                        WorkflowModel wfModel = wfSession.getModel("/etc/workflow/models/reverse_replication/jcr:content/model");
+                        WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH",submissionNode.getPath());
+                        wfSession.startWorkflow(wfModel,wfData);
+            			//replicator.replicate(contentBaseNode.getSession(), ReplicationActionType.INTERNAL_POLL, submissionNode.getPath());
             		}
             }
             	
