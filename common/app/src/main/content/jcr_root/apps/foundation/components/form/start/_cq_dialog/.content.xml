@@ -166,7 +166,8 @@
                                                 fieldLabel="Content Path *"
                                                 name="./action"
                                                 storecontent="field"
-                                                wrapperClass="hide gs-hide-show gsstore gsmail"/>
+                                                wrapperClass="hide gs-hide-show gsstore gsmail"
+                                                rootPath="/content/usergenerated"/>
                                             <store-content
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
