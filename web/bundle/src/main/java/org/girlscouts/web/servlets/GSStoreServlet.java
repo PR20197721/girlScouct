@@ -13,6 +13,7 @@ package org.girlscouts.web.servlets;
 
 import com.adobe.granite.workflow.exec.WorkflowData;
 import com.adobe.granite.workflow.model.WorkflowModel;
+import com.adobe.granite.workflow.*;
 import com.day.cq.mailer.MailService;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.Replicator;
@@ -22,7 +23,7 @@ import com.day.cq.wcm.foundation.forms.FormsConstants;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 import com.google.common.collect.Lists;
 
-import com.adobe.granite.workflow.*;
+
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -111,9 +112,6 @@ public class GSStoreServlet
     @Reference 
 	private Replicator replicator;
 
-    //@Reference
-    //private WorkflowSession wfSession;
-    
     @Property(value = {
             "/content",
             "/home"
