@@ -293,7 +293,7 @@ public class GSStoreServlet
                             WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH", submissionNode.getPath());
                             wfSession.startWorkflow(wfModel, wfData);
                         } catch (Exception e){
-            		        logger.error("Failed to active Reverse Replication Workflow");
+            		        logger.error("Failed to activate Reverse Replication Workflow", e);
                         }
             		}
             }
