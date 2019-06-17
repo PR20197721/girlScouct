@@ -296,9 +296,8 @@ public class GSStoreServlet
                             WorkflowModel wfModel = wfSession.getModel("/etc/workflow/models/reverse_replication/jcr:content/model");
                             WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH", submissionNode.getPath());
                             wfSession.startWorkflow(wfModel, wfData);
-                            //replicator.replicate(contentBaseNode.getSession(), ReplicationActionType.INTERNAL_POLL, submissionNode.getPath());
                         } catch (Exception e){
-            		        log.error("Failed to active Reverse Replication Workflow");
+            		        logger.error("Failed to active Reverse Replication Workflow");
                         }
             		}
             }
