@@ -13,6 +13,7 @@
 		<span><b>Add All to PDF</b></span>
 	</div>
     <div class="CreateBadgePdfButton" @click="generatePdf" id="CreateBadgeButon">Generate PDF</div>
+    <span id="badgeWarning"style="display:none; color: red; font-weight: bold;">Please select at least one badge!</span>
 	<br>
     <div class="clearfix"></div>
     <div class="BadgeSelectionContainer">
