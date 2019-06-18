@@ -49,7 +49,7 @@
 %>
 <nav class="left-off-canvas-menu closed" tabindex="-1">
 <div id="left-canvas-menu" class="mobileSearch">
-<ul class="off-canvas-list color3" >
+<ul class="off-canvas-list" style="background: #bcbec0">
     <li style="background: none; padding-top: 10px;">
         <div class="side-nav-header"><%
         if(spanishPath.equals(currentPage.getPath())){%>
@@ -61,7 +61,7 @@
         </div>
     </li>
 </ul>
-
+<hr>
 <%= sb.toString() %>
 
 
@@ -192,7 +192,6 @@
 
         Iterator<Page> iter = rootPage.listChildren();
         boolean hasChild = false;
-        int counter = 0; //counter for child page colors
         while(iter.hasNext()) {
             Page page = iter.next();
             String path = page.getPath();
@@ -227,7 +226,7 @@
                 if (isActive || isCurrent) {
                     sb.append("<li class=\"side-nav-el " + activeCls + currentCls + "\">");
                 } else {
-                    sb.append("<li class='side-nav-el color"+counter+"'>");
+                    sb.append("<li class='side-nav-el' style='background: #bcbec0'>");
                 }
                 Page currPage = rr.resolve(path).adaptTo(Page.class);
 
@@ -242,11 +241,6 @@
                 buildMenu(page, currentPath, sb, rr);
 
                 sb.append("</li>");
-            }
-            if(counter < 2){
-                counter++;
-            }else{
-                counter=0;
             }
         }
 

@@ -33,12 +33,12 @@ String volunteerPath = headerPath + "/volunteer";
         <span id="menuIcon"class="mobileIcons">
             <a class="side-nav-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="30" height="28" alt="right side menu hamburger icon"/></a>
         </span>
-        <a href="<%= logoLink %>" tabindex="1">
-            <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
-        </a>
         <span id="searchIcon" class="mobileIcons" searchShown="false">
             <a class="mobile-search-icon"><img src="/etc/designs/girlscouts/images/search_white.png" width="30" height="21" alt="search icon"/></a>
         </span>
+         <a href="<%= logoLink %>" tabindex="1">
+            <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
+         </a>
     </section>
     <section class="utility show-for-medium-up">
         <div style="" class="clearfix">

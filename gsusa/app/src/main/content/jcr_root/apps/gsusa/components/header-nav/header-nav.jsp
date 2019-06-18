@@ -92,6 +92,9 @@ if(currentNode.hasNode("navs")){
 		<%= sb.toString() %>
 	</nav>
 	<!-- OFF CANVAS MENU BAR -->
+	<section id="mobileSearch" style="display: none;">
+        <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
+    </section>
 	<nav class="tab-bar hide-for-medium-up"><%
         String imgAlt = properties.get("imageAlt", "");
         String headerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/header-nav";
@@ -105,9 +108,19 @@ if(currentNode.hasNode("navs")){
 
                 Resource logo = resourceResolver.resolve(logoPath);
                 stickyImgPath = ((ValueMap)logo.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
-                %><div class="logo">
+                %>
+                <span id="sideMenuIcon"class="mobileIcons">
+                    <a class="side-nav-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="30" height="28" alt="right side menu hamburger icon"/></a>
+                </span>
+
+                <div class="logo">
         		<img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
-        		</div><%
+        		</div>
+        		<span id="sideSearchIcon" class="mobileIcons" searchShown="false">
+                    <a class="mobile-search-icon"><img src="/etc/designs/girlscouts/images/search_white.png" width="30" height="21" alt="search icon"/></a>
+                </span>
+
+        		<%
 
             }
             if(currentNode.hasNode("navs")){
@@ -190,9 +203,6 @@ if(currentNode.hasNode("navs")){
         %>
         <cq:include path="content/middle/pdf-print" resourceType="girlscouts/components/pdf-print" />
 	</nav>
-	<section id="mobileSearch" style="display: none;">
-	    <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
-	</section>
     <div class="tab-bar-placeholder"></div>
 	<!-- END NAV.TAB-BAR HIDE-FOR-LARGE-UP -->
 

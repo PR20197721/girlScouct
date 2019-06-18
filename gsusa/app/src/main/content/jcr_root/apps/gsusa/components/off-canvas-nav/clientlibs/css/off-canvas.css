@@ -51,6 +51,9 @@ ul.off-canvas-list li a {
   color: black !important;
   font-weight: bold;
 }
+.side-nav-el.active.current .menu-wrapper-el a:hover{
+    color: white !important;
+}
 .side-nav-el.parentEl .side-nav-expand{
     margin-right: 5px;
 }
@@ -76,6 +79,7 @@ ul.off-canvas-list li a {
 .side-nav-el.active.current{
     background-color: #00AE58;
 }
+
 .side-nav-el.active.current > div > a{
     color: white;
 }
@@ -129,10 +133,10 @@ ul.off-canvas-list li a {
 	font-weight: normal !important;
 }
 .side-nav-header #eventSearch{
-    height: 28px;
+    height: 25.5px;
     width: 135px;
     margin-left: 10px;
-    margin-top: 1px;
+    margin-top: 0px;
     padding-left: 5px;
     border: 2px solid #00AE58;
 }
@@ -194,8 +198,6 @@ ul.off-canvas-list li a {
     line-height: 0;
     color: white;
     background-color: #009447;
-    border: 2px solid lightgray;
-
 }
 #searchBtnHome{
     height: 30px;
@@ -216,17 +218,5 @@ ul.off-canvas-list li a {
   color: #00AE58;
   font-size: 1.25rem;
   top: 13px;
-  right: 33px;
-}
-.color0{
-    background-color: #d1d3d4;
-}
-.color1{
-    background-color: #bcbec0;
-}
-.color2{
-    background-color: #a7a9ab;
-}
-.color3{
-    background-color: #e6e7e7;
+  right: 36px;
 }
