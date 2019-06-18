@@ -130,3 +130,7 @@
 .sticky-nav-fixed .logo{
     float: left;
 }
+.sticky-nav-fixed .icon-search-magnifying-glass{
+    font-size: 25px;
+    margin-bottom: 1px;
+}

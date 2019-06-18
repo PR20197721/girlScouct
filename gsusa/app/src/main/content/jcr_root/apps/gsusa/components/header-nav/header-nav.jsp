@@ -116,8 +116,8 @@ if(currentNode.hasNode("navs")){
                 <div class="logo">
         		<img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
         		</div>
-        		<span id="sideSearchIcon" class="mobileIcons" searchShown="false">
-                    <a class="mobile-search-icon"><img src="/etc/designs/girlscouts/images/search_white.png" width="30" height="21" alt="search icon"/></a>
+        		<span id="sideSearchIcon" class="icon-search-magnifying-glass" searchShown="false">
+
                 </span>
 
         		<%
