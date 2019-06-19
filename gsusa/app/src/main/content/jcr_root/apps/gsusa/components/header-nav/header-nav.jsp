@@ -110,15 +110,20 @@ if(currentNode.hasNode("navs")){
                 stickyImgPath = ((ValueMap)logo.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
                 %>
                 <span id="sideMenuIcon"class="mobileIcons">
-                    <a class="side-nav-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="30" height="28" alt="right side menu hamburger icon"/></a>
+                    <a class="side-nav-toggle menu-icon" role="button" href="#"><span></span></a>
                 </span>
 
                 <div class="logo">
-        		<img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
+        		    <img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
         		</div>
-        		<span id="sideSearchIcon" class="icon-search-magnifying-glass" searchShown="false">
-
-                </span>
+        		<%
+        		    String classVal = "search-section";
+        		    if(currentPage.adaptTo(Node.class).getNode("jcr:content").hasProperty("pdfgenerator") && "true".equals(currentPage.adaptTo(Node.class).getNode("jcr:content").getProperty("pdfgenerator").getString()))
+        		        classVal = classVal + " pdf-print-icon";
+        		%>
+        		<section id="mobileSearchSection"class="<%= classVal %>">
+                    <cq:include script="/apps/gsusa/components/search-box/mobile.jsp" />
+                </section>
 
         		<%
 

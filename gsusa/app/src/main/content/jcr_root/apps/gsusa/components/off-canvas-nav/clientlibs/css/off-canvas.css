@@ -45,13 +45,14 @@ ul.off-canvas-list li a {
 }
 .side-nav-wrapper span:hover{
     font-weight: bold;
+    cursor: pointer;
 }
 .menu-wrapper-el a:hover {
   cursor: pointer;
   color: black !important;
   font-weight: bold;
 }
-.side-nav-el.active.current .menu-wrapper-el a:hover{
+.side-nav-el.active.current > .menu-wrapper-el > a:hover{
     color: white !important;
 }
 .side-nav-el.parentEl .side-nav-expand{

@@ -31,10 +31,9 @@ String volunteerPath = headerPath + "/volunteer";
     String logoLink = logoProps.get("logoLink", "") +  ".html";
 %>
         <span id="menuIcon"class="mobileIcons">
-            <a class="side-nav-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="30" height="28" alt="right side menu hamburger icon"/></a>
+            <a class="side-nav-toggle menu-icon" role="button" href="#"><span></span></a>
         </span>
-        <span id="searchIcon" class="mobileIcons" searchShown="false">
-            <a class="mobile-search-icon"><img src="/etc/designs/girlscouts/images/search_white.png" width="30" height="21" alt="search icon"/></a>
+        <span id="searchIcon" class="mobileIcons icon-search-magnifying-glass" searchShown="false">
         </span>
          <a href="<%= logoLink %>" tabindex="1">
             <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
