@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Page Editor (Image search)"
+        sling:resourceType="granite/ui/components/foundation/contsys"
+        filterType="Images"
+        maxGeneratedOrder="20"
+        predicatesConfig="/mnt/overlay/settings/cq/search/facets/formbuilderconfig/authoringpredicatetypes">
+        <items jcr:primaryType="nt:unstructured">
+            <tags
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="cq/gui/components/authoring/assetfinder/searchpredicates/tagspredicate"
+                emptyText="Select Tag(s)"
+                fieldLabel="Tags"
+                filterType="Images"
+                listOrder="1"
+                metaType="tags"
+                name="jcr:content/metadata/cq:tags"
+                rootPath="/etc/tags"/>
+        </items>
+    </jcr:content>
+</jcr:root>
