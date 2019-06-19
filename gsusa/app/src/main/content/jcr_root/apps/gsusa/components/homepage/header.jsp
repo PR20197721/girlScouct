@@ -29,7 +29,7 @@ String headerSearchPath = headerPath + "/search";
     String logoLink = logoProps.get("logoLink", "") +  ".html";
 %>
     <span id="menuIcon"class="mobileIcons">
-        <a class="side-nav-toggle menu-icon" role="button" href="#"><span></span></a>
+        <a class="side-nav-toggle menu-icon" role="button" ><span></span></a>
     </span>
     <span id="searchIcon" class="mobileIcons icon-search-magnifying-glass" searchShown="false">
     </span>
