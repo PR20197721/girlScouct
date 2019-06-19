@@ -59,9 +59,9 @@
          <%}%>
            <cq:include path="<%= searchPath %>" resourceType="girlscouts/components/search-box" />
         </div>
+        <hr>
     </li>
 </ul>
-<hr>
 <%= sb.toString() %>
 
 
