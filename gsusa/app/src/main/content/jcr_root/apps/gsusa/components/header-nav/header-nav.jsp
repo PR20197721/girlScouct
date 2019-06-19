@@ -116,12 +116,7 @@ if(currentNode.hasNode("navs")){
                 <div class="logo">
         		    <img class="sticky-nav-GS-logo" src="<%= stickyImgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  />
         		</div>
-        		<%
-        		    String classVal = "search-section";
-        		    if(currentPage.adaptTo(Node.class).getNode("jcr:content").hasProperty("pdfgenerator") && "true".equals(currentPage.adaptTo(Node.class).getNode("jcr:content").getProperty("pdfgenerator").getString()))
-        		        classVal = classVal + " pdf-print-icon";
-        		%>
-        		<section id="mobileSearchSection"class="<%= classVal %>">
+        		<section id="mobileSearchSection"class="search-section">
                     <cq:include script="/apps/gsusa/components/search-box/mobile.jsp" />
                 </section>
 
