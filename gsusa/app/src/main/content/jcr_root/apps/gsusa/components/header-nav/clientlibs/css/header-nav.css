@@ -61,11 +61,8 @@
 #mobileSearchSection{
     display: none;
 }
-#mobileSearchSection.search-section.pdf-print-icon{
-    height: 4px;
-}
 #mobileSearchSection .search.search-box .search-form{
-    width: 497px;
+    width: 300px;
 }
 .logo{
     float: right;
