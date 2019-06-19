@@ -11,17 +11,14 @@
  */
 package org.girlscouts.web.servlets;
 
-import com.adobe.granite.workflow.exec.WorkflowData;
-import com.adobe.granite.workflow.model.WorkflowModel;
-import com.adobe.granite.workflow.*;
 import com.day.cq.mailer.MailService;
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsConstants;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 import com.google.common.collect.Lists;
-
-
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -106,8 +103,10 @@ public class GSStoreServlet
     
     @Reference(policy=ReferencePolicy.STATIC)
     private SlingSettingsService slingSettings;
-
-
+    
+    @Reference 
+	private Replicator replicator;
+    
     @Property(value = {
             "/content",
             "/home"
@@ -287,14 +286,7 @@ public class GSStoreServlet
             			}
             		}
             		if(isPublish) {
-            		    try {
-                            WorkflowSession wfSession = rr.adaptTo(WorkflowSession.class);
-                            WorkflowModel wfModel = wfSession.getModel("/etc/workflow/models/reverse_replication/jcr:content/model");
-                            WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH", submissionNode.getPath());
-                            wfSession.startWorkflow(wfModel, wfData);
-                        } catch (Exception e){
-            		        logger.error("Failed to activate Reverse Replication Workflow", e);
-                        }
+            			replicator.replicate(contentBaseNode.getSession(), ReplicationActionType.INTERNAL_POLL, submissionNode.getPath());
             		}
             }
             	
