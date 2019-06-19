@@ -142,6 +142,9 @@
 .sticky-nav-fixed .top-bar-section.mobile{
     display: none;
 }
+.sticky-nav-fixed #pdfGen{
+    display: none;
+}
 .sticky-nav-fixed .logo{
     float: left;
 }
