@@ -3,7 +3,7 @@
 				 java.util.Set,
 				 com.day.cq.wcm.api.WCMMode"%><%
 %>
-<div id="mobileView" class="hide-for-large"></div>
+<div id="mobileView" class="show-for-small-only"></div>
 <%
 	String message = properties.get("message","");
 	String url = properties.get("url","");
