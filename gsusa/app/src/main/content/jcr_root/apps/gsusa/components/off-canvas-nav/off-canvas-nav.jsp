@@ -114,20 +114,20 @@
 			}
 			if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) {
 		        if(parent && !eyebrowNavVal){
-		            sb.append("<div class="+sideNavClass+"><a style='color: #FFA500;margin-left: 7px;'x-cq-linkchecker=\"skip\" href=\"" + genLink(rr, path) + "\" title=\"" +label + "\" tabindex=\"-1\" "+target+">" +"  "+ label + "</a></div><hr>");
+		            sb.append("<div class="+sideNavClass+"><a style='font-weight: bold; margin-left: 7px;'x-cq-linkchecker=\"skip\" href=\"" + genLink(rr, path) + "\" title=\"" +label + "\" tabindex=\"-1\" "+target+">" +"  "+ label + "</a></div><hr>");
                 }else{
 		            sb.append("<div class="+sideNavClass+"><a x-cq-linkchecker=\"skip\" href=\"" + genLink(rr, path) + "\" title=\"" +label + "\" tabindex=\"-1\" "+target+">" + label + "</a></div><hr>");
 		        }
 		    } else {
 		        if(parent){
 		            if(isPlaceholder && !eyebrowNavVal){
-		                sb.append("<div class="+sideNavClass+"><span id='side-nav-active-parent' style='color: #FFA500 !important; padding-top: 17px; padding-bottom: 17px; display: inline-block; padding-left: 0px; margin-left: 7px;' title=\"" + label + "\">" + label + "</span><span class='side-nav-expand'>></span></div><hr>");
+		                sb.append("<div class="+sideNavClass+"><span id='side-nav-active-parent' style='font-weight: bold; padding-top: 17px; padding-bottom: 17px; display: inline-block; padding-left: 0px; margin-left: 7px;' title=\"" + label + "\">" + label + "</span><span class='side-nav-expand'>></span></div><hr>");
 		            }else if(isParent && !eyebrowNavVal){
-		                sb.append("<div class="+sideNavClass+"><a style='color: #FFA500 !important; margin-left: 10px; padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
+		                sb.append("<div class="+sideNavClass+"><a style='font-weight: bold; margin-left: 10px; padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
 		            }else if(eyebrowNavVal){
 		                sb.append("<div class="+sideNavClass+"><a style='padding-left: 10px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" +  label + "</a></div><hr>");
 		            }else{
-                        sb.append("<div class="+sideNavClass+"><a style='color: #FFA500 !important; padding-left: 0px; margin-left: 10px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
+                        sb.append("<div class="+sideNavClass+"><a style='font-weight: bold; padding-left: 0px; margin-left: 10px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
 		            }
 		        }else{
 		            Node nodePath = rr.resolve(path).adaptTo(Node.class);

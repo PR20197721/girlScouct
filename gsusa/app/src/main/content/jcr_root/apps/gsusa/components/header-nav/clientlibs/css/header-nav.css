@@ -52,7 +52,7 @@
     padding-bottom: 0;
 }
 #mobileSearch .search.search-box input{
-    color: #bcbec0;
+    color: black;
     padding-left: 3%;
 }
 #mobileSearch .search.search-box input::placeholder{

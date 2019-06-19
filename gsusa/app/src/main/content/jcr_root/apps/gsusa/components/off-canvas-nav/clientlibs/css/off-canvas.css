@@ -25,7 +25,7 @@
     width: 90%;
 }
 .side-nav-el.parentEl.active .side-nav-wrapper a:hover{
-    color: #FFA500;
+    color: black;
 }
 ul.off-canvas-list li a {
     color: black;

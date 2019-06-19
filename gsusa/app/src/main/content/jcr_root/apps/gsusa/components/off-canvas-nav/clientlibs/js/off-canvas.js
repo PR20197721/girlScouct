@@ -1,5 +1,6 @@
 //expand elements for current page
 function init(){
+    $("#mobileSearchSection .search.search-box .search-form").css("width", $(window).width() - 150);
     $(".side-nav-el.active").children("ul").css("display", "block");
     $(".side-nav-el.active").children("div").children("span").css({'transform' : 'rotate(90deg)'});
     $("#sub-active").children("ul").css("display", "block");
@@ -65,4 +66,7 @@ $(document).ready(function(){
             });
         }
     });
+});
+$(window).on('resize', function() {
+    $("#mobileSearchSection .search.search-box .search-form").css("width", $(window).width() - 150);
 });
