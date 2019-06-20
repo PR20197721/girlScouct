@@ -64,6 +64,11 @@
 #mobileSearchSection .search.search-box .search-form{
     width: 200px;
 }
+#mobileSearchSection .search.search-box {
+   display: grid;
+   margin-left: 35%;
+   margin-top: -8%;
+}
 .logo{
     float: right;
     padding-right: 10px;

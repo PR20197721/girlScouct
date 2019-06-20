@@ -109,6 +109,7 @@ if(currentNode.hasNode("navs")){
                 Resource logo = resourceResolver.resolve(logoPath);
                 stickyImgPath = ((ValueMap)logo.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
                 %>
+                <div>
                 <span id="sideMenuIcon"class="mobileIcons">
                     <a class="side-nav-toggle menu-icon" role="button"><span></span></a>
                 </span>
@@ -119,6 +120,7 @@ if(currentNode.hasNode("navs")){
         		<section id="mobileSearchSection"class="search-section">
                     <cq:include script="/apps/gsusa/components/search-box/mobile.jsp" />
                 </section>
+                </div>
 
         		<%
 
