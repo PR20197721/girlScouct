@@ -28,3 +28,8 @@
 #logoImg{
     float: right;
 }
+#mobileSearchBar{
+
+    display: none;
+    background-color: #00AE58;
+}

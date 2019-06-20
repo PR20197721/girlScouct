@@ -69,6 +69,11 @@
                 </div>
                 <% } %>
   		</div>
+  		<% if(!isVtk){ %>
+            <div id="mobileSearchBar"class="row srch-box collapse">
+                <cq:include script="/apps/girlscouts/components/search-box/mobile.jsp" />
+            </div>
+        <% } %>
   		<!--PAGE STRUCTURE: HEADER BAR-->
   		<div id="headerBar" class="row collapse">
             <% if(!isVtk){ %>
@@ -81,11 +86,7 @@
       			<a class="show-for-medium side-nav-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="19" height="28" alt="side menu icon"></a>
     		</div>
   		</div>
-  		<% if(!isVtk){ %>
-  		<div id="mobileSearchBar"class="row srch-box collapse">
-            <cq:include script="/apps/girlscouts/components/search-box/mobile.jsp" />
-        </div>
-        <% } %>
+
 	</div>
 </div>
 <!--[if gt IE 8]><!-->

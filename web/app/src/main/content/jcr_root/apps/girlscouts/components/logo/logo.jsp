@@ -45,9 +45,8 @@
 		<img style="display: inline-block;" src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
 	<% if (!isVtk) { %>
-	<span id="searchIcon" class="mobileIcons" searchShown="false">
-	    <a class="mobile-search-icon"><img src="/etc/designs/girlscouts/images/search_white.png" width="21" height="21" alt="search icon"/></a>
-	</span>
+	<span id="searchIcon" class="mobileIcons icon-search-magnifying-glass" style="color: white; font-size: 23px; font-weight: normal;"searchShown="false">
+      </span>
 	<% } %>
 	</nav>
 	<% } %>
