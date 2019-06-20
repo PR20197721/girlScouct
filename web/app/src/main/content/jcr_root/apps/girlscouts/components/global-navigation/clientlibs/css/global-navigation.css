@@ -39,7 +39,7 @@
     padding-top: 33px;
     margin-left: 7px;
  }
- #mobileSearchBar .srch-box form:after {
+ #mobileSearchBar.srch-box form:after {
     display: none;
  }
 /* Left Canvas Menu CSS */
