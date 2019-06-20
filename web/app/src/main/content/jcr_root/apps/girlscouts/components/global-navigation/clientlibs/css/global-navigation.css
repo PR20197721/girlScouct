@@ -4,6 +4,9 @@
 #headerBar{
     margin-top: 0;
 }
+.side-nav-el.active.current ul li{
+    background-color: #bcbec0;
+}
 .login.small-19.columns{
     position: absolute;
     color: #FFF;
@@ -53,6 +56,9 @@
 .side-nav.search-bar li{
     border-right: none;
 }
+.side-nav-el.active.current > .side-nav-wrapper > a{
+    color: white !important;
+}
 .left-off-canvas-menu{
     background-color: #e6e7e8 !important;
     z-index: 10006;
@@ -60,6 +66,9 @@
 .left-off-canvas-menu.closed{
     transition: 500ms;
     margin-left: 0;
+}
+#left-canvas-menu .side-nav li.active.current > div {
+  background-color: #00AE58;
 }
 #left-canvas-menu a {
     padding: 12px 0px 0px 5px;
