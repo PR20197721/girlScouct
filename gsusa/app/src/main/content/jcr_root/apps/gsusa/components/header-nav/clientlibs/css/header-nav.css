@@ -54,7 +54,7 @@
 #mobileSearch .search.search-box input{
     color: black;
     padding-left: 3%;
-    height: 24%;
+    height: 30px;
 }
 #mobileSearch .search.search-box input::placeholder{
     color: #bcbec0;
