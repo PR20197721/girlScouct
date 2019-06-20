@@ -19,9 +19,6 @@
     .header-nav.row {
       background: #00AE58;
     }
-    #mobileSearchSection .search.search-box {
-       margin-top: -4% !important;
-    }
 }
 @media only screen and (min-width: 48.125em){
     #menuIcon{
@@ -72,7 +69,7 @@
 #mobileSearchSection .search.search-box {
    display: grid;
    margin-left: 35%;
-   margin-top: -8%;
+   margin-top: -30px;
 }
 .logo{
     float: right;
