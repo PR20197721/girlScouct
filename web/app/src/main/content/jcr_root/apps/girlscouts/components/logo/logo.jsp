@@ -36,16 +36,16 @@
 	<% } else {
 	// this shows for header large only
 	%>
-	<nav class="column large-24 medium-24">
+	<nav class="column large-24 medium-24 logo-section">
 	<% if (!isVtk) { %>
 	<span id="menuIcon"class="mobileIcons">
-        <a class="side-nav-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="22" height="28" alt="right side menu hamburger icon"/></a>
-	</span>
+        <a class="side-nav-toggle menu-icon" role="button" ><span></span></a>
+    </span>
 	<% }if (!linkURL.isEmpty()) { %> <a id="logoImg" href="<%= linkURL %>"> <% } %>
 		<img style="display: inline-block;" src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
 	<% if (!isVtk) { %>
-	<span id="searchIcon" class="mobileIcons icon-search-magnifying-glass" style="color: white; font-size: 23px; font-weight: normal;"searchShown="false">
+	<span id="searchIcon" class="mobileIcons icon-search-magnifying-glass" style="color: white; font-size: 24px; font-weight: normal;"searchShown="false">
       </span>
 	<% } %>
 	</nav>

@@ -32,4 +32,28 @@
     display: none;
     background-color: #00AE58;
 }
+.logo-section .menu-icon {
+  color: #FFFFFF;
+  display: block;
+  height: 1.875rem;
+  padding: 0;
+  position: relative;
+  text-indent: 2.1875rem;
+  transform: translate3d(0, 0, 0);
+  width: 1.875rem;
+}
+.logo-section .menu-icon span::after {
+  content: "";
+  display: block;
+  height: 0;
+  position: absolute;
+  top: 50%;
+  margin-top: -0.5rem;
+  left: 0.4375rem;
+  box-shadow: 0 0 0 1px #FFFFFF, 0 7px 0 1px #FFFFFF, 0 14px 0 1px #FFFFFF;
+  width: 1rem;
+}
+.logo-section .menu-icon span:hover:after {
+  box-shadow: 0 0 0 1px #b3b3b3, 0 7px 0 1px #b3b3b3, 0 14px 0 1px #b3b3b3;
+}
 #mobileSearchBar .searchField::placeholder{color:#bcbec0}
