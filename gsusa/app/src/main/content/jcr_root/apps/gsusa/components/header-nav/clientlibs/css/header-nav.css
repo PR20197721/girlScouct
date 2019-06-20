@@ -63,6 +63,7 @@
 }
 #mobileSearchSection .search.search-box .search-form{
     width: 200px;
+    height: 10px;
 }
 #mobileSearchSection .search.search-box {
    display: grid;
