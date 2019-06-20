@@ -46,3 +46,6 @@ $(window).resize(function() {
        $(".exit-off-canvas-el").click();
     }
 });
+$("#menuIcon").on("click", function(){
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+});

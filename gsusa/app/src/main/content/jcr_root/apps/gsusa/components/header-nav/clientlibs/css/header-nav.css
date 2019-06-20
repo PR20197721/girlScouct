@@ -57,6 +57,7 @@
 #mobileSearch .search.search-box input{
     color: black;
     padding-left: 3%;
+    height: 24%;
 }
 #mobileSearch .search.search-box input::placeholder{
     color: #bcbec0;
@@ -101,6 +102,12 @@
 }
 .logo-section .menu-icon span:hover:after {
   box-shadow: 0 0 0 1px #b3b3b3, 0 7px 0 1px #b3b3b3, 0 14px 0 1px #b3b3b3;
+}
+.tab-bar.hide-for-medium-up #iconContainer{
+    display: none;
+}
+.tab-bar.hide-for-medium-up.sticky-nav-fixed #iconContainer{
+    display: block;
 }
 .top-bar-section.mobile{
     width: 0;

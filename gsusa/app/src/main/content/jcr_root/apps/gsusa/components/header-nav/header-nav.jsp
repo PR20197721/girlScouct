@@ -109,7 +109,7 @@ if(currentNode.hasNode("navs")){
                 Resource logo = resourceResolver.resolve(logoPath);
                 stickyImgPath = ((ValueMap)logo.getChild("stickyNavImage").adaptTo(ValueMap.class)).get("fileReference", "");
                 %>
-                <div>
+                <div id="iconContainer">
                 <span id="sideMenuIcon"class="mobileIcons">
                     <a class="side-nav-toggle menu-icon" role="button"><span></span></a>
                 </span>
