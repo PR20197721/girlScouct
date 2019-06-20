@@ -20,7 +20,7 @@
       background: #00AE58;
     }
     #mobileSearchSection .search.search-box {
-       margin-top: -4%;
+       margin-top: -4% !important;
     }
 }
 @media only screen and (min-width: 48.125em){
