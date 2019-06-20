@@ -203,7 +203,7 @@
                 if (isActive || isCurrent) {
                     sb.append("<li class=\"side-nav-el " + activeCls + currentCls + "\">");
                 } else {
-                    sb.append("<li class='side-nav-el'>");
+                    sb.append("<li class='side-nav-el' style='background: #bcbec0;'>");
                 }
                 sb.append("<div class='side-nav-wrapper' style='position: relative;'><a href=\"" + page.getPath() + ".html\">");
                 sb.append(title);

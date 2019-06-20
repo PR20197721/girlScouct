@@ -29,7 +29,7 @@
     float: right;
 }
 #mobileSearchBar{
-
     display: none;
     background-color: #00AE58;
 }
+#mobileSearchBar .searchField::placeholder{color:#bcbec0}
