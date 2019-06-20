@@ -33,6 +33,11 @@ window.BadgeSelectorFocusWindow = (function(){
 			},
 			methods: {
 				createPdf: function(badgeData){
+				    $("#badgeWarning").hide();
+				    if($(".BadgeSelected").length === 0){
+                        $("#badgeWarning").show();
+                        return;
+                    }
 					vm.$destroy();
 					var rawBadgeData = [];
 					for(var i = 0; i < badgeData.length; i++){

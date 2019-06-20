@@ -17,5 +17,6 @@
     <filter root="/etc/map.publish.uat/slick-fonts"/>
     <filter root="/etc/map.publish.prod/slick-fonts"/>
     <filter root="/etc/map.publish.prod.preview/slick-fonts"/>
+    <filter root="/etc/servlets"/>
     <filter root="/content/gsusa/en/components/article-hub"/>
 </workspaceFilter>
