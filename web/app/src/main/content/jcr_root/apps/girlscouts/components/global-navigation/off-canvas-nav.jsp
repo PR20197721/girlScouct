@@ -38,7 +38,7 @@
 %>
 <div id="left-canvas-menu" class="mobileSearch">
 <ul class="side-nav search-bar" >
-    <li style="background: none; border-right: none;">
+    <li>
         <div class="side-nav-header"><%
         if(homepagePath.equals(currentPage.getPath())){%>
              <button id="searchBtnHome"class="searchHome"  onclick="location.href='<%= homepagePath %>.html'"type="side-nav-button"><span class="mobile-search-btn-text">HOME</span></button>
@@ -47,6 +47,7 @@
          <%}%>
            <cq:include path="<%= searchPath %>" resourceType="girlscouts/components/search-box" />
         </div>
+        <hr>
     </li>
 </ul>
 

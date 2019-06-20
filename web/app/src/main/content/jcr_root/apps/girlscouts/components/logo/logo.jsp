@@ -41,7 +41,7 @@
 	<span id="menuIcon"class="mobileIcons">
         <a class="side-nav-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="22" height="28" alt="right side menu hamburger icon"/></a>
 	</span>
-	<% }if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
+	<% }if (!linkURL.isEmpty()) { %> <a id="logoImg" href="<%= linkURL %>"> <% } %>
 		<img style="display: inline-block;" src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
 	<% if (!isVtk) { %>

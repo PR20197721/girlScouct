@@ -19,14 +19,16 @@
     margin-top: 3px;
  }
  #searchIcon{
-    float: right;
+    float: left;
     clear: both;
-    margin-top: -22px;
+    margin-top: -24px;
+    margin-left: 37px;
  }
  #menuIcon{
     float: left;
     clear: both;
     padding-top: 33px;
+    margin-left: 7px;
  }
 /* Left Canvas Menu CSS */
 .side-nav-el a{
@@ -198,12 +200,6 @@
     background-color: #009447;
     border: 2px solid #FFA500;
     border-radius: 6px;
-}
-#searchIcon{
-    margin-left: 10px;
-}
-#menuIcon{
-    margin-right: 10px;
 }
 #mobileSearchBar{
     padding: 10px;
