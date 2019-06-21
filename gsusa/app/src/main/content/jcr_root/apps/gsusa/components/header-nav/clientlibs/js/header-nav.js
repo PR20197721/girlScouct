@@ -9,6 +9,7 @@ $(document).ready(function(){
         }
     });
     $(".side-nav-toggle").on("click", function(){
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
         if($(".left-off-canvas-menu").hasClass("closed")){
             $(".left-off-canvas-menu").removeClass("closed");
             $(".exit-off-canvas-el").addClass("overlay");
@@ -45,7 +46,4 @@ $(window).resize(function() {
     if( $(this).width() >= 961.008){
        $(".exit-off-canvas-el").click();
     }
-});
-$("#sideMenuIcon").on("click", function(){
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
 });
