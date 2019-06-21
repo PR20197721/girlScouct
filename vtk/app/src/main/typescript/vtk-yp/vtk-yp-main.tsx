@@ -378,7 +378,7 @@ VtkMainYpState > {
                             className="columns  medium-24 large-12 _box_wrap">
                             <div className="_box __library">
                                 <div className="__img"></div>
-                                <h3>Select Your Own</h3>
+                                <h3>Build Your Own</h3>
                                 <p>Search or filter to select the badges and awards that fit the style of your
                                     troop.</p>
                                 <a
