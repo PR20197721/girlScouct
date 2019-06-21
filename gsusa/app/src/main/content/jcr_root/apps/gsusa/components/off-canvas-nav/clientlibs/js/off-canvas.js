@@ -9,7 +9,7 @@ function init(){
 }
 $(document).ready(function(){
     init();
-    $("div.side-nav-wrapper").on("click", function(){
+    $(".side-nav-expand").on("click", function(){
         var el = $(this).parent().children("ul");
         if(el.css("display") === "none"){
             $(this).parent().attr("id", "selected");

@@ -115,7 +115,8 @@
 		    } else {
 		        if(parent){
 		            if(isPlaceholder && !eyebrowNavVal){
-		                sb.append("<div class="+sideNavClass+"><span id='side-nav-active-parent' style='font-weight: bold; padding-top: 17px; padding-bottom: 17px; display: inline-block; padding-left: 0px; margin-left: 7px;' title=\"" + label + "\">" + label + "</span><span class='side-nav-expand'>></span></div><hr>");
+		                String childPath = rr.resolve(path).adaptTo(Page.class).listChildren().next().getPath();
+		                sb.append("<div class="+sideNavClass+"><a style='font-weight: bold; margin-left: 10px; padding-left: 0px;' href=\"" + genLink(rr, childPath) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
 		            }else if(isParent && !eyebrowNavVal){
 		                sb.append("<div class="+sideNavClass+"><a style='font-weight: bold; margin-left: 10px; padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
 		            }else if(eyebrowNavVal){
@@ -126,7 +127,8 @@
 		        }else{
 		            Node nodePath = rr.resolve(path).adaptTo(Node.class);
                     if(isPlaceholder && !eyebrowNavVal){
-                        sb.append("<div class="+sideNavClass+"><span style='padding-top: 17px; padding-bottom: 17px; display: inline-block; padding-left:10px !important;' title=\"" + label + "\">" + label + "</span><span class='side-nav-expand'>></span></div><hr>");
+                        String childPath = rr.resolve(path).adaptTo(Page.class).listChildren().next().getPath();
+                        sb.append("<div class="+sideNavClass+"><a href=\"" + genLink(rr, childPath) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
                     }else if(isParent && !eyebrowNavVal){
                         sb.append("<div class="+sideNavClass+"><a href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
                     }else{
