@@ -159,7 +159,7 @@
 
 		    }
             Page topMenuPathPage = rr.resolve(path).adaptTo(Page.class);
-            buildMenu(topMenuPathPage, currentPath, sb, rr);
+            buildMenu(topMenuPathPage, currentPath, sb, rr, isPlaceholder);
 			sb.append("</li>");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -205,16 +205,23 @@
         }
     }
 
-    public void buildMenu(Page rootPage, String currentPath, StringBuilder sb, ResourceResolver rr) {
+    public void buildMenu(Page rootPage, String currentPath, StringBuilder sb, ResourceResolver rr, boolean isPlaceholder) {
 
         Iterator<Page> iter = rootPage.listChildren();
         boolean hasChild = false;
         while(iter.hasNext()) {
             Page page = iter.next();
             String path = page.getPath();
+            Boolean hidePage;
+            try{
+                hidePage = rr.resolve(path).adaptTo(Page.class).getProperties().get("hideInMobile", Boolean.class).booleanValue();
+            }catch(Exception e){
+                hidePage = false;
+            }
+
             boolean isActive = (currentPath + "/").startsWith(path + "/");
             boolean isCurrent = currentPath.equals(path);
-            if (page.isHideInNav()) {
+            if (page.isHideInNav() || hidePage) {
                 continue;
             }
             if (hasChild == false) {
@@ -255,7 +262,7 @@
                 }
                 sb.append("</div>");
                 sb.append("<hr>");
-                buildMenu(page, currentPath, sb, rr);
+                buildMenu(page, currentPath, sb, rr, false);
 
                 sb.append("</li>");
             }

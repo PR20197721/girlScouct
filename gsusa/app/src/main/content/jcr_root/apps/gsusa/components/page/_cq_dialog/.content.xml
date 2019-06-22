@@ -32,6 +32,16 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/container">
                                 <items jcr:primaryType="nt:unstructured">
+                                    <hideinmobile
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                            allowBulkEdit="{Boolean}true"
+                                            cq-msm-lockable="hideInMobile"
+                                            name="./hideInMobile"
+                                            renderReadOnly="{Boolean}true"
+                                            text="Hide Page in Mobile Off Canvas Navigation"
+                                            uncheckedValue="{Boolean}false"
+                                            value="{Boolean}true"/>
                                     <pdfPrint
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/form/checkbox"
