@@ -10,13 +10,13 @@ function init(){
 $(document).ready(function(){
     init();
     $(".side-nav-expand").on("click", function(){
-        var el = $(this).parent().children("ul");
+        var el = $(this).parent().parent().children("ul");
         if(el.css("display") === "none"){
-            $(this).parent().attr("id", "selected");
+            $(this).parent().parent().attr("id", "selected");
             $(".side-nav-el.parentEl").each(function(){
-                if($(this).attr("id") !== "selected"){
-                    $(this).find(".side-nav-expand").css({'transform' : 'rotate(0deg)'});
-                    $(this).children("ul").slideUp(400, function(){
+                if($(this).parent().attr("id") !== "selected"){
+                    $(this).parent().find(".side-nav-expand").css({'transform' : 'rotate(0deg)'});
+                    $(this).parent().children("ul").slideUp(400, function(){
                         $(".main-section").css("height", $("#left-canvas-menu").css("height"));
                         $(".main-section").css("overflow", "hidden");
                     });
@@ -25,15 +25,17 @@ $(document).ready(function(){
             $([document.documentElement, document.body]).animate({
                 scrollTop: 0
             }, 400);
-            $(this).parent().removeAttr("id");
-            $(this).find(".side-nav-expand").css({'transform' : 'rotate(90deg)'});
-            $(this).parent().children("ul").slideDown(400, function(){
+            $(this).parent().parent().removeAttr("id");
+            $(this).parent().find(".side-nav-expand").css({'transform' : 'rotate(90deg)'});
+            $(this).parent().parent().children("ul").slideDown(400, function(){
                $(".main-section").css("height", $("#left-canvas-menu").css("height"));
                $(".main-section").css("overflow", "hidden");
+               $(this).clearQueue();
+               $(this).stop();
            });
         }else{
-            $(this).find(".side-nav-expand").css({'transform' : 'rotate(0deg)'});
-            $(this).parent().children("ul").slideUp(400, function(){
+            $(this).parent().find(".side-nav-expand").css({'transform' : 'rotate(0deg)'});
+            $(this).parent().parent().children("ul").slideUp(400, function(){
                $(".main-section").css("height", $("#left-canvas-menu").css("height"));
                $(".main-section").css("overflow", "hidden");
             });

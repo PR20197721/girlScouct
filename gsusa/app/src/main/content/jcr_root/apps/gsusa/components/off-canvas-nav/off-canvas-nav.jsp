@@ -1,6 +1,8 @@
 <%@page import="java.lang.StringBuilder,
                 java.util.Iterator,
                 java.util.List,
+                java.util.Collections,
+                java.util.Comparator,
                 java.util.ArrayList,
                 com.day.cq.wcm.api.PageFilter,
                 javax.jcr.Value,
@@ -18,24 +20,45 @@
     String englishPath = sitePage.getPath() + "/en";
     String searchPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/search";
     NodeIterator headerNavs = null;
+    NodeIterator headerNavLinks = null;
     NodeIterator eyebrowNavs = null;
     final Node headerNav = resourceResolver.resolve(headerNavPath).adaptTo(Node.class);
     if(headerNav != null && headerNav.hasNode("navs")){
     	headerNavs = headerNav.getNode("navs").getNodes();
+    	headerNavLinks = headerNav.getNode("navs").getNodes();
     }
+    ArrayList<String> linksList = new ArrayList<String>();
+
     final Node eyebrowNav = resourceResolver.resolve(eyebrowNavPath).adaptTo(Node.class);
 	if(eyebrowNav != null && eyebrowNav.hasNode("navs")){
 		eyebrowNavs = eyebrowNav.getNode("navs").getNodes();
 	}
 	StringBuilder sb = new StringBuilder();
-    //sb.append("<nav class=\"right-off-canvas-menu\" tabindex=\"-1\">");
+	while(headerNavLinks.hasNext()){
+        Node pagePathNode = headerNavLinks.nextNode();
+        String pagePath = pagePathNode.hasProperty("path") ? pagePathNode.getProperty("path").getString() : "";
+        boolean activePageVal = currentPage.getPath().startsWith(rePath(pagePath, 4)) && currentPage.getPath().contains(pagePath);
+        if(activePageVal){
+            linksList.add(pagePath);
+        }
+    }
+    Collections.sort(linksList, new Comparator<String>() {
+        @Override
+        public int compare(String o1, String o2) {
+            if(o1.length()>o2.length()){
+                return 1;
+            }else{
+                return o1.compareTo(o2);
+            }
+        }
+    });
 	sb.append("<ul class=\"off-canvas-list\">");
 	List<String> topMenus = new ArrayList<String>();
     if(headerNavs != null && headerNavs.getSize() > 0){
     	while(headerNavs.hasNext()){
     		Node nav = headerNavs.nextNode();
 			Boolean hideInMobile = nav.hasProperty("hide-in-mobile") ? nav.getProperty("hide-in-mobile").getBoolean() : false;
-		    buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus, false);
+		    buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus, false, linksList);
     	}
     }
     	sb.append("</ul>");
@@ -62,7 +85,7 @@
 
 
 <%!
-	public void buildTopMenu(Node nav, String currentPath, ResourceResolver rr, StringBuilder sb, List<String> topMenus, boolean eyebrowNavVal) {
+	public void buildTopMenu(Node nav, String currentPath, ResourceResolver rr, StringBuilder sb, List<String> topMenus, boolean eyebrowNavVal, ArrayList<String> list) {
 		try{
 			String label = nav.hasProperty("label") ? nav.getProperty("label").getString() : "";
 			String largeLabel = nav.hasProperty("large-label") ? nav.getProperty("large-label").getString() : "";
@@ -93,7 +116,7 @@
 				}
 			}
 			String target = newWindow ? "target=\"_blank\"" : "target=\"_self\"";
-			boolean active = currentPath.startsWith(rePath(path, 4));
+			boolean active = currentPath.startsWith(rePath(path, 4)) && currentPath.contains(path);
 			String sideNavClass;
 			if(eyebrowNavVal){
 			     sideNavClass = "side-nav-wrapper-eyebrow";
@@ -101,8 +124,20 @@
 			     sideNavClass = "side-nav-wrapper";
 			}
             if (active) {
-                parent = true;
-				sb.append("<li class='side-nav-el parentEl active' tabindex=\"-1\">");
+                parent = false;
+                boolean activePage = false;
+                String activeP = list.get(list.size()-1);
+                if(list.size() > 1){
+                    if(path.equals(activeP)){
+                        parent = true;
+                        sb.append("<li class='side-nav-el parentEl active' tabindex=\"-1\">");
+                    }else{
+                        sb.append("<li class='side-nav-el parentEl' tabindex=\"-1\">");
+                    }
+                }else{
+                    parent = true;
+                    sb.append("<li class='side-nav-el parentEl active' tabindex=\"-1\">");
+                }
 			}else{
 				sb.append("<li class='side-nav-el parentEl' tabindex=\"-1\">");
 			}
