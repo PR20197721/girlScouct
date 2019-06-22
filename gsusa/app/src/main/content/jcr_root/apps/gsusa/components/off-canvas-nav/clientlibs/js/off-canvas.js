@@ -14,9 +14,9 @@ $(document).ready(function(){
         if(el.css("display") === "none"){
             $(this).parent().parent().attr("id", "selected");
             $(".side-nav-el.parentEl").each(function(){
-                if($(this).parent().attr("id") !== "selected"){
-                    $(this).parent().find(".side-nav-expand").css({'transform' : 'rotate(0deg)'});
-                    $(this).parent().children("ul").slideUp(400, function(){
+                if($(this).attr("id") !== "selected"){
+                    $(this).find(".side-nav-expand").css({'transform' : 'rotate(0deg)'});
+                    $(this).children("ul").slideUp(400, function(){
                         $(".main-section").css("height", $("#left-canvas-menu").css("height"));
                         $(".main-section").css("overflow", "hidden");
                     });
