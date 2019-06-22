@@ -14,25 +14,18 @@
 <%
     final String siteRootPath = currentPage.getAbsoluteParent(2).getPath();
     final String headerNavPath = siteRootPath + "/jcr:content/header/header-nav";
-    final String eyebrowNavPath = siteRootPath + "/jcr:content/header/eyebrow-nav";
     Page sitePage = currentPage.getAbsoluteParent(1);
     String spanishPath = sitePage.getPath() + "/es";
     String englishPath = sitePage.getPath() + "/en";
     String searchPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header/search";
     NodeIterator headerNavs = null;
     NodeIterator headerNavLinks = null;
-    NodeIterator eyebrowNavs = null;
     final Node headerNav = resourceResolver.resolve(headerNavPath).adaptTo(Node.class);
     if(headerNav != null && headerNav.hasNode("navs")){
     	headerNavs = headerNav.getNode("navs").getNodes();
     	headerNavLinks = headerNav.getNode("navs").getNodes();
     }
     ArrayList<String> linksList = new ArrayList<String>();
-
-    final Node eyebrowNav = resourceResolver.resolve(eyebrowNavPath).adaptTo(Node.class);
-	if(eyebrowNav != null && eyebrowNav.hasNode("navs")){
-		eyebrowNavs = eyebrowNav.getNode("navs").getNodes();
-	}
 	StringBuilder sb = new StringBuilder();
 	while(headerNavLinks.hasNext()){
         Node pagePathNode = headerNavLinks.nextNode();
@@ -58,7 +51,7 @@
     	while(headerNavs.hasNext()){
     		Node nav = headerNavs.nextNode();
 			Boolean hideInMobile = nav.hasProperty("hide-in-mobile") ? nav.getProperty("hide-in-mobile").getBoolean() : false;
-		    buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus, false, linksList);
+		    buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus, linksList);
     	}
     }
     	sb.append("</ul>");
@@ -85,7 +78,7 @@
 
 
 <%!
-	public void buildTopMenu(Node nav, String currentPath, ResourceResolver rr, StringBuilder sb, List<String> topMenus, boolean eyebrowNavVal, ArrayList<String> list) {
+	public void buildTopMenu(Node nav, String currentPath, ResourceResolver rr, StringBuilder sb, List<String> topMenus, ArrayList<String> list) {
 		try{
 			String label = nav.hasProperty("label") ? nav.getProperty("label").getString() : "";
 			String largeLabel = nav.hasProperty("large-label") ? nav.getProperty("large-label").getString() : "";
@@ -117,12 +110,7 @@
 			}
 			String target = newWindow ? "target=\"_blank\"" : "target=\"_self\"";
 			boolean active = currentPath.startsWith(rePath(path, 4)) && currentPath.contains(path);
-			String sideNavClass;
-			if(eyebrowNavVal){
-			     sideNavClass = "side-nav-wrapper-eyebrow";
-			}else{
-			     sideNavClass = "side-nav-wrapper";
-			}
+			String sideNavClass = "side-nav-wrapper";
             if (active) {
                 parent = false;
                 boolean activePage = false;
@@ -142,29 +130,27 @@
 				sb.append("<li class='side-nav-el parentEl' tabindex=\"-1\">");
 			}
 			if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) {
-		        if(parent && !eyebrowNavVal){
+		        if(parent){
 		            sb.append("<div class="+sideNavClass+"><a style='font-weight: bold; margin-left: 7px;'x-cq-linkchecker=\"skip\" href=\"" + genLink(rr, path) + "\" title=\"" +label + "\" tabindex=\"-1\" "+target+">" +"  "+ label + "</a></div><hr>");
                 }else{
 		            sb.append("<div class="+sideNavClass+"><a x-cq-linkchecker=\"skip\" href=\"" + genLink(rr, path) + "\" title=\"" +label + "\" tabindex=\"-1\" "+target+">" + label + "</a></div><hr>");
 		        }
 		    } else {
 		        if(parent){
-		            if(isPlaceholder && !eyebrowNavVal){
+		            if(isPlaceholder){
 		                String childPath = rr.resolve(path).adaptTo(Page.class).listChildren().next().getPath();
 		                sb.append("<div class="+sideNavClass+"><a style='font-weight: bold; margin-left: 10px; padding-left: 0px;' href=\"" + genLink(rr, childPath) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
-		            }else if(isParent && !eyebrowNavVal){
+		            }else if(isParent){
 		                sb.append("<div class="+sideNavClass+"><a style='font-weight: bold; margin-left: 10px; padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
-		            }else if(eyebrowNavVal){
-		                sb.append("<div class="+sideNavClass+"><a style='padding-left: 10px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" +  label + "</a></div><hr>");
 		            }else{
                         sb.append("<div class="+sideNavClass+"><a style='font-weight: bold; padding-left: 0px; margin-left: 10px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
 		            }
 		        }else{
 		            Node nodePath = rr.resolve(path).adaptTo(Node.class);
-                    if(isPlaceholder && !eyebrowNavVal){
+                    if(isPlaceholder){
                         String childPath = rr.resolve(path).adaptTo(Page.class).listChildren().next().getPath();
                         sb.append("<div class="+sideNavClass+"><a href=\"" + genLink(rr, childPath) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
-                    }else if(isParent && !eyebrowNavVal){
+                    }else if(isParent){
                         sb.append("<div class="+sideNavClass+"><a href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
                     }else{
                         sb.append("<div class="+sideNavClass+"><a href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
