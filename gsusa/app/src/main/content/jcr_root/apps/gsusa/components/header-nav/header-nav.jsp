@@ -61,7 +61,7 @@ if(currentNode.hasNode("navs")){
 						if (linkPage != null && !path.contains(".html")) {
 							path += ".html";
 						}
-						if (currentPage.getPath().startsWith(topPath)) {
+						if (currentPage.getPath().startsWith(topPath) && currentPage.getPath().contains(topPath)) {
 							activeClass = "active";					
 						}
 					}
