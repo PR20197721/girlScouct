@@ -61,7 +61,7 @@ if(currentNode.hasNode("navs")){
 						if (linkPage != null && !path.contains(".html")) {
 							path += ".html";
 						}
-						if (currentPage.getPath().startsWith(topPath) && currentPage.getPath().contains(topPath)) {
+						if (currentPage.getPath().startsWith(topPath)) {
 							activeClass = "active";					
 						}
 					}
@@ -168,7 +168,7 @@ if(currentNode.hasNode("navs")){
             						if (linkPage != null && !path.contains(".html")) {
             							path += ".html";
             						}
-            						if (currentPage.getPath().startsWith(topPath)) {
+            						if (currentPage.getPath().startsWith(topPath) && currentPage.getPath().contains(path.substring(0, path.indexOf(".") - 1))) {
             							activeClass = "active";
             						}
             					}

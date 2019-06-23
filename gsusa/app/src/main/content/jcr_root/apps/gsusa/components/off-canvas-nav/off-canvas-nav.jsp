@@ -12,6 +12,7 @@
 <%@taglib prefix="ui" uri="http://www.adobe.com/taglibs/granite/ui/1.0" %>
 <ui:includeClientLib categories="apps.gsusa.components.off-canvas" />
 <%
+    ArrayList<String> pathsAdded = new ArrayList<String>();
     final String siteRootPath = currentPage.getAbsoluteParent(2).getPath();
     final String headerNavPath = siteRootPath + "/jcr:content/header/header-nav";
     Page sitePage = currentPage.getAbsoluteParent(1);
@@ -51,7 +52,7 @@
     	while(headerNavs.hasNext()){
     		Node nav = headerNavs.nextNode();
 			Boolean hideInMobile = nav.hasProperty("hide-in-mobile") ? nav.getProperty("hide-in-mobile").getBoolean() : false;
-		    buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus, linksList);
+		    buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus, linksList, pathsAdded);
     	}
     }
     	sb.append("</ul>");
@@ -78,7 +79,7 @@
 
 
 <%!
-	public void buildTopMenu(Node nav, String currentPath, ResourceResolver rr, StringBuilder sb, List<String> topMenus, ArrayList<String> list) {
+	public void buildTopMenu(Node nav, String currentPath, ResourceResolver rr, StringBuilder sb, List<String> topMenus, ArrayList<String> list, ArrayList<String> pathsAdded) {
 		try{
 			String label = nav.hasProperty("label") ? nav.getProperty("label").getString() : "";
 			String largeLabel = nav.hasProperty("large-label") ? nav.getProperty("large-label").getString() : "";
@@ -158,8 +159,9 @@
 		        }
 
 		    }
+		    pathsAdded.add(path);
             Page topMenuPathPage = rr.resolve(path).adaptTo(Page.class);
-            buildMenu(topMenuPathPage, currentPath, sb, rr, isPlaceholder);
+            buildMenu(topMenuPathPage, currentPath, sb, rr, isPlaceholder, pathsAdded);
 			sb.append("</li>");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -205,23 +207,17 @@
         }
     }
 
-    public void buildMenu(Page rootPage, String currentPath, StringBuilder sb, ResourceResolver rr, boolean isPlaceholder) {
+    public void buildMenu(Page rootPage, String currentPath, StringBuilder sb, ResourceResolver rr, boolean isPlaceholder, ArrayList<String> pathsAdded) {
 
         Iterator<Page> iter = rootPage.listChildren();
         boolean hasChild = false;
         while(iter.hasNext()) {
             Page page = iter.next();
             String path = page.getPath();
-            Boolean hidePage;
-            try{
-                hidePage = rr.resolve(path).adaptTo(Page.class).getProperties().get("hideInMobile", Boolean.class).booleanValue();
-            }catch(Exception e){
-                hidePage = false;
-            }
 
             boolean isActive = (currentPath + "/").startsWith(path + "/");
             boolean isCurrent = currentPath.equals(path);
-            if (page.isHideInNav() || hidePage) {
+            if (page.isHideInNav() || pathsAdded.contains(path)) {
                 continue;
             }
             if (hasChild == false) {
@@ -262,7 +258,8 @@
                 }
                 sb.append("</div>");
                 sb.append("<hr>");
-                buildMenu(page, currentPath, sb, rr, false);
+                pathsAdded.add(page.getPath());
+                buildMenu(page, currentPath, sb, rr, false, pathsAdded);
 
                 sb.append("</li>");
             }
