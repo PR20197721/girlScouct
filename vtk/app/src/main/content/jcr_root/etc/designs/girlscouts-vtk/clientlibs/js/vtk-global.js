@@ -405,6 +405,19 @@ $(function(){
       }
 
  });
+ function exploreReset(){
+    var notice = $("#exploreModal");
+    notice.css('display','block');
+    $(".vtk-maintenance-news-button").click(function(){
+        notice.css('display', 'none');
+    });
+    $(document).click(function(){
+        notice.css('display', 'none');
+    });
+    $(".maintenance-content").click(function(event) {
+       event.stopPropagation();
+    });
+ }
  function checkNews(){
     if($(".breaking-news").is(":visible")){
     //Breaking News Maintenance Close:
@@ -424,22 +437,17 @@ $(function(){
 $(document).ready(checkNews());
 
 $(window).load(function(){
-            var notice = $("#maintenanceModal");
-            notice.css('display','block');
-            $(".vtk-maintenance-news-button").click(function(){
-                notice.css('display', 'none');
-            });
-            $(document).click(function(){
-                notice.css('display', 'none');
-            });
-            $(".maintenance-content").click(function(event) {
-               event.stopPropagation();
-            });
-
-
-
-
-
+    var notice = $("#maintenanceModal");
+    notice.css('display','block');
+    $(".vtk-maintenance-news-button").click(function(){
+        notice.css('display', 'none');
+    });
+    $(document).click(function(){
+        notice.css('display', 'none');
+    });
+    $(".maintenance-content").click(function(event) {
+       event.stopPropagation();
+    });
 });
 // Re-Foundation on page load and dom load for modals that were added dynamically.
 $(function(){

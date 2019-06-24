@@ -364,8 +364,8 @@ VtkMainYpState > {
                                 <p style={{marginLeft:'200px', width:'166px'}}>To add, delete, or change a meeting, go to your current Year Plan</p>
                                 </div>
                                 <div>
-                                <a className="btn button btn-default resetExploreButton" style={{marginLeft:'50px', maxWidth:'300px', border:'1px solid #00a850', color:'#00a850', backgroundColor:'white'}}>Reset my year plan</a>
-                                <a href="/content/girlscouts-vtk/en/vtk.html" className="btn button btn-default selectedExploreButton" style={{marginLeft:'182px', maxWidth:'300px'}}>View my year plan</a>
+                                <a href="javascript:exploreReset();" className="btn button btn-default resetExploreButton" style={{marginLeft:'48px', maxWidth:'300px', border:'1px solid #00a850', color:'#00a850', backgroundColor:'white'}}>Reset my year plan</a>
+                                <a href="/content/girlscouts-vtk/en/vtk.html" className="btn button btn-default selectedExploreButton" style={{marginLeft:'183px', maxWidth:'300px'}}>View my year plan</a>
                                 </div>
                                 <br /> <br />
                                 <p>To start over with a new Year Plan, use the choices below</p>
