@@ -39,10 +39,10 @@
   color: white;
   padding-bottom: 25px;
 }
-
 .explore-modal-body {
     padding: 2px 16px;
     padding-bottom: 20px;
+    text-aligh: center
 }
 .explore-modal-footer {
   padding: 2px 16px;
@@ -60,7 +60,14 @@
   animation-name: animatetop;
   animation-duration: 1s;
 }
-
+#exploreBody{
+    font-size: 30px
+}
+#explore-modal-text{
+    width: 350px;
+    text-align: center;
+    margin-left: 97px;
+}
 @keyframes animatetop {
   from {
     top: -300px;

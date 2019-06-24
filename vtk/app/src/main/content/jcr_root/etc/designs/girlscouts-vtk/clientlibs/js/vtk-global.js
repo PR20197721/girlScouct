@@ -418,6 +418,12 @@ $(function(){
        event.stopPropagation();
     });
  }
+ function exploreResetClose(){
+     $("#exploreModal").css('display', 'none');
+ }
+ function exploreResetConfirm(){
+     alert("To Do");
+ }
  function checkNews(){
     if($(".breaking-news").is(":visible")){
     //Breaking News Maintenance Close:

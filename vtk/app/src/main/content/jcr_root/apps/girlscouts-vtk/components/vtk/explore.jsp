@@ -19,12 +19,13 @@
           <div class="exploreHeader">test </br></div>
       </div>
      <div class="explore-modal-body">
-
-       <strong id="exploreBody">Are you sure you want to reset your Year Plan?</strong>
-       <br>
-       <p>Resetting your Year Plan will erase all current meeting details, including attendance and achievements.></p>
-       <a href="javascript:exploreReset();" className="btn button btn-default resetExploreButton" style="margin-left: 48px; max-width: 300px; color: #00a850; background-color: white; border: 1px solid #00a850; padding: 8px 15px 8px 15px;" >Reset my year plan</a>
-       <a href="/content/girlscouts-vtk/en/vtk.html" className="btn button btn-default selectedExploreButton" style="margin-left: 100px; max-width: 300px;">View my year plan</a>
+       <div id="explore-modal-text">
+        <strong id="exploreBody">Are you sure you want to reset your Year Plan?</strong>
+        <br><br>
+        <p>Resetting your Year Plan will erase all current meeting details, including attendance and achievements.</p>
+       </div>
+       <a href="javascript:exploreResetClose();" className="btn button btn-default resetExploreButton" style="margin-left: 74px; max-width: 300px; color: #00a850; background-color: white; border: 1px solid #00a850; padding: 8px 15px 8px 15px;" >No, Never Mind</a>
+       <a href="javascript:exploreResetConfirm();" className="btn button btn-default selectedExploreButton" style="margin-left: 50px; max-width: 300px; color: white; background: #18aa51; padding: 8px 15px 8px 15px;">Yes, Reset</a>
     </div>
     <div class="explore-modal-footer">
 
