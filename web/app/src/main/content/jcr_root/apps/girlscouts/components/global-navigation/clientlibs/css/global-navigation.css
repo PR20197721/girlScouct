@@ -42,6 +42,11 @@
  #mobileSearchBar.srch-box form:after {
     display: none;
  }
+#mobileSearchBar .searchField{
+    height: 24%;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
 /* Left Canvas Menu CSS */
 .side-nav-el{
     background:#bcbec0;
