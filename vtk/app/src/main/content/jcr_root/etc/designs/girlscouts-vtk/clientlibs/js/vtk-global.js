@@ -423,7 +423,7 @@ $(function(){
  }
  function exploreResetConfirm(){
      $.ajax({
-         url: '/etc/servlets/reset-year-plan-servlet.html',
+         url: '/content/girlscouts-vtk/service/reset-year-plan-servlet.html',
          type: 'POST',
          success: function(result) {
             console.log("YEAR PLAN DELETED SUCCESSFULLY");
