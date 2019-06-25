@@ -134,7 +134,7 @@
                     <a href="<%=vtkLanding%>">
                     <img src="/etc/designs/girlscouts-vtk/images/btn_VTK.jpg"/></a>
                     <p>
-                        Access badges, Journeys and other program content from the Girl Scout National Program Portfolio for ALL levels of Girl Scouting as well as meeting planning tools and resources for groups of all sizes. It&rsquo;s your virtual Girl Scout assistant!<br/><br/>Troop Leaders & Co-Leaders can co-plan activities, email caregivers in your troop and enter troop finances at the end of the year.
+                        Access badges and Journeys for all levels, and much more from the Girl Scout National Program Portfolio. Plus, meeting planning tools and resources for groups of all sizes. It&rsquo;s your virtual Girl Scout assistant!<br/><br/>Troop Leaders & Co-Leaders can co-plan activities, email caregivers in your troop and enter troop finances at the end of the year.
                    </p>
                     <% } %>
                   </li>
