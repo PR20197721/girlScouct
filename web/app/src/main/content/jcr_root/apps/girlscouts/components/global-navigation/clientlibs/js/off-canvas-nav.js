@@ -16,7 +16,11 @@ $(document).ready(function(){
                 if($(this).attr("id") !== "selected"){
                     $(this).find(".side-nav-expand").css({'transform' : 'rotate(0deg)'});
                     $(this).children("ul").slideUp(400, function(){
-                        $(".inner-wrap").css("height",  $("#side-nav-top").height() + $("#right-canvas-menu-bottom").height() + 29 + "px");
+                        var height = $("#left-canvas-menu").height();
+                        if(height < window.innerHeight){
+                            height = window.innerHeight;
+                        }
+                        $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
                         $(".inner-wrap").css("overflow", "hidden");
                     });
                 }
@@ -27,14 +31,22 @@ $(document).ready(function(){
             $(this).parent().removeAttr("id");
             $(this).find(".side-nav-expand").css({'transform' : 'rotate(90deg)'});
             $(this).parent().children("ul").slideDown(400, function(){
-                $(".inner-wrap").css("height",  $("#side-nav-top").height() + $("#right-canvas-menu-bottom").height() + 29 + "px");
+                var height = $("#left-canvas-menu").height();
+                if(height < window.innerHeight){
+                    height = window.innerHeight;
+                }
+                $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
                 $(".inner-wrap").css("overflow", "hidden");
             });
         }else{
             $(this).find(".side-nav-expand").css({'transform' : 'rotate(0deg)'});
             $(this).parent().children("ul").slideUp(400, function(){
-                $(".inner-wrap").css("height",  $("#side-nav-top").height() + $("#right-canvas-menu-bottom").height() + 29 + "px");
-                $(".inner-wrap").css("overflow", "hidden");
+               var height = $("#left-canvas-menu").height();
+               if(height < window.innerHeight){
+                   height = window.innerHeight;
+               }
+               $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
+               $(".inner-wrap").css("overflow", "hidden");
             });
         }
     });
@@ -46,7 +58,11 @@ $(document).ready(function(){
                 if($(this).attr("id") !== "selected"){
                     $(this).children(".menu-wrapper-el").children(".side-nav-expand-child").css({'transform' : 'rotate(0deg)'});
                     $(this).children("ul").slideUp(400, function(){
-                       $(".inner-wrap").css("height",  $("#side-nav-top").height() + $("#right-canvas-menu-bottom").height() + 29 + "px");
+                       var height = $("#left-canvas-menu").height();
+                       if(height < window.innerHeight){
+                           height = window.innerHeight;
+                       }
+                       $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
                        $(".inner-wrap").css("overflow", "hidden");
                    });
                 }
@@ -54,7 +70,11 @@ $(document).ready(function(){
             $(this).closest(".side-nav-el").removeAttr("id");
             $(this).css({'transform' : 'rotate(90deg)'});
             $(this).closest(".side-nav-el").children("ul").slideDown(400, function(){
-                $(".inner-wrap").css("height",  $("#side-nav-top").height() + $("#right-canvas-menu-bottom").height() + 29 + "px");
+                var height = $("#left-canvas-menu").height();
+                if(height < window.innerHeight){
+                    height = window.innerHeight;
+                }
+                $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
                 $(".inner-wrap").css("overflow", "hidden");
                 $(this).clearQueue();
                 $(this).stop();
@@ -62,7 +82,11 @@ $(document).ready(function(){
         }else{
             $(this).css({'transform' : 'rotate(0deg)'});
             $(this).closest(".side-nav-el").children("ul").slideUp(400, function(){
-                $(".inner-wrap").css("height",  $("#side-nav-top").height() + $("#right-canvas-menu-bottom").height() + 29 + "px");
+                var height = $("#left-canvas-menu").height();
+                if(height < window.innerHeight){
+                    height = window.innerHeight;
+                }
+                $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
                 $(".inner-wrap").css("overflow", "hidden");
             });
         }

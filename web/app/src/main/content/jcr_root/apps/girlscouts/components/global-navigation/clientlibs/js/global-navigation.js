@@ -13,7 +13,11 @@ $(document).ready(function(){
             $(".left-off-canvas-menu").removeClass("closed");
             $(".exit-off-canvas-el").addClass("overlay");
             $(".left-off-canvas-menu").addClass("open");
-            $(".inner-wrap").css("height",  $("#side-nav-top").height() + $("#right-canvas-menu-bottom").height() + 29 + "px");
+            var height = $("#left-canvas-menu").height();
+            if(height < window.innerHeight){
+                height = window.innerHeight;
+            }
+            $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
             $(".inner-wrap").css("overflow", "hidden");
         }else{
             $(".left-off-canvas-menu").removeClass("open");
