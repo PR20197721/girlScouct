@@ -423,6 +423,18 @@ $(function(){
  }
  function exploreResetConfirm(){
      alert("To Do");
+     $.ajax({
+         url: '/apps/girlscouts-vtk/services/reset-year-plan-servlet.html',
+         type: 'POST',
+         processData:false,
+         contentType: false,
+         success: function(result) {
+            console.log("YEAR PLAN DELETED SUCCESSFULLY");
+         },
+         error: function(result){
+             console.log("YEAR PLAN FAILED TO DELETE");
+         }
+     });
  }
  function checkNews(){
     if($(".breaking-news").is(":visible")){
