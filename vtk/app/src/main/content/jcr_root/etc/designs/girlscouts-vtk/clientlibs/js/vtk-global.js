@@ -408,7 +408,7 @@ $(function(){
  function exploreReset(){
     var notice = $("#exploreModal");
     notice.css('display','block');
-    $(".vtk-maintenance-news-button").click(function(){
+    $("#exploreModalClose").click(function(){
         notice.css('display', 'none');
     });
     $(document).click(function(){
@@ -427,6 +427,7 @@ $(function(){
          type: 'POST',
          success: function(result) {
             console.log("YEAR PLAN DELETED SUCCESSFULLY");
+            location.reload();
          },
          error: function(result){
              console.log("YEAR PLAN FAILED TO DELETE");

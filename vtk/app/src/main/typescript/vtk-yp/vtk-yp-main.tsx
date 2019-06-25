@@ -360,12 +360,12 @@ VtkMainYpState > {
                                 <p style={{fontSize:'25px', fontWeight:'bold'}}><span><i style={{color:'orange',float:'initial', display:'inline-block', fontSize:'50px', marginBottom:'10px'}} className="icon-check"></i></span>The Troop's Year Plan is set<br /> <span style={{fontSize:'18px'}}>{________currentYearPlanName________ }</span>
                                 </p>
                                 <div style={{display:'inline-flex'}}>
-                                <p style={{marginLeft:'35px', width:'166px'}}>To start over and erase all meeting details, including attendance and achievements:</p>
+                                <p style={{marginLeft:'12px', width:'166px'}}>To start over and erase all meeting details, including attendance and achievements:</p>
                                 <p style={{marginLeft:'200px', width:'166px'}}>To add, delete, or change a meeting, go to your current Year Plan</p>
                                 </div>
                                 <div>
-                                <a href="javascript:exploreReset();" className="btn button btn-default resetExploreButton" style={{marginLeft:'48px', maxWidth:'300px', border:'1px solid #00a850', color:'#00a850', backgroundColor:'white'}}>Reset my year plan</a>
-                                <a href="/content/girlscouts-vtk/en/vtk.html" className="btn button btn-default selectedExploreButton" style={{marginLeft:'183px', maxWidth:'300px'}}>View my year plan</a>
+                                <a href="javascript:exploreReset();" className="btn button btn-default resetExploreButton" style={{marginLeft:'24px', maxWidth:'300px', border:'1px solid #00a850', color:'#00a850', backgroundColor:'white'}}>Reset my year plan</a>
+                                <a href="/content/girlscouts-vtk/en/vtk.html" className="btn button btn-default selectedExploreButton" style={{marginLeft:'177px', maxWidth:'300px'}}>View my year plan</a>
                                 </div>
                                 <br /> <br />
                                 <p>To start over with a new Year Plan, use the choices below</p>

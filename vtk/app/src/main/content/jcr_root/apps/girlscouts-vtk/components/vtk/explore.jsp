@@ -1,4 +1,3 @@
-
 <%@ page
   import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
@@ -6,16 +5,14 @@
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 
-<div id="error-message"></div>      
+<div id="error-message"></div>
 <!--PAGE STRUCTURE: reset modal-->
  <div id="exploreModal" class="exploreReset">
 
    <!-- Modal content -->
    <div class="explore-content">
        <div class="explore-modal-header">
-             <div class="vtk-explore-news-button">
-                 <i class="icon-button-circle-cross"></i>
-           </div>
+             <span id="exploreModalClose">X</span>
           <div class="exploreHeader"></br></div>
       </div>
      <div class="explore-modal-body">
@@ -96,9 +93,9 @@ loadNav('explore')
                            '</p></section>'+
                         '</div>'+
                       '</div>';
-                      $(document).foundation() 
+                      $(document).foundation()
                       modal.html(_template)
-                      .foundation('reveal','open');     
+                      .foundation('reveal','open');
       }
 
 var modalAlert = new ModalVtk('Alert',true);

@@ -62,6 +62,14 @@
   animation-name: animatetop;
   animation-duration: 1s;
 }
+#exploreModalClose{
+    color: black;
+    float: right;
+    font-size: 20px;
+}
+#exploreModalClose:hover{
+    cursor: pointer;
+}
 #exploreBody{
     font-size: 30px
 }
