@@ -246,7 +246,7 @@
                 if (isActive || isCurrent) {
                     sb.append("<li class=\"side-nav-el " + activeCls + currentCls + "\">");
                 } else {
-                    sb.append("<li class='side-nav-el' style='background: #bcbec0'>");
+                    sb.append("<li class='side-nav-el'>");
                 }
                 Page currPage = rr.resolve(path).adaptTo(Page.class);
 
