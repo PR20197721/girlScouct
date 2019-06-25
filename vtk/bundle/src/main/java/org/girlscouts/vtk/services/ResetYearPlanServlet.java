@@ -4,23 +4,18 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
-import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.settings.SlingSettingsService;
-import org.girlscouts.common.components.GSEmailAttachment;
-import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.jcr.Node;
 import javax.jcr.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
+
 
 @SlingServlet(
         label = "Girl Scouts VTK Year Plan Reset servlet", description = "Resets troop year plan", paths = {},
