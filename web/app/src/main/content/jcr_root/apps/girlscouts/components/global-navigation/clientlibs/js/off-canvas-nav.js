@@ -20,7 +20,7 @@ $(document).ready(function(){
                         if(height < window.innerHeight){
                             height = window.innerHeight;
                         }
-                        $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
+                        $(".inner-wrap").css("height",  height);
                         $(".inner-wrap").css("overflow", "hidden");
                     });
                 }
@@ -35,7 +35,7 @@ $(document).ready(function(){
                 if(height < window.innerHeight){
                     height = window.innerHeight;
                 }
-                $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
+                $(".inner-wrap").css("height",  height);
                 $(".inner-wrap").css("overflow", "hidden");
             });
         }else{
@@ -45,7 +45,7 @@ $(document).ready(function(){
                if(height < window.innerHeight){
                    height = window.innerHeight;
                }
-               $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
+               $(".inner-wrap").css("height",  height);
                $(".inner-wrap").css("overflow", "hidden");
             });
         }
@@ -62,7 +62,7 @@ $(document).ready(function(){
                        if(height < window.innerHeight){
                            height = window.innerHeight;
                        }
-                       $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
+                       $(".inner-wrap").css("height",  height);
                        $(".inner-wrap").css("overflow", "hidden");
                    });
                 }
@@ -74,7 +74,7 @@ $(document).ready(function(){
                 if(height < window.innerHeight){
                     height = window.innerHeight;
                 }
-                $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
+                $(".inner-wrap").css("height",  height);
                 $(".inner-wrap").css("overflow", "hidden");
                 $(this).clearQueue();
                 $(this).stop();
@@ -86,7 +86,7 @@ $(document).ready(function(){
                 if(height < window.innerHeight){
                     height = window.innerHeight;
                 }
-                $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
+                $(".inner-wrap").css("height",  height);
                 $(".inner-wrap").css("overflow", "hidden");
             });
         }

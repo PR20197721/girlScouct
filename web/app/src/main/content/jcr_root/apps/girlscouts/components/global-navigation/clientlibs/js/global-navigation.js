@@ -17,7 +17,7 @@ $(document).ready(function(){
             if(height < window.innerHeight){
                 height = window.innerHeight;
             }
-            $(".inner-wrap").css("height",  $("#left-canvas-menu").height());
+            $(".inner-wrap").css("height",  height);
             $(".inner-wrap").css("overflow", "hidden");
         }else{
             $(".left-off-canvas-menu").removeClass("open");
