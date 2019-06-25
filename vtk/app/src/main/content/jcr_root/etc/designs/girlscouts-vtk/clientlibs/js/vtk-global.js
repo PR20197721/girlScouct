@@ -426,7 +426,20 @@ $(function(){
          url: '/content/girlscouts-vtk/service/reset-year-plan-servlet.html',
          type: 'POST',
          success: function(result) {
-            console.log("YEAR PLAN DELETED SUCCESSFULLY");
+            var elem = $("#exploreResetRelogin").attr("data-troop-id");
+            $.ajax({
+                url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
+                type: 'POST',
+                data: {
+                    act: 'ReLogin',
+                    loginAs: elem,
+                    a: Date.now()
+                },
+                success: function(result) {
+                    vtkTrackerPushAction('ChangeTroop');
+                    document.location = "/content/girlscouts-vtk/en/vtk.html";
+                }
+            });
          },
          error: function(result){
              console.log("YEAR PLAN FAILED TO DELETE");

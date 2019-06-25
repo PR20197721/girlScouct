@@ -47,18 +47,17 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
         StringBuilder troopYpPath = new StringBuilder();
         troopYpPath.append("/vtk"+gsCurrentYear+"/"+councilId+"/troops/"+troopId+"/yearPlan");
         log.debug("YEAR PLAN TO DELETE: "+troopYpPath.toString());
+        Map<String,Object> paramMap = new HashMap<String,Object>();
+        paramMap.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
+        ResourceResolver adminResolver = null;
+        try {
+            adminResolver = resourceFactory.getServiceResourceResolver(paramMap);
+        } catch (org.apache.sling.api.resource.LoginException e) {
+            log.error("Failed to get admin resolver: ",e);
+        }
         try{
-            Node yearPlan = request.getResourceResolver().resolve(troopYpPath.toString()).adaptTo(Node.class);
+            Node yearPlan = adminResolver.resolve(troopYpPath.toString()).adaptTo(Node.class);
             yearPlan.remove();
-            Map<String,Object> paramMap = new HashMap<String,Object>();
-            paramMap.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
-
-            ResourceResolver adminResolver = null;
-            try {
-                adminResolver = resourceFactory.getServiceResourceResolver(paramMap);
-            } catch (org.apache.sling.api.resource.LoginException e) {
-                log.error("Failed to get admin resolver: ",e);
-            }
             adminResolver.adaptTo(Session.class).save();
             adminResolver.close();
         }catch (Exception e){

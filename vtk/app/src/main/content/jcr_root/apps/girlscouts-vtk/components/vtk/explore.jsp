@@ -1,12 +1,16 @@
 <%@ page
-  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.utils.VtkUtil, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/vtk.jsp -->
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 
+<%
+  String troopId = VtkUtil.getTroop(session).getId();
+%>
 <div id="error-message"></div>
 <!--PAGE STRUCTURE: reset modal-->
+<div id="exploreResetRelogin" data-troop-id="<%= troopId %>"/>
  <div id="exploreModal" class="exploreReset">
 
    <!-- Modal content -->
