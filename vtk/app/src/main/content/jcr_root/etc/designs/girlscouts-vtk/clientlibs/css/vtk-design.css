@@ -788,3 +788,23 @@ input[type="submit"].button {
 
   .vtkDisableA {pointer-events:none;}
   .vtkDisableP {display:none;}
+
+ul.grade-levels {
+    list-style: none;
+}
+
+li.grade-level.selected, li.grade-level :hover {
+    background-color: #18aa51 !important;
+    color: white;
+}
+
+li.grade-level {
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 1rem;
+    display: inline;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #18aa51 !important;
+    color: black;
+}

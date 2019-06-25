@@ -2906,3 +2906,33 @@ input[type="file"] {
   border-right: none !important;
   margin-top: -1px;
 }
+
+section.grade-levels{
+  margin: 0 !important;
+}
+
+.grade-levels ul li.grade-level.selected, .grade-levels ul li.grade-level:hover {
+  background-color: #18aa51 !important;
+}
+.grade-levels ul li.grade-level{
+  display: block;
+  text-align: center;
+  border: 1px solid #18aa51 !important;
+  float: left;
+  margin: 0 2px !important;
+}
+
+.grade-levels ul li.grade-level a{
+  display: block;
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 0.8rem !important;
+  font-weight: normal !important;
+  text-transform: uppercase;
+  padding: 5px 0px!important;
+  color: #18aa51;
+  width: 108px;
+}
+
+.grade-levels ul li.grade-level.selected a,.grade-levels ul li.grade-level a:hover{
+  color: white;
+}
