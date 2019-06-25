@@ -39,7 +39,7 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String troopId = VtkUtil.getUser(session).getApiConfig().getUser().getSfUserId();
+        String troopId = VtkUtil.getTroop(session).getId();
         int councilId = VtkUtil.getUser(session).getApiConfig().getUser().getAdminCouncilId();
         String gsCurrentYear = VtkUtil.getUser(session).getCurrentYear();
         StringBuilder troopYpPath = new StringBuilder();
