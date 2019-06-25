@@ -374,45 +374,49 @@ VtkMainYpState > {
                       </div>
                     :null}
 
-                <div className="__padding">
-                    <div
-                        className={`_main_boxes columns small-22 medium-20 small-centered medium-centered ${ (this.state.showTracks)
-                        ? '__OPEN'
-                        : '__CLOSE'}`}>
-                        <div
-                            onClick={() => this.clickHander()}
-                            className="columns  medium-24 large-12 _box_wrap">
-                            <div className="_box __library">
-                                <div className="__img"></div>
-                                <h3>Build Your Own</h3>
-                                <p>Search or filter to select the badges and awards that fit the style of your
-                                    troop.</p>
-                                <a
-                                    className="btn button"
-                                    style={{
-                                    width: '100%'
-                                }}>start adding Petals, Badges or Journeys</a>
-                            </div>
-                        </div>
+                {(!(________app1________ && ________currentYearPlanName________ || ________currentYearPlanName________  === 'Custom Year Plan'))
+                        ?<div className="__padding">
+                             <div
+                                 className={`_main_boxes columns small-22 medium-20 small-centered medium-centered ${ (this.state.showTracks)
+                                 ? '__OPEN'
+                                 : '__CLOSE'}`}>
+                                 <div
+                                     onClick={() => this.clickHander()}
+                                     className="columns  medium-24 large-12 _box_wrap">
+                                     <div className="_box __library">
+                                         <div className="__img"></div>
+                                         <h3>Build Your Own</h3>
+                                         <p>Search or filter to select the badges and awards that fit the style of your
+                                             troop.</p>
+                                         <a
+                                             className="btn button"
+                                             style={{
+                                             width: '100%'
+                                         }}>start adding Petals, Badges or Journeys</a>
+                                     </div>
+                                 </div>
 
-                        <div
-                            onClick={() => this.openTracks()}
-                            className="columns medium-24 large-12 _box_wrap">
-                            <div className="_box __tracks">
-                                <div className="__img "></div>
-                                <h3>Pre-selected Tracks</h3>
-                                <p>Not sure what to pick? These tracks get your troop Year Plan started and let
-                                    you add choices as well.</p>
-                                <a
-                                    className="btn button"
-                                    style={{
-                                    width: '100%'
-                                }}>view popular tracks</a>
-                            </div>
-                        </div>
-                        <br/><br/>
-                    </div>
-                </div>
+                                 <div
+                                     onClick={() => this.openTracks()}
+                                     className="columns medium-24 large-12 _box_wrap">
+                                     <div className="_box __tracks">
+                                         <div className="__img "></div>
+                                         <h3>Pre-selected Tracks</h3>
+                                         <p>Not sure what to pick? These tracks get your troop Year Plan started and let
+                                             you add choices as well.</p>
+                                         <a
+                                             className="btn button"
+                                             style={{
+                                             width: '100%'
+                                         }}>view popular tracks</a>
+                                     </div>
+                                 </div>
+                                 <br/><br/>
+                             </div>
+                         </div>
+                        :null}
+
+
 
                 <div
                     className={`_back_box_tracks ${ (this.state.showTracks)
