@@ -36,7 +36,7 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
         HttpSession session = request.getSession();
         String troopId = VtkUtil.getTroop(session).getId();
         int councilId = VtkUtil.getUser(session).getApiConfig().getUser().getAdminCouncilId();
-        String gsCurrentYear = VtkUtil.getUser(session).getCurrentYear();
+        int gsCurrentYear = VtkUtil.getCurrentGSYear();
         StringBuilder troopYpPath = new StringBuilder();
         troopYpPath.append("/vtk"+gsCurrentYear+"/"+councilId+"/troops/"+troopId+"/yearPlan");
         try{
