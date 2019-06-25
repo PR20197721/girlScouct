@@ -27,6 +27,9 @@
 .side-nav-el.parentEl.active .side-nav-wrapper a:hover{
     color: black;
 }
+.side-nav-el:not(.parentEl){
+    background: #bcbec0;
+}
 ul.off-canvas-list li a {
     color: black;
 }
