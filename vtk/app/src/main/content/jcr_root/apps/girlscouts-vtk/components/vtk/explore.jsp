@@ -5,12 +5,9 @@
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 
-<%
-  String troopId = VtkUtil.getTroop(session).getId();
-%>
 <div id="error-message"></div>
 <!--PAGE STRUCTURE: reset modal-->
-<div id="exploreResetRelogin" data-troop-id="<%= troopId %>"/>
+<div id="exploreResetRelogin" data-troop-id="<%= VtkUtil.getTroop(session).getId() %>"/>
  <div id="exploreModal" class="exploreReset">
 
    <!-- Modal content -->
