@@ -4,6 +4,8 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.settings.SlingSettingsService;
@@ -15,6 +17,8 @@ import javax.jcr.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @SlingServlet(
@@ -30,6 +34,9 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
     @Reference
     private transient SlingSettingsService settingsService;
 
+    @Reference
+    public ResourceResolverFactory resourceFactory;
+
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
             throws ServletException, IOException {
@@ -39,10 +46,21 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
         int gsCurrentYear = VtkUtil.getCurrentGSYear();
         StringBuilder troopYpPath = new StringBuilder();
         troopYpPath.append("/vtk"+gsCurrentYear+"/"+councilId+"/troops/"+troopId+"/yearPlan");
+        log.debug("YEAR PLAN TO DELETE: "+troopYpPath.toString());
         try{
             Node yearPlan = request.getResourceResolver().resolve(troopYpPath.toString()).adaptTo(Node.class);
             yearPlan.remove();
-            request.getResourceResolver().adaptTo(Session.class).save();
+            Map<String,Object> paramMap = new HashMap<String,Object>();
+            paramMap.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
+
+            ResourceResolver adminResolver = null;
+            try {
+                adminResolver = resourceFactory.getServiceResourceResolver(paramMap);
+            } catch (org.apache.sling.api.resource.LoginException e) {
+                log.error("Failed to get admin resolver: ",e);
+            }
+            adminResolver.adaptTo(Session.class).save();
+            adminResolver.close();
         }catch (Exception e){
             log.error("Failed to remove year plan for this troop: "+troopYpPath.toString()+" : ",e);
         }

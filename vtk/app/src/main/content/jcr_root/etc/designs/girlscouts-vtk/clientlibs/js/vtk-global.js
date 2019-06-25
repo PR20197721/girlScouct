@@ -427,7 +427,6 @@ $(function(){
          type: 'POST',
          success: function(result) {
             console.log("YEAR PLAN DELETED SUCCESSFULLY");
-            location.reload();
          },
          error: function(result){
              console.log("YEAR PLAN FAILED TO DELETE");
