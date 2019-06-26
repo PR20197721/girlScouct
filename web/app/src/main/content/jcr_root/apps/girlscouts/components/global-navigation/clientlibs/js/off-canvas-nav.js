@@ -56,7 +56,7 @@ $(document).ready(function(){
             $(this).closest(".side-nav-el").attr("id", "selected");
             $(this).closest("ul").children().each(function(){
                 if($(this).attr("id") !== "selected"){
-                    $(this).children(".menu-wrapper-el").children(".side-nav-expand-child").css({'transform' : 'rotate(0deg)'});
+                    $(this).children(".side-nav-wrapper").children(".side-nav-expand-child").css({'transform' : 'rotate(0deg)'});
                     $(this).children("ul").slideUp(400, function(){
                        var height = $("#left-canvas-menu").height();
                        if(height < window.innerHeight){

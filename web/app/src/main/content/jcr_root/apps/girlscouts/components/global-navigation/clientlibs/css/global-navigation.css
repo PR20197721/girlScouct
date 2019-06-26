@@ -64,6 +64,9 @@
 .side-nav-wrapper span.side-nav-expand:hover{
     font-weight: normal !important;
 }
+.side-nav-wrapper span.side-nav-expand-child:hover{
+    font-weight: normal !important;
+}
 .side-nav.search-bar li{
     border-right: none;
 }

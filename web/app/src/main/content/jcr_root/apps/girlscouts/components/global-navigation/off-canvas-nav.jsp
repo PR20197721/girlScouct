@@ -73,6 +73,8 @@
 					}
 				}
 			}
+			Page currPage = rr.resolve(path).adaptTo(Page.class);
+            boolean isParent = currPage != null && currPage.listChildren(new PageFilter()).hasNext();
 			boolean active = currentPath.startsWith(rePath(path, 4));
 			boolean parent = false;
 			boolean isPlaceholder;
@@ -99,7 +101,9 @@
 		     if(parent){
 		        if(isPlaceholder){
 		            String childPath = rr.resolve(path).adaptTo(Page.class).listChildren().next().getPath();
-		            sb.append("<div class='side-nav-wrapper'><a style='padding-left: 0px;' href=\"" + genLink(rr, childPath) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
+		            sb.append("<div class='side-nav-wrapper'><a style='padding-left: 0px;' href=\"" + genLink(rr, childPath) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
+		        }else if(isParent){
+		            sb.append("<div class='side-nav-wrapper'><a style='padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
 		        }else{
 		            sb.append("<div class='side-nav-wrapper'><a style='padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
 		        }
@@ -107,8 +111,10 @@
 		        Node nodePath = rr.resolve(path).adaptTo(Node.class);
 		        if(isPlaceholder){
 		            String childPath = rr.resolve(path).adaptTo(Page.class).listChildren().next().getPath();
-		            sb.append("<div class='side-nav-wrapper'><a href=\"" + genLink(rr, childPath) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
-		        }else{
+		            sb.append("<div class='side-nav-wrapper'><a href=\"" + genLink(rr, childPath) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
+		        }else if(isParent){
+                    sb.append("<div class='side-nav-wrapper'><a href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a><span class='side-nav-expand'>></span></div><hr>");
+                }else{
 		            sb.append("<div class='side-nav-wrapper'><a href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
 		        }
 
