@@ -98,14 +98,16 @@
 
 		     if(parent){
 		        if(isPlaceholder){
-		            sb.append("<div class='side-nav-wrapper'><span id='side-nav-active-parent' style='display: inline-block; padding-left: 0px; margin-left: 6px;' title=\"" + label + "\">" + label + "</span><span class='side-nav-expand'>></span></div><hr>");
+		            String childPath = rr.resolve(path).adaptTo(Page.class).listChildren().next().getPath();
+		            sb.append("<div class='side-nav-wrapper'><a style='padding-left: 0px;' href=\"" + genLink(rr, childPath) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
 		        }else{
 		            sb.append("<div class='side-nav-wrapper'><a style='padding-left: 0px;' href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
 		        }
 		     }else{
 		        Node nodePath = rr.resolve(path).adaptTo(Node.class);
 		        if(isPlaceholder){
-		            sb.append("<div class='side-nav-wrapper'><span style='display: inline-block;' title=\"" + label + "\">" + label + "</span><span class='side-nav-expand'>></span></div><hr>");
+		            String childPath = rr.resolve(path).adaptTo(Page.class).listChildren().next().getPath();
+		            sb.append("<div class='side-nav-wrapper'><a href=\"" + genLink(rr, childPath) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
 		        }else{
 		            sb.append("<div class='side-nav-wrapper'><a href=\"" + genLink(rr, path) + "\" title=\"" + label + "\">" + label + "</a></div><hr>");
 		        }
