@@ -17,6 +17,8 @@ import javax.jcr.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +38,8 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
 
     @Reference
     public ResourceResolverFactory resourceFactory;
+
+    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
@@ -57,7 +61,14 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
         }
         try{
             Node yearPlan = adminResolver.resolve(troopYpPath.toString()).adaptTo(Node.class);
-            yearPlan.remove();
+            LocalDateTime now = LocalDateTime.now();
+            String currentTime = dtf.format(now);
+            currentTime = currentTime.replaceAll("/", "-");
+            currentTime = currentTime.replaceAll(" ", "T");
+            currentTime = currentTime.replaceAll(":", "-");
+            String newPath = yearPlan.getPath()+"-" + currentTime;
+
+            adminResolver.adaptTo(Session.class).move(yearPlan.getPath(), newPath);
             adminResolver.adaptTo(Session.class).save();
             adminResolver.close();
         }catch (Exception e){
