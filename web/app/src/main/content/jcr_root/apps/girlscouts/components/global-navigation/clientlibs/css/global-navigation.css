@@ -4,6 +4,9 @@
 #headerBar{
     margin-top: 0;
 }
+#headerBar .global-navigation ul.inline-list{
+    margin-left: 50px;
+}
 .side-nav-el.active.current ul li{
     background-color: #bcbec0;
 }

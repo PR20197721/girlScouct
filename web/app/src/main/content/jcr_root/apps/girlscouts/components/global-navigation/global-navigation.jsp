@@ -186,7 +186,11 @@ if ((links == null || links.length == 0)) {
                    } catch (Exception e) {}
                 }
                 if (clazz.indexOf("hide-in-nav") < 0) { // If not hidden, create list element
-                    %><li data-link="<%=path%>" class="<%=hasChildren%><%=activeStatus%>">
+                  if( !displaySmall.get(i).equals("true")){ %>
+                      <li data-link="<%=path%>" class="<%=hasChildren%><%=activeStatus%> hide-for-small">
+                  <%}else{ %>
+                     <li data-link="<%=path%>" class="<%=hasChildren%><%=activeStatus%>">
+                  <%} %>
                         <a class="show-for-large-up menu <%=clazz%>" href="<%=path%>"><%=label%></a>
                         <a class="show-for-medium-only menu <%=clazz%>" href="<%=path%>"><%=mLabel%></a><%
                         if(displaySmall.get(i).equals("true")){%>
