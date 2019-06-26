@@ -247,9 +247,6 @@
         transition: 500ms;
         margin-left: 250px;
     }
-    #mobile-icons{
-        display: inline-block;
-    }
 }
 @media only screen and (min-width: 40.063em) {
     .left-off-canvas-menu.open{
@@ -264,9 +261,6 @@
     }
     .left-off-canvas-menu ul.off-canvas-list > li {
         border-right: solid 0.625rem #00ae58;
-    }
-    #mobile-icons{
-        display: none;
     }
 }
 .overlay{
