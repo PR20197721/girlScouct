@@ -11,27 +11,11 @@ declare var ________troopName________: string;
 
 export function getYearPlan() {
     const level: string = `${________app________}`;
-    let combinedData = {};
-    let index = 0;
-    var arr = level.split(",");
-    function request() {
-        return Axios.get(window.location.origin + '/content/vtkcontent/en/year-plan-library/' + arr[index] + '/_jcr_content/content/middle/par.1.json').then((data) => {
-            if(index == 0){
-                combinedData=data.data;
-            }else{
-                $.extend(combinedData, combinedData, data.data);
-            }
-            index++;
-            if (index >= arr.length) {
-                return 'done'
-            }
-            return request();
+    return Axios.get(
+        window.location.origin + '/content/vtkcontent/en/year-plan-library/' + level + '/_jcr_content/content/middle/par.1.json')
+        .then((data) => {
+            return parseJSONVTK(data.data)
         });
-    }
-    return request().then(() => {
-        console.log("combinedData="+combinedData);
-        return parseJSONVTK(combinedData);
-    });
 }
 
 export function getPDF() {

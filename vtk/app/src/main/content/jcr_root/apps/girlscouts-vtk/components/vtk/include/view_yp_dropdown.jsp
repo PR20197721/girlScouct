@@ -13,24 +13,24 @@
                 }
             }
         }
-        %>
-        <section class="grade-levels">
-            <div class="__padding">
-                <div class="columns small-22 medium-20 small-centered medium-centered" style="padding: 0px;">
-                    <ul>
-                        <li <%="daisy".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="daisy">Daisy</a></li>
-                        <li <%="brownie".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="brownie">Brownie</a></li>
-                        <li <%="junior".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="junior">Junior</a></li>
-                        <li <%="cadette".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="cadette" >Cadette</a></li>
-                        <li <%="senior".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="senior" >Senior</a></li>
-                        <li <%="ambassador".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="ambassador" >Ambassador</a></li>
-                        <li <%="multi-level".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="multi-level" >multi-level</a></li>
-                    </ul>
-                    <div style="clear: both"></div>
-                </div>
-            </div>
-        </section>
-        <%
+%>
+<section class="grade-levels">
+    <div class="__padding">
+        <div class="columns small-22 medium-20 small-centered medium-centered" style="padding: 0px;">
+            <ul>
+                <li <%="daisy".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="daisy">Daisy</a></li>
+                <li <%="brownie".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="brownie">Brownie</a></li>
+                <li <%="junior".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="junior">Junior</a></li>
+                <li <%="cadette".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="cadette" >Cadette</a></li>
+                <li <%="senior".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="senior" >Senior</a></li>
+                <li <%="ambassador".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="ambassador" >Ambassador</a></li>
+                <li <%="multi-level".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="multi-level" >multi-level</a></li>
+            </ul>
+            <div style="clear: both"></div>
+        </div>
+    </div>
+</section>
+<%
     }
 %>
 <section class="yp-wrapper">
@@ -43,23 +43,16 @@
     var ________isYearPlan________ = <%=selectedTroop.getYearPlan() != null %>;
     var ________troopName________ = "<%=selectedTroop.getSfTroopName() %>";
     function exploreSelectGradeLevel($el) {
+        var selectedGradeLevel = $el.data('grade-level');
         try{
             $("#explore-close-preview").click();
         }catch(error){
         }
-        if($el.parent().hasClass("selected")){
-            $el.parent().removeClass( "selected" );
-        }else{
-            $el.parent().addClass( "selected" );
-
-        }
-        var selectedGradeLevel = "";
-        var levelCount = 0;
         $( "li.grade-level" ).each(function( index ) {
-            if($(this).hasClass("selected")){
-                if(levelCount > 0){selectedGradeLevel += ","}
-                selectedGradeLevel += $(this).find('a').data('grade-level');
-                levelCount++;
+            if($(this).find('a').data('grade-level') == selectedGradeLevel){
+                $( this ).addClass( "selected" );
+            }else{
+                $( this ).removeClass( "selected" );
             }
         });
         $('#vtk-yp-main').data('level', selectedGradeLevel);
