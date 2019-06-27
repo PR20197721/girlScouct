@@ -141,6 +141,12 @@
 }
 #modal_upload_image{
     font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
+
+    #upload-tool .clearfix.btn-wrap .btn.button.imageCancel{
+        color: #18aa51;
+        background: white !important;
+        border: 1px solid #18aa51;
+    }
 }
 @media only screen and (min-width: 60.063em) {
 	#modal_upload_image {
