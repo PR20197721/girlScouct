@@ -313,8 +313,8 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
 
         let renderActions = () => (
             <div className="columns small-24 medium-10" style={{textAlign: 'center'}}>
-                <button onClick={() => this.closePreview()} className="btn button btn-line">CLOSE PREVIEW</button>
-                <button className={`btn button btn-default ${(________currentYearPlanName________ === this.state.meeting.name) ? ' selected inactive' : ''}`} onClick={() => {
+                <button id="explore-close-preview" onClick={() => this.closePreview()} className="btn button btn-line">CLOSE PREVIEW</button>
+                <button id="explore-select-track" className={`btn button btn-default ${(________currentYearPlanName________ === this.state.meeting.name) ? ' selected inactive' : ''}`} onClick={() => {
                     if (!(________currentYearPlanName________ === this.state.meeting.name)) {
                         selectPlan(this.state.track.split('###')[1], this.state.track.split('###')[0], this.store.bind(this))
                     }

@@ -68,6 +68,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
                 ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
                 if (!ocm.objectExists(object.getPath())) {
                     object.setCreatedDate(new GregorianCalendar());
+                    object.setLastModifiedDate(new GregorianCalendar());
                     String path = object.getPath();
                     String parentPath = path.substring(0, path.lastIndexOf("/"));
                     if (!session.itemExists(parentPath)) {

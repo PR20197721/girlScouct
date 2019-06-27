@@ -43,16 +43,23 @@
     var ________isYearPlan________ = <%=selectedTroop.getYearPlan() != null %>;
     var ________troopName________ = "<%=selectedTroop.getSfTroopName() %>";
     function exploreSelectGradeLevel($el) {
-        var selectedGradeLevel = $el.data('grade-level');
         try{
-            $("div.__meetings button.btn.button.btn-line").click();
+            $("#explore-close-preview").click();
         }catch(error){
         }
+        if($el.parent().hasClass("selected")){
+            $el.parent().removeClass( "selected" );
+        }else{
+            $el.parent().addClass( "selected" );
+
+        }
+        var selectedGradeLevel = "";
+        var levelCount = 0;
         $( "li.grade-level" ).each(function( index ) {
-            if($(this).find('a')[0].data('grade-level') == selectedGradeLevel){
-                $( this ).addClass( "selected" );
-            }else{
-                $( this ).removeClass( "selected" );
+            if($(this).hasClass("selected")){
+                if(levelCount > 0){selectedGradeLevel += ","}
+                selectedGradeLevel += $(this).find('a').data('grade-level');
+                levelCount++;
             }
         });
         $('#vtk-yp-main').data('level', selectedGradeLevel);
