@@ -13,9 +13,7 @@ export function getYearPlan() {
     const level: string = `${________app________}`;
     return Axios.get(
         window.location.origin + '/content/vtkcontent/en/year-plan-library/' + level + '/_jcr_content/content/middle/par.1.json')
-
         .then((data) => {
-
             return parseJSONVTK(data.data)
         });
 }
