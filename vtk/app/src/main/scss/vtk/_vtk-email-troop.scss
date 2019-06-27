@@ -43,7 +43,6 @@
 }
 .email-modal-header {
   padding: 2px 16px;
-  background-color: #00ae58;
   color: white;
   padding-bottom: 25px;
 }
@@ -106,7 +105,12 @@
   animation-name: animatetopEmail;
   animation-duration: 1s;
 }
-
+#emailCloseBtn{
+    font-size: 22px;
+    color: black;
+    margin-left: 14px;
+    cursor: pointer;
+}
 @keyframes animatetopEmail {
   from {
     top: -300px;
