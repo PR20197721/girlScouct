@@ -24,7 +24,7 @@
 			}
 		%>
 		</h3>
-		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
+		<a class="close-reveal-modal columns large-2" href="#"><span style="font-size: 24px; color: black; font-weight: normal;">X</span></a>
 	</div>
 
 	<div class="scroll content" style="">
