@@ -50,7 +50,7 @@
 	<div class="email-content">
           <div class="email-modal-header">
        		 <div class="vtk-email-news-button" onclick="cancelEmail()">
-                    <span id="emailCloseBtn">X<span>
+                    <span id="email-close-button">X<span>
               </div>
              <h3 class="emailHeader">Troop Email Content </br></h3>
       	  </div>

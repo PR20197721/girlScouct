@@ -63,9 +63,14 @@
 }
 .modal-header {
   padding: 2px 16px;
-  background-color: #00ae58;
-  color: white;
+  color: black;
   padding-bottom: 25px;
+}
+.email-close-button{
+    color: black;
+    font-size: 22px;
+    margin-left: 15px;
+    cursor: pointer;
 }
 
 .modal-body {
