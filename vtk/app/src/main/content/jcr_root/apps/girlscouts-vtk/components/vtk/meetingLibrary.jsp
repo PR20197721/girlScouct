@@ -72,7 +72,7 @@ meetings.addAll(extraInfoMeetings);
   
 
     </span>
-    <a class="columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
+    <a class="columns small-3" onclick="closeModalPage()"><span id="gsModalClose">X</span></a>
 
   </div>
 

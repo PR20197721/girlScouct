@@ -38,8 +38,7 @@ function toggleSection(section) {
 %>
 	<h3 class="columns small-21">MEETING date and locations</h3>
 	<a class="columns small-3"
-		href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>"><i
-		class="icon-button-circle-cross"></i></a>
+		href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>"><span id="gsModalClose">X</span></a>
 </div>
 <div class="scroll" style="max-height:601px">
 	<div class="tabs-wrapper">
