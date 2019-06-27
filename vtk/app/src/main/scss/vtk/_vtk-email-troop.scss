@@ -111,6 +111,11 @@
     margin-left: 14px;
     cursor: pointer;
 }
+#cancelEmail{
+    color: #18aa51;
+    background-color: white !important;
+    border: 1px solid #18aa51;
+}
 @keyframes animatetopEmail {
   from {
     top: -300px;
