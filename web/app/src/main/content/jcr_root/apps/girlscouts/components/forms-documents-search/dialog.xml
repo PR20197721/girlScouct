@@ -5,26 +5,44 @@
     <items
         jcr:primaryType="cq:Widget"
         xtype="tabpanel">
-        <items jcr:primaryType="cq:WidgetCollection">
-            <srch-location
-                jcr:primaryType="cq:Widget"
-                title="Search Path"
-                xtype="panel">
-                <items jcr:primaryType="cq:WidgetCollection">
-                    <srch-location
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription="The path where the forms will reside in DAM. (default: &quot;/content/dam/girlscouts-shared/en/documents&quot; if empty)"
-                        fieldLabel="Search Location in DAM"
-                        name="./srchLocation"
-                        xtype="pathfield"/>
-                    <form-document-path
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription="The root path of form pages in content.(default: current page, if empty)"
-                        fieldLabel="Form &amp; Document Content Location"
-                        name="./form-document-path"
-                        xtype="pathfield"/>
-                </items>
-            </srch-location>
-        </items>
+        <first
+            jcr:primaryType="nt:unstructured"
+            title="Title and Text"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <srch-location
+                    jcr:primaryType="cq:Widget"
+                    title="Search Path"
+                    xtype="panel">
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <srch-location
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="The path where the forms will reside in DAM. (default: &quot;/content/dam/girlscouts-shared/en/documents&quot; if empty)"
+                            fieldLabel="Search Location in DAM"
+                            name="./srchLocation"
+                            xtype="pathfield"/>
+                        <form-document-path
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="The root path of form pages in content.(default: current page, if empty)"
+                            fieldLabel="Form &amp; Document Content Location"
+                            name="./form-document-path"
+                            xtype="pathfield"/>
+                    </items>
+                </srch-location>
+            </items>
+        </first>
+        <second
+            jcr:primaryType="nt:unstructured"
+            title="Initial Values"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <multiValues
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Enter values in the form {value}={text}."
+                    fieldLabel="Items"
+                    name="./options"
+                    xtype="multifield"/>
+            </items>
+        </second>
     </items>
 </jcr:root>
