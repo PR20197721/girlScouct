@@ -18,7 +18,7 @@ int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
 <div> <!--  id="modal_report_detail" class="reveal-modal" data-reveal> -->
  <div class="header clearfix">
     <h3 class="columns large-22"><%=_troop.getSfTroopName() %> Detail View</h3>
-    <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
+    <a class="close-reveal-modal columns large-2" href="#"><span style="font-size: 24px; color: black; font-weight: normal;">X</span></a>
   </div>
   <div class="scroll">
     <div class="content">
