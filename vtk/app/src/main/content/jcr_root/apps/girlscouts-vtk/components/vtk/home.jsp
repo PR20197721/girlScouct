@@ -184,7 +184,7 @@ if(maintenanceNode != null){
                    <div class="maintenance-content">
                        <div class="modal-header">
                              <div class="vtk-maintenance-news-button">
-                                 <i class="icon-button-circle-cross"></i>
+                                 <span id="modal-close-button">X</span>
                            </div>
                           <div class="maintenanceHeader"><%= popupHeader %> </br></div>
                       </div>
