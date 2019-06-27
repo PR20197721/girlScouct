@@ -198,9 +198,9 @@ VtkMainYpState > {
                                         textAlign: 'center'
                                     }}>
                                         <div
-                                            className="btn button"
+                                            className="btn button btnCancel"
                                             style={{
-                                            width: '100%'
+                                            width: '100%', color: '#18aa51'
                                         }}
                                             onClick={() => {
                                             data
@@ -505,9 +505,11 @@ VtkMainYpState > {
 
                 </div>
                         <Gray />
-                        <VtkPopUp name="pop-select" title="SELECT YEAR PLAN">
-                            {renderChild(this.state)}
-                        </VtkPopUp>
+                        <div className="pop-explore">
+                            <VtkPopUp name="pop-select" title="SELECT YEAR PLAN">
+                                {renderChild(this.state)}
+                            </VtkPopUp>
+                        </div>
                     
             </div>
         )

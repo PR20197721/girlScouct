@@ -421,12 +421,13 @@ $(function(){
  function exploreResetClose(){
      $("#exploreModal").css('display', 'none');
  }
+
  function exploreResetConfirm(){
      $.ajax({
          url: '/content/girlscouts-vtk/service/reset-year-plan-servlet.html',
          type: 'POST',
          success: function(result) {
-            var elem = $("#exploreResetRelogin").attr("data-troop-id");
+            var elem = $("#reloginid").val();
             $.ajax({
                 url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
                 type: 'POST',
