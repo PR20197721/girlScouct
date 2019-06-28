@@ -18,12 +18,12 @@
         max-width: 900px;
         width: 900px;
         .__header {
-            background-color: #00ae58;
+            background-color: white;
             padding: 10px 8px;
-            color: white;
+            color: black;
             position: relative;
             h3 {
-                color: white;
+                color: black;
                 font-size: 20px;
                 margin: 0;
                 padding: 0;
@@ -33,6 +33,11 @@
                 position: absolute;
                 top: 9px;
                 right: 5px;
+            }
+            .modal-close-btn{
+                margin-top: -25px;
+                font-size: 20px;
+                margin-right: 7px;
             }
         }
         .__description {

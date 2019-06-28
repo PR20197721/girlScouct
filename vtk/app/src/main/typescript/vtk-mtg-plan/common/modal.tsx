@@ -107,7 +107,7 @@ class VtkModal extends React.PureComponent<VtkModalProps, any> {
 							<h3>
 								{this.props.modal.title}{" "}
 							</h3>
-							<i onClick={close} className="icon-button-circle-cross" />
+							<span className="modal-close-btn" onClick={close} >X</span>
 						</div>
 						<div className="__description" style={{height:(heigthLogic()-40)+'px'}}>
 							<div className="__scroll" dangerouslySetInnerHTML={{ __html: this.checkAgenda(this.props.modal.description) }} />
