@@ -65,7 +65,7 @@ request.setAttribute("meetings", meetings);
 
   <div class="header clearfix">
     <h3 class="columns large-22">CREATE your own year plan</h3>
-    <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
+    <a class="close-reveal-modal columns large-2" href="#"><span style="color: black; font-size: 22px; padding-right: 10px; font-weight: normal;">X</span></a>
   </div>
   <div class="scroll">
     <div class="content">
