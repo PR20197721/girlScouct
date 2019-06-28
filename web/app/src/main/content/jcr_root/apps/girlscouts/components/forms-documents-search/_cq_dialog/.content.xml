@@ -61,6 +61,13 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
+                            <multiSelection
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./customTagList"
+                                text="Custom Tag List"
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}false"/>
                             <multiValues
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/multifield"
@@ -68,8 +75,10 @@
                                     fieldLabel="Items">
                                 <field
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                        name="./options"/>
+                                        sling:resourceType="girlscouts/components/form/pathfield"
+                                        fieldLabel="Tags"
+                                        name="./options"
+                                        rootPath="/etc/tags"/>
                             </multiValues>
                         </items>
                     </columns>

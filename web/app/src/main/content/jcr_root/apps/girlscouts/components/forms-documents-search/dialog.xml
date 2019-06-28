@@ -36,6 +36,13 @@
             title="Initial Values"
             xtype="panel">
             <items jcr:primaryType="cq:WidgetCollection">
+                <multiSelection
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Custom Tag List"
+                        inputValue="false"
+                        name="./customTagList"
+                        type="checkbox"
+                        xtype="selection"/>
                 <multiValues
                     jcr:primaryType="cq:Widget"
                     fieldDescription="Enter values in the form {value}={text}."
