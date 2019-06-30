@@ -7,7 +7,25 @@ declare var ________app1________: string;
 declare var ________isYearPlan________: boolean;
 declare var ________currentYearPlanName________: string;
 declare var ________troopName________: string;
+declare var ________defaultGradeLevel________: string;
+declare var ________isSUM________: boolean;
+declare var ________isIRM________: boolean;
 
+export function getLevel() {
+    return ________app________;
+}
+
+export function setLevel(level:string) {
+    ________app________ = level;
+}
+
+export function isSUM() {
+    return ________isSUM________;
+}
+
+export function isIRM() {
+    return ________isIRM________;
+}
 
 export function getYearPlan() {
     const level: string = `${________app________}`;

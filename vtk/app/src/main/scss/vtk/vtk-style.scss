@@ -2907,32 +2907,54 @@ input[type="file"] {
   margin-top: -1px;
 }
 
-section.grade-levels{
+section.grade-levels {
   margin: 0 !important;
 }
 
-.grade-levels ul li.grade-level.selected, .grade-levels ul li.grade-level:hover {
-  background-color: #18aa51 !important;
+.grade-levels ul li.grade-level.daisy {
+  background-color: #00AAE5 !important;
 }
-.grade-levels ul li.grade-level{
+.grade-levels ul li.grade-level.brownie {
+  background-color: #854400 !important;
+}
+.grade-levels ul li.grade-level.junior {
+  background-color: #6E298C !important;
+}
+.grade-levels ul li.grade-level.cadette {
+  background-color: #EE2123 !important;
+}
+.grade-levels ul li.grade-level.senior {
+  background-color: #F36F21 !important;
+}
+.grade-levels ul li.grade-level.ambassador {
+  background-color: #FAA519 !important;
+}
+.grade-levels ul li.grade-level.multi-level {
+  background-color: #D5C99E !important;
+}
+
+.grade-levels ul li.grade-level {
   display: block;
   text-align: center;
-  border: 1px solid #18aa51 !important;
   float: left;
-  margin: 0 2px !important;
+  margin: 0 1px 5px 0 !important;
 }
 
-.grade-levels ul li.grade-level a{
+.grade-levels ul li.grade-level.selected, .grade-levels ul li.grade-level:hover {
+  border-bottom: 5px solid #00ae58;
+  margin-bottom: 0px !important;
+}
+
+.grade-levels ul li.grade-level a {
   display: block;
   font-family: "Open Sans", Arial, sans-serif;
-  font-size: 0.8rem !important;
+  font-size: 14px !important;
   font-weight: normal !important;
-  text-transform: uppercase;
-  padding: 5px 0px!important;
-  color: #18aa51;
-  width: 108px;
+  padding: 5px 0px !important;
+  color: white;
+  width: 110px;
 }
 
-.grade-levels ul li.grade-level.selected a,.grade-levels ul li.grade-level a:hover{
+.grade-levels ul li.grade-level.selected a, .grade-levels ul li.grade-level a:hover {
   color: white;
 }

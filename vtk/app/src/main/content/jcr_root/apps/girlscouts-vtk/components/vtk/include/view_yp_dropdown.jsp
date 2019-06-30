@@ -14,22 +14,31 @@
             }
         }
 %>
+<%--
 <section class="grade-levels">
     <div class="__padding">
         <div class="columns small-22 medium-20 small-centered medium-centered" style="padding: 0px;">
+            <div class="row">
+                <div class="small-24  columns">
+                    <p style="margin-bottom: 30px;">Select a level you would like to see.</p>
+                </div>
+            </div>
+        </div>
+        <div class="columns small-22 medium-20 small-centered medium-centered" style="padding: 0px;">
             <ul>
-                <li <%="daisy".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="daisy">Daisy</a></li>
-                <li <%="brownie".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="brownie">Brownie</a></li>
-                <li <%="junior".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="junior">Junior</a></li>
-                <li <%="cadette".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="cadette" >Cadette</a></li>
-                <li <%="senior".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="senior" >Senior</a></li>
-                <li <%="ambassador".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="ambassador" >Ambassador</a></li>
-                <li <%="multi-level".equals(level)? " class=\"grade-level selected\"": "class=\"grade-level\""%>><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="multi-level" >multi-level</a></li>
+                <li class="grade-level daisy<%="daisy".equals(level)? " selected": ""%>"><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="daisy">Daisy</a></li>
+                <li class="grade-level brownie<%="brownie".equals(level)? " selected": ""%>"><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="brownie">Brownie</a></li>
+                <li class="grade-level junior<%="junior".equals(level)? " selected": ""%>"><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="junior">Junior</a></li>
+                <li class="grade-level cadette<%="cadette".equals(level)? " selected": ""%>"><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="cadette" >Cadette</a></li>
+                <li class="grade-level senior<%="senior".equals(level)? " selected": ""%>"><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="senior" >Senior</a></li>
+                <li class="grade-level ambassador<%="ambassador".equals(level)? " selected": ""%>"><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="ambassador" >Ambassador</a></li>
+                <li class="grade-level multi-level<%="multi-level".equals(level)? " selected": ""%>"><a onclick="exploreSelectGradeLevel($(this))" data-grade-level="multi-level" >Multi-level</a></li>
             </ul>
             <div style="clear: both"></div>
         </div>
     </div>
 </section>
+--%>
 <%
     }
 %>
@@ -42,6 +51,9 @@
     var ________currentYearPlanName________ = "<%=selectedTroop.getYearPlan()!=null ? selectedTroop.getYearPlan().getName() : "" %>";
     var ________isYearPlan________ = <%=selectedTroop.getYearPlan() != null %>;
     var ________troopName________ = "<%=selectedTroop.getSfTroopName() %>";
+    var ________defaultGradeLevel________ = "<%=level %>";
+    var ________isSUM________ = "<%="SUM".equals(selectedTroop.getCouncilCode()) %>";
+    var ________isIRM________ = "<%= (selectedTroop.getParticipationCode() != null && "IRM".equals(selectedTroop.getParticipationCode())) %>";
     function exploreSelectGradeLevel($el) {
         var selectedGradeLevel = $el.data('grade-level');
         try{

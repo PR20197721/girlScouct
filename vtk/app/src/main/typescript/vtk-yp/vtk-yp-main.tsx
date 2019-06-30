@@ -107,7 +107,9 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
 
 
     scrollto() { //NOP
-        $('html, body').animate({scrollTop: document.getElementsByClassName('__meetings')[0].getBoundingClientRect().top + window.scrollY}, 'slow');
+        if($('.__meetings').length) {
+            $('html, body').animate({scrollTop: document.getElementsByClassName('__meetings')[0].getBoundingClientRect().top + window.scrollY}, 'slow');
+        }
     }
 
     showPreview(props) {
