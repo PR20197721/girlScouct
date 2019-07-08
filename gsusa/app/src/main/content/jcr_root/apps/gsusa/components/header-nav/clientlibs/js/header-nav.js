@@ -14,7 +14,11 @@ $(document).ready(function(){
             $(".left-off-canvas-menu").removeClass("closed");
             $(".exit-off-canvas-el").addClass("overlay");
             $(".left-off-canvas-menu").addClass("open");
-            $(".main-section").css("height", $("#left-canvas-menu").css("height"));
+            var height = $("#left-canvas-menu").height();
+            if(height < window.innerHeight){
+                height = window.innerHeight;
+            }
+            $(".main-section").css("height", height);
             $(".main-section").css("overflow", "hidden");
         }else{
             $(".left-off-canvas-menu").removeClass("open");

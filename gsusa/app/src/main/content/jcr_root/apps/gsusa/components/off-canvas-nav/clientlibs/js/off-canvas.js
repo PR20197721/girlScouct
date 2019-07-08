@@ -17,7 +17,11 @@ $(document).ready(function(){
                 if($(this).attr("id") !== "selected"){
                     $(this).find(".side-nav-expand").css({'transform' : 'rotate(0deg)'});
                     $(this).children("ul").slideUp(400, function(){
-                        $(".main-section").css("height", $("#left-canvas-menu").css("height"));
+                        var height = $("#left-canvas-menu").height();
+                        if(height < window.innerHeight){
+                            height = window.innerHeight;
+                        }
+                        $(".main-section").css("height", height);
                         $(".main-section").css("overflow", "hidden");
                     });
                 }
@@ -28,7 +32,11 @@ $(document).ready(function(){
             $(this).parent().parent().removeAttr("id");
             $(this).parent().find(".side-nav-expand").css({'transform' : 'rotate(90deg)'});
             $(this).parent().parent().children("ul").slideDown(400, function(){
-               $(".main-section").css("height", $("#left-canvas-menu").css("height"));
+               var height = $("#left-canvas-menu").height();
+               if(height < window.innerHeight){
+                   height = window.innerHeight;
+               }
+               $(".main-section").css("height", height);
                $(".main-section").css("overflow", "hidden");
                $(this).clearQueue();
                $(this).stop();
@@ -36,7 +44,11 @@ $(document).ready(function(){
         }else{
             $(this).parent().find(".side-nav-expand").css({'transform' : 'rotate(0deg)'});
             $(this).parent().parent().children("ul").slideUp(400, function(){
-               $(".main-section").css("height", $("#left-canvas-menu").css("height"));
+              var height = $("#left-canvas-menu").height();
+              if(height < window.innerHeight){
+                  height = window.innerHeight;
+              }
+              $(".main-section").css("height", height);
                $(".main-section").css("overflow", "hidden");
             });
         }
@@ -49,7 +61,11 @@ $(document).ready(function(){
                 if($(this).attr("id") !== "selected"){
                     $(this).children(".menu-wrapper-el").children(".side-nav-expand-child").css({'transform' : 'rotate(0deg)'});
                     $(this).children("ul").slideUp(400, function(){
-                        $(".main-section").css("height", $("#left-canvas-menu").css("height"));
+                        var height = $("#left-canvas-menu").height();
+                        if(height < window.innerHeight){
+                            height = window.innerHeight;
+                        }
+                        $(".main-section").css("height", height);
                         $(".main-section").css("overflow", "hidden");
                     });
                 }
@@ -57,13 +73,21 @@ $(document).ready(function(){
             $(this).closest(".side-nav-el").removeAttr("id");
             $(this).css({'transform' : 'rotate(90deg)'});
             $(this).closest(".side-nav-el").children("ul").slideDown(400, function(){
-                $(".main-section").css("height", $("#left-canvas-menu").css("height"));
-                $(".main-section").css("overflow", "hidden");
+               var height = $("#left-canvas-menu").height();
+               if(height < window.innerHeight){
+                   height = window.innerHeight;
+               }
+               $(".main-section").css("height", height);
+               $(".main-section").css("overflow", "hidden");
             });
         }else{
             $(this).css({'transform' : 'rotate(0deg)'});
             $(this).closest(".side-nav-el").children("ul").slideUp(400, function(){
-                $(".main-section").css("height", $("#left-canvas-menu").css("height"));
+                var height = $("#left-canvas-menu").height();
+                if(height < window.innerHeight){
+                    height = window.innerHeight;
+                }
+                $(".main-section").css("height", height);
                 $(".main-section").css("overflow", "hidden");
             });
         }
