@@ -105,15 +105,11 @@
                         <intro
                             jcr:primaryType="nt:unstructured"
                             text="Intro/Family Meeting"
-                            value="Intro"/>
+                            value="Intro/Family_Meeting"/>
                         <closing
                             jcr:primaryType="nt:unstructured"
                             text="Closing/Bridging"
-                            value="Closing"/>
-                        <bridging
-                            jcr:primaryType="nt:unstructured"
-                            text="Bridging"
-                            value="Bridging"/>
+                            value="Closing/Bridging"/>
                         <JourneyDaisiesJuniors
                             jcr:primaryType="nt:unstructured"
                             text="Journey: Daisies - Juniors"
@@ -1357,15 +1353,11 @@
                         <intro
                             jcr:primaryType="nt:unstructured"
                             text="Intro/Family Meeting"
-                            value="Intro"/>
+                            value="Intro/Family_Meeting"/>
                         <closing
                             jcr:primaryType="nt:unstructured"
                             text="Closing/Bridging"
-                            value="Closing"/>
-                        <bridging
-                            jcr:primaryType="nt:unstructured"
-                            text="Bridging"
-                            value="Bridging"/>
+                            value="Closing/Bridging"/>
                         <JourneyDaisiesJuniors
                             jcr:primaryType="nt:unstructured"
                             text="Journey: Daisies - Juniors"
