@@ -104,11 +104,11 @@
                             value="Award_Earning"/>
                         <intro
                             jcr:primaryType="nt:unstructured"
-                            text="Intro"
+                            text="Intro/Family Meeting"
                             value="Intro"/>
                         <closing
                             jcr:primaryType="nt:unstructured"
-                            text="Closing"
+                            text="Closing/Bridging"
                             value="Closing"/>
                         <bridging
                             jcr:primaryType="nt:unstructured"
@@ -1356,11 +1356,11 @@
                             value="Award_Earning"/>
                         <intro
                             jcr:primaryType="nt:unstructured"
-                            text="Intro"
+                            text="Intro/Family Meeting"
                             value="Intro"/>
                         <closing
                             jcr:primaryType="nt:unstructured"
-                            text="Closing"
+                            text="Closing/Bridging"
                             value="Closing"/>
                         <bridging
                             jcr:primaryType="nt:unstructured"
