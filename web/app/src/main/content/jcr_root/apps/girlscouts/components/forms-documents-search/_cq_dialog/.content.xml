@@ -67,7 +67,7 @@
                                 name="./customTagList"
                                 text="Custom Tag List"
                                 uncheckedValue="{Boolean}false"
-                                value="{Boolean}false"/>
+                                value="{Boolean}true"/>
                             <multiValues
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/multifield"

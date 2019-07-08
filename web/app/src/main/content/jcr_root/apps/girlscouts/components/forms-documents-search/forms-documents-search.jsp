@@ -66,17 +66,15 @@ Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequ
 List<FacetsInfo> fdocs = facetsAndTags.get("forms_documents");
 String customTagList = properties.get("customTagList", String.class);
 String[] optionsList = properties.get("options", String[].class);
-//String[] optionsList = optionsString.split(",");
 
-if (true){//customTagList.equals( "true")){
+if (customTagList != null && customTagList.equals("true") && optionsList != null){
     List<FacetsInfo> newFDocs = new ArrayList<FacetsInfo>();
     for (int optionCounter=0; optionCounter<optionsList.length; optionCounter++){
         Node tagNode = resourceResolver.resolve(optionsList[optionCounter]).adaptTo(Node.class);
-        String optionTitle = tagNode.getProperty("jcr:title").getString();
-        %><h1><%=tagNode.getProperty("jcr:title").getString()%></h1><%
+        String tagTitle = tagNode.getProperty("jcr:title").getString();
         for (int facetCounter = 0; facetCounter<fdocs.size(); facetCounter++){
             FacetsInfo currentFacet = (FacetsInfo)fdocs.get(facetCounter);
-            if (currentFacet.getFacetsTitle().equals(optionTitle)){
+            if (currentFacet.getFacetsTitle().equals(tagTitle)){
                 newFDocs.add(currentFacet);
            }
         }
