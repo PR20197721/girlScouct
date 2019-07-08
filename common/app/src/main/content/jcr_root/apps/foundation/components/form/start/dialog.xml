@@ -42,6 +42,7 @@
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Action Type"
                             name="./actionType"
+                            rootPath="/content/usergenerated"
                             xtype="formactionselection"/>
                         <formid
                             jcr:primaryType="cq:Widget"
