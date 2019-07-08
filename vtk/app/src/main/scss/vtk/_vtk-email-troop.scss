@@ -43,7 +43,6 @@
 }
 .email-modal-header {
   padding: 2px 16px;
-  background-color: #00ae58;
   color: white;
   padding-bottom: 25px;
 }
@@ -58,6 +57,9 @@
   padding: 2px 16px;
   text-align: right;
   padding-bottom: 10px;
+}
+.email{
+    font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif !important;
 }
 .email input[type="checkbox"] {
   display: none;
@@ -106,7 +108,17 @@
   animation-name: animatetopEmail;
   animation-duration: 1s;
 }
-
+#email-close-button{
+    font-size: 22px;
+    color: black;
+    margin-left: 14px;
+    cursor: pointer;
+}
+#cancelEmail{
+    color: #18aa51;
+    background-color: white !important;
+    border: 1px solid #18aa51;
+}
 @keyframes animatetopEmail {
   from {
     top: -300px;

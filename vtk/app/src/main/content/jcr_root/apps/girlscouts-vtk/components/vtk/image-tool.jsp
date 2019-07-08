@@ -20,7 +20,7 @@ var uploadTool, croppingTool, currentDisplay, uploadButtons;
 var cancelButton = document.createElement("Button");
 var cancelText = document.createTextNode("Cancel");
     cancelButton.appendChild(cancelText);
-    cancelButton.className = "btn button";
+    cancelButton.className = "btn button imageCancel";
     cancelButton.style.float = "right";
     
 var instructions = document.getElementById("instructions");

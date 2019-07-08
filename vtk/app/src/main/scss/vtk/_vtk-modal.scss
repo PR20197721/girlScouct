@@ -23,16 +23,18 @@
     min-height: 200px;
     background-color: white;
     box-shadow: 0 0 10px 0 #333;
+
     z-index: 5010;
     margin: 0 auto;
 
     .vtk-js-modal_head {
-        background-color: $green_light;
+        background-color: white;
         height: 40px;
+        font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif !important;
         width: inherit;
 
         .vtk-js-modal_title {
-            color: white;
+            color: black;
             padding: 10px 10px 5px;
             width: 99%;
             height: 20px;
@@ -49,6 +51,7 @@
             right: 26px;
             color: white;
             cursor: pointer;
+
         }
 
         .vtk-js-modal-x {
@@ -56,10 +59,15 @@
             // height: 10px;
             // padding: 10px 10px 5px;
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 1px;
+            right: 9px;
             color: white;
             cursor: pointer;
+            .vtk-js-modal-x-icon{
+                color: black;
+                font-size: 20px;
+                font-weight: normal;
+            }
         }
 
     }

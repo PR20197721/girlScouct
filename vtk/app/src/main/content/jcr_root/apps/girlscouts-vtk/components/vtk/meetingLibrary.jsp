@@ -72,7 +72,7 @@ meetings.addAll(extraInfoMeetings);
   
 
     </span>
-    <a class="columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
+    <a class="columns small-3" onclick="closeModalPage()"><span id="gsModalClose">X</span></a>
 
   </div>
 
@@ -426,7 +426,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 		<div class="list-of-buttons column small-22 small-centered" style="padding-left:0;">
 			<div class="row">
 				<div id="vtk-meeting-group-button" class="column small-24" style="padding:25px 0 25px 0;">
-					<div id="vtk-meeting-group-button_cancel" class="button tiny ">CANCEL</div>
+					<div id="vtk-meeting-group-button_cancel" onclick="closeModalPage()" class="button tiny ">CANCEL</div>
 					<div id="vtk-meeting-group-button_ok" class="button tiny disabled " >VIEW LIST</div>
 				</div>
 			</div>
