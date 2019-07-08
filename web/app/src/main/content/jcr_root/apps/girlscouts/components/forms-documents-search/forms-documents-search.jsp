@@ -63,6 +63,28 @@ if (suffix != null) {
 }
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
 Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
+List<FacetsInfo> fdocs = facetsAndTags.get("forms_documents");
+String customTagList = properties.get("customTagList", String.class);
+String[] optionsList = properties.get("options", String[].class);
+//String[] optionsList = optionsString.split(",");
+
+if (true){//customTagList.equals( "true")){
+    List<FacetsInfo> newFDocs = new ArrayList<FacetsInfo>();
+    for (int optionCounter=0; optionCounter<optionsList.length; optionCounter++){
+        Node tagNode = resourceResolver.resolve(optionsList[optionCounter]).adaptTo(Node.class);
+        String optionTitle = tagNode.getProperty("jcr:title").getString();
+        %><h1><%=tagNode.getProperty("jcr:title").getString()%></h1><%
+        for (int facetCounter = 0; facetCounter<fdocs.size(); facetCounter++){
+            FacetsInfo currentFacet = (FacetsInfo)fdocs.get(facetCounter);
+            if (currentFacet.getFacetsTitle().equals(optionTitle)){
+                newFDocs.add(currentFacet);
+           }
+        }
+    }
+    fdocs = newFDocs;
+} else {
+
+}
 %>
 <div class="expandable">
 	<div class="programLevel">
@@ -84,7 +106,6 @@ Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequ
 	            <div id="title">Categories</div>
 	            <ul class="checkbox-grid small-block-grid-1 medium-block-grid-1 large-block-grid-2">
 					<%
-					List<FacetsInfo> fdocs = facetsAndTags.get("forms_documents");
 					// Here if we don't have forms_document page shouldn't blow-up
 					try {
 					    for(int pi=0; pi<fdocs.size(); pi++){
