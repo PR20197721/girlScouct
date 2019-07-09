@@ -28,12 +28,22 @@
 <div class="header-wrapper row collapse hide-for-print" <% if(!headerImagePath.equals("") && headerImagePath != null){ %> style="background-image: url('<%= headerImagePath%>')" <%}%> >
 	<div class='columns'>
   		<div id="header" class="row">
-	    		<div class="large-6 medium-9 columns">
+  		        <% if(!isVtk){ %>
+                    <div class="large-6 medium-9 columns web">
+                <% }else{ %>
+                    <div class="large-6 medium-9 columns">
+                <% } %>
+
 	      			<cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
 	      			<%-- TODO: Mike Z. This is an empty <div> that fixes the green box on Chrome. Temp solution. --%>
 	      			<cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
 	    		</div>
-    			<div class="large-18 medium-15 hide-for-small columns topMessage">
+	    		<% if(!isVtk){ %>
+                    <div class="large-18 medium-15 hide-for-small hide-for-medium columns topMessage">
+                <% }else{ %>
+                    <div class="large-18 medium-15 hide-for-small columns topMessage">
+                <% } %>
+
 	      			<%/*setCssClasses("columns noLeftPadding" , request); */%>
 	      			<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
 	      			<div class="row collapse">
@@ -70,6 +80,8 @@
                 <% } %>
   		</div>
   		<% if(!isVtk){ %>
+  		    <% setCssClasses("small-19 columns", request); %>
+            <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
             <div id="mobileSearchBar"class="row srch-box collapse">
                 <cq:include script="/apps/girlscouts/components/search-box/mobile.jsp" />
             </div>
@@ -77,16 +89,10 @@
   		<!--PAGE STRUCTURE: HEADER BAR-->
   		<div id="headerBar" class="row collapse">
             <% if(!isVtk){ %>
-                <% setCssClasses("small-19 columns", request); %>
-                <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+
             <% } %>
     		<% setCssClasses("medium-23 small-24 columns", request); %>
     		<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
-    		<% if(!isVtk){ %>
-                <div id="mediumViewToggle" class="small-search-hamburger show-for-medium medium-1 columns">
-                    <a class="show-for-medium side-nav-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="19" height="28" alt="side menu icon"></a>
-                </div>
-    		<% } %>
   		</div>
 
 	</div>

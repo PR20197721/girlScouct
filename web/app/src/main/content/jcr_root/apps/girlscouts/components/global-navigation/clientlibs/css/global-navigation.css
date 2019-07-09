@@ -15,13 +15,14 @@
     color: #FFF;
     font-weight: 600;
     z-index: 1001;
+    margin-top: -30px;
 }
 .login.small-19.columns a{
      position: absolute;
      color: #FFF;
      font-weight: 600;
      font-size: 0.875rem;
-     padding-top: 7px;
+     padding-top: wpx;
      padding-left: 5px;
  }
  .login.small-19.columns a:hover{
