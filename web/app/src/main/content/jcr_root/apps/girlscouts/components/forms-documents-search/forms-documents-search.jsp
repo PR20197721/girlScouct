@@ -65,16 +65,17 @@ FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class
 
 List<FacetsInfo> fdocs;
 
-String useCustomTagList = properties.get("useCustomTagList", String.class);
+boolean useCustomTagList = properties.get("useCustomTagList", false);
 String[] tagList = properties.get("tagList", String[].class);
 
-
-if (useCustomTagList != null && useCustomTagList.equals("true") && tagList != null){
-    fdocs = formsDocuImpl.loadFacetsFromList(slingRequest, tagList);
-} else {
-    Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
-    fdocs = facetsAndTags.get("forms_documents");
-}
+try{
+    if (useCustomTagList && tagList != null){
+        fdocs = formsDocuImpl.loadFacetsFromList(slingRequest, tagList);
+    } else {
+        Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
+        fdocs = facetsAndTags.get("forms_documents");
+    }
+} catch(Exception e){}
 %>
 <div class="expandable">
 	<div class="programLevel">

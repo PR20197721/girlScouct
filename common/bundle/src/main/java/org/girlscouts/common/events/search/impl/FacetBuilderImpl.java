@@ -78,10 +78,10 @@ public class FacetBuilderImpl implements FacetBuilder{
 		return facets;
 	}
 
-	public FacetsInfo getFacet(SlingHttpServletRequest slingRequest, String FACET_PATH){
+	public FacetsInfo getFacet(SlingHttpServletRequest slingRequest, String path){
 		ResourceResolver resourceResolver = slingRequest.getResourceResolver();
 		TagManager tagManager =resourceResolver.adaptTo(TagManager.class);
-		Tag tag = tagManager.resolve(FACET_PATH);
+		Tag tag = tagManager.resolve(path);
 		if (tag != null) {
 			FacetsInfo facet = new FacetsInfo(tag.getTitle(), tag.getTagID(), false, 0L);
 			return facet;
