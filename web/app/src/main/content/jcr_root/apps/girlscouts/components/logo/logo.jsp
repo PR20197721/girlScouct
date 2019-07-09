@@ -38,7 +38,7 @@
 	%>
 	<nav class="column large-24 medium-24 logo-section">
 	<% if (!isVtk) { %>
-	<div id="mobile-icons" style="margin-top: 25px;float: left;padding-bottom: 10px;">
+	<div id="mobile-icons" style="margin-top: 15px;float: left;padding-bottom: 10px;">
 	    <span id="menuIcon"class="mobileIcons">
             <a class="side-nav-toggle menu-icon" role="button" ><span></span></a>
         </span>
