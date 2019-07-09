@@ -86,12 +86,10 @@
 	} else {
 		String level = resource.getParent().getName();
 		String popupTitle = "";
-		if ("daisy".equals(level)) {
-			popupTitle = "Daisy Petal, Badge, and Journey Resources";
-		} else if ("multi-level".equals(level)){
-			popupTitle = "Multi-Level Badge and Journey Resources";
+		if ("multi-level".equals(level)){
+			popupTitle = "Multi-Level Meetings & Requirements";
 		} else if (level != null && level.length() > 0){
-			popupTitle = level.substring(0, 1).toUpperCase() + level.substring(1) + " Badge and Journey Resources";
+			popupTitle = level.substring(0, 1).toUpperCase() + level.substring(1) + " Meetings & Requirements";
 		}%>
 		<div class="header clearfix">
 			<h3 class="columns small-21"><%= popupTitle %></h3>
