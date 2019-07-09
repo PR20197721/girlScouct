@@ -11,5 +11,5 @@ import com.day.cq.search.QueryBuilder;
 
 public interface FacetBuilder{
 	Map<String, List<FacetsInfo>> getFacets(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String FACETS_PATH);
-	FacetsInfo getFacet(SlingHttpServletRequest slingRequest, String FACET_PATH);
+	FacetsInfo getFacet(SlingHttpServletRequest slingRequest, String path);
 }
