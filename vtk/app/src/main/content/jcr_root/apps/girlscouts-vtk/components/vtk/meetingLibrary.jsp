@@ -456,7 +456,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			z-index:1001;
 			overflow: hidden;">
 			<div class="vtk-float-submit">
-				<input class="button tiny" type="button" value="CANCEL" onclick="closeModal()"/>
+				<input style = "color: #18AA5E; background: white !important; border: solid 1px #18AA5E;" class="button tiny" type="button" value="CANCEL" onclick="closeModal()"/>
 				<%if(request.getParameter("isReplaceMeeting")==null){%>
 				<input class="button tiny inactive-button clear-meeting-filter-result" type="button" value="CLEAR SELECTED MEETINGS" />
 				<%if( request.getParameter("newCustYr")!=null){ %>
