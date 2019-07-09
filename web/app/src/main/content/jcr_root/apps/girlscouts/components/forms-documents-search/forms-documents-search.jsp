@@ -62,30 +62,30 @@ if (suffix != null) {
     thisIsAdvanced = true;
 }
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
-Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
-List<FacetsInfo> fdocs = facetsAndTags.get("forms_documents");
+
+List<FacetsInfo> fdocs;
+
 String useCustomTagList = properties.get("useCustomTagList", String.class);
 String[] tagList = properties.get("tagList", String[].class);
 
-try {
-    if (useCustomTagList != null && useCustomTagList.equals("true") && tagList != null){
-        List<FacetsInfo> newFDocs = new ArrayList<FacetsInfo>();
-        for (int tagListCounter=0; tagListCounter<tagList.length; tagListCounter++){
-            Node tagNode = resourceResolver.resolve(tagList[tagListCounter]).adaptTo(Node.class);
-            String tagTitle = tagNode.getProperty("jcr:title").getString();
-            for (int facetCounter = 0; facetCounter<fdocs.size(); facetCounter++){
-                FacetsInfo currentFacet = (FacetsInfo)fdocs.get(facetCounter);
-                if (currentFacet.getFacetsTitle().equals(tagTitle)){
-                    newFDocs.add(currentFacet);
-               }
-            }
-        }
-        fdocs = newFDocs;
-    } else {
 
+if (useCustomTagList != null && useCustomTagList.equals("true") && tagList != null){
+    fdocs=formsDocuImpl.loadFacetsFromList(slingRequest, tagList);
+    /*List<FacetsInfo> newFDocs = new ArrayList<FacetsInfo>();
+    for (int tagListCounter=0; tagListCounter<tagList.length; tagListCounter++){
+        Node tagNode = resourceResolver.resolve(tagList[tagListCounter]).adaptTo(Node.class);
+        String tagTitle = tagNode.getProperty("jcr:title").getString();
+        for (int facetCounter = 0; facetCounter<fdocs.size(); facetCounter++){
+            FacetsInfo currentFacet = (FacetsInfo)fdocs.get(facetCounter);
+            if (currentFacet.getFacetsTitle().equals(tagTitle)){
+                newFDocs.add(currentFacet);
+           }
+        }
     }
-} catch(Exception e){
-    log.error(e.getMessage());
+    fdocs = newFDocs;*/
+} else {
+    Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
+    fdocs = facetsAndTags.get("forms_documents");
 }
 %>
 <div class="expandable">
