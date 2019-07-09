@@ -194,7 +194,7 @@ if ((links == null || links.length == 0)) {
                         <a class="show-for-large-up menu <%=clazz%>" href="<%=path%>"><%=label%></a><%
 
                         if(displaySmall.get(i).equals("true")){%>
-                            <a class="show-for-medium-only menu <%=clazz%>" href="<%=path%>"><%=mLabel%></a>
+                            <a style="font-size:19px;" class="show-for-medium-only menu <%=clazz%>" href="<%=path%>"><%=mLabel%></a>
                             <a class="show-for-small-only menu <%=clazz%>" href="<%=path%>"><%=sLabel%></a><%
                         }
                         try {
