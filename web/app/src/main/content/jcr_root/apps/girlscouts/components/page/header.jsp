@@ -83,7 +83,7 @@
     		<% setCssClasses("medium-23 small-24 columns", request); %>
     		<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
     		<% if(!isVtk){ %>
-                <div class="small-search-hamburger show-for-medium medium-1 columns">
+                <div id="mediumViewToggle" class="small-search-hamburger show-for-medium medium-1 columns">
                     <a class="show-for-medium side-nav-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="19" height="28" alt="side menu icon"></a>
                 </div>
     		<% } %>

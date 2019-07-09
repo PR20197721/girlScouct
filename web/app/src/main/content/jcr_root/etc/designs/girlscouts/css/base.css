@@ -475,6 +475,10 @@ a:hover.menuHighlight {
   right: 0;
   height: 100%;
 }
+#headerBar #mediumViewToggle {
+  left: 9px;
+  margin-top: -1px;
+}
 #headerBar .small-search-hamburger.show-for-medium > a {
 	position: absolute;
     top: 50%;
