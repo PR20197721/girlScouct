@@ -64,8 +64,8 @@
                             <multiSelection
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                name="./customTagList"
-                                text="Custom Tag List"
+                                name="./useCustomTagList"
+                                text="Use Custom Tag List"
                                 uncheckedValue="{Boolean}false"
                                 value="{Boolean}true"/>
                             <multiValues
@@ -77,7 +77,7 @@
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="girlscouts/components/form/pathfield"
                                         fieldLabel="Tags"
-                                        name="./options"
+                                        name="./tagList"
                                         rootPath="/etc/tags"/>
                             </multiValues>
                         </items>

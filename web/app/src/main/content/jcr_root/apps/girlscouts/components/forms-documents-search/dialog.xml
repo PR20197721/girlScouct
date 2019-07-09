@@ -38,15 +38,15 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <multiSelection
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Custom Tag List"
-                        name="./customTagList"
+                        fieldLabel="Use Custom Tag List"
+                        name="./useCustomTagList"
                         type="checkbox"
                         xtype="selection"/>
                 <multiValues
                     jcr:primaryType="cq:Widget"
                     fieldDescription="Enter values in the form {value}={text}."
                     fieldLabel="Items"
-                    name="./options"
+                    name="./tagList"
                     xtype="multifield"/>
             </items>
         </second>

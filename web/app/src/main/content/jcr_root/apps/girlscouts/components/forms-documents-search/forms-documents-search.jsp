@@ -64,24 +64,28 @@ if (suffix != null) {
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
 Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
 List<FacetsInfo> fdocs = facetsAndTags.get("forms_documents");
-String customTagList = properties.get("customTagList", String.class);
-String[] optionsList = properties.get("options", String[].class);
+String useCustomTagList = properties.get("useCustomTagList", String.class);
+String[] tagList = properties.get("tagList", String[].class);
 
-if (customTagList != null && customTagList.equals("true") && optionsList != null){
-    List<FacetsInfo> newFDocs = new ArrayList<FacetsInfo>();
-    for (int optionCounter=0; optionCounter<optionsList.length; optionCounter++){
-        Node tagNode = resourceResolver.resolve(optionsList[optionCounter]).adaptTo(Node.class);
-        String tagTitle = tagNode.getProperty("jcr:title").getString();
-        for (int facetCounter = 0; facetCounter<fdocs.size(); facetCounter++){
-            FacetsInfo currentFacet = (FacetsInfo)fdocs.get(facetCounter);
-            if (currentFacet.getFacetsTitle().equals(tagTitle)){
-                newFDocs.add(currentFacet);
-           }
+try {
+    if (useCustomTagList != null && useCustomTagList.equals("true") && tagList != null){
+        List<FacetsInfo> newFDocs = new ArrayList<FacetsInfo>();
+        for (int tagListCounter=0; tagListCounter<tagList.length; tagListCounter++){
+            Node tagNode = resourceResolver.resolve(tagList[tagListCounter]).adaptTo(Node.class);
+            String tagTitle = tagNode.getProperty("jcr:title").getString();
+            for (int facetCounter = 0; facetCounter<fdocs.size(); facetCounter++){
+                FacetsInfo currentFacet = (FacetsInfo)fdocs.get(facetCounter);
+                if (currentFacet.getFacetsTitle().equals(tagTitle)){
+                    newFDocs.add(currentFacet);
+               }
+            }
         }
-    }
-    fdocs = newFDocs;
-} else {
+        fdocs = newFDocs;
+    } else {
 
+    }
+} catch(Exception e){
+    log.error(e.getMessage());
 }
 %>
 <div class="expandable">
