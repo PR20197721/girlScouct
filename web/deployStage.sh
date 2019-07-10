@@ -7,6 +7,7 @@ if [ -z $VERSION ]; then
     VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 fi
 
-curl -u 'admin:M[R#EzeaLb!94a' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/web/girlscouts-web-app/$VERSION/girlscouts-web-app-$VERSION.zip" -F name="girlscouts-web-app" -F force=true -F install=true http://23.22.139.200:4502/crx/packmgr/service.jsp
+curl -u 'admin:3xJ1S?SRbCVifuCp>-d1e-Ib' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/web/girlscouts-web-app/$VERSION/girlscouts-web-app-$VERSION.zip" -F name="girlscouts-web-app" -F force=true -F install=true http://3.219.209.157:4502/crx/packmgr/service.jsp
 
-curl -u 'admin:M[R#EzeaLb!94a' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/web/girlscouts-web-app/$VERSION/girlscouts-web-app-$VERSION.zip" -F name="girlscouts-web-app" -F force=true -F install=true http://34.237.4.28:4503/crx/packmgr/service.jsp
+curl -u 'admin:3xJ1S?SRbCVifuCp>-d1e-Ib' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/web/girlscouts-web-app/$VERSION/girlscouts-web-app-$VERSION.zip" -F name="girlscouts-web-app" -F force=true -F install=true http://3.219.145.115:4503/crx/packmgr/service.jsp
+curl -u 'admin:3xJ1S?SRbCVifuCp>-d1e-Ib' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/web/girlscouts-web-app/$VERSION/girlscouts-web-app-$VERSION.zip" -F name="girlscouts-web-app" -F force=true -F install=true http://3.218.216.88:4503/crx/packmgr/service.jsp

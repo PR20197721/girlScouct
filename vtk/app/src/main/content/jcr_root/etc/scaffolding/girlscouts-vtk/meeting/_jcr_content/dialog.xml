@@ -258,7 +258,7 @@
                                 jcr:primaryType="nt:unstructured"
                                 selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2017-2018,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2017-2018,/g,'')); } }"/>			             
 			                </catTags9>
-			                 <catTags10
+                            <catTags10
 			             	jcr:primaryType="cq:Widget"
 			                 allowBlank="{Boolean}true"
 			                 fieldLabel="Badges for 2018-2019"

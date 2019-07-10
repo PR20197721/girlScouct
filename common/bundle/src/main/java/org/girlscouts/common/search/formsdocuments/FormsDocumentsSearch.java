@@ -10,6 +10,7 @@ import org.girlscouts.common.events.search.SearchResultsInfo;
 
 public interface FormsDocumentsSearch {
 	public Map<String, List<FacetsInfo>> loadFacets(SlingHttpServletRequest slingRequest,String councilSpPath);
+	public List<FacetsInfo> loadFacetsFromList(SlingHttpServletRequest slingRequest, String[] pathList);
 	public SearchResultsInfo getSearchResultsInfo();
 	public void executeSearch(ResourceResolver resourceResolver, String q, String path,String[] tags,String formDocumentContentPath,Map<String, List<FacetsInfo>> facetsAndTags);
 

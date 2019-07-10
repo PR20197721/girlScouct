@@ -20,7 +20,7 @@
 %>
 <div class="header clearfix">
 	<h3 class="columns small-21"><%= title %></h3>
-	<i style="position:absolute; top:5px; right:5px;" class="icon-button-circle-cross" onclick="(function(){$('#gsModal').dialog('close')})()"></i>
+	<span style="position:absolute; top:-5px; right:9px; color:black; font-size:22px; cursor:pointer; font-family: 'Trefoil Sans Web', 'Open Sans', Arial, sans-serif;" onclick="(function(){$('#gsModal').dialog('close')})()">X</span>
 </div>
 <% if (WCMMode.fromRequest(request) == WCMMode.EDIT || WCMMode.fromRequest(request) == WCMMode.PREVIEW) { %>
 	<p></p>

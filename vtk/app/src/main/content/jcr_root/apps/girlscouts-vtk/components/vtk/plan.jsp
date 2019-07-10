@@ -877,7 +877,7 @@
                     '<div class="header clearfix">' +
                     '<h3 class="columns large-22">REQUIREMENTS</h3>' +
                     '<a class="close-reveal-modal columns large-2" href="#">' +
-                    '<i class="icon-button-circle-cross"></i>' +
+                    '<span style="font-size: 24px; color: black; font-weight: normal;">X</span>' +
                     '</a>' +
                     '</div>' +
                     '<div class="scroll content">' +
