@@ -62,7 +62,20 @@ if (suffix != null) {
     thisIsAdvanced = true;
 }
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
-Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
+
+List<FacetsInfo> fdocs = new ArrayList<FacetsInfo>();
+
+boolean useCustomTagList = properties.get("useCustomTagList", false);
+String[] tagList = properties.get("tagList", String[].class);
+
+try{
+    if (useCustomTagList && tagList != null){
+        fdocs = formsDocuImpl.loadFacetsFromList(slingRequest, tagList);
+    } else {
+        Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
+        fdocs = facetsAndTags.get("forms_documents");
+    }
+} catch(Exception e){}
 %>
 <div class="expandable">
 	<div class="programLevel">
@@ -84,7 +97,6 @@ Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequ
 	            <div id="title">Categories</div>
 	            <ul class="checkbox-grid small-block-grid-1 medium-block-grid-1 large-block-grid-2">
 					<%
-					List<FacetsInfo> fdocs = facetsAndTags.get("forms_documents");
 					// Here if we don't have forms_document page shouldn't blow-up
 					try {
 					    for(int pi=0; pi<fdocs.size(); pi++){

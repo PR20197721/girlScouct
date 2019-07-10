@@ -1268,7 +1268,7 @@ var ModalVtk = (function() {
         var $main_modal_wrap, $main_modal, $gray_modal , $xButton= [];
 
         function init() {
-            var t = booleanCancel ? '<div class="vtk-js-modal-x"><i class="icon-button-circle-cross"></i></div>' : '';
+            var t = booleanCancel ? '<div class="vtk-js-modal-x"><span class="vtk-js-modal-x-icon">X</span></div>' : '';
             var $a = $('<div class="vtk-js-modal_wrap ' + modalName + '"><div class="vtk-js-modal" style=""><div class="vtk-js-modal_head"><div class="vtk-js-modal_title"></div>' +
                  t +'</div><div class="vtk-js-modal_body"></div></div>');
             var $b = $('<div class="vtk-gray-modal" style=""></div></div>');
