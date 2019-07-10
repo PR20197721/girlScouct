@@ -22,6 +22,7 @@
         <p>Resetting your Year Plan will erase all current meeting details, including attendance and achievements.</p>
        </div>
        <a href="javascript:exploreResetClose();" className="btn button btn-default resetExploreButton" style="max-width: 300px; color: #00a850; background-color: white; border: 1px solid #00a850; padding: 8px 15px 8px 15px; display: inline-block;" >No, Never Mind</a>
+       <br id="exploreModalBreak">
        <a href="javascript:exploreResetConfirm();" id="selectedExploreButtonConfirm" className="btn button btn-default selectedExploreButton" style="max-width: 300px; color: white; background: #18aa51; padding: 8px 34px 8px 34px; display: inline-block;">Yes, Reset</a>
     </div>
     <div class="explore-modal-footer">
