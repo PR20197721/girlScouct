@@ -534,7 +534,7 @@
     }
 
 
-    .btn.button{
+    .btn.button:not(.selectedExploreButton):not(.resetExploreButton){
         padding: 11px 20px;
         font-size: 14px;
         margin: 0 10px 10px 0 !important;
@@ -559,6 +559,31 @@
             }
         }
     }
+    .btn.button.selectedExploreButton{
+            padding: 11px 20px;
+            font-size: 14px;
+            margin: 0 10px 10px 0;
+            min-width: 136px !important;
+
+            &.btn-line{
+                border: 1px solid #18aa51;
+                background-color: white !important;
+                color:#18aa51;
+            }
+
+            &.btn-default{
+                border: 1px solid #18aa51;
+            }
+
+            &.selected{
+                background-color: orange !important;
+                border:none;
+
+               &.inactive{
+                   pointer-events: none;
+                }
+            }
+        }
 }
 
 

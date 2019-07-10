@@ -48,6 +48,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
             javax.jcr.query.Row r = it.nextRow();               
             String path = r.getValue("jcr:path").getString() ; 
             if( path.indexOf("/SHARED_") !=-1) continue;
+            if( path.indexOf("/yearPlan-") !=-1) continue;
             String count= null;
             try{
 				String achievement_users = r.getValue("users").getString();
@@ -66,6 +67,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 	            javax.jcr.query.Row r = it.nextRow();               
 	            String path = r.getValue("jcr:path").getString() ;
 	            if( path.indexOf("/SHARED_") !=-1) continue;
+	            if( path.indexOf("/yearPlan-") !=-1) continue;
 	            String refId= r.getValue("refId").getString();
 	            String meetingId= refId.substring( refId.lastIndexOf("/")+1 );
 	            if( meetingId.contains("_") ) meetingId= meetingId.substring( 0, meetingId.indexOf("_") );

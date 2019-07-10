@@ -198,9 +198,9 @@ VtkMainYpState > {
                                         textAlign: 'center'
                                     }}>
                                         <div
-                                            className="btn button"
+                                            className="btn button btnCancel"
                                             style={{
-                                            width: '100%'
+                                            width: '100%', color: '#18aa51'
                                         }}
                                             onClick={() => {
                                             data
@@ -358,55 +358,65 @@ VtkMainYpState > {
                         <div className="columns small-20 small-centered">
                             <div className="_intro ">
                                 <p style={{fontSize:'25px', fontWeight:'bold'}}><span><i style={{color:'orange',float:'initial', display:'inline-block', fontSize:'50px', marginBottom:'10px'}} className="icon-check"></i></span>The Troop's Year Plan is set<br /> <span style={{fontSize:'18px'}}>{________currentYearPlanName________ }</span>
-                                </p> 
-
-                                <p>To add, delete, or change a meeting, go to your Year Plan and click on the date square</p>
-                                <a href="/content/girlscouts-vtk/en/vtk.html" className="btn button btn-default" style={{maxWidth:'300px'}}>View my year plan</a> <br /> <br />
+                                </p>
+                                <div style={{display:'inline-flex'}}>
+                                <p style={{marginLeft:'12px', width:'166px'}}>To start over and erase all meeting details, including attendance and achievements:</p>
+                                <p style={{marginLeft:'200px', width:'166px'}}>To add, delete, or change a meeting, go to your current Year Plan</p>
+                                </div>
+                                <div>
+                                <a href="javascript:exploreReset();" className="btn button btn-default resetExploreButton" style={{marginLeft:'24px', maxWidth:'300px', border:'1px solid #00a850', color:'#00a850', backgroundColor:'white'}}>Reset my year plan</a>
+                                <a href="/content/girlscouts-vtk/en/vtk.html" className="btn button btn-default selectedExploreButton" style={{marginLeft:'177px', maxWidth:'300px'}}>View my year plan</a>
+                                </div>
+                                <br /> <br />
                                 <p>To start over with a new Year Plan, use the choices below</p>
-                            </div>   
+                            </div>
                         </div>
                       </div>
                     :null}
 
-                <div className="__padding">
-                    <div
-                        className={`_main_boxes columns small-22 medium-20 small-centered medium-centered ${ (this.state.showTracks)
-                        ? '__OPEN'
-                        : '__CLOSE'}`}>
-                        <div
-                            onClick={() => this.clickHander()}
-                            className="columns  medium-24 large-12 _box_wrap">
-                            <div className="_box __library">
-                                <div className="__img"></div>
-                                <h3>Select Your Own</h3>
-                                <p>Search or filter to select the badges and awards that fit the style of your
-                                    troop.</p>
-                                <a
-                                    className="btn button"
-                                    style={{
-                                    width: '100%'
-                                }}>start adding Petals, Badges or Journeys</a>
-                            </div>
-                        </div>
+                {(!(________app1________ && ________currentYearPlanName________ || ________currentYearPlanName________  === 'Custom Year Plan'))
+                        ?<div className="__padding">
+                             <div
+                                 className={`_main_boxes columns small-22 medium-20 small-centered medium-centered ${ (this.state.showTracks)
+                                 ? '__OPEN'
+                                 : '__CLOSE'}`}>
+                                 <div
+                                     onClick={() => this.clickHander()}
+                                     className="columns  medium-24 large-12 _box_wrap">
+                                     <div className="_box __library">
+                                         <div className="__img"></div>
+                                         <h3>Build Your Own</h3>
+                                         <p>Search or filter to select the badges and awards that fit the style of your
+                                             troop.</p>
+                                         <a
+                                             className="btn button"
+                                             style={{
+                                             width: '100%'
+                                         }}>start adding Petals, Badges or Journeys</a>
+                                     </div>
+                                 </div>
 
-                        <div
-                            onClick={() => this.openTracks()}
-                            className="columns medium-24 large-12 _box_wrap">
-                            <div className="_box __tracks">
-                                <div className="__img "></div>
-                                <h3>Pre-selected Tracks</h3>
-                                <p>Not sure what to pick? These tracks get your troop Year Plan started and let
-                                    you add choices as well.</p>
-                                <a
-                                    className="btn button"
-                                    style={{
-                                    width: '100%'
-                                }}>view popular tracks</a>
-                            </div>
-                        </div>
-                        <br/><br/>
-                    </div>
-                </div>
+                                 <div
+                                     onClick={() => this.openTracks()}
+                                     className="columns medium-24 large-12 _box_wrap">
+                                     <div className="_box __tracks">
+                                         <div className="__img "></div>
+                                         <h3>Pre-selected Tracks</h3>
+                                         <p>Not sure what to pick? These tracks get your troop Year Plan started and let
+                                             you add choices as well.</p>
+                                         <a
+                                             className="btn button"
+                                             style={{
+                                             width: '100%'
+                                         }}>view popular tracks</a>
+                                     </div>
+                                 </div>
+                                 <br/><br/>
+                             </div>
+                         </div>
+                        :null}
+
+
 
                 <div
                     className={`_back_box_tracks ${ (this.state.showTracks)
@@ -495,9 +505,11 @@ VtkMainYpState > {
 
                 </div>
                         <Gray />
-                        <VtkPopUp name="pop-select" title="SELECT YEAR PLAN">
-                            {renderChild(this.state)}
-                        </VtkPopUp>
+                        <div className="pop-explore">
+                            <VtkPopUp name="pop-select" title="SELECT YEAR PLAN">
+                                {renderChild(this.state)}
+                            </VtkPopUp>
+                        </div>
                     
             </div>
         )

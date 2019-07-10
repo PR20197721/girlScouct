@@ -8,5 +8,3 @@ if [ -z $VERSION ]; then
 fi
 
 curl -u 'admin:cH*t3uzEsT' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/gsactivities/girlscouts-gsactivities-app/$VERSION/girlscouts-gsactivities-app-$VERSION.zip" -F name="girlscouts-gsactivities-app" -F force=true -F install=true http://34.201.89.117:4502/crx/packmgr/service.jsp
-
-curl -u 'admin:cH*t3uzEsT' -F file=@"$HOME/.m2/repository/org/girlscouts/aem/gsactivities/girlscouts-gsactivities-app/$VERSION/girlscouts-gsactivities-app-$VERSION.zip" -F name="girlscouts-gsactivities-app"cd gs -F force=true -F install=true http://34.237.161.42:4503/crx/packmgr/service.jsp

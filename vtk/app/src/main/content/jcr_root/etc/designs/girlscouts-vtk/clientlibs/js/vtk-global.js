@@ -405,6 +405,48 @@ $(function(){
       }
 
  });
+ function exploreReset(){
+    var notice = $("#exploreModal");
+    notice.css('display','block');
+    $("#exploreModalClose").click(function(){
+        notice.css('display', 'none');
+    });
+    $(document).click(function(){
+        notice.css('display', 'none');
+    });
+    $(".maintenance-content").click(function(event) {
+       event.stopPropagation();
+    });
+ }
+ function exploreResetClose(){
+     $("#exploreModal").css('display', 'none');
+ }
+
+ function exploreResetConfirm(){
+     $.ajax({
+         url: '/content/girlscouts-vtk/service/reset-year-plan-servlet.html',
+         type: 'POST',
+         success: function(result) {
+            var elem = $("#reloginid").val();
+            $.ajax({
+                url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
+                type: 'POST',
+                data: {
+                    act: 'ReLogin',
+                    loginAs: elem,
+                    a: Date.now()
+                },
+                success: function(result) {
+                    vtkTrackerPushAction('ChangeTroop');
+                    document.location = "/content/girlscouts-vtk/en/vtk.html";
+                }
+            });
+         },
+         error: function(result){
+             console.log("YEAR PLAN FAILED TO DELETE");
+         }
+     });
+ }
  function checkNews(){
     if($(".breaking-news").is(":visible")){
     //Breaking News Maintenance Close:
@@ -424,22 +466,17 @@ $(function(){
 $(document).ready(checkNews());
 
 $(window).load(function(){
-            var notice = $("#maintenanceModal");
-            notice.css('display','block');
-            $(".vtk-maintenance-news-button").click(function(){
-                notice.css('display', 'none');
-            });
-            $(document).click(function(){
-                notice.css('display', 'none');
-            });
-            $(".maintenance-content").click(function(event) {
-               event.stopPropagation();
-            });
-
-
-
-
-
+    var notice = $("#maintenanceModal");
+    notice.css('display','block');
+    $(".vtk-maintenance-news-button").click(function(){
+        notice.css('display', 'none');
+    });
+    $(document).click(function(){
+        notice.css('display', 'none');
+    });
+    $(".maintenance-content").click(function(event) {
+       event.stopPropagation();
+    });
 });
 // Re-Foundation on page load and dom load for modals that were added dynamically.
 $(function(){

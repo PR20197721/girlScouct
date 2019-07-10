@@ -50,9 +50,9 @@
 	<div class="email-content">
           <div class="email-modal-header">
        		 <div class="vtk-email-news-button" onclick="cancelEmail()">
-                    <i class="icon-button-circle-cross"></i>
+                    <span id="email-close-button">X<span>
               </div>
-             <h3 style="color:white;"class="emailHeader">Troop Email Content </br></h3>
+             <h3 class="emailHeader">Troop Email Content </br></h3>
       	  </div>
         <div class="email-modal-body">
         <h6 class="emailInput"> Email To: </h6>

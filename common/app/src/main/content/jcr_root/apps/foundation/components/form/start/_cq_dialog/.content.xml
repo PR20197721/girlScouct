@@ -166,6 +166,7 @@
                                                 fieldLabel="Content Path *"
                                                 name="./action"
                                                 storecontent="field"
+                                                rootPath="/content/usergenerated"
                                                 wrapperClass="hide gs-hide-show gsstore gsmail"/>
                                             <store-content
                                                 jcr:primaryType="nt:unstructured"
