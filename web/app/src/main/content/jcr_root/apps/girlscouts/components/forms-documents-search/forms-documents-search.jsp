@@ -63,7 +63,7 @@ if (suffix != null) {
 }
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
 
-List<FacetsInfo> fdocs;
+List<FacetsInfo> fdocs = new ArrayList<FacetsInfo>();
 
 boolean useCustomTagList = properties.get("useCustomTagList", false);
 String[] tagList = properties.get("tagList", String[].class);

@@ -39,9 +39,15 @@
                 <multiSelection
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Use Custom Tag List"
+                        checkboxBoolTypeHint="{Boolean}true"
                         name="./useCustomTagList"
                         type="checkbox"
-                        xtype="selection"/>
+                        xtype="selection">
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            loadcontent="function(field){girlscouts.functions.toggleField(field);}"
+                            selectionchanged="function(field){girlscouts.functions.toggleField(field);}"/>
+                </multiSelection>
                 <multiValues
                     jcr:primaryType="cq:Widget"
                     fieldDescription="Enter values in the form {value}={text}."

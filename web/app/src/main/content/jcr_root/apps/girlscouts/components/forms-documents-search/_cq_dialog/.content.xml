@@ -68,6 +68,12 @@
                                 text="Use Custom Tag List"
                                 uncheckedValue="{Boolean}false"
                                 value="{Boolean}true"/>
+                            <multiSelectionType
+                                ignoreDate="true"
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                name="./useCustomTagList@TypeHint"
+                                value="Boolean"/>
                             <multiValues
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/multifield"
