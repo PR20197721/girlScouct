@@ -134,7 +134,7 @@
                     <a href="<%=vtkLanding%>">
                     <img src="/etc/designs/girlscouts-vtk/images/btn_VTK.jpg"/></a>
                     <p>
-                     If you&rsquo;re a Troop or Co-Leader - click here! See your troop&rsquo;s roster, update contact info, access resources, easily email parents, enter troop finances, and plan your program year with pre-populated troop calendars filled with Daisy, Brownie and Junior Journeys and badges. New! Multi-level troops now have access. All program levels can add your own troop activities to your calendar, as well as pre-populated council events. It&rsquo;s your virtual troop assistant!
+                        Access badges and Journeys for all levels, and much more from the Girl Scout National Program Portfolio. Plus, find meeting planning tools and resources for groups of all sizes. It&rsquo;s your virtual Girl Scout assistant!<br/><br/>Troop Leaders & Co-Leaders can co-plan activities, email caregivers in your troop and enter troop finances at the end of the year.
                    </p>
                     <% } %>
                   </li>
@@ -184,7 +184,7 @@ if(maintenanceNode != null){
                    <div class="maintenance-content">
                        <div class="modal-header">
                              <div class="vtk-maintenance-news-button">
-                                 <i class="icon-button-circle-cross"></i>
+                                 <span id="modal-close-button">X</span>
                            </div>
                           <div class="maintenanceHeader"><%= popupHeader %> </br></div>
                       </div>

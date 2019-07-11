@@ -70,6 +70,17 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		}
 		return fts;
 	}
+
+	public List<FacetsInfo> loadFacetsFromList(SlingHttpServletRequest slingRequest, String[] pathList){
+		List<FacetsInfo> facetList = new ArrayList<FacetsInfo>();
+		for (String path : pathList){
+			FacetsInfo facet = facetBuilder.getFacet(slingRequest, path);
+			if (facet != null) {
+				facetList.add(facet);
+			}
+		}
+		return facetList;
+	}
 	
 	public void executeSearch(ResourceResolver resourceResolver,String q, String path,String[] checkedTags, String formDocumentContentPath, Map<String, List<FacetsInfo>> facets){
 		try{

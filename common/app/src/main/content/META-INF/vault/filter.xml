@@ -2,7 +2,7 @@
 <workspaceFilter version="1.0">
     <filter root="/etc/clientlibs/girlscouts-common"/>
     <filter root="/apps/clientlibs"/>
-    <filter root="/etc/servlets"/>
+    <filter root="/etc/servlets" mode="merge"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/gs-maintenance"/>
     <filter root="/etc/renderconditions/features"/> 

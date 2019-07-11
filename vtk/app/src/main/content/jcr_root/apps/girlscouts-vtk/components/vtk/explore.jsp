@@ -1,13 +1,36 @@
-
 <%@ page
-  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.utils.VtkUtil, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/vtk.jsp -->
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 
-<div id="error-message"></div>      
+<div id="error-message"></div>
+<!--PAGE STRUCTURE: reset modal-->
+ <div id="exploreModal" class="exploreReset">
 
+   <!-- Modal content -->
+   <div class="explore-content">
+       <div class="explore-modal-header">
+             <span id="exploreModalClose">X</span>
+          <div class="exploreHeader"></br></div>
+      </div>
+     <div class="explore-modal-body">
+       <div id="explore-modal-text">
+        <strong id="exploreBody">Are you sure you want to reset your Year Plan?</strong>
+        <br><br>
+        <p>Resetting your Year Plan will erase all current meeting details, including attendance and achievements.</p>
+       </div>
+       <a href="javascript:exploreResetClose();" className="btn button btn-default resetExploreButton" style="max-width: 300px; color: #00a850; background-color: white; border: 1px solid #00a850; padding: 8px 15px 8px 15px;" >No, Never Mind</a>
+       <a href="javascript:exploreResetConfirm();" className="btn button btn-default selectedExploreButton" style="margin-left: 50px; max-width: 300px; color: white; background: #18aa51; padding: 8px 40px 8px 40px;">Yes, Reset</a>
+    </div>
+    <div class="explore-modal-footer">
+
+    </div>
+
+   </div>
+
+ </div>
 <%
   String activeTab = "explore";
   boolean showVtkNav = true;
@@ -70,9 +93,9 @@ loadNav('explore')
                            '</p></section>'+
                         '</div>'+
                       '</div>';
-                      $(document).foundation() 
+                      $(document).foundation()
                       modal.html(_template)
-                      .foundation('reveal','open');     
+                      .foundation('reveal','open');
       }
 
 var modalAlert = new ModalVtk('Alert',true);

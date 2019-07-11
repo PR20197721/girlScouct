@@ -34,7 +34,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		try{
 			for(String council: councils ){
 
-				sql="select users from [nt:unstructured] where isdescendantnode( [/vtk"+ rptForYear +"/" + council+"/])  and [ocm_classname]='org.girlscouts.vtk.models.Achievement' and [users] <> '' ";
+				sql="select users from [nt:unstructured] where isdescendantnode( [/vtk"+ rptForYear +"/" + council+"/])  and [ocm_classname]='org.girlscouts.vtk.models.Achievement' and [users] <> '' and [jcr:path] not like '%/yearPlan-%'";
                 q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 					result = q.execute();
                     for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
