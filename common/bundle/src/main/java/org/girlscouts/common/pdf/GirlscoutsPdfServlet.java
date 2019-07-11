@@ -60,7 +60,12 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
             ByteArrayOutputStream bais = new ByteArrayOutputStream();
 
             StringBuilder sb = new StringBuilder();
-            Resource rsrc = request.getResourceResolver().resolve(request.getParameter("path").replaceAll("/jcr:content",""));
+            Resource rsrc;
+            try {
+                rsrc = request.getResourceResolver().resolve(request.getParameter("path").replaceAll("/jcr:content", ""));
+            }catch (Exception e){
+                rsrc = request.getResourceResolver().resolve("/content/gsusa/en");
+            }
             Page homepage = rsrc.adaptTo(Page.class).getAbsoluteParent(2);
             Node home = homepage.getContentResource().adaptTo(Node.class);
             //Get header path
@@ -208,10 +213,14 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
                 }
                 //Add elements to document.
                 for(IElement el : HtmlConverter.convertToElements(elements[i])){
-                    Div div = (Div)el;
-                    div.setMarginRight(30);
-                    div.setMarginLeft(30);
-                    parent.add(div);
+                    try{
+                        Div div = (Div)el;
+                        div.setMarginRight(30);
+                        div.setMarginLeft(30);
+                        parent.add(div);
+                    }catch (Exception e){
+                        log.debug("Failed to add element to document", e);
+                    }
                 }
             }
             doc.add(parent);
