@@ -46,7 +46,7 @@ $(document).ready(function(){
     });
 });
 $(window).resize(function() {
-    if( $(this).width() >= 961.008){
+    if( $(this).width() >= 961.008 && $(location).attr("href").toLowerCase().includes("vtk")){
        $(".exit-off-canvas-el").click();
     }
 });
