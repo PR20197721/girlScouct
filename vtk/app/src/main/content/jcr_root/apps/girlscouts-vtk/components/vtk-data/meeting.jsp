@@ -44,11 +44,40 @@
 	    printTitle(info1, "Agenda Item #" + Integer.toString(activityCount), "h2");
 	    printProperty(info1, "Name", "name", "h3");
 	    printProperty(info1, "Duration", "duration", "h3");
+        printProperty(info1, "Subtitle", "subtitle", "h3");
+	    /*
 	    printProperty(info1, "Description", "activityDescription", "h3");
-	    printProperty(info1, "Outdoor?", "isOutdoorAvailable", "h3");	    
+	    printProperty(info1, "Outdoor?", "isOutdoorAvailable", "h3");
 	    printProperty(info1, "Outdoor Description", "activityDescription_outdoor", "h3");
 	    printProperty(info1, "Global?", "isGlobalAvailable", "h3");
 	    printProperty(info1, "Global Description", "activityDescription_global", "h3");
+	    */
+	    try {
+            List<SortItem> additionalActivities = new ArrayList<SortItem>();
+            NodeIterator iter2 = activity.node.getNode("multiactivities").getNodes();
+            while (iter2.hasNext()) {
+                Node additionalActivity = iter2.nextNode();
+                Long id = additionalActivity.getProperty("./activityNumber").getLong();
+                SortItem additionalActivityItem = new SortItem(id, additionalActivity);
+                additionalActivities.add(additionalActivityItem);
+            }
+            sort(additionalActivities);
+            printTitle(info, "Additional Agenda Items", "h3");
+            int additionalActivityCount = 0;
+            for (SortItem additionalActivity : additionalActivities) {
+                additionalActivityCount++;
+                ContextInfo additionalActivityInfo = new ContextInfo(resourceResolver, out, additionalActivity.node.getPath());
+                printTitle(additionalActivityInfo, "Additional Agenda Item #" + Integer.toString(additionalActivityCount), "h4");
+                printProperty(additionalActivityInfo, "Name", "name", "h5");
+                printProperty(additionalActivityInfo, "Duration", "duration", "h5");
+                printProperty(additionalActivityInfo, "Description", "activityDescription", "h5");
+                printProperty(additionalActivityInfo, "Outdoor?", "isOutdoorAvailable", "h5");
+                printProperty(additionalActivityInfo, "Global?", "isGlobalAvailable", "h5");
+                printProperty(additionalActivityInfo, "Materials", "materials", "h5");
+            }
+        }catch(Exception e){
+	        e.printStackTrace();
+        }
 	}
 %>
 </body>
