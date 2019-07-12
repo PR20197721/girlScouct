@@ -114,7 +114,7 @@ public class CouncilRpt {
 				+ " where isdescendantnode( '"
 				+ VtkUtil.getYearPlanBase(null, null)
 				+ sfCouncil
-				+ "/troops/') and ocm_classname='org.girlscouts.vtk.models.YearPlan'";
+				+ "/troops/') and ocm_classname='org.girlscouts.vtk.models.YearPlan' and jcr:path not like '%/yearPlan-%'";
 
 		java.util.List<String> activities = getActivityRpt(sfCouncil);
 		javax.jcr.query.QueryResult result = null;

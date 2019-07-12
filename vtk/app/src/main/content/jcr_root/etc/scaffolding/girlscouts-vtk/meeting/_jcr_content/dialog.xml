@@ -104,16 +104,13 @@
                             value="Award_Earning"/>
                         <intro
                             jcr:primaryType="nt:unstructured"
-                            text="Intro"
-                            value="Intro"/>
+                            text="Intro/Family Meeting"
+                            value="Intro/Family_Meeting"/>
                         <closing
                             jcr:primaryType="nt:unstructured"
-                            text="Closing"
-                            value="Closing"/>
-                        <bridging
-                            jcr:primaryType="nt:unstructured"
-                            text="Bridging"
-                            value="Bridging"/>
+                            text="Closing/Bridging"
+                            value="Closing/Bridging"/>
+
                         <JourneyDaisiesJuniors
                             jcr:primaryType="nt:unstructured"
                             text="Journey: Daisies - Juniors"
@@ -122,6 +119,10 @@
                             jcr:primaryType="nt:unstructured"
                             text="Journey: Cadettes - Ambassadors"
                             value="Journey:_Cadettes_-_Ambassadors"/>
+						<parent
+							jcr:primaryType="nt:unstructured"
+							text="Parent/Caregiver Meeting"
+							value="Parent/Caregiver_Meeting"/>
                     </options>
                     <listeners
                         jcr:primaryType="nt:unstructured"
@@ -1356,16 +1357,12 @@
                             value="Award_Earning"/>
                         <intro
                             jcr:primaryType="nt:unstructured"
-                            text="Intro"
-                            value="Intro"/>
+                            text="Intro/Family Meeting"
+                            value="Intro/Family_Meeting"/>
                         <closing
                             jcr:primaryType="nt:unstructured"
-                            text="Closing"
-                            value="Closing"/>
-                        <bridging
-                            jcr:primaryType="nt:unstructured"
-                            text="Bridging"
-                            value="Bridging"/>
+                            text="Closing/Bridging"
+                            value="Closing/Bridging"/>
                         <JourneyDaisiesJuniors
                             jcr:primaryType="nt:unstructured"
                             text="Journey: Daisies - Juniors"
@@ -1374,6 +1371,10 @@
                             jcr:primaryType="nt:unstructured"
                             text="Journey: Cadettes - Ambassadors"
                             value="Journey:_Cadettes_-_Ambassadors"/>
+						<parent
+							jcr:primaryType="nt:unstructured"
+							text="Parent/Caregiver Meeting"
+							value="Parent/Caregiver_Meeting"/>
                       </options>
                       <listeners
                         jcr:primaryType="nt:unstructured"

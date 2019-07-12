@@ -166,7 +166,15 @@ instruction="";
 
   <%
   java.util.Map<String, String> mLevel= new java.util.TreeMap<String, String>();
-  java.util.Map<String, String> mTypes= new java.util.TreeMap<String, String>();
+  java.util.Map<String, String> mTypes= new java.util.TreeMap<String, String>(new Comparator<String>() {
+          @Override
+          public int compare(String o1, String o2) {
+            if((o2.equals("Journey:_Daisies_-_Juniors") && o1.equals("Journey:_Cadettes_-_Ambassadors")) || (o1.equals("Journey:_Daisies_-_Juniors") && o2.equals("Journey:_Cadettes_-_Ambassadors")))
+                return -1 * o1.compareTo(o2);
+            else
+                return o1.compareTo(o2);
+          }
+  });
   java.util.Map<String, String> mCats= new java.util.TreeMap<String, String>();
 
   java.util.Map<String, java.util.Set> mTylesPerLevel = new java.util.TreeMap();
