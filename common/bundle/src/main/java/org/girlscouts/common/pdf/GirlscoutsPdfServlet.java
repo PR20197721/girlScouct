@@ -156,8 +156,9 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
     //Create buffered image from asset and encode byte array to base64 format
     private String generateImage(String element, ResourceResolver rr){
         String backupEl = element;
+        String s;
         try{
-            String s = element.substring(element.indexOf("src=\"") + 5, element.indexOf("\"", element.indexOf("src=\"") + 5));
+            s = element.substring(element.indexOf("src=\"") + 5, element.indexOf("\"", element.indexOf("src=\"") + 5));
             String ext = s.substring(s.lastIndexOf(".")+1);
             Asset asset = rr.resolve(URLDecoder.decode(s, "UTF8")).adaptTo(Asset.class);
             Rendition orig = asset.getOriginal();
@@ -173,7 +174,7 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
             element = element.replace(s, byteString);
             return element;
         }catch (Exception e){
-            log.error("Failed to retrieve image asset: ",e);
+            log.error("Failed to retrieve image asset, cannot find image: "+s);
             return backupEl;
         }
     }
