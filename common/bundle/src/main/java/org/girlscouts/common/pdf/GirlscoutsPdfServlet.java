@@ -156,7 +156,6 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
     //Generate asset and create dataURI for pdf generation
     //Create buffered image from asset and encode byte array to base64 format
     private String generateImage(String element, ResourceResolver rr){
-        //String s = element.substring(element.indexOf("src=\"") + 5, element.indexOf("\"", element.indexOf("src=\"") + 5));
         LinkedList<String> sources = new LinkedList<>();
         int index = 0;
         while(element.indexOf("src=\"",index+1) >= 0){
