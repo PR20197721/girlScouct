@@ -8,12 +8,10 @@
 	String level = selectors[selectors.length - 1].toLowerCase();
 	
 	String title = "";
-	if ("daisy".equals(level)) {
-		title = "Daisy Petal, Badge, and Journey Resources";
-	} else if ("multi-level".equals(level)){
-		title = "Multi-Level Badge and Journey Resources";
+	if ("multi-level".equals(level)){
+		title = "Multi-Level Meetings and Requirements";
 	} else if (level != null && level.length() > 0){
-		title = level.substring(0, 1).toUpperCase() + level.substring(1) + " Badge and Journey Resources";
+		title = level.substring(0, 1).toUpperCase() + level.substring(1) + " Meetings and Requirements";
 	}
 	
 	String selectorsToAdd = "include.resource_overviews." + level;

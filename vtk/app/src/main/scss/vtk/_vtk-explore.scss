@@ -89,9 +89,9 @@
     font-size: 30px
 }
 #explore-modal-text{
-    width: 350px;
     text-align: center;
-    margin-left: 97px;
+    padding-left: 45px;
+    padding-right: 45px;
 }
 .btnCancel{
     color: #18aa51;
@@ -108,4 +108,55 @@
     top: 25%;
     opacity: 1;
   }
+}
+@media only screen and (max-width: 40.062em){
+    #selectedExploreButtonConfirm{
+        margin-top: 18px;
+    }
+    #exploreModalBreak{
+        display: block;
+    }
+    .explore-content{
+        width: 300px;
+    }
+    .exploreLargeView{
+        display: none;
+    }
+    .exploreSmallView{
+        display: block;
+    }
+}
+@media only screen and (min-width: 40.063em) {
+    #selectedExploreButtonConfirm{
+        margin-top: 18px;
+    }
+    #exploreModalBreak{
+        display: block;
+    }
+    .explore-content{
+        width: 50%;
+    }
+    .exploreLargeView{
+        display: none;
+    }
+    .exploreSmallView{
+        display: block;
+    }
+}
+@media only screen and (min-width: 60.063em){
+   #selectedExploreButtonConfirm{
+        margin-left: 50px;
+   }
+   #exploreModalBreak{
+       display: none;
+   }
+   .explore-content{
+       width: 40%;
+   }
+   .exploreLargeView{
+        display: block;
+   }
+   .exploreSmallView{
+       display: none;
+   }
 }
