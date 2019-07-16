@@ -250,8 +250,8 @@
 			              <catTags9
 			             	jcr:primaryType="cq:Widget"
 			                 allowBlank="{Boolean}true"
-			                 fieldLabel="Badges for 2017-2018"
-			                 name="./Badgesfor20172018"
+			                 fieldLabel="Badges for 2018-2019"
+			                 name="./Badgesfor20182019"
 			                 xtype="selection"
 			                 type="checkbox"
 			                 itemId="tagsField9">
@@ -262,8 +262,8 @@
                             <catTags10
 			             	jcr:primaryType="cq:Widget"
 			                 allowBlank="{Boolean}true"
-			                 fieldLabel="Badges for 2018-2019"
-			                 name="./Badgesfor20182019"
+			                 fieldLabel="Badges for 2019-2020"
+			                 name="./Badgesfor20192020"
 			                 xtype="selection"
 			                 type="checkbox"
 			                 itemId="tagsField10">
