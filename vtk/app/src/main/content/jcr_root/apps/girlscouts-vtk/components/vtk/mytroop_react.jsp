@@ -334,7 +334,6 @@
             $("#file-input").hide();
             $(".email-modal-body").html("<strong>Email Sent</strong>");
             clearEmail();
-             $("#sendEmail").css("margin-left","600%");
         }
 
 

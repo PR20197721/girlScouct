@@ -79,7 +79,7 @@ loadNav('explore')
                         '<div class="header clearfix">'+
                           '<h3 class="columns large-22">REQUIREMENTS</h3>'+
                           '<a class="close-reveal-modal columns large-2" href="#">'+
-                              '<i class="icon-button-circle-cross"></i>'+
+                              '<span style="color: black;font-size: 24px;font-weight: normal;margin-right: 5px;font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;">X</span>'+
                           '</a>'+
                         '</div>'+
                         '<div class="scroll content">'+
