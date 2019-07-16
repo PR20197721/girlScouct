@@ -257,7 +257,7 @@
 			                 itemId="tagsField9">
 			                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2017-2018,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2017-2018,/g,'')); } }"/>			             
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2018-2019,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2018-2019,/g,'')); } }"/>
 			                </catTags9>
                             <catTags10
 			             	jcr:primaryType="cq:Widget"
@@ -269,7 +269,7 @@
 			                 itemId="tagsField10">
 			                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2018-2019,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2018-2019,/g,'')); } }"/>			             
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2019-2020,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2019-2020,/g,'')); } }"/>
 			                </catTags10>
 			             </items>
 			         </fieldset1>
