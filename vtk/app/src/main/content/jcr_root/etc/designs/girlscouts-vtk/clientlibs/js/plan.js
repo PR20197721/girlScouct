@@ -180,12 +180,12 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data, cach
         cache: cache || false,
     }).done(function(response){
         $("#gsModal").html(response);
-        $("#vtk-loading").css("display","none");
+        $("#vtk-loading").css("display","none");//hides loading animation
         loadModal("#gsModal", showTitle, title, fullPageScroll, print);
         $('#gsModal').children('.scroll').css('maxHeight', '601px');
        $(document).foundation();
     }).fail(function(response, status, xhr){
-        $("#vtk-loading").css("display","none");
+        $("#vtk-loading").css("display","none");//hides loading animation
         $("#error").html(response + xhr.status + " " + xhr.statusText);
     })
 
