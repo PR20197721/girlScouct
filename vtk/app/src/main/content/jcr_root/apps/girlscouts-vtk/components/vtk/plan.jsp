@@ -13,6 +13,7 @@
 %>
 <%@include file="include/bodyTop.jsp" %>
 <%@include file="include/modals/modal_help.jsp" %>
+<%@include file="include/loader.jsp" %>
 
 
 <%PlanView planView = meetingUtil.planView(user, troop, request);%>
