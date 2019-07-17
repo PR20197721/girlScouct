@@ -1,4 +1,7 @@
-<!--Based off and taken from juno/src/components/share/vtk-loading.tsx from the juno project-->
+<!--Based off and taken from juno/src/components/share/vtk-loading.tsx from the juno project
+    Call ${#vtk-loading}.css(display,block} to make visible (and hide it when done
+    Styling in vtk/app/src/main/scss/vtk/_vtk-loader.scss
+-->
 
 <div id="vtk-loading" class='hide' style="height: 100%">
     <section class="artboard">
