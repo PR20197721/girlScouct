@@ -172,7 +172,7 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data, cach
     resetModalPage();
     var dataP = data || {};
 
-    $("#vtk-loading").css("display: block");
+    $("#vtk-loading").css("display","block");
 
     $.ajax({
         url: link,
@@ -186,7 +186,7 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data, cach
     }).fail(function(response, status, xhr){
        $("#error").html(response + xhr.status + " " + xhr.statusText);
     }).complete(function(response){
-        $("#vtk-loading").css("display: none");
+        $("#vtk-loading").css("display","none");
     })
 
 
