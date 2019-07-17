@@ -172,17 +172,21 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data, cach
     resetModalPage();
     var dataP = data || {};
 
+    $("#vtk-loading").css("display","block"); //shows loading while waiting for ajax request to finish see /include/loader.jsp
+
     $.ajax({
         url: link,
         data: dataP,
         cache: cache || false,
     }).done(function(response){
         $("#gsModal").html(response);
+        $("#vtk-loading").css("display","none");//hides loading animation
         loadModal("#gsModal", showTitle, title, fullPageScroll, print);
         $('#gsModal').children('.scroll').css('maxHeight', '601px');
        $(document).foundation();
     }).fail(function(response, status, xhr){
-       $("#error").html(response + xhr.status + " " + xhr.statusText);
+        $("#vtk-loading").css("display","none");//hides loading animation
+        $("#error").html(response + xhr.status + " " + xhr.statusText);
     })
 
 
