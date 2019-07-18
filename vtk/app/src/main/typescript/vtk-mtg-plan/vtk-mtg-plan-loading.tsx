@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './../../scss/vtk-mtg-plan/vtk-mtg-plan-loading.scss';
 
 import { connect } from 'react-redux';
 
@@ -11,10 +10,12 @@ class VtkMtgPlanLoading extends React.Component<VtkMtgPlanLoadingProps, any> {
   render() {
     return (
      (this.props.loading)? <div className="vtk-mtg-plan-loading">
-        <div className="spinner">
-            <div className="dot1"></div>
-            <div className="dot2"></div>
-        </div>
+        <div className="wrap__loader vtk-mtg-loader" >
+                    <div className="loader__circle loader__circle--1"></div>
+                    <div className="loader__circle loader__circle--2"></div>
+                    <div className="loader__circle loader__circle--3"></div>
+                    <div className="loader__circle loader__circle--4"></div>
+                </div>
       </div>:null
     );
   }
