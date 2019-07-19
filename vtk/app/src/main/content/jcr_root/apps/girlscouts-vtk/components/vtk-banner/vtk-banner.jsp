@@ -50,19 +50,14 @@
 </div>
 
 
-<div id="vtk-banner-modal-<%=resource.getName()%>" data-reveal
-     data-options="close_on_background_click:false; close_on_esc: false;" class="reveal-modal"
-     aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-    <div class="header clearfix">
-        <h3 id="modalTitle"><%=modalTitle %>
-        </h3>
-        <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
-    </div>
-    <div>
-        <img id="banner-image" class="banner-image" draggable="false"
-             style="width:100%;height:auto;pointer-events: none" src="<%= modalImagePath %>" alt="<%=imageAlt %>"
-             title="<%=imageTitle %>">
-    </div>
+<div id="vtk-banner-modal-<%=resource.getName()%>" data-reveal data-options="close_on_background_click:false; close_on_esc: false;" class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+	<div class="header clearfix">
+		<h3 id="modalTitle"><%=modalTitle %></h3>
+	    <a class="close-reveal-modal" aria-label="Close"><span style="color: black;font-size: 23px; font-family: 'Trefoil Sans Web', 'Open Sans', Arial, sans-serif;font-weight: normal;padding-right: 5px;">X</span></a>
+	</div>
+	<div>
+			<img id="banner-image" class="banner-image" draggable="false" style="width:100%;height:auto;pointer-events: none" src="<%= modalImagePath %>"   alt="<%=imageAlt %>" title="<%=imageTitle %>" >
+	</div>
 
     <div class="scroll-banner content">
 

@@ -197,17 +197,15 @@
     }
 </script>
 <div class="header clearfix">
-    <%
-        boolean isWarning = false;
-        String instruction = "Add an Activity";
-        if (isWarning) {
-    %>
-    <span class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20"
-                               height="20" align="left"/></span>
-    <% } %>
-    <h3 class="columns small-21"><%= instruction %>
-    </h3>
-    <a class=" columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
+  <%
+  boolean isWarning = false;
+  String instruction = "Add an Activity";
+  if (isWarning) {
+  %>
+    <span class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></span>
+  <% } %>
+  <h3 class="columns small-21"><%= instruction %></h3>
+  <a class=" columns small-3" onclick="closeModalPage()"  ><span id="gsModalClose">X</span></a>
 </div>
 <div class="tabs-wrapper scroll">
     <dl class="tabs" data-tab>

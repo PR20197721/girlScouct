@@ -2,54 +2,53 @@
 
 #vtk-yp-main {
 
-  h2 {
-    margin-bottom: 10px;
+  h2{
+    margin-bottom:10px;
     // line-height: 26px;
     font-size: 30px;
   }
 
-  ._main_boxes {
+  ._main_boxes{
     padding: 0px;
 
-    ._box_wrap {
+    ._box_wrap{
       padding-bottom: 20px;
       text-align: center;
       cursor: pointer;
 
-      ._box {
+      ._box{
         background: #FFFFFF;
-        box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 0 3px 2px rgba(0,0,0,0.08);
         padding: 15px;
 
 
-        * {
+        *{
           text-align: center;
         }
 
-        .__img {
+        .__img{
           width: 100%;
           height: 100px;
           background-position: center center;
           background-repeat: no-repeat;
         }
 
-        &.__tracks {
-          .__img {
+        &.__tracks{
+          .__img{
             background-image: $map;
           }
         }
-
-        &.__library {
-          .__img {
+        &.__library{
+          .__img{
             background-image: $star;
           }
         }
 
-        h3 {
+        h3{
           font-size: 18px;
         }
 
-        .btn {
+        .btn{
           padding: 12px 5px;
           margin: 0 !important;
         }
@@ -58,36 +57,34 @@
     }
 
 
-    &.__OPEN {
-      ._box_wrap {
-        ._box.__library {
+    &.__OPEN{
+      ._box_wrap{
+        ._box.__library{
           padding: 10px;
           width: 340px;
-          margin: 0 auto;
+          margin:0 auto;
           position: relative;
-
-          .__img {
+          .__img{
             height: 68px;
           }
 
         }
 
-        ._box.__tracks {
+        ._box.__tracks{
           padding: 44px 10px 10px 10px;
 
           box-shadow: 0 0 3px 2px white;
-
-          .__img {
+          .__img{
             height: 68px;
             background-image: $mapselected !important;
             margin-bottom: 30px;
           }
 
-          p {
-            margin: 0px;
+          p{
+            margin:0px;
           }
 
-          .btn {
+          .btn{
             display: none;
           }
 
@@ -98,38 +95,38 @@
   }
 
 
-  ._back_box_tracks {
+  ._back_box_tracks{
     background-color: rgb(233, 233, 233);
     display: inline-block;
-    width: 100%;
+    width:100%;
 
-    .row {
+    .row{
       background-color: transparent;
     }
 
-    &.__OPEN {
+    &.__OPEN{
       // padding-top: 30px;
       padding-bottom: 30px;
 
 
+
     }
 
-    &.__CLOSE {
+    &.__CLOSE{
 
       overflow: hidden;
       height: 0;
 
-      ._triangle {
+      ._triangle{
         // display: none;
       }
-
-      .__level-logo {
+      .__level-logo{
         // display: none;
       }
     }
 
 
-    ._triangle {
+    ._triangle{
       // padding-bottom: 30px;
       width: 0;
       height: 0;
@@ -142,7 +139,7 @@
 
   }
 
-  .__padding {
+  .__padding{
     @media screen and (max-width: 650px) {
       padding: 20px 0;
 
@@ -152,25 +149,23 @@
     }
   }
 
-  .__categories {
+  .__categories{
     margin-bottom: 40px;
   }
 
-  .row:nth-child(n+2) {
+  .row:nth-child(n+2){
     padding-bottom: 0px !important;
   }
-
   .row:nth-child(1) {
     padding-bottom: 0px !important;
   }
-
   .__header {
     padding: 5px 5px 5px 10px;
     margin-bottom: 10px;
   }
 
 
-  .__list__tracks_main {
+  .__list__tracks_main{
     width: 100%;
     height: 500px;
   }
@@ -186,39 +181,31 @@
         width: 100%;
         display: table;
         font-size: 14px;
-
         .cell {
           display: table-cell;
           vertical-align: middle;
         }
-
         .cell.c18 {
           width: 60%;
         }
-
         .cell.c3 {
           width: 28%;
-
           .button {
             width: 100%;
             margin: 0;
           }
-
-          .inactive {
+          .inactive{
             background-color: #969696 !important;
             pointer-events: none;
           }
-
           text-align: right;
         }
-
         .click-preview {
           color: #00A850;
-          font-weight: 600;
+          font-weight:600;
           cursor: pointer;
           padding-right: 20px;
         }
-
         .click-preview.__close {
           &:before {
             position: relative;
@@ -233,7 +220,6 @@
             border-width: 7px;
           }
         }
-
         .click-preview.__open {
           &:before {
             position: relative;
@@ -253,9 +239,10 @@
   }
 
 
-  ._year-plan-box {
+
+  ._year-plan-box{
     background: #FFFFFF;
-    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0 3px 2px rgba(0,0,0,0.08);
     font-size: 14px;
     color: #000000;
     text-align: center;
@@ -263,10 +250,9 @@
     padding: 15px 10px 10px;
     height: 250px;
     width: 250px;
-    margin: 0px 12px 12px 0;
+    margin:0px 12px 12px 0;
     float: left;
-
-    .__top {
+    .__top{
       font-size: 14px;
       line-height: 12px;
       height: 48px;
@@ -276,15 +262,15 @@
 
     }
 
-    img {
-      width: 220px;
-      height: 105px;
+    img{
+      width:220px;
+      height:105px;
       // border:1px solid gray;
-      margin: 0 auto 30px;
+      margin:0 auto 30px;
     }
 
-    &.__selected {
-      box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3);
+    &.__selected{
+      box-shadow: 0 0 10px 2px rgba(0,0,0,0.3);
     }
   }
 
@@ -292,29 +278,24 @@
     padding-top: 0px !important;
     padding-bottom: 20px;
     background-color: transparent;
-
     .list-meetings {
       background-color: white;
       padding: 5px;
     }
   }
-
   .meeting {
     background-color: #f6f6f6;
     margin-bottom: 10px;
     position: relative;
-
     &:last-child {
       margin-bottom: 0px;
     }
-
     .square {
       width: 83px;
       height: 83px;
       background-color: #00ae57;
       display: inline-block;
       float: left;
-
       p {
         margin: 0;
         padding: 0;
@@ -323,12 +304,10 @@
         color: white;
         font-weight: 100;
       }
-
       .postion {
         font-size: 30px;
       }
     }
-
     .arrowGreen {
       display: inline-block;
       width: 0;
@@ -339,7 +318,6 @@
       float: left;
       margin-top: 27px;
     }
-
     .square-small {
       width: 100%;
       height: 83px;
@@ -354,12 +332,10 @@
         color: white;
         font-weight: 100;
       }
-
       .postion {
         font-size: 30px;
       }
     }
-
     .arrowGreen-small {
 
       border-right: 16px solid transparent;
@@ -371,10 +347,11 @@
       height: 0;
 
 
-      margin-left: -16px;
-      margin-top: -1px;
+      margin-left: -16px;    margin-top: -1px;
       position: absolute;
       left: 50%;
+
+
 
 
     }
@@ -405,7 +382,6 @@
         display: table;
         width: 100%;
         height: 80px;
-
         li {
           display: table-cell;
           vertical-align: middle;
@@ -414,13 +390,11 @@
       }
     }
   }
-
   .big-arrow-white {
     height: 50px;
     float: right;
     width: 100%;
     clear: both;
-
     &:after {
       content: '';
       width: 0;
@@ -438,7 +412,6 @@
     float: right;
     width: 100%;
     clear: both;
-
     &:after {
       content: '';
       width: 0;
@@ -450,80 +423,68 @@
       margin-right: 248px;
     }
   }
-
-  .vtk-yp-link {
+  .vtk-yp-link{
     cursor: pointer;
     font-size: 14px;
-    color: #00ae58;
-    text-align: right;
+    color:#00ae58;
+    text-align:right;
+  }
+  .vtk-yp-link:hover{
+    color:green !important;
   }
 
-  .vtk-yp-link:hover {
-    color: green !important;
-  }
-
-  .vtk-yp-gray {
+  .vtk-yp-gray{
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
-    background-color: black;
+    background-color:black;
     opacity: 0.8;
 
-    &.__hidden {
+    &.__hidden{
       visibility: hidden;
     }
   }
 
 
-  .last-part {
+  .last-part{
     .button {
       margin: 0;
     }
-
-    .inactive {
+    .inactive{
       background-color: #969696 !important;
       pointer-events: none;
     }
-
     .table {
       width: 100%;
       display: table;
       font-size: 14px;
-
       .cell {
         display: table-cell;
         vertical-align: middle;
       }
-
-      .cell.c19 {
+      .cell.c19                     {
         width: 72%;
       }
-
       .cell.c3 {
         width: 28%;
-
         .button {
           width: 100%;
           margin: 0;
         }
-
-        .inactive {
+        .inactive{
           background-color: #969696 !important;
           pointer-events: none;
         }
-
         text-align: right;
       }
-
       .click-preview {
         color: #00A850;
-        font-weight: 600;
+        font-weight:600;
         cursor: pointer;
         padding-right: 20px;
       }
-
       .click-preview.__close {
         &:before {
           position: relative;
@@ -538,7 +499,6 @@
           border-width: 7px;
         }
       }
-
       .click-preview.__open {
         &:before {
           position: relative;
@@ -556,7 +516,7 @@
     }
   }
 
-  img._requirement_modal {
+  img._requirement_modal{
     background-color: white;
     -webkit-box-shadow: 6px 6px 30px -6px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 6px 6px 30px -6px rgba(0, 0, 0, 0.75);
@@ -566,35 +526,60 @@
     border-radius: 8px;
   }
 
-  ._intro {
+  ._intro{
     text-align: center;
     padding: 15px;
     box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.08);
-    margin-bottom: 10px;
+    margin-bottom:10px;
   }
 
 
-  .btn.button {
+  .btn.button:not(.selectedExploreButton):not(.resetExploreButton){
     padding: 11px 20px;
     font-size: 14px;
     margin: 0 10px 10px 0 !important;
     min-width: 136px !important;
 
-    &.btn-line {
+    &.btn-line{
       border: 1px solid #18aa51;
       background-color: white !important;
-      color: #18aa51;
+      color:#18aa51;
     }
 
-    &.btn-default {
+    &.btn-default{
       border: 1px solid #18aa51;
     }
 
-    &.selected {
+    &.selected{
       background-color: orange !important;
-      border: none;
+      border:none;
 
-      &.inactive {
+      &.inactive{
+        pointer-events: none;
+      }
+    }
+  }
+  .btn.button.selectedExploreButton{
+    padding: 11px 20px;
+    font-size: 14px;
+    margin: 0 10px 10px 0;
+    min-width: 136px !important;
+
+    &.btn-line{
+      border: 1px solid #18aa51;
+      background-color: white !important;
+      color:#18aa51;
+    }
+
+    &.btn-default{
+      border: 1px solid #18aa51;
+    }
+
+    &.selected{
+      background-color: orange !important;
+      border:none;
+
+      &.inactive{
         pointer-events: none;
       }
     }
@@ -602,8 +587,7 @@
 }
 
 
-.inner-wrap {
+.inner-wrap{
   // background-color: #6b6b6b;
 }
-
 

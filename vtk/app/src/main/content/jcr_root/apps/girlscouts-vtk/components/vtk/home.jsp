@@ -78,50 +78,50 @@
                 <nav class="breadcrumbs"></nav>
             </div>
         </div>
+
         <div class="row mainRightBottom">
             <div class="large-18 medium-18 small-24 columns rightBodyLeft">
                 <!--PAGE STRUCTURE: MIDDLE CONTENT START-->
                 <!-- apps/girlscouts/components/three-column-page/middle.jsp -->
                 <div id="mainContent" class="welcome-page">
                     <div class="par parsys">
+
                         <%@include file="include/vtkError.jsp" %>
+
                         <div class="text parbase section"><h1>Welcome.</h1></div>
+
                         <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
                             <li>
-                                <% if (!isHideSignIn && apiConfig != null) {
+                                <% if (!isHideSignIn && apiConfig!=null) {
                                     String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
                                     String userRole = null;
                                     if (!apiConfig.isFail()) {
-                                        if (userTroops != null && userTroops.size() > 0) {
-                                            userRole = userTroops.get(0).getRole();
+                                        if ( apiConfig.getTroops() != null && apiConfig.getTroops().size() >0) {
+                                            userRole = apiConfig.getTroops().get(0).getRole();
                                         }
-                                        userRole = userRole == null ? "" : userRole;
-                                        if (apiConfig != null && userRole != null && userRole.equals("DP")) {
-                                        } else if (apiConfig != null && apiConfig.getUser().isAdmin()) {
-                                            vtkLanding = "/myvtk/" + councilMapper.getCouncilName(councilId) + "/vtk.resource.html";
+                                        userRole= userRole ==null ? "" : userRole;
+                                        //if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
+                                        if( apiConfig!=null && userRole!=null && userRole.equals("DP") ){
+                                            ;
+
+                                        }else if( apiConfig!=null &&  apiConfig.getUser().isAdmin() ){
+                                            vtkLanding="/myvtk/" + councilMapper.getCouncilName(councilId) + "/vtk.resource.html";
                                         }
                                     }
+
                                 %>
                                 <!-- Begin of VTK icon -->
                                 <a href="<%=vtkLanding%>">
                                     <img src="/etc/designs/girlscouts-vtk/images/btn_VTK.jpg"/></a>
                                 <p>
-                                    If you&rsquo;re a Troop or Co-Leader - click here! See your troop&rsquo;s roster,
-                                    update contact info, access resources, easily email parents, enter troop finances,
-                                    and plan your program year with pre-populated troop calendars filled with Daisy,
-                                    Brownie and Junior Journeys and badges. New! Multi-level troops now have access. All
-                                    program levels can add your own troop activities to your calendar, as well as
-                                    pre-populated council events. It&rsquo;s your virtual troop assistant!
+                                    Access badges and Journeys for all levels, and much more from the Girl Scout National Program Portfolio. Plus, find meeting planning tools and resources for groups of all sizes. It&rsquo;s your virtual Girl Scout assistant!<br/><br/>Troop Leaders & Co-Leaders can co-plan activities, email caregivers in your troop and enter troop finances at the end of the year.
                                 </p>
                                 <% } %>
                             </li>
                             <li>
                                 <% if (!isHideMember) { %>
-                                <a href="<%= communityUrl %>"><img
-                                        src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
-                                <p>Do you want to change your member profile or contact details? Do you need to renew a
-                                    membership? Go to the Girl Scout Member Community for access to your member
-                                    profile.</p>
+                                <a href="<%= communityUrl %>"><img src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
+                                <p>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</p>
                                 <%}//edn if %>
                             </li>
                         </ul>
@@ -156,29 +156,28 @@
                     if (node.hasProperty("popupBody")) {
                         popupBody = node.getProperty("popupBody").getString();
                     }
-%>
-<!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
-<div id="maintenanceModal" class="maintenance">
-    <!-- Modal content -->
-    <div class="maintenance-content">
-        <div class="modal-header">
-            <div class="vtk-maintenance-news-button">
-                <i class="icon-button-circle-cross"></i>
-            </div>
-            <div class="maintenanceHeader"><%= popupHeader %> </br></div>
-        </div>
-        <div class="modal-body">
-            <p id="maintenanceBody"><%= popupBody %>
-            </p>
-        </div>
-        <div class="modal-footer">
-            <strong>-The GSUSA VTK Team</strong>
-        </div>
-    </div>
-</div>
-<%
+                    %>
+                    <!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
+                    <div id="maintenanceModal" class="maintenance">
+                        <!-- Modal content -->
+                        <div class="maintenance-content">
+                            <div class="modal-header">
+                                <div class="vtk-maintenance-news-button">
+                                    <span id="modal-close-button">X</span>
+                                </div>
+                                <div class="maintenanceHeader"><%= popupHeader %> </br></div>
+                            </div>
+                            <div class="modal-body">
+                                <p id="maintenanceBody"><%= popupBody %></p>
+                            </div>
+                            <div class="modal-footer">
+                                <strong>-The GSUSA VTK Team</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <%
                 }
-            }
+             }
         } catch (Exception e) {
             e.printStackTrace();
         }

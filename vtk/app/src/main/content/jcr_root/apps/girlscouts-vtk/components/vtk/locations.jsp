@@ -24,14 +24,14 @@
     }
 </script>
 <div class="header clearfix">
-    <%
-        boolean isWarning = false;
-        String instruction = "Select the calendar icon to change the date, time, or cancel an individual meeting.Or select the to use the planning wizard to reconfigure the calendar from that date forward";
-    %>
-    <h3 class="columns small-21">MEETING date and locations</h3>
-    <a class="columns small-3"
-       href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>"><i
-            class="icon-button-circle-cross"></i></a>
+	<%
+	
+		boolean isWarning=false;
+		String instruction = "Select the calendar icon to change the date, time, or cancel an individual meeting.Or select the to use the planning wizard to reconfigure the calendar from that date forward";
+%>
+	<h3 class="columns small-21">MEETING date and locations</h3>
+	<a class="columns small-3"
+		href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>"><span id="gsModalClose">X</span></a>
 </div>
 <div class="scroll" style="max-height:601px">
     <div class="tabs-wrapper">

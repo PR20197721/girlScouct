@@ -5,21 +5,13 @@
   A resource category contains a group of resource items..
 
 --%><%
-%>
-<%@page import="com.day.cq.wcm.api.WCMMode,
-                org.girlscouts.vtk.models.resources.Item,
-                java.util.ArrayList" %>
-<%@ page import="java.util.List" %>
-<%
-%>
-<%@include file="/apps/girlscouts-vtk/components/resources/global.jsp" %>
-<%
-%>
-<%@page session="false" %>
-<%
-%>
-<%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
-<cq:defineObjects/>
+%><%@page import="java.util.*,
+	org.girlscouts.vtk.models.resources.Item,
+	com.day.cq.wcm.api.WCMMode"%><%
+%><%@include file="/apps/girlscouts-vtk/components/resources/global.jsp"%><%
+%><%@page session="false" %><%
+%><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
+<cq:defineObjects />
 <%!
     void readRawItems(String[] rawItems, List<Item> items) {
         if (rawItems != null) {
@@ -43,31 +35,31 @@
     }
 
     void readRawItems(Node rawItems, List<Item> items) {
-        try {
+        try{
             if (rawItems != null && rawItems.hasNodes()) {
                 NodeIterator childNodes = rawItems.getNodes();
-                while (childNodes.hasNext()) {
-                    try {
-                        Node rawItem = (Node) childNodes.next();
-                        String title = rawItem.hasProperty("title") ? rawItem.getProperty("title").getString() : "";
-                        String type = rawItem.hasProperty("type") ? rawItem.getProperty("type").getString() : "";
-                        String uri = rawItem.hasProperty("uri") ? rawItem.getProperty("uri").getString() : "";
-                        String id = rawItem.hasProperty("id") ? rawItem.getProperty("id").getString() : "";
+                while(childNodes.hasNext()){
+                    try{
+                        Node rawItem = (Node)childNodes.next();
+                        String title = rawItem.hasProperty("title")? rawItem.getProperty("title").getString():"";
+                        String type = rawItem.hasProperty("type")? rawItem.getProperty("type").getString():"";
+                        String uri = rawItem.hasProperty("uri")? rawItem.getProperty("uri").getString():"";
+                        String id = rawItem.hasProperty("id")? rawItem.getProperty("id").getString():"";
                         Item item = null;
-                        if ("list".equals(type) || "meeting-overview".equals(type)) {
+                        if("list".equals(type) || "meeting-overview".equals(type)){
                             item = new Item(title, type, uri, id);
-                        } else {
+                        }else{
                             item = new Item(title, type, uri, "");
                         }
                         if (item != null && item.type != null && !"".equals(item.type)) {
                             items.add(item);
                         }
-                    } catch (Exception e) {
+                    }catch(Exception e){
 
                     }
                 }
             }
-        } catch (Exception e1) {
+        }catch(Exception e1){
 
         }
 
@@ -78,7 +70,7 @@
 
     Node categoryNode = resource.adaptTo(Node.class);
 
-    if (categoryNode.hasNode("items")) {
+    if(categoryNode.hasNode("items")){
         readRawItems(categoryNode.getNode("items"), items);
     }
     ValueMap templateProperties = getTemplateResourceProperties(resource, resourceResolver);
@@ -90,24 +82,20 @@
     String title = properties.get("title", templateProperties.get("title", ""));
 
     if ("".equals(icon) && "".equals(title) && items.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-%>
-<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder">Double Click Here To Edit This Category</div>
-<%
+%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder">Double Click Here To Edit This Category</div><%
 } else {
     String level = resource.getParent().getName();
     String popupTitle = "";
     if ("daisy".equals(level)) {
         popupTitle = "Daisy Petal, Badge, and Journey Resources";
-    } else if ("multi-level".equals(level)) {
+    } else if ("multi-level".equals(level)){
         popupTitle = "Multi-Level Badge and Journey Resources";
-    } else if (level != null && level.length() > 0) {
+    } else if (level != null && level.length() > 0){
         popupTitle = level.substring(0, 1).toUpperCase() + level.substring(1) + " Badge and Journey Resources";
     }%>
 <div class="header clearfix">
-    <h3 class="columns small-21"><%= popupTitle %>
-    </h3>
-    <i style="position:absolute; top:5px; right:5px;" class="icon-button-circle-cross"
-       onclick="(function(){$('#gsModal').dialog('close')})()"></i>
+    <h3 class="columns small-21"><%= popupTitle %></h3>
+    <span style="position:absolute; top:-5px; right:9px; color:black; font-size:22px; cursor:pointer; font-family: 'Trefoil Sans Web', 'Open Sans', Arial, sans-serif;" onclick="(function(){$('#gsModal').dialog('close')})()">X</span>
 </div>
 <div class="scroll" style="max-height:601px">
     <!-- Content -->
@@ -116,18 +104,16 @@
         <table>
             <%
                 for (Item item : items) {
-            %>
-            <tr><%
-                String script = item.type + ".jsp";
-                request.setAttribute("VTK_RESOURCES_ITEM_TITLE", item.title);
-                request.setAttribute("VTK_RESOURCES_ITEM_URI", item.uri);
-            %> <cq:include script="<%= script %>"/> <%
-                request.removeAttribute("VTK_RESOURCES_ITEM_TITLE");
-                request.removeAttribute("VTK_RESOURCES_ITEM_URI");
-            %></tr>
-            <%
-                }
-            %>
+            %><tr><%
+            String script = item.type + ".jsp";
+            request.setAttribute("VTK_RESOURCES_ITEM_TITLE", item.title);
+            request.setAttribute("VTK_RESOURCES_ITEM_URI", item.uri);
+        %> <cq:include script="<%= script %>" /> <%
+            request.removeAttribute("VTK_RESOURCES_ITEM_TITLE");
+            request.removeAttribute("VTK_RESOURCES_ITEM_URI");
+        %></tr><%
+            }
+        %>
         </table>
     </div>
     <!-- /Content  -->

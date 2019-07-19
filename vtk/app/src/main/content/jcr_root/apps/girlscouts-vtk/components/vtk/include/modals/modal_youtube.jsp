@@ -52,18 +52,16 @@
     }
 </style>
 <div class="modal_resource">
-    <div class="header clearfix">
-        <h3 class="columns large-22">
-            Video
-        </h3>
-        <a class="close-reveal-modal columns large-2" href="#"><i
-                class="icon-button-circle-cross"></i></a>
-    </div>
-    <div class="scroll content" style="max-height: 471px;">
-        <div class="section video">
-            <div class="video-container">
-                <iframe id="youtube" width="600px" height="500" src="" frameborder="0" allowfullscreen=""></iframe>
-            </div>
+	<div class="header clearfix">
+		<h3 class="columns large-22">
+			Video
+		</h3>
+		<a class="close-reveal-modal columns large-2" href="#"><span style="color: black; font-size: 22px; padding-right: 10px; font-weight: normal;">X</span></a>
+	</div>
+	<div class="scroll content" style="max-height: 471px;">
+      <div class="section video">
+        <div  class="video-container">
+          <iframe id="youtube" width="600px" height="500" src="" frameborder="0" allowfullscreen=""></iframe>
         </div>
     </div>
 </div>

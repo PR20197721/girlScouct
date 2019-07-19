@@ -39,6 +39,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedList;
 
 @SlingServlet(
         label = "Girl Scouts PDF Servlet", description = "Generate PDF from Girl Scouts site page", paths = {},
@@ -60,7 +61,12 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
             ByteArrayOutputStream bais = new ByteArrayOutputStream();
 
             StringBuilder sb = new StringBuilder();
-            Resource rsrc = request.getResourceResolver().resolve(request.getParameter("path").replaceAll("/jcr:content",""));
+            Resource rsrc;
+            try {
+                rsrc = request.getResourceResolver().resolve(request.getParameter("path").replaceAll("/jcr:content", ""));
+            }catch (Exception e){
+                rsrc = request.getResourceResolver().resolve("/content/gsusa/en");
+            }
             Page homepage = rsrc.adaptTo(Page.class).getAbsoluteParent(2);
             Node home = homepage.getContentResource().adaptTo(Node.class);
             //Get header path
@@ -150,27 +156,33 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
     //Generate asset and create dataURI for pdf generation
     //Create buffered image from asset and encode byte array to base64 format
     private String generateImage(String element, ResourceResolver rr){
-        String backupEl = element;
-        try{
-            String s = element.substring(element.indexOf("src=\"") + 5, element.indexOf("\"", element.indexOf("src=\"") + 5));
-            String ext = s.substring(s.lastIndexOf(".")+1);
-            Asset asset = rr.resolve(URLDecoder.decode(s, "UTF8")).adaptTo(Asset.class);
-            Rendition orig = asset.getOriginal();
-            InputStream is = orig.getStream();
-            BufferedImage imgs = ImageIO.read(is);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            String byteString;
-            String dataUriEncoded;
-            ImageIO.write(imgs, ext.toUpperCase(),out);
-            byte[] bytes = out.toByteArray();
-            dataUriEncoded = java.util.Base64.getEncoder().encodeToString(bytes);
-            byteString= "data:image/"+ext+";base64," + dataUriEncoded;
-            element = element.replace(s, byteString);
-            return element;
-        }catch (Exception e){
-            log.error("Failed to retrieve image asset: ",e);
-            return backupEl;
+        LinkedList<String> sources = new LinkedList<>();
+        int index = 0;
+        while(element.indexOf("src=\"",index+1) >= 0){
+            index = element.indexOf("src=\"",index+1);
+            sources.add(element.substring(index + 5, element.indexOf("\"", index + 5)));
         }
+        for(String s : sources){
+            try{
+                String ext = s.substring(s.lastIndexOf(".")+1);
+                Asset asset = rr.resolve(URLDecoder.decode(s, "UTF8")).adaptTo(Asset.class);
+                Rendition orig = asset.getOriginal();
+                InputStream is = orig.getStream();
+                BufferedImage imgs = ImageIO.read(is);
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                String byteString;
+                String dataUriEncoded;
+                ImageIO.write(imgs, ext.toUpperCase(),out);
+                byte[] bytes = out.toByteArray();
+                dataUriEncoded = java.util.Base64.getEncoder().encodeToString(bytes);
+                byteString= "data:image/"+ext+";base64," + dataUriEncoded;
+                element = element.replace(s, byteString);
+            }catch (Exception e){
+                log.debug("Failed to retrieve image asset, cannot find image: "+s);
+            }
+        }
+        return element;
+
     }
     private String buildHref(String element, String hostname){
         if(!element.contains("href=\"http")){
@@ -208,10 +220,14 @@ public class GirlscoutsPdfServlet extends SlingAllMethodsServlet implements Opti
                 }
                 //Add elements to document.
                 for(IElement el : HtmlConverter.convertToElements(elements[i])){
-                    Div div = (Div)el;
-                    div.setMarginRight(30);
-                    div.setMarginLeft(30);
-                    parent.add(div);
+                    try{
+                        Div div = (Div)el;
+                        div.setMarginRight(30);
+                        div.setMarginLeft(30);
+                        parent.add(div);
+                    }catch (Exception e){
+                        log.debug("Failed to add element to document", e);
+                    }
                 }
             }
             doc.add(parent);

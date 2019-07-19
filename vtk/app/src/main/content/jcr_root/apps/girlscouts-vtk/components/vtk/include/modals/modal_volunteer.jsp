@@ -37,31 +37,31 @@
         resourceNode = resourceContent.adaptTo(Node.class);
 %>
 <div class="modal_volunteer">
-    <div class="header clearfix">
-        <h3 class="columns large-22">
-            <%
-                if (resourceNode.hasProperty("name")) {
-                    out.println(xssAPI.encodeForHTML(resourceNode.getProperty("name").getString()));
-                } else {
-                    out.println(xssAPI.encodeForHTML(resourceNode.getName()));
-                }
-            %>
-        </h3>
-        <a class="close-reveal-modal columns large-2" href="#"><i
-                class="icon-button-circle-cross"></i></a>
-    </div>
-    <div class="scroll content">
-        <section class="content">
-            <%
-                String fullPath = resourceContent.getPath() + "/meetingInfo/overview";
-                Resource textResource = resourceResolver.getResource(fullPath);
-                Node textNode = textResource.adaptTo(Node.class);
-                if (textNode.hasProperty("str")) {
-                    out.println(textNode.getProperty("str").getString());
-                }
-            %>
-        </section>
-    </div>
+	<div class="header clearfix">
+		<h3 class="columns large-22">
+			<%
+            if(resourceNode.hasProperty("name")){
+            	out.println(xssAPI.encodeForHTML(resourceNode.getProperty("name").getString()));
+        	}
+        	else{
+				out.println(xssAPI.encodeForHTML(resourceNode.getName()));
+            }
+			%>
+		</h3>
+		<a class="close-reveal-modal columns large-2" href="#"><span style="color: black; font-size: 22px; padding-right: 10px; font-weight: normal;">X</span></a>
+	</div>
+	<div class="scroll content">
+		<section class="content">
+		<%
+            String fullPath = resourceContent.getPath() + "/meetingInfo/overview";
+        	Resource textResource = resourceResolver.getResource(fullPath);
+            Node textNode = textResource.adaptTo(Node.class);
+            if(textNode.hasProperty("str")){
+                out.println(textNode.getProperty("str").getString());
+            }
+		%>
+		</section>
+	</div>
 </div>
 <% } catch (Exception e) {
     StringWriter sw = new StringWriter();

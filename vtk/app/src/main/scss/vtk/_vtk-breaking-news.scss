@@ -48,7 +48,7 @@
 .maintenance {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 1000;
   left: 0;
   top: 0%;
   width: 100%;
@@ -66,9 +66,14 @@
 
 .modal-header {
   padding: 2px 16px;
-  background-color: #00ae58;
-  color: white;
+  color: black;
   padding-bottom: 25px;
+}
+#modal-close-button{
+    color: black;
+    font-size: 22px;
+    margin-left: 15px;
+    cursor: pointer;
 }
 
 .modal-body {
@@ -82,6 +87,7 @@
 
 .maintenance-content {
   position: relative;
+  font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
   background-color: #fefefe;
   margin: auto;
   padding: 0;

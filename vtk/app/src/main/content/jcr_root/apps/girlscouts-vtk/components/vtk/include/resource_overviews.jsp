@@ -5,8 +5,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="session.jsp" %>
 <div class="header clearfix">
-    <i style="position:absolute; top:5px; right:5px;" class="icon-button-circle-cross"
-       onclick="(function(){$('#gsModal').dialog('close')})()"></i>
+		<span style="position:absolute; top:-5px; right:9px; color:black; font-size:22px; cursor:pointer; font-family: 'Trefoil Sans Web', 'Open Sans', Arial, sans-serif;" onclick="(function(){$('#gsModal').dialog('close')})()">X</span>
 </div>
 <div class="scroll" style="max-height:601px">
     <div id="resource_overview">

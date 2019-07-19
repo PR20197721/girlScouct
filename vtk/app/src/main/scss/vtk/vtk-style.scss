@@ -828,12 +828,12 @@
     top: 0;
     // position:fixed;
     .header {
-      background: #00ae57;
-      padding: 7px 0 5px 9px;
-
+      background: white;
+      padding:7px 0 5px 9px;
       h3 {
         text-transform: uppercase;
         font-size: 24px;
+        color: black;
         display: inline-block;
         padding-right: 40px;
       }
@@ -844,7 +844,7 @@
         font-size: 35px;
         text-align: right;
         top: 0;
-        right: 0;
+        right: 8px;
         vertical-align: middle;
       }
 
@@ -1170,8 +1170,9 @@
 
     #gsModal {
       background: #fff;
-      padding: 0;
-      overflow: hidden !important;
+      padding:0;
+      font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
+      overflow:hidden !important;
       // height: 100% !important;
       // max-height: 100% !important;
       p, a, span, li {
@@ -1190,11 +1191,11 @@
     }
 
     .header {
-      background: #00ae57;
-      padding: 7px 0 5px 9px;
-
+      background: white;
+      padding:7px 0 5px 9px;
       h3 {
         text-transform: uppercase;
+        color: black;
         font-size: 24px;
         display: inline-block;
       }
@@ -1203,14 +1204,20 @@
         text-align: right;
         margin-top: 10px;
       }
-
+      a{
+        margin-top: -5px;
+      }
+      #gsModalClose{
+        font-size: 22px;
+        color: black;
+      }
       a,
       [class*=" icon-"],
       [class^="icon-"] {
         font-size: 35px;
         text-align: right;
         top: 0;
-        right: 0;
+        right: 8px;
         outline: none;
         vertical-align: middle;
       }
@@ -2892,13 +2899,15 @@ input[type="file"] {
 @import 'vtk-meetings'; //Meetings
 @import 'vtk-banner'; //Banner in year plan
 @import 'vtk-react'; //react css
-@import 'vtk-troop-tab';
+@import 'vtk-loader'; //loading animation
+@import 'vtk-troop-tab'; 
 @import 'vtk-direct-calendar'; //Meetings
 @import 'vtk-resource-page';
 @import 'vtk-icons'; //Icons
 @import 'vtk_resource_overview'; // Resources
 @import 'vtk-breaking-news'; // Breaking news styles
-@import 'vtk-email-troop'; //email troop styles
+@import 'vtk-email-troop';//email troop styles
+@import 'vtk-explore';//explore tab styles
 
 
 #linkToYplan {

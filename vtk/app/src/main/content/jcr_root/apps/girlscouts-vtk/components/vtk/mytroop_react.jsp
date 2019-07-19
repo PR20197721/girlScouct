@@ -7,51 +7,57 @@
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <%
     Logger mytroopreactlogger = LoggerFactory.getLogger(this.getClass().getName());
-    java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras = null;
-    java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
-    if (isCachableContacts && session.getAttribute("vtk_cachable_contacts") != null) {
-        contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
-    }
-    if (contacts == null) {
-        contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
-        if (contacts != null) {
-            session.setAttribute("vtk_cachable_contacts", contacts);
-        }
-        String emailTo = ",";
-        try {
-            for (int i = 0; i < contacts.size(); i++) {
-                if (contacts.get(i).getEmail() != null && !contacts.get(i).getEmail().trim().equals("") && !emailTo.contains(contacts.get(i).getEmail().trim() + ",")) {
-                    emailTo += (contacts.get(i).getFirstName() != null ? contacts.get(i).getFirstName().replace(" ", "%20") : "") + java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() + ">") + ",";
-                }
-            }
-            emailTo = emailTo.trim();
-            if (emailTo.endsWith(",")) {
-                emailTo = emailTo.substring(0, emailTo.length() - 1);
-            }
-            if (emailTo.startsWith(",")) {
-                emailTo = emailTo.substring(1);
-            }
-        } catch (Exception e) {
-            mytroopreactlogger.error("Error occured:",e);
-        }
-        java.util.Map<java.util.Date, YearPlanComponent> sched = null;
-        try {
-            sched = meetingUtil.getYearPlanSched(user, selectedTroop, selectedTroop.getYearPlan(), true, false);
-        } catch (Exception e) {
-            mytroopreactlogger.error("Error occured:",e);
-        }
-        BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
-        com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
-        contactsExtras = contactUtil.getContactsExtras(user, selectedTroop, contacts);
-%>
-<div class="email">
-    <div class="email-content">
-        <div class="email-modal-header">
-            <div class="vtk-email-news-button" onclick="cancelEmail()">
-                <i class="icon-button-circle-cross"></i>
-            </div>
-            <h3 style="color:white;" class="emailHeader">Troop Email Content </br></h3>
-        </div>
+    java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
+	java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
+	if( isCachableContacts && session.getAttribute("vtk_cachable_contacts")!=null ) {
+		contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
+	}
+
+	if( contacts==null ){
+		contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
+		if( contacts!=null ) {
+			session.setAttribute("vtk_cachable_contacts" , contacts);
+		}
+		
+		
+		String emailTo=",";
+		try{
+			for(int i=0;i<contacts.size();i++)
+			if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && !emailTo.contains( contacts.get(i).getEmail().trim()+"," )) {
+				emailTo += (contacts.get(i).getFirstName()!=null ? contacts.get(i).getFirstName().replace(" ","%20") : "") + java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() +">")+",";
+			}
+			emailTo = emailTo.trim();
+			if( emailTo.endsWith(",") )  {
+				emailTo= emailTo.substring(0, emailTo.length()-1);
+			}
+			if( emailTo.startsWith(",") ) {
+				emailTo= emailTo.substring(1, emailTo.length());
+			}
+		}catch(Exception e){e.printStackTrace();}
+		
+		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
+		try{
+			 //GOOD-sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
+			sched = meetingUtil.getYearPlanSched(user, selectedTroop, selectedTroop.getYearPlan(), true, false);
+		}catch(Exception e){e.printStackTrace();}
+
+		BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
+		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
+
+		 contactsExtras = contactUtil.getContactsExtras( user,  selectedTroop, contacts);
+	
+		 
+    
+	%>
+	<div class="email">
+	<div class="email-content">
+          <div class="email-modal-header">
+       		 <div class="vtk-email-news-button" onclick="cancelEmail()">
+                    <span id="email-close-button">X<span>
+              </div>
+             <h3 class="emailHeader">Troop Email Content </br></h3>
+      	  </div>
+>>>>>>> release-candidate-3.11
         <div class="email-modal-body">
             <h6 class="emailInput"> Email To: </h6>
             <ul class="small-block-grid-3">
@@ -346,7 +352,6 @@
             $("#file-input").hide();
             $(".email-modal-body").html("<strong>Email Sent</strong>");
             clearEmail();
-            $("#sendEmail").css("margin-left", "600%");
         }
     });
     $("#mailBtn").click(function () {

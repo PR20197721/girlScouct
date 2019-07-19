@@ -1,14 +1,16 @@
 import * as React from 'react';
 import * as $ from 'jquery';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import './modal.scss';
-import {HELPER} from '../helper';
-import {ActionsTypes} from '../store/actionsType';
+import { HELPER } from '../helper';
+import { Actions } from '../store/actions';
+import { ActionsTypes } from '../store/actionsType';
+import { DetailedHTMLProps } from 'react';
 
 export interface VtkModalProps {
-    modal: {
-        title: string,
-        description: any
+    modal:{
+        title:string,
+        description:any
     }
     dispatch: any
 }
@@ -18,46 +20,42 @@ class VtkModal extends React.PureComponent<VtkModalProps, any> {
         window.onresize = () => {
             this.forceUpdate();
         };
-        window.onscroll = () => {
+        window.onscroll = () =>{
             this.forceUpdate();
         }
     }
 
     componentWillUnmount() {
-        window.onresize = () => {
-        };
-        window.onscroll = () => {
-        };
+        window.onresize = () => {};
+        window.onscroll = () => {};
     }
-
     replaceAll(str, rep, val) {
-        if (str === null) {
+        if(str === null){
             return;
         }
         return str.replace(new RegExp(rep, 'g'), val);
     }
-
-    checkAgenda(innerText) {
+    checkAgenda(innerText){
         var assets = [];
         var assetNames = [];
 
         //Parse Meeting aid Titles and Hrefs into arrays
-        $(".__list_of_assets").children().each(function () {
+        $(".__list_of_assets").children().each(function(){
             assetNames.push($.trim($(this).find("a").text()));
             assets.push($(this).find("a").attr("href"));
         });
         var contentVal;
-        try {
+        try{
             contentVal = innerText;
-        } catch (err) {
+        }catch(err){
             return innerText;
         }
-        for (var i = 0; i < $(".__list_of_assets").children().length; i++) {
-            try {
-                if (contentVal !== undefined) {
-                    contentVal = this.replaceAll(contentVal, assetNames[i], "<a href='" + assets[i] + "'target='_blank'>" + assetNames[i] + "</a>");
+        for(var i = 0; i < $(".__list_of_assets").children().length; i++) {
+            try{
+                if(contentVal !== undefined){
+                    contentVal = this.replaceAll(contentVal, assetNames[i], "<a href='"+assets[i]+"'target='_blank'>" + assetNames[i]+"</a>");
                 }
-            } catch (err) {
+            } catch(err){
                 return innerText;
             }
         }
@@ -83,7 +81,7 @@ class VtkModal extends React.PureComponent<VtkModalProps, any> {
         const close = () => {
             this.props.dispatch({
                 type: ActionsTypes.DESTROY_MODAL,
-                payload: {modal: {}},
+                payload: { modal: {} },
             });
         };
 
@@ -93,35 +91,34 @@ class VtkModal extends React.PureComponent<VtkModalProps, any> {
 
             const ratio = w / h;
 
-            if (h > 600 && ratio > 1) {
-                h = 600;
+            if(h>600 && ratio > 1){
+                h=600;
             }
             return h;
-        };
+        }
 
         const top = () => {
             return window.scrollY;
-        };
+        }
 
-        return HELPER.objectIsEmpty(this.props.modal) ?
-            <div className="vtk_modal __background" style={{top: top() + "px"}}>
-                <div className="__modal" style={{height: heigthLogic() + 'px'}}>
-                    <div className="__header">
-                        <h3>
-                            {this.props.modal.title}{" "}
-                        </h3>
-                        <i onClick={close} className="icon-button-circle-cross"/>
-                    </div>
-                    <div className="__description" style={{height: (heigthLogic() - 40) + 'px'}}>
-                        <div className="__scroll" dangerouslySetInnerHTML={{__html: this.checkAgenda(this.props.modal.description)}}/>
-                    </div>
+        return HELPER.objectIsEmpty(this.props.modal) ? <div className="vtk_modal __background" style={{ top: top() + "px" }}>
+            <div className="__modal" style={{height:heigthLogic()+'px'}}>
+                <div className="__header">
+                    <h3>
+                        {this.props.modal.title}{" "}
+                    </h3>
+                    <span className="modal-close-btn" onClick={close} >X</span>
                 </div>
-            </div> : null;
+                <div className="__description" style={{height:(heigthLogic()-40)+'px'}}>
+                    <div className="__scroll" dangerouslySetInnerHTML={{ __html: this.checkAgenda(this.props.modal.description) }} />
+                </div>
+            </div>
+        </div> : null;
     }
 }
 
 let modal = state => {
-    return {modal: state.modal};
+    return { modal: state.modal };
 };
 
 export default connect(modal)(VtkModal);

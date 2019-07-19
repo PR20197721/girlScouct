@@ -7,32 +7,33 @@
 <cq:defineObjects/>
 <%@include file="../session.jsp" %>
 <div class="modal_agenda_edit">
-    <div class="header clearfix">
-        <h3 class="columns large-22">
-            <%
-                String act = "";
-                if (request.getParameter("isOverview") != null) {
-                    out.println("Overview");
-                    act = "isOverview";
-                } else if (request.getParameter("isActivity") != null) {
-                    out.println("Activity Plan");
-                    act = "isActivity";
-                } else if (request.getParameter("isMaterials") != null) {
-                    out.println("Materials List");
-                    act = "isMaterials";
-                } else if (request.getParameter("isAgenda") != null) {
-                    out.println("Activity");
-                }
-            %>
-        </h3>
-        <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
-    </div>
-    <div class="scroll content" style="">
-        <% if (!act.isEmpty()) { %>
-        <a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>"
-           target="_blank" class="icon-download right" download="<%=act%>"></a>
-        <a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>"
-           target="_blank" class="icon-printer right"></a>
+	<div class="header clearfix">
+		<h3 class="columns large-22">
+		<%
+		  String act="";
+			if (request.getParameter("isOverview") != null) {
+					out.println("Overview");
+					act="isOverview";
+			} else if (request.getParameter("isActivity") != null) {
+					out.println("Activity Plan");
+					act="isActivity";
+			} else if (request.getParameter("isMaterials") != null) {
+					out.println("Materials List");
+					act="isMaterials";
+			} else if (request.getParameter("isAgenda") != null) {
+				out.println("Activity");
+			}
+		%>
+		</h3>
+		<a class="close-reveal-modal columns large-2" href="#"><span style="font-size: 24px; color: black; font-weight: normal;">X</span></a>
+	</div>
+
+	<div class="scroll content" style="">
+
+
+	<% if(!act.isEmpty()) { %>
+		<a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-download right" download="<%=act%>"></a>
+        <a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-printer right"></a>
         <% } %>
         <div class="setupCalendar row">
             <%

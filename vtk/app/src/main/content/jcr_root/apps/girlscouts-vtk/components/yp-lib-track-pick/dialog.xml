@@ -8,16 +8,16 @@
         <props jcr:primaryType="cq:Panel">
             <items jcr:primaryType="cq:WidgetCollection">
                 <track
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription="Select a Year Plan Track"
-                        fieldLabel="Year Plan Track Mapping"
-                        name="./track"
-                        options="/bin/vtk/v1/scaffoldingdata.json?yearplan=yearplan2018"
-                        optionsRoot="yearplan2018"
-                        optionsTextField="title"
-                        optionsValueField="data"
-                        type="select"
-                        xtype="selection"/>
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Select a Year Plan Track"
+                    fieldLabel="Year Plan Track Mapping"
+                    name="./track"
+                    options="/bin/vtk/v1/scaffoldingdata.json?yearplan=yearplan2019"
+                    optionsRoot="yearplan2019"
+                    optionsTextField="title"
+                    optionsValueField="data"
+                    type="select"
+                    xtype="selection"/>
                 <isnew
                         cq:lastReplicated="{Date}2017-05-18T13:27:58.809-04:00"
                         cq:lastReplicatedBy="admin"

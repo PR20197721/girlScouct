@@ -1,3 +1,53 @@
+function setPdfButton(){
+    $(".pdf-print").find("#pdfGen").on('click', function(){
+        $(".pdf-print").find("#pdfGen").unbind('click');
+        //Add image size attributes
+        $("#mainContent").find("img").each(function(){
+            $(this).attr("height", this.clientHeight)
+            $(this).attr("width", this.clientWidth)
+        });
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/etc/servlets/pdf/page-pdf.html', true);
+        xhr.responseType = 'arraybuffer';
+        var returner = new Promise(function(res, rej) {
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    var filename = "GirlScoutsGeneratedPdf";
+                    var type = "application/pdf";
+                    var blob;
+                    try{
+                        blob = new File([this.response], filename, {type: type})
+                    }catch(err){
+                        // IE / Safari dont' like creating files.
+                        blob = new Blob([this.response], {type: type});
+                    }
+                    //IE workaround
+                    if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                        // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                        window.navigator.msSaveBlob(blob, filename + '.pdf');
+                    } else{
+                        var URL = window.URL || window.webkitURL;
+                        var downloadUrl = URL.createObjectURL(blob);
+                        window.open(downloadUrl);
+                    }
+                    setPdfButton();
+                    res();
+                }else{
+                    setPdfButton();
+                    console.log("Pdf generation failed")
+                    rej();
+                }
+            };
+        });
+        var html = encodeURI(buildPdfHtml());
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=utf-8');
+        xhr.send($.param({pageHtml: html, path: $("#pdfLink").attr("pdfpath"), title: $("#pdfLink").attr("title")}));
+        return returner;
+
+    });
+}
+
+
 //Iterate through children and build html + styles, recursive
 function buildChildren(el){
     var html = "";
@@ -87,47 +137,6 @@ function buildPdfHtml(){
 }
 $(document).ready(function(){
     $(".pdf-print").find("#pdfGen").unbind('click');
-    $(".pdf-print").find("#pdfGen").on('click', function(){
-        //Add image size attributes
-        $("#mainContent").find("img").each(function(){
-            $(this).attr("height", this.clientHeight)
-            $(this).attr("width", this.clientWidth)
-        });
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/etc/servlets/pdf/page-pdf.html', true);
-        xhr.responseType = 'arraybuffer';
-        var returner = new Promise(function(res, rej) {
-            xhr.onload = function () {
-                if (this.status === 200) {
-                    var filename = "GirlScoutsGeneratedPdf";
-                    var type = "application/pdf";
-                    var blob;
-                    try{
-                        blob = new File([this.response], filename, {type: type})
-                    }catch(err){
-                        // IE / Safari dont' like creating files.
-                        blob = new Blob([this.response], {type: type});
-                    }
-                    //IE workaround
-                    if (typeof window.navigator.msSaveBlob !== 'undefined') {
-                        // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
-                        window.navigator.msSaveBlob(blob, filename + '.pdf');
-                    } else{
-                        var URL = window.URL || window.webkitURL;
-                        var downloadUrl = URL.createObjectURL(blob);
-                        window.open(downloadUrl);
-                    }
-                    res();
-                }else{
-                    console.log("Pdf generation failed")
-                    rej();
-                }
-            };
-        });
-        var html = encodeURI(buildPdfHtml());
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=utf-8');
-        xhr.send($.param({pageHtml: html, path: $("#pdfLink").attr("pdfpath"), title: $("#pdfLink").attr("title")}));
-        return returner;
+    setPdfButton();
 
-    });
 });
