@@ -829,7 +829,8 @@
     // position:fixed;
     .header {
       background: white;
-      padding:7px 0 5px 9px;
+      padding: 7px 0 5px 9px;
+
       h3 {
         text-transform: uppercase;
         font-size: 24px;
@@ -993,8 +994,7 @@
     [class*="block-grid-"] {
       li {
         padding-bottom: 10px;
-
-        &::nth-last-child(-n+2) {
+        &:nth-last-child(-n+2) {
           padding-bottom: 0;
         }
       }
@@ -1170,9 +1170,9 @@
 
     #gsModal {
       background: #fff;
-      padding:0;
+      padding: 0;
       font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
-      overflow:hidden !important;
+      overflow: hidden !important;
       // height: 100% !important;
       // max-height: 100% !important;
       p, a, span, li {
@@ -1192,7 +1192,8 @@
 
     .header {
       background: white;
-      padding:7px 0 5px 9px;
+      padding: 7px 0 5px 9px;
+
       h3 {
         text-transform: uppercase;
         color: black;
@@ -1204,13 +1205,16 @@
         text-align: right;
         margin-top: 10px;
       }
-      a{
+
+      a {
         margin-top: -5px;
       }
-      #gsModalClose{
+
+      #gsModalClose {
         font-size: 22px;
         color: black;
       }
+
       a,
       [class*=" icon-"],
       [class^="icon-"] {
@@ -2892,7 +2896,7 @@ input[type="file"] {
 @import 'vtk-button'; //button
 @import 'vtk-archive'; //Archives
 @import 'vtk-notes'; //VtkNotes
-@import 'vtk-modal'; //VtkModal 
+@import 'vtk-modal'; //VtkModal
 @import 'vtk-meeting-filter'; //Meeting Filter
 @import 'vtk-component-dropdown-checkbox'; //DropDown in the for demo
 @import 'vtk-meeting-calendar'; //Meeting calendar in the Year plan
@@ -2900,14 +2904,14 @@ input[type="file"] {
 @import 'vtk-banner'; //Banner in year plan
 @import 'vtk-react'; //react css
 @import 'vtk-loader'; //loading animation
-@import 'vtk-troop-tab'; 
+@import 'vtk-troop-tab';
 @import 'vtk-direct-calendar'; //Meetings
 @import 'vtk-resource-page';
 @import 'vtk-icons'; //Icons
 @import 'vtk_resource_overview'; // Resources
 @import 'vtk-breaking-news'; // Breaking news styles
-@import 'vtk-email-troop';//email troop styles
-@import 'vtk-explore';//explore tab styles
+@import 'vtk-email-troop'; //email troop styles
+@import 'vtk-explore'; //explore tab styles
 
 
 #linkToYplan {
@@ -2923,21 +2927,27 @@ section.grade-levels {
 .grade-levels ul li.grade-level.daisy {
   background-color: #00AAE5 !important;
 }
+
 .grade-levels ul li.grade-level.brownie {
   background-color: #854400 !important;
 }
+
 .grade-levels ul li.grade-level.junior {
   background-color: #6E298C !important;
 }
+
 .grade-levels ul li.grade-level.cadette {
   background-color: #EE2123 !important;
 }
+
 .grade-levels ul li.grade-level.senior {
   background-color: #F36F21 !important;
 }
+
 .grade-levels ul li.grade-level.ambassador {
   background-color: #FAA519 !important;
 }
+
 .grade-levels ul li.grade-level.multi-level {
   background-color: #D5C99E !important;
 }

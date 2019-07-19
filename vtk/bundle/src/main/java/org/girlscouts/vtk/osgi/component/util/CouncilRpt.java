@@ -89,7 +89,7 @@ public class CouncilRpt {
 
     public List<CouncilRptBean> getRpt(String sfCouncil, ApiConfig config) {
         List<CouncilRptBean> container = new ArrayList<CouncilRptBean>();
-        String sql = "SELECT s.* from [nt:unstructured] as s where ISDESCENDANTNODE([" + VtkUtil.getYearPlanBase(null, null) + sfCouncil + "/troops/]) and s.[ocm_classname] = 'org.girlscouts.vtk.ocm.YearPlanNode'";
+        String sql = "SELECT s.* from [nt:unstructured] as s where ISDESCENDANTNODE([" + VtkUtil.getYearPlanBase(null, null) + sfCouncil + "/troops/]) and s.[ocm_classname] = 'org.girlscouts.vtk.ocm.YearPlanNode' and jcr:path not like '%/yearPlan-%'";
         List<String> activities = getActivityRpt(sfCouncil);
         ResourceResolver rr = null;
         try {

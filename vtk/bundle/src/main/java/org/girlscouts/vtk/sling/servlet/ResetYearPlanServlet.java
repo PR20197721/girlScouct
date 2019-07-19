@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.services;
+package org.girlscouts.vtk.sling.servlet;
 
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
@@ -9,7 +9,7 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.settings.SlingSettingsService;
-import org.girlscouts.vtk.utils.VtkUtil;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.jcr.Node;
@@ -46,7 +46,7 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String troopId = VtkUtil.getTroop(session).getId();
-        int councilId = VtkUtil.getUser(session).getApiConfig().getUser().getAdminCouncilId();
+        String councilId = VtkUtil.getUser(session).getApiConfig().getUser().getAdminCouncilId();
         int gsCurrentYear = VtkUtil.getCurrentGSYear();
         StringBuilder troopYpPath = new StringBuilder();
         troopYpPath.append("/vtk"+gsCurrentYear+"/"+councilId+"/troops/"+troopId+"/yearPlan");

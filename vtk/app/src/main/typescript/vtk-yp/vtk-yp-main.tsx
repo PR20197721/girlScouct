@@ -13,7 +13,7 @@ import Meetings from './meetings';
 
 interface VtkMainYpProps {
     data: any;
-}
+};
 
 interface VtkMainYpState {
     pdf: string;
@@ -33,7 +33,7 @@ interface VtkMainYpState {
 
     showTracks: boolean;
     showPreview: boolean;
-}
+};
 
 declare var $: any;
 declare var ________app________: string;
@@ -41,7 +41,7 @@ declare var ________app1________: string;
 declare var ________isYearPlan________: boolean;
 declare var ________currentYearPlanName________: string;
 declare var ________troopName________: string;
-declare var chgYearPlan: Function;
+declare var chgYearPlan: Function
 
 
 class VtkMainYp extends React.Component <VtkMainYpProps,
@@ -107,9 +107,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
 
 
     scrollto() { //NOP
-        if($('.__meetings').length) {
-            $('html, body').animate({scrollTop: document.getElementsByClassName('__meetings')[0].getBoundingClientRect().top + window.scrollY}, 'slow');
-        }
+        $('html, body').animate({scrollTop: document.getElementsByClassName('__meetings')[0].getBoundingClientRect().top + window.scrollY}, 'slow');
     }
 
     showPreview(props) {
@@ -185,18 +183,36 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                             width: '70%',
                             margin: '0 auto'
                         }}>
-                            <tbody>
-                                <tr>
-                                    <td
-                                        style={{
-                                        textAlign: 'center'
-                                    }}>
-                                        <div
-                                            className="btn button btnCancel"
-                                            style={{
-                                            width: '100%', color: '#18aa51'
-                                        }}
-                                            onClick={() => {
+                        <tbody>
+                        <tr>
+                            <td
+                                style={{
+                                    textAlign: 'center'
+                                }}>
+                                <div
+                                    className="btn button btnCancel"
+                                    style={{
+                                        width: '100%', color: '#18aa51'
+                                    }}
+                                    onClick={() => {
+                                        data
+                                            .modal
+                                            .publish('pop-select', 'close')
+                                    }}>NO, CANCEL
+                                </div>
+                            </td>
+                            <td
+                                style={{
+                                    textAlign: 'center'
+                                }}>
+                                <div
+                                    className="btn button"
+                                    style={{
+                                        width: '100%'
+                                    }}
+                                    onClick={() => {
+                                        chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib);
+                                        if (state.data.name === 'Custom Year Plan') {
                                             data
                                                 .modal
                                                 .publish('pop-select', 'close')
@@ -305,7 +321,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                 }}>
                     {(________currentYearPlanName________ === this.state.meeting.name) ? 'SELECTED' : 'SELECT TRACK'}
                 </button>
-            </div>);
+            </div>)
 
         return (
 
@@ -331,79 +347,106 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                     ? <div className="__padding">
                         <div className="columns small-20 small-centered">
                             <div className="_intro ">
-                                <p style={{fontSize:'25px', fontWeight:'bold'}}><span><i style={{color:'orange',float:'initial', display:'inline-block', fontSize:'50px', marginBottom:'10px'}} className="icon-check"></i></span>The Troop's Year Plan is set<br /> <span style={{fontSize:'18px'}}>{________currentYearPlanName________ }</span>
+                                <p style={{fontSize: '25px', fontWeight: 'bold'}}><span><i style={{
+                                    color: 'orange',
+                                    float: 'initial',
+                                    display: 'inline-block',
+                                    fontSize: '50px',
+                                    marginBottom: '10px'
+                                }} className="icon-check"></i></span>The Troop's Year Plan is set<br/>
+                                    <span style={{fontSize: '18px'}}>{________currentYearPlanName________}</span>
                                 </p>
                                 <div className="exploreLargeView">
-                                <div style={{display:'inline-flex'}}>
-                                <p style={{marginLeft:'12px', width:'166px'}}>To start over and erase all meeting details, including attendance and achievements:</p>
-                                <p style={{marginLeft:'200px', width:'166px'}}>To add, delete, or change a meeting, go to your current Year Plan</p>
+                                    <div style={{display: 'inline-flex'}}>
+                                        <p style={{
+                                            marginLeft: '12px',
+                                            width: '166px'
+                                        }}>To start over and erase all meeting details, including attendance and achievements:</p>
+                                        <p style={{
+                                            marginLeft: '200px',
+                                            width: '166px'
+                                        }}>To add, delete, or change a meeting, go to your current Year Plan</p>
+                                    </div>
+                                    <div>
+                                        <a href="javascript:exploreReset();" className="btn button btn-default resetExploreButton" style={{
+                                            marginLeft: '24px',
+                                            maxWidth: '300px',
+                                            border: '1px solid #00a850',
+                                            color: '#00a850',
+                                            backgroundColor: 'white'
+                                        }}>Reset my year plan</a>
+                                        <a href="/content/girlscouts-vtk/en/vtk.html" className="btn button btn-default selectedExploreButton" style={{
+                                            marginLeft: '177px',
+                                            maxWidth: '300px'
+                                        }}>View my year plan</a>
+                                    </div>
                                 </div>
-                                <div>
-                                <a href="javascript:exploreReset();" className="btn button btn-default resetExploreButton" style={{marginLeft:'24px', maxWidth:'300px', border:'1px solid #00a850', color:'#00a850', backgroundColor:'white'}}>Reset my year plan</a>
-                                <a href="/content/girlscouts-vtk/en/vtk.html" className="btn button btn-default selectedExploreButton" style={{marginLeft:'177px', maxWidth:'300px'}}>View my year plan</a>
-                                </div>
-                                </div>
-
                                 <div className="exploreSmallView">
-                                <div>
-                                <p>To start over and erase all meeting details, including attendance and achievements:</p>
-                                <a href="javascript:exploreReset();" className="btn button btn-default resetExploreButton" style={{marginLeft:'24px', maxWidth:'300px', border:'1px solid #00a850', color:'#00a850', backgroundColor:'white'}}>Reset my year plan</a>
+                                    <div>
+                                        <p>To start over and erase all meeting details, including attendance and achievements:</p>
+                                        <a href="javascript:exploreReset();" className="btn button btn-default resetExploreButton" style={{
+                                            marginLeft: '24px',
+                                            maxWidth: '300px',
+                                            border: '1px solid #00a850',
+                                            color: '#00a850',
+                                            backgroundColor: 'white'
+                                        }}>Reset my year plan</a>
+                                    </div>
+                                    <div>
+                                        <p style={{marginTop: '25px'}}>To add, delete, or change a meeting, go to your current Year Plan</p>
+                                        <a href="/content/girlscouts-vtk/en/vtk.html" className="btn button btn-default selectedExploreButton" style={{
+                                            marginLeft: '23px',
+                                            maxWidth: '300px',
+                                            paddingLeft: '24px',
+                                            paddingRight: '24px'
+                                        }}>View my year plan</a>
+                                    </div>
                                 </div>
-                                <div>
-                                <p style={{marginTop: '25px'}}>To add, delete, or change a meeting, go to your current Year Plan</p>
-                                <a href="/content/girlscouts-vtk/en/vtk.html" className="btn button btn-default selectedExploreButton" style={{marginLeft:'23px', maxWidth:'300px', paddingLeft:'24px', paddingRight:'24px'}}>View my year plan</a>
-                                </div>
-                                </div>
-                                <br /> <br />
+                                <br/> <br/>
                             </div>
                         </div>
-                      </div>
-                    :null}
-
-                {(!(________app1________ && ________currentYearPlanName________ || ________currentYearPlanName________  === 'Custom Year Plan'))
-                        ?<div className="__padding">
-                             <div
-                                 className={`_main_boxes columns small-22 medium-20 small-centered medium-centered ${ (this.state.showTracks)
-                                 ? '__OPEN'
-                                 : '__CLOSE'}`}>
-                                 <div
-                                     onClick={() => this.clickHander()}
-                                     className="columns  medium-24 large-12 _box_wrap">
-                                     <div className="_box __library">
-                                         <div className="__img"></div>
-                                         <h3>Build Your Own</h3>
-                                         <p>Search or filter to select the badges and awards that fit the style of your
-                                             troop.</p>
-                                         <a
-                                             className="btn button"
-                                             style={{
-                                             width: '100%'
-                                         }}>start adding Petals, Badges or Journeys</a>
-                                     </div>
-                                 </div>
-
-                                 <div
-                                     onClick={() => this.openTracks()}
-                                     className="columns medium-24 large-12 _box_wrap">
-                                     <div className="_box __tracks">
-                                         <div className="__img "></div>
-                                         <h3>Pre-selected Tracks</h3>
-                                         <p>Not sure what to pick? These tracks get your troop Year Plan started and let
-                                             you add choices as well.</p>
-                                         <a
-                                             className="btn button"
-                                             style={{
-                                             width: '100%'
-                                         }}>view popular tracks</a>
-                                     </div>
-                                 </div>
-                                 <br/><br/>
-                             </div>
-                         </div>
-                        :null}
-
-
-
+                    </div>
+                    : null}
+                {(!(________app1________ && ________currentYearPlanName________ || ________currentYearPlanName________ === 'Custom Year Plan'))
+                    ? <div className="__padding">
+                        <div
+                            className={`_main_boxes columns small-22 medium-20 small-centered medium-centered ${(this.state.showTracks)
+                                ? '__OPEN'
+                                : '__CLOSE'}`}>
+                            <div
+                                onClick={() => this.clickHander()}
+                                className="columns  medium-24 large-12 _box_wrap">
+                                <div className="_box __library">
+                                    <div className="__img"></div>
+                                    <h3>Build Your Own</h3>
+                                    <p>Search or filter to select the badges and awards that fit the style of your
+                                        troop.</p>
+                                    <a
+                                        className="btn button"
+                                        style={{
+                                            width: '100%'
+                                        }}>start adding Petals, Badges or Journeys</a>
+                                </div>
+                            </div>
+                            <div
+                                onClick={() => this.openTracks()}
+                                className="columns medium-24 large-12 _box_wrap">
+                                <div className="_box __tracks">
+                                    <div className="__img "></div>
+                                    <h3>Pre-selected Tracks</h3>
+                                    <p>Not sure what to pick? These tracks get your troop Year Plan started and let
+                                        you add choices as well.</p>
+                                    <a
+                                        className="btn button"
+                                        style={{
+                                            width: '100%'
+                                        }}>view popular tracks</a>
+                                </div>
+                            </div>
+                            <br/><br/>
+                        </div>
+                    </div>
+                    : null}
                 <div
                     className={`_back_box_tracks ${(this.state.showTracks)
                         ? '__OPEN'
@@ -485,13 +528,12 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                             </div>
                         </div>}
                 </div>
-                        <Gray />
-                        <div className="pop-explore">
-                            <VtkPopUp name="pop-select" title="SELECT YEAR PLAN">
-                                {renderChild(this.state)}
-                            </VtkPopUp>
-                        </div>
-                    
+                <Gray/>
+                <div className="pop-explore">
+                    <VtkPopUp name="pop-select" title="SELECT YEAR PLAN">
+                        {renderChild(this.state)}
+                    </VtkPopUp>
+                </div>
             </div>
         )
     }

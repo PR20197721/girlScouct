@@ -33,7 +33,7 @@
             showVtkNav =  false;
         }
 
-        String ageLevel=  selectedTroop.getTroop().getGradeLevel();
+        String ageLevel=  selectedTroop.getGradeLevel();
         ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
         java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,selectedTroop);
         Set<String> outdoorMeetingIds = meetingUtil.getOutdoorMeetings(user, selectedTroop);

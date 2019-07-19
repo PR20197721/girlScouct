@@ -1,5 +1,5 @@
 <%@ page
-  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.utils.VtkUtil, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.osgi.component.util.VtkUtil, org.girlscouts.vtk.models.*,org.girlscouts.vtk.osgi.component.dao.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/vtk.jsp -->
 <cq:defineObjects />
