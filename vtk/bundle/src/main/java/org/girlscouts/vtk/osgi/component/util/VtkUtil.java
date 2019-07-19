@@ -24,6 +24,7 @@ import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.ConfigListener;
 import org.girlscouts.vtk.osgi.component.ConfigManager;
 import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
+import org.girlscouts.vtk.utils.MeetingSortOrderComparator;
 import org.girlscouts.vtk.utils.PDFHtmlFormatter;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -134,11 +135,19 @@ public class VtkUtil implements ConfigListener {
 
     }
 
-    public static final java.util.List<MeetingE> sortMeetings(java.util.List<MeetingE> meetings) {
+    public static final java.util.List<MeetingE> sortMeetingsE(java.util.List<MeetingE> meetings) {
         if (meetings == null) {
             return meetings;
         }
         Collections.sort(meetings, new MeetingESortOrderComparator());
+        return meetings;
+    }
+
+    public static final java.util.List<Meeting> sortMeetings(java.util.List<Meeting> meetings) {
+        if (meetings == null) {
+            return meetings;
+        }
+        Collections.sort(meetings, new MeetingSortOrderComparator());
         return meetings;
     }
 

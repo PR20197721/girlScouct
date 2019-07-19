@@ -432,12 +432,12 @@ public class TroopUtil {
         }
         YearPlan oldPlan = troop.getYearPlan();
         // SORT Meetings - new
-        newYearPlan.setMeetingEvents(VtkUtil.sortMeetings(newYearPlan.getMeetingEvents()));
+        newYearPlan.setMeetingEvents(VtkUtil.sortMeetingsE(newYearPlan.getMeetingEvents()));
         if (oldPlan == null || oldPlan.getSchedule() == null) {
             return newYearPlan.getMeetingEvents();
         }
         // SORT MEETINGS -old
-        oldPlan.setMeetingEvents(VtkUtil.sortMeetings(oldPlan.getMeetingEvents()));
+        oldPlan.setMeetingEvents(VtkUtil.sortMeetingsE(oldPlan.getMeetingEvents()));
         // get Number Of Past meetings
         int numOfPastMeetings = 0;
         java.util.List<java.util.Date> dates = VtkUtil.getStrCommDelToArrayDates(oldPlan.getSchedule().getDates());
