@@ -1451,6 +1451,7 @@ div#eventListWrapper {
 }
 .styled-select select#addDate{
     background: url('/etc/designs/girlscouts/images/select-dropdown-arrow.png') no-repeat 136px;
+    background-color: white;
 }
 
 .styled-select, .styled-select select {
