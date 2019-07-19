@@ -196,12 +196,13 @@ if(null!=srchInfo) {
 					int month = startDate.monthOfYear();
 					
 					formatedEndDateStr = formatedEndDateStr + " " + timeZoneShortLabel;
-	
+	                String param = request.getParameter("dateAdded");
 					if(evntComparison.year() > today.year() || (evntComparison.year() == today.year() && (evntComparison.dayOfYear() >= today.dayOfYear()))) {
 						if(tempMonth!=month) {
 							String monthYr = dtfOutMY.print(startDate);
 							tempMonth = month;
 							%>
+							<p><%=param %></p>
 							<div class="eventsList monthSection">
 								<div class="leftCol"><b><%=monthYr.toUpperCase() %></b></div>
 								<div class="rightCol horizontalRule">&nbsp;</div>

@@ -768,6 +768,20 @@ input#date {
 .programLevel {
   background: #F3F3F3;
 }
+.sortBy{
+    width: 100%;
+    padding: 10px;
+    padding-top: 0px;
+}
+#addDate{
+    width: 160px;
+}
+.topSearchRow{
+    border-bottom: none;
+    padding-bottom: 0px;
+    margin-bottom: -20px !important;
+}
+
 .anActivity {
   height: 40px;
   background: #959595;
@@ -1435,10 +1449,17 @@ div#eventListWrapper {
   color: #989898;
   background-color: #ffffff;
 }
+.styled-select select#addDate{
+    background: url('/etc/designs/girlscouts/images/select-dropdown-arrow.png') no-repeat 136px;
+}
 
 .styled-select, .styled-select select {
   width: 138px;
 }
+.sort-select-bar, #addDate{
+    width: 160px;
+}
+
 .styled-select {
   border: 1px solid #ccc;
   box-sizing: border-box;
