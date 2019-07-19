@@ -141,7 +141,7 @@ function toggleWhiteArrow() {
         <div class="title"> Sort By </div>
         <div class="styled-select sort-select-bar">
             <select name="dateAdded" id="addDate">
-                <option value="none">None</option>
+                <option value="none">Event Date (Default)</option>
                 <option value="descending">Date Added: Descending</option>
                 <option value="ascending">Date Added: Ascending</option>
             </select>
