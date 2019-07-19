@@ -111,12 +111,12 @@
 			<div class="columns large-20 large-centered">
 			    <%@include file="vtkError.jsp" %>
 			    
-			    <p>We're sorry you're having trouble logging into the VTK. We're here to help!</p>
+			    <p>We’re sorry you’re having trouble accessing the Volunteer Toolkit. We’re here to help!</p>
 			    <p>
-			    	The Volunteer Toolkit is a digital planning tool currently available for active Troop Leaders and Co-Leaders. To access the VTK, please ensure you have an active <%= vtkSignupYear %> membership. If you're a parent, please make sure your daughter has an active <%= vtkSignupYear %> membership record as well and that she's part of an active troop.
+			        The Volunteer Toolkit is a digital planning tool currently available to troop leaders, co-leaders, council-selected administrative volunteers, and primary caregivers of Girl Scout with active <%= vtkSignupYear %> memberships.
 			    </p>
 			    <p>
-			    	Need help? click Contact Us at the top of the page to connect with the customer service team and we'll get it sorted out.
+			    	If you feel you’ve reached this screen in error, click Contact Us at the top of the page and we’ll help you get it sorted out.
 			    </p>
 			    <p>
 			    	Thank you!
