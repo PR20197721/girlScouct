@@ -113,7 +113,7 @@
 			    
 			    <p>We're sorry you're having trouble accessing the Volunteer Toolkit. We're here to help!</p>
 			    <p>
-			        The Volunteer Toolkit is a digital planning tool currently available to troop leaders, co-leaders, council-selected administrative volunteers, and primary caregivers of Girl Scout with active <%= vtkSignupYear %> memberships.
+			        The Volunteer Toolkit is a digital planning tool currently available to troop leaders, co-leaders, council-selected administrative volunteers, and primary caregivers of Girl Scouts with active <%= vtkSignupYear %> memberships.
 			    </p>
 			    <p>
 			    	If you feel you've reached this screen in error, click Contact Us at the top of the page and we'll help you get it sorted out.
