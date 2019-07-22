@@ -467,16 +467,20 @@ $(function(){
     var checkboxesAttendance = document.getElementsByName('attendance');
     var checkboxesAchievements = document.getElementsByName('achievement');
     for (var i = 0; i<checkboxesAttendance.length; i++){
-        checkboxesAttendance[i].checked = true;
-        checkboxesAchievements[i].checked = true;
+        if(checkboxesAttendance[i] !== undefined)
+            checkboxesAttendance[i].checked = true;
+        if(checkboxesAchievements[i] !== undefined)
+            checkboxesAchievements[i].checked = true;
     }
  }
  function attendanceClear(){
      var checkboxesAttendance = document.getElementsByName('attendance');
      var checkboxesAchievements = document.getElementsByName('achievement');
      for (var i = 0; i<checkboxesAttendance.length; i++){
-         checkboxesAttendance[i].checked = false;
-         checkboxesAchievements[i].checked = false;
+        if(checkboxesAttendance[i] !== undefined)
+            checkboxesAttendance[i].checked = false;
+         if(checkboxesAchievements[i] !== undefined)
+            checkboxesAchievements[i].checked = false;
      }
  }
 
