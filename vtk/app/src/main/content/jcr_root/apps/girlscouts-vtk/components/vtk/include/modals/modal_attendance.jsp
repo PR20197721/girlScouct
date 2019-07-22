@@ -80,8 +80,10 @@
 							}
 						%>
 					</tbody>
-				</table>        
+				</table>
 				<input type="button" value="Save"  class="btn button right" onclick="updateAttendAchvm('<%=request.getParameter("mid")%>','<%=request.getParameter("eType")%>')"/>
+				<input type="button" value="Select All"  class="btn button right" onclick="attendanceSelect()"/>
+				<input type="button" value="Clear Selection" style="background-color: white !important; border: solid 1px #18aa51; color: #18aa51;" class="btn button right" onclick="attendanceClear()"/>
 			</form>
 		</div>
 	</div>

@@ -463,6 +463,23 @@ $(function(){
     }
 
  }
+ function attendanceSelect(){
+    var checkboxesAttendance = document.getElementsByName('attendance');
+    var checkboxesAchievements = document.getElementsByName('achievement');
+    for (var i = 0; i<checkboxesAttendance.length; i++){
+        checkboxesAttendance[i].checked = true;
+        checkboxesAchievements[i].checked = true;
+    }
+ }
+ function attendanceClear(){
+     var checkboxesAttendance = document.getElementsByName('attendance');
+     var checkboxesAchievements = document.getElementsByName('achievement');
+     for (var i = 0; i<checkboxesAttendance.length; i++){
+         checkboxesAttendance[i].checked = false;
+         checkboxesAchievements[i].checked = false;
+     }
+ }
+
 $(document).ready(checkNews());
 
 $(window).load(function(){
