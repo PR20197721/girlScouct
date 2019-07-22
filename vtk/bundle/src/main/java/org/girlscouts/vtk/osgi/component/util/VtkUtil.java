@@ -29,6 +29,8 @@ import org.girlscouts.vtk.utils.PDFHtmlFormatter;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +48,8 @@ import java.util.stream.Collectors;
 @Service(value = VtkUtil.class)
 @Properties({@Property(name = "label", value = "Girl Scouts VTK Utils"), @Property(name = "description", value = "Girl Scouts VTK Utils")})
 public class VtkUtil implements ConfigListener {
+
+    private static final Logger log = LoggerFactory.getLogger(VtkUtil.class.getName());
     // do not use these objects explicitly as they are not thread safe
     // use the two synchronized  parseDate and formatDate utility methods below
     public static final SimpleDateFormat FORMAT_MMddYYYY = new SimpleDateFormat("MM/dd/yyyy");
@@ -248,9 +252,12 @@ public class VtkUtil implements ConfigListener {
             }
         }
         Calendar now = Calendar.getInstance();
+        log.debug("VTK New Year Setting: month="+month+", date="+date+", current month="+now.get(Calendar.MONTH)+", current date="+now.get(Calendar.DATE));
         if (now.get(Calendar.MONTH) >= (month - 1) && now.get(Calendar.DATE) >= date){
+            log.debug("VTK Year: "+now.get(java.util.Calendar.YEAR));
             return now.get(java.util.Calendar.YEAR);
         } else {
+            log.debug("VTK Year: "+(now.get(java.util.Calendar.YEAR)-1));
             return now.get(java.util.Calendar.YEAR) - 1;
         }
     }
