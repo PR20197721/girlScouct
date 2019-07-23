@@ -9,12 +9,16 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.settings.SlingSettingsService;
+import org.girlscouts.vtk.auth.models.ApiConfig;
+import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.jcr.Node;
 import javax.jcr.Session;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -42,60 +46,50 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
     @Override
-    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession();
-        String troopId = VtkUtil.getTroop(session).getId();
-        String councilId = VtkUtil.getUser(session).getApiConfig().getUser().getAdminCouncilId();
-        int gsCurrentYear = VtkUtil.getCurrentGSYear();
-        StringBuilder troopYpPath = new StringBuilder();
-        troopYpPath.append("/vtk"+gsCurrentYear+"/"+councilId+"/troops/"+troopId+"/yearPlan");
-        log.debug("YEAR PLAN TO DELETE: "+troopYpPath.toString());
-        Map<String,Object> paramMap = new HashMap<String,Object>();
-        paramMap.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
-        ResourceResolver adminResolver = null;
         try {
-            adminResolver = resourceFactory.getServiceResourceResolver(paramMap);
-            Node yearPlan = adminResolver.resolve(troopYpPath.toString()).adaptTo(Node.class);
-            LocalDateTime now = LocalDateTime.now();
-            String currentTime = dtf.format(now);
-            currentTime = currentTime.replaceAll("/", "-");
-            currentTime = currentTime.replaceAll(" ", "T");
-            currentTime = currentTime.replaceAll(":", "-");
-            String newPath = yearPlan.getPath()+"-" + currentTime;
-            adminResolver.adaptTo(Session.class).move(yearPlan.getPath(), newPath);
-            adminResolver.adaptTo(Session.class).save();
-            adminResolver.close();
-        } catch (Exception e) {
-            log.error("Failed to remove year plan for this troop: "+troopYpPath.toString()+" : ",e);
-        } finally {
+            Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
+            log.debug("YEAR PLAN TO DELETE: "+selectedTroop.getPath()+"/yearPlan");
+            Map<String,Object> paramMap = new HashMap<String,Object>();
+            paramMap.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
+            ResourceResolver adminResolver = null;
             try {
-                if (adminResolver != null) {
-                    adminResolver.close();
-                }
+                adminResolver = resourceFactory.getServiceResourceResolver(paramMap);
+                Node yearPlan = adminResolver.resolve(selectedTroop.getPath()+"/yearPlan").adaptTo(Node.class);
+                LocalDateTime now = LocalDateTime.now();
+                String currentTime = dtf.format(now);
+                currentTime = currentTime.replaceAll("/", "-");
+                currentTime = currentTime.replaceAll(" ", "T");
+                currentTime = currentTime.replaceAll(":", "-");
+                String newPath = yearPlan.getPath()+"-" + currentTime;
+                adminResolver.adaptTo(Session.class).move(yearPlan.getPath(), newPath);
+                adminResolver.adaptTo(Session.class).save();
+                adminResolver.close();
             } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
+                log.error("Failed to remove year plan for this troop: "+selectedTroop.getPath()+"/yearPlan"+" : ",e);
+            } finally {
+                try {
+                    if (adminResolver != null) {
+                        adminResolver.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
+                }
             }
+        } catch (Exception e) {
+            log.error("Exception occurred: ", e);
         }
     }
 
-    /** OptingServlet Acceptance Method **/
     @Override
-    public final boolean accepts(SlingHttpServletRequest request) {
-        /*
-         * Add logic which inspects the request which determines if this servlet
-         * should handle the request. This will only be executed if the
-         * Service Configuration's paths/resourcesTypes/selectors accept the request.
-         */
-
-        //Verify user troop year plan reset request
+    public boolean accepts(SlingHttpServletRequest request) {
         HttpSession session = request.getSession();
-        if(VtkUtil.getUser(session) != null){
+        if ((ApiConfig)session.getAttribute(ApiConfig.class.getName()) != null) {
             return true;
         }else{
-            log.error("Error sending email: Invalid user");
             return false;
         }
-    }
 
+    }
 }
