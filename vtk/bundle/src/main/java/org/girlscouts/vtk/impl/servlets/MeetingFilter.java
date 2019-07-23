@@ -99,11 +99,12 @@ public class MeetingFilter extends SlingAllMethodsServlet {
                         for (Meeting meeting : meetings) {
                             try {
                                 FilterOption levelOption = null;
-                                if (filters.containsKey(meeting.getLevel())) {
-                                    levelOption = filters.get(meeting.getLevel());
+                                String meetingLevel = meeting.getLevel().replace("-", "");
+                                if (filters.containsKey(meetingLevel)) {
+                                    levelOption = filters.get(meetingLevel);
                                     log.debug("Updating filter /" + levelOption.getValue());
                                 } else {
-                                    levelOption = new FilterOption("ML_" + new Date().getTime() + "_" + Math.random(), meeting.getLevel(), meeting.getLevel().replace("_", "-"));
+                                    levelOption = new FilterOption("ML_" + new Date().getTime() + "_" + Math.random(), meeting.getLevel(), meeting.getLevel().replace("_", " "));
                                     log.debug("Created new filter /" + levelOption.getValue());
                                 }
                                 if (levelOption != null) {
@@ -144,7 +145,7 @@ public class MeetingFilter extends SlingAllMethodsServlet {
                                     levelOption.setSubFilterOptions(typeFilters);
                                 }
                                 log.debug("Adding filter /" + levelOption.getValue() + " to filter");
-                                filters.put(meeting.getLevel(), levelOption);
+                                filters.put(meetingLevel, levelOption);
                             } catch (Exception e) {
                                 log.error("Exception occured:", e);
                             }

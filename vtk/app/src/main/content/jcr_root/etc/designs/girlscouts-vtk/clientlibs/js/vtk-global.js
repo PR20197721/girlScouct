@@ -421,13 +421,79 @@ $(function(){
  function exploreResetClose(){
      $("#exploreModal").css('display', 'none');
  }
+ function appendMeetingCategories(result, level, group){
+    $("#vtk-meeting-group-categories").html("");
+    var categoryGroups = [];
+    for(var category in result[level].subFilterOptions[group].subFilterOptions){
+        if(!categoryGroups.includes((result[level].subFilterOptions[group].subFilterOptions[category].value).replace(new RegExp('_', 'g'), " "))){
+            var categoryName = result[level].subFilterOptions[group].subFilterOptions[category].value;
+            categoryGroups.push(categoryName.replace(new RegExp('_', 'g'), " "));
+            console.log(categoryName);
+
+        }
+    }
+    categoryGroups.sort();
+    for(var cat in categoryGroups){
+        $("#vtk-meeting-group-categories").append("<div class='small-24 medium-12 large-6 column selection-box  ' style='min-height: 70px;float: left;'><input type='checkbox' name='_tag_c' id=\"category"+categoryGroups[cat]+"\" value='Outdoor'><label for=\"category"+categoryGroups[cat]+"\"><span></span><p>"+categoryGroups[cat]+"</p></label></div>")
+    }
+
+ }
+
+
+ function appendMeetingGroups(result, level){
+    $("#vtk-group-section").html("");
+    var meetingGroups = [];
+        for(var meetingGroup in result[level].subFilterOptions){
+            if(!meetingGroups.includes((result[level].subFilterOptions[meetingGroup].value).replace(new RegExp('_', 'g'), " "))){
+                var groupName = result[level].subFilterOptions[meetingGroup].value;
+                meetingGroups.push(groupName.replace(new RegExp('_', 'g'), " "));
+            }
+        }
+
+    meetingGroups.sort(function(a,b){
+        if((a === "Journey: Daisies - Juniors" && b === "Journey: Cadettes - Ambassadors") || (b === "Journey: Daisies - Juniors" && a === "Journey: Cadettes - Ambassadors")){
+            return -1;
+        }else{
+            if(a>b){
+                return 1;
+            }
+            else if(a < b){
+                return -1;
+            }
+            else{
+                return 0;
+            }
+        }
+    });
+    for(var meeting in meetingGroups){
+         $("#vtk-group-section").append("<div class='small-24 medium-6 column selection-box ' style='min-height: 60px;float: left;'><input type='radio' name='_tag_t' id='group"+meetingGroups[meeting]+"' value='"+meetingGroups[meeting]+"'><label for='group"+meetingGroups[meeting]+"'><span></span><p> "+meetingGroups[meeting]+" </p></label></div>");
+    }
+    $("#vtk-group-section .selection-box input").on("click", function(){
+        appendMeetingCategories(result,level, $(this).attr("value").replace(new RegExp(' ', 'g'), "_"))
+        if($("#vtk-meeting-category-parent").css("display") === "none"){
+            $("#vtk-meeting-category-parent").slideDown();
+        }
+    });
+
+ }
  function getMeetingResponse() {
         $.ajax({
             url: '/bin/vtk/v1/meetingFilter',
             type: 'GET',
             success: function(result) {
-                var obj = JSON.parse(result);
 
+                $(".gradeLevelSelect").on("click", function(){
+                    if($("#vtk-meeting-category-parent").css("display") !== "none"){
+                        $("#vtk-meeting-category-parent").slideUp(400, function(){
+                            $("#vtk-meeting-group-categories").html("");
+                        });
+                    }
+                    var level = $(this).attr("value").replace("_", "");
+                    appendMeetingGroups(result, level);
+                    if($("#vtk-meeting-group-type").css("display") === "none"){
+                        $("#vtk-meeting-group-type").slideDown();
+                    }
+                });
 
                 $("#showHideReveal").toggleClass('open');
                 $('.vtk-meeting-group').slideToggle();

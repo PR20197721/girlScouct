@@ -201,13 +201,13 @@
                                 <div class="vtk-meeting-filter_title">
                                     <span>2.</span> Select the type of meeting plan you want
                                 </div>
-                                <div class="row">
+                                <div id="vtk-group-section"class="row">
 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="list-of-categories column small-22 small-centered" style="display:none;padding-left:0;">
+                    <div class="list-of-categories column small-22 small-centered" id="vtk-meeting-category-parent"style="display:none;padding-left:0;">
                         <div class="row">
                             <div class="column small-24">
                                 <div class="vtk-meeting-filter_title"><span>3.</span> Select your
@@ -302,13 +302,20 @@
     }
 
     $('#vtk-meeting-filter').find('#showHideReveal').stop().click(function (e) {
+        if($("#vtk-meeting-category-parent").css("display") !== "none"){
+            $("#vtk-meeting-category-parent").slideUp(400, function(){
+                $("#vtk-meeting-group-categories").html("");
+            });
+        }
+        if($("#vtk-meeting-group-type").css("display") !== "none"){
+
+            $("#vtk-meeting-group-type").slideUp(400, function(){
+                $("#vtk-group-section").html("");
+            });
+        }
         getMeetingResponse()
     })
-    $(".gradeLevelSelect").on("click", function(){
-        if($("#vtk-meeting-group-type").css("display") === "none"){
-            $("#vtk-meeting-group-type").slideDown();
-        }
-    });
+
 
     function createCustPlan(singleMeetingAdd) {
         var sortedIDs = "";
