@@ -77,7 +77,7 @@
         });
     }
 </script>
-<form id="form-meeting-library" action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="get">
+<form onsubmit="callToServer()" id="form-meeting-library" action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="get">
     <%if (request.getParameter("newCustYr") != null) { %>
     <input type="hidden" name="act" value="CreateCustomYearPlan"/>
     <%} else { %>
@@ -297,9 +297,96 @@
         });
     }
     //===================================
+
+    var previewsType = undefined;
+    search = {};
+    var currentYear = CurrentYear(new Date());
+    //Params Creator
+    var params = (function () {
+    var _params = {
+        keywords: '',
+        level: [],
+        categoryTags: [],
+        meetingPlanType: '',
+        year: (currentYear.start()).getFullYear()
+    };
+    function _addParams(newParam) {
+        _params = Object.assign(_params, newParam);
+    }
+    function _getParams() {
+        return _params;
+
+    }
+    function _clear() {
+        _params = {
+            keywords: '',
+            level: [],
+            categoryTags: [],
+            meetingPlanType: '',
+            year: (currentYear.start()).getFullYear()
+        }
+    }
+    return {
+        add: _addParams,
+        get: _getParams,
+        clear: _clear
+    }
+    })();
+    //x in input
+    $('#vtk-meeting-filter .__search .__X').on('click', function () {
+        $('#searchByMeetingTitle').val('');
+        params.add({keywords: ''})
+        $(this).hide();
+    })
+    //keywords
+    $('#searchByMeetingTitle').on('keyup', function (event) {
+        var key = event.target.value, element = $('#vtk-meeting-filter .__search .__X');
+        params.add({keywords: key.split(' ').join(' ')})
+        if (key.length >= 3) {
+            element.show();
+        } else {
+            element.hide();
+        }
+    })
+
+
     function closeModal() {
         $('#gsModal').find('a').children('i').trigger('click');
     }
+
+    $("#vtk-meeting-group-button_ok").on('click', function(){
+        //Age
+        var Age = []
+        $('#vtk-meeting-group-age input').each(function (a, e) {
+            if (e.checked) {
+                Age.push(e.value.replace(/_/g, '-')); //level JSP is parse all '-' to '_' legacy logic.
+            }
+        });
+        params.add({level: Age})
+
+        //types
+        var type;
+        $('#vtk-meeting-group-type input').each(function (a, e) {
+            if (e.checked) {
+                type = $(this);
+            }
+        });
+        if(type.attr("value") !== undefined){
+            params.add({meetingPlanType: $(type).attr("value").replace(new RegExp(' ', 'g'), "_")});
+        }else{
+            params.add({meetingPlanType: ''});
+        }
+
+        //categories
+        var Cat = []
+        $('[name="_tag_c"]').each(function (a, e) {
+            if (e.checked) {
+                Cat.push(e.value);
+            }
+        });
+        params.add({categoryTags: Cat})
+        callToServer();
+    });
 
     $('#vtk-meeting-filter').find('#showHideReveal').stop().click(function (e) {
         if($("#vtk-meeting-category-parent").css("display") !== "none"){
