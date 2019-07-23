@@ -27,10 +27,8 @@ import java.util.*;
 public class MeetingFilter extends SlingAllMethodsServlet {
     private static final long serialVersionUID = 1L;
     private static Logger log = LoggerFactory.getLogger(MeetingFilter.class);
-
     @Reference
     private SessionFactory sessionFactory;
-
     @Reference
     private YearPlanUtil yearPlanUtil;
 
@@ -52,134 +50,133 @@ public class MeetingFilter extends SlingAllMethodsServlet {
         try {
             if (session.getAttribute(ApiConfig.class.getName()) != null) {
                 apiConfig = ((ApiConfig) session.getAttribute(ApiConfig.class.getName()));
+                if (apiConfig != null && apiConfig.getFilters() != null) {
+                    TreeMap<String, FilterOption> filters = apiConfig.getFilters();
+                    log.debug("Loaded meetings meeting filter from session ");
+                    try {
+                        response.getWriter().write(mapper.writeValueAsString(filters));
+                    } catch (Exception e) {
+                        log.error("Exception occured:", e);
+                    }
+                } else {
+                    List<Meeting> meetings = new ArrayList<>();
+                    User user = (User) session.getAttribute(User.class.getName());
+                    Troop troop = (Troop) session.getAttribute("VTK_troop");
+                    try {
+                        meetings = yearPlanUtil.getAllMeetings(user, troop);
+                    } catch (Exception e) {
+                        log.error("Exception occured:", e);
+                    }
+                    TreeMap<String, FilterOption> filters = new TreeMap<String, FilterOption>(new Comparator<String>() {
+                        @Override
+                        public int compare(String key1, String key2) {
+                            int result = getWeight(key1).compareTo(getWeight(key2));
+                            return result;
+                        }
+                        private Integer getWeight(String key) {
+                            if (key != null) {
+                                switch (key.toLowerCase()) {
+                                    case "daisy":
+                                        return 1;
+                                    case "brownie":
+                                        return 2;
+                                    case "junior":
+                                        return 3;
+                                    case "cadette":
+                                        return 4;
+                                    case "senior":
+                                        return 5;
+                                    case "ambassador":
+                                        return 6;
+                                    case "multi-level":
+                                        return 7;
+                                }
+                            }
+                            return 0;
+                        }
+                    });
+                    if (meetings != null) {
+                        for (Meeting meeting : meetings) {
+                            try {
+                                FilterOption levelOption = null;
+                                if (filters.containsKey(meeting.getLevel())) {
+                                    levelOption = filters.get(meeting.getLevel());
+                                    log.debug("Updating filter /" + levelOption.getValue());
+                                } else {
+                                    levelOption = new FilterOption("ML_" + new Date().getTime() + "_" + Math.random(), meeting.getLevel(), meeting.getLevel().replace("_", "-"));
+                                    log.debug("Created new filter /" + levelOption.getValue());
+                                }
+                                if (levelOption != null) {
+                                    TreeMap<String, FilterOption> typeFilters = levelOption.getSubFilterOptions();
+                                    if (typeFilters == null) {
+                                        typeFilters = new TreeMap<String, FilterOption>();
+                                    }
+                                    FilterOption typeOption = null;
+                                    if (typeFilters.containsKey(meeting.getMeetingPlanType())) {
+                                        typeOption = typeFilters.get(meeting.getMeetingPlanType());
+                                        log.debug("Updating filter /" + levelOption.getValue() + "/" + typeOption.getValue());
+                                    } else {
+                                        typeOption = new FilterOption("MT_" + new Date().getTime() + "_" + Math.random(), meeting.getMeetingPlanType(), meeting.getMeetingPlanType().replace("_", "-"));
+                                        log.debug("Created new filter /" + levelOption.getValue() + "/" + meeting.getMeetingPlanType());
+                                    }
+                                    if (typeOption != null) {
+                                        TreeMap<String, FilterOption> categoryFilters = typeOption.getSubFilterOptions();
+                                        if (categoryFilters == null) {
+                                            categoryFilters = new TreeMap<String, FilterOption>();
+                                        }
+                                        String categories = meeting.getCatTags();
+                                        if (categories != null) {
+                                            StringTokenizer t = new StringTokenizer(categories, ",");
+                                            while (t.hasMoreElements()) {
+                                                String category = (String) t.nextToken();
+                                                if (!categoryFilters.containsKey(category)) {
+                                                    FilterOption categoryOption = new FilterOption("MC_" + new Date().getTime() + "_" + Math.random(), category, category.replace("_", "-"));
+                                                    log.debug("Created new filter /" + levelOption.getValue() + "/" + typeOption.getValue() + "/" + category);
+                                                    log.debug("Adding filter /" + levelOption.getValue() + "/" + typeOption.getValue() + "/" + categoryOption.getValue() + " to filter");
+                                                    categoryFilters.put(category, categoryOption);
+                                                }
+                                            }
+                                        }
+                                        typeOption.setSubFilterOptions(categoryFilters);
+                                    }
+                                    log.debug("Adding filter /" + levelOption.getValue() + "/" + typeOption.getValue() + " to filter");
+                                    typeFilters.put(meeting.getMeetingPlanType(), typeOption);
+                                    levelOption.setSubFilterOptions(typeFilters);
+                                }
+                                log.debug("Adding filter /" + levelOption.getValue() + " to filter");
+                                filters.put(meeting.getLevel(), levelOption);
+                            } catch (Exception e) {
+                                log.error("Exception occured:", e);
+                            }
+                        }
+                    }
+                    if (filters != null && filters.size() > 0) {
+                        try {
+                            apiConfig.setFilters(filters);
+                            session.setAttribute(ApiConfig.class.getName(), apiConfig);
+                            response.getWriter().write(mapper.writeValueAsString(filters));
+                        } catch (Exception e) {
+                            log.error("Exception occured:", e);
+                        }
+                    }
+                }
             } else {
+                log.error("ApiConfig is not in session, probably user is not logged in. Responding with UNAUTHORIZED response");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
         } catch (Exception e) {
-            log.error("Exception occured:",e);
+            log.error("Exception occured:", e);
         }
-        if (apiConfig != null && apiConfig.getFilters() != null) {
-            TreeMap<String, FilterOption> filters = apiConfig.getFilters();
-            log.debug("Loaded meetings meeting filter from session ");
-            try {
-                response.getWriter().write(mapper.writeValueAsString(filters));
-            } catch (Exception e) {
-                log.error("Exception occured:",e);
-            }
-        } else {
-            List<Meeting> meetings = new ArrayList<>();
-            User user = (User) session.getAttribute(User.class.getName());
-            Troop troop = (Troop) session.getAttribute("VTK_troop");
-            try {
-                meetings = yearPlanUtil.getAllMeetings(user, troop);
-            }catch(Exception e){
-                log.error("Exception occured:",e);
-            }
-            TreeMap<String, FilterOption> filters = new TreeMap<String, FilterOption>(new Comparator<String>(){
-                @Override
-                public int compare(String key1, String key2){
-                    int result = getWeight(key1).compareTo(getWeight(key2));
-                    log.debug(key1+"("+getWeight(key1)+").compareTo("+key2+"("+getWeight(key2)+")) = "+getWeight(key1).compareTo(getWeight(key2)));
-                    return result;
-                }
-                private Integer getWeight(String key){
-                    if(key != null) {
-                        switch (key) {
-                            case "Daisy":
-                                return 1;
-                            case "Brownie":
-                                return 2;
-                            case "Junior":
-                                return 3;
-                            case "Cadette":
-                                return 4;
-                            case "Senior":
-                                return 5;
-                            case "Ambassador":
-                                return 6;
-                            case "Multi-Level":
-                                return 7;
-                        }
-                    }
-                    return 0;
-                }
-            });
-            if(meetings != null){
-                for(Meeting meeting:meetings){
-                    try {
-                        FilterOption levelOption = null;
-                        if(filters.containsKey(meeting.getLevel())){
-                            levelOption = filters.get(meeting.getLevel());
-                            log.debug("Updating filter /"+levelOption.getValue());
-                        }else{
-                            levelOption = new FilterOption("ML_" + new Date().getTime() + "_" + Math.random(), meeting.getLevel(), meeting.getLevel().replace("_", "-"));
-                            log.debug("Created new filter /"+levelOption.getValue());
-                        }
-                        if(levelOption != null){
-                            TreeMap<String, FilterOption> typeFilters = levelOption.getSubFilterOptions();
-                            if(typeFilters == null){
-                                typeFilters = new TreeMap<String, FilterOption>();
-                            }
-                            FilterOption typeOption = null;
-                            if (typeFilters.containsKey(meeting.getMeetingPlanType())) {
-                                typeOption = typeFilters.get(meeting.getMeetingPlanType());
-                                log.debug("Updating filter /"+levelOption.getValue()+"/"+typeOption.getValue());
-                            }else{
-                                typeOption = new FilterOption("MT_" + new Date().getTime() + "_" + Math.random(), meeting.getMeetingPlanType(), meeting.getMeetingPlanType().replace("_", "-"));
-                                log.debug("Created new filter /"+levelOption.getValue()+"/"+meeting.getMeetingPlanType());
-                            }
-                            if(typeOption != null){
-                                TreeMap<String, FilterOption> categoryFilters = typeOption.getSubFilterOptions();
-                                if(categoryFilters == null){
-                                    categoryFilters = new TreeMap<String, FilterOption>();
-                                }
-                                String categories = meeting.getCatTags();
-                                if (categories != null) {
-                                    StringTokenizer t = new StringTokenizer(categories, ",");
-                                    while (t.hasMoreElements()) {
-                                        String category = (String) t.nextToken();
-                                        if (!categoryFilters.containsKey(category)) {
 
-                                            FilterOption categoryOption = new FilterOption("MC_" + new Date().getTime() + "_" + Math.random(), category, category.replace("_", "-"));
-                                            log.debug("Created new filter /"+levelOption.getValue()+"/"+typeOption.getValue()+"/"+category);
-                                            log.debug("Adding filter /"+levelOption.getValue()+"/"+typeOption.getValue()+"/"+categoryOption.getValue()+" to filter");
-                                            categoryFilters.put(category, categoryOption);
-                                        }
-                                    }
-                                }
-                                typeOption.setSubFilterOptions(categoryFilters);
-                            }
-                            log.debug("Adding filter /"+levelOption.getValue()+"/"+typeOption.getValue()+" to filter");
-                            typeFilters.put(meeting.getMeetingPlanType(), typeOption);
-                            levelOption.setSubFilterOptions(typeFilters);
-                        }
-                        log.debug("Adding filter /"+levelOption.getValue()+" to filter");
-                        filters.put(meeting.getLevel(), levelOption);
-                    }catch(Exception e) {
-                        log.error("Exception occured:",e);
-                    }
-                }
-            }
-            if(filters != null && filters.size()>0) {
-                try {
-                    apiConfig.setFilters(filters);
-                    session.setAttribute(ApiConfig.class.getName(), apiConfig);
-                    response.getWriter().write(mapper.writeValueAsString(filters));
-                } catch (Exception e) {
-                    log.error("Exception occured:", e);
-                }
-            }
-        }
     }
 
-    public class FilterOption{
-
+    public class FilterOption {
         private String id;
         private String value;
         private String label;
         private TreeMap<String, FilterOption> subFilterOptions;
 
-        FilterOption(String id, String value, String label){
+        FilterOption(String id, String value, String label) {
             this.id = id;
             this.value = value;
             this.label = label;
@@ -217,9 +214,9 @@ public class MeetingFilter extends SlingAllMethodsServlet {
             this.subFilterOptions = subFilterOptions;
         }
 
-        public void addSubFilter(FilterOption filter){
+        public void addSubFilter(FilterOption filter) {
             String key = filter.getValue();
-            if(!this.subFilterOptions.containsKey(key)){
+            if (!this.subFilterOptions.containsKey(key)) {
                 this.subFilterOptions.put(key, filter);
             }
         }
