@@ -56,10 +56,6 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
         ResourceResolver adminResolver = null;
         try {
             adminResolver = resourceFactory.getServiceResourceResolver(paramMap);
-        } catch (org.apache.sling.api.resource.LoginException e) {
-            log.error("Failed to get admin resolver: ",e);
-        }
-        try{
             Node yearPlan = adminResolver.resolve(troopYpPath.toString()).adaptTo(Node.class);
             LocalDateTime now = LocalDateTime.now();
             String currentTime = dtf.format(now);
@@ -67,12 +63,19 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
             currentTime = currentTime.replaceAll(" ", "T");
             currentTime = currentTime.replaceAll(":", "-");
             String newPath = yearPlan.getPath()+"-" + currentTime;
-
             adminResolver.adaptTo(Session.class).move(yearPlan.getPath(), newPath);
             adminResolver.adaptTo(Session.class).save();
             adminResolver.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Failed to remove year plan for this troop: "+troopYpPath.toString()+" : ",e);
+        } finally {
+            try {
+                if (adminResolver != null) {
+                    adminResolver.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
         }
     }
 

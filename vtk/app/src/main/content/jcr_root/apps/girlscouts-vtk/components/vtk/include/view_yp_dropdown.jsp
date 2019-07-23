@@ -52,8 +52,8 @@
     var ________isYearPlan________ = <%=selectedTroop.getYearPlan() != null %>;
     var ________troopName________ = "<%=selectedTroop.getSfTroopName() %>";
     var ________defaultGradeLevel________ = "<%=level %>";
-    var ________isSUM________ = "<%="SUM".equals(selectedTroop.getCouncilCode()) %>";
-    var ________isIRM________ = "<%= (selectedTroop.getParticipationCode() != null && "IRM".equals(selectedTroop.getParticipationCode())) %>";
+    var ________isSUM________ = <%="SUM".equals(selectedTroop.getCouncilCode()) %>;
+    var ________isIRM________ = <%= (selectedTroop.getParticipationCode() != null && "IRM".equals(selectedTroop.getParticipationCode())) %>;
     function exploreSelectGradeLevel($el) {
         var selectedGradeLevel = $el.data('grade-level');
         try{
