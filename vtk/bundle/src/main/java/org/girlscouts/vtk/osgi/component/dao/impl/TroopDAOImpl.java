@@ -73,7 +73,7 @@ public class TroopDAOImpl implements TroopDAO {
         // TODO Permission.PERMISSION_VIEW_YEARPLAN_ID
         try {
             troop = girlScoutsTroopOCMService.read(troopPath);
-            if (troop != null && troop.getYearPlan().getMeetingEvents() != null) {
+            if (troop != null && troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null) {
                 Collections.sort(troop.getYearPlan().getMeetingEvents(), new MeetingESortOrderComparator());
             }
         } catch (Exception e) {
