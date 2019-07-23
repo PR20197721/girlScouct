@@ -10,11 +10,8 @@
 try{
 
 	  java.util.List newItems = new java.util.ArrayList(); 
-	  newItems.add("Badges for 2018-2019");
-	  newItems.add("Badges_Petals|Badges_for_2018-2019");
-
-	  newItems.add("Journey|Life_Skills");
-      newItems.add("Life Skills");
+	  newItems.add("Badges for 2019-2020");
+	  newItems.add("Badges_Petals|Badges_for_2019-2020");
 
 	  newItems.add("Journey|STEM");
       newItems.add("STEM");
