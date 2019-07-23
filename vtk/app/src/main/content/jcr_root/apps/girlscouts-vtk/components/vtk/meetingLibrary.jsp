@@ -298,8 +298,6 @@
     }
     //===================================
 
-    var previewsType = undefined;
-    search = {};
     var currentYear = CurrentYear(new Date());
     //Params Creator
     var params = (function () {
