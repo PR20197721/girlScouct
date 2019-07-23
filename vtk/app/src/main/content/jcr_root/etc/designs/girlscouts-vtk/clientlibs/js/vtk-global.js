@@ -423,6 +423,7 @@ $(function(){
  }
 
  function exploreResetConfirm(){
+     $("#vtk-loading").css("display","block");
      $.ajax({
          url: '/content/girlscouts-vtk/service/reset-year-plan-servlet.html',
          type: 'POST',
@@ -437,12 +438,14 @@ $(function(){
                     a: Date.now()
                 },
                 success: function(result) {
+                    $("#vtk-loading").css("display","none");
                     vtkTrackerPushAction('ChangeTroop');
                     document.location = "/content/girlscouts-vtk/en/vtk.html";
                 }
             });
          },
          error: function(result){
+            $("#vtk-loading").css("display","none");
              console.log("YEAR PLAN FAILED TO DELETE");
          }
      });

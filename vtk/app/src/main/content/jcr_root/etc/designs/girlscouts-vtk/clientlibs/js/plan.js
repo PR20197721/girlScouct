@@ -76,12 +76,13 @@ function x1_1(planPath, planName, isMeetingLib) {
 	if( isMeetingLib ){
 		loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
 	}else{
-	
+	    $("#vtk-loading").css("display","block");
+	    $("#pop-select").css("display","none");
 	    $.ajax({
 	        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser=" + planPath + "&addYearPlanName=" + planName,
 	        cache: false
 	    }).done(function(html) {
-	        //loadMeetings();
+	        $("#vtk-loading").css("display","none");
 	        if (html != null && $.trim(html) != "") {
 	            alert($.trim(html));
 	            return;
