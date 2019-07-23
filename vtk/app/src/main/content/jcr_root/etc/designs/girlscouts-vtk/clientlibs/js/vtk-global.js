@@ -421,7 +421,22 @@ $(function(){
  function exploreResetClose(){
      $("#exploreModal").css('display', 'none');
  }
+ function getMeetingResponse() {
+        $.ajax({
+            url: '/bin/vtk/v1/meetingFilter',
+            type: 'GET',
+            success: function(result) {
+                var obj = JSON.parse(result);
 
+
+                $("#showHideReveal").toggleClass('open');
+                $('.vtk-meeting-group').slideToggle();
+                $('.vtk-dropdown_options').hide();
+                $('#vtk-meeting-report').hide();
+            }
+        });
+
+    }
  function exploreResetConfirm(){
      $.ajax({
          url: '/content/girlscouts-vtk/service/reset-year-plan-servlet.html',

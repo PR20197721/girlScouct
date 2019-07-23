@@ -27,42 +27,7 @@
         java.util.List<Meeting> extraInfoMeetings = new java.util.ArrayList<Meeting>();
         Set<String> outdoorMeetingIds = new HashSet<String>();
         Set<String> globalMeetingIds = new HashSet<String>();
-        if (session.getAttribute("allMeetings") != null) {
-            meetings = (java.util.List<Meeting>) session.getAttribute("allMeetings");
-            System.err.println("Loaded meetings from session " + meetings);
-        } else {
-            meetings = yearPlanUtil.getAllMeetings(user, troop);
-            session.setAttribute("allMeetings", meetings);
-        }
-        if (session.getAttribute("outdoorMeetingIds") != null) {
-            outdoorMeetingIds = (Set<String>) session.getAttribute("outdoorMeetingIds");
-            System.err.println("Loaded outdoorMeetingIds from session " + outdoorMeetingIds);
-        } else {
-            outdoorMeetingIds = meetingUtil.getOutdoorMeetings(user, troop);
-            session.setAttribute("outdoorMeetingIds", outdoorMeetingIds);
-        }
-        if (session.getAttribute("globalMeetingIds") != null) {
-            globalMeetingIds = (Set<String>) session.getAttribute("globalMeetingIds");
-            System.err.println("Loaded globalMeetingIds from session " + globalMeetingIds);
-        } else {
-            globalMeetingIds = meetingUtil.getGlobalMeetings(user, troop);
-            session.setAttribute("globalMeetingIds", globalMeetingIds);
-        }
-        if (session.getAttribute("extraInfoMeetings") != null) {
-            extraInfoMeetings = (java.util.List<Meeting>) session.getAttribute("extraInfoMeetings");
-            System.err.println("Loaded extraInfoMeetings from session " + extraInfoMeetings);
-        } else {
-            for (int i = 0; i < meetings.size(); i++) {
-                if (meetings.get(i).getMeetingPlanTypeAlt() != null && !"".equals(meetings.get(i).getMeetingPlanTypeAlt())) {
-                    Meeting _alteredMeeting = (Meeting) VtkUtil.deepClone(meetings.get(i));
-                    _alteredMeeting.setMeetingPlanType(meetings.get(i).getMeetingPlanTypeAlt());
-                    _alteredMeeting.setCatTags(meetings.get(i).getCatTagsAlt());
-                    extraInfoMeetings.add(_alteredMeeting);
-                }
-            }
-            session.setAttribute("extraInfoMeetings", extraInfoMeetings);
-        }
-        meetings.addAll(extraInfoMeetings);
+
         String find = "";
 %>
 <div class="header clearfix">
@@ -92,42 +57,7 @@
         </div>
         <div class="small-20 medium-22 large-22 columns">
     <% } %>
-    <%
-        java.util.List<String> myMeetingIds = new java.util.ArrayList();
-        java.util.List<MeetingE> myMeetings = new java.util.ArrayList();
-        if (troop != null && troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null) {
-            myMeetings = troop.getYearPlan().getMeetingEvents();
-        }
-        java.util.List<String> futureMeetings = new java.util.ArrayList<String>();
-        java.util.List<String> reAddMeetings = new java.util.ArrayList<String>();
-        //add ability to add past meetings again
-        java.util.Map<java.util.Date, YearPlanComponent> sched = null;
-        try {
-            sched = meetingUtil.getYearPlanSched(user, troop, troop.getYearPlan(), true, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        BiMap sched_bm = HashBiMap.create(sched);
-        com.google.common.collect.BiMap<YearPlanComponent, java.util.Date> sched_bm_inverse = sched_bm.inverse();
-        if (myMeetings != null) {
-            for (int i = 0; i < myMeetings.size(); i++) {
-                String meetingId = myMeetings.get(i).getRefId();
-                meetingId = meetingId.substring(meetingId.lastIndexOf("/") + 1).trim().toLowerCase();
-                //if custom meeting
-                if (meetingId.contains("_")) {
-                    meetingId = meetingId.substring(0, meetingId.indexOf("_"));
-                }
-                myMeetingIds.add(meetingId);
-                java.util.Date meetingDate = sched_bm_inverse.get(myMeetings.get(i));
-                if (meetingDate != null && meetingDate.before(new java.util.Date()) && meetingDate.after(new java.util.Date("1/1/2000"))) {
-                    reAddMeetings.add(meetingId);
 
-                } else {
-                    futureMeetings.add(meetingId);
-                }
-            }
-        }
-    %>
 </div>
 <script>
     function cngMeeting(mPath) {
@@ -146,63 +76,6 @@
             <%}%>
         });
     }
-    <%
-    java.util.Map<String, String> mLevel= new java.util.TreeMap<String, String>();
-    java.util.Map<String, String> mTypes= new java.util.TreeMap<String, String>(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                if ((o2.equals("Journey:_Daisies_-_Juniors") && o1.equals("Journey:_Cadettes_-_Ambassadors")) || (o1.equals("Journey:_Daisies_-_Juniors") && o2.equals("Journey:_Cadettes_-_Ambassadors"))) {
-                    return -1 * o1.compareTo(o2);
-                } else {
-                    return o1.compareTo(o2);
-                }
-            }
-    });
-    java.util.Map<String, String> mCats= new java.util.TreeMap<String, String>();
-    java.util.Map<String, java.util.Set> mTylesPerLevel = new java.util.TreeMap();
-    java.util.Map<String, java.util.Set> mCatsPerType  = new java.util.TreeMap();
-        if (meetings != null) {
-            for (int i = 0; i < meetings.size(); i++) {
-                Meeting meeting = meetings.get(i);
-                meeting.setLevel(meeting.getLevel().replace("-", "_"));
-                if (meeting != null && meeting.getCatTags() != null) {
-                    meeting.setCatTags(meeting.getCatTags().replaceAll(" ", "_"));
-                }
-                if (meeting != null && meeting.getMeetingPlanType() != null) {
-                    meeting.setMeetingPlanType(meeting.getMeetingPlanType().replaceAll(" ", "_"));
-                }
-                if (meeting.getLevel() != null && !mLevel.containsKey(meeting.getLevel())) {
-                    mLevel.put(meeting.getLevel(), "ML_" + new java.util.Date().getTime() + "_" + Math.random());
-                    mTylesPerLevel.put(meeting.getLevel(), new java.util.HashSet<String>());
-                }
-                String cats = meeting.getCatTags();
-                if (cats != null) {
-                    StringTokenizer t = new StringTokenizer(cats, ",");
-                    while (t.hasMoreElements()) {
-                        String theCat = (String) t.nextToken();
-                        mCats.put(theCat, "MC_" + new java.util.Date().getTime() + "_" + Math.random());
-                        if (meeting.getMeetingPlanType() != null && meeting.getCatTags() != null) {
-                            java.util.Set _x = mCatsPerType.get(meeting.getMeetingPlanType());
-                            if (_x == null) {
-                                java.util.Set _y = new java.util.HashSet();
-                                _y.add(theCat);
-                                mCatsPerType.put(meeting.getMeetingPlanType(), _y);
-
-                            } else if (_x != null && !_x.contains(theCat)) {
-                                mCatsPerType.get(meeting.getMeetingPlanType()).add(theCat);
-                            }
-                        }//end if
-                    }//edn whle
-                }//end if
-                if (meeting.getMeetingPlanType() != null && !mTypes.containsKey(meeting.getMeetingPlanType())) {
-                    mTypes.put(meeting.getMeetingPlanType(), "MT_" + new java.util.Date().getTime() + "_" + Math.random());
-                }//edn if
-                if (meeting.getMeetingPlanType() != null && !mTylesPerLevel.get(meeting.getLevel()).contains(meeting.getMeetingPlanType())) {
-                    mTylesPerLevel.get(meeting.getLevel()).add(meeting.getMeetingPlanType());
-                }
-            }//end for
-        }
-   %>
 </script>
 <form id="form-meeting-library" action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="get">
     <%if (request.getParameter("newCustYr") != null) { %>
@@ -260,33 +133,68 @@
                                 <div class="vtk-meeting-filter_title"><span>1.</span> Select your Girl Scout Level(s)
                                 </div>
                                 <div id="vtk-meeting-group-age" class="row">
-                                    <!-- end carlos 1 -->
-                                    <%-- Add Order to iterator --%>
-                                    <%
-                                        ArrayList<String> levelList = new ArrayList<String>(7);
-                                        String[] levelArray = new String[]{"Daisy", "Brownie", "Junior", "Cadette", "Senior", "Ambassador", "Multi_level"};
-                                        for (int i = 0; i < 7; i++) {
-                                            String level = levelArray[i];
-                                            String id = (String) mLevel.get(level);
-                                    %>
                                     <span class="container" style="clear:both;">
-								<span class="terminal" data-price="<%if (level.contains("Daisy")) {
-                                                out.println("1");
-                                            } else if (level.contains("Brownie")) {
-                                                out.println("2");
-                                            } else if (level.contains("Junior")) {
-                                                out.println("3");
-                                            } else {
-                                                out.println(100);
-                                            }%>">
-								<div class="small-24 medium-6 column selection-box">
-								<input type="radio" name="_tag_m" id="<%= id%>" value="<%=level %>"/>
-								<label for="<%= id%>"><span></span><p><%=level.replace("_", "-")  %> </p></label>
-								</div>
-								</span>
-								</span>
-                                    <% } %>
-                                    <!-- carlos 2 start -->
+                                        <span class="terminal" data-price="1">
+                                            <div class="small-24 medium-6 column selection-box">
+                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="daisySelect" value="Daisy">
+                                                <label for="daisySelect"><span></span><p>Daisy </p></label>
+                                            </div>
+                                        </span>
+                                    </span>
+
+                                    <span class="container" style="clear:both;">
+                                        <span class="terminal" data-price="2">
+                                            <div class="small-24 medium-6 column selection-box">
+                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="brownieSelect" value="Brownie" >
+                                                <label for="brownieSelect"><span></span><p>Brownie </p></label>
+                                            </div>
+                                         </span>
+                                    </span>
+
+                                    <span class="container" style="clear:both;">
+                                        <span class="terminal" data-price="3">
+                                            <div class="small-24 medium-6 column selection-box">
+                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="juniorSelect" value="Junior" >
+                                                <label for="juniorSelect"><span></span><p>Junior </p></label>
+                                            </div>
+                                        </span>
+                                    </span>
+
+                                    <span class="container" style="clear:both;">
+                                        <span class="terminal" data-price="100">
+                                            <div class="small-24 medium-6 column selection-box">
+                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="cadetteSelect" value="Cadette" >
+                                                <label for="cadetteSelect"><span></span><p>Cadette </p></label>
+                                            </div>
+                                        </span>
+                                    </span>
+
+                                    <span class="container" style="clear:both;">
+                                        <span class="terminal" data-price="100">
+                                            <div class="small-24 medium-6 column selection-box">
+                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="seniorSelect" value="Senior" >
+                                                <label for="seniorSelect"><span></span><p>Senior </p></label>
+                                            </div>
+                                        </span>
+                                    </span>
+
+                                    <span class="container" style="clear:both;">
+                                        <span class="terminal" data-price="100">
+                                            <div class="small-24 medium-6 column selection-box">
+                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="ambassadorSelect" value="Ambassador">
+                                                <label for="ambassadorSelect"><span></span><p>Ambassador </p></label>
+                                            </div>
+                                        </span>
+                                    </span>
+
+                                    <span class="container" style="clear:both;">
+                                        <span class="terminal" data-price="100">
+                                            <div class="small-24 medium-6 column selection-box">
+                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="multiSelect" value="Multi_level">
+                                                <label for="multiSelect"><span></span><p>Multi-level </p></label>
+                                            </div>
+                                        </span>
+                                    </span>
                                 </div>
                             </div>
                             <div class="column small-24" id="vtk-meeting-group-type" style="display:none">
@@ -294,23 +202,7 @@
                                     <span>2.</span> Select the type of meeting plan you want
                                 </div>
                                 <div class="row">
-                                    <!--  carlos 2 end  -->
-                                    <%
-                                        java.util.Iterator itrTypes = mTypes.keySet().iterator();
-                                        while (itrTypes.hasNext()) {
-                                            String type = (String) itrTypes.next();
-                                            String id = (String) mTypes.get(type);
-                                    %>
-                                    <div class="small-24 medium-6 column selection-box <%= !itrTypes.hasNext() ? "end" : "" %>" style="display:none;min-height:60px;">
-                                        <input type="radio" name="_tag_t" id="<%= id%>" value="<%=type %>"/>
-                                        <label for="<%= id%>"><span></span>
-                                            <p><%=type.equals("Badges_Petals") ? "Badges/Petals" : type.replaceAll("_", " ") %>
-                                            </p></label>
-                                    </div>
-                                    <%
-                                        }
-                                    %>
-                                    <!--  carlos 3 start -->
+
                                 </div>
                             </div>
                         </div>
@@ -322,29 +214,7 @@
                                     <span id="cat_selected" style="font-size:14px !important;"></span> categories
                                 </div>
                                 <div id="vtk-meeting-group-categories" class="row  wrap-vtk-meeting-group-categories">
-                                    <!--  end carlos 3  -->
-                                    <%
-                                        java.util.Iterator itrCats = mCats.keySet().iterator();
-                                        int index = 1;
-                                        while (itrCats.hasNext()) {
-                                            String cat = (String) itrCats.next();
-                                            String cat_fmted = cat.replaceAll("_", " ");
-                                            String id = (String) mCats.get(cat);
-                                    %>
-                                    <div class="small-24 medium-12 large-6 column selection-box  <%= !itrCats.hasNext() ? "end" : "" %>" style="min-height:70px">
-                                        <input type="checkbox" name="_tag_c" id="<%= id%>" value="<%=cat %>"/>
-                                        <label for="<%= id%>">
-                                            <span></span>
-                                            <p>
-                                                <%= cat_fmted %>
-                                                <% if (newItems.contains(cat_fmted)) { %>
-                                                    <span style="font-size:10px;color:#F9A61A;font-weight:bold;background:none;display:inline-block; padding-top: 8px;" id="vtkCatItem_<%= id%>">NEW</span>
-                                                <% } %>
-                                            </p>
-                                        </label>
-                                    </div>
-                                    <% } %>
-                                    <!--  carlos 4 start  -->
+
                                 </div>
                             </div>
                         </div>
@@ -368,17 +238,7 @@
             <div id="meetingSelect" class="meetingSelect column small-24 small-centered" style="display:none;">
                 <!--<div class="row">-->
                 <%-- // --%>
-                <div style="display: flex;
-			justify-content: center;
-			flex-grow: 1;
-			flex-basis: 100%;
-			width: 100%;
-			min-height: 80px;
-			position:fixed;
-			bottom:50px;
-			left:0px;
-			z-index:1001;
-			overflow: hidden;">
+                <div style="display: flex;justify-content: center;flex-grow: 1;flex-basis: 100%;width: 100%;min-height: 80px;position:fixed;bottom:50px;left:0px;z-index:1001;overflow: hidden;">
                     <div class="vtk-float-submit">
                         <input style="color: #18AA5E; background: white !important; border: solid 1px #18AA5E;" class="button tiny" type="button" value="CANCEL" onclick="closeModalPage()"/>
                         <%if (request.getParameter("isReplaceMeeting") == null) {%>
@@ -441,6 +301,15 @@
         $('#gsModal').find('a').children('i').trigger('click');
     }
 
+    $('#vtk-meeting-filter').find('#showHideReveal').stop().click(function (e) {
+        getMeetingResponse()
+    })
+    $(".gradeLevelSelect").on("click", function(){
+        if($("#vtk-meeting-group-type").css("display") === "none"){
+            $("#vtk-meeting-group-type").slideDown();
+        }
+    });
+
     function createCustPlan(singleMeetingAdd) {
         var sortedIDs = "";
         if (singleMeetingAdd == null) {
@@ -463,404 +332,7 @@
         });
     }
 
-    $(function () {
-        var previewsType = undefined;
-        search = {};
-        var currentYear = CurrentYear(new Date());
-        //Params Creator
-        var params = (function () {
-            var _params = {
-                keywords: '',
-                level: [],
-                categoryTags: [],
-                meetingPlanType: '',
-                year: (currentYear.start()).getFullYear()
-            };
-            function _addParams(newParam) {
-                _params = Object.assign(_params, newParam);
-            }
-            function _getParams() {
-                return _params;
 
-            }
-            function _clear() {
-                _params = {
-                    keywords: '',
-                    level: [],
-                    categoryTags: [],
-                    meetingPlanType: '',
-                    year: (currentYear.start()).getFullYear()
-                }
-            }
-            return {
-                add: _addParams,
-                get: _getParams,
-                clear: _clear
-            }
-        })();
-
-        function renderAmountOfMeeting(numberOfMeeting) {
-            var print = (numberOfMeeting == 1) ? " Meeting plan" : " Meeting plans"
-            $('#no-of-meeting>p').html(numberOfMeeting + print);
-            $('#no-of-meeting').show();
-        }
-
-        //Render Show / hide meetigns
-        function executeShowAndHide(ArrayToShow) {
-            var showLevelNav = (function () {
-                var _levels = [];
-                function _add(level) {
-                    if (!(!!~_levels.indexOf(level))) {
-                        _levels.push(level)
-                    }
-                }
-                return {
-                    levels: _levels,
-                    add: _add,
-                }
-            }());
-
-            $('#meetingSelect').slideUp();
-            $('.meeting-age-separator').hide();
-            $('#no-of-meeting').hide()
-            //Colapse filter
-            $('#vtk-meeting-filter').find('#showHideReveal').removeClass('open');
-            $('.vtk-meeting-group').hide();
-            var meetingToShow = ArrayToShow.map(function (meeting) {
-                return meeting.id;
-            })
-            $('.meeting-item').hide();
-            if (meetingToShow.length > 0) {
-                for (var ___x = 0; meetingToShow.length > ___x; ___x++) {
-                    var element = $('[data-meetingid="' + meetingToShow[___x] + '"]');
-                    element.show();
-                    console.log(element.attr('id').split(';'));
-                    showLevelNav.add(element.attr('id').split(';')[3])
-                }
-                for (var __h = 0; showLevelNav.levels.length > __h; __h++) {
-                    $('.levelNav_' + showLevelNav.levels[__h].replace(/-/g, '_')).show();
-                }
-            } else {
-                noMeetingFound(params.get()['keywords'])
-            }
-            renderAmountOfMeeting(meetingToShow.length);
-            $('#meetingSelect').slideDown();
-        }
-
-        function noMeetingFound(keywords) {
-            //TODO: Add No content
-            $('.meeting-library .loading-meeting').hide();
-            $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
-            $('#meeting-library-no-content>h6>#term-search').text('');
-            $('#meeting-library-no-content>h5').text('Sorry no meeting titles have the term, "' + keywords + '"');
-            $('#meeting-library-no-content').show();
-            $('.meeting-library #vtk-meeting-filter').fadeIn();
-            $('.meeting-library .list-of-buttons').fadeIn();
-        }
-
-        //Call to the server
-        function callToserver() {
-            $('#meeting-library-no-content').hide();
-            $('.meeting-library #vtk-meeting-filter').fadeOut();
-            $('.meeting-library .list-of-buttons').fadeOut();
-            $('.meeting-library .loading-meeting').show();
-            $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'none');
-            $('#meetingSelect').slideUp();
-            bottoms_library.ok.disable();
-            var call = $.ajax({
-                url: "/bin/vtk/v1/meetingSearch",
-                dataType: "json",
-                type: 'POST',
-                contentType: "application/json",
-                cache: false,
-                data: JSON.stringify(params.get())
-            })
-            call.done(function (data) {
-                executeShowAndHide(data);
-                $('.meeting-library .loading-meeting').hide()
-                $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
-                $('.meeting-library #vtk-meeting-filter').fadeIn();
-                $('.meeting-library .list-of-buttons').fadeIn();
-                bottoms_library.ok.enable();
-            });
-
-            call.fail(function (err) {
-                console.error('error:', err);
-                $('.meeting-library .loading-meeting').hide()
-                $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
-                $('.meeting-library #vtk-meeting-filter').fadeIn();
-                $('.meeting-library .list-of-buttons').fadeIn();
-                bottoms_library.ok.enable();
-            })
-        }
-
-        //Button Actions Logic
-        function _buttonLogic() {
-            var object = params.get();
-            var keyInObject = Object.keys(object);
-            var somethingFill = keyInObject.some(function (e) {
-                return object[e] !== ''
-            })
-            var isKeyboard = (object['keywords'].length >= 3);
-            var isLevel = !!object['level'].length;
-            if (isKeyboard || isLevel) {
-                bottoms_library.ok.enable();
-            } else {
-                clearMeetingId();
-                bottoms_library.ok.disable();
-            }
-        }
-
-        //Clear the check b
-        function clearCategories() {
-            $('[name="_tag_c"]').each(function (idx, ele) {
-                this.checked = false;
-            });
-            $('#vtk-meeting-filter .vtk-meeting-group .list-of-categories').hide();
-        }
-
-        function cleanMeetingCheckbox() {
-            $('input[name="addMeetingMulti"]').each(function () {
-                this.checked = false;
-            })
-            $('.clear-meeting-filter-result').addClass('inactive-button');
-            $('.add-to-year-plan').addClass('inactive-button');
-        }
-
-        function clearMeetingId() {
-            $('#meetingSelect').slideUp(function () {
-                $('.meeting-item').hide();
-                cleanMeetingCheckbox();
-            });
-        }
-
-        function clearType() {
-            $('#vtk-meeting-group-type input').each(function (idx, ele) {
-                this.checked = false;
-                this.parentElement.style.display = 'none';
-            })
-        }
-
-
-        //x in input
-        $('#vtk-meeting-filter .__search .__X').on('click', function () {
-            $('#searchByMeetingTitle').val('');
-            params.add({keywords: ''})
-            $(this).hide();
-            _buttonLogic()
-        })
-        //keywords
-        $('#searchByMeetingTitle').on('keyup', function (event) {
-            var key = event.target.value, element = $('#vtk-meeting-filter .__search .__X');
-            params.add({keywords: key.split(' ').join(' ')})
-            if (key.length >= 3) {
-                element.show();
-            } else {
-                element.hide();
-            }
-            _buttonLogic();
-        })
-        //Age
-        $('#vtk-meeting-group-age input').on('click', function () {
-            var Age = []
-            $('#vtk-meeting-group-age input').each(function (a, e) {
-                if (e.checked) {
-                    Age.push(e.value.replace(/_/g, '-')); //level JSP is parse all '-' to '_' legacy logic.
-                }
-            });
-            params.add({level: Age})
-            if (Age.length) {
-                $('#vtk-meeting-group-type').hide();
-                clearType();
-                var mapEleType = [];
-                for (var _y = 0; Age.length > _y; _y++) {
-                    for (var _X in search[Age[_y]]) {
-                        var element = document.getElementById(_X);
-                        mapEleType.push(element.parentElement);
-                    }
-                }
-                for (var d = 0; mapEleType.length > d; d++) {
-                    mapEleType[d].style.display = '';
-                }
-                $('#vtk-meeting-group-type').show();
-            } else {
-                $('#vtk-meeting-group-type').hide();
-
-            }
-            clearCategories();
-            params.add({meetingPlanType: ''});
-            _buttonLogic();
-        });
-        //Type
-        $('#vtk-meeting-group-type input').on('click', function () {
-            //Handle unclick radio
-            if (this == previewsType) {
-                this.checked = false;
-                previewsType = undefined;
-                clearCategories();
-                clearMeetingId();
-                params.add({categoryTags: []});
-                params.add({meetingPlanType: ''});
-            } else {
-                previewsType = this;
-            }
-            var type;
-            $('#vtk-meeting-group-type input').each(function (a, e) {
-                if (e.checked) {
-                    type = e;
-                }
-            });
-            $('#vtk-meeting-filter .vtk-meeting-group .list-of-categories').hide()
-            $('[name="_tag_c"]').each(function (idx, ele) {
-                $(ele)[0].checked = false;
-                $(ele).parent().hide();
-            });
-            if (type) {
-                var levels = params.get()['level'];
-                var c = [];
-                for (var _e = 0; levels.length > _e; _e++) {
-                    if (search[levels[_e]][type.id]) {
-                        for (var _g = 0; search[levels[_e]][type.id].length > _g; _g++) {
-                            var element = document.getElementById(search[levels[_e]][type.id][_g]);
-                            c.push(element.parentElement);
-                        }
-                    }
-                }
-                if (c.length > 0) {
-                    for (var x = 0; c.length > x; x++) {
-                        c[x].style.display = '';
-                    }
-                    $('#vtk-meeting-filter .vtk-meeting-group .list-of-categories').show()
-                }
-                params.add({"meetingPlanType": type.value})
-            } else {
-                params.add({"meetingPlanType": ''})
-            }
-            _buttonLogic();
-        });
-        //Category
-        $('[name="_tag_c"]').on('click', function () {
-            var Cat = []
-            $('[name="_tag_c"]').each(function (a, e) {
-                if (e.checked) {
-                    Cat.push(e.value);
-                }
-            });
-            params.add({categoryTags: Cat})
-            _buttonLogic();
-        })
-        //Buttoms elements
-        var bottoms_library = {
-            ok: {
-                element: $('#vtk-meeting-group-button_ok'),
-                disable: function () {
-                    this.element.addClass('disabled');
-                },
-                enable: function () {
-                    this.element.removeClass('disabled');
-                }
-            },
-            cancel: {
-                element: $('#vtk-meeting-group-button_cancel')
-            }
-        }
-        //Call to the server
-        bottoms_library.ok.element.on('click', function () {
-            if (!$(this).hasClass('disabled')) {
-                callToserver();
-            }
-        })
-        //Close Modal
-        bottoms_library.cancel.element.on('click', closeModal);
-        if (is_add_meeting) {
-            $('.select-meeting-withoutaction').show();
-            $('.select-meeting-withaction').hide();
-        } else {
-            $('.select-meeting-withaction').show();
-            $('.select-meeting-withoutaction').hide();
-        }
-        //Create Search Object
-        /*
-            STRUCTURE
-            search = {
-                level:{
-                    types : [categories]
-                }
-            }
-
-        */
-        //Run After page load checking all the meetings
-        $('.meeting-item').each(function (idx, ele) {
-            //Add the meeid attribute
-            $(this).attr('data-meetingid', $(this).data('url').split('/').pop());
-            var elementAttr = $(this).attr('id').split(';');
-            elementAttr[3] = elementAttr[3].replace('_', '-');
-            if (elementAttr[3] !== '') {
-                if (!search.hasOwnProperty(elementAttr[3])) {
-                    search[elementAttr[3]] = {};
-                }
-                if (elementAttr[2] !== '') {
-                    if (!search[elementAttr[3]].hasOwnProperty(elementAttr[2].trim()) && elementAttr[2].trim().length > 0) {
-                        search[elementAttr[3]][elementAttr[2].trim()] = [];
-                    }
-                    if (elementAttr.length > 4) {
-                        for (var c = 4; c < elementAttr.length; c++) {
-                            if (search[elementAttr[3]][elementAttr[2]].indexOf(elementAttr[c].trim()) == -1 && elementAttr[c].trim().length > 0) {
-                                search[elementAttr[3]][elementAttr[2]].push(elementAttr[c].trim());
-                            }
-                        }
-                    }
-                }
-
-            }
-        });
-        //Cancel enter submit
-        var time = 0;
-        $('#form-meeting-library').on('keypress', function (e) {
-            var keyCode = e.keyCode || e.which; //Hack for mack and IE
-            if (keyCode === 13) { //Check if key enter is pressed
-                e.preventDefault(); //Prevent send the form
-                if (e.timeStamp > time + 1500) {  //avoid multiple click in the enter buttom (one second and an half)
-                    valueSearch = $(this).serializeArray().find(function (e) { //check in the form for the input[name="search"]
-                        return e.name == 'search';
-                    })
-                    if (valueSearch.value.length > 2) { //Check the is more that two character
-                        callToserver();
-                    }
-                    time = e.timeStamp //save the previos time stamp
-                }
-                return false;
-            }
-        });
-        //Listining for a change in the meeting and activate buttons.
-        $('.meeting-item input[name="addMeetingMulti"]').on('change', function () {
-            var enablebuttom = $('.meeting-item:visible input[name="addMeetingMulti"]')
-                .toArray()
-                .some(function (i, e, a) {
-                    return i.checked;
-                });
-            if (enablebuttom) {
-                $('.clear-meeting-filter-result').removeClass('inactive-button');
-                $('.add-to-year-plan').removeClass('inactive-button');
-            } else {
-                $('.clear-meeting-filter-result').addClass('inactive-button');
-                $('.add-to-year-plan').addClass('inactive-button');
-            }
-        })
-        //Lisining for  clear meeting selectect
-        $('.clear-meeting-filter-result').on('click', function () {
-            cleanMeetingCheckbox();
-        });
-        $('#vtk-meeting-filter').find('#showHideReveal').stop().click(function (e) {
-            $(this).toggleClass('open')
-            $('.vtk-meeting-group').slideToggle();
-            $('.vtk-dropdown_options').hide();
-            $('#vtk-meeting-report').hide();
-        })
-    });
-    $('#form-meeting-library').on('submit', function (e) {
-        $('.add-to-year-plan').addClass('inactive-button');
-    })
 </script>
 <%
     } catch (Exception e) {
