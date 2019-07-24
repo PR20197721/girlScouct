@@ -872,11 +872,7 @@ function rmTroopInfo() {
 
     $.ajax({
         url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
-        type: 'POST',
-        data: {
-            isRmTroopImg: 'true',
-            a: Date.now()
-        },
+        type: 'DELETE',
         success: function(result) {
             location.reload();
         }
