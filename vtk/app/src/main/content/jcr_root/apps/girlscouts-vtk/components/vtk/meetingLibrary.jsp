@@ -376,9 +376,35 @@
     function closeModal() {
         $('#gsModal').find('a').children('i').trigger('click');
     }
+
+    $('.clear-meeting-filter-result').on('click', function () {
+        $('input[name="addMeetingMulti"]').each(function () {
+            this.checked = false;
+        })
+        $('.clear-meeting-filter-result').addClass('inactive-button');
+        $('.add-to-year-plan').addClass('inactive-button');
+    });
+
+    //Cancel enter submit
+    var time = 0;
+    $('#form-meeting-library').on('keypress', function (e) {
+        var keyCode = e.keyCode || e.which; //Hack for mack and IE
+        if (keyCode === 13) { //Check if key enter is pressed
+            e.preventDefault(); //Prevent send the form
+            if (e.timeStamp > time + 1500) {  //avoid multiple click in the enter buttom (one second and an half)
+                if(!$('#vtk-meeting-group-button_ok').hasClass('disabled')){
+                    callToServer();
+                }else{
+                    console.log("Error submitting form, please enter more data");
+                }
+                time = e.timeStamp //save the previos time stamp
+            }
+            return false;
+        }
+    });
     $(".gradeLevelSelect").on("click", function(){
          $('#vtk-meeting-group-button_ok').removeClass('disabled');
-     });
+    });
 
     $("#vtk-meeting-group-button_ok").on('click', function(){
         if(!$('#vtk-meeting-group-button_ok').hasClass('disabled')){
