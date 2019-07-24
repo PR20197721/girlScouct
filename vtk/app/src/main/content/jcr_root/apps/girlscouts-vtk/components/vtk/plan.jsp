@@ -13,6 +13,7 @@
 %>
 <%@include file="include/bodyTop.jsp" %>
 <%@include file="include/modals/modal_help.jsp" %>
+<%@include file="include/loader.jsp" %>
 
 
 <%PlanView planView = meetingUtil.planView(user, troop, request);%>
@@ -873,7 +874,7 @@
                 }
 
 
-                var _template = '<div class="modal_resource">' +
+                var _template = '<div class="modal_resource" style="height: 608px;overflow: hidden;">' +
                     '<div class="header clearfix">' +
                     '<h3 class="columns large-22">REQUIREMENTS</h3>' +
                     '<a class="close-reveal-modal columns large-2" href="#">' +

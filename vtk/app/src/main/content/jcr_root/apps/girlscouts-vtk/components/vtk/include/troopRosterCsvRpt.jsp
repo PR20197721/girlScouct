@@ -83,9 +83,12 @@
 	                    	   csv.append( fmtValue(contactSub.getEmail()) +",");
 	                       } else{
                                csv.append (",");
-                               
                            }
 						}
+						else{
+                           csv.append (",");
+                        }
+                        
 					}
                 }else{
                     csv.append (",,");
