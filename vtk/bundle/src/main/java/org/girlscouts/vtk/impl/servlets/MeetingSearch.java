@@ -170,7 +170,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                 Iterator<Resource> activityIterator = activities.getChildren().iterator();
                 while(activityIterator.hasNext()) {
                     Resource activity = activityIterator.next();
-                    Resource multiactivity = meeting.getChild("multiactivities");
+                    Resource multiactivity = activity.getChild("multiactivities");
                     if(multiactivity != null) {
                         Iterator<Resource> multiactivityIterator = multiactivity.getChildren().iterator();
                         while(multiactivityIterator.hasNext()) {

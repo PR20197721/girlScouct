@@ -579,6 +579,12 @@ $(function(){
     if(data[meeting].req !== null && data[meeting].req !== undefined && data[meeting].req !== ""){
         $("[data-meetingid="+data[meeting].id+"]").append("<div class='__requiments_details row' style='display:none'><div class='column small-24' style='padding:10px;'><div class='_requiments_description'><p style='margin-bottom: 5px'><b>"+data[meeting].reqTitle+"</b></p>"+data[meeting].req+"</div><p style='text-align:center; margin-top:20px'><span class='vtk-button' style='cursor:pointer;' onclick='_closeME(this)'>&nbsp;&nbsp;&nbsp;CLOSE&nbsp;&nbsp;&nbsp;</span></p></div></div>");
     }
+    if(data[meeting].hasGlobal === true){
+        $("[data-meetingid="+data[meeting].id+"]").find(".title").append("<img data-tooltip='' aria-haspopup='true' class='has-tip tip-top radius meeting_library' style='width:30px;vertical-align:top;padding-top:2px;cursor:auto;border:none' src='/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png' data-selector='tooltip-jyhe4u6u1' title=''>");
+    }
+    if(data[meeting].hasOutdoor === true){
+       $("[data-meetingid="+data[meeting].id+"]").find(".title").append("<img data-tooltip='' aria-haspopup='true' class='has-tip tip-top radius meeting_library' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src='/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png' data-selector='tooltip-jyhelib9j' title=''>");
+    }
  }
 
  function appendMeetings(data){
@@ -676,6 +682,11 @@ $(function(){
          data: JSON.stringify(params.get())
      })
      call.done(function (data) {
+         $("#meetingSelect").children().each(function(){
+            if(!$(this).hasClass("no-of-meeting")){
+                $(this).remove();
+            }
+         });
          appendMeetings(data);
          $('.meeting-library .loading-meeting').hide()
          $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
