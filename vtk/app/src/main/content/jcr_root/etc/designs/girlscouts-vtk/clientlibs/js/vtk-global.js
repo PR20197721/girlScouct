@@ -678,9 +678,6 @@ $(function(){
 
 
 
-    $("#meetingSelect").css("display", "block");
-
-
  }
 
  function callToServer() {
@@ -709,6 +706,7 @@ $(function(){
          $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
          $('.meeting-library #vtk-meeting-filter').fadeIn();
          $('.meeting-library .list-of-buttons').fadeIn();
+         $("#meetingSelect").css("display", "block");
      });
 
      call.fail(function (err) {
@@ -717,6 +715,7 @@ $(function(){
          $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
          $('.meeting-library #vtk-meeting-filter').fadeIn();
          $('.meeting-library .list-of-buttons').fadeIn();
+         $("#meetingSelect").css("display", "block");
      })
  }
 $(document).ready(checkNews());
