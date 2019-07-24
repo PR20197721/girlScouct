@@ -203,6 +203,11 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
 	</dependencies>
 	<!-- ====================================================================== -->
 	<!-- B U I L D D E F I N I T I O N -->
@@ -353,6 +358,7 @@
                             javax.xml.stream,
                             javax.xml.xpath,
                             jxl.*,
+                            com.google.common.cache,
                             org.girlscouts.common.*;version="3.0.0",
                             org.girlscouts.vtk.modifiedcheck
 						</Import-Package>

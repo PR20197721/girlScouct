@@ -252,12 +252,12 @@ public class VtkUtil implements ConfigListener {
             }
         }
         Calendar now = Calendar.getInstance();
-        log.debug("VTK New Year Setting: month="+month+", date="+date+", current month="+now.get(Calendar.MONTH)+", current date="+now.get(Calendar.DATE));
+        //log.debug("VTK New Year Setting: month="+month+", date="+date+", current month="+now.get(Calendar.MONTH)+", current date="+now.get(Calendar.DATE));
         if (now.get(Calendar.MONTH) >= (month - 1) && now.get(Calendar.DATE) >= date){
-            log.debug("VTK Year: "+now.get(java.util.Calendar.YEAR));
+            //log.debug("VTK Year: "+now.get(java.util.Calendar.YEAR));
             return now.get(java.util.Calendar.YEAR);
         } else {
-            log.debug("VTK Year: "+(now.get(java.util.Calendar.YEAR)-1));
+            //log.debug("VTK Year: "+(now.get(java.util.Calendar.YEAR)-1));
             return now.get(java.util.Calendar.YEAR) - 1;
         }
     }

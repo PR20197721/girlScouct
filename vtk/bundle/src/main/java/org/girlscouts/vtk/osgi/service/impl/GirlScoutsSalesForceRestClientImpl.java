@@ -84,6 +84,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
 
     @Override
     public TroopInfoResponseEntity getTroopInfoByUserId(ApiConfig apiConfig, String userId) {
+        log.debug("Requesting troops for user "+ userId);
         TroopInfoResponseEntity troopInfoResponseEntity = null;
         String url = this.sfTroopInfoUrl + "?userId=" + userId;
         String token = apiConfig.getAccessToken();
@@ -100,6 +101,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
 
     @Override
     public ContactsInfoResponseEntity getContactsByTroopId(ApiConfig apiConfig, String sfTroopId) {
+        log.debug("Requesting contacts for troop "+ sfTroopId);
         ContactsInfoResponseEntity contactsInfoResponseEntity = null;
         String url = this.sfContactsInfoUrl + "?troopId=" + sfTroopId;
         String token = apiConfig.getAccessToken();
@@ -115,6 +117,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
 
     @Override
     public TroopLeadersInfoResponseEntity getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId) {
+        log.debug("Requesting troop leaders for troop "+ sfTroopId);
         TroopLeadersInfoResponseEntity troopLeadersInfoResponseEntity = null;
         String url = this.sfTroopLeaderInfoUrl + "?Troop_ID=" + sfTroopId;
         String token = apiConfig.getAccessToken();
@@ -131,6 +134,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
 
     @Override
     public JWTAuthEntity getJWTAuth(String accessToken) {
+        log.debug("Requesting jwtauth for accessToken "+ accessToken);
         byte[] data = Base64.decodeBase64(gsCertificate);
         ByteArrayInputStream is = new ByteArrayInputStream(data);
         String email = accessToken.substring(accessToken.indexOf("@") + 1);

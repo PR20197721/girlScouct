@@ -12,14 +12,11 @@
 	if( isCachableContacts && session.getAttribute("vtk_cachable_contacts")!=null ) {
 		contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
 	}
-
 	if( contacts==null ){
 		contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}
-		
-		
 		String emailTo=",";
 		try{
 			for(int i=0;i<contacts.size();i++)
@@ -43,21 +40,16 @@
 
 		BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
-
-		 contactsExtras = contactUtil.getContactsExtras( user,  selectedTroop, contacts);
-	
-		 
-    
+		contactsExtras = contactUtil.getContactsExtras( user,  selectedTroop, contacts);
 	%>
 	<div class="email">
 	<div class="email-content">
           <div class="email-modal-header">
        		 <div class="vtk-email-news-button" onclick="cancelEmail()">
-                    <span id="email-close-button">X<span>
+                    <span id="email-close-button">X</span>
               </div>
-             <h3 class="emailHeader">Troop Email Content </br></h3>
+             <h3 class="emailHeader">Troop Email Content <br/></h3>
       	  </div>
->>>>>>> release-candidate-3.11
         <div class="email-modal-body">
             <h6 class="emailInput"> Email To: </h6>
             <ul class="small-block-grid-3">

@@ -11,11 +11,11 @@
     String sectionClassDefinition = "";
 %>
 <%@include file="include/bodyTop.jsp" %>
-<%if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_VIEW_TROOP_ID) && !"SUM".equals(selectedTroop.getCouncilCode()) && !"IRM".equals(selectedTroop.getParticipationCode())) { %>
-<%@include file="mytroop_react.jsp" %>
+<%if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_VIEW_TROOP_ID) && !"SUM".equals(selectedTroop.getCouncilCode())) { %>
+    <%@include file="mytroop_react.jsp" %>
 <%} else { %>
-<%@include file='myTroopImg.jsp' %>
-<%@include file="myTroopOff.jsp" %>
+    <%@include file='myTroopImg.jsp' %>
+    <%@include file="myTroopOff.jsp" %>
 <% } %>
 <script>loadNav('myTroop')</script>
 <%@include file="include/bodyBottom.jsp" %>
