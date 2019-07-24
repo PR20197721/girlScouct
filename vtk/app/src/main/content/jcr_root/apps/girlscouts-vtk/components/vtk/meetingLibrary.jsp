@@ -405,7 +405,9 @@
 
     $("#vtk-meeting-group-button_ok").on('click', function(){
         if(!$('#vtk-meeting-group-button_ok').hasClass('disabled')){
-            $("#showHideReveal").click();
+            if($("#showHideReveal").hasClass("open")){
+                 $("#showHideReveal").click();
+            }
             //Age
             var Age = []
             $('#vtk-meeting-group-age input').each(function (a, e) {

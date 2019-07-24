@@ -675,7 +675,7 @@ $(function(){
             generateMeetingHtml(seniorMeetings, meeting);
         }
     }
-
+    $("#meetingSelect").css("display", "block");
 
 
  }
@@ -697,7 +697,7 @@ $(function(){
      })
      call.done(function (data) {
          $("#meetingSelect").children().each(function(){
-            if(!$(this).hasClass("no-of-meeting") && !$(this).attr("id") === "vtkSubmitButtonsSection"){
+            if($(this).hasClass("meeting-age-separator") || $(this).hasClass("meeting-item")){
                 $(this).remove();
             }
          });
@@ -706,7 +706,7 @@ $(function(){
          $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
          $('.meeting-library #vtk-meeting-filter').fadeIn();
          $('.meeting-library .list-of-buttons').fadeIn();
-         $("#meetingSelect").css("display", "block");
+
      });
 
      call.fail(function (err) {
