@@ -4,7 +4,7 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/vtk.jsp -->
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
-
+<%@include file="include/loader.jsp" %>
 <div id="error-message"></div>
 <!--PAGE STRUCTURE: reset modal-->
  <div id="exploreModal" class="exploreReset">
