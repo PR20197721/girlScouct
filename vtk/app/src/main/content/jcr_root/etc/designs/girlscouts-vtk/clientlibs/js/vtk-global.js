@@ -423,6 +423,7 @@ $(function(){
  }
 
  function exploreResetConfirm(){
+     $("#vtk-loading").css("display","block");
      $.ajax({
          url: '/content/girlscouts-vtk/service/reset-year-plan-servlet.html',
          type: 'POST',
@@ -437,12 +438,14 @@ $(function(){
                     a: Date.now()
                 },
                 success: function(result) {
+                    $("#vtk-loading").css("display","none");
                     vtkTrackerPushAction('ChangeTroop');
                     document.location = "/content/girlscouts-vtk/en/vtk.html";
                 }
             });
          },
          error: function(result){
+            $("#vtk-loading").css("display","none");
              console.log("YEAR PLAN FAILED TO DELETE");
          }
      });
@@ -462,6 +465,257 @@ $(function(){
         setTimeout(checkNews, 50);
     }
 
+ }
+
+ function addNewTags(){
+    //"NEW" tag list
+    var newMeetings = ["Outdoor", "Badges_for_2019-2020","STEM", "Journey|Outdoor", "Journey|STEM", "Badges_Petals|Badges_for_2019-2020", "Life_Skills"];
+    for(var tag in newMeetings){
+        var el = document.getElementById("category"+newMeetings[tag]);
+        $(el).parent().find("p").append("<span style='font-size:10px;color:#F9A61A;font-weight:bold;background:none;display:inline-block; padding-top: 8px;'>NEW</span>")
+
+
+    }
+
+
+ }
+  function appendMeetingCategories(result, level, group){
+     $("#vtk-meeting-group-categories").html("");
+     var categoryGroups = [];
+     for(var category in result[level].subFilterOptions[group].subFilterOptions){
+         if(!categoryGroups.includes((result[level].subFilterOptions[group].subFilterOptions[category].value).replace(new RegExp('_', 'g'), " "))){
+             var categoryName = result[level].subFilterOptions[group].subFilterOptions[category].value;
+             categoryGroups.push(categoryName.replace(new RegExp('_', 'g'), " "));
+         }
+     }
+     categoryGroups.sort();
+     for(var cat in categoryGroups){
+        var categoryTag = categoryGroups[cat].replace(new RegExp(' ', 'g'), "_");
+         $("#vtk-meeting-group-categories").append("<div class='small-24 medium-12 large-6 column selection-box  ' style='min-height: 70px;float: left;'><input type='checkbox' name='_tag_c' id=\"category"+categoryTag+"\" value=\""+categoryTag+"\"><label for=\"category"+categoryTag+"\"><span></span><p>"+categoryGroups[cat]+"</p></label></div>")
+     }
+     addNewTags();
+  }
+  function appendMeetingGroups(result, level){
+     $("#vtk-group-section").html("");
+     var meetingGroups = [];
+         for(var meetingGroup in result[level].subFilterOptions){
+             if(!meetingGroups.includes((result[level].subFilterOptions[meetingGroup].value).replace(new RegExp('_', 'g'), " "))){
+                 var groupName = result[level].subFilterOptions[meetingGroup].value;
+                 meetingGroups.push(groupName.replace(new RegExp('_', 'g'), " "));
+             }
+         }
+
+     meetingGroups.sort(function(a,b){
+         if((a === "Journey: Daisies - Juniors" && b === "Journey: Cadettes - Ambassadors") || (b === "Journey: Daisies - Juniors" && a === "Journey: Cadettes - Ambassadors")){
+             return -1;
+         }else{
+             if(a>b){
+                 return 1;
+             }
+             else if(a < b){
+                 return -1;
+             }
+             else{
+                 return 0;
+             }
+         }
+     });
+     for(var meeting in meetingGroups){
+          $("#vtk-group-section").append("<div class='small-24 medium-6 column selection-box ' style='min-height: 60px;float: left;'><input type='radio' name='_tag_t' id='group"+meetingGroups[meeting]+"' value='"+meetingGroups[meeting]+"'><label for='group"+meetingGroups[meeting]+"'><span></span><p> "+meetingGroups[meeting]+" </p></label></div>");
+     }
+     $("#vtk-group-section .selection-box input").on("click", function(){
+         appendMeetingCategories(result,level, $(this).attr("value").replace(new RegExp(' ', 'g'), "_"))
+         if($("#vtk-meeting-category-parent").css("display") === "none"){
+             $("#vtk-meeting-category-parent").slideDown();
+         }
+     });
+
+  }
+  function getMeetingResponse() {
+    $("#vtk-loading").css("display", "block");
+     $.ajax({
+         url: '/bin/vtk/v1/meetingFilter',
+         type: 'GET',
+         success: function(result) {
+            $("#vtk-loading").css("display", "none");
+             $(".gradeLevelSelect").on("click", function(){
+                 if($("#vtk-meeting-category-parent").css("display") !== "none"){
+                     $("#vtk-meeting-category-parent").slideUp(400, function(){
+                         $("#vtk-meeting-group-categories").html("");
+                     });
+                 }
+                 var level = $(this).attr("value").replace("_", "");
+                 appendMeetingGroups(result, level);
+                 if($("#vtk-meeting-group-type").css("display") === "none"){
+                     $("#vtk-meeting-group-type").slideDown();
+                 }
+             });
+
+             $("#showHideReveal").toggleClass('open');
+             $('.vtk-meeting-group').slideToggle();
+             $('.vtk-dropdown_options').hide();
+             $('#vtk-meeting-report').hide();
+         }
+     });
+
+ }
+ function addToYearPlan(){
+    var enablebuttom = $('.meeting-item:visible input[name="addMeetingMulti"]')
+        .toArray()
+        .some(function (i, e, a) {
+            return i.checked;
+        });
+    if (enablebuttom) {
+        $('.clear-meeting-filter-result').removeClass('inactive-button');
+        $('.add-to-year-plan').removeClass('inactive-button');
+    } else {
+        $('.clear-meeting-filter-result').addClass('inactive-button');
+        $('.add-to-year-plan').addClass('inactive-button');
+    }
+ }
+ function generateMeetingHtml(data, meeting){
+    $("#meetingSelect").append("<div class='meeting-item column small-24' data-url='"+data[meeting].path+"' data-meetingid='"+data[meeting].id+"'></div>");
+    $("[data-meetingid="+data[meeting].id+"]").append("<div class='row'><div>");
+    $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-14'><div style='display:table;min-height:110px'><div style='display:table-cell;height:inherit;vertical-align:middle;'><p class='title'>" + data[meeting].name + "</p><p class='blurb'>" + data[meeting].blurb + "</p><p class='tags'> <span></span></p></div></div></div>");
+
+
+    if(data[meeting].included){
+        $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style=\"display:table-cell;height:inherit;vertical-align:middle; text-align:center;\"><img src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png\" width='10' height='15'> <i class=\"included\">Included in Year Plan</i></div></div></div>");
+    }else{
+        if(window.location.href.includes(".details")){
+            $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style='display:table-cell;height:inherit;vertical-align:middle; text-align:center;'><div class='middle-checkbox' style='text-align:center;'><table><tbody><tr><td><span></span></label></td><td><p style='cursor:pointer;'class=\"select-meeting-withaction\" onclick=\"cngMeeting('"+data[meeting].path+"')\">SELECT MEETING</p></td></tr></tbody></table></div></div></div></div>");
+        }else{
+            $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style='display:table-cell;height:inherit;vertical-align:middle; text-align:center;'><div class='middle-checkbox' style='text-align:center;'><table><tbody><tr><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' id="+data[meeting].id+" value="+data[meeting].path+"><label for="+data[meeting].id+"><span></span></label></td><td><p style='color:#000;'>SELECT MEETING</p></td></tr></tbody></table></div></div></div></div>");
+        }
+    }
+
+
+
+
+    $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' onclick='openRequirementDetail(this)' class='image  _requirement_modal' height='100' src='/content/dam/girlscouts-vtk/local/icon/meetings/"+data[meeting].id+".png'></div></div></div>");
+    if(data[meeting].req !== null && data[meeting].req !== undefined && data[meeting].req !== ""){
+        $("[data-meetingid="+data[meeting].id+"]").append("<div class='__requiments_details row' style='display:none'><div class='column small-24' style='padding:10px;'><div class='_requiments_description'><p style='margin-bottom: 5px'><b>"+data[meeting].reqTitle+"</b></p>"+data[meeting].req+"</div><p style='text-align:center; margin-top:20px'><span class='vtk-button' style='cursor:pointer;' onclick='_closeME(this)'>&nbsp;&nbsp;&nbsp;CLOSE&nbsp;&nbsp;&nbsp;</span></p></div></div>");
+    }
+    if(data[meeting].hasGlobal === true){
+        $("[data-meetingid="+data[meeting].id+"]").find(".title").append("<img data-tooltip='' aria-haspopup='true' class='has-tip tip-top radius meeting_library' style='width:30px;vertical-align:top;padding-top:2px;cursor:auto;border:none' src='/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png' data-selector='tooltip-jyhe4u6u1' title=''>");
+    }
+    if(data[meeting].hasOutdoor === true){
+       $("[data-meetingid="+data[meeting].id+"]").find(".title").append("<img data-tooltip='' aria-haspopup='true' class='has-tip tip-top radius meeting_library' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src='/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png' data-selector='tooltip-jyhelib9j' title=''>");
+    }
+ }
+
+ function appendMeetings(data){
+    var ambassadorMeetings = [];
+    var brownieMeetings = [];
+    var daisyMeetings = [];
+    var cadetteMeetings = [];
+    var juniorMeetings = [];
+    var seniorMeetings = [];
+    var multiMeetings = [];
+    $("#no-of-meeting").find("p").text(data.length + " Meeting Plans");
+    $("#no-of-meeting").css("display", "block");
+
+    for(var meeting in data){
+        var meetingLevel = data[meeting].level;
+        if(meetingLevel === "Ambassador"){
+            ambassadorMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Brownie"){
+            brownieMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Cadette"){
+            cadetteMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Daisy"){
+            daisyMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Junior"){
+            juniorMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Senior"){
+            seniorMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Multi-level"){
+            multiMeetings.push(data[meeting]);
+        }
+    }
+    if(ambassadorMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Ambassador' id='levelNav_Ambassador'>Ambassador</div>");
+        for(var meeting in ambassadorMeetings){
+            generateMeetingHtml(ambassadorMeetings, meeting);
+        }
+    }
+    if(brownieMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Brownie' id='levelNav_Brownie'>Brownie</div>");
+        for(var meeting in brownieMeetings){
+            generateMeetingHtml(brownieMeetings, meeting);
+        }
+    }
+    if(cadetteMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Cadette' id='levelNav_Cadette'>Cadette</div>");
+        for(var meeting in cadetteMeetings){
+            generateMeetingHtml(cadetteMeetings, meeting);
+        }
+    }
+    if(daisyMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Daisy' id='levelNav_Daisy'>Daisy</div>");
+        for(var meeting in daisyMeetings){
+            generateMeetingHtml(daisyMeetings, meeting);
+        }
+    }
+    if(juniorMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Junior' id='levelNav_Junior'>Junior</div>");
+        for(var meeting in juniorMeetings){
+            generateMeetingHtml(juniorMeetings, meeting);
+        }
+    }
+    if(multiMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Multi_level' id='levelNav_Multi_level'>Multi-Level</div>");
+        for(var meeting in multiMeetings){
+            generateMeetingHtml(multiMeetings, meeting);
+        }
+    }
+    if(seniorMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Senior' id='levelNav_Senior'>Senior</div>");
+        for(var meeting in seniorMeetings){
+            generateMeetingHtml(seniorMeetings, meeting);
+        }
+    }
+    $("#meetingSelect").addClass("showResults");
+
+ }
+
+ function callToServer() {
+     $('#meeting-library-no-content').hide();
+     $('.meeting-library #vtk-meeting-filter').fadeOut();
+     $('.meeting-library .list-of-buttons').fadeOut();
+     $('.meeting-library .loading-meeting').show();
+     $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'none');
+     $('#meetingSelect').slideUp();
+     var call = $.ajax({
+         url: "/bin/vtk/v1/meetingSearch",
+         dataType: "json",
+         type: 'POST',
+         contentType: "application/json",
+         cache: false,
+         data: JSON.stringify(params.get())
+     })
+     call.done(function (data) {
+         $("#meetingSelect").children().each(function(){
+            if($(this).hasClass("meeting-age-separator") || $(this).hasClass("meeting-item")){
+                $(this).remove();
+            }
+         });
+         appendMeetings(data);
+         $('.meeting-library .loading-meeting').hide()
+         $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
+         $('.meeting-library #vtk-meeting-filter').fadeIn();
+         $('.meeting-library .list-of-buttons').fadeIn();
+
+     });
+
+     call.fail(function (err) {
+         console.error('error:', err);
+         $('.meeting-library .loading-meeting').hide()
+         $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
+         $('.meeting-library #vtk-meeting-filter').fadeIn();
+         $('.meeting-library .list-of-buttons').fadeIn();
+         $("#meetingSelect").css("display", "block");
+     })
  }
 $(document).ready(checkNews());
 

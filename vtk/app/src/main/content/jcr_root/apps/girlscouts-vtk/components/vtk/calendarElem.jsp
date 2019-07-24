@@ -145,7 +145,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 
 	function cancelModal(){
-		$('#gsModal').children('.header').children('a').children('i').trigger('click');
+		$('#gsModalClose').trigger('click');
 	}
 
 	var tabsVtk = (function(){

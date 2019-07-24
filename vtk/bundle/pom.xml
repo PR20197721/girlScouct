@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.girlscouts.aem</groupId>
 		<artifactId>vtk</artifactId>
-		<version>3.10-SNAPSHOT</version>
+		<version>3.11-SNAPSHOT</version>
 	</parent>
 	<!-- ====================================================================== -->
 	<!-- P R O J E C T D E S C R I P T I O N -->
