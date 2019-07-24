@@ -66,6 +66,8 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                         Resource meeting = rr.resolve(row.getPath());
                         ValueMap vm = meeting.getValueMap();
                         meetingResult.setPath(row.getPath());
+                        meetingResult.setReq(vm.get("req",""));
+                        meetingResult.setReqTitle(vm.get("reqTitle",""));
                         meetingResult.setResultIndex(index);
                         meetingResult.setMeetingType(vm.get("meetingPlanType", ""));
                         meetingResult.setCat(vm.get("cat", ""));
@@ -196,6 +198,8 @@ public class MeetingSearch extends SlingAllMethodsServlet {
         private String cat;
         private String blurb;
         private String id;
+        private String req;
+        private String reqTitle;
         private String level;
         private String name;
         private String[] catTags;
@@ -317,21 +321,48 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             this.hasGlobal = hasGlobal;
         }
 
+        public String getReq() {
+            return req;
+        }
+
+        public void setReq(String req) {
+            this.req = req;
+        }
+
+        public String getReqTitle() {
+            return reqTitle;
+        }
+
+        public void setReqTitle(String reqTitle) {
+            this.reqTitle = reqTitle;
+        }
+
         @Override
         public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
             MeetingResult that = (MeetingResult) o;
-            return Objects.equals(meetingType, that.meetingType) && Objects.equals(path, that.path) && Objects.equals(cat, that.cat) && Objects.equals(blurb, that.blurb) && Objects.equals(id, that.id) && Objects.equals(level, that.level) && Objects.equals(name, that.name) && Arrays.equals(catTags, that.catTags) && Arrays.equals(aidPaths, that.aidPaths) && Objects.equals(healthyLiving, that.healthyLiving) && Objects.equals(lifeSkills, that.lifeSkills) && Objects.equals(hasOutdoor, that.hasOutdoor) && Objects.equals(hasGlobal, that.hasGlobal);
+            return resultIndex == that.resultIndex &&
+                    Objects.equals(meetingType, that.meetingType) &&
+                    Objects.equals(path, that.path) &&
+                    Objects.equals(cat, that.cat) &&
+                    Objects.equals(blurb, that.blurb) &&
+                    Objects.equals(id, that.id) &&
+                    Objects.equals(req, that.req) &&
+                    Objects.equals(reqTitle, that.reqTitle) &&
+                    Objects.equals(level, that.level) &&
+                    Objects.equals(name, that.name) &&
+                    Arrays.equals(catTags, that.catTags) &&
+                    Arrays.equals(aidPaths, that.aidPaths) &&
+                    Objects.equals(healthyLiving, that.healthyLiving) &&
+                    Objects.equals(lifeSkills, that.lifeSkills) &&
+                    Objects.equals(hasOutdoor, that.hasOutdoor) &&
+                    Objects.equals(hasGlobal, that.hasGlobal);
         }
 
         @Override
         public int hashCode() {
-            int result = Objects.hash(meetingType, path, cat, blurb, id, level, name, healthyLiving, lifeSkills, hasOutdoor, hasGlobal);
+            int result = Objects.hash(resultIndex, meetingType, path, cat, blurb, id, req, reqTitle, level, name, healthyLiving, lifeSkills, hasOutdoor, hasGlobal);
             result = 31 * result + Arrays.hashCode(catTags);
             result = 31 * result + Arrays.hashCode(aidPaths);
             return result;

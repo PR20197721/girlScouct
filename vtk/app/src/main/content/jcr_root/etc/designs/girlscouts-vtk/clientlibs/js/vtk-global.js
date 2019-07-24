@@ -556,9 +556,92 @@ $(function(){
      });
 
  }
+ function generateMeetingHtml(data, meeting){
+    $("#meetingSelect").append("<div class='meeting-item column small-24' data-url='"+data[meeting].path+"' data-meetingid='"+data[meeting].id+"'></div>");
+    $("[data-meetingid="+data[meeting].id+"]").append("<div class='row'><div>");
+    $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-14'><div style='display:table;min-height:110px'><div style='display:table-cell;height:inherit;vertical-align:middle;'><p class='title'>" + data[meeting].name + "</p><p class='blurb'>" + data[meeting].blurb + "</p><p class='tags'> <span></span></p></div></div></div>");
+    $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style='display:table-cell;height:inherit;vertical-align:middle; text-align:center;'><div class='middle-checkbox' style='text-align:center;'><table><tbody><tr><td><input type='checkbox' name='addMeetingMulti' id="+data[meeting].id+" value="+data[meeting].path+"><label for="+data[meeting].id+"><span></span></label></td><td><p style='color:#000;'>SELECT MEETING</p></td></tr></tbody></table></div></div></div></div>");
+    $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' onclick='openRequirementDetail(this)' class='image  _requirement_modal' height='100' src='/content/dam/girlscouts-vtk/local/icon/meetings/"+data[meeting].id+".png'></div></div></div>");
+    if(data[meeting].req !== null && data[meeting].req !== undefined && data[meeting].req !== ""){
+        $("[data-meetingid="+data[meeting].id+"]").append("<div class='__requiments_details row' style='display:none'><div class='column small-24' style='padding:10px;'><div class='_requiments_description'><p style='margin-bottom: 5px'><b>"+data[meeting].reqTitle+"</b></p>"+data[meeting].req+"</div><p style='text-align:center; margin-top:20px'><span class='vtk-button' style='cursor:pointer;' onclick='_closeME(this)'>&nbsp;&nbsp;&nbsp;CLOSE&nbsp;&nbsp;&nbsp;</span></p></div></div>");
+    }
+ }
+
  function appendMeetings(data){
+    var ambassadorMeetings = [];
+    var brownieMeetings = [];
+    var daisyMeetings = [];
+    var cadetteMeetings = [];
+    var juniorMeetings = [];
+    var seniorMeetings = [];
+    var multiMeetings = [];
+    $("#no-of-meeting").find("p").text(data.length + " Meeting Plans");
+    $("#no-of-meeting").css("display", "block");
+
+    for(var meeting in data){
+        var meetingLevel = data[meeting].level;
+        if(meetingLevel === "Ambassador"){
+            ambassadorMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Brownie"){
+            brownieMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Cadette"){
+            cadetteMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Daisy"){
+            daisyMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Junior"){
+            juniorMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Senior"){
+            seniorMeetings.push(data[meeting]);
+        } else if(meetingLevel === "Multi-level"){
+            multiMeetings.push(data[meeting]);
+        }
+    }
+    if(ambassadorMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Ambassador' id='levelNav_Ambassador'>Ambassador</div>");
+        for(var meeting in ambassadorMeetings){
+            generateMeetingHtml(ambassadorMeetings, meeting);
+        }
+    }
+    if(brownieMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Brownie' id='levelNav_Brownie'>Brownie</div>");
+        for(var meeting in brownieMeetings){
+            generateMeetingHtml(brownieMeetings, meeting);
+        }
+    }
+    if(cadetteMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Cadette' id='levelNav_Cadette'>Cadette</div>");
+        for(var meeting in cadetteMeetings){
+            generateMeetingHtml(cadetteMeetings, meeting);
+        }
+    }
+    if(daisyMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Daisy' id='levelNav_Daisy'>Daisy</div>");
+        for(var meeting in daisyMeetings){
+            generateMeetingHtml(daisyMeetings, meeting);
+        }
+    }
+    if(juniorMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Junior' id='levelNav_Junior'>Junior</div>");
+        for(var meeting in juniorMeetings){
+            generateMeetingHtml(juniorMeetings, meeting);
+        }
+    }
+    if(multiMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Multi_level' id='levelNav_Multi_level'>Multi-Level</div>");
+        for(var meeting in multiMeetings){
+            generateMeetingHtml(multiMeetings, meeting);
+        }
+    }
+    if(seniorMeetings.length){
+        $("#meetingSelect").append("<div class='meeting-age-separator column small-24 levelNav_Senior' id='levelNav_Senior'>Senior</div>");
+        for(var meeting in seniorMeetings){
+            generateMeetingHtml(seniorMeetings, meeting);
+        }
+    }
 
 
+
+    $("#meetingSelect").css("display", "block");
 
 
  }

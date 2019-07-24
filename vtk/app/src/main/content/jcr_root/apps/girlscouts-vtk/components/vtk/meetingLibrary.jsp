@@ -330,6 +330,13 @@
         clear: _clear
     }
     })();
+    function cleanMeetingCheckbox() {
+        $('input[name="addMeetingMulti"]').each(function () {
+            this.checked = false;
+        })
+        $('.clear-meeting-filter-result').addClass('inactive-button');
+        $('.add-to-year-plan').addClass('inactive-button');
+    }
     function buttonLogic(){
 
             var object = params.get();
