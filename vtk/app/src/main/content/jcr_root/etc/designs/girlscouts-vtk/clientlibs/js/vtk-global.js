@@ -574,7 +574,15 @@ $(function(){
     $("#meetingSelect").append("<div class='meeting-item column small-24' data-url='"+data[meeting].path+"' data-meetingid='"+data[meeting].id+"'></div>");
     $("[data-meetingid="+data[meeting].id+"]").append("<div class='row'><div>");
     $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-14'><div style='display:table;min-height:110px'><div style='display:table-cell;height:inherit;vertical-align:middle;'><p class='title'>" + data[meeting].name + "</p><p class='blurb'>" + data[meeting].blurb + "</p><p class='tags'> <span></span></p></div></div></div>");
-    $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style='display:table-cell;height:inherit;vertical-align:middle; text-align:center;'><div class='middle-checkbox' style='text-align:center;'><table><tbody><tr><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' id="+data[meeting].id+" value="+data[meeting].path+"><label for="+data[meeting].id+"><span></span></label></td><td><p style='color:#000;'>SELECT MEETING</p></td></tr></tbody></table></div></div></div></div>");
+
+
+    if(true){
+        $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style='display:table-cell;height:inherit;vertical-align:middle; text-align:center;'><div class='middle-checkbox' style='text-align:center;'><table><tbody><tr><td><span></span></label></td><td><p style='cursor:pointer;'class=\"select-meeting-withaction\" onclick=\"cngMeeting('"+data[meeting].path+"')\">SELECT MEETING</p></td></tr></tbody></table></div></div></div></div>");
+    }else{
+        $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style='display:table-cell;height:inherit;vertical-align:middle; text-align:center;'><div class='middle-checkbox' style='text-align:center;'><table><tbody><tr><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' id="+data[meeting].id+" value="+data[meeting].path+"><label for="+data[meeting].id+"><span></span></label></td><td><p style='color:#000;'>SELECT MEETING</p></td></tr></tbody></table></div></div></div></div>");
+    }
+
+
     $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' onclick='openRequirementDetail(this)' class='image  _requirement_modal' height='100' src='/content/dam/girlscouts-vtk/local/icon/meetings/"+data[meeting].id+".png'></div></div></div>");
     if(data[meeting].req !== null && data[meeting].req !== undefined && data[meeting].req !== ""){
         $("[data-meetingid="+data[meeting].id+"]").append("<div class='__requiments_details row' style='display:none'><div class='column small-24' style='padding:10px;'><div class='_requiments_description'><p style='margin-bottom: 5px'><b>"+data[meeting].reqTitle+"</b></p>"+data[meeting].req+"</div><p style='text-align:center; margin-top:20px'><span class='vtk-button' style='cursor:pointer;' onclick='_closeME(this)'>&nbsp;&nbsp;&nbsp;CLOSE&nbsp;&nbsp;&nbsp;</span></p></div></div>");
@@ -683,7 +691,7 @@ $(function(){
      })
      call.done(function (data) {
          $("#meetingSelect").children().each(function(){
-            if(!$(this).hasClass("no-of-meeting")){
+            if(!$(this).hasClass("no-of-meeting") && !$(this).attr("id") === "vtkSubmitButtonsSection"){
                 $(this).remove();
             }
          });

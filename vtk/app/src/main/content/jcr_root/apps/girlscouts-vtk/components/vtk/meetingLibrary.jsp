@@ -238,7 +238,7 @@
             <div id="meetingSelect" class="meetingSelect column small-24 small-centered" style="display:none;">
                 <!--<div class="row">-->
                 <%-- // --%>
-                <div style="display: flex;justify-content: center;flex-grow: 1;flex-basis: 100%;width: 100%;min-height: 80px;position:fixed;bottom:50px;left:0px;z-index:1001;overflow: hidden;">
+                <div id="vtkSubmitButtonsSection" style="display: flex;justify-content: center;flex-grow: 1;flex-basis: 100%;width: 100%;min-height: 80px;position:fixed;bottom:50px;left:0px;z-index:1001;overflow: hidden;">
                     <div class="vtk-float-submit">
                         <input style="color: #18AA5E; background: white !important; border: solid 1px #18AA5E;" class="button tiny" type="button" value="CANCEL" onclick="closeModalPage()"/>
                         <%if (request.getParameter("isReplaceMeeting") == null) {%>
@@ -265,6 +265,22 @@
 
     function _closeME(element) {
         $(element).parents('.__requiments_details').toggle();
+    }
+     function cngMeeting(mPath) {
+        $("#cngMeet").load("/content/girlscouts-vtk/controllers/vtk.controller.html?<%=meetingPath ==null ? "act=AddMeeting&addMeeting" : "act=SwapMeetings&cngMeeting"%>=true&fromPath=<%=meetingPath%>&toPath=" + mPath, function (html) {
+            vtkTrackerPushAction('<%=meetingPath ==null ? "AddMeeting" : "ReplaceMeeting" %>');
+            <%
+                if( request.getParameter("xx") ==null ){
+            %>
+            document.location = "/content/girlscouts-vtk/en/vtk.html";
+            <%} else {%>
+            if (window.opener) {
+                window.opener.location.reload(false);
+            } else {
+                window.location.reload(false);
+            }
+            <%}%>
+        });
     }
 
     //Polyfill
