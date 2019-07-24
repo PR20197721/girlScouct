@@ -40,6 +40,9 @@ public class MeetingSearch extends SlingAllMethodsServlet {
     @Reference
     private SessionFactory sessionFactory;
 
+    private Boolean hasOutdoor = Boolean.FALSE;
+    private Boolean hasGlobal = Boolean.FALSE;
+
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         Session session = null;
         ResourceResolver rr = null;
@@ -75,9 +78,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                         meetingResult.setId(vm.get("id", ""));
                         meetingResult.setLevel(vm.get("level", ""));
                         meetingResult.setName(vm.get("name", ""));
-                        Boolean hasOutdoor = Boolean.FALSE;
-                        Boolean hasGlobal = Boolean.FALSE;
-                        hasOutdoorOrGlobal(meeting, hasOutdoor, hasGlobal);
+                        hasOutdoorOrGlobal(meeting);
                         meetingResult.setHasGlobal(hasGlobal);
                         meetingResult.setHasOutdoor(hasOutdoor);
                         meetingResult.setHealthyLiving(vm.get("healthyliving", "false").equals("true"));
@@ -163,7 +164,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
     private String fmtMultiContainsSql(java.util.List<String> val) {
         return val.stream().map(entry -> entry).collect(Collectors.joining(" OR "));
     }
-    private void hasOutdoorOrGlobal(Resource meeting, Boolean hasOutdoor, Boolean hasGlobal) {
+    private void hasOutdoorOrGlobal(Resource meeting) {
         try {
             Resource activities = meeting.getChild("activities");
             if(activities != null) {
