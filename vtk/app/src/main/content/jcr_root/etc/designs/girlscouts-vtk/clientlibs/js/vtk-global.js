@@ -470,8 +470,6 @@ $(function(){
          if(!categoryGroups.includes((result[level].subFilterOptions[group].subFilterOptions[category].value).replace(new RegExp('_', 'g'), " "))){
              var categoryName = result[level].subFilterOptions[group].subFilterOptions[category].value;
              categoryGroups.push(categoryName.replace(new RegExp('_', 'g'), " "));
-             console.log(categoryName);
-
          }
      }
      categoryGroups.sort();
@@ -479,10 +477,7 @@ $(function(){
         var categoryTag = categoryGroups[cat].replace(new RegExp(' ', 'g'), "_");
          $("#vtk-meeting-group-categories").append("<div class='small-24 medium-12 large-6 column selection-box  ' style='min-height: 70px;float: left;'><input type='checkbox' name='_tag_c' id=\"category"+categoryTag+"\" value=\""+categoryTag+"\"><label for=\"category"+categoryTag+"\"><span></span><p>"+categoryGroups[cat]+"</p></label></div>")
      }
-
   }
-
-
   function appendMeetingGroups(result, level){
      $("#vtk-group-section").html("");
      var meetingGroups = [];
@@ -546,7 +541,12 @@ $(function(){
      });
 
  }
+ function appendMeetings(data){
 
+
+
+
+ }
 
  function callToServer() {
      $('#meeting-library-no-content').hide();
@@ -564,12 +564,11 @@ $(function(){
          data: JSON.stringify(params.get())
      })
      call.done(function (data) {
-         //executeShowAndHide(data);
+         appendMeetings(data);
          $('.meeting-library .loading-meeting').hide()
          $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
          $('.meeting-library #vtk-meeting-filter').fadeIn();
          $('.meeting-library .list-of-buttons').fadeIn();
-         //bottoms_library.ok.enable();
      });
 
      call.fail(function (err) {
@@ -578,7 +577,6 @@ $(function(){
          $('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'auto');
          $('.meeting-library #vtk-meeting-filter').fadeIn();
          $('.meeting-library .list-of-buttons').fadeIn();
-         //bottoms_library.ok.enable();
      })
  }
 $(document).ready(checkNews());
