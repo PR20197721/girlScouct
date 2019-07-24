@@ -1,8 +1,10 @@
 package org.girlscouts.vtk.auth.models;
 
 import java.io.Serializable;
+import java.util.TreeMap;
 
 import org.girlscouts.vtk.ejb.VtkError;
+import org.girlscouts.vtk.impl.servlets.MeetingFilter;
 import org.girlscouts.vtk.salesforce.Troop;
 
 public class ApiConfig implements Serializable {
@@ -31,8 +33,8 @@ public class ApiConfig implements Serializable {
 	
 	private boolean demoUser, useAsDemo;
 	private String demoUserName;
-	
-	
+
+    private TreeMap<String, MeetingFilter.FilterOption> filters;
 	
 	
 	public String getDemoUserName() {
@@ -231,6 +233,13 @@ public class ApiConfig implements Serializable {
 	public void setFail(boolean isFail) {
 		this.isFail = isFail;
 	}
-	
+
+    public TreeMap<String, MeetingFilter.FilterOption> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(TreeMap<String, MeetingFilter.FilterOption> filters) {
+        this.filters = filters;
+    }
 
 }
