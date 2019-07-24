@@ -423,6 +423,7 @@ $(function(){
  }
 
  function exploreResetConfirm(){
+     $("#vtk-loading").css("display","block");
      $.ajax({
          url: '/content/girlscouts-vtk/service/reset-year-plan-servlet.html',
          type: 'POST',
@@ -437,12 +438,14 @@ $(function(){
                     a: Date.now()
                 },
                 success: function(result) {
+                    $("#vtk-loading").css("display","none");
                     vtkTrackerPushAction('ChangeTroop');
                     document.location = "/content/girlscouts-vtk/en/vtk.html";
                 }
             });
          },
          error: function(result){
+            $("#vtk-loading").css("display","none");
              console.log("YEAR PLAN FAILED TO DELETE");
          }
      });
@@ -576,7 +579,7 @@ $(function(){
     $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-14'><div style='display:table;min-height:110px'><div style='display:table-cell;height:inherit;vertical-align:middle;'><p class='title'>" + data[meeting].name + "</p><p class='blurb'>" + data[meeting].blurb + "</p><p class='tags'> <span></span></p></div></div></div>");
 
 
-    if(true){
+    if(window.location.href.includes(".details")){
         $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style='display:table-cell;height:inherit;vertical-align:middle; text-align:center;'><div class='middle-checkbox' style='text-align:center;'><table><tbody><tr><td><span></span></label></td><td><p style='cursor:pointer;'class=\"select-meeting-withaction\" onclick=\"cngMeeting('"+data[meeting].path+"')\">SELECT MEETING</p></td></tr></tbody></table></div></div></div></div>");
     }else{
         $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style='display:table-cell;height:inherit;vertical-align:middle; text-align:center;'><div class='middle-checkbox' style='text-align:center;'><table><tbody><tr><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' id="+data[meeting].id+" value="+data[meeting].path+"><label for="+data[meeting].id+"><span></span></label></td><td><p style='color:#000;'>SELECT MEETING</p></td></tr></tbody></table></div></div></div></div>");
