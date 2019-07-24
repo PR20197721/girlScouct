@@ -15,6 +15,8 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.ejb.SessionFactory;
 import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +63,22 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             LinkedHashSet<MeetingResult> results = new LinkedHashSet<>();
             if(result != null) {
                 int index = 0;
+                Troop troop = (Troop) request.getSession().getAttribute("VTK_troop");
+                List<MeetingE> myMeetings = new ArrayList();
+                List<String> myMeetingIds= new ArrayList();
+                if (troop != null && troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null){
+                    myMeetings = troop.getYearPlan().getMeetingEvents();
+                    if(myMeetings != null){
+                        for(MeetingE meeting:myMeetings){
+                            String meetingId = meeting.getRefId();
+                            meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
+                            if( meetingId.contains("_") ) {
+                                meetingId = meetingId.substring(0, meetingId.indexOf("_"));
+                            }
+                            myMeetingIds.add( meetingId.toUpperCase() );
+                        }
+                    }
+                }
                 for (RowIterator it = result.getRows(); it.hasNext(); ) {
                     try {
                         index++;
@@ -68,6 +86,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                         MeetingResult meetingResult = new MeetingResult();
                         Resource meeting = rr.resolve(row.getPath());
                         ValueMap vm = meeting.getValueMap();
+                        meetingResult.setIncluded(myMeetingIds.contains(vm.get("id", "").toUpperCase()));
                         meetingResult.setPath(row.getPath());
                         meetingResult.setReq(vm.get("req",""));
                         meetingResult.setReqTitle(vm.get("reqTitle",""));
@@ -166,6 +185,10 @@ public class MeetingSearch extends SlingAllMethodsServlet {
     private String fmtMultiContainsSql(java.util.List<String> val) {
         return val.stream().map(entry -> entry).collect(Collectors.joining(" OR "));
     }
+    private void includedInYearplan(){
+
+    }
+
     private void hasOutdoorOrGlobal(Resource meeting) {
         try {
             Resource activities = meeting.getChild("activities");
@@ -211,6 +234,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
         private Boolean lifeSkills = Boolean.FALSE;
         private Boolean hasOutdoor = Boolean.FALSE;
         private Boolean hasGlobal = Boolean.FALSE;
+        private Boolean isIncluded = Boolean.FALSE;
 
         public int getResultIndex() {
             return resultIndex;
@@ -340,6 +364,14 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             this.reqTitle = reqTitle;
         }
 
+        public Boolean getIncluded() {
+            return isIncluded;
+        }
+
+        public void setIncluded(Boolean included) {
+            isIncluded = included;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -360,12 +392,13 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                     Objects.equals(healthyLiving, that.healthyLiving) &&
                     Objects.equals(lifeSkills, that.lifeSkills) &&
                     Objects.equals(hasOutdoor, that.hasOutdoor) &&
-                    Objects.equals(hasGlobal, that.hasGlobal);
+                    Objects.equals(hasGlobal, that.hasGlobal) &&
+                    Objects.equals(isIncluded, that.isIncluded);
         }
 
         @Override
         public int hashCode() {
-            int result = Objects.hash(resultIndex, meetingType, path, cat, blurb, id, req, reqTitle, level, name, healthyLiving, lifeSkills, hasOutdoor, hasGlobal);
+            int result = Objects.hash(resultIndex, meetingType, path, cat, blurb, id, req, reqTitle, level, name, healthyLiving, lifeSkills, hasOutdoor, hasGlobal, isIncluded);
             result = 31 * result + Arrays.hashCode(catTags);
             result = 31 * result + Arrays.hashCode(aidPaths);
             return result;

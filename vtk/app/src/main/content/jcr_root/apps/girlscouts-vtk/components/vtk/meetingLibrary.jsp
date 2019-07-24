@@ -5,30 +5,11 @@
 <%@include file="include/session.jsp" %>
 <%
     try {
-        java.util.List newItems = new java.util.ArrayList();
-        newItems.add("Badges for 2019-2020");
-        newItems.add("Badges_Petals|Badges_for_2019-2020");
-        newItems.add("Journey|STEM");
-        newItems.add("STEM");
-        newItems.add("Journey|Outdoor");
-        newItems.add("Outdoor");
-        boolean showVtkNav = true;
-        String activeTab = "resource";
         String meetingPath = request.getParameter("mpath");
         if (meetingPath == null || meetingPath.equals("null") || meetingPath.equals("")) {
             meetingPath = null;
         }
-        if (meetingPath != null) {
-            showVtkNav = false;
-        }
-        String ageLevel = troop.getTroop().getGradeLevel();
-        ageLevel = ageLevel.substring(ageLevel.indexOf("-") + 1).toLowerCase().trim();
-        java.util.List<Meeting> meetings = new java.util.ArrayList<Meeting>();
-        java.util.List<Meeting> extraInfoMeetings = new java.util.ArrayList<Meeting>();
-        Set<String> outdoorMeetingIds = new HashSet<String>();
-        Set<String> globalMeetingIds = new HashSet<String>();
 
-        String find = "";
 %>
 <div class="header clearfix">
     <h3 class="columns small-20">
