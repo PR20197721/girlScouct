@@ -40,8 +40,8 @@ public class MeetingSearch extends SlingAllMethodsServlet {
     @Reference
     private SessionFactory sessionFactory;
 
-    private Boolean hasOutdoor = Boolean.FALSE;
-    private Boolean hasGlobal = Boolean.FALSE;
+    private Boolean hasOutdoor;
+    private Boolean hasGlobal;
 
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         Session session = null;
@@ -78,6 +78,8 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                         meetingResult.setId(vm.get("id", ""));
                         meetingResult.setLevel(vm.get("level", ""));
                         meetingResult.setName(vm.get("name", ""));
+                        hasOutdoor = Boolean.FALSE;
+                        hasGlobal = Boolean.FALSE;
                         hasOutdoorOrGlobal(meeting);
                         meetingResult.setHasGlobal(hasGlobal);
                         meetingResult.setHasOutdoor(hasOutdoor);
