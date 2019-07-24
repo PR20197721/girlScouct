@@ -675,8 +675,7 @@ $(function(){
             generateMeetingHtml(seniorMeetings, meeting);
         }
     }
-    $("#meetingSelect").css("display", "block");
-
+    $("#meetingSelect").addClass("showResults");
 
  }
 
