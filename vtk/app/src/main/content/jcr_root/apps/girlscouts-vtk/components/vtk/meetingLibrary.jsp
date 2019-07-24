@@ -330,10 +330,27 @@
         clear: _clear
     }
     })();
+    function buttonLogic(){
+
+            var object = params.get();
+            var keyInObject = Object.keys(object);
+            var somethingFill = keyInObject.some(function (e) {
+                return object[e] !== ''
+            })
+            var isKeyboard = (object['keywords'].length >= 3);
+            var isLevel = !!object['level'].length;
+            if (isKeyboard || isLevel) {
+                $('#vtk-meeting-group-button_ok').removeClass('disabled');
+            } else {
+                $('#vtk-meeting-group-button_ok').addClass('disabled');
+            }
+
+     }
     //x in input
     $('#vtk-meeting-filter .__search .__X').on('click', function () {
         $('#searchByMeetingTitle').val('');
         params.add({keywords: ''})
+        buttonLogic();
         $(this).hide();
     })
     //keywords
@@ -345,45 +362,52 @@
         } else {
             element.hide();
         }
+        buttonLogic();
     })
 
 
     function closeModal() {
         $('#gsModal').find('a').children('i').trigger('click');
     }
+    $(".gradeLevelSelect").on("click", function(){
+         $('#vtk-meeting-group-button_ok').removeClass('disabled');
+     });
 
     $("#vtk-meeting-group-button_ok").on('click', function(){
-        //Age
-        var Age = []
-        $('#vtk-meeting-group-age input').each(function (a, e) {
-            if (e.checked) {
-                Age.push(e.value.replace(/_/g, '-')); //level JSP is parse all '-' to '_' legacy logic.
-            }
-        });
-        params.add({level: Age})
+        if(!$('#vtk-meeting-group-button_ok').hasClass('disabled')){
+            //Age
+            var Age = []
+            $('#vtk-meeting-group-age input').each(function (a, e) {
+                if (e.checked) {
+                    Age.push(e.value.replace(/_/g, '-')); //level JSP is parse all '-' to '_' legacy logic.
+                }
+            });
+            params.add({level: Age})
 
-        //types
-        var type;
-        $('#vtk-meeting-group-type input').each(function (a, e) {
-            if (e.checked) {
-                type = $(this);
+            //types
+            var type;
+            $('#vtk-meeting-group-type input').each(function (a, e) {
+                if (e.checked) {
+                    type = $(this);
+                }
+            });
+            if(type !== undefined){
+                params.add({meetingPlanType: $(type).attr("value").replace(new RegExp(' ', 'g'), "_")});
+            }else{
+                params.add({meetingPlanType: ''});
             }
-        });
-        if(type.attr("value") !== undefined){
-            params.add({meetingPlanType: $(type).attr("value").replace(new RegExp(' ', 'g'), "_")});
-        }else{
-            params.add({meetingPlanType: ''});
+
+            //categories
+            var Cat = []
+            $('[name="_tag_c"]').each(function (a, e) {
+                if (e.checked) {
+                    Cat.push(e.value);
+                }
+            });
+            params.add({categoryTags: Cat});
+            callToServer();
         }
 
-        //categories
-        var Cat = []
-        $('[name="_tag_c"]').each(function (a, e) {
-            if (e.checked) {
-                Cat.push(e.value);
-            }
-        });
-        params.add({categoryTags: Cat})
-        callToServer();
     });
 
     $('#vtk-meeting-filter').find('#showHideReveal').stop().click(function (e) {

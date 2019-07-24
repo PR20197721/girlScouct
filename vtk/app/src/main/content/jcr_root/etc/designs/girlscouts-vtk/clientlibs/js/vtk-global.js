@@ -463,6 +463,19 @@ $(function(){
     }
 
  }
+
+ function addNewTags(){
+    //"NEW" tag list
+    var newMeetings = ["Outdoor", "Badges_for_2019-2020","STEM", "Journey|Outdoor", "Journey|STEM", "Badges_Petals|Badges_for_2019-2020", "Life_Skills"];
+    for(var tag in newMeetings){
+        var el = document.getElementById("category"+newMeetings[tag]);
+        $(el).parent().find("p").append("<span style='font-size:10px;color:#F9A61A;font-weight:bold;background:none;display:inline-block; padding-top: 8px;'>NEW</span>")
+
+
+    }
+
+
+ }
   function appendMeetingCategories(result, level, group){
      $("#vtk-meeting-group-categories").html("");
      var categoryGroups = [];
@@ -477,6 +490,7 @@ $(function(){
         var categoryTag = categoryGroups[cat].replace(new RegExp(' ', 'g'), "_");
          $("#vtk-meeting-group-categories").append("<div class='small-24 medium-12 large-6 column selection-box  ' style='min-height: 70px;float: left;'><input type='checkbox' name='_tag_c' id=\"category"+categoryTag+"\" value=\""+categoryTag+"\"><label for=\"category"+categoryTag+"\"><span></span><p>"+categoryGroups[cat]+"</p></label></div>")
      }
+     addNewTags();
   }
   function appendMeetingGroups(result, level){
      $("#vtk-group-section").html("");
@@ -515,11 +529,12 @@ $(function(){
 
   }
   function getMeetingResponse() {
+    $("#vtk-loading").css("display", "block");
      $.ajax({
          url: '/bin/vtk/v1/meetingFilter',
          type: 'GET',
          success: function(result) {
-
+            $("#vtk-loading").css("display", "none");
              $(".gradeLevelSelect").on("click", function(){
                  if($("#vtk-meeting-category-parent").css("display") !== "none"){
                      $("#vtk-meeting-category-parent").slideUp(400, function(){
