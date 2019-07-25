@@ -8,7 +8,6 @@
                 com.google.gson.Gson,
                 com.google.gson.GsonBuilder,
                 org.apache.commons.beanutils.BeanComparator,
-                org.apache.commons.codec.binary.Base64,
                 org.girlscouts.vtk.auth.permission.Permission,
                 org.girlscouts.vtk.osgi.component.util.CouncilRpt,
                 org.girlscouts.vtk.models.EmailMeetingReminder,
@@ -16,12 +15,8 @@
                 org.girlscouts.vtk.mapper.vtk.CollectionModelToEntityMapper,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
                 org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
-                org.joda.time.LocalDate,
-                javax.imageio.ImageIO,
-                java.awt.geom.Rectangle2D,
-                java.awt.image.BufferedImage" %>
-<%@ page import="java.io.ByteArrayInputStream" %>
-<%@ page import="java.io.ByteArrayOutputStream, java.util.*, org.girlscouts.vtk.mapper.vtk.ModelToRestEntityMapper, org.girlscouts.vtk.osgi.component.util.Emailer, org.girlscouts.vtk.utils.ActivityNumberComparator" %>
+                org.joda.time.LocalDate" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.mapper.vtk.ModelToRestEntityMapper, org.girlscouts.vtk.osgi.component.util.Emailer, org.girlscouts.vtk.utils.ActivityNumberComparator" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects/>
@@ -681,18 +676,6 @@
                 String json = ModelToRestEntityMapper.INSTANCE.toEntity(yearPlan).getJson();
                 out.println(json);
             }
-        } else if (request.getParameter("isRmTroopImg") != null) {
-            vtklog.debug("isRmTroopImg");
-            Session __session = null;
-            try {
-                __session = resourceResolver.adaptTo(Session.class);
-                String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data" + VtkUtil.getCurrentGSYear() + "/"
-                        + selectedTroop.getCouncilCode() + "/" + selectedTroop.getTroopId() + "/imgLib/troop_pic.png";
-                __session.removeItem(troopPhotoUrl);
-                __session.save();
-            } catch (Exception e) {
-                vtklog.error("Error Occurred: ", e);
-            }
         } else if (request.getParameter("isAdminRpt") != null) {
             vtklog.debug("isAdminRpt");
             final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
@@ -762,79 +745,6 @@
         }
     } catch (Exception e) {
         vtklog.error("Exception occured:", e);
-    }
-} else if (request.getParameter("imageData") != null) {
-    vtklog.debug("imageData");
-    Session __session = null;
-    try {
-        int x1 = -1, x2 = -1, y1 = -1, y2 = -1, width = -1, height = -1;
-        double maxW = 960;
-        int[] coords = new int[0];
-        if (request.getParameter("coords") != null) {
-            String coordString = request.getParameter("coords").toString();
-            String[] nums = coordString.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
-            coords = new int[nums.length];
-            for (int i = 0; i < nums.length; i++) {
-                try {
-                    coords[i] = Integer.parseInt(nums[i]);
-                } catch (NumberFormatException nfe) {
-                    vtklog.error("Exception occured:", nfe);
-                }
-                ;
-            }
-        }
-        if (coords.length == 7) {
-            x1 = coords[0];
-            y1 = coords[1];
-            x2 = coords[2];
-            y2 = coords[3];
-            width = coords[4];
-            height = coords[5];
-            maxW = coords[6];
-        }
-        String imgData = request.getParameter("imageData");
-        imgData = imgData.replace("data:image/png;base64,", "");
-        byte[] decoded = Base64.decodeBase64(imgData);
-        if (x1 >= 0 && x2 >= 0 && y1 >= 0 && y2 >= 0 && width >= 0 && height >= 0) {
-            ByteArrayInputStream bais = new ByteArrayInputStream(decoded);
-            BufferedImage inputImage = ImageIO.read(bais);
-            String formatName = "PNG";
-            Layer layer = new Layer(inputImage);
-            int smallerX = Math.min(x1, x2);
-            int smallerY = Math.min(y1, y2);
-            double ratio = 1;
-            if (layer.getWidth() > maxW) {
-                ratio = layer.getWidth() / maxW;
-            }
-            Rectangle2D rect = new Rectangle2D.Double(smallerX * ratio, smallerY * ratio, width * ratio, height * ratio);
-            layer.crop(rect);
-            inputImage = layer.getImage();
-            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-            ImageIO.write(inputImage, formatName, outStream);
-            decoded = outStream.toByteArray();
-        }
-        //creates folder path if it doesn't exist yet
-        String path = "/content/dam/girlscouts-vtk/troop-data" + VtkUtil.getCurrentGSYear() + "/" + selectedTroop.getCouncilCode() + "/" + selectedTroop.getTroopId() + "/imgLib";
-        String pathWithFile = path + "/troop_pic.png/jcr:content";
-        __session = resourceResolver.adaptTo(Session.class);
-        Node baseNode = JcrUtil.createPath(path, "nt:folder", __session);
-        ByteArrayInputStream byteStream = new ByteArrayInputStream(decoded);
-        ValueFactory vf = __session.getValueFactory();
-        Binary bin = vf.createBinary(byteStream);
-        //for some reason, the data property can't be updated, just remade
-        try {
-            __session.removeItem(path + "/troop_pic.png");
-            __session.save();
-        } catch (Exception e) {
-            vtklog.error("Exception occured:", e);
-        }
-        //creates file and jcr:content nodes if they don't exist yet
-        Node jcrNode = JcrUtil.createPath(pathWithFile, false, "nt:file", "nt:resource", __session, false);
-        jcrNode.setProperty("jcr:data", bin);
-        jcrNode.setProperty("jcr:mimeType", "image/png");
-        __session.save();
-    } catch (Exception e) {
-        vtklog.error("Error Occurred: ", e);
     }
 } else if (request.getParameter("viewProposedSched") != null) {
     vtklog.debug("viewProposedSched");

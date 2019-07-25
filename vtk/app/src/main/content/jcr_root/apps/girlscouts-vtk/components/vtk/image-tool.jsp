@@ -573,7 +573,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/content/girlscouts-vtk/service/troop-image-servlet.html?" + Date.now(), //random string to prevent ajax caching
+                    url: "/content/girlscouts-vtk/service/troop-image.html?" + Date.now(), //random string to prevent ajax caching
                     data: {imageData: dataURL, coords: coordsArray.toString()},
                     success: uploadSuccess
                 })
@@ -610,7 +610,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/content/girlscouts-vtk/service/troop-image-servlet.html?" + Date.now(), //random string to prevent ajax caching
+                    url: "/content/girlscouts-vtk/service/troop-image.html?" + Date.now(), //random string to prevent ajax caching
                     data: {imageData: dataURL, coords: coordsArray.toString()},
                     success: uploadSuccess
                 })

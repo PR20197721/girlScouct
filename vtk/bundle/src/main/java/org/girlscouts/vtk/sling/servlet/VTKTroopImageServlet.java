@@ -46,13 +46,24 @@ public class VTKTroopImageServlet extends SlingAllMethodsServlet implements Opti
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession();
+        Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
+        ResourceResolver vtkServiceResolver = null;
         try {
-            Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
-            Map<String, Object> paramMap = new HashMap<String, Object>();
-            paramMap.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
-            ResourceResolver adminResolver = null;
-            try {
-                adminResolver = resourceFactory.getServiceResourceResolver(paramMap);
+            vtkServiceResolver = resourceFactory.getServiceResourceResolver(paramMap);
+            if (request.getParameter("isRmTroopImg") != null) {
+                Session __session = null;
+                String troopPhotoUrl = "";
+                try {
+                    __session = vtkServiceResolver.adaptTo(Session.class);
+                    troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data" + VtkUtil.getCurrentGSYear() + "/" + selectedTroop.getCouncilCode() + "/" + selectedTroop.getTroopId() + "/imgLib/troop_pic.png";
+                    __session.removeItem(troopPhotoUrl);
+                    __session.save();
+                } catch (Exception e) {
+                    log.error("Error Occurred deleting troop image "+troopPhotoUrl, e);
+                }
+            }else {
                 int x1 = -1, x2 = -1, y1 = -1, y2 = -1, width = -1, height = -1;
                 double maxW = 960;
                 int[] coords = new int[0];
@@ -101,7 +112,7 @@ public class VTKTroopImageServlet extends SlingAllMethodsServlet implements Opti
                 //creates folder path if it doesn't exist yet
                 String path = "/content/dam/girlscouts-vtk/troop-data" + vtkUtil.getCurrentGSYear() + "/" + selectedTroop.getCouncilCode() + "/" + selectedTroop.getTroopId() + "/imgLib";
                 String pathWithFile = path + "/troop_pic.png/jcr:content";
-                Session __session = adminResolver.adaptTo(Session.class);
+                Session __session = vtkServiceResolver.adaptTo(Session.class);
                 Node baseNode = JcrUtil.createPath(path, "nt:folder", __session);
                 ByteArrayInputStream byteStream = new ByteArrayInputStream(decoded);
                 ValueFactory vf = __session.getValueFactory();
@@ -118,19 +129,17 @@ public class VTKTroopImageServlet extends SlingAllMethodsServlet implements Opti
                 jcrNode.setProperty("jcr:data", bin);
                 jcrNode.setProperty("jcr:mimeType", "image/png");
                 __session.save();
-            } catch (Exception e) {
-                log.error("Failed to upload image for this troop: " + selectedTroop.getPath() + "/yearPlan" + " : ", e);
-            } finally {
-                try {
-                    if (adminResolver != null) {
-                        adminResolver.close();
-                    }
-                } catch (Exception e) {
-                    log.error("Exception is thrown closing resource resolver: ", e);
-                }
             }
         } catch (Exception e) {
-            log.error("Exception occurred: ", e);
+            log.error("Failed to upload image for this troop: " + selectedTroop.getPath() + "/yearPlan" + " : ", e);
+        } finally {
+            try {
+                if (vtkServiceResolver != null) {
+                    vtkServiceResolver.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
         }
     }
 

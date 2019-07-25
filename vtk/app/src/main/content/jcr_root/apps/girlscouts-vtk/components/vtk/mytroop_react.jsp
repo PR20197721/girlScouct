@@ -112,58 +112,58 @@
 <%
     String role = "Girl";
     if (role.equals("Girl")) { %>
-<div class="column large-24 large-centered mytroop">
-    <dl class="accordion" data-accordion>
-        <dt data-target="panel1">
-            <h3 class="on"><%=selectedTroop.getSfTroopName() %> INFO</h3>
-            <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)) { %>
-            <div id="mailBtn">
-                <a id="#mailTroop"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></div>
-            <%} %>
-        </dt>
-        <dd class="accordion-navigation">
-            <div class="content active" id="panel1">
-                <%try{%>
-                    <%@include file='include/troop_member_detail.jsp' %>
-                <%}catch(Exception e){
-                    mytroopreactlogger.error("Error occured:",e);
-                }%>
-            </div>
-        </dd>
-    </dl>
-</div>
-<%
+        <div class="column large-24 large-centered mytroop">
+            <dl class="accordion" data-accordion>
+                <dt data-target="panel1">
+                    <h3 class="on"><%=selectedTroop.getSfTroopName() %> INFO</h3>
+                    <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)) { %>
+                    <div id="mailBtn">
+                        <a id="#mailTroop"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></div>
+                    <%} %>
+                </dt>
+                <dd class="accordion-navigation">
+                    <div class="content active" id="panel1">
+                        <%try{%>
+                            <%@include file='include/troop_member_detail.jsp' %>
+                        <%}catch(Exception e){
+                            mytroopreactlogger.error("Error occured:",e);
+                        }%>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <%
     }
-    role = "Adult";
-    if (role.equals("Adult")) {
-%>
-<%if (selectedTroop.getParticipationCode() != null && !"IRM".equals(selectedTroop.getParticipationCode())) {%>
-    <div class="column large-24 large-centered mytroop">
-        <dl class="accordion" data-accordion>
-            <dt data-target="panel2">
-                <h3 class="on"><%=selectedTroop.getSfTroopName() %> VOLUNTEERS</h3>
-                <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)) { %>
-                <a style="float:right;margin-right: 20px"
-                   href="<%= sling.getService(ConfigManager.class).getConfig("communityUrl")%>/Membership_Troop_Renewal">Add
-                    a New Volunteer <img width="30px"
-                                         src="/etc/designs/girlscouts-vtk/clientlibs/css/images/arrow2-right_yellow.png"
-                                         valign="middle"> </a>
-                <%} %>
-            </dt>
-            <dd class="accordion-navigation">
-                <div class="content active" id="panel2">
-                    <%try{%>
-                        <%@include file='include/troop_volunteer_detail.jsp' %>
-                    <%}catch(Exception e){
-                        mytroopreactlogger.error("Error occured:",e);
-                    }%>
-                </div>
-            </dd>
-        </dl>
-    </div>
-<%}%>
-<%}//edn else %>
-<% }//edn if contact %>
+    if (selectedTroop.getParticipationCode() == null || (selectedTroop.getParticipationCode() != null && !"IRM".equals(selectedTroop.getParticipationCode()))) {
+        role = "Adult";
+        if (role.equals("Adult")) {
+            %>
+            <div class="column large-24 large-centered mytroop">
+                <dl class="accordion" data-accordion>
+                    <dt data-target="panel2">
+                        <h3 class="on"><%=selectedTroop.getSfTroopName() %> VOLUNTEERS</h3>
+                        <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)) { %>
+                        <a style="float:right;margin-right: 20px"
+                           href="<%= sling.getService(ConfigManager.class).getConfig("communityUrl")%>/Membership_Troop_Renewal">Add
+                            a New Volunteer <img width="30px"
+                                                 src="/etc/designs/girlscouts-vtk/clientlibs/css/images/arrow2-right_yellow.png"
+                                                 valign="middle"> </a>
+                        <%} %>
+                    </dt>
+                    <dd class="accordion-navigation">
+                        <div class="content active" id="panel2">
+                            <%try{%>
+                                <%@include file='include/troop_volunteer_detail.jsp' %>
+                            <%}catch(Exception e){
+                                mytroopreactlogger.error("Error occured:",e);
+                            }%>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+    <%  }
+    }%>
+<%}//edn if contact %>
 <script>
     var fileInput = document.getElementById('file-input');
     var fileListDisplay = document.getElementById('file-list-display');
