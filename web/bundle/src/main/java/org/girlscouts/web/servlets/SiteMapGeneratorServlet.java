@@ -11,7 +11,9 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.felix.scr.annotations.*;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.sling.api.*;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.apache.sling.commons.osgi.OsgiUtil;
 import org.apache.sling.commons.osgi.PropertiesUtil;
@@ -69,7 +71,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
   slingResponse.setContentType(slingRequest.getResponseContentType());
   ResourceResolver resourceResolver = slingRequest.getResourceResolver();
   PageManager pageManager = resourceResolver.adaptTo(PageManager.class);
-  Page pageObj = pageManager.getContainingPage(slingRequest.getResource());
+  Page contPage = pageManager.getContainingPage(slingRequest.getResource());
   
   XMLOutputFactory outputFactory = XMLOutputFactory.newFactory();
   try {
@@ -80,10 +82,23 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    stream.writeNamespace("", SITEMAP_NAMESPACE);
    
    // Current page
-   writeXML(pageObj, stream, slingRequest);
+   Resource pageResource = contPage.getContentResource();
+   ValueMap pageValueMap = pageResource.getValueMap();
+   writeXMLPage(contPage, stream, slingRequest);
+
+   //DAM logic
+   String damLoc = pageValueMap.get("damPath", String.class);
+   Resource dam = resourceResolver.getResource(damLoc);
+   Resource documents = dam.getChild("documents");
+   writeDamFolderXML(stream, slingRequest, documents);
+
+
+
+
    
-   for (Iterator<Page> children = pageObj.listChildren(new PageFilter(), true); children.hasNext();) {
+   for (Iterator<Page> children = contPage.listChildren(new PageFilter(), true); children.hasNext();) {
     Page childPage = (Page) children.next();
+    stream.writeComment(childPage.getName().replace('-',' '));
     // If condition added to make sure the pages hidden in search in page properties do not show up in sitemap
     if (null != childPage) {
      if (!childPage.getProperties().containsKey("hideInSearch")
@@ -91,7 +106,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
          && childPage.getProperties().get("hideInSearch").equals("false"))
        || (childPage.getProperties().containsKey("hideInSearch")
          && childPage.getProperties().get("hideInSearch").equals("")))
-      writeXML(childPage, stream, slingRequest);
+      writeXMLPage(childPage, stream, slingRequest);
     }
    }
    
@@ -102,28 +117,98 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    throw new IOException(e);
   }
  }
+
+ private void writeDamFolderXML(final XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest, Resource folder)
+   throws XMLStreamException{
+  Iterator<Resource> children = folder.listChildren();
+  while (children.hasNext()){
+   Resource child = children.next();
+   ValueMap childValueMap = child.getValueMap();
+   String jcrPrimaryType = childValueMap.get("jcr:primaryType",String.class);
+   if (jcrPrimaryType.equalsIgnoreCase("dam:Asset")){
+    writeXMLResource(child, xmlStream, slingRequest);
+   }
+   if (jcrPrimaryType.equalsIgnoreCase("sling:OrderedFolder")){
+    writeDamFolderXML(xmlStream, slingRequest, child);
+   }
+  }
+ }
+
+ private void writeXMLResource(Resource resource, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
+   throws XMLStreamException{
+  /*xmlStream.writeStartElement(SITEMAP_NAMESPACE, "url");
+
+  String protocolPort = "http";
+  if (slingRequest.isSecure()) {
+   protocolPort = "https";
+  }*/
+
+  String path = resource.getPath();
+  /*this.externalizer.absoluteLink(slingRequest, protocolPort,
+          String.format("%s.html", resource.getPath()));
+
+  writeXMLElement(xmlStream, "loc", locPath);
+*/
+
+  Calendar calendarObj = null;
+  Resource jcrContent = resource.getChild("jcr:content");
+  if (this.incLastModified && null != jcrContent) {
+   calendarObj = jcrContent.getValueMap().get("jcr:lastModified", Calendar.class);
+  }
+
+
+  writeXML(path, calendarObj, xmlStream, slingRequest);
+
+ }
  
- private void writeXML(Page pageObj, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
+ private void writeXMLPage(Page pageObj, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
    throws XMLStreamException {
-  xmlStream.writeStartElement(SITEMAP_NAMESPACE, "url");
+  /*xmlStream.writeStartElement(SITEMAP_NAMESPACE, "url");
   
   String protocolPort = "http";
-  if (slingRequest.isSecure())
+  if (slingRequest.isSecure()) {
    protocolPort = "https";
+  }*/
   
-  String locPath = this.externalizer.absoluteLink(slingRequest, protocolPort,
+  String path = String.format("%s.html", pageObj.getPath());
+  /*this.externalizer.absoluteLink(slingRequest, protocolPort,
     String.format("%s.html", pageObj.getPath()));
   
   writeXMLElement(xmlStream, "loc", locPath);
-  
+  */
+
+  Calendar calendarObj = null;
   if (this.incLastModified) {
-   Calendar calendarObj = pageObj.getLastModified();
-   if (null != calendarObj) {
-    writeXMLElement(xmlStream, "lastmod", DATE_FORMAT.format(calendarObj));
+   calendarObj = pageObj.getLastModified();
+  }
+
+
+  writeXML(path, calendarObj, xmlStream, slingRequest);
+
+ }
+
+ private void writeXML(String path, Calendar lastMod, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
+   throws XMLStreamException{
+  xmlStream.writeStartElement(SITEMAP_NAMESPACE, "url");
+
+  String protocolPort = "http";
+  if (slingRequest.isSecure()) {
+   protocolPort = "https";
+  }
+
+  String locPath = this.externalizer.absoluteLink(slingRequest, protocolPort, path);
+
+  writeXMLElement(xmlStream, "loc", locPath);
+
+  if (this.incLastModified) {
+   if (null != lastMod) {
+    writeXMLElement(xmlStream, "lastmod", DATE_FORMAT.format(lastMod));
    }
   }
   xmlStream.writeEndElement();
  }
+
+
  
  private void writeXMLElement(final XMLStreamWriter xmlStream, final String elementName, final String xmlText)
    throws XMLStreamException {
