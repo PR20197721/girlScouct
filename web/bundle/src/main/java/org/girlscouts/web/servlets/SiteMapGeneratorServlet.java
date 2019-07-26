@@ -89,8 +89,22 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    //DAM logic
    String damLoc = pageValueMap.get("damPath", String.class);
    Resource dam = resourceResolver.getResource(damLoc);
-   Resource documents = dam.getChild("documents");
-   writeDamFolderXML(stream, slingRequest, documents);
+   Resource documents = dam.getChild("documents"); //this is most council's location
+
+   //some councils don't use "documents", they use one of these strings
+   String[] specificDocLocations = {"forms-and-documents-","forms","documents","GSGCF-Forms-and-Documents",
+   "forms-and-documents"};
+   for (String specificDocLocation : specificDocLocations){
+    if (documents != null){
+     break;
+    }
+    documents = dam.getChild(specificDocLocation);
+   }
+
+
+   if (documents != null) {
+    writeDamFolderXML(stream, slingRequest, documents);
+   }
 
 
 

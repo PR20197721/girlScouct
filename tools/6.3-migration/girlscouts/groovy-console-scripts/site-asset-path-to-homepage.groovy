@@ -3,13 +3,6 @@ import javax.jcr.Value;
 import javax.jcr.Property;
 import javax.jcr.PropertyType;
 import org.apache.jackrabbit.commons.JcrUtils;
-import javax.jcr.query.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Arrays;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 
 
