@@ -106,9 +106,6 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
     writeDamFolderXML(stream, slingRequest, documents);
    }
 
-
-
-
    
    for (Iterator<Page> children = contPage.listChildren(new PageFilter(), true); children.hasNext();) {
     Page childPage = (Page) children.next();
@@ -132,6 +129,8 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
   }
  }
 
+
+ //from top folder, writes all assets to XML, recursively goes through subfolders
  private void writeDamFolderXML(final XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest, Resource folder)
    throws XMLStreamException{
   Iterator<Resource> children = folder.listChildren();
@@ -139,6 +138,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    Resource child = children.next();
    ValueMap childValueMap = child.getValueMap();
    String jcrPrimaryType = childValueMap.get("jcr:primaryType",String.class);
+
    if (jcrPrimaryType.equalsIgnoreCase("dam:Asset")){
     writeXMLResource(child, xmlStream, slingRequest);
    }
@@ -148,21 +148,11 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
   }
  }
 
+
  private void writeXMLResource(Resource resource, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
    throws XMLStreamException{
-  /*xmlStream.writeStartElement(SITEMAP_NAMESPACE, "url");
-
-  String protocolPort = "http";
-  if (slingRequest.isSecure()) {
-   protocolPort = "https";
-  }*/
 
   String path = resource.getPath();
-  /*this.externalizer.absoluteLink(slingRequest, protocolPort,
-          String.format("%s.html", resource.getPath()));
-
-  writeXMLElement(xmlStream, "loc", locPath);
-*/
 
   Calendar calendarObj = null;
   Resource jcrContent = resource.getChild("jcr:content");
@@ -174,22 +164,12 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
   writeXML(path, calendarObj, xmlStream, slingRequest);
 
  }
+
  
  private void writeXMLPage(Page pageObj, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
    throws XMLStreamException {
-  /*xmlStream.writeStartElement(SITEMAP_NAMESPACE, "url");
-  
-  String protocolPort = "http";
-  if (slingRequest.isSecure()) {
-   protocolPort = "https";
-  }*/
   
   String path = String.format("%s.html", pageObj.getPath());
-  /*this.externalizer.absoluteLink(slingRequest, protocolPort,
-    String.format("%s.html", pageObj.getPath()));
-  
-  writeXMLElement(xmlStream, "loc", locPath);
-  */
 
   Calendar calendarObj = null;
   if (this.incLastModified) {
@@ -200,6 +180,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
   writeXML(path, calendarObj, xmlStream, slingRequest);
 
  }
+
 
  private void writeXML(String path, Calendar lastMod, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
    throws XMLStreamException{
