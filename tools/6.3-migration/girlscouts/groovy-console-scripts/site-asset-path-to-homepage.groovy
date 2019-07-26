@@ -133,9 +133,10 @@ for (int i=0; i<array.length; i++) {
             if (jcrContent.hasProperty("damPath")) {
                 println("Will NOT add damPath to " + jcrContent.getPath());
             } else {
-                //jcrContent.setProperty("damPath", array[i][1]);
+                jcrContent.setProperty("damPath", array[i][1]);
                 println("Will add damPath to " + jcrContent.getPath());
             }
         }
     }
 }
+save();
