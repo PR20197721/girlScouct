@@ -142,7 +142,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    if (jcrPrimaryType.equalsIgnoreCase("dam:Asset")){
     writeXMLResource(child, xmlStream, slingRequest);
    }
-   if (jcrPrimaryType.equalsIgnoreCase("sling:OrderedFolder")){
+   if (jcrPrimaryType.equalsIgnoreCase("sling:OrderedFolder") || jcrPrimaryType.equalsIgnoreCase("sling:Folder")){
     writeDamFolderXML(xmlStream, slingRequest, child);
    }
   }
@@ -160,9 +160,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    calendarObj = jcrContent.getValueMap().get("jcr:lastModified", Calendar.class);
   }
 
-
   writeXML(path, calendarObj, xmlStream, slingRequest);
-
  }
 
  
@@ -176,9 +174,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    calendarObj = pageObj.getLastModified();
   }
 
-
   writeXML(path, calendarObj, xmlStream, slingRequest);
-
  }
 
 
