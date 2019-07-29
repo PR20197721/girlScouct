@@ -9,6 +9,7 @@ import VtkPopUp from './vtk-popup';
 import {selectPlan} from './year-plan-track';
 import Head from './head';
 import Meetings from './meetings';
+import * as ReactDOM from "react-dom";
 
 
 interface VtkMainYpProps {
@@ -20,7 +21,7 @@ interface VtkMainYpState {
     data: {
         name: string,
         url: string,
-        is_show_meeting_lib: boolean
+        is_show_meeting_lib: true
     };
 
     meeting: {
@@ -307,7 +308,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                         </tr>
                         </tbody>
                     </table>
-                </div>;
+                </div>
 
         }
 
@@ -323,9 +324,69 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                 </button>
             </div>)
 
-        return (
 
+        function gradeLevelSelector(){
+            if (data.isIRM() || data.isSUM()){
+                console.log("selecting tab "+data.getLevel());
+                $("li.grade-level").each(function( index ) {
+                    if($(this).find('a').data('grade-level') == data.getLevel()){
+                        $(this).addClass( "selected" );
+                    }else{
+                        $(this).removeClass( "selected" );
+                    }
+                });
+                let _onClick: Function = (el) => {
+                    var selectedGradeLevel = $(el).data('grade-level');
+                    try{
+                        $("#explore-close-preview").click();
+                    }catch(error){
+                    }
+                    data.setLevel(selectedGradeLevel);
+                    $('#vtk-yp-main').data('level', selectedGradeLevel);
+                    data.getYearPlan().then((response) => {
+                        ReactDOM.render(<VtkMainYp data={response}/>,
+                            document.getElementById("vtk-yp-main")
+                        );
+                    })
+                };
+                return  <div className="__padding">
+                            <div className="columns small-22 medium-20 small-centered medium-centered" style={{padding: '0px'}}>
+                                <section className="grade-levels">
+                                        <p>Select a level to get started.</p>
+                                        <ul>
+                                            <li className="grade-level daisy">
+                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="daisy">Daisy</a>
+                                            </li>
+                                            <li className="grade-level brownie">
+                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="brownie">Brownie</a>
+                                            </li>
+                                            <li className="grade-level junior">
+                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="junior">Junior</a>
+                                            </li>
+                                            <li className="grade-level cadette">
+                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="cadette">Cadette</a>
+                                            </li>
+                                            <li className="grade-level senior">
+                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="senior">Senior</a>
+                                            </li>
+                                            <li className="grade-level ambassador">
+                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="ambassador">Ambassador</a>
+                                            </li>
+                                            <li className="grade-level multi-level">
+                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="multi-level">Multi-level</a>
+                                            </li>
+                                        </ul>
+                                        <div style={{clear: 'both'}}></div>
+                                </section>
+                            </div>
+                        </div>
+            }else{
+                return null;
+            }
+        }
+        return (
             <div>
+                {gradeLevelSelector()}
                 <div className="__padding">
                     <div
                         className="columns small-22 medium-20 small-centered medium-centered"

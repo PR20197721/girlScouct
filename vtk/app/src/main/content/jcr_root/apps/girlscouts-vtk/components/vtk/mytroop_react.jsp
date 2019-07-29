@@ -43,68 +43,66 @@
 		contactsExtras = contactUtil.getContactsExtras( user,  selectedTroop, contacts);
 	%>
 	<div class="email">
-	<div class="email-content">
-          <div class="email-modal-header">
-       		 <div class="vtk-email-news-button" onclick="cancelEmail()">
+	    <div class="email-content">
+            <div class="email-modal-header">
+       		    <div class="vtk-email-news-button" onclick="cancelEmail()">
                     <span id="email-close-button">X</span>
-              </div>
-             <h3 class="emailHeader">Troop Email Content <br/></h3>
-      	  </div>
-        <div class="email-modal-body">
-            <h6 class="emailInput"> Email To: </h6>
-            <ul class="small-block-grid-3">
-                <li style="width:100%; padding: 0px;">
-                    <input type="checkbox" id="email_troop" checked/>
-                    <label for="email_troop"><p>Troop</p></label>
-                </li>
-                <li style="width:100%; padding: 0px; margin-left: 7px;">
-                    <label for="email_more">Enter additional emails:</label>
-                    <input type="email" id="email_more" placeholder="Enter email addresses separated by semicolons"/>
-                </li>
-            </ul>
-            <h6 class="emailInput"> Subject: </h6>
-            <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
-            <h6 style="margin-top:10px;" class="emailInput"> Body and attachments <span id="limit">(25MB limit): </span>
-            </h6>
-            <textarea name="message" class="jqte-test" id="message" rows="10" cols="30"></textarea>
-        </div>
-        <form id='file-catcher'>
-            <input id='file-input' type='file' multiple onchange="updateFiles()"/>
-            <div id="email-buttons">
-                <div id="cancelEmail" onclick="cancelEmail()" class="button tiny add-to-year-plan">Cancel</div>
-                <div id="clearEmail" onclick="clearEmail()" class="button tiny add-to-year-plan">Clear Attachments</div>
-                <div id="sendEmail" class="button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
+                </div>
+                 <h3 class="emailHeader">Troop Email Content <br/></h3>
+      	    </div>
+            <div class="email-modal-body">
+                <h6 class="emailInput"> Email To: </h6>
+                <ul class="small-block-grid-3">
+                    <li style="width:100%; padding: 0px;">
+                        <input type="checkbox" id="email_troop" checked/>
+                        <label for="email_troop"><p>Troop</p></label>
+                    </li>
+                    <li style="width:100%; padding: 0px; margin-left: 7px;">
+                        <label for="email_more">Enter additional emails:</label>
+                        <input type="email" id="email_more" placeholder="Enter email addresses separated by semicolons"/>
+                    </li>
+                </ul>
+                <h6 class="emailInput"> Subject: </h6>
+                <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
+                <h6 style="margin-top:10px;" class="emailInput"> Body and attachments <span id="limit">(25MB limit): </span></h6>
+                <textarea name="message" class="jqte-test" id="message" rows="10" cols="30"></textarea>
             </div>
-        </form>
-        <div id='file-list-display'></div>
-        <div class="email-modal-footer">
+            <form id='file-catcher'>
+                <input id='file-input' type='file' multiple onchange="updateFiles()"/>
+                <div id="email-buttons">
+                    <div id="cancelEmail" onclick="cancelEmail()" class="button tiny add-to-year-plan">Cancel</div>
+                    <div id="clearEmail" onclick="clearEmail()" class="button tiny add-to-year-plan">Clear Attachments</div>
+                    <div id="sendEmail" class="button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
+                </div>
+            </form>
+            <div id='file-list-display'></div>
+            <div class="email-modal-footer"></div>
         </div>
     </div>
-</div>
-<%@include file='myTroopImg.jsp' %>
-<% if (!VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)) {
-    for (int i = 0; i < contacts.size(); i++) {
-        org.girlscouts.vtk.models.Contact contact = contacts.get(i);
-        // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, selectedTroop, contact);
-        java.util.List<ContactExtras> infos = contactsExtras.get(contact);
-        if (user.getContactId().equals(contact.getContactId())) {
-%>
-<div class="column large-24 large-centered mytroop">
-    <dl class="accordion" data-accordion>
-        <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %>
-        </h3></dt>
-        <dd class="accordion-navigation">
-            <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
-                <%try{%>
-                    <%@include file='include/troop_child_achievmts.jsp' %>
-                <%}catch(Exception e){
-                    mytroopreactlogger.error("Error occured:",e);
-                }%>
-            </div>
-        </dd>
-    </dl>
-</div>
-<%
+    <%@include file='myTroopImg.jsp' %>
+    <% if (!VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)) {
+        for (int i = 0; i < contacts.size(); i++) {
+            org.girlscouts.vtk.models.Contact contact = contacts.get(i);
+            // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, selectedTroop, contact);
+            java.util.List<ContactExtras> infos = contactsExtras.get(contact);
+            if (user.getContactId().equals(contact.getContactId())) {
+                %>
+                <div class="column large-24 large-centered mytroop">
+                    <dl class="accordion" data-accordion>
+                        <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %>
+                        </h3></dt>
+                        <dd class="accordion-navigation">
+                            <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
+                                <%try{%>
+                                    <%@include file='include/troop_child_achievmts.jsp' %>
+                                <%}catch(Exception e){
+                                    mytroopreactlogger.error("Error occured:",e);
+                                }%>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <%
             }
         }//edn for
     }//edn if
