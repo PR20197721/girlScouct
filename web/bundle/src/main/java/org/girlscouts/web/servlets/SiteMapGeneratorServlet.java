@@ -54,8 +54,6 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
  private static final String SITEMAP_NAMESPACE = "http://www.sitemaps.org/schemas/sitemap/0.9";
 
  protected final Logger logger = LoggerFactory.getLogger(getClass());
-
- private static Logger log = LoggerFactory.getLogger(GSStoreServlet.class);
  
  @Reference
  private Externalizer externalizer;
