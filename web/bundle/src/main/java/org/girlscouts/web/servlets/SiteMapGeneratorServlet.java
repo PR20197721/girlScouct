@@ -100,15 +100,12 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
              "forms-and-documents"};
      for (String specificDocLocation : specificDocLocations) {
       if (documents != null) {
+       writeDamFolderXML(stream, slingRequest, documents);
        break;
       }
       documents = dam.getChild(specificDocLocation);
      }
-
-
-     if (documents != null) {
-      writeDamFolderXML(stream, slingRequest, documents);
-     }
+     
     }
    } catch (Exception e){
     logger.error("Could not access DAM documents: " + e);
