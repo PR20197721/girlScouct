@@ -52,6 +52,8 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
  private static final String INCLUDE_LAST_MODIFIED_PROPERTY = "include.lastmod";
  
  private static final String SITEMAP_NAMESPACE = "http://www.sitemaps.org/schemas/sitemap/0.9";
+
+ protected final Logger logger = LoggerFactory.getLogger(getClass());
  
  @Reference
  private Externalizer externalizer;
@@ -88,22 +90,25 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
 
    //DAM logic
    String damLoc = pageValueMap.get("damPath", String.class);
-   Resource dam = resourceResolver.getResource(damLoc);
-   Resource documents = dam.getChild("documents"); //this is most council's location
+   try {
+    Resource dam = resourceResolver.getResource(damLoc);
+    if (dam != null) {
 
-   //some councils don't use "documents", they use one of these strings
-   String[] specificDocLocations = {"forms-and-documents-","forms","documents","GSGCF-Forms-and-Documents",
-   "forms-and-documents"};
-   for (String specificDocLocation : specificDocLocations){
-    if (documents != null){
-     break;
+     //most councils use "documents", some use one of the other strings
+     String[] specificDocLocations = {"documents", "forms-and-documents-", "forms", "documents", "GSGCF-Forms-and-Documents",
+             "forms-and-documents"};
+     Resource documents;
+     for (String specificDocLocation : specificDocLocations) {
+      documents = dam.getChild(specificDocLocation);
+      if (documents != null) {
+       writeDamFolderXML(stream, slingRequest, documents);
+       break;
+      }
+     }
+     
     }
-    documents = dam.getChild(specificDocLocation);
-   }
-
-
-   if (documents != null) {
-    writeDamFolderXML(stream, slingRequest, documents);
+   } catch (Exception e){
+    logger.error("Could not access DAM documents: " + e);
    }
 
    
