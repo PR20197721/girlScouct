@@ -76,12 +76,13 @@ function x1_1(planPath, planName, isMeetingLib) {
 	if( isMeetingLib ){
 		loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
 	}else{
-	
+	    $("#vtk-loading").css("display","block");
+	    $("#pop-select").css("display","none");
 	    $.ajax({
 	        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser=" + planPath + "&addYearPlanName=" + planName,
 	        cache: false
 	    }).done(function(html) {
-	        //loadMeetings();
+	        $("#vtk-loading").css("display","none");
 	        if (html != null && $.trim(html) != "") {
 	            alert($.trim(html));
 	            return;
@@ -172,17 +173,21 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data, cach
     resetModalPage();
     var dataP = data || {};
 
+    $("#vtk-loading").css("display","block"); //shows loading while waiting for ajax request to finish see /include/loader.jsp
+
     $.ajax({
         url: link,
         data: dataP,
         cache: cache || false,
     }).done(function(response){
         $("#gsModal").html(response);
+        $("#vtk-loading").css("display","none");//hides loading animation
         loadModal("#gsModal", showTitle, title, fullPageScroll, print);
         $('#gsModal').children('.scroll').css('maxHeight', '601px');
        $(document).foundation();
     }).fail(function(response, status, xhr){
-       $("#error").html(response + xhr.status + " " + xhr.statusText);
+        $("#vtk-loading").css("display","none");//hides loading animation
+        $("#error").html(response + xhr.status + " " + xhr.statusText);
     })
 
 

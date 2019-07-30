@@ -35,6 +35,11 @@
                     jcr:primaryType="cq:Widget"
                     title="Girl Scouts USA">
                     <items jcr:primaryType="cq:WidgetCollection">
+                        <dam-path
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="DAM Path"
+                                name="./damPath"
+                                xtype="dynamicPathField"/>
                         <global-srch-landing-page
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Global Search Landing Page"
