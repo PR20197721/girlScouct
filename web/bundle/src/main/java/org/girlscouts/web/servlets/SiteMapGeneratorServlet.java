@@ -1,7 +1,6 @@
 package org.girlscouts.web.servlets;
 
 import java.io.IOException;
-import java.i;
 import java.util.*;
 
 import javax.servlet.Servlet;
