@@ -1,6 +1,8 @@
 package org.girlscouts.web.servlets;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 
 import javax.servlet.Servlet;
@@ -129,7 +131,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    stream.writeEndElement();
    stream.writeEndDocument();
    
-  } catch (XMLStreamException e) {
+  } catch (XMLStreamException | UnsupportedEncodingException e) {
    throw new IOException(e);
   }
  }
@@ -137,7 +139,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
 
  //from top folder, writes all assets to XML, recursively goes through subfolders
  private void writeDamFolderXML(final XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest, Resource folder)
-   throws XMLStreamException{
+   throws XMLStreamException, UnsupportedEncodingException{
   Iterator<Resource> children = folder.listChildren();
   while (children.hasNext()){
    Resource child = children.next();
@@ -155,7 +157,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
 
 
  private void writeXMLResource(Resource resource, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
-   throws XMLStreamException{
+   throws XMLStreamException, UnsupportedEncodingException{
 
   String path = resource.getPath();
 
@@ -170,7 +172,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
 
  
  private void writeXMLPage(Page pageObj, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
-   throws XMLStreamException {
+   throws XMLStreamException, UnsupportedEncodingException {
   
   String path = String.format("%s.html", pageObj.getPath());
 
@@ -184,7 +186,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
 
 
  private void writeXML(String path, Calendar lastMod, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
-   throws XMLStreamException{
+   throws XMLStreamException, UnsupportedEncodingException{
   xmlStream.writeStartElement(SITEMAP_NAMESPACE, "url");
 
   String locPath = createLocPath(path,slingRequest);//this.externalizer.absoluteLink(slingRequest, protocolPort, path);
@@ -201,22 +203,22 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
 
  
  private void writeXMLElement(final XMLStreamWriter xmlStream, final String elementName, final String xmlText)
-   throws XMLStreamException {
+   throws XMLStreamException, UnsupportedEncodingException {
   xmlStream.writeStartElement(SITEMAP_NAMESPACE, elementName);
   xmlStream.writeCharacters(xmlText);
   xmlStream.writeEndElement();
  }
 
- private String createLocPath(String path, SlingHttpServletRequest slingRequest){
+ private String createLocPath(String path, SlingHttpServletRequest slingRequest) throws UnsupportedEncodingException {
 
   //some logic to get the server name and port, everything before the /content
   int uriLength = slingRequest.getRequestURI().length();
   String fullUrl = slingRequest.getRequestURL().toString();
   String hostAndPort = fullUrl.substring(0, fullUrl.length()-uriLength);
 
-  String locPath = (hostAndPort + path);
-  //xml can have issues with certain spanish characters
-  locPath = locPath.replaceAll("ñ", "%C3%B1").replaceAll("Ñ","%c3%91");
+  String encodedPath = "/" + URLEncoder.encode(path.substring(1), "UTF-8");
+  String locPath = (hostAndPort + encodedPath);
+
   return locPath;
  }
 
