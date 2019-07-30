@@ -187,13 +187,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    throws XMLStreamException{
   xmlStream.writeStartElement(SITEMAP_NAMESPACE, "url");
 
-  String protocolPort = "http";
-  if (slingRequest.isSecure()) {
-   protocolPort = "https";
-  }
-
-  String locPath = this.externalizer.absoluteLink(slingRequest, protocolPort, path);
-
+  String locPath = createLocPath(path,slingRequest);//this.externalizer.absoluteLink(slingRequest, protocolPort, path);
   writeXMLElement(xmlStream, "loc", locPath);
 
   if (this.incLastModified) {
@@ -212,5 +206,18 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
   xmlStream.writeCharacters(xmlText);
   xmlStream.writeEndElement();
  }
- 
+
+ private String createLocPath(String path, SlingHttpServletRequest slingRequest){
+
+  //some logic to get the server name and port, everything before the /content
+  int uriLength = slingRequest.getRequestURI().length();
+  String fullUrl = slingRequest.getRequestURL().toString();
+  String hostAndPort = fullUrl.substring(0, fullUrl.length()-uriLength);
+
+  String locPath = (hostAndPort + path);
+  //xml can have issues with certain spanish characters
+  locPath = locPath.replaceAll("ñ", "%C3%B1").replaceAll("Ñ","%c3%91");
+  return locPath;
+ }
+
 }
