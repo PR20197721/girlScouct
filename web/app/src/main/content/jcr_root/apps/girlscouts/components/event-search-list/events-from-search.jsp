@@ -33,10 +33,10 @@
 			}
 		}
 	}
-	public class DescendingComparator implements java.util.Comparator<String> {
+    public class AddedDateComparator implements java.util.Comparator<String> {
         ResourceResolver rr;
 
-        public DescendingComparator(ResourceResolver rr){
+        public AddedDateComparator(ResourceResolver rr){
             this.rr = rr;
         }
 
@@ -50,29 +50,6 @@
                 String created1 = prop1.getProperty("jcr:created").getString();
                 String created2 = prop2.getProperty("jcr:created").getString();
                 return created1.compareTo(created2);
-            } catch(Exception e){
-                e.printStackTrace();
-                return 0;
-            }
-        }
-    }
-    public class AscendingComparator implements java.util.Comparator<String> {
-        ResourceResolver rr;
-
-        public AscendingComparator(ResourceResolver rr){
-            this.rr = rr;
-        }
-
-        @Override
-        public int compare(String s1, String s2){
-            try{
-                Node n1 =  rr.getResource(s1).adaptTo(Node.class);
-                Node n2 =  rr.getResource(s2).adaptTo(Node.class);
-                Node prop1 = n1.getNode("jcr:content");
-                Node prop2 = n2.getNode("jcr:content");
-                String created1 = prop1.getProperty("jcr:created").getString();
-                String created2 = prop2.getProperty("jcr:created").getString();
-                return -1 * created1.compareTo(created2);
             } catch(Exception e){
                 e.printStackTrace();
                 return 0;
@@ -133,9 +110,10 @@ if(null!=srchInfo) {
 		} else {
 			long startTime = System.nanoTime();
 			if("ascending".equals(sortBy)){
-			    Collections.sort(results, new DescendingComparator(resourceResolver));
+			    Collections.sort(results, new AddedDateComparator(resourceResolver));
 			}else if("descending".equals(sortBy)){
-			    Collections.sort(results, new AscendingComparator(resourceResolver));
+			    Collections.sort(results, new AddedDateComparator(resourceResolver));
+			    Collections.reverse(results);
 			}else{
 			    Collections.sort(results, new DateComparator(resourceResolver));
 			}
