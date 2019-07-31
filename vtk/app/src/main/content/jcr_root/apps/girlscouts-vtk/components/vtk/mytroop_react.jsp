@@ -9,6 +9,7 @@
     Logger mytroopreactlogger = LoggerFactory.getLogger(this.getClass().getName());
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 	java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
+    boolean isSUM = (selectedTroop.getCouncilCode() != null && "SUM".equals(selectedTroop.getCouncilCode())) ? true :false;
 	if( isCachableContacts && session.getAttribute("vtk_cachable_contacts")!=null ) {
 		contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
 	}
@@ -79,6 +80,13 @@
             <div class="email-modal-footer"></div>
         </div>
     </div>
+    <%if(isSUM){%>
+        <div class="column small-24 large-centered large-20">
+            <div class="demo-info-message">
+                <p>This feature is to help you with training and support. The information below is not real and for demo purposes only.</p>
+            </div>
+        </div>
+    <%}%>
     <%@include file='myTroopImg.jsp' %>
     <% if (!VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)) {
         for (int i = 0; i < contacts.size(); i++) {

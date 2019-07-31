@@ -26,8 +26,6 @@ public class ApiConfig implements Serializable {
     private boolean demoUser, useAsDemo;
     private String demoUserName;
 
-    private Map<String, List<Contact>> cachedContacts = new HashMap<String, List<Contact>>();
-
     public String getDemoUserName() {
         return demoUserName;
     }
@@ -223,11 +221,4 @@ public class ApiConfig implements Serializable {
         this.isFail = isFail;
     }
 
-    public void cacheTroopContacts(String key,  List<Contact> contacts){
-        cachedContacts.put(key, contacts);
-    }
-
-    public List<Contact> loadTroopContactsFromCache(String key){
-        return cachedContacts.get(key);
-    }
 }

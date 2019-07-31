@@ -41,23 +41,18 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     private String sumCouncilCode;
     private String irmCouncilCode;
     private Boolean isLoadFromFile;
-
-    private LoadingCache<ContactsCacheKey, ContactsInfoResponseEntity> contactsCache = CacheBuilder.newBuilder()
-        .maximumSize(500)
-        .expireAfterWrite(12, TimeUnit.HOURS)
-        .build(new CacheLoader<ContactsCacheKey, ContactsInfoResponseEntity>() {
-            public ContactsInfoResponseEntity load(ContactsCacheKey key) {
-                return sfRestClient.getContactsByTroopId(key.getApiConfig(), key.getSfTroopId());
-            }
-        });
-    private LoadingCache<ContactsCacheKey, ContactsInfoResponseEntity> irmContactsCache = CacheBuilder.newBuilder()
-            .maximumSize(1)
-            .expireAfterWrite(12, TimeUnit.HOURS)
-            .build(new CacheLoader<ContactsCacheKey, ContactsInfoResponseEntity>() {
-                public ContactsInfoResponseEntity load(ContactsCacheKey key) {
-                    return sfRestClient.getContactsByTroopId(key.getApiConfig(), key.getSfTroopId());
-                }
-            });
+    private LoadingCache<ContactsCacheKey, ContactsInfoResponseEntity> contactsCache = CacheBuilder.newBuilder().maximumSize(500).expireAfterWrite(12, TimeUnit.HOURS).build(new CacheLoader<ContactsCacheKey, ContactsInfoResponseEntity>() {
+        public ContactsInfoResponseEntity load(ContactsCacheKey key) {
+            log.debug("Loading into cache contacts for: "+key.getSfTroopId());
+            return sfRestClient.getContactsByTroopId(key.getApiConfig(), key.getSfTroopId());
+        }
+    });
+    private LoadingCache<ContactsCacheKey, ContactsInfoResponseEntity> irmContactsCache = CacheBuilder.newBuilder().maximumSize(1).expireAfterWrite(12, TimeUnit.HOURS).build(new CacheLoader<ContactsCacheKey, ContactsInfoResponseEntity>() {
+        public ContactsInfoResponseEntity load(ContactsCacheKey key) {
+            log.debug("Loading into irm cache contacts for: "+key.getSfTroopId());
+            return sfRestClient.getContactsByTroopId(key.getApiConfig(), key.getSfTroopId());
+        }
+    });
 
     @Activate
     private void activate(ComponentContext context) {
@@ -155,51 +150,43 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     public List<Contact> getContactsForTroop(ApiConfig apiConfig, Troop troop) {
         List<Contact> contacts = new ArrayList<Contact>();
         try {
-            if(apiConfig.loadTroopContactsFromCache(troop.getHash()) == null) {
-                ContactsInfoResponseEntity contactsInfoResponseEntity = null;
-                if (sumCouncilCode.equals(troop.getCouncilCode())) {
-                    contactsInfoResponseEntity = sfFileClient.getServiceUnitManagerContacts();
+            ContactsInfoResponseEntity contactsInfoResponseEntity = null;
+            if (sumCouncilCode.equals(troop.getCouncilCode())) {
+                contactsInfoResponseEntity = sfFileClient.getServiceUnitManagerContacts();
+            } else {
+                if (apiConfig.isDemoUser() || isLoadFromFile) {
+                    contactsInfoResponseEntity = sfFileClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
                 } else {
-                    if (apiConfig.isDemoUser() || isLoadFromFile) {
-                        contactsInfoResponseEntity = sfFileClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
-                    } else {
-                        if(troop.getIrmTroopId() != null){
-                            contactsInfoResponseEntity = this.irmContactsCache.get(new ContactsCacheKey(apiConfig, troop.getIrmTroopId()));
+                    if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
+                        contactsInfoResponseEntity = this.irmContactsCache.get(new ContactsCacheKey(apiConfig, troop.getIrmTroopId()));
                         //if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
                         //    Contact irmContact = new Contact();
-                            //    irmContact.setFirstName(apiConfig.getUser().getFirstName());
-                            //    irmContact.setLastName(apiConfig.getUser().getLastName());
-                            //    irmContact.setEmail(apiConfig.getUser().getEmail());
-                            //   irmContact.setRole("Adult");
-                            //   irmContact.setPhone(apiConfig.getUser().getPhone());
-                            //   contacts.add(irmContact);
-                        }else{
-                            contactsInfoResponseEntity = this.contactsCache.get(new ContactsCacheKey(apiConfig, troop.getSfTroopId()));
+                        //    irmContact.setFirstName(apiConfig.getUser().getFirstName());
+                        //    irmContact.setLastName(apiConfig.getUser().getLastName());
+                        //    irmContact.setEmail(apiConfig.getUser().getEmail());
+                        //   irmContact.setRole("Adult");
+                        //   irmContact.setPhone(apiConfig.getUser().getPhone());
+                        //   contacts.add(irmContact);
+                    } else {
+                        contactsInfoResponseEntity = this.contactsCache.get(new ContactsCacheKey(apiConfig, troop.getSfTroopId()));
+                    }
+                }
+            }
+            if (contactsInfoResponseEntity != null) {
+                ContactEntity[] entities = contactsInfoResponseEntity.getContacts();
+                if (entities != null) {
+                    for (ContactEntity entity : entities) {
+                        if (troop.getParticipationCode() == null || (troop.getParticipationCode() != null && !irmCouncilCode.equals(troop.getParticipationCode())) || (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode()) && entity.getAccount().getSfPreferredContactId().equals(apiConfig.getUser().getContactId()))) {
+                            Contact contact = ContactEntityToContactMapper.map(entity);
+                            contacts.add(contact);
                         }
                     }
                 }
-                if (contactsInfoResponseEntity != null) {
-                    ContactEntity[] entities = contactsInfoResponseEntity.getContacts();
-                    if (entities != null) {
-                        for (ContactEntity entity : entities) {
-                            if (troop.getParticipationCode() == null ||
-                                    (troop.getParticipationCode() != null && !irmCouncilCode.equals(troop.getParticipationCode())) ||
-                                    (troop.getParticipationCode() != null &&  irmCouncilCode.equals(troop.getParticipationCode()) && entity.getAccount().getSfPreferredContactId().equals(apiConfig.getUser().getContactId()))){
-                                 Contact contact = ContactEntityToContactMapper.map(entity);
-                                 contacts.add(contact);
-                            }
-                        }
-                    }
-                    addRenewals(contacts, contactsInfoResponseEntity);
-                }
-            }else{
-                log.debug("");
-                return apiConfig.loadTroopContactsFromCache(troop.getHash());
+                addRenewals(contacts, contactsInfoResponseEntity);
             }
         } catch (Exception e) {
             log.error("Error occurred: ", e);
         }
-        apiConfig.cacheTroopContacts(troop.getHash(),contacts);
         return contacts;
     }
 
@@ -283,13 +270,13 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 Troop troop = ParentEntityToTroopMapper.map(entity);
                 //Independent Registered Member
                 if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
-                    troop.setCouncilCode(irmCouncilCode);
-                    troop.setSfCouncil(irmCouncilCode);
+                    //troop.setCouncilCode(irmCouncilCode);
+                    //troop.setSfCouncil(irmCouncilCode);
                     troop.setIrmTroopId(troop.getSfTroopId());
                     //parent is used as troop
-                    troop.setSfTroopId(user.getSfUserId());
-                    troop.setTroopId(user.getSfUserId());
-                    troop.setId(user.getSfUserId());
+                    troop.setSfTroopId(irmCouncilCode + user.getSfUserId());
+                    troop.setTroopId(irmCouncilCode + user.getSfUserId());
+                    troop.setId(irmCouncilCode + user.getSfUserId());
                 }
                 troop.setRole("PA");
                 parentTroops.add(troop);
@@ -300,12 +287,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         if (user.isServiceUnitManager()) {
             additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
         }
-        //TODO remove after changes made in salesforce and we don't have to force these troops for test council users
-        /*if ("999".equals(user.getAdminCouncilId())) {
-            additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
-            additionalTroops.addAll(getIndependentRegisteredMemberTroops(user.getSfUserId()));
-        }*/
-        //TODO end remove
         List<Troop> mergedTroops = mergeTroops(parentTroops, additionalTroops);
         for (Troop troop : mergedTroops) {
             if (apiConfig.isDemoUser()) {
@@ -322,7 +303,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
 
     private void setCouncilPath(Troop troop) {
         String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
-        if (sumCouncilCode.equals(troop.getCouncilCode()) || irmCouncilCode.equals(troop.getCouncilCode())) {
+        if (sumCouncilCode.equals(troop.getCouncilCode())) {
             councilPath += "/" + troop.getSfUserId();
         }
         troop.setCouncilPath(councilPath);
@@ -393,7 +374,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         if ("PA".equals(roleType)) {
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
         }
-        if ("DP".equals(roleType) || troop.getCouncilCode().equals(irmCouncilCode) || troop.getCouncilCode().equals(sumCouncilCode)) {
+        if ("DP".equals(roleType) || (troop.getParticipationCode() != null && troop.getParticipationCode().equals(irmCouncilCode)) || troop.getCouncilCode().equals(sumCouncilCode)) {
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
         }
         if (isAdmin) {
@@ -458,7 +439,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         return troopDiff;
     }
 
-    private final class ContactsCacheKey{
+    private final class ContactsCacheKey {
         private final ApiConfig apiConfig;
         private final String sfTroopId;
 

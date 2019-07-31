@@ -1,13 +1,13 @@
 {
   "troops": [
     {
-      "Id": "multi-level",
+      "Id": "demo-troop",
       "Job_Code__c": "DP",
       "Parent": {
         "Account__c": " ",
         "Council_Code__c": "SUM",
-        "Id": "multi-level",
-        "Name": "SU-Troop",
+        "Id": "demo-troop",
+        "Name": "Demo Troop",
         "Program_Grade_Level__c": "7-multi-level",
         "attributes": {
           "type": " ",

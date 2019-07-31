@@ -16,6 +16,7 @@
     Attendance attendance = meetingUtil.getAttendance(user, selectedTroop, path + "/attendance");
     Achievement achievement = meetingUtil.getAchievement(user, selectedTroop, path + "/achievement");
     boolean isIRM = (selectedTroop.getParticipationCode() != null && "IRM".equals(selectedTroop.getParticipationCode())) ? true :false;
+    boolean isSUM = (selectedTroop.getCouncilCode() != null && "SUM".equals(selectedTroop.getCouncilCode())) ? true :false;
     boolean isAttendance = true, isAchievement = true;
     if (attendance == null) {
         isAttendance = false;
@@ -46,6 +47,11 @@
 	<div class="scroll">
 		<div class="content clearfix" id="modal_A_A">
 			<h4><%=request.getParameter("mName")%></h4>
+            <%if(isSUM){%>
+                <div class="demo-info-message">
+                    <p>This feature is to help you with training and support. The information below is not real and for demo purposes only.</p>
+                </div>
+            <%}%>
 			<form action="/content/girlscouts-vtk/controllers/vtk.controller.html">
 				<table>
 					<thead>
