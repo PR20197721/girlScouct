@@ -301,18 +301,11 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         user.setTroops(mergedTroops);
     }
 
-    private void setCouncilPath(Troop troop) {
-        String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
-        if (sumCouncilCode.equals(troop.getCouncilCode())) {
-            councilPath += "/" + troop.getSfUserId();
-        }
-        troop.setCouncilPath(councilPath);
-    }
-
     private void setTroopPaths(Troop troop) {
-        setCouncilPath(troop);
-        String path = troop.getCouncilPath() + "/troops/" + troop.getSfTroopId();
-        troop.setPath(path);
+        String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
+        troop.setCouncilPath(councilPath);
+        String troopPath = councilPath + "/troops/" + troop.getSfTroopId();
+        troop.setPath(troopPath);
     }
 
     private List<Troop> getServiceUnitManagerTroops(String userId) {
@@ -324,7 +317,9 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 if (entities != null) {
                     for (TroopEntity entity : entities) {
                         Troop troop = TroopEntityToTroopMapper.map(entity);
-                        setDummyValuesForTroop(troop, sumCouncilCode);
+                        troop.setSfTroopId(sumCouncilCode+userId);
+                        troop.setTroopId(sumCouncilCode+userId);
+                        troop.setId(sumCouncilCode+userId);
                         troops.add(troop);
                     }
                 }
@@ -333,39 +328,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             log.error("Error occurred: ", e);
         }
         return troops;
-    }
-
-    private List<Troop> getIndependentRegisteredMemberTroops(String userId) {
-        List<Troop> irmTroops = new ArrayList<Troop>();
-        try {
-            UserInfoResponseEntity independentRegisteredMemberResponseEntity = sfFileClient.getIndependentRegisteredMember();
-            if (independentRegisteredMemberResponseEntity != null) {
-                ParentEntity[] campsTroops = independentRegisteredMemberResponseEntity.getCamps();
-                if (campsTroops != null && campsTroops.length > 0) {
-                    for (ParentEntity entity : campsTroops) {
-                        //Independent Registered Member
-                        if (entity.getParticipationCode() != null && irmCouncilCode.equals(entity.getParticipationCode())) {
-                            Troop troop = ParentEntityToTroopMapper.map(entity);
-                            setDummyValuesForTroop(troop, irmCouncilCode);
-                            irmTroops.add(troop);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        return irmTroops;
-    }
-
-    private void setDummyValuesForTroop(Troop troop, String councilCode) {
-        String dummyTroopId = troop.getGradeLevel();
-        dummyTroopId = dummyTroopId.toLowerCase();
-        troop.setCouncilCode(councilCode);
-        troop.setSfCouncil(councilCode);
-        troop.setSfTroopId(dummyTroopId);
-        troop.setTroopId(dummyTroopId);
-        troop.setId(dummyTroopId);
     }
 
     private void setTroopPermissions(Troop troop, boolean isAdmin) {
