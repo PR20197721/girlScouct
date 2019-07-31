@@ -107,7 +107,7 @@ function toggleWhiteArrow() {
 
 
 <form action="<%=formAction%>" method="get" id="form" onsubmit="return validateForm()">
-	<div class="baseDiv programLevel row collapse">
+	<div class="baseDiv programLevel row collapse topSearchRow">
 
 	   <div class="small-24 medium-6 large-7 columns">
 				<div class="title"> By Keyword </div>
@@ -136,7 +136,17 @@ function toggleWhiteArrow() {
 			</div>
 			<p id ="dateErrorBox" ></p>
 		</div>
-	</div>	
+	</div>
+	<div class="baseDiv sortBy programLevel" style="width: 100%; padding: 10px; padding-top: 0px;">
+        <div class="title"> Sort By </div>
+        <div class="styled-select sort-select-bar">
+            <select name="dateAdded" id="addDate">
+                <option value="none">Event Date (Default)</option>
+                <option value="descending">Date Added: Descending</option>
+                <option value="ascending">Date Added: Ascending</option>
+            </select>
+        </div>
+    </div>
 	<div class="baseDiv programLevel" >
 	   <div class="title"> By Program Level </div>
 	    <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
