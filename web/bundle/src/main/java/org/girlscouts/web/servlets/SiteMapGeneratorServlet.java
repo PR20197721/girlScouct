@@ -115,7 +115,6 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    
    for (Iterator<Page> children = contPage.listChildren(new PageFilter(), true); children.hasNext();) {
     Page childPage = (Page) children.next();
-    stream.writeComment(childPage.getName().replace('-',' '));
     // If condition added to make sure the pages hidden in search in page properties do not show up in sitemap
     if (null != childPage) {
      if (!childPage.getProperties().containsKey("hideInSearch")
