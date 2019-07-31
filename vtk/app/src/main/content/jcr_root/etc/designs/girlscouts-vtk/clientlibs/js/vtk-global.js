@@ -481,12 +481,16 @@ $(function(){
  }
   function appendMeetingCategories(result, level, group){
      $("#vtk-meeting-group-categories").html("");
+     $("#vtk-meeting-category-parent").find(".vtk-meeting-filter_title").html("")
      var categoryGroups = [];
      for(var category in result[level].subFilterOptions[group].subFilterOptions){
          if(!categoryGroups.includes((result[level].subFilterOptions[group].subFilterOptions[category].value).replace(new RegExp('_', 'g'), " "))){
              var categoryName = result[level].subFilterOptions[group].subFilterOptions[category].value;
              categoryGroups.push(categoryName.replace(new RegExp('_', 'g'), " "));
          }
+     }
+     if(categoryGroups.length){
+        $("#vtk-meeting-category-parent").find(".vtk-meeting-filter_title").html("<span>3.</span><span id=\"cat_selected\" style=\"font-size:14px !important;\">Select your categories</span>");
      }
      categoryGroups.sort();
      for(var cat in categoryGroups){
