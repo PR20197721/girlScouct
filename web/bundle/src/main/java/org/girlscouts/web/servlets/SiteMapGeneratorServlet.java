@@ -115,7 +115,6 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    
    for (Iterator<Page> children = contPage.listChildren(new PageFilter(), true); children.hasNext();) {
     Page childPage = (Page) children.next();
-    stream.writeComment(childPage.getName().replace('-',' '));
     // If condition added to make sure the pages hidden in search in page properties do not show up in sitemap
     if (null != childPage) {
      if (!childPage.getProperties().containsKey("hideInSearch")
@@ -169,18 +168,28 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
   writeXML(path, calendarObj, xmlStream, slingRequest);
  }
 
- 
- private void writeXMLPage(Page pageObj, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
-   throws XMLStreamException {
-  
-  String path = String.format("%s.html", pageObj.getPath());
 
-  Calendar calendarObj = null;
-  if (this.incLastModified) {
-   calendarObj = pageObj.getLastModified();
+ private void writeXMLPage(Page pageObj, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
+         throws XMLStreamException {
+  xmlStream.writeStartElement(SITEMAP_NAMESPACE, "url");
+
+  String protocolPort = "http";
+  if (slingRequest.isSecure()) {
+   protocolPort = "https";
   }
 
-  writeXML(path, calendarObj, xmlStream, slingRequest);
+  String locPath = this.externalizer.absoluteLink(slingRequest, protocolPort,
+          String.format("%s.html", pageObj.getPath()));
+
+  writeXMLElement(xmlStream, "loc", locPath);
+
+  if (this.incLastModified) {
+   Calendar calendarObj = pageObj.getLastModified();
+   if (null != calendarObj) {
+    writeXMLElement(xmlStream, "lastmod", DATE_FORMAT.format(calendarObj));
+   }
+  }
+  xmlStream.writeEndElement();
  }
 
 
