@@ -58,7 +58,7 @@
     }
 %><%!
     public class MigrateVtkDataThread implements Runnable {
-        private Set<String> paths = new HashSet<String>();
+        private Set<String> paths = new LinkedHashSet<String>();
         private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
         private ServletContext ctxt;
         private volatile boolean stop;
@@ -78,13 +78,13 @@
         public MigrateVtkDataThread(ServletContext ctxt, SlingRepository repository, boolean dryRun, boolean backup) {
             this.ctxt = ctxt;
             this.repository = repository ;
+            this.paths.add("/content/girlscouts-vtk");
             this.paths.add("/vtk2019");
             this.paths.add("/vtk2018");
             this.paths.add("/vtk2017");
             this.paths.add("/vtk2016");
             this.paths.add("/vtk2015");
             this.paths.add("/vtk");
-            this.paths.add("/content/girlscouts-vtk");
             this.backup = backup;
             this.dryRun = dryRun;
             this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
