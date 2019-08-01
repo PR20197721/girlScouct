@@ -145,7 +145,7 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
             log.debug(json);
             jwtAuthEntity = new Gson().fromJson(json, JWTAuthEntity.class);
         } catch (Exception e) {
-            log.error("Error occurred getting contacts info by troop id from salesforce ", e);
+            log.error("Error occurred getting jwtauth token from salesforce ", e);
         }
         return jwtAuthEntity;
     }
@@ -178,14 +178,14 @@ public class GirlScoutsSalesForceRestClientImpl extends BasicGirlScoutsService i
     private String doJWTAuth(String token) {
         CloseableHttpClient httpClient = null;
         try {
-            CloseableHttpClient client = HttpClientBuilder.create().setSslcontext(SSLContexts.custom().useProtocol("TLSv1.2").build()).build();
+            httpClient = HttpClientBuilder.create().setSslcontext(SSLContexts.custom().useProtocol("TLSv1.2").build()).build();
             HttpPost postRequest = new HttpPost(this.sfJWTURL);
             postRequest.addHeader("accept", "application/json");
             List<BasicNameValuePair> parametersBody = new ArrayList<BasicNameValuePair>();
             parametersBody.add(new BasicNameValuePair("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer"));
             parametersBody.add(new BasicNameValuePair("assertion", token));
             postRequest.setEntity(new UrlEncodedFormEntity(parametersBody, StandardCharsets.UTF_8));
-            HttpResponse response = client.execute(postRequest);
+            HttpResponse response = httpClient.execute(postRequest);
             return getJsonFromResponse(response);
         } catch (Exception e) {
             log.error("Exception is thrown making a JWTAuth call:", e);
