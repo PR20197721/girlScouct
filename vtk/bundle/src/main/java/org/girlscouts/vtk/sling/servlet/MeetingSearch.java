@@ -75,8 +75,6 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                         }
                     }
                 }
-                Boolean hasOutdoor;
-                Boolean hasGlobal;
                 for (RowIterator it = result.getRows(); it.hasNext(); ) {
                     try {
                         index++;
@@ -127,7 +125,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
 
     private QueryResult getQueryResult(Session session, org.girlscouts.vtk.models.MeetingSearch search) throws RepositoryException {
         javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-        String sql = "select s.[*] from [nt:unstructured] as s where s.[ocm_classname]='org.girlscouts.vtk.models.Meeting' " + " and isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + search.getYear() + "/')  ";
+        String sql = "select s.[*] from [nt:unstructured] as s where s.[ocm_classname]='org.girlscouts.vtk.ocm.MeetingNode' " + " and isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + search.getYear() + "/')  ";
         if (search.getLevel() != null && search.getLevel().size() > 0) {
             sql += " and  contains(s.[level] ,  '" + fmtMultiContainsSql(search.getLevel()) + "') ";
         }
