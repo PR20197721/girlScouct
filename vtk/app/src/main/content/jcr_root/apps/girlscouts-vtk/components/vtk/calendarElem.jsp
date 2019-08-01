@@ -126,30 +126,24 @@
     </div>
 </div>
 <script>
-    function cancelModal() {
-        $('#gsModal').children('.header').children('a').children('i').trigger('click');
+    function cancelModal(){
+        $('#gsModalClose').trigger('click');
     }
 
     var tabsVtk = (function () {
-
         var ObjTree = {};
         var tree = [];
-
         $('[data-title=""]').data('title', $('#calMng').children('h5').children('strong').text());
-
-
         $(function () {
             //Create object checker
             tree = $.map($('[data-parent]'), function (value, idx) {
                 var parent, name, defaultD, fetch, $element, title;
-
                 parent = $(value).data('parent');
                 name = $(value).data('name');
                 defaultD = $(value).data('default');
                 fetch = $(value).data('fetch');
                 $element = $(value);
                 title = $(value).data('title');
-
                 return {
                     parent: parent,
                     visible: defaultD,

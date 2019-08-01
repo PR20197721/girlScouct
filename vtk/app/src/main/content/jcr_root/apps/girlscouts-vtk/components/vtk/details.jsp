@@ -8,13 +8,14 @@
     boolean showVtkNav = true;
     org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, selectedTroop, request, true);
     if (planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETINGCANCELED || planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETING) {
-%>
-<%@include file="meeting_react2.jsp" %>
-<%
-} else if (planView.getYearPlanComponent().getType() == YearPlanComponentType.ACTIVITY) {
-%>
-<%@include file="activity_react2.jsp" %>
-<%
+        %>
+        <%@include file="meeting_react2.jsp" %>
+        <%@include file="include/loader.jsp"%>
+        <%
+    } else if (planView.getYearPlanComponent().getType() == YearPlanComponentType.ACTIVITY) {
+        %>
+        <%@include file="activity_react2.jsp" %>
+        <%
     }
 %>
 <script>

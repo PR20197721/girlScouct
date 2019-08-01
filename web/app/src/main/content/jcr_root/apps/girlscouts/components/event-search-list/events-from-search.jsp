@@ -33,6 +33,29 @@
 			}
 		}
 	}
+    public class AddedDateComparator implements java.util.Comparator<String> {
+        ResourceResolver rr;
+
+        public AddedDateComparator(ResourceResolver rr){
+            this.rr = rr;
+        }
+
+        @Override
+        public int compare(String s1, String s2){
+            try{
+                Node n1 =  rr.getResource(s1).adaptTo(Node.class);
+                Node n2 =  rr.getResource(s2).adaptTo(Node.class);
+                Node prop1 = n1.getNode("jcr:content");
+                Node prop2 = n2.getNode("jcr:content");
+                String created1 = prop1.getProperty("jcr:created").getString();
+                String created2 = prop2.getProperty("jcr:created").getString();
+                return created1.compareTo(created2);
+            } catch(Exception e){
+                e.printStackTrace();
+                return 0;
+            }
+        }
+    }
 %>
 
 <%
@@ -58,6 +81,7 @@ String eventID = "-1";
 //We will actually search the events too 
 SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
 String q = request.getParameter("q");
+String sortBy = request.getParameter("dateAdded");
 if(null==srchInfo) {
 	%>
 	<cq:include path="content/middle/par/event-search" resourceType="girlscouts/components/event-search" />
@@ -66,6 +90,7 @@ if(null==srchInfo) {
 //The results are stored in srchInfo
 srchInfo =  (SearchResultsInfo)request.getAttribute("eventresults");
 if(null!=srchInfo) {
+    boolean displayHeader = true;
 	List<String> results = srchInfo.getResults();
 	long hitCounts = srchInfo.getHitCounts();
 	SearchResult searchResults = (SearchResult)request.getAttribute("searchResults");
@@ -84,7 +109,15 @@ if(null!=srchInfo) {
 		<%
 		} else {
 			long startTime = System.nanoTime();
-			Collections.sort(results, new DateComparator(resourceResolver));
+			if("ascending".equals(sortBy)){
+			    Collections.sort(results, new AddedDateComparator(resourceResolver));
+			}else if("descending".equals(sortBy)){
+			    Collections.sort(results, new AddedDateComparator(resourceResolver));
+			    Collections.reverse(results);
+			}else{
+			    Collections.sort(results, new DateComparator(resourceResolver));
+			}
+
 			long estimatedTime = System.nanoTime() - startTime;
 			System.out.println("Estimated Sort Time: " + (estimatedTime / 1000000) + "ms");
 			for(String result: results) {
@@ -196,11 +229,12 @@ if(null!=srchInfo) {
 					int month = startDate.monthOfYear();
 					
 					formatedEndDateStr = formatedEndDateStr + " " + timeZoneShortLabel;
-	
+
 					if(evntComparison.year() > today.year() || (evntComparison.year() == today.year() && (evntComparison.dayOfYear() >= today.dayOfYear()))) {
 						if(tempMonth!=month) {
 							String monthYr = dtfOutMY.print(startDate);
 							tempMonth = month;
+							if("none".equals(sortBy)){
 							%>
 							<div class="eventsList monthSection">
 								<div class="leftCol"><b><%=monthYr.toUpperCase() %></b></div>
@@ -209,6 +243,17 @@ if(null!=srchInfo) {
 							<br/>
 							<br/>
 							<%
+							}else if(displayHeader){
+							displayHeader = false;
+							%>
+                            <div class="eventsList monthSection">
+                                <div class="leftCol"><b>Events List</b></div>
+                                <div class="rightCol horizontalRule">&nbsp;</div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <%
+                            }
 						}
 						%>
 					<div class="eventsList eventSection" itemtype="http://schema.org/ItemList">

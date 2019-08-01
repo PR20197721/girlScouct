@@ -1,14 +1,12 @@
 package org.girlscouts.vtk.auth.models;
 
 import org.girlscouts.vtk.exception.VtkError;
-import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.sling.servlet.MeetingFilter;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 
 public class ApiConfig implements Serializable {
     private static final long serialVersionUID = 7310414085726791761L;
@@ -25,6 +23,8 @@ public class ApiConfig implements Serializable {
     private boolean isFail, accessTokenValid;
     private boolean demoUser, useAsDemo;
     private String demoUserName;
+
+    private TreeMap<String, MeetingFilter.FilterOption> filters;
 
     public String getDemoUserName() {
         return demoUserName;
@@ -221,4 +221,11 @@ public class ApiConfig implements Serializable {
         this.isFail = isFail;
     }
 
+    public TreeMap<String, MeetingFilter.FilterOption> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(TreeMap<String, MeetingFilter.FilterOption> filters) {
+        this.filters = filters;
+    }
 }
