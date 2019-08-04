@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.osgi.filters;
+package org.girlscouts.vtk.sling.filters;
 
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;

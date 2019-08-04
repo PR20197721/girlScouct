@@ -84,10 +84,10 @@
                 request.setAttribute("newCurrentDesign", newCurrentDesign);
             }
             if (apiConfig.isDemoUser()) {
-        %>
-        <cq:include script="headerDemo.jsp"/>
-        <%
-        } else {
+                %>
+                <cq:include script="headerDemo.jsp"/>
+                <%
+            } else {
         %>
         <cq:include script="header.jsp"/>
         <%
