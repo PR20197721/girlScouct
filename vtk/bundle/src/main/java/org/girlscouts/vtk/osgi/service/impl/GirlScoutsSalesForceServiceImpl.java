@@ -1,20 +1,21 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.mapper.salesforce.*;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.osgi.cache.SalesForceContactsResponseCache;
+import org.girlscouts.vtk.osgi.cache.SalesForceIRMContactsResponseCache;
+import org.girlscouts.vtk.osgi.cache.SalesForceTroopsResponseCache;
 import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.conf.GirlScoutsSalesForceServiceConfig;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceFileClient;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceRestClient;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
+import org.girlscouts.vtk.osgi.service.GirlScoutsTroopOCMService;
 import org.girlscouts.vtk.rest.entity.salesforce.*;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
@@ -25,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @Component(service = {GirlScoutsSalesForceService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsSalesForceServiceImpl")
 @Designate(ocd = GirlScoutsSalesForceServiceConfig.class)
@@ -37,22 +37,19 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     GirlScoutsSalesForceFileClient sfFileClient;
     @Reference
     TroopHashGenerator troopHashGenerator;
+    @Reference
+    SalesForceContactsResponseCache contactsCache;
+    @Reference
+    SalesForceIRMContactsResponseCache irmContactsCache;
+    @Reference
+    SalesForceTroopsResponseCache troopsCache;
+    @Reference
+    GirlScoutsTroopOCMService girlScoutsTroopOCMService;
+
     private String demoCouncilCode;
     private String sumCouncilCode;
     private String irmCouncilCode;
     private Boolean isLoadFromFile;
-    private LoadingCache<ContactsCacheKey, ContactsInfoResponseEntity> contactsCache = CacheBuilder.newBuilder().maximumSize(500).expireAfterWrite(12, TimeUnit.HOURS).build(new CacheLoader<ContactsCacheKey, ContactsInfoResponseEntity>() {
-        public ContactsInfoResponseEntity load(ContactsCacheKey key) {
-            log.debug("Loading into cache contacts for: "+key.getSfTroopId());
-            return sfRestClient.getContactsByTroopId(key.getApiConfig(), key.getSfTroopId());
-        }
-    });
-    private LoadingCache<ContactsCacheKey, ContactsInfoResponseEntity> irmContactsCache = CacheBuilder.newBuilder().maximumSize(1).expireAfterWrite(12, TimeUnit.HOURS).build(new CacheLoader<ContactsCacheKey, ContactsInfoResponseEntity>() {
-        public ContactsInfoResponseEntity load(ContactsCacheKey key) {
-            log.debug("Loading into irm cache contacts for: "+key.getSfTroopId());
-            return sfRestClient.getContactsByTroopId(key.getApiConfig(), key.getSfTroopId());
-        }
-    });
 
     @Activate
     private void activate(ComponentContext context) {
@@ -126,7 +123,12 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             if (apiConfig.isDemoUser() || isLoadFromFile) {
                 troopInfoResponseEntity = sfFileClient.getTroopInfoByUserId(apiConfig, userId);
             } else {
-                troopInfoResponseEntity = sfRestClient.getTroopInfoByUserId(apiConfig, userId);
+                if(troopsCache.contains(userId)){
+                    troopInfoResponseEntity = troopsCache.read(userId);
+                }else{
+                    troopInfoResponseEntity = sfRestClient.getTroopInfoByUserId(apiConfig, userId);
+                    troopsCache.write(userId, troopInfoResponseEntity);
+                }
             }
             if (troopInfoResponseEntity != null) {
                 TroopEntity[] entities = troopInfoResponseEntity.getTroops();
@@ -158,17 +160,19 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                     contactsInfoResponseEntity = sfFileClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
                 } else {
                     if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
-                        contactsInfoResponseEntity = this.irmContactsCache.get(new ContactsCacheKey(apiConfig, troop.getIrmTroopId()));
-                        //if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
-                        //    Contact irmContact = new Contact();
-                        //    irmContact.setFirstName(apiConfig.getUser().getFirstName());
-                        //    irmContact.setLastName(apiConfig.getUser().getLastName());
-                        //    irmContact.setEmail(apiConfig.getUser().getEmail());
-                        //   irmContact.setRole("Adult");
-                        //   irmContact.setPhone(apiConfig.getUser().getPhone());
-                        //   contacts.add(irmContact);
+                        if(irmContactsCache.contains(troop.getSfTroopId())){
+                            contactsInfoResponseEntity =  irmContactsCache.read(troop.getSfTroopId());
+                        }else{
+                            contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
+                            irmContactsCache.write(troop.getSfTroopId(), contactsInfoResponseEntity);
+                        }
                     } else {
-                        contactsInfoResponseEntity = this.contactsCache.get(new ContactsCacheKey(apiConfig, troop.getSfTroopId()));
+                        if(contactsCache.contains(troop.getSfTroopId())){
+                            contactsInfoResponseEntity =  contactsCache.read(troop.getSfTroopId());
+                        }else{
+                            contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
+                            contactsCache.write(troop.getSfTroopId(), contactsInfoResponseEntity);
+                        }
                     }
                 }
             }
@@ -297,6 +301,9 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             setTroopPermissions(troop, user.isAdmin());
             setTroopPaths(troop);
             troop.setHash(troopHashGenerator.hash(troop.getPath()));
+            if(girlScoutsTroopOCMService.read(troop.getPath()) == null){
+                girlScoutsTroopOCMService.create(troop);
+            }
         }
         user.setTroops(mergedTroops);
     }
@@ -399,40 +406,5 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
         }
         return troopDiff;
-    }
-
-    private final class ContactsCacheKey {
-        private final ApiConfig apiConfig;
-        private final String sfTroopId;
-
-        public ContactsCacheKey(ApiConfig apiConfig, String sfTroopId) {
-            this.apiConfig = apiConfig;
-            this.sfTroopId = sfTroopId;
-        }
-
-        public ApiConfig getApiConfig() {
-            return apiConfig;
-        }
-
-        public String getSfTroopId() {
-            return sfTroopId;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            ContactsCacheKey that = (ContactsCacheKey) o;
-            return Objects.equals(sfTroopId, that.sfTroopId);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(sfTroopId);
-        }
     }
 }

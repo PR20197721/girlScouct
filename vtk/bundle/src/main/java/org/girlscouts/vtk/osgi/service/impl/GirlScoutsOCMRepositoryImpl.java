@@ -9,6 +9,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.vtk.exception.VtkException;
 import org.girlscouts.vtk.ocm.*;
+import org.girlscouts.vtk.osgi.cache.VTKMeetingLibraryCache;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -27,6 +28,9 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
     private static Logger log = LoggerFactory.getLogger(GirlScoutsOCMRepositoryImpl.class);
     @Reference
     private ResourceResolverFactory resolverFactory;
+    @Reference
+    private VTKMeetingLibraryCache libraryCache;
+
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
     private Mapper mapper;
 
@@ -128,24 +132,34 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
     }
 
     @Override
-    public Object read(String path) {
-        ResourceResolver rr = null;
-        Object object = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-            log.debug("Reading node at: " + path);
-            object = ocm.getObject(path);
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
+    public <T extends JcrNode> T read(String path) {
+        T object = null;
+        if(path != null && path.startsWith("/content/girlscouts-vtk/")){
+            if(libraryCache.contains(path)){
+                object = libraryCache.read(path);
+            }
+        }
+        if(object == null){
+            ResourceResolver rr = null;
             try {
-                if (rr != null) {
-                    rr.close();
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Session session = rr.adaptTo(Session.class);
+                ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
+                log.debug("Reading node at: " + path);
+                object = (T) ocm.getObject(path);
+                if(path != null && path.startsWith("/content/girlscouts-vtk/")){
+                    libraryCache.write(path,  object);
                 }
             } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
+                log.error("Error Occurred: ", e);
+            } finally {
+                try {
+                    if (rr != null) {
+                        rr.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
+                }
             }
         }
         return object;
@@ -192,30 +206,43 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
 
     @Override
     public <T extends JcrNode> List<T> findObjects(String path, Map<String, String> params, Class<T> clazz) {
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            if (session.itemExists(path)) {
-                ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-                String query = getJCRSQL2Query(path, params, clazz.getName(), session);
-                log.debug("Looking up OCM Objects :" + query);
-                return (List<T>) ocm.getObjects(query, javax.jcr.query.Query.JCR_SQL2);
-            } else {
-                log.debug("Path does not exist: " + path);
-            }
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
+        List<T> results = null;
+        String key = path+":"+clazz.getName();
+        if(path != null && path.startsWith("/content/girlscouts-vtk")){
+            if(libraryCache.containsList(key)){
+                log.debug("Loading "+clazz.getName()+" results for "+path+" from cache");
+                results = libraryCache.readList(key);
             }
         }
-        return null;
+        if(results == null){
+            ResourceResolver rr = null;
+            try {
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Session session = rr.adaptTo(Session.class);
+                if (session.itemExists(path)) {
+                    ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
+                    String query = getJCRSQL2Query(path, params, clazz.getName(), session);
+                    log.debug("Looking up OCM Objects :" + query);
+                    results =  (List<T>) ocm.getObjects(query, javax.jcr.query.Query.JCR_SQL2);
+                    if(path != null && path.startsWith("/content/girlscouts-vtk")){
+                        libraryCache.writeList(key, results);
+                    }
+                } else {
+                    log.debug("Path does not exist: " + path);
+                }
+            } catch (Exception e) {
+                log.error("Error Occurred: ", e);
+            } finally {
+                try {
+                    if (rr != null) {
+                        rr.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
+                }
+            }
+        }
+        return results;
     }
 
     private String getJCRSQL2Query(String path, Map<String, String> params, String ocm_classname, Session session) {

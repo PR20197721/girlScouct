@@ -155,7 +155,7 @@ public class GirlScoutsSalesForceFileClientImpl extends BasicGirlScoutsService i
     private String getPath(ApiConfig apiConfig, String sfUserId,  String serviceName) {
         String path = "";
         if (!apiConfig.isDemoUser()) {
-            String userFolder = sfUserId;
+            String userFolder = apiConfig.getId();
             if (userFolder != null) {
                 userFolder = userFolder.replace(" ", "_");
             } else {

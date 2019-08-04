@@ -10,7 +10,7 @@ public interface GirlScoutsOCMRepository {
 
     <T extends JcrNode> T update(T object);
 
-    Object read(String path);
+    <T extends JcrNode> Object read(String path);
 
     <T extends JcrNode> boolean delete(T object);
 
