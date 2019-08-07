@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.girlscouts.aem</groupId>
         <artifactId>vtk</artifactId>
-        <version>3.12-SNAPSHOT</version>
+        <version>3.13-SNAPSHOT</version>
     </parent>
     <!-- ====================================================================== -->
     <!-- P R O J E C T D E S C R I P T I O N -->
@@ -69,6 +69,10 @@
             <artifactId>org.apache.sling.event</artifactId>
             <version>4.2.8</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <resources>
@@ -119,7 +123,6 @@
                     <includeEmptyDirs>true</includeEmptyDirs>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>com.day.jcr.vault</groupId>
                 <artifactId>content-package-maven-plugin</artifactId>
@@ -177,6 +180,15 @@
                             <groupId>${project.groupId}</groupId>
                             <artifactId>modified-checker</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>net.sourceforge.jexcelapi</groupId>
+                            <artifactId>jxl</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>org.codehaus.jackson</groupId>
+                            <artifactId>jackson-mapper-asl</artifactId>
                         </embedded>
                     </embeddeds>
                     <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
@@ -290,6 +302,15 @@
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>modified-checker</artifactId>
                                     <target>/apps/girlscouts-vtk/install</target>
+                                </embedded>
+                                <embedded>
+                                    <groupId>net.sourceforge.jexcelapi</groupId>
+                                    <artifactId>jxl</artifactId>
+                                    <target>/apps/girlscouts-vtk/install</target>
+                                </embedded>
+                                <embedded>
+                                    <groupId>org.codehaus.jackson</groupId>
+                                    <artifactId>jackson-mapper-asl</artifactId>
                                 </embedded>
                             </embeddeds>
                             <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>

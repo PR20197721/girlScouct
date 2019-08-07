@@ -1,6 +1,6 @@
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 
-<%@include file="/apps/girlscouts-vtk/components/resources/global.jsp"%>
+<%@include file="/apps/girlscouts-vtk/components/resources/global.jsp" %>
 <%@page session="false" %>
 
 <%
@@ -21,9 +21,9 @@
 	<span style="position:absolute; top:-5px; right:9px; color:black; font-size:22px; cursor:pointer; font-family: 'Trefoil Sans Web', 'Open Sans', Arial, sans-serif;" onclick="(function(){$('#gsModal').dialog('close')})()">X</span>
 </div>
 <% if (WCMMode.fromRequest(request) == WCMMode.EDIT || WCMMode.fromRequest(request) == WCMMode.PREVIEW) { %>
-	<p></p>
-	<p>The "Meeting Overviews" section does not show up in author mode.</p>
-	<p>Overviews will show up in VTK.</p>
+<p></p>
+<p>The "Meeting Overviews" section does not show up in author mode.</p>
+<p>Overviews will show up in VTK.</p>
 <% } else { %>
-	<sling:include path="/content/girlscouts-vtk/controllers/vtk" replaceSelectors="<%= selectorsToAdd %>" />
+<sling:include path="/content/girlscouts-vtk/controllers/vtk" replaceSelectors="<%= selectorsToAdd %>"/>
 <% } %>

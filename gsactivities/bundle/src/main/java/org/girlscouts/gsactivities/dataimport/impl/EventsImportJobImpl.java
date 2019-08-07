@@ -53,7 +53,7 @@ import org.apache.sling.commons.osgi.PropertiesUtil;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.gsactivities.dataimport.EventsImport;
-import org.girlscouts.vtk.helpers.CouncilMapper;
+import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.common.exception.GirlScoutsException;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;

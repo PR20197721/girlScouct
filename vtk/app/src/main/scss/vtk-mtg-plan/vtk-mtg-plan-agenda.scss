@@ -21,7 +21,7 @@
   font-weight: 100;
   margin-bottom: 10px;
 
-  .__time_counter{
+  .__time_counter {
     padding: 0 10px;
     flex-grow: 0;
     flex-shrink: 0;
@@ -33,6 +33,7 @@
     flex-direction: row;
     padding: 20px 10px;
     flex-grow: 1;
+
     & > div {
       display: inherit;
       align-self: flex-start;
@@ -40,27 +41,31 @@
 
     .__is-global {
       width: 26px;
-      div{
+
+      div {
         display: inherit;
         align-self: flex-start;
         justify-content: center;
       }
-      img{
+
+      img {
         width: 100%;
         height: 100%;
-        padding-top:2px;
+        padding-top: 2px;
       }
     }
+
     .__is-outdoor {
       width: 30px;
-      
 
-      div{
+
+      div {
         display: inherit;
         align-self: flex-start;
         justify-content: center;
       }
-      img{
+
+      img {
         width: 100%;
         height: 100%;
       }
@@ -68,6 +73,7 @@
 
     .__arrow {
       margin-right: 5px !important;
+
       &.__open {
         display: inline-block;
         width: 0;
@@ -77,6 +83,7 @@
         margin-top: 8px;
         border-top: 12px solid $dark_gray;
       }
+
       &.__close {
         display: inline-block;
         width: 0;
@@ -102,11 +109,12 @@
       .__title {
 
         min-width: 0;
-        width:100%;
-        .__text{
+        width: 100%;
+
+        .__text {
           // display: inline-block;
           width: auto;
-          
+
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -125,7 +133,8 @@
         overflow: hidden;
         text-overflow: ellipsis;
         padding: 4px 0 0 10px;
-        span{
+
+        span {
           white-space: nowrap;
           text-overflow: ellipsis;
           display: inline-block;
@@ -138,12 +147,14 @@
         visibility: hidden;
         position: absolute;
       }
+
       .radio-react label {
         width: 30px;
         height: 30px;
         margin-left: 0 !important;
         margin-right: 0 !important;
       }
+
       .radio-react label div {
         width: 30px;
         height: 30px;
@@ -203,12 +214,13 @@
   .__agenda-items {
     margin: 0;
     padding: 0;
-    &.__past-year{
-      .__text{
-          a{
-            pointer-events: none;
-            color: gray;
-          }
+
+    &.__past-year {
+      .__text {
+        a {
+          pointer-events: none;
+          color: gray;
+        }
       }
     }
   }

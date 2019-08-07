@@ -872,7 +872,7 @@ function showError(message, domElement) {
 function rmTroopInfo() {
 
     $.ajax({
-        url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
+        url: '/content/girlscouts-vtk/service/troop-image.html?rand=' + Date.now(),
         type: 'POST',
         data: {
             isRmTroopImg: 'true',

@@ -355,10 +355,10 @@
 
                 	var type = frm.findField("./ocm_classname").getValue();
                 	var id;
-                	if (type === 'org.girlscouts.vtk.models.YearPlan') {
+                	if (type === 'org.girlscouts.vtk.ocm.YearPlanNode') {
                 		id = frm.findField("./id").getValue();
                 		id = 'yearPlan' + id;
-                	} else if (type === 'org.girlscouts.vtk.models.Meeting') {
+                	} else if (type === 'org.girlscouts.vtk.ocm.MeetingNode') {
                 		id = frm.findField("./id").getValue();
                 	}
                 	

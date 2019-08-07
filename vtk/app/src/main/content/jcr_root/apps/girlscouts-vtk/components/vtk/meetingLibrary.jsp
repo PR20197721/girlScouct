@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="com.day.cq.tagging.Tag, com.google.common.collect.*, org.girlscouts.vtk.models.*,  org.girlscouts.vtk.ejb.*, org.girlscouts.vtk.dao.*, org.girlscouts.vtk.models.Meeting,org.girlscouts.vtk.models.MeetingE,org.girlscouts.vtk.models.YearPlanComponent,java.util.*" %>
+<%@ page import="com.day.cq.tagging.Tag, com.google.common.collect.*, org.girlscouts.vtk.models.*,  org.girlscouts.vtk.osgi.component.*, org.girlscouts.vtk.osgi.component.dao.*, org.girlscouts.vtk.models.Meeting,org.girlscouts.vtk.models.MeetingE,org.girlscouts.vtk.models.YearPlanComponent,java.util.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
@@ -9,7 +9,6 @@
         if (meetingPath == null || meetingPath.equals("null") || meetingPath.equals("")) {
             meetingPath = null;
         }
-
 %>
 <div class="header clearfix">
     <h3 class="columns small-20">
@@ -30,15 +29,14 @@
     }//end else
     instruction = "";
     if (isWarning) {
-        %>
-        <div class="small-4 medium-2 large-2 columns meeting_library">
-            <div class="warning">
-                <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/>
-            </div>
-        </div>
-        <div class="small-20 medium-22 large-22 columns">
+%>
+<div class="small-4 medium-2 large-2 columns meeting_library">
+    <div class="warning">
+        <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/>
+    </div>
+</div>
+<div class="small-20 medium-22 large-22 columns">
     <% } %>
-
 </div>
 <script>
     function cngMeeting(mPath) {
@@ -122,43 +120,38 @@
                                             </div>
                                         </span>
                                     </span>
-
                                     <span class="container" style="clear:both;">
                                         <span class="terminal" data-price="2">
                                             <div class="small-24 medium-6 column selection-box">
-                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="brownieSelect" value="Brownie" >
+                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="brownieSelect" value="Brownie">
                                                 <label for="brownieSelect"><span></span><p>Brownie </p></label>
                                             </div>
                                          </span>
                                     </span>
-
                                     <span class="container" style="clear:both;">
                                         <span class="terminal" data-price="3">
                                             <div class="small-24 medium-6 column selection-box">
-                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="juniorSelect" value="Junior" >
+                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="juniorSelect" value="Junior">
                                                 <label for="juniorSelect"><span></span><p>Junior </p></label>
                                             </div>
                                         </span>
                                     </span>
-
                                     <span class="container" style="clear:both;">
                                         <span class="terminal" data-price="100">
                                             <div class="small-24 medium-6 column selection-box">
-                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="cadetteSelect" value="Cadette" >
+                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="cadetteSelect" value="Cadette">
                                                 <label for="cadetteSelect"><span></span><p>Cadette </p></label>
                                             </div>
                                         </span>
                                     </span>
-
                                     <span class="container" style="clear:both;">
                                         <span class="terminal" data-price="100">
                                             <div class="small-24 medium-6 column selection-box">
-                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="seniorSelect" value="Senior" >
+                                                <input class="gradeLevelSelect" type="radio" name="_tag_m" id="seniorSelect" value="Senior">
                                                 <label for="seniorSelect"><span></span><p>Senior </p></label>
                                             </div>
                                         </span>
                                     </span>
-
                                     <span class="container" style="clear:both;">
                                         <span class="terminal" data-price="100">
                                             <div class="small-24 medium-6 column selection-box">
@@ -167,7 +160,6 @@
                                             </div>
                                         </span>
                                     </span>
-
                                     <span class="container" style="clear:both;">
                                         <span class="terminal" data-price="100">
                                             <div class="small-24 medium-6 column selection-box">
@@ -182,20 +174,18 @@
                                 <div class="vtk-meeting-filter_title">
                                     <span>2.</span> Select the type of meeting plan you want
                                 </div>
-                                <div id="vtk-group-section"class="row">
-
+                                <div id="vtk-group-section" class="row">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="list-of-categories column small-22 small-centered" id="vtk-meeting-category-parent"style="display:none;padding-left:0;">
+                    <div class="list-of-categories column small-22 small-centered" id="vtk-meeting-category-parent" style="display:none;padding-left:0;">
                         <div class="row">
                             <div class="column small-24">
                                 <div class="vtk-meeting-filter_title"><span>3.</span> Select your
                                     <span id="cat_selected" style="font-size:14px !important;"></span> categories
                                 </div>
                                 <div id="vtk-meeting-group-categories" class="row  wrap-vtk-meeting-group-categories">
-
                                 </div>
                             </div>
                         </div>
@@ -247,7 +237,8 @@
     function _closeME(element) {
         $(element).parents('.__requiments_details').toggle();
     }
-     function cngMeeting(mPath) {
+
+    function cngMeeting(mPath) {
         $("#cngMeet").load("/content/girlscouts-vtk/controllers/vtk.controller.html?<%=meetingPath ==null ? "act=AddMeeting&addMeeting" : "act=SwapMeetings&cngMeeting"%>=true&fromPath=<%=meetingPath%>&toPath=" + mPath, function (html) {
             vtkTrackerPushAction('<%=meetingPath ==null ? "AddMeeting" : "ReplaceMeeting" %>');
             <%
@@ -298,35 +289,40 @@
     var currentYear = CurrentYear(new Date());
     //Params Creator
     var params = (function () {
-    var _params = {
-        keywords: '',
-        level: [],
-        categoryTags: [],
-        meetingPlanType: '',
-        year: (currentYear.start()).getFullYear()
-    };
-    function _addParams(newParam) {
-        _params = Object.assign(_params, newParam);
-    }
-    function _getParams() {
-        return _params;
-
-    }
-    function _clear() {
-        _params = {
+        var _params = {
             keywords: '',
             level: [],
             categoryTags: [],
             meetingPlanType: '',
             year: (currentYear.start()).getFullYear()
+        };
+
+        function _addParams(newParam) {
+            _params = Object.assign(_params, newParam);
         }
-    }
-    return {
-        add: _addParams,
-        get: _getParams,
-        clear: _clear
-    }
+
+        function _getParams() {
+            return _params;
+
+        }
+
+        function _clear() {
+            _params = {
+                keywords: '',
+                level: [],
+                categoryTags: [],
+                meetingPlanType: '',
+                year: (currentYear.start()).getFullYear()
+            }
+        }
+
+        return {
+            add: _addParams,
+            get: _getParams,
+            clear: _clear
+        }
     })();
+
     function cleanMeetingCheckbox() {
         $('input[name="addMeetingMulti"]').each(function () {
             this.checked = false;
@@ -334,22 +330,24 @@
         $('.clear-meeting-filter-result').addClass('inactive-button');
         $('.add-to-year-plan').addClass('inactive-button');
     }
-    function buttonLogic(){
 
-            var object = params.get();
-            var keyInObject = Object.keys(object);
-            var somethingFill = keyInObject.some(function (e) {
-                return object[e] !== ''
-            })
-            var isKeyboard = (object['keywords'].length >= 3);
-            var isLevel = !!object['level'].length;
-            if (isKeyboard || isLevel) {
-                $('#vtk-meeting-group-button_ok').removeClass('disabled');
-            } else {
-                $('#vtk-meeting-group-button_ok').addClass('disabled');
-            }
+    function buttonLogic() {
 
-     }
+        var object = params.get();
+        var keyInObject = Object.keys(object);
+        var somethingFill = keyInObject.some(function (e) {
+            return object[e] !== ''
+        })
+        var isKeyboard = (object['keywords'].length >= 3);
+        var isLevel = !!object['level'].length;
+        if (isKeyboard || isLevel) {
+            $('#vtk-meeting-group-button_ok').removeClass('disabled');
+        } else {
+            $('#vtk-meeting-group-button_ok').addClass('disabled');
+        }
+
+    }
+
     //x in input
     $('#vtk-meeting-filter .__search .__X').on('click', function () {
         $('#searchByMeetingTitle').val('');
@@ -389,9 +387,9 @@
         if (keyCode === 13) { //Check if key enter is pressed
             e.preventDefault(); //Prevent send the form
             if (e.timeStamp > time + 1500) {  //avoid multiple click in the enter buttom (one second and an half)
-                if(!$('#vtk-meeting-group-button_ok').hasClass('disabled')){
+                if (!$('#vtk-meeting-group-button_ok').hasClass('disabled')) {
                     callToServer();
-                }else{
+                } else {
                     console.log("Error submitting form, please enter more data");
                 }
                 time = e.timeStamp //save the previos time stamp
@@ -399,14 +397,14 @@
             return false;
         }
     });
-    $(".gradeLevelSelect").on("click", function(){
-         $('#vtk-meeting-group-button_ok').removeClass('disabled');
+    $(".gradeLevelSelect").on("click", function () {
+        $('#vtk-meeting-group-button_ok').removeClass('disabled');
     });
 
-    $("#vtk-meeting-group-button_ok").on('click', function(){
-        if(!$('#vtk-meeting-group-button_ok').hasClass('disabled')){
-            if($("#showHideReveal").hasClass("open")){
-                 $("#showHideReveal").click();
+    $("#vtk-meeting-group-button_ok").on('click', function () {
+        if (!$('#vtk-meeting-group-button_ok').hasClass('disabled')) {
+            if ($("#showHideReveal").hasClass("open")) {
+                $("#showHideReveal").click();
             }
             //Age
             var Age = []
@@ -424,9 +422,9 @@
                     type = $(this);
                 }
             });
-            if(type !== undefined){
+            if (type !== undefined) {
                 params.add({meetingPlanType: $(type).attr("value").replace(new RegExp(' ', 'g'), "_")});
-            }else{
+            } else {
                 params.add({meetingPlanType: ''});
             }
 
@@ -444,14 +442,14 @@
     });
 
     $('#vtk-meeting-filter').find('#showHideReveal').stop().click(function (e) {
-        if($("#vtk-meeting-category-parent").css("display") !== "none"){
-            $("#vtk-meeting-category-parent").slideUp(400, function(){
+        if ($("#vtk-meeting-category-parent").css("display") !== "none") {
+            $("#vtk-meeting-category-parent").slideUp(400, function () {
                 $("#vtk-meeting-group-categories").html("");
             });
         }
-        if($("#vtk-meeting-group-type").css("display") !== "none"){
+        if ($("#vtk-meeting-group-type").css("display") !== "none") {
 
-            $("#vtk-meeting-group-type").slideUp(400, function(){
+            $("#vtk-meeting-group-type").slideUp(400, function () {
                 $("#vtk-group-section").html("");
             });
         }
@@ -475,13 +473,11 @@
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids=" + sortedIDs,
             cache: false
         })
-        .done(function (html) {
-            vtkTrackerPushAction('CreateCustomYearPlan');
-            location.href = "/content/girlscouts-vtk/en/vtk.html";
-        });
+            .done(function (html) {
+                vtkTrackerPushAction('CreateCustomYearPlan');
+                location.href = "/content/girlscouts-vtk/en/vtk.html";
+            });
     }
-
-
 </script>
 <%
     } catch (Exception e) {

@@ -5,18 +5,18 @@ export interface VtkContentProps {
 }
 
 export default class VtkContent extends React.PureComponent<VtkContentProps, any> {
-  render() {
+    render() {
 
-    let {idName} = this.props;
+        let {idName} = this.props;
 
-    return (
-      <div id={(idName)?'vtk-mtg-plan-'+idName:''} className="row"> 
-        <div
-          className="columns small-24" 
-          style={{'marginBottom':'20px'}}>
-          {this.props.children}
-        </div>
-      </div>
-    );
-  }
+        return (
+            <div id={(idName) ? 'vtk-mtg-plan-' + idName : ''} className="row">
+                <div
+                    className="columns small-24"
+                    style={{'marginBottom': '20px'}}>
+                    {this.props.children}
+                </div>
+            </div>
+        );
+    }
 }
