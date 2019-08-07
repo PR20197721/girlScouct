@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 export interface VtkMtgPlanLoadingProps {
-  loading:boolean
+    loading: boolean
 }
 
 class VtkMtgPlanLoading extends React.Component<VtkMtgPlanLoadingProps, any> {
@@ -23,9 +23,9 @@ class VtkMtgPlanLoading extends React.Component<VtkMtgPlanLoadingProps, any> {
 
 
 function mapStateToProps(state) {
-  return {
-      loading:state.loading
-  };
+    return {
+        loading: state.loading
+    };
 }
 
 export default connect(mapStateToProps)(VtkMtgPlanLoading);

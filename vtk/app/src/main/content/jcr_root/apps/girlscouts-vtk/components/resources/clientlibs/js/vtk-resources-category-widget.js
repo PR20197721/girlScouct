@@ -24,37 +24,37 @@ girlscouts.components.VTKResourcesCategoryWidget = CQ.Ext.extend(CQ.form.Composi
     hiddenField: null,
     titleField: null,
     typeField: null,
-	pathField: null,
+    pathField: null,
     classField: null,
-    
-    constructor: function(config) {
-        config = config || { };
+
+    constructor: function (config) {
+        config = config || {};
         var defaults = {
             "border": false,
             "layout": "table",
-            "columns":2
+            "columns": 2
         };
         config = CQ.Util.applyDefaults(config, defaults);
         girlscouts.components.VTKResourcesCategoryWidget.superclass.constructor.call(this, config);
     },
 
     // overriding CQ.Ext.Component#initComponent
-    initComponent: function() {
+    initComponent: function () {
         girlscouts.components.VTKResourcesCategoryWidget.superclass.initComponent.call(this);
 
         this.hiddenField = new CQ.Ext.form.Hidden({
             name: this.name
         });
         this.add(this.hiddenField);
-        
+
         this.add(new CQ.Ext.form.Label({text: "Title"}));
         this.titleField = new CQ.Ext.form.TextField({
-        	    width: 300,
+            width: 300,
             allowBlank: false,
             listeners: {
                 change: {
-                    scope:this,
-                    fn:this.updateHidden
+                    scope: this,
+                    fn: this.updateHidden
                 }
             }
         });
@@ -62,57 +62,57 @@ girlscouts.components.VTKResourcesCategoryWidget = CQ.Ext.extend(CQ.form.Composi
 
         this.add(new CQ.Ext.form.Label({text: "Type"}));
         this.typeField = new CQ.form.Selection({
-        		type: "select",
+            type: "select",
             allowBlank: false,
             options: [
-            	    {
-            	    	    text: "Link",
-            	    	    value: "link"
-            	    },
-            	    {
-            	    	    text: "PDF",
-            	    	    value: "pdf"
-            	    },
-            	    {
-            	    	    text: "Video",
-            	    	    value: "video"
-            	    },
-            	    {
-            	    	    text: "Download",
-            	    	    value: "download"
-            	    }
+                {
+                    text: "Link",
+                    value: "link"
+                },
+                {
+                    text: "PDF",
+                    value: "pdf"
+                },
+                {
+                    text: "Video",
+                    value: "video"
+                },
+                {
+                    text: "Download",
+                    value: "download"
+                }
             ],
-        	    width: 100,
+            width: 100,
             listeners: {
-            	    selectionchanged: {
-                    scope:this,
-                    fn:this.updateHidden
+                selectionchanged: {
+                    scope: this,
+                    fn: this.updateHidden
                 }
             }
         });
         this.add(this.typeField);
-        
+
         this.add(new CQ.Ext.form.Label({text: "URI"}));
         this.pathField = new CQ.form.PathField({
             rootPath: "/content/dam-resources2",
             allowBlank: false,
-        	    width: 300,
+            width: 300,
             listeners: {
                 change: {
-                    scope:this,
-                    fn:this.updateHidden
+                    scope: this,
+                    fn: this.updateHidden
                 },
                 dialogselect: {
-                    scope:this,
-                    fn:this.updateHidden
+                    scope: this,
+                    fn: this.updateHidden
                 }
-            } 
+            }
         });
         this.add(this.pathField);
     },
 
     // overriding CQ.form.CompositeField#setValue
-    setValue: function(value) {
+    setValue: function (value) {
         var parts = value.split("|||");
         this.titleField.setValue(parts[0]);
         this.typeField.setValue(parts[1]);
@@ -121,21 +121,21 @@ girlscouts.components.VTKResourcesCategoryWidget = CQ.Ext.extend(CQ.form.Composi
     },
 
     // overriding CQ.form.CompositeField#getValue
-    getValue: function() {
+    getValue: function () {
         return this.getRawValue();
     },
 
     // overriding CQ.form.CompositeField#getRawValue
-    getRawValue: function() {
-        return this.titleField.getValue() + "|||" 
-        	+ this.typeField.getValue() + "|||"
-        	+ this.pathField.getValue();
+    getRawValue: function () {
+        return this.titleField.getValue() + "|||"
+            + this.typeField.getValue() + "|||"
+            + this.pathField.getValue();
     },
 
     // private
-    updateHidden: function() {
+    updateHidden: function () {
         this.hiddenField.setValue(this.getValue());
-    } 
+    }
 
 });
 

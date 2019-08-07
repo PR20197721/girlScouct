@@ -1,46 +1,38 @@
-
 <%@page import="
-                javax.jcr.Session,
-				java.io.*,
-                org.apache.sling.api.resource.ResourceResolver,
-                org.apache.sling.api.resource.Resource,
-				org.apache.sling.api.adapter.Adaptable,
-                com.day.cq.wcm.api.PageManager,
-                com.day.cq.wcm.api.Page,
                 com.day.cq.dam.api.Asset,
                 com.day.cq.search.PredicateGroup,
                 com.day.cq.search.Query,
                 com.day.cq.search.QueryBuilder,
-                org.girlscouts.vtk.ejb.YearPlanUtil,
                 com.day.cq.search.result.SearchResult,
-                org.girlscouts.vtk.helpers.CouncilMapper"%>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
-<%@include file="/libs/foundation/global.jsp"%>
-
-<%@include file="../session.jsp"%>
-
-<% 
-String resourceName = "";
-if (request.getParameter("resource") != null) {
-	resourceName = request.getParameter("resource");
-}
-
-Resource resourceContent;
-Node resourceNode;
+                com.day.cq.wcm.api.Page,
+                com.day.cq.wcm.api.PageManager,
+                org.apache.sling.api.adapter.Adaptable,
+                org.apache.sling.api.resource.Resource,
+                org.apache.sling.api.resource.ResourceResolver,
+                javax.jcr.Session,
+                java.io.PrintWriter,
+                java.io.StringWriter" %>
+<%@include file="/libs/foundation/global.jsp" %>
+<%@include file="../session.jsp" %>
+<%
+    String resourceName = "";
+    if (request.getParameter("resource") != null) {
+        resourceName = request.getParameter("resource");
+    }
+    Resource resourceContent;
+    Node resourceNode;
 %>
-
-<% if(!resourceName.equals("")) { 
-	try {
-		String councilId = null;
-		if (apiConfig != null) {
-		    if (apiConfig.getTroops().size() > 0) {
-		        councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
-		    }
-		}
-		CouncilMapper mapper = sling.getService(CouncilMapper.class);
-		String branch = mapper.getCouncilBranch(councilId);
-
-		// TODO: language? 
+<% if (!resourceName.equals("")) {
+    try {
+        String councilId = null;
+        if (apiConfig != null) {
+            if (userTroops.size() > 0) {
+                councilId = userTroops.get(0).getCouncilCode();
+            }
+        }
+        CouncilMapper mapper = sling.getService(CouncilMapper.class);
+        String branch = mapper.getCouncilBranch(councilId);
+        // TODO: language?
         resourceContent = resourceResolver.getResource(resourceName);
         resourceNode = resourceContent.adaptTo(Node.class);
 %>
@@ -71,11 +63,11 @@ Node resourceNode;
 		</section>
 	</div>
 </div>
-<% }catch(Exception e){
+<% } catch (Exception e) {
     StringWriter sw = new StringWriter();
-  	e.printStackTrace(new PrintWriter(sw));
-  	String stackTrace = sw.toString();
-        out.println(stackTrace);
-    }
+    e.printStackTrace(new PrintWriter(sw));
+    String stackTrace = sw.toString();
+    out.println(stackTrace);
+}
 }
 %>

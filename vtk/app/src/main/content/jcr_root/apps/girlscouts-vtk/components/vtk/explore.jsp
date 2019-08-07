@@ -1,5 +1,5 @@
 <%@ page
-  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.utils.VtkUtil, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.osgi.component.util.VtkUtil, org.girlscouts.vtk.models.*,org.girlscouts.vtk.osgi.component.dao.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/vtk.jsp -->
 <cq:defineObjects />
@@ -33,46 +33,37 @@
 
  </div>
 <%
-  String activeTab = "explore";
-  boolean showVtkNav = true;
-  String sectionClassDefinition="";
+    String activeTab = "explore";
+    boolean showVtkNav = true;
+    String sectionClassDefinition = "";
 %>
-
 <%@include file="include/bodyTop.jsp" %>
-
 <!-- start body -->
-<%@include file="include/view_yp_dropdown.jsp"%>
+<%@include file="include/view_yp_dropdown.jsp" %>
 <!-- end body -->
-
-
 <div id="requirementsModal" class="reveal-modal" data-reveal=""></div>
-
 <script>
-loadNav('explore')
-
-
-      var requirementsModal = function(binder, isOutdoorAvailable, isOutdoor, isGlobalAvailable, isGlobal){
-          var imgName;
-           if (isOutdoor) {
-                 imgName =  "outdoor.png";
-              } else {
-                  imgName = "indoor.png";
-              }
-
+    loadNav('explore');
+    var requirementsModal = function (binder, isOutdoorAvailable, isOutdoor, isGlobalAvailable, isGlobal) {
+        var imgName;
+        if (isOutdoor) {
+            imgName = "outdoor.png";
+        } else {
+            imgName = "indoor.png";
+        }
         var globalImageName;
         if (isGlobal) {
-        	globalImageName =  "globe_selected.png";
+            globalImageName = "globe_selected.png";
         } else {
-        	globalImageName = "globe_unselected.png";
+            globalImageName = "globe_unselected.png";
         }
         var modal = $('#requirementsModal');
-
-        var image = (isOutdoorAvailable)? '<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/'+imgName+'" />':' ';
-        if(isGlobalAvailable){
-        	if(image.trim().length > 0){
-        		image +=" ";
-        	}
-        	image +='<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/'+globalImageName+'" />';
+        var image = (isOutdoorAvailable) ? '<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/' + imgName + '" />' : ' ';
+        if (isGlobalAvailable) {
+            if (image.trim().length > 0) {
+                image += " ";
+            }
+            image += '<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/' + globalImageName + '" />';
         }
 
         var _template = '<div class="modal_resource">'+
@@ -104,5 +95,3 @@ modalAlert.init();
 
 </script>
 <%@include file="include/bodyBottom.jsp" %>
-
-

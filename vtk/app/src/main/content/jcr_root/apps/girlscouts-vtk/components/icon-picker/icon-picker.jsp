@@ -1,28 +1,23 @@
 <%@page session="false"
-          import="java.text.Collator,
-                  java.util.Collections,
-                  java.util.Comparator,
-                  java.util.Iterator,
-                  java.util.List,
-                  javax.servlet.jsp.JspWriter,
-                  org.apache.commons.collections.IteratorUtils,
-                  com.adobe.granite.ui.components.AttrBuilder,
-                  com.adobe.granite.ui.components.Config,
-                  com.adobe.granite.ui.components.ComponentHelper,
-                  com.adobe.granite.ui.components.Tag,
-                  org.apache.sling.api.resource.Resource,
-                  org.apache.sling.api.resource.ValueMap,
-                  com.adobe.granite.xss.XSSAPI,
-                  com.day.cq.i18n.I18n" %>
-<%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>                  
-<cq:defineObjects />
-<cq:includeClientLib categories="apps.girlscouts-vtk, apps.girlscouts-vtk.components.iconpicker" />
+        import="com.adobe.granite.ui.components.AttrBuilder,
+                com.adobe.granite.ui.components.ComponentHelper,
+                com.adobe.granite.ui.components.Config,
+                com.adobe.granite.ui.components.Tag,
+                com.adobe.granite.xss.XSSAPI,
+                com.day.cq.i18n.I18n,
+                org.apache.sling.api.resource.Resource,
+                org.apache.sling.api.resource.ValueMap,
+                javax.servlet.jsp.JspWriter,
+                java.util.Iterator" %>
+<%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
+<cq:defineObjects/>
+<cq:includeClientLib categories="apps.girlscouts-vtk, apps.girlscouts-vtk.components.iconpicker"/>
 <%
-	final ComponentHelper cmp = new ComponentHelper(pageContext);
-	final I18n i18n = cmp.getI18n();
-	final XSSAPI xss = cmp.getXss();
+    final ComponentHelper cmp = new ComponentHelper(pageContext);
+    final I18n i18n = cmp.getI18n();
+    final XSSAPI xss = cmp.getXss();
     Config cfg = cmp.getConfig();
-    Iterator<Resource> itemIterator = cmp.getItemDataSource().iterator();  
+    Iterator<Resource> itemIterator = cmp.getItemDataSource().iterator();
     Tag tag = cmp.consumeTag();
     AttrBuilder attrs = tag.getAttrs();
     attrs.add("id", cfg.get("id", String.class));
@@ -40,24 +35,24 @@
     selectListAttrs.addOther("collision-adjustment", cfg.get("collisionAdjustment", String.class));
 %>
 <div class="coral-Form-fieldwrapper">
-	<coral-select class="icon-picker" <%= selectAttrs.build() %>>
-	<% 
-		for (Iterator<Resource> items = itemIterator; items.hasNext();) {
-			try{
-				printOption(out, items.next(), cmp);
-			}catch(Exception e){
-				
-			}
-	   	}
-	%>
-	</coral-select>
+    <coral-select class="icon-picker" <%= selectAttrs.build() %>>
+        <%
+            for (Iterator<Resource> items = itemIterator; items.hasNext(); ) {
+                try {
+                    printOption(out, items.next(), cmp);
+                } catch (Exception e) {
+
+                }
+            }
+        %>
+    </coral-select>
 </div>
 <%!
     private void printOption(JspWriter out, Resource option, ComponentHelper cmp) throws Exception {
         final I18n i18n = cmp.getI18n();
         final XSSAPI xss = cmp.getXss();
         Config optionCfg = new Config(option);
-        String value = cmp.getExpressionHelper().getString(optionCfg.get("value", String.class)); 
+        String value = cmp.getExpressionHelper().getString(optionCfg.get("value", String.class));
         AttrBuilder opAttrs = new AttrBuilder(null, cmp.getXss());
         opAttrs.add("id", optionCfg.get("id", String.class));
         opAttrs.addClass(optionCfg.get("class", String.class));
@@ -68,15 +63,15 @@
         opAttrs.addOthers(optionCfg.getProperties(), "id", "class", "rel", "title", "value", "text", "disabled", "selected", "group");
         // otherwise, render the <option>
         opAttrs.addSelected(cmp.getValue().isSelected(value, optionCfg.get("selected", false)));
-        out.println("<coral-select-item " + opAttrs.build() + "><label style=\"font-size: 30px;\" class=\"icon-picker-icon "+value+"\"></label>&nbsp;&nbsp;" + xss.encodeForHTML(getOptionText(option, cmp)) + "</coral-select-item>");
+        out.println("<coral-select-item " + opAttrs.build() + "><label style=\"font-size: 30px;\" class=\"icon-picker-icon " + value + "\"></label>&nbsp;&nbsp;" + xss.encodeForHTML(getOptionText(option, cmp)) + "</coral-select-item>");
     }
 
     private String getOptionText(Resource option, ComponentHelper cmp) {
         Config optionCfg = new Config(option);
-        String text = optionCfg.get("text", "");        
+        String text = optionCfg.get("text", "");
         if (cmp.getConfig().get("translateOptions", true)) {
             text = cmp.getI18n().getVar(text);
-        }        
+        }
         return text;
     }
 %>
