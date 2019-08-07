@@ -1,1 +1,3 @@
-<script>if(self!=top){ window.parent.setLoggedIn();}</script>
+<script>if (self != top) {
+    window.parent.setLoggedIn();
+}</script>

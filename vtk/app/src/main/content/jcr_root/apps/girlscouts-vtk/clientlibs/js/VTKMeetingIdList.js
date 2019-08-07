@@ -92,7 +92,7 @@ girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
 			    	index++;
 
 			    	field.ocmField.el.dom.name = path + 'ocm_classname';
-			    	field.ocmField.setValue('org.girlscouts.vtk.models.MeetingE');
+			    	field.ocmField.setValue('org.girlscouts.vtk.ocm.MeetingENode');
 
 			    	field.hiddenField.el.dom.name = path + 'refId';
                 }

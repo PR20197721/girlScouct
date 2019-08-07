@@ -1,18 +1,18 @@
-girlscouts.components.VTKResourcesIconPickerer= CQ.Ext.extend(CQ.form.CompositeField, {
+girlscouts.components.VTKResourcesIconPickerer = CQ.Ext.extend(CQ.form.CompositeField, {
 
-    constructor: function(config) {
-        config = config || { };
+    constructor: function (config) {
+        config = config || {};
         var defaults = {
             "border": false,
             "layout": "table",
-            "columns":2
+            "columns": 2
         };
         config = CQ.Util.applyDefaults(config, defaults);
         girlscouts.components.VTKResourcesIconPickerer.superclass.constructor.call(this, config);
     },
 
     // overriding CQ.Ext.Component#initComponent
-    initComponent: function() {
+    initComponent: function () {
         girlscouts.components.VTKResourcesIconPickerer.superclass.initComponent.call(this);
 
         this.comboField = new CQ.Ext.form.ComboBox({
@@ -30,7 +30,7 @@ girlscouts.components.VTKResourcesIconPickerer= CQ.Ext.extend(CQ.form.CompositeF
             valueField: 'myId',
             displayField: 'displayText',
             triggerAction: 'all',
-            listeners:{
+            listeners: {
                 scope: this,
                 'select': this.updateIcon
             }
@@ -38,30 +38,30 @@ girlscouts.components.VTKResourcesIconPickerer= CQ.Ext.extend(CQ.form.CompositeF
         this.add(this.comboField);
 
         this.labelField = new CQ.Ext.form.Label({
-        	    style: "font-size: 50px;"
+            style: "font-size: 50px;"
         });
         this.add(this.labelField);
 
     },
-    
-    updateIcon: function() {
+
+    updateIcon: function () {
         $(this.labelField.el.dom).attr('class', this.comboField.getValue() + ' icon-picker-label');
     },
-    
+
     // overriding CQ.form.CompositeField#setValue
-    setValue: function(value) {
+    setValue: function (value) {
         this.comboField.setValue(value);
         this.updateIcon();
     },
 
     // overriding CQ.form.CompositeField#getValue
-    getValue: function() {
+    getValue: function () {
         return this.getRawValue();
     },
 
     // overriding CQ.form.CompositeField#getRawValue
-    getRawValue: function() {
-    	return this.comboField.getValue();
+    getRawValue: function () {
+        return this.comboField.getValue();
     },
 });
 

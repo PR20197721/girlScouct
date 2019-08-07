@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.girlscouts.aem</groupId>
 		<artifactId>vtk</artifactId>
-		<version>3.12-SNAPSHOT</version>
+		<version>3.13-SNAPSHOT</version>
 	</parent>
 	<!-- ====================================================================== -->
 	<!-- P R O J E C T D E S C R I P T I O N -->
@@ -152,11 +152,6 @@
 			<artifactId>commons-collections4</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>6.0.2</version>
-		</dependency>
-		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<version>2.2.9</version>
@@ -164,22 +159,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>pl.project13.maven</groupId>
-			<artifactId>git-commit-id-plugin</artifactId>
-			<version>2.2.2</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.5.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.8.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
@@ -201,12 +180,56 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.7.3</version>
 		</dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.8.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.jexcelapi</groupId>
+            <artifactId>jxl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
 	</dependencies>
 	<!-- ====================================================================== -->
 	<!-- B U I L D D E F I N I T I O N -->
 	<!-- ====================================================================== -->
 	<build>
 		<plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-scr-plugin</artifactId>
@@ -268,6 +291,7 @@
 							com.day.cq.workflow.model,
 							com.day.crx.statistics,
 							com.day.text,
+                            com.day.image,
 							com.day.text.csv,
 							com.google.common.collect,
 							com.google.common.reflect,
@@ -290,13 +314,6 @@
 							javax.security.auth.x500,
 							javax.servlet,
 							javax.servlet.http,
-							javax.xml,
-							javax.xml.bind,
-							javax.xml.crypto.dsig,
-							javax.xml.crypto.dsig.dom,
-							javax.xml.namespace,
-							javax.xml.stream,
-							javax.xml.xpath,
 							net.fortuna.ical4j.data,
 							net.fortuna.ical4j.model,
 							net.fortuna.ical4j.model.component,
@@ -309,6 +326,7 @@
 							org.apache.commons.io,
 							org.apache.commons.io.output,
 							org.apache.commons.mail,
+                            org.apache.commons.beanutils,
 							org.apache.jackrabbit.api,
 							org.apache.jackrabbit.api.security,
 							org.apache.jackrabbit.api.security.user,
@@ -325,7 +343,6 @@
 							org.apache.sling.commons.json.io,
 							org.apache.sling.jcr.api,
 							org.apache.sling.settings,
-							org.girlscouts.vtk.modifiedcheck,
 							org.ietf.jgss,
 							org.joda.time,
 							org.json,
@@ -334,12 +351,20 @@
 							org.osgi.service.component,
 							org.osgi.service.event,
 							org.slf4j,
-                            org.girlscouts.common.*;version="3.0.0"
+                            javax.xml.bind,
+                            javax.xml.transform,
+                            javax.xml.crypto.dsig,
+                            javax.xml.crypto.dsig.dom,
+                            javax.xml.namespace,
+                            javax.xml.stream,
+                            javax.xml.xpath,
+                            javax.imageio,
+                            jxl.*,
+                            com.google.common.cache,
+                            org.girlscouts.common.*;version="3.0.0",
+                            org.girlscouts.vtk.modifiedcheck
 						</Import-Package>
-						<!-- <Export-Package> net.fortuna.ical4j.data, net.fortuna.ical4j.filter, 
-							net.fortuna.ical4j.model, net.fortuna.ical4j.model.component, net.fortuna.ical4j.model.parameter, 
-							net.fortuna.ical4j.model.property, net.fortuna.ical4j.transform, net.fortuna.ical4j.util 
-							</Export-Package> -->
+						<Export-Package>org.girlscouts.vtk.*</Export-Package>
 						<!-- Recursively embed dependency jars -->
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>

@@ -2,136 +2,98 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+public class Location extends JcrNode implements Serializable {
+    private String address, state, city, zip;
+    private String name;
+    private String locatinName, locationAddress;
 
-@Node
-public class Location implements Serializable {
+    public Location() {
+        super.setUid("L" + new java.util.Date().getTime() + "_" + Math.random());
+    }
 
-	@Field(path = true) String path;
-	@Field private String address, state, city, zip;
-	@Field private String name;
-	@Field private String locatinName, locationAddress;
-	@Field(id = true) private String uid;
-	private boolean isDbUpdate=false;
-	
-	public Location() {
-		this.uid = "L" + new java.util.Date().getTime();
-	}
+    public Location(String name, String address, String city, String state, String zip) {
+        super.setUid("L" + new java.util.Date().getTime() + "_" + Math.random());
+        this.name = name;
+        this.address = address;
+        this.state = state;
+        this.zip = zip;
+        this.city = city;
+    }
 
-	public Location(String name, String address, String city, String state,
-			String zip) {
+    public String getLocatinName() {
+        return locatinName;
+    }
 
-		this.uid = "L" + new java.util.Date().getTime();
-		this.name = name;
-		this.address = address;
-		this.state = state;
-		this.zip = zip;
-		this.city = city;
-		isDbUpdate=true;
-	}
+    public void setLocatinName(String locatinName) {
+        if (this.locatinName != null && locatinName != null && !this.locatinName.equals(locatinName)) {
+            setDbUpdate(true);
+        }
+        this.locatinName = locatinName;
+    }
 
-	public String getUid() {
-		return uid;
-	}
+    public String getLocationAddress() {
+        return locationAddress;
+    }
 
-	public void setUid(String uid) {
-		if( this.uid!=null && uid!=null && this.uid.equals(uid)){
-			isDbUpdate=true;	
-		}
-		
-		this.uid = uid;
-		if (uid == null)
-			this.uid = "L" + new java.util.Date().getTime() + "_"
-					+ Math.random();
-	}
+    public void setLocationAddress(String locationAddress) {
+        if (locationAddress != null && this.locationAddress != null && !locationAddress.equals(this.locationAddress)) {
+            setDbUpdate(true);
+        }
+        this.locationAddress = locationAddress;
+    }
 
-	public String getLocatinName() {
-		return locatinName;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setLocatinName(String locatinName) {
-		if(this.locatinName!=null && locatinName!=null && !this.locatinName.equals(locatinName))
-			isDbUpdate=true;
-		this.locatinName = locatinName;
-	}
+    public void setAddress(String address) {
+        if (address != null && this.address != null && !this.address.equals(address)) {
+            setDbUpdate(true);
+        }
+        this.address = address;
+    }
 
-	public String getLocationAddress() {
-		return locationAddress;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public void setLocationAddress(String locationAddress) {
-		if(locationAddress!=null && this.locationAddress!=null && !locationAddress.equals(this.locationAddress))
-			isDbUpdate=true;
-		this.locationAddress = locationAddress;
-	}
+    public void setState(String state) {
+        if (state != null && this.state != null && !this.state.equals(state)) {
+            setDbUpdate(true);
+        }
+        this.state = state;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public void setPath(String path) {
-		if( this.path!=null && path!=null && this.path.equals(path) )
-			isDbUpdate=true;
-		this.path = path;
-	}
+    public void setCity(String city) {
+        if (this.city != null && city != null && this.city.equals(city)) {
+            setDbUpdate(true);
+        }
+        this.city = city;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getZip() {
+        return zip;
+    }
 
-	public void setAddress(String address) {
-		if( address!=null && this.address!=null && !this.address.equals(address))
-			isDbUpdate=true;
-		this.address = address;
-	}
+    public void setZip(String zip) {
+        if (this.zip != null && zip != null && !this.zip.equals(zip)) {
+            setDbUpdate(true);
+        }
+        this.zip = zip;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setState(String state) {
-		if( state!=null && this.state!=null && !this.state.equals(state))
-			isDbUpdate=true;
-		this.state = state;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		if( this.city!=null && city!=null && this.city.equals(city))
-			isDbUpdate=true;
-		this.city = city;
-	}
-
-	public String getZip() {
-		return zip;
-	}
-
-	public void setZip(String zip) {
-		if( this.zip!=null && zip!=null && !this.zip.equals(zip))
-			isDbUpdate=true;
-		this.zip = zip;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		if( name!=null && this.name!=null && !this.name.equals(name) )
-			isDbUpdate=true;
-		this.name = name;
-	}
-
-	public boolean isDbUpdate() {
-		return isDbUpdate;
-	}
-
-	public void setDbUpdate(boolean isDbUpdate) {
-		this.isDbUpdate = isDbUpdate;
-	}
-
+    public void setName(String name) {
+        if (name != null && this.name != null && !this.name.equals(name)) {
+            setDbUpdate(true);
+        }
+        this.name = name;
+    }
 }

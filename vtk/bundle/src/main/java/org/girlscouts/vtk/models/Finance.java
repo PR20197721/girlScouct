@@ -2,84 +2,61 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-@Node
-public class Finance implements Serializable {
-	
-	public static final String INCOME = "income";
-	public static final String EXPENSES = "expenses";
-	public static final String PERIOD = "period";
-	private static final long serialVersionUID = 8084860336298434137L;
+public class Finance extends JcrNode implements Serializable {
+    public static final String INCOME = "income";
+    public static final String EXPENSES = "expenses";
+    public static final String PERIOD = "period";
+    private static final long serialVersionUID = 8084860336298434137L;
+    public Map<String, Double> expenses;
+    public Map<String, Double> income;
+    private int financialQuarter;
 
-	@Field(path = true)
-	String path;
+    public Finance() {
+    }
 
-	@Collection
-	public Map<String, Double> expenses;
-	
-	@Collection
-	public Map<String, Double> income;
-	
-	public Finance(){
-	}
+    public void setExpenses(Map<String, Double> expenses) {
+        this.expenses = expenses;
+    }
 
-	@Field(id = true)
-	private int financialQuarter;
+    public void setIncome(Map<String, Double> income) {
+        this.income = income;
+    }
 
-	public void setExpenses(Map<String, Double> expenses){
-		this.expenses = expenses;
-	}
-	
-	public void setIncome(Map<String, Double> income){
-		this.income = income;
-	}
-	
-	public String getPath() {
-		return path;
-	}
-	
-	public double getExpenseByName(String name){
-		if(this.expenses == null){
-			return 0.0;
-		} else{
-			Double result = this.expenses.get(name);
-			if(result == null){
-				return 0.0;
-				
-			} else{
-				return result.doubleValue();
-			}
-		}
-	}
-	
-	public double getIncomeByName(String name){
-		if(this.income == null){
-			return 0.0;
-		} else{
-			Double result = this.income.get(name);
-			if(result == null){
-				return 0.0;
-				
-			} else{
-				return result.doubleValue();
-			}
-		}
-	}
+    public double getExpenseByName(String name) {
+        if (this.expenses == null) {
+            return 0.0;
+        } else {
+            Double result = this.expenses.get(name);
+            if (result == null) {
+                return 0.0;
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+            } else {
+                return result.doubleValue();
+            }
+        }
+    }
 
-	public int getFinancialQuarter() {
-		return financialQuarter;
-	}
+    public double getIncomeByName(String name) {
+        if (this.income == null) {
+            return 0.0;
+        } else {
+            Double result = this.income.get(name);
+            if (result == null) {
+                return 0.0;
 
-	public void setFinancialQuarter(int financialQuarter) {
-		this.financialQuarter = financialQuarter;
-	}
+            } else {
+                return result.doubleValue();
+            }
+        }
+    }
+
+    public int getFinancialQuarter() {
+        return financialQuarter;
+    }
+
+    public void setFinancialQuarter(int financialQuarter) {
+        this.financialQuarter = financialQuarter;
+    }
 
 }

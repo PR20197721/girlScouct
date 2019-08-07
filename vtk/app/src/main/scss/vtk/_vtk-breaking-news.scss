@@ -1,31 +1,32 @@
 #vtkBreakingNews .breaking-news .inner-wrapper {
-    background: #ec008b none repeat scroll 0 0;
+  background: #ec008b none repeat scroll 0 0;
+  position: relative;
+  padding: 0.520833%;
+  text-align: center;
+  color: white;
+  line-height: 1.1em;
+  font-size: 1.0625rem;
+  width: 90.6%;
+  margin-left: 45px;
+}
+
+.vtk-breaking-news-button {
+  color: white;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0px;
+  right: 7px;
+  z-index: 2;
+
+  i {
+    font-size: 37px !important;
+    cursor: pointer;
     position: relative;
-    padding: 0.520833%;
-    text-align: center;
-    color: white;
-    line-height: 1.1em;
-    font-size: 1.0625rem;
-    width: 90.6%;
-    margin-left: 45px;
+    bottom: 3px;
+  }
 }
 
-.vtk-breaking-news-button{
-	color: white;
-	width:30px;
-	height: 30px;
-	position: absolute;
-	top:0px;
-	right:7px;
-	z-index: 2;
-
-	i{
-		font-size: 37px !important;
-		cursor: pointer;
-		position: relative;
-		bottom: 3px;
-	}
-}
 .vtk-maintenance-news-button {
   color: white;
   width: 30px;
@@ -35,12 +36,12 @@
   right: 7px;
   z-index: 2;
 
-  i{
-  		font-size: 37px !important;
-  		cursor: pointer;
-  		position: relative;
-  		bottom: 3px;
-  	}
+  i {
+    font-size: 37px !important;
+    cursor: pointer;
+    position: relative;
+    bottom: 3px;
+  }
 }
 
 
@@ -54,13 +55,15 @@
   height: 100%;
 
   overflow: auto;
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
-.maintenanceHeader{
-	font-weight: bold;
-    font-size: 28px;
+
+.maintenanceHeader {
+  font-weight: bold;
+  font-size: 28px;
 }
+
 .modal-header {
   padding: 2px 16px;
   color: black;
@@ -74,12 +77,14 @@
 }
 
 .modal-body {
-    padding: 2px 16px;
+  padding: 2px 16px;
 }
+
 .modal-footer {
   padding: 2px 16px;
   text-align: right;
 }
+
 .maintenance-content {
   position: relative;
   font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;

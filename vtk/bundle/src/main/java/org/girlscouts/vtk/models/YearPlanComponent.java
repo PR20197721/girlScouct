@@ -1,37 +1,40 @@
 package org.girlscouts.vtk.models;
 
+import org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType;
+
 import java.io.Serializable;
+import java.util.Date;
 
-import org.girlscouts.vtk.dao.YearPlanComponentType;
+public class YearPlanComponent extends JcrNode implements Serializable {
+    private Date date;
+    private YearPlanComponentType type;
+    private Integer sortOrder;
 
-public class YearPlanComponent implements Serializable {
+    public YearPlanComponent() {
+    }
 
-	private java.util.Date date;
-	private YearPlanComponentType type;
-	private String uid;
+    public Date getDate() {
+        return date;
+    }
 
-	public String getUid() {
-		return uid;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
+    public YearPlanComponentType getType() {
+        return type;
+    }
 
-	public java.util.Date getDate() {
-		return date;
-	}
+    public void setType(YearPlanComponentType type) {
+        this.type = type;
+    }
 
-	public void setDate(java.util.Date date) {
-		this.date = date;
-	}
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
 
-	public YearPlanComponentType getType() {
-		return type;
-	}
-
-	public void setType(YearPlanComponentType type) {
-		this.type = type;
-	}
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
 
 }
