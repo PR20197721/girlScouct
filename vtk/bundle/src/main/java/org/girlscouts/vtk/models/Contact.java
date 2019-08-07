@@ -1,258 +1,221 @@
 package org.girlscouts.vtk.models;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import java.util.List;
 
-@Node
-public class Contact implements java.io.Serializable, Comparable<Contact> {
+public class Contact extends JcrNode implements java.io.Serializable, Comparable<Contact> {
+    private static final long serialVersionUID = -9143046810103196285L;
+    private Integer age, type;
+    private String email, phone, firstName, lastName, address, address1, city, state, zip, suite, role, dob, country, contactId;
+    private List<Contact> contacts;
+    private String accountId;
+    private boolean renewalDue, emailOptIn, txtOptIn;
+    private Integer membershipYear_girl, membershipYear_adult;
+    private Integer membershipYear;
 
-	private static final long serialVersionUID = -9143046810103196285L;
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
-	@Field(id = true)
-	private String id;
+    public Integer getMembershipYear_girl() {
+        return membershipYear_girl;
+    }
 
-	@Field(path = true)
-	String path;
+    public void setMembershipYear_girl(Integer membershipYear_girl) {
+        this.membershipYear_girl = membershipYear_girl;
+    }
 
-	@Field
-	private String email, phone, firstName, lastName, address, address1, city, state, zip, suite, role, dob, country, contactId;
+    public Integer getMembershipYear_adult() {
+        return membershipYear_adult;
+    }
 
-	@Field Integer age, type;
-	
-	private java.util.List <Contact>contacts;
-	private String accountId;
-	private boolean renewalDue, emailOptIn, txtOptIn;
-	private Integer membershipYear_girl, membershipYear_adult;
-	
-	
-	
-	
-	
-	public Integer getMembershipYear_girl() {
-		return membershipYear_girl;
-	}
+    public void setMembershipYear_adult(Integer membershipYear_adult) {
+        this.membershipYear_adult = membershipYear_adult;
+    }
 
-	public void setMembershipYear_girl(Integer membershipYear_girl) {
-		this.membershipYear_girl = membershipYear_girl;
-	}
+    public boolean isEmailOptIn() {
+        return emailOptIn;
+    }
 
-	public Integer getMembershipYear_adult() {
-		return membershipYear_adult;
-	}
+    public void setEmailOptIn(boolean emailOptIn) {
+        this.emailOptIn = emailOptIn;
+    }
 
-	public void setMembershipYear_adult(Integer membershipYear_adult) {
-		this.membershipYear_adult = membershipYear_adult;
-	}
+    public boolean isTxtOptIn() {
+        return txtOptIn;
+    }
 
-	public boolean isEmailOptIn() {
-		return emailOptIn;
-	}
+    public void setTxtOptIn(boolean txtOptIn) {
+        this.txtOptIn = txtOptIn;
+    }
 
-	public void setEmailOptIn(boolean emailOptIn) {
-		this.emailOptIn = emailOptIn;
-	}
+    public Integer getMembershipYear() {
+        return membershipYear;
+    }
 
-	public boolean isTxtOptIn() {
-		return txtOptIn;
-	}
+    public void setMembershipYear(Integer membershipYear) {
+        this.membershipYear = membershipYear;
+    }
 
-	public void setTxtOptIn(boolean txtOptIn) {
-		this.txtOptIn = txtOptIn;
-	}
+    public Integer getType() {
+        return type;
+    }
 
-	private Integer membershipYear;
-	
-	
-	public Integer getMembershipYear() {
-		return membershipYear;
-	}
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
-	public void setMembershipYear(Integer membershipYear) {
-		this.membershipYear = membershipYear;
-	}
+    public java.util.List<Contact> getContacts() {
+        return contacts;
+    }
 
-	public Integer getType() {
-		return type;
-	}
+    public void setContacts(java.util.List<Contact> contacts) {
+        this.contacts = contacts;
+    }
 
-	public void setType(Integer type) {
-		this.type = type;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public java.util.List<Contact> getContacts() {
-		return contacts;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setContacts(java.util.List<Contact> contacts) {
-		this.contacts = contacts;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public String getAddress1() {
+        return address1;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public String getAddress1() {
-		return address1;
-	}
+    public void setState(String state) {
+        this.state = state;
+    }
 
-	public void setAddress1(String address1) {
-		this.address1 = address1;
-	}
+    public String getZip() {
+        return zip;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getSuite() {
+        return suite;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public void setSuite(String suite) {
+        this.suite = suite;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public String getZip() {
-		return zip;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public void setZip(String zip) {
-		this.zip = zip;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getSuite() {
-		return suite;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setSuite(String suite) {
-		this.suite = suite;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public String getCountry() {
+        return country;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getRole() {
+        return role;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public Integer getAge() {
+        return age;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getDob() {
+        return dob;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public String getAccountId() {
+        return accountId;
+    }
 
-	public String getRole() {
-		return role;
-	}
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public String getContactId() {
+        return contactId;
+    }
 
-	public Integer getAge() {
-		return age;
-	}
+    public void setContactId(String contactId) {
+        this.contactId = contactId;
+    }
 
-	public void setAge(Integer age) {
-		this.age = age;
-	}
+    public boolean isRenewalDue() {
+        return renewalDue;
+    }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+    public void setRenewalDue(boolean renewalDue) {
+        this.renewalDue = renewalDue;
+    }
 
-	public String getDob() {
-		return dob;
-	}
-
-	public void setDob(String dob) {
-		this.dob = dob;
-	}
-
-	public String getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
-	
-	public int compareTo(Contact other) {
-		if (this.id == null && (other == null || other.id == null)) {
-			return 0;
-		} else if (other == null || other.id == null) {
-			return 1;
-		} else if (this.id == null) {
-			return -1;
-		} 
-	    return id.compareTo(other.id);
-	  }
-
-	public String getContactId() {
-		return contactId;
-	}
-
-	public void setContactId(String contactId) {
-		this.contactId = contactId;
-	}
-
-	public boolean isRenewalDue() {
-		return renewalDue;
-	}
-
-	public void setRenewalDue(boolean renewalDue) {
-		this.renewalDue = renewalDue;
-	}
-
-	
+    public int compareTo(Contact other) {
+        if (this.getId() == null && (other == null || other.getId() == null)) {
+            return 0;
+        } else if (other == null || other.getId() == null) {
+            return 1;
+        } else if (this.getId() == null) {
+            return -1;
+        }
+        return getId().compareTo(other.getId());
+    }
 }

@@ -1,39 +1,35 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
-<%@ page import="com.day.cq.wcm.foundation.Search,
-org.girlscouts.web.search.DocHit,
-com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
-com.day.cq.tagging.TagManager,
-java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
-java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
-com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
-com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,
-java.util.Map,java.util.HashMap,java.util.List" %>
+<%@ page
+        import="com.day.cq.i18n.I18n, com.day.cq.search.Predicate,  com.day.cq.search.PredicateGroup,com.day.cq.search.Query,com.day.cq.search.QueryBuilder" %>
+<%@ page import="com.day.cq.search.eval.FulltextPredicateEvaluator,
+                 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,
+                 com.day.cq.search.result.Hit,
+                 com.day.cq.search.result.SearchResult,
+                 com.day.cq.tagging.TagManager,
+                 com.day.cq.wcm.foundation.Search,
+                 org.girlscouts.web.search.DocHit,
+                 javax.jcr.Node" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%@include file="../include/session.jsp"%>
-<%@include file="../admin/toolbar.jsp"%>
+<%@include file="../include/session.jsp" %>
+<%@include file="../admin/toolbar.jsp" %>
 <h1>UUID search</h1>
 <form action="/content/girlscouts-vtk/en/vtk.admin.ocm.html">
-<input type="text" value="" name="uuid"/>
-<input type="submit">
+    <input type="text" value="" name="uuid"/>
+    <input type="submit">
 </form>
-
-
 <%
-
-
-javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
-
-if( request.getParameter("uuid")!=null && !"".equals(request.getParameter("uuid"))){
-	out.println("searching for uuid: "+ request.getParameter("uuid"));
- try{
-	//out.println( s.getNodeByUUID("4248f12c-59b4-4770-bf8d-2aede5a19229") );
-	out.println("<br/>found: "+ s.getNodeByIdentifier(request.getParameter("uuid")));
- }catch(Exception e){e.printStackTrace();}
- //if(true)return;
-}
-
-out.println("<hr/>");
+    javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
+    if (request.getParameter("uuid") != null && !"".equals(request.getParameter("uuid"))) {
+        out.println("searching for uuid: " + request.getParameter("uuid"));
+        try {
+            //out.println( s.getNodeByUUID("4248f12c-59b4-4770-bf8d-2aede5a19229") );
+            out.println("<br/>found: " + s.getNodeByIdentifier(request.getParameter("uuid")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //if(true)return;
+    }
+    out.println("<hr/>");
 
 
 /*

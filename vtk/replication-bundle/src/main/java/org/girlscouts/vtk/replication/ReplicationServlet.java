@@ -67,7 +67,7 @@ public class ReplicationServlet extends SlingAllMethodsServlet
   //protected ReplicationReceiver receiver;
   protected VTKReplicationReceiver receiver;
   private static final Pattern TROOP_PATTERN = Pattern.compile("(/vtk[0-9]*/[0-9]+/troops/[^/]+/)");
-  
+
   private Session session;
   
   @Reference
@@ -77,7 +77,7 @@ public class ReplicationServlet extends SlingAllMethodsServlet
   protected ModifiedChecker modifiedChecker;
   
   @Activate
-  protected void activete() {
+  protected void activate() {
       this.session = replicationManager.getSession();
   }
   /* Girl Scouts Customization END */

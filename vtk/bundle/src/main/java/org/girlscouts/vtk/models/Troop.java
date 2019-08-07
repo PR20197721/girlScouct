@@ -1,224 +1,260 @@
 package org.girlscouts.vtk.models;
 
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
+
 import java.io.Serializable;
-import java.util.Calendar;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlscouts.vtk.auth.models.ApiConfig;
-import org.girlscouts.vtk.ejb.EmailMeetingReminder;
-import org.girlscouts.vtk.utils.VtkUtil;
-@Node
-public class Troop implements Serializable {
+import java.util.Date;
+import java.util.Set;
 
-	public Troop() {
-	}
+public class Troop extends JcrNode implements Serializable {
+    private YearPlan yearPlan;
+    private String sfUserId;
+    private String sfTroopId;
+    private String sfTroopName;
+    private String sfTroopAge;
+    private String sfCouncil;
+    private String irmTroopId;
+    private String currentTroop;
+    private String errCode;
+    private String refId;
+    private String troopId;
+    private String troopName;
+    private String gradeLevel;
+    private String councilId;
+    private String councilCode;
+    private int type;
+    private Set<Integer> permissionTokens;
+    private String role;
+    private boolean isRefresh;
+    private Date retrieveTime;
+    private EmailMeetingReminder sendingEmail;
+    private String participationCode;
+    private String councilPath;
+    private String hash;
+    private Boolean isIRM = Boolean.FALSE;
+    private Boolean isSUM = Boolean.FALSE;
 
-	public Troop(String path, String troopId) {
-		this.id = troopId;
-		this.path = path + troopId;
-		this.setRetrieveTime(new java.util.Date());
-	}
+    public Troop() {
+        this.type = 0;
+    }
 
-	public Troop(String troopId) {
-		this.id = troopId;
-		this.setRetrieveTime(new java.util.Date());
-	}
+    public Troop(String troopId) {
+        this.setId(troopId);
+        this.setRetrieveTime(new java.util.Date());
+    }
 
-	@Field(id = true)
-	private String id;
-	@Field(path = true)
-	String path;
-	@Bean(autoUpdate = false)
-	YearPlan yearPlan;
-	private org.girlscouts.vtk.salesforce.Troop troop;
-	@Field
-	private String sfUserId, sfTroopId, sfTroopName, sfTroopAge, sfCouncil;
-	
-	//@Field(jcrName = "jcr:lastModified")
-	//private Calendar lastModified;
-	@Field
-	private String currentTroop;
-	@Field
-	private String errCode, refId;
-	private boolean isRefresh; // reload yearPlan from DB. case: someone
-								// modified plan:lock
-	private java.util.Date retrieveTime;
-	private EmailMeetingReminder sendingEmail; // tmp
-	private boolean isDbUpdate = false;
+    public java.util.Date getRetrieveTime() {
+        return retrieveTime;
+    }
 
-	public boolean isDbUpdate() {
-		return isDbUpdate;
-	}
+    public void setRetrieveTime(java.util.Date retrieveTime) {
+        this.retrieveTime = retrieveTime;
+    }
 
-	public void setDbUpdate(boolean isDbUpdate) {
-		this.isDbUpdate = isDbUpdate;
-	}
+    public boolean isRefresh() {
+        return isRefresh;
+    }
 
-	public java.util.Date getRetrieveTime() {
-		return retrieveTime;
-	}
+    public void setRefresh(boolean isRefresh) {
+        this.isRefresh = isRefresh;
+    }
 
-	public void setRetrieveTime(java.util.Date retrieveTime) {
+    public String getErrCode() {
+        return errCode;
+    }
 
-		this.retrieveTime = retrieveTime;
-	}
+    public void setErrCode(String errCode) {
+        this.errCode = errCode;
+        this.setDbUpdate(true);
+    }
 
-	public boolean isRefresh() {
-		return isRefresh;
-	}
+    public String getCurrentTroop() {
+        return currentTroop;
+    }
 
-	public void setRefresh(boolean isRefresh) {
+    public void setCurrentTroop(String currentUser) {
+        this.currentTroop = currentUser;
+        this.setDbUpdate(true);
+    }
 
-		this.isRefresh = isRefresh;
-	}
+    public String getSfCouncil() {
+        return sfCouncil;
+    }
 
-	public String getErrCode() {
-		return errCode;
-	}
+    public void setSfCouncil(String sfCouncil) {
+        this.sfCouncil = sfCouncil;
+    }
 
-	public void setErrCode(String errCode) {
-		this.errCode = errCode;
-		isDbUpdate = true;
+    public String getSfTroopAge() {
+        return sfTroopAge;
+    }
 
-	}
+    public void setSfTroopAge(String sfTroopAge) {
+        this.sfTroopAge = sfTroopAge;
+    }
 
-	public String getCurrentTroop() {
-		return currentTroop;
-	}
+    public EmailMeetingReminder getSendingEmail() {
+        return sendingEmail;
+    }
 
-	public void setCurrentTroop(String currentUser) {
-		this.currentTroop = currentUser;
-		isDbUpdate = true;
+    public void setSendingEmail(EmailMeetingReminder sendingEmail) {
+        this.sendingEmail = sendingEmail;
+    }
 
-	}
+    public String getSfTroopName() {
+        return sfTroopName;
+    }
 
-	public String getSfCouncil() {
-		return sfCouncil;
-	}
+    public void setSfTroopName(String sfTroopName) {
+        this.sfTroopName = sfTroopName;
+    }
 
-	public void setSfCouncil(String sfCouncil) {
-		this.sfCouncil = sfCouncil;
-		// isDbUpdate=true;
+    public String getSfUserId() {
+        return sfUserId;
+    }
 
-	}
+    public void setSfUserId(String sfUserId) {
+        this.sfUserId = sfUserId;
+    }
 
-	public String getSfTroopAge() {
-		return sfTroopAge;
-	}
+    public String getSfTroopId() {
+        return sfTroopId;
+    }
 
-	public void setSfTroopAge(String sfTroopAge) {
-		this.sfTroopAge = sfTroopAge;
-		// isDbUpdate=true;
+    public void setSfTroopId(String sfTroopId) {
+        this.sfTroopId = sfTroopId;
+    }
 
-	}
+    public YearPlan getYearPlan() {
+        return yearPlan;
+    }
 
-	public EmailMeetingReminder getSendingEmail() {
-		return sendingEmail;
-	}
+    public void setYearPlan(YearPlan yearPlan) {
+        this.yearPlan = yearPlan;
+    }
 
-	public void setSendingEmail(EmailMeetingReminder sendingEmail) {
-		this.sendingEmail = sendingEmail;
-	}
-/*
-	public Calendar getLastModified() {
-		return lastModified;
-	}
+    public String getRefId() {
+        return refId;
+    }
 
-	public void setLastModified(Calendar lastModified) {
-		this.lastModified = lastModified;
-		isDbUpdate = true;
+    public void setRefId(String refId) {
+        this.refId = refId;
+        this.setDbUpdate(true);
+    }
 
-	}
-*/
-	public String getSfTroopName() {
-		return sfTroopName;
-	}
+    public String getTroopPath() {
+        return getPath();
+    }
 
-	public void setSfTroopName(String sfTroopName) {
-		this.sfTroopName = sfTroopName;
-		// isDbUpdate=true;
+    public String getTroopId() {
+        return troopId;
+    }
 
-	}
+    public void setTroopId(String troopId) {
+        this.troopId = troopId;
+    }
 
-	public String getSfUserId() {
-		return sfUserId;
-	}
+    public String getTroopName() {
+        return troopName;
+    }
 
-	public void setSfUserId(String sfUserId) {
-		this.sfUserId = sfUserId;
-		// isDbUpdate=true;
+    public void setTroopName(String troopName) {
+        this.troopName = troopName;
+    }
 
-	}
+    public String getGradeLevel() {
+        return gradeLevel;
+    }
 
-	public String getSfTroopId() {
-		return sfTroopId;
-	}
+    public void setGradeLevel(String gradeLevel) {
+        this.gradeLevel = gradeLevel;
+    }
 
-	public void setSfTroopId(String sfTroopId) {
-		this.sfTroopId = sfTroopId;
-		// isDbUpdate=true;
+    public String getCouncilId() {
+        return councilId;
+    }
 
-	}
+    public void setCouncilId(String councilId) {
+        this.councilId = councilId;
+    }
 
-	public org.girlscouts.vtk.salesforce.Troop getTroop() {
-		return troop;
-	}
+    public String getCouncilCode() {
+        return councilCode;
+    }
 
-	public void setTroop(org.girlscouts.vtk.salesforce.Troop troop) {
-		this.troop = troop;
-	}
+    public void setCouncilCode(String councilCode) {
+        this.councilCode = councilCode;
+    }
 
-	/*
-	 * public ApiConfig getApiConfig() { return apiConfig; } public void
-	 * setApiConfig(ApiConfig apiConfig) { this.apiConfig = apiConfig; }
-	 */
-	public YearPlan getYearPlan() {
-		return yearPlan;
-	}
+    public int getType() {
+        return type;
+    }
 
-	public void setYearPlan(YearPlan yearPlan) {
-		this.yearPlan = yearPlan;
+    public void setType(int type) {
+        this.type = type;
+    }
 
-	}
+    public Set<Integer> getPermissionTokens() {
+        return permissionTokens;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public void setPermissionTokens(Set<Integer> permissionTokens) {
+        this.permissionTokens = permissionTokens;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-		isDbUpdate = true;
+    public String getRole() {
+        return role;
+    }
 
-	}
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getParticipationCode() {
+        return participationCode;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-		isDbUpdate = true;
+    public void setParticipationCode(String participationCode) {
+        this.participationCode = participationCode;
+    }
 
-	}
+    public String getCouncilPath() {
+        return councilPath;
+    }
 
-	public String getRefId() {
-		return refId;
-	}
+    public void setCouncilPath(String councilPath) {
+        this.councilPath = councilPath;
+    }
 
-	public void setRefId(String refId) {
-		this.refId = refId;
-		isDbUpdate = true;
+    public String getHash() {
+        return hash;
+    }
 
-	}
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
 
-	public String getTroopPath() {
-		//return "vtk/" + this.getSfCouncil() + "/troops/" + this.getId();
-		return VtkUtil.getYearPlanBase(null, null).substring(1) + this.getSfCouncil() + "/troops/" + this.getId();
-	}
+    public String getIrmTroopId() {
+        return irmTroopId;
+    }
 
-	public String getCouncilPath() {
-		//return "vtk/" + this.getSfCouncil();
-		return VtkUtil.getYearPlanBase(null, null).substring(1) + this.getSfCouncil();
-	}
+    public void setIrmTroopId(String irmTroopId) {
+        this.irmTroopId = irmTroopId;
+    }
+
+    public Boolean getIsIRM() {
+        return isIRM;
+    }
+
+    public void setIsIRM(Boolean IRM) {
+        isIRM = IRM;
+    }
+
+    public Boolean getIsSUM() {
+        return isSUM;
+    }
+
+    public void setIsSUM(Boolean SUM) {
+        isSUM = SUM;
+    }
 }

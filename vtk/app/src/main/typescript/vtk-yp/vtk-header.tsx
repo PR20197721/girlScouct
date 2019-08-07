@@ -4,8 +4,8 @@ export interface VtkHeaderProps {
 }
 
 class VtkHeader extends React.Component<VtkHeaderProps, any> {
-  render() {
-    return (
-    );
-  }
+    render() {
+        return (
+        );
+    }
 }

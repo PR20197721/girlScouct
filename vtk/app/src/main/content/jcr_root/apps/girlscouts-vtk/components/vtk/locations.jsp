@@ -1,35 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ page
-	import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
-<%@include file="/libs/foundation/global.jsp"%>
-<cq:defineObjects />
-<%@include file="include/session.jsp"%>
+         pageEncoding="ISO-8859-1" %>
+<%@include file="/libs/foundation/global.jsp" %>
+<cq:defineObjects/>
+<%@include file="include/session.jsp" %>
 <script>
-function toggleSection(section) {
-	$("#manageCalendarTab").removeClass("active");
-	$("#manageLocationTab").removeClass("active");
-	$("#manageActivityTab").removeClass("active");
-	$("#manageCalendarSection").hide();
-	$("#manageLocationSection").hide();
-	$("#manageActivitySection").hide();
-	if (section == "calendar") {
-	  $("#manageCalendarTab").addClass("active");
-	  $("#manageCalendarSection").show();
-	} else if (section == "location")  {
-		$("#manageLocationTab").addClass("active");
-		$("#manageLocationSection").show();
-	} else if (section == "activity") {
-		$("#manageActivityTab").addClass("active");
-		$("#manageActivitySection").show();
-	}
-}
+    function toggleSection(section) {
+        $("#manageCalendarTab").removeClass("active");
+        $("#manageLocationTab").removeClass("active");
+        $("#manageActivityTab").removeClass("active");
+        $("#manageCalendarSection").hide();
+        $("#manageLocationSection").hide();
+        $("#manageActivitySection").hide();
+        if (section == "calendar") {
+            $("#manageCalendarTab").addClass("active");
+            $("#manageCalendarSection").show();
+        } else if (section == "location") {
+            $("#manageLocationTab").addClass("active");
+            $("#manageLocationSection").show();
+        } else if (section == "activity") {
+            $("#manageActivityTab").addClass("active");
+            $("#manageActivitySection").show();
+        }
+    }
 </script>
-
-
-
-
-
 <div class="header clearfix">
 	<%
 	
@@ -41,62 +34,66 @@ function toggleSection(section) {
 		href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>"><span id="gsModalClose">X</span></a>
 </div>
 <div class="scroll" style="max-height:601px">
-	<div class="tabs-wrapper">
-		<dl class="tabs" data-tab>
-			<dd id="manageCalendarTab" class="active manageCalendarTab">
-				<a href="#" onclick="toggleSection('calendar')">Calendar</a>
-			</dd>
-			<dd id="manageLocationTab" class="manageCalendarTab">
-				<a href="#" onclick="toggleSection('location')">Location</a>
-			</dd>
-			<dd id="manageActivityTab" class="manageCalendarTab">
-				<a href="#" onclick="toggleSection('activity')">Activities</a>
-			</dd>
-		</dl>
-		<div class="tabs-content">
-<%
-if (troop.getYearPlan() != null) {
-%>
-			<div id="manageCalendarSection">
-				<div class="content clearfix active" id="panel1">
-					<div id="calMng">
-						<%
-						  if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
-    							if( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size() <=0 ){
-                                    %>
-                                    <div>
-                                        <p>The calendar function is not available as there are no meetings in your Year Plan</p>
-                                        <div style="float:right;"><button class="btn right" name=""  onclick="doMeetingLib(true)">ADD A MEETING</button></div>
-                                    </div>
-                                    <%
-                                }else{
-									%><%@include file="include/calendarAlterStartDate.jsp"%><%
-                                }
-						    } else {
-						%>
-							<%@include file="include/calList.jsp"%>
-						<%  } %>
-					</div>
-				</div>
-			</div>
-			<div id="manageLocationSection">
-				<%@include file="include/location.jsp"%>
-			</div>
-			<div id="manageActivitySection">
-				<%@include file="include/manageActivities.jsp"%>
-			</div>
-				<%
-				} else {
-				%>
-					<span class="error">This year plan has no meetings.<br />
+    <div class="tabs-wrapper">
+        <dl class="tabs" data-tab>
+            <dd id="manageCalendarTab" class="active manageCalendarTab">
+                <a href="#" onclick="toggleSection('calendar')">Calendar</a>
+            </dd>
+            <dd id="manageLocationTab" class="manageCalendarTab">
+                <a href="#" onclick="toggleSection('location')">Location</a>
+            </dd>
+            <dd id="manageActivityTab" class="manageCalendarTab">
+                <a href="#" onclick="toggleSection('activity')">Activities</a>
+            </dd>
+        </dl>
+        <div class="tabs-content">
+            <%
+                if (selectedTroop.getYearPlan() != null) {
+            %>
+            <div id="manageCalendarSection">
+                <div class="content clearfix active" id="panel1">
+                    <div id="calMng">
+                        <%
+                            if (selectedTroop.getYearPlan().getSchedule() == null || request.getParameter("alterYPStartDate") != null) {
+                                if (selectedTroop.getYearPlan().getMeetingEvents() == null || selectedTroop.getYearPlan().getMeetingEvents().size() <= 0) {
+                        %>
+                        <div>
+                            <p>The calendar function is not available as there are no meetings in your Year Plan</p>
+                            <div style="float:right;">
+                                <button class="btn right" name="" onclick="doMeetingLib(true)">ADD A MEETING</button>
+                            </div>
+                        </div>
+                        <%
+                        } else {
+                        %>
+                        <%@include file="include/calendarAlterStartDate.jsp" %>
+                        <%
+                            }
+                        } else {
+                        %>
+                        <%@include file="include/calList.jsp" %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <div id="manageLocationSection">
+                <%@include file="include/location.jsp" %>
+            </div>
+            <div id="manageActivitySection">
+                <%@include file="include/manageActivities.jsp" %>
+            </div>
+            <%
+            } else {
+            %>
+            <span class="error">This year plan has no meetings.<br/>
 						Please select a different year plan.
 					</span>
-				<%
-				}
-				%>
-		</div>
-		<!--tabs-content-->
-	</div>
-	<!--/tabs-wrapper-->
+            <%
+                }
+            %>
+        </div>
+        <!--tabs-content-->
+    </div>
+    <!--/tabs-wrapper-->
 </div>
 <!--/scroll-->

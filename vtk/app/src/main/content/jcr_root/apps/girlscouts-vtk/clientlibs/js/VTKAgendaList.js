@@ -62,7 +62,7 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 			    	// Setup property keys
 			    	var path = './activities/' + field.nodeName+ '/';
                     field.ocmField.el.dom.name = path + 'ocm_classname';
-                    field.ocmField.setValue('org.girlscouts.vtk.models.Activity');
+                    field.ocmField.setValue('org.girlscouts.vtk.ocm.ActivityNode');
 			    	field.nameField.el.dom.name = path + 'name';
 
 			    	//field.nameFieldDelete.el.dom.name = path + 'name@Delete';
