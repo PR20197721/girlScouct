@@ -192,17 +192,6 @@ public class Contact extends JcrNode implements java.io.Serializable, Comparable
         this.accountId = accountId;
     }
 
-    public int compareTo(Contact other) {
-        if (this.getId() == null && (other == null || other.getId() == null)) {
-            return 0;
-        } else if (other == null || other.getId() == null) {
-            return 1;
-        } else if (this.getId() == null) {
-            return -1;
-        }
-        return getId().compareTo(other.getId());
-    }
-
     public String getContactId() {
         return contactId;
     }
@@ -219,4 +208,14 @@ public class Contact extends JcrNode implements java.io.Serializable, Comparable
         this.renewalDue = renewalDue;
     }
 
+    public int compareTo(Contact other) {
+        if (this.getId() == null && (other == null || other.getId() == null)) {
+            return 0;
+        } else if (other == null || other.getId() == null) {
+            return 1;
+        } else if (this.getId() == null) {
+            return -1;
+        }
+        return getId().compareTo(other.getId());
+    }
 }

@@ -762,10 +762,13 @@
     vtklog.debug("printTroopReloginids");
 %><select id="reloginid" onchange="relogin()"><%
     for (Troop userTroop : userTroops) {
+        String troopGradeLevel = " : "+ userTroop.getGradeLevel();
+        if(userTroop.getParticipationCode() != null && "IRM".equals(userTroop.getParticipationCode())){
+            troopGradeLevel="";
+        }
 %>
     <option value="<%=userTroop.getHash()%>"
-            <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%>
-        : <%=userTroop.getGradeLevel()%>
+        <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%>
     </option>
     <%
         }

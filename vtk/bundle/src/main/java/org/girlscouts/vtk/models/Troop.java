@@ -31,6 +31,8 @@ public class Troop extends JcrNode implements Serializable {
     private String participationCode;
     private String councilPath;
     private String hash;
+    private Boolean isIRM = Boolean.FALSE;
+    private Boolean isSUM = Boolean.FALSE;
 
     public Troop() {
         this.type = 0;
@@ -238,5 +240,21 @@ public class Troop extends JcrNode implements Serializable {
 
     public void setIrmTroopId(String irmTroopId) {
         this.irmTroopId = irmTroopId;
+    }
+
+    public Boolean getIsIRM() {
+        return isIRM;
+    }
+
+    public void setIsIRM(Boolean IRM) {
+        isIRM = IRM;
+    }
+
+    public Boolean getIsSUM() {
+        return isSUM;
+    }
+
+    public void setIsSUM(Boolean SUM) {
+        isSUM = SUM;
     }
 }

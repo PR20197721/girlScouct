@@ -129,7 +129,7 @@ public class ContactEntityToContactMapper {
                     log.error("Error occurred mapping Account sfId to Sub Contact ", ex);
                 }
                 try {
-                    subContact.setContactId(entity.getAccount().getPreferredContact().getSfId());
+                    subContact.setId(entity.getAccount().getPreferredContact().getSfId());
                 } catch (Exception ex) {
                     log.error("Error occurred mapping Account sfId to Sub Contact ", ex);
                 }

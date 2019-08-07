@@ -89,7 +89,7 @@ public class CouncilRpt {
 
     public List<CouncilRptBean> getRpt(String sfCouncil, ApiConfig config) {
         List<CouncilRptBean> container = new ArrayList<CouncilRptBean>();
-        String sql = "SELECT s.* from [nt:unstructured] as s where ISDESCENDANTNODE([" + VtkUtil.getYearPlanBase(null, null) + sfCouncil + "/troops/]) and s.[ocm_classname] = 'org.girlscouts.vtk.ocm.YearPlanNode' and jcr:path not like '%/yearPlan-%'";
+        String sql = "SELECT s.* from [nt:unstructured] as s where ISDESCENDANTNODE([" + VtkUtil.getYearPlanBase(null, null) + sfCouncil + "/troops/]) and s.[ocm_classname] = 'org.girlscouts.vtk.ocm.YearPlanNode' and s.[jcr:path] not like '%/yearPlan-%'";
         List<String> activities = getActivityRpt(sfCouncil);
         ResourceResolver rr = null;
         try {
@@ -102,81 +102,82 @@ public class CouncilRpt {
             if (result != null && result.getNodes().hasNext()) {
                 for (NodeIterator it = result.getNodes(); it.hasNext(); ) {
                     try {
-                        String yearPlanName = "", libPath = "", ageGroup = "";
-                        boolean isAltered = false;
                         Node node = it.nextNode();
-                        String path = node.getPath();
-                        try {
-                            isAltered = node.getProperty("altered").getBoolean();
-                        } catch (Exception e) {
-                            log.error("Error occured:", e);
-                        }
-                        try {
-                            yearPlanName = node.getProperty("name").getString();
-                        } catch (Exception e) {
-                            log.error("Error occured:", e);
-                        }
-                        try {
-                            libPath = node.getProperty("refId").getString();
-                        } catch (Exception e) {
-                            log.error("Error occured:", e);
-                        }
-                        String troopName = "";
-                        Node troop = null;
-                        List<Contact> leaders = new ArrayList<Contact>();
-                        try {
-                            troop = node.getParent();
-                            troopName = troop.getProperty("sfTroopName").getString();
-                            String troopId = troop.getProperty("sfTroopId").getString();
-                            if (config != null && troopId != null) {
-                                try {
-                                    leaders.addAll(gsSalesForceService.getTroopLeaderInfoByTroopId(config, troopId));
-                                } catch (Exception e) {
-                                    log.error("Unable to retrieve troop user from salesforce : " + node.getPath(), e);
-                                }
-                            }
-                        } catch (Exception e) {
-                            log.error("Unable to resolve troop name for troop : " + node.getPath(), e);
-                        }
-                        if (troop != null && (libPath == null || libPath.equals("") || (yearPlanName != null && yearPlanName.trim().toLowerCase().equals("custom year plan")))) {
+                        Node troop = node.getParent();
+                        if(!troop.hasProperty("isIRM") || (troop.hasProperty("isIRM") && !troop.getProperty("isIRM").getBoolean())) {
+                            String yearPlanName = "", libPath = "", ageGroup = "";
+                            boolean isAltered = false;
+                            String path = node.getPath();
                             try {
-                                libPath = troop.getProperty("sfTroopAge").getString().toLowerCase().substring(2);
+                                isAltered = node.getProperty("altered").getBoolean();
                             } catch (Exception e) {
                                 log.error("Error occured:", e);
                             }
+                            try {
+                                yearPlanName = node.getProperty("name").getString();
+                            } catch (Exception e) {
+                                log.error("Error occured:", e);
+                            }
+                            try {
+                                libPath = node.getProperty("refId").getString();
+                            } catch (Exception e) {
+                                log.error("Error occured:", e);
+                            }
+                            String troopName = "";
+                            List<Contact> leaders = new ArrayList<Contact>();
+                            try {
+                                troopName = troop.getProperty("sfTroopName").getString();
+                                String troopId = troop.getProperty("sfTroopId").getString();
+                                if (config != null && troopId != null) {
+                                    try {
+                                        leaders.addAll(gsSalesForceService.getTroopLeaderInfoByTroopId(config, troopId));
+                                    } catch (Exception e) {
+                                        log.error("Unable to retrieve troop user from salesforce : " + node.getPath(), e);
+                                    }
+                                }
+                            } catch (Exception e) {
+                                log.error("Unable to resolve troop name for troop : " + node.getPath(), e);
+                            }
+                            if (troop != null && (libPath == null || libPath.equals("") || (yearPlanName != null && yearPlanName.trim().toLowerCase().equals("custom year plan")))) {
+                                try {
+                                    libPath = troop.getProperty("sfTroopAge").getString().toLowerCase().substring(2);
+                                } catch (Exception e) {
+                                    log.error("Error occured:", e);
+                                }
+                            }
+                            if (libPath.contains("brownie")) {
+                                ageGroup = "brownie";
+                            } else if (libPath.contains("daisy")) {
+                                ageGroup = "daisy";
+                            } else if (libPath.contains("junior")) {
+                                ageGroup = "junior";
+                            } else if (libPath.contains("senior")) {
+                                ageGroup = "senior";
+                            } else if (libPath.contains("cadette")) {
+                                ageGroup = "cadette";
+                            } else if (libPath.contains("ambassador")) {
+                                ageGroup = "ambassador";
+                            } else if (libPath.contains("multi-level")) {
+                                ageGroup = "multi-level";
+                            }
+                            CouncilRptBean crb = new CouncilRptBean();
+                            crb.setYearPlanName(yearPlanName);
+                            crb.setAltered(isAltered);
+                            crb.setLibPath(libPath);
+                            crb.setAgeGroup(ageGroup);
+                            crb.setYearPlanPath(path);
+                            crb.setTroopName(troopName);
+                            crb.setTroopLeaders(leaders);
+                            try {
+                                crb.setTroopId(path.split("/")[4]);
+                            } catch (Exception e) {
+                                log.error("Error occured:", e);
+                            }
+                            if (activities.contains(path)) {
+                                crb.setActivity(true);
+                            }
+                            container.add(crb);
                         }
-                        if (libPath.contains("brownie")) {
-                            ageGroup = "brownie";
-                        } else if (libPath.contains("daisy")) {
-                            ageGroup = "daisy";
-                        } else if (libPath.contains("junior")) {
-                            ageGroup = "junior";
-                        } else if (libPath.contains("senior")) {
-                            ageGroup = "senior";
-                        } else if (libPath.contains("cadette")) {
-                            ageGroup = "cadette";
-                        } else if (libPath.contains("ambassador")) {
-                            ageGroup = "ambassador";
-                        } else if (libPath.contains("multi-level")) {
-                            ageGroup = "multi-level";
-                        }
-                        CouncilRptBean crb = new CouncilRptBean();
-                        crb.setYearPlanName(yearPlanName);
-                        crb.setAltered(isAltered);
-                        crb.setLibPath(libPath);
-                        crb.setAgeGroup(ageGroup);
-                        crb.setYearPlanPath(path);
-                        crb.setTroopName(troopName);
-                        crb.setTroopLeaders(leaders);
-                        try {
-                            crb.setTroopId(path.split("/")[4]);
-                        } catch (Exception e) {
-                            log.error("Error occured:", e);
-                        }
-                        if (activities.contains(path)) {
-                            crb.setActivity(true);
-                        }
-                        container.add(crb);
                     } catch (Exception e) {
                         log.error("Error occured:", e);
                     }

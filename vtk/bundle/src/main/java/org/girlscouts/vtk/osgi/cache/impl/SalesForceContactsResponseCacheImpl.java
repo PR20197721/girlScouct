@@ -89,7 +89,7 @@ public class SalesForceContactsResponseCacheImpl extends BasicGirlScoutsService 
 
     @Override
     public void write(String key, ContactsInfoResponseEntity entity) {
-        if(this.isCacheEnabled && key != null) {
+        if(this.isCacheEnabled && key != null && entity != null && entity.getContacts() != null && entity.getContacts().length > 0) {
             try {
                 log.debug("Writing "+key+" to cache.");
                 this.cache.put(key, entity);

@@ -36,22 +36,25 @@
                     cookie.setMaxAge(-1);
                     response.addCookie(cookie);
             %>
-            <select id="reloginid"
-                    onchange="relogin()" <%=!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "") ? "disabled" : "" %>>
+            <select id="reloginid" onchange="relogin()" <%=!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "") ? "disabled" : "" %>>
                 <%
                     if (!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) {
-                %>
-                <option value="" SELECTED>Viewing ARCHIVED <%=selectedTroop.getTroopName()%>
-                    : <%=selectedTroop.getGradeLevel()%>
-                </option>
-                <%
-                } else {
-                    for (Troop userTroop : userTroops) {
-                %>
-                <option value="<%=userTroop.getHash()%>" <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%>
-                    : <%=userTroop.getGradeLevel()%>
-                </option>
-                <%
+                        String troopGradeLevel = " : "+ selectedTroop.getGradeLevel();
+                        if(selectedTroop.getParticipationCode() != null && "IRM".equals(selectedTroop.getParticipationCode())){
+                            troopGradeLevel="";
+                        }
+                        %>
+                        <option value="" SELECTED>Viewing ARCHIVED <%=selectedTroop.getTroopName()%><%=troopGradeLevel%></option>
+                        <%
+                    } else {
+                        for (Troop userTroop : userTroops) {
+                            String troopGradeLevel = " : "+ userTroop.getGradeLevel();
+                            if(userTroop.getParticipationCode() != null && "IRM".equals(userTroop.getParticipationCode())){
+                                troopGradeLevel="";
+                            }
+                            %>
+                            <option value="<%=userTroop.getHash()%>" <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%></option>
+                            <%
                         }
                     }%>
             </select>

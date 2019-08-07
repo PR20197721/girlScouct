@@ -92,7 +92,8 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
             user.setApiConfig(apiConfig);
             user.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
-            addMoreInfo(apiConfig, userInfoResponseEntity, user);
+            apiConfig.setUser(user);
+            addMoreInfo(apiConfig, userInfoResponseEntity);
         } catch (Exception e) {
             log.error("Error occurred: ", e);
         }
@@ -107,7 +108,8 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             user = UserInfoResponseEntityToUserMapper.map(userInfoResponseEntity);
             user.setApiConfig(apiConfig);
             user.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
-            addMoreInfo(apiConfig, userInfoResponseEntity, user);
+            apiConfig.setUser(user);
+            addMoreInfo(apiConfig, userInfoResponseEntity);
             return user;
         } catch (Exception e) {
             log.error("Error occurred: ", e);
@@ -160,11 +162,11 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                     contactsInfoResponseEntity = sfFileClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
                 } else {
                     if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
-                        if(irmContactsCache.contains(troop.getSfTroopId())){
-                            contactsInfoResponseEntity =  irmContactsCache.read(troop.getSfTroopId());
+                        if(irmContactsCache.contains(troop.getIrmTroopId())){
+                            contactsInfoResponseEntity =  irmContactsCache.read(troop.getIrmTroopId());
                         }else{
-                            contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
-                            irmContactsCache.write(troop.getSfTroopId(), contactsInfoResponseEntity);
+                            contactsInfoResponseEntity = sfRestClient.getContactsByTroopId(apiConfig, troop.getIrmTroopId());
+                            irmContactsCache.write(troop.getIrmTroopId(), contactsInfoResponseEntity);
                         }
                     } else {
                         if(contactsCache.contains(troop.getSfTroopId())){
@@ -180,9 +182,21 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 ContactEntity[] entities = contactsInfoResponseEntity.getContacts();
                 if (entities != null) {
                     for (ContactEntity entity : entities) {
-                        if (troop.getParticipationCode() == null || (troop.getParticipationCode() != null && !irmCouncilCode.equals(troop.getParticipationCode())) || (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode()) && entity.getAccount().getSfPreferredContactId().equals(apiConfig.getUser().getContactId()))) {
-                            Contact contact = ContactEntityToContactMapper.map(entity);
+                        Contact contact = ContactEntityToContactMapper.map(entity);
+                        if (troop.getParticipationCode() == null || (troop.getParticipationCode() != null && !irmCouncilCode.equals(troop.getParticipationCode()))){
+                            //Not IRM
                             contacts.add(contact);
+                        }else{
+                            //IRM
+                            //Fetching all IRM girls who have current user set as preferred contact to generate dummy troops for parent
+                            if(troop.getCouncilCode().equals("999") && isChildOfParent(contact.getContacts(), apiConfig.getUser().getContactId())){
+                                contacts.add(contact);
+                            }else{
+                                //Fetching specific girl info for her dummy troop?
+                                if(!troop.getCouncilCode().equals("999") && troop.getSfTroopId().equals(irmCouncilCode+"_"+contact.getId())) {
+                                    contacts.add(contact);
+                                }
+                            }
                         }
                     }
                 }
@@ -192,6 +206,21 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             log.error("Error occurred: ", e);
         }
         return contacts;
+    }
+
+    private boolean isChildOfParent(List<Contact> girlsContacts, String parentId) {
+        if(girlsContacts != null && parentId != null){
+            for(Contact contact:girlsContacts){
+                try {
+                    if(contact.getId().equals(parentId)){
+                        return true;
+                    }
+                }catch(Exception e){
+                    log.error("Error occurred:", e);
+                }
+            }
+        }
+        return false;
     }
 
     private void addRenewals(List<Contact> contacts, ContactsInfoResponseEntity contactsInfoResponseEntity) {
@@ -256,14 +285,14 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         return contacts;
     }
 
-    private void addMoreInfo(ApiConfig apiConfig, UserInfoResponseEntity userInfoResponseEntity, User user) {
-        if (user != null && userInfoResponseEntity != null) {
+    private void addMoreInfo(ApiConfig apiConfig, UserInfoResponseEntity userInfoResponseEntity) {
+        if (apiConfig.getUser() != null && userInfoResponseEntity != null) {
+            apiConfig.setUserId(apiConfig.getUser().getSfUserId());
             ParentEntity[] campsTroops = userInfoResponseEntity.getCamps();
-            setTroopsForUser(apiConfig, user, userInfoResponseEntity, campsTroops);
-            apiConfig.setTroops(user.getTroops());
-            apiConfig.setUserId(user.getSfUserId());
-            apiConfig.setUser(user);
-            user.setApiConfig(apiConfig);
+            setTroopsForUser(apiConfig, apiConfig.getUser(), userInfoResponseEntity, campsTroops);
+            apiConfig.setTroops(apiConfig.getUser().getTroops());
+            apiConfig.setUser(apiConfig.getUser());
+            apiConfig.getUser().setApiConfig(apiConfig);
         }
     }
 
@@ -274,24 +303,11 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 Troop troop = ParentEntityToTroopMapper.map(entity);
                 //Independent Registered Member
                 if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
-                    try {
-                        String parentsCouncilCode = userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode();
-                        troop.setCouncilCode(parentsCouncilCode);
-                        troop.setSfCouncil(parentsCouncilCode);
-                    }catch(Exception e){
-                        log.error("Could not retrieve a council code for IRM member "+user.getSfUserId()+ " from Salesforce json response");
-                        //default
-                        troop.setCouncilCode(irmCouncilCode);
-                        troop.setSfCouncil(irmCouncilCode);
-                    }
-                    troop.setIrmTroopId(troop.getSfTroopId());
-                    //parent is used as troop
-                    troop.setSfTroopId(irmCouncilCode + "_" + user.getSfUserId());
-                    troop.setTroopId(irmCouncilCode + "_" + user.getSfUserId());
-                    troop.setId(irmCouncilCode + "_" + user.getSfUserId());
+                    setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
+                }else{
+                    troop.setRole("PA");
+                    parentTroops.add(troop);
                 }
-                troop.setRole("PA");
-                parentTroops.add(troop);
             }
         }
         List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
@@ -316,6 +332,44 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         user.setTroops(mergedTroops);
     }
 
+    private void setDummyIRMTroops(ApiConfig apiConfig, User user, UserInfoResponseEntity userInfoResponseEntity, List<Troop> parentTroops, ParentEntity entity, Troop troop) {
+        //Generating dummy troops for each IRM girl under user
+        troop.setIrmTroopId(troop.getSfTroopId());
+        List<Contact> contacts = getContactsForTroop(apiConfig, troop);
+        String parentsCouncilCode = userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode();
+        for(Contact contact:contacts){
+            if(contact != null && "Girl".equals(contact.getRole())){
+                Troop dummyIRMTroop = ParentEntityToTroopMapper.map(entity);
+                try {
+                    dummyIRMTroop.setCouncilCode(parentsCouncilCode);
+                    dummyIRMTroop.setSfCouncil(parentsCouncilCode);
+                }catch(Exception e){
+                    log.error("Could not retrieve a council code for IRM member "+user.getSfUserId()+ " from Salesforce json response");
+                    //default
+                    dummyIRMTroop.setCouncilCode(irmCouncilCode);
+                    dummyIRMTroop.setSfCouncil(irmCouncilCode);
+                }
+                dummyIRMTroop.setIrmTroopId(troop.getSfTroopId());
+                //parent is used as troop
+                dummyIRMTroop.setSfTroopId(irmCouncilCode + "_" +contact.getId());
+                dummyIRMTroop.setTroopId(irmCouncilCode + "_" + contact.getId());
+                dummyIRMTroop.setId(irmCouncilCode + "_" + contact.getId());
+                String troopName = "";
+                if(contact.getFirstName() != null){
+                    troopName = contact.getFirstName();
+                }
+                if(contact.getLastName() != null){
+                    troopName += contact.getLastName();
+                }
+                dummyIRMTroop.setTroopName(troopName);
+                dummyIRMTroop.setSfTroopName(troopName);
+                dummyIRMTroop.setRole("PA");
+                dummyIRMTroop.setIsIRM(true);
+                parentTroops.add(dummyIRMTroop);
+            }
+        }
+    }
+
     private void setTroopPaths(Troop troop) {
         String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
         troop.setCouncilPath(councilPath);
@@ -335,7 +389,9 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         troop.setSfTroopId(sumCouncilCode + "_" + userId);
                         troop.setTroopId(sumCouncilCode + "_" + userId);
                         troop.setId(sumCouncilCode + "_" + userId);
+                        troop.setIsSUM(true);
                         troops.add(troop);
+
                     }
                 }
             }

@@ -87,7 +87,7 @@ public class SalesForceTroopsResponseCacheImpl extends BasicGirlScoutsService im
 
     @Override
     public void write(String key, TroopInfoResponseEntity entity) {
-        if(this.isCacheEnabled && key != null && entity != null) {
+        if(this.isCacheEnabled && key != null && entity != null && entity.getTroops() != null && entity.getTroops().length>0) {
             try {
                 log.debug("Writing "+key+" to cache.");
                 this.cache.put(key, entity);

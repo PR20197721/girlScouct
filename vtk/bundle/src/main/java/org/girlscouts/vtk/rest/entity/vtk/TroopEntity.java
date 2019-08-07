@@ -58,6 +58,10 @@ public class TroopEntity extends BaseEntity {
     private String councilPath;
     @SerializedName("hash")
     private String hash;
+    @SerializedName("isIRM")
+    private Boolean isIRM = Boolean.FALSE;
+    @SerializedName("isSUM")
+    private Boolean isSUM = Boolean.FALSE;
 
     public String getPath() {
         return path;
@@ -265,5 +269,21 @@ public class TroopEntity extends BaseEntity {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+
+    public Boolean getIsIRM() {
+        return isIRM;
+    }
+
+    public void setIsIRM(Boolean IRM) {
+        isIRM = IRM;
+    }
+
+    public Boolean getIsSUM() {
+        return isSUM;
+    }
+
+    public void setIsSUM(Boolean SUM) {
+        isSUM = SUM;
     }
 }

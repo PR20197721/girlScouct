@@ -26,6 +26,26 @@ public class TroopNode extends JcrNode implements Serializable {
     private String errCode;
     @Field
     private String refId;
+    @Field
+    private Boolean isIRM = Boolean.FALSE;
+    @Field
+    private Boolean isSUM = Boolean.FALSE;
+
+    public Boolean getIsIRM() {
+        return isIRM;
+    }
+
+    public void setIsIRM(Boolean IRM) {
+        isIRM = IRM;
+    }
+
+    public Boolean getIsSUM() {
+        return isSUM;
+    }
+
+    public void setIsSUM(Boolean SUM) {
+        isSUM = SUM;
+    }
 
     public YearPlanNode getYearPlan() {
         return yearPlan;

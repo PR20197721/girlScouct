@@ -8,13 +8,15 @@
     <div class="columns large-7 medium-7 right">
         <select id="reloginid" onchange="relogin()">
             <%
-                for (Troop userTroop : troops) {
-            %>
-            <option value="<%=userTroop.getHash()%>"<%=troop.getHash().equals(userTroop.getHash()) ? " selected" : ""%>><%=userTroop.getTroopName()%>
-                : <%=userTroop.getGradeLevel()%>
-            </option>
-            <%
+            for (Troop userTroop : troops) {
+                String troopGradeLevel = " : "+ userTroop.getGradeLevel();
+                if(userTroop.getParticipationCode() != null && "IRM".equals(userTroop.getParticipationCode())){
+                    troopGradeLevel="";
                 }
+                %>
+                <option value="<%=userTroop.getHash()%>"<%=troop.getHash().equals(userTroop.getHash()) ? " selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%></option>
+                <%
+            }
             %>
         </select>
     </div>
