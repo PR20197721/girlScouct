@@ -7,6 +7,9 @@
                 com.day.image.Layer,
                 com.google.gson.Gson,
                 com.google.gson.GsonBuilder,
+				org.girlscouts.vtk.ocm.*,
+				org.girlscouts.vtk.osgi.service.*,
+				org.girlscouts.vtk.osgi.component.dao.*,
                 org.apache.commons.beanutils.BeanComparator,
                 org.girlscouts.vtk.auth.permission.Permission,
                 org.girlscouts.vtk.osgi.component.util.CouncilRpt,
@@ -418,6 +421,45 @@
                     //selectedTroop.setPath(selectedTroopRepoData.getPath());
                     selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
                     PlanView planView = meetingUtil.planView(user, selectedTroop, request);
+                    try {
+                        String meetingCode = planView.getMeeting().getRefId().substring(planView.getMeeting().getRefId().lastIndexOf("/"));
+                        String pathToAssets = "/content/dam/girlscouts-vtk2019/local/aid/meetings"+meetingCode;
+                        List<org.girlscouts.vtk.models.Asset> assets = new ArrayList<org.girlscouts.vtk.models.Asset>();
+                        Resource meetingAidFolder = resourceResolver.resolve(pathToAssets);
+                        Iterator<Resource> aidResources = meetingAidFolder.listChildren();
+                        while(aidResources.hasNext()){
+                            try {
+                                Resource aidResource = aidResources.next();
+
+                                if("dam:Asset".equals(aidResource.getResourceType())){
+                                    Resource metadata = aidResource.getChild("jcr:content/metadata");
+                                    if(metadata != null){
+                                        Node props = metadata.adaptTo(Node.class);
+                                        org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset();
+                                        asset.setRefId(aidResource.getPath());
+                                        if (props.hasProperty("dc:isOutdoorRelated")) {
+                                            asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
+                                        } else {
+                                            asset.setIsOutdoorRelated(false);
+                                        }
+                                        asset.setIsCachable(true);
+                                        asset.setType("AID");
+                                        asset.setDescription(props.getProperty("dc:description").getString());
+                                        asset.setTitle(props.getProperty("dc:title").getString());
+                                        assets.add(asset);
+                                    }
+                                }
+                            } catch (Exception e) {
+
+                                //log.error("Cannot get assets for meeting: " + rootPath + ". Root cause was: " + e.getMessage());
+                            }
+                        }
+
+                        planView.getMeeting().setAssets(assets);
+
+                    }catch(Exception e){
+                        vtklog.error("Error occurred:",e);
+                    }
                     java.util.List<MeetingE> TMP_meetings = (java.util.List<MeetingE>) VtkUtil.deepClone(selectedTroop.getYearPlan().getMeetingEvents());
                     MeetingE _meeting = (MeetingE) planView.getYearPlanComponent();
                     if (_meeting != null && _meeting.getMeetingInfo() != null) {
@@ -768,7 +810,7 @@
         }
 %>
     <option value="<%=userTroop.getHash()%>"
-        <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%>
+            <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%>
     </option>
     <%
         }
