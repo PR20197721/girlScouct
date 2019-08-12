@@ -112,7 +112,7 @@
                     <%} else {
                          String emptyYearPlanPopup = "\"YEAR PLAN & MEETING PLAN\",\"You must first make a selection on the Explore tab, in order to view a Year Plan or meeting\"";
                           if (isParent){
-                              emptyYearPlanPopup = "\"YEAR PLAN & MEETING PLAN\",\"Your Troop Leader has not yet created a Year Plan\"";
+                              emptyYearPlanPopup = "\"YEAR PLAN & MEETING PLAN\",\"Your leader must first set up a year plan before you can view meetings.\"";
                           }%>
                         <a
                             <%= selectedTroop.getYearPlan() != null ? "href='" + relayUrl + "/content/girlscouts-vtk/en/vtk.details.html'" : "href='#' onClick='modalAlert.alert(" + emptyYearPlanPopup + ")'"  %>>
