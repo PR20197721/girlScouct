@@ -75,6 +75,11 @@
                             fieldLabel="Event Left Nav Root"
                             name="./leftNavRoot"
                             xtype="dynamicPathField"/>
+                        <dam-path
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="DAM Path"
+                            name="./damPath"
+                            xtype="dynamicPathField"/>
                         <google-analytics-id
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Google Analytics ID "
