@@ -28,9 +28,14 @@ String headerSearchPath = headerPath + "/search";
     ValueMap logoProps = resourceResolver.resolve(logoPath).adaptTo(ValueMap.class);
     String logoLink = logoProps.get("logoLink", "") +  ".html";
 %>
-        <a href="<%= logoLink %>" tabindex="1">
-            <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
-        </a>
+    <span id="menuIcon"class="mobileIcons">
+        <a class="side-nav-toggle menu-icon" role="button" ><span></span></a>
+    </span>
+    <span id="searchIcon" class="mobileIcons icon-search-magnifying-glass" searchShown="false">
+    </span>
+    <a href="<%= logoLink %>" tabindex="1">
+        <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
+    </a>
     </section>
     <section class="utility show-for-medium-up">
         <div style="" class="clearfix">
