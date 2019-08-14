@@ -55,7 +55,7 @@ String stickyClass = sticky ? "sticky-nav" : "";
                 <cq:include script="bodylibs.jsp" />
             </section>
             <!-- close the off-canvas menu -->
-            <a class="exit-off-canvas"></a>
+            <a class="exit-off-canvas-el"></a>
         </div>
     </div>
     <cq:includeClientLib js="apps.gsusa" />
