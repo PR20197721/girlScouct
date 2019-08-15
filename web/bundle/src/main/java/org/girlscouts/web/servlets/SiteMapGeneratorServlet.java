@@ -11,7 +11,9 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.felix.scr.annotations.*;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.sling.api.*;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.apache.sling.commons.osgi.OsgiUtil;
 import org.apache.sling.commons.osgi.PropertiesUtil;
@@ -50,6 +52,8 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
  private static final String INCLUDE_LAST_MODIFIED_PROPERTY = "include.lastmod";
  
  private static final String SITEMAP_NAMESPACE = "http://www.sitemaps.org/schemas/sitemap/0.9";
+
+ protected final Logger logger = LoggerFactory.getLogger(getClass());
  
  @Reference
  private Externalizer externalizer;
@@ -67,9 +71,10 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    throws ServletException, IOException {
   
   slingResponse.setContentType(slingRequest.getResponseContentType());
+  slingResponse.setCharacterEncoding("UTF-8");
   ResourceResolver resourceResolver = slingRequest.getResourceResolver();
   PageManager pageManager = resourceResolver.adaptTo(PageManager.class);
-  Page pageObj = pageManager.getContainingPage(slingRequest.getResource());
+  Page contPage = pageManager.getContainingPage(slingRequest.getResource());
   
   XMLOutputFactory outputFactory = XMLOutputFactory.newFactory();
   try {
@@ -80,9 +85,35 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    stream.writeNamespace("", SITEMAP_NAMESPACE);
    
    // Current page
-   writeXML(pageObj, stream, slingRequest);
+   Resource pageResource = contPage.getContentResource();
+   ValueMap pageValueMap = pageResource.getValueMap();
+   writeXMLPage(contPage, stream, slingRequest);
+
+   //DAM logic
+   String damLoc = pageValueMap.get("damPath", String.class);
+   try {
+    Resource dam = resourceResolver.getResource(damLoc);
+    if (dam != null) {
+
+     //most councils use "documents", some use one of the other strings
+     String[] specificDocLocations = {"documents", "forms-and-documents-", "forms", "documents", "GSGCF-Forms-and-Documents",
+             "forms-and-documents"};
+     Resource documents;
+     for (String specificDocLocation : specificDocLocations) {
+      documents = dam.getChild(specificDocLocation);
+      if (documents != null) {
+       writeDamFolderXML(stream, slingRequest, documents);
+       break;
+      }
+     }
+     
+    }
+   } catch (Exception e){
+    logger.error("Could not access DAM documents: " + e);
+   }
+
    
-   for (Iterator<Page> children = pageObj.listChildren(new PageFilter(), true); children.hasNext();) {
+   for (Iterator<Page> children = contPage.listChildren(new PageFilter(), true); children.hasNext();) {
     Page childPage = (Page) children.next();
     // If condition added to make sure the pages hidden in search in page properties do not show up in sitemap
     if (null != childPage) {
@@ -91,7 +122,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
          && childPage.getProperties().get("hideInSearch").equals("false"))
        || (childPage.getProperties().containsKey("hideInSearch")
          && childPage.getProperties().get("hideInSearch").equals("")))
-      writeXML(childPage, stream, slingRequest);
+      writeXMLPage(childPage, stream, slingRequest);
     }
    }
    
@@ -102,20 +133,56 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    throw new IOException(e);
   }
  }
- 
- private void writeXML(Page pageObj, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
-   throws XMLStreamException {
+
+
+ //from top folder, writes all assets to XML, recursively goes through subfolders
+ private void writeDamFolderXML(final XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest, Resource folder)
+   throws XMLStreamException{
+  Iterator<Resource> children = folder.listChildren();
+  while (children.hasNext()){
+   Resource child = children.next();
+   ValueMap childValueMap = child.getValueMap();
+   String jcrPrimaryType = childValueMap.get("jcr:primaryType",String.class);
+
+   if (jcrPrimaryType.equalsIgnoreCase("dam:Asset")){
+    writeXMLResource(child, xmlStream, slingRequest);
+   }
+   if (jcrPrimaryType.equalsIgnoreCase("sling:OrderedFolder") || jcrPrimaryType.equalsIgnoreCase("sling:Folder")){
+    writeDamFolderXML(xmlStream, slingRequest, child);
+   }
+  }
+ }
+
+
+ private void writeXMLResource(Resource resource, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
+   throws XMLStreamException{
+
+  String path = resource.getPath();
+
+  Calendar calendarObj = null;
+  Resource jcrContent = resource.getChild("jcr:content");
+  if (this.incLastModified && null != jcrContent) {
+   calendarObj = jcrContent.getValueMap().get("jcr:lastModified", Calendar.class);
+  }
+
+  writeXML(path, calendarObj, xmlStream, slingRequest);
+ }
+
+
+ private void writeXMLPage(Page pageObj, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
+         throws XMLStreamException {
   xmlStream.writeStartElement(SITEMAP_NAMESPACE, "url");
-  
+
   String protocolPort = "http";
-  if (slingRequest.isSecure())
+  if (slingRequest.isSecure()) {
    protocolPort = "https";
-  
+  }
+
   String locPath = this.externalizer.absoluteLink(slingRequest, protocolPort,
-    String.format("%s.html", pageObj.getPath()));
-  
+          String.format("%s.html", pageObj.getPath()));
+
   writeXMLElement(xmlStream, "loc", locPath);
-  
+
   if (this.incLastModified) {
    Calendar calendarObj = pageObj.getLastModified();
    if (null != calendarObj) {
@@ -124,6 +191,24 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
   }
   xmlStream.writeEndElement();
  }
+
+
+ private void writeXML(String path, Calendar lastMod, XMLStreamWriter xmlStream, SlingHttpServletRequest slingRequest)
+   throws XMLStreamException{
+  xmlStream.writeStartElement(SITEMAP_NAMESPACE, "url");
+
+  String locPath = createLocPath(path,slingRequest);//this.externalizer.absoluteLink(slingRequest, protocolPort, path);
+  writeXMLElement(xmlStream, "loc", locPath);
+
+  if (this.incLastModified) {
+   if (null != lastMod) {
+    writeXMLElement(xmlStream, "lastmod", DATE_FORMAT.format(lastMod));
+   }
+  }
+  xmlStream.writeEndElement();
+ }
+
+
  
  private void writeXMLElement(final XMLStreamWriter xmlStream, final String elementName, final String xmlText)
    throws XMLStreamException {
@@ -131,5 +216,17 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
   xmlStream.writeCharacters(xmlText);
   xmlStream.writeEndElement();
  }
- 
+
+ private String createLocPath(String path, SlingHttpServletRequest slingRequest) {
+
+  //some logic to get the server name and port, everything before the /content
+  int uriLength = slingRequest.getRequestURI().length();
+  String fullUrl = slingRequest.getRequestURL().toString();
+  String hostAndPort = fullUrl.substring(0, fullUrl.length()-uriLength);
+
+  String locPath = (hostAndPort + path);
+
+  return locPath;
+ }
+
 }

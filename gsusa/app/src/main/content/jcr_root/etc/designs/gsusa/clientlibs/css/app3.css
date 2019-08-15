@@ -1014,7 +1014,7 @@ blockquote p {
 }
 
 /* line 423, ../../../../../../../theme/bower_components/foundation/scss/foundation/components/_offcanvas.scss */
-.right-off-canvas-menu {
+.left-off-canvas-menu {
   -webkit-backface-visibility: hidden;
   background: #6b6b6b;
   bottom: 0;
@@ -1093,7 +1093,7 @@ ul.off-canvas-list li a:active {
   cursor: pointer;
   transition: none;
   -webkit-tap-highlight-color: transparent;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.8);
   bottom: 0;
   display: block;
   left: 0;
