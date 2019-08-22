@@ -11,6 +11,9 @@ import org.girlscouts.vtk.exception.VtkException;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.dao.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -30,6 +33,8 @@ public class YearPlanUtil {
     private CouncilDAO councilDAO;
     @Reference
     private UserUtil userUtil;
+
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     public void createActivity(User user, Troop troop, Activity activity) throws java.lang.IllegalAccessException, VtkException, IllegalStateException {
         activity.setDbUpdate(true);
@@ -195,6 +200,7 @@ public class YearPlanUtil {
     }
 
     public void saveCouncilMilestones(User user, List<Milestone> milestones, Troop troop) throws IllegalAccessException {
+        logger.error("SaveCouncilMilestones");
         councilDAO.updateCouncilMilestones(user, milestones, troop);
     }
 

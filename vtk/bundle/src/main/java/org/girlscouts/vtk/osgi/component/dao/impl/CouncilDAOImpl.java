@@ -94,6 +94,7 @@ public class CouncilDAOImpl implements CouncilDAO {
     }
 
     private CouncilInfo getCouncilInfo(User user, Troop troop) {
+        log.error("GetCouncilInfo");
         CouncilInfo cinfo = null;
         try {
             cinfo = girlScoutsCouncilInfoOCMService.read(troop.getCouncilPath() + "/councilInfo");
@@ -120,6 +121,7 @@ public class CouncilDAOImpl implements CouncilDAO {
         //TODO: permissions here Permission.PERMISSION_EDIT_MILESTONE_ID
         try {
             CouncilInfo councilInfo = getCouncilInfo(user, troop);
+
             java.util.List<Milestone> oldMilestones = councilInfo.getMilestones();
             sortMilestonesByDate(oldMilestones);
             int i = 0;
@@ -144,6 +146,7 @@ public class CouncilDAOImpl implements CouncilDAO {
     }
 
     private List<Milestone> getAllMilestones(String councilCode) {
+        log.error("GetALlMilestones");
         String councilPath = councilMapper.getCouncilBranch(councilCode);
         List<Milestone> milestones = new ArrayList<Milestone>();
         try {
