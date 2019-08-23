@@ -120,7 +120,7 @@
 
                         <div class="text parbase section"><h1>Welcome.</h1></div>
 
-                        <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
+                        <ul class="large-block-grid-3 medium-block-grid-2 small-block-grid-1 ">
                             <li>
                                 <% if (!isHideSignIn && apiConfig!=null) {
                                     String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
