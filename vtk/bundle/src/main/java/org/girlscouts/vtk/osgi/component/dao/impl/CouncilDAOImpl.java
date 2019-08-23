@@ -120,6 +120,7 @@ public class CouncilDAOImpl implements CouncilDAO {
         //TODO: permissions here Permission.PERMISSION_EDIT_MILESTONE_ID
         try {
             CouncilInfo councilInfo = getCouncilInfo(user, troop);
+
             java.util.List<Milestone> oldMilestones = councilInfo.getMilestones();
             sortMilestonesByDate(oldMilestones);
             int i = 0;

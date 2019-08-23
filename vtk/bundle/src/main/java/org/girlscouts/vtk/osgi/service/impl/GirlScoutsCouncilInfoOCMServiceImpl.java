@@ -2,7 +2,9 @@ package org.girlscouts.vtk.osgi.service.impl;
 
 import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import org.girlscouts.vtk.models.CouncilInfo;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.ocm.CouncilInfoNode;
+import org.girlscouts.vtk.ocm.MilestoneNode;
 import org.girlscouts.vtk.osgi.service.GirlScoutsCouncilInfoOCMService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
 import org.osgi.service.component.annotations.Activate;
@@ -35,9 +37,44 @@ public class GirlScoutsCouncilInfoOCMServiceImpl implements GirlScoutsCouncilInf
 
     @Override
     public CouncilInfo update(CouncilInfo object) {
-        CouncilInfoNode node = NodeToModelMapper.INSTANCE.toNode(object);
-        node = girlScoutsOCMRepository.update(node);
-        return NodeToModelMapper.INSTANCE.toModel(node);
+        CouncilInfoNode councilInfoNode = NodeToModelMapper.INSTANCE.toNode(object);
+
+        //updates milestone children of councilInfo
+        //make sure this loop is done before updating the councilinfo node itself, otherwise the
+        //councilInfo node will not have the updated milstone children
+        List<MilestoneNode> milestoneNodes = councilInfoNode.getMilestones();
+        for (MilestoneNode milestoneNode : milestoneNodes){
+            if (milestoneNode.getPath() == null){
+                milestoneNode.setPath(councilInfoNode.getPath() + "/milestones/" + milestoneNode.getUid());
+                girlScoutsOCMRepository.create(milestoneNode);
+            } else {
+                girlScoutsOCMRepository.update(milestoneNode);
+            }
+        }
+        councilInfoNode = girlScoutsOCMRepository.update(councilInfoNode);
+
+
+        //the councilInfoNode will have all milestones, even those that have been deleted
+        //to find out which ones were removed, we must compare the two lists
+        //TODO There must be a quicker way of doing this
+        List<MilestoneNode> newMilestones = milestoneNodes;
+        List<MilestoneNode> oldMilestones = councilInfoNode.getMilestones();
+        for (MilestoneNode oldMilestone : oldMilestones){
+            boolean stillExists = false;
+            for (MilestoneNode newMilestone : newMilestones){
+                if (oldMilestone.getPath().equals(newMilestone.getPath())){
+                    stillExists = true;
+                    break;
+                }
+            }
+            if (!stillExists){
+                girlScoutsOCMRepository.delete(oldMilestone);
+            }
+        }
+
+        councilInfoNode.setMilestones(newMilestones);
+
+        return NodeToModelMapper.INSTANCE.toModel(councilInfoNode);
     }
 
     @Override
