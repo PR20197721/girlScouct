@@ -12,7 +12,14 @@
         if (activeTab == null) {
             return;
         }
-        PlanView planView = meetingUtil.planView(user, selectedTroop, request);
+        boolean isArchived = !user.getCurrentYear().equals(String.valueOf(VtkUtil.getCurrentGSYear()));
+        org.girlscouts.vtk.models.PlanView planView = null;
+        if (isArchived) {
+            Troop archivedTroop = (Troop)session.getAttribute("VTK_archived_troop");
+            planView = meetingUtil.planView(user, archivedTroop, request);
+        }else{
+            planView = meetingUtil.planView(user, selectedTroop, request);
+        }
         boolean isParent = false;
         if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("PA")) {
             isParent = true;

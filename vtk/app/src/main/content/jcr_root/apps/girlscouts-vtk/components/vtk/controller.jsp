@@ -952,6 +952,9 @@
         String archivedPath = "/vtk"+yr+selectedTroop.getPath().substring(8);
         Troop archivedTroop = girlScoutsTroopOCMService.read(archivedPath);
         if(archivedTroop != null){
+            java.util.Set permis = org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);
+            permis.add(org.girlscouts.vtk.auth.permission.Permission.PERMISSION_VIEW_REPORT_ID);
+            archivedTroop.setPermissionTokens(permis);
             session.setAttribute("VTK_archived_troop", archivedTroop);
             String newYear = yr == null ? user.getCurrentYear() : yr;
             user.setCurrentYear(newYear);
