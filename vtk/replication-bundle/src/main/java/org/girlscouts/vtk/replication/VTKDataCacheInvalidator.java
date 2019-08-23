@@ -2,7 +2,8 @@ package org.girlscouts.vtk.replication;
 
 import java.util.Collection;
 import java.util.Date;
-
+import java.util.HashMap;
+import java.util.Map;
 import javax.jcr.RepositoryException;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.Session;
@@ -15,11 +16,12 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.commons.scheduler.Job;
 import org.apache.sling.commons.scheduler.JobContext;
 import org.apache.sling.commons.scheduler.Scheduler;
 import org.apache.sling.jcr.api.SlingRepository;
-import org.girlscouts.vtk.ejb.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,10 +50,16 @@ public class VTKDataCacheInvalidator {
     
     @Reference
     protected SlingRepository repository;
-    
+
     @Reference
-    private SessionFactory sessionFactory;
-    
+    private ResourceResolverFactory resolverFactory;
+    private Map<String, Object> resolverParams = new HashMap<String, Object>();
+
+    @Activate
+    void activate() {
+        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
+    }
+
     private class CacheInvalidationJob implements Job {
         private String path;
 
@@ -110,21 +118,30 @@ public class VTKDataCacheInvalidator {
     public void init() {
         connectionManager = new MultiThreadedHttpConnectionManager();
         httpClient = new HttpClient(connectionManager);
+        ResourceResolver rr = null;
         try {
-            Session session = repository.loginAdministrative(null);
-        	//Session session = sessionFactory.getSession();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            Session session = rr.adaptTo(Session.class);
         	flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
             session.logout();
             log.info("Started.");
         } catch (RepositoryException e) {
             log.error("VTKDataCacheInvalidator: RepositoryException while initializing.");
             e.printStackTrace();
-        } 
-        
-        //second seasonal dispatcher
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        } finally {
+            try {
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
+        }
         try {
-        	Session session = repository.loginAdministrative(null);
-        	//Session session = sessionFactory.getSession();
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            Session session = rr.adaptTo(Session.class);
             flushUri2 = session.getNode(FLUSH_NODE2).getProperty(FLUSH_PROPERTY).getString();
             session.logout();
             log.info("The second flush agent is up and Started. The flushUri is " + flushUri2 + " with the node " + FLUSH_NODE2);
@@ -134,7 +151,17 @@ public class VTKDataCacheInvalidator {
         } catch (RepositoryException e) {
             log.error("VTKDataCacheInvalidator2: RepositoryException while initializing.");
             e.printStackTrace();
-        } 
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        } finally {
+            try {
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
+        }
     }
     
     @Deactivate

@@ -1,47 +1,40 @@
 <%@ page
-  import="java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
-<%@include file="/libs/foundation/global.jsp"%>
-<cq:defineObjects />
-<%@include file="include/session.jsp"%>
+        import="org.girlscouts.vtk.auth.permission.Permission,org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType,org.girlscouts.vtk.models.MeetingE" %>
+<%@include file="/libs/foundation/global.jsp" %>
+<cq:defineObjects/>
+<%@include file="include/session.jsp" %>
 <%
-  String activeTab = "planView";
-  boolean showVtkNav = true;
-    
-	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, troop, request, true);
-/*
-	MeetingE __meeting = (MeetingE) planView.getYearPlanComponent();
-    java.util.List<SentEmail> sendEmails = __meeting.getSentEmails();
-    if( sendEmails!=null && sendEmails.size()>0 ){
-          for(int se=0;se< sendEmails.size();se++){
-              SentEmail sEmail = sendEmails.get(se);
-              System.err.println("TRTRTR4: "+ sEmail.getHtmlDiff() );
-          }
+    String activeTab = "planView";
+    boolean showVtkNav = true;
+    boolean isArchived = !user.getCurrentYear().equals(String.valueOf(VtkUtil.getCurrentGSYear()));
+    org.girlscouts.vtk.models.PlanView planView = null;
+    if (isArchived) {
+        Troop archivedTroop = (Troop)session.getAttribute("VTK_archived_troop");
+        planView = meetingUtil.planView(user, archivedTroop, request);
+    }else{
+        planView = meetingUtil.planView(user, selectedTroop, request, true);
     }
-	*/
-
-
-
-	
-	
-	if( planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETINGCANCELED || planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETING ){
-		%><%@include file="meeting_react2.jsp"%>
-		    <%@include file="include/loader.jsp"%>
-		<%
-		
-	}else if( planView.getYearPlanComponent().getType() == YearPlanComponentType.ACTIVITY ){
-		%><%@include file="activity_react2.jsp"%><%
-	}
+    if(planView != null){
+        try{
+            if (planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETINGCANCELED || planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETING) {
 %>
-
-
-
-
-
+<%@include file="meeting_react2.jsp" %>
+<%@include file="include/loader.jsp"%>
+<%
+} else if (planView.getYearPlanComponent().getType() == YearPlanComponentType.ACTIVITY) {
+%>
+<%@include file="activity_react2.jsp" %>
+<%
+            }
+        }catch(Exception e){
+        }
+    }
+%>
 <script>
-//need to call it again here.
-$(document).ready(function(){
-  resizeWindow();
-}) 
+    //need to call it again here.
+    $(document).ready(function () {
+        resizeWindow();
+    })
 </script>
 
 

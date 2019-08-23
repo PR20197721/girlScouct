@@ -1,39 +1,23 @@
 package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
+import java.util.List;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
+public class CouncilInfo extends JcrNode implements Serializable {
+    private List<Milestone> milestones;
 
-@Node
-public class CouncilInfo implements Serializable {
+    public CouncilInfo() {
+    }
 
-	@Field(path = true)
-	String path;
-	@Collection
-	java.util.List<Milestone> milestones;
-	
-	public CouncilInfo() {
-		
-	}
-	public CouncilInfo(String path) {
-		this.path = path;
-	}
+    public CouncilInfo(String path) {
+        this.setPath(path);
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public java.util.List<Milestone> getMilestones() {
+        return milestones;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	public java.util.List<Milestone> getMilestones() {
-		return milestones;
-	}
-
-	public void setMilestones(java.util.List<Milestone> milestones) {
-		this.milestones = milestones;
-	}
+    public void setMilestones(java.util.List<Milestone> milestones) {
+        this.milestones = milestones;
+    }
 }

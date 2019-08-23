@@ -686,7 +686,7 @@ setTimeout(function(){
 		        				var hiddenOCMField = new CQ.Ext.form.Hidden({
 		        					'gsField': 'addOCM'+i,
 		        					name: './activities/' + agendaCompositeField.nodeName+ '/multiactivities/agenda' + i + '/ocm_classname',
-		        					value: "org.girlscouts.vtk.models.Activity"
+		        					value: "org.girlscouts.vtk.ocm.ActivityNode"
 	        					});
 		        				agendaCompositeField.add(hiddenOCMField);
 		        				agendaCompositeField["hiddenOCMField" + i] = hiddenOCMField;
@@ -885,7 +885,7 @@ var hiddenDummyActivityDescriptionFieldTT = new CQ.Ext.form.Hidden({
 		        	var hiddenOCMField = new CQ.Ext.form.Hidden({
     					'gsField': 'addOCM'+j,
     					name: './activities/' + value.nodeName+ '/multiactivities/agenda' + j + '/ocm_classname',
-    					value: 'org.girlscouts.vtk.models.Activity'
+    					value: 'org.girlscouts.vtk.ocm.ActivityNode'
 					});
 		        	me.add(hiddenOCMField);
 		        	

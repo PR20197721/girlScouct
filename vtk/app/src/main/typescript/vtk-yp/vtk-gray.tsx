@@ -1,28 +1,30 @@
 import * as React from "react";
 
-import { modal } from "./data";
+import {modal} from "./data";
 
-interface IGrayProps {};
+interface IGrayProps {
+}
 
 interface IGrayState {
     height?: number | string,
-    showGray?:boolean
-};
+    showGray?: boolean
+}
 
 class Gray extends React.Component<IGrayProps, IGrayState> {
 
     state: any;
     _modal: any;
-    constructor() { 
+
+    constructor() {
         super();
 
         this.state = {
-            height:'auto',
+            height: 'auto',
             showGray: false
         }
     }
 
-    setDimension() { 
+    setDimension() {
 
         this.setState({
             height: document.documentElement.clientHeight
@@ -30,47 +32,45 @@ class Gray extends React.Component<IGrayProps, IGrayState> {
     }
 
 
-
-
-    componentWillMount() { 
-          window.addEventListener('resize', () => { 
+    componentWillMount() {
+        window.addEventListener('resize', () => {
             this.setDimension();
-        })
-         this._modal = modal.subscribe('gray', this.toggle.bind(this));    
+        });
+        this._modal = modal.subscribe('gray', this.toggle.bind(this));
         this.setDimension();
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize',()=>{});
+        window.removeEventListener('resize', () => {
+        });
         this._modal.remove();
 
     }
 
 
-    hide() { 
-        this.setState({ showGray: false });     
-         document.body.style.overflowY = '';
+    hide() {
+        this.setState({showGray: false});
+        document.body.style.overflowY = '';
     }
 
 
-    show() { 
+    show() {
         this.setDimension();
 
-         document.body.style.overflowY = 'hidden';
-         this.setState({ showGray: true });
+        document.body.style.overflowY = 'hidden';
+        this.setState({showGray: true});
     }
-    
 
-    toggle(action) { 
 
-        if (action=='open'){ 
+    toggle(action) {
+
+        if (action == 'open') {
             this.show();
         }
-        if (action=='close'){ 
+        if (action == 'close') {
             this.hide();
         }
     }
-
 
 
     public render(): JSX.Element {
@@ -78,9 +78,10 @@ class Gray extends React.Component<IGrayProps, IGrayState> {
             className={(!this.state.showGray) ? "vtk-yp-gray __hidden" : "vtk-yp-gray"}
             style={{
                 height: this.state.height
-            }} >
-            </div>);
+            }}>
+        </div>);
     }
 }
+
 export default Gray;
 

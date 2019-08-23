@@ -39,6 +39,12 @@
                                             name="./pdfgenerator"
                                             value="true"
                                             rootPath="/content"/>
+                                    <dam-path
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="girlscouts/components/form/pathfield"
+                                            fieldLabel="DAM Path"
+                                            name="./damPath"
+                                            rootPath="/content/dam"/>
                                     <global-srch-landing-page
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="girlscouts/components/form/pathfield"

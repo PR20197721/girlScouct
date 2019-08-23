@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.girlscouts</groupId>
     <artifactId>aem</artifactId>
-    <version>3.12-SNAPSHOT</version>
+    <version>3.15-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O P E R T I E S -->

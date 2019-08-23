@@ -9,7 +9,7 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <ocm_classname
                     jcr:primaryType="cq:Widget"
-                    value="org.girlscouts.vtk.models.YearPlan"
+                    value="org.girlscouts.vtk.ocm.YearPlanNode"
                     name="./ocm_classname"
                     xtype="hidden"/>
                 <resType

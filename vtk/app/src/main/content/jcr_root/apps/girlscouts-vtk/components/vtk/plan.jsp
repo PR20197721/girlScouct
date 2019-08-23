@@ -1,11 +1,9 @@
 <%
-
     String activeTab = "plan";
     boolean showVtkNav = true;
-    boolean isParent = "PA".equals(troop.getTroop().getRole());
+    boolean isParent = "PA".equals(selectedTroop.getRole());
     boolean isAdmin = user.getApiConfig().getUser().isAdmin();
 %>
-
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 <%
@@ -14,14 +12,8 @@
 <%@include file="include/bodyTop.jsp" %>
 <%@include file="include/modals/modal_help.jsp" %>
 <%@include file="include/loader.jsp" %>
-
-
-<%PlanView planView = meetingUtil.planView(user, troop, request);%>
-
-
+<%PlanView planView = meetingUtil.planView(user, selectedTroop, request);%>
 <script>
-
-
     //Pollyfill for Browser  Previous to IE 9
     if (!Object.keys) {
         Object.keys = (function () {
@@ -63,19 +55,11 @@
             };
         }());
     }
-
-
 </script>
-
-
 <div id="yearPlanMeetings"
      class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan year_plan" : "vtk-pastYear-plan year_plan" %>">
-
-
     <div id="thePlan">
-
         <script type="text/javascript">
-
             var isActivNew;
             var isFirst = 1;
             var meetingPassed = true;
@@ -153,10 +137,10 @@
                                 parentComponent: this
                             })
                         );
-                    } else if (this.state.data != null && this.state.data.yearPlan != null && this.state.data.yearPlan == 'NYP' &&  <%= !VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" :  "false" %>) {
+                    } else if (this.state.data != null && this.state.data.yearPlan != null && this.state.data.yearPlan == 'NYP' &&  <%= !VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" :  "false" %>) {
                         return React.createElement("h3", {className: "notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "Hello! Your girl's Troop Leader has not yet set up the troop's Year Plan. Please contact the Troop Leader for more info on their use of the Volunteer Toolkit.");
 
-                    } else if (this.state.data != null && this.state.data.yearPlan != null && this.state.data.yearPlan == 'NYP' &&  <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>) {
+                    } else if (this.state.data != null && this.state.data.yearPlan != null && this.state.data.yearPlan == 'NYP' &&  <%= VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>) {
                         yesPlan.auto();
                         return React.createElement("h3", null);
                     } else {
@@ -185,7 +169,7 @@
                             React.createElement("div", {className: "row"},
                                 React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                                     React.createElement("h1", {className: "yearPlanTitle"}, this.props.yearPlanName),
-                                    React.createElement("p", {className: "hide-for-print <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
+                                    React.createElement("p", {className: "hide-for-print <%= VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
                                 )
                             ),
                             React.createElement(MeetingComponent, {
@@ -200,13 +184,18 @@
 
             var outdoorIcon = React.createClass({
                 displayName: "outdoorIcon",
+
                 render: function () {
+
+
                     var isOutdoorAvailable = this.props.isOutdoorAvailable, imgName;
+
                     if (this.props.isOutdoor) {
                         imgName = "outdoor.png";
                     } else {
                         imgName = "indoor.png";
                     }
+
                     var options = {
                         className: 'outdoor-icon has-tip tip-top radius',
                         src: '/etc/designs/girlscouts-vtk/clientlibs/css/images/' + imgName,
@@ -219,16 +208,18 @@
                         "data-tooltip": "outdoorIcon",
                         "aria-haspopup": true,
                         title: "<b>Get Girls Outside!</b>"
-                    }
+                    };
+
                     if (isOutdoorAvailable) {
                         return (React.createElement("img", options));
                     }
                     return null;
                 }
-            })
+            });
 
             var globalIcon = React.createClass({
                 displayName: "globalIcon",
+
                 render: function () {
                     var isGlobalAvailable = this.props.isGlobalAvailable, imgName;
                     if (this.props.isGlobal) {
@@ -246,15 +237,17 @@
                             paddingTop: '6px'
                         },
                         "data-tooltip": "globalIcon",
-                        "aria-haspopup": true,
+                        "aria-haspopup": true
+                        ,
                         title: "<b>Go Global!</b>"
-                    }
+                    };
+
                     if (isGlobalAvailable) {
                         return (React.createElement("img", options));
                     }
                     return null;
                 }
-            })
+            });
 
 
             var DirectCalendar = React.createClass({
@@ -552,7 +545,7 @@
                         )
                     );
                 }
-            })
+            });
 
 
             var MeetingComponent = React.createClass({
@@ -592,7 +585,7 @@
                             )
                         } else {
                             if (<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "true" : "false" %> &&
-                            <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>)
+                            <%= VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>)
                             {
                                 newLocCal();
                             }
@@ -655,13 +648,13 @@
 
                                             return (
                                                 React.createElement("li", {
-                                                        className: <%if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment(new Date()) && (moment(comment).get('year') > 2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default',
-                                                        key: obj[comment].id,
-                                                        id: obj[comment].id + 1
+                                                        className: <%if( !VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment(new Date()) && (moment(comment).get('year') > 2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default',
+                                                        key: obj[comment].sortOrder,
+                                                        id: obj[comment].sortOrder + 1
                                                     },
                                                     React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                                                         React.createElement("img", {
-                                                            className: (moment(comment) < moment(new Date()) && (moment(comment).get('year') > 2000)) ? "touchscroll hide" : "touchscroll <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>",
+                                                            className: (moment(comment) < moment(new Date()) && (moment(comment).get('year') > 2000)) ? "touchscroll hide" : "touchscroll <%= VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>",
                                                             src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"
                                                         }),
                                                         React.createElement("div", {}, React.createElement(DateBox, {
@@ -893,10 +886,10 @@
                     '</p></section>' +
                     '</div>' +
                     '</div>';
-                $(document).foundation()
+                $(document).foundation();
                 modal.html(_template)
                     .foundation('reveal', 'open');
-            }
+            };
 
 
             var MeetingImg = React.createClass({
@@ -906,7 +899,7 @@
                     var src = "/content/dam/girlscouts-vtk/local/icon/meetings/" + this.props.mid + ".png";
                     var imgReturn = "";
                     var onClick = function () {
-                    }
+                    };
 
                     if (this.props.meetingInfo.req) {
                         imgReturn += ' _requirement_modal';
@@ -1013,9 +1006,9 @@
                     return (
                         React.createElement("a", {
                                 onClick: function (event) {
-                                    var e = event.currentTarget.offsetParent
+                                    var e = event.currentTarget.offsetParent;
                                     event.preventDefault();
-                                    if (<%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)%>) {
+                                    if (<%= VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID)%>) {
                                         _this.props.openModal({
                                             clientX: e.offsetLeft,
                                             clientY: e.offsetTop
@@ -1025,10 +1018,10 @@
                                 }
                             },
                             React.createElement("div", {className: bgcolor(obj, comment, 1)},
-                                React.createElement("div", {className: (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED') ? "hide" : "count"}, (obj[comment].id) + 1),
+                                React.createElement("div", {className: (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED') ? "hide" : "count"}, (obj[comment].sortOrder) + 1),
                                 React.createElement("div", {className: "date"},
                                     React.createElement("p", {className: "month"}, moment.tz(comment, "America/New_York").get('year') < 1978 ? "meeting" : moment.tz(comment, "America/New_York").format('MMM')),
-                                    React.createElement("p", {className: "day"}, moment.tz(comment, "America/New_York").get('year') < 1978 ? (obj[comment].id) + 1 : moment.tz(comment, "America/New_York").format('DD')),
+                                    React.createElement("p", {className: "day"}, moment.tz(comment, "America/New_York").get('year') < 1978 ? (obj[comment].sortOrder)+1 : moment.tz(comment, "America/New_York").format('DD')),
                                     React.createElement("p", {className: "hour"}, moment.tz(comment, "America/New_York").get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('hh:mm a'))
                                 )
                             )
@@ -1049,10 +1042,7 @@
                    });
 
             */
-
-
         </script>
-
     </div>
     <%
     if(!isParent || isAdmin){
@@ -1066,16 +1056,12 @@
     }
     %>
 </div>
-
 <div id="requirementsModal" class="reveal-modal" data-reveal=""></div>
 <br/> <br/>
-
 <!-- Hack for NUB in Tooltip -->
 <style>
     .tooltip span.nub {
         left: 18px;
     }
 </style>
-
-
 <%@include file="include/bodyBottom.jsp" %>

@@ -8,7 +8,7 @@ import javax.jcr.Session;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
-import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,5 @@
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery-te-1.4.0.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-
 <!-- apps/girlscouts-vtk/components/vtk/include/modals/modal_meeting_reminder.jsp -->
 <div id="modal-meeting-reminder" class="reveal-modal" data-reveal>
   <div class="header clearfix">
