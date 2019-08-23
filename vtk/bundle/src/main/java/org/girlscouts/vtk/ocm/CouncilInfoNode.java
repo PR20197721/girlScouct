@@ -17,7 +17,6 @@ public class CouncilInfoNode extends JcrNode implements Serializable {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     public List<MilestoneNode> getMilestones() {
-        logger.error("Getting Milestones");
         return milestones;
     }
 

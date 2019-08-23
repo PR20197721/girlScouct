@@ -200,7 +200,6 @@ public class YearPlanUtil {
     }
 
     public void saveCouncilMilestones(User user, List<Milestone> milestones, Troop troop) throws IllegalAccessException {
-        logger.error("SaveCouncilMilestones");
         councilDAO.updateCouncilMilestones(user, milestones, troop);
     }
 
