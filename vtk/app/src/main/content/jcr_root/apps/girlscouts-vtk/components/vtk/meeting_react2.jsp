@@ -5,8 +5,9 @@
     pageContext.setAttribute("MEETING_PATH", meeting.getPath());
     pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
     pageContext.setAttribute("DETAIL_TYPE", "meeting");
+    boolean isViewingArchived = !user.getCurrentYear().equals(String.valueOf(VtkUtil.getCurrentGSYear()));
     String readonlyModeStr = VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
-            VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID) ? "false" : "true";
+            VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID) && !isViewingArchived ? "false" : "true";
     Cookie cookie = new Cookie("VTKReadonlyMode", readonlyModeStr);
     cookie.setPath("/");
     response.addCookie(cookie);

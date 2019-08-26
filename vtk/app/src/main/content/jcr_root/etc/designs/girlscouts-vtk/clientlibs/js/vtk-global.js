@@ -721,6 +721,27 @@ $(function(){
          $("#meetingSelect").css("display", "block");
      })
  }
+ function attendanceSelect(){
+    var checkboxesAttendance = document.getElementsByName('attendance');
+    var checkboxesAchievements = document.getElementsByName('achievement');
+    for (var i = 0; i<checkboxesAttendance.length; i++){
+        if(checkboxesAttendance[i] !== undefined)
+            checkboxesAttendance[i].checked = true;
+        if(checkboxesAchievements[i] !== undefined)
+            checkboxesAchievements[i].checked = true;
+    }
+ }
+ function attendanceClear(){
+     var checkboxesAttendance = document.getElementsByName('attendance');
+     var checkboxesAchievements = document.getElementsByName('achievement');
+     for (var i = 0; i<checkboxesAttendance.length; i++){
+        if(checkboxesAttendance[i] !== undefined)
+            checkboxesAttendance[i].checked = false;
+         if(checkboxesAchievements[i] !== undefined)
+            checkboxesAchievements[i].checked = false;
+     }
+ }
+
 $(document).ready(checkNews());
 
 $(window).load(function(){

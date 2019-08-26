@@ -189,11 +189,11 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         }else{
                             //IRM
                             //Fetching all IRM girls who have current user set as preferred contact to generate dummy troops for parent
-                            if(troop.getCouncilCode().equals("999") && isChildOfParent(contact.getContacts(), apiConfig.getUser().getContactId())){
+                            if(!troop.getIsIRM() && isChildOfParent(contact.getContacts(), apiConfig.getUser().getContactId())){
                                 contacts.add(contact);
                             }else{
                                 //Fetching specific girl info for her dummy troop?
-                                if(!troop.getCouncilCode().equals("999") && troop.getSfTroopId().equals(irmCouncilCode+"_"+contact.getId())) {
+                                if(troop.getSfTroopId().equals(irmCouncilCode+"_"+contact.getId())) {
                                     contacts.add(contact);
                                 }
                             }
