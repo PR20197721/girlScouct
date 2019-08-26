@@ -2,7 +2,9 @@ package org.girlscouts.vtk.osgi.service.impl;
 
 import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import org.girlscouts.vtk.models.CouncilInfo;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.ocm.CouncilInfoNode;
+import org.girlscouts.vtk.ocm.MilestoneNode;
 import org.girlscouts.vtk.osgi.service.GirlScoutsCouncilInfoOCMService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
 import org.osgi.service.component.annotations.Activate;
@@ -35,9 +37,9 @@ public class GirlScoutsCouncilInfoOCMServiceImpl implements GirlScoutsCouncilInf
 
     @Override
     public CouncilInfo update(CouncilInfo object) {
-        CouncilInfoNode node = NodeToModelMapper.INSTANCE.toNode(object);
-        node = girlScoutsOCMRepository.update(node);
-        return NodeToModelMapper.INSTANCE.toModel(node);
+        CouncilInfoNode councilInfoNode = NodeToModelMapper.INSTANCE.toNode(object);
+        councilInfoNode = girlScoutsOCMRepository.update(councilInfoNode);
+        return NodeToModelMapper.INSTANCE.toModel(councilInfoNode);
     }
 
     @Override
