@@ -1,6 +1,5 @@
 package org.girlscouts.vtk.osgi.component.util;
 
-import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -12,7 +11,6 @@ import org.girlscouts.vtk.osgi.component.dao.*;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.utils.ActivityDateComparator;
 import org.girlscouts.vtk.utils.ActivityNumberComparator;
-import org.girlscouts.vtk.utils.MeetingEDateComparator;
 import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1182,11 +1180,11 @@ public class MeetingUtil {
 
     public void setSelectedSubActivity(User user, Troop troop, String meetingPath, String activityPath, String subActivityPath) throws IllegalAccessException, IllegalStateException {
         java.util.List<MeetingE> meetingEs = troop.getYearPlan().getMeetingEvents();
-        for (int i = 0; i < meetingEs.size(); i++) {
-            if (meetingPath.equals(meetingEs.get(i).getPath())) {
+        for (MeetingE meetingE:meetingEs) {
+            if (meetingPath.equals(meetingE.getPath())) {
                 //m = meetingDAO.createCustomMeeting(user, troop, meetingEs.get(i));
                 //toCustomize = meetingEs.get(i);
-                java.util.List<Activity> activities = meetingEs.get(i).getMeetingInfo().getActivities();
+                java.util.List<Activity> activities = meetingE.getMeetingInfo().getActivities();
                 if (activities != null) {
                     for (int y = 0; y < activities.size(); y++) {
                         if (activityPath.equals(activities.get(y).getPath())) {
@@ -1199,10 +1197,10 @@ public class MeetingUtil {
                                     subActivities.get(z).setIsSelected(false);
                                 }//end else
                             }//edn for z
-                            if (meetingEs.get(i).getRefId().contains("_")) {
-                                meetingDAO.updateCustomMeeting(user, troop, meetingEs.get(i), meetingEs.get(i).getMeetingInfo());
+                            if (meetingE.getRefId().contains("_")) {
+                                meetingDAO.updateCustomMeeting(user, troop, meetingE, meetingE.getMeetingInfo());
                             } else {
-                                meetingDAO.createCustomMeeting(user, troop, meetingEs.get(i), meetingEs.get(i).getMeetingInfo());
+                                meetingDAO.createCustomMeeting(user, troop, meetingE, meetingE.getMeetingInfo());
                             }
 
                         }//edn if
@@ -1210,20 +1208,6 @@ public class MeetingUtil {
                 }
             }//edn if
         }//edn for i
-        try {
-            //meetingDAO.createCustomMeeting(user, troop, toCustomize);
-            //troopUtil.updateTroop(user,  troop );
-            if (false) {
-                throw new IllegalAccessException();
-            }
-            if (false) {
-                throw new VtkException("test");
-            }
-        } catch (IllegalAccessException e) {
-            log.error("Error occurred: ", e);
-        } catch (VtkException e) {
-            log.error("Error occurred: ", e);
-        }
     }
 
     public boolean canDeleteMeeting(PlanView planView, MeetingE meeting, User user, Troop troop) {

@@ -4,6 +4,7 @@ import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.ocm.MeetingENode;
 import org.girlscouts.vtk.osgi.service.GirlScoutsMeetingEOCMService;
+import org.girlscouts.vtk.osgi.service.GirlScoutsMeetingOCMService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -20,6 +21,8 @@ public class GirlScoutsMeetingEOCMServiceImpl implements GirlScoutsMeetingEOCMSe
     private static Logger log = LoggerFactory.getLogger(GirlScoutsMeetingEOCMServiceImpl.class);
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
+    @Reference
+    private GirlScoutsMeetingOCMService girlScoutsMeetingOCMService;
 
     @Activate
     private void activate() {
@@ -43,7 +46,11 @@ public class GirlScoutsMeetingEOCMServiceImpl implements GirlScoutsMeetingEOCMSe
     @Override
     public MeetingE read(String path) {
         MeetingENode node = (MeetingENode) girlScoutsOCMRepository.read(path);
-        return NodeToModelMapper.INSTANCE.toModel(node);
+        MeetingE meetingE = NodeToModelMapper.INSTANCE.toModel(node);
+        if(meetingE.getMeetingInfo() == null){
+            meetingE.setMeetingInfo(girlScoutsMeetingOCMService.read(meetingE.getRefId()));
+        }
+        return meetingE;
     }
 
     @Override
@@ -53,7 +60,11 @@ public class GirlScoutsMeetingEOCMServiceImpl implements GirlScoutsMeetingEOCMSe
 
     @Override
     public MeetingE findObject(String path, Map<String, String> params) {
-        return NodeToModelMapper.INSTANCE.toModel(girlScoutsOCMRepository.findObject(path, params, MeetingENode.class));
+        MeetingE meetingE = NodeToModelMapper.INSTANCE.toModel(girlScoutsOCMRepository.findObject(path, params, MeetingENode.class));
+        if(meetingE.getMeetingInfo() == null){
+            meetingE.setMeetingInfo(girlScoutsMeetingOCMService.read(meetingE.getRefId()));
+        }
+        return meetingE;
     }
 
     @Override
@@ -61,7 +72,11 @@ public class GirlScoutsMeetingEOCMServiceImpl implements GirlScoutsMeetingEOCMSe
         List<MeetingENode> nodes = girlScoutsOCMRepository.findObjects(path, params, MeetingENode.class);
         List<MeetingE> models = new ArrayList<>();
         nodes.forEach(meetingENode -> {
-            models.add(NodeToModelMapper.INSTANCE.toModel(meetingENode));
+            MeetingE meetingE = NodeToModelMapper.INSTANCE.toModel(meetingENode);
+            if(meetingE.getMeetingInfo() == null){
+                meetingE.setMeetingInfo(girlScoutsMeetingOCMService.read(meetingE.getRefId()));
+            }
+            models.add(meetingE);
         });
         return models;
     }
