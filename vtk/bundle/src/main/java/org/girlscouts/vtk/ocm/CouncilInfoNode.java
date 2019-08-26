@@ -11,7 +11,7 @@ import java.util.List;
 
 @Node
 public class CouncilInfoNode extends JcrNode implements Serializable {
-    @Collection(autoUpdate = true, autoInsert=true, collectionClassName = MilestoneNode.class)
+    @Collection(autoUpdate = true, autoInsert=true)
     private List<MilestoneNode> milestones;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
