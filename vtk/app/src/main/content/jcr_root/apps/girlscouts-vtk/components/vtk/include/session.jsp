@@ -5,6 +5,7 @@
                 org.girlscouts.vtk.osgi.component.util.*,
                 org.girlscouts.vtk.models.*,
                 org.girlscouts.vtk.exception.*,
+                org.girlscouts.vtk.auth.permission.*,
                 org.girlscouts.vtk.osgi.component.ConfigManager,
                 org.girlscouts.vtk.osgi.component.CouncilMapper,
                 org.slf4j.Logger,
@@ -99,6 +100,23 @@
         return;
     }
     List<Troop> userTroops = apiConfig.getUser().getTroops();
+    if (apiConfig.getUser().isAdmin() && (userTroops == null || userTroops.size() <= 0)) {
+        Troop dummyVTKAdminTroop = new Troop();
+        dummyVTKAdminTroop.setPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_ADMIN_PERMISSIONS));
+        dummyVTKAdminTroop.setTroopId("none");
+        dummyVTKAdminTroop.setSfTroopName("vtk_virtual_troop");
+        dummyVTKAdminTroop.setSfCouncil(user.getAdminCouncilId());
+        dummyVTKAdminTroop.setSfUserId("none");
+        dummyVTKAdminTroop.setSfTroopId("none");
+        dummyVTKAdminTroop.setCouncilCode(user.getAdminCouncilId());
+        dummyVTKAdminTroop.setTroopName("vtk_virtual_troop");
+        String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + dummyVTKAdminTroop.getSfCouncil();
+        dummyVTKAdminTroop.setCouncilPath(councilPath);
+        String troopPath = councilPath + "/troops/" + dummyVTKAdminTroop.getSfTroopId();
+        dummyVTKAdminTroop.setPath(troopPath);
+        // user.setPermissions(user_troop.getPermissionTokens());
+        userTroops.add(dummyVTKAdminTroop);
+    }
     if ((userTroops == null || userTroops.size() <= 0 || (userTroops.get(0).getType() == 1))) {
         int vtkSignupYear = VtkUtil.getCurrentGSYear() + 1;
 %>

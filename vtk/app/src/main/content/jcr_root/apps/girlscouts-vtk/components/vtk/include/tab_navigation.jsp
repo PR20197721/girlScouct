@@ -12,7 +12,14 @@
         if (activeTab == null) {
             return;
         }
-        PlanView planView = meetingUtil.planView(user, selectedTroop, request);
+        boolean isArchived = !user.getCurrentYear().equals(String.valueOf(VtkUtil.getCurrentGSYear()));
+        org.girlscouts.vtk.models.PlanView planView = null;
+        if (isArchived) {
+            Troop archivedTroop = (Troop)session.getAttribute("VTK_archived_troop");
+            planView = meetingUtil.planView(user, archivedTroop, request);
+        }else{
+            planView = meetingUtil.planView(user, selectedTroop, request);
+        }
         boolean isParent = false;
         if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("PA")) {
             isParent = true;
@@ -109,9 +116,13 @@
                        onClick='alert("Content only available for meetings. Add at least one meeting to the Year Plan to access this tab.")'>
                         <%= (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) ? "Meeting Plan" : "Past Meeting Plans"%>
                     </a>
-                    <%} else { %>
-                    <a
-                            <%= selectedTroop.getYearPlan() != null ? "href='" + relayUrl + "/content/girlscouts-vtk/en/vtk.details.html'" : "href='#' onClick='modalAlert.alert(\"YEAR PLAN & MEETING PLAN\",\"You must first make a selection on the Explore tab, in order to view a Year Plan or meeting\")'"  %>>
+                    <%} else {
+                         String emptyYearPlanPopup = "\"YEAR PLAN & MEETING PLAN\",\"You must first make a selection on the Explore tab, in order to view a Year Plan or meeting\"";
+                          if (isParent){
+                              emptyYearPlanPopup = "\"YEAR PLAN & MEETING PLAN\",\"Your leader must first set up a year plan before you can view meetings.\"";
+                          }%>
+                        <a
+                            <%= selectedTroop.getYearPlan() != null ? "href='" + relayUrl + "/content/girlscouts-vtk/en/vtk.details.html'" : "href='#' onClick='modalAlert.alert(" + emptyYearPlanPopup + ")'"  %>>
                         <%= (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) ? "Meeting Plan" : "Past Meeting Plans"%>
                     </a>
                     <%} %>
@@ -131,7 +142,7 @@
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
                 </dd>
                 <% } %>
-                <% if (!(user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                <% if (!(isParent || user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
                 <dd
                         <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
@@ -309,7 +320,7 @@
                         <% } %>
                     </li>
                     <% } %>
-                    <% if (!user.getApiConfig().isDemoUser()) { %>
+                    <% if (!(isParent || user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
                     <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
                             href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
                     </li>

@@ -335,4 +335,20 @@ public class Activity extends YearPlanComponent implements Serializable {
     public String toString() {
         return "Activity{" + "path=" + this.getPath() + '}';
     }
+
+    public Boolean getEditable() {
+        return isEditable;
+    }
+
+    public void setEditable(Boolean editable) {
+        isEditable = editable;
+    }
+
+    public Boolean getSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(Boolean selected) {
+        isSelected = selected;
+    }
 }

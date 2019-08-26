@@ -7,6 +7,9 @@
                 com.day.image.Layer,
                 com.google.gson.Gson,
                 com.google.gson.GsonBuilder,
+				org.girlscouts.vtk.ocm.*,
+				org.girlscouts.vtk.osgi.service.*,
+				org.girlscouts.vtk.osgi.component.dao.*,
                 org.apache.commons.beanutils.BeanComparator,
                 org.girlscouts.vtk.auth.permission.Permission,
                 org.girlscouts.vtk.osgi.component.util.CouncilRpt,
@@ -402,10 +405,12 @@
                         }
                     }
                     //archive
+                    boolean isViewingArchived = !user.getCurrentYear().equals(String.valueOf(VtkUtil.getCurrentGSYear()));
                     VtkUtil.cngYear(request, user);
-                    if (!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) {
+                    if (isViewingArchived) {
+                        Troop archivedTroop = (Troop)session.getAttribute("VTK_archived_troop");
                         Set permis = org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);
-                        Troop newTroopCloned = ((Troop) VtkUtil.deepClone(prefTroop));
+                        Troop newTroopCloned = ((Troop) VtkUtil.deepClone(archivedTroop));
                         newTroopCloned.setPermissionTokens(permis);
                         selectedTroop = newTroopCloned;
                     } else {
@@ -418,6 +423,81 @@
                     //selectedTroop.setPath(selectedTroopRepoData.getPath());
                     selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
                     PlanView planView = meetingUtil.planView(user, selectedTroop, request);
+                    try {
+                        List<org.girlscouts.vtk.models.Asset> assets = new ArrayList<org.girlscouts.vtk.models.Asset>();
+                        Resource libraryMeeting = resourceResolver.getResource(planView.getMeeting().getRefId());
+                        if(libraryMeeting != null){
+                            Node meetingNode = libraryMeeting.adaptTo(Node.class);
+                            if (meetingNode.hasProperty("aidPaths")) {
+                                Value[] assetPaths = meetingNode.getProperty("aidPaths").getValues();
+                                for (int i = 0; i < assetPaths.length; i++) {
+                                    String assetPath = assetPaths[i].getString();
+                                    Resource meetingAidFolder = resourceResolver.resolve(assetPath);
+                                    Iterator<Resource> aidResources = meetingAidFolder.listChildren();
+                                    while(aidResources.hasNext()) {
+                                        try {
+                                            Resource aidResource = aidResources.next();
+                                            if ("dam:Asset".equals(aidResource.getResourceType())) {
+                                                Resource metadata = aidResource.getChild("jcr:content/metadata");
+                                                if (metadata != null) {
+                                                    Node props = metadata.adaptTo(Node.class);
+                                                    org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset();
+                                                    asset.setRefId(aidResource.getPath());
+                                                    if (props.hasProperty("dc:isOutdoorRelated")) {
+                                                        asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
+                                                    } else {
+                                                        asset.setIsOutdoorRelated(false);
+                                                    }
+                                                    asset.setIsCachable(true);
+                                                    asset.setType("AID");
+                                                    asset.setDescription(props.getProperty("dc:description").getString());
+                                                    asset.setTitle(props.getProperty("dc:title").getString());
+                                                    assets.add(asset);
+                                                }
+                                            }
+                                        } catch (Exception e) {
+                                            //log.error("Cannot get assets for meeting: " + rootPath + ". Root cause was: " + e.getMessage());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        String meetingCode = planView.getMeeting().getRefId().substring(planView.getMeeting().getRefId().lastIndexOf("/"));
+                        String pathToAssets = "/content/dam/girlscouts-vtk2019/local/aid/meetings"+meetingCode;
+                        Resource meetingAidFolder = resourceResolver.resolve(pathToAssets);
+                        Iterator<Resource> aidResources = meetingAidFolder.listChildren();
+                        while(aidResources.hasNext()){
+                            try {
+                                Resource aidResource = aidResources.next();
+                                if("dam:Asset".equals(aidResource.getResourceType())){
+                                    Resource metadata = aidResource.getChild("jcr:content/metadata");
+                                    if(metadata != null){
+                                        Node props = metadata.adaptTo(Node.class);
+                                        org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset();
+                                        asset.setRefId(aidResource.getPath());
+                                        if (props.hasProperty("dc:isOutdoorRelated")) {
+                                            asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
+                                        } else {
+                                            asset.setIsOutdoorRelated(false);
+                                        }
+                                        asset.setIsCachable(true);
+                                        asset.setType("AID");
+                                        asset.setDescription(props.getProperty("dc:description").getString());
+                                        asset.setTitle(props.getProperty("dc:title").getString());
+                                        assets.add(asset);
+                                    }
+                                }
+                            } catch (Exception e) {
+
+                                //log.error("Cannot get assets for meeting: " + rootPath + ". Root cause was: " + e.getMessage());
+                            }
+                        }
+
+                        planView.getMeeting().setAssets(assets);
+
+                    }catch(Exception e){
+                        vtklog.error("Error occurred:",e);
+                    }
                     java.util.List<MeetingE> TMP_meetings = (java.util.List<MeetingE>) VtkUtil.deepClone(selectedTroop.getYearPlan().getMeetingEvents());
                     MeetingE _meeting = (MeetingE) planView.getYearPlanComponent();
                     if (_meeting != null && _meeting.getMeetingInfo() != null) {
@@ -496,7 +576,7 @@
                         helper.setAttendanceCurrent(attendanceCurrent);
                         helper.setAttendanceTotal(attendanceTotal);
                         selectedTroop.getYearPlan().setHelper(helper);
-                        session.setAttribute("VTK_troop", selectedTroop);
+
                         try {
                             response.setContentType("application/json");
                             String json = ModelToRestEntityMapper.INSTANCE.toEntity(selectedTroop).getJson();
@@ -505,7 +585,9 @@
                             vtklog.error("Exception occured:", ee);
                         }
                         selectedTroop.getYearPlan().setMeetingEvents(TMP_meetings);
-                        session.setAttribute("VTK_troop", selectedTroop);
+                        if (!isViewingArchived) {
+                            session.setAttribute("VTK_troop", selectedTroop);
+                        }
                     } else {
                         if (selectedTroop == null) {
                             vtklog.error("troop:" + selectedTroop);
@@ -525,16 +607,17 @@
                     out.println("{\"yearPlan\":\"NYP\"}");
                     return;
                 }
+                boolean isViewingArchived = !user.getCurrentYear().equals(String.valueOf(VtkUtil.getCurrentGSYear()));
                 boolean isFirst = false;
                 if ((request.getAttribute("isFirst") != null && ((String) request.getAttribute("isFirst")).equals("1")) || (request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1"))) {
                     isFirst = true;
                 }
-                boolean isCng = false;
+                boolean isModified = false;
                 if (!isFirst) {
                     ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
-                    isCng = modifiedChecker.isModified("X" + session.getId(), selectedTroop.getYearPlan().getPath());
+                    isModified = modifiedChecker.isModified("X" + session.getId(), selectedTroop.getYearPlan().getPath());
                 }
-                if (isFirst || isCng) {
+                if (isFirst || isModified) {
                     Troop prefTroop = null;
                     if (userTroops != null && userTroops.size() > 0) {
                         prefTroop = userTroops.get(0);
@@ -547,9 +630,10 @@
                     }
                     //archive
                     VtkUtil.cngYear(request, user);
-                    if (!user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) {
+                    if (isViewingArchived) {
+                        Troop archivedTroop = (Troop)session.getAttribute("VTK_archived_troop");
                         java.util.Set permis = org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);
-                        Troop newTroopCloned = ((Troop) VtkUtil.deepClone(prefTroop));
+                        Troop newTroopCloned = ((Troop) VtkUtil.deepClone(archivedTroop));
                         newTroopCloned.setPermissionTokens(permis);
                         selectedTroop = newTroopCloned;
                     } else {
@@ -578,7 +662,6 @@
                             sched.put(selectedTroop.getYearPlan().getMilestones().get(i).getDate(), selectedTroop.getYearPlan().getMilestones().get(i));
                         }
                     }
-                    session.setAttribute("VTK_troop", selectedTroop);
                     Object[] tmp = sched.values().toArray();
                     for (int i = 0; i < tmp.length; i++) {
                         try {
@@ -608,6 +691,9 @@
                     out.println("{\"yearPlan\":\"" + selectedTroop.getYearPlan().getName() + "\",\"schedule\":");
                     out.println(json.replaceAll("mailto:", ""));
                     out.println("}");
+                    if (!isViewingArchived) {
+                        session.setAttribute("VTK_troop", selectedTroop);
+                    }
                 }
             } catch (Exception e) {
                 vtklog.error("Exception occured:", e);
@@ -768,7 +854,7 @@
         }
 %>
     <option value="<%=userTroop.getHash()%>"
-        <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%>
+            <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%>
     </option>
     <%
         }
@@ -859,10 +945,27 @@
 <%
 } else if (request.getParameter("cngYear") != null) {
     vtklog.debug("cngYear");
-    VtkUtil.cngYear(request, user);
+    String yr = request.getParameter("cngYear");
+    String gsYear = String.valueOf(VtkUtil.getCurrentGSYear());
+    if (yr != null && !yr.equals(gsYear)) {
+        GirlScoutsTroopOCMService girlScoutsTroopOCMService = sling.getService(GirlScoutsTroopOCMService.class);
+        String archivedPath = "/vtk"+yr+selectedTroop.getPath().substring(8);
+        Troop archivedTroop = girlScoutsTroopOCMService.read(archivedPath);
+        if(archivedTroop != null){
+            java.util.Set permis = org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);
+            permis.add(org.girlscouts.vtk.auth.permission.Permission.PERMISSION_VIEW_REPORT_ID);
+            archivedTroop.setPermissionTokens(permis);
+            session.setAttribute("VTK_archived_troop", archivedTroop);
+            String newYear = yr == null ? user.getCurrentYear() : yr;
+            user.setCurrentYear(newYear);
+        }
+        apiConfig.setUser(user);
+        session.setAttribute(ApiConfig.class.getName(),apiConfig);
+    }
+
 } else if (request.getParameter("cngYearToCurrent") != null) {
     vtklog.debug("cngYearToCurrent");
-    user.setCurrentYear(VtkUtil.getCurrentGSYear() + "");
+    user.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
     java.util.Set permis = org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_LEADER_PERMISSIONS);
     Troop newTroopCloned = ((Troop) VtkUtil.deepClone(selectedTroop));
     newTroopCloned.setPermissionTokens(permis);

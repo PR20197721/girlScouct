@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.ocm;
 
+import org.apache.jackrabbit.ocm.manager.collectionconverter.impl.MultiValueCollectionConverterImpl;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
@@ -16,6 +17,8 @@ public class MeetingNode extends YearPlanComponentNode implements Serializable {
     private String level, blurb, cat;
     @Field
     private String aidTags, resources, agenda, req, reqTitle;
+    @Collection(collectionConverter= MultiValueCollectionConverterImpl.class)
+    private List<String> aidPaths;
     @Field
     private Integer position = 0;
     @Field
@@ -171,5 +174,13 @@ public class MeetingNode extends YearPlanComponentNode implements Serializable {
 
     public void setAchievement(Boolean achievement) {
         isAchievement = achievement;
+    }
+
+    public List<String> getAidPaths() {
+        return aidPaths;
+    }
+
+    public void setAidPaths(List<String> aidPaths) {
+        this.aidPaths = aidPaths;
     }
 }

@@ -74,7 +74,7 @@ export function parseJSONVTK(json: any) {
     for (let part in json) {
 
 
-        if (part === "jcr:primaryType" || part === "sling:resourceType") {
+        if (!json[part].hasOwnProperty("jcr:primaryType")) {
             continue;
         } else {
             counting++;
