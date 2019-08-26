@@ -14,8 +14,6 @@
     String communityUrl = "";
     String councilId = "0";
     String gradeLevel = "CA";
-    String[] gsLearnMap = {"999","306","642","240","360"};
-    String gsLearnCouncil="";
     List<Troop> userTroops = null;
     try {
         apiConfig = ((ApiConfig) session.getAttribute(ApiConfig.class.getName()));
@@ -67,17 +65,6 @@
     if (configManager != null) {
         communityUrl = configManager.getConfig("communityUrl");
     }
-    for(int i=0; i<gsLearnMap.length;i++){
-        if (councilId.equals(gsLearnMap[i])){
-            gsLearnCouncil=gsLearnMap[i];
-        }
-    	}
-      	String userRolegslearn = null;
-        if (!apiConfig.isFail()) {
-        if ( apiConfig.getTroops() != null && apiConfig.getTroops().size() >0) {
-        userRolegslearn = apiConfig.getTroops().get(0).getRole();
-    	}
-    }
 %>
 <!--<%=councilId%>-->
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
@@ -120,7 +107,7 @@
 
                         <div class="text parbase section"><h1>Welcome.</h1></div>
 
-                        <ul class="large-block-grid-3 medium-block-grid-2 small-block-grid-1 ">
+                        <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
                             <li>
                                 <% if (!isHideSignIn && apiConfig!=null) {
                                     String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
@@ -154,14 +141,6 @@
                                 <p>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</p>
                                 <%}//edn if %>
                             </li>
-                            <li>
-								<% if (councilId.equals(gsLearnCouncil)&& userRolegslearn.equals("DP")) { %>
-                                <a href="https://gsmembers.force.com/members/idp/login?app=0sp0f000000k9bw"><img src="/etc/designs/girlscouts-vtk/images/btn_member_gslearn.jpg"/></a>
-								<p>
-                                    Get on-demand and online training and resources for your Girl Scout volunteer role. Your council has information available to help you have an amazing Girl Scout year!<br/><br/>Troop Leaders - click above to go directly into our online training forum!
-                                </p>
-                                <%}%>
-                            </li>	
                         </ul>
                         <div class="text parbase section"></div>
                     </div>
