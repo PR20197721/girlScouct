@@ -11,15 +11,15 @@ import java.util.List;
 
 @Node
 public class MeetingENode extends YearPlanComponentNode implements Serializable {
-    @Collection(autoUpdate = false)
+    @Collection(autoUpdate = true)
     private List<AssetNode> assets;
     @Collection
     private List<SentEmailNode> sentEmails;
     @Field
     private Date lastAssetUpdate;
-    @Bean(autoUpdate = false)
+    @Bean(autoUpdate = true)
     private AttendanceNode attendance;
-    @Bean(autoUpdate = false)
+    @Bean(autoUpdate = true)
     private AchievementNode achievement;
     @Collection(autoRetrieve = true, autoInsert = true)
     private List<NoteNode> notes;
