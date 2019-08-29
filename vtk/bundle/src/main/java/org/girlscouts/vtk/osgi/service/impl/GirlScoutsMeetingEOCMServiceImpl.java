@@ -47,8 +47,11 @@ public class GirlScoutsMeetingEOCMServiceImpl implements GirlScoutsMeetingEOCMSe
     public MeetingE read(String path) {
         MeetingENode node = (MeetingENode) girlScoutsOCMRepository.read(path);
         MeetingE meetingE = NodeToModelMapper.INSTANCE.toModel(node);
-        if(meetingE.getMeetingInfo() == null){
-            meetingE.setMeetingInfo(girlScoutsMeetingOCMService.read(meetingE.getRefId()));
+        if(meetingE != null && meetingE.getMeetingInfo() == null){
+            String refId = meetingE.getRefId();
+            if(refId != null) {
+                meetingE.setMeetingInfo(girlScoutsMeetingOCMService.read(refId));
+            }
         }
         return meetingE;
     }
