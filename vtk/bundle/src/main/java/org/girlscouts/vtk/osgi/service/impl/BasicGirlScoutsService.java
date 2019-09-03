@@ -15,4 +15,13 @@ public class BasicGirlScoutsService {
             return "";
         }
     }
+
+    protected String[] getMultiValueConfig(String property) {
+        if (this.context != null) {
+            Dictionary properties = this.context.getProperties();
+            return (String[])properties.get(property);
+        } else {
+            return new String[]{};
+        }
+    }
 }
