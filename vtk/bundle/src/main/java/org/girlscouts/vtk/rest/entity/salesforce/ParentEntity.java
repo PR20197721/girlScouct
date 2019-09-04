@@ -2,6 +2,8 @@ package org.girlscouts.vtk.rest.entity.salesforce;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class ParentEntity {
     @SerializedName("Id")
     private String sfId;
@@ -72,5 +74,27 @@ public class ParentEntity {
 
     public void setParticipationCode(String participationCode) {
         this.participationCode = participationCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ParentEntity that = (ParentEntity) o;
+        return Objects.equals(sfId, that.sfId) && Objects.equals(councilCode, that.councilCode) && Objects.equals(attributes, that.attributes) && Objects.equals(accountCode, that.accountCode) && Objects.equals(gradeLevel, that.gradeLevel) && Objects.equals(troopName, that.troopName) && Objects.equals(participationCode, that.participationCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sfId, councilCode, attributes, accountCode, gradeLevel, troopName, participationCode);
+    }
+
+    @Override
+    public String toString() {
+        return "{Id='" + sfId + '\'' + ", Council_Code__c='" + councilCode + '\'' + ", attributes=" + attributes + ", Account__c='" + accountCode + '\'' + ", Program_Grade_Level__c='" + gradeLevel + '\'' + ", Name='" + troopName + '\'' + ", Participation__c='" + participationCode + '\'' + '}';
     }
 }
