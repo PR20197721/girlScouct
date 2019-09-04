@@ -73,10 +73,11 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
             try {
                 List<CouncilRptBean> brownies = councilRpt.getCollection_byAgeGroup(container, ageGroup);
                 Map<String, String> yearPlanNames = councilRpt.getDistinctPlanNamesPath(brownies);
-                count++;
+
                 int y = 0;
                 Iterator itr = yearPlanNames.keySet().iterator();
                 while (itr.hasNext()) {
+                    count++;
                     String yearPlanPath = (String) itr.next();
                     String yearPlanName = yearPlanNames.get(yearPlanPath);
                     List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanPath(brownies, yearPlanPath);
