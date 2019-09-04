@@ -214,6 +214,10 @@ public  String readUrlFile(String urlString) throws Exception {
                                 <img data-src="<%=videoThumbNail[i]%>" />
                             </a>
                         </div><%
+                    } else if (link[i].equals("") || link[i].equals(currentPage.getPath() + ".html")){
+                        %>
+                            <img src="<%= gsImagePathProvider.getImagePath(imagePath[i],"cq5dam.npd.top")%>" alt="<%=alt[i]%>" class="slide-thumb tag_explore_image_hero_<%=i%>"/>
+                        <%
                     } else {
                         %><a href="<%=link[i]%>" title="<%=title[i]%>" <%=openInNewWindow[i]%>>
                             <img src="<%= gsImagePathProvider.getImagePath(imagePath[i],"cq5dam.npd.top")%>" alt="<%=alt[i]%>" class="slide-thumb tag_explore_image_hero_<%=i%>"/>
