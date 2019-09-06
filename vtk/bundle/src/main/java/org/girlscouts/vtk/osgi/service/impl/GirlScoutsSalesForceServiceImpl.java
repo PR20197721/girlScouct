@@ -300,13 +300,17 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         List<Troop> parentTroops = new ArrayList<Troop>();
         if (campsTroops != null && campsTroops.length > 0) {
             for (ParentEntity entity : campsTroops) {
-                Troop troop = ParentEntityToTroopMapper.map(entity);
-                //Independent Registered Member
-                if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
-                    setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
+                if(entity.getGradeLevel() != null && entity.getCouncilCode() != null && entity.getParticipationCode() != null && (irmCouncilCode.equals(entity.getParticipationCode()) || "Troop".equals(entity.getParticipationCode()))) {
+                    Troop troop = ParentEntityToTroopMapper.map(entity);
+                    //Independent Registered Member
+                    if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
+                        setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
+                    } else {
+                        troop.setRole("PA");
+                        parentTroops.add(troop);
+                    }
                 }else{
-                    troop.setRole("PA");
-                    parentTroops.add(troop);
+                    log.debug("Skipping parent troop: ", entity.toString());
                 }
             }
         }
