@@ -29,7 +29,7 @@
 		try{
 			for(String council: councils ){
 
-					sql="select refId from nt:unstructured where isdescendantnode( '/vtk"+ rptForYear +"/" + council+"/')  and ocm_classname ='org.girlscouts.vtk.models.MeetingE'  and jcr:path not like '%/SHARED_%' and jcr:path not like '%/yearPlan-%'";
+					sql="select refId from nt:unstructured where isdescendantnode( '/vtk"+ rptForYear +"/" + council+"/')  and ocm_classname ='org.girlscouts.vtk.ocm.MeetingENode'  and jcr:path not like '%/SHARED_%' and jcr:path not like '%/yearPlan-%'";
     				q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 					result = q.execute();
                     for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
@@ -44,7 +44,7 @@
 		}catch(Exception e){e.printStackTrace();}
 
 
-		sql="select id,name, level, catTags, catTagsAlt from nt:unstructured where isdescendantnode( '/content/girlscouts-vtk/meetings/myyearplan"+rptForYear+"/') and ocm_classname='org.girlscouts.vtk.models.Meeting'";
+		sql="select id,name, level, catTags, catTagsAlt from nt:unstructured where isdescendantnode( '/content/girlscouts-vtk/meetings/myyearplan"+rptForYear+"/') and ocm_classname='org.girlscouts.vtk.ocm.MeetingNode'";
 		q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		result = q.execute();
 

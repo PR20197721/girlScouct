@@ -1,22 +1,20 @@
 package org.girlscouts.vtk.osgi.component.util;
 
-import com.day.cq.commons.jcr.JcrConstants;
-import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.MultiPartEmail;
-import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.CouncilRptBean;
-import org.girlscouts.vtk.models.YearPlanRpt;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
+import org.girlscouts.vtk.osgi.service.impl.BasicGirlScoutsService;
+import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -33,9 +31,8 @@ import java.util.*;
 
 @Component(service = {CouncilRpt.class}, immediate = true, name = "org.girlscouts.vtk.osgi.component.util.CouncilRpt")
 @Designate(ocd = CouncilRptConfiguration.class)
-public class CouncilRpt {
+public class CouncilRpt extends BasicGirlScoutsService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    private CouncilRptConfiguration config;
     @Reference
     private MessageGatewayService messageGatewayService;
     @Reference
@@ -46,10 +43,15 @@ public class CouncilRpt {
     private ResourceResolverFactory resolverFactory;
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
+    private String[] toEmailAddresses;
+    private String fromEmailAddress;
+
     @Activate
-    void activate(CouncilRptConfiguration config) {
+    void activate(ComponentContext context) {
         log.info("Girl Scouts VTK Council report generator activated.");
-        this.config = config;
+        this.context = context;
+        this.toEmailAddresses = getMultiValueConfig("toEmailAddresses");
+        this.fromEmailAddress = getConfig("fromEmailAddress");
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
     }
 
@@ -329,10 +331,10 @@ public class CouncilRpt {
             MessageGateway<MultiPartEmail> messageGateway = messageGatewayService.getGateway(MultiPartEmail.class);
             // create the mail
             MultiPartEmail email = new MultiPartEmail();
-            for (String address : config.toEmailAddresses()) {
+            for (String address : this.toEmailAddresses) {
                 email.addTo(address);
             }
-            email.setFrom(config.fromEmailAddress());
+            email.setFrom(this.fromEmailAddress);
             email.setSubject(subject + " (ENV:" + slingSettings.getRunModes() + ")");
             email.setMsg("Please find attached GS Report attached as of " + new java.util.Date());
             DataSource source = new ByteArrayDataSource(msg, "application/text");
