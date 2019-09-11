@@ -23,4 +23,9 @@ public class AttributesEntity {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return "{" + "type='" + type + '\'' + ", url='" + url + '\'' + '}';
+    }
 }
