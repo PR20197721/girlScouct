@@ -310,7 +310,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         parentTroops.add(troop);
                     }
                 }else{
-                    log.debug("Skipping parent troop: ", entity.toString());
+                    log.debug("Skipping parent troop: {}", entity.toString());
                 }
             }
         }
