@@ -1650,25 +1650,11 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 			if (!(localDate == null || localTime == null)){
 				zonedDateTime = ZonedDateTime.of(localDate, localTime, ZoneId.of(this.timezone));
 			}
-			
-			//String startingFormat = formatDate + "T" + time + " -05:00";
-			//GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'hh:mm a Z");
-			//GSDateTimeZone zone = new GSDateTimeZone(DateTimeZone.forOffsetHours(-5),"EST");
-			//dtfIn = dtfIn.withZone(zone);
-        	//GSDateTime dt = GSDateTime.parse(startingFormat,dtfIn);
-        	//GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
-        	//String result = dtfOut.print(dt);
+
 			String zonedDateTimeString = zonedDateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 			log.debug("ZonedDateTime: " + zonedDateTimeString);
 			GSDateTime dt = GSDateTime.parse(zonedDateTimeString);
-        	//System.out.println("Bulkeditor Converting Starting date format " + startingFormat + " to " + result);
-        	/*if(this.timezone != null){
-        		GSDateTimeFormatter dtfOutZone = GSDateTimeFormat.forPattern("ZZ");
-        		GSDateTimeZone dtz = GSDateTimeZone.forID(this.timezone);
-			    dt = GSDateTime.parse(result, dtfIn);
-			    dt = dt.withZone(dtz);
-			    dtfOutZone.print(dt);
-        	}*/
+
         	
         	return dt.getCalendar();
         	//return result;
