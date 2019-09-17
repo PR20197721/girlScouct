@@ -27,6 +27,10 @@ public class GSDateTime{
 	public static GSDateTime parse(String str, GSDateTimeFormatter dtf){
 		return new GSDateTime(DateTime.parse(str,dtf.dtf));
 	}
+
+	public static GSDateTime parse(String str){
+		return new GSDateTime(DateTime.parse(str));
+	}
 	
 	public Calendar getCalendar(){
 		return dt.toCalendar(Locale.ENGLISH);

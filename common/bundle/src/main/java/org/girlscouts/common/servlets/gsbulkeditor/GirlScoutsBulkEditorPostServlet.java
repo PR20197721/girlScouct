@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.security.AccessControlException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.time.*;
 
 import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
@@ -119,6 +121,8 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 	public static final String PROPERTIES_PARAM = "cols";
 
 	public static final String TIDY_PARAM = "tidy";
+
+	public static final String DEFAULT_TIMEZONE = "US/Eastern";
 
 	/**
 	 * Property name replacements
@@ -608,7 +612,13 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
     					event.setRegCloseDate(value);
     				} else if (header.equals(Event.REGISTRATION_CLOSE_TIME)){
     					event.setRegCloseTime(value);
-    				} else if (header.equals(Event.IMAGE)){
+    				} else if (header.equals(Event.TIMEZONE)) {
+						if (value == null || value.trim().isEmpty()){
+							value = DEFAULT_TIMEZONE;
+						}
+						event.setTimezone(value);
+						event.addDataPair(header.replace("jcr:content/data/", ""), value);
+					} else if (header.equals(Event.IMAGE)){
     					event.setImagePath(value);
     				} else if (header.equals(Event.PATH)){
     					event.setPath(value);
@@ -1182,7 +1192,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 			.replaceAll("Start Time","jcr:content/data/start-time")
 			.replaceAll("End Date","jcr:content/data/end-date")
 			.replaceAll("End Time","jcr:content/data/end-time")
-			.replaceAll("Time Zone \\(Only enter if you want timezone to be visible e.g. 10:30 PM EST. See http://joda-time.sourceforge.net/timezones.html for valid IDs\\)","jcr:content/data/timezone")
+			.replaceAll("Time Zone","jcr:content/data/timezone")
 			.replaceAll("Registration Open Date","jcr:content/data/regOpen-date")
 			.replaceAll("Registration Open Time","jcr:content/data/regOpen-time")
 			.replaceAll("Registration Close Date","jcr:content/data/regClose-date")
@@ -1391,6 +1401,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
     	public static final String REGISTARTION_OPEN_TIME = "jcr:content/data/regOpen-time";
     	public static final String REGISTRATION_CLOSE_DATE = "jcr:content/data/regClose-date";
     	public static final String REGISTRATION_CLOSE_TIME = "jcr:content/data/regClose-time";
+    	public static final String TIMEZONE = "jcr:content/data/timezone";
     	public static final String LOCATION_NAME = "jcr:content/data/locationLabel";
     	public static final String TEXT = "jcr:content/data/details";
     	public static final String CATEGORIES = "jcr:content/cq:tags-categories";
@@ -1496,6 +1507,13 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 			this.regCloseTime = regCloseTime;
 		}
 
+		public void setTimezone(String timezone){
+    		this.timezone = timezone;
+		}
+
+		public String getTimezone(){
+    		return this.timezone;
+		}
 
 		public List<String> getProgramLevels() {
 			return programLevels;
@@ -1615,30 +1633,42 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 			
 			String formatDate = date;
 			String[] dateSplit = date.split("/");
+			LocalDate localDate = null;
 			if(dateSplit.length == 3){
 				String endYear = dateSplit[2];
 				if(endYear.length() < 4){
 					endYear = "20" + endYear;
 				}
 				formatDate = dateSplit[0] + "/" + dateSplit[1] + "/" + endYear;
-				
+				localDate = LocalDate.of(Integer.parseInt(endYear), Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]));
+			}
+
+			String timePattern = "h:m a";
+			LocalTime localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern(timePattern));
+
+			ZonedDateTime zonedDateTime = null;
+			if (!(localDate == null || localTime == null)){
+				zonedDateTime = ZonedDateTime.of(localDate, localTime, ZoneId.of(this.timezone));
 			}
 			
-			String startingFormat = formatDate + "T" + time + " -05:00";
-			GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'hh:mm a Z");
-			GSDateTimeZone zone = new GSDateTimeZone(DateTimeZone.forOffsetHours(-5),"EST");
-			dtfIn = dtfIn.withZone(zone);
-        	GSDateTime dt = GSDateTime.parse(startingFormat,dtfIn);
-        	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
-        	String result = dtfOut.print(dt);
-        	System.out.println("Bulkeditor Converting Starting date format " + startingFormat + " to " + result);
-        	if(this.timezone != null){
+			//String startingFormat = formatDate + "T" + time + " -05:00";
+			//GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'hh:mm a Z");
+			//GSDateTimeZone zone = new GSDateTimeZone(DateTimeZone.forOffsetHours(-5),"EST");
+			//dtfIn = dtfIn.withZone(zone);
+        	//GSDateTime dt = GSDateTime.parse(startingFormat,dtfIn);
+        	//GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+        	//String result = dtfOut.print(dt);
+			String zonedDateTimeString = zonedDateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+			log.debug("ZonedDateTime: " + zonedDateTimeString);
+			GSDateTime dt = GSDateTime.parse(zonedDateTimeString);
+        	//System.out.println("Bulkeditor Converting Starting date format " + startingFormat + " to " + result);
+        	/*if(this.timezone != null){
         		GSDateTimeFormatter dtfOutZone = GSDateTimeFormat.forPattern("ZZ");
         		GSDateTimeZone dtz = GSDateTimeZone.forID(this.timezone);
 			    dt = GSDateTime.parse(result, dtfIn);
 			    dt = dt.withZone(dtz);
 			    dtfOutZone.print(dt);
-        	}
+        	}*/
         	
         	return dt.getCalendar();
         	//return result;
