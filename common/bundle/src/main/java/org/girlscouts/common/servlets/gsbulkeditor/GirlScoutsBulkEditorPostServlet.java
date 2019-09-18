@@ -616,6 +616,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 						if (value == null || value.trim().isEmpty()){
 							value = DEFAULT_TIMEZONE;
 						}
+						log.debug("RootNode Path is " + rootNode.getParent().getParent().getPath());
 						event.setTimezone(value);
 						event.addDataPair(header.replace("jcr:content/data/", ""), value);
 					} else if (header.equals(Event.IMAGE)){
