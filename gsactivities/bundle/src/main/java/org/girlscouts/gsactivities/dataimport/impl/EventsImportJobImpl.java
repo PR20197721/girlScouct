@@ -756,7 +756,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		ZonedDateTime withOffset = noOffsetZDT.withZoneSameInstant(timezone);
 
 		String zonedDateTimeString = withOffset.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-		log.debug("ZonedDateTimeString is " + zonedDateTimeString);
+		log.debug("Converted " + noOffsetZDT.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME) + " to " + zonedDateTimeString);
 		GSDateTime result = GSDateTime.parse(zonedDateTimeString);
 
 		return result.getCalendar();
