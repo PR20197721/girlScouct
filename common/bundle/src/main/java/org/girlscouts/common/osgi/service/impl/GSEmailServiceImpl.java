@@ -93,8 +93,9 @@ public class GSEmailServiceImpl implements GSEmailService {
 			if (subject != null) {
 				email.setSubject(subject);
 			}
+            email.setFrom("no-reply@girlscouts.org");
 			if(fromAddress != null){
-				email.setFrom(fromAddress);
+				email.addReplyTo(fromAddress);
 			}
 			setRecipients(toAddresses, email);
 			setBody(body, null, email);
