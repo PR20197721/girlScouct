@@ -740,13 +740,12 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	}
 
 	private Calendar getCalendar(String date, String timezoneString){
-		//Calendar result = null;
 		String shortenedTimezone = timezoneString.substring(timezoneString.lastIndexOf('(')+1, timezoneString.lastIndexOf(')'));
 		ZoneId timezone = ZoneId.of(shortenedTimezone);
 		log.debug("Converting " + date + " to timezone " + shortenedTimezone);
-		//result = Calendar.getInstance(timezone);
-		String[] splitDate = date.split("-|T|:|\\.");
 
+
+		String[] splitDate = date.split("-|T|:|\\.");
 		//first six values are year, month, day, hour, minute, second
 		int[] splitDateInt = new int[6];
 		for (int i=0; i<splitDateInt.length; i++){
@@ -757,8 +756,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 
 		String zonedDateTimeString = withOffset.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 		log.debug("Converted " + noOffsetZDT.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME) + " to " + zonedDateTimeString);
-		GSDateTime result = GSDateTime.parse(zonedDateTimeString);
 
+		GSDateTime result = GSDateTime.parse(zonedDateTimeString);
 		return result.getCalendar();
 	}
 }
