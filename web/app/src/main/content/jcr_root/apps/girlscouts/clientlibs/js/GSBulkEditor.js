@@ -1056,7 +1056,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     },
 
     getImportURL: function() {
-        var url = this.computeUrl(this.importURL);
+        var url = this.computeURL(this.importURL);
         url = CQ.HTTP.addParameter(url, "separator", this.csvSeparator);
         return url;
     },
