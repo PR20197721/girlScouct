@@ -128,7 +128,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             LinkedHashSet<MeetingResult> groupedResults = new LinkedHashSet<>();
             Map<String, Set<MeetingResult>> results2 = results.stream().collect(Collectors.groupingBy(s -> (s.getLevel()+"-"+s.getName().replaceAll("[^a-zA-Z]", "").toLowerCase()), LinkedHashMap::new, Collectors.mapping(s -> s, Collectors.toSet())));
             for (String key : results2.keySet()) {
-                SortedSet<MeetingResult> similarMeetings = new TreeSet<>(Comparator.comparing(MeetingResult::getName));
+                SortedSet<MeetingResult> similarMeetings = new TreeSet<>(Comparator.comparing(s -> s.getName().trim().toLowerCase()));
                 similarMeetings.addAll(results2.get(key));
                 groupedResults.addAll(similarMeetings);
             }
