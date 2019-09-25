@@ -50,18 +50,18 @@
                         if(selectedTroop.getParticipationCode() != null && "IRM".equals(selectedTroop.getParticipationCode())){
                             troopGradeLevel="";
                         }
-                        %>
-                        <option value="" SELECTED>Viewing ARCHIVED <%=selectedTroop.getTroopName()%><%=troopGradeLevel%></option>
-                        <%
-                    } else {
-                        for (Troop userTroop : userTroops) {
-                            String troopGradeLevel = " : "+ userTroop.getGradeLevel();
-                            if(userTroop.getParticipationCode() != null && "IRM".equals(userTroop.getParticipationCode())){
-                                troopGradeLevel="";
-                            }
-                            %>
-                            <option value="<%=userTroop.getHash()%>" <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%></option>
-                            <%
+                %>
+                <option value="" SELECTED>Viewing ARCHIVED <%=selectedTroop.getTroopName()%><%=troopGradeLevel%></option>
+                <%
+                } else {
+                    for (Troop userTroop : userTroops) {
+                        String troopGradeLevel = " : "+ userTroop.getGradeLevel();
+                        if(userTroop.getParticipationCode() != null && "IRM".equals(userTroop.getParticipationCode())){
+                            troopGradeLevel="";
+                        }
+                %>
+                <option value="<%=userTroop.getHash()%>" <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%></option>
+                <%
                         }
                     }%>
             </select>
@@ -80,9 +80,9 @@
         <div class="columns large-22 large-centered small-24">
             <dl class="tabs show-for-large-up">
                 <% if (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "") && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
-                    <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
-                        <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
-                    </dd>
+                <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
+                    <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
+                </dd>
                 <%} %>
                 <%
                     if (isTroopLeader && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID) && (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + ""))) {
@@ -117,11 +117,11 @@
                         <%= (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) ? "Meeting Plan" : "Past Meeting Plans"%>
                     </a>
                     <%} else {
-                         String emptyYearPlanPopup = "\"YEAR PLAN & MEETING PLAN\",\"You must first make a selection on the Explore tab, in order to view a Year Plan or meeting\"";
-                          if (isParent){
-                              emptyYearPlanPopup = "\"YEAR PLAN & MEETING PLAN\",\"Your leader must first set up a year plan before you can view meetings.\"";
-                          }%>
-                        <a
+                        String emptyYearPlanPopup = "\"YEAR PLAN & MEETING PLAN\",\"You must first make a selection on the Explore tab, in order to view a Year Plan or meeting\"";
+                        if (isParent){
+                            emptyYearPlanPopup = "\"YEAR PLAN & MEETING PLAN\",\"Your leader must first set up a year plan before you can view meetings.\"";
+                        }%>
+                    <a
                             <%= selectedTroop.getYearPlan() != null ? "href='" + relayUrl + "/content/girlscouts-vtk/en/vtk.details.html'" : "href='#' onClick='modalAlert.alert(" + emptyYearPlanPopup + ")'"  %>>
                         <%= (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) ? "Meeting Plan" : "Past Meeting Plans"%>
                     </a>
@@ -142,7 +142,7 @@
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
                 </dd>
                 <% } %>
-                <% if (!(isParent || user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                <% if (!((isParent && !user.isAdmin())|| user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
                 <dd
                         <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
@@ -320,7 +320,7 @@
                         <% } %>
                     </li>
                     <% } %>
-                    <% if (!(isParent || user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                    <% if (!((isParent && !user.isAdmin()) || user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
                     <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
                             href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
                     </li>
@@ -523,5 +523,3 @@
         </div>
     </div>
 </div>
-
- 
