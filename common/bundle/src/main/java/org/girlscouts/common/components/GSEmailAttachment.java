@@ -60,7 +60,11 @@ public class GSEmailAttachment {
 	}
 
 	public String getFileName() {
-		return this.getBaseName() + "." + this.getFileType().getFileExt();
+	    if(!this.getBaseName().toLowerCase().endsWith(this.getFileType().getFileExt().toLowerCase())){
+            return this.getBaseName() + "." + this.getFileType().getFileExt();
+        }else{
+            return this.getBaseName();
+        }
 	}
 
 	public DataHandler getDataHandler() throws IOException {
@@ -101,24 +105,47 @@ public class GSEmailAttachment {
 
 	public enum MimeType {
 
-		TEXT_PLAIN("text/plain", "txt"), TEXT_CSV("text/csv", "csv"), TEXT_HTML("text/html", "html"), VIDEO_MP4("video/mp4", ".mp4"),
-		APPLICATION_PDF("application/pdf", "pdf"), APPLICATION_ZIP("application/zip", "zip"), IMAGE_PNG("image/png", "png"), IMAGE_JPEG("image/jpeg", "jpg");
+        TEXT_PLAIN("text/plain", "txt"),
+        TEXT_CSV("text/csv", "csv"),
+        TEXT_HTML("text/html", "html"),
+        VIDEO_MP4("video/mp4", ".mp4"),
+        APPLICATION_PDF("application/pdf", "pdf"),
+        APPLICATION_DOC("application/msword", "doc"),
+        APPLICATION_DOCX("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "docx"),
+        APPLICATION_PPT("application/vnd.ms-powerpoint", "ppt"),
+        APPLICATION_PTTX("application/vnd.openxmlformats-officedocument.presentationml.presentation", "pptx"),
+        APPLICATION_XLS("application/vnd.ms-excel", "xls"),
+        APPLICATION_XLSX("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "xlsx"),
+        APPLICATION_ZIP("application/zip", "zip"),
+        IMAGE_PNG("image/png", "png"),
+        IMAGE_JPEG("image/jpeg", "jpeg"),
+        IMAGE_JPG("image/jpeg", "jpg"),
+        APPLICATION_OCTET_STREAM("application/octet-stream","");
 
 
-		private String mimeType;
-		private String fileExt;
+        private String mimeType;
+        private String fileExt;
 
-		MimeType(String mimeType, String fileExt) {
-			this.mimeType = mimeType;
-			this.fileExt = fileExt;
-		}
+        MimeType(String mimeType, String fileExt) {
+            this.mimeType = mimeType;
+            this.fileExt = fileExt;
+        }
+        public static MimeType findByType(String type){
+            for(MimeType v : values()){
+                String mimeType = v.getMimeType();
+                if( mimeType.equalsIgnoreCase(type)){
+                    return v;
+                }
+            }
+            return APPLICATION_OCTET_STREAM;
+        }
 
-		public String getMimeType() {
-			return this.mimeType;
-		}
+        public String getMimeType() {
+            return this.mimeType;
+        }
 
-		public String getFileExt() {
-			return fileExt;
-		}
+        public String getFileExt() {
+            return fileExt;
+        }
 	}
 }
