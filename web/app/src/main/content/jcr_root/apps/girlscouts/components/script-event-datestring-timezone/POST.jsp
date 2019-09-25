@@ -84,7 +84,7 @@
             this.backup = backup;
             this.dryRun = dryRun;
             log.error("B1");
-            this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "");
+            this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-service");
             try {
                 session = repository.loginAdministrative(null) ;
                 log.error(session.getUserID());
@@ -92,7 +92,8 @@
                 log.error("fixAssets interrupted due to exception", e);
             }
             try{
-                resourceResolver = resolverFactory.getServiceResourceResolver(this.resolverParams);
+                resourceResolver = resolverFactory.getAdministrativeResourceResolver(this.resolverParams);
+                log.error(resourceResolver.getUserID());
             } catch(Exception e){
                 log.error("Exception is " + e.getStackTrace());
             }
@@ -140,7 +141,8 @@
             try{
                 log.error("Run-Try");
                 Resource startRes = resourceResolver.resolve(path);
-                Iterable pages = startRes.getChildren();
+                log.error(startRes.getPath());
+                Iterator pages = startRes.listChildren();
                 log.error("E");
                 int counter = 0;
                 while(pages.hasNext()){
