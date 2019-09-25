@@ -12,6 +12,7 @@
                                 org.apache.sling.api.resource.ResourceResolver,
                                 org.apache.sling.api.resource.ResourceResolverFactory,
                                 org.apache.sling.api.resource.ValueMap,
+                                org.apache.sling.api.resource.ModifiableValueMap,
                                 org.apache.sling.jcr.api.SlingRepository,
                                 org.slf4j.Logger,
                                 org.slf4j.LoggerFactory,
@@ -58,7 +59,6 @@
     }
 %><%!
     public class EventTimeUpdateThread implements Runnable {
-        /*private Set<String> paths = new LinkedHashSet<String>();
         private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
         private ServletContext ctxt;
         private volatile boolean stop;
@@ -70,26 +70,33 @@
         private long nodesSaved = 0;
         private long nodeSaveCounter = 0;
         private SlingRepository repository;
-        private Session jcrSession ;
         private Map<String, Object> resolverParams = new HashMap<String, Object>();
-        String pattern = "MMddyyyyhhmmss";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);*/
 
         public final String path = "/content";
         private List<String> skipList = new ArrayList<String>();
         private Session session;
+        private ResourceResolver resourceResolver;
 
         public EventTimeUpdateThread(ServletContext ctxt, SlingRepository repository, boolean dryRun, boolean backup) {
+            log.error("A");
             this.ctxt = ctxt;
             this.repository = repository ;
             this.backup = backup;
             this.dryRun = dryRun;
-            this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-service");
+            log.error("B1");
+            this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "");
             try {
                 session = repository.loginAdministrative(null) ;
-            } catch (RepositoryException e) {
+                log.error(session.getUserID());
+            } catch (Exception e) {
                 log.error("fixAssets interrupted due to exception", e);
             }
+            try{
+                resourceResolver = resolverFactory.getServiceResourceResolver(this.resolverParams);
+            } catch(Exception e){
+                log.error("Exception is " + e.getStackTrace());
+            }
+            log.error("C");
             skipList.add("/content/gsusa");
             skipList.add("/content/webtocase");
             skipList.add("/content/girlscouts-dxp");
@@ -120,6 +127,7 @@
             skipList.add("/content/NewSignatureEvents2");
             skipList.add("/content/our-camps");
             skipList.add("/content/investigate");
+            log.error("D");
         }
 
         public void requestStop() {
@@ -128,113 +136,121 @@
         }
 
         public void run() {
-        try{
-            Resource startRes = resourceResolver.resolve(path);
-            Iterator pages = startRes.listChildren();
-            AccessControlManager acMgr = session.getAccessControlManager();
-            int counter = 0;
-            while(pages.hasNext()){
-                Resource page = pages.next();
-                if("cq:Page".equals(page.getResourceType())){
-                    if(!skipList.contains(page.getPath())){
-                        String timezone = null;
-                        Resource councilProps = page.getChild("en/jcr:content")
-                        if(councilProps != null){
-                            Node cpNode = councilProps.adaptTo(Node.class);
-                            if(cpNode.hasProperty("timezone")){
-                                timezone = cpNode.getProperty("timezone").getValue().toString();
-                                if (timezone.contains(":")){
-                                    println("Purging " + timezone.substring(timezone.indexOf(':')))
-                                    timezone = timezone.substring(0, timezone.indexOf(':'))
-                                    println("Timezone is " + timezone)
+            log.error("Run");
+            try{
+                log.error("Run-Try");
+                Resource startRes = resourceResolver.resolve(path);
+                Iterable pages = startRes.getChildren();
+                log.error("E");
+                int counter = 0;
+                while(pages.hasNext()){
+                    log.error("F");
+                    Resource page = (Resource)pages.next();
+                    log.error(page.getPath());
+                    if("cq:Page".equals(page.getResourceType())){
+                        log.error("H");
+                        if(!skipList.contains(page.getPath())){
+                            String timezone = null;
+                            Resource councilProps = page.getChild("en/jcr:content");
+                            if(councilProps != null){
+                                Node cpNode = councilProps.adaptTo(Node.class);
+                                if(cpNode.hasProperty("timezone")){
+                                    timezone = cpNode.getProperty("timezone").getValue().toString();
+                                    if (timezone.contains(":")){
+                                        log.error("Purging " + timezone.substring(timezone.indexOf(':')));
+                                        timezone = timezone.substring(0, timezone.indexOf(':'));
+                                        log.error("Timezone is " + timezone);
+                                    }
+                                }else{
+                                    log.error("no timezone property for "+cpNode.getPath());
                                 }
                             }else{
-                                println("no timezone property for "+cpNode.getPath());
+                                log.error("no council props for "+page.getPath());
                             }
-                        }else{
-                            println("no council props for "+page.getPath());
-                        }
-                        if(page.getChild("en/sf-events-repository") != null){
-                            counter = processEvents(page,"en/sf-events-repository",timezone, counter)
-                        }
-                        if(page.getChild("en/events-repository") != null){
-                            counter = processEvents(page,"en/events-repository",timezone, counter)
+                            if(page.getChild("en/sf-events-repository") != null){
+                                counter = processEvents(page,"en/sf-events-repository",timezone, counter);
+                            }
+                            if(page.getChild("en/events-repository") != null){
+                                counter = processEvents(page,"en/events-repository",timezone, counter);
+                            }
                         }
                     }
+                    log.error("G");
+                    log.error(Boolean.toString(pages.hasNext()));
                 }
-            }
-           }catch(Exception e){
+            }catch(Exception e){
                 log.debug("Error is " + e.getStackTrace());
             }
         }
 
 
         public int processEvents(Resource resource, String path,String timezone, int counter){
-        try{
-            String EXPRESSION = "SELECT s.[jcr:path] "+ "FROM [cq:Page] AS s WHERE ISDESCENDANTNODE('"+resource.getPath()+"/"+path+"')";
-            QueryResult result = search(EXPRESSION);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-            String[] datePropNames = ["start","end","regOpen","regClose"]
-            if (result != null) {
-                try {
-                    RowIterator rowIter = result.getRows()
-                    while (rowIter.hasNext()) {
-                        try {
-                            Row row = rowIter.nextRow()
-                            Node node = row.getNode()
-                            Resource event = resourceResolver.resolve(node.getPath());
-                            if(event.getChild("jcr:content/data") != null){
-                                Resource data = event.getChild("jcr:content/data");
-                                ValueMap valueMap = data.adaptTo(ModifiableValueMap.class);
-                                String startDate = valueMap.get("start",String.class);
-                                Node dataNode = data.adaptTo(Node.class);
-                                //rintln("Looking at " + data.getPath())
-                                for (int i=0; i<datePropNames.length; i++){
-                                    println("Looking at " + data.getPath()  + " property " + datePropNames[i])
-                                    if (dataNode.hasProperty(datePropNames[i])){
-                                        Property dateProp = dataNode.getProperty(datePropNames[i]);
-                                        if(dateProp.getType() == 1){
-                                            counter++;
-                                            //println(counter+" STRING DATE:"+dataNode.getPath()+" "+ ", value="+dateProp.getValue().toString());
-                                            //Date date = dateFormat.parse(dateProp.getString())
-                                            //Calendar calendar = Calendar.getInstance()
-                                            //calendar.setTime(date)
-                                            //println("Point A")
-                                            //dateProp.remove()
-                                            //println("Point B")
-                                            //dataNode.setProperty(datePropNames[i],calendar)
-                                            println(calendar)
-                                        }else{
-                                            //println(dateProp.getString() + " is already in Date Format")
-                                            if (dateProp.getType() != 5){
-                                                println("NEW TYPE:"+dataNode.getPath()+" "+dateProp.getType());
+            try{
+                String EXPRESSION = "SELECT s.[jcr:path] "+ "FROM [cq:Page] AS s WHERE ISDESCENDANTNODE('"+resource.getPath()+"/"+path+"')";
+                QueryResult result = search(EXPRESSION);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                String[] datePropNames = {"start","end","regOpen","regClose"};
+                if (result != null) {
+                    try {
+                        RowIterator rowIter = result.getRows();
+                        while (rowIter.hasNext()) {
+                            try {
+                                Row row = rowIter.nextRow();
+                                Node node = row.getNode();
+                                Resource event = resourceResolver.resolve(node.getPath());
+                                if(event.getChild("jcr:content/data") != null){
+                                    Resource data = event.getChild("jcr:content/data");
+                                    ValueMap valueMap = data.adaptTo(ModifiableValueMap.class);
+                                    String startDate = valueMap.get("start",String.class);
+                                    Node dataNode = data.adaptTo(Node.class);
+                                    //rintln("Looking at " + data.getPath())
+                                    for (int i=0; i<datePropNames.length; i++){
+                                        log.error("Looking at " + data.getPath()  + " property " + datePropNames[i]);
+                                        if (dataNode.hasProperty(datePropNames[i])){
+                                            Property dateProp = dataNode.getProperty(datePropNames[i]);
+                                            if(dateProp.getType() == 1){
+                                                counter++;
+                                                //log.error(counter+" STRING DATE:"+dataNode.getPath()+" "+ ", value="+dateProp.getValue().toString());
+                                                //Date date = dateFormat.parse(dateProp.getString());
+                                                //Calendar calendar = Calendar.getInstance();
+                                                //calendar.setTime(date);
+                                                //log.error("Point A");
+                                                //dateProp.remove();
+                                                //log.error("Point B");
+                                                //dataNode.setProperty(datePropNames[i],calendar);
+                                                //log.error(calendar.toString());
+                                            }else{
+                                                //log.error(dateProp.getString() + " is already in Date Format")
+                                                if (dateProp.getType() != 5){
+                                                    log.error("NEW TYPE:"+dataNode.getPath()+" "+dateProp.getType());
+                                                }
                                             }
                                         }
                                     }
-                                }
-                                if (!dataNode.hasProperty("timezone")){
-                                    counter++
-                                    //dataNode.setProperty("timezone",timezone)
-                                    println("New timezone " + timezone)
-                                }
+                                    if (!dataNode.hasProperty("timezone")){
+                                        counter++;
+                                        //dataNode.setProperty("timezone",timezone);
+                                        log.error("New timezone " + timezone);
+                                    }
 
-                            }
-                        }catch(Exception e){}
-                    }
-                    //save()
-                }catch(Exception e1){}
+                                }
+                            }catch(Exception e){}
+                        }
+                        //save();
+                    }catch(Exception e1){}
+                }
+                return counter;
+            } catch (Exception e){
+                log.debug("Exeption is" + e.getStackTrace());
+                return 0;
             }
-            return counter;
-        } catch (Exception e){
-            log.debug("Exeption is" + e.getStackTrace());
-            return 0;
         }
 
 
 
 
-        public void QueryResult search(EXPRESSION) {
-            //println(EXPRESSION)
+        public QueryResult search(String EXPRESSION) {
+            log.error(EXPRESSION);
             QueryResult result = null;
             try {
                 QueryManager queryManager = session.getWorkspace().getQueryManager();
