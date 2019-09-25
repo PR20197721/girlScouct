@@ -58,8 +58,12 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
         //parse files, get bytes, name, and mimeType
         try{
             while(slingRequest.getParameterMap().containsKey("file"+count)) {
-                addAttachment(slingRequest, attachments, count);
-                count++;
+                try{
+                    addAttachment(slingRequest, attachments, count);
+                    count++;
+                }catch (Exception e){
+                    log.error("Failed to add attachment file"+count,e);
+                }
             }
         }catch (Exception e){
             log.error("Failed to parse attachment file data.... Sending without attachments: ", e);
@@ -88,10 +92,10 @@ public class GirlscoutsEmailServlet extends SlingAllMethodsServlet implements Op
             if(reqFile != null){
                 String fN = slingRequest.getParameter("file" + count + "Name");
                 String fT = reqFile.getContentType() != null ? reqFile.getContentType() : "";
-                fT = fT.replaceAll("/", "_");
-                fT = fT.toUpperCase();
                 byte[] fB = reqFile.get();
-                attachments.add(new GSEmailAttachment(fN, fB, "", GSEmailAttachment.MimeType.valueOf(fT)));
+                log.debug("Adding attachment "+fN+" "+fT);
+                attachments.add(new GSEmailAttachment(fN, fB, "", GSEmailAttachment.MimeType.findByType(fT)));
+                log.debug("Successfully added attachment "+fN+" "+fT);
             }
         }catch (Exception e){
             log.error("Error adding attachment: ", e);

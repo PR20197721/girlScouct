@@ -106,7 +106,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                     }
                 }
             }
-            response.getWriter().write(mapper.writeValueAsString(results));
+            response.getWriter().write(mapper.writeValueAsString(groupResults(results)));
         } catch (Exception e) {
             log.debug("Error occurred:",e);
         } finally {
@@ -121,6 +121,22 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                 log.debug("Error occurred while closing resource resolver: ",ex);
             }
         }
+    }
+
+    private LinkedHashSet<MeetingResult> groupResults(LinkedHashSet<MeetingResult> results) {
+        try {
+            LinkedHashSet<MeetingResult> groupedResults = new LinkedHashSet<>();
+            Map<String, Set<MeetingResult>> results2 = results.stream().collect(Collectors.groupingBy(s -> (s.getLevel()+"-"+s.getName().replaceAll("[^a-zA-Z]", "").toLowerCase()), LinkedHashMap::new, Collectors.mapping(s -> s, Collectors.toSet())));
+            for (String key : results2.keySet()) {
+                SortedSet<MeetingResult> similarMeetings = new TreeSet<>(Comparator.comparing(s -> s.getName().trim().toLowerCase()));
+                similarMeetings.addAll(results2.get(key));
+                groupedResults.addAll(similarMeetings);
+            }
+            return groupedResults;
+        }catch(Exception e){
+            log.error("Error grouping VTK Meeting Search results", e);
+        }
+        return results;
     }
 
     private QueryResult getQueryResult(Session session, org.girlscouts.vtk.models.MeetingSearch search) throws RepositoryException {
