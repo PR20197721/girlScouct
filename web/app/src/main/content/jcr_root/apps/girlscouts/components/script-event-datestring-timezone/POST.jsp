@@ -78,26 +78,21 @@
         private ResourceResolver resourceResolver;
 
         public EventTimeUpdateThread(ServletContext ctxt, SlingRepository repository, boolean dryRun, boolean backup) {
-            log.error("A");
             this.ctxt = ctxt;
             this.repository = repository ;
             this.backup = backup;
             this.dryRun = dryRun;
-            log.error("B1");
             this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-service");
             try {
                 session = repository.loginAdministrative(null) ;
-                log.error(session.getUserID());
             } catch (Exception e) {
                 log.error("fixAssets interrupted due to exception", e);
             }
             try{
                 resourceResolver = resolverFactory.getAdministrativeResourceResolver(this.resolverParams);
-                log.error(resourceResolver.getUserID());
             } catch(Exception e){
                 log.error("Exception is " + e.getStackTrace());
             }
-            log.error("C");
             skipList.add("/content/gsusa");
             skipList.add("/content/webtocase");
             skipList.add("/content/girlscouts-dxp");
@@ -128,7 +123,6 @@
             skipList.add("/content/NewSignatureEvents2");
             skipList.add("/content/our-camps");
             skipList.add("/content/investigate");
-            log.error("D");
         }
 
         public void requestStop() {
@@ -139,18 +133,12 @@
         public void run() {
             log.error("Run");
             try{
-                log.error("Run-Try");
                 Resource startRes = resourceResolver.resolve(path);
-                log.error(startRes.getPath());
                 Iterator pages = startRes.listChildren();
-                log.error("E");
                 int counter = 0;
                 while(pages.hasNext()){
-                    log.error("F");
                     Resource page = (Resource)pages.next();
-                    log.error(page.getPath());
                     if("cq:Page".equals(page.getResourceType())){
-                        log.error("H");
                         if(!skipList.contains(page.getPath())){
                             String timezone = null;
                             Resource councilProps = page.getChild("en/jcr:content");
@@ -177,8 +165,6 @@
                             }
                         }
                     }
-                    log.error("G");
-                    log.error(Boolean.toString(pages.hasNext()));
                 }
             }catch(Exception e){
                 log.debug("Error is " + e.getStackTrace());
@@ -212,17 +198,20 @@
                                             Property dateProp = dataNode.getProperty(datePropNames[i]);
                                             if(dateProp.getType() == 1){
                                                 counter++;
-                                                //log.error(counter+" STRING DATE:"+dataNode.getPath()+" "+ ", value="+dateProp.getValue().toString());
-                                                //Date date = dateFormat.parse(dateProp.getString());
-                                                //Calendar calendar = Calendar.getInstance();
-                                                //calendar.setTime(date);
-                                                //log.error("Point A");
-                                                //dateProp.remove();
-                                                //log.error("Point B");
-                                                //dataNode.setProperty(datePropNames[i],calendar);
-                                                //log.error(calendar.toString());
+                                                log.error(counter+" STRING DATE:"+dataNode.getPath()+" "+ ", value="+dateProp.getValue().toString());
+                                                Date date = dateFormat.parse(dateProp.getString());
+                                                Calendar calendar = Calendar.getInstance();
+                                                calendar.setTime(date);
+                                                log.error("Point A");
+                                                if (!dryRun){
+                                                    dateProp.remove();
+                                                    log.error("DataNode Property is" + Boolean.toString(dataNode.hasProperty(datePropNames[i])));
+                                                    dataNode.setProperty(datePropNames[i],calendar);
+                                                    dataNode.save();
+                                                }
+                                                log.error(calendar.toString());
                                             }else{
-                                                //log.error(dateProp.getString() + " is already in Date Format")
+                                                log.error(dateProp.getString() + " is already in Date Format");
                                                 if (dateProp.getType() != 5){
                                                     log.error("NEW TYPE:"+dataNode.getPath()+" "+dateProp.getType());
                                                 }
@@ -231,15 +220,21 @@
                                     }
                                     if (!dataNode.hasProperty("timezone")){
                                         counter++;
-                                        //dataNode.setProperty("timezone",timezone);
+                                        dataNode.setProperty("timezone",timezone);
                                         log.error("New timezone " + timezone);
                                     }
 
                                 }
-                            }catch(Exception e){}
+                            }catch(Exception e){
+                            	log.error("Exception is " + e.getStackTrace());
+                            }
                         }
-                        //save();
-                    }catch(Exception e1){}
+                        if (!dryRun){
+                        	session.save();
+                        }
+                    }catch(Exception e){
+                    	log.error("Exception is " + e.getStackTrace());
+                    }
                 }
                 return counter;
             } catch (Exception e){
