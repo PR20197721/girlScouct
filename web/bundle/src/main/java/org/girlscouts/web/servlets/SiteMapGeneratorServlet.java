@@ -94,18 +94,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    try {
     Resource dam = resourceResolver.getResource(damLoc);
     if (dam != null) {
-
-     //most councils use "documents", some use one of the other strings
-     String[] specificDocLocations = {"documents", "forms-and-documents-", "forms", "documents", "GSGCF-Forms-and-Documents",
-             "forms-and-documents"};
-     Resource documents;
-     for (String specificDocLocation : specificDocLocations) {
-      documents = dam.getChild(specificDocLocation);
-      if (documents != null) {
-       writeDamFolderXML(stream, slingRequest, documents);
-       break;
-      }
-     }
+     writeDamFolderXML(stream, slingRequest, dam);
      
     }
    } catch (Exception e){
