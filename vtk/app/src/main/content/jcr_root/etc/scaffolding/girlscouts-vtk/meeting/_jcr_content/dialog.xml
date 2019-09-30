@@ -849,7 +849,7 @@
                 <req
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Requirements"
-                        name="./meetingInfo/req/str"
+                        name="./req"
                         allowBlank="{Boolean}true"
                         xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">

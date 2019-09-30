@@ -19,6 +19,8 @@ public class TroopNode extends JcrNode implements Serializable {
     @Field
     private String sfTroopAge;
     @Field
+    private String sfParentId;
+    @Field
     private String sfCouncil;
     @Field
     private String currentTroop;
@@ -119,4 +121,11 @@ public class TroopNode extends JcrNode implements Serializable {
         this.refId = refId;
     }
 
+    public String getSfParentId() {
+        return sfParentId;
+    }
+
+    public void setSfParentId(String sfParentId) {
+        this.sfParentId = sfParentId;
+    }
 }
