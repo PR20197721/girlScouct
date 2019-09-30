@@ -495,6 +495,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 	        			newYearNode = parentNode.addNode(year,CQ_PAGE);
 	        			newYearNode.addNode(JCR_CONTENT,CQ_PAGE_CONTENT);
 						parentNode.getSession().save();
+						rootRes=adminResolver.getResource(newYearNode.getPath());
 	        		}catch(Exception e){
 						response.setStatus(500, "Failed to create year node");
 						log.error("Failed to create year node:", e);
