@@ -213,6 +213,14 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
   String fullUrl = slingRequest.getRequestURL().toString();
   String hostAndPort = fullUrl.substring(0, fullUrl.length()-uriLength);
 
+  //checks for https vs http
+  if (slingRequest.getHeader("X-Forwarded-Proto") != null) {
+   boolean isSecure = slingRequest.getHeader("X-Forwarded-Proto").equals("https");
+   if (isSecure && !hostAndPort.substring(0,5).equalsIgnoreCase("https")) {
+    hostAndPort = "https" + hostAndPort.substring(4);
+   }
+  }
+
   String locPath = (hostAndPort + path);
 
   return locPath;
