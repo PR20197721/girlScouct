@@ -299,7 +299,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
                 if(imageNode.hasProperty("fileReference")){
                     %> <img src="<%= imageNode.getProperty("fileReference").getString() %>" /> <%
                 }
-                else{
+                else if (imageNode.hasNodes()){
                     Image image = new Image(resource.getChild("image"));
                     image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
                     Node imgNode = resourceResolver.getResource(resource.getChild("image").getPath()).adaptTo(Node.class);
