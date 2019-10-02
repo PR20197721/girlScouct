@@ -289,58 +289,60 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		try {
 			String imgExtPath = properties.get("imagePath","");
             String imgPath = resource.getPath()+"/image";
-            Node imageNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
             if(!imgExtPath.isEmpty()){
                 %> <img src="<%= imgExtPath %>" /> <%
             }
-            else if(imageNode.hasProperty("fileReference")){
-                %> <img src="<%= imageNode.getProperty("fileReference").getString() %>" /> <%
-            }
-			else{
-			    Image image = new Image(resource.getChild("image"));
-                image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
-                Node imgNode = resourceResolver.getResource(resource.getChild("image").getPath()).adaptTo(Node.class);
-                String width;
-                String height;
-                if(imgNode.hasProperty("./width")){
-                    width = imgNode.getProperty("./width").getString();
-                } else{
-                    width = "0";
+        	else if (resourceResolver.getResource(imgPath) != null)
+            {
+
+                Node imageNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
+                if(imageNode.hasProperty("fileReference")){
+                    %> <img src="<%= imageNode.getProperty("fileReference").getString() %>" /> <%
                 }
-                if(imgNode.hasProperty("./height")){
-                    height = imgNode.getProperty("./height").getString();
-                } else{
-                    height = "0";
-                }
-                try{
-
-                    //drop target css class = dd prefix + name of the drop target in the edit config
-                    image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
-                    image.loadStyleData(currentStyle);
-                    image.setSelector(".img"); // use image script
-                    image.setDoctype(Doctype.fromRequest(request));
-                    if (!"0".equals(width)) {
-                        image.addAttribute("width", width + "px");
+                else if (imageNode.hasNodes()){
+                    Image image = new Image(resource.getChild("image"));
+                    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
+                    Node imgNode = resourceResolver.getResource(resource.getChild("image").getPath()).adaptTo(Node.class);
+                    String width;
+                    String height;
+                    if(imgNode.hasProperty("./width")){
+                        width = imgNode.getProperty("./width").getString();
+                    } else{
+                        width = "0";
                     }
-                    if (!"0".equals(height)) {
-                        image.addAttribute("height", height + "px");
+                    if(imgNode.hasProperty("./height")){
+                        height = imgNode.getProperty("./height").getString();
+                    } else{
+                        height = "0";
                     }
+                    try{
 
-                    Boolean newWindow = properties.get("./newWindow", false);
+                        //drop target css class = dd prefix + name of the drop target in the edit config
+                        image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
+                        image.loadStyleData(currentStyle);
+                        image.setSelector(".img"); // use image script
+                        image.setDoctype(Doctype.fromRequest(request));
+                        if (!"0".equals(width)) {
+                            image.addAttribute("width", width + "px");
+                        }
+                        if (!"0".equals(height)) {
+                            image.addAttribute("height", height + "px");
+                        }
 
-                    // add design information if not default (i.e. for reference paras)
-                    if (!currentDesign.equals(resourceDesign)) {
-                        image.setSuffix(currentDesign.getId());
-                    }
+                        Boolean newWindow = properties.get("./newWindow", false);
 
-                    if(!newWindow) {
-                       image.draw(out);
-                    } else { %>
-                        <%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
-                        <%
-                    }
-                }catch (Exception e){
+                        // add design information if not default (i.e. for reference paras)
+                        if (!currentDesign.equals(resourceDesign)) {
+                            image.setSuffix(currentDesign.getId());
+                        }
 
+                        if(!newWindow) {
+                           image.draw(out);
+                        } else { %>
+                            <%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
+                            <%
+                        }
+                    }catch (Exception e){}
                 }
 			}
 		} catch (Exception e) {}
