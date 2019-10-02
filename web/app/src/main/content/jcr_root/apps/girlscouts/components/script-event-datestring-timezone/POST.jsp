@@ -202,7 +202,6 @@
                                                 Date date = dateFormat.parse(dateProp.getString());
                                                 Calendar calendar = Calendar.getInstance();
                                                 calendar.setTime(date);
-                                                log.debug("Point A");
                                                 if (!dryRun){
                                                     dateProp.remove();
                                                     log.debug("DataNode Property is" + Boolean.toString(dataNode.hasProperty(datePropNames[i])));
