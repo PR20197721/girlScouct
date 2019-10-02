@@ -540,7 +540,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                                 <div className="row" style={{clear: 'both'}}>
                                     <div className="columns small-20 small-centered">
 
-                                        <div className={this.state.pdf ? `columns small-24 medium-4 end` : 'columns small-24'} style={!this.state.pdf ? {textAlign: 'center'} : {}}>
+                                        <div className={this.state.pdf ? `columns small-24` : 'columns small-24'} style={!this.state.pdf ? {textAlign: 'center'} : {textAlign: 'center'}}>
                                             <button onClick={() => this.openTracks()} className='btn button btn-line'>CLOSE</button>
                                         </div>
                                     </div>
