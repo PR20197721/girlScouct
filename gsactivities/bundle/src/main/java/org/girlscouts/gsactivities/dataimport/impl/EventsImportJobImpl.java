@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.SocketException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar; 
@@ -20,6 +21,7 @@ import java.util.TimeZone;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.time.*;
 
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
@@ -56,6 +58,7 @@ import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.gsactivities.dataimport.EventsImport;
 import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.common.exception.GirlScoutsException;
+import org.girlscouts.common.events.search.*;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -737,19 +740,24 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	}
 
 	private Calendar getCalendar(String date, String timezoneString){
-		Calendar result = null;
 		String shortenedTimezone = timezoneString.substring(timezoneString.lastIndexOf('(')+1, timezoneString.lastIndexOf(')'));
-		TimeZone timezone = TimeZone.getTimeZone(shortenedTimezone);
+		ZoneId timezone = ZoneId.of(shortenedTimezone);
 		log.debug("Converting " + date + " to timezone " + shortenedTimezone);
-		result = Calendar.getInstance(timezone);
-		String[] splitDate = date.split("-|T|:|\\.");
 
+
+		String[] splitDate = date.split("-|T|:|\\.");
 		//first six values are year, month, day, hour, minute, second
 		int[] splitDateInt = new int[6];
 		for (int i=0; i<splitDateInt.length; i++){
 			splitDateInt[i] = Integer.parseInt(splitDate[i]);
 		}
-		result.set(splitDateInt[0],splitDateInt[1],splitDateInt[2],splitDateInt[3],splitDateInt[4],splitDateInt[5]);
-		return result;
+		ZonedDateTime noOffsetZDT = ZonedDateTime.of(splitDateInt[0],splitDateInt[1],splitDateInt[2],splitDateInt[3],splitDateInt[4],splitDateInt[5],0, ZoneId.of("UTC"));
+		ZonedDateTime withOffset = noOffsetZDT.withZoneSameInstant(timezone);
+
+		String zonedDateTimeString = withOffset.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+		log.debug("Converted " + noOffsetZDT.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME) + " to " + zonedDateTimeString);
+
+		GSDateTime result = GSDateTime.parse(zonedDateTimeString);
+		return result.getCalendar();
 	}
 }

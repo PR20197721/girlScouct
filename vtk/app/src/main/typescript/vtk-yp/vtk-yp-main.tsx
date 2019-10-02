@@ -539,17 +539,8 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                                 }
                                 <div className="row" style={{clear: 'both'}}>
                                     <div className="columns small-20 small-centered">
-                                        {this.state.pdf
-                                            ? <div className="columns small-24 medium-10">
-                                                <i className="icon-pdf-file-extension"></i><a style={{
-                                                paddingTop: '7px',
-                                                display: 'inline-block'
-                                            }} target="_blank" href={this.state.pdf}>
-                                                {/* <img src={pdf} style={{width:'20px',marginRight:'5px'}}/> */}
-                                                Pre-Selected Tracks Overview </a>
-                                            </div>
-                                            : null}
-                                        <div className={this.state.pdf ? `columns small-24 medium-4 end` : 'columns small-24'} style={!this.state.pdf ? {textAlign: 'center'} : {}}>
+
+                                        <div className={this.state.pdf ? `columns small-24` : 'columns small-24'} style={!this.state.pdf ? {textAlign: 'center'} : {textAlign: 'center'}}>
                                             <button onClick={() => this.openTracks()} className='btn button btn-line'>CLOSE</button>
                                         </div>
                                     </div>

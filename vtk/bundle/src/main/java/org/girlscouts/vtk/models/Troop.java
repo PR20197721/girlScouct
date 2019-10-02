@@ -13,6 +13,7 @@ public class Troop extends JcrNode implements Serializable {
     private String sfTroopName;
     private String sfTroopAge;
     private String sfCouncil;
+    private String sfParentId;
     private String irmTroopId;
     private String currentTroop;
     private String errCode;
@@ -256,5 +257,13 @@ public class Troop extends JcrNode implements Serializable {
 
     public void setIsSUM(Boolean SUM) {
         isSUM = SUM;
+    }
+
+    public String getSfParentId() {
+        return sfParentId;
+    }
+
+    public void setSfParentId(String sfParentId) {
+        this.sfParentId = sfParentId;
     }
 }
