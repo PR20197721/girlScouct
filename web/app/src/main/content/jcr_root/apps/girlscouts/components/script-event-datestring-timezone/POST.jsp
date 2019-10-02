@@ -136,7 +136,7 @@
                 Resource startRes = resourceResolver.resolve(path);
                 Iterator pages = startRes.listChildren();
                 int counter = 0;
-                while(pages.hasNext()){
+                while(pages.hasNext() && !this.stop){
                     Resource page = (Resource)pages.next();
                     if("cq:Page".equals(page.getResourceType())){
                         if(!skipList.contains(page.getPath())){
@@ -222,15 +222,15 @@
                                         counter++;
                                         dataNode.setProperty("timezone",timezone);
                                         log.error("New timezone " + timezone);
+                                        if (!dryRun){
+                                            dataNode.save();
+                                        }
                                     }
 
                                 }
                             }catch(Exception e){
                             	log.error("Exception is " + e.getStackTrace());
                             }
-                        }
-                        if (!dryRun){
-                        	session.save();
                         }
                     }catch(Exception e){
                     	log.error("Exception is " + e.getStackTrace());
