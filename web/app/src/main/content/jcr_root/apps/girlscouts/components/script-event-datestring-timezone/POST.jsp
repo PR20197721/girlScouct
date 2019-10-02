@@ -123,6 +123,8 @@
             skipList.add("/content/NewSignatureEvents2");
             skipList.add("/content/our-camps");
             skipList.add("/content/investigate");
+            skipList.add("/content/gsdsw");
+            skipList.add("/content/cgspr");
         }
 
         public void requestStop() {
