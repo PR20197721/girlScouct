@@ -320,6 +320,14 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
         }
         List<Troop> mergedTroops = mergeTroops(parentTroops, additionalTroops);
+        Set<Troop> invalidTroops = new HashSet<>();
+        for (Troop troop : mergedTroops) {
+            if (troop.getSfTroopName() == null || troop.getRole() == null || troop.getGradeLevel() == null || troop.getCouncilCode() == null || !isValidParticipationCode(troop)) {
+                log.debug("Ignoring troop "+troop.getPath()+ ". Check all required parameters.");
+                invalidTroops.add(troop);
+            }
+        }
+        mergedTroops.removeAll(invalidTroops);
         for (Troop troop : mergedTroops) {
             if (apiConfig.isDemoUser()) {
                 troop.setCouncilCode(demoCouncilCode);
@@ -334,6 +342,10 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
         }
         user.setTroops(mergedTroops);
+    }
+
+    private boolean isValidParticipationCode(Troop troop) {
+        return troop.getParticipationCode() != null && (irmCouncilCode.equals(troop.getParticipationCode()) || "Troop".equals(troop.getParticipationCode()));
     }
 
     private void setDummyIRMTroops(ApiConfig apiConfig, User user, UserInfoResponseEntity userInfoResponseEntity, List<Troop> parentTroops, ParentEntity entity, Troop troop) {
@@ -353,6 +365,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                     dummyIRMTroop.setCouncilCode(irmCouncilCode);
                     dummyIRMTroop.setSfCouncil(irmCouncilCode);
                 }
+                dummyIRMTroop.setParticipationCode(irmCouncilCode);
                 dummyIRMTroop.setIrmTroopId(troop.getSfTroopId());
                 //parent is used as troop
                 dummyIRMTroop.setSfTroopId(irmCouncilCode + "_" +contact.getId());
@@ -368,6 +381,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 dummyIRMTroop.setTroopName(troopName);
                 dummyIRMTroop.setSfTroopName(troopName);
                 dummyIRMTroop.setRole("PA");
+                dummyIRMTroop.setGradeLevel(troop.getGradeLevel());
                 dummyIRMTroop.setIsIRM(true);
                 parentTroops.add(dummyIRMTroop);
             }

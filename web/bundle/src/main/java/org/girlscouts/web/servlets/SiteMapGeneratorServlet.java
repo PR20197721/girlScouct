@@ -94,18 +94,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
    try {
     Resource dam = resourceResolver.getResource(damLoc);
     if (dam != null) {
-
-     //most councils use "documents", some use one of the other strings
-     String[] specificDocLocations = {"documents", "forms-and-documents-", "forms", "documents", "GSGCF-Forms-and-Documents",
-             "forms-and-documents"};
-     Resource documents;
-     for (String specificDocLocation : specificDocLocations) {
-      documents = dam.getChild(specificDocLocation);
-      if (documents != null) {
-       writeDamFolderXML(stream, slingRequest, documents);
-       break;
-      }
-     }
+     writeDamFolderXML(stream, slingRequest, dam);
      
     }
    } catch (Exception e){
@@ -223,6 +212,18 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
   int uriLength = slingRequest.getRequestURI().length();
   String fullUrl = slingRequest.getRequestURL().toString();
   String hostAndPort = fullUrl.substring(0, fullUrl.length()-uriLength);
+
+  try {
+   //checks for https vs http
+   if (slingRequest.getHeader("X-Forwarded-Proto") != null) {
+    boolean isSecure = slingRequest.getHeader("X-Forwarded-Proto").equals("https");
+    if (isSecure && !hostAndPort.substring(0, 5).equalsIgnoreCase("https")) {
+     hostAndPort = "https" + hostAndPort.substring(4);
+    }
+   }
+  }catch(Exception e){
+   logger.error("Could not parse host protocol");
+  }
 
   String locPath = (hostAndPort + path);
 
