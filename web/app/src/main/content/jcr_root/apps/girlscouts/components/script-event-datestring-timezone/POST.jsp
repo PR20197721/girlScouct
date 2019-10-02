@@ -28,7 +28,7 @@
     public static ResourceResolverFactory resolverFactory;
 %><%
     resolverFactory = sling.getService(ResourceResolverFactory.class);
-    ServletContext ctxt = application.getContext("/apps/girlscouts-vtk/components/vtk-data-migration");
+    ServletContext ctxt = application.getContext("/apps/girlscouts/components/script-event-datestring-timezone");
     String cmd = (request.getParameter("cmd") != null) ? request.getParameter("cmd") : "";
     boolean threadExists = ctxt.getAttribute(THREAD_NAME) != null;
     boolean threadIsAlive = threadExists && ((Thread) (ctxt.getAttribute(THREAD_NAME))).isAlive();
@@ -59,9 +59,9 @@
     }
 %><%!
     public class EventTimeUpdateThread implements Runnable {
-        private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
+        private final Logger log = LoggerFactory.getLogger("org.girlscouts.scriptEventDateTimezone");
         private ServletContext ctxt;
-        private volatile boolean stop;
+        private volatile boolean stop = false;
         private boolean dryRun = true;
         private boolean backup = true;
         private long currentTimeMs = 0;
@@ -181,8 +181,8 @@
                 if (result != null) {
                     try {
                         RowIterator rowIter = result.getRows();
-                        while (rowIter.hasNext()) {
-                            try {
+                        while (rowIter.hasNext()){
+                            try{
                                 Row row = rowIter.nextRow();
                                 Node node = row.getNode();
                                 Resource event = resourceResolver.resolve(node.getPath());
