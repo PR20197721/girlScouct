@@ -131,7 +131,7 @@
         }
 
         public void run() {
-            log.error("Run");
+            log.debug("Run");
             try{
                 Resource startRes = resourceResolver.resolve(path);
                 Iterator pages = startRes.listChildren();
@@ -147,9 +147,9 @@
                                 if(cpNode.hasProperty("timezone")){
                                     timezone = cpNode.getProperty("timezone").getValue().toString();
                                     if (timezone.contains(":")){
-                                        log.error("Purging " + timezone.substring(timezone.indexOf(':')));
+                                        log.debug("Purging " + timezone.substring(timezone.indexOf(':')));
                                         timezone = timezone.substring(0, timezone.indexOf(':'));
-                                        log.error("Timezone is " + timezone);
+                                        log.debug("Timezone is " + timezone);
                                     }
                                 }else{
                                     log.error("no timezone property for "+cpNode.getPath());
@@ -167,7 +167,7 @@
                     }
                 }
             }catch(Exception e){
-                log.debug("Error is " + e.getStackTrace());
+                log.error("Error is " + e.getStackTrace());
             }
         }
 
@@ -193,25 +193,25 @@
                                     Node dataNode = data.adaptTo(Node.class);
                                     //rintln("Looking at " + data.getPath())
                                     for (int i=0; i<datePropNames.length; i++){
-                                        log.error("Looking at " + data.getPath()  + " property " + datePropNames[i]);
+                                        log.debug("Looking at " + data.getPath()  + " property " + datePropNames[i]);
                                         if (dataNode.hasProperty(datePropNames[i])){
                                             Property dateProp = dataNode.getProperty(datePropNames[i]);
                                             if(dateProp.getType() == 1){
                                                 counter++;
-                                                log.error(counter+" STRING DATE:"+dataNode.getPath()+" "+ ", value="+dateProp.getValue().toString());
+                                                log.debug(counter+" STRING DATE:"+dataNode.getPath()+" "+ ", value="+dateProp.getValue().toString());
                                                 Date date = dateFormat.parse(dateProp.getString());
                                                 Calendar calendar = Calendar.getInstance();
                                                 calendar.setTime(date);
-                                                log.error("Point A");
+                                                log.debug("Point A");
                                                 if (!dryRun){
                                                     dateProp.remove();
-                                                    log.error("DataNode Property is" + Boolean.toString(dataNode.hasProperty(datePropNames[i])));
+                                                    log.debug("DataNode Property is" + Boolean.toString(dataNode.hasProperty(datePropNames[i])));
                                                     dataNode.setProperty(datePropNames[i],calendar);
                                                     dataNode.save();
                                                 }
-                                                log.error(calendar.toString());
+                                                log.debug(calendar.toString());
                                             }else{
-                                                log.error(dateProp.getString() + " is already in Date Format");
+                                                log.debug(dateProp.getString() + " is already in Date Format");
                                                 if (dateProp.getType() != 5){
                                                     log.error("NEW TYPE:"+dataNode.getPath()+" "+dateProp.getType());
                                                 }
@@ -221,7 +221,7 @@
                                     if (!dataNode.hasProperty("timezone")){
                                         counter++;
                                         dataNode.setProperty("timezone",timezone);
-                                        log.error("New timezone " + timezone);
+                                        log.debug("New timezone " + timezone);
                                         if (!dryRun){
                                             dataNode.save();
                                         }
@@ -238,7 +238,7 @@
                 }
                 return counter;
             } catch (Exception e){
-                log.debug("Exeption is" + e.getStackTrace());
+                log.error("Exeption is" + e.getStackTrace());
                 return 0;
             }
         }
@@ -247,7 +247,7 @@
 
 
         public QueryResult search(String EXPRESSION) {
-            log.error(EXPRESSION);
+            log.debug(EXPRESSION);
             QueryResult result = null;
             try {
                 QueryManager queryManager = session.getWorkspace().getQueryManager();
