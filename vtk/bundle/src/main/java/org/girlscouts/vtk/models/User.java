@@ -21,6 +21,7 @@ public class User implements Serializable {
     private String sfUserId;
     private String firstName;
     private String lastName;
+    private boolean isActive;
     private boolean isAdmin;
     private boolean isServiceUnitManager;
     private String adminCouncilId;
@@ -144,6 +145,14 @@ public class User implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public boolean isAdmin() {
