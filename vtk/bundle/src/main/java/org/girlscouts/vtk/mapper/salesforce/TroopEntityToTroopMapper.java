@@ -16,6 +16,11 @@ public class TroopEntityToTroopMapper {
                 troop.setId(entity.getSfParentId());
                 troop.setSfTroopId(entity.getSfParentId());
             } catch (Exception ex) {
+                log.error("Error occurred mapping sfId to Troop ", ex);
+            }
+            try {
+                troop.setSfParentId(entity.getSfParentId());
+            } catch (Exception ex) {
                 log.error("Error occurred mapping sfParentId to Troop ", ex);
             }
             try {

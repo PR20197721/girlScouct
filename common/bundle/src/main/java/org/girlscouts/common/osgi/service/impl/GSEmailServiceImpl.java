@@ -4,11 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,12 +22,18 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ResourceUtil;
+import org.apache.sling.commons.threads.ModifiableThreadPoolConfig;
+import org.apache.sling.commons.threads.ThreadPool;
+import org.apache.sling.commons.threads.ThreadPoolConfig;
+import org.apache.sling.commons.threads.ThreadPoolManager;
 import org.girlscouts.common.components.GSEmailAttachment;
+import org.girlscouts.common.osgi.configuration.GSEmailServiceConfig;
 import org.girlscouts.common.osgi.service.GSEmailService;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,21 +43,55 @@ import com.day.cq.mailer.MessageGatewayService;
 
 @Component(service = {
 		GSEmailService.class }, immediate = true, name = "org.girlscouts.osgi.service.impl.GSEmailServiceImpl")
+@Designate(ocd = GSEmailServiceConfig.class)
 public class GSEmailServiceImpl implements GSEmailService {
 
+    private static Logger log = LoggerFactory.getLogger(GSEmailServiceImpl.class);
 
 	@Reference
 	private ResourceResolverFactory resolverFactory;
-
 	@Reference
 	public MessageGatewayService messageGatewayService;
-	Map<String, Object> serviceParams = new HashMap<String, Object>();
+    @Reference
+    private ThreadPoolManager threadPoolManager;
 
-	private static Logger log = LoggerFactory.getLogger(GSEmailServiceImpl.class);
+	Map<String, Object> serviceParams = new HashMap<String, Object>();
+    protected ComponentContext context;
+    private MessageGateway<HtmlEmail> gateway;
+    private static final int EMAIL_RETRIES = 3;
+    private int minThreadPoolSize = 1;
+    private int maxThreadPoolSize = 10;
+    private ThreadPool threadPool;
 
 	@Activate
 	private void activate(ComponentContext context) {
+	    this.context = context;
 		serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
+		try {
+            this.minThreadPoolSize = Integer.getInteger(getConfig("minThreadPoolSize"));
+		}catch(Exception e){
+		    log.error("Error occurred:",e);
+        }
+        try {
+            this.maxThreadPoolSize =  Integer.getInteger(getConfig("maxThreadPoolSize"));
+        }catch(Exception e){
+            log.error("Error occurred:",e);
+        }
+        ModifiableThreadPoolConfig threadPoolConfig = new ModifiableThreadPoolConfig();
+        threadPoolConfig.setMinPoolSize(minThreadPoolSize);
+        threadPoolConfig.setMaxPoolSize(maxThreadPoolSize);
+        threadPoolConfig.setPriority(ThreadPoolConfig.ThreadPriority.NORM);
+
+        // Create threadpool from config.
+        threadPool = threadPoolManager.create(threadPoolConfig, "Girl Scouts Email Thread Pool");
+        // Create the gateway.
+        gateway = messageGatewayService.getGateway(HtmlEmail.class);
+
+        if (gateway == null) {
+            throw new NullPointerException("Unable to get Message gateway from messageGatewayService.  Look for errors specific to the day.cq .mailer bundle");
+        } else {
+            log.info("MessageGateway Created and non-null. (This is a good thing)");
+        }
 	}
 
 	@Override
@@ -73,7 +109,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 			try {
 				log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}, body:{}", subject,
 						toAddresses.toArray(new String[toAddresses.size()]), body);
-				messageGateway.send(email);
+                sendLater(email);
 				log.info("Girlscouts Email Service: Email message sent successfully");
 			} catch (MailingException e) {
 				log.error("Girlscouts Email Service: Failed to send email message subject:%s, toAddresses:{}, body:{}",
@@ -93,8 +129,9 @@ public class GSEmailServiceImpl implements GSEmailService {
 			if (subject != null) {
 				email.setSubject(subject);
 			}
+            email.setFrom("no-reply@girlscouts.org");
 			if(fromAddress != null){
-				email.setFrom(fromAddress);
+				email.addReplyTo(fromAddress);
 			}
 			setRecipients(toAddresses, email);
 			setBody(body, null, email);
@@ -103,7 +140,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 			try {
 				log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}, body:{}", subject,
 						toAddresses.toArray(new String[toAddresses.size()]), body);
-				messageGateway.send(email);
+                sendLater(email);
 				log.info("Girlscouts Email Service: Email message sent successfully");
 			} catch (MailingException e) {
 				log.error("Girlscouts Email Service: Failed to send email message subject:%s, toAddresses:{}, body:{}",
@@ -126,11 +163,10 @@ public class GSEmailServiceImpl implements GSEmailService {
 			}
 			setRecipients(toAddresses, email);
 			setBody(body, attachments, email);
-			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
 			try {
 				log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}", subject,
 						toAddresses.toArray(new String[toAddresses.size()]));
-				messageGateway.send(email);
+                sendLater(email);
 				log.info("Girlscouts Email Service: Email message sent successfully");
 			} catch (Exception e) {
 				log.error(
@@ -151,16 +187,16 @@ public class GSEmailServiceImpl implements GSEmailService {
 			if (subject != null) {
 				email.setSubject(subject);
 			}
-			if(fromAddress != null){
-				email.setFrom(fromAddress);
-			}
+            email.setFrom("no-reply@girlscouts.org");
+            if(fromAddress != null){
+                email.addReplyTo(fromAddress);
+            }
 			setRecipients(toAddresses, email);
 			setBody(body, attachments, email);
-			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
 			try {
 				log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}", subject,
 						toAddresses.toArray(new String[toAddresses.size()]));
-				messageGateway.send(email);
+                sendLater(email);
 				log.info("Girlscouts Email Service: Email message sent successfully");
 			} catch (Exception e) {
 				log.error(
@@ -266,4 +302,47 @@ public class GSEmailServiceImpl implements GSEmailService {
 			return imgPath + "/jcr:content/renditions/original";
 		}
 	}
+
+    protected String getConfig(String property) {
+        if (this.context != null) {
+            Dictionary properties = this.context.getProperties();
+            return String.valueOf(properties.get(property));
+        } else {
+            return "";
+        }
+    }
+
+    public void sendLater(final HtmlEmail email) {
+	    log.debug("Attempting to send email:");
+        log.debug("Subject:"+email.getSubject());
+        log.debug("To:");
+        try {
+            email.getToAddresses().stream().forEach(s -> log.debug(s.toString()));
+        }catch(Exception e){
+
+        }
+        log.debug("FROM:"+email.getFromAddress());
+        log.debug("ReplyTo:");
+        try {
+            email.getReplyToAddresses().stream().forEach(s -> log.debug(s.toString()));
+        }catch(Exception e){
+
+        }
+        threadPool.submit(() -> {
+            for (int i = 0; i < EMAIL_RETRIES; i++) {
+                try {
+                    log.debug("Sending Email attempt "+i);
+                    gateway.send(email);
+                    log.debug("Email sent successfully.");
+                    break;
+                } catch (MailingException me) {
+                    if (i == EMAIL_RETRIES - 1) {
+                        log.error("Email sending failed. No more retries");
+                    } else {
+                        log.debug("Email sending failed. Retries left: " + (EMAIL_RETRIES - i));
+                    }
+                }
+            }
+        });
+    }
 }

@@ -1055,6 +1055,12 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         return url;
     },
 
+    getImportURL: function() {
+        var url = this.computeURL(this.importURL);
+        url = CQ.HTTP.addParameter(url, "separator", this.csvSeparator);
+        return url;
+    },
+
     /**
      * Returns the store.
      * @private
@@ -1445,6 +1451,8 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         if(this.fireEvent("beforeimport") !== false) {
             var formPanel = this.findParentByType("form");
 
+            var url = this.getImportURL();
+
             if(formPanel==null) {
                 formPanel = this.findParentByType("bulkeditorform");
             }
@@ -1457,7 +1465,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
 
                     var action = new CQ.form.SlingSubmitAction(form, {
                         "method": "POST",
-                        "url": this.importURL,
+                        "url": url,
                         "params": { "importType" : this.importType, "year" : this.year },
                         success:function(form,action) {
                             form.el.dom["enctype"] = "";

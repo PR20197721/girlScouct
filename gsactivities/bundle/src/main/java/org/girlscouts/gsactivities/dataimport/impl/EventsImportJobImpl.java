@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.SocketException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar; 
@@ -16,9 +17,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.TimeZone;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.time.*;
 
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
@@ -55,6 +58,7 @@ import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.gsactivities.dataimport.EventsImport;
 import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.common.exception.GirlScoutsException;
+import org.girlscouts.common.events.search.*;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -592,15 +596,17 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	
 	private void setNodeProperties(String id, Node dataNode, String start, JsonObject payload)
 			throws RepositoryException, GirlScoutsException {
+		String timezone = getString(payload, _timezone);
+		Calendar startCalendar = getCalendar(start, timezone);
 		dataNode.setProperty("eid", id);
-		dataNode.setProperty("start", start);
+		dataNode.setProperty("start", startCalendar);
 		dataNode.setProperty("address", getString(payload, _address));
 		dataNode.setProperty("details", getString(payload, _details));
 		dataNode.setProperty("locationLabel", getString(payload, _location));
 		dataNode.setProperty("region", getString(payload, _region));
 		dataNode.setProperty("srchdisp", getString(payload, _description));
 		dataNode.setProperty("memberOnly", getString(payload, _member_only));
-		dataNode.setProperty("timezone", getString(payload, _timezone));
+		dataNode.setProperty("timezone", timezone);
 		String registerVal = getString(payload,_register);
 		//they stated that it's always Field NA in Salesforce, we may not need an if case at all
 		//We will keep it for now
@@ -639,7 +645,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}
 		String end = getString(payload, _end);
 		if (end != null) {
-			dataNode.setProperty("end", end);
+			Calendar endCalendar = getCalendar(end, timezone);
+			dataNode.setProperty("end", endCalendar);
 		}
 		String visibleDate = getString(payload, _visibleDate);
 		if (visibleDate != null) {
@@ -730,5 +737,27 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	//set the date to "the epoch", namely January 1, 1970, 00:00:00 GMT.
 	private void resetDate() {
 		lastUpdated= new Date(0);
+	}
+
+	private Calendar getCalendar(String date, String timezoneString){
+		String shortenedTimezone = timezoneString.substring(timezoneString.lastIndexOf('(')+1, timezoneString.lastIndexOf(')'));
+		ZoneId timezone = ZoneId.of(shortenedTimezone);
+		log.debug("Converting " + date + " to timezone " + shortenedTimezone);
+
+
+		String[] splitDate = date.split("-|T|:|\\.");
+		//first six values are year, month, day, hour, minute, second
+		int[] splitDateInt = new int[6];
+		for (int i=0; i<splitDateInt.length; i++){
+			splitDateInt[i] = Integer.parseInt(splitDate[i]);
+		}
+		ZonedDateTime noOffsetZDT = ZonedDateTime.of(splitDateInt[0],splitDateInt[1],splitDateInt[2],splitDateInt[3],splitDateInt[4],splitDateInt[5],0, ZoneId.of("UTC"));
+		ZonedDateTime withOffset = noOffsetZDT.withZoneSameInstant(timezone);
+
+		String zonedDateTimeString = withOffset.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+		log.debug("Converted " + noOffsetZDT.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME) + " to " + zonedDateTimeString);
+
+		GSDateTime result = GSDateTime.parse(zonedDateTimeString);
+		return result.getCalendar();
 	}
 }
