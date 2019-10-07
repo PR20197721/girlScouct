@@ -50,6 +50,11 @@ public class UserInfoResponseEntityToUserMapper {
                     log.error("Error occurred mapping Contact Id to User ", ex);
                 }
                 try {
+                	user.setActive(userEntity.isActive());
+                } catch (Exception ex) {
+                    log.error("Error occurred mapping ActiveDP to User ", ex);
+                }
+                try {
                     user.setAdmin(userEntity.getContact().isVtkAdmin());
                 } catch (Exception ex) {
                     log.error("Error occurred mapping admin flag to User ", ex);

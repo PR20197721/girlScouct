@@ -72,12 +72,6 @@
             gsLearnCouncil=gsLearnMap[i];
         }
     	}
-      	String userRolegslearn = null;
-        if (!apiConfig.isFail()) {
-        if ( apiConfig.getTroops() != null && apiConfig.getTroops().size() >0) {
-        userRolegslearn = apiConfig.getTroops().get(0).getRole();
-    	}
-    }
 %>
 <!--<%=councilId%>-->
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
@@ -119,7 +113,7 @@
                         <%@include file="include/vtkError.jsp" %>
 
                         <div class="text parbase section"><h1>Welcome.</h1></div>
-						<% if (councilId.equals(gsLearnCouncil)&& userRolegslearn.equals("DP")) { %>
+						<% if (councilId.equals(gsLearnCouncil)&& apiConfig!=null &&  apiConfig.getUser().isActive()) { %>
                         <ul class="large-block-grid-3 medium-block-grid-2 small-block-grid-1 ">
                             <%}else{%>
 						 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
@@ -158,7 +152,7 @@
                                 <%}//edn if %>
                             </li>
                             <li>
-								<% if (councilId.equals(gsLearnCouncil)&& userRolegslearn.equals("DP")) { %>
+								<% if (councilId.equals(gsLearnCouncil)&& apiConfig!=null &&  apiConfig.getUser().isActive() ) { %>
                                 <a href="https://gsmembers.force.com/members/idp/login?app=0sp0f000000k9bw"><img src="/etc/designs/girlscouts-vtk/images/btn_member_gslearn.jpg"/></a>
 								<p>
                                     Get on-demand and online training and resources for your Girl Scout volunteer role. Your council has information available to help you have an amazing Girl Scout year!<br/><br/>Troop Leaders - click above to go directly into our online training forum!
