@@ -1,7 +1,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
-<div class="small-22 columns" style="width: 100%; border: 1px solid gray;">
+<div class="small-22 columns hide srch-box">
 	<%
 	String headerPath = homepage.getContentResource().getPath() + "/header";
 	Resource search = resourceResolver.resolve(headerPath+"/search-box");
