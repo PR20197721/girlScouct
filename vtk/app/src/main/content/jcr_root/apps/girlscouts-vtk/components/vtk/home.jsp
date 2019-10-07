@@ -47,7 +47,6 @@
             branch = councilMapper.getCouncilBranch(councilId);
             gradeLevel = userTroops.get(0).getGradeLevel();
             gradeLevel = gradeLevel == null ? "CA" : VtkUtil.formatAgeGroup(gradeLevel);
-
         } catch (Exception e) {
             String refererCouncil = VtkUtil.getCouncilInClient(request);
             if (refererCouncil != null && !refererCouncil.isEmpty()) {
@@ -72,6 +71,12 @@
             gsLearnCouncil=gsLearnMap[i];
         }
     	}
+      	String userRolegslearn = null;
+        if (!apiConfig.isFail()) {
+        if ( apiConfig.getTroops() != null && apiConfig.getTroops().size() >0) {
+        userRolegslearn = apiConfig.getTroops().get(0).getRole();
+    	}
+    }
 %>
 <!--<%=councilId%>-->
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
@@ -113,7 +118,7 @@
                         <%@include file="include/vtkError.jsp" %>
 
                         <div class="text parbase section"><h1>Welcome.</h1></div>
-						<% if (councilId.equals(gsLearnCouncil)&& apiConfig!=null &&  apiConfig.getUser().isActive()) { %>
+						<% if (councilId.equals(gsLearnCouncil) && userRolegslearn != null && userRolegslearn.equals("DP")) { %>
                         <ul class="large-block-grid-3 medium-block-grid-2 small-block-grid-1 ">
                             <%}else{%>
 						 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
@@ -130,12 +135,10 @@
                                         //if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
                                         if( apiConfig!=null && userRole!=null && userRole.equals("DP") ){
                                             ;
-
                                         }else if( apiConfig!=null &&  apiConfig.getUser().isAdmin() ){
                                             vtkLanding="/myvtk/" + councilMapper.getCouncilName(councilId) + "/vtk.resource.html";
                                         }
                                     }
-
                                 %>
                                 <!-- Begin of VTK icon -->
                                 <a href="<%=vtkLanding%>">
@@ -152,7 +155,7 @@
                                 <%}//edn if %>
                             </li>
                             <li>
-								<% if (councilId.equals(gsLearnCouncil)&& apiConfig!=null &&  apiConfig.getUser().isActive() ) { %>
+								<% if (councilId.equals(gsLearnCouncil) && userRolegslearn != null && userRolegslearn.equals("DP")) { %>
                                 <a href="https://gsmembers.force.com/members/idp/login?app=0sp0f000000k9bw"><img src="/etc/designs/girlscouts-vtk/images/btn_member_gslearn.jpg"/></a>
 								<p>
                                     Get on-demand and online training and resources for your Girl Scout volunteer role. Your council has information available to help you have an amazing Girl Scout year!<br/><br/>Troop Leaders - click above to go directly into our online training forum!
@@ -218,7 +221,6 @@
         }
     }
 %>
-
 
 
 
