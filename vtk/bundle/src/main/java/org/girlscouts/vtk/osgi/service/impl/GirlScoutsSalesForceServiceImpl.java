@@ -140,6 +140,8 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         if (apiConfig.isDemoUser()) {
                             troop.setCouncilCode(demoCouncilCode);
                         }
+                        troop.setParticipationCode("Troop");
+                        troop.setSfUserId(userId);
                         troops.add(troop);
                     }
                 }
@@ -309,6 +311,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         troop.setRole("PA");
                         parentTroops.add(troop);
                     }
+                    troop.setSfUserId(user.getSfUserId());
                 }else{
                     log.debug("Skipping parent troop: {}", entity.toString());
                 }
@@ -323,7 +326,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         Set<Troop> invalidTroops = new HashSet<>();
         for (Troop troop : mergedTroops) {
             if (troop.getSfTroopName() == null || troop.getRole() == null || troop.getGradeLevel() == null || troop.getCouncilCode() == null || !isValidParticipationCode(troop)) {
-                log.debug("Ignoring troop "+troop.getPath()+ ". Check all required parameters.");
+                log.debug("Ignoring troop "+troop.getSfTroopId()+ ". Check all required parameters.");
                 invalidTroops.add(troop);
             }
         }
