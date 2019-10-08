@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Node
 public class TroopNode extends JcrNode implements Serializable {
-    @Bean(autoUpdate = false)
+    @Bean(autoUpdate = true)
     private YearPlanNode yearPlan;
     @Field
     private String sfUserId;
