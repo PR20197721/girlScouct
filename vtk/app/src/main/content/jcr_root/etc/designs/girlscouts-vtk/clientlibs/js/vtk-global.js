@@ -510,6 +510,18 @@ $(function(){
          }
 
      meetingGroups.sort(function(a,b){
+         var subFilters = ["Intro/Family Meeting","Badges Petals","Journey","Award Earning","Closing/Bridging"];
+         var aValue, bValue = subFilters.length;
+         for (var i=0; i<subFilters.length; i++){
+             if (a === subFilters[i]){ aValue = i;}
+             if (b === subFilters[i]){ bValue = i;}
+         }
+         if (aValue < bValue){
+             return -1;
+         }
+         if (aValue > bValue){
+             return 1;
+         }
          if((a === "Journey: Daisies - Juniors" && b === "Journey: Cadettes - Ambassadors") || (b === "Journey: Daisies - Juniors" && a === "Journey: Cadettes - Ambassadors")){
              return -1;
          }else{
