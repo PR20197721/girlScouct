@@ -607,9 +607,10 @@ $(function(){
 
 
 
-
-    $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' onclick='openRequirementDetail(this)' class='image  _requirement_modal' height='100' src='/content/dam/girlscouts-vtk/local/icon/meetings/"+data[meeting].id+".png'></div></div></div>");
-    if(data[meeting].req !== null && data[meeting].req !== undefined && data[meeting].req !== ""){
+    if(!(data[meeting].req !== null && data[meeting].req !== undefined && data[meeting].req !== "")){
+        $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' class='image  _no_requirement_modal' height='100' src='/content/dam/girlscouts-vtk/local/icon/meetings/"+data[meeting].id+".png'></div></div></div>");
+    } else{
+        $("[data-meetingid="+data[meeting].id+"]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' onclick='openRequirementDetail(this)' class='image  _requirement_modal' height='100' src='/content/dam/girlscouts-vtk/local/icon/meetings/"+data[meeting].id+".png'></div></div></div>");
         $("[data-meetingid="+data[meeting].id+"]").append("<div class='__requiments_details row' style='display:none'><div class='column small-24' style='padding:10px;'><div class='_requiments_description'><p style='margin-bottom: 5px'><b>"+data[meeting].reqTitle+"</b></p>"+data[meeting].req+"</div><p style='text-align:center; margin-top:20px'><span class='vtk-button' style='cursor:pointer;' onclick='_closeME(this)'>&nbsp;&nbsp;&nbsp;CLOSE&nbsp;&nbsp;&nbsp;</span></p></div></div>");
     }
     if(data[meeting].hasGlobal === true){
@@ -618,6 +619,7 @@ $(function(){
     if(data[meeting].hasOutdoor === true){
        $("[data-meetingid="+data[meeting].id+"]").find(".title").append("<img data-tooltip='' aria-haspopup='true' class='has-tip tip-top radius meeting_library' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src='/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png' data-selector='tooltip-jyhelib9j' title=''>");
     }
+
  }
 
  function appendMeetings(data){
