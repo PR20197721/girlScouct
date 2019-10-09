@@ -259,7 +259,7 @@
                 getInitialState: function () {
                     return {
                         change: false,
-                        time: moment(this.props.time).format('h:mm'),
+                        time: moment.tz(this.props.time,"America/New_York").format('h:mm'),
                         message: {
                             type: '',
                             display: '',
