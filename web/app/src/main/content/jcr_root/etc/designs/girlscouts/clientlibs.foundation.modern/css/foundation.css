@@ -5372,6 +5372,7 @@ dialog[open] {
   top: 0;
   bottom: 0;
   position: absolute;
+  overflow-y: auto;
   background: #333333;
   z-index: 1001;
   box-sizing: content-box;

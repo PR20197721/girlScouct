@@ -20,15 +20,15 @@ public class YearPlanNode extends JcrNode implements Serializable {
     private String altered;
     @Field
     private String resources;
-    @Collection(autoUpdate = false)
+    @Collection(autoUpdate = true)
     private List<MeetingENode> meetingEvents;
-    @Collection(autoUpdate = false)
+    @Collection(autoUpdate = true)
     private List<MeetingENode> meetings;
-    @Collection(autoUpdate = false)
+    @Collection(autoUpdate = true)
     private List<ActivityNode> activities;
-    @Bean(autoUpdate = false)
+    @Bean(autoUpdate = true)
     private CalNode schedule;
-    @Collection(autoUpdate = false)
+    @Collection(autoUpdate = true)
     private List<LocationNode> locations;
     @Field
     private Long calStartDate;
@@ -36,7 +36,7 @@ public class YearPlanNode extends JcrNode implements Serializable {
     private String calFreq;
     @Field
     private String calExclWeeksOf;
-    @Collection(autoUpdate = false)
+    @Collection(autoUpdate = true)
     private List<MeetingCanceledNode> meetingCanceled;
 
     public String getName() {
