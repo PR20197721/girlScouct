@@ -21,7 +21,7 @@ public class ActivityNode extends YearPlanComponentNode implements Serializable 
     private List<SentEmailNode> sentEmails;
     @Field
     private String img;
-    @Bean(autoUpdate = false)
+    @Bean(autoUpdate = true)
     private AttendanceNode attendance;
     @Field(jcrDefaultValue = "0")
     private int duration;
