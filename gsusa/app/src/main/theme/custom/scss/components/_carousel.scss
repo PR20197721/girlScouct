@@ -32,14 +32,14 @@ $slick-next-character: "\f138";
     &:not(.thumbnail) {
         .vid-player {
             visibility: visible;
-            z-index: 200;
+            z-index: 400;
         }
     }
     &.playing {
         .slick-active {
             .vid-player {
                 visibility: visible;
-                z-index: 200;
+                z-index: 400;
             }
             .vid-placeholder {
                 display: none;
