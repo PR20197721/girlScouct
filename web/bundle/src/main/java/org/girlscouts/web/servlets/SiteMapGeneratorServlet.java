@@ -150,7 +150,7 @@ public final class SiteMapGeneratorServlet extends SlingSafeMethodsServlet {
 
         String extension = path.substring(path.lastIndexOf('.')+1);
 
-        String[] blackListExtensions = {"png","jpg","jpeg","gif","tif","tiff","psd"};
+        String[] blackListExtensions = {"png","jpg","jpeg","gif","tif","tiff","psd","css","js","mp3","mp4","mov","vob","json","svg","wmv","swf","wav","m4a","zip"};
 
         for (String s : blackListExtensions){
             if (extension.equalsIgnoreCase(s)){
