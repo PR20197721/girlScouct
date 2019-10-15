@@ -1,24 +1,15 @@
 package org.girlscouts.web.cq.livecopy;
 
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.jcr.Node;
+import javax.jcr.*;
 import javax.jcr.Property;
-import javax.jcr.PropertyIterator;
-import javax.jcr.PropertyType;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-import javax.jcr.Value;
 
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Deactivate;
-import org.apache.felix.scr.annotations.Service;
+import com.day.cq.wcm.msm.api.*;
+import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.commons.json.JSONException;
 import org.apache.sling.commons.json.io.JSONWriter;
 import org.osgi.service.component.ComponentContext;
@@ -26,10 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.wcm.api.WCMException;
-import com.day.cq.wcm.msm.api.ActionConfig;
-import com.day.cq.wcm.msm.api.LiveAction;
-import com.day.cq.wcm.msm.api.LiveActionFactory;
-import com.day.cq.wcm.msm.api.LiveRelationship;
 
 @SuppressWarnings("deprecation")
 @Component(metatype=false)
@@ -110,7 +97,7 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
                             // Single value
                             if (checkPropertyType(property.getType())) {
                                 String stringValue = property.getString();
-                                stringValue = replaceBranch(stringValue, sourceBranch, targetBranch);
+                                stringValue = replaceBranch(stringValue, sourceBranch, targetBranch, source.getResourceResolver());
                                 if (stringValue != null) {
                                     targetNode.setProperty(property.getName(), stringValue);
                                 } 
@@ -125,7 +112,7 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
                                 for (int i = 0; i < values.length; i++) {
                                     Value value = values[i];
                                     String stringValue = value.getString();
-                                    String newStringValue = replaceBranch(stringValue, sourceBranch, targetBranch);
+                                    String newStringValue = replaceBranch(stringValue, sourceBranch, targetBranch, source.getResourceResolver());
                                     if (newStringValue != null) {
                                         stringValues[i] = newStringValue;
                                         replacedFlag = true;
@@ -175,13 +162,77 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
             return type == PropertyType.STRING || type == PropertyType.NAME;
         }
 
-        private String replaceBranch(String value, String sourceBranch, String targetBranch) {
-			String regex = sourceBranch.replace("/", "\\/");
-            if (value.indexOf(sourceBranch) != -1) {
-                return value.replaceAll(regex, targetBranch);
-            } else {
-                return null; // Returns null if not match
+        private String replaceBranch(String value, String sourceBranch, String targetBranch, ResourceResolver resourceResolver) {
+            Pattern p = Pattern.compile("href=\"(.*?)\"", Pattern.DOTALL);
+            Matcher m = p.matcher(value);
+            boolean isReplaced = false;
+            while (m.find()){
+                String hrefValue = m.group(1);
+                log.debug("Found href: "+hrefValue);
+                //Is href pointing to template site page?
+                if(hrefValue != null && hrefValue.startsWith(sourceBranch)){
+                    log.debug("Replacing : "+sourceBranch + " with " + targetBranch);
+                    String newHrefValue = hrefValue.replace(sourceBranch, targetBranch);
+                    log.debug("Generated new href value: "+newHrefValue);
+                    String pathToTargetPage = newHrefValue.replace(".html","");
+                    Resource resource = resourceResolver.resolve(pathToTargetPage);
+                    if(ResourceUtil.isNonExistingResource(resource)){
+                        log.debug("No page at: "+pathToTargetPage);
+                        String lookedUpHrefValue = locatePageInTargetSite(hrefValue, targetBranch, resourceResolver);
+                        if(lookedUpHrefValue != null && lookedUpHrefValue.trim().length() > 0){
+                            newHrefValue = lookedUpHrefValue;
+                        }
+                    }
+                    log.debug("Before replace:"+value);
+                    value = value.replace(hrefValue, newHrefValue);
+                    log.debug("After replace:"+value);
+                    isReplaced = true;
+                }
             }
+            if (isReplaced) {
+                return value;
+            } else {
+                return null; // Returns null if nothing replaced
+            }
+        }
+
+        private String locatePageInTargetSite(String hrefValue, String targetBranch, ResourceResolver resourceResolver) {
+            log.debug("Locating live sync pages : "+hrefValue+ " in "+targetBranch);
+            String sourcePath = hrefValue.replace(".html","");
+            Resource sourcePageResource = resourceResolver.resolve(sourcePath);
+            if(sourcePageResource != null) {
+                try {
+                    String lookUpPath = targetBranch;
+                    if(lookUpPath.endsWith("/")){
+                        lookUpPath = lookUpPath.substring(0,lookUpPath.length()-1);
+                    }
+                    LiveRelationshipManager relationManager = resourceResolver.adaptTo(LiveRelationshipManager.class);
+                    log.debug("Looking up live relationships for : "+sourcePageResource.getPath()+ " in "+lookUpPath);
+                    RangeIterator relationsIterator = relationManager.getLiveRelationships(sourcePageResource, lookUpPath, null);
+                    while (relationsIterator.hasNext()) {
+                        try {
+                            LiveRelationship relation = (LiveRelationship) relationsIterator.next();
+                            String relationPagePath = relation.getTargetPath();
+                            log.debug("Found relation at "+relationPagePath);
+                            Resource candidateResource = resourceResolver.resolve(relationPagePath);
+                            if(!ResourceUtil.isNonExistingResource(candidateResource)){
+                                log.debug("Found valid resource at "+relationPagePath);
+                                return candidateResource.getPath()+".html";
+                            }else{
+                                log.debug("No valid resource at "+relationPagePath);
+                            }
+                        } catch (Exception e) {
+                            log.error("Unable to iterate through relations: "+e);
+                        }
+                    }
+                }catch(Exception e){
+                    log.error("Error occurred while looking up live sync pages for "+hrefValue+": ",e);
+                }
+            }else{
+                log.debug("Unable to locate source page at "+sourcePath);
+            }
+            log.debug("Did not find any valid relationships for : "+sourcePageResource.getPath()+ " in "+targetBranch);
+            return null;
         }
 
         private String getBranch(String path) throws WCMException {
