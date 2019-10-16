@@ -186,10 +186,6 @@
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Eastern Washington and Northern Idaho"
 						uncheckedValue="false" name="./councils" value="/content/gsewni" />
-					<gscfp jcr:primaryType="nt:unstructured"
-						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="Girl Scouts of Florida Panhandle"
-						uncheckedValue="false" name="./councils" value="/content/gscfp" />
 					<girlscoutsatl jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Greater Atlanta"
@@ -465,6 +461,10 @@
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="USA Girl Scouts Overseas(NEW)"
 						uncheckedValue="false" name="./councils" value="/content/usagson" />
+                    <gshom jcr:primaryType="nt:unstructured"
+                             sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                             checked="false" text="Girl Scouts Heart of Michigan"
+                             uncheckedValue="false" name="./councils" value="/content/gshom" />
 				</items>
 			</sublist>
 		</level1>
