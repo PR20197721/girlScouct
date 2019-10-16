@@ -22,6 +22,7 @@ import javax.jcr.query.QueryResult;
 import javax.jcr.query.RowIterator;
 import javax.jcr.query.Row;
 
+import com.day.cq.wcm.api.WCMException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -63,6 +64,14 @@ public class PageReplicationUtil implements PageReplicationConstants {
 		return new String[0];
 	}
 
+    public static String getBranch(String path) throws WCMException {
+        Matcher matcher = BRANCH_PATTERN.matcher(path);
+        if (matcher.find()) {
+            return matcher.group();
+        } else {
+            throw new WCMException("Cannot get level " + BRANCH_LEVEL + " branch: " + path);
+        }
+    }
 	public static int getGroupSize(ResourceResolver rr) {
 		log.info("Getting activation group size ");
 		try {

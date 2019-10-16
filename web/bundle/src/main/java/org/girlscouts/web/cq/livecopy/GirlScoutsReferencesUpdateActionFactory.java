@@ -181,12 +181,17 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
                         String lookedUpHrefValue = locatePageInTargetSite(hrefValue, targetBranch, resourceResolver);
                         if(lookedUpHrefValue != null && lookedUpHrefValue.trim().length() > 0){
                             newHrefValue = lookedUpHrefValue;
+                            log.debug("Before replace:"+value);
+                            value = value.replace(hrefValue, newHrefValue);
+                            log.debug("After replace:"+value);
+                            isReplaced = true;
                         }
+                    }else{
+                        log.debug("Before replace:"+value);
+                        value = value.replace(hrefValue, newHrefValue);
+                        log.debug("After replace:"+value);
+                        isReplaced = true;
                     }
-                    log.debug("Before replace:"+value);
-                    value = value.replace(hrefValue, newHrefValue);
-                    log.debug("After replace:"+value);
-                    isReplaced = true;
                 }
             }
             if (isReplaced) {
