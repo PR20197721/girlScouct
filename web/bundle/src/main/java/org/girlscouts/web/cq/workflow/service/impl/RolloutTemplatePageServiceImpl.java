@@ -129,7 +129,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                         }
                         log.info("notify={}", notify);
                         try {
-                            updateReferences = dateRolloutNode.getProperty(PARAM_UPDATE_REFERENCES).getBoolean(); 
+                            updateReferences = dateRolloutNode.getProperty(PARAM_UPDATE_REFERENCES).getBoolean();
                         } catch (Exception e) {
                             log.error("Girlscouts Rollout Service encountered error: ", e);
                         }
@@ -338,7 +338,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                             rolloutLog.add("The page " + relationPagePath + " has Break Inheritance checked off. Will not roll out");
                             log.info("The page {} has Break Inheritance checked. Will not roll out", relationPagePath);
                         } else {
-                             String versionableNodePath = relationPageResource.getPath() + "/jcr:content";
+                            String versionableNodePath = relationPageResource.getPath() + "/jcr:content";
                             try {
                                 Map<String, String> sourceToTargetComponentRelations = PageReplicationUtil.getComponentRelationsByPage(srcComponents, relationPagePath, rolloutLog, rr);
                                 validateRolloutConfig(sourcePageResource, relationPageResource);
@@ -369,7 +369,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                     versionManager.checkin(versionableNodePath);
                                 } catch (Exception e2) {
                                     log.error("Girlscouts Rollout Service encountered error: ", e);
-                                 }
+                                }
                             }
                         }
                     } else {
