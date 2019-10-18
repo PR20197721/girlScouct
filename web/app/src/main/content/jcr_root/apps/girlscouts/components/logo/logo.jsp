@@ -1,6 +1,4 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<%@taglib prefix="ui" uri="http://www.adobe.com/taglibs/granite/ui/1.0" %>
-<ui:includeClientLib categories="apps.girlscouts.components.logo" />
 <%
 	String regularWidth = properties.get("regular/width", "188");
 	String regularHeight = properties.get("regular/height", "73");
@@ -13,8 +11,6 @@
 	String smallWidth = properties.get("small/width", "38");
 	String smallHeight = properties.get("small/height", "38");
 	String smallImage = properties.get("small/fileReference", "");
-	String path = currentPage.getPath();
-    boolean isVtk = path.toLowerCase().contains("vtk");
 	Boolean noLink = (Boolean) request.getAttribute("noLink");
 //String linkAttribute = (String) request.getAttribute("links");
 %>
