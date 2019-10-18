@@ -344,7 +344,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 validateRolloutConfig(sourcePageResource, relationPageResource);
                                 Map<String, Set<String>> relationComponents = PageReplicationUtil.categorizeRelationComponents(relationPageResource, rolloutLog, rr);
                                 Set<String> componentsToDelete = PageReplicationUtil.getComponentsToDelete(sourceToTargetComponentRelations, relationComponents, councilPath);
-                                Set<String> componentsToRollout = PageReplicationUtil.getComponentsToRollout(sourceToTargetComponentRelations, relationComponents, councilPath);
+                                Set<String> componentsToRollout = PageReplicationUtil.getComponentsToRollout(sourceToTargetComponentRelations, relationComponents, councilPath, sourcePageResource, rolloutLog);
                                 if (relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS).size() > 0) {
                                     notifyCouncils.add(relationPagePath);
                                 }
@@ -355,7 +355,6 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                     log.error("Girlscouts Rollout Service encountered error: ", e);
                                 }
                                 deleteComponents(rr, rolloutLog, componentsToDelete);
-                                checkReferences(sourcePageResource, relationPageResource, componentsToRollout, rolloutLog);
                                 rolloutComponents(sourcePageResource, rolloutLog, relationPagePath, componentsToRollout);
                                 updatePageTitle(sourcePageResource, relationPageResource);
                                 if (updateReferences) {
@@ -387,115 +386,6 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         submittedCouncils.removeAll(processedRelationCouncils);
     }
 
-    private void checkReferences(Resource sourceResource, Resource targetResource, Set<String> sourceComponents, List<String> rolloutLog) {
-        Set<String> componentsWithNonExistingReferences = new HashSet<String>();
-        if (sourceResource != null && sourceComponents != null && sourceComponents.size() > 0) {
-            try {
-                ResourceResolver rr = sourceResource.getResourceResolver();
-                LiveRelationshipManager relationManager = rr.adaptTo(LiveRelationshipManager.class);
-                String sourcePagePath = sourceResource.getPath();
-                String targetPagePath = targetResource.getPath();
-                String sourceBranch = PageReplicationUtil.getBranch(sourcePagePath);
-                String targetBranch = PageReplicationUtil.getBranch(targetPagePath);
-                for (String srcComponentPath : sourceComponents) {
-                    try {
-                        Resource srcComponentRes = rr.resolve(srcComponentPath);
-                        RangeIterator relationsIterator = relationManager.getLiveRelationships(srcComponentRes, targetPagePath, null);
-                        while (relationsIterator.hasNext()) {
-                            try {
-                                LiveRelationship relation = (LiveRelationship) relationsIterator.next();
-                                String targetComponentPath = relation.getTargetPath();
-                                log.debug("Found relation at " + targetComponentPath);
-                                Resource targetComponentResource = rr.resolve(targetComponentPath);
-                                if (!ResourceUtil.isNonExistingResource(targetComponentResource)) {
-                                    log.debug("Found valid resource at " + targetComponentPath);
-                                    Node targetNode = targetComponentResource.adaptTo(Node.class);
-                                    Session session = targetNode.getSession();
-                                    PropertyIterator iter = targetNode.getProperties();
-                                    while (iter.hasNext()) {
-                                        String propertyName = "";
-                                        try { // Try and catch property exception. We want to do our best.
-                                            javax.jcr.Property property = iter.nextProperty();
-                                            propertyName = property.getName();
-                                            if (!isSystemProperty(propertyName)) {
-                                                log.debug("Checking property " + property.getPath() + " for references");
-                                                if (!property.isMultiple()) {
-                                                    // Single value
-                                                    if (checkPropertyType(property.getType())) {
-                                                        String stringValue = property.getString();
-                                                        if(!referencesValid(stringValue, sourceBranch, targetBranch, rr)){
-                                                            rolloutLog.add("Component "+srcComponentPath+" in "+targetPagePath+" has references to non-existing resources. Will not rollout.");
-                                                            componentsWithNonExistingReferences.add(srcComponentPath);
-                                                        }
-                                                    }
-                                                } else {
-                                                    // Multiple values
-                                                    Value[] values = property.getValues();
-                                                    if (values.length > 0 && checkPropertyType(values[0].getType())) { // Values are of the same type.
-                                                        String[] stringValues = new String[values.length];
-                                                        boolean replacedFlag = false;
-                                                        for (int i = 0; i < values.length; i++) {
-                                                            Value value = values[i];
-                                                            String stringValue = value.getString();
-                                                            if(!referencesValid(stringValue, sourceBranch, targetBranch, rr)){
-                                                                rolloutLog.add("Component "+srcComponentPath+" in "+targetPagePath+" has references to non-existing resources. Will not rollout.");
-                                                                componentsWithNonExistingReferences.add(srcComponentPath);
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        } catch (RepositoryException e) {
-                                            log.error("Error updating link references: node = " + targetNode.getPath() + " property = " + propertyName);
-                                        }
-                                    }
-                                } else {
-                                    log.debug("No valid resource at " + targetComponentPath);
-                                }
-                            } catch (Exception e) {
-                                log.error("Error occurred:", e);
-                            }
-                        }
-                    } catch (Exception ex) {
-                        log.debug("Error occurred: ", ex);
-                    }
-                }
-            } catch (Exception e) {
-                log.debug("Error occurred: ", e);
-            }
-            sourceComponents.removeAll(componentsWithNonExistingReferences);
-        }
-    }
-
-    private boolean referencesValid(String value, String sourceBranch, String targetBranch, ResourceResolver resourceResolver) {
-        Pattern p = Pattern.compile("href=\"(.*?)\"", Pattern.DOTALL);
-        Matcher m = p.matcher(value);
-        while (m.find()) {
-            String hrefValue = m.group(1);
-            log.debug("Found href: " + hrefValue);
-            //Is href pointing to template site page?
-            if (hrefValue != null && hrefValue.startsWith(sourceBranch)) {
-                log.debug("Replacing : " + sourceBranch + " with " + targetBranch);
-                String newHrefValue = hrefValue.replace(sourceBranch, targetBranch);
-                log.debug("Generated new href value: " + newHrefValue);
-                String pathToTargetPage = newHrefValue.replace(".html", "");
-                Resource resource = resourceResolver.resolve(pathToTargetPage);
-                if (ResourceUtil.isNonExistingResource(resource)) {
-                    log.debug("No page at: " + pathToTargetPage);
-                    String lookedUpHrefValue = locatePageInTargetSite(hrefValue, targetBranch, resourceResolver);
-                    if (lookedUpHrefValue == null || lookedUpHrefValue.trim().length() == 0) {
-                        return false;
-                    }else{
-                        return true;
-                    }
-                } else {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     private void updateAllReferences(Resource sourceResource, Resource targetResource, Set<String> sourceComponents) {
         if (sourceResource != null && sourceComponents != null && sourceComponents.size() > 0) {
             try {
@@ -513,10 +403,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                             try {
                                 LiveRelationship relation = (LiveRelationship) relationsIterator.next();
                                 String targetComponentPath = relation.getTargetPath();
-                                log.debug("Found relation at " + targetComponentPath);
                                 Resource targetComponentResource = rr.resolve(targetComponentPath);
                                 if (!ResourceUtil.isNonExistingResource(targetComponentResource)) {
-                                    log.debug("Found valid resource at " + targetComponentPath);
                                     Node targetNode = targetComponentResource.adaptTo(Node.class);
                                     Session session = targetNode.getSession();
                                     PropertyIterator iter = targetNode.getProperties();
@@ -525,11 +413,11 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                         try { // Try and catch property exception. We want to do our best.
                                             javax.jcr.Property property = iter.nextProperty();
                                             propertyName = property.getName();
-                                            if (!isSystemProperty(propertyName)) {
+                                            if (!PageReplicationUtil.isSystemProperty(propertyName)) {
                                                 log.debug("Checking property " + property.getPath() + " for references");
                                                 if (!property.isMultiple()) {
                                                     // Single value
-                                                    if (checkPropertyType(property.getType())) {
+                                                    if (PageReplicationUtil.checkPropertyType(property.getType())) {
                                                         String stringValue = property.getString();
                                                         stringValue = replaceBranch(stringValue, sourceBranch, targetBranch, rr);
                                                         if (stringValue != null) {
@@ -539,7 +427,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                                 } else {
                                                     // Multiple values
                                                     Value[] values = property.getValues();
-                                                    if (values.length > 0 && checkPropertyType(values[0].getType())) { // Values are of the same type.
+                                                    if (values.length > 0 && PageReplicationUtil.checkPropertyType(values[0].getType())) { // Values are of the same type.
                                                         String[] stringValues = new String[values.length];
                                                         boolean replacedFlag = false;
                                                         for (int i = 0; i < values.length; i++) {
@@ -607,7 +495,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                 Resource resource = resourceResolver.resolve(pathToTargetPage);
                 if (ResourceUtil.isNonExistingResource(resource)) {
                     log.debug("No page at: " + pathToTargetPage);
-                    String lookedUpHrefValue = locatePageInTargetSite(hrefValue, targetBranch, resourceResolver);
+                    String lookedUpHrefValue = PageReplicationUtil.locatePageInTargetSite(hrefValue, targetBranch, resourceResolver);
                     if (lookedUpHrefValue != null && lookedUpHrefValue.trim().length() > 0) {
                         newHrefValue = lookedUpHrefValue;
                         log.debug("Before replace:" + value);
@@ -628,53 +516,6 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         } else {
             return null; // Returns null if nothing replaced
         }
-    }
-
-    private String locatePageInTargetSite(String hrefValue, String targetBranch, ResourceResolver resourceResolver) {
-        log.debug("Locating live sync pages : " + hrefValue + " in " + targetBranch);
-        String sourcePath = hrefValue.replace(".html", "");
-        Resource sourcePageResource = resourceResolver.resolve(sourcePath);
-        if (sourcePageResource != null) {
-            try {
-                String lookUpPath = targetBranch;
-                if (lookUpPath.endsWith("/")) {
-                    lookUpPath = lookUpPath.substring(0, lookUpPath.length() - 1);
-                }
-                LiveRelationshipManager relationManager = resourceResolver.adaptTo(LiveRelationshipManager.class);
-                log.debug("Looking up live relationships for : " + sourcePageResource.getPath() + " in " + lookUpPath);
-                RangeIterator relationsIterator = relationManager.getLiveRelationships(sourcePageResource, lookUpPath, null);
-                while (relationsIterator.hasNext()) {
-                    try {
-                        LiveRelationship relation = (LiveRelationship) relationsIterator.next();
-                        String relationPagePath = relation.getTargetPath();
-                        log.debug("Found relation at " + relationPagePath);
-                        Resource candidateResource = resourceResolver.resolve(relationPagePath);
-                        if (!ResourceUtil.isNonExistingResource(candidateResource)) {
-                            log.debug("Found valid resource at " + relationPagePath);
-                            return candidateResource.getPath() + ".html";
-                        } else {
-                            log.debug("No valid resource at " + relationPagePath);
-                        }
-                    } catch (Exception e) {
-                        log.error("Unable to iterate through relations: " + e);
-                    }
-                }
-            } catch (Exception e) {
-                log.error("Error occurred while looking up live sync pages for " + hrefValue + ": ", e);
-            }
-        } else {
-            log.debug("Unable to locate source page at " + sourcePath);
-        }
-        log.debug("Did not find any valid relationships for : " + sourcePageResource.getPath() + " in " + targetBranch);
-        return null;
-    }
-
-    private boolean isSystemProperty(String propertyName) {
-        return propertyName.startsWith("jcr:") || propertyName.startsWith("cq:") || propertyName.startsWith("sling:");
-    }
-
-    private boolean checkPropertyType(int type) {
-        return type == PropertyType.STRING || type == PropertyType.NAME;
     }
 
     private void deleteComponents(ResourceResolver rr, List<String> rolloutLog, Set<String> componentsToDelete) {

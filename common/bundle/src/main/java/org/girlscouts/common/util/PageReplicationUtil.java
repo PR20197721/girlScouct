@@ -10,19 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
-
-import javax.jcr.Node;
-import javax.jcr.RangeIterator;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-import javax.jcr.Value;
+import java.util.regex.Pattern;
+import javax.jcr.*;
 import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.RowIterator;
 import javax.jcr.query.Row;
 
-import com.day.cq.wcm.api.WCMException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -64,12 +59,12 @@ public class PageReplicationUtil implements PageReplicationConstants {
 		return new String[0];
 	}
 
-    public static String getBranch(String path) throws WCMException {
+    public static String getBranch(String path){
         Matcher matcher = BRANCH_PATTERN.matcher(path);
         if (matcher.find()) {
             return matcher.group();
         } else {
-            throw new WCMException("Cannot get level " + BRANCH_LEVEL + " branch: " + path);
+            return path;
         }
     }
 	public static int getGroupSize(ResourceResolver rr) {
@@ -329,7 +324,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
 		}
 		return isTestMode;
 	}
-	
+
 	public static String getCouncilLiveUrl(ResourceResolver rr, SlingSettingsService settingsService, String path) {
 		log.info("Getting council live path url for page {}", path);
 		String councilUrl = "";
@@ -798,7 +793,10 @@ public class PageReplicationUtil implements PageReplicationConstants {
 	}
 
 	public static Set<String> getComponentsToRollout(Map<String, String> sourceToTargetComponentRelations,
-			Map<String, Set<String>> relationComponentsMap, String relationCouncilPath) {
+                                                     Map<String, Set<String>> relationComponentsMap,
+                                                     String relationCouncilPath,
+                                                     Resource sourcePageResource,
+                                                     List<String> rolloutLog) {
 		log.info("Looking up source components for {} that need to be rolled out.", relationCouncilPath);
 		Set<String> componentsToRollout = new HashSet<String>();
 		Set<String> cancelledInheritanceComponents = relationComponentsMap.get(RELATION_CANC_INHERITANCE_COMPONENTS);
@@ -808,7 +806,9 @@ public class PageReplicationUtil implements PageReplicationConstants {
 				String relatedComponent = sourceToTargetComponentRelations.get(srcComponent);
 				if (relatedComponent == null || !cancelledInheritanceComponents.contains(relatedComponent)) {
 					log.info("Including component {} in rollout for {}.", srcComponent, relatedComponent);
-					componentsToRollout.add(srcComponent);
+                    if(referencesValidOnTargetSite(sourcePageResource.getResourceResolver(), srcComponent, relatedComponent,  rolloutLog)){
+                        componentsToRollout.add(srcComponent);
+                    }
 				}
 			} catch (Exception e) {
 				log.error("PageReplicationUtil encountered error: ", e);
@@ -816,6 +816,133 @@ public class PageReplicationUtil implements PageReplicationConstants {
 		}
 		return componentsToRollout;
 	}
+
+    private static boolean referencesValidOnTargetSite(ResourceResolver rr, String srcComponent, String targetComponent, List<String> rolloutLog) {
+        if (rr != null && srcComponent != null && targetComponent != null) {
+            try {
+                Resource srcComponentResource = rr.resolve(srcComponent);
+                if (!ResourceUtil.isNonExistingResource(srcComponentResource)) {
+                    Node srcNode = srcComponentResource.adaptTo(Node.class);
+                    PropertyIterator iter = srcNode.getProperties();
+                    while (iter.hasNext()) {
+                        String propertyName = "";
+                        try { // Try and catch property exception. We want to do our best.
+                            Property property = iter.nextProperty();
+                            propertyName = property.getName();
+                            if (!isSystemProperty(propertyName)) {
+                                log.debug("Checking property " + property.getPath() + " for references");
+                                if (!property.isMultiple()) {
+                                    // Single value
+                                    if (checkPropertyType(property.getType())) {
+                                        String stringValue = property.getString();
+                                        if(!referencesValidOnTargetSite(stringValue, srcComponent, targetComponent, rr)){
+                                            rolloutLog.add("Component "+srcComponent+" has references to non-existing resources. Will not rollout.");
+                                            return false;
+                                        }
+                                    }
+                                } else {
+                                    // Multiple values
+                                    Value[] values = property.getValues();
+                                    if (values.length > 0 && checkPropertyType(values[0].getType())) { // Values are of the same type.
+                                        for (Value value:values) {
+                                            String stringValue = value.getString();
+                                            if(!referencesValidOnTargetSite(stringValue, srcComponent, targetComponent, rr)){
+                                                rolloutLog.add("Component "+srcComponent+" has references to non-existing resources. Will not rollout.");
+                                                return false;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (RepositoryException e) {
+                            log.error("Error updating link references: node = " + srcNode.getPath() + " property = " + propertyName);
+                        }
+                    }
+                } else {
+                    log.debug("No valid resource at " + targetComponent);
+                }
+            } catch (Exception e) {
+                log.error("Error occurred:", e);
+            }
+        }
+        return true;
+    }
+
+    public static boolean isSystemProperty(String propertyName) {
+        return propertyName.startsWith("jcr:") || propertyName.startsWith("cq:") || propertyName.startsWith("sling:");
+    }
+
+    public static boolean checkPropertyType(int type) {
+        return type == PropertyType.STRING || type == PropertyType.NAME;
+    }
+
+    private static boolean referencesValidOnTargetSite(String value, String srcComponent, String targetComponent, ResourceResolver resourceResolver) {
+        Pattern p = Pattern.compile("href=\"(.*?)\"", Pattern.DOTALL);
+        Matcher m = p.matcher(value);
+        String sourceBranch = getBranch(srcComponent);
+        String targetBranch = getBranch(targetComponent);
+        while (m.find()){
+            String hrefValue = m.group(1);
+            log.debug("Found href: " + hrefValue);
+            //Is href pointing to template site page?
+            if (hrefValue != null && hrefValue.startsWith(sourceBranch)) {
+                log.debug("Replacing : " + sourceBranch + " with " + targetBranch);
+                String newHrefValue = hrefValue.replace(sourceBranch, targetBranch);
+                log.debug("Generated target href value: " + newHrefValue);
+                String pathToTargetPage = newHrefValue.replace(".html", "");
+                Resource resource = resourceResolver.resolve(pathToTargetPage);
+                if (ResourceUtil.isNonExistingResource(resource)) {
+                    log.debug("No page at: " + pathToTargetPage);
+                    String lookedUpHrefValue = locatePageInTargetSite(hrefValue, targetBranch, resourceResolver);
+                    if (lookedUpHrefValue == null || lookedUpHrefValue.trim().length() == 0) {
+                        log.debug("Unable to to locate live copy for "+hrefValue+" in " + targetBranch);
+                        return false;
+                    }
+                }
+            }
+            log.debug("Valid reference for: " + hrefValue);
+        }
+        return true;
+    }
+
+    public static String locatePageInTargetSite(String hrefValue, String targetBranch, ResourceResolver resourceResolver) {
+        log.debug("Locating live copy pages : " + hrefValue + " in " + targetBranch);
+        String sourcePath = hrefValue.replace(".html", "");
+        Resource sourcePageResource = resourceResolver.resolve(sourcePath);
+        if (sourcePageResource != null) {
+            try {
+                String lookUpPath = targetBranch;
+                if (lookUpPath.endsWith("/")) {
+                    lookUpPath = lookUpPath.substring(0, lookUpPath.length() - 1);
+                }
+                LiveRelationshipManager relationManager = resourceResolver.adaptTo(LiveRelationshipManager.class);
+                log.debug("Looking up live relationships for : " + sourcePageResource.getPath() + " in " + lookUpPath);
+                RangeIterator relationsIterator = relationManager.getLiveRelationships(sourcePageResource, lookUpPath, null);
+                while (relationsIterator.hasNext()) {
+                    try {
+                        LiveRelationship relation = (LiveRelationship) relationsIterator.next();
+                        String relationPagePath = relation.getTargetPath();
+                        log.debug("Found relation at " + relationPagePath);
+                        Resource candidateResource = resourceResolver.resolve(relationPagePath);
+                        if (!ResourceUtil.isNonExistingResource(candidateResource)) {
+                            log.debug("Found valid resource at " + relationPagePath);
+                            return candidateResource.getPath() + ".html";
+                        } else {
+                            log.debug("No valid resource at " + relationPagePath);
+                        }
+                    } catch (Exception e) {
+                        log.error("Unable to iterate through relations: " + e);
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Error occurred while looking up live sync pages for " + hrefValue + ": ", e);
+            }
+        } else {
+            log.debug("Unable to locate source page at " + sourcePath);
+        }
+        log.debug("Did not find any valid relationships for : " + sourcePageResource.getPath() + " in " + targetBranch);
+        return null;
+    }
 
 	public static Map<String, String> getComponentRelationsByPage(Set<String> srcComponents, String relationPagePath,
 			List<String> rolloutLog, ResourceResolver rr) {
