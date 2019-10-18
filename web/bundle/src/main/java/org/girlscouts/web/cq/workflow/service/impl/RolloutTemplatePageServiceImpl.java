@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.jcr.*;
 import javax.jcr.query.Query;
+import javax.jcr.version.VersionManager;
 
 import org.girlscouts.common.components.GSEmailAttachment;
 import org.girlscouts.common.osgi.service.GSEmailService;
@@ -128,7 +129,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                         }
                         log.info("notify={}", notify);
                         try {
-                            updateReferences = dateRolloutNode.getProperty(PARAM_UPDATE_REFERENCES).getBoolean();
+                            updateReferences = dateRolloutNode.getProperty(PARAM_UPDATE_REFERENCES).getBoolean(); 
                         } catch (Exception e) {
                             log.error("Girlscouts Rollout Service encountered error: ", e);
                         }
@@ -317,9 +318,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         log.info("Processing existing live relationships.");
         Set<String> srcComponents = PageReplicationUtil.getComponents(sourcePageResource);
         Set<String> processedRelationCouncils = new HashSet<String>();
-        // Session session = rr.adaptTo(Session.class);
-        // final Workspace workspace = session.getWorkspace();
-        // final VersionManager versionManager = workspace.getVersionManager();
+        Session session = rr.adaptTo(Session.class);
+        final Workspace workspace = session.getWorkspace();
+        final VersionManager versionManager = workspace.getVersionManager();
         for (String councilPath : submittedCouncils) {
             log.info("Looking up live relationships in {}", councilPath);
             RangeIterator relationsIterator = relationManager.getLiveRelationships(sourcePageResource, councilPath, null);
@@ -337,8 +338,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                             rolloutLog.add("The page " + relationPagePath + " has Break Inheritance checked off. Will not roll out");
                             log.info("The page {} has Break Inheritance checked. Will not roll out", relationPagePath);
                         } else {
-                            // String versionableNodePath =
-                            // relationPageResource.getPath() + "/jcr:content";
+                             String versionableNodePath = relationPageResource.getPath() + "/jcr:content";
                             try {
                                 Map<String, String> sourceToTargetComponentRelations = PageReplicationUtil.getComponentRelationsByPage(srcComponents, relationPagePath, rolloutLog, rr);
                                 validateRolloutConfig(sourcePageResource, relationPageResource);
@@ -348,15 +348,14 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 if (relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS).size() > 0) {
                                     notifyCouncils.add(relationPagePath);
                                 }
-                                // try {
-                                // versionManager.checkout(versionableNodePath);
-                                // versionManager.checkpoint(versionableNodePath);
-                                // } catch (Exception e) {
-                                // log.error("Girlscouts Rollout Service
-                                // encountered error: ", e);
-                                // }
+                                try {
+                                    versionManager.checkout(versionableNodePath);
+                                    versionManager.checkpoint(versionableNodePath);
+                                } catch (Exception e) {
+                                    log.error("Girlscouts Rollout Service encountered error: ", e);
+                                }
                                 deleteComponents(rr, rolloutLog, componentsToDelete);
-                                checkReferences(sourcePageResource, relationPageResource, componentsToRollout);
+                                checkReferences(sourcePageResource, relationPageResource, componentsToRollout, rolloutLog);
                                 rolloutComponents(sourcePageResource, rolloutLog, relationPagePath, componentsToRollout);
                                 updatePageTitle(sourcePageResource, relationPageResource);
                                 if (updateReferences) {
@@ -367,12 +366,11 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 log.info("Page added to activation queue");
                             } catch (Exception e) {
                                 log.error("Girlscouts Rollout Service encountered error: ", e);
-                                // try {
-                                // versionManager.checkin(versionableNodePath);
-                                // } catch (Exception e2) {
-                                // log.error("Girlscouts Rollout Service
-                                // encountered error: ", e);
-                                // }
+                                try {
+                                    versionManager.checkin(versionableNodePath);
+                                } catch (Exception e2) {
+                                    log.error("Girlscouts Rollout Service encountered error: ", e);
+                                 }
                             }
                         }
                     } else {
@@ -389,7 +387,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         submittedCouncils.removeAll(processedRelationCouncils);
     }
 
-    private void checkReferences((Resource sourceResource, Resource targetResource, Set<String> sourceComponents) {
+    private void checkReferences(Resource sourceResource, Resource targetResource, Set<String> sourceComponents, List<String> rolloutLog) {
         Set<String> componentsWithNonExistingReferences = new HashSet<String>();
         if (sourceResource != null && sourceComponents != null && sourceComponents.size() > 0) {
             try {
@@ -426,6 +424,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                                     if (checkPropertyType(property.getType())) {
                                                         String stringValue = property.getString();
                                                         if(!referencesValid(stringValue, sourceBranch, targetBranch, rr)){
+                                                            rolloutLog.add("Component "+srcComponentPath+" in "+targetPagePath+" has references to non-existing resources. Will not rollout.");
                                                             componentsWithNonExistingReferences.add(srcComponentPath);
                                                         }
                                                     }
@@ -439,6 +438,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                                             Value value = values[i];
                                                             String stringValue = value.getString();
                                                             if(!referencesValid(stringValue, sourceBranch, targetBranch, rr)){
+                                                                rolloutLog.add("Component "+srcComponentPath+" in "+targetPagePath+" has references to non-existing resources. Will not rollout.");
                                                                 componentsWithNonExistingReferences.add(srcComponentPath);
                                                             }
                                                         }
@@ -463,6 +463,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
             } catch (Exception e) {
                 log.debug("Error occurred: ", e);
             }
+            sourceComponents.removeAll(componentsWithNonExistingReferences);
         }
     }
 
