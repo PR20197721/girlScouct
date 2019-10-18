@@ -37,15 +37,7 @@
 	// this shows for header large only
 	%>
 	<nav class="column large-24 medium-24 logo-section">
-	<% if (!isVtk) { %>
-	<div id="mobile-icons" style="margin-top: 15px;float: left;padding-bottom: 10px;">
-	    <span id="menuIcon"class="mobileIcons">
-            <a class="side-nav-toggle menu-icon" role="button" ><span></span></a>
-        </span>
-        <span id="searchIcon" class="mobileIcons icon-search-magnifying-glass" style="color: white; font-size: 24px; font-weight: normal;"searchShown="false">
-        </span>
-    </div>
-	<% }if (!linkURL.isEmpty()) { %> <a id="logoImg" href="<%= linkURL %>"> <% } %>
+	<% if (!linkURL.isEmpty()) { %> <a id="logoImg" href="<%= linkURL %>"> <% } %>
 		<img style="display: inline-block;" src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
 	</nav>
