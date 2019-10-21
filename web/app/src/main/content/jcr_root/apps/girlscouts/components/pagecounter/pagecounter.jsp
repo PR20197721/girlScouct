@@ -16,7 +16,8 @@
 	java.util.Calendar,
 	com.day.cq.wcm.msm.api.*,
 	javax.jcr.query.*,
-	org.apache.sling.api.resource.ResourceUtil
+	org.apache.sling.api.resource.ResourceUtil,
+	javax.jcr.Node, org.slf4j.Logger, org.slf4j.LoggerFactory
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -43,6 +44,8 @@
 	
 	public static final String RESOURCE_TYPES = "foundation/components/page, girlscouts/components/homepage, girlscouts/components/one-column-page, girlscouts/components/three-column-page, girlscouts/components/placeholder-page";
 	public static final String FOOTER_LINK_FILTERs = "Terms, Conditions, Privacy, Policy, Social";
+
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 	
 	ArrayList<String> councilTemplatePages;
 	ArrayList<String> councilAddedPages;
@@ -262,6 +265,17 @@
 			//noncountPages.add(path + " Redirect"); // not *really* a page
 			return;
 		}
+
+
+		// Thank You Pages
+        for (int i = 0; i < thankYouPages.size(); i++) {
+            String[] val = thankYouPages.get(i).split(" ");
+            if (path.equals(val[0])) {
+                //noncountPages.add(path + " | ThankYou " + val[1]);
+                noncountPages.put(path, "ThankYou " + val[1]);
+                return;
+            }
+        }
 				
 		// If a page has jcr:mixinTypes of either LiveRelationship or LiveSync, 
 		// it's inherited from national templates 
@@ -287,15 +301,7 @@
 			
 		}
 		
-		// Thank You Pages
-		for (int i = 0; i < thankYouPages.size(); i++) {
-			String[] val = thankYouPages.get(i).split(" ");
-			if (path.equals(val[0])) {				
-				//noncountPages.add(path + " | ThankYou " + val[1]);
-				noncountPages.put(path, "ThankYou " + val[1]);
-				return;
-			}
-		}	
+
 		
 		
 		councilAddedPages.add(path);
