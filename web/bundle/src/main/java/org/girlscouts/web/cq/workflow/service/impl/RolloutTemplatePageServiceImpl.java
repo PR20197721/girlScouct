@@ -291,7 +291,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                         rolloutManager.rollout(rr, newPageRelationship, false);
                         if (updateReferences) {
                             Set<String> srcComponents = PageReplicationUtil.getComponents(sourcePageResource);
-                            updateAllReferences(sourcePageResource, copyPage.adaptTo(Resource.class), srcComponents);
+                            updateAllReferences(sourcePageResource, copyPage.adaptTo(Resource.class), srcComponents, new HashMap<String, String>());
                         }
                         session.save();
                         log.info("Page {} created", copyPage.getPath());
@@ -341,10 +341,11 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                             String versionableNodePath = relationPageResource.getPath() + "/jcr:content";
                             try {
                                 Map<String, String> sourceToTargetComponentRelations = PageReplicationUtil.getComponentRelationsByPage(srcComponents, relationPagePath, rolloutLog, rr);
+                                Map<String, String> hrefReferencesMap = new HashMap<>();
                                 validateRolloutConfig(sourcePageResource, relationPageResource);
                                 Map<String, Set<String>> relationComponents = PageReplicationUtil.categorizeRelationComponents(relationPageResource, rolloutLog, rr);
                                 Set<String> componentsToDelete = PageReplicationUtil.getComponentsToDelete(sourceToTargetComponentRelations, relationComponents, councilPath);
-                                Set<String> componentsToRollout = PageReplicationUtil.getComponentsToRollout(sourceToTargetComponentRelations, relationComponents, councilPath, sourcePageResource, rolloutLog);
+                                Set<String> componentsToRollout = PageReplicationUtil.getComponentsToRollout(sourceToTargetComponentRelations, relationComponents, councilPath, sourcePageResource, rolloutLog, hrefReferencesMap, updateReferences);
                                 if (relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS).size() > 0) {
                                     notifyCouncils.add(relationPagePath);
                                 }
@@ -358,7 +359,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 rolloutComponents(sourcePageResource, rolloutLog, relationPagePath, componentsToRollout);
                                 updatePageTitle(sourcePageResource, relationPageResource);
                                 if (updateReferences) {
-                                    updateAllReferences(sourcePageResource, relationPageResource, componentsToRollout);
+                                    updateAllReferences(sourcePageResource, relationPageResource, componentsToRollout, hrefReferencesMap);
                                 }
                                 pagesToActivate.add(relationPagePath);
                                 rolloutLog.add("Page added to activation queue");
@@ -386,7 +387,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         submittedCouncils.removeAll(processedRelationCouncils);
     }
 
-    private void updateAllReferences(Resource sourceResource, Resource targetResource, Set<String> sourceComponents) {
+    private void updateAllReferences(Resource sourceResource, Resource targetResource, Set<String> sourceComponents, Map<String, String> hrefReferencesMap) {
         if (sourceResource != null && sourceComponents != null && sourceComponents.size() > 0) {
             try {
                 ResourceResolver rr = sourceResource.getResourceResolver();
@@ -401,6 +402,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                         RangeIterator relationsIterator = relationManager.getLiveRelationships(srcComponentRes, targetPagePath, null);
                         while (relationsIterator.hasNext()) {
                             try {
+                                boolean isSaveSession = false;
                                 LiveRelationship relation = (LiveRelationship) relationsIterator.next();
                                 String targetComponentPath = relation.getTargetPath();
                                 Resource targetComponentResource = rr.resolve(targetComponentPath);
@@ -419,9 +421,10 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                                     // Single value
                                                     if (PageReplicationUtil.checkPropertyType(property.getType())) {
                                                         String stringValue = property.getString();
-                                                        stringValue = replaceBranch(stringValue, sourceBranch, targetBranch, rr);
+                                                        stringValue = replaceBranch(stringValue, sourceBranch, targetBranch, rr, hrefReferencesMap);
                                                         if (stringValue != null) {
                                                             targetNode.setProperty(property.getName(), stringValue);
+                                                            isSaveSession = true;
                                                         }
                                                     }
                                                 } else {
@@ -433,7 +436,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                                         for (int i = 0; i < values.length; i++) {
                                                             Value value = values[i];
                                                             String stringValue = value.getString();
-                                                            String newStringValue = replaceBranch(stringValue, sourceBranch, targetBranch, rr);
+                                                            String newStringValue = replaceBranch(stringValue, sourceBranch, targetBranch, rr, hrefReferencesMap);
                                                             if (newStringValue != null) {
                                                                 stringValues[i] = newStringValue;
                                                                 replacedFlag = true;
@@ -443,6 +446,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                                         }
                                                         if (replacedFlag) {
                                                             targetNode.setProperty(property.getName(), stringValues);
+                                                            isSaveSession = true;
                                                         }
                                                     }
                                                 }
@@ -451,16 +455,18 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                             log.error("Error updating link references: node = " + targetNode.getPath() + " property = " + propertyName);
                                         }
                                     }
-                                    try {
-                                        log.info("saving session");
-                                        session.save();
-                                    } catch (Exception e) {
+                                    if(isSaveSession) {
                                         try {
-                                            session.refresh(true);
-                                        } catch (RepositoryException e1) {
-                                            log.error("Cannot refresh the session.");
+                                            log.info("Saving updates to {}",targetComponentPath);
+                                            session.save();
+                                        } catch (Exception e) {
+                                            try {
+                                                session.refresh(true);
+                                            } catch (RepositoryException e1) {
+                                                log.error("Cannot refresh the session.");
+                                            }
+                                            log.error("Cannot save the session.");
                                         }
-                                        log.error("Cannot save the session.");
                                     }
                                 } else {
                                     log.debug("No valid resource at " + targetComponentPath);
@@ -479,7 +485,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         }
     }
 
-    private String replaceBranch(String value, String sourceBranch, String targetBranch, ResourceResolver resourceResolver) {
+    private String replaceBranch(String value, String sourceBranch, String targetBranch, ResourceResolver resourceResolver, Map<String, String> hrefReferencesMap) {
         Pattern p = Pattern.compile("href=\"(.*?)\"", Pattern.DOTALL);
         Matcher m = p.matcher(value);
         boolean isReplaced = false;
@@ -488,9 +494,14 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
             log.debug("Found href: " + hrefValue);
             //Is href pointing to template site page?
             if (hrefValue != null && hrefValue.startsWith(sourceBranch)) {
-                log.debug("Replacing : " + sourceBranch + " with " + targetBranch);
-                String newHrefValue = hrefValue.replace(sourceBranch, targetBranch);
-                log.debug("Generated new href value: " + newHrefValue);
+                String referenceKey = targetBranch+":"+hrefValue;
+                String newHrefValue = hrefReferencesMap.get(referenceKey);
+                log.debug("Looking up in reference map: key={}, value={}",referenceKey,newHrefValue);
+                if(newHrefValue == null || newHrefValue.trim().length() == 0) {
+                    newHrefValue = hrefValue.replace(sourceBranch, targetBranch);
+                    log.debug("Replacing : " + sourceBranch + " with " + targetBranch);
+                }
+                log.debug("New href value: " + newHrefValue);
                 String pathToTargetPage = newHrefValue.replace(".html", "");
                 Resource resource = resourceResolver.resolve(pathToTargetPage);
                 if (ResourceUtil.isNonExistingResource(resource)) {

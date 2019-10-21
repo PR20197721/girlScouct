@@ -700,10 +700,11 @@ public class PageReplicationUtil implements PageReplicationConstants {
                 log.error("PageReplicationUtil encountered error: ", e);
             }
         }
+        log.info("Found "+componentsToDelete.size()+" components to delete");
         return componentsToDelete;
     }
 
-    public static Set<String> getComponentsToRollout(Map<String, String> sourceToTargetComponentRelations, Map<String, Set<String>> relationComponentsMap, String relationCouncilPath, Resource sourcePageResource, List<String> rolloutLog) {
+    public static Set<String> getComponentsToRollout(Map<String, String> sourceToTargetComponentRelations, Map<String, Set<String>> relationComponentsMap, String relationCouncilPath, Resource sourcePageResource, List<String> rolloutLog, Map<String, String> hrefReferencesMap, Boolean updateReferences) {
         log.info("Looking up source components for {} that need to be rolled out.", relationCouncilPath);
         Set<String> componentsToRollout = new HashSet<String>();
         Set<String> cancelledInheritanceComponents = relationComponentsMap.get(RELATION_CANC_INHERITANCE_COMPONENTS);
@@ -712,8 +713,15 @@ public class PageReplicationUtil implements PageReplicationConstants {
             try {
                 String relatedComponent = sourceToTargetComponentRelations.get(srcComponent);
                 if (relatedComponent == null || !cancelledInheritanceComponents.contains(relatedComponent)) {
-                    log.info("Including component {} in rollout for {}.", srcComponent, relatedComponent);
-                    if (referencesValidOnTargetSite(sourcePageResource.getResourceResolver(), srcComponent, relatedComponent, rolloutLog)) {
+                    if(updateReferences){
+                        if (referencesValidOnTargetSite(sourcePageResource.getResourceResolver(), srcComponent, relatedComponent, rolloutLog, hrefReferencesMap)) {
+                            log.info("Including component {} in rollout to {}.", srcComponent, relatedComponent);
+                            componentsToRollout.add(srcComponent);
+                        } else {
+                            log.info("Excluding component {} from rollout to {}.", srcComponent, relatedComponent);
+                        }
+                    }else {
+                        log.info("Including component {} in rollout to {}.", srcComponent, relatedComponent);
                         componentsToRollout.add(srcComponent);
                     }
                 }
@@ -724,7 +732,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
         return componentsToRollout;
     }
 
-    private static boolean referencesValidOnTargetSite(ResourceResolver rr, String srcComponent, String targetComponent, List<String> rolloutLog) {
+    private static boolean referencesValidOnTargetSite(ResourceResolver rr, String srcComponent, String targetComponent, List<String> rolloutLog, Map<String, String> hrefReferencesMap) {
         if (rr != null && srcComponent != null && targetComponent != null) {
             try {
                 Resource srcComponentResource = rr.resolve(srcComponent);
@@ -742,7 +750,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
                                     // Single value
                                     if (checkPropertyType(property.getType())) {
                                         String stringValue = property.getString();
-                                        if (!referencesValidOnTargetSite(stringValue, srcComponent, targetComponent, rr)) {
+                                        if (!referencesValidOnTargetSite(stringValue, srcComponent, targetComponent, rr, hrefReferencesMap)) {
                                             rolloutLog.add("Component " + srcComponent + " has references to non-existing resources. Will not rollout.");
                                             return false;
                                         }
@@ -753,7 +761,7 @@ public class PageReplicationUtil implements PageReplicationConstants {
                                     if (values.length > 0 && checkPropertyType(values[0].getType())) { // Values are of the same type.
                                         for (Value value : values) {
                                             String stringValue = value.getString();
-                                            if (!referencesValidOnTargetSite(stringValue, srcComponent, targetComponent, rr)) {
+                                            if (!referencesValidOnTargetSite(stringValue, srcComponent, targetComponent, rr, hrefReferencesMap)) {
                                                 rolloutLog.add("Component " + srcComponent + " has references to non-existing resources. Will not rollout.");
                                                 return false;
                                             }
@@ -783,28 +791,33 @@ public class PageReplicationUtil implements PageReplicationConstants {
         return type == PropertyType.STRING || type == PropertyType.NAME;
     }
 
-    private static boolean referencesValidOnTargetSite(String value, String srcComponent, String targetComponent, ResourceResolver resourceResolver) {
+    private static boolean referencesValidOnTargetSite(String value, String srcComponent, String targetComponent, ResourceResolver resourceResolver, Map<String, String> hrefReferencesMap) {
         Pattern p = Pattern.compile("href=\"(.*?)\"", Pattern.DOTALL);
         Matcher m = p.matcher(value);
         String sourceBranch = getBranch(srcComponent);
         String targetBranch = getBranch(targetComponent);
         while (m.find()) {
             String hrefValue = m.group(1);
-            log.debug("Found href: " + hrefValue);
+            String referenceKey = targetBranch+":"+hrefValue;
+            log.debug("Found reference to: " + hrefValue);
             //Is href pointing to template site page?
             if (hrefValue != null && hrefValue.startsWith(sourceBranch)) {
-                log.debug("Replacing : " + sourceBranch + " with " + targetBranch);
                 String newHrefValue = hrefValue.replace(sourceBranch, targetBranch);
-                log.debug("Generated target href value: " + newHrefValue);
                 String pathToTargetPage = newHrefValue.replace(".html", "");
                 Resource resource = resourceResolver.resolve(pathToTargetPage);
                 if (ResourceUtil.isNonExistingResource(resource)) {
                     log.debug("No page at: " + pathToTargetPage);
                     String lookedUpHrefValue = locatePageInTargetSite(hrefValue, targetBranch, resourceResolver);
                     if (lookedUpHrefValue == null || lookedUpHrefValue.trim().length() == 0) {
-                        log.debug("Unable to to locate live copy for " + hrefValue + " in " + targetBranch);
+                        log.debug("Unable to locate live copy for " + hrefValue.replace(".html", "") + " in " + targetBranch);
                         return false;
+                    }else{
+                        log.debug("Adding to reference map: key={}, value={}",referenceKey,lookedUpHrefValue);
+                        hrefReferencesMap.put(referenceKey,lookedUpHrefValue);
                     }
+                }else{
+                    log.debug("Adding to reference map: key={}, value={}",referenceKey,newHrefValue);
+                    hrefReferencesMap.put(referenceKey,newHrefValue);
                 }
             }
             log.debug("Valid reference for: " + hrefValue);
@@ -813,18 +826,13 @@ public class PageReplicationUtil implements PageReplicationConstants {
     }
 
     public static String locatePageInTargetSite(String hrefValue, String targetBranch, ResourceResolver resourceResolver) {
-        log.debug("Locating live copy pages : " + hrefValue + " in " + targetBranch);
         String sourcePath = hrefValue.replace(".html", "");
         Resource sourcePageResource = resourceResolver.resolve(sourcePath);
         if (sourcePageResource != null) {
             try {
-                String lookUpPath = targetBranch;
-                if (lookUpPath.endsWith("/")) {
-                    lookUpPath = lookUpPath.substring(0, lookUpPath.length() - 1);
-                }
                 LiveRelationshipManager relationManager = resourceResolver.adaptTo(LiveRelationshipManager.class);
-                log.debug("Looking up live relationships for : " + sourcePageResource.getPath() + " in " + lookUpPath);
-                RangeIterator relationsIterator = relationManager.getLiveRelationships(sourcePageResource, lookUpPath, null);
+                log.debug("Looking up live relationships for : " + sourcePageResource.getPath() + " in " + targetBranch);
+                RangeIterator relationsIterator = relationManager.getLiveRelationships(sourcePageResource, targetBranch, null);
                 while (relationsIterator.hasNext()) {
                     try {
                         LiveRelationship relation = (LiveRelationship) relationsIterator.next();
@@ -847,7 +855,6 @@ public class PageReplicationUtil implements PageReplicationConstants {
         } else {
             log.debug("Unable to locate source page at " + sourcePath);
         }
-        log.debug("Did not find any valid relationships for : " + sourcePageResource.getPath() + " in " + targetBranch);
         return null;
     }
 
