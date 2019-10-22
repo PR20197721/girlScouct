@@ -1,14 +1,24 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*, org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
+<%@ page import="java.util.*,
+        org.girlscouts.vtk.auth.models.ApiConfig,
+        org.girlscouts.vtk.models.*,
+        org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
+        org.slf4j.Logger,
+        org.slf4j.LoggerFactory" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../../include/session.jsp"%>
 <%
+
+    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     String troopId= request.getParameter("tid");
     String councilCode = request.getParameter("cid");
 
+    logger.error(request.getParameter("path"));
+    sessionlog.error("Hello");
+
     User impersonateRoot =(User) VtkUtil.deepClone(user);
-    Troop _troop = troopUtil.getTroop(impersonateRoot, councilCode, troopId);
-    java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,selectedTroopZ,
+    Troop _troop = troopUtil.getTroopByPath(impersonateRoot, request.getParameter("path"));
+    java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,selectedTroop,
             _troop.getYearPlan(), true, true);
     Set distinctGirl = new HashSet();
     int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
@@ -26,7 +36,7 @@
 
                 <%
 
-                    java.util.List<Contact> leaders = sling.getService(GirlScoutsSalesForceService.class).getTroopLeaderInfo(user.getApiConfig(), troopId);
+                    java.util.List<Contact> leaders = null;//sling.getService(GirlScoutsSalesForceService.class).getTroopLeaderInfo(user.getApiConfig(), troopId);
                     if( leaders!=null ){
                         for( int i=0;i<leaders.size();i++){
                             Contact leader = leaders.get(i);
