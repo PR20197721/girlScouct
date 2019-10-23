@@ -33,6 +33,11 @@ public class TroopUtil {
     private YearPlanUtil yearPlanUtil;
 
     public Troop getTroopByPath(User user, String troopPath) throws IllegalAccessException, VtkException {
+
+        if (troopPath.contains("Point")){
+            log.error(troopPath);
+            return null;
+        }
         Troop troop = troopDAO.getTroopByPath(user, troopPath);
         if (troop != null) {
             if (troop.getYearPlan() != null) {

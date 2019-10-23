@@ -9,20 +9,17 @@
 <%@include file="../../include/session.jsp"%>
 <%
 
-    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     String troopId= request.getParameter("tid");
     String councilCode = request.getParameter("cid");
 
-    logger.error(request.getParameter("path"));
-    sessionlog.error("Hello");
+    String troopPath = "/vtk2019/" + councilCode + "/troops/" + troopId;
 
     User impersonateRoot =(User) VtkUtil.deepClone(user);
-    Troop _troop = troopUtil.getTroopByPath(impersonateRoot, request.getParameter("path"));
-    java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,selectedTroop,
+    Troop _troop = troopUtil.getTroopByPath(impersonateRoot, troopPath);
+    java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,_troop,
             _troop.getYearPlan(), true, true);
     Set distinctGirl = new HashSet();
     int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
-
 %>
 
 <div> <!--  id="modal_report_detail" class="reveal-modal" data-reveal> -->
@@ -33,10 +30,8 @@
     <div class="scroll">
         <div class="content">
             <h4 id="troopName">
-
                 <%
-
-                    java.util.List<Contact> leaders = null;//sling.getService(GirlScoutsSalesForceService.class).getTroopLeaderInfo(user.getApiConfig(), troopId);
+                    java.util.List<Contact> leaders = sling.getService(GirlScoutsSalesForceService.class).getTroopLeaderInfoByTroopId(user.getApiConfig(), troopId);
                     if( leaders!=null ){
                         for( int i=0;i<leaders.size();i++){
                             Contact leader = leaders.get(i);
@@ -47,6 +42,7 @@
                         }
                     }
                 %>
+
 
             </h4>
             <h4 id="distinctGirl"> Girls Enrolled</h4>

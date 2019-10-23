@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.models;
 
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -34,6 +36,8 @@ public class Troop extends JcrNode implements Serializable {
     private String hash;
     private Boolean isIRM = Boolean.FALSE;
     private Boolean isSUM = Boolean.FALSE;
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     public Troop() {
         this.type = 0;
@@ -103,6 +107,7 @@ public class Troop extends JcrNode implements Serializable {
     }
 
     public String getSfTroopName() {
+        log.error("getSFtroopName called");
         return sfTroopName;
     }
 
@@ -127,6 +132,7 @@ public class Troop extends JcrNode implements Serializable {
     }
 
     public YearPlan getYearPlan() {
+        log.error("YearPlan is " + yearPlan);
         return yearPlan;
     }
 
