@@ -115,7 +115,7 @@
                         <%@include file="include/vtkError.jsp" %>
 
                         <div class="text parbase section"><h1>Welcome.</h1></div>
-						<% if (councilId.equals(gsLearnCouncil) && apiConfig!=null &&  apiConfig.getUser().isActive()) { %>
+						<% if (councilId.equals(gsLearnCouncil)) { %>
                         <ul class="large-block-grid-3 medium-block-grid-2 small-block-grid-1 ">
                             <%}else{%>
 						 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
@@ -152,7 +152,7 @@
                                 <%}//edn if %>
                             </li>
                             <li>
-								<% if (councilId.equals(gsLearnCouncil) && apiConfig!=null &&  apiConfig.getUser().isActive()) { %>
+								<% if (councilId.equals(gsLearnCouncil)) { %>
                                 <a href="https://gsmembers.force.com/members/idp/login?app=0sp0f000000k9bw"><img src="/etc/designs/girlscouts-vtk/images/btn_member_gslearn.jpg"/></a>
 								<p>
                                     Get on-demand and online training and resources for your Girl Scout volunteer role. Your council has information available to help you have an amazing Girl Scout year!<br/><br/>Troop Leaders - click above to go directly into our online training forum!
