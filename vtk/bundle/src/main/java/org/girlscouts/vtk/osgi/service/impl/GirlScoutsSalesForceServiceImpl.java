@@ -348,7 +348,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     }
 
     private boolean isValidParticipationCode(Troop troop) {
-        return troop.getParticipationCode() != null && (irmCouncilCode.equals(troop.getParticipationCode()) || "Troop".equals(troop.getParticipationCode()));
+        return troop.getParticipationCode() != null && (irmCouncilCode.equals(troop.getParticipationCode()) || sumCouncilCode.equals(troop.getParticipationCode()) || "Troop".equals(troop.getParticipationCode()));
     }
 
     private void setDummyIRMTroops(ApiConfig apiConfig, User user, UserInfoResponseEntity userInfoResponseEntity, List<Troop> parentTroops, ParentEntity entity, Troop troop) {
@@ -411,8 +411,8 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         troop.setTroopId(sumCouncilCode + "_" + userId);
                         troop.setId(sumCouncilCode + "_" + userId);
                         troop.setIsSUM(true);
+                        troop.setParticipationCode(sumCouncilCode);
                         troops.add(troop);
-
                     }
                 }
             }
