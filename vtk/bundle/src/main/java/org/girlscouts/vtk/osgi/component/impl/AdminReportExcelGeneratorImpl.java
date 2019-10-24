@@ -81,7 +81,7 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
                     String yearPlanPath = (String) itr.next();
                     String yearPlanName = yearPlanNames.get(yearPlanPath);
                     List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanPath(brownies, yearPlanPath);
-                    StringBuilder troopLeadersInfo = new StringBuilder();
+                    /*StringBuilder troopLeadersInfo = new StringBuilder();
                     try {
                         List<Contact> troopLeaders = yearPlanNameBeans.get(0).getTroopLeaders();
                         for (Contact troopLeader : troopLeaders) {
@@ -90,7 +90,7 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
                             troopLeadersInfo.append(userName + ", ");
                         }
                     } catch (Exception e) {
-                    }
+                    }*/
                     int countAltered = councilRpt.countAltered(yearPlanNameBeans);
                     int countActivity = councilRpt.countActivity(yearPlanNameBeans);
                     y++;

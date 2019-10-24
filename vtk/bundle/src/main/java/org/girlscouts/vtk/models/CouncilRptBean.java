@@ -7,13 +7,15 @@ public class CouncilRptBean {
     private boolean isAltered, isActivity;
     private List<Contact> troopLeaders;
 
+    /*
     public List<Contact> getTroopLeaders() {
         return troopLeaders;
     }
 
     public void setTroopLeaders(List<Contact> troopLeaders) {
         this.troopLeaders = troopLeaders;
-    }
+    }*/
+
 
     public String getTroopName() {
         return troopName;
