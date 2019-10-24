@@ -14,7 +14,7 @@
     String communityUrl = "";
     String councilId = "0";
     String gradeLevel = "CA";
-    String[] gsLearnMap = {"999","306","240","360","438","319","512","387","582","654","583","467","169","354","614","642","281","497","367","200","564","647","499","126","368","612","688","204"};
+    String[] gsLearnMap = {"999","306","240","360","438","319","512","387","582","654","583","467","169","354","614","642","281","497","367","200","564","647","499","126","368","612","688","204","477","661","538","608","134","377","506"};
     String gsLearnCouncil="";
     List<Troop> userTroops = null;
     try {
@@ -66,6 +66,9 @@
     if (configManager != null) {
         communityUrl = configManager.getConfig("communityUrl");
     }
+    if(session.getAttribute("VTK_troop") == null){
+        session.setAttribute("VTK_troop", userTroops.get(0));
+       }
     for(int i=0; i<gsLearnMap.length;i++){
         if (councilId.equals(gsLearnMap[i])){
             gsLearnCouncil=gsLearnMap[i];
@@ -112,7 +115,7 @@
                         <%@include file="include/vtkError.jsp" %>
 
                         <div class="text parbase section"><h1>Welcome.</h1></div>
-						<% if (councilId.equals(gsLearnCouncil) && apiConfig!=null &&  apiConfig.getUser().isActive()) { %>
+						<% if (councilId.equals(gsLearnCouncil)) { %>
                         <ul class="large-block-grid-3 medium-block-grid-2 small-block-grid-1 ">
                             <%}else{%>
 						 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
@@ -149,7 +152,7 @@
                                 <%}//edn if %>
                             </li>
                             <li>
-								<% if (councilId.equals(gsLearnCouncil) && apiConfig!=null &&  apiConfig.getUser().isActive()) { %>
+								<% if (councilId.equals(gsLearnCouncil)) { %>
                                 <a href="https://gsmembers.force.com/members/idp/login?app=0sp0f000000k9bw"><img src="/etc/designs/girlscouts-vtk/images/btn_member_gslearn.jpg"/></a>
 								<p>
                                     Get on-demand and online training and resources for your Girl Scout volunteer role. Your council has information available to help you have an amazing Girl Scout year!<br/><br/>Troop Leaders - click above to go directly into our online training forum!

@@ -52,9 +52,9 @@ public class TroopEntityToTroopMapper {
                 log.error("Error occurred mapping JobCode to Troop ", ex);
             }
             try {
-                troop.setRole(entity.getJobCode());
+                troop.setParticipationCode(entity.getParentEntity().getParticipationCode());
             } catch (Exception ex) {
-                log.error("Error occurred mapping JobCode to Troop ", ex);
+                log.error("Error occurred mapping Participation Code to Troop ", ex);
             }
             return troop;
         } catch (Exception e) {
