@@ -38,20 +38,17 @@ window.AccordionWidgetManager = (function(window, document, $){
 		// Hide other elements and show the selected.
 		if(show){
 			contentElements.not(contentElement).slideUp('slow');
-			contentElement.slideDown('slow');
+			contentElement.slideDown('slow', function(){
+                            if (scrolledUnder(this)){
+                            $('html, body').animate( {
+                                scrollTop: this.offsetTop + 60,
+                            }, {
+                                duration: "slow",
+                                queue: true
+                            });
+                        }
+                        });
 
-
-            //if the current window has scrolled below the top of the accordion, then selecting
-            //an accordion element will cause the screen to scroll to the top of the accordion\
-            //because it uses the $(html,body) target, this does not occur in the edit or preview modes in AEM
-			if (scrolledUnder(headerElements.first())){
-                $('html, body').animate( {
-                    scrollTop: headerElements.first().offset().top - 50,
-                }, {
-                    duration: "slow",
-                    queue: true
-                });
-            }
 		}else{
 			contentElements.slideUp('slow');
 			if (scrolledUnder(headerElements.last())){
