@@ -46,6 +46,9 @@ target/
 
 bin/
 /target
-/tools/scripts/cygwin/setLocalVars.sh
 
-\.pydevproject
+vtk/app/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css/vtk-style.css
+/tools/scripts/cygwin/setLocalVars.sh
+/vtk/app/node
+/vtk/app/src/main/typescript/vtk-mtg-plan/node_modules
+/vtk/app/src/main/typescript/vtk-yp/node_modules
