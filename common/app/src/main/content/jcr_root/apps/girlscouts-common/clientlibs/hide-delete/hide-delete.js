@@ -26,23 +26,34 @@
     }
 
     function checkSelections(items){
+        var isShow = true;
         if (items.length) {
             items.each(function(i) {
                 var item = $(this);
-                if(isFolder(item)){
+                if(!isFile(item)){
                     hideDelete();
+                    isShow = false;
                     return;
                 }
             });
+        }
+        if(isShow){
+            showDelete();
+            return;
         }
     }
 
     function hideDelete(){
         console.log("hiding delete button");
-        $("button.cq-damadmin-admin-actions-delete-activator").parent().css("display:none");
+        $("button.cq-damadmin-admin-actions-delete-activator").parent().css("display","none");
     }
 
-    function isFolder(item){
+    function showDelete(){
+        console.log("showing delete button");
+        $("button.cq-damadmin-admin-actions-delete-activator").parent().css("display","block");
+    }
+
+    function isFile(item){
         var regex = new RegExp("^.*\\..{2,4}$");
         return (regex.test(item.data("foundation-collection-item-id")));
     }

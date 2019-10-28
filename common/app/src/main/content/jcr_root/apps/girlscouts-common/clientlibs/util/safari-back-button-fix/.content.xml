@@ -3,10 +3,6 @@
     jcr:mixinTypes="[mix:lockable]"
     jcr:primaryType="cq:ClientLibraryFolder"
     sling:resourceType="widgets/clientlib"
-<<<<<<< Updated upstream:common/app/src/main/content/jcr_root/etc/clientlibs/girlscouts-common/util/safari-back-button-fix/.content.xml
     categories="[cq.authoring.editor,safari-back-button-fix]"
-=======
-    categories="[cq.authoring.editor]"
     allowProxy="true"
->>>>>>> Stashed changes:common/app/src/main/content/jcr_root/apps/girlscouts-common/clientlibs/util/safari-back-button-fix/.content.xml
     dependencies="[]"/> 
