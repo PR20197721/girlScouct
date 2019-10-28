@@ -271,7 +271,6 @@
         for (int i = 0; i < thankYouPages.size(); i++) {
             String[] val = thankYouPages.get(i).split(" ");
             if (path.equals(val[0])) {
-                //noncountPages.add(path + " | ThankYou " + val[1]);
                 noncountPages.put(path, "ThankYou " + val[1]);
                 return;
             }
