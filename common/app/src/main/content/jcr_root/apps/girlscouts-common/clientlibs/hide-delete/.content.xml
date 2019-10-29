@@ -3,7 +3,7 @@
     jcr:mixinTypes="[mix:lockable]"
     jcr:primaryType="cq:ClientLibraryFolder"
     sling:resourceType="widgets/clientlib"
-    categories="[dam.gui.actions.coral, common.components.hide-delete]"
+    categories="[dam.gui.actions.coral, cq.sites.collectionpage, common.components.hide-delete]"
     allowProxy="true"
     jsProcessor="[default:none, min:gcc]"
     dependencies="[]"/>

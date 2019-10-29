@@ -16,7 +16,6 @@
             contentType: "application/json",
             success: function (data) {
                 console.log(data);
-                return true
             },
             error: function (error) {
                 console.log(error);
@@ -26,36 +25,50 @@
     }
 
     function checkSelections(items){
-        var isShow = true;
         if (items.length) {
+            var base = $.when({isShowDelete:true});
             items.each(function(i) {
-                var item = $(this);
-                if(!isFile(item)){
+                var url =  $(this).data("foundationCollectionItemId");
+                base = base.then(checkResource(url));
+            });
+            base = base.done(function(isShowDelete) {
+                if (isShowDelete) {
+                    showDelete();
+                } else {
                     hideDelete();
-                    isShow = false;
-                    return;
                 }
             });
         }
-        if(isShow){
-            showDelete();
-            return;
-        }
+    }
+
+    function checkResource(url){
+        return function(isShowDelete){
+            var defer = $.Deferred();
+            $.ajax({
+                url: url + ".json" + '?_ck=' + Date.now(),
+                contentType: "application/json",
+                method: 'GET'})
+                .complete(function(data){
+                    if(data["responseJSON"]["jcr:primaryType"] == "sling:OrderedFolder" ||data["responseJSON"]["jcr:primaryType"] == "sling:Folder" || data["responseJSON"]["jcr:primaryType"] == "nt:Folder"){
+                        isShowDelete = isShowDelete && false;
+                    }else{
+                        isShowDelete = isShowDelete && true;
+                    }
+                    defer.resolve(isShowDelete);
+                });
+            return defer.promise();
+        };
     }
 
     function hideDelete(){
         console.log("hiding delete button");
         $("button.cq-damadmin-admin-actions-delete-activator").parent().css("display","none");
+        $("button.cq-siteadmin-admin-actions-delete-activator").parent().css("display","none");
     }
 
     function showDelete(){
         console.log("showing delete button");
         $("button.cq-damadmin-admin-actions-delete-activator").parent().css("display","block");
-    }
-
-    function isFile(item){
-        var regex = new RegExp("^.*\\..{2,4}$");
-        return (regex.test(item.data("foundation-collection-item-id")));
+        $("button.cq-siteadmin-admin-actions-delete-activator").parent().css("display","block");
     }
 })(document, Granite.$);
-        
