@@ -6,7 +6,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <div id="right-canvas-menu-bottom">
-  <ul class="side-nav" style="background-color: #e6e7e8;">
+  <ul class="side-nav" style="background-color: #6b6b6b;">
 <%
 String homepagePath = currentPage.getAbsoluteParent(2).getPath();
 String currPath = currentPage.getPath();
