@@ -268,6 +268,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     private void processNewLiveRelationships(Set<String> submittedCouncils, Resource sourcePageResource, Set<String> pagesToActivate, List<String> rolloutLog, Set<String> notifyCouncils, ResourceResolver rr, Boolean updateReferences) throws RepositoryException, WCMException {
         log.info("Processing new live relationships.");
         Session session = rr.adaptTo(Session.class);
+        Set<String> processedRelationCouncils = new HashSet<String>();
         for (String councilPath : submittedCouncils) {
             log.info("Looking up live relationships in {}", councilPath);
             RangeIterator relationsIterator = relationManager.getLiveRelationships(sourcePageResource.getParent(), councilPath, null);
@@ -302,6 +303,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                         }
                         pagesToActivate.add(targetPath);
                         rolloutLog.add("Page added to activation/cache build queue");
+                        processedRelationCouncils.add(councilPath);
                     } else {
                         rolloutLog.add("No resource can be found to serve as a suitable parent page. In order to roll out to this council, you must roll out the parent of this template page first.");
                         rolloutLog.add("Will NOT rollout to this council");
@@ -312,6 +314,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                 }
             }
         }
+        submittedCouncils.removeAll(processedRelationCouncils);
     }
 
     private void processExistingLiveRelationships(Set<String> submittedCouncils, Resource sourcePageResource, Set<String> pagesToActivate, List<String> rolloutLog, Set<String> notifyCouncils, ResourceResolver rr, Boolean updateReferences) throws RepositoryException, WCMException {
