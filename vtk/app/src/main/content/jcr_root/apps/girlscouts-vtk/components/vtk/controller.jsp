@@ -463,6 +463,9 @@
                             }
                         }
                         String meetingCode = planView.getMeeting().getRefId().substring(planView.getMeeting().getRefId().lastIndexOf("/"));
+                        if(meetingCode != null && meetingCode.contains("_")){
+                            meetingCode=meetingCode.substring(0,meetingCode.indexOf("_"));
+                        }
                         String pathToAssets = "/content/dam/girlscouts-vtk2019/local/aid/meetings"+meetingCode;
                         Resource meetingAidFolder = resourceResolver.resolve(pathToAssets);
                         Iterator<Resource> aidResources = meetingAidFolder.listChildren();
