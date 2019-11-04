@@ -6,9 +6,8 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <div id="right-canvas-menu-bottom">
-  <ul class="side-nav" style="background-color: #e6e7e8;">
+  <ul class="side-nav" style="background-color:#6b6b6b;">
 <%
-String homepagePath = currentPage.getAbsoluteParent(2).getPath();
 String currPath = currentPage.getPath();
 String[] links = (String[])(request.getAttribute("links"));
 if(links != null){
@@ -21,16 +20,12 @@ for (int i = 0; i < links.length; i++) {
      String clazz = values.length >= 3 ? "class=\""+ values[2] + "\"": "";
      String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ?
              " target=\"_blank\"" : "";
-     if(currPath.equals(menuPath) && i == 0){%>
-        <li id="side-nav-bottom-first" class="active">
-     <%}else if(currPath.equals(menuPath)){ %>
-     	<li class="active">
-     <%}else if(i == 0){ %>
-        <li id="side-nav-bottom-first">
+     if(currPath.equals(menuPath)){%>
+         <li class="active">
      <%}else{ %>
-        <li>
+     	<li>
      <% } %>
-		<div class="side-nav-wrapper"><a <%= clazz %> href="<%= path %>"<%= newWindow %>><%= label %></a></div><hr></li>
+		<div><a <%= clazz %> href="<%= path %>"<%= newWindow %>><%= label %></a></div></li>
  <% } 
 }%>
 </ul>

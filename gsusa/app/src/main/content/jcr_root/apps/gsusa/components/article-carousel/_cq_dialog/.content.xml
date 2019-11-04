@@ -57,7 +57,9 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./sortByPriority"
-                                text="Sort By Priority"/>
+                                text="Sort By Priority"
+                                value="{Boolean}true"
+                                uncheckedValue="{Boolean}false"/>
                             <sortbypriority-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
