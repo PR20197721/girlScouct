@@ -68,13 +68,6 @@ public class YearPlanUtil {
         return yearPlanDAO.getYearPlan(path);
     }
 
-    public List<Asset> getAids(User user, Troop troop, String tags, String meetingName, String uids, String path) throws IllegalAccessException {
-        List<Asset> container = new ArrayList();
-        container.addAll(meetingDAO.getAidTag_local(user, troop, tags, meetingName, path));
-        container.addAll(meetingDAO.getAidTag(user, troop, tags, meetingName));
-        return container;
-    }
-
     @SuppressWarnings("unchecked")
     public net.fortuna.ical4j.model.Calendar yearPlanCal(User user, Troop troop) throws Exception {
         Map<Date, YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
@@ -149,13 +142,6 @@ public class YearPlanUtil {
             e.printStackTrace();
         }
         return fmtLocation;
-    }
-
-    public java.util.List<Asset> getResources(User user, Troop troop, String tags, String meetingName, String uids, String meetingPath) throws IllegalAccessException {
-        java.util.List<Asset> container = new java.util.ArrayList();
-        container.addAll(meetingDAO.getResource_local(user, troop, meetingName, meetingPath));
-        container.addAll(meetingDAO.getResource_global(user, troop, tags, meetingName));
-        return container;
     }
 
     public java.util.List<Milestone> getCouncilMilestones(User user, Troop troop) throws IllegalAccessException {
