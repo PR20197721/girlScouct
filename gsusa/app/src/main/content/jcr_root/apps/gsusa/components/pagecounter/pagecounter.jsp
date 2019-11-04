@@ -17,7 +17,6 @@
 	org.apache.sling.api.SlingHttpServletRequest,
 	org.apache.sling.api.SlingHttpServletResponse,
 	org.apache.sling.engine.SlingRequestProcessor,
-	org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpServletRequest,
 	javax.servlet.http.HttpServletResponse,
@@ -136,16 +135,18 @@
 		String html = "";
 		String render;
 		Page tpage = council.adaptTo(Page.class);
-		html += "<h3>" + tpage.getTitle() + " (" + council.getName() + ")</h3>";
-		render = render(requestResponseFactory, requestProcessor, resourceResolver, council, dialogPath);
-		try {
-			html += processHTMLToList(render);
-			pagesList.add(html);
-			html = processHTMLToTable(render);
-			pagesTable.add(html);
-		} catch (Exception e) {
-			errorList.add(council.getName() + ": " + render);
-		}
+		if (tpage != null){
+            html += "<h3>" + tpage.getTitle() + " (" + council.getName() + ")</h3>";
+            render = render(requestResponseFactory, requestProcessor, resourceResolver, council, dialogPath);
+            try {
+                html += processHTMLToList(render);
+                pagesList.add(html);
+                html = processHTMLToTable(render);
+                pagesTable.add(html);
+            } catch (Exception e) {
+                errorList.add(council.getName() + ": " + render);
+            }
+        }
 	}
 	
 	
