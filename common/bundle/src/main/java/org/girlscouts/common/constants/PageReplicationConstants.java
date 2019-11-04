@@ -64,6 +64,7 @@ public interface PageReplicationConstants {
 	public static final String PARAM_CQ_IS_DEEP = "cq:isDeep";
 	public static final String PARAM_CQ_MASTER = "cq:master";
 	public static final String PARAM_CQ_LIVE_SYNC_CONFIG = "cq:LiveSyncConfig";
+    public static final String PARAM_UPDATE_REFERENCES = "updateReferences";
 
 	public static final String RELATION_CUSTOM_COMPONENTS = "customComponents";
 	public static final String RELATION_INHERITED_COMPONENTS = "inheritedComponents";
@@ -77,6 +78,7 @@ public interface PageReplicationConstants {
 
 	public static final String BRANCH_PATTERN_STR = "^(/content/[^/]+)";
 	public static final Pattern BRANCH_PATTERN = Pattern.compile(BRANCH_PATTERN_STR);
+    public static final int BRANCH_LEVEL = 1;
 
 	public interface Email {
 		public static final String DEFAULT_ROLLOUT_REPORT_SUBJECT = "GSUSA Rollout Report";
