@@ -47,7 +47,6 @@ target/
 bin/
 /target
 
-vtk/app/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css/vtk-style.css
 /tools/scripts/cygwin/setLocalVars.sh
 /vtk/app/node
 /vtk/app/src/main/typescript/vtk-mtg-plan/node_modules
