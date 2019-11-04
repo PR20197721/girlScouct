@@ -107,7 +107,6 @@ public class Troop extends JcrNode implements Serializable {
     }
 
     public String getSfTroopName() {
-        log.error("getSFtroopName called");
         return sfTroopName;
     }
 
@@ -132,7 +131,6 @@ public class Troop extends JcrNode implements Serializable {
     }
 
     public YearPlan getYearPlan() {
-        log.error("YearPlan is " + yearPlan);
         return yearPlan;
     }
 
