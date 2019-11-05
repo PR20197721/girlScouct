@@ -126,20 +126,13 @@ public class CouncilRpt extends BasicGirlScoutsService {
                                 log.error("Error occured:", e);
                             }
                             String troopName = "";
-                            List<Contact> leaders = new ArrayList<Contact>();
                             try {
                                 troopName = troop.getProperty("sfTroopName").getString();
                                 String troopId = troop.getProperty("sfTroopId").getString();
-                                if (config != null && troopId != null) {
-                                    try {
-                                        leaders.addAll(gsSalesForceService.getTroopLeaderInfoByTroopId(config, troopId));
-                                    } catch (Exception e) {
-                                        log.error("Unable to retrieve troop user from salesforce : " + node.getPath(), e);
-                                    }
-                                }
                             } catch (Exception e) {
                                 log.error("Unable to resolve troop name for troop : " + node.getPath(), e);
                             }
+
                             if (troop != null && (libPath == null || libPath.equals("") || (yearPlanName != null && yearPlanName.trim().toLowerCase().equals("custom year plan")))) {
                                 try {
                                     libPath = troop.getProperty("sfTroopAge").getString().toLowerCase().substring(2);
@@ -169,7 +162,6 @@ public class CouncilRpt extends BasicGirlScoutsService {
                             crb.setAgeGroup(ageGroup);
                             crb.setYearPlanPath(path);
                             crb.setTroopName(troopName);
-                            crb.setTroopLeaders(leaders);
                             try {
                                 crb.setTroopId(path.split("/")[4]);
                             } catch (Exception e) {
