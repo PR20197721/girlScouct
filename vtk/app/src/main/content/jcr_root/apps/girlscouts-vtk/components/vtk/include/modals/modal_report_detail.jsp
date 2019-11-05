@@ -11,8 +11,9 @@
 
     String troopId= request.getParameter("tid");
     String councilCode = request.getParameter("cid");
+    String currentYear = user.getCurrentYear();
 
-    String troopPath = "/vtk2019/" + councilCode + "/troops/" + troopId;
+    String troopPath = "/vtk" + currentYear + "/" + councilCode + "/troops/" + troopId;
 
     User impersonateRoot =(User) VtkUtil.deepClone(user);
     Troop _troop = troopUtil.getTroopByPath(impersonateRoot, troopPath);
