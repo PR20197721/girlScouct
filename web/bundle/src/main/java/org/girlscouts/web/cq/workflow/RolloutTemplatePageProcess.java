@@ -61,7 +61,7 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 				String srcPath = item.getWorkflowData().getPayload().toString();
 				String subject = "", message = "", templatePath = "";
 				Boolean useTemplate = false, delay = false, notify = false, crawl = false, activate = false,
-						newPage = false;
+						newPage = false, updateReferenes = false;
 				try {
 					if (mdm.get(PARAM_NEW_PAGE) != null) {
 						newPage = ((Value) mdm.get(PARAM_NEW_PAGE)).getBoolean();
@@ -110,6 +110,14 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 					log.error("Rollout Workflow encountered error: ", e);
 				}
 				log.info("notify={}", notify);
+                try {
+                    if (mdm.get(PARAM_UPDATE_REFERENCES) != null) {
+                        updateReferenes = ((Value) mdm.get(PARAM_UPDATE_REFERENCES)).getBoolean();
+                    }
+                } catch (Exception e) {
+                    log.error("Rollout Workflow encountered error: ", e);
+                }
+                log.info("updateReferenes={}", updateReferenes);
 				try {
 					if (mdm.get(PARAM_EMAIL_SUBJECT) != null) {
 						subject = ((Value) mdm.get(PARAM_EMAIL_SUBJECT)).getString();
@@ -149,6 +157,7 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 				dateRolloutNode.setProperty(PARAM_CRAWL, crawl);
 				dateRolloutNode.setProperty(PARAM_DELAY, delay);
 				dateRolloutNode.setProperty(PARAM_ACTIVATE, activate);
+                dateRolloutNode.setProperty(PARAM_UPDATE_REFERENCES, updateReferenes);
 				dateRolloutNode.setProperty(PARAM_SOURCE_PATH, srcPath);
 				dateRolloutNode.setProperty(PARAM_NOTIFY, notify);
 				dateRolloutNode.setProperty(PARAM_USE_TEMPLATE, useTemplate);
