@@ -2,6 +2,7 @@ import {ActionsTypes} from "./actionsType";
 import COMUNICATIONS from "../comunications";
 import {HELPER} from "../helper";
 import store from './store';
+import * as moment from 'moment';
 
 declare const ___ENV___, printModal, VTKDataWorker, vtkTrackerPushAction;
 
@@ -14,8 +15,8 @@ export namespace Actions {
     function reorderActivities(array) {
         let last = 0;
 
-        const time = new Date(store.getState().helper.currentDate);
-        const currenTime = time.getHours() * 60 + time.getMinutes();
+        const time = moment.tz(store.getState().helper.currentDate,"America/New_York");
+        const currenTime = time.hours() * 60 + time.minutes();
 
         return array.map((_item, _index) => {
             _item['__counter__'] = HELPER.FORMAT.convertMinsToHrsMins(last + currenTime);
@@ -120,8 +121,8 @@ export namespace Actions {
             };
 
             let last = 0;
-            const time = new Date(response.data.yearPlan.helper.currentDate);
-            const currenTime = time.getHours() * 60 + time.getMinutes();
+            const time = moment.tz(response.data.yearPlan.helper.currentDate,"America/New_York");
+            const currenTime = time.hours() * 60 + time.minutes();
 
             const data = {
                 participationCode: response.data.participationCode,
@@ -191,8 +192,11 @@ export namespace Actions {
             console.log(response);
 
             let last = 0;
-            const time = new Date(response[0].data.yearPlan.helper.currentDate);
-            const currenTime = time.getHours() * 60 + time.getMinutes();
+            //Here issue?
+            debugger;
+            const time = moment.tz(response[0].data.yearPlan.helper.currentDate,"America/New_York");
+            console.log("Data is " + response[0].data.yearPlan.helper.currentDate);
+            const currenTime = time.hours() * 60 + time.minutes();
 
 
             const user_variable = {...document.getElementById('data-log').dataset};
