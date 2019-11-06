@@ -37,6 +37,8 @@ public class MeetingUtil {
     @Reference
     private TroopDAO troopDAO;
     @Reference
+    private MeetingAidUtil meetingAidUtil;
+    @Reference
     private GirlScoutsSalesForceService gsSalesForceService;
 
     public java.util.List<MeetingE> updateMeetingPos(java.util.List<MeetingE> orgMeetings, java.util.List<Integer> newPoss) {
@@ -514,7 +516,7 @@ public class MeetingUtil {
         for (int i = 0; i < meetings.size(); i++) {
             MeetingE meeting = meetings.get(i);
             if (meeting.getUid().equals(meetingId)) {
-                Asset dbAsset = meetingDAO.getAsset(user, troop, aidId + "/");
+                Asset dbAsset = meetingAidUtil.getAsset(aidId);
                 Asset asset = new Asset();
                 asset.setRefId(aidId);
                 asset.setType(AssetComponentType.AID.toString());
@@ -523,16 +525,17 @@ public class MeetingUtil {
                 if (dbAsset != null) {
                     asset.setDescription(dbAsset.getDescription());
                     asset.setIsOutdoorRelated(dbAsset.getIsOutdoorRelated());
+                    asset.setIsGlobalRelated(dbAsset.getIsGlobalRelated());
                 }
                 java.util.List<Asset> assets = meeting.getAssets();
                 assets = assets == null ? new java.util.ArrayList() : assets;
-                boolean isAsset = false;
+                boolean isDuplicate = false;
                 for (int y = 0; y < assets.size(); y++) {
                     if (assets.get(y).getRefId().equals(aidId)) {
-                        isAsset = true;
+                        isDuplicate = true;
                     }
                 }
-                if (isAsset) {
+                if (isDuplicate) {
                     return;
                 }
                 assets.add(asset);
@@ -669,69 +672,26 @@ public class MeetingUtil {
         if (_comp == null) {
             return null;
         }
-        MeetingE meeting = null;
-        List<Asset> _aidTags = null;
+        MeetingE meetingEvent = null;
+        List<Asset> assets = null;
         Meeting meetingInfo = null;
         if (_comp.getType() == YearPlanComponentType.MEETING || _comp.getType() == YearPlanComponentType.MEETINGCANCELED) {
-            meeting = (MeetingE) _comp;
+            meetingEvent = (MeetingE) _comp;
             int meetingCount = 0;
             if (_comp.getType() == YearPlanComponentType.MEETING) {
                 meetingCount = troop.getYearPlan().getMeetingEvents().indexOf(_comp) + 1;
             } else if (_comp.getType() == YearPlanComponentType.MEETINGCANCELED) {
                 meetingCount = troop.getYearPlan().getMeetingCanceled().indexOf(_comp) + 1;
             }
-            meetingInfo = yearPlanUtil.getMeeting(user, troop, meeting.getRefId());
-            meeting.setMeetingInfo(meetingInfo);
+            meetingInfo = yearPlanUtil.getMeeting(user, troop, meetingEvent.getRefId());
+            assets = meetingAidUtil.getMeetingAids(meetingInfo, meetingEvent);
+            meetingEvent.setMeetingInfo(meetingInfo);
             java.util.List<Activity> _activities = null;
             if (meetingInfo.getActivities() != null) {
                 _activities = meetingInfo.getActivities();
             }
-            java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo.getMeetingInfo();
-            boolean isLocked = false;
-            if (planView.getSearchDate().before(new java.util.Date()) && troop.getYearPlan().getSchedule() != null) {
-                isLocked = true;
-            }
-            boolean isCanceled = false;
-            if (meeting.getCancelled() != null && meeting.getCancelled().equals("true")) {
-                isCanceled = true;
-            }
-            _aidTags = meeting.getAssets();
-            //start
-            if (_aidTags == null) {
-                _aidTags = new java.util.ArrayList<Asset>();
-            }
-            // query aids cachables
-            java.util.List<Asset> __aidTags = yearPlanUtil.getAids(user, troop, meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid(), meetingInfo.getPath());
-            java.util.List<Asset> __resources = yearPlanUtil.getResources(user, troop, meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid(), meetingInfo.getPath());
-            if (_aidTags == null) {
-                _aidTags = new java.util.ArrayList();
-            }
-            if (__aidTags != null) { //add aid tags
-                aa:
-                for (int y = 0; y < __aidTags.size(); y++) {
-                    for (int x = 0; x < _aidTags.size(); x++) {
-                        if (_aidTags.get(x).getRefId().equals(__aidTags.get(y).getRefId())) {
-                            continue aa;
-                        }//edn if
-                    }//end x
-                    _aidTags.add(__aidTags.get(y));
-                }//edn y
-
-            }
-            if (__resources != null) //add resources
-            {
-                aad:
-                for (int y = 0; y < __resources.size(); y++) {
-                    for (int x = 0; x < _aidTags.size(); x++) {
-                        if (_aidTags.get(x).getRefId().equals(__resources.get(y).getRefId())) {
-                            continue aad;
-                        }
-                    }
-                    _aidTags.add(__resources.get(y));
-                }
-            }
-            meeting.setLastAssetUpdate(new java.util.Date());
-            meeting.setAssets(_aidTags);
+            meetingEvent.setLastAssetUpdate(new java.util.Date());
+            meetingEvent.setAssets(assets);
             //end
             int meetingLength = 0;
             for (Activity _agenda : _activities) {
@@ -741,11 +701,11 @@ public class MeetingUtil {
             planView.setMeetingLength(meetingLength);
 
         }
-        if (meeting != null) {
-            meeting.setMeetingInfo(meetingInfo);
+        if (meetingEvent != null) {
+            meetingEvent.setMeetingInfo(meetingInfo);
         }
-        planView.setMeeting(meeting);
-        planView.setAidTags(_aidTags);
+        planView.setMeeting(meetingEvent);
+        planView.setAidTags(assets);
         return planView;
     }
 
