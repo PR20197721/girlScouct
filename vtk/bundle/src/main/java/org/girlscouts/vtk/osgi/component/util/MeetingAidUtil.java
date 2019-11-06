@@ -72,7 +72,11 @@ public class MeetingAidUtil {
             log.error("Error occurred: ", e);
         }
         if (meetingAids != null && meetingAids.size() > 1) {
-            distinctMeetingAids = meetingAids;
+            for(Asset asset:meetingAids){
+                if(asset != null && asset.getRefId() != null && !"".equals(asset.getRefId().trim())){
+                    distinctMeetingAids.add(asset);
+                }
+            }
             try {
                 distinctMeetingAids = meetingAids.stream().filter(distinctByKey(Asset::getRefId)).collect(Collectors.toList());
             }catch(Exception e){
