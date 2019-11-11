@@ -276,7 +276,7 @@ if(null!=srchInfo) {
 							 } %>
 						</div>
 						<div class="rightCol">
-							<h6><a class="bold" href="<%=href%>" itemprop="name"><%=title %></a></h6>
+							<h6><a class="bold" href="<%=href%>" target="_blank" itemprop="name"><%=title %></a></h6>
 							<% if(membersOnly.equals("true")){
 				  				%> <p class="bold">MEMBERSHIP REQUIRED</p> 
 				  			<% }%>
