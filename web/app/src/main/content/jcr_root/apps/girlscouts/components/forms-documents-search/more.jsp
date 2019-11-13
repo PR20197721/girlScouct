@@ -60,9 +60,9 @@ String ASSETS_EXPRESSION = "SELECT [jcr:score], [jcr:path], [jcr:primaryType] "+
 							"FROM [dam:Asset] as s "+
 							"WHERE ISDESCENDANTNODE([%s])";
 
-String SHARED_ASSETS_EXPRESSION = 	"SELECT [jcr:score], [jcr:path], [jcr:primaryType] "+
-									"FROM [dam:Asset] as s "+
-									"WHERE ISDESCENDANTNODE([/content/dam/girlscouts-shared/documents])"; 
+//String SHARED_ASSETS_EXPRESSION = 	"SELECT [jcr:score], [jcr:path], [jcr:primaryType] "+
+//									"FROM [dam:Asset] as s "+
+//									"WHERE ISDESCENDANTNODE([/content/dam/girlscouts-shared/documents])";
 
 
 q = q==null ? "" : q.trim();
@@ -116,20 +116,20 @@ if((q!=null && q.length()>0) || (tagSet != null && tagSet.size()>0)){
 		GSJcrSearchProvider searchProvider = new GSJcrSearchProvider(slingRequest);
 		String pagesQuery = String.format(PAGES_EXPRESSION, pagePath, q);
 		String assetsQuery = String.format(ASSETS_EXPRESSION, damPath, q);
-		String sharedAssetsQuery = String.format(SHARED_ASSETS_EXPRESSION, damPath, q); 
+		//String sharedAssetsQuery = String.format(SHARED_ASSETS_EXPRESSION, damPath, q);
 		pagesQuery = addTagsClause(pagesQuery, tagSet, true);
 		pagesQuery = addContainsClause(pagesQuery, q);
 		assetsQuery = addTagsClause(assetsQuery, tagSet, false);
 		assetsQuery = addContainsClause(assetsQuery, q);
-		sharedAssetsQuery = addTagsClause(sharedAssetsQuery, tagSet, false);
-		sharedAssetsQuery = addContainsClause(sharedAssetsQuery, q);
+		//sharedAssetsQuery = addTagsClause(sharedAssetsQuery, tagSet, false);
+		//sharedAssetsQuery = addContainsClause(sharedAssetsQuery, q);
 		if(pagePath != null && pagePath.length() != 0){
 			gsResultManager.add(searchProvider.search(pagesQuery));
 		}
 		if(damPath != null && damPath.length() != 0){
 			gsResultManager.add(searchProvider.search(assetsQuery));
 		}
-		gsResultManager.add(searchProvider.search(sharedAssetsQuery));
+		//gsResultManager.add(searchProvider.search(sharedAssetsQuery));
 		gsResultManager.filter();	
 	}catch(Exception e){
 		e.printStackTrace();
