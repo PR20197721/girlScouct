@@ -120,7 +120,7 @@ function EventLoader(jsonPath, containerObj) {
   	
   	function getEventTitle(event){
   		try{
-  			return "<h6><a class=\"bold\" href=\""+event.path+".html\" itemprop=\"name\">"+event.jcr_title+"</a>";
+  			return "<h6><a class=\"bold\" target=\"_blank\" href=\""+event.path+".html\" itemprop=\"name\">"+event.jcr_title+"</a>";
   		}catch(err){}
   	}
   	
