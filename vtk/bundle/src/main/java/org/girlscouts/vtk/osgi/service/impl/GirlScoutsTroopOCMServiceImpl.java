@@ -77,7 +77,7 @@ public class GirlScoutsTroopOCMServiceImpl implements GirlScoutsTroopOCMService 
     }
 
     private void populateMeetingInfo(Troop troop) {
-        if (troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null) {
+        if (troop != null && troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null) {
             for (MeetingE meetingE : troop.getYearPlan().getMeetingEvents()) {
                 if (meetingE != null && meetingE.getMeetingInfo() == null) {
                     String refId = meetingE.getRefId();
