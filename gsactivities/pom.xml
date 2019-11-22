@@ -1,42 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <!-- ====================================================================== -->
-    <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
-    <!-- ====================================================================== -->
-    <parent>
-        <groupId>org.girlscouts</groupId>
-        <artifactId>aem</artifactId>
-        <version>3.26-SNAPSHOT</version>
-    </parent>
-    <!-- ====================================================================== -->
-    <!-- P R O P E R T I E S -->
-    <!-- ====================================================================== -->
-    <groupId>org.girlscouts.aem</groupId>
-    <artifactId>gsactivities</artifactId>
-    <packaging>pom</packaging>
-    <name>Girl Scouts Activities Project</name>
-    <description>Maven Multimodule project for GS Activities.</description>
-    <prerequisites>
-        <maven>3.0.2</maven>
-    </prerequisites>
-    <properties>
-        <crx.host>localhost</crx.host>
-        <crx.port>4502</crx.port>
-        <crx.username>admin</crx.username>
-        <crx.password>admin</crx.password>
-        <publish.crx.host>localhost</publish.crx.host>
-        <publish.crx.port>4503</publish.crx.port>
-        <publish.crx.username>admin</publish.crx.username>
-        <publish.crx.password>admin</publish.crx.password>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
-=======
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<!-- ====================================================================== -->
@@ -45,7 +8,7 @@
 	<parent>
 		<groupId>org.girlscouts</groupId>
 		<artifactId>aem</artifactId>
-		<version>3.22-SNAPSHOT</version>
+		<version>3.26-SNAPSHOT</version>
 	</parent>
 	<!-- ====================================================================== -->
 	<!-- P R O P E R T I E S -->
@@ -70,7 +33,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
->>>>>>> 5ba3cac... 6.5 code compatibility changes for pom.xml
 
 	<dependencyManagement>
 		<dependencies>
@@ -81,7 +43,7 @@
 				<classifier>apis</classifier>
 				<scope>provided</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.osgi</groupId>
 				<artifactId>org.osgi.core</artifactId>
@@ -156,9 +118,11 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<!-- Inclusion of repositories in POMs is controversial, to say the least. 
-		It would be best if you proxied the Adobe repository using a Maven Repository 
-		Manager. Once you do that, remove these sections. -->
+	<!--
+      Inclusion of repositories in POMs is controversial, to say the least.
+      It would be best if you proxied the Adobe repository using a Maven
+      Repository Manager. Once you do that, remove these sections.
+   -->
 	<repositories>
 		<repository>
 			<id>adobe</id>
@@ -237,8 +201,8 @@
 						<password>${crx.password}</password>
 					</configuration>
 				</plugin>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
+				<!--This plugin's configuration is used to store Eclipse
+            m2e settings only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -262,7 +226,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
