@@ -80,11 +80,6 @@
               <version>2.4.2</version>
               <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.scripting.javascript</artifactId>
-            <scope>provided</scope>
-        </dependency>
        <dependency>
             <groupId>com.day.cq</groupId>
             <artifactId>cq-commons</artifactId>
@@ -147,6 +142,7 @@
 					      !org.girlscouts.gsusa.*,
                             org.girlscouts.vtk.*;version="3.0.0",
                             org.girlscouts.common.*;version="3.0.0",
+                          !org.apache.sling.jcr.resource.*,
 				          *
 			            </Import-Package>
                         <Export-Package>org.girlscouts.gsactivities.*</Export-Package>
