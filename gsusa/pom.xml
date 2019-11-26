@@ -22,7 +22,6 @@
 	<prerequisites>
 		<maven>3.0.2</maven>
 	</prerequisites>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.adobe.aem</groupId>
@@ -32,7 +31,6 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-
 	<repositories>
 		<repository>
 			<id>project.local</id>
