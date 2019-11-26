@@ -70,7 +70,6 @@
 		</profile>
 	</profiles>
 	<modules>
-		<module>selective-clean</module>
 		<module>bundle</module>
 		<module>app</module>
 	</modules>
