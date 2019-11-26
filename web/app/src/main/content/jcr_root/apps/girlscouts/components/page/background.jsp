@@ -51,6 +51,12 @@ if(backgroundPath != null && backgroundPath.trim().length() > 0){
                         }
                     }
 
+                    function bindResizeListener(){
+						$(window).resize(function () { // Call again whenever the window is resized
+                        	fixWhitespace();
+                    	});
+                    }
+
                     if (images.length > 0) {
                         // Change background color
                         document.body.style.background = "#000000";
@@ -68,10 +74,9 @@ if(backgroundPath != null && backgroundPath.trim().length() > 0){
                             header.wrapper = $(".header-wrapper");
                             header.banner = $(".page-banner-title h1");
                             fixWhitespace();
+                            bindResizeListener();
                         });
-                        $(window).resize(function () { // Call again whenever the window is resized
-                            fixWhitespace();
-                        });
+                        
                     }
                 }());
             </script>
