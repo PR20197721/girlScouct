@@ -5,7 +5,6 @@ Girl Scouts web platform and Volunteer Toolkit code base.
 
 Code setup for AEM 6.5 SP2.
 
-
 Basic intro to CQ/AEM
 ======================
 

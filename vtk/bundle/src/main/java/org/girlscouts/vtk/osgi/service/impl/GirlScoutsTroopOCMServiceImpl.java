@@ -1,8 +1,10 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
 import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
+import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.ocm.TroopNode;
+import org.girlscouts.vtk.osgi.service.GirlScoutsMeetingOCMService;
 import org.girlscouts.vtk.osgi.service.GirlScoutsOCMRepository;
 import org.girlscouts.vtk.osgi.service.GirlScoutsTroopOCMService;
 import org.osgi.service.component.annotations.Activate;
@@ -20,6 +22,8 @@ public class GirlScoutsTroopOCMServiceImpl implements GirlScoutsTroopOCMService 
     private static Logger log = LoggerFactory.getLogger(GirlScoutsTroopOCMServiceImpl.class);
     @Reference
     private GirlScoutsOCMRepository girlScoutsOCMRepository;
+    @Reference
+    private GirlScoutsMeetingOCMService girlScoutsMeetingOCMService;
 
     @Activate
     private void activate() {
@@ -43,7 +47,9 @@ public class GirlScoutsTroopOCMServiceImpl implements GirlScoutsTroopOCMService 
     @Override
     public Troop read(String path) {
         TroopNode node = (TroopNode) girlScoutsOCMRepository.read(path);
-        return NodeToModelMapper.INSTANCE.toModel(node);
+        Troop troop = NodeToModelMapper.INSTANCE.toModel(node);
+        populateMeetingInfo(troop);
+        return troop;
     }
 
     @Override
@@ -53,7 +59,9 @@ public class GirlScoutsTroopOCMServiceImpl implements GirlScoutsTroopOCMService 
 
     @Override
     public Troop findObject(String path, Map<String, String> params) {
-        return NodeToModelMapper.INSTANCE.toModel(girlScoutsOCMRepository.findObject(path, params, TroopNode.class));
+        Troop troop = NodeToModelMapper.INSTANCE.toModel(girlScoutsOCMRepository.findObject(path, params, TroopNode.class));
+        populateMeetingInfo(troop);
+        return troop;
     }
 
     @Override
@@ -61,9 +69,24 @@ public class GirlScoutsTroopOCMServiceImpl implements GirlScoutsTroopOCMService 
         List<TroopNode> nodes = girlScoutsOCMRepository.findObjects(path, params, TroopNode.class);
         List<Troop> models = new ArrayList<>();
         nodes.forEach(troopNode -> {
-            models.add(NodeToModelMapper.INSTANCE.toModel(troopNode));
+            Troop troop = NodeToModelMapper.INSTANCE.toModel(troopNode);
+            populateMeetingInfo(troop);
+            models.add(troop);
         });
         return models;
+    }
+
+    private void populateMeetingInfo(Troop troop) {
+        if (troop != null && troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null) {
+            for (MeetingE meetingE : troop.getYearPlan().getMeetingEvents()) {
+                if (meetingE != null && meetingE.getMeetingInfo() == null) {
+                    String refId = meetingE.getRefId();
+                    if (refId != null) {
+                        meetingE.setMeetingInfo(girlScoutsMeetingOCMService.read(refId));
+                    }
+                }
+            }
+        }
     }
 
 }

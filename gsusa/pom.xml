@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.girlscouts</groupId>
 		<artifactId>aem</artifactId>
-		<version>3.22-SNAPSHOT</version>
+		<version>3.26-SNAPSHOT</version>
 	</parent>
 	<!-- ====================================================================== -->
 	<!-- P R O P E R T I E S -->
@@ -22,19 +22,15 @@
 	<prerequisites>
 		<maven>3.0.2</maven>
 	</prerequisites>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.adobe.aem</groupId>
-				<artifactId>uber-jar</artifactId>
-				<version>6.5.2</version>
-				<classifier>apis</classifier>
-				<scope>provided</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	
+	<dependencies>
+		<dependency>
+			<groupId>com.adobe.aem</groupId>
+			<artifactId>uber-jar</artifactId>
+			<version>6.5.2</version>
+			<classifier>apis</classifier>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 	<repositories>
 		<repository>
 			<id>project.local</id>
@@ -72,7 +68,6 @@
 		</profile>
 	</profiles>
 	<modules>
-		<module>selective-clean</module>
 		<module>bundle</module>
 		<module>app</module>
 	</modules>
