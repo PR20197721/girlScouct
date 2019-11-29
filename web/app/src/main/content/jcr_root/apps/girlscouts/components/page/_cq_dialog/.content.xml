@@ -39,6 +39,7 @@
                                         <items jcr:primaryType="nt:unstructured">
                                             <title
                                                     jcr:primaryType="nt:unstructured"
+                                                    cq:showOnCreate="{Boolean}true"
                                                     sling:resourceType="granite/ui/components/foundation/form/textfield"
                                                     fieldLabel="Title"
                                                     name="./jcr:title"/>
