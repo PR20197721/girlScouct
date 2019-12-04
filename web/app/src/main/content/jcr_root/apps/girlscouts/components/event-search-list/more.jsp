@@ -183,6 +183,7 @@ public void setDates(JSONObject event, Node node){
 		}
 	}
 	
+	
 	try {
         JSONObject json = new JSONObject();
         List<JSONObject> events = new ArrayList<JSONObject>();
