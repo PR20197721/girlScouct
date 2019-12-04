@@ -131,6 +131,8 @@
             </embedded>
           </embeddeds>
           <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
+          <username>${crx.username}</username>
+          <password>${crx.password}</password>
         </configuration>
       </plugin>
     </plugins>
