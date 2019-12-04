@@ -12,14 +12,7 @@ org.apache.sling.api.request.RequestPathInfo,
 org.apache.sling.api.resource.ResourceUtil,
 org.girlscouts.common.search.GSSearchResult, 
 org.girlscouts.common.search.GSSearchResultManager,
-org.girlscouts.common.search.GSJcrSearchProvider,
-
-org.apache.commons.collections.IteratorUtils,
-javax.jcr.NodeIterator,
-javax.jcr.query.*,
-javax.jcr.Session" 
-
-%>    
+org.girlscouts.common.search.GSJcrSearchProvider" %>    
 <%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>      
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -148,13 +141,9 @@ public void setDates(JSONObject event, Node node){
 }
 %>
 <%
-	//Refactoring for 6.5 Upgrade
-	final Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
-	final List<Node> eventNodesList = new ArrayList<>(0);
-
-	int RESULTS_PER_PAGE = 10;
-	int offset = 0;
-	int resultCount = 0;
+   	long RESULTS_PER_PAGE = 10;
+	long offset = 0;
+	long resultCount = 0;
 	
 	String[] propertyPaths = new String[]{
 			"jcr:content/jcr:title",
@@ -182,21 +171,16 @@ public void setDates(JSONObject event, Node node){
 			includeCart = true;
 		}
 	}
-	
 	try {
         JSONObject json = new JSONObject();
         List<JSONObject> events = new ArrayList<JSONObject>();
-		
-        try{
+		try{
 			final RequestPathInfo requestPathInfo = slingRequest.getRequestPathInfo();
 			String[] selectors = requestPathInfo.getSelectors();
 			if(selectors.length == 3){
-				offset = Integer.parseInt(selectors[2]);
+				offset = Long.parseLong(selectors[2]);
 			}
 		}catch(Exception e){}
-		
-		
-		
 	   	String EXPRESSION = "SELECT [jcr:score], [jcr:path], [jcr:primaryType] "
 	   			+ "FROM [cq:Page] AS s "
 	   			+ "WHERE ISDESCENDANTNODE([%s]) AND "
@@ -207,33 +191,25 @@ public void setDates(JSONObject event, Node node){
 	   	String dateAsString = sql2DateFormat.format(cal.getTime());
 	   	String query = String.format(EXPRESSION, path, dateAsString, dateAsString, dateAsString);
 	   	try {
-	   		boolean searchMore = true;
-	   		QueryManager queryManager = session.getWorkspace().getQueryManager();
-			Query sql2Query = queryManager.createQuery(query, "JCR-SQL2");
-			
-			//If eventNodesList is empty execute query and cache results
-			if(eventNodesList.isEmpty()){
-				QueryResult result = sql2Query.execute();
-				NodeIterator nodeIter = result.getNodes();
-				//System.out.println(">>> event query: " + sql2Query.getStatement());
-				while ( nodeIter.hasNext() ) {
-					eventNodesList.add(nodeIter.nextNode());
-				}
-			}
-			
-			int limit = (offset + RESULTS_PER_PAGE <= eventNodesList.size()) ? offset + RESULTS_PER_PAGE : eventNodesList.size();
-			
-			//Build json response while searchmore is true
-			while(searchMore){
-				if(offset >= eventNodesList.size()){
+			GSJcrSearchProvider searchProvider = new GSJcrSearchProvider(slingRequest);
+		 	boolean searchMore = true;
+		 	Calendar cale =  Calendar.getInstance();
+		 	while(searchMore){
+		 		GSSearchResultManager gsResultManager = new GSSearchResultManager();
+		 		long startTime = System.nanoTime(); 
+			 	gsResultManager.add(searchProvider.searchWithOffset(query, RESULTS_PER_PAGE, offset));
+			 	long endTime = System.nanoTime();
+		 		double duration = (endTime - startTime)/1000000;
+		 		System.err.println("Execution of : "+query+" with result size: "+RESULTS_PER_PAGE+" and offset: "+offset+" took "+duration+" milliseconds");
+			 	if(gsResultManager.size() == 0){
 			 		searchMore = false;
 		 			break;
 			 	}
-				
-				for (int counter = offset; counter < limit; counter++) { 	
-					offset++;	
-			    	try{
-			    		Node resultNode = eventNodesList.get(counter);
+			 	List<GSSearchResult> queryResults = gsResultManager.getResults();
+			 	for(GSSearchResult qResult:queryResults){
+			 		offset++;
+			 		try{
+				 		Node resultNode = qResult.getResultNode();
 				 		JSONObject event = new JSONObject();
 				 		String eventPath = resultNode.getPath();
 				 		try{ eventPath = resourceResolver.map(eventPath);}catch(Exception e){}
@@ -249,15 +225,14 @@ public void setDates(JSONObject event, Node node){
 				 		event.put("includeCart",includeCart);
 				 		setRegistrationLink(event, resultNode, includeCart, resourceResolver);
 				 		events.add(event);
-				 		resultCount++;
-			    	}catch(Exception e){}
-			    	if(resultCount == RESULTS_PER_PAGE){
+				 		resultCount ++;
+			 		}catch(Exception e){}
+			 		if(resultCount == RESULTS_PER_PAGE){
 			 			searchMore = false;
 			 			break;
 			 		}
-			    }   
-			}
-			
+			 	}
+		 	}
 	   	} catch(Exception e){
 	   		e.printStackTrace();
 	   	}
