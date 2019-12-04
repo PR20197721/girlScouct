@@ -174,7 +174,7 @@ if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                         </div>
                     </div><%
                 } else {
-                    %><div>*** Format not supported ***</div><%
+                    %><div style="height: 225; display:inline-block; margin: 10px; padding: 10px 0;"><p>*** Format not supported ***</p></div><%
                 }
             } else {
                 %><div><img src="<%=path%>" alt="Image slider <%=i%>" /></div><%
