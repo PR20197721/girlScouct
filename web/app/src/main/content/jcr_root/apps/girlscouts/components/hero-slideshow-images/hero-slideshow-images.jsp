@@ -37,9 +37,9 @@
 	String newWindow = "";
 		  
 	if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-    		slideShowElements.add(new SlideShowElement(getPlaceHolderText("Click edit above and select number of slides. Then click here to add images to slides.",""), "", "", "regular", false));
-    		slideShowElements.add(new SlideShowElement(getPlaceHolderText("Click edit above and select number of slides. Then click here to add images to slides.",""), "", "", "medium", false));
-	    	slideShowElements.add(new SlideShowElement(getPlaceHolderText("Click edit above and select number of slides. Then click here to add images to slides.",""), "", "", "small", false));
+    		slideShowElements.add(new SlideShowElement(getPlaceHolderText("Click configure to add or edit slides.",""), "", "", "regular", false));
+    		slideShowElements.add(new SlideShowElement(getPlaceHolderText("Click configure to add or edit slides.",""), "", "", "medium", false));
+	    	slideShowElements.add(new SlideShowElement(getPlaceHolderText("Click configure to add or edit slides.",""), "", "", "small", false));
 
 	} else if(imageNode!=null){
 		
@@ -105,7 +105,7 @@
 		if(missingImageSizes.size() == 3 && !hasOneVideoUrl)
 		{
             if(WCMMode.fromRequest(request) == WCMMode.EDIT){
-				missingImageSizes.forEach(missingSize -> slideShowElements.add(new SlideShowElement("Click edit above and select number of slides. Then click here to add images to slides.", "", "", missingSize, false)));
+				missingImageSizes.forEach(missingSize -> slideShowElements.add(new SlideShowElement("Click configure to add or edit slides.", "", "", missingSize, false)));
             }
 		} else{
 			missingImageSizes.forEach(missingSize -> slideShowElements.add(new SlideShowElement("MISSING", "", "", missingSize, false)));
