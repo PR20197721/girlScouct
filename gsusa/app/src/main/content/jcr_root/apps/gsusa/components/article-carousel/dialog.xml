@@ -56,7 +56,8 @@
                         fieldLabel="Sort By Priority"
                         name="./sortByPriority"
                         type="checkbox"
-                        xtype="selection"/>
+                        xtype="selection"
+                        value="true"/>
                     <borderLine
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}true"

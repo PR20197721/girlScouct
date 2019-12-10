@@ -28,70 +28,14 @@
                    only if 'customStart' has been set to true.
      * editorType : This specifies which editor to use - "text" or "table". Default is "text".
 */
+
 (function(window, document, $) {
     "use strict";
 
-    $(document).on("foundation-contentloaded", function(e) {
+    var rteFixedColumnCss = "cq-RichText-FixedColumn-column";
+    var rteFixedColumnCssCompat = "coral-RichText-FixedColumn-column";
+    var DATA_RTE_INSTANCE = "rteinstance";
 
-        var $container = $(e.target).hasClass(".richtext-container") ? $(e.target) : $(e.target).find(".richtext-container");
-
-        // Copy hidden text field to RTE
-        $container.each(function() {
-            var $richTextDiv = $(this).find(".coral-RichText-editable");
-            if (!$richTextDiv.data("rteinstance")) {
-                var html = $(this).find("input[type=hidden].coral-Textfield").val();
-                $richTextDiv.empty().append(unescapeHtml(html));
-            }
-            $container.find("[name='./textIsRich']").remove(); 
-            $container.css("overflow","auto");
-        });
-
-        // Copy RTE text to hidden field
-        $container.on("change", ".coral-RichText-editable", function() {
-            var el = $(this).closest(".richtext-container");
-            var rteInstance = el.find(".coral-RichText-editable").data("rteinstance");
-            el.find("input[type=hidden].coral-Textfield").val(rteInstance.getContent());
-        });
-
-        var $richTextDiv = $(e.target).find(".richtext-container>.coral-RichText");
-        $richTextDiv.each(function() {
-            var $this = $(this);
-            if ($this.data("customStart")) {
-                $this.on("rte-start", function() {
-                    var $this = $(this);
-                    if ($this.data("useFixedInlineToolbar") && !$this.data("rteinstance")) {
-                        var html = $(this).parent().find("input[type=hidden].coral-Textfield").val();
-                        $this.empty().append(html);
-                        startRTE($this);
-                    }
-                });
-            } else {
-                if ($this.data("useFixedInlineToolbar") && !$this.data("rteinstance")) {
-                    startRTE($this);
-                }
-            }
-            $this.on("editing-start", function() {
-                var rte = $(this).data("rteinstance");
-                rte.editorKernel.getToolbar().hide();
-                $(this).closest("coral-dialog-content").on("mousedown", function(e) {
-                    if (!$(e.target).closest(".richtext-container").length) {
-                        if (rte.useFixedInlineToolbar) {
-                            rte.editorKernel.toolbar.hide();
-                        }
-                    }
-                });
-            });
-            $(this).on("click", function() {
-                var self = this;
-                $richTextDiv.each(function() {
-                    var rte = $(this).data("rteinstance");
-                    if (this !== self && rte) {
-                        rte.editorKernel.getToolbar().hide();
-                    }
-                });
-            });
-        });
-    });
 
     var startRTE = function($editable, options) {
         var editorType = $editable.data("editorType"), rtePluginsDefaults, configCallBack;
@@ -138,9 +82,104 @@
         CUI.rte.ConfigUtils.loadConfigAndStartEditing(rte, $editable, configCallBack);
     };
 
+    	    $(document).on("foundation-contentloaded", function(e) {
+
+        var $container = $(e.target).hasClass(".cq-RichText") ? $(e.target) : $(e.target).find(".cq-RichText");
+
+        // Added in 6.4 to ensure Full BC (CQ-4231708)
+        // Should ideally be removed in 6.6
+        $container.each(function () {
+            var $this = $(this);
+            $this.closest("." + rteFixedColumnCss).addClass(rteFixedColumnCssCompat);
+            $this.closest("." + rteFixedColumnCssCompat + ":not(." + rteFixedColumnCss + ")").addClass(rteFixedColumnCss);
+        });
+
+        // Copy hidden text field value to RTE and stop implicit submission of form, when enter key is pressed in RTE UI.
+        // We don't put html value into RTE while rendering, otherwise, the linkchecker
+        // converts invalid links to image tags. (See CQ-4219770). So, we add it in the
+        // value attribute of hidden input field when rendering and copy it from there now
+        $container.each(function() {
+            var $this = $(this);
+            var $richTextDiv = $this.find(".cq-RichText-editable");
+            if (!$richTextDiv.data(DATA_RTE_INSTANCE)) {
+                var html = $this.find("input[type='hidden'][data-cq-richtext-input='true']").val();
+                $richTextDiv.empty().append(unescapeHtml(html));
+            }
+
+            $container.find("[name='./textIsRich']").remove();
+            $container.css("overflow","hidden");
+             $container.css("background-color","#ffffff");
+            $this.on("keypress", "input", function (e) {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                }
+            });
+        });
+
+        // Copy RTE text to hidden field
+        $container.on("change", "[data-cq-richtext-editable='true']", function() {
+            var el = $(this).closest(".cq-RichText");
+            var rteInstance = el.find(".cq-RichText-editable").data(DATA_RTE_INSTANCE);
+            el.find("input[type=hidden][data-cq-richtext-input='true']").val(rteInstance.getContent());
+        });
+
+        var $richTextDiv = $(e.target).find(".cq-RichText>.cq-RichText-editable");
+        $richTextDiv.each(function() {
+            var $this = $(this);
+            if ($this.data("customStart")) {
+                $this.on("rte-start", function() {
+                    var $this = $(this);
+                    if ($this.data("useFixedInlineToolbar") && !$this.data(DATA_RTE_INSTANCE)) {
+                        var html = $(this).parent().find("input[type=hidden][data-cq-richtext-input='true']").val();
+                        $this.empty().append(unescapeHtml(html));
+                        startRTE($this);
+                    }
+                });
+            } else {
+                if ($this.data("useFixedInlineToolbar") && !$this.data(DATA_RTE_INSTANCE)) {
+                    startRTE($this);
+                }
+            }
+            $this.on("editing-start", function() {
+                var rte = $(this).data(DATA_RTE_INSTANCE);
+                var $this = $(this);
+                var $coralDialog = $this.closest("coral-dialog");
+                rte.editorKernel.getToolbar().hide();
+                if ($coralDialog.length && $coralDialog[0].fullscreen === true) {
+                    switchToolbar("dialogFullScreen", rte);
+                }
+                $this.closest("coral-dialog-content").on("mousedown", function(e) {
+                    var $target = $(e.target);
+                    if (!$target.closest(".cq-RichText").length) {
+                        //[Workaround] CQ-4249635 : Safari doesn't blur selection from contenteditable when clicking on radio/checkbox
+                        if (CUI.rte.Common.ua.isSafari && $target.is("input[type='radio'], input[type='checkbox']")) {
+                            var context = rte.editorKernel.getEditContext();
+                            var selection = CUI.rte.Selection.getSelection(context);
+                            selection.removeAllRanges();
+                        }
+                        if (rte.useFixedInlineToolbar) {
+                            rte.editorKernel.toolbar.hide();
+                        }
+                    }
+                });
+            });
+            $(this).on("click", function() {
+                var self = this;
+                $richTextDiv.each(function() {
+                    var rte = $(this).data(DATA_RTE_INSTANCE);
+                    if (this !== self && rte) {
+                        rte.editorKernel.getToolbar().hide();
+                    }
+                });
+            });
+        });
+    });
+
+
+
     var rteFinish = function() {
         var $this = $(this), index;
-        var rteInstance = $this.data("rteinstance"), styleElements = $this.data("externalStyleElements");
+        var rteInstance = $this.data(DATA_RTE_INSTANCE), styleElements = $this.data("externalStyleElements");
         if (rteInstance) {
             rteInstance.finish(false);
             if (styleElements) {
@@ -148,7 +187,7 @@
                     styleElements[index].remove();
                 }
             }
-            $(this).removeData("rteinstance");
+            $this.removeData(DATA_RTE_INSTANCE);
         }
     };
 
@@ -158,13 +197,13 @@
             // we need to only listen to event on coral-dialog
             return;
         }
-        $(this).find(".richtext-container>.coral-RichText").each(rteFinish);
+        $(this).find(".cq-RichText>.cq-RichText-editable").each(rteFinish);
     });
 
     $(document).on("dialog-layouttoggle-fullscreen", ".cq-Dialog", function(e) {
-        var $richTextDiv = $(e.target).find(".richtext-container>.coral-RichText");
+        var $richTextDiv = $(e.target).find(".cq-RichText>.cq-RichText-editable");
         $richTextDiv.each(function() {
-            var rte = $(this).data("rteinstance");
+            var rte = $(this).data(DATA_RTE_INSTANCE);
             if (rte) {
                 switchToolbar("dialogFullScreen", rte)
             }
@@ -172,9 +211,9 @@
     });
 
     $(document).on("dialog-layouttoggle-floating", ".cq-Dialog", function(e) {
-        var $richTextDiv = $(e.target).find(".richtext-container>.coral-RichText");
+        var $richTextDiv = $(e.target).find(".cq-RichText>.cq-RichText-editable");
         $richTextDiv.each(function() {
-            var rte = $(this).data("rteinstance");
+            var rte = $(this).data(DATA_RTE_INSTANCE);
             if (rte) {
                 switchToolbar("inline", rte)
             }
@@ -182,11 +221,14 @@
     });
 
     $(document).on("click", ".coral-Wizard-nextButton", function(e) {
-        $(this).closest(".foundation-form").find(".richtext-container>.coral-RichText").each(rteFinish);
+        $(this).closest(".foundation-form").find(".cq-RichText>.cq-RichText-editable").each(rteFinish);
     });
 
     function switchToolbar(toolbarType, rte) {
         var ek = rte.editorKernel;
+        if (rte.sourceEditMode) {
+            ek.fireUIEvent('disablesourceedit');
+        }
         if (!ek.hasBackgroundToolbar(toolbarType)) {
             ek.addBackgroundToolbar({
                 "tbType": toolbarType,
@@ -199,11 +241,12 @@
 
     CUI.rte.Theme.BLANK_IMAGE = Granite.HTTP.externalize("/libs/clientlibs/granite/richtext/resources/images/blank.png");
 
-    function unescapeHtml(safe) {
+	function unescapeHtml(safe) {
         return safe.replace(/&amp;/g, '&')
             .replace(/&lt;/g, '<')
             .replace(/&gt;/g, '>')
             .replace(/&quot;/g, '"')
             .replace(/&#039;/g, "'");
     }
+
 })(window, document, Granite.$);

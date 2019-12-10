@@ -32,8 +32,6 @@ public interface MeetingDAO {
 
     List<Asset> getAllResources(User user, Troop troop, String path) throws IllegalAccessException;
 
-    Asset getAsset(User user, Troop troop, String _path) throws IllegalAccessException;
-
     java.util.List<Asset> getGlobalResources(String resourceTags); // delim
     // ';'
 
@@ -45,13 +43,6 @@ public interface MeetingDAO {
 
     String removeLocation(User user, Troop troop, String locationName) throws IllegalAccessException;
 
-    List<Asset> getAidTag_local(User user, Troop troop, String tags, String meetingName, String meetingPath) throws IllegalAccessException;
-
-    List<Asset> getAidTag(User user, Troop troop, String tags, String meetingName) throws IllegalAccessException;
-
-    List<Asset> getResource_local(User user, Troop troop, String meetingName, String meetingPath) throws IllegalAccessException;
-
-    List<Asset> getResource_global(User user, Troop troop, String tags, String meetingName) throws IllegalAccessException;
 
     Attendance getAttendance(User user, Troop troop, String mid);
 

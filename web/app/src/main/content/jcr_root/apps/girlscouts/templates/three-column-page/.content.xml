@@ -7,5 +7,16 @@
     ranking="{Long}10">
     <jcr:content
         jcr:primaryType="cq:PageContent"
-        sling:resourceType="girlscouts/components/three-column-page"/>
+        sling:resourceType="girlscouts/components/three-column-page">
+            <content
+            jcr:primaryType="nt:unstructured">
+                <right
+                    jcr:primaryType="nt:unstructured">
+                    <advertisement
+                        jcr:primaryType="nt:unstructured"
+                        customized="false"
+                        sling:resourceType="girlscouts/components/advertisement"/>
+                </right>
+            </content>
+    </jcr:content>
 </jcr:root>

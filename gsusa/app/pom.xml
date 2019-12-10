@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.girlscouts.aem</groupId>
     <artifactId>gsusa</artifactId>
-    <version>3.22-SNAPSHOT</version>
+    <version>3.26-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
@@ -131,6 +131,8 @@
             </embedded>
           </embeddeds>
           <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
+          <username>${crx.username}</username>
+          <password>${crx.password}</password>
         </configuration>
       </plugin>
     </plugins>
