@@ -741,7 +741,9 @@
                                             return (
                                                 React.createElement("li", {className: "row milestone"},
                                                     React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
-                                                        React.createElement("span", null, moment.tz(comment, "America/New_York").get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('MM/DD/YY'), " ", obj[comment].blurb)
+                                                        React.createElement("span", null, moment.tz(comment, "America/New_York").get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('MM/DD/YY'), " ", ""),
+                                                                    React.createElement("span", {dangerouslySetInnerHTML:{__html: obj[comment].blurb}} )
+
                                                     )
                                                 )
 
