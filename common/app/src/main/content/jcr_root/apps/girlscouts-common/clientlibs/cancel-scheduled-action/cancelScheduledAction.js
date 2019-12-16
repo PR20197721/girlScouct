@@ -20,8 +20,8 @@
     		"&2_property=status" +
     		"&2_property.value=RUNNING" +
     		"&3_property=modelId" +
-    		"&3_property.value=/etc/workflow/models/scheduled_" + action + "/jcr:content/model" +
-    		"&path=/etc/workflow";
+    		"&3_property.value=/var/workflow/models/scheduled_" + action +
+    		"&path=/var/workflow";
     		$.getJSON(uri, function(data){ processResponse(action, path, data) });    		    		
             return false;
     	});

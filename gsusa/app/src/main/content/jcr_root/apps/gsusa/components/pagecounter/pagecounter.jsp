@@ -152,7 +152,7 @@
 	
 %>
 
-
+<div>
 <div id="pagecount">
 	<h1>Page Counter</h1>
 	<p>This component aims to help page count for councils and GSUSA by filtering pages that count towards page count.</p>
@@ -217,7 +217,8 @@
 		<%= str %> <br>
 	<% } } %>
 	
-	
+
+</div>
 </div>
 
 
