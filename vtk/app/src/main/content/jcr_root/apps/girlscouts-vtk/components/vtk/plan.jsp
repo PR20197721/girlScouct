@@ -738,12 +738,14 @@
 
                                             );
                                         } else if (obj[comment].type == 'MILESTONE' && obj[comment].show) {
+                                            function parseLink(tsstr){ //do link insertion here
+                                                return "Hello world":
+                                                }
                                             return (
                                                 React.createElement("li", {className: "row milestone"},
                                                     React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                                                         React.createElement("span", null, moment.tz(comment, "America/New_York").get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('MM/DD/YY'), " ", ""),
-                                                                    React.createElement("span", {dangerouslySetInnerHTML:{__html: obj[comment].blurb}} )
-
+                                                                    React.createElement("span", {dangerouslySetInnerHTML:{__html: parseLink(obj[comment].blurb)}} )
                                                     )
                                                 )
 
