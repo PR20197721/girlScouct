@@ -5,7 +5,7 @@
         <actions jcr:primaryType="nt:unstructured">
         	<secondary jcr:primaryType="nt:unstructured">                
                 <create jcr:primaryType="nt:unstructured">                    
-                    <items jcr:primaryType="nt:unstructured">
+                    <items jcr:primaryType="nt:unstructured" sling:hideChildren="[ugc]">
                         <createfolder
                             granite:class="dam-create-folder"
                             granite:id="dam-create-folder"
