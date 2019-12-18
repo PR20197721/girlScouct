@@ -21,7 +21,7 @@
 %><%@include file="/libs/foundation/global.jsp" %><%
 
     // try to resolve the redirect target in order to the the title
-    String location = properties.get("redirectTarget", "");
+    String location = properties.get("cq:redirectTarget", "");
     // resolve variables in location
     location = ELEvaluator.evaluate(location, slingRequest, pageContext);
     Page target = pageManager.getPage(location);

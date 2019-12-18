@@ -56,7 +56,7 @@
 	                                        <field
 	                                            jcr:primaryType="nt:unstructured"
 	                                            sling:resourceType="girlscouts/components/form/pathfield"
-	                                            name="./redirectTarget"
+	                                            name="./cq:redirectTarget"
 	                                            required="{Boolean}true"/>                                            
                                         </items>
                                     </redirecturl>
