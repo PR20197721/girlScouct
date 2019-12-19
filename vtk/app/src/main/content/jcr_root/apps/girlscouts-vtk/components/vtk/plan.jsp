@@ -746,7 +746,7 @@
                                                       var openParenIndex = blurb.indexOf('(', endBracketIndex);
                                                       var closeParenIndex = blurb.indexOf(')', openParenIndex);
                                                       var hrefString = blurb.substring(openParenIndex + 1, closeParenIndex);
-                                                      var link = "<a href='" + hrefString + "'>" + word + "</a>";
+                                                      var link = "<a target='_blank' href='" + hrefString + "'>" + word + "</a>";
                                                       var finalBlurb = blurb.substring(0,index) + link + blurb.substring(closeParenIndex+1);
                                                       return parseLink(finalBlurb);
                                                   }
