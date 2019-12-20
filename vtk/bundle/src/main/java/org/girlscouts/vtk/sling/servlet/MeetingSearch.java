@@ -156,7 +156,8 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             sql += " or  s.[meetingPlanTypeAlt] = '" + meetingPlanTypeFmt + "' ) ";
         }
         if (search.getKeywords() != null && !"".equals(search.getKeywords().trim())) {
-            String keywords = search.getKeywords().replace(" ", " OR ").replace("'", "''");
+            //String keywords = search.getKeywords().replace(" ", " OR ").replace("'", "''");
+            String keywords = search.getKeywords().replace("'", "''");
             String keywordString = "";
             if (keywords.length() >= 5) {
                 //regex to check for illegal sql2 characters
@@ -180,7 +181,15 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                     }
                     //No illegal characters
                 } else {
-                    keywordString = " and (contains( s.[*], '*" + keywords + "*') or contains(s.[*], '* " + keywords + " *'))";
+                    String[] keywordArray = keywords.split(" ");
+                    keywordString += " and ((contains( s.[*], '*" + keywordArray[0] + "*'))";
+                    if (keywordArray.length > 1) {
+                        for (int i = 1; i < keywordArray.length; i++) {
+                            keywordString += " or (contains( s.[*], '*" + keywordArray[i] + "*'))";
+                        }
+                    }
+                    keywordString += ")";
+                    //keywordString = " and (contains( s.[*], '*" + keywords + "*') or contains(s.[*], '* " + keywords + " *'))";
 
                 }
                 sql += keywordString;
