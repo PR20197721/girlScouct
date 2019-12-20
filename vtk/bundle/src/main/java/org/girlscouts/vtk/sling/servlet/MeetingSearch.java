@@ -182,10 +182,10 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                     //No illegal characters
                 } else {
                     String[] keywordArray = keywords.split(" ");
-                    keywordString += " and ((contains( s.[*], '*" + keywordArray[0] + "*'))";
+                    keywordString += " and ((contains( s.[*], '" + keywordArray[0] + "'))";
                     if (keywordArray.length > 1) {
                         for (int i = 1; i < keywordArray.length; i++) {
-                            keywordString += " or (contains( s.[*], '*" + keywordArray[i] + "*'))";
+                            keywordString += " or (contains( s.[*], '" + keywordArray[i] + "'))";
                         }
                     }
                     keywordString += ")";
