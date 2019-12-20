@@ -167,7 +167,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                 if (m.find()) {
                     //Replace illegal character with space, split keywords on the space.
                     keywords = keywords.replaceAll("[\\Q+-&|!(){}[]^\"~*?:\\/\\E]", " ");
-                    keywordString = "and (";
+                    /*keywordString = "and (";
                     int count = 0;
                     //Add an individual contains for each word separated by the illegal character
                     for (String searchWord : keywords.split(" ")) {
@@ -178,20 +178,23 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                             keywordString = keywordString + ")";
                         }
                         count++;
-                    }
+                    }*/
                     //No illegal characters
-                } else {
-                    String[] keywordArray = keywords.split(" ");
-                    keywordString += " and ((contains( s.[*], '" + keywordArray[0] + "'))";
-                    if (keywordArray.length > 1) {
-                        for (int i = 1; i < keywordArray.length; i++) {
-                            keywordString += " or (contains( s.[*], '" + keywordArray[i] + "'))";
-                        }
-                    }
-                    keywordString += ")";
-                    //keywordString = " and (contains( s.[*], '*" + keywords + "*') or contains(s.[*], '* " + keywords + " *'))";
-
                 }
+                keywords = keywords.trim();
+                //only single spaces allowed
+                while (keywords.contains("  ")) {
+                    keywords = keywords.replaceAll("  ", " ");
+                }
+                String[] keywordArray = keywords.split(" ");
+                keywordString += " and ((contains( s.[*], '" + keywordArray[0] + "'))";
+                if (keywordArray.length > 1) {
+                    for (int i = 1; i < keywordArray.length; i++) {
+                        keywordString += " or (contains( s.[*], '" + keywordArray[i] + "'))";
+                    }
+                }
+                keywordString += ")";
+                //keywordString = " and (contains( s.[*], '*" + keywords + "*') or contains(s.[*], '* " + keywords + " *'))";
                 sql += keywordString;
             } else {
                 sql += " and contains(s.[*], '" + keywords + "')  ";
