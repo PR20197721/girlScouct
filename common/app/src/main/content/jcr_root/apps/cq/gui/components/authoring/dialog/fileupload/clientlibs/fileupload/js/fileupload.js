@@ -502,12 +502,12 @@
 					// filename
                 	var oldfname = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name');
                     if(!oldfname.includes('slides/item'+ mindex))                    {
-						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/'+oldfname);
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/regular/fileName');
                     }
 					// filefref
                 	var oldfref = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name');
                     if(!oldfref.includes('slides/item'+ mindex))                    {
-						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/'+oldfref);
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/regular/fileReference');
                     }
            		});
 
@@ -516,26 +516,26 @@
 					// filename
                 	var oldfname = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name');
                     if(!oldfname.includes('slides/item'+ mindex))                    {
-						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/'+oldfname);
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/medium/fileName');
                     }
 					// filefref
                     var oldfref = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name');
                     if(!oldfref.includes('slides/item'+ mindex))                    {
-						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/'+oldfref);
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/medium/fileReference');
                     }
            		});
 
               	$(mitem).find("input[value='small']").closest('div').each(function() {
 
-				// filename
-                var oldfname = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name');
+              		// filename
+              		var oldfname = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name');
                     if(!oldfname.includes('slides/item'+ mindex))                    {
-						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/'+oldfname);
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/small/fileName');
                     }
-				// filefref
-                var oldfref = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name');
+                    // filefref
+                    var oldfref = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name');
                     if(!oldfref.includes('slides/item'+ mindex))                    {
-						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/'+oldfref);
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/small/fileReference');
                     }
            		});
 			});
