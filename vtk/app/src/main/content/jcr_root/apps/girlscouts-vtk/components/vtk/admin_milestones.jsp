@@ -15,6 +15,8 @@
 <div class="columns medium-20 small-centered">
     <p>Edit milestones, add dates, create new milestones, and set to
         show in plans.</p>
+    <p>In order to insert a hyperlink into a milestone, simply place the text in brackets and the link in parentheses with no space in between the two.  For example, [Join Girl Scouts](https://www.girlscouts.org/en/about-girl-scouts/join.html) will become <a target='_blank' href="https://www.girlscouts.org/en/about-girl-scouts/join.html">Join Girl Scouts</a>
+    	</p>
     <div class="row centered">
         <p class="column large-7 large-push-1 medium-7 medium-push-1 small-7">Message</p>
         <p class="column large-4 large-push-1 medium-4 medium-push-3 small-5 small-push-2">Date</p>

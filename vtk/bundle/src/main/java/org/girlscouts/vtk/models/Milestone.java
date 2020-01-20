@@ -2,6 +2,7 @@ package org.girlscouts.vtk.models;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.osgi.component.dao.YearPlanComponentType;
+import org.jsoup.Jsoup;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,7 +21,7 @@ public class Milestone extends YearPlanComponent implements Serializable {
     public Milestone(String blurb, boolean show, java.util.Date date) {
         super.setUid("M" + new java.util.Date().getTime() + "_" + Math.random());
         super.setType(YearPlanComponentType.MILESTONE);
-        this.blurb = blurb;
+        setBlurb(blurb);
         this.show = new Boolean(show);
         this.date = date;
     }
@@ -29,8 +30,8 @@ public class Milestone extends YearPlanComponent implements Serializable {
         return blurb;
     }
 
-    public void setBlurb(String blurb) {
-        this.blurb = blurb;
+    public void setBlurb(String parBlurb) {
+        this.blurb = Jsoup.parse(parBlurb).text();
     }
 
     public Date getDate() {

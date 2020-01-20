@@ -738,15 +738,30 @@
 
                                             );
                                         } else if (obj[comment].type == 'MILESTONE' && obj[comment].show) {
-                                            return (
-                                                React.createElement("li", {className: "row milestone"},
-                                                    React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
-                                                        React.createElement("span", null, moment.tz(comment, "America/New_York").get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('MM/DD/YY'), " ", obj[comment].blurb)
-                                                    )
-                                                )
+                                              function parseLink(blurb){
+                                                  var index = blurb.search("\\[.*\\]\\(.*\\)");
+                                                  if (index != -1){
+                                                      var endBracketIndex = blurb.indexOf(']',index);
+                                                      var word = blurb.substring(index+1, endBracketIndex);
+                                                      var openParenIndex = blurb.indexOf('(', endBracketIndex);
+                                                      var closeParenIndex = blurb.indexOf(')', openParenIndex);
+                                                      var hrefString = blurb.substring(openParenIndex + 1, closeParenIndex);
+                                                      var link = "<a target='_blank' href='" + hrefString + "'>" + word + "</a>";
+                                                      var finalBlurb = blurb.substring(0,index) + link + blurb.substring(closeParenIndex+1);
+                                                      return parseLink(finalBlurb);
+                                                  }
+                                                  return blurb;
+                                              }
+                                              return (
+                                                  React.createElement("li", {className: "row milestone"},
+                                                      React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
+                                                          React.createElement("span", null, moment.tz(comment, "America/New_York").get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('MM/DD/YY'), " ", ""),
+                                                                      React.createElement("span", {dangerouslySetInnerHTML:{__html: parseLink(obj[comment].blurb)}} )
+                                                      )
+                                                  )
 
-                                            );
-                                        }
+                                              );
+                                          }
                                     })
                                 )
                             )
