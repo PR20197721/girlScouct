@@ -199,7 +199,7 @@
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="girlscouts/components/form/pathfield"
                                         fieldLabel="Redirect"
-                                        name="./redirectTarget"/>
+                                        name="./cq:redirectTarget"/>
                                     <designpath
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="girlscouts/components/form/pathfield"

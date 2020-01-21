@@ -1,6 +1,6 @@
 #base=js
 fileupload.js
-fileupload.validation.js
+#fileupload.validation.js
 
 # @deprecated
 fileuploadfield.js

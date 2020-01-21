@@ -29,7 +29,7 @@
                         allowBlank="{Boolean}false"
                         fieldDescription="Choose the target redirect page."
                         fieldLabel="Target"
-                        name="./jcr:content/redirectTarget"
+                        name="./jcr:content/cq:redirectTarget"
                         xtype="pathfield"/>
                     <res
                    		jcr:primaryType="cq:Widget"

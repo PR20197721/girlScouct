@@ -10,7 +10,8 @@
     <filter root="/etc/workflow/launcher/config/update_asset_create"/>
     <filter root="/etc/workflow/launcher/config/gs_update_asset_mod"/> 
     <filter root="/etc/workflow/launcher/config/gs_update_asset_create"/>
-    <filter root="/etc/workflow/models/dam/gs_update_asset"/>   
+    <filter root="/etc/workflow/models/dam/gs_update_asset"/>
+    <filter root="/etc/designs/default/resources" mode="merge"/>  
     <filter root="/apps/girlscouts-common"/>
     <filter root="/apps/cq/gui/components/authoring/dialog" />
     <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>
