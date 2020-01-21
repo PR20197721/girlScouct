@@ -156,8 +156,9 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             sql += " or  s.[meetingPlanTypeAlt] = '" + meetingPlanTypeFmt + "' ) ";
         }
         if (search.getKeywords() != null && !"".equals(search.getKeywords().trim())) {
-            String keywords = search.getKeywords().replace(" ", " OR ").replace("'", "''");
-            String keywordString = "";
+            //String keywords = search.getKeywords().replace(" ", " OR ").replace("'", "''");
+            String keywords = search.getKeywords().replace("'", "''");
+            String keyWordQueryString = "";
             if (keywords.length() >= 5) {
                 //regex to check for illegal sql2 characters
                 Pattern p = Pattern.compile("[\\Q+-&|!(){}[]^\"~*?:\\/\\E]");
@@ -166,24 +167,20 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                 if (m.find()) {
                     //Replace illegal character with space, split keywords on the space.
                     keywords = keywords.replaceAll("[\\Q+-&|!(){}[]^\"~*?:\\/\\E]", " ");
-                    keywordString = "and (";
-                    int count = 0;
-                    //Add an individual contains for each word separated by the illegal character
-                    for (String searchWord : keywords.split(" ")) {
-                        keywordString = keywordString + "contains( s.[*], '" + searchWord + "')";
-                        if (count != keywords.split(" ").length - 1) {
-                            keywordString = keywordString + " or ";
-                        } else {
-                            keywordString = keywordString + ")";
-                        }
-                        count++;
-                    }
-                    //No illegal characters
-                } else {
-                    keywordString = " and (contains( s.[*], '*" + keywords + "*') or contains(s.[*], '* " + keywords + " *'))";
-
                 }
-                sql += keywordString;
+                keywords = keywords.trim();
+                //only single spaces allowed
+                keywords = keywords.replaceAll("\\s\\s+", " ");
+
+                String[] keywordArray = keywords.split(" ");
+                keyWordQueryString += " and ((contains( s.[*], '" + keywordArray[0] + "'))";
+                if (keywordArray.length > 1) {
+                    for (int i = 1; i < keywordArray.length; i++) {
+                        keyWordQueryString += " or (contains( s.[*], '" + keywordArray[i] + "'))";
+                    }
+                }
+                keyWordQueryString += ")";
+                sql += keyWordQueryString;
             } else {
                 sql += " and contains(s.[*], '" + keywords + "')  ";
             }
