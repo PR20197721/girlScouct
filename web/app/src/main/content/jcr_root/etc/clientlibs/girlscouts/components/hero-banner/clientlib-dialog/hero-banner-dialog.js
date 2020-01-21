@@ -42,6 +42,53 @@
 	    	dialog.on('click', '#removeYesButton', function() {	   				
 	    		$(el).closest("coral-multifield-item").remove();
 	    		dialog.remove();
+                $('coral-multifield').each(function(index,item){
+        			$(item).find('coral-multifield-item').each(function(mindex,mitem){
+            			var str= './slides/item';
+             			$(mitem).find("input[value='regular']").closest('div').each(function() {
+
+							// filename
+                			var oldfname = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name');
+                    		if(!oldfname.includes('slides/item'+ mindex))                    {
+								$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/regular/fileName');
+                    		}
+							// filefref
+                			var oldfref = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name');
+                    		if(!oldfref.includes('slides/item'+ mindex))                    {
+								$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/regular/fileReference');
+                    		}
+           				});
+
+              			$(mitem).find("input[value='medium']").closest('div').each(function() {
+
+							// filename
+                			var oldfname = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name');
+                   			if(!oldfname.includes('slides/item'+ mindex))                    {
+								$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/medium/fileName');
+                    		}
+							// filefref
+                    		var oldfref = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name');
+                    		if(!oldfref.includes('slides/item'+ mindex))                    {
+								$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/medium/fileReference');
+                    		}
+           				});
+
+              			$(mitem).find("input[value='small']").closest('div').each(function() {
+
+							// filename
+                			var oldfname = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name');
+                    		if(!oldfname.includes('slides/item'+ mindex))                    {
+								$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/small/fileName');
+                    		}
+							// filefref
+                    		var oldfref = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name');
+                    		if(!oldfref.includes('slides/item'+ mindex))                    {
+								$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/small/fileReference');
+                    		}
+           				});
+					});
+
+				});
 	    	});
 	    	document.body.appendChild(dialog);
 	    	dialog.show();

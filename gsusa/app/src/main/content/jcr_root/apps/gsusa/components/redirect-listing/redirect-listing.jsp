@@ -24,7 +24,7 @@ if (WCMMode.fromRequest(request) != WCMMode.EDIT) {
 		String src = props.get("sling:vanityPath", "");
 		String srcLink = src + ".html";
 		String srcDisplay = src.replaceAll("^\\/content\\/gsusa", "http://www.girlscouts.org");
-		String dst = props.get("redirectTarget", "") + ".html";
+		String dst = props.get("cq:redirectTarget", "") + ".html";
 %>
 		<tr>
 			<td><a href="<%= scaffoldingLink %>">EDIT</a></td>

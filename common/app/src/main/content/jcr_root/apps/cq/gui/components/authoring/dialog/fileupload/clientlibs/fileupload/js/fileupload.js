@@ -86,6 +86,7 @@
 		var $fileInput = self._$element.find("input[type=file]");
 		var filename = $fileInput.attr('name');
 		var path = filename.substr(0, filename.lastIndexOf("/")) || "";
+        path = path.substr(15, path.lastIndexOf("/")) || "";
 		if (path !== "") {
 			path += "/";
 		}
@@ -133,7 +134,7 @@
 					thumbnailSection.empty().append($('<img>').attr('src', thumbnailSrc).attr("onerror", "arguments[0].currentTarget.style.display='none'"));
 
 					// Find and set the parent hero banner element switch.
-					var heroBannerElement = self._$element.parents('.hero-banner-element');
+					var heroBannerElement = self._$element.parents('.heroBannerElementContainer');
 					if(heroBannerElement.length > 0){
 						var heroBannerImagePreview = heroBannerElement.find('.heroBannerElementImagePreview');
 						if(heroBannerImagePreview.css('background-image') == 'none') {
@@ -295,7 +296,7 @@
 			if(self.path.indexOf('regular') > -1){
 
 				// Find and set the parent hero banner element switch.
-				var heroBannerElement = self._$element.parents('.hero-banner-element');
+				var heroBannerElement = self._$element.parents('.heroBannerElementContainer');
 				if(heroBannerElement.length > 0){
 					heroBannerElement.find('.heroBannerElementImagePreview').css({'background-image': 'url(' + $(event.thumbnail).attr('src') + ')'});
 				}
@@ -491,6 +492,54 @@
 				);
 				fileUpload.fu = fu;
 			});
+		});
+
+        $('coral-multifield').each(function(index,item){
+        	$(item).find('coral-multifield-item').each(function(mindex,mitem){
+            	var str= './slides/item';
+             	$(mitem).find("input[value='regular']").closest('div').each(function() {
+
+					// filename
+                	var oldfname = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name');
+                    if(!oldfname.includes('slides/item'+ mindex))                    {
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/regular/fileName');
+                    }
+					// filefref
+                	var oldfref = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name');
+                    if(!oldfref.includes('slides/item'+ mindex))                    {
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/regular/fileReference');
+                    }
+           		});
+
+              	$(mitem).find("input[value='medium']").closest('div').each(function() {
+
+					// filename
+                	var oldfname = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name');
+                    if(!oldfname.includes('slides/item'+ mindex))                    {
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/medium/fileName');
+                    }
+					// filefref
+                    var oldfref = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name');
+                    if(!oldfref.includes('slides/item'+ mindex))                    {
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/medium/fileReference');
+                    }
+           		});
+
+              	$(mitem).find("input[value='small']").closest('div').each(function() {
+
+              		// filename
+              		var oldfname = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name');
+                    if(!oldfname.includes('slides/item'+ mindex))                    {
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filename']").attr('name',str + mindex+'/small/fileName');
+                    }
+                    // filefref
+                    var oldfref = $(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name');
+                    if(!oldfref.includes('slides/item'+ mindex))                    {
+						$(this).find("input[type='hidden'][data-cq-fileupload-parameter='filereference']").attr('name',str + mindex+'/small/fileReference');
+                    }
+           		});
+			});
+
 		});
 	});
 

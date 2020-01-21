@@ -251,9 +251,9 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="girlscouts/components/form/pathfield"
                                                 allowBulkEdit="true"
-                                                cq-msm-lockable="redirectTarget"
+                                                cq-msm-lockable="cq:redirectTarget"
                                                 fieldLabel="Redirect"
-                                                name="./redirectTarget"
+                                                name="./cq:redirectTarget"
                                                 readOnlyURITemplate="/libs/wcm/core/content/sites/properties.html{+value}"
                                                 renderReadOnly="{Boolean}true"
                                                 rootPath="/content"/>

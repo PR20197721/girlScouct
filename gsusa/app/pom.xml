@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.girlscouts.aem</groupId>
     <artifactId>gsusa</artifactId>
-    <version>3.26-SNAPSHOT</version>
+    <version>4.0.0</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
@@ -67,25 +67,7 @@
           <skip>true</skip>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.girlscouts.aem.gsusa</groupId>
-        <artifactId>selectiveclean-maven-plugin</artifactId>
-        <version>${project.version}</version>
-        <configuration>
-          <preserveInTarget>
-            <param>rubygems</param>
-            <param>test-classes</param>
-          </preserveInTarget>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>clean</phase>
-            <goals>
-              <goal>preservegems</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+      
       <plugin>
         <groupId>de.saumya.mojo</groupId>
         <artifactId>gem-maven-plugin</artifactId>
