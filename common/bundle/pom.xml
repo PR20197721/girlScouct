@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.girlscouts.aem</groupId>
     <artifactId>common</artifactId>
-    <version>3.26-SNAPSHOT</version>
+    <version>4.0.0</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->

@@ -7,7 +7,7 @@
         <target
             jcr:primaryType="cq:Widget"
             fieldLabel="Redirect Target"
-            name="./redirectTarget"
+            name="./cq:redirectTarget"
             xtype="textfield"/>
         <internal
             jcr:primaryType="cq:Widget"

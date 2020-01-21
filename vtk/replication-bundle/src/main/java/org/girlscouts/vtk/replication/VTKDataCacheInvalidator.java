@@ -116,6 +116,7 @@ public class VTKDataCacheInvalidator {
     
     @Activate
     public void init() {
+    	this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
         connectionManager = new MultiThreadedHttpConnectionManager();
         httpClient = new HttpClient(connectionManager);
         ResourceResolver rr = null;
