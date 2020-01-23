@@ -21,6 +21,7 @@ public class User implements Serializable {
     private String sfUserId;
     private String firstName;
     private String lastName;
+    private String timezone;
     private boolean isActive;
     private boolean isAdmin;
     private boolean isServiceUnitManager;
@@ -185,5 +186,13 @@ public class User implements Serializable {
 
     public void setServiceUnitManager(boolean serviceUnitManager) {
         isServiceUnitManager = serviceUnitManager;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
     }
 }

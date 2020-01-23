@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
+import org.apache.sling.api.resource.*;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.mapper.salesforce.*;
@@ -9,6 +10,7 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.osgi.cache.SalesForceContactsResponseCache;
 import org.girlscouts.vtk.osgi.cache.SalesForceIRMContactsResponseCache;
 import org.girlscouts.vtk.osgi.cache.SalesForceTroopsResponseCache;
+import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.conf.GirlScoutsSalesForceServiceConfig;
@@ -45,6 +47,13 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     SalesForceTroopsResponseCache troopsCache;
     @Reference
     GirlScoutsTroopOCMService girlScoutsTroopOCMService;
+    @Reference
+    CouncilMapper councilMapper;
+    @Reference
+    ResourceResolverFactory resolverFactory;
+
+    private Map<String, Object> resolverParams = new HashMap<String, Object>();
+
 
     private String demoCouncilCode;
     private String sumCouncilCode;
@@ -53,6 +62,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
 
     @Activate
     private void activate(ComponentContext context) {
+        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
         this.context = context;
         this.isLoadFromFile = Boolean.parseBoolean(getConfig("isLoadFromFile"));
         this.sumCouncilCode = getConfig("sumCouncilCode");
@@ -92,6 +102,11 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
             user.setApiConfig(apiConfig);
             user.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
+            try {
+                user.setTimezone(getUserTimezone(userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode()));
+            }catch(Exception e){
+
+            }
             apiConfig.setUser(user);
             addMoreInfo(apiConfig, userInfoResponseEntity);
         } catch (Exception e) {
@@ -108,6 +123,11 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             user = UserInfoResponseEntityToUserMapper.map(userInfoResponseEntity);
             user.setApiConfig(apiConfig);
             user.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
+            try {
+                user.setTimezone(getUserTimezone(userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode()));
+            }catch(Exception e){
+
+            }
             apiConfig.setUser(user);
             addMoreInfo(apiConfig, userInfoResponseEntity);
             return user;
@@ -491,5 +511,35 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
         }
         return troopDiff;
+    }
+
+    private String getUserTimezone(String councilCode){
+        log.debug("Looking up timezone for "+councilCode);
+        String timezone = "";
+        String councilSite = councilMapper.getCouncilBranch(councilCode);
+        if(councilSite != null && councilSite.trim().length() > 0) {
+            ResourceResolver rr = null;
+            try {
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Resource councilSiteRes = rr.resolve(councilSite+"/en/jcr:content");
+                if(councilSiteRes != null && !ResourceUtil.isNonExistingResource(councilSiteRes)){
+                    ValueMap vm = councilSiteRes.adaptTo(ValueMap.class);
+                    if(vm.containsKey("timezone")){
+                        timezone = vm.get("timezone",String.class);
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Error Occurred: ", e);
+            } finally {
+                try {
+                    if (rr != null) {
+                        rr.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
+                }
+            }
+        }
+        return timezone;
     }
 }
