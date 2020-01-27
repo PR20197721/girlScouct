@@ -313,15 +313,16 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
         }
 
         let renderActions = () => (
-            <div className="columns small-24 medium-10" style={{textAlign: 'center'}}>
-                <button id="explore-close-preview" onClick={() => this.closePreview()} className="btn button btn-line">CLOSE PREVIEW</button>
-                <button id="explore-select-track" className={`btn button btn-default ${(________currentYearPlanName________ === this.state.meeting.name) ? ' selected inactive' : ''}`} onClick={() => {
+            <div className="columns small-20 medium-12" style={{textAlign: 'center'}}>
+                <button id="explore-close-preview" onClick={() => this.closePreview()} className="btn button btn-line hide-for-print">CLOSE PREVIEW</button>
+                <button id="explore-select-track" className={`btn button btn-default hide-for-print ${(________currentYearPlanName________ === this.state.meeting.name) ? ' selected inactive' : ''}`} onClick={() => {
                     if (!(________currentYearPlanName________ === this.state.meeting.name)) {
                         selectPlan(this.state.track.split('###')[1], this.state.track.split('###')[0], this.store.bind(this))
                     }
                 }}>
                     {(________currentYearPlanName________ === this.state.meeting.name) ? 'SELECTED' : 'SELECT TRACK'}
                 </button>
+                <div style={{margin:"0 0 -3% 0", display:"inline-block"}}><a onClick={() => window.print()} title="print"><i className="temp5 icon-printer hide-for-print"></i></a></div>
             </div>)
 
 
@@ -350,36 +351,36 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                     })
                 };
                 return  <div className="__padding">
-                            <div className="columns small-22 medium-20 small-centered medium-centered" style={{padding: '0px'}}>
-                                <section className="grade-levels">
-                                        <p>Select a level to get started.</p>
-                                        <ul>
-                                            <li className="grade-level daisy">
-                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="daisy">Daisy</a>
-                                            </li>
-                                            <li className="grade-level brownie">
-                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="brownie">Brownie</a>
-                                            </li>
-                                            <li className="grade-level junior">
-                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="junior">Junior</a>
-                                            </li>
-                                            <li className="grade-level cadette">
-                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="cadette">Cadette</a>
-                                            </li>
-                                            <li className="grade-level senior">
-                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="senior">Senior</a>
-                                            </li>
-                                            <li className="grade-level ambassador">
-                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="ambassador">Ambassador</a>
-                                            </li>
-                                            <li className="grade-level multi-level">
-                                                <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="multi-level">Multi-level</a>
-                                            </li>
-                                        </ul>
-                                        <div style={{clear: 'both'}}></div>
-                                </section>
-                            </div>
-                        </div>
+                    <div className="columns small-22 medium-20 small-centered medium-centered" style={{padding: '0px'}}>
+                        <section className="grade-levels">
+                            <p>Select a level to get started.</p>
+                            <ul>
+                                <li className="grade-level daisy">
+                                    <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="daisy">Daisy</a>
+                                </li>
+                                <li className="grade-level brownie">
+                                    <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="brownie">Brownie</a>
+                                </li>
+                                <li className="grade-level junior">
+                                    <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="junior">Junior</a>
+                                </li>
+                                <li className="grade-level cadette">
+                                    <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="cadette">Cadette</a>
+                                </li>
+                                <li className="grade-level senior">
+                                    <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="senior">Senior</a>
+                                </li>
+                                <li className="grade-level ambassador">
+                                    <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="ambassador">Ambassador</a>
+                                </li>
+                                <li className="grade-level multi-level">
+                                    <a onClick={(e) => _onClick(e.currentTarget)} data-grade-level="multi-level">Multi-level</a>
+                                </li>
+                            </ul>
+                            <div style={{clear: 'both'}}></div>
+                        </section>
+                    </div>
+                </div>
             }else{
                 return null;
             }
@@ -471,7 +472,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                 {(!(________app1________ && ________currentYearPlanName________ || ________currentYearPlanName________ === 'Custom Year Plan'))
                     ? <div className="__padding">
                         <div
-                            className={`_main_boxes columns small-22 medium-20 small-centered medium-centered ${(this.state.showTracks)
+                            className={`_main_boxes columns small-22 medium-20 small-centered medium-centered hide-for-print ${(this.state.showTracks)
                                 ? '__OPEN'
                                 : '__CLOSE'}`}>
                             <div
@@ -511,10 +512,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                 <div
                     className={`_back_box_tracks ${(this.state.showTracks)
                         ? '__OPEN'
-                        : '__CLOSE'}`}
-                    style={{
-                        display: 'inline-block'
-                    }}>
+                        : '__CLOSE'}`}>
                     {(!this.state.showPreview)
                         ? <div className="__categories_main">
                             <Head/> {(this.state.showTracks)
@@ -559,7 +557,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                                         </p>
                                         <p>{this.state.meeting.desc}</p>
                                         <div style={{display: 'inline-block', width: '100%'}}>
-                                            <div className="columns small-24 medium-14">
+                                            <div className="columns small-24 medium-12">
                                                 <p style={{fontSize: '18px'}}><b>{this.state.meeting.name}</b></p>
                                             </div>
                                             {renderActions()}
@@ -572,11 +570,12 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                                     </div>
                                 </div>
                                 <div className="columns small-22 small-centered">
-                                    <div className="columns small-24 medium-13 medium-offset-1">
+                                    <div className="columns small-24 medium-11 medium-offset-1">
                                         <p style={{padding: '0 30px 0 0'}}>If you select this track, the meetings you see here will automatically fill your Year Plan calendar. You can add, change or delete meetings at any time.</p>
                                     </div>
                                     {renderActions()}
                                 </div>
+
                             </div>
                         </div>}
                 </div>
@@ -586,6 +585,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                         {renderChild(this.state)}
                     </VtkPopUp>
                 </div>
+                <div className="small-20 columns small-centered"><p>Want to explore more before setting up a plan? Check out the <a href="https://www.girlscouts.org/en/our-program/badges/badge_explorer.html">Award and Badge Explorer</a> to mix and match badge and Journey choices. Include your Girl Scouts and let them give input as you plan your year.</p></div>
             </div>
         )
     }
