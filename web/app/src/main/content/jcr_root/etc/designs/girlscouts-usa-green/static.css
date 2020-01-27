@@ -131,7 +131,7 @@ Font : Open Sans
 @font-face {
   font-family: 'Trefoil Sans Web';
   src: url("../girlscouts/fonts/trefoilsans-ultra.eot");
-  src: local("Trefoil Sans Web Ultra"), local("TrefoilSansWeb-Ultra"), url("../girlscouts/fonts/trefoilsans-ultrara.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-ultrara.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-ultrara.woff") format("woff");
+  src: local("Trefoil Sans Web Ultra"), local("TrefoilSansWeb-Ultra"), url("../girlscouts/fonts/trefoilsans-ultra.eot?#iefix") format("embedded-opentype"), url("../girlscouts/fonts/trefoilsans-ultra.woff2") format("woff2"), url("../girlscouts/fonts/trefoilsans-ultra.woff") format("woff");
   font-weight: 900;
   font-style: normal;
 }

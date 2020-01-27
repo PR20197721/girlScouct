@@ -55,6 +55,34 @@ public class ActivityNode extends YearPlanComponentNode implements Serializable 
     private String registerUrl;
     @Field
     private String emlTemplate;
+    @Field
+    private Date regOpenDate;
+    @Field
+    private Date regCloseDate;
+    @Field
+    private String adultFee;
+    @Field
+    private String priceRange;
+    @Field
+    private String girlFee;
+    @Field
+    private String grades;
+    @Field
+    private String maxAttend;
+    @Field
+    private String minAttend;
+    @Field
+    private String progType;
+    @Field
+    private String programCode;
+    @Field
+    private String regDisplay;
+    @Field
+    private String region;
+    @Field
+    private String timezone;
+    @Field
+    private String level;
 
     public List<AssetNode> getAssets() {
         return assets;
@@ -264,4 +292,131 @@ public class ActivityNode extends YearPlanComponentNode implements Serializable 
         this.emlTemplate = emlTemplate;
     }
 
+    public Boolean getEditable() {
+        return isEditable;
+    }
+
+    public void setEditable(Boolean editable) {
+        isEditable = editable;
+    }
+
+    public Boolean getSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(Boolean selected) {
+        isSelected = selected;
+    }
+
+    public Date getRegOpenDate() {
+        return regOpenDate;
+    }
+
+    public void setRegOpenDate(Date regOpenDate) {
+        this.regOpenDate = regOpenDate;
+    }
+
+    public Date getRegCloseDate() {
+        return regCloseDate;
+    }
+
+    public void setRegCloseDate(Date regCloseDate) {
+        this.regCloseDate = regCloseDate;
+    }
+
+    public String getAdultFee() {
+        return adultFee;
+    }
+
+    public void setAdultFee(String adultFee) {
+        this.adultFee = adultFee;
+    }
+
+    public String getGirlFee() {
+        return girlFee;
+    }
+
+    public void setGirlFee(String girlFee) {
+        this.girlFee = girlFee;
+    }
+
+    public String getGrades() {
+        return grades;
+    }
+
+    public void setGrades(String grades) {
+        this.grades = grades;
+    }
+
+    public String getMaxAttend() {
+        return maxAttend;
+    }
+
+    public void setMaxAttend(String maxAttend) {
+        this.maxAttend = maxAttend;
+    }
+
+    public String getMinAttend() {
+        return minAttend;
+    }
+
+    public void setMinAttend(String minAttend) {
+        this.minAttend = minAttend;
+    }
+
+    public String getProgType() {
+        return progType;
+    }
+
+    public void setProgType(String progType) {
+        this.progType = progType;
+    }
+
+    public String getProgramCode() {
+        return programCode;
+    }
+
+    public void setProgramCode(String programCode) {
+        this.programCode = programCode;
+    }
+
+    public String getRegDisplay() {
+        return regDisplay;
+    }
+
+    public void setRegDisplay(String regDisplay) {
+        this.regDisplay = regDisplay;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public String getPriceRange() {
+        return priceRange;
+    }
+
+    public void setPriceRange(String priceRange) {
+        this.priceRange = priceRange;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
 }
