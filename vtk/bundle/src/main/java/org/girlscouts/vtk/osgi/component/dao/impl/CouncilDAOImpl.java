@@ -4,8 +4,7 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.resource.*;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.vtk.osgi.component.dao.CouncilDAO;
@@ -354,69 +353,6 @@ public class CouncilDAOImpl implements CouncilDAO {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
         sb.append("Council Report generated on " + format1.format(new java.util.Date()) + " \n");
-        java.util.Map<String, String> cTrans = new java.util.TreeMap();
-        cTrans.put("597", "Girl Scouts of Northeast Texas");
-        cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys Inc.");
-        cTrans.put("465", "Girl Scouts of Southeastern Michigan");
-        cTrans.put("367", "Girl Scouts - North Carolina Coastal Pines Inc.");
-        cTrans.put("320", "Girl Scouts of West Central Florida Inc.");
-        cTrans.put("388", "Girl Scout Council of the Southern Appalachians Inc.");
-        cTrans.put("313", "Girl Scouts of Gateway Council Inc.");
-        cTrans.put("664", "Oregon and SW Washington");
-        cTrans.put("234", "North East Ohio");
-        cTrans.put("661", "Sierra Nevada");
-        cTrans.put("664", "Oregon & SW Wash");
-        cTrans.put("240", "Western Ohio");
-        cTrans.put("607", "Arizona Cactus Pine");
-        cTrans.put("536", "Kansas Heartland");
-        cTrans.put("563", "Western Oklahoma");
-        cTrans.put("564", "Eastern Oklahoma");
-        cTrans.put("591", "San Jacinto");
-        cTrans.put("636", "Northern CA");
-        cTrans.put("512", "Colorado");
-        cTrans.put("313", "Gateway");
-        cTrans.put("212", "Kentucky Wilderness Road");
-        cTrans.put("623", "San Diego");
-        cTrans.put("131", "Central & Southern NJ");
-        cTrans.put("263", "Western PA");
-        cTrans.put("467", "Wisconsin Badgerland");
-        cTrans.put("116", "Central & Western Mass");
-        cTrans.put("622", "Orange County");
-        cTrans.put("660", "Southern Nevada");
-        cTrans.put("514", "Eastern IA & Western IL");
-        cTrans.put("524", "Greater Iowa");
-        cTrans.put("430", "Greater Chicago and NW  Indiana");
-        cTrans.put("578", "Central Texas");
-        cTrans.put("208", "Kentuckiana");
-        cTrans.put("700", "USA Girl Scouts Overseas");
-        cTrans.put("204", "Nation's Capital");
-        cTrans.put("674", "Utah");
-        cTrans.put("258", "Heart of Pennsylvania");
-        cTrans.put("333", "Greater Atlanta");
-        cTrans.put("135", "Heart of New Jersey");
-        cTrans.put("289", "Black Diamond");
-        cTrans.put("155", "Heart of the Hudson");
-        cTrans.put("325", "Historic Georgia");
-        cTrans.put("608", "Southern Arizona");
-        cTrans.put("312", "Citrus");
-        cTrans.put("169", "NYPENN Pathways");
-        cTrans.put("596", "Greater South Texas");
-        cTrans.put("583", "Texas Oklahoma Plains");
-        cTrans.put("688", "Western Washington");
-        cTrans.put("590", "Southwest Texas");
-        cTrans.put("634", "Heart of Central California");
-        cTrans.put("376", "Eastern South Carolina");
-        cTrans.put("346", "Louisiana East");
-        cTrans.put("117", "Eastern Massachusetts");
-        cTrans.put("654", "Montana and Wyoming");
-        cTrans.put("134", "Jersey Shore");
-        cTrans.put("415", "Northern Illinois");
-        cTrans.put("557", "New Mexico Trails");
-        cTrans.put("110", "Maine");
-        cTrans.put("126", "Green and White Mountains");
-        cTrans.put("687", "Eastern Washington and Northern Idaho");
-        cTrans.put("441", "Southwest Indiana");
-        cTrans.put("238", "Ohio's Heartland");
         String limitRptToCouncil = null;//request.getParameter("limitRptToCouncil");
         limitRptToCouncil = limitRptToCouncil == null ? "" : limitRptToCouncil.trim();
         List<String> councils = VtkUtil.getCouncils();
@@ -471,7 +407,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 
                     } catch (Exception e) {
                     }
-                    sb.append("\n \"" + cTrans.get(sfCouncil) + "\"," + sfCouncil + "," + sfTroopAge + ",\"" + yearPlanName + "\"," + sfTroopId + "," + sfTroopName);
+                    sb.append("\n \"" + getCouncilName(sfCouncil) + "\"," + sfCouncil + "," + sfTroopAge + ",\"" + yearPlanName + "\"," + sfTroopId + "," + sfTroopName);
                 }//edn for
             }//edn for
         } catch (Exception e) {
@@ -499,69 +435,6 @@ public class CouncilDAOImpl implements CouncilDAO {
         allowedReportUsers.add("005G0000006oBVG");
         allowedReportUsers.add("005g0000002G004");
         boolean isHtml = false;
-        java.util.Map<String, String> cTrans = new java.util.TreeMap();
-        cTrans.put("597", "Girl Scouts of Northeast Texas");
-        cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
-        cTrans.put("465", "Girl Scouts of Southeastern Michigan");
-        cTrans.put("367", "Girl Scouts - North Carolina Coastal Pines, Inc.");
-        cTrans.put("320", "Girl Scouts of West Central Florida, Inc.");
-        cTrans.put("388", "Girl Scout Council of the Southern Appalachians, Inc.");
-        cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
-        cTrans.put("664", "Oregon and SW Washington");
-        cTrans.put("234", "North East Ohio");
-        cTrans.put("661", "Sierra Nevada");
-        cTrans.put("664", "Oregon & SW Wash");
-        cTrans.put("240", "Western Ohio");
-        cTrans.put("607", "Arizona Cactus Pine");
-        cTrans.put("536", "Kansas Heartland");
-        cTrans.put("563", "Western Oklahoma");
-        cTrans.put("564", "Eastern Oklahoma");
-        cTrans.put("591", "San Jacinto");
-        cTrans.put("636", "Northern CA");
-        cTrans.put("512", "Colorado");
-        cTrans.put("313", "Gateway");
-        cTrans.put("212", "Kentucky Wilderness Road");
-        cTrans.put("623", "San Diego");
-        cTrans.put("131", "Central & Southern NJ");
-        cTrans.put("263", "Western PA");
-        cTrans.put("467", "Wisconsin Badgerland");
-        cTrans.put("116", "Central & Western Mass");
-        cTrans.put("622", "Orange County");
-        cTrans.put("660", "Southern Nevada");
-        cTrans.put("514", "Eastern IA & Western IL");
-        cTrans.put("524", "Greater Iowa");
-        cTrans.put("430", "Greater Chicago and NW  Indiana");
-        cTrans.put("578", "Central Texas");
-        cTrans.put("208", "Kentuckiana");
-        cTrans.put("700", "USA Girl Scouts Overseas");
-        cTrans.put("204", "Nation's Capital");
-        cTrans.put("674", "Utah");
-        cTrans.put("258", "Heart of Pennsylvania");
-        cTrans.put("333", "Greater Atlanta");
-        cTrans.put("135", "Heart of New Jersey");
-        cTrans.put("289", "Black Diamond");
-        cTrans.put("155", "Heart of the Hudson");
-        cTrans.put("325", "Historic Georgia");
-        cTrans.put("608", "Southern Arizona");
-        cTrans.put("312", "Citrus");
-        cTrans.put("169", "NYPENN Pathways");
-        cTrans.put("596", "Greater South Texas");
-        cTrans.put("583", "Texas Oklahoma Plains");
-        cTrans.put("688", "Western Washington");
-        cTrans.put("590", "Southwest Texas");
-        cTrans.put("634", "Heart of Central California");
-        cTrans.put("376", "Eastern South Carolina");
-        cTrans.put("346", "Louisiana East");
-        cTrans.put("117", "Eastern Massachusetts");
-        cTrans.put("654", "Montana and Wyoming");
-        cTrans.put("134", "Jersey Shore");
-        cTrans.put("415", "Northern Illinois");
-        cTrans.put("557", "New Mexico Trails");
-        cTrans.put("110", "Maine");
-        cTrans.put("126", "Green and White Mountains");
-        cTrans.put("687", "Eastern Washington and Northern Idaho");
-        cTrans.put("441", "Southwest Indiana");
-        cTrans.put("238", "Ohio's Heartland");
         StringBuffer sb = new StringBuffer();
         try {
             java.util.List<String> councils = getCouncils(VtkUtil.getYearPlanBase(null, null));
@@ -584,7 +457,7 @@ public class CouncilDAOImpl implements CouncilDAO {
                 } catch (Exception e) {
                     log.error("Error occurred: ", e);
                 }
-                sb.append((isHtml ? "<br/>" : "\n") + "\"" + cTrans.get(councilId) + "\"," + councilId + "," + (submitTime == null ? "N/A" : submitTime));
+                sb.append((isHtml ? "<br/>" : "\n") + "\"" + getCouncilName(councilId) + "\"," + councilId + "," + (submitTime == null ? "N/A" : submitTime));
             }
             councilRpt.emailRpt(sb.toString(), "Report - Current # of Council's Who have Published Finance Form 2.0");
         } catch (Exception e) {
@@ -604,5 +477,38 @@ public class CouncilDAOImpl implements CouncilDAO {
             log.error("Error Occurred: ", e);
         }
         return councils;
+    }
+
+    public String getCouncilName(String code){
+        String name ="";
+        try {
+            String council = VtkUtil.getCouncilMappings().get(code);
+            if(council != null){
+                ResourceResolver rr = null;
+                try {
+                    rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                    Resource siteProps = rr.resolve("/content/"+council+"/en/jcr:content");
+                    if(siteProps != null && !ResourceUtil.isNonExistingResource(siteProps)){
+                        ValueMap vm = siteProps.getValueMap();
+                        if(vm.get("jcr:title",String.class) != null){
+                            name = vm.get("jcr:title",String.class);
+                        }
+                    }
+                } catch (Exception e) {
+                    log.error("Error Occurred: ", e);
+                } finally {
+                    try {
+                        if (rr != null) {
+                            rr.close();
+                        }
+                    } catch (Exception e) {
+                        log.error("Exception is thrown closing resource resolver: ", e);
+                    }
+                }
+            }
+        }catch(Exception e){
+
+        }
+        return name;
     }
 }
