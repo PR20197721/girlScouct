@@ -1398,7 +1398,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     		"fieldClass":"x-form-text-bulkeditor",
     		"fieldLabel":CQ.I18n.getMessage("Year"),
     		"name":"./year",
-    		"value":this.year,
+            "value":new Date().getFullYear(),
     		"fieldDescription":CQ.I18n.getMessage("For Events only - Filter events by year"),
     	};
     	if(this.initialConfig && this.initialConfig.yearInput){
