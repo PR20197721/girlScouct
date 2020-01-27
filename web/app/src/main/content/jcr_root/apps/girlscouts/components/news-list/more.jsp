@@ -5,8 +5,8 @@ java.util.List,
 java.util.ArrayList, 
 javax.jcr.Node,
 org.apache.sling.commons.json.JSONObject,
-org.apache.sling.api.request.RequestPathInfo" %>    
-<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>      
+org.apache.sling.api.request.RequestPathInfo" %>
+<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%!
@@ -36,7 +36,13 @@ public String getText(Node nNode){
 	 	return(nNode.hasProperty("jcr:content/external-url")?nNode.getProperty("jcr:content/external-url").getString():"");
 	 }catch(Exception e){return "";}
  }
- 
+
+ public String getOpenExternally(Node nNode){
+    try{
+    	 	return(nNode.hasProperty("jcr:content/open-externally")?nNode.getProperty("jcr:content/open-externally").getString():"");
+    	 }catch(Exception e){return "";}
+     }
+
 %>
 <%
    	long RESULTS_PER_PAGE = 20;
@@ -58,14 +64,14 @@ public String getText(Node nNode){
 	   			+ "WHERE ISDESCENDANTNODE([%s]) AND "
 	   				+ "(s.[jcr:content/hideInNav] IS NULL OR s.[jcr:content/hideInNav] = 'false') "
 	   			+ "ORDER BY s.[jcr:content/date] DESC";
-	   	
+
 	   	String query = String.format(EXPRESSION, path);
 	   	try {
 			GSJcrSearchProvider searchProvider = new GSJcrSearchProvider(slingRequest);
 		 	boolean searchMore = true;
 		 	while(searchMore){
 		 		GSSearchResultManager gsResultManager = new GSSearchResultManager();
-		 		long startTime = System.nanoTime(); 
+		 		long startTime = System.nanoTime();
 			 	gsResultManager.add(searchProvider.searchWithOffset(query, RESULTS_PER_PAGE, offset));
 			 	long endTime = System.nanoTime();
 		 		double duration = (endTime - startTime)/1000000;
@@ -87,7 +93,8 @@ public String getText(Node nNode){
 				 		newsPage.put("path", resultNode.getPath());
 				 		newsPage.put("url", newsPath+".html");
 				 		newsPage.put("externalUrl", getExternalUrl(resultNode));
-				 		newsPage.put("text", getText(resultNode));				 		
+				 		newsPage.put("text", getText(resultNode));
+				 		newsPage.put("openExternally", getOpenExternally(resultNode));
 				 		news.add(newsPage);
 				 		resultCount ++;
 			 		}catch(Exception e){}
