@@ -73,6 +73,34 @@ public class ActivityEntity extends BaseEntity {
     private Boolean isSelected;
     @SerializedName("type")
     private YearPlanComponentType type;
+    @SerializedName("regOpenDate")
+    private Date regOpenDate;
+    @SerializedName("regCloseDate")
+    private Date regCloseDate;
+    @SerializedName("adultFee")
+    private String adultFee;
+    @SerializedName("girlFee")
+    private String girlFee;
+    @SerializedName("priceRange")
+    private String priceRange;
+    @SerializedName("grades")
+    private String grades;
+    @SerializedName("maxAttend")
+    private String maxAttend;
+    @SerializedName("minAttend")
+    private String minAttend;
+    @SerializedName("progType")
+    private String progType;
+    @SerializedName("programCode")
+    private String programCode;
+    @SerializedName("regDisplay")
+    private String regDisplay;
+    @SerializedName("region")
+    private String region;
+    @SerializedName("timezone")
+    private String timezone;
+    @SerializedName("level")
+    private String level;
 
     public String getPath() {
         return path;
@@ -336,5 +364,117 @@ public class ActivityEntity extends BaseEntity {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Date getRegOpenDate() {
+        return regOpenDate;
+    }
+
+    public void setRegOpenDate(Date regOpenDate) {
+        this.regOpenDate = regOpenDate;
+    }
+
+    public Date getRegCloseDate() {
+        return regCloseDate;
+    }
+
+    public void setRegCloseDate(Date regCloseDate) {
+        this.regCloseDate = regCloseDate;
+    }
+
+    public String getAdultFee() {
+        return adultFee;
+    }
+
+    public void setAdultFee(String adultFee) {
+        this.adultFee = adultFee;
+    }
+
+    public String getGirlFee() {
+        return girlFee;
+    }
+
+    public void setGirlFee(String girlFee) {
+        this.girlFee = girlFee;
+    }
+
+    public String getPriceRange() {
+        return priceRange;
+    }
+
+    public void setPriceRange(String priceRange) {
+        this.priceRange = priceRange;
+    }
+
+    public String getGrades() {
+        return grades;
+    }
+
+    public void setGrades(String grades) {
+        this.grades = grades;
+    }
+
+    public String getMaxAttend() {
+        return maxAttend;
+    }
+
+    public void setMaxAttend(String maxAttend) {
+        this.maxAttend = maxAttend;
+    }
+
+    public String getMinAttend() {
+        return minAttend;
+    }
+
+    public void setMinAttend(String minAttend) {
+        this.minAttend = minAttend;
+    }
+
+    public String getProgType() {
+        return progType;
+    }
+
+    public void setProgType(String progType) {
+        this.progType = progType;
+    }
+
+    public String getProgramCode() {
+        return programCode;
+    }
+
+    public void setProgramCode(String programCode) {
+        this.programCode = programCode;
+    }
+
+    public String getRegDisplay() {
+        return regDisplay;
+    }
+
+    public void setRegDisplay(String regDisplay) {
+        this.regDisplay = regDisplay;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

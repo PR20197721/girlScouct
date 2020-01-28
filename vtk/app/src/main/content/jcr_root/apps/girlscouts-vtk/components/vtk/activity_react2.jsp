@@ -340,12 +340,36 @@
                             React.createElement("div", {id: "activ_img"}),
 
                             React.createElement("ul", {className: "small-block-grid-2"},
-                                React.createElement("li", null, React.createElement("p", null, "Location Name:"), React.createElement("p", null, this.props.data.locationName ? this.props.data.locationName.replace('&nbsp;', '').replace(/(<([^>]+)>)/ig, "") : '')),
-                                React.createElement("li", null, React.createElement("p", null, "Location Address:"), React.createElement("p", null, this.props.data.locationAddress ? this.props.data.locationAddress.replace('&nbsp;', '').replace(/(<([^>]+)>)/ig, "") : '', " ", this.props.data.locationRef ? this.props.data.locationRef.replace('&nbsp;', '').replace(/(<([^>]+)>)/ig, "") : '')),
-                                React.createElement("li", null, React.createElement("p", null, "Age:"), React.createElement("p", null, activityHelper.getSfTroopAge)),
-                                React.createElement("li", null, React.createElement("p", null, "Cost:"), React.createElement("p", null, fmtMaskedMoney(this.props.data.cost)))
+                                this.props.data.locationName ? React.createElement("li", null, React.createElement("p", null, "Location Name: " + this.props.data.locationName.replace('&nbsp;', '').replace(/(<([^>]+)>)/ig, ""))) : null,
+                                this.props.data.locationAddress ? React.createElement("li", null, React.createElement("p", null, "Location Address: " + this.props.data.locationAddress.replace('&nbsp;', '').replace(/(<([^>]+)>)/ig, ""), " ", this.props.data.locationRef ? this.props.data.locationRef.replace('&nbsp;', '').replace(/(<([^>]+)>)/ig, "") : null)) : null,
+                                this.props.data.region ? React.createElement("li", null, React.createElement("p", null, "Region: " + this.props.data.region)) : null,
+                                this.props.data.progType ? React.createElement("li", null, React.createElement("p", null, "Program: " + this.props.data.progType)) : null,
+                                this.props.data.programCode ? React.createElement("li", null, React.createElement("p", null, "Program Code: " + this.props.data.programCode)) : null,
+                                this.props.data.grades ? React.createElement("li", null, React.createElement("p", null, "Grades: " + this.props.data.grades)) : null,
+                                this.props.data.level ? React.createElement("li", null, React.createElement("p", null, "Level: " + this.props.data.level)) : null,
+                                activityHelper.getSfTroopAge ? React.createElement("li", null, React.createElement("p", null, "Age: " + activityHelper.getSfTroopAge)) : null,
+
+                                this.props.data.girlFee ? React.createElement("li", null, React.createElement("p", null, "Girl Fee: " + this.props.data.girlFee)) : null,
+                                this.props.data.adultFee ? React.createElement("li", null, React.createElement("p", null, "Adult Fee: " + this.props.data.adultFee)) : null,
+                                this.props.data.cost ? React.createElement("li", null, React.createElement("p", null, "Cost: " + this.props.data.cost)) : null,
+                                this.props.data.minAttend ? React.createElement("li", null, React.createElement("p", null, "Minimum Attendance: " + this.props.data.minAttend)) : null,
+                                this.props.data.maxAttend ? React.createElement("li", null, React.createElement("p", null, "Maximum Attendance: " + this.props.data.maxAttend)) : null,
+                                this.props.data.regDisplay == "true" && this.props.data.regOpenDate && this.props.data.regCloseDate ?
+                                    React.createElement("li", null, React.createElement("p", null, "Registration: " +
+                                        moment.tz(this.props.data.regOpenDate, this.props.data.timezone ? this.props.data.timezone : "America/New_York").format('MMM') + " " +
+                                        moment.tz(this.props.data.regOpenDate, this.props.data.timezone ? this.props.data.timezone : "America/New_York").format('DD') + " - " +
+                                        moment.tz(this.props.data.regCloseDate, this.props.data.timezone ? this.props.data.timezone : "America/New_York").format('MMM') + " " +
+                                        moment.tz(this.props.data.regCloseDate, this.props.data.timezone ? this.props.data.timezone : "America/New_York").format('DD'))) : null,
+                                this.props.data.regDisplay == "true" && this.props.data.registerUrl ?
+                                    React.createElement("li", null, React.createElement("p", null,
+                                        React.createElement("a", {
+                                            href: this.props.data.registerUrl,
+                                            title: "Register URL",
+                                            target: "_blank"
+                                        }, "Register")))
+                                    : null
                             ),
-                            React.createElement("p", {dangerouslySetInnerHTML: {__html: this.props.data.content}})
+                            React.createElement("p", {dangerouslySetInnerHTML: {__html: this.props.data.content}}),
                         )
                         , React.createElement(ActivityCommunication, {data: this.props.data})
                     )
