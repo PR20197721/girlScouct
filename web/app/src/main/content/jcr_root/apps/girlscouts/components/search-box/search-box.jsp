@@ -1,15 +1,15 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <%@page import="com.day.cq.wcm.api.WCMMode,
-                java.net.URLEncoder" %>
+                java.net.URLEncoder, java.net.URLDecoder" %>
 <%@taglib prefix="ui" uri="http://www.adobe.com/taglibs/granite/ui/1.0" %>
 <ui:includeClientLib categories="apps.girlscouts.components.searchbox"/>
 <%
     String placeholderText = properties.get("placeholder-text", "");
     String lastSearch = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : "";
     lastSearch = URLEncoder.encode(lastSearch, "UTF-8");
-    if (!lastSearch.equals("") && currentNode.getPath().contains("/event_search_facets")) {
-        placeholderText = lastSearch.replaceAll("\\+", " ");
+    if (lastSearch != null && lastSearch.trim().length() > 0) {
+        placeholderText = URLDecoder.decode(lastSearch, "UTF-8");
     }
     String searchAction = properties.get("searchAction", null);
     String action = (String) request.getAttribute("altSearchPath");
