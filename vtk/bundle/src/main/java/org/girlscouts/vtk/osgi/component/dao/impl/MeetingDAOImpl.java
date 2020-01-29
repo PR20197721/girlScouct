@@ -4,6 +4,8 @@ import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
+import com.day.cq.tagging.Tag;
+import com.day.cq.tagging.TagManager;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.apache.felix.scr.annotations.Activate;
@@ -12,6 +14,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.common.search.DocHit;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.exception.VtkException;
@@ -644,82 +647,22 @@ public class MeetingDAOImpl implements MeetingDAO {
                 for (RowIterator it = result.getRows(); it.hasNext(); ) {
                     Row r = it.nextRow();
                     Node resultNode = r.getNode();
-                    Activity activity = new Activity();
-                    activity.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
-                    activity.setContent(resultNode.getProperty("jcr:content/data/details").getString());
-                    // convert to EST
-                    // TODO: All VTK date is based on server time zone, which is
-                    // eastern now.
-                    // Event dates in councils may be in a different time zone.
-                    // For a temp solution, always force it to eastern time.
-                    // e.g. For Texas, 2014-11-06T09:00:00.000-06:00 will be forced
-                    // to
-                    // 2014-11-06T09:00:00.000-05:00
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-                    try {
-                        String eventStartDateStr = resultNode.getProperty("jcr:content/data/start").getString();
-                        if (resultNode.getPath().contains("/sf-events-repository/")) {
-                            String sfTimeZoneLabel = resultNode.hasProperty("jcr:content/data/timezone") ? resultNode.getProperty("jcr:content/data/timezone").getString() : "";
-                            eventStartDateStr = VtkUtil.getSFActivityDate(eventStartDateStr, sfTimeZoneLabel);
-                            if (eventStartDateStr == null) {
+                    Activity activity = buildActivity(resultNode, rr);
+                    if (activity != null) {
+                        activity.setId("ACT" + i);
+                        if (startDate != null && endDate != null) {
+                            startDate.setHours(0);
+                            endDate.setHours(23);
+                            if (activity.getDate() != null && (  //start date
+                                    activity.getDate().equals(endDate) || activity.getDate().before(endDate))) {
+                            } else if (activity.getEndDate() != null && (  //end date
+                                    activity.getEndDate().equals(endDate) || activity.getEndDate().equals(startDate) || activity.getEndDate().before(endDate) && activity.getEndDate().after(startDate))) {
+                            } else {
                                 continue;
                             }
                         }
-                        Date eventStartDate = dateFormat.parse(eventStartDateStr);
-                        activity.setDate(eventStartDate);
-                        String eventEndDateStr = resultNode.getProperty("jcr:content/data/end").getString();
-                        if (resultNode.getPath().contains("/sf-events-repository/")) {
-                            String sfTimeZoneLabel = resultNode.hasProperty("jcr:content/data/timezone") ? resultNode.getProperty("jcr:content/data/timezone").getString() : "";
-                            eventEndDateStr = VtkUtil.getSFActivityDate(eventEndDateStr, sfTimeZoneLabel);
-                        }
-                        Date eventEndDate = dateFormat.parse(eventEndDateStr);
-                        activity.setEndDate(eventEndDate);
-                    } catch (Exception e) {
-                        log.error("Error Occurred: ", e);
+                        toRet.add(activity);
                     }
-                    // TODO: end of hacking timezone
-                    if ((activity.getDate().before(new java.util.Date()) && activity.getEndDate() == null) || (activity.getEndDate() != null && activity.getEndDate().before(new java.util.Date()))) {
-                        continue;
-                    }
-                    try {
-                        activity.setLocationName(resultNode.getProperty("jcr:content/data/locationLabel").getString());
-                    } catch (Exception e) {
-                        log.error("Error Occurred: ", e);
-                    }
-                    try {
-                        activity.setLocationAddress(resultNode.getProperty("jcr:content/data/address").getString());
-                    } catch (Exception e) {
-                        log.error("Error Occurred: ", e);
-                    }
-                    activity.setName(resultNode.getProperty("jcr:content/jcr:title").getString());
-                    activity.setType(YearPlanComponentType.ACTIVITY);
-                    activity.setId("ACT" + i);
-                    if (activity.getDate() != null && activity.getEndDate() == null) {
-                        activity.setEndDate(activity.getDate());
-                    }
-                    activity.setIsEditable(false);
-                    try {
-                        activity.setRefUid(resultNode.getProperty("jcr:content/jcr:uuid").getString());
-                    } catch (Exception e) {
-                        log.error("Error Occurred: ", e);
-                    }
-                    try {
-                        activity.setRegisterUrl(resultNode.getProperty("jcr:content/data/register").getString());
-                    } catch (Exception e) {
-                        log.error("searchActivity no register url");
-                    }
-                    if (startDate != null && endDate != null) {
-                        startDate.setHours(0);
-                        endDate.setHours(23);
-                        if (activity.getDate() != null && (  //start date
-                                activity.getDate().equals(endDate) || activity.getDate().before(endDate))) {
-                        } else if (activity.getEndDate() != null && (  //end date
-                                activity.getEndDate().equals(endDate) || activity.getEndDate().equals(startDate) || activity.getEndDate().before(endDate) && activity.getEndDate().after(startDate))) {
-                        } else {
-                            continue;
-                        }
-                    }
-                    toRet.add(activity);
                     i++;
                 }
             } catch (Exception e) {
@@ -737,6 +680,119 @@ public class MeetingDAOImpl implements MeetingDAO {
             log.error("Error Occurred: ", e);
         }
         return toRet;
+    }
+
+    private Activity buildActivity(Node resultNode, ResourceResolver rr) {
+        try {
+            Activity activity = new Activity();
+            activity.setDate(getDateProperty(resultNode, "jcr:content/data/start"));
+            activity.setEndDate(getDateProperty(resultNode, "jcr:content/data/end"));
+            if (activity.getDate() != null && activity.getEndDate() == null) {
+                activity.setEndDate(activity.getDate());
+            }
+            Date now = new Date();
+            if (activity.getDate().after(now) && activity.getEndDate().after(now)) {
+                activity.setUid("A" + new Date().getTime() + "_" + Math.random());
+                activity.setType(YearPlanComponentType.ACTIVITY);
+                activity.setIsEditable(false);
+                activity.setContent(getStringProperty(resultNode, "jcr:content/data/details"));
+                activity.setLocationName(getStringProperty(resultNode, "jcr:content/data/locationLabel"));
+                activity.setLocationAddress(getStringProperty(resultNode, "jcr:content/data/address"));
+                activity.setName(getStringProperty(resultNode, "jcr:content/jcr:title"));
+                activity.setRefUid(getStringProperty(resultNode, "jcr:content/jcr:uuid"));
+                activity.setRegisterUrl(getStringProperty(resultNode, "jcr:content/data/register"));
+                activity.setRegDisplay(getStringProperty(resultNode, "jcr:content/data/regDisplay"));
+                if(activity.getRegDisplay() != null && "true".equals(activity.getRegDisplay())){
+                    activity.setRegOpenDate(getDateProperty(resultNode, "jcr:content/data/regOpen"));
+                    activity.setRegCloseDate(getDateProperty(resultNode, "jcr:content/data/regClose"));
+                }
+                activity.setAdultFee(getStringProperty(resultNode, "jcr:content/data/adultFee"));
+                activity.setGirlFee(getStringProperty(resultNode, "jcr:content/data/girlFee"));
+                activity.setPriceRange(getStringProperty(resultNode, "jcr:content/data/priceRange"));
+                activity.setGrades(getStringProperty(resultNode, "jcr:content/data/grades"));
+                activity.setMaxAttend(getStringProperty(resultNode, "jcr:content/data/maxAttend"));
+                activity.setMinAttend(getStringProperty(resultNode, "jcr:content/data/minAttend"));
+                activity.setProgType(getStringProperty(resultNode, "jcr:content/data/progType"));
+                activity.setProgramCode(getStringProperty(resultNode, "jcr:content/data/programCode"));
+                activity.setRegion(getStringProperty(resultNode, "jcr:content/data/region"));
+                activity.setTimezone(getStringProperty(resultNode, "jcr:content/data/timezone"));
+                activity.setLevel(getLevels(resultNode, "jcr:content/cq:tags", rr));
+                return activity;
+            }
+        } catch (Exception e) {
+            log.error("Error occurred: ", e);
+        }
+        return null;
+    }
+
+    private String getLevels(Node resultNode, String tagsPath, ResourceResolver resourceResolver) {
+        String levels = null;
+        try {
+            if (resultNode.hasProperty(tagsPath)) {
+                Value[] tagValues = resultNode.getProperty(tagsPath).getValues();
+                TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
+                for (Value tagVal : tagValues) {
+                    Tag tag = tagManager.resolve(tagVal.getString());
+                    try {
+                        String tagType = tag.getParent().getTitle();
+                        if(tagType.contains("Level")){
+                            if(levels != null){
+                                levels+=", ";
+                                levels+=tag.getTitle();
+                            }else{
+                                levels=tag.getTitle();
+                            }
+                        }
+                    } catch (Exception e) {
+                        log.error("Exception occurred:", e);
+                    }
+                }
+            }
+        }catch(Exception e){
+            log.error("Exception occurred:", e);
+        }
+        return levels;
+    }
+
+    private String getStringProperty(Node node, String prop) {
+        String value = null;
+        try {
+            if (node.hasProperty(prop)) {
+                value = node.getProperty(prop).getString();
+            }
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        }
+        return value;
+    }
+
+    private Date getDateProperty(Node node, String prop) {
+        // convert to EST
+        // TODO: All VTK date is based on server time zone, which is
+        // eastern now.
+        // Event dates in councils may be in a different time zone.
+        // For a temp solution, always force it to eastern time.
+        // e.g. For Texas, 2014-11-06T09:00:00.000-06:00 will be forced
+        // to
+        // 2014-11-06T09:00:00.000-05:00
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        Date value = null;
+        try {
+            if (node.hasProperty(prop)) {
+                String dateStr = node.getProperty(prop).getString();
+                if (node.getPath().contains("/sf-events-repository/")) {
+                    String sfTimeZoneLabel = node.hasProperty("jcr:content/data/timezone") ? node.getProperty("jcr:content/data/timezone").getString() : "";
+                    dateStr = VtkUtil.getSFActivityDate(dateStr, sfTimeZoneLabel);
+                    if (dateStr == null) {
+                        return null;
+                    }
+                }
+                value = dateFormat.parse(dateStr);
+            }
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        }
+        return value;
     }
 
     public String removeLocation(User user, Troop troop, String locationName) throws IllegalAccessException, IllegalStateException {
@@ -773,9 +829,9 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     public boolean setAttendance(User user, Troop troop, String mid, Attendance attendance) {
-        if(girlScoutsAttendanceOCMService.read(attendance.getPath()) == null){
+        if (girlScoutsAttendanceOCMService.read(attendance.getPath()) == null) {
             return girlScoutsAttendanceOCMService.create(attendance) != null;
-        }else{
+        } else {
             return girlScoutsAttendanceOCMService.update(attendance) != null;
         }
     }
@@ -785,9 +841,9 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     public boolean setAchievement(User user, Troop troop, String mid, Achievement achievement) {
-        if(girlScoutsAchievementOCMService.read(achievement.getPath()) == null){
+        if (girlScoutsAchievementOCMService.read(achievement.getPath()) == null) {
             return girlScoutsAchievementOCMService.create(achievement) != null;
-        }else{
+        } else {
             return girlScoutsAchievementOCMService.update(achievement) != null;
         }
 

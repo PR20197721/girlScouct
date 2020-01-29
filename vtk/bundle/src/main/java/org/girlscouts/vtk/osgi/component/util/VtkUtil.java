@@ -748,6 +748,21 @@ public class VtkUtil implements ConfigListener {
         return councilCodes;
     }
 
+    public static Map<String,String> getCouncilMappings() {
+        Map<String,String> councils = new HashMap();
+        if (gsCouncils != null) {
+            for (int i = 0; i < gsCouncils.length; i++) {
+                String[] configRecord = gsCouncils[i].split("::");
+                if (configRecord.length >= 2) {
+                    councils.put(configRecord[0],configRecord[1]);
+                } else {
+                    System.err.println("Malformatted council mapping record: " + gsCouncils[i]);
+                }
+            }
+        }
+        return councils;
+    }
+
     @SuppressWarnings("rawtypes")
     public void updateConfig(Dictionary configs) {
         gsNewYear = (String) configs.get("gsNewYear");
