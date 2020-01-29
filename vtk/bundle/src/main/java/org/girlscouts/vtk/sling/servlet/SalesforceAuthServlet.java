@@ -125,6 +125,17 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
         if (request.getParameter("isVtkLogin") != null && request.getParameter("isVtkLogin").equals("true")) {
             isVtkLogin = true;
         }
+        ApiConfig apiConfig = null;
+        try {
+            if (request.getSession().getAttribute(ApiConfig.class.getName()) != null) {
+                apiConfig = ((ApiConfig) request.getSession().getAttribute(ApiConfig.class.getName()));
+                //setting council id in cookie since session gets cleared after return from salesforce signout page
+                //council id is used by logout.jsp to redirect to proper council site 
+                setCouncilInClient(response, apiConfig.getTroops().get(0).getCouncilCode());
+            }
+        }catch(Exception e){
+
+        }
         redirect(response, configManager.getConfig("communityUrl") + "/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html" + (isVtkLogin ? "?isVtkLogin=true" : "")));
         return;
     }
