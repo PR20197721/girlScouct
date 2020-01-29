@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 	<modelVersion>4.0.0</modelVersion>
 	<!-- ====================================================================== -->
 	<!-- P R O J E C T D E S C R I P T I O N -->
 	<!-- ====================================================================== -->
 	<groupId>org.girlscouts</groupId>
 	<artifactId>aem</artifactId>
-	<version>4.0.1-SNAPSHOT</version>
+	<version>4.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Girl Scouts AEM Project, including Web, VTK, GSUSA and GSActivities</name>
 	<properties>
@@ -81,12 +79,12 @@
 				<version>20090211_1</version>
 				<scope>provided</scope>
 			</dependency>
-			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>1.5.0-b01</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>1.6.0</version>
+                <scope>provided</scope>
+            </dependency>
 			<dependency>
 				<groupId>com.day.commons.osgi.wrapper</groupId>
 				<artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
