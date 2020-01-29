@@ -86,10 +86,10 @@
 			<groupId>javax.jcr</groupId>
 			<artifactId>jcr</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>com.day.commons.osgi.wrapper</groupId>
 			<artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
