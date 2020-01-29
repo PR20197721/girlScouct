@@ -81,16 +81,11 @@
 				<version>20090211_1</version>
 				<scope>provided</scope>
 			</dependency>
-			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>1.5.0-b01</version>
-				<scope>provided</scope>
-			</dependency>
             <dependency>
                 <groupId>com.sun.mail</groupId>
                 <artifactId>javax.mail</artifactId>
                 <version>1.6.0</version>
+                <scope>provided</scope>
             </dependency>
 			<dependency>
 				<groupId>com.day.commons.osgi.wrapper</groupId>
