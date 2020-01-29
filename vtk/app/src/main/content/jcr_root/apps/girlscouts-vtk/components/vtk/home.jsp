@@ -14,8 +14,7 @@
     String communityUrl = "";
     String councilId = "0";
     String usercounciId = "0";
-    String gradeLevel = "CA";
-    String[] gsLearnMap = {"999","306","240","360","438","319","512","387","582","654","583","467","169","354","614","642","281","497","367","200","564","647","499","126","368","612","688","204","477","661","538","608","134","377","506","450","634","110","116","345","556","635","536","131","603","687","263","478"};
+    String[] gsLearnMap = {"999","306","240","360","438","319","512","387","582","654","583","467","169","354","614","642","281","497","367","200","564","647","499","126","368","612","688","204","477","661","538","608","134","377","506","450","634","110","116","345","556","635","536","131","603","687","263","478","563","346"};
     String gsLearnCouncil="";
     List<Troop> userTroops = null;
     try {
@@ -36,6 +35,7 @@
             dummyVTKAdminTroop.setSfTroopId("none");
             dummyVTKAdminTroop.setCouncilCode(apiConfig.getUser().getAdminCouncilId());
             dummyVTKAdminTroop.setTroopName("vtk_virtual_troop");
+            dummyVTKAdminTroop.setGradeLevel("CA");
             String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + dummyVTKAdminTroop.getSfCouncil();
             dummyVTKAdminTroop.setCouncilPath(councilPath);
             String troopPath = councilPath + "/troops/" + dummyVTKAdminTroop.getSfTroopId();
@@ -47,8 +47,6 @@
         try {
             councilId = userTroops.get(0).getCouncilCode();
             branch = councilMapper.getCouncilBranch(councilId);
-            gradeLevel = userTroops.get(0).getGradeLevel();
-            gradeLevel = gradeLevel == null ? "CA" : VtkUtil.formatAgeGroup(gradeLevel);
         } catch (Exception e) {
             String refererCouncil = VtkUtil.getCouncilInClient(request);
             if (refererCouncil != null && !refererCouncil.isEmpty()) {
