@@ -145,7 +145,11 @@ public class YearPlanUtil {
     }
 
     public java.util.List<Milestone> getCouncilMilestones(User user, Troop troop) throws IllegalAccessException {
-        return councilDAO.getCouncilMilestones(user, troop);
+        if(troop == null) {
+            return councilDAO.getCouncilMilestones(user);
+        } else {
+            return councilDAO.getCouncilMilestones(user, troop);
+        }
     }
 
     public Meeting getMeeting(User user, Troop troop, String path) throws IllegalAccessException, VtkException {
@@ -186,7 +190,12 @@ public class YearPlanUtil {
     }
 
     public void saveCouncilMilestones(User user, List<Milestone> milestones, Troop troop) throws IllegalAccessException {
-        councilDAO.updateCouncilMilestones(user, milestones, troop);
+        if(troop == null) {
+            councilDAO.updateCouncilMilestones(user, milestones);
+        } else {
+            councilDAO.updateCouncilMilestones(user, milestones, troop);
+        }
+
     }
 
     public java.util.List<Activity> searchA1(User user, Troop troop, String lvl, String cat, String keywrd, java.util.Date startDate, java.util.Date endDate, String region) throws IllegalAccessException {
@@ -295,11 +304,18 @@ public class YearPlanUtil {
             }
         }
         try {
-            saveCouncilMilestones(user, milestones, troop);
+            if(user.isServiceUnitManager()) {
+                saveCouncilMilestones(user, milestones, null);
+            } else {
+                saveCouncilMilestones(user, milestones, troop);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 
     public void createMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request) throws java.lang.IllegalAccessException {
         String councilId = request.getParameter("cid");

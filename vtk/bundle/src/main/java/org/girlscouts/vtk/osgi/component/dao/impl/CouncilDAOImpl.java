@@ -92,6 +92,37 @@ public class CouncilDAOImpl implements CouncilDAO {
         sortMilestonesByDate(milestones);
         return milestones;
     }
+    public List<Milestone> getCouncilMilestones(User user){
+        CouncilInfo cinfo = getCouncilInfo(user);
+        List<Milestone> milestones = cinfo.getMilestones();
+        sortMilestonesByDate(milestones);
+        return milestones;
+    }
+    private CouncilInfo getCouncilInfo(User user){
+        CouncilInfo cinfo = null;
+        try {
+            String councilCode = user.getAdminCouncilId();
+            String councilPath = "/vtk" + user.getCurrentYear() + "/" + councilCode + "/councilInfo";
+            cinfo = girlScoutsCouncilInfoOCMService.read(councilPath);
+            //String path = troop.getCouncilPath() + "/councilInfo";
+            if (cinfo != null) {
+                if (cinfo.getMilestones() == null) {
+                    List<Milestone> milestones = getAllMilestones(councilCode);
+                    cinfo.setMilestones(milestones);
+                    cinfo = girlScoutsCouncilInfoOCMService.update(cinfo);
+                }
+            } else {
+                cinfo = new CouncilInfo(councilPath);
+                List<Milestone> milestones = getAllMilestones(councilCode);
+                cinfo.setMilestones(milestones);
+                cinfo = girlScoutsCouncilInfoOCMService.create(cinfo);
+            }
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        }
+        return cinfo;
+    }
+
 
     private CouncilInfo getCouncilInfo(User user, Troop troop) {
         CouncilInfo cinfo = null;
@@ -142,6 +173,34 @@ public class CouncilDAOImpl implements CouncilDAO {
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         }
+    }
+    public void updateCouncilMilestones(User user, List<Milestone> milestones){
+
+        try {
+            CouncilInfo councilInfo = getCouncilInfo(user);
+
+            java.util.List<Milestone> oldMilestones = councilInfo.getMilestones();
+            sortMilestonesByDate(oldMilestones);
+            int i = 0;
+            for (; i < oldMilestones.size(); i++) {
+                if (milestones.size() > i && oldMilestones.get(i).getBlurb().equals(milestones.get(i).getBlurb())) {
+                    oldMilestones.get(i).setDate(milestones.get(i).getDate());
+                    oldMilestones.get(i).setShow(milestones.get(i).getShow());
+                    continue;
+                } else {
+                    oldMilestones.remove(i);
+                    i--;
+                }
+            }
+            for (int k = i; k < milestones.size(); k++) {
+                oldMilestones.add(milestones.get(k));
+            }
+            councilInfo.setMilestones(oldMilestones);
+            councilInfo = girlScoutsCouncilInfoOCMService.update(councilInfo);
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        }
+
     }
 
     private List<Milestone> getAllMilestones(String councilCode) {

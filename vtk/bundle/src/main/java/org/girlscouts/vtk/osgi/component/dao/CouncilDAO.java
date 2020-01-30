@@ -17,7 +17,11 @@ public interface CouncilDAO {
 
     List<Milestone> getCouncilMilestones(User user, Troop troop) throws IllegalAccessException;
 
+    List<Milestone> getCouncilMilestones(User user) throws IllegalAccessException;
+
     void updateCouncilMilestones(User user, List<Milestone> milestones, Troop troop) throws IllegalAccessException;
+
+    void updateCouncilMilestones(User user, List<Milestone> milestones) throws IllegalAccessException;
 
     void GSMonthlyRpt();
 
