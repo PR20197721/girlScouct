@@ -7,6 +7,7 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 <%@include file="/libs/foundation/global.jsp"%>
 
 <cq:includeClientLib categories="apps.girlscouts" />
+<cq:includeClientLib categories="apps.girlscouts.components.calendar" />
 <cq:defineObjects />
 <%!
   
@@ -216,17 +217,5 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 		String jsonEvents = getJsonEvents(srchInfo.getResults(),resourceResolver);
 		%>
 		<div id="fullcalendar"></div>
-		<script>
-		$(document).ready(function(){
-			calendarDisplay(<%=month%>,<%=year%>,<%=jsonEvents%>);
-		
-			// iOS touch fix
-			var plat = navigator.platform;
-			if( plat.indexOf("iPad") != -1 || plat.indexOf("iPhone") != -1 || plat.indexOf("iPod") != -1 ) {
-				$(".fc-event-title").bind('touchend', function() {
-					$(this).click();
-				});
-			}
-		}); 
-		</script>
+
 	<%} %>

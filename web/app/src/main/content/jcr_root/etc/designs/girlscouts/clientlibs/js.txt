@@ -1,10 +1,6 @@
 #base=js
 
 main.js
-calendar/jquery.qtip.js
-calendar/calendar.js
-calendar/jquery-ui-min.js
-calendar/calendar-display.js
 login.js
 readmore.js
 misc.js
