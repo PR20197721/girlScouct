@@ -1,6 +1,24 @@
 
 <%@include file="/libs/foundation/global.jsp"%>
-<%@ page import="com.day.cq.tagging.TagManager,org.apache.sling.commons.json.*,java.util.ArrayList,java.util.HashSet, java.util.Locale,java.util.Arrays,java.util.Iterator,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.joda.time.DateTime,java.util.Calendar,
+<%@ page import="com.day.cq.tagging.TagManager,
+                org.apache.sling.commons.json.*,
+                java.util.ArrayList,
+                java.util.HashSet,
+                java.util.Locale,
+                java.util.Arrays,
+                java.util.Iterator,
+                java.util.List,
+                java.util.Set,
+                org.slf4j.Logger,
+                org.slf4j.LoggerFactory,
+                com.day.cq.search.result.SearchResult,
+                java.util.ResourceBundle,
+                com.day.cq.search.QueryBuilder,
+                javax.jcr.PropertyIterator,
+                com.day.cq.i18n.I18n,
+                org.apache.sling.api.resource.ResourceResolver,
+                org.joda.time.DateTime,
+                java.util.Calendar,
 org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 
 
@@ -11,7 +29,8 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 <cq:defineObjects />
 <%!
   
-  private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver){    
+  private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver){
+    Logger log = LoggerFactory.getLogger(this.getClass().getName());
     List<JSONObject> eventList = new ArrayList<JSONObject>();
     GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     GSDateTimeFormatter dateFormat = GSDateTimeFormat.forPattern("EEE, MMM d, yyyy");
@@ -170,9 +189,9 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 	            		 color = propNode.getProperty("color").getString();
 	            	}
 					String url = path+".html";
-					obj.put("title", title);
+					obj.put("title", title.replaceAll("'", "\'"));
 					obj.put("displayDate", dateStr);
-					obj.put("location",location);
+					obj.put("location",location.replaceAll("'", "\'"));
 					obj.put("color",color);
 					obj.put("description", detail);
 					obj.put("start",start);
@@ -216,6 +235,29 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 	if(null != srchInfo) {
 		String jsonEvents = getJsonEvents(srchInfo.getResults(),resourceResolver);
 		%>
+		<div id="calendar-events" data-event='<%=jsonEvents%>'></div>
 		<div id="fullcalendar"></div>
+
+		<script>
+		    document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('fullcalendar');
+            console.log("test");
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+              plugins: [ 'dayGrid' ],
+              defaultView: 'dayGridMonth',
+              eventRender: function(info) {
+                var tooltip = new Tooltip(info.el, {
+                  title: info.event.extendedProps.description,
+                  placement: 'top',
+                  trigger: 'hover',
+                  container: 'body'
+                });
+              },
+              events: JSON.parse('[{"title":"Bronze and Silver Award Orientation - LEAD Online!","displayDate":"Sun, Dec 1, 2019, 12:00 AM EST","location":"Online","color":"#F27536","description":"Bronze and Silver Award Orientation now online! Strongly recommended for volunteers who have girls who want to earn their Bronze or Silver Award!","start":"2019-12-01","end":"2020-01-31","path":"/content/girlscoutseasternmass/en/events-repository/2019/bronze-silver-lead.html"},{"title":"Pats Peek","displayDate":"Wed, Jan 1, 2020, 12:00 AM EST","location":"Pats Peak","color":"#DD3640","description":"Girl Scouts, family and friends save!","start":"2020-01-01","end":"2020-03-29","path":"/content/girlscoutseasternmass/en/events-repository/2020/pats-peak.html"}]')
+            });
+
+            calendar.render();
+             });
+		</script>
 
 	<%} %>
