@@ -108,6 +108,7 @@
         dummyVTKAdminTroop.setSfCouncil(user.getAdminCouncilId());
         dummyVTKAdminTroop.setSfUserId("none");
         dummyVTKAdminTroop.setSfTroopId("none");
+        dummyVTKAdminTroop.setGradeLevel("CA");
         dummyVTKAdminTroop.setCouncilCode(user.getAdminCouncilId());
         dummyVTKAdminTroop.setTroopName("vtk_virtual_troop");
         String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + dummyVTKAdminTroop.getSfCouncil();
