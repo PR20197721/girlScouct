@@ -86,7 +86,13 @@ public class CouncilDAOImpl implements CouncilDAO {
 
     public List<Milestone> getCouncilMilestones(User user, Troop troop) {
         //TODO Permission.PERMISSION_VIEW_MILESTONE_ID
-        CouncilInfo list = getCouncilInfo(user, troop);
+        CouncilInfo list;
+        if(troop == null) {
+            list = getCouncilInfo(user, null);
+        } else {
+            list = getCouncilInfo(user, troop);
+        }
+
         List<Milestone> milestones = list.getMilestones();
         sortMilestonesByDate(milestones);
         return milestones;
@@ -95,8 +101,15 @@ public class CouncilDAOImpl implements CouncilDAO {
     private CouncilInfo getCouncilInfo(User user, Troop troop) {
         CouncilInfo cinfo = null;
         try {
-            cinfo = girlScoutsCouncilInfoOCMService.read(troop.getCouncilPath() + "/councilInfo");
-            String path = troop.getCouncilPath() + "/councilInfo";
+            String path;
+            if(troop == null) {
+                path = "/vtk" + user.getCurrentYear() + "/" + user.getAdminCouncilId() + "/councilInfo";
+            } else {
+                path = troop.getCouncilPath() + "/councilInfo";
+            }
+
+            cinfo = girlScoutsCouncilInfoOCMService.read(path);
+
             if (cinfo != null) {
                 if (cinfo.getMilestones() == null) {
                     List<Milestone> milestones = getAllMilestones(troop.getCouncilCode());
@@ -118,7 +131,13 @@ public class CouncilDAOImpl implements CouncilDAO {
     public void updateCouncilMilestones(User user, List<Milestone> milestones, Troop troop) throws IllegalAccessException {
         //TODO: permissions here Permission.PERMISSION_EDIT_MILESTONE_ID
         try {
-            CouncilInfo councilInfo = getCouncilInfo(user, troop);
+            CouncilInfo councilInfo;
+            if(troop == null) {
+                councilInfo = getCouncilInfo(user, null);
+            } else {
+                councilInfo = getCouncilInfo(user, troop);
+            }
+
 
             java.util.List<Milestone> oldMilestones = councilInfo.getMilestones();
             sortMilestonesByDate(oldMilestones);
