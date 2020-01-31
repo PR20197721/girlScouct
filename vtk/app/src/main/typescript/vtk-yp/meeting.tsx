@@ -55,19 +55,19 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
         }
 
         return (<div className="meeting">
-            <div className="square-small show-for-small-only">
+            <div className="square-small show-for-small-only hide-for-print">
                 <p>Meeting</p>
                 <p className='postion'>{this.props.idx + 1}</p>
             </div>
-            <div className="arrowGreen-small show-for-small-only"></div>
+            <div className="arrowGreen-small show-for-small-only hide-for-print"></div>
             <div className="square show-for-medium-up">
                 <p>Meeting</p>
                 <p className='postion'>{this.props.idx + 1}</p>
             </div>
             <div className="arrowGreen show-for-medium-up"></div>
-            <div className="body">
+            <div className="body medium-20">
                 <div className="small-24 column">
-                    <div className={(this.props.meetingInfo.activities && this.props.meetingInfo.activities.length > 0) ? "_text small-text-center medium-text-left small-24  medium-18 column" : "_text small-text-center medium-text-left small-24  medium-21 column"} style={{fontSize: '14px'}}>
+                    <div className="_text small-text-center medium-text-left small-24  medium-21 column" style={{fontSize: '14px'}}>
                         <div className="truncate">{this.props.meetingInfo.name.toUpperCase()}</div>
                         <div className="truncate">{this.props.meetingInfo.cat}</div>
                         <div className="truncate">{this.props.meetingInfo.blurb}</div>

@@ -142,7 +142,7 @@
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
                 </dd>
                 <% } %>
-                <% if (!((isParent && !user.isAdmin())|| user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                <% if (user.isAdmin() || !(isParent || user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
                 <dd
                         <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
@@ -320,7 +320,7 @@
                         <% } %>
                     </li>
                     <% } %>
-                    <% if (!((isParent && !user.isAdmin()) || user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                    <% if (user.isAdmin() || !(isParent || user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
                     <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
                             href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
                     </li>
