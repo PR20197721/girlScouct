@@ -20,3 +20,4 @@ footer { display: none; }
 .accordion .accordion-navigation > .content, .accordion dd > .content { display: block !important; }
 .accordion.section dd{ height: auto !important; }
 .accordion.section h6.accordionComponentLabel { color: #00ae58 !important; }
+div.advertisement{display: none;}
