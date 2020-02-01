@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
         date = $("#calendar-events").attr("data-date");
     }
 
-
     var calendarEl = document.getElementById('fullcalendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'dayGrid' ],
@@ -56,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
              }
         });
-        console.log(info.el);
       },
       events: JSON.parse($("#calendar-events").attr("data-event"))
     });
