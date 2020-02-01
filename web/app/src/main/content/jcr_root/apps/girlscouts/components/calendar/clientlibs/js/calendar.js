@@ -2,6 +2,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('fullcalendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'dayGrid' ],
+      header: {
+          left: 'prev',
+          center: 'title',
+          right : 'next'
+      },
       defaultView: 'dayGridMonth',
       eventRender: function(info) {
         var content = '<div class="row"><div class="small-24 large-24 medium-24 columns"><span class="calTitle"><h6><a target="_blank" href="'+info.event.extendedProps.path+
