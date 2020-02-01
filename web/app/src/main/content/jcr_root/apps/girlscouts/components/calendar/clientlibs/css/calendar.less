@@ -1,5 +1,4 @@
-.popper,
-  .tooltip {
+.popper, .tooltip {
     position: absolute;
     z-index: 9999;
     background-color: white;
@@ -95,4 +94,13 @@
     top: calc(50% - 5px);
     margin-left: 0;
     margin-right: 0;
+  }
+  .tooltip {
+    display: block;
+    width: 300px;
+    text-align: left;
+
+    .tooltip-inner {
+        font-size: 11.5px;
+    }
   }

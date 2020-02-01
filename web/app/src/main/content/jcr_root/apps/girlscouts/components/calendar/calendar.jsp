@@ -59,6 +59,7 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
     GSDateTime startDate = null;
     GSDateTime endDate = null;
     GSDateTimeFormatter dateFt = GSDateTimeFormat.forPattern("yyyy-MM-dd");
+    GSDateTimeFormatter dateFtPrint = GSDateTimeFormat.forPattern("MMM d, yyyy");
     String jsonEvents="";
 	for(String path: eventsPath){
 		String color = "#00AE58";
@@ -97,7 +98,7 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
            		GSLocalDateTime localEndDate = null;
            		
 				String start = ""; 
-      			String time = ""; 
+      			String time = "";
              	String dateInCalendar = ""; 
              	String startTimeStr = ""; 
              	String endDateStr = "";
@@ -192,23 +193,23 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 	            		 color = propNode.getProperty("color").getString();
 	            	}
 
-	            	JsonObject jsonOj = new JsonObject();
+	            	JsonObject jsonObj = new JsonObject();
 
 
 					String url = path+".html";
-					jsonOj.addProperty("title", title);
-                    jsonOj.addProperty("displayDate", dateStr);
-                    jsonOj.addProperty("location", location);
-                    jsonOj.addProperty("color", color);
-                    jsonOj.addProperty("description", detail);
-                    jsonOj.addProperty("start", start);
+                    jsonObj.addProperty("displayDate", dateStr);
+                    jsonObj.addProperty("location", location);
+                    jsonObj.addProperty("color", color);
+                    jsonObj.addProperty("description", detail);
+                    jsonObj.addProperty("start", start);
+                    jsonObj.addProperty("path", url);
+                    jsonObj.addProperty("title", title);
                     if(!end.isEmpty()) {
-                        jsonOj.addProperty("end", end);
+                        jsonObj.addProperty("end", end);
                     }
-                    jsonOj.addProperty("path", url);
 
 
-                    jsonArr.add(jsonOj);
+                    jsonArr.add(jsonObj);
 		        }
 	            
 			}  
