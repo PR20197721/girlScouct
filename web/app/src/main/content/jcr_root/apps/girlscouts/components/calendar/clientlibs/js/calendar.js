@@ -12,6 +12,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   function initCalendar() {
     var tooltips = [];
+    moment()._d
+    var date;
+    if($("#calendar-events").attr("data-date") === undefined || !$("#calendar-events").attr("data-date").length ) {
+        date = moment()._d;
+    } else {
+        date = $("#calendar-events").attr("data-date");
+    }
+
+
     var calendarEl = document.getElementById('fullcalendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'dayGrid' ],
@@ -21,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
           right : 'next'
       },
       defaultView: 'dayGridMonth',
+      defaultDate: $("#calendar-events").attr("data-date"),
       eventRender: function(info) {
         var content = '<div class="row"><div class="small-24 large-24 medium-24 columns"><span class="calTitle"><h6><a target="_blank" href="'+info.event.extendedProps.path+
                         '"><span class="calTitle">'+info.event.title+'</a></h6></span></div></div>' +
@@ -28,10 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         '<div class="row"><div class="small-6 large-6 medium-6 columns" style="padding-right:0px"><b>Location:</b></div><div class="small-12 large-12 medium-12 columns" style="padding:0px"><b>'+info.event.extendedProps.location+'</b></div><div class="small-6 large-6 medium-6 columns">&nbsp;</div></div>'+
                         '<div class="row"><div class="small-24 large-24 medium-24 columns">'+info.event.extendedProps.description+'</div></div>'+
                         '<div class="row"><div class="small-24 large-24 medium-24 columns">&nbsp</div></div>';
-
-
-
-
         var tooltip = new Tooltip(info.el, {
           title: content,
           placement: 'top',

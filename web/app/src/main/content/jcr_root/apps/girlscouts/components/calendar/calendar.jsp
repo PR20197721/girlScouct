@@ -231,22 +231,28 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 <%
    String month = null;
    String year = null;
+   String calDate = null;
    String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
    if(null!=eventSuffix) {
-	String temp = eventSuffix.substring(eventSuffix.indexOf("/")+1, eventSuffix.length());
-	String[] my = temp.split("-");
-	try{
-		month = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[0],"UTF-8"))-1);
-		year = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[1],"UTF-8")));
-	}catch(Exception e){}
-   }
+	    String temp = eventSuffix.substring(eventSuffix.indexOf("/")+1, eventSuffix.length());
+	    String[] my = temp.split("-");
+	    calDate = my[1] + "-" + my[0];
+	}
 	%>
 	<cq:include path="content/middle/par/event-search" resourceType="girlscouts/components/event-search" />
 	<%  
 	SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
 	if(null != srchInfo) {
 		String jsonEvents = getJsonEvents(srchInfo.getResults(),resourceResolver);
+		if(null!=eventSuffix) {
 		%>
-		<div id="calendar-events" data-event='<%=jsonEvents%>'></div>
+		<div id="calendar-events" data-date="<%=calDate%>"  data-event='<%=jsonEvents%>'></div>
+		<%
+        } else {
+        %>
+        <div id="calendar-events" data-event='<%=jsonEvents%>'></div>
+        <%
+        }
+        %>
 		<div id="fullcalendar"></div>
 	<%} %>
