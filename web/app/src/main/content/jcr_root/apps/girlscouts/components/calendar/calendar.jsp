@@ -9,6 +9,7 @@
                 java.util.Iterator,
                 java.util.List,
                 java.util.Set,
+                com.google.gson.*,
                 org.slf4j.Logger,
                 org.slf4j.LoggerFactory,
                 com.day.cq.search.result.SearchResult,
@@ -31,11 +32,13 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
   
   private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver){
     Logger log = LoggerFactory.getLogger(this.getClass().getName());
+    JsonArray jsonArr = new JsonArray();
+    Gson gson = new Gson();
     List<JSONObject> eventList = new ArrayList<JSONObject>();
     GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     GSDateTimeFormatter dateFormat = GSDateTimeFormat.forPattern("EEE, MMM d, yyyy");
     GSDateTimeFormatter timeFormat = GSDateTimeFormat.forPattern("h:mm a");
-    GSDateTimeFormatter fromFormat = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");   
+    GSDateTimeFormatter fromFormat = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     
     DateTime dateTime = new DateTime();
     dateTime = dateTime.withTimeAtStartOfDay();
@@ -55,7 +58,7 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
     GSDateTime eventDate = null;
     GSDateTime startDate = null;
     GSDateTime endDate = null;
-    GSDateTimeFormatter dateFt = GSDateTimeFormat.forPattern("MMM d, yyyy");
+    GSDateTimeFormatter dateFt = GSDateTimeFormat.forPattern("yyyy-MM-dd");
     String jsonEvents="";
 	for(String path: eventsPath){
 		String color = "#00AE58";
@@ -188,17 +191,24 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 					if(propNode.hasProperty("color")){
 	            		 color = propNode.getProperty("color").getString();
 	            	}
+
+	            	JsonObject jsonOj = new JsonObject();
+
+
 					String url = path+".html";
-					obj.put("title", title.replaceAll("'", "\'"));
-					obj.put("displayDate", dateStr);
-					obj.put("location",location.replaceAll("'", "\'"));
-					obj.put("color",color);
-					obj.put("description", detail);
-					obj.put("start",start);
-					if(!end.isEmpty())
-					  	obj.put("end", end);
-					obj.put("path", url);
-					eventList.add(obj);
+					jsonOj.addProperty("title", title);
+                    jsonOj.addProperty("displayDate", dateStr);
+                    jsonOj.addProperty("location", location);
+                    jsonOj.addProperty("color", color);
+                    jsonOj.addProperty("description", detail);
+                    jsonOj.addProperty("start", start);
+                    if(!end.isEmpty()) {
+                        jsonOj.addProperty("end", end);
+                    }
+                    jsonOj.addProperty("path", url);
+
+
+                    jsonArr.add(jsonOj);
 		        }
 	            
 			}  
@@ -206,13 +216,14 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
         	e.printStackTrace();
         }
 	}
+	String jsonStr = "";
 	try{
-		JSONArray eventArray = new JSONArray(eventList);
-		jsonEvents = eventArray.toString();
-	}catch(Exception je){
-		je.printStackTrace();
-	}  
-     return jsonEvents;
+        jsonStr = gson.toJson(jsonArr);
+    }catch(Exception je){
+        jsonStr = "";
+        je.printStackTrace();
+    }
+    return jsonStr;
 }
 %>
 
@@ -237,27 +248,4 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 		%>
 		<div id="calendar-events" data-event='<%=jsonEvents%>'></div>
 		<div id="fullcalendar"></div>
-
-		<script>
-		    document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('fullcalendar');
-            console.log("test");
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-              plugins: [ 'dayGrid' ],
-              defaultView: 'dayGridMonth',
-              eventRender: function(info) {
-                var tooltip = new Tooltip(info.el, {
-                  title: info.event.extendedProps.description,
-                  placement: 'top',
-                  trigger: 'hover',
-                  container: 'body'
-                });
-              },
-              events: JSON.parse('[{"title":"Bronze and Silver Award Orientation - LEAD Online!","displayDate":"Sun, Dec 1, 2019, 12:00 AM EST","location":"Online","color":"#F27536","description":"Bronze and Silver Award Orientation now online! Strongly recommended for volunteers who have girls who want to earn their Bronze or Silver Award!","start":"2019-12-01","end":"2020-01-31","path":"/content/girlscoutseasternmass/en/events-repository/2019/bronze-silver-lead.html"},{"title":"Pats Peek","displayDate":"Wed, Jan 1, 2020, 12:00 AM EST","location":"Pats Peak","color":"#DD3640","description":"Girl Scouts, family and friends save!","start":"2020-01-01","end":"2020-03-29","path":"/content/girlscoutseasternmass/en/events-repository/2020/pats-peak.html"}]')
-            });
-
-            calendar.render();
-             });
-		</script>
-
 	<%} %>

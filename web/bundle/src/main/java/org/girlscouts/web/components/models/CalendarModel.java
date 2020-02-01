@@ -32,6 +32,7 @@ import javax.annotation.PostConstruct;
 
 @Model(adaptables = SlingHttpServletRequest.class)
 public class CalendarModel {
+    private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
     @Self
     private SlingHttpServletRequest request;
@@ -47,22 +48,28 @@ public class CalendarModel {
         String month = null;
         String year = null;
         String eventSuffix = request.getRequestPathInfo().getSuffix();
-        if(null!=eventSuffix) {
-            String temp = eventSuffix.substring(eventSuffix.indexOf("/") + 1, eventSuffix.length());
-            String[] my = temp.split("-");
+     //   if(true || null!=eventSuffix) {
+        //    String temp = eventSuffix.substring(eventSuffix.indexOf("/") + 1, eventSuffix.length());
+          //  String[] my = temp.split("-");
             try {
-                month = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[0], "UTF-8")) - 1);
-                year = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[1], "UTF-8")));
+            //    month = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[0], "UTF-8")) - 1);
+              //  year = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[1], "UTF-8")));
             } catch (Exception e) {
             }
-            SearchResultsInfo srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
+            SearchResultsInfo srchInfo = null;
+            try{
+                srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
+            }catch (Exception e) {
+                log.error("Error: ", e);
+            }
+
             if(null != srchInfo) {
                 hasSearchInfo = true;
                 jsonEvents = getJsonEvents(srchInfo.getResults(),resourceResolver);
             } else {
                 hasSearchInfo = false;
             }
-        }
+        //}
 
     }
     private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver){
