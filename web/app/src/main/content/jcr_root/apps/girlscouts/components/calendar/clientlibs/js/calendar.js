@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
+    initCalendar();
+
+    // iOS touch fix
+    var plat = navigator.platform;
+    if( plat.indexOf("iPad") != -1 || plat.indexOf("iPhone") != -1 || plat.indexOf("iPod") != -1 ) {
+        $(".fc-event-title").bind('touchend', function() {
+            $(this).click();
+        });
+    }
+
+  });
+  function initCalendar() {
+    var tooltips = [];
     var calendarEl = document.getElementById('fullcalendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'dayGrid' ],
@@ -26,18 +39,15 @@ document.addEventListener('DOMContentLoaded', function() {
           html: true,
           container: 'body'
         });
+        tooltips.push(tooltip);
         $(info.el).on("click", function(event) {
-            var init = true;
+            event.stopPropagation();
             tooltip.show();
-            $("#fullcalendar").on("click", function() {
-                  if(init) {
-                    init = false;
-                  } else {
-                    tooltip.hide();
-                    init = true;
-                  }
-
-            });
+            for(var i = 0; tooltips.length; i++) {
+                if(tooltip !== tooltips[i]) {
+                    tooltips[i].hide();
+                }
+             }
         });
         console.log(info.el);
       },
@@ -45,7 +55,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     calendar.render();
-
-
-
-  });
+    $("#fullcalendar").on("click", function() {
+      for(var i = 0; tooltips.length; i++) {
+        tooltips[i].hide();
+      }
+    });
+  }
