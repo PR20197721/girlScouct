@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
           center: 'title',
           right : 'next'
       },
+      height: 'auto',
       defaultView: 'dayGridMonth',
       defaultDate: $("#calendar-events").attr("data-date"),
       eventRender: function(info) {
