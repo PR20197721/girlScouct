@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     initCalendar();
 
-    $(".advertisement").addClass("hide-for-print");
-
     // iOS touch fix
     var plat = navigator.platform;
     if( plat.indexOf("iPad") != -1 || plat.indexOf("iPhone") != -1 || plat.indexOf("iPod") != -1 ) {
