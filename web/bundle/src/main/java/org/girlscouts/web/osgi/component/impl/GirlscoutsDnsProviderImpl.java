@@ -16,27 +16,25 @@ import java.util.Map;
 @Component(service = {GirlscoutsDnsProvider.class}, immediate = true, name = "org.girlscouts.web.osgi.component.impl.GirlscoutsDnsProviderImpl")
 @Designate(ocd = GirlscoutsDnsProviderConfig.class)
 public class GirlscoutsDnsProviderImpl implements GirlscoutsDnsProvider{
-
-    private String[] dnsMap;
     private ComponentContext context;
+    private Map<String, String> councilMapping;
 
     @Reference
     private ResourceResolverFactory resolverFactory;
 
     @Activate
     public void activate(ComponentContext context) {
+        councilMapping = new HashMap<>();
         this.context = context;
-        this.dnsMap = getConfig("dnsMapping");
-    }
-
-    @Override
-    public String getDns(String councilPath) {
-        Map<String, String> councilMapping = new HashMap<>();
-        for(String s : this.dnsMap) {
+        for (String s : getConfig("dnsMapping")) {
             String[] temp = s.split("::");
             councilMapping.put(temp[0],temp[1]);
         }
 
+    }
+
+    @Override
+    public String getDns(String councilPath) {
         int councilStart = councilPath.indexOf("/content/") + 9;
         String councilName = councilPath.substring(councilStart, councilPath.indexOf("/", councilStart));
         StringBuilder dnsName = new StringBuilder();
@@ -47,6 +45,7 @@ public class GirlscoutsDnsProviderImpl implements GirlscoutsDnsProvider{
 
         return dnsName.toString();
     }
+
     private String[] getConfig(String property) {
         if (this.context != null) {
             Dictionary properties = this.context.getProperties();
