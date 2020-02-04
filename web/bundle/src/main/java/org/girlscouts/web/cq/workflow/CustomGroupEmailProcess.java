@@ -212,14 +212,9 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 	private Map getPropertyMap(WorkflowData data, Workflow flow, WorkItem item,
 			Session session, ResourceResolver resolver) {
 		Map map = new HashMap();
+
 		try {
-			String test = girlscoutsDnsProvider.getDns("/content/gsusa");
-			log.error(test);
-		}catch (Exception e) {
-			log.error("Error: ",e);
-		}
-		try {
-			map.put("preview.prefix", getPreviewPrefix(resolver));
+			map.put("preview.prefix", girlscoutsDnsProvider.getDns(data.getPayload().toString()));
 			map.put("publish.prefix", getPublishPrefix(resolver));
 			map.put("author.prefix", getAuthorPrefix(resolver));
 			map.put("model.title", flow.getWorkflowModel().getTitle());

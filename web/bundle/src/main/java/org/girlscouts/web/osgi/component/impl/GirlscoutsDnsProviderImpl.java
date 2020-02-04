@@ -9,6 +9,9 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.metatype.annotations.Designate;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component(service = {GirlscoutsDnsProvider.class}, immediate = true, name = "org.girlscouts.web.osgi.component.impl.GirlscoutsDnsProviderImpl")
 @Designate(ocd = GirlscoutsDnsProviderConfig.class)
 public class GirlscoutsDnsProviderImpl extends BasicGirlscoutsService implements GirlscoutsDnsProvider{
@@ -26,8 +29,21 @@ public class GirlscoutsDnsProviderImpl extends BasicGirlscoutsService implements
 
     @Override
     public String getDns(String councilPath) {
+        Map<String, String> councilMapping = new HashMap<>();
+        for(String s : this.dnsMap) {
+            String[] temp = s.split("::");
+            councilMapping.put(temp[0],temp[1]);
+        }
 
-        return this.dnsMap[0];
+        int councilStart = councilPath.indexOf("/content/") + 9;
+        String councilName = councilPath.substring(councilStart, councilPath.indexOf("/", councilStart));
+        StringBuilder dnsName = new StringBuilder();
+
+        dnsName.append("http://preview.");
+        dnsName.append(councilMapping.get(councilName));
+        dnsName.append(".org");
+
+        return dnsName.toString();
     }
 
 
