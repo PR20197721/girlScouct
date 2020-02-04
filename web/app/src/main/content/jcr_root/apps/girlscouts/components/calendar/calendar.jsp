@@ -1,21 +1,44 @@
 
 <%@include file="/libs/foundation/global.jsp"%>
-<%@ page import="com.day.cq.tagging.TagManager,org.apache.sling.commons.json.*,java.util.ArrayList,java.util.HashSet, java.util.Locale,java.util.Arrays,java.util.Iterator,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.joda.time.DateTime,java.util.Calendar,
+<%@ page import="com.day.cq.tagging.TagManager,
+                org.apache.sling.commons.json.*,
+                java.util.ArrayList,
+                java.util.HashSet,
+                java.util.Locale,
+                java.util.Arrays,
+                java.util.Iterator,
+                java.util.List,
+                java.util.Set,
+                com.google.gson.*,
+                org.slf4j.Logger,
+                org.slf4j.LoggerFactory,
+                com.day.cq.search.result.SearchResult,
+                java.util.ResourceBundle,
+                com.day.cq.search.QueryBuilder,
+                javax.jcr.PropertyIterator,
+                com.day.cq.i18n.I18n,
+                org.apache.sling.api.resource.ResourceResolver,
+                org.joda.time.DateTime,
+                java.util.Calendar,
 org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 
 
 <%@include file="/libs/foundation/global.jsp"%>
 
 <cq:includeClientLib categories="apps.girlscouts" />
+<cq:includeClientLib categories="apps.girlscouts.components.calendar" />
 <cq:defineObjects />
 <%!
   
-  private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver){    
+  private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver){
+    Logger log = LoggerFactory.getLogger(this.getClass().getName());
+    JsonArray jsonArr = new JsonArray();
+    Gson gson = new Gson();
     List<JSONObject> eventList = new ArrayList<JSONObject>();
     GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     GSDateTimeFormatter dateFormat = GSDateTimeFormat.forPattern("EEE, MMM d, yyyy");
     GSDateTimeFormatter timeFormat = GSDateTimeFormat.forPattern("h:mm a");
-    GSDateTimeFormatter fromFormat = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");   
+    GSDateTimeFormatter fromFormat = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     
     DateTime dateTime = new DateTime();
     dateTime = dateTime.withTimeAtStartOfDay();
@@ -35,7 +58,8 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
     GSDateTime eventDate = null;
     GSDateTime startDate = null;
     GSDateTime endDate = null;
-    GSDateTimeFormatter dateFt = GSDateTimeFormat.forPattern("MMM d, yyyy");
+    GSDateTimeFormatter dateFt = GSDateTimeFormat.forPattern("yyyy-MM-dd");
+    GSDateTimeFormatter dateFtPrint = GSDateTimeFormat.forPattern("MMM d, yyyy");
     String jsonEvents="";
 	for(String path: eventsPath){
 		String color = "#00AE58";
@@ -74,7 +98,7 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
            		GSLocalDateTime localEndDate = null;
            		
 				String start = ""; 
-      			String time = ""; 
+      			String time = "";
              	String dateInCalendar = ""; 
              	String startTimeStr = ""; 
              	String endDateStr = "";
@@ -168,17 +192,24 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 					if(propNode.hasProperty("color")){
 	            		 color = propNode.getProperty("color").getString();
 	            	}
+
+	            	JsonObject jsonObj = new JsonObject();
+
+
 					String url = path+".html";
-					obj.put("title", title);
-					obj.put("displayDate", dateStr);
-					obj.put("location",location);
-					obj.put("color",color);
-					obj.put("description", detail);
-					obj.put("start",start);
-					if(!end.isEmpty())
-					  	obj.put("end", end);
-					obj.put("path", url);
-					eventList.add(obj);
+                    jsonObj.addProperty("displayDate", dateStr);
+                    jsonObj.addProperty("location", location);
+                    jsonObj.addProperty("color", color);
+                    jsonObj.addProperty("description", detail);
+                    jsonObj.addProperty("start", start);
+                    jsonObj.addProperty("path", url);
+                    jsonObj.addProperty("title", title);
+                    if(!end.isEmpty()) {
+                        jsonObj.addProperty("end", end);
+                    }
+
+
+                    jsonArr.add(jsonObj);
 		        }
 	            
 			}  
@@ -186,47 +217,42 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
         	e.printStackTrace();
         }
 	}
+	String jsonStr = "";
 	try{
-		JSONArray eventArray = new JSONArray(eventList);
-		jsonEvents = eventArray.toString();
-	}catch(Exception je){
-		je.printStackTrace();
-	}  
-     return jsonEvents;
+        jsonStr = gson.toJson(jsonArr);
+    }catch(Exception je){
+        jsonStr = "";
+        je.printStackTrace();
+    }
+    return jsonStr;
 }
 %>
 
 <%
    String month = null;
    String year = null;
+   String calDate = null;
    String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
    if(null!=eventSuffix) {
-	String temp = eventSuffix.substring(eventSuffix.indexOf("/")+1, eventSuffix.length());
-	String[] my = temp.split("-");
-	try{
-		month = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[0],"UTF-8"))-1);
-		year = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[1],"UTF-8")));
-	}catch(Exception e){}
-   }
+	    String temp = eventSuffix.substring(eventSuffix.indexOf("/")+1, eventSuffix.length());
+	    String[] my = temp.split("-");
+	    calDate = my[1] + "-" + my[0];
+	}
 	%>
 	<cq:include path="content/middle/par/event-search" resourceType="girlscouts/components/event-search" />
 	<%  
 	SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
 	if(null != srchInfo) {
 		String jsonEvents = getJsonEvents(srchInfo.getResults(),resourceResolver);
+		if(null!=eventSuffix) {
 		%>
+		<div id="calendar-events" data-date="<%=calDate%>"  data-event='<%=jsonEvents%>'></div>
+		<%
+        } else {
+        %>
+        <div id="calendar-events" data-event='<%=jsonEvents%>'></div>
+        <%
+        }
+        %>
 		<div id="fullcalendar"></div>
-		<script>
-		$(document).ready(function(){
-			calendarDisplay(<%=month%>,<%=year%>,<%=jsonEvents%>);
-		
-			// iOS touch fix
-			var plat = navigator.platform;
-			if( plat.indexOf("iPad") != -1 || plat.indexOf("iPhone") != -1 || plat.indexOf("iPod") != -1 ) {
-				$(".fc-event-title").bind('touchend', function() {
-					$(this).click();
-				});
-			}
-		}); 
-		</script>
 	<%} %>
