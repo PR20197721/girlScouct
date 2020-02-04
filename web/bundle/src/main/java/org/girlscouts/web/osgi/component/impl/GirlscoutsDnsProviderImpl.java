@@ -9,14 +9,16 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.metatype.annotations.Designate;
 
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component(service = {GirlscoutsDnsProvider.class}, immediate = true, name = "org.girlscouts.web.osgi.component.impl.GirlscoutsDnsProviderImpl")
 @Designate(ocd = GirlscoutsDnsProviderConfig.class)
-public class GirlscoutsDnsProviderImpl extends BasicGirlscoutsService implements GirlscoutsDnsProvider{
+public class GirlscoutsDnsProviderImpl implements GirlscoutsDnsProvider{
 
     private String[] dnsMap;
+    private ComponentContext context;
 
     @Reference
     private ResourceResolverFactory resolverFactory;
@@ -44,6 +46,14 @@ public class GirlscoutsDnsProviderImpl extends BasicGirlscoutsService implements
         dnsName.append(".org");
 
         return dnsName.toString();
+    }
+    private String[] getConfig(String property) {
+        if (this.context != null) {
+            Dictionary properties = this.context.getProperties();
+            return (String [])(properties.get(property));
+        } else {
+            return null;
+        }
     }
 
 
