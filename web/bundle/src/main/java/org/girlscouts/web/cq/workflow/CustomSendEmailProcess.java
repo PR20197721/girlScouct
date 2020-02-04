@@ -243,19 +243,6 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 		return initiatorEmail;
 	}
 
-	private String getPreviewPrefix(ResourceResolver resolver) {
-		String hostPrefix = null;
-		Externalizer externalizer = (Externalizer) resolver
-				.adaptTo(Externalizer.class);
-		String externalizerHost = externalizer.externalLink(resolver, "preview",
-				"");
-		if ((externalizerHost != null) && (externalizerHost.endsWith("/"))) {
-			hostPrefix = externalizerHost.substring(0,
-					externalizerHost.length() - 1);
-
-		}
-		return hostPrefix;
-	}
 	private String getPublishPrefix(ResourceResolver resolver) {
 		String hostPrefix = null;
 		Externalizer externalizer = (Externalizer) resolver
