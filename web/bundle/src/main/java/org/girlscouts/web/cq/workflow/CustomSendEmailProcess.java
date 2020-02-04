@@ -26,6 +26,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.girlscouts.web.osgi.component.GirlscoutsDnsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +61,9 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 
 	@Reference
 	private MessageGatewayService messageGatewayService;
+
+	@Reference
+	private GirlscoutsDnsProvider girlscoutsDnsProvider;
 	private String initiatorEmail;
 
 	@Property(value = "Custom Send Email Process")
@@ -199,7 +203,12 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 			WorkflowSession session, ResourceResolver resolver) {
 
 		Map map = new HashMap();
-
+		try {
+			String test = girlscoutsDnsProvider.getDns("/content/gsusa");
+			log.error(test);
+		}catch (Exception e) {
+			log.error("Error: ",e);
+		}
 		try {
 			map.put("preview.prefix", getPreviewPrefix(resolver));
 			map.put("publish.prefix", getPublishPrefix(resolver));

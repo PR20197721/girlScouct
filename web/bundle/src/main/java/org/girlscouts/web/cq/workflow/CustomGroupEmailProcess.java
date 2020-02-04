@@ -26,6 +26,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.girlscouts.web.osgi.component.GirlscoutsDnsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +62,9 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 
 	@Reference
 	private MessageGatewayService messageGatewayService;
+
+	@Reference
+	private GirlscoutsDnsProvider girlscoutsDnsProvider;
 
 	@Property(value = "Custom Group Email Process")
 	static final String LABEL = "process.label";
@@ -208,7 +212,12 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 	private Map getPropertyMap(WorkflowData data, Workflow flow, WorkItem item,
 			Session session, ResourceResolver resolver) {
 		Map map = new HashMap();
-
+		try {
+			String test = girlscoutsDnsProvider.getDns("/content/gsusa");
+			log.error(test);
+		}catch (Exception e) {
+			log.error("Error: ",e);
+		}
 		try {
 			map.put("preview.prefix", getPreviewPrefix(resolver));
 			map.put("publish.prefix", getPublishPrefix(resolver));
