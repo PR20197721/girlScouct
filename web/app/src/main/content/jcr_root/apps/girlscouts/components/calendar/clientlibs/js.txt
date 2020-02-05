@@ -4,4 +4,5 @@ calendar.core.4.3.1.min.js
 calendar.daygrid.4.3.0.min.js
 popper.min.js
 tooltip.min.js
+moment.js
 calendar.js
