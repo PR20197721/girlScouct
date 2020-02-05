@@ -15,6 +15,32 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <items jcr:primaryType="nt:unstructured">
+                    <radioGroup jcr:primaryType="nt:unstructured"
+                                text="Show past events?"
+                                sling:resourceType="granite/ui/components/foundation/form/radiogroup">
+                        <items jcr:primaryType="nt:unstructured">
+                            <none jcr:primaryType="nt:unstructured"
+                                        name="./pastevents"
+                                        text="No"
+                                        value="none"
+                                        sling:resourceType="granite/ui/components/foundation/form/radio"/>
+                            <current-year jcr:primaryType="nt:unstructured"
+                                       name="./pastevents"
+                                       text="Events from the current year"
+                                       value="current"
+                                       sling:resourceType="granite/ui/components/foundation/form/radio"/>
+                            <past-year jcr:primaryType="nt:unstructured"
+                                       name="./pastevents"
+                                       text="Events from the past year"
+                                       value="one"
+                                       sling:resourceType="granite/ui/components/foundation/form/radio"/>
+                            <past-two-year jcr:primaryType="nt:unstructured"
+                                       name="./pastevents"
+                                       text="Events from the past two years"
+                                       value="two"
+                                       sling:resourceType="granite/ui/components/foundation/form/radio"/>
+                        </items>
+                    </radioGroup>
                     <css-styles
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/textfield"
