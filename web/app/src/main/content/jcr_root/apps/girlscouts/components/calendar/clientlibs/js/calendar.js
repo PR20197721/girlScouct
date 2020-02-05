@@ -28,6 +28,13 @@ function initCalendar() {
           center: 'title',
           right : 'next'
       },
+      dayRender: function(info) {
+        var today = new Date();
+        if(info.date < today) {
+            $(info.el).css("background-color", "grey");
+        }
+      },
+
       height: 'auto',
       defaultView: 'dayGridMonth',
       defaultDate: $("#calendar-events").attr("data-date"),

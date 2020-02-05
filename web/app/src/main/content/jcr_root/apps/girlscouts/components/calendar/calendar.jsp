@@ -158,10 +158,10 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 				boolean showPastEvents;
 				if(calNode.hasProperty("pastevents")) {
 				    String show = calNode.getProperty("pastevents").getString();
-				    if("none".equals(show)) {
-				        showPastEvents = eventDate.isAfter(today) || eventDate.isEqual(today);
-				    } else {
+				    if("true".equals(show)) {
 				        showPastEvents = true;
+				    } else {
+				        showPastEvents = eventDate.isAfter(today) || eventDate.isEqual(today);
 				    }
 				} else {
 				    showPastEvents = eventDate.isAfter(today) || eventDate.isEqual(today);
@@ -252,10 +252,14 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 	}
 	%>
 	<cq:include path="content/middle/par/event-search" resourceType="girlscouts/components/event-search" />
-	<%  
+	<%
+
 	SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
-	if(null != srchInfo) {
-		String jsonEvents = getJsonEvents(srchInfo.getResults(),resourceResolver, resource.adaptTo(Node.class));
+	List<String> searchResults = srchInfo.getResults();
+	Node listNode = resource.adaptTo(Node.class);
+
+	if(null != searchResults) {
+		String jsonEvents = getJsonEvents(searchResults,resourceResolver, listNode);
 		if(null!=eventSuffix) {
 		%>
 		<div id="calendar-events" data-date="<%=calDate%>"  data-event='<%=jsonEvents%>'></div>
