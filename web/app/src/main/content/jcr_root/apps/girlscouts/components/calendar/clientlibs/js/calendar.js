@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 function initCalendar() {
     var tooltips = [];
-    moment()._d
     var date;
     if($("#calendar-events").attr("data-date") === undefined || !$("#calendar-events").attr("data-date").length ) {
         date = moment()._d;
@@ -28,13 +27,6 @@ function initCalendar() {
           center: 'title',
           right : 'next'
       },
-      dayRender: function(info) {
-        var today = new Date();
-        if(info.date < today) {
-            $(info.el).css("background-color", "grey");
-        }
-      },
-
       height: 'auto',
       defaultView: 'dayGridMonth',
       defaultDate: $("#calendar-events").attr("data-date"),
