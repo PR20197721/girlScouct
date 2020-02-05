@@ -38,11 +38,11 @@ function initCalendar() {
                         '<div class="row"><div class="small-24 large-24 medium-24 columns">'+info.event.extendedProps.description+'</div></div>'+
                         '<div class="row"><div class="small-24 large-24 medium-24 columns">&nbsp</div></div>';
         var tooltip = new Tooltip(info.el, {
-          title: content,
-          placement: 'top',
-          trigger: 'manual',
-          html: true,
-          container: 'body'
+            title: content,
+            placement: 'top',
+            trigger: 'manual',
+            html: true,
+            container: 'body'
         });
         tooltips.push(tooltip);
         $(info.el).on("click", function(event) {
