@@ -8,6 +8,10 @@
     String activeTab = "milestones";
     boolean showVtkNav = true;
     String councilCode = userTroops.get(0).getCouncilCode();
+    if(apiConfig.isDemoUser() || user.isServiceUnitManager()) {
+        councilCode = user.getAdminCouncilId();
+        sessionlog.error("User Council Code: " + councilCode);
+    }
     String councilId = request.getParameter("cid") == null ? councilCode : request.getParameter("cid");
     String sectionClassDefinition = "milestones";
 %>
@@ -29,6 +33,9 @@
             //If there are milestones show them in the input fields to view/edit
             try {
                 List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(user, selectedTroop);
+                if(apiConfig.isDemoUser() || user.isServiceUnitManager()) {
+                     milestones = yearPlanUtil.getCouncilMilestones(user, null);
+                }
                 for (int i = 0; i < milestones.size(); i++) { %>
         <section class="row">
             <div class="column large-1 medium-2 small-2">
