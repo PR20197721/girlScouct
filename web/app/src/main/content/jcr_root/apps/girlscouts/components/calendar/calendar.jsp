@@ -30,7 +30,7 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 <cq:defineObjects />
 <%!
   
-  private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver){
+  private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver, Node calNode){
     Logger log = LoggerFactory.getLogger(this.getClass().getName());
     JsonArray jsonArr = new JsonArray();
     Gson gson = new Gson();
@@ -155,7 +155,19 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 				}catch(Exception e){
 					e.printStackTrace();
 				}
-				if(eventDate.isAfter(today) || eventDate.isEqual(today)){
+				boolean showPastEvents;
+				if(calNode.hasProperty("pastevents")) {
+				    String show = calNode.getProperty("pastevents").getString();
+				    if("true".equals(show)) {
+				        showPastEvents = true;
+				    } else {
+				        showPastEvents = eventDate.isAfter(today) || eventDate.isEqual(today);
+				    }
+				} else {
+				    showPastEvents = eventDate.isAfter(today) || eventDate.isEqual(today);
+				}
+
+				if(showPastEvents){
 					String title = propNode.getProperty("../jcr:title").getString();
 					detail = "";
 					location="";
@@ -240,10 +252,14 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
 	}
 	%>
 	<cq:include path="content/middle/par/event-search" resourceType="girlscouts/components/event-search" />
-	<%  
+	<%
+
 	SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
-	if(null != srchInfo) {
-		String jsonEvents = getJsonEvents(srchInfo.getResults(),resourceResolver);
+	List<String> searchResults = srchInfo.getResults();
+	Node listNode = resource.adaptTo(Node.class);
+
+	if(null != searchResults) {
+		String jsonEvents = getJsonEvents(searchResults,resourceResolver, listNode);
 		if(null!=eventSuffix) {
 		%>
 		<div id="calendar-events" data-date="<%=calDate%>"  data-event='<%=jsonEvents%>'></div>
