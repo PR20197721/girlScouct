@@ -5,6 +5,9 @@ import com.day.cq.workflow.WorkflowService;
 import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.WorkflowData;
 import com.day.cq.workflow.model.WorkflowModel;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
@@ -27,6 +30,7 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component(service = Servlet.class, property = {Constants.SERVICE_DESCRIPTION + "=Girl Scouts Trashcan Servlet", "sling.servlet.methods=" + HttpConstants.METHOD_GET, "sling.servlet.extensions=workflow", "sling.servlet.resourceTypes=" + "girlscouts/servlets/trashcan"})
 public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingServlet, TrashcanConstants {
@@ -50,81 +54,68 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
-        if (request.getParameter("payload") != null) {
-            try {
-                processRequest(request, response);
-            } catch (GirlScoutsException e) {
-                log.error("Error occurred:", e);
-                try {
-                    response.setHeader("reason",e.getReason());
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getReason());
-                } catch (Exception ex) {
-                    log.error("Error occurred:", ex);
-                }
-            } catch (Exception e) {
-                log.error("Error occurred:", e);
-                try {
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-                } catch (Exception ex) {
-                    log.error("Error occurred:", ex);
-                }
-            }
-        } else {
-            try {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Missing payload parameter");
-            } catch (Exception ex) {
-                log.error("Error occurred:", ex);
-            }
-
-        }
+        processRequest(request, response);
     }
 
     @Override
     protected void doPut(SlingHttpServletRequest request, SlingHttpServletResponse response) {
-        if (request.getParameter("payload") != null) {
-            try {
-                processRequest(request, response);
-            } catch (GirlScoutsException e) {
-                log.error("Error occurred:", e);
-                try {
-                    response.setHeader("reason",e.getReason());
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getReason());
-                } catch (Exception ex) {
-                    log.error("Error occurred:", ex);
-                }
-            } catch (Exception e) {
-                log.error("Error occurred:", e);
-                try {
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-                } catch (Exception ex) {
-                    log.error("Error occurred:", ex);
-                }
-            }
-        } else {
-            try {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Missing payload parameter");
-            } catch (Exception ex) {
-                log.error("Error occurred:", ex);
-            }
-
-        }
+        processRequest(request, response);
     }
 
-    private void processRequest(SlingHttpServletRequest request, SlingHttpServletResponse response) throws RepositoryException, WorkflowException, GirlScoutsException {
+    private void processRequest(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         if (isAuthor) {
-            String payloadPath = request.getParameter("payload");
-            if (payloadPath != null && payloadPath.trim().length() > 0) {
-                ResourceResolver rr = request.getResourceResolver();
-                Resource payloadResource = rr.resolve(payloadPath);
-                if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-                    if (payloadPath.startsWith(ASSET_TRASHCAN_PATH) || payloadPath.startsWith(PAGE_TRASHCAN_PATH)){
-                        restoreFromTrashcan(rr, payloadResource);
-                    } else {
-                        moveToTrashcan(rr, payloadResource);
+            if (request.getParameter("payload") != null) {
+                try {
+                    String payloadPath = request.getParameter("payload");
+                    if (payloadPath != null && payloadPath.trim().length() > 0) {
+                        ResourceResolver rr = request.getResourceResolver();
+                        Resource payloadResource = rr.resolve(payloadPath);
+                        if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+                            if (payloadPath.startsWith(ASSET_TRASHCAN_PATH) || payloadPath.startsWith(PAGE_TRASHCAN_PATH)) {
+                                restoreFromTrashcan(rr, payloadResource);
+                            } else {
+                                moveToTrashcan(rr, payloadResource);
+                            }
+                            try {
+                                JsonObject json = new JsonObject();
+                                json.addProperty("success", true);
+                                response.setStatus(SlingHttpServletResponse.SC_OK);
+                                response.setContentType("application/json");
+                                response.getWriter().write(new Gson().toJson(json));
+                            } catch (IOException e) {
+                                log.error("Error occurred:", e);
+                            }
+                        } else {
+                            throw new GirlScoutsException(new Exception(), "Item at path " + payloadPath + " doesn't exist");
+                        }
                     }
-                } else {
-                    throw new GirlScoutsException(new Exception(), "Item at path " + payloadPath + " doesn't exist");
+                } catch (GirlScoutsException e) {
+                    log.error("Error occurred:", e);
+                    try {
+                        JsonObject json = new JsonObject();
+                        json.addProperty("success", false);
+                        json.addProperty("errorCause", e.getReason());
+                        response.setStatus(SlingHttpServletResponse.SC_OK);
+                        response.setContentType("application/json");
+                        response.getWriter().write(new Gson().toJson(json));
+                    } catch (Exception ex) {
+                        log.error("Error occurred:", ex);
+                    }
+                } catch (Exception e) {
+                    log.error("Error occurred:", e);
+                    try {
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+                    } catch (Exception ex) {
+                        log.error("Error occurred:", ex);
+                    }
                 }
+            } else {
+                try {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Missing payload parameter");
+                } catch (Exception ex) {
+                    log.error("Error occurred:", ex);
+                }
+
             }
         }
     }

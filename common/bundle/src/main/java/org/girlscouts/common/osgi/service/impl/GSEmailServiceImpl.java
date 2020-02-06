@@ -41,8 +41,7 @@ import com.day.cq.mailer.MailingException;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
 
-@Component(service = {
-		GSEmailService.class }, immediate = true, name = "org.girlscouts.osgi.service.impl.GSEmailServiceImpl")
+@Component(service = {GSEmailService.class }, immediate = true, name = "org.girlscouts.osgi.service.impl.GSEmailServiceImpl")
 @Designate(ocd = GSEmailServiceConfig.class)
 public class GSEmailServiceImpl implements GSEmailService {
 

@@ -21,6 +21,31 @@
         var trashcanEventHandler = function () {
             var activator = $(this);
             var items = collection.find('.foundation-selections-item');
+            function showErrorDialog(data, xhr) {
+                dialog.remove();
+                var errorMessage = xhr.getResponseHeader("reason") ? xhr.getResponseHeader("reason") : "Error code: " + xhr.status;
+                if(data.errorCause != null){
+                    errorMessage = data.errorCause;
+                }
+                var errorDialog = new Coral.Dialog().set({
+                    id: "errorDialog",
+                    header: {
+                        innerHTML: "Error moving to trashcan"
+                    },
+                    content: {
+                        innerHTML: errorMessage
+                    },
+                    footer: {
+                        innerHTML: "<button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\" coral-close=\"\"><coral-button-label>Ok</coral-button-label></button>"
+                    },
+                    variant: "error"
+                });
+                errorDialog.on('coral-overlay:close', function (event) {
+                    location.reload(true);
+                })
+                document.body.appendChild(errorDialog);
+                errorDialog.show();
+            }
             if (items.length) {
                 var item = $(items[0]);
                 var itemPath = item.data("foundation-collection-item-id");
@@ -44,31 +69,17 @@
                 });
                 dialog.on('click', '#acceptButton', function () {
                     $.ajax({
+                        dataType: "json",
                         url: url
-                    }).success(function (data) {
-                        dialog.remove();
-                        location.reload(true);
-                    }).error(function (data, status) {
-                        dialog.remove();
-                        var errorMessage = data.getResponseHeader("reason") ? data.getResponseHeader("reason") : "Error code: " + status;
-                        var errorDialog = new Coral.Dialog().set({
-                            id: "errorDialog",
-                            header: {
-                                innerHTML: "Error moving to trashcan"
-                            },
-                            content: {
-                                innerHTML: errorMessage
-                            },
-                            footer: {
-                                innerHTML: "<button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\" coral-close=\"\"><coral-button-label>Ok</coral-button-label></button>"
-                            },
-                            variant: "error"
-                        });
-                        errorDialog.on('coral-overlay:close', function (event) {
+                    }).success(function (data, status, xhr) {
+                        if(data.success){
+                            dialog.remove();
                             location.reload(true);
-                        })
-                        document.body.appendChild(errorDialog);
-                        errorDialog.show();
+                        }else{
+                            showErrorDialog(data, xhr);
+                        }
+                    }).error(function (data, status, xhr) {
+                        showErrorDialog(data, xhr);
                     });
                 });
                 document.body.appendChild(dialog);
