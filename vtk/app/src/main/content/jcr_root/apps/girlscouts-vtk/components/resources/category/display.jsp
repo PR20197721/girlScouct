@@ -8,7 +8,7 @@
     // Include inherited title in author mode to show in dialog.
     if (WCMMode.EDIT == WCMMode.fromRequest(request) && !resource.getPath().startsWith("/content/vtkcontent")) {
         Session session = resourceResolver.adaptTo(Session.class);
-        String title = getTemplateResourceProperties(resource, resourceResolver).get("title", "");
+        String title = getTemplateResourceProperties(resource, resourceResolver).get("title", "");////
         Node node = resource.adaptTo(Node.class);
         if (null == node) {
             node = JcrUtils.getOrCreateByPath(resource.getPath(), "nt:unstructured", session);
