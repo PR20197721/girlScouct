@@ -34,11 +34,13 @@ public class TrashcanCleanUpProcess implements Runnable, TrashcanConstants {
 
     private int schedulerID;
 
+    private int expirationPeriod;
     boolean isAuthor = false;
 
     @Activate
     private void activate(TrashcanCleanUpProcess.Config config) {
         schedulerID = config.schedulerName().hashCode();
+        expirationPeriod = config.expirationPeriod();
         this.serviceParams = new HashMap<String, Object>();
         this.serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
         log.info("Girl Scouts Trashcan Clean Up Service Activated.");
@@ -115,7 +117,7 @@ public class TrashcanCleanUpProcess implements Runnable, TrashcanConstants {
                 Resource content = trashedPage.getChild("jcr:content");
                 ValueMap vm = content.getValueMap();
                 Calendar trashCannedDate = vm.get("trashcan-move-date", Calendar.class);
-                deleteBeforeDate.add(Calendar.MONTH, -6);
+                deleteBeforeDate.add(Calendar.DAY_OF_YEAR, (expirationPeriod * -1));
                 deleteBeforeDate.setTimeZone(trashCannedDate.getTimeZone());
                 log.debug("Checking if item was moved to trashcan before "+deleteBeforeDate.getTime());
                 if(trashCannedDate != null && trashCannedDate.before(deleteBeforeDate)){
@@ -185,5 +187,11 @@ public class TrashcanCleanUpProcess implements Runnable, TrashcanConstants {
          */
         @AttributeDefinition(name = "Expression", description = "Cron-job expression. Default: run every night at 2am.", type = AttributeType.STRING)
         String schedulerExpression() default "0 0 2 * * ?";
+        /**
+         * schedulerName
+         * @return String name
+         */
+        @AttributeDefinition(name = "Expiration Period in days", description = "Expiration Period in days", type = AttributeType.STRING)
+        public int expirationPeriod() default 180;
     }
 }
