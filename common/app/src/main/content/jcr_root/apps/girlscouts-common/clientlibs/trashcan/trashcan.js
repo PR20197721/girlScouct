@@ -21,19 +21,15 @@
         var trashcanEventHandler = function () {
             var activator = $(this);
             var items = collection.find('.foundation-selections-item');
-            function showErrorDialog(data, xhr) {
+            function showErrorDialog(cause) {
                 dialog.remove();
-                var errorMessage = xhr.getResponseHeader("reason") ? xhr.getResponseHeader("reason") : "Error code: " + xhr.status;
-                if(data.errorCause != null){
-                    errorMessage = data.errorCause;
-                }
                 var errorDialog = new Coral.Dialog().set({
                     id: "errorDialog",
                     header: {
                         innerHTML: "Error moving to trashcan"
                     },
                     content: {
-                        innerHTML: errorMessage
+                        innerHTML: cause
                     },
                     footer: {
                         innerHTML: "<button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\" coral-close=\"\"><coral-button-label>Ok</coral-button-label></button>"
@@ -76,10 +72,10 @@
                             dialog.remove();
                             location.reload(true);
                         }else{
-                            showErrorDialog(data, xhr);
+                            showErrorDialog(data.errorCause);
                         }
-                    }).error(function (data, status, xhr) {
-                        showErrorDialog(data, xhr);
+                    }).error(function(data, textStatus, xhr) {
+                        showErrorDialog(textStatus);
                     });
                 });
                 document.body.appendChild(dialog);
