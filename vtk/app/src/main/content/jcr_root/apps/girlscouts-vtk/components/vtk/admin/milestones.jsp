@@ -8,6 +8,10 @@
 <%
     String activeTab = "admin_milestones";
     String councilCode = userTroops.get(0).getCouncilCode();
+    if(apiConfig.isDemoUser() || user.isServiceUnitManager()) {
+        councilCode = user.getAdminCouncilId();
+        sessionlog.error("User Council Code: " + councilCode);
+    }
     String councilId = request.getParameter("cid") == null ? councilCode : request.getParameter("cid");
 %>
 <div id="panelWrapper" class="row content milestones meeting-detail">
@@ -26,6 +30,9 @@
             <%
                 int i = 0;
                 java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(user, selectedTroop);
+                if(apiConfig.isDemoUser() || user.isServiceUnitManager()) {
+                     milestones = yearPlanUtil.getCouncilMilestones(user, null);
+                }
                 for (; i < milestones.size(); i++) {
             %>
             <section id="ms-section" class="row">

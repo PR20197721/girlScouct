@@ -26,6 +26,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.girlscouts.web.osgi.component.GirlscoutsDnsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +62,9 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 
 	@Reference
 	private MessageGatewayService messageGatewayService;
+
+	@Reference
+	private GirlscoutsDnsProvider girlscoutsDnsProvider;
 
 	@Property(value = "Custom Group Email Process")
 	static final String LABEL = "process.label";
@@ -210,7 +214,7 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 		Map map = new HashMap();
 
 		try {
-			map.put("preview.prefix", getPreviewPrefix(resolver));
+			map.put("preview.prefix", girlscoutsDnsProvider.getDns(data.getPayload().toString()));
 			map.put("publish.prefix", getPublishPrefix(resolver));
 			map.put("author.prefix", getAuthorPrefix(resolver));
 			map.put("model.title", flow.getWorkflowModel().getTitle());
@@ -256,20 +260,6 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 			e.printStackTrace();
 		}
 		return emailAddresses;
-	}
-
-	private String getPreviewPrefix(ResourceResolver resolver) {
-		String hostPrefix = null;
-		Externalizer externalizer = (Externalizer) resolver
-				.adaptTo(Externalizer.class);
-		String externalizerHost = externalizer.externalLink(resolver,
-				"preview", "");
-		if ((externalizerHost != null) && (externalizerHost.endsWith("/"))) {
-			hostPrefix = externalizerHost.substring(0,
-					externalizerHost.length() - 1);
-
-		}
-		return hostPrefix;
 	}
 
 	private String getPublishPrefix(ResourceResolver resolver) {
