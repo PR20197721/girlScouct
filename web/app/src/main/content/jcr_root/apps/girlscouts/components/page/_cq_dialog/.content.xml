@@ -108,7 +108,9 @@
 												allowBulkEdit="{Boolean}true"
 												cq-msm-lockable="jcr:description" fieldLabel="Description"
 												name="./jcr:description" renderReadOnly="{Boolean}true" />
-											<onofftime jcr:primaryType="cq:Widget"
+										</items>
+									</moretitles>
+									<onofftime jcr:primaryType="cq:Widget"
 												cls="cq-propsdialog-set-onofftime" collapsed="{Boolean}true"
 												collapsible="{Boolean}true" hideMode="offsets"
 												title="On/Off Time" xtype="dialogfieldset">
@@ -126,9 +128,7 @@
 														ignoreData="{Boolean}true" name="./offTime@TypeHint"
 														value="Date" xtype="hidden" />
 												</items>
-											</onofftime>
-										</items>
-									</moretitles>
+									</onofftime>
 									<vanityurl cq:showOnCreate="{Boolean}false"
 										jcr:primaryType="nt:unstructured" jcr:title="Vanity URL"
 										sling:resourceType="granite/ui/components/foundation/form/fieldset">
