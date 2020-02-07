@@ -74,8 +74,13 @@
       width: 100%;
       @media #{$medium-up} {
         .text-content {
+          padding: 0;
           padding-left: rem-calc(10) !important;
           padding-right: rem-calc(10) !important;
+
+          .text-wrapper {
+            width: 100%;
+          }
         }
         h3 {
           font-size: rem-calc(12);
