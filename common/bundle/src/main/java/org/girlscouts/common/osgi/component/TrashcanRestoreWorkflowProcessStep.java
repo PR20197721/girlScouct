@@ -63,13 +63,15 @@ public class TrashcanRestoreWorkflowProcessStep implements WorkflowProcess, Tras
     }
 
     private void restoreFromTrashcan(Resource payloadResource) throws RepositoryException {
-        Resource movedItemContent = payloadResource.getChild("jcr:content");
-        ValueMap props = movedItemContent.getValueMap();
+        log.debug("Restoring "+payloadResource.getPath());
+        Resource trashedContent = payloadResource.getChild("jcr:content");
+        ValueMap props = trashedContent.getValueMap();
         String destinationPath = props.get(RESTORE_PATH_PROP_NAME).toString();
         ResourceResolver rr = payloadResource.getResourceResolver();
         Resource destinationResource = rr.resolve(destinationPath);
         boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
         if (!destinationResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+            log.debug("Destination already exist "+destinationPath);
             int count = 1;
             while (!destinationResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
                 if (isAsset) {
@@ -80,14 +82,16 @@ public class TrashcanRestoreWorkflowProcessStep implements WorkflowProcess, Tras
                 }
                 count++;
             }
+            log.debug("Renamed destination to "+destinationPath);
         }
         Session session = rr.adaptTo(Session.class);
         session.move(payloadResource.getPath(), destinationResource.getPath());
-        if (movedItemContent != null || !movedItemContent.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-            Node movedNodeContent = movedItemContent.adaptTo(Node.class);
+        if (trashedContent != null || !trashedContent.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+            Node movedNodeContent = trashedContent.adaptTo(Node.class);
             movedNodeContent.setProperty(RESTORE_PATH_PROP_NAME, (Value) null);
             movedNodeContent.setProperty(MOVE_DATE_PROP_NAME, (Value) null);
             session.save();
+            log.debug("Successfully restored "+payloadResource.getPath()+" to "+destinationPath);
         }
     }
 }

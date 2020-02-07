@@ -7,6 +7,7 @@ import com.adobe.granite.workflow.exec.WorkflowProcess;
 import com.adobe.granite.workflow.metadata.MetaDataMap;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.jcr.JcrUtil;
+import org.apache.jackrabbit.api.security.JackrabbitAccessControlList;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.common.constants.TrashcanConstants;
@@ -18,6 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.*;
+import javax.jcr.security.*;
+import java.security.Principal;
 import java.util.GregorianCalendar;
 
 @Component(property = {Constants.SERVICE_DESCRIPTION + "=Girl Scouts Trashcan Workflow Process Step", Constants.SERVICE_VENDOR + "=Girl Scouts USA", "process.label=Girl Scouts Trashcan Workflow Process Step"})
@@ -72,34 +75,31 @@ public class TrashcanWorkflowProcessStep implements WorkflowProcess, TrashcanCon
         }
     }
 
-    private void moveToTrashcan(Resource payloadResource, boolean isAsset) throws RepositoryException, com.day.cq.workflow.WorkflowException {
+    private void moveToTrashcan(Resource payloadResource, boolean isAsset) throws RepositoryException{
+        log.debug("Moving "+payloadResource.getPath()+" to trashcan");
         String itemPath = payloadResource.getPath();
-        String trashcanSitePath = "";
+        String trashcanCouncilPath = "";
         String trashcanItemPath = "";
         String siteName = "";
         if (isAsset) {
             siteName = itemPath.substring(13);
             siteName = siteName.substring(0, siteName.indexOf("/"));
-            trashcanSitePath = ASSET_TRASHCAN_PATH + "/" + siteName;
+            trashcanCouncilPath = ASSET_TRASHCAN_PATH + "/" + siteName;
         } else {
             siteName = itemPath.substring(9);
             siteName = siteName.substring(0, siteName.indexOf("/"));
-            trashcanSitePath = PAGE_TRASHCAN_PATH + "/" + siteName;
+            trashcanCouncilPath = PAGE_TRASHCAN_PATH + "/" + siteName;
         }
-        trashcanItemPath = trashcanSitePath + "/" + payloadResource.getName();
+        trashcanItemPath = trashcanCouncilPath + "/" + payloadResource.getName();
         ResourceResolver rr = payloadResource.getResourceResolver();
-        Resource trashCanFolder = rr.resolve(trashcanSitePath);
+        Resource trashCanFolder = rr.resolve(trashcanCouncilPath);
         Session session = rr.adaptTo(Session.class);
         if (trashCanFolder == null || trashCanFolder.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-            Node councilTrashcanNode = JcrUtil.createPath(trashcanSitePath, JcrConstants.NT_FOLDER, session);
-            String originalCouncilPath = itemPath.substring(0, (itemPath.indexOf(siteName) + siteName.length()));
-            Resource permissions = rr.resolve(originalCouncilPath + "/rep:policy");
-            if (permissions != null && !permissions.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-                Node permissionsNode = permissions.adaptTo(Node.class);
-                JcrUtil.copy(permissionsNode, councilTrashcanNode, permissionsNode.getName());
-            }
-            session.save();
+            JcrUtil.createPath(trashcanCouncilPath, JcrConstants.NT_FOLDER, session);
+            log.debug("Created council trashcan at "+trashcanCouncilPath);
         }
+        String originalCouncilPath = itemPath.substring(0, (itemPath.indexOf(siteName) + siteName.length()));
+        setPermissions(trashcanCouncilPath, originalCouncilPath, session);
         Resource trashItem = rr.resolve(trashcanItemPath);
         if (!trashItem.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
             int count = 1;
@@ -122,7 +122,46 @@ public class TrashcanWorkflowProcessStep implements WorkflowProcess, TrashcanCon
             movedNodeContent.setProperty(RESTORE_PATH_PROP_NAME, value);
             movedNodeContent.setProperty(MOVE_DATE_PROP_NAME, new GregorianCalendar());
             session.save();
+            log.debug("Successfully moved "+payloadResource.getPath()+" to "+movedNodeContent.getPath());
         }
     }
 
+    private void setPermissions(String trashcanCouncilPath, String originalCouncilPath, Session session) throws RepositoryException {
+        log.debug("Sync permissions for council trashcan at "+trashcanCouncilPath+ " with "+originalCouncilPath);
+        AccessControlManager acm = session.getAccessControlManager();
+        JackrabbitAccessControlList sourceAcl = getAcl(acm, originalCouncilPath);
+        if (sourceAcl.size() > 0) {
+            JackrabbitAccessControlList targetAcl = getAcl(acm, trashcanCouncilPath);
+            AccessControlEntry[] accessControlEntries = sourceAcl.getAccessControlEntries();
+            for (AccessControlEntry ace : accessControlEntries) {
+                Principal principal = ace.getPrincipal();
+                Privilege[] privileges = ace.getPrivileges();
+                targetAcl.addEntry(principal, privileges, true, null);
+            }
+            acm.setPolicy(trashcanCouncilPath, targetAcl);
+        }
+        log.debug("Permissions for council trashcan at "+trashcanCouncilPath+ " are set");
+    }
+
+    private JackrabbitAccessControlList getAcl(AccessControlManager acm, String path) {
+        try {
+            log.debug("Looking up current ACLs at "+path);
+            AccessControlPolicyIterator app = acm.getApplicablePolicies(path);
+            while (app.hasNext()) {
+                AccessControlPolicy pol = app.nextAccessControlPolicy();
+                if (pol instanceof JackrabbitAccessControlList) {
+                    return (JackrabbitAccessControlList) pol;
+                }
+            }
+            // no found...check if present
+            for (AccessControlPolicy pol : acm.getPolicies(path)) {
+                if (pol instanceof JackrabbitAccessControlList) {
+                    return (JackrabbitAccessControlList) pol;
+                }
+            }
+        } catch (RepositoryException e) {
+            log.warn("Error while retrieving ACL for {}: {}", path, e.toString());
+        }
+        return null;
+    }
 }

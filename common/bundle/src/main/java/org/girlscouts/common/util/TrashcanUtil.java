@@ -21,6 +21,7 @@ public class TrashcanUtil {
     public static final String PARAM_LIVE_SYNC_CANCELLED = "cq:LiveSyncCancelled";
 
     public static boolean isLiveCopy(Resource payloadResource) throws RepositoryException {
+        log.debug("Checking if "+payloadResource.getPath()+" is a live copy");
         if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
             boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
             if(!isAsset){
@@ -34,6 +35,7 @@ public class TrashcanUtil {
     }
 
     public static boolean isPublished(Resource payloadResource) {
+        log.debug("Checking if "+payloadResource.getPath()+" is published");
         if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
             boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
             if(!isAsset){
@@ -52,6 +54,7 @@ public class TrashcanUtil {
     }
 
     public static boolean hasReferences(Resource payloadResource) {
+        log.debug("Checking if "+payloadResource.getPath()+" has references");
         if (payloadResource != null) {
             ReferenceSearch referenceSearch = new ReferenceSearch();
             referenceSearch.setExact(true);
@@ -66,6 +69,7 @@ public class TrashcanUtil {
     }
 
     public static boolean hasChildren(Resource payloadResource) {
+        log.debug("Checking if "+payloadResource.getPath()+" has children");
         if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
             boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
             if(!isAsset){
