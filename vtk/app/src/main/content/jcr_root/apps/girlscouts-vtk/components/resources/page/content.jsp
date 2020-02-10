@@ -26,6 +26,10 @@
         <cq:include path="category-list" resourceType="girlscouts-vtk/components/resources/category-list"/>
     </div>
 
+    <div class="__third column small-22 medium-20 small-centered medium-centered">
+            <cq:include path="custom-category-list" resourceType="girlscouts-vtk/components/resources/custom-category-list"/>
+    </div>
+
     <div class="row" style="margin:40px 5px 0;">
         <div class="column small-22 medium-20 small-centered medium-centered">
             <cq:include path="let-us-know" resourceType="girlscouts-vtk/components/resources/let-us-know"/>
