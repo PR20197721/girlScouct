@@ -1,30 +1,7 @@
 (function (document, $, ns) {
     "use strict";
     var myObserver;
-    $(document).on("dialog-ready", function () {
-        try {
-            if ("girlscouts-vtk/components/resources/category" == ns.DialogFrame.currentDialog.editable.type) {
-                if (ns.ContentFrame.contentURL.indexOf('/content/vtkcontent/') == -1) {
-                    var $iconpicker = ns.DialogFrame.currentFloatingDialog.find("coral-select[name='./icon']")[0];
-                    $iconpicker.set({disabled: true});
-                    var title = ns.DialogFrame.currentFloatingDialog.find(".coral-Textfield[name='./title']")[0];
-                    $(title).prop('disabled', true);
-                }
-                var $multifield = ns.DialogFrame.currentFloatingDialog.find("coral-multifield[data-granite-coral-multifield-name='./items']");
-                var myObserver = new MutationObserver(mutationHandler);
-                var obsConfig = {childList: true, characterData: true, attributes: true, subtree: true};
-                myObserver.observe($multifield[0], obsConfig);
-            }
-        } catch (err) {
 
-        }
-    });
-    $(document).on("dialog-closed", function () {
-        try {
-            observer.disconnect();
-        } catch (e) {
-        }
-    });
 
     function mutationHandler(mutationRecords) {
         mutationRecords.forEach(function (mutation) {

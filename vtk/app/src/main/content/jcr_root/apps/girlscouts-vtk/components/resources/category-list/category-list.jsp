@@ -41,7 +41,7 @@
     IncludeOptions.getOptions(request, true).getCssClassNames().add("__box");
 %><cq:include path="<%= path %>" resourceType="girlscouts-vtk/components/resources/category"/><%
     }
-    for (int i = CUST_PER_COL; i<FIRST_TWO_COL_NONCUSTOM; i++){
+    for (int i = CUST_PER_COL; i<FIRST_TWO_COL_CUSTOM; i++){
 		String path = "custom-category-" + i;
         IncludeOptions.getOptions(request, true).getCssClassNames().add("__box");
         %><cq:include path="<%= path %>" resourceType="girlscouts-vtk/components/resources/custom-category"/><%

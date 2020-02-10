@@ -13,7 +13,7 @@
         if (null == node) {
             node = JcrUtils.getOrCreateByPath(resource.getPath(), "nt:unstructured", session);
         }
-        node.setProperty("title", title);
+        //node.setProperty("title", title);
         session.save();
     }
 
