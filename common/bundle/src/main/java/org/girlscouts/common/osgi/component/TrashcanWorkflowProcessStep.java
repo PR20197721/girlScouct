@@ -42,17 +42,9 @@ public class TrashcanWorkflowProcessStep implements WorkflowProcess, TrashcanCon
                                 boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
                                 if (isAsset || !TrashcanUtil.hasChildren(payloadResource)) {
                                     moveToTrashcan(payloadResource, isAsset);
-                                } else {
-                                    throw new GirlScoutsException(new Exception(), "Item at path " + payloadPath + " has children");
                                 }
-                            } else {
-                                throw new GirlScoutsException(new Exception(), "Item at path " + payloadPath + " has Live Relationship");
                             }
-                        } else {
-                            throw new GirlScoutsException(new Exception(), "Item at path " + payloadPath + " has references");
                         }
-                    } else {
-                        throw new GirlScoutsException(new Exception(), "Item at path " + payloadPath + " is published");
                     }
                 } else {
                     throw new GirlScoutsException(new Exception(), "Item at path " + payloadPath + " doesn't exist");
