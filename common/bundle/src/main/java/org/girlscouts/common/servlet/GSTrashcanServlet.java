@@ -151,17 +151,9 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                     boolean isAsset = payloadResource.isResourceType("dam:Asset");
                     if (isAsset || (!isAsset && !TrashcanUtil.hasChildren(payloadResource))) {
                         invokeTrashcanWorkflow(rr.adaptTo(Session.class), payloadResource.getPath());
-                    } else {
-                        throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has children");
                     }
-                } else {
-                    throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has Live Relationship");
                 }
-            } else {
-                throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has references");
             }
-        } else {
-            throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " is published");
         }
     }
 
