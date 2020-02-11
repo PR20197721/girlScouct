@@ -346,7 +346,7 @@ public class CouncilRpt extends BasicGirlScoutsService {
         }
     }
 
-    static public int countIRM(List<CouncilRptBean> list){
+    public int countIRM(List<CouncilRptBean> list){
         int irmCount = 0;
         for (CouncilRptBean crb : list){
             if (crb.isIRM()){

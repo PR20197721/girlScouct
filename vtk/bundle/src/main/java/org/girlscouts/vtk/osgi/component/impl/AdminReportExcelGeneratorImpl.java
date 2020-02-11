@@ -83,6 +83,8 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
                     List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanPath(brownies, yearPlanPath);
                     int countAltered = councilRpt.countAltered(yearPlanNameBeans);
                     int countActivity = councilRpt.countActivity(yearPlanNameBeans);
+                    int countIRM = councilRpt.countIRM(yearPlanNameBeans);
+                    int countNonIRM = yearPlanNameBeans.size() - countIRM;
                     y++;
                     Label label = new Label(0, count, ageGroup);
                     label.setCellFormat(getDataStyle());
@@ -90,13 +92,16 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
                     label = new Label(1, count, yearPlanName.replaceAll(",", ""));
                     label.setCellFormat(getDataStyle());
                     excelSheet.addCell(label);
-                    Number number = new Number(2, count, yearPlanNameBeans.size());
+                    Number number = new Number(2, count, countNonIRM);
                     number.setCellFormat(getDataStyle());
                     excelSheet.addCell(number);
-                    number = new Number(3, count, countAltered);
+                    number = new Number(3, count, countIRM);
                     number.setCellFormat(getDataStyle());
                     excelSheet.addCell(number);
-                    number = new Number(4, count, countActivity);
+                    number = new Number(4, count, countAltered);
+                    number.setCellFormat(getDataStyle());
+                    excelSheet.addCell(number);
+                    number = new Number(5, count, countActivity);
                     number.setCellFormat(getDataStyle());
                     excelSheet.addCell(number);
                 }
@@ -113,13 +118,16 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
         label = new Label(1, 0, "Year Plan");
         label.setCellFormat(getHeaderStyle());
         excelSheet.addCell(label);
-        label = new Label(2, 0, "Troops/IRMs Adopted");
+        label = new Label(2, 0, "Troops Adopted");
         label.setCellFormat(getHeaderStyle());
         excelSheet.addCell(label);
-        label = new Label(3, 0, "Plans Customized");
+        label = new Label(3, 0, "IRMs Adopted");
         label.setCellFormat(getHeaderStyle());
         excelSheet.addCell(label);
-        label = new Label(4, 0, "Plans with Added Activities");
+        label = new Label(4, 0, "Plans Customized");
+        label.setCellFormat(getHeaderStyle());
+        excelSheet.addCell(label);
+        label = new Label(5, 0, "Plans with Added Activities");
         label.setCellFormat(getHeaderStyle());
         excelSheet.addCell(label);
     }
