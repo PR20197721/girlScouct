@@ -5,17 +5,6 @@
 <%@include file="/apps/girlscouts-vtk/components/resources/global.jsp" %>
 <%@page session="false" %>
 <%
-    // Include inherited title in author mode to show in dialog.
-    if (WCMMode.EDIT == WCMMode.fromRequest(request) && !resource.getPath().startsWith("/content/vtkcontent")) {
-        Session session = resourceResolver.adaptTo(Session.class);
-        String title = getTemplateResourceProperties(resource, resourceResolver).get("title", "");
-        Node node = resource.adaptTo(Node.class);
-        if (null == node) {
-            node = JcrUtils.getOrCreateByPath(resource.getPath(), "nt:unstructured", session);
-        }
-        //node.setProperty("title", title);
-        session.save();
-    }
 
     final int MAX_ITEM_SHOW = 4;
     final int MAX_ITEM_COUNT = 8;
