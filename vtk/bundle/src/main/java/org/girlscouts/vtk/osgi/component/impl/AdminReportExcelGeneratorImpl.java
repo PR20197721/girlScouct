@@ -113,7 +113,7 @@ public class AdminReportExcelGeneratorImpl implements AdminReportExcelGenerator 
         label = new Label(1, 0, "Year Plan");
         label.setCellFormat(getHeaderStyle());
         excelSheet.addCell(label);
-        label = new Label(2, 0, "Troops Adopted");
+        label = new Label(2, 0, "Troops/IRMs Adopted");
         label.setCellFormat(getHeaderStyle());
         excelSheet.addCell(label);
         label = new Label(3, 0, "Plans Customized");
