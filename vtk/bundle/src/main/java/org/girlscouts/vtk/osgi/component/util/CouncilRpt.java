@@ -106,7 +106,7 @@ public class CouncilRpt extends BasicGirlScoutsService {
                     try {
                         Node node = it.nextNode();
                         Node troop = node.getParent();
-                        if(!troop.hasProperty("isIRM") || (troop.hasProperty("isIRM") && !troop.getProperty("isIRM").getBoolean())) {
+                        //if(!troop.hasProperty("isIRM") || (troop.hasProperty("isIRM") && !troop.getProperty("isIRM").getBoolean())) {
                             String yearPlanName = "", libPath = "", ageGroup = "";
                             boolean isAltered = false;
                             String path = node.getPath();
@@ -171,7 +171,7 @@ public class CouncilRpt extends BasicGirlScoutsService {
                                 crb.setActivity(true);
                             }
                             container.add(crb);
-                        }
+                        //}
                     } catch (Exception e) {
                         log.error("Error occured:", e);
                     }
