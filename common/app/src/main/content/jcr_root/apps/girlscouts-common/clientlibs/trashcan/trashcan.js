@@ -7,11 +7,16 @@
         var trashcanRestoreActivator = "button.cq-siteadmin-admin-actions-trashcan-restore-activator";
         var damTrashcanActivator = "button.cq-damadmin-admin-actions-trashcan-activator";
         var damTrashcanRestoreActivator = "button.cq-damadmin-admin-actions-trashcan-restore-activator";
-        if (Granite.HTTP.getPath().includes("/trashcan/")) {
+        if (Granite.HTTP.getPath().includes("/trashcan")) {
             $(trashcanActivator).hide();
             $(damTrashcanActivator).hide();
-            $(trashcanRestoreActivator).show();
-            $(damTrashcanRestoreActivator).show();
+            if(Granite.HTTP.getPath().endsWith("/trashcan")) {
+                $(trashcanRestoreActivator).hide();
+                $(damTrashcanRestoreActivator).hide();
+            }else{
+                $(trashcanRestoreActivator).show();
+                $(damTrashcanRestoreActivator).show();
+            }
         } else {
             $(trashcanActivator).show();
             $(damTrashcanActivator).show();
@@ -37,7 +42,7 @@
                     variant: "error"
                 });
                 errorDialog.on('coral-overlay:close', function (event) {
-                    location.reload(true);
+                    setTimeout(function(){ location.reload(true); }, 3000);
                 })
                 document.body.appendChild(errorDialog);
                 errorDialog.show();
@@ -67,15 +72,20 @@
                     $.ajax({
                         dataType: "json",
                         url: url
-                    }).success(function (data, status, xhr) {
+                    }).success(function (data) {
                         if(data.success){
                             dialog.remove();
-                            location.reload(true);
+                            if(data.action == "trash"){
+                                $(window).adaptTo("foundation-ui").notify("Moving to trash: ","Moving to <strong>"+data.destination_path+"</strong>","success");
+                            }else{
+                                $(window).adaptTo("foundation-ui").notify("Restoring from trash: ","Restoring to <strong>"+data.destination_path+"</strong>","success");
+                            }
+                            setTimeout(function(){ location.reload(true); }, 3000);
                         }else{
                             showErrorDialog(data.errorCause);
                         }
-                    }).error(function(data, textStatus, xhr) {
-                        showErrorDialog(textStatus);
+                    }).error(function() {
+                        $(window).adaptTo("foundation-ui").notify("Error","Unexpected error occurred while moving item "+itemPath+" to trashcan.","error");
                     });
                 });
                 document.body.appendChild(dialog);
