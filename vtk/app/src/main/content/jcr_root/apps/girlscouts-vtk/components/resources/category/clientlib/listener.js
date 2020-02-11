@@ -6,9 +6,9 @@
             if ("girlscouts-vtk/components/resources/category" == ns.DialogFrame.currentDialog.editable.type) {
                 if (ns.ContentFrame.contentURL.indexOf('/content/vtkcontent/') == -1) {
                     var $iconpicker = ns.DialogFrame.currentFloatingDialog.find("coral-select[name='./icon']")[0];
-                    //$iconpicker.set({disabled: true});
+                    $iconpicker.set({disabled: true});
                     var title = ns.DialogFrame.currentFloatingDialog.find(".coral-Textfield[name='./title']")[0];
-                    //$(title).prop('disabled', true);
+                    $(title).prop('disabled', true);
                 }
                 var $multifield = ns.DialogFrame.currentFloatingDialog.find("coral-multifield[data-granite-coral-multifield-name='./items']");
                 var myObserver = new MutationObserver(mutationHandler);
