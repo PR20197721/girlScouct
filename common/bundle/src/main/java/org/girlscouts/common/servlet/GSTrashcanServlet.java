@@ -81,14 +81,19 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                             rr = resolverFactory.getServiceResourceResolver(this.serviceParams);
                             Resource payloadResource = rr.resolve(payloadPath);
                             if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+                                String path = "";
+                                JsonObject json = new JsonObject();
                                 if (payloadPath.startsWith(ASSET_TRASHCAN_PATH) || payloadPath.startsWith(PAGE_TRASHCAN_PATH)) {
-                                    restoreFromTrashcan(rr, payloadResource);
+                                    path = restoreFromTrashcan(rr, payloadResource);
+                                    json.addProperty("action", "restore");
                                 } else {
-                                    moveToTrashcan(rr, payloadResource);
+                                    path = moveToTrashcan(payloadResource);
+                                    json.addProperty("action", "trash");
                                 }
                                 try {
-                                    JsonObject json = new JsonObject();
                                     json.addProperty("success", true);
+                                    json.addProperty("origin_path", path);
+                                    json.addProperty("destination_path", path);
                                     response.setStatus(SlingHttpServletResponse.SC_OK);
                                     response.setContentType("application/json");
                                     response.getWriter().write(new Gson().toJson(json));
@@ -140,45 +145,52 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         }
     }
 
-    private void restoreFromTrashcan(ResourceResolver rr, Resource payloadResource) throws WorkflowException {
-        invokeTrashcanRestoreWorkflow(rr.adaptTo(Session.class), payloadResource.getPath());
+    private String restoreFromTrashcan(ResourceResolver rr, Resource payloadResource) throws WorkflowException, RepositoryException {
+        return invokeTrashcanRestoreWorkflow(payloadResource);
     }
 
-    private void moveToTrashcan(ResourceResolver rr, Resource payloadResource) throws RepositoryException, WorkflowException, GirlScoutsException {
+    private String moveToTrashcan(Resource payloadResource) throws RepositoryException, WorkflowException, GirlScoutsException {
         if (!TrashcanUtil.isPublished(payloadResource)) {
             if (!TrashcanUtil.hasReferences(payloadResource)) {
                 if (!TrashcanUtil.isLiveCopy(payloadResource)) {
                     boolean isAsset = payloadResource.isResourceType("dam:Asset");
                     if (isAsset || (!isAsset && !TrashcanUtil.hasChildren(payloadResource))) {
-                        invokeTrashcanWorkflow(rr.adaptTo(Session.class), payloadResource.getPath());
+                        return invokeTrashcanWorkflow(isAsset, payloadResource);
                     }
                 }
             }
         }
+        return payloadResource.getPath();
     }
 
-    private void invokeTrashcanWorkflow(Session session, String payloadPath) throws WorkflowException {
+    private String invokeTrashcanWorkflow(boolean isAsset, Resource payloadResource) throws WorkflowException, RepositoryException {
         //Create a workflow session
-        WorkflowSession wfSession = workflowService.getWorkflowSession(session);
+        WorkflowSession wfSession = workflowService.getWorkflowSession(payloadResource.getResourceResolver().adaptTo(Session.class));
         // Get the workflow model
         WorkflowModel wfModel = wfSession.getModel("/var/workflow/models/girl-scouts-move-to-trashcan");
         // Get the workflow data
         // The first param in the newWorkflowData method is the payloadType.  Just a fancy name to let it know what type of workflow it is working with.
-        WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH", payloadPath);
+        String trashItemPath = TrashcanUtil.getTrashItemPath(isAsset, payloadResource);
+        WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH", payloadResource.getPath());
+        wfData.getMetaDataMap().put("trashPath", trashItemPath);
         // Invoke the Workflow
         wfSession.startWorkflow(wfModel, wfData);
+        return trashItemPath;
     }
 
-    private void invokeTrashcanRestoreWorkflow(Session session, String payloadPath) throws WorkflowException {
+    private String invokeTrashcanRestoreWorkflow(Resource payloadResource) throws WorkflowException, RepositoryException {
         //Create a workflow session
-        WorkflowSession wfSession = workflowService.getWorkflowSession(session);
+        WorkflowSession wfSession = workflowService.getWorkflowSession(payloadResource.getResourceResolver().adaptTo(Session.class));
         // Get the workflow model
         WorkflowModel wfModel = wfSession.getModel("/var/workflow/models/girl-scouts-restore-from-trashcan");
         // Get the workflow data
         // The first param in the newWorkflowData method is the payloadType.  Just a fancy name to let it know what type of workflow it is working with.
-        WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH", payloadPath);
+        String restoreItemPath = TrashcanUtil.getRestoreItemPath(payloadResource);
+        WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH", payloadResource.getPath());
+        wfData.getMetaDataMap().put("restorePath", restoreItemPath);
         // Invoke the Workflow
         wfSession.startWorkflow(wfModel, wfData);
+        return restoreItemPath;
     }
 
     /**

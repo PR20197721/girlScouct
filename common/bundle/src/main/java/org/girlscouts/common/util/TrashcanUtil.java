@@ -1,24 +1,32 @@
 package org.girlscouts.common.util;
 
+import com.day.cq.commons.jcr.JcrConstants;
+import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.dam.api.Asset;
 import com.day.cq.replication.ReplicationStatus;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.commons.ReferenceSearch;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
+import org.apache.jackrabbit.api.security.JackrabbitAccessControlList;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
+import org.girlscouts.common.constants.TrashcanConstants;
 import org.girlscouts.common.exception.GirlScoutsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.jcr.security.*;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-public class TrashcanUtil {
+public class TrashcanUtil implements TrashcanConstants {
     protected final static Logger log = LoggerFactory.getLogger(TrashcanUtil.class);
     public static final String PARAM_BREAK_INHERITANCE = "breakInheritance";
     public static final String PARAM_LIVE_SYNC_CANCELLED = "cq:LiveSyncCancelled";
@@ -136,4 +144,97 @@ public class TrashcanUtil {
         log.info("Resource at {} has broken inheritance ", targetResource.getPath());
         return breakInheritance;
     }
+    public static String getRestoreItemPath(Resource payloadResource)  throws RepositoryException{
+        ResourceResolver rr = payloadResource.getResourceResolver();
+        Resource trashedContent = payloadResource.getChild("jcr:content");
+        ValueMap props = trashedContent.getValueMap();
+        String restorePath = props.get(RESTORE_PATH_PROP_NAME).toString();
+        boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
+        Resource restoreResource = getAvailableResource(isAsset, rr, restorePath);
+        return restoreResource.getPath();
+    }
+    public static String getTrashItemPath(boolean isAsset, Resource payloadResource) throws RepositoryException {
+        ResourceResolver rr = payloadResource.getResourceResolver();
+        Session session = rr.adaptTo(Session.class);
+        String trashcanCouncilPath = "";
+        String siteName = "";
+        String itemPath = payloadResource.getPath();
+        if (isAsset) {
+            siteName = itemPath.substring(13);
+            siteName = siteName.substring(0, siteName.indexOf("/"));
+            trashcanCouncilPath = ASSET_TRASHCAN_PATH + "/" + siteName;
+        } else {
+            siteName = itemPath.substring(9);
+            siteName = siteName.substring(0, siteName.indexOf("/"));
+            trashcanCouncilPath = PAGE_TRASHCAN_PATH + "/" + siteName;
+        }
+        Resource trashCanFolder = rr.resolve(trashcanCouncilPath);
+        if (trashCanFolder == null || trashCanFolder.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+            JcrUtil.createPath(trashcanCouncilPath, JcrConstants.NT_FOLDER, session);
+            log.debug("Created council trashcan at "+trashcanCouncilPath);
+        }
+        String originalCouncilPath = itemPath.substring(0, (itemPath.indexOf(siteName) + siteName.length()));
+        setPermissions(trashcanCouncilPath, originalCouncilPath, session);
+        String trashItemPath = trashcanCouncilPath + "/" + payloadResource.getName();
+        Resource trashItem = getAvailableResource(isAsset, rr, trashItemPath);
+        return trashItem.getPath();
+    }
+
+    private static Resource getAvailableResource(boolean isAsset, ResourceResolver rr, String path) {
+        Resource resource = rr.resolve(path);
+        if (!resource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+            int count = 1;
+            while (!resource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+                if (isAsset) {
+                    path = path.substring(0, path.lastIndexOf(".")) + "-" + count + path.substring(path.lastIndexOf("."));
+                    resource = rr.resolve(path);
+                } else {
+                    resource = rr.resolve(path + "-" + count);
+                }
+                count++;
+            }
+        }
+        return resource;
+    }
+
+    private static void setPermissions(String trashcanCouncilPath, String originalCouncilPath, Session session) throws RepositoryException {
+        log.debug("Sync permissions for council trashcan at "+trashcanCouncilPath+ " with "+originalCouncilPath);
+        AccessControlManager acm = session.getAccessControlManager();
+        JackrabbitAccessControlList sourceAcl = getAcl(acm, originalCouncilPath);
+        if (sourceAcl.size() > 0) {
+            JackrabbitAccessControlList targetAcl = getAcl(acm, trashcanCouncilPath);
+            AccessControlEntry[] accessControlEntries = sourceAcl.getAccessControlEntries();
+            for (AccessControlEntry ace : accessControlEntries) {
+                Principal principal = ace.getPrincipal();
+                Privilege[] privileges = ace.getPrivileges();
+                targetAcl.addEntry(principal, privileges, true, null);
+            }
+            acm.setPolicy(trashcanCouncilPath, targetAcl);
+        }
+        log.debug("Permissions for council trashcan at "+trashcanCouncilPath+ " are set");
+    }
+
+    private static JackrabbitAccessControlList getAcl(AccessControlManager acm, String path) {
+        try {
+            log.debug("Looking up current ACLs at "+path);
+            AccessControlPolicyIterator app = acm.getApplicablePolicies(path);
+            while (app.hasNext()) {
+                AccessControlPolicy pol = app.nextAccessControlPolicy();
+                if (pol instanceof JackrabbitAccessControlList) {
+                    return (JackrabbitAccessControlList) pol;
+                }
+            }
+            // no found...check if present
+            for (AccessControlPolicy pol : acm.getPolicies(path)) {
+                if (pol instanceof JackrabbitAccessControlList) {
+                    return (JackrabbitAccessControlList) pol;
+                }
+            }
+        } catch (RepositoryException e) {
+            log.warn("Error while retrieving ACL for {}: {}", path, e.toString());
+        }
+        return null;
+    }
+
+
 }
