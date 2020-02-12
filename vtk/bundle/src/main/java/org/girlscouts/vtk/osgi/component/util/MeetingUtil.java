@@ -949,17 +949,17 @@ public class MeetingUtil {
         if (request.getParameter("achievement") != null) {
             String achievementPath = troop.getPath() + "/yearPlan/meetingEvents/" + mid + "/achievement";
             Achievement achievement = getAchievement(user, troop, achievementPath);
-            if (achievement == null) {
+             if (achievement == null) {
                 achievement = new Achievement();
                 achievement.setPath(achievementPath);
             }
             Set<String> achievers = new HashSet<String>();
-            if (achievement.getUsers() != null) {
+            /*if (achievement.getUsers() != null) {
                 StringTokenizer t2 = new StringTokenizer(achievement.getUsers(), ",");
                 while (t2.hasMoreElements()) {
                     achievers.add(t2.nextToken());
                 }
-            }
+            }*/
             List<String> contactIds = new ArrayList<String>();
             List<Contact> contacts = gsSalesForceService.getContactsForTroop(user.getApiConfig(), troop);
             for (int i = 0; i < contacts.size(); i++) {
