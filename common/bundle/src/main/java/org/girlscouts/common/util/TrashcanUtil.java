@@ -7,6 +7,7 @@ import com.day.cq.replication.ReplicationStatus;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.commons.ReferenceSearch;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
+import org.apache.jackrabbit.api.security.JackrabbitAccessControlEntry;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlList;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -48,16 +49,8 @@ public class TrashcanUtil implements TrashcanConstants {
     public static boolean isPublished(Resource payloadResource) throws GirlScoutsException {
         log.debug("Checking if "+payloadResource.getPath()+" is published");
         if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-            boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
-            ReplicationStatus status = null;
-            if(isAsset){
-                Asset asset = payloadResource.adaptTo(Asset.class);
-                status = asset.adaptTo(ReplicationStatus.class);
-            }else{
-                Page page = payloadResource.adaptTo(Page.class);
-                status = page.adaptTo(ReplicationStatus.class);
-            }
-            if (status != null && status.isActivated()) {
+            ReplicationStatus status = payloadResource.adaptTo(ReplicationStatus.class);
+            if (status != null && (status.isActivated() || status.isPending() || status.isPublished())) {
                 throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " is published");
             }
         }
@@ -203,11 +196,11 @@ public class TrashcanUtil implements TrashcanConstants {
         JackrabbitAccessControlList sourceAcl = getAcl(acm, originalCouncilPath);
         if (sourceAcl.size() > 0) {
             JackrabbitAccessControlList targetAcl = getAcl(acm, trashcanCouncilPath);
-            AccessControlEntry[] accessControlEntries = sourceAcl.getAccessControlEntries();
-            for (AccessControlEntry ace : accessControlEntries) {
+            JackrabbitAccessControlEntry[] accessControlEntries = (JackrabbitAccessControlEntry[]) sourceAcl.getAccessControlEntries();
+            for (JackrabbitAccessControlEntry ace : accessControlEntries) {
                 Principal principal = ace.getPrincipal();
                 Privilege[] privileges = ace.getPrivileges();
-                targetAcl.addEntry(principal, privileges, true, null);
+                targetAcl.addEntry(principal, privileges, ace.isAllow(), null);
             }
             acm.setPolicy(trashcanCouncilPath, targetAcl);
         }
