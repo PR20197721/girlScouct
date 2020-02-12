@@ -15,6 +15,13 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <items jcr:primaryType="nt:unstructured">
+                    <show-past-events
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                            text="Show past events?"
+                            name="./pastevents"
+                            uncheckedValue="false"
+                            value="true"/>
                     <css-styles
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/textfield"
