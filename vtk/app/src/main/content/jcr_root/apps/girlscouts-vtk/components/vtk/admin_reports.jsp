@@ -58,7 +58,7 @@
                     <div class="column medium-24">
                         <div class="row titles">
                             <span class="name column medium-8 medium-text-center">Year Plan</span>
-                            <span class="name column medium-5 medium-text-center"># of Troops Adopted</span>
+                            <span class="name column medium-5 medium-text-center"># of Troops/IRMs Adopted</span>
                             <span class="name column medium-5 medium-text-center"># of Plans Customized</span>
                             <span class="name column medium-6 medium-text-center">Plans with Added Activities</span>
                         </div>
