@@ -136,8 +136,4 @@ public class VTKDemoTroopsCleanUpCronImpl implements Runnable {
             log.error("Error occurred: ", e);
         }
     }
-
 }
-
-
-
