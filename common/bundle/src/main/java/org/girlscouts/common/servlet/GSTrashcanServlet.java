@@ -84,7 +84,7 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                                 String path = "";
                                 JsonObject json = new JsonObject();
                                 if (payloadPath.startsWith(ASSET_TRASHCAN_PATH) || payloadPath.startsWith(PAGE_TRASHCAN_PATH)) {
-                                    path = restoreFromTrashcan(rr, payloadResource);
+                                    path = restoreFromTrashcan(payloadResource);
                                     json.addProperty("action", "restore");
                                 } else {
                                     path = moveToTrashcan(payloadResource);
@@ -145,8 +145,11 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         }
     }
 
-    private String restoreFromTrashcan(ResourceResolver rr, Resource payloadResource) throws WorkflowException, RepositoryException {
-        return invokeTrashcanRestoreWorkflow(payloadResource);
+    private String restoreFromTrashcan(Resource payloadResource) throws WorkflowException, RepositoryException, GirlScoutsException {
+        if (!TrashcanUtil.restorePathExists(payloadResource)) {
+            return invokeTrashcanRestoreWorkflow(payloadResource);
+        }
+        return payloadResource.getPath();
     }
 
     private String moveToTrashcan(Resource payloadResource) throws RepositoryException, WorkflowException, GirlScoutsException {

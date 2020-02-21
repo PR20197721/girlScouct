@@ -26,12 +26,18 @@
         var trashcanEventHandler = function () {
             var activator = $(this);
             var items = collection.find('.foundation-selections-item');
-            function showErrorDialog(cause) {
+            function showErrorDialog(cause, action) {
                 dialog.remove();
+                var header = "";
+                if (action == "trash") {
+                    header = "Error moving to trashcan";
+                }else{
+                    header = "Error restoring from trashcan";
+                }
                 var errorDialog = new Coral.Dialog().set({
                     id: "errorDialog",
                     header: {
-                        innerHTML: "Error moving to trashcan"
+                        innerHTML: header
                     },
                     content: {
                         innerHTML: cause
@@ -52,13 +58,16 @@
                 var itemPath = item.data("foundation-collection-item-id");
                 var url = Granite.HTTP.externalize(activator.data("href")) + itemPath;
                 var message = "<p>Following item will be moved to trashcan:</p>" + itemPath;
+                var header = "Moving to trashcan";
                 if (itemPath.includes("/trashcan/")) {
                     message = "<p>Following item will be restored from trashcan:</p>" + itemPath;
+                    header = "Restoring from trashcan";
                 }
+
                 var dialog = new Coral.Dialog().set({
                     id: "trashcanDialog",
                     header: {
-                        innerHTML: "Moving to trashcan"
+                        innerHTML: header
                     },
                     content: {
                         innerHTML: message
@@ -82,7 +91,7 @@
                             }
                             setTimeout(function(){ location.reload(true); }, 3000);
                         }else{
-                            showErrorDialog(data.errorCause);
+                            showErrorDialog(data.errorCause, data.action);
                         }
                     }).error(function() {
                         $(window).adaptTo("foundation-ui").notify("Error","Unexpected error occurred while moving item "+itemPath+" to trashcan.","error");

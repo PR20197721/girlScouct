@@ -229,5 +229,17 @@ public class TrashcanUtil implements TrashcanConstants {
         return null;
     }
 
-
+    public static boolean restorePathExists(Resource payloadResource) throws GirlScoutsException, RepositoryException {
+        log.debug("Checking if restore path for"+payloadResource.getPath()+" exists");
+        if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+            String restorePath = getRestoreItemPath(payloadResource);
+            String parentPath = restorePath.substring(0, restorePath.lastIndexOf("/"));
+            ResourceResolver rr = payloadResource.getResourceResolver();
+            Resource parentResource = rr.resolve(parentPath);
+            if(parentResource == null || ResourceUtil.isNonExistingResource(parentResource)){
+                throw new GirlScoutsException(new Exception(), "Restore location " + parentPath + " is not available.");
+            }
+        }
+        return true;
+    }
 }
