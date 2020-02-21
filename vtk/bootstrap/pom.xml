@@ -6,9 +6,9 @@
   <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
   <parent>
-    <groupId>org.girlscouts.vtk</groupId>
-    <artifactId>girlscouts-vtk</artifactId>
-    <version>4.0.1-SNAPSHOT</version>
+      <groupId>org.girlscouts.aem</groupId>
+      <artifactId>vtk</artifactId>
+      <version>4.0.5-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
