@@ -14,8 +14,8 @@
     String communityUrl = "";
     String councilId = "0";
     String usercounciId = "0";
-    String[] gsLearnMap = {"999","306","240","360","438","319","512","387","582","654","583","467","169","354","614","642","281","497","367","200","564","647","499","126","368","612","688","204","477","661","538","608","134","377","506","450","634","110","116","345","556","635","536","131","603","687","263","478","563","346"};
-    String gsLearnCouncil="";
+    String[] gsLearnMap = {"999", "306", "240", "360", "438", "319", "512", "387", "582", "654", "583", "467", "169", "354", "614", "642", "281", "497", "367", "200", "564", "647", "499", "126", "368", "612", "688", "204", "477", "661", "538", "608", "134", "377", "506", "450", "634", "110", "116", "345", "556", "635", "536", "131", "603", "687", "263", "478", "563", "346", "282", "607", "313"};
+    String gsLearnCouncil = "";
     List<Troop> userTroops = null;
     try {
         apiConfig = ((ApiConfig) session.getAttribute(ApiConfig.class.getName()));
@@ -49,7 +49,7 @@
             branch = councilMapper.getCouncilBranch(councilId);
         } catch (Exception e) {
             String refererCouncil = VtkUtil.getCouncilInClient(request);
-            if (refererCouncil != null && !refererCouncil.isEmpty()) {
+            if (refererCouncil != null && !refererCouncil.isEmpty() && refererCouncil.length() > 3) {
                 branch = "/content/" + refererCouncil;
             } else {
                 branch = councilMapper.getCouncilBranch();
@@ -66,14 +66,14 @@
     if (configManager != null) {
         communityUrl = configManager.getConfig("communityUrl");
     }
-    if(session.getAttribute("VTK_troop") == null && userTroops != null && userTroops.size() > 0){
+    if (session.getAttribute("VTK_troop") == null && userTroops != null && userTroops.size() > 0) {
         session.setAttribute("VTK_troop", userTroops.get(0));
-       }
-    for(int i=0; i<gsLearnMap.length;i++){
-        if (councilId.equals(gsLearnMap[i])|| usercounciId.equals(gsLearnMap[i])){
-            gsLearnCouncil=gsLearnMap[i];
+    }
+    for (int i = 0; i < gsLearnMap.length; i++) {
+        if (councilId.equals(gsLearnMap[i]) || usercounciId.equals(gsLearnMap[i])) {
+            gsLearnCouncil = gsLearnMap[i];
         }
-    	}
+    }
 %>
 <!--<%=councilId%>-->
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
@@ -104,63 +104,60 @@
                 <nav class="breadcrumbs"></nav>
             </div>
         </div>
-
         <div class="row mainRightBottom">
             <div class="large-18 medium-18 small-24 columns rightBodyLeft">
                 <!--PAGE STRUCTURE: MIDDLE CONTENT START-->
                 <!-- apps/girlscouts/components/three-column-page/middle.jsp -->
                 <div id="mainContent" class="welcome-page">
                     <div class="par parsys">
-
                         <%@include file="include/vtkError.jsp" %>
-
                         <div class="text parbase section"><h1>Welcome.</h1></div>
-						<% if (councilId.equals(gsLearnCouncil) || usercounciId.equals(gsLearnCouncil)) { %>
+                        <% if (councilId.equals(gsLearnCouncil) || usercounciId.equals(gsLearnCouncil)) { %>
                         <ul class="large-block-grid-3 medium-block-grid-2 small-block-grid-1 ">
-                            <%}else{%>
-						 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
-                              <%}%>
-                            <li>
-                                <% if (!isHideSignIn && apiConfig!=null) {
-                                    String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
-                                    String userRole = null;
-                                    if (!apiConfig.isFail()) {
-                                        if ( apiConfig.getTroops() != null && apiConfig.getTroops().size() >0) {
-                                            userRole = apiConfig.getTroops().get(0).getRole();
-                                        }
-                                        userRole= userRole ==null ? "" : userRole;
-                                        //if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
-                                        if( apiConfig!=null && userRole!=null && userRole.equals("DP") ){
-                                            ;
-                                        }else if( apiConfig!=null &&  apiConfig.getUser().isAdmin() ){
-                                            vtkLanding="/myvtk/" + councilMapper.getCouncilName(councilId) + "/vtk.resource.html";
-                                        }
-                                    }
-                                %>
-                                <!-- Begin of VTK icon -->
-                                <a href="<%=vtkLanding%>">
-                                    <img src="/etc/designs/girlscouts-vtk/images/btn_VTK.jpg"/></a>
-                                <p>
-                                    Access badges and Journeys for all levels, and much more from the Girl Scout National Program Portfolio. Plus, find meeting planning tools and resources for groups of all sizes. It&rsquo;s your virtual Girl Scout assistant!<br/><br/>Troop Leaders & Co-Leaders can co-plan activities, email caregivers in your troop and enter troop finances at the end of the year.
-                                </p>
-                                <% } %>
-                            </li>
-                            <li>
-                                <% if (!isHideMember) { %>
-                                <a href="<%= communityUrl %>"><img src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
-                                <p>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</p>
-                                <%}//edn if %>
-                            </li>
-                            <li>
-								<% if (councilId.equals(gsLearnCouncil)|| usercounciId.equals(gsLearnCouncil)) { %>
-                                <a href="https://gsmembers.force.com/members/idp/login?app=0sp0f000000k9bw"><img src="/etc/designs/girlscouts-vtk/images/btn_member_gslearn.jpg"/></a>
-								<p>
-                                    Get training and resources to support you in your volunteer role and have an amazing Girl Scout year!<br/><br/>Everything on gsLearn is designed to help you get started. You can return at any time to review and refresh your Girl Scout knowledge!
-                                </p>
+                                <%}else{%>
+                            <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
                                 <%}%>
-                            </li>	
-                        </ul>
-                        <div class="text parbase section"></div>
+                                <li>
+                                    <% if (!isHideSignIn && apiConfig != null) {
+                                        String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
+                                        String userRole = null;
+                                        if (!apiConfig.isFail()) {
+                                            if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
+                                                userRole = apiConfig.getTroops().get(0).getRole();
+                                            }
+                                            userRole = userRole == null ? "" : userRole;
+                                            //if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
+                                            if (apiConfig != null && userRole != null && userRole.equals("DP")) {
+                                                ;
+                                            } else if (apiConfig != null && apiConfig.getUser().isAdmin()) {
+                                                vtkLanding = "/myvtk/" + councilMapper.getCouncilName(councilId) + "/vtk.resource.html";
+                                            }
+                                        }
+                                    %>
+                                    <!-- Begin of VTK icon -->
+                                    <a href="<%=vtkLanding%>">
+                                        <img src="/etc/designs/girlscouts-vtk/images/btn_VTK.jpg"/></a>
+                                    <p>
+                                        Access badges and Journeys for all levels, and much more from the Girl Scout National Program Portfolio. Plus, find meeting planning tools and resources for groups of all sizes. It&rsquo;s your virtual Girl Scout assistant!<br/><br/>Troop Leaders & Co-Leaders can co-plan activities, email caregivers in your troop and enter troop finances at the end of the year.
+                                    </p>
+                                    <% } %>
+                                </li>
+                                <li>
+                                    <% if (!isHideMember) { %>
+                                    <a href="<%= communityUrl %>"><img src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
+                                    <p>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</p>
+                                    <%}//edn if %>
+                                </li>
+                                <li>
+                                    <% if (councilId.equals(gsLearnCouncil) || usercounciId.equals(gsLearnCouncil)) { %>
+                                    <a href="https://gsmembers.force.com/members/idp/login?app=0sp0f000000k9bw"><img src="/etc/designs/girlscouts-vtk/images/btn_member_gslearn.jpg"/></a>
+                                    <p>
+                                        Get training and resources to support you in your volunteer role and have an amazing Girl Scout year!<br/><br/>Everything on gsLearn is designed to help you get started. You can return at any time to review and refresh your Girl Scout knowledge!
+                                    </p>
+                                    <%}%>
+                                </li>
+                            </ul>
+                            <div class="text parbase section"></div>
                     </div>
                 </div><!--/mainContent-->
                 <!--PAGE STRUCTURE: MIDDLE CONTENT STOP-->
@@ -191,28 +188,29 @@
                     if (node.hasProperty("popupBody")) {
                         popupBody = node.getProperty("popupBody").getString();
                     }
-                    %>
-                    <!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
-                    <div id="maintenanceModal" class="maintenance">
-                        <!-- Modal content -->
-                        <div class="maintenance-content">
-                            <div class="modal-header">
-                                <div class="vtk-maintenance-news-button">
-                                    <span id="modal-close-button">X</span>
-                                </div>
-                                <div class="maintenanceHeader"><%= popupHeader %> </br></div>
-                            </div>
-                            <div class="modal-body">
-                                <p id="maintenanceBody"><%= popupBody %></p>
-                            </div>
-                            <div class="modal-footer">
-                                <strong>-The GSUSA VTK Team</strong>
-                            </div>
-                        </div>
-                    </div>
-                    <%
+%>
+<!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
+<div id="maintenanceModal" class="maintenance">
+    <!-- Modal content -->
+    <div class="maintenance-content">
+        <div class="modal-header">
+            <div class="vtk-maintenance-news-button">
+                <span id="modal-close-button">X</span>
+            </div>
+            <div class="maintenanceHeader"><%= popupHeader %> </br></div>
+        </div>
+        <div class="modal-body">
+            <p id="maintenanceBody"><%= popupBody %>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <strong>-The GSUSA VTK Team</strong>
+        </div>
+    </div>
+</div>
+<%
                 }
-             }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

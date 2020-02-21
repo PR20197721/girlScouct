@@ -112,7 +112,7 @@
 .email-content {
   display: none;
   position: fixed;
-  z-index: 3;
+  z-index: 1000;
   height: 90%;
   overflow: scroll;
   background-color: #fefefe;
