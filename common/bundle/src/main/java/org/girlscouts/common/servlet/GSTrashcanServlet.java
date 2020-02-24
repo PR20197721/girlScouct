@@ -194,8 +194,10 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         if(restorePath == null || restorePath.trim().length() == 0) {
             restorePath = TrashcanUtil.getRestoreItemPath(payloadResource);
         }
+        String restoreName = TrashcanUtil.getRestoreItemName(payloadResource);
         WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH", payloadResource.getPath());
         wfData.getMetaDataMap().put(RESTORE_PATH_PROP_NAME, restorePath);
+        wfData.getMetaDataMap().put(RESTORE_NAME_PROP_NAME, restoreName);
         // Invoke the Workflow
         wfSession.startWorkflow(wfModel, wfData);
         return restorePath;

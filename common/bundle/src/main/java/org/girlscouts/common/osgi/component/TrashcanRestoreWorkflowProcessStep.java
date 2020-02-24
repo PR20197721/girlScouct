@@ -33,9 +33,8 @@ public class TrashcanRestoreWorkflowProcessStep implements WorkflowProcess, Tras
                 if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
                     Resource payloadResourceContent = rr.resolve(payloadPath + "/jcr:content");
                     ValueMap props = payloadResourceContent.getValueMap();
-                    if (props.get(RESTORE_PATH_PROP_NAME) != null) {
-                        String restorePath = workItem.getWorkflowData().getMetaDataMap().get(RESTORE_PATH_PROP_NAME,String.class);
-                        restorePath = restorePath + "/" +payloadResource.getName();
+                    if (props.get(RESTORE_PATH_PROP_NAME) != null && props.get(RESTORE_NAME_PROP_NAME) != null) {
+                        String restorePath = workItem.getWorkflowData().getMetaDataMap().get(RESTORE_PATH_PROP_NAME,String.class) + "/" + workItem.getWorkflowData().getMetaDataMap().get(RESTORE_NAME_PROP_NAME,String.class);
                         restoreFromTrashcan(rr, payloadPath, restorePath);
                         workflowSession.complete(workItem, workflowSession.getRoutes(workItem,false).get(0));
                     } else {
@@ -67,9 +66,10 @@ public class TrashcanRestoreWorkflowProcessStep implements WorkflowProcess, Tras
         Session session = rr.adaptTo(Session.class);
         session.move(payloadPath, restorePath);
         Resource restoredResource = rr.resolve(restorePath);
-        if (restoredResource != null || !restoredResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-            Node movedNodeContent = restoredResource.adaptTo(Node.class);
+        if (restoredResource != null && !restoredResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+            Node movedNodeContent = restoredResource.getChild("jcr:content").adaptTo(Node.class);
             movedNodeContent.setProperty(RESTORE_PATH_PROP_NAME, (Value) null);
+            movedNodeContent.setProperty(RESTORE_NAME_PROP_NAME, (Value) null);
             movedNodeContent.setProperty(MOVE_DATE_PROP_NAME, (Value) null);
             session.save();
             log.debug("Successfully restored "+payloadPath+" to "+restorePath);

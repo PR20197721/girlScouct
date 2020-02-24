@@ -138,13 +138,10 @@ public class TrashcanUtil implements TrashcanConstants {
         return breakInheritance;
     }
     public static String getRestoreItemPath(Resource payloadResource)  throws RepositoryException{
-        ResourceResolver rr = payloadResource.getResourceResolver();
         Resource trashedContent = payloadResource.getChild("jcr:content");
         ValueMap props = trashedContent.getValueMap();
         String restorePath = props.get(RESTORE_PATH_PROP_NAME).toString();
-        boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
-        Resource restoreResource = getAvailableResource(isAsset, rr, restorePath);
-        return restoreResource.getPath();
+        return restorePath;
     }
     public static String getTrashItemPath(boolean isAsset, Resource payloadResource) throws RepositoryException {
         ResourceResolver rr = payloadResource.getResourceResolver();
@@ -242,5 +239,13 @@ public class TrashcanUtil implements TrashcanConstants {
             }
         }
         return true;
+    }
+
+    public static String getRestoreItemName(Resource payloadResource) throws RepositoryException {
+        ResourceResolver rr = payloadResource.getResourceResolver();
+        boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
+        String restorePath = getRestoreItemPath(payloadResource);
+        Resource restoreResource = getAvailableResource(isAsset, rr, restorePath+"/"+payloadResource.getName());
+        return restoreResource.getName();
     }
 }
