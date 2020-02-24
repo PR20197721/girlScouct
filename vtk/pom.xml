@@ -7,13 +7,9 @@
     <parent>
         <groupId>org.girlscouts</groupId>
         <artifactId>aem</artifactId>
-<<<<<<< HEAD
         <version>4.0.5-SNAPSHOT</version>
-=======
-        <version>4.0.4</version>
->>>>>>> GSWP-1892-trashcan-solution
     </parent>
-    <!-- ====================================================================== -->
+    <!-- ================================================================== -->
     <!-- P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
     <groupId>org.girlscouts.aem</groupId>
