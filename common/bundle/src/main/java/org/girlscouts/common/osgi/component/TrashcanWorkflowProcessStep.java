@@ -74,6 +74,7 @@ public class TrashcanWorkflowProcessStep implements WorkflowProcess, TrashcanCon
             String restorePath = payloadPath.substring(0, payloadPath.lastIndexOf("/"));
             Value value = session.getValueFactory().createValue(restorePath, PropertyType.PATH);
             movedNodeContent.setProperty(RESTORE_PATH_PROP_NAME, value);
+            movedNodeContent.setProperty(RESTORE_NAME_PROP_NAME, payloadPath.substring(payloadPath.lastIndexOf("/")+1));
             movedNodeContent.setProperty(MOVE_DATE_PROP_NAME, new GregorianCalendar());
             session.save();
             log.debug("Successfully moved "+payloadPath+" to "+movedNodeContent.getPath());
