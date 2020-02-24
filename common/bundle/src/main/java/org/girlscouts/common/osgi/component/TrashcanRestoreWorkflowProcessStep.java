@@ -27,7 +27,6 @@ public class TrashcanRestoreWorkflowProcessStep implements WorkflowProcess, Tras
         try {
             String payloadPath = workItem.getWorkflowData().getPayload().toString();
             log.debug("Executing Restore Trashcan Step for " + payloadPath);
-            String restorePath = workItem.getWorkflowData().getMetaDataMap().get("restorePath",String.class);
             ResourceResolver rr = workflowSession.adaptTo(ResourceResolver.class);
             try {
                 Resource payloadResource = rr.resolve(payloadPath);
@@ -35,6 +34,8 @@ public class TrashcanRestoreWorkflowProcessStep implements WorkflowProcess, Tras
                     Resource payloadResourceContent = rr.resolve(payloadPath + "/jcr:content");
                     ValueMap props = payloadResourceContent.getValueMap();
                     if (props.get(RESTORE_PATH_PROP_NAME) != null) {
+                        String restorePath = workItem.getWorkflowData().getMetaDataMap().get(RESTORE_PATH_PROP_NAME,String.class);
+                        restorePath = restorePath + "/" +payloadResource.getName();
                         restoreFromTrashcan(rr, payloadPath, restorePath);
                         workflowSession.complete(workItem, workflowSession.getRoutes(workItem,false).get(0));
                     } else {

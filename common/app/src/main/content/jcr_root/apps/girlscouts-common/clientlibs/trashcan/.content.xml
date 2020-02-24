@@ -5,4 +5,4 @@
     sling:resourceType="widgets/clientlib"
     categories="[granite.ui.coral.foundation, common.components.trashcan]"
     jsProcessor="[default:none, min:gcc]"
-    dependencies="[]"/>
+    dependencies="[cq.authoring.dialog.all]"/>
