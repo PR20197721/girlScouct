@@ -26,13 +26,47 @@
         var trashcanEventHandler = function () {
             var activator = $(this);
             var items = collection.find('.foundation-selections-item');
+            var restorePath = "";
             function showErrorDialog(cause, action) {
-                dialog.remove();
                 var header = "";
                 if (action == "trash") {
                     header = "Error moving to trashcan";
                 }else{
                     header = "Error restoring from trashcan";
+                }
+                var errContent = cause;
+                if(action == "restore"){
+                    var pathBrowserRoot = "/content";
+                    var pathBrowserCrumb = "/content";
+                    if (items.length) {
+                        var item = $(items[0]);
+                        var itemPath = item.data("foundation-collection-item-id");
+                        if(itemPath.indexOf("/content/dam/trashcan/") != -1){
+                            itemPath = itemPath.replace(/\/content\/dam\/trashcan\//g, "");
+                            pathBrowserCrumb = itemPath.substring(0,itemPath.indexOf("/"));
+                            pathBrowserRoot = "/content/dam/"+pathBrowserCrumb;
+                        }else{
+                            itemPath = itemPath.replace(/\/content\/trashcan\//g, "");
+                            pathBrowserCrumb = itemPath.substring(0,itemPath.indexOf("/"));
+                            pathBrowserRoot = "/content/"+pathBrowserCrumb;
+                        }
+                    }
+                    errContent = errContent +
+                        "<p><div>Please select new restore location:</div><div id=\"restore-path-selector\" class=\"coral-Form-fieldwrapper\">" +
+                        "<span class=\"coral-Form-field coral-PathBrowser\" data-init=\"pathbrowser\" data-root-path=\""+pathBrowserRoot+"\" data-option-loader=\"granite.ui.pathBrowser.pages.hierarchyNotFile\" data-picker-src=\"/libs/wcm/core/content/common/pathbrowser/column.html/content?predicate=hierarchyNotFile\" data-picker-title=\"Select Path\" data-crumb-root=\"content\" data-picker-multiselect=\"false\" data-root-path-valid-selection=\"true\">" +
+                        "<span class=\"coral-InputGroup coral-InputGroup--block\">" +
+                        "<input id=\"restore-path\"class=\"coral-InputGroup-input coral-Textfield js-coral-pathbrowser-input\" type=\"text\" autocomplete=\"off\" value=\"\" data-validation=\"\" aria-owns=\"coral-2\" id=\"coral-3\" aria-haspopup=\"true\" aria-expanded=\"false\">" +
+                        "<span class=\"coral-InputGroup-button\">" +
+                        "<button class=\"coral-Button coral-Button--square js-coral-pathbrowser-button\" type=\"button\" title=\"Browse\">" +
+                        "<i class=\"coral-Icon coral-Icon--sizeS coral-Icon--folderSearch\"></i>" +
+                        "</button>" +
+                        "</span>" +
+                        "</span>" +
+                        "<ul id=\"coral-2\" class=\"coral-SelectList\" role=\"listbox\" aria-hidden=\"true\" tabindex=\"-1\"></ul></span></div><p>"
+                }
+                var footer = "<button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\" coral-close=\"\"><coral-button-label>Ok</coral-button-label></button>";
+                if(action == "restore"){
+                    footer = "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>Ok</coral-button-label></button>";
                 }
                 var errorDialog = new Coral.Dialog().set({
                     id: "errorDialog",
@@ -40,66 +74,86 @@
                         innerHTML: header
                     },
                     content: {
-                        innerHTML: cause
+                        innerHTML: errContent
                     },
                     footer: {
-                        innerHTML: "<button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\" coral-close=\"\"><coral-button-label>Ok</coral-button-label></button>"
+                        innerHTML: footer
                     },
                     variant: "error"
                 });
-                errorDialog.on('coral-overlay:close', function (event) {
-                    setTimeout(function(){ location.reload(true); }, 3000);
-                })
+                errorDialog.on('click', '#acceptButton', function () {
+                    restorePath = $('#restore-path').val();
+                    handleTrashcanEvent();
+                    errorDialog.remove();
+                });
                 document.body.appendChild(errorDialog);
                 errorDialog.show();
+                $('#restore-path-selector').trigger("foundation-contentloaded");
             }
-            if (items.length) {
-                var item = $(items[0]);
-                var itemPath = item.data("foundation-collection-item-id");
-                var url = Granite.HTTP.externalize(activator.data("href")) + itemPath;
-                var message = "<p>Following item will be moved to trashcan:</p>" + itemPath;
-                var header = "Moving to trashcan";
-                if (itemPath.includes("/trashcan/")) {
-                    message = "<p>Following item will be restored from trashcan:</p>" + itemPath;
-                    header = "Restoring from trashcan";
-                }
 
-                var dialog = new Coral.Dialog().set({
-                    id: "trashcanDialog",
-                    header: {
-                        innerHTML: header
-                    },
-                    content: {
-                        innerHTML: message
-                    },
-                    footer: {
-                        innerHTML: "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>Ok</coral-button-label></button>"
-                    },
-                    variant: "warning"
-                });
-                dialog.on('click', '#acceptButton', function () {
-                    $.ajax({
-                        dataType: "json",
-                        url: url
-                    }).success(function (data) {
-                        if(data.success){
-                            dialog.remove();
-                            if(data.action == "trash"){
-                                $(window).adaptTo("foundation-ui").notify("Moving to trash: ","Moving to <strong>"+data.destination_path+"</strong>","success");
-                            }else{
-                                $(window).adaptTo("foundation-ui").notify("Restoring from trash: ","Restoring to <strong>"+data.destination_path+"</strong>","success");
-                            }
-                            setTimeout(function(){ location.reload(true); }, 3000);
-                        }else{
-                            showErrorDialog(data.errorCause, data.action);
+            function handleTrashcanEvent() {
+                if (items.length) {
+                    var item = $(items[0]);
+                    var itemPath = item.data("foundation-collection-item-id");
+                    var restoreParam = "";
+                    if(restorePath != null && restorePath.trim().length > 0){
+                        restoreParam = "&restorePath="+restorePath;
+                    }
+                    var url = Granite.HTTP.externalize(activator.data("href")) + itemPath+restoreParam;
+                    var message = "<p>Following item will be moved to trashcan:</p>" + itemPath;
+                    var header = "Moving to trashcan";
+                    if (itemPath.includes("/trashcan/")) {
+                        message = "<p>Following item will be restored from trashcan:</p>" + itemPath;
+                        if(restorePath != null && restorePath.trim().length>0){
+                            message = message + "<p>To:</p>" + restorePath;
                         }
-                    }).error(function() {
-                        $(window).adaptTo("foundation-ui").notify("Error","Unexpected error occurred while moving item "+itemPath+" to trashcan.","error");
+                        header = "Restoring from trashcan";
+                    }
+
+                    var dialog = new Coral.Dialog().set({
+                        id: "trashcanDialog",
+                        header: {
+                            innerHTML: header
+                        },
+                        content: {
+                            innerHTML: message
+                        },
+                        footer: {
+                            innerHTML: "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>Ok</coral-button-label></button>"
+                        },
+                        variant: "warning"
                     });
-                });
-                document.body.appendChild(dialog);
-                dialog.show();
+                    dialog.on('click', '#acceptButton', function () {
+                        $.ajax({
+                            dataType: "json",
+                            url: url
+                        }).success(function (data) {
+                            if (data.success) {
+                                dialog.remove();
+                                if (data.action == "trash") {
+                                    $(window).adaptTo("foundation-ui").notify("Moving to trash: ", "Moving to <strong>" + data.destination_path + "</strong>", "success");
+                                } else {
+                                    $(window).adaptTo("foundation-ui").notify("Restoring from trash: ", "Restoring to <strong>" + data.destination_path + "</strong>", "success");
+                                }
+                                dialog.remove();
+                                setTimeout(function () {
+                                    location.reload(true);
+                                }, 3000);
+                            } else {
+                                dialog.remove();
+                                showErrorDialog(data.errorCause, data.action);
+                            }
+                        }).error(function () {
+                            $(window).adaptTo("foundation-ui").notify("Error", "Unexpected error occurred while moving item " + itemPath + " to trashcan.", "error");
+                        });
+                    });
+                    document.body.appendChild(dialog);
+                    dialog.show();
+                }
+                return {itemPath, url, dialog};
             }
+
+            var {itemPath, url, dialog} = handleTrashcanEvent();
         }
         $(trashcanActivator).unbind("click");
         $(trashcanActivator).bind("click", trashcanEventHandler);
@@ -111,4 +165,3 @@
         $(damTrashcanRestoreActivator).bind("click", trashcanEventHandler);
     });
 })(document, Granite.$);
-        
