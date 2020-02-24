@@ -4,6 +4,7 @@ import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.dam.api.Asset;
 import com.day.cq.replication.ReplicationStatus;
+import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.commons.ReferenceSearch;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
@@ -13,6 +14,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.jcr.resource.api.JcrResourceConstants;
 import org.girlscouts.common.constants.TrashcanConstants;
 import org.girlscouts.common.exception.GirlScoutsException;
 import org.slf4j.Logger;
@@ -85,10 +87,12 @@ public class TrashcanUtil implements TrashcanConstants {
         if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
             boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
             if(!isAsset){
-                Page page = payloadResource.adaptTo(Page.class);
-                Iterator<Page> children = page.listChildren();
+                Iterator<Resource> children = payloadResource.listChildren();
                 if(children.hasNext()){
-                    throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has children");
+                    Resource child = children.next();
+                    if(child.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET) || child.isResourceType("cq:Page") || child.isResourceType(JcrConstants.NT_FOLDER)|| child.isResourceType(JcrResourceConstants.NT_SLING_FOLDER)|| child.isResourceType(JcrResourceConstants.NT_SLING_ORDERED_FOLDER) || child.isResourceType(NameConstants.NT_PAGE)) {
+                        throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has children");
+                    }
                 }
             }
         }
@@ -141,6 +145,7 @@ public class TrashcanUtil implements TrashcanConstants {
         Resource trashedContent = payloadResource.getChild("jcr:content");
         ValueMap props = trashedContent.getValueMap();
         String restorePath = props.get(RESTORE_PATH_PROP_NAME).toString();
+        restorePath = restorePath.substring(0,restorePath.lastIndexOf("/"));
         return restorePath;
     }
     public static String getTrashItemPath(boolean isAsset, Resource payloadResource) throws RepositoryException {
@@ -149,7 +154,7 @@ public class TrashcanUtil implements TrashcanConstants {
         String trashcanCouncilPath = "";
         String siteName = "";
         String itemPath = payloadResource.getPath();
-        if (isAsset) {
+        if (itemPath.startsWith("/content/dam/")) {
             siteName = itemPath.substring(13);
             siteName = siteName.substring(0, siteName.indexOf("/"));
             trashcanCouncilPath = ASSET_TRASHCAN_PATH + "/" + siteName;
