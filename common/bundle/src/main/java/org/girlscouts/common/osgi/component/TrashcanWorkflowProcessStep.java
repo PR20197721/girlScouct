@@ -71,8 +71,7 @@ public class TrashcanWorkflowProcessStep implements WorkflowProcess, TrashcanCon
         Resource movedItemContent = rr.resolve(trashPath + "/jcr:content");
         if (movedItemContent != null || !movedItemContent.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
             Node movedNodeContent = movedItemContent.adaptTo(Node.class);
-            String restorePath = payloadPath.substring(0, payloadPath.lastIndexOf("/"));
-            Value value = session.getValueFactory().createValue(restorePath, PropertyType.PATH);
+            Value value = session.getValueFactory().createValue(payloadPath, PropertyType.PATH);
             movedNodeContent.setProperty(RESTORE_PATH_PROP_NAME, value);
             movedNodeContent.setProperty(RESTORE_NAME_PROP_NAME, payloadPath.substring(payloadPath.lastIndexOf("/")+1));
             movedNodeContent.setProperty(MOVE_DATE_PROP_NAME, new GregorianCalendar());
