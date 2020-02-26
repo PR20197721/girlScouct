@@ -174,8 +174,7 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 %>
 <%!
 	public String createHref(Page page) {
-		String href = "<a href=" + page.getPath() + ".html" + ">"
-				+ page.getTitle() + "</a>";
+		String href = "<a href=" + page.getPath() + ".html" + ">" + page.getTitle() + "</a>";
 		return href;
 }%>
 
