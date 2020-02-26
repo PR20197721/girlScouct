@@ -6,7 +6,15 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
 <%!
-public String buildFlyOutMenu(Page parent, String flyRight) throws RepositoryException {
+public String createMappedHref(Page page, ResourceResolver resourceResolver){
+    String mappedString = resourceResolver.map(page.getPath());
+    String href = "<a href=" + "http://" + mappedString + ".html" + ">"
+    				+ page.getTitle() + "</a>";
+    return href;
+}
+%>
+<%!
+public String buildFlyOutMenu(Page parent, String flyRight, ResourceResolver rr) throws RepositoryException {
 	try{
 		if(hasVisibleChildren(parent)){
 			Iterator<Page> children = parent.listChildren();
@@ -17,21 +25,21 @@ public String buildFlyOutMenu(Page parent, String flyRight) throws RepositoryExc
 				if (!page.isHideInNav()) {
 					if(hasVisibleChildren(page)){
 						menuBuilder.append("<li class=\"has-children\">");
-						menuBuilder.append(createHref(page));
+						menuBuilder.append(createMappedHref(page, rr));
 						Iterator<Page> grandChildren = page.listChildren();
 						menuBuilder.append("<ul class=\"fly-horizontal\">");
 						while (grandChildren.hasNext()) {
 							Page p = grandChildren.next();
 							if (!p.isHideInNav()) {
 								menuBuilder.append("<li>");
-								menuBuilder.append(createMappedHref(p));
+								menuBuilder.append(createMappedHref(p, rr));
 								menuBuilder.append("</li>");
-							}					
+							}
 						}
 						menuBuilder.append("</ul>");
 					}else{
 						menuBuilder.append("<li>");
-						menuBuilder.append(createHref(page));
+						menuBuilder.append(createMappedHref(page,rr));
 					}
 					menuBuilder.append("</li>");
 				}
@@ -57,16 +65,9 @@ public boolean hasVisibleChildren(Page page){
 }
 %>
 
+
 <%
-public String createMappedHref(Page page){
-    String mappedString = resourceResolver.map(page.getPath());
-    String href = "<a href=" + "http://" + mappedString + ".html" + ">"
-    				+ page.getTitle() + "</a>";
-    return href;
-}
-%>
-<%
-   
+
 final GirlscoutsVtkConfigProvider configManager = sling.getService(GirlscoutsVtkConfigProvider.class);
 //Force currentPage from request
 Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
@@ -84,7 +85,7 @@ if(currentNode.hasNode("links")){
     NodeIterator iter = links.getNodes();
     while(iter.hasNext()){
 		Node linkNode = iter.nextNode();
-    	if(linkNode.hasProperty("large") && linkNode.hasProperty("url") 
+    	if(linkNode.hasProperty("large") && linkNode.hasProperty("url")
            && linkNode.hasProperty("medium")  && linkNode.hasProperty("small") ){
 			String url = linkNode.getProperty("url").getString();
         	String large = linkNode.getProperty("large").getString();
@@ -158,7 +159,7 @@ if ((links == null || links.length == 0)) {
                       <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
                        <%if( configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")){ %>
                          <li style="opacity:0.5;"><a href="#" onclick="javascript:void(0)" disabled="true">Member Profile</a></li>
-                         <li><a href="/content/girlscouts-demo/en.html">Demo</a></li>                         
+                         <li><a href="/content/girlscouts-demo/en.html">Demo</a></li>
                       <%}else{ %>
                          <li><a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a></li>
                          <li><a href="<%= path %>">Volunteer Toolkit</a></li>
@@ -191,9 +192,9 @@ if ((links == null || links.length == 0)) {
                         try {
                             if (flyPage != null) {
                                 String flyRight = (i <= links.length/2) ? " right" : "";
-                                
 
-	  							flyoutMap.put(path, buildFlyOutMenu(flyPage, flyRight));
+
+	  							flyoutMap.put(path, buildFlyOutMenu(flyPage, flyRight, resourceResolver));
 
 
                                 //out.print(buildFlyOutMenu(flyPage, flyRight));

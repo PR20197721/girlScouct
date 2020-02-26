@@ -20,6 +20,7 @@
     <filter root="/etc/map.publish/vtk-data"/>
     <filter root="/etc/map.publish/myvtk"/>
     <filter root="/etc/map.publish/vtk-resources2"/>
+    <filter root="/etc/map.publish/council-domains"/>
     <filter root="/etc/map.publish.dev/vtk-data"/>
     <filter root="/etc/map.publish.dev/myvtk"/>
     <filter root="/etc/map.publish.dev/vtk-resources2"/>
