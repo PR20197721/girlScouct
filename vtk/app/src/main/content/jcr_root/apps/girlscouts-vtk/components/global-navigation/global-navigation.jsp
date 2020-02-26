@@ -47,7 +47,7 @@
                                 Page p = grandChildren.next();
                                 if (!p.isHideInNav()) {
                                     menuBuilder.append("<li>");
-                                    menuBuilder.append(createHref(p));
+                                    menuBuilder.append("<a href="+generateLink(currentPage, slingRequest, resourceResolver, page.getPath())+">" + page.getTitle() + "</a>");
                                     menuBuilder.append("</li>");
                                 }
                             }
