@@ -3,6 +3,6 @@
     jcr:mixinTypes="[mix:lockable]"
     jcr:primaryType="cq:ClientLibraryFolder"
     sling:resourceType="widgets/clientlib"
-    categories="[granite.ui.coral.foundation, common.components.trashcan]"
+    categories="[cq.sites.collectionpage, dam.gui.actions.coral, common.components.trashcan]"
     jsProcessor="[default:none, min:gcc]"
     dependencies="[cq.authoring.dialog.all]"/>
