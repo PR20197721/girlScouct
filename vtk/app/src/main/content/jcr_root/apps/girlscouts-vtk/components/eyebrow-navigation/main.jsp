@@ -1,7 +1,8 @@
 <%@ page
     import="java.util.Arrays,
     java.util.List,
-    org.apache.sling.api.SlingHttpServletRequest"%>
+    org.apache.sling.api.SlingHttpServletRequest,
+    com.day.cq.commons.Externalizer"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 
