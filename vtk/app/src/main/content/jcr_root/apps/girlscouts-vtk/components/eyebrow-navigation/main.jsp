@@ -1,9 +1,31 @@
 <%@ page
     import="java.util.Arrays,
-    java.util.List"%>
+    java.util.List,
+    org.apache.sling.api.SlingHttpServletRequest"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 
+
+<%!
+public String generateLink(Page currentPage, SlingHttpServletRequest request,  ResourceResolver rr, String path){
+        Logger log = LoggerFactory.getLogger(this.getClass().getName());
+        String url = path;
+        if(url.startsWith("/content/")){
+            try {
+                final Externalizer externalizer = rr.adaptTo(Externalizer.class);
+                String siteRootPath = currentPage.getAbsoluteParent(1).getPath();
+                String reqProtocol = request.getHeader("X-Forwarded-Proto");
+                url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path) + ".html";
+                if("https".equals(reqProtocol)){
+                    url.replace("http://","https://");
+                }
+            }catch(Exception e){
+
+            }
+        }
+        return url;
+    }
+%>
 
 <% 
 
@@ -23,6 +45,6 @@
         <%}else{ %>
         	<li>
         <% } %>
-		<a href="<%= generateLink(currentPage, slingRequest, resourceResolver, page.getPath()) %>"<%= newWindow %>><%= label %></a></li>
+		<a href="<%= generateLink(currentPage, slingRequest, resourceResolver, path) %>"<%= newWindow %>><%= label %></a></li>
     <% } %>
 

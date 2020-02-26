@@ -1,5 +1,11 @@
-<%@ page import="com.day.cq.wcm.api.WCMMode, javax.jcr.Node,javax.jcr.NodeIterator,java.util.List,java.util.ArrayList" %>
+<%@ page import="com.day.cq.wcm.api.WCMMode, javax.jcr.Node,javax.jcr.NodeIterator,java.util.List,java.util.ArrayList,
+    com.day.cq.commons.Externalizer,
+                 org.slf4j.Logger,
+                 org.slf4j.LoggerFactory,
+                 java.text.SimpleDateFormat,
+                 java.util.*, org.apache.sling.api.SlingHttpServletRequest, org.apache.sling.api.resource.Resource" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 
 <%!
 public String generateLink(Page currentPage, SlingHttpServletRequest request,  ResourceResolver rr, String path){

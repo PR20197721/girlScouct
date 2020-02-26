@@ -25,7 +25,7 @@ for (int i = 0; i < links.length; i++) {
      <%}else{ %>
      	<li>
      <% } %>
-		<div><a <%= clazz %> href="<%= generateLink(currentPage, slingRequest, resourceResolver, page.getPath()) %>"<%= newWindow %>><%= label %></a></div></li>
+		<div><a <%= clazz %> href="<%= generateLink(currentPage, slingRequest, resourceResolver, path) %>"<%= newWindow %>><%= label %></a></div></li>
  <% } 
 }%>
 </ul>
