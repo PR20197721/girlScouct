@@ -108,6 +108,7 @@ public class TrashcanCleanUpProcess implements Runnable, TrashcanConstants {
     private void cleanUpExpiredTrash(Resource trashcan) {
         Iterator<Resource> siteFolders = trashcan.listChildren();
         Calendar deleteBeforeDate = GregorianCalendar.getInstance();
+        deleteBeforeDate.add(Calendar.DAY_OF_YEAR, (expirationPeriod * -1));
         List<String> listToDelete = new LinkedList<>();
         while(siteFolders.hasNext()){
             Resource siteFolder = siteFolders.next();
@@ -119,7 +120,6 @@ public class TrashcanCleanUpProcess implements Runnable, TrashcanConstants {
                         Resource content = trashedItem.getChild("jcr:content");
                         ValueMap vm = content.getValueMap();
                         Calendar trashCannedDate = vm.get("trashcan-move-date", Calendar.class);
-                        deleteBeforeDate.add(Calendar.DAY_OF_YEAR, (expirationPeriod * -1));
                         deleteBeforeDate.setTimeZone(trashCannedDate.getTimeZone());
                         log.debug("Checking if item was moved to trashcan before " + deleteBeforeDate.getTime());
                         if (trashCannedDate != null && trashCannedDate.before(deleteBeforeDate)) {
