@@ -3,8 +3,12 @@
                 java.util.List,
                 java.util.ArrayList,
                 javax.jcr.Value,
+				com.day.cq.commons.Externalizer,
+                org.slf4j.Logger,
+                org.slf4j.LoggerFactory,
                 org.apache.sling.api.resource.ResourceResolver,
-                com.day.cq.wcm.api.Page " %>
+                com.day.cq.wcm.api.Page,
+                 org.apache.sling.api.SlingHttpServletRequest" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
     final String siteRootPath = currentPage.getAbsoluteParent(2).getPath();
@@ -14,7 +18,7 @@
     if(headerNav != null && headerNav.hasNode("links")){
     	headerNavs = headerNav.getNode("links").getNodes();    	 			
     }
-	StringBuilder sb = new StringBuilder(); 
+	StringBuilder sb = new StringBuilder();
 	
 	sb.append("<div class=\"global-navigation global-nav\">");
 	    sb.append("<div id=\"right-canvas-menu\">");
@@ -23,7 +27,7 @@
 		    if(headerNavs != null && headerNavs.getSize() > 0){
 		    	while(headerNavs.hasNext()){
 		    		Node nav = headerNavs.nextNode();    					
-					buildTopMenu(nav, currentPage.getPath(), resourceResolver, sb, topMenus);
+					buildTopMenu(nav, currentPage, resourceResolver, sb, topMenus, slingRequest);
 		    	}
 		    }
 		    sb.append("</ul>");
@@ -37,8 +41,9 @@
     
 
 <%!
-	public void buildTopMenu(Node nav, String currentPath, ResourceResolver rr, StringBuilder sb, List<String> topMenus) {
+	public void buildTopMenu(Node nav, Page currentPage, ResourceResolver rr, StringBuilder sb, List<String> topMenus, SlingHttpServletRequest slingRequest) {
 		try{
+		    String currentPath = currentPage.getPath();
 			String largeLabel = nav.hasProperty("large") ? nav.getProperty("large").getString() : "";
 			String mediumLabel = nav.hasProperty("medium") ? nav.getProperty("medium").getString() : "";
 			String smallLabel = nav.hasProperty("small") ? nav.getProperty("small").getString() : "";		
@@ -60,16 +65,16 @@
 				sb.append("<li>");
 			}
 			if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) {
-		        sb.append("<div><a x-cq-linkchecker=\"skip\" href=\"" + generateLink(currentPage, slingRequest, resourceResolver,path) + "\" title=\"" +label + "\">" + label + "</a></div>");
+		        sb.append("<div><a x-cq-linkchecker=\"skip\" href=\"" + generateLink(currentPage, slingRequest, rr,path) + "\" title=\"" +label + "\">" + label + "</a></div>");
 		    } else {
-		        sb.append("<div><a href=\"" + generateLink(currentPage, slingRequest, resourceResolver,path) + "\" title=\"" + label + "\">" + label + "</a></div>");
+		        sb.append("<div><a href=\"" + generateLink(currentPage, slingRequest,rr,path) + "\" title=\"" + label + "\">" + label + "</a></div>");
 		    }
 			if (active) {
 				String topMenuPath = getTopMenuPath(path);
 				if(!topMenus.contains(topMenuPath)){
 					topMenus.add(topMenuPath);
 					Page topMenuPathPage = rr.resolve(topMenuPath).adaptTo(Page.class);
-		            buildMenu(topMenuPathPage, currentPath, sb);
+		            buildMenu(topMenuPathPage, currentPage, sb, rr, slingRequest);
 				}
 			}
 			sb.append("</li>");
@@ -117,7 +122,9 @@
         }
     }
 
-    public void buildMenu(Page rootPage, String currentPath, StringBuilder sb) {
+    public void buildMenu(Page rootPage, Page currentPage, StringBuilder sb, ResourceResolver rr, SlingHttpServletRequest slingRequest) {
+
+        String currentPath = currentPage.getPath();
 
         Iterator<Page> iter = rootPage.listChildren();
 
@@ -150,12 +157,12 @@
                 } else {
                     sb.append("<li>");
                 }
-                sb.append("<div><a href=\"" + generateLink(currentPage, slingRequest, resourceResolver,path)) + ".html\">");
+                sb.append("<div><a href=\"" + generateLink(currentPage, slingRequest, rr,path) + ".html\">");
                 sb.append(title);
                 sb.append("</a></div>");
 
                 if (isActive) {
-                    buildMenu(page, currentPath, sb);
+                    buildMenu(page, currentPage, sb, rr, slingRequest);
                 }
                 
                 sb.append("</li>");
@@ -183,4 +190,23 @@
 		
 		return newPath.toString();
 	}
+
+	public String generateLink(Page currentPage, SlingHttpServletRequest request,  ResourceResolver rr, String path){
+            Logger log = LoggerFactory.getLogger(this.getClass().getName());
+            String url = path;
+            if(url.startsWith("/content/")){
+                try {
+                    final Externalizer externalizer = rr.adaptTo(Externalizer.class);
+                    String siteRootPath = currentPage.getAbsoluteParent(1).getPath();
+                    String reqProtocol = request.getHeader("X-Forwarded-Proto");
+                    url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path) + ".html";
+                    if("https".equals(reqProtocol)){
+                        url.replace("http://","https://");
+                    }
+                }catch(Exception e){
+
+                }
+            }
+            return url;
+        }
 %>

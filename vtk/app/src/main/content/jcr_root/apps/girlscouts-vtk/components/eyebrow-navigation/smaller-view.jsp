@@ -2,9 +2,35 @@
     import="java.util.Arrays,java.util.Iterator,
     java.util.regex.Matcher,
     java.util.regex.Pattern,
-    java.util.List"%>
+    java.util.List,
+    com.day.cq.commons.Externalizer,
+    org.slf4j.Logger,
+    org.slf4j.LoggerFactory,
+    org.apache.sling.api.resource.ResourceResolver,
+    com.day.cq.wcm.api.Page,
+    org.apache.sling.api.SlingHttpServletRequest"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<%!
+public String generateLink(Page currentPage, SlingHttpServletRequest request,  ResourceResolver rr, String path){
+        Logger log = LoggerFactory.getLogger(this.getClass().getName());
+        String url = path;
+        if(url.startsWith("/content/")){
+            try {
+                final Externalizer externalizer = rr.adaptTo(Externalizer.class);
+                String siteRootPath = currentPage.getAbsoluteParent(1).getPath();
+                String reqProtocol = request.getHeader("X-Forwarded-Proto");
+                url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path) + ".html";
+                if("https".equals(reqProtocol)){
+                    url.replace("http://","https://");
+                }
+            }catch(Exception e){
+
+            }
+        }
+        return url;
+    }
+%>
 <div id="right-canvas-menu-bottom">
   <ul class="side-nav" style="background-color:#6b6b6b;">
 <%
