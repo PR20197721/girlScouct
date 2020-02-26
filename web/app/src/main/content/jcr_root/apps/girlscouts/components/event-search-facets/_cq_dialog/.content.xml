@@ -33,6 +33,67 @@
                     </columns>
                 </items>
             </tab1>
+            <tab2
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Custom Tag Order"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <multiSelectionPgm
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                name="./useEventCustomTagList"
+                                text="Use Event Custom Tag List"
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
+                            <multiSelectionTypePgm
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                                ignoreDate="true"
+                                name="./useEventPgmCustomTagList@TypeHint"
+                                value="Boolean"/>
+                            <multiValuesPgm
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                fieldDescription="Enter values in the form {value}={text}."
+                                fieldLabel="Program Level Tags">
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="girlscouts/components/form/pathfield"
+                                    fieldLabel="Tags"
+                                    name="./eventPgmTagList"
+                                    required="true"
+                                    rootPath="/etc/tags"/>
+                            </multiValuesPgm>
+                            <multiSelectionTypeCtg
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                                ignoreDate="true"
+                                name="./useEventCtgCustomTagList@TypeHint"
+                                value="Boolean"/>
+                            <multiValuesCtg
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                fieldDescription="Enter values in the form {value}={text}."
+                                fieldLabel="Category Level Tags">
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="girlscouts/components/form/pathfield"
+                                    fieldLabel="Tags"
+                                    name="./eventCtgTagList"
+                                    required="true"
+                                    rootPath="/etc/tags"/>
+                            </multiValuesCtg>
+                        </items>
+                    </columns>
+                </items>
+            </tab2>
         </items>
     </content>
 </jcr:root>
