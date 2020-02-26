@@ -111,18 +111,22 @@ public class TrashcanCleanUpProcess implements Runnable, TrashcanConstants {
         List<String> listToDelete = new LinkedList<>();
         while(siteFolders.hasNext()){
             Resource siteFolder = siteFolders.next();
-            Iterator<Resource> trashedPages = siteFolder.listChildren();
-            while(trashedPages.hasNext()){
-                Resource trashedPage = trashedPages.next();
-                Resource content = trashedPage.getChild("jcr:content");
-                ValueMap vm = content.getValueMap();
-                Calendar trashCannedDate = vm.get("trashcan-move-date", Calendar.class);
-                deleteBeforeDate.add(Calendar.DAY_OF_YEAR, (expirationPeriod * -1));
-                deleteBeforeDate.setTimeZone(trashCannedDate.getTimeZone());
-                log.debug("Checking if item was moved to trashcan before "+deleteBeforeDate.getTime());
-                if(trashCannedDate != null && trashCannedDate.before(deleteBeforeDate)){
-                    listToDelete.add(trashedPage.getPath());
-                    log.debug("Added "+trashedPage.getPath()+" to delete list");
+            if(siteFolder.isResourceType("nt:folder")) {
+                Iterator<Resource> trashedPages = siteFolder.listChildren();
+                while (trashedPages.hasNext()) {
+                    Resource trashedItem = trashedPages.next();
+                    if(trashedItem.getChild("jcr:content") != null) {
+                        Resource content = trashedItem.getChild("jcr:content");
+                        ValueMap vm = content.getValueMap();
+                        Calendar trashCannedDate = vm.get("trashcan-move-date", Calendar.class);
+                        deleteBeforeDate.add(Calendar.DAY_OF_YEAR, (expirationPeriod * -1));
+                        deleteBeforeDate.setTimeZone(trashCannedDate.getTimeZone());
+                        log.debug("Checking if item was moved to trashcan before " + deleteBeforeDate.getTime());
+                        if (trashCannedDate != null && trashCannedDate.before(deleteBeforeDate)) {
+                            listToDelete.add(trashedItem.getPath());
+                            log.debug("Added " + trashedItem.getPath() + " to delete list");
+                        }
+                    }
                 }
             }
         }
