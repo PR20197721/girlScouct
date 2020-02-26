@@ -89,10 +89,11 @@
                     }
                     errorDialog.remove();
                 });
-
                 document.body.appendChild(errorDialog);
                 errorDialog.show();
-                $('#restore-path-selector').trigger("foundation-contentloaded");
+                if ($('#restore-path-selector').length) {
+                    $('#restore-path-selector').trigger("foundation-contentloaded");
+                }
             }
 
             function handleTrashcanEvent() {
