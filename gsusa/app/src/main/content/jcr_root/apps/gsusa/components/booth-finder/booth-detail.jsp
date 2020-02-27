@@ -205,18 +205,33 @@ String googleMapsAPI = properties.get("mapAPI", "AIzaSyCQ1pG4dKsTrA8mqAo-0qwAI0I
 
     <script type="text/javascript">
 
-	$(document).ready(function() {
-		var scriptTag = document.createElement("script");
-		scriptTag.type = "text/javascript"
-		scriptTag.src="//connect.facebook.net/en_US/all.js";
-		scriptTag.async = true;
-		document.getElementsByTagName("head")[0].appendChild(scriptTag);
+    $(document).ready(function() {
+        var scriptTag = document.createElement("script");
+        scriptTag.type = "text/javascript"
+        scriptTag.src = "//connect.facebook.net/en_US/all.js";
+        scriptTag.async = true;
+        document.getElementsByTagName("head")[0].appendChild(scriptTag);
 
-		scriptTag.onload=initFB;
-		scriptTag.onreadystatechange = function () {
-		  if (this.readyState == 'complete' || this.readyState == 'loaded') initFB();
-		}
-	});
+        scriptTag.onload = initFB;
+        scriptTag.onreadystatechange = function() {
+            if (this.readyState == 'complete' || this.readyState == 'loaded') initFB();
+        }
+		//GSDO-1024 :multiple-gmaps-api-call :Start
+        $('.close-reveal-modal').click(function() {
+        	//removes gmaps traces from DOM.
+            if (window.google !== undefined && google.maps !== undefined) {
+                delete google.maps;
+                $('script').each(function() {
+                    if (this.src.indexOf('googleapis.com/maps') >= 0 ||
+                        this.src.indexOf('maps.gstatic.com') >= 0 ||
+                        this.src.indexOf('earthbuilder.googleapis.com') >= 0) {
+                        $(this).remove();
+                    }
+                });
+            }
+        })
+        //GSDO-1024 :multiple-gmaps-api-call :End
+    });
 	function initFB() {
 		FB.init({appId: "<%= facebookId %>", status: true, cookie: true});
 	}
