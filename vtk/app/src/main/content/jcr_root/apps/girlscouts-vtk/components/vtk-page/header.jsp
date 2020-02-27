@@ -39,7 +39,7 @@
 				        <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
 				        <% if(currentSite.get("hideSearch","false").equals("false")){ %>
 				        <% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>
-				        <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
+				        <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts-vtk/components/search-box" />
 				        <div class="show-for-large">
 				            <cq:include path="content/middle/pdf-print" resourceType="girlscouts/components/pdf-print" />
 				        </div>
@@ -62,7 +62,7 @@
 	        			</div>
 	      			</div>
 	      			<div class="row hide srch-box collapse">
-	          			<cq:include script="/apps/girlscouts/components/search-box/mobile.jsp" />
+	          			<cq:include script="/apps/girlscouts-vtk/components/search-box/mobile.jsp" />
 	        			<div class="small-2 columns">
 	          				<a class="right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="22" height="28" alt="right side menu hamburger icon"/></a>
 	        			</div>
