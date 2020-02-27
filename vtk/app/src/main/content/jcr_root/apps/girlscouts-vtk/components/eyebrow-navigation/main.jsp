@@ -15,11 +15,16 @@ public String generateLink(ResourceResolver rr, String path){
             try {
                 Page thatPage = rr.resolve(path).adaptTo(Page.class);
                 final Externalizer externalizer = rr.adaptTo(Externalizer.class);
+                String siteRootPath = thatPage.getAbsoluteParent(1).getPath();
 
-                String reqProtocol = request.getHeader("X-Forwarded-Proto");
-                url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path);
+                url = externalizer.externalLink(rr,siteRootPath,"http",  path);
                 if (!url.endsWith(".html")){
                     url.concat(".html");
+                }
+                if (!url.startsWith("http")){
+                    url = "http" + url;
+                } else if (url.startsWith("https")){
+                    url = "http" + url.substring(5);
                 }
 
             }catch(Exception e){

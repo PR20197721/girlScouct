@@ -16,12 +16,14 @@ public String generateLink(Page currentPage,  ResourceResolver rr, String path){
                 final Externalizer externalizer = rr.adaptTo(Externalizer.class);
                 String siteRootPath = currentPage.getAbsoluteParent(1).getPath();
 
-                url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path);
+                url = externalizer.externalLink(rr,siteRootPath,"http",  path);
                 if (!url.endsWith(".html")){
                     url.concat(".html");
                 }
-                if("https".equals(reqProtocol)){
-                    url.replace("http://","https://");
+                if (!url.startsWith("http")){
+                    url = "http" + url;
+                } else if (url.startsWith("https")){
+                    url = "http" + url.substring(5);
                 }
             }catch(Exception e){
 

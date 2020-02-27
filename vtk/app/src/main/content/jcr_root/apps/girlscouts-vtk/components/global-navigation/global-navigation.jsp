@@ -19,9 +19,14 @@
                 final Externalizer externalizer = rr.adaptTo(Externalizer.class);
                 String siteRootPath = currentPage.getAbsoluteParent(1).getPath();
 
-                url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path);
+                url = externalizer.externalLink(rr,siteRootPath,"http", path);
                 if (!url.endsWith(".html")){
                     url.concat(".html");
+                }
+                if (!url.startsWith("http")){
+                    url = "http" + url;
+                } else if (url.startsWith("https")){
+                    url = "http" + url.substring(5);
                 }
             }catch(Exception e){
 
@@ -165,10 +170,10 @@
         <a data-dropdown="drop1" aria-controls="drop1" class="<%= clazz %> show-for-small-only menuHighlight" aria-expanded="false"><%= sLabel %>
         </a>
         <ul id="drop1" class="f-dropdown right" data-options="right_align:true" data-dropdown-content aria-hidden="true" tabindex="-1">
-            <li><a href="<%= generateLink(currentPage, slingRequest, resourceResolver, currentPage.getAbsoluteParent(1).getPath() + "/en")%>">Home</a></li>
+            <li><a href="<%= generateLink(currentPage, resourceResolver, currentPage.getAbsoluteParent(1).getPath() + "/en")%>">Home</a></li>
             <%if (configManager.getConfig("isDemoSite") != null && configManager.getConfig("isDemoSite").equals("true")) { %>
             <li style="opacity:0.5;"><a href="#" onclick="javascript:void(0)" disabled="true">Member Profile</a></li>
-            <li><a href="<%= generateLink(currentPage, slingRequest, resourceResolver, "/content/girlscouts-demo/en")%>>Demo</a></li>
+            <li><a href="<%= generateLink(currentPage, resourceResolver, "/content/girlscouts-demo/en")%>>Demo</a></li>
             <%} else { %>
             <li><a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a></li>
             <li><a href="<%= path %>">Volunteer Toolkit</a></li>
