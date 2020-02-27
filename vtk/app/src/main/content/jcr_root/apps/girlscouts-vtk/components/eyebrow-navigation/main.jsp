@@ -8,11 +8,12 @@
 
 
 <%!
-public String generateLink(Page thatPage, SlingHttpServletRequest request,  ResourceResolver rr, String path){
+public String generateLink(SlingHttpServletRequest request,  ResourceResolver rr, String path){
         Logger log = LoggerFactory.getLogger(this.getClass().getName());
         String url = path;
         if(url.startsWith("/content/")){
             try {
+                Page thatPage = resourceResolver.resolve(path).adaptTo(Page.class);
                 final Externalizer externalizer = rr.adaptTo(Externalizer.class);
                 String siteRootPath = thatPage.getAbsoluteParent(1).getPath();
                 String reqProtocol = request.getHeader("X-Forwarded-Proto");
@@ -38,7 +39,6 @@ public String generateLink(Page thatPage, SlingHttpServletRequest request,  Reso
         String menuPath = values.length >= 2 ? values[1] : "";
         String path = values.length >= 2 ? values[1] : "";
         path = genLink(resourceResolver, path);
-        Page thatPage = resourceResolver.resolve(path).adaptTo(Page.class);
         String clazz = values.length >= 3 ? "class=\""+ values[2] + "\"": "";
         String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ?
                 " target=\"_blank\"" : "";
@@ -47,6 +47,6 @@ public String generateLink(Page thatPage, SlingHttpServletRequest request,  Reso
         <%}else{ %>
         	<li>
         <% } %>
-		<a href="<%= generateLink(thatPage, slingRequest, resourceResolver, path) %>"<%= newWindow %>><%= label %></a></li>
+		<a href="<%= generateLink(slingRequest, resourceResolver, path) %>"<%= newWindow %>><%= label %></a></li>
     <% } %>
 
