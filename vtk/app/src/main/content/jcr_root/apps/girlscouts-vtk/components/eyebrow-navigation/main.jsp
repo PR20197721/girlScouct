@@ -17,7 +17,10 @@ public String generateLink(SlingHttpServletRequest request,  ResourceResolver rr
                 final Externalizer externalizer = rr.adaptTo(Externalizer.class);
                 String siteRootPath = thatPage.getAbsoluteParent(1).getPath();
                 String reqProtocol = request.getHeader("X-Forwarded-Proto");
-                url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path) + ".html";
+                url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path);
+                if (!url.endsWith(".html")){
+                    url.concat(".html");
+                }
                 if("https".equals(reqProtocol)){
                     url.replace("http://","https://");
                 }
