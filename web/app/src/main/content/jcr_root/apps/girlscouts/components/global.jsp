@@ -248,11 +248,6 @@ public String generateLink(ResourceResolver rr, String path){
             if (!url.endsWith(".html")){
                 url = url + ".html";
             }
-            if (!url.startsWith("http")){
-                url = "http" + url;
-            } else if (url.startsWith("https")){
-                url = "http" + url.substring(5);
-            }
         }catch(Exception e){
 
         }
