@@ -13,7 +13,7 @@ public String generateLink(SlingHttpServletRequest request,  ResourceResolver rr
         String url = path;
         if(url.startsWith("/content/")){
             try {
-                Page thatPage = resourceResolver.resolve(path).adaptTo(Page.class);
+                Page thatPage = rr.resolve(path).adaptTo(Page.class);
                 final Externalizer externalizer = rr.adaptTo(Externalizer.class);
                 String siteRootPath = thatPage.getAbsoluteParent(1).getPath();
                 String reqProtocol = request.getHeader("X-Forwarded-Proto");
