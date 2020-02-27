@@ -11,6 +11,7 @@
 	com.day.cq.dam.api.Rendition,
 	com.day.cq.wcm.api.Page,
 	com.day.cq.wcm.api.components.IncludeOptions,
+	com.day.cq.commons.Externalizer,
 	java.util.Calendar,
 	java.util.Date,
 	java.text.DateFormat,
@@ -232,6 +233,31 @@ public static String getDateTime(GSLocalDateTime startDate, GSLocalDateTime endD
 
 public static boolean isSameDate(GSDateTime d1, GSDateTime d2) {
 	return (d1.getYear() == d2.getYear() && d1.monthOfYear() == d2.monthOfYear() && d1.dayOfMonth() == d2.dayOfMonth());
+}
+
+public String generateLink(ResourceResolver rr, String path){
+    Logger log = LoggerFactory.getLogger(this.getClass().getName());
+    String url = path;
+    if(url.startsWith("/content/")){
+        try {
+            Page thatPage = rr.resolve(path).adaptTo(Page.class);
+            final Externalizer externalizer = rr.adaptTo(Externalizer.class);
+            String siteRootPath = thatPage.getAbsoluteParent(1).getPath();
+
+            url = externalizer.externalLink(rr,siteRootPath,"http",  path);
+            if (!url.endsWith(".html")){
+                url = url + ".html";
+            }
+            if (!url.startsWith("http")){
+                url = "http" + url;
+            } else if (url.startsWith("https")){
+                url = "http" + url.substring(5);
+            }
+        }catch(Exception e){
+
+        }
+    }
+    return url;
 }
 
 

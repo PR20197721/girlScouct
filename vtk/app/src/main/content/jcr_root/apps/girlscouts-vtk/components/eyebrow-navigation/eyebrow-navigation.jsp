@@ -1,37 +1,10 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode, javax.jcr.Node,javax.jcr.NodeIterator,java.util.List,java.util.ArrayList,
-    com.day.cq.commons.Externalizer,
-                 org.slf4j.Logger,
-                 org.slf4j.LoggerFactory,
                  java.text.SimpleDateFormat,
                  java.util.*, org.apache.sling.api.SlingHttpServletRequest, org.apache.sling.api.resource.Resource" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
-<%!
-public String generateLink(Page currentPage,  ResourceResolver rr, String path){
-        Logger log = LoggerFactory.getLogger(this.getClass().getName());
-        String url = path;
-        if(url.startsWith("/content/")){
-            try {
-                final Externalizer externalizer = rr.adaptTo(Externalizer.class);
-                String siteRootPath = currentPage.getAbsoluteParent(1).getPath();
 
-                url = externalizer.externalLink(rr,siteRootPath,"http",  path);
-                if (!url.endsWith(".html")){
-                    url = url + ".html";
-                }
-                if (!url.startsWith("http")){
-                    url = "http" + url;
-                } else if (url.startsWith("https")){
-                    url = "http" + url.substring(5);
-                }
-            }catch(Exception e){
-
-            }
-        }
-        return url;
-    }
-%>
 <%
 List<String> linksList = new ArrayList<String>();
 if(currentNode.hasNode("links")){

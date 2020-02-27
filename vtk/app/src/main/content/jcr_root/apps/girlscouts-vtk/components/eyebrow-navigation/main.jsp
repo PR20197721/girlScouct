@@ -1,39 +1,10 @@
 <%@ page
     import="java.util.Arrays,
-    java.util.List,
-    org.apache.sling.api.SlingHttpServletRequest,
-    com.day.cq.commons.Externalizer"%>
+    java.util.List"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 
 
-<%!
-public String generateLink(ResourceResolver rr, String path){
-        Logger log = LoggerFactory.getLogger(this.getClass().getName());
-        String url = path;
-        if(url.startsWith("/content/")){
-            try {
-                Page thatPage = rr.resolve(path).adaptTo(Page.class);
-                final Externalizer externalizer = rr.adaptTo(Externalizer.class);
-                String siteRootPath = thatPage.getAbsoluteParent(1).getPath();
-
-                url = externalizer.externalLink(rr,siteRootPath,"http",  path);
-                if (!url.endsWith(".html")){
-                    url = url + ".html";
-                }
-                if (!url.startsWith("http")){
-                    url = "http" + url;
-                } else if (url.startsWith("https")){
-                    url = "http" + url.substring(5);
-                }
-
-            }catch(Exception e){
-
-            }
-        }
-        return url;
-    }
-%>
 
 <% 
 

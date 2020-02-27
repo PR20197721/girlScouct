@@ -3,13 +3,11 @@
                 java.util.List,
                 java.util.ArrayList,
                 javax.jcr.Value,
-				com.day.cq.commons.Externalizer,
-                org.slf4j.Logger,
-                org.slf4j.LoggerFactory,
                 org.apache.sling.api.resource.ResourceResolver,
                 com.day.cq.wcm.api.Page,
                  org.apache.sling.api.SlingHttpServletRequest" %>
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
     final String siteRootPath = currentPage.getAbsoluteParent(2).getPath();
     final String headerNavPath = siteRootPath + "/jcr:content/header/global-nav";  
@@ -65,9 +63,9 @@
 				sb.append("<li>");
 			}
 			if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) {
-		        sb.append("<div><a x-cq-linkchecker=\"skip\" href=\"" + generateLink(currentPage, rr,path) + "\" title=\"" +label + "\">" + label + "</a></div>");
+		        sb.append("<div><a x-cq-linkchecker=\"skip\" href=\"" + generateLink(rr,path) + "\" title=\"" +label + "\">" + label + "</a></div>");
 		    } else {
-		        sb.append("<div><a href=\"" + generateLink(currentPage,rr,path) + "\" title=\"" + label + "\">" + label + "</a></div>");
+		        sb.append("<div><a href=\"" + generateLink(rr,path) + "\" title=\"" + label + "\">" + label + "</a></div>");
 		    }
 			if (active) {
 				String topMenuPath = getTopMenuPath(path);
@@ -112,16 +110,6 @@
         return result;
 	}
 
-    public String genLink(ResourceResolver rr, String link) {
-        // This is a Page resource but yet not end with ".html": append ".html"
-        if (rr.resolve(link).getResourceType().equals("cq:Page") && !link.contains(".html")) {
-            return link + ".html";
-        // Well, do nothing
-        } else {
-            return link;
-        }
-    }
-
     public void buildMenu(Page rootPage, Page currentPage, StringBuilder sb, ResourceResolver rr, SlingHttpServletRequest slingRequest) {
 
         String currentPath = currentPage.getPath();
@@ -157,7 +145,7 @@
                 } else {
                     sb.append("<li>");
                 }
-                sb.append("<div><a href=\"" + generateLink(currentPage, rr,path) + ".html\">");
+                sb.append("<div><a href=\"" + generateLink(rr,path) + ".html\">");
                 sb.append(title);
                 sb.append("</a></div>");
 
@@ -191,26 +179,5 @@
 		return newPath.toString();
 	}
 
-	public String generateLink(Page currentPage, ResourceResolver rr, String path){
-            Logger log = LoggerFactory.getLogger(this.getClass().getName());
-            String url = path;
-            if(url.startsWith("/content/")){
-                try {
-                    final Externalizer externalizer = rr.adaptTo(Externalizer.class);
-                    String siteRootPath = currentPage.getAbsoluteParent(1).getPath();
-                    url = externalizer.externalLink(rr,siteRootPath,"http", path);
-                    if (!url.endsWith(".html")){
-                        url = url + ".html";
-                    }
-                    if (!url.startsWith("http")){
-                        url = "http" + url;
-                    } else if (url.startsWith("https")){
-                        url = "http" + url.substring(5);
-                    }
-                }catch(Exception e){
 
-                }
-            }
-            return url;
-        }
 %>

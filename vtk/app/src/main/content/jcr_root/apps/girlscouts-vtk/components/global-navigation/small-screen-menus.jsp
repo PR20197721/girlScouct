@@ -22,13 +22,13 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
                         if(rootPath.equalsIgnoreCase(nodePath) ){
                             menuBuilder.append("<li class=\"active\">");
                             menuBuilder.append("<div>");
-                            menuBuilder.append("<a href="+generateLink(currentPage, resourceResolver, page.getPath())+">" + page.getTitle() + "</a>");
+                            menuBuilder.append("<a href="+generateLink(resourceResolver, page.getPath())+">" + page.getTitle() + "</a>");
                             menuBuilder.append("</div>");
                             remainderStrings.append("</li>");
                         }else{
                             menuBuilder.append("<li>");
                             menuBuilder.append("<div>");
-                            menuBuilder.append("<a href="+generateLink(currentPage, resourceResolver, page.getPath())+">" + page.getTitle() + "</a>");
+                            menuBuilder.append("<a href="+generateLink(resourceResolver, page.getPath())+">" + page.getTitle() + "</a>");
                             menuBuilder.append("</div>");
                                                     remainderStrings.append("</li>");
                         }
@@ -43,7 +43,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
                         if(page.getPath().indexOf(eventLeftNavRoot)==0 && currPath.indexOf(eventDispUnder)==0){
                             menuBuilder.append("<li>");
                             menuBuilder.append("<div>");
-                            menuBuilder.append("<a href=").append("<a href="+generateLink(currentPage, resourceResolver, page.getPath())+">" + page.getTitle() + "</a>");
+                            menuBuilder.append("<a href=").append("<a href="+generateLink(resourceResolver, page.getPath())+">" + page.getTitle() + "</a>");
                             menuBuilder.append("</div>");
                             //menuBuilder.append("</li>");
     
@@ -57,7 +57,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
                         } else {
                             menuBuilder.append("<li>");
                             menuBuilder.append("<div>");
-                            menuBuilder.append("<a href=").append("<a href="+generateLink(currentPage, resourceResolver, page.getPath())+">" + page.getTitle() + "</a>");
+                            menuBuilder.append("<a href=").append("<a href="+generateLink(resourceResolver, page.getPath())+">" + page.getTitle() + "</a>");
                             menuBuilder.append("</div>");
                             menuBuilder.append("</li>");
                         }
