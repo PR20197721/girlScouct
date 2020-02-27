@@ -21,7 +21,7 @@
 
                 url = externalizer.externalLink(rr,siteRootPath,"http", path);
                 if (!url.endsWith(".html")){
-                    url.concat(".html");
+                    url = url + ".html";
                 }
                 if (!url.startsWith("http")){
                     url = "http" + url;
