@@ -8,22 +8,20 @@
 
 
 <%!
-public String generateLink(SlingHttpServletRequest request,  ResourceResolver rr, String path){
+public String generateLink(ResourceResolver rr, String path){
         Logger log = LoggerFactory.getLogger(this.getClass().getName());
         String url = path;
         if(url.startsWith("/content/")){
             try {
                 Page thatPage = rr.resolve(path).adaptTo(Page.class);
                 final Externalizer externalizer = rr.adaptTo(Externalizer.class);
-                String siteRootPath = thatPage.getAbsoluteParent(1).getPath();
+
                 String reqProtocol = request.getHeader("X-Forwarded-Proto");
                 url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path);
                 if (!url.endsWith(".html")){
                     url.concat(".html");
                 }
-                if("https".equals(reqProtocol)){
-                    url.replace("http://","https://");
-                }
+
             }catch(Exception e){
 
             }
@@ -50,6 +48,6 @@ public String generateLink(SlingHttpServletRequest request,  ResourceResolver rr
         <%}else{ %>
         	<li>
         <% } %>
-		<a href="<%= generateLink(slingRequest, resourceResolver, path) %>"<%= newWindow %>><%= label %></a></li>
+		<a href="<%= generateLink(resourceResolver, path) %>"<%= newWindow %>><%= label %></a></li>
     <% } %>
 

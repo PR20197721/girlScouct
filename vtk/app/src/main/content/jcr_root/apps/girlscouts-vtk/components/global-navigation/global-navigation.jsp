@@ -11,20 +11,17 @@
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
 <%!
-    public String generateLink(Page currentPage, SlingHttpServletRequest request,  ResourceResolver rr, String path){
+    public String generateLink(Page currentPage,  ResourceResolver rr, String path){
         Logger log = LoggerFactory.getLogger(this.getClass().getName());
         String url = path;
         if(url.startsWith("/content/")){
             try {
                 final Externalizer externalizer = rr.adaptTo(Externalizer.class);
                 String siteRootPath = currentPage.getAbsoluteParent(1).getPath();
-                String reqProtocol = request.getHeader("X-Forwarded-Proto");
+
                 url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path);
                 if (!url.endsWith(".html")){
                     url.concat(".html");
-                }
-                if("https".equals(reqProtocol)){
-                    url.replace("http://","https://");
                 }
             }catch(Exception e){
 
@@ -43,21 +40,21 @@
                     if (!page.isHideInNav()) {
                         if (hasVisibleChildren(page)) {
                             menuBuilder.append("<li class=\"has-children\">");
-                            menuBuilder.append("<a href=" + generateLink(currentPage, slingRequest, resourceResolver, page.getPath()) + ">" + page.getTitle() + "</a>");
+                            menuBuilder.append("<a href=" + generateLink(currentPage, resourceResolver, page.getPath()) + ">" + page.getTitle() + "</a>");
                             Iterator<Page> grandChildren = page.listChildren();
                             menuBuilder.append("<ul class=\"fly-horizontal\">");
                             while (grandChildren.hasNext()) {
                                 Page p = grandChildren.next();
                                 if (!p.isHideInNav()) {
                                     menuBuilder.append("<li>");
-                                    menuBuilder.append("<a href="+generateLink(currentPage, slingRequest, resourceResolver, p.getPath())+">" + p.getTitle() + "</a>");
+                                    menuBuilder.append("<a href="+generateLink(currentPage, resourceResolver, p.getPath())+">" + p.getTitle() + "</a>");
                                     menuBuilder.append("</li>");
                                 }
                             }
                             menuBuilder.append("</ul>");
                         } else {
                             menuBuilder.append("<li>");
-                            menuBuilder.append("<a href=" + generateLink(currentPage, slingRequest, resourceResolver, page.getPath()) + ">" + page.getTitle() + "</a>");
+                            menuBuilder.append("<a href=" + generateLink(currentPage, resourceResolver, page.getPath()) + ">" + page.getTitle() + "</a>");
                         }
                         menuBuilder.append("</li>");
                     }
@@ -199,9 +196,9 @@
         if (clazz.indexOf("hide-in-nav") < 0) { // If not hidden, create list element
     %>
     <li data-link="<%=path%>" class="<%=hasChildren%><%=activeStatus%>">
-        <a class="show-for-large-up menu <%=clazz%>" href="<%= generateLink(currentPage, slingRequest, resourceResolver,path)%>"><%=label%>
+        <a class="show-for-large-up menu <%=clazz%>" href="<%= generateLink(currentPage, resourceResolver,path)%>"><%=label%>
         </a>
-        <a class="show-for-medium-only menu <%=clazz%>" href="<%= generateLink(currentPage, slingRequest, resourceResolver,path)%>"><%=mLabel%>
+        <a class="show-for-medium-only menu <%=clazz%>" href="<%= generateLink(currentPage, resourceResolver,path)%>"><%=mLabel%>
         </a><%
         try {
             if (flyPage != null) {

@@ -65,9 +65,9 @@
 				sb.append("<li>");
 			}
 			if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) {
-		        sb.append("<div><a x-cq-linkchecker=\"skip\" href=\"" + generateLink(currentPage, slingRequest, rr,path) + "\" title=\"" +label + "\">" + label + "</a></div>");
+		        sb.append("<div><a x-cq-linkchecker=\"skip\" href=\"" + generateLink(currentPage, rr,path) + "\" title=\"" +label + "\">" + label + "</a></div>");
 		    } else {
-		        sb.append("<div><a href=\"" + generateLink(currentPage, slingRequest,rr,path) + "\" title=\"" + label + "\">" + label + "</a></div>");
+		        sb.append("<div><a href=\"" + generateLink(currentPage,rr,path) + "\" title=\"" + label + "\">" + label + "</a></div>");
 		    }
 			if (active) {
 				String topMenuPath = getTopMenuPath(path);
@@ -157,7 +157,7 @@
                 } else {
                     sb.append("<li>");
                 }
-                sb.append("<div><a href=\"" + generateLink(currentPage, slingRequest, rr,path) + ".html\">");
+                sb.append("<div><a href=\"" + generateLink(currentPage, rr,path) + ".html\">");
                 sb.append(title);
                 sb.append("</a></div>");
 
@@ -191,20 +191,16 @@
 		return newPath.toString();
 	}
 
-	public String generateLink(Page currentPage, SlingHttpServletRequest request,  ResourceResolver rr, String path){
+	public String generateLink(Page currentPage, ResourceResolver rr, String path){
             Logger log = LoggerFactory.getLogger(this.getClass().getName());
             String url = path;
             if(url.startsWith("/content/")){
                 try {
                     final Externalizer externalizer = rr.adaptTo(Externalizer.class);
                     String siteRootPath = currentPage.getAbsoluteParent(1).getPath();
-                    String reqProtocol = request.getHeader("X-Forwarded-Proto");
                     url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path);
                     if (!url.endsWith(".html")){
                         url.concat(".html");
-                    }
-                    if("https".equals(reqProtocol)){
-                        url.replace("http://","https://");
                     }
                 }catch(Exception e){
 

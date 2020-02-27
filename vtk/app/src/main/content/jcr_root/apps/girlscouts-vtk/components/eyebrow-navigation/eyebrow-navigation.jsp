@@ -8,14 +8,14 @@
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
 <%!
-public String generateLink(Page currentPage, SlingHttpServletRequest request,  ResourceResolver rr, String path){
+public String generateLink(Page currentPage,  ResourceResolver rr, String path){
         Logger log = LoggerFactory.getLogger(this.getClass().getName());
         String url = path;
         if(url.startsWith("/content/")){
             try {
                 final Externalizer externalizer = rr.adaptTo(Externalizer.class);
                 String siteRootPath = currentPage.getAbsoluteParent(1).getPath();
-                String reqProtocol = request.getHeader("X-Forwarded-Proto");
+
                 url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path);
                 if (!url.endsWith(".html")){
                     url.concat(".html");

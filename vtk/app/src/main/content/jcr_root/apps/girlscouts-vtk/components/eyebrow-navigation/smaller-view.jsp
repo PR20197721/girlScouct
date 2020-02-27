@@ -12,7 +12,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%!
-public String generateLink(SlingHttpServletRequest request,  ResourceResolver rr, String path){
+public String generateLink(ResourceResolver rr, String path){
         Logger log = LoggerFactory.getLogger(this.getClass().getName());
         String url = path;
         if(url.startsWith("/content/")){
@@ -20,13 +20,10 @@ public String generateLink(SlingHttpServletRequest request,  ResourceResolver rr
                 Page thatPage = rr.resolve(path).adaptTo(Page.class);
                 final Externalizer externalizer = rr.adaptTo(Externalizer.class);
                 String siteRootPath = thatPage.getAbsoluteParent(1).getPath();
-                String reqProtocol = request.getHeader("X-Forwarded-Proto");
+
                 url = externalizer.externalLink(rr,siteRootPath,reqProtocol,  path);
                 if (!url.endsWith(".html")){
                     url.concat(".html");
-                }
-                if("https".equals(reqProtocol)){
-                    url.replace("http://","https://");
                 }
             }catch(Exception e){
 
@@ -56,7 +53,7 @@ for (int i = 0; i < links.length; i++) {
      <%}else{ %>
      	<li>
      <% } %>
-		<div><a <%= clazz %> href="<%= generateLink(slingRequest, resourceResolver, path) %>"<%= newWindow %>><%= label %></a></div></li>
+		<div><a <%= clazz %> href="<%= generateLink(resourceResolver, path) %>"<%= newWindow %>><%= label %></a></div></li>
  <% } 
 }%>
 </ul>
