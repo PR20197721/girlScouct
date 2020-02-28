@@ -245,7 +245,7 @@ public String generateLink(ResourceResolver rr, String path){
             String siteRootPath = thatPage.getAbsoluteParent(1).getPath();
 
             url = externalizer.externalLink(rr,siteRootPath,"http",  path);
-            if (!url.endsWith(".html")){
+            if (!url.endsWith(".html") && (!ur.endsWith(".org")) && (!url.endsWith(".com")) && (!url.endsWith(".us")) && (!url.endsWith("/")) ){
                 url = url + ".html";
             }
         }catch(Exception e){
