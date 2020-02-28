@@ -453,10 +453,6 @@
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Juliette Gordon Low Birthplace"
 						uncheckedValue="false" name="./councils" value="/content/juliettegordonlowbirthplace" />
-					<usagso jcr:primaryType="nt:unstructured"
-						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-						checked="false" text="USA Girl Scouts Overseas" uncheckedValue="false" name="./councils"
-						value="/content/usagso" />
 					<usagson jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="USA Girl Scouts Overseas(NEW)"
