@@ -242,7 +242,7 @@ public String generateLink(ResourceResolver rr, String path){
             Page thatPage = rr.resolve(path).adaptTo(Page.class);
             final Externalizer externalizer = rr.adaptTo(Externalizer.class);
             String siteRootPath = thatPage.getAbsoluteParent(1).getPath();
-            url = externalizer.externalLink(rr,siteRootPath,"http",  path);
+            url = rr.map(path);
             if (!url.matches(".*\\.[a-zA-Z]{2,4}(\\/)?$")){
                 url = url + ".html";
             }
