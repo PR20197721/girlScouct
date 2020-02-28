@@ -58,7 +58,7 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
     GSDateTime eventDate = null;
     GSDateTime startDate = null;
     GSDateTime endDate = null;
-    GSDateTimeFormatter dateFt = GSDateTimeFormat.forPattern("yyyy-MM-dd");
+    GSDateTimeFormatter dateFt = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
     GSDateTimeFormatter dateFtPrint = GSDateTimeFormat.forPattern("MMM d, yyyy");
     String jsonEvents="";
 	for(String path: eventsPath){
