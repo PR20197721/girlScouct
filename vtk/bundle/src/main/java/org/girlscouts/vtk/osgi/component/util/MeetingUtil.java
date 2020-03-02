@@ -272,8 +272,7 @@ public class MeetingUtil {
         for (int i = 0; i < meetings.size(); i++) {
             MeetingE m = meetings.get(i);
             if (m.getPath().equals(meetingPath)) {
-                Meeting meeting = null;
-                meeting = meetingDAO.createOrUpdateMeeting(user, troop, m, null);
+                Meeting meeting = m.getMeetingInfo();
                 Activity activity = new Activity();
                 activity.setDuration(duration);
                 activity.setActivityNumber(meeting.getActivities().size() + 1);
@@ -287,14 +286,17 @@ public class MeetingUtil {
                 List<Activity> subActivities = new ArrayList<Activity>();
                 subActivities.add(subActivity);
                 activity.setMultiactivities(subActivities);
-                meetingDAO.addActivity(user, troop, meeting, activity);
+                List<Activity> activities = meeting.getActivities();
+                activities.add(activity);
+                meeting.setActivities(activities);
+                meeting = meetingDAO.createOrUpdateMeeting(user, troop, m, meeting);
                 Cal cal = troop.getYearPlan().getSchedule();
                 if (cal != null) {
                     cal.addDate(startTime.getTime());
                 }
+
             }
         }
-        troopUtil.updateTroop(user, troop);
     }
 
     public void rmCustomActivity(User user, Troop troop, String activityPath) throws IllegalStateException, IllegalAccessException {
