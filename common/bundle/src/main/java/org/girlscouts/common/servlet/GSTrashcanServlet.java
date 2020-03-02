@@ -149,19 +149,23 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
     }
 
     private String restoreFromTrashcan(Resource payloadResource, String restorePath) throws WorkflowException, RepositoryException, GirlScoutsException {
-        if (TrashcanUtil.restorePathExists(payloadResource, restorePath)) {
-            return invokeTrashcanRestoreWorkflow(payloadResource, restorePath);
+        if (!TrashcanUtil.isAllowedToRestore(payloadResource, restorePath)) {
+            if (TrashcanUtil.restorePathExists(payloadResource, restorePath)) {
+                return invokeTrashcanRestoreWorkflow(payloadResource, restorePath);
+            }
         }
         return payloadResource.getPath();
     }
 
     private String moveToTrashcan(Resource payloadResource) throws RepositoryException, WorkflowException, GirlScoutsException {
-        if (!TrashcanUtil.isPublished(payloadResource)) {
-            if (!TrashcanUtil.hasReferences(payloadResource)) {
-                if (!TrashcanUtil.isLiveCopy(payloadResource)) {
-                    boolean isAsset = payloadResource.isResourceType("dam:Asset");
-                    if (isAsset || (!isAsset && !TrashcanUtil.hasChildren(payloadResource))) {
-                        return invokeTrashcanWorkflow(isAsset, payloadResource);
+        if (!TrashcanUtil.isAllowedToTrash(payloadResource)) {
+            if (!TrashcanUtil.isPublished(payloadResource)) {
+                if (!TrashcanUtil.hasReferences(payloadResource)) {
+                    if (!TrashcanUtil.isLiveCopy(payloadResource)) {
+                        boolean isAsset = payloadResource.isResourceType("dam:Asset");
+                        if (isAsset || (!isAsset && !TrashcanUtil.hasChildren(payloadResource))) {
+                            return invokeTrashcanWorkflow(isAsset, payloadResource);
+                        }
                     }
                 }
             }
