@@ -1,8 +1,10 @@
 (function (document, $) {
     "use strict";
+
     //download action
     $(document).on('foundation-selections-change', '.foundation-collection', function () {
         var collection = $(this);
+        var items = collection.find('.foundation-selections-item');
         var trashcanActivator = "button.cq-siteadmin-admin-actions-trashcan-activator";
         var trashcanRestoreActivator = "button.cq-siteadmin-admin-actions-trashcan-restore-activator";
         var damTrashcanActivator = "button.cq-damadmin-admin-actions-trashcan-activator";
@@ -25,7 +27,6 @@
         }
         var trashcanEventHandler = function () {
             var activator = $(this);
-            var items = collection.find('.foundation-selections-item');
             var restorePath = "";
             function showErrorDialog(cause, action) {
                 var header = "";
@@ -168,5 +169,7 @@
         $(damTrashcanActivator).bind("click", trashcanEventHandler);
         $(damTrashcanRestoreActivator).unbind("click");
         $(damTrashcanRestoreActivator).bind("click", trashcanEventHandler);
+
     });
+
 })(document, Granite.$);

@@ -255,31 +255,30 @@ public class TrashcanUtil implements TrashcanConstants {
         return restoreResource.getName();
     }
 
-    public static boolean isAllowedToTrash(Resource payloadResource) throws GirlScoutsException, RepositoryException {
-        ResourceResolver rr = payloadResource.getResourceResolver();
-        Session session = rr.adaptTo(Session.class);
+    public static boolean isAllowedToTrash(Resource payloadResource, ResourceResolver userResolver) throws GirlScoutsException, RepositoryException {
+        Session session = userResolver.adaptTo(Session.class);
         final AccessControlManager accessControlManager = session.getAccessControlManager();
         final Privilege moveToTrashCanPrivilege = accessControlManager.privilegeFromName(Privilege.JCR_REMOVE_NODE);
-        if(payloadResource == null || ResourceUtil.isNonExistingResource(payloadResource)) {
+        if(payloadResource != null && !ResourceUtil.isNonExistingResource(payloadResource)) {
             if (accessControlManager.hasPrivileges(payloadResource.getPath(), new Privilege[]{moveToTrashCanPrivilege})) {
                 return true;
             } else {
                 throw new GirlScoutsException(new Exception(), "You do not have permission to move " + payloadResource.getPath() + " to trashcan.");
             }
+        }else{
+            throw new GirlScoutsException(new Exception(), "Item " + payloadResource.getPath() + " is not found.");
         }
-        return false;
     }
 
-    public static boolean isAllowedToRestore(Resource payloadResource, String restorePath) throws GirlScoutsException, RepositoryException {
+    public static boolean isAllowedToRestore(Resource payloadResource, String restorePath, ResourceResolver userResolver) throws GirlScoutsException, RepositoryException {
         String parentPath = restorePath;
         if(parentPath == null || parentPath.trim().length() == 0){
             parentPath = getRestoreItemPath(payloadResource);
         }
-        ResourceResolver rr = payloadResource.getResourceResolver();
-        Session session = rr.adaptTo(Session.class);
+        Session session = userResolver.adaptTo(Session.class);
         final AccessControlManager accessControlManager = session.getAccessControlManager();
-        Resource parentResource = rr.resolve(parentPath);
-        if(parentResource == null || ResourceUtil.isNonExistingResource(parentResource)){
+        Resource parentResource = userResolver.resolve(parentPath);
+        if(parentResource != null && !ResourceUtil.isNonExistingResource(parentResource)){
             final Privilege removeFromTrashCanPrivilege = accessControlManager.privilegeFromName(Privilege.JCR_REMOVE_NODE);
             final Privilege addUnderParentNodePrivilege = accessControlManager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES);
             if(accessControlManager.hasPrivileges(payloadResource.getPath(), new Privilege[] { removeFromTrashCanPrivilege }) && accessControlManager.hasPrivileges(parentPath, new Privilege[] { addUnderParentNodePrivilege })){
@@ -287,7 +286,8 @@ public class TrashcanUtil implements TrashcanConstants {
             }else {
                 throw new GirlScoutsException(new Exception(), "You do not have permission to restore " + payloadResource.getPath() + " from trashcan to "+parentPath+".");
             }
+        }else{
+            throw new GirlScoutsException(new Exception(), "Restore location " + parentPath + " is not available.");
         }
-        return false;
     }
 }
