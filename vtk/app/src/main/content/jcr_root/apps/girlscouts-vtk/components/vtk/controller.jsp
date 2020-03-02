@@ -332,11 +332,7 @@
                         meetingInfoItems.put("materials", new JcrCollectionHoldString(request.getParameter("newvalue")));
                     }
                     try {
-                        if (!m.getRefId().contains("_")) {
-                            yearPlanUtil.createCustomMeeting(user, selectedTroop, m, custM);
-                        } else {
-                            yearPlanUtil.updateCustomMeeting(user, selectedTroop, m, custM);
-                        }
+                        meetingUtil.createOrUpdateCustomMeeting(user, selectedTroop, m, custM);
                         out.println(request.getParameter("newvalue"));
                     } catch (Exception e) {
                         vtklog.error("Exception occured:", e);

@@ -18,10 +18,6 @@ public interface MeetingDAO {
 
     java.util.List<MeetingE> getAllUsersEventMeetings(User user, Troop troop, String yearPlanId) throws IllegalStateException, IllegalAccessException;
 
-    Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent) throws IllegalAccessException;
-
-    Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException;
-
     Meeting addActivity(User user, Troop troop, Meeting meeting, Activity activity) throws IllegalAccessException;
 
     List<org.girlscouts.vtk.models.Search> getData(User user, Troop troop, String query) throws IllegalAccessException;
@@ -33,9 +29,6 @@ public interface MeetingDAO {
     List<Asset> getAllResources(User user, Troop troop, String path) throws IllegalAccessException;
 
     java.util.List<Asset> getGlobalResources(String resourceTags); // delim
-    // ';'
-
-    Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException;
 
     java.util.List<Milestone> getCouncilMilestones(String councilCode);
 
@@ -90,4 +83,5 @@ public interface MeetingDAO {
 
     boolean removeAchievement(User user, Troop troop, Achievement achievement);
 
+    Meeting createOrUpdateMeeting(User user, Troop troop, MeetingE m, Meeting meeting) throws IllegalAccessException;
 }
