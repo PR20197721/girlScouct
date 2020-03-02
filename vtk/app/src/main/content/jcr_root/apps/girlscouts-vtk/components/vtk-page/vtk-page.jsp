@@ -145,7 +145,7 @@
             referer = mapper.getCouncilBranch();
         }
     }
-    referer = referer + "/en/site-search";
+    referer = referer + "/en/site-search.html";
     request.setAttribute("altSearchPath", referer);
 %>
 
