@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     initCalendar();
-
+	hideEventStartTime();
     // iOS touch fix
     var plat = navigator.platform;
     if( plat.indexOf("iPad") != -1 || plat.indexOf("iPhone") != -1 || plat.indexOf("iPod") != -1 ) {
@@ -48,7 +48,7 @@ function initCalendar() {
         $(info.el).on("click", function(event) {
             event.stopPropagation();
             tooltip.show();
-            for(var i = 0; tooltips.length; i++) {
+            for(var i = 0; i<tooltips.length; i++) {
                 if(tooltip !== tooltips[i]) {
                     tooltips[i].hide();
                 }
@@ -60,8 +60,15 @@ function initCalendar() {
 
     calendar.render();
     $("#fullcalendar").on("click", function() {
-      for(var i = 0; tooltips.length; i++) {
+        hideEventStartTime();
+        for(var i = 0; i<tooltips.length; i++) {
         tooltips[i].hide();
       }
+    });
+}
+
+function hideEventStartTime() {
+	$('.fc-event-container .fc-time').each(function () {
+        $(this).hide();
     });
 }
