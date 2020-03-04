@@ -70,7 +70,7 @@ public class MeetingUtil {
         return getYearPlanSched(user, troop, plan, meetingPlanSpecialSort, false);
     }
 
-    public java.util.Map getYearPlanSched(User user, Troop troop, YearPlan plan, boolean meetingPlanSpecialSort, boolean isLoadMeetingInfo) throws IllegalAccessException, VtkException {
+    public Map getYearPlanSched(User user, Troop troop, YearPlan plan, boolean meetingPlanSpecialSort, boolean isLoadMeetingInfo) throws IllegalAccessException, VtkException {
         if (plan == null) {
             return new java.util.TreeMap();
         }
@@ -241,7 +241,7 @@ public class MeetingUtil {
         return sched;
     }
 
-    public void changeMeetingPositions(User user, Troop troop, String newPositions) throws IllegalAccessException, VtkException {
+    public Troop changeMeetingPositions(User user, Troop troop, String newPositions) throws IllegalAccessException, VtkException {
         java.util.List<Integer> newMeetingSetup = new java.util.ArrayList();
         java.util.StringTokenizer t = new java.util.StringTokenizer(newPositions, ",");
         while (t.hasMoreElements()) {
@@ -259,7 +259,7 @@ public class MeetingUtil {
         plan.setDbUpdate(true);
         troop.setYearPlan(plan);
         troopUtil.updateTroop(user, troop);
-
+        return troop;
     }
 
     public void createCustomAgenda(User user, Troop troop, String name, String meetingPath, int duration, long _startTime, String txt) throws IllegalAccessException, VtkException {
@@ -683,15 +683,17 @@ public class MeetingUtil {
             assets = meetingAidUtil.getMeetingAids(meetingInfo, meetingEvent);
             meetingEvent.setMeetingInfo(meetingInfo);
             java.util.List<Activity> _activities = null;
-            if (meetingInfo.getActivities() != null) {
+            if (meetingInfo != null && meetingInfo.getActivities() != null) {
                 _activities = meetingInfo.getActivities();
             }
             meetingEvent.setLastAssetUpdate(new java.util.Date());
             meetingEvent.setAssets(assets);
             //end
             int meetingLength = 0;
-            for (Activity _agenda : _activities) {
-                meetingLength += _agenda.getDuration();
+            if(_activities != null) {
+                for (Activity _agenda : _activities) {
+                    meetingLength += _agenda.getDuration();
+                }
             }
             planView.setMeetingCount(meetingCount);
             planView.setMeetingLength(meetingLength);
