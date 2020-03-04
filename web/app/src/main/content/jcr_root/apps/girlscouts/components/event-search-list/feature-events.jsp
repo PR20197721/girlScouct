@@ -43,7 +43,7 @@
                 continue;
             }
         }
-        String title = node.getNode("jcr:content").getProperty("jcr.title:").getString();
+        String title = node.getNode("jcr:content").getProperty("jcr:title").getString();
         String href = value+".html";
         String fromdate = propNode.getProperty("start").getString();
         String todate="";
