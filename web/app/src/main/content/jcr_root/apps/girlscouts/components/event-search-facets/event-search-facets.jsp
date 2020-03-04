@@ -8,10 +8,10 @@
                 java.util.Collections"
                 %>
 <%@include file="/libs/foundation/global.jsp"%>
-<cq:includeClientLib categories="apps.girlscouts" />
+<!--GSWP-2056: Created clientlibs and added categories -->
+<cq:includeClientLib categories="cq.jquery.ui,apps.girlscouts,app.girlscouts.eventSearchFacets" />
 <cq:defineObjects/>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-
 
 <%
     String placeHold = slingRequest.getParameter("search") != null ? slingRequest.getParameter("search") : "";
@@ -30,27 +30,3 @@
          <a style="margin-left:6px; font-size:1rem;"href="<%=currentPage.getPath()%>.advanced.html">Advanced Search</a>
       </span>
  </div>
-<script>
-    $(document).ready(function(){
-        var lastSearch = $(".event-search-facets").find("input").attr("searchHolder");
-        if(lastSearch !== ""){
-            $('#mainContent .event-search-facets .search-box .searchField').val(lastSearch);
-        }else{
-            $('#mainContent .event-search-facets .search-box .searchField').val($("#searchedVal").attr("searched"));
-        }
-    });
-    $("#eventSearchSubmit").on('click', function(){
-        $(".event-search-facets").find("form").submit();
-    });
-    $("#advSearch").on('click', function(){
-        var ref = $("#advSearch").find("a").attr("href");
-        if($(".event-search-facets").find("input").val() !== ""){
-            if(!ref.includes("?search=")){
-                ref = ref + "?search=" + $(".event-search-facets").find("input").val();
-            }else{
-                ref = ref.replace(ref.substring(ref.indexOf("?search=")), "?search=" + $(".event-search-facets").find("input").val());
-            }
-             $("#advSearch").find("a").attr("href", ref)
-        }
-    });
-</script>

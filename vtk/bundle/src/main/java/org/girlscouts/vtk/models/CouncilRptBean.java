@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CouncilRptBean {
     private String yearPlanName, libPath, ageGroup, yearPlanPath, troopId, troopName;
-    private boolean isAltered, isActivity;
+    private boolean isAltered, isActivity, isIRM;
     private List<Contact> troopLeaders;
 
     public String getTroopName() {
@@ -53,6 +53,14 @@ public class CouncilRptBean {
 
     public void setActivity(boolean isActivity) {
         this.isActivity = isActivity;
+    }
+
+    public boolean isIRM() {
+        return isIRM;
+    }
+
+    public void setIRM(boolean isIRM){
+        this.isIRM = isIRM;
     }
 
     public String getYearPlanPath() {

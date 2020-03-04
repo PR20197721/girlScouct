@@ -5,12 +5,17 @@
                 java.util.ResourceBundle,com.day.cq.search.QueryBuilder,
                 javax.jcr.PropertyIterator, 
                 com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,                
-                java.util.Collections, javax.jcr.Node"
+                java.util.Collections, javax.jcr.Node,
+				org.girlscouts.common.search.formsdocuments.FormsDocumentsSearch,
+				java.util.Map,java.util.List,
+				org.girlscouts.common.events.search.FacetsInfo"
                 %>
 <%@include file="/libs/foundation/global.jsp"%>
-<cq:includeClientLib categories="apps.girlscouts" />
+<!--GSWP-2056: Created clientlibs and added categories -->
+<cq:includeClientLib categories="cq.jquery.ui,apps.girlscouts,app.girlscouts.eventSearchFacets" />
 <cq:defineObjects/>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+
 
 <%  
     Map<String,List<FacetsInfo>> facetsAndTags = (HashMap<String,List<FacetsInfo>>)request.getAttribute("facetsAndTags");
@@ -78,19 +83,40 @@
 	    String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
 	    String placeHold = slingRequest.getParameter("search") != null ? slingRequest.getParameter("search") : "Keywords";
 	    String placeholder = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : placeHold;
-   
+
 %>
 
-<script>
-function toggleWhiteArrow() {
-	$('#events-display').toggle();
-	if ($('#whiteArrowImg').attr('src') == "/etc/designs/girlscouts-usa-green/images/white-right-arrow.png") {
-		$('#whiteArrowImg').attr('src', "/etc/designs/girlscouts-usa-green/images/white-down-arrow.png");
-	} else {
-		$('#whiteArrowImg').attr('src', "/etc/designs/girlscouts-usa-green/images/white-right-arrow.png");
-	}
-}
-</script>
+<%
+    //GSWP-2003 : custom tags event search facets
+    FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
+
+	List<FacetsInfo> programLevel = new ArrayList<FacetsInfo>();
+	        List<FacetsInfo> categoryLevel = new ArrayList<FacetsInfo>();
+	
+	boolean useEventCustomTagList = properties.get("useEventCustomTagList", false);
+	String[] eventPgmTagList = properties.get("eventPgmTagList", String[].class);
+	String[] eventCtgTagList = properties.get("eventCtgTagList", String[].class);
+	try{
+		//get program and category level custom tags
+	    if (useEventCustomTagList){
+			if(null != eventPgmTagList){
+	
+				programLevel = formsDocuImpl.loadFacetsFromList(slingRequest, eventPgmTagList);
+			}
+			if(null != eventCtgTagList){
+				categoryLevel = formsDocuImpl.loadFacetsFromList(slingRequest, eventCtgTagList);
+			}
+	
+	    } 
+	    //get program and category level default tags 
+	    else {
+			programLevel = facetsAndTags.get("program-level");
+	        categoryLevel = facetsAndTags.get("categories");
+	    }
+	} catch(Exception e){}
+      //GSWP-2003 : custom tags event search facets
+ %>
+
 <div class="baseDiv anActivity small-24 large-24 medium-24 columns">
    <div class="row collapse">
         <div class="small-1 large-1 medium-1 columns">
@@ -111,7 +137,8 @@ function toggleWhiteArrow() {
 
 	   <div class="small-24 medium-6 large-7 columns">
 				<div class="title"> By Keyword </div>
-				<input id="keywordInput" type="text" name="q" placeholder="<%=placeholder%>" class="searchField" style="width:140px;height:25px;" />
+				<!--GSWP-2056- added value attribute to pass last search text from simple search to adv search -->
+				<input id="keywordInput" type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" <%if(placeholder != null && !"Keywords".equals(placeholder)){ %>value="<%=placeholder%>"<%}%> />
 		</div>
 		<div class="small-12 medium-6 large-6 event-region columns">
 			<div class="title"> Region </div>
@@ -137,6 +164,7 @@ function toggleWhiteArrow() {
 			<p id ="dateErrorBox" ></p>
 		</div>
 	</div>
+	
 	<div class="baseDiv sortBy programLevel" style="width: 100%; padding: 10px; padding-top: 0px;">
         <div class="title"> Sort By </div>
         <div class="styled-select sort-select-bar">
@@ -147,13 +175,15 @@ function toggleWhiteArrow() {
             </select>
         </div>
     </div>
-	<div class="baseDiv programLevel" >
+	
+	<%	if(!programLevel.isEmpty()){ %>
+		<div class="baseDiv programLevel" >
 	   <div class="title"> By Program Level </div>
 	    <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
 	        <%
-	         
+
 	        try {
-		        List programLevel = facetsAndTags.get("program-level");
+            //List programLevel = facetsAndTags.get("program-level");
 		        for(int pi=0; pi<programLevel.size(); pi++){
 		            FacetsInfo programLevelList = (FacetsInfo)programLevel.get(pi);
 		            %> 
@@ -167,15 +197,19 @@ function toggleWhiteArrow() {
 	        %>
 		</ul>        
 	</div>
-	<div class="baseDiv programLevel" >
+	<% }
+	
+	if(!categoryLevel.isEmpty()){
+		%>
+		<div class="baseDiv programLevel" >
 		<div class="title">By Category </div>
 		<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
 	<%
 	    // Get the categories
-		
+
 		try{
-			List<FacetsInfo> facetsInfoList = facetsAndTags.get("categories");
-			for (FacetsInfo facetsInfo: facetsInfoList) {
+                //List<FacetsInfo> facetsInfoList = facetsAndTags.get("categories");
+			for (FacetsInfo facetsInfo: categoryLevel) {
 	%>
 	    	<li>
 	    		<input type="checkbox" id="<%=facetsInfo.getFacetsTagId()%>" value="<%=facetsInfo.getFacetsTagId()%>" name="tags" <%if(set.contains(facetsInfo.getFacetsTagId())){ %>checked <%} %>/>&nbsp;<label for="<%=facetsInfo.getFacetsTitle() %>"><%=facetsInfo.getFacetsTitle()%></label>
@@ -187,6 +221,8 @@ function toggleWhiteArrow() {
 	%>
 		</ul>
 	</div>
+	<% }	%>
+	
 
 	<div class="searchButtonRow baseDiv programLevel">
             <a id="smplSearch"style="width: 180px; margin: 0; height: 43px; padding-top: 10.5px; padding-right: 15px;"href="<%=returnAction%>" >Simple Search</a>
@@ -196,148 +232,6 @@ function toggleWhiteArrow() {
 
 
 </form>
-<script>
-$(document).ready(function(){
-    var placeholder = $("#keywordInput").attr("placeholder");
-    if(!placeholder.includes("Keywords")){
-       $("#keywordInput").val(placeholder);
-    }
 
-});
-$("#smplSearch").on('click', function(){
-    var ref = $("#smplSearch").attr("href");
-    if($(".event-search-facets").find("input").val() !== ""){
-        if(!ref.includes("?search=")){
-            ref = ref + "?search=" + $(".event-search-facets").find("input").val();
-        }else{
-            ref = ref.replace(ref.substring(ref.indexOf("?search=")), "?search=" + $(".event-search-facets").find("input").val());
-        }
-        $("#smplSearch").attr("href", ref);
-    }
-
-
-});
-
-$(function() {
-
-    $( "#startdtRange" ).datepicker({minDate: 0,
-beforeShowDay: function(d) {
-
-
-    if($('#enddtRange').val() == "" || $('#enddtRange').val() == undefined){
-		return [true, "","Available"]; 
-    }
-
-    var dateString = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-
-    //alert((new Date(dateString) < new Date($('#sch_endDate').val())) + " " + dateString + "<" + $('#sch_endDate').val());
-
-    if(+(new Date(dateString)) <= +(new Date($('#enddtRange').val()))){
-		return [true, "","Available"];
-    }
-
-	return [false, "","unAvailable"]; 
-
-    }
-                                    });
-
-    $( "#enddtRange" ).datepicker({minDate: 0,
-beforeShowDay: function(d) {
-
-
-    if($('#startdtRange').val() == "" || $('#startdtRange').val() == undefined){
-		return [true, "","Available"]; 
-    }
-
-    var dateString = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-
-    //alert((new Date(dateString) < new Date($('#sch_endDate').val())) + " " + dateString + "<" + $('#sch_endDate').val());
-
-    if(+(new Date(dateString)) >= +(new Date($('#startdtRange').val()))){
-		return [true, "","Available"];
-    }
-
-	return [false, "","unAvailable"]; 
-
-    }
-                                  });
-
-  });
-
-    function validateForm(){
-
-
-        if($('#enddtRange').val() == "" && $('#startdtRange').val() == ""){
-			return true;
-        }
-
-		if(!isDate($('#enddtRange').val())){
-			displayError("Invalid End Date");
-			return false;
-		}
-
-		if(!isDate($('#startdtRange').val())){
-			displayError("Invalid Start Date");
-			return false;
-		}
-		
-
-        if(new Date($('#enddtRange').val()) < new Date($('#startdtRange').val())){
-			displayError("End Date cannot be less than Start Date");
-
-            return false;
-        }else{
-            document.getElementById("dateErrorBox").innerHTML = "";
-			return true;
-        }
-
-    }
-
-function displayError(errorMessage){
-	document.getElementById("dateErrorBox").innerHTML = errorMessage;
-	document.getElementById("dateTitle").style.color = "#FF0000";
-    document.getElementById("dateErrorBox").style.color = "#FF0000";
-	document.getElementById("dateErrorBox").style.fontSize = "x-small";
-	document.getElementById("dateErrorBox").style.fontWeight = "bold";
-	document.getElementById("eventsTitle").scrollIntoView();
-
-}
-
-    
-function isDate(txtDate)
-{
-    var currVal = txtDate;
-    if(currVal == '')
-        return false;
-    
-    var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/; //Declare Regex
-    var dtArray = currVal.match(rxDatePattern); // is format OK?
-    
-    if (dtArray == null) 
-        return false;
-    
-    //Checks for mm/dd/yyyy format.
-    dtMonth = dtArray[1];
-    dtDay= dtArray[3];
-    dtYear = dtArray[5];        
-    
-    if (dtMonth < 1 || dtMonth > 12) 
-        return false;
-    else if (dtDay < 1 || dtDay> 31) 
-        return false;
-    else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31) 
-        return false;
-    else if (dtMonth == 2) 
-    {
-        var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
-        if (dtDay> 29 || (dtDay ==29 && !isleap)) 
-                return false;
-    }
-    return true;
-}
-
-
-
-</script>
 </div>
 <% } %>

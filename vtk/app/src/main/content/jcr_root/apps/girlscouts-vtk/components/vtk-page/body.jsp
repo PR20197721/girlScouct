@@ -4,21 +4,20 @@
                 org.girlscouts.vtk.osgi.component.CouncilMapper" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/body.jsp -->
-
 <%
-
     HttpSession session = request.getSession(true);
-
     CouncilMapper mapper = sling.getService(CouncilMapper.class);
     ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class.getName());
     Page newCurrentPage = null;
     Design newCurrentDesign = null;
-
     String councilId = null;
-
     String branch = "";
     try {
-        councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
+        if (!apiConfig.getUser().isAdmin()) {
+            councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
+        } else {
+            councilId = apiConfig.getUser().getAdminCouncilId();
+        }
         branch = mapper.getCouncilBranch(councilId);
     } catch (Exception e) {
         Cookie[] cookies = request.getCookies();
@@ -30,19 +29,15 @@
                 }
             }
         }
-
-        if (refererCouncil != null && !refererCouncil.isEmpty()) {
+        if (refererCouncil != null && !refererCouncil.isEmpty() && refererCouncil.length() > 0) {
             branch = "/content/" + refererCouncil;
         } else {
             branch = mapper.getCouncilBranch();
         }
     }
-
-
     // TODO: language
     branch += "/en";
     newCurrentPage = (Page) resourceResolver.resolve(branch).adaptTo(Page.class);
-
     // Get design
     String designPath = newCurrentPage.getProperties().get("cq:designPath", "");
     if (!designPath.isEmpty()) {
@@ -51,7 +46,6 @@
 %>
 <body class="vtk-body" data-grid-framework="f4" data-grid-color="darksalmon" data-grid-opacity="0.5"
       data-grid-zindex="10" data-grid-gutterwidth="10px" data-grid-nbcols="24">
-
 <!-- Google Tag Manager -->
 <noscript>
     <iframe src="//www.googletagmanager.com/ns.html?id=GTM-PV9D8H"
@@ -71,8 +65,6 @@
     f.parentNode.insertBefore(j, f);
 })(window, document, 'script', 'dataLayer', 'GTM-PV9D8H');</script>
 <!-- End Google Tag Manager -->
-
-
 <div class="off-canvas-wrap">
     <div class="inner-wrap">
         <%
@@ -84,10 +76,10 @@
                 request.setAttribute("newCurrentDesign", newCurrentDesign);
             }
             if (apiConfig.isDemoUser()) {
-                %>
-                <cq:include script="headerDemo.jsp"/>
-                <%
-            } else {
+        %>
+        <cq:include script="headerDemo.jsp"/>
+        <%
+        } else {
         %>
         <cq:include script="header.jsp"/>
         <%
@@ -120,20 +112,14 @@
     </div>
 </div>
 <div id="gsModal"></div>
-
 <div id="gsDialog"></div>
-
 <!--  script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script -->
 <!--  script src="http://fb.me/react-0.12.1.js"></script -->
-
 <!--  script src="http://fb.me/JSXTransformer-0.12.1.js"></script -->
 <!--  script src="http://fb.me/react-with-addons-0.12.1.js"></script -->
-
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 <!-- <script src="/etc/designs/girlscouts-vtk/clientlibs/js/vtk-global.js"></script> -->
-
-
 <script>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -148,11 +134,12 @@
     (window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
     ga('create', 'UA-2646810-36', 'auto', {'name': 'vtkTracker'});
 </script>
-
 <%
     boolean isProd = false;
     for (String runMode : sling.getService(SlingSettingsService.class).getRunModes()) {
-        if ("prod".equals(runMode)) isProd = true;
+        if ("prod".equals(runMode)) {
+            isProd = true;
+        }
     }
     if (isProd) { // begin prod walkme
 %>
@@ -184,9 +171,7 @@
 <%
     } // end test walkme
 %>
-
 <%
-
     String thisFooterScript = (String) request.getAttribute("footerScript");
     if (thisFooterScript != null) {
         out.println(thisFooterScript);
