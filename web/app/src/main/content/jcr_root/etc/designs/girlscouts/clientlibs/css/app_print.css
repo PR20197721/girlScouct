@@ -21,3 +21,4 @@ footer { display: none; }
 .accordion.section dd{ height: auto !important; }
 .accordion.section h6.accordionComponentLabel { color: #00ae58 !important; }
 .advertisement { display: none;}
+div.img-print{width: 130px;}

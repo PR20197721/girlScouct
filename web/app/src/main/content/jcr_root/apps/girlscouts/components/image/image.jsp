@@ -64,7 +64,7 @@
 	}
 	styleImage += "line-height: 1.15rem;";
 	
-	%><div class="img-wrapper" id="<%= divId %>" style="<%= styleImage %>"><%
+	%><div class="img-wrapper img-print" id="<%= divId %>" style="<%= styleImage %>"><%
 	    Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
 	    
