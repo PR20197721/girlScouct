@@ -179,7 +179,7 @@ $slick-next-character: "\f138";
     }
 }
 
-div.carousel {
+div.carousel-lh, div.carousel {
     @media #{$medium-up} {
         margin-bottom: rem-calc(10);
     }
