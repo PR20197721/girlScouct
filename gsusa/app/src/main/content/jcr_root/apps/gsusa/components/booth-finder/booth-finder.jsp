@@ -11,7 +11,7 @@
 	<span>Booth Finder</span>
 	<% } %>
 </div>
- 
+
 <%
 	// Templates
 // Templates for path 1 to path 5.
@@ -67,9 +67,7 @@
 	<cq:include script="share-modal.jsp" />
 </script>
 
-<input type="hidden" id="fbId" value="<%= currentSite.get("facebookId", "") %>">
-<input type="hidden" id="numPerPage" value="<%= properties.get("numPerPage", 50)%>">
-<input type="hidden" id="boothDetailResPath" value="<%= resource.getPath() %>">
+<div id="booth-finder-details" fbId="<%= currentSite.get("facebookId", "") %>"  numPerPage="<%= properties.get("numPerPage", 50)%>" boothDetailResPath="<%= resource.getPath() %>">
 
 <%!
 	public String escapeDoubleQuotesAddCouncil(String str) {

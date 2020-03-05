@@ -4,7 +4,7 @@ $(document).ready(function() {
     var geocoder;
     var zip; 
     var boothDetails;
-    var numPerPage = $("#numPerPage").val();
+    var numPerPage = $("#booth-finder-details").attr("numPerPage");
     LoadGoogle();
     // Get zip from param
     zip = getParameterByName('zip');
@@ -31,21 +31,6 @@ $(document).ready(function() {
         boothFinder = new BoothFinder("/cookiesapi/booth_list_merged.asp", zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
     }
-    //GSDO-1024 :multiple-gmaps-api-call :Start
-    $('.close-reveal-modal').click(function() {
-        //removes gmaps traces from DOM.
-        if (window.google !== undefined && google.maps !== undefined) {
-            delete google.maps;
-            $('script').each(function() {
-                if (this.src.indexOf('googleapis.com/maps') >= 0 ||
-                    this.src.indexOf('maps.gstatic.com') >= 0 ||
-                    this.src.indexOf('earthbuilder.googleapis.com') >= 0) {
-                    $(this).remove();
-                }
-            });
-        }
-    })
-    //GSDO-1024 :multiple-gmaps-api-call :End
 });
 
 
@@ -190,7 +175,7 @@ BoothFinder.prototype.processResult = function(result) {
                 'shareImgPath=' + encodeURIComponent($('#share-map-FBImgPath').attr('data'));
 
             $('#modal_booth_item_map').foundation('reveal', 'open', {
-                url: '' + $("#boothDetailResPath").val() + '.booth-detail.html',
+                url: '' + $("#booth-finder-details").attr('boothDetailResPath') + '.booth-detail.html',
                 cache: false,
                 processData: false,
                 data: data
@@ -225,9 +210,24 @@ BoothFinder.prototype.processResult = function(result) {
 
                     FB.ui(obj, callback);
                 }
-                
+
             });
             $('.off-canvas-wrap').addClass('noprint');
+            //GSDO-1024 :multiple-gmaps-api-call :Start
+            $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
+                //removes gmaps traces from DOM.
+                if (window.google !== undefined && google.maps !== undefined) {
+                    delete google.maps;
+                    $('script').each(function() {
+                        if (this.src.indexOf('googleapis.com/maps') >= 0 ||
+                            this.src.indexOf('maps.gstatic.com') >= 0 ||
+                            this.src.indexOf('earthbuilder.googleapis.com') >= 0) {
+                            $(this).remove();
+                        }
+                    });
+                }
+            })
+    		//GSDO-1024 :multiple-gmaps-api-call :End
 			
         });
 
@@ -262,7 +262,7 @@ BoothFinder.prototype.processResult = function(result) {
             imageFilePath: $('#share-shareDialogImagePath').attr('data'),
             url: window.location.href,
             uniqueID: Math.floor((Math.random() * 1000) + 1),
-            facebookId: $("#fbId").val()
+            facebookId: $("#booth-finder-details").attr('fbId')
         });
         $('#booth-finder-result').append(shareModalHtml);
     }
