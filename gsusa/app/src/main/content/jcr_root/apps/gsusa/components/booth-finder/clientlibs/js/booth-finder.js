@@ -4,7 +4,7 @@ $(document).ready(function() {
     var geocoder;
     var zip; 
     var boothDetails;
-    var numPerPage = $("#booth-finder-details").attr("numPerPage");
+    var numPerPage = $("#booth-finder-details").data("num-per-page");
     LoadGoogle();
     // Get zip from param
     zip = getParameterByName('zip');
@@ -175,7 +175,7 @@ BoothFinder.prototype.processResult = function(result) {
                 'shareImgPath=' + encodeURIComponent($('#share-map-FBImgPath').attr('data'));
 
             $('#modal_booth_item_map').foundation('reveal', 'open', {
-                url: '' + $("#booth-finder-details").attr('boothDetailResPath') + '.booth-detail.html',
+                url: '' + $("#booth-finder-details").data('res-path') + '.booth-detail.html',
                 cache: false,
                 processData: false,
                 data: data
@@ -262,7 +262,7 @@ BoothFinder.prototype.processResult = function(result) {
             imageFilePath: $('#share-shareDialogImagePath').attr('data'),
             url: window.location.href,
             uniqueID: Math.floor((Math.random() * 1000) + 1),
-            facebookId: $("#booth-finder-details").attr('fbId')
+            facebookId: $("#booth-finder-details").data('fb-id')
         });
         $('#booth-finder-result').append(shareModalHtml);
     }
