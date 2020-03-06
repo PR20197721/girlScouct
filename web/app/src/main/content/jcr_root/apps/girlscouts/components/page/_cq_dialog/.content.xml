@@ -149,7 +149,7 @@
                                                         sling:resourceType="granite/ui/components/foundation/form/multifield"
                                                         cq-msm-lockable="sling:vanityPath"
                                                         fieldDescription="The vanity url format is /content/councilpath/vaintypath Replace councilname with your council path and the vanitypath with the desired vanity url. For example for Girlscouts North East Texas a join vanity url is /content/gsnetx/join"
-                                                        fieldLabel="Vanity URL (Please allow up to 10 minutes for the changes to take effect)" renderReadOnly="{Boolean}true">
+                                                        fieldLabel="Vanity URL" renderReadOnly="{Boolean}true">
                                                 <field jcr:primaryType="nt:unstructured"
                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                        name="./sling:vanityPath" required="{Boolean}true" />
