@@ -60,7 +60,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     static final String VENDOR = Constants.SERVICE_VENDOR;
     @Property(value = "Girl Scouts Roll out Service")
     static final String LABEL = "process.label";
-    private static Logger log = LoggerFactory.getLogger(RolloutTemplatePageServiceImpl.class);
+    private static Logger log = LoggerFactory.getLogger("org.girlscouts.rollout");
     @Reference
     private ResourceResolverFactory resolverFactory;
     @Reference
@@ -271,46 +271,69 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         Set<String> processedRelationCouncils = new HashSet<String>();
         for (String councilPath : submittedCouncils) {
             log.info("Looking up live relationships in {}", councilPath);
-            RangeIterator relationsIterator = relationManager.getLiveRelationships(sourcePageResource.getParent(), councilPath, null);
-            while (relationsIterator.hasNext()) {
-                try {
-                    LiveRelationship relation = (LiveRelationship) relationsIterator.next();
-                    String relationPagePath = relation.getTargetPath();
-                    rolloutLog.add("Attempting to roll out a child page of: " + relationPagePath);
-                    log.info("Attempting to roll out a child page of: {}", relationPagePath);
-                    Resource parentResource = rr.resolve(relationPagePath);
-                    if (parentResource != null && !parentResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-                        PageManager pageManager = rr.adaptTo(PageManager.class);
-                        Page srcPage = (Page) sourcePageResource.adaptTo(Page.class);
-                        Page copyPage = pageManager.copy(srcPage, relationPagePath + "/" + srcPage.getName(), srcPage.getName(), false, true);
-                        RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
-                        RolloutConfig gsConfig = configMgr.getRolloutConfig(GS_ROLLOUT_CONFIG);
-                        log.info("Establishing relationship between: {} and {}", srcPage.getPath(), copyPage.getPath());
-                        LiveRelationship newPageRelationship = relationManager.establishRelationship(srcPage, copyPage, true, false, gsConfig);
-                        String targetPath = newPageRelationship.getTargetPath();
-                        cancelInheritance(rr, copyPage.getPath());
-                        rolloutManager.rollout(rr, newPageRelationship, false);
-                        if (updateReferences) {
-                            Set<String> srcComponents = PageReplicationUtil.getComponents(sourcePageResource);
-                            updateAllReferences(sourcePageResource, copyPage.adaptTo(Resource.class), srcComponents, new HashMap<String, String>());
+            Resource sourceParent = sourcePageResource.getParent();
+            RangeIterator relationsIterator = relationManager.getLiveRelationships(sourceParent, councilPath, null);
+            boolean escape = false;
+            while(!escape) {
+                while (!relationsIterator.hasNext() && sourceParent != null && escape == false) {
+                    try {
+                        log.debug("No immediate relation for " + sourceParent.getPath());
+                        sourceParent = sourceParent.getParent();
+                        if (sourceParent != null) {
+                            log.debug("Looking for relation for " + sourceParent.getPath());
+                            relationsIterator = relationManager.getLiveRelationships(sourceParent, councilPath, null);
+                        } else {
+                            log.debug("SourceParent is now null");
+                            escape = true;
                         }
-                        session.save();
-                        log.info("Page {} created", copyPage.getPath());
-                        rolloutLog.add("Page " + copyPage.getPath() + " created");
-                        rolloutLog.add("Live copy established");
-                        if (targetPath.endsWith("/jcr:content")) {
-                            targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
-                        }
-                        pagesToActivate.add(targetPath);
-                        rolloutLog.add("Page added to activation/cache build queue");
-                        processedRelationCouncils.add(councilPath);
-                    } else {
-                        rolloutLog.add("No resource can be found to serve as a suitable parent page. In order to roll out to this council, you must roll out the parent of this template page first.");
-                        rolloutLog.add("Will NOT rollout to this council");
-                        notifyCouncils.add(relationPagePath);
+                    } catch (Exception e) {
+                        log.error("Exception occurred: " + e.getStackTrace());
                     }
-                } catch (Exception e) {
-                    log.error("Girlscouts Rollout Service encountered error: ", e);
+                }
+                while (relationsIterator.hasNext() && escape == false) {
+                    try {
+                        log.error("Found relation for " + sourceParent.getPath());
+                        LiveRelationship relation = (LiveRelationship) relationsIterator.next();
+                        String relationPagePath = relation.getTargetPath();
+                        rolloutLog.add("Attempting to roll out a child page of: " + relationPagePath);
+                        log.info("Attempting to roll out a child page of: {}", relationPagePath);
+                        Resource parentResource = rr.resolve(relationPagePath);
+                        if (parentResource != null && !parentResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+                            PageManager pageManager = rr.adaptTo(PageManager.class);
+                            Page srcPage = (Page) sourcePageResource.adaptTo(Page.class);
+                            Page copyPage = pageManager.copy(srcPage, relationPagePath + "/" + srcPage.getName(), srcPage.getName(), false, true);
+                            RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
+                            RolloutConfig gsConfig = configMgr.getRolloutConfig(GS_ROLLOUT_CONFIG);
+                            log.info("Establishing relationship between: {} and {}", srcPage.getPath(), copyPage.getPath());
+                            LiveRelationship newPageRelationship = relationManager.establishRelationship(srcPage, copyPage, true, false, gsConfig);
+                            String targetPath = newPageRelationship.getTargetPath();
+                            cancelInheritance(rr, copyPage.getPath());
+                            rolloutManager.rollout(rr, newPageRelationship, false);
+                            if (updateReferences) {
+                                Set<String> srcComponents = PageReplicationUtil.getComponents(sourcePageResource);
+                                updateAllReferences(sourcePageResource, copyPage.adaptTo(Resource.class), srcComponents, new HashMap<String, String>());
+                            }
+                            session.save();
+                            log.info("Page {} created", copyPage.getPath());
+                            rolloutLog.add("Page " + copyPage.getPath() + " created");
+                            rolloutLog.add("Live copy established");
+                            if (targetPath.endsWith("/jcr:content")) {
+                                targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
+                            }
+                            pagesToActivate.add(targetPath);
+                            rolloutLog.add("Page added to activation/cache build queue");
+                            processedRelationCouncils.add(councilPath);
+                            escape = true;
+                        } else {
+                            rolloutLog.add("No resource can be found to serve as a suitable parent page. In order to roll out to this council, you must roll out the parent of this template page first.");
+                            rolloutLog.add("Will NOT rollout to this council");
+                            log.error("No resource found as parent page for sourceParent " + sourceParent.getPath());
+                            notifyCouncils.add(relationPagePath);
+                        }
+                    } catch (Exception e) {
+                        log.error("Girlscouts Rollout Service encountered error: ", e);
+                        escape = true;
+                    }
                 }
             }
         }
