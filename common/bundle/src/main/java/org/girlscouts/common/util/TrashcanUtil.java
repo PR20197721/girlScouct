@@ -3,6 +3,7 @@ package org.girlscouts.common.util;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.dam.api.Asset;
+import com.day.cq.dam.api.DamConstants;
 import com.day.cq.replication.ReplicationStatus;
 import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.api.Page;
@@ -86,12 +87,12 @@ public class TrashcanUtil implements TrashcanConstants {
     public static boolean hasChildren(Resource payloadResource) throws GirlScoutsException {
         log.debug("Checking if "+payloadResource.getPath()+" has children");
         if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-            boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
+            boolean isAsset = payloadResource.isResourceType(DamConstants.NT_DAM_ASSET);
             if(!isAsset){
                 Iterator<Resource> children = payloadResource.listChildren();
                 if(children.hasNext()){
                     Resource child = children.next();
-                    if(child.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET) || child.isResourceType("cq:Page") || child.isResourceType(JcrConstants.NT_FOLDER)|| child.isResourceType(JcrResourceConstants.NT_SLING_FOLDER)|| child.isResourceType(JcrResourceConstants.NT_SLING_ORDERED_FOLDER) || child.isResourceType(NameConstants.NT_PAGE)) {
+                    if(child.isResourceType(DamConstants.NT_DAM_ASSET) || child.isResourceType(DamConstants.NT_DAM_ASSET) || child.isResourceType("cq:Page") || child.isResourceType(JcrConstants.NT_FOLDER)|| child.isResourceType(JcrResourceConstants.NT_SLING_FOLDER)|| child.isResourceType(JcrResourceConstants.NT_SLING_ORDERED_FOLDER) || child.isResourceType(NameConstants.NT_PAGE)) {
                         throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has children");
                     }
                 }
