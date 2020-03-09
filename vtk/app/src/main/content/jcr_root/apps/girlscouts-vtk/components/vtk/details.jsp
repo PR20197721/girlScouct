@@ -17,14 +17,14 @@
     if(planView != null){
         try{
             if (planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETINGCANCELED || planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETING) {
-%>
-<%@include file="meeting_react2.jsp" %>
-<%@include file="include/loader.jsp"%>
-<%
-} else if (planView.getYearPlanComponent().getType() == YearPlanComponentType.ACTIVITY) {
-%>
-<%@include file="activity_react2.jsp" %>
-<%
+                %>
+                <%@include file="meeting_react2.jsp" %>
+                <%@include file="include/loader.jsp"%>
+                <%
+                } else if (planView.getYearPlanComponent().getType() == YearPlanComponentType.ACTIVITY) {
+                %>
+                <%@include file="activity_react2.jsp" %>
+                <%
             }
         }catch(Exception e){
         }

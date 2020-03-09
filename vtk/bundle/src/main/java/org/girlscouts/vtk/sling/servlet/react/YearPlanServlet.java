@@ -67,26 +67,30 @@ public class YearPlanServlet extends SlingAllMethodsServlet implements OptingSer
             response.addHeader("expires", "0");
             JsonObject json = new JsonObject();
             User user = ((User) request.getSession().getAttribute(User.class.getName()));
-            boolean isViewingArchived = !user.getCurrentYear().equals(String.valueOf(vtkUtil.getCurrentGSYear()));
-            Troop troop = (Troop) request.getSession().getAttribute("VTK_troop");
-            if(isViewingArchived){
-                troop = (Troop) request.getSession().getAttribute("VTK_archived_troop");
-            }
-            if (troop != null) {
-                if (troop.getYearPlan() == null) {
-                    json.addProperty("yearPlan", "NYP");
-                }else{
-                    Map<Date, YearPlanComponent> sched = troop.getSchedule();
-                    String yearPlanJson = gson.toJson(CollectionModelToEntityMapper.mapYearPlanComponents(sched));
-                    if(yearPlanJson != null){
-                        yearPlanJson.replaceAll("mailto:", "");
-                    }
-                    JsonObject jsonObject = new JsonParser().parse(yearPlanJson).getAsJsonObject();
-                    json.addProperty("yearPlan",  troop.getYearPlan().getName());
-                    json.add("schedule",  jsonObject);
+            if(user != null) {
+                boolean isViewingArchived = !user.getCurrentYear().equals(String.valueOf(vtkUtil.getCurrentGSYear()));
+                Troop troop = (Troop) request.getSession().getAttribute("VTK_troop");
+                if (isViewingArchived) {
+                    troop = (Troop) request.getSession().getAttribute("VTK_archived_troop");
                 }
-            }else{
-                json.addProperty("error", "no troop selected");
+                if (troop != null) {
+                    if (troop.getYearPlan() == null) {
+                        json.addProperty("yearPlan", "NYP");
+                    } else {
+                        Map<Date, YearPlanComponent> sched = troop.getSchedule();
+                        String yearPlanJson = gson.toJson(CollectionModelToEntityMapper.mapYearPlanComponents(sched));
+                        if (yearPlanJson != null) {
+                            yearPlanJson.replaceAll("mailto:", "");
+                        }
+                        JsonObject jsonObject = new JsonParser().parse(yearPlanJson).getAsJsonObject();
+                        json.addProperty("yearPlan", troop.getYearPlan().getName());
+                        json.add("schedule", jsonObject);
+                    }
+                } else {
+                    json.addProperty("error", "no troop selected");
+                }
+            }else {
+                json.addProperty("error", "no user in session");
             }
             response.getWriter().write(new Gson().toJson(json));
         } catch (Exception e) {
