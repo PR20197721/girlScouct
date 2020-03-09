@@ -102,9 +102,8 @@
                     var itemPath = item.data("foundation-collection-item-id");
                     var restoreParam = "";
                     if(restorePath != null && restorePath.trim().length > 0){
-                        restoreParam = "&restorePath="+restorePath;
+                        restoreParam = "&restorePath="+encodeURIComponent(restorePath);
                     }
-                    var url = Granite.HTTP.externalize(activator.data("href")) + itemPath+restoreParam;
                     var message = "<p>Following item will be moved to trashcan:</p>" + itemPath;
                     var header = "Moving to trashcan";
                     if (itemPath.includes("/trashcan/")) {
@@ -114,7 +113,8 @@
                         }
                         header = "Restoring from trashcan";
                     }
-
+                    itemPath = encodeURIComponent(itemPath);
+                    var url = Granite.HTTP.externalize(activator.data("href")) + itemPath+restoreParam;
                     var dialog = new Coral.Dialog().set({
                         id: "trashcanDialog",
                         header: {
