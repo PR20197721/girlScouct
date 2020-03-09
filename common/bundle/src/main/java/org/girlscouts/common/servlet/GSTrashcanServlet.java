@@ -32,6 +32,7 @@ import javax.jcr.Session;
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,6 +78,8 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                 try {
                     String payloadPath = request.getParameter("payload");
                     if (payloadPath != null && payloadPath.trim().length() > 0) {
+                        ResourceResolver rr = null;
+                        payloadPath = URLDecoder.decode(payloadPath, "UTF-8");
                         ResourceResolver adminResolver = null;
                         try {
                             adminResolver = resolverFactory.getServiceResourceResolver(this.serviceParams);
@@ -86,7 +89,7 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                                 if (payloadPath.startsWith(ASSET_TRASHCAN_PATH) || payloadPath.startsWith(PAGE_TRASHCAN_PATH)) {
                                     String restorePath = "";
                                     if (request.getParameter("restorePath") != null) {
-                                        restorePath = request.getParameter("restorePath");
+                                        restorePath = URLDecoder.decode(restorePath, "UTF-8");
                                     }
                                     json.addProperty("action", "restore");
                                     path = restoreFromTrashcan(payloadResource, restorePath, request.getResourceResolver());
