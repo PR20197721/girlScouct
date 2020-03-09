@@ -91,9 +91,11 @@ public class TrashcanUtil implements TrashcanConstants {
             if(!isAsset){
                 Iterator<Resource> children = payloadResource.listChildren();
                 if(children.hasNext()){
-                    Resource child = children.next();
-                    if(child.isResourceType(DamConstants.NT_DAM_ASSET) || child.isResourceType(DamConstants.NT_DAM_ASSET) || child.isResourceType("cq:Page") || child.isResourceType(JcrConstants.NT_FOLDER)|| child.isResourceType(JcrResourceConstants.NT_SLING_FOLDER)|| child.isResourceType(JcrResourceConstants.NT_SLING_ORDERED_FOLDER) || child.isResourceType(NameConstants.NT_PAGE)) {
-                        throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has children");
+                    while(children.hasNext()) {
+                        Resource child = children.next();
+                        if (child.isResourceType(DamConstants.NT_DAM_ASSET) || child.isResourceType("cq:Page") || child.isResourceType(JcrConstants.NT_FOLDER) || child.isResourceType(JcrResourceConstants.NT_SLING_FOLDER) || child.isResourceType(JcrResourceConstants.NT_SLING_ORDERED_FOLDER) || child.isResourceType(NameConstants.NT_PAGE)) {
+                            throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has children");
+                        }
                     }
                 }
             }
