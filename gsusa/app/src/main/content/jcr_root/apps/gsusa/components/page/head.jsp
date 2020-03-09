@@ -36,7 +36,8 @@
         favIcon = null;
     }
 	ValueMap siteProps = resourceResolver.resolve(currentPage.getAbsoluteParent(2).getPath() + "/jcr:content").adaptTo(ValueMap.class);
-	String seoTitle = properties.get("seoTitle", "");
+	String jcrTitle = properties.get("jcr:title", "");
+	String seoTitle = properties.get("seoTitle", jcrTitle);
 	String ogTitle = properties.get("ogTitle", seoTitle);
 	String ogSiteName = properties.get("ogSiteName", "Girl Scouts of the USA");
 	String ogUrl = properties.get("ogUrl", "");
