@@ -94,13 +94,8 @@ if(null!=srchInfo) {
 	List<String> results = srchInfo.getResults();
 	long hitCounts = srchInfo.getHitCounts();
 	SearchResult searchResults = (SearchResult)request.getAttribute("searchResults");
-	if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents").equals("on") ){
-	%>
-		<cq:include script="feature-events.jsp"/>
-	<%
-	} else{
-		%>
-		<div id="eventListWrapper">
+    %>
+    <div id="eventListWrapper">
 		<%
 		int tempMonth =-1;
 		if (results == null || results.size() == 0) {
@@ -317,6 +312,5 @@ if(null!=srchInfo) {
 		}%>
 	</div>
 	<%
-	}
 }
 %>
