@@ -42,7 +42,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
         java.util.List<YearPlan> yearPlans = null;
         try {
             java.util.Calendar today = java.util.Calendar.getInstance();
-            yearPlans = girlScoutsYearPlanOCMService.findObjects("/content/girlscouts-vtk/yearPlanTemplates/yearplan" + VtkUtil.getCurrentGSYear() + "/" + ageLevel + "/", null);
+            yearPlans = girlScoutsYearPlanOCMService.findObjects("/content/girlscouts-vtk/yearPlanTemplates/library/" + ageLevel + "/", null);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         }
