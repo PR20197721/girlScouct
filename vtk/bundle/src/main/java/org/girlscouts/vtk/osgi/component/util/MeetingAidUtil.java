@@ -42,6 +42,17 @@ public class MeetingAidUtil {
         List<Asset> meetingAids = new ArrayList<>();
         List<Asset> distinctMeetingAids = new ArrayList<>();
         try {
+            meetingAids.addAll(getTaggedMeetingAids(meeting));
+        } catch (Exception e) {
+            log.error("Error occurred: ", e);
+        }
+        try {
+            meetingAids.addAll(getAddedAssets(meetingEvent));
+        } catch (Exception e) {
+            log.error("Error occurred: ", e);
+        }
+        /*
+        try {
             meetingAids.addAll(getLocalAssets(meeting, AssetComponentType.AID));
         } catch (Exception e) {
             log.error("Error occurred: ", e);
@@ -51,6 +62,7 @@ public class MeetingAidUtil {
         } catch (Exception e) {
             log.error("Error occurred: ", e);
         }
+
         try {
             meetingAids.addAll(searchAidsByTags(meeting));
         } catch (Exception e) {
@@ -66,12 +78,9 @@ public class MeetingAidUtil {
         } catch (Exception e) {
             log.error("Error occurred: ", e);
         }
-        try {
-            meetingAids.addAll(getAddedAssets(meetingEvent));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        if (meetingAids != null && meetingAids.size() > 1) {
+        */
+
+        /*if (meetingAids != null && meetingAids.size() > 1) {
             for(Asset asset:meetingAids){
                 if(asset != null && asset.getRefId() != null && !"".equals(asset.getRefId().trim())){
                     distinctMeetingAids.add(asset);
@@ -82,8 +91,59 @@ public class MeetingAidUtil {
             }catch(Exception e){
                 log.error("Error occurred: ", e);
             }
-        }
+        }*/
+
         return distinctMeetingAids;
+    }
+
+    private List<Asset> getTaggedMeetingAids(Meeting meeting) {
+        List<Asset> meetingAids = new ArrayList<>();
+        if (meeting != null) {
+            ResourceResolver rr = null;
+            try {
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Session session = rr.adaptTo(Session.class);
+                QueryManager qm = session.getWorkspace().getQueryManager();
+                String sql = "SELECT s.* FROM [nt:unstructured] AS s WHERE ISDESCENDANTOF([/content/dam/girlscouts-vtk/meeting-aids]) AND s.[cq:tags] = '/etc/tags/vtkcontent/meetings/"+meeting.getLevel().toLowerCase()+"/"+meeting.getId().toLowerCase()+"'";
+                Query q = qm.createQuery(sql, Query.JCR_SQL2);
+                log.debug("Executing JCR query: " + sql);
+                QueryResult result = q.execute();
+                for (RowIterator it = result.getRows(); it.hasNext(); ) {
+                    try {
+                        Row r = it.nextRow();
+                        Resource aidResource = rr.resolve(r.getPath());
+                        if ("dam:Asset".equals(aidResource.getResourceType())) {
+                            Resource metadata = aidResource.getChild("jcr:content/metadata");
+                            if (metadata != null) {
+                                Asset asset = new Asset();
+                                Node props = metadata.adaptTo(Node.class);
+                                asset.setRefId(aidResource.getPath());
+                                if (props.hasProperty("dc:isOutdoorRelated")) {
+                                    asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
+                                } else {
+                                    asset.setIsOutdoorRelated(false);
+                                }
+                                if (props.hasProperty("dc:isGlobalRelated")) {
+                                    asset.setIsGlobalRelated(props.getProperty("dc:isGlobalRelated").getBoolean());
+                                } else {
+                                    asset.setIsGlobalRelated(false);
+                                }
+                                asset.setIsCachable(true);
+                                asset.setType("AID");
+                                asset.setDescription(props.getProperty("dc:description").getString());
+                                asset.setTitle(props.getProperty("dc:title").getString());
+                                meetingAids.add(asset);
+                            }
+                        }
+                    } catch (Exception e) {
+                        log.error("Exception occurred: ", e);
+                    }
+                }
+            }catch(Exception e){
+                log.error("Exception occurred: ", e);
+            }
+        }
+        return meetingAids;
     }
 
     private List<Asset> getAddedAssets(MeetingE meetingEvent) {
@@ -118,12 +178,12 @@ public class MeetingAidUtil {
         return assets;
     }
 
-    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
         return t -> seen.add(keyExtractor.apply(t));
     }
 
-    public List<Asset> getAidsByTags(Meeting meeting) {
+    private List<Asset> getAidsByTags(Meeting meeting) {
         List<Asset> assets = new ArrayList<Asset>();
         if (meeting != null) {
             ResourceResolver rr = null;
@@ -153,7 +213,7 @@ public class MeetingAidUtil {
         return assets;
     }
 
-    public List<Asset> searchAidsByTags(Meeting meeting) {
+    private List<Asset> searchAidsByTags(Meeting meeting) {
         List<Asset> matched = new ArrayList<Asset>();
         String tags = meeting.getAidTags();
         if (tags != null && !tags.trim().equals("")) {
@@ -217,7 +277,7 @@ public class MeetingAidUtil {
         return matched;
     }
 
-    public List<Asset> searchResourcesByTags(Meeting meeting) {
+    private List<Asset> searchResourcesByTags(Meeting meeting) {
         List<Asset> matched = new ArrayList<Asset>();
         String tags = meeting.getAidTags();
         if (tags != null && !tags.trim().equals("")) {
