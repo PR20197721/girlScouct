@@ -1,7 +1,8 @@
  <%@page import="java.net.URLEncoder,
                  java.text.DateFormat,
                  java.text.SimpleDateFormat,
-                 java.net.URLEncoder"%>
+                 java.net.URLEncoder,
+				 org.apache.sling.commons.json.*"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
@@ -37,7 +38,6 @@ latitudeData= latitudeData== null ? "0" : latitudeData;
 String longitudeData= (String)request.getParameter("Longitude");
 longitudeData= longitudeData== null ? "0" : longitudeData;
 
-
 String dateStart = request.getParameter("DateStart");
 try {
     DateFormat inputFormat = new SimpleDateFormat("M/d/yyyy");
@@ -50,103 +50,26 @@ try {
 //String googleMapsAPI = properties.get("mapAPI", "AIzaSyDWhROdret3d0AGaTTZrYeFH8hP5SIbmzw");	// 1M Google MAPS API Grant
 String googleMapsAPI = properties.get("mapAPI", "AIzaSyCQ1pG4dKsTrA8mqAo-0qwAI0I8AaoWdiE");		// Free Version
 
+//GSDO-1024
+JSONObject boothInfo = new JSONObject();
+boothInfo.put("uniqueID", uniqueID);
+boothInfo.put("facebookId", facebookId);
+boothInfo.put("address", address);
+boothInfo.put("address1", address1);
+boothInfo.put("address2", address2);
+boothInfo.put("zip", zip);
+boothInfo.put("latitudeData", latitudeData);
+boothInfo.put("longitudeData", longitudeData);
+boothInfo.put("tweet", tweet);
+boothInfo.put("facebookTitle", facebookTitle);
+boothInfo.put("imgPath", imgPath);
+boothInfo.put("addressZip", addressZip);
+boothInfo.put("facebookDesc", facebookDesc);
+//GSDO-1024
 %>
 <html>
 <head>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsAPI %>&callback=initMap"></script>
-  <script>
-    var map;
-    var geocoder;
-    function initMap() {
-      map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 8,
-        center: {lat: -0.000, lng: 150.000}
-      });
-
-      geocoder = new google.maps.Geocoder;
-      setTimeout(function(){ doIt(); }, 1000);
-    }
-
-    function codeAddress( resultsMap, geocoder) {
-      var address = "<%=address%>";
-      var latitude = "<%=latitudeData%>";
-      var longitude = "<%=longitudeData%>";
-
-	  if(latitude.length > 0 && longitude.length > 0) {
-		  	var myLatLng = {
-		  		"lat"	: parseFloat(parseFloat(latitude).toFixed(6)), 
-		  		"lng"	: parseFloat(parseFloat(longitude).toFixed(6)) 
-		  	};
-			//console.log(myLatLng);		  	
-			var marker = new google.maps.Marker({
-				map: resultsMap,
-				zoom: 8,
-				position: myLatLng
-			});
-			resultsMap.setCenter(myLatLng); 
-			
-	  } else {
-	  
-	    	geocoder.geocode({'address': address}, function(results, status) {
-    		    if (status === google.maps.GeocoderStatus.OK) {
-        		  var marker = new google.maps.Marker({
-    		        map: resultsMap,
-		            zoom: 8,
-        		    position: results[0].geometry.location
-    		      });
-		          resultsMap.setCenter(results[0].geometry.location);
-
-    		      // save the lat/long
-				  var formData = {
-				    "a1" : "<%=address1%>",
-					"z"	 : "<%=addressZip%>",
-					"lat": results[0].geometry.location.lat().toFixed(6),
-					"long": results[0].geometry.location.lng().toFixed(6)
-				  };
-				  //console.log(formData);
-				  $.ajax({
-  					method: "POST",
-					url: "/cookiesapi/booth_list_geo_insert.asp",
-					data: formData
-				  });
-    		      
-		        } else {
-	    	    	console.log('Geocode was not successful for the following reason: ' + status);
-	    	    }
-	    	});
-	  }
-	  
-      map.addListener('click', function() {
-        window.open("http://maps.google.com/maps/dir/<%= zip%>/<%= URLEncoder.encode(address) %>");
-      });
-    }
-    function doIt(){
-      codeAddress(map, geocoder);
-      google.maps.event.trigger(map, 'resize');
-      google.maps.event.trigger(map, 'center');
-
-	  // to correct gray box issue on chrome and chrome mobile      
-      $('#map').css('visibility','hidden');
-     // $('#map').css('overflow','auto');      
-      setTimeout(function(){
-      	$('#map').css('position','absolute');
-      	setTimeout(function(){
-      		$('#map').css('position','relative');
-      		$('#map').css('visibility','visible');
-		}, 500);
-      }, 500);
-      
-      
-    }
-    function LoadGoogle(){
-      if(typeof google != 'undefined' && google && google.load){
-          google.load("maps", "3", {callback: initMap});
-      }else{
-          setTimeout(LoadGoogle, 30);
-      }
-    }
-    LoadGoogle();
- </script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsAPI %>&callback=initMap"></script>
 </head>
     <body>
         <a class="close-reveal-modal icon-button-circle-cross" aria-label="Close"></a>
@@ -200,43 +123,6 @@ String googleMapsAPI = properties.get("mapAPI", "AIzaSyCQ1pG4dKsTrA8mqAo-0qwAI0I
             </li></ul>
         </section>
         <script>addthis.toolbox("#toolbox");</script>
+        <div id='boothDetailInfo' data-booth='<%=boothInfo%>'></div>
     </body>
 </html>
-
-    <script type="text/javascript">
-
-	$(document).ready(function() {
-		var scriptTag = document.createElement("script");
-		scriptTag.type = "text/javascript"
-		scriptTag.src="//connect.facebook.net/en_US/all.js";
-		scriptTag.async = true;
-		document.getElementsByTagName("head")[0].appendChild(scriptTag);
-
-		scriptTag.onload=initFB;
-		scriptTag.onreadystatechange = function () {
-		  if (this.readyState == 'complete' || this.readyState == 'loaded') initFB();
-		}
-	});
-	function initFB() {
-		FB.init({appId: "<%= facebookId %>", status: true, cookie: true});
-	}
-
-      function postToFeed<%= uniqueID %>() {
-
-        // calling the API ...
-        var obj = {
-          method: 'feed',
-          link: window.location.href,
-          name: '<%= facebookTitle %>',
-          picture: location.host + '<%= imgPath %>',
-          caption: 'WWW.GIRLSCOUTS.ORG',
-          description: '<%= facebookDesc %>'
-        };
-
-        function callback(response) {
-        }
-
-        FB.ui(obj, callback);
-      }
-
-    </script>

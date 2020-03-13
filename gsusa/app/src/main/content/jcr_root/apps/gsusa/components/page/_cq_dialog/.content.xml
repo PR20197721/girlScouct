@@ -190,7 +190,7 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/multifield"
                                                 cq-msm-lockable="sling:vanityPath"
-                                                fieldLabel="Vanity URL"
+                                                fieldLabel="Vanity URL (Please allow up to 10 minutes for the changes to take effect)"
                                                 renderReadOnly="{Boolean}true">
                                                 <field
                                                     jcr:primaryType="nt:unstructured"
