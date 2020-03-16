@@ -64,7 +64,7 @@ public class MeetingAidUtil {
                 if(searchByTag != null)  {
                     Session session = rr.adaptTo(Session.class);
                     QueryManager qm = session.getWorkspace().getQueryManager();
-                    String sql = "SELECT s.* FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/dam/girlscouts-vtk/meeting-aids]) AND CONTAINS(s.[cq:tags], '"+searchByTag.getTagID()+"'";
+                    String sql = "SELECT s.* FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/dam/girlscouts-vtk/meeting-aids]) AND CONTAINS(s.[cq:tags], '"+searchByTag.getTagID()+"')";
                     Query q = qm.createQuery(sql, Query.JCR_SQL2);
                     log.debug("Executing JCR query: " + sql);
                     QueryResult result = q.execute();
@@ -99,6 +99,8 @@ public class MeetingAidUtil {
                             log.error("Exception occurred: ", e);
                         }
                     }
+                }else{
+                    log.debug("No tag found for /etc/tags/vtkcontent/meetings/"+meeting.getLevel().toLowerCase()+"/"+meeting.getId().toLowerCase());
                 }
             }catch(Exception e){
                 log.error("Exception occurred: ", e);
