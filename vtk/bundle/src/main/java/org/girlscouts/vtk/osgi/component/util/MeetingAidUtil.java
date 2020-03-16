@@ -8,14 +8,12 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ResourceUtil;
-import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.dao.AssetComponentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.Node;
-import javax.jcr.NodeIterator;
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.query.*;
@@ -23,7 +21,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @Component
 @Service(MeetingAidUtil.class)
@@ -51,48 +48,6 @@ public class MeetingAidUtil {
         } catch (Exception e) {
             log.error("Error occurred: ", e);
         }
-        /*
-        try {
-            meetingAids.addAll(getLocalAssets(meeting, AssetComponentType.AID));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        try {
-            meetingAids.addAll(getLocalAssets(meeting, AssetComponentType.RESOURCE));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-
-        try {
-            meetingAids.addAll(searchAidsByTags(meeting));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        try {
-            meetingAids.addAll(searchResourcesByTags(meeting));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        try {
-            meetingAids.addAll(getAidsByTags(meeting));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        */
-
-        /*if (meetingAids != null && meetingAids.size() > 1) {
-            for(Asset asset:meetingAids){
-                if(asset != null && asset.getRefId() != null && !"".equals(asset.getRefId().trim())){
-                    distinctMeetingAids.add(asset);
-                }
-            }
-            try {
-                distinctMeetingAids = meetingAids.stream().filter(distinctByKey(Asset::getRefId)).collect(Collectors.toList());
-            }catch(Exception e){
-                log.error("Error occurred: ", e);
-            }
-        }*/
-
         return distinctMeetingAids;
     }
 
@@ -141,7 +96,15 @@ public class MeetingAidUtil {
                 }
             }catch(Exception e){
                 log.error("Exception occurred: ", e);
+            } finally {
+            try {
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
             }
+        }
         }
         return meetingAids;
     }
