@@ -1,5 +1,7 @@
 package org.girlscouts.vtk.osgi.component.util;
 
+import com.day.cq.tagging.Tag;
+import com.day.cq.tagging.TagManager;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -57,41 +59,45 @@ public class MeetingAidUtil {
             ResourceResolver rr = null;
             try {
                 rr = resolverFactory.getServiceResourceResolver(resolverParams);
-                Session session = rr.adaptTo(Session.class);
-                QueryManager qm = session.getWorkspace().getQueryManager();
-                String sql = "SELECT s.* FROM [nt:unstructured] AS s WHERE ISDESCENDANTOF([/content/dam/girlscouts-vtk/meeting-aids]) AND s.[cq:tags] = '/etc/tags/vtkcontent/meetings/"+meeting.getLevel().toLowerCase()+"/"+meeting.getId().toLowerCase()+"'";
-                Query q = qm.createQuery(sql, Query.JCR_SQL2);
-                log.debug("Executing JCR query: " + sql);
-                QueryResult result = q.execute();
-                for (RowIterator it = result.getRows(); it.hasNext(); ) {
-                    try {
-                        Row r = it.nextRow();
-                        Resource aidResource = rr.resolve(r.getPath());
-                        if ("dam:Asset".equals(aidResource.getResourceType())) {
-                            Resource metadata = aidResource.getChild("jcr:content/metadata");
-                            if (metadata != null) {
-                                Asset asset = new Asset();
-                                Node props = metadata.adaptTo(Node.class);
-                                asset.setRefId(aidResource.getPath());
-                                if (props.hasProperty("dc:isOutdoorRelated")) {
-                                    asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
-                                } else {
-                                    asset.setIsOutdoorRelated(false);
+                TagManager tagManager = rr.adaptTo(TagManager.class);
+                Tag searchByTag = tagManager.resolve("/etc/tags/vtkcontent/meetings/"+meeting.getLevel().toLowerCase()+"/"+meeting.getId().toLowerCase());
+                if(searchByTag != null)  {
+                    Session session = rr.adaptTo(Session.class);
+                    QueryManager qm = session.getWorkspace().getQueryManager();
+                    String sql = "SELECT s.* FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/dam/girlscouts-vtk/meeting-aids]) AND CONTAINS(s.[cq:tags], '"+searchByTag.getTagID()+"'";
+                    Query q = qm.createQuery(sql, Query.JCR_SQL2);
+                    log.debug("Executing JCR query: " + sql);
+                    QueryResult result = q.execute();
+                    for (RowIterator it = result.getRows(); it.hasNext(); ) {
+                        try {
+                            Row r = it.nextRow();
+                            Resource aidResource = rr.resolve(r.getPath());
+                            if ("dam:Asset".equals(aidResource.getResourceType())) {
+                                Resource metadata = aidResource.getChild("jcr:content/metadata");
+                                if (metadata != null) {
+                                    Asset asset = new Asset();
+                                    Node props = metadata.adaptTo(Node.class);
+                                    asset.setRefId(aidResource.getPath());
+                                    if (props.hasProperty("dc:isOutdoorRelated")) {
+                                        asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
+                                    } else {
+                                        asset.setIsOutdoorRelated(false);
+                                    }
+                                    if (props.hasProperty("dc:isGlobalRelated")) {
+                                        asset.setIsGlobalRelated(props.getProperty("dc:isGlobalRelated").getBoolean());
+                                    } else {
+                                        asset.setIsGlobalRelated(false);
+                                    }
+                                    asset.setIsCachable(true);
+                                    asset.setType("AID");
+                                    asset.setDescription(props.getProperty("dc:description").getString());
+                                    asset.setTitle(props.getProperty("dc:title").getString());
+                                    meetingAids.add(asset);
                                 }
-                                if (props.hasProperty("dc:isGlobalRelated")) {
-                                    asset.setIsGlobalRelated(props.getProperty("dc:isGlobalRelated").getBoolean());
-                                } else {
-                                    asset.setIsGlobalRelated(false);
-                                }
-                                asset.setIsCachable(true);
-                                asset.setType("AID");
-                                asset.setDescription(props.getProperty("dc:description").getString());
-                                asset.setTitle(props.getProperty("dc:title").getString());
-                                meetingAids.add(asset);
                             }
+                        } catch (Exception e) {
+                            log.error("Exception occurred: ", e);
                         }
-                    } catch (Exception e) {
-                        log.error("Exception occurred: ", e);
                     }
                 }
             }catch(Exception e){
