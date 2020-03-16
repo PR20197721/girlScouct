@@ -14,7 +14,7 @@ java.util.Arrays" %>
 final int DEFAULT_AD_COUNT = 2;
 final String AD_ATTR = "apps.girlscouts.components.advertisement.currentAd";
 //Setting adCount
-String tempAdCount = currentDesign.getStyle("three-column-page/advertisement").get("adCount", "");
+String tempAdCount = currentDesign.getStyle("three-column-page/right-rail-banners").get("adCount", "");
 int adCount = DEFAULT_AD_COUNT;
 if (!tempAdCount.isEmpty()) {
     try {
