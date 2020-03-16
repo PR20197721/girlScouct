@@ -6,7 +6,6 @@ import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
 import com.day.cq.tagging.Tag;
 import com.day.cq.tagging.TagManager;
-import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -14,7 +13,6 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.common.search.DocHit;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.exception.VtkException;
@@ -74,17 +72,6 @@ public class MeetingDAOImpl implements MeetingDAO {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
     }
 
-    // by planId
-    public List<MeetingE> getAllEventMeetings(User user, Troop troop, String yearPlanId) throws IllegalAccessException {
-        if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
-            throw new IllegalAccessException();
-        }
-        List<MeetingE> meetings = null;
-        String path = "/content/girlscouts-vtk/yearPlanTemplates/yearplan" + user.getCurrentYear() + "/brownie/yearPlan" + yearPlanId + "/meetings/";
-        meetings = girlScoutsMeetingEOCMService.findObjects(path, null);
-        return meetings;
-    }
-
     // by plan path
     public List<MeetingE> getAllEventMeetings_byPath(User user, Troop troop, String yearPlanPath) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
@@ -100,7 +87,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         Meeting meeting = girlScoutsMeetingOCMService.read(path);
         if (meeting != null && path != null && path.contains("/lib/meetings/")) {
-            Meeting globalMeetingInfo = getMeeting(user, troop, "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "/" + meeting.getLevel().toLowerCase().trim() + "/" + meeting.getId());
+            Meeting globalMeetingInfo = getMeeting(user, troop, "/content/girlscouts-vtk/meetings/library/" + meeting.getLevel().toLowerCase().trim() + "/" + meeting.getId());
             if (globalMeetingInfo != null) {
                 meeting.setMeetingInfo(globalMeetingInfo.getMeetingInfo());
                 meeting.setIsAchievement(globalMeetingInfo.getIsAchievement());
@@ -393,7 +380,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             throw new IllegalAccessException();
         }
         List<Meeting> meetings = null;
-        String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/";
+        String path = "/content/girlscouts-vtk/meetings/library/" + gradeLevel + "/";
         meetings = girlScoutsMeetingOCMService.findObjects(path, null);
         if (meetings != null) {
             Collections.sort(meetings, new MeetingPositionComparator());
@@ -870,7 +857,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         int count = 0;
         ResourceResolver rr = null;
         try {
-            String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
+            String sql = "SELECT s.[dc:description], s.[dc:format], s.[dc:title], s.[jcr:mimeType], s.[jcr:path] FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(" + _path + ") AND s.[cq:tags] IS NOT NULL";
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -1001,9 +988,9 @@ public class MeetingDAOImpl implements MeetingDAO {
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
-            String sql = "select [jcr:path] " + " from [dam:Asset] as s where " + " (isdescendantnode (s, [" + path + "]))";
+            String sql = "SELECT s.[jcr:path] FROM [dam:Asset] AS s WHERE ISDESCENDANTNODE(" + path + ")";
             QueryManager qm = session.getWorkspace().getQueryManager();
-            Query q = qm.createQuery(sql, Query.SQL);
+            Query q = qm.createQuery(sql, Query.JCR_SQL2);
             log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             NodeIterator itr = result.getNodes();
@@ -1036,11 +1023,11 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         ResourceResolver rr = null;
         try {
-            String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
+            String sql = "SELECT s.[dc:description], s.[dc:format], s.[dc:title], s.[jcr:mimeType], s.[jcr:path] FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(" + _path + ") AND s.[cq:tags] IS NOT NULL";
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
-            Query q = qm.createQuery(sql, Query.SQL);
+            Query q = qm.createQuery(sql, Query.JCR_SQL2);
             log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             NodeIterator itr = result.getNodes();
@@ -1075,11 +1062,11 @@ public class MeetingDAOImpl implements MeetingDAO {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
-            String sql = "SELECT [jcr:path], [jcr:title] FROM [cq:PageContent] AS s WHERE ISDESCENDANTNODE(s, [" + _path + "])";
+            String sql = "SELECT s.[jcr:path], s.[jcr:title] FROM [cq:PageContent] AS s WHERE ISDESCENDANTNODE(" + _path + ")";
             Map<String, String> categoryDictionary = new TreeMap<String, String>();
             Map<String, List<String>> container = new TreeMap();
             dictionary = new TreeMap<String, bean_resource>();
-            Query q = qm.createQuery(sql, Query.SQL);
+            Query q = qm.createQuery(sql, Query.JCR_SQL2);
             log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             NodeIterator itr = result.getNodes();
@@ -1191,7 +1178,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         List<Meeting> meetings = null;
         try {
-            String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear();
+            String path = "/content/girlscouts-vtk/meetings/library";
             meetings = girlScoutsMeetingOCMService.findObjects(path, null);
             if (meetings != null) {
                 Collections.sort(meetings, new MeetingPositionComparator());
@@ -1285,87 +1272,13 @@ public class MeetingDAOImpl implements MeetingDAO {
         return notes;
     }
 
-    //get all meetings with at least 1 outdoor agenda
-    public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException {
-        if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
-            throw new IllegalAccessException();
-        }
-        Set<String> outdoorMeetings = new HashSet();
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            QueryManager qm = session.getWorkspace().getQueryManager();
-            String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and outdoor=true and ocm_classname='org.girlscouts.vtk.ocm.ActivityNode'";
-            Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: " + sql);
-            QueryResult result = q.execute();
-            for (RowIterator it = result.getRows(); it.hasNext(); ) {
-                Row r = it.nextRow();
-                String path = r.getPath();
-                String[] pathElements = path.split("/");
-                if (pathElements != null && pathElements.length > 5) {
-                    outdoorMeetings.add(pathElements[6]);
-                }
-            }
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return outdoorMeetings;
-    }
-
-    //get all meetings with at least 1 global agenda
-    public Set<String> getGlobalMeetings(User user, Troop troop) throws IllegalAccessException {
-        if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
-            throw new IllegalAccessException();
-        }
-        Set<String> globalMeetings = new java.util.HashSet();
-        ResourceResolver rr = null;
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            QueryManager qm = session.getWorkspace().getQueryManager();
-            String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and global=true and ocm_classname='org.girlscouts.vtk.ocm.ActivityNode'";
-            Query q = qm.createQuery(sql, Query.SQL);
-            log.debug("Executing JCR query: " + sql);
-            QueryResult result = q.execute();
-            for (RowIterator it = result.getRows(); it.hasNext(); ) {
-                Row r = it.nextRow();
-                String path = r.getPath();
-                String[] pathElements = path.split("/");
-                if (pathElements != null && pathElements.length > 5) {
-                    globalMeetings.add(pathElements[6]);
-                }
-            }
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        return globalMeetings;
-    }
-
     public List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
             throw new IllegalAccessException();
         }
         List<Meeting> meetings = new ArrayList();
         try {
-            String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear();
+            String path = "/content/girlscouts-vtk/meetings/library";
             Map<String, String> params = new HashMap<String, String>();
             params.put("level", level);
             meetings = girlScoutsMeetingOCMService.findObjects(path, params);

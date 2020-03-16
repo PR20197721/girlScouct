@@ -129,7 +129,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             LinkedHashSet<MeetingResult> groupedResults = new LinkedHashSet<>();
             Map<String, Set<MeetingResult>> results2 = results.stream().collect(Collectors.groupingBy(s -> (s.getLevel()+"-"+s.getName().replaceAll("[^a-zA-Z]", "").toLowerCase()), LinkedHashMap::new, Collectors.mapping(s -> s, Collectors.toSet())));
             for (String key : results2.keySet()) {
-                SortedSet<MeetingResult> similarMeetings = new TreeSet<>(Comparator.comparing(s -> s.getName().trim().toLowerCase()));
+                SortedSet<MeetingResult> similarMeetings = new TreeSet<>(Comparator.comparing(s -> s.getId().trim().toUpperCase()));
                 similarMeetings.addAll(results2.get(key));
                 groupedResults.addAll(similarMeetings);
             }
@@ -142,7 +142,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
 
     private QueryResult getQueryResult(Session session, org.girlscouts.vtk.models.MeetingSearch search) throws RepositoryException {
         javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-        String sql = "SELECT s.[*] FROM [nt:unstructured] AS s WHERE s.[ocm_classname]='org.girlscouts.vtk.ocm.MeetingNode' AND isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + search.getYear() + "/') AND (s.[isArchived] <> CAST('true' AS BOOLEAN) OR s.[isArchived] IS NULL) ";
+        String sql = "SELECT s.[*] FROM [nt:unstructured] AS s WHERE s.[ocm_classname]='org.girlscouts.vtk.ocm.MeetingNode' AND isdescendantnode('/content/girlscouts-vtk/meetings/library/') AND (s.[isArchived] <> CAST('true' AS BOOLEAN) OR s.[isArchived] IS NULL) ";
         if (search.getLevel() != null && search.getLevel().size() > 0) {
             sql += " AND  CONTAINS(s.[level] ,  '" + fmtMultiContainsSql(search.getLevel()) + "') ";
         }
@@ -174,18 +174,31 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                 keywords = keywords.replaceAll("\\s\\s+", " ");
 
                 String[] keywordArray = keywords.split(" ");
-                keyWordQueryString += " and ((contains( s.[*], '" + keywordArray[0] + "'))";
-                if (keywordArray.length > 1) {
-                    for (int i = 1; i < keywordArray.length; i++) {
-                        keyWordQueryString += " or (contains( s.[*], '" + keywordArray[i] + "'))";
+                if(keywordArray.length > 1){
+                    int keyWordCounter = 0;
+                    for(String keyword:keywordArray){
+                        if(keyword.length() >2){
+                            if(keyWordCounter > 0){
+                                keyWordQueryString += " or ";
+                            }
+                            keyWordQueryString += " contains(s.[*], '" + keyword + "') ";
+                            keyWordCounter++;
+                        }
                     }
+                    if(keyWordCounter > 0){
+                        keyWordQueryString = " and ("+keyWordQueryString+") ";
+                        sql += keyWordQueryString;
+                    }else{
+                        sql += " AND CONTAINS(s.[*], '" + keywords + "')";
+                    }
+                }else{
+                    sql += " AND CONTAINS(s.[*], '" + keywords + "')";
                 }
-                keyWordQueryString += ")";
-                sql += keyWordQueryString;
             } else {
-                sql += " AND CONTAINS(s.[*], '" + keywords + "')  ";
+                sql += " AND CONTAINS(s.[*], '" + keywords + "')";
             }
         }
+        log.debug("Executing meeting search query: "+sql);
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
         return q.execute();
     }

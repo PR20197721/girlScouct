@@ -1118,14 +1118,6 @@ public class MeetingUtil {
         return isEdit;
     }
 
-    public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException {
-        return meetingDAO.getOutdoorMeetings(user, troop);
-    }
-
-    public Set<String> getGlobalMeetings(User user, Troop troop) throws IllegalAccessException {
-        return meetingDAO.getGlobalMeetings(user, troop);
-    }
-
     public List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException {
         List<Meeting> meetings = meetingDAO.getMeetings(user, troop, level);
         Collections.sort(meetings, java.util.Comparator.comparing(Meeting::getMeetingPlanType));
