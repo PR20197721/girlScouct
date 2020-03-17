@@ -10,13 +10,13 @@ import java.util.Set;
 public interface MeetingDAO {
     java.util.List<Meeting> getAllMeetings(User user, Troop troop, String gradeLevel) throws IllegalAccessException;
 
+    java.util.List<MeetingE> getAllEventMeetings(User user, Troop troop, String yearPlanId) throws IllegalAccessException;
+
     Meeting getMeeting(User user, Troop troop, String path) throws IllegalAccessException, VtkException;
 
     java.util.List<MeetingE> getAllEventMeetings_byPath(User user, Troop troop, String yearPlanPath) throws IllegalAccessException;
 
-    Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent) throws IllegalAccessException;
-
-    Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException;
+    java.util.List<MeetingE> getAllUsersEventMeetings(User user, Troop troop, String yearPlanId) throws IllegalStateException, IllegalAccessException;
 
     Meeting addActivity(User user, Troop troop, Meeting meeting, Activity activity) throws IllegalAccessException;
 
@@ -28,9 +28,7 @@ public interface MeetingDAO {
 
     List<Asset> getAllResources(User user, Troop troop, String path) throws IllegalAccessException;
 
-    java.util.List<Asset> getGlobalResources(String resourceTags); // delim ';'
-
-    Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException;
+    java.util.List<Asset> getGlobalResources(String resourceTags); // delim
 
     java.util.List<Milestone> getCouncilMilestones(String councilCode);
 
@@ -75,10 +73,15 @@ public interface MeetingDAO {
 
     Note getNote(User user, Troop troop, String nid) throws IllegalAccessException;
 
+    Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException;
+
+    Set<String> getGlobalMeetings(User user, Troop troop) throws IllegalAccessException;
+
     List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException;
 
     boolean removeAttendance(User user, Troop troop, Attendance attendance);
 
     boolean removeAchievement(User user, Troop troop, Achievement achievement);
 
+    Meeting createOrUpdateMeeting(User user, Troop troop, MeetingE m, Meeting meeting) throws IllegalAccessException;
 }

@@ -332,11 +332,7 @@
                         meetingInfoItems.put("materials", new JcrCollectionHoldString(request.getParameter("newvalue")));
                     }
                     try {
-                        if (!m.getRefId().contains("_")) {
-                            yearPlanUtil.createCustomMeeting(user, selectedTroop, m, custM);
-                        } else {
-                            yearPlanUtil.updateCustomMeeting(user, selectedTroop, m, custM);
-                        }
+                        meetingUtil.createOrUpdateCustomMeeting(user, selectedTroop, m, custM);
                         out.println(request.getParameter("newvalue"));
                     } catch (Exception e) {
                         vtklog.error("Exception occured:", e);
@@ -524,105 +520,6 @@
                         } else {
                             vtklog.error("troop:" + selectedTroop + ", yearplan:" + selectedTroop.getYearPlan());
                         }
-                    }
-                }
-            } catch (Exception e) {
-                vtklog.error("Exception occured:", e);
-            }
-        } else if (request.getAttribute("yearPlanSched") != null || request.getParameter("yearPlanSched") != null) {
-            vtklog.debug("yearPlanSched");
-            try {
-                if (selectedTroop.getYearPlan() == null) {
-                    response.setContentType("application/json");
-                    out.println("{\"yearPlan\":\"NYP\"}");
-                    return;
-                }
-                boolean isViewingArchived = !user.getCurrentYear().equals(String.valueOf(VtkUtil.getCurrentGSYear()));
-                boolean isFirst = false;
-                if ((request.getAttribute("isFirst") != null && ((String) request.getAttribute("isFirst")).equals("1")) || (request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1"))) {
-                    isFirst = true;
-                }
-                boolean isModified = false;
-                if (!isFirst) {
-                    ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
-                    isModified = modifiedChecker.isModified("X" + session.getId(), selectedTroop.getYearPlan().getPath());
-                }
-                if (isFirst || isModified) {
-                    Troop prefTroop = null;
-                    if (userTroops != null && userTroops.size() > 0) {
-                        prefTroop = userTroops.get(0);
-                    }
-                    for (Troop userTroop : userTroops) {
-                        if (userTroop.getHash().equals(selectedTroop.getHash())) {
-                            prefTroop = userTroop;
-                            break;
-                        }
-                    }
-                    //archive
-                    VtkUtil.cngYear(request, user);
-                    if (isViewingArchived) {
-                        Troop archivedTroop = (Troop)session.getAttribute("VTK_archived_troop");
-                        java.util.Set permis = org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);
-                        Troop newTroopCloned = ((Troop) VtkUtil.deepClone(archivedTroop));
-                        newTroopCloned.setPermissionTokens(permis);
-                        selectedTroop = newTroopCloned;
-                    } else {
-                        selectedTroop = prefTroop;
-                    }
-                    Troop selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
-                    //end archive
-                    if (selectedTroopRepoData != null) {
-                        selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
-                        selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
-                    }
-                    java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(user, selectedTroop, selectedTroop.getYearPlan(), true, true);
-                    //start milestone
-                    try {
-                        if (selectedTroop.getYearPlan() != null) {
-                            selectedTroop.getYearPlan().setMilestones(yearPlanUtil.getCouncilMilestones(user, selectedTroop));
-                        }
-                    } catch (Exception e) {
-                        vtklog.error("Exception occured:", e);
-                    }
-                    if (selectedTroop.getYearPlan().getMilestones() == null) {
-                        selectedTroop.getYearPlan().setMilestones(new java.util.ArrayList());
-                    }
-                    for (int i = 0; i < selectedTroop.getYearPlan().getMilestones().size(); i++) {
-                        if (selectedTroop.getYearPlan().getMilestones().get(i).getDate() != null && selectedTroop.getYearPlan().getMilestones().get(i).getShow()) {
-                            sched.put(selectedTroop.getYearPlan().getMilestones().get(i).getDate(), selectedTroop.getYearPlan().getMilestones().get(i));
-                        }
-                    }
-                    Object[] tmp = sched.values().toArray();
-                    for (int i = 0; i < tmp.length; i++) {
-                        try {
-                            if (!(tmp[i] instanceof MeetingE)) {
-                                continue;
-                            }
-                            boolean isAnyOutdoorActivitiesInMeeting = VtkUtil.isAnyOutdoorActivitiesInMeeting(((MeetingE) tmp[i]).getMeetingInfo());
-                            ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
-                            boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable(((MeetingE) tmp[i]).getMeetingInfo());
-                            ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
-                            boolean isAnyGlobalActivitiesInMeeting = VtkUtil.isAnyGlobalActivitiesInMeeting(((MeetingE) tmp[i]).getMeetingInfo());
-                            ((MeetingE) tmp[i]).setAnyGlobalActivityInMeeting(isAnyGlobalActivitiesInMeeting);
-                            boolean isAnyGlobalActivitiesInMeetingAvailable = VtkUtil.isAnyGlobalActivitiesInMeetingAvailable(((MeetingE) tmp[i]).getMeetingInfo());
-                            ((MeetingE) tmp[i]).setAnyGlobalActivityInMeetingAvailable(isAnyGlobalActivitiesInMeetingAvailable);
-                            ((MeetingE) tmp[i]).getMeetingInfo().setActivities(null);
-                            ((MeetingE) tmp[i]).getMeetingInfo().setMeetingInfo(null);
-                            ((MeetingE) tmp[i]).getMeetingInfo().setResources(null);
-                            ((MeetingE) tmp[i]).getMeetingInfo().setAgenda(null);
-                            ((MeetingE) tmp[i]).setSentEmails(null); //GSVTK-1324
-
-                        } catch (Exception e) {
-                            vtklog.error("Exception occured:", e);
-                        }
-                    }
-                    response.setContentType("application/json");
-                    String json = gson.toJson(CollectionModelToEntityMapper.mapYearPlanComponents(sched));
-                    out.println("{\"yearPlan\":\"" + selectedTroop.getYearPlan().getName() + "\",\"schedule\":");
-                    out.println(json.replaceAll("mailto:", ""));
-                    out.println("}");
-                    if (!isViewingArchived) {
-                        session.setAttribute("VTK_troop", selectedTroop);
                     }
                 }
             } catch (Exception e) {

@@ -70,7 +70,7 @@ public class MeetingUtil {
         return getYearPlanSched(user, troop, plan, meetingPlanSpecialSort, false);
     }
 
-    public java.util.Map getYearPlanSched(User user, Troop troop, YearPlan plan, boolean meetingPlanSpecialSort, boolean isLoadMeetingInfo) throws IllegalAccessException, VtkException {
+    public Map getYearPlanSched(User user, Troop troop, YearPlan plan, boolean meetingPlanSpecialSort, boolean isLoadMeetingInfo) throws IllegalAccessException, VtkException {
         if (plan == null) {
             return new java.util.TreeMap();
         }
@@ -241,7 +241,7 @@ public class MeetingUtil {
         return sched;
     }
 
-    public void changeMeetingPositions(User user, Troop troop, String newPositions) throws IllegalAccessException, VtkException {
+    public Troop changeMeetingPositions(User user, Troop troop, String newPositions) throws IllegalAccessException, VtkException {
         java.util.List<Integer> newMeetingSetup = new java.util.ArrayList();
         java.util.StringTokenizer t = new java.util.StringTokenizer(newPositions, ",");
         while (t.hasMoreElements()) {
@@ -259,7 +259,7 @@ public class MeetingUtil {
         plan.setDbUpdate(true);
         troop.setYearPlan(plan);
         troopUtil.updateTroop(user, troop);
-
+        return troop;
     }
 
     public void createCustomAgenda(User user, Troop troop, String name, String meetingPath, int duration, long _startTime, String txt) throws IllegalAccessException, VtkException {
@@ -272,12 +272,7 @@ public class MeetingUtil {
         for (int i = 0; i < meetings.size(); i++) {
             MeetingE m = meetings.get(i);
             if (m.getPath().equals(meetingPath)) {
-                Meeting meeting = null;
-                if (m.getRefId().contains("_")) {
-                    meeting = meetingDAO.updateCustomMeeting(user, troop, m, null);
-                } else {
-                    meeting = meetingDAO.createCustomMeeting(user, troop, m);
-                }
+                Meeting meeting = m.getMeetingInfo();
                 Activity activity = new Activity();
                 activity.setDuration(duration);
                 activity.setActivityNumber(meeting.getActivities().size() + 1);
@@ -291,15 +286,17 @@ public class MeetingUtil {
                 List<Activity> subActivities = new ArrayList<Activity>();
                 subActivities.add(subActivity);
                 activity.setMultiactivities(subActivities);
-                meetingDAO.addActivity(user, troop, meeting, activity);
+                List<Activity> activities = meeting.getActivities();
+                activities.add(activity);
+                meeting.setActivities(activities);
+                meeting = meetingDAO.createOrUpdateMeeting(user, troop, m, meeting);
                 Cal cal = troop.getYearPlan().getSchedule();
                 if (cal != null) {
                     cal.addDate(startTime.getTime());
                 }
+
             }
         }
-        troop.getYearPlan().setAltered("true");
-        troopUtil.updateTroop(user, troop);
     }
 
     public void rmCustomActivity(User user, Troop troop, String activityPath) throws IllegalStateException, IllegalAccessException {
@@ -375,7 +372,7 @@ public class MeetingUtil {
         meetingInfo.setActivities(newActivity);
         // create custom meeting
         MeetingE meetingE = getMeeting(troop.getYearPlan().getMeetingEvents(), meetingPath);
-        createOrUpdateCustomMeeting(user, troop, meetingE, meetingInfo);
+        meetingDAO.createOrUpdateMeeting(user, troop, meetingE, meetingInfo);
     }
 
     public MeetingE getMeeting(java.util.List<MeetingE> meetings, String meetingPath) {
@@ -434,7 +431,7 @@ public class MeetingUtil {
         for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
             if (troop.getYearPlan().getMeetingEvents().get(i).getPath().equals(fromMeetingPath)) {
                 MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
-                Meeting meetingInfo = meetingDAO.getMeeting(user, troop, meeting.getRefId());
+                Meeting meetingInfo = meeting.getMeetingInfo();
                 List<Activity> activities = meetingInfo.getActivities();
                 for (int y = 0; y < activities.size(); y++) {
                     if (activities.get(y).getPath().equals(agendaPathToRm)) {
@@ -443,7 +440,7 @@ public class MeetingUtil {
                         for (int ii = 0; ii < activities.size(); ii++) {
                             activities.get(ii).setActivityNumber(ii + 1);
                         }
-                        meetingDAO.createCustomMeeting(user, troop, meeting, meetingInfo);
+                        meetingDAO.createOrUpdateMeeting(user, troop, meeting, meetingInfo);
                         troopUtil.updateTroop(user, troop);
                         return;
                     }
@@ -462,14 +459,13 @@ public class MeetingUtil {
         for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
             if (troop.getYearPlan().getMeetingEvents().get(i).getPath().equals(meetingPath)) {
                 MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
-                Meeting meetingInfo = meetingDAO.getMeeting(user, troop, meeting.getRefId());
+                Meeting meetingInfo = meeting.getMeetingInfo();
                 List<Activity> activities = meetingInfo.getActivities();
                 for (int y = 0; y < activities.size(); y++) {
                     if (activities.get(y).getPath().equals(activityPath)) {
                         Activity activity = activities.get(y);
                         activity.setDuration(duration);
-                        meetingDAO.createCustomMeeting(user, troop, meeting, meetingInfo);
-                        troop.getYearPlan().setAltered("true");
+                        meetingDAO.createOrUpdateMeeting(user, troop, meeting, meetingInfo);
                         troopUtil.updateTroop(user, troop);
                         return;
                     }
@@ -687,15 +683,17 @@ public class MeetingUtil {
             assets = meetingAidUtil.getMeetingAids(meetingInfo, meetingEvent);
             meetingEvent.setMeetingInfo(meetingInfo);
             java.util.List<Activity> _activities = null;
-            if (meetingInfo.getActivities() != null) {
+            if (meetingInfo != null && meetingInfo.getActivities() != null) {
                 _activities = meetingInfo.getActivities();
             }
             meetingEvent.setLastAssetUpdate(new java.util.Date());
             meetingEvent.setAssets(assets);
             //end
             int meetingLength = 0;
-            for (Activity _agenda : _activities) {
-                meetingLength += _agenda.getDuration();
+            if(_activities != null) {
+                for (Activity _agenda : _activities) {
+                    meetingLength += _agenda.getDuration();
+                }
             }
             planView.setMeetingCount(meetingCount);
             planView.setMeetingLength(meetingLength);
@@ -1076,12 +1074,7 @@ public class MeetingUtil {
     }
 
     public void createOrUpdateCustomMeeting(User user, Troop troop, MeetingE meetingE, Meeting meetingInfo) throws IllegalAccessException, VtkException {
-        if (meetingE.getRefId().contains("_")) {
-            meetingDAO.updateCustomMeeting(user, troop, meetingE, meetingInfo);
-        } else {
-            meetingDAO.createCustomMeeting(user, troop, meetingE, meetingInfo);
-        }
-        troop.getYearPlan().setAltered("true");
+        meetingDAO.createOrUpdateMeeting(user, troop, meetingE, meetingInfo);
         troopUtil.updateTroop(user, troop);
     }
 
@@ -1124,17 +1117,15 @@ public class MeetingUtil {
         return meetings;
     }
 
-    public void setSelectedSubActivity(User user, Troop troop, String meetingPath, String activityPath, String subActivityPath) throws IllegalAccessException, IllegalStateException {
-        java.util.List<MeetingE> meetingEs = troop.getYearPlan().getMeetingEvents();
+    public void setSelectedSubActivity(User user, Troop troop, String meetingPath, String activityPath, String subActivityPath) throws IllegalAccessException, IllegalStateException, VtkException {
+        List<MeetingE> meetingEs = troop.getYearPlan().getMeetingEvents();
         for (MeetingE meetingE:meetingEs) {
             if (meetingPath.equals(meetingE.getPath())) {
-                //m = meetingDAO.createCustomMeeting(user, troop, meetingEs.get(i));
-                //toCustomize = meetingEs.get(i);
-                java.util.List<Activity> activities = meetingE.getMeetingInfo().getActivities();
+                List<Activity> activities = meetingE.getMeetingInfo().getActivities();
                 if (activities != null) {
                     for (int y = 0; y < activities.size(); y++) {
                         if (activityPath.equals(activities.get(y).getPath())) {
-                            java.util.List<Activity> subActivities = activities.get(y).getMultiactivities();
+                            List<Activity> subActivities = activities.get(y).getMultiactivities();
                             for (int z = 0; z < subActivities.size(); z++) {
                                 if (subActivityPath.equals(subActivities.get(z).getPath())) {
                                     subActivities.get(z).setIsSelected(true);
@@ -1143,12 +1134,7 @@ public class MeetingUtil {
                                     subActivities.get(z).setIsSelected(false);
                                 }//end else
                             }//edn for z
-                            if (meetingE.getRefId().contains("_")) {
-                                meetingDAO.updateCustomMeeting(user, troop, meetingE, meetingE.getMeetingInfo());
-                            } else {
-                                meetingDAO.createCustomMeeting(user, troop, meetingE, meetingE.getMeetingInfo());
-                            }
-
+                            meetingDAO.createOrUpdateMeeting(user, troop, meetingE, meetingE.getMeetingInfo());
                         }//edn if
                     }//edn for y
                 }
