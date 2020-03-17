@@ -13,9 +13,9 @@ export default function AgendaItemGlobal(props: AgendaItemGlobalProps) {
 
     return (
         <div>
-            {(hasGlobal.length && !hasGlobal[0].isSelected && props.multiactivities.length > 1) ?
+            {(hasGlobal.length && !hasGlobal[0].isSelected && (props.multiactivities != null && props.multiactivities.length > 1)) ?
                 <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_unselected.png'/> : null}
-            {(hasGlobal.length && hasGlobal[0].isSelected || props.multiactivities.length == 1 && hasGlobal.length) ?
+            {(hasGlobal.length && hasGlobal[0].isSelected || (props.multiactivities != null && props.multiactivities.length == 1) && hasGlobal.length) ?
                 <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png'/> : null}
         </div>
     );
