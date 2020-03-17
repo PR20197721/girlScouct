@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-img#printPageImg { display: block !important; height: 300px; margin-top: -105px; padding-top: -100px; margin-left: -10px;}
+img#printPageImg { display: block !important; height: 260px; margin-top: -90px; margin-left: -10px;}
 #imgContainer{ display: block !important; overflow: hidden; height: 100px; margin-top: 12px;}
 .mainBackground{ margin-top: 0 !important; }
 div.video{ display: none; }
