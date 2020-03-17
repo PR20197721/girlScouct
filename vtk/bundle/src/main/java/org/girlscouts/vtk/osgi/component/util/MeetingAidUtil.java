@@ -39,7 +39,6 @@ public class MeetingAidUtil {
 
     public List<Asset> getMeetingAids(Meeting meeting, MeetingE meetingEvent) {
         List<Asset> meetingAids = new ArrayList<>();
-        List<Asset> distinctMeetingAids = new ArrayList<>();
         try {
             meetingAids.addAll(getTaggedMeetingAids(meeting));
         } catch (Exception e) {
@@ -50,7 +49,8 @@ public class MeetingAidUtil {
         } catch (Exception e) {
             log.error("Error occurred: ", e);
         }
-        return distinctMeetingAids;
+        log.debug("Returning "+meetingAids.size()+ " meeting aids");
+        return meetingAids;
     }
 
     private List<Asset> getTaggedMeetingAids(Meeting meeting) {
@@ -68,10 +68,12 @@ public class MeetingAidUtil {
                     Query q = qm.createQuery(sql, Query.JCR_SQL2);
                     log.debug("Executing JCR query: " + sql);
                     QueryResult result = q.execute();
+                    log.debug("returned " +result.getRows().getSize()+" results");
                     for (RowIterator it = result.getRows(); it.hasNext(); ) {
                         try {
                             Row r = it.nextRow();
                             Resource aidResource = rr.resolve(r.getPath());
+                            log.debug("building vtk meeting aid object from " +aidResource.getPath());
                             if ("dam:Asset".equals(aidResource.getResourceType())) {
                                 Resource metadata = aidResource.getChild("jcr:content/metadata");
                                 if (metadata != null) {
@@ -105,14 +107,14 @@ public class MeetingAidUtil {
             }catch(Exception e){
                 log.error("Exception occurred: ", e);
             } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
+                try {
+                    if (rr != null) {
+                        rr.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
                 }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
             }
-        }
         }
         return meetingAids;
     }
