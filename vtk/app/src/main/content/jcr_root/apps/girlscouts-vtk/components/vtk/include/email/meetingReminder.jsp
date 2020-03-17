@@ -64,16 +64,16 @@
                         %></td>
 			</tr>
 			<tr><th>Topic:</th>
-				<td><%= _meeting.getMeetingInfo().getName() %></td>
+                <td><%= _meeting.getMeetingInfo() != null ?_meeting.getMeetingInfo().getName():"" %></td>
 			</tr>
 		</table>
 		<%
-            JcrCollectionHoldString eInvite = _meeting.getMeetingInfo().getMeetingInfo().get("email invite");
+            JcrCollectionHoldString eInvite = _meeting.getMeetingInfo() != null ? _meeting.getMeetingInfo().getMeetingInfo().get("email invite"): null;
             if (eInvite != null && eInvite.getStr() != null && !eInvite.getStr().trim().isEmpty()) {
         %>
-		<%=_meeting.getMeetingInfo().getMeetingInfo().get("email invite").getStr() %>
+        <%=_meeting.getMeetingInfo() != null ? _meeting.getMeetingInfo().getMeetingInfo().get("email invite").getStr():null %>
 		<% } else {%>
-		<%=_meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr() %>
+        <%=_meeting.getMeetingInfo() != null ? _meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr():null %>
 		<% } %>
 		<br/><p>If you have any questions, or want to participate in this meeting, please contact me at 
 		<%if (apiConfig.getUser().getPhone() != null)%><%=apiConfig.getUser().getPhone() %>
@@ -294,4 +294,3 @@
         $('input[type="button"]').attr('disabled', false);
     });
 </script>
- 
