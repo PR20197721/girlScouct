@@ -13,9 +13,9 @@ export default function AgendaItemOutDoor(props: AgendaItemOutDoorProps) {
 
     return (
         <div>
-            {(hasOutdoor.length && !hasOutdoor[0].isSelected && props.multiactivities.length > 1) ?
+            {(hasOutdoor.length && !hasOutdoor[0].isSelected && (props.multiactivities != null && props.multiactivities.length > 1)) ?
                 <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png'/> : null}
-            {(hasOutdoor.length && hasOutdoor[0].isSelected || props.multiactivities.length == 1 && hasOutdoor.length) ?
+            {(hasOutdoor.length && hasOutdoor[0].isSelected || (props.multiactivities != null && props.multiactivities.length == 1) && hasOutdoor.length) ?
                 <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png'/> : null}
         </div>
     );
