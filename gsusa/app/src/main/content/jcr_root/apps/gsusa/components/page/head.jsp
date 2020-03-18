@@ -46,7 +46,7 @@
 	String reqProtocol = request.getHeader("X-Forwarded-Proto");
 	if(reqProtocol == null) reqProtocol = "http";
 	
-	if("".equals(ogImage)){
+	if(ogImage != null && "".equals(ogImage.trim())){
 		String pageImagePath = currentPage.getPath() + "/jcr:content/content/hero/par/image";
 		String ragImagePath = currentPage.getPath() + "/jcr:content/image";
 	    Session session = (Session)resourceResolver.adaptTo(Session.class);
