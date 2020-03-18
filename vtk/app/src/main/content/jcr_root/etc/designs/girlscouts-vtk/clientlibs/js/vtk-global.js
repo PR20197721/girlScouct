@@ -477,7 +477,7 @@ function checkNews() {
 
 function addNewTags() {
     //"NEW" tag list
-    var newMeetings = ["Outdoor", "Badges_for_2019-2020", "STEM", "Journey|Outdoor", "Journey|STEM", "Badges_Petals|Badges_for_2019-2020", "Life_Skills"];
+    var newMeetings = ["Outdoor", "Badges_for_2020-2021", "STEM", "Journey|Outdoor", "Journey|STEM", "Badges_Petals|Badges_for_2020-2021", "Life_Skills"];
     for (var tag in newMeetings) {
         var el = document.getElementById("category" + newMeetings[tag]);
         $(el).parent().find("p").append("<span style='font-size:10px;color:#F9A61A;font-weight:bold;background:none;display:inline-block; padding-top: 8px;'>NEW</span>")

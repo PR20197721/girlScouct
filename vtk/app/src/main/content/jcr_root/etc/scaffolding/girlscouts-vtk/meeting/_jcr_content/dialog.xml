@@ -258,8 +258,8 @@
                         <catTags9
                                 jcr:primaryType="cq:Widget"
                                 allowBlank="{Boolean}true"
-                                fieldLabel="Badges for 2019-2020"
-                                name="./Badgesfor20192020"
+                                fieldLabel="Badges for 2020-2021"
+                                name="./Badgesfor20202021"
                                 xtype="selection"
                                 type="checkbox"
                                 itemId="tagsField9">
