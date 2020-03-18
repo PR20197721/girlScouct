@@ -28,7 +28,6 @@ public class VTKDataCheckCronImpl implements Runnable {
 
     @ObjectClassDefinition(name="VTK Year Plan Data Check Cron Configuration", description = "VTK Year Plan Data Check Cron Configuration")
     public static @interface Config {
-
         @AttributeDefinition(name = "Cron-job expression")
         String scheduler_expression() default "0 0 3 * * ?";
 
@@ -36,7 +35,7 @@ public class VTKDataCheckCronImpl implements Runnable {
         boolean scheduler_concurrent() default true;
 
         @AttributeDefinition(name = "Email Addresses", description = "Notification recipients")
-        String[] emailAddresses() default "[dmitriy.bakum@ey.com]";
+        String[] emailAddresses() default  "dmitriy.bakum@ey.com";
 
     }
 
@@ -437,12 +436,14 @@ public class VTKDataCheckCronImpl implements Runnable {
                 log.info("Sending VTK Data Check Notification");
                 StringBuffer html = new StringBuffer();
                 if(errors.size() > 0){
-                    html.append("Following data errors have been detected : \n\r");
+                    html.append("<p>"+errors.size()+" data errors have been detected : </p>");
+                    html.append("<ol>");
                     for(String error:errors){
-                        html.append(error+"\n\r");
+                        html.append("<li>"+error+"</li>");
                     }
+                    html.append("</ol>");
                 }else{
-                    html.append("No data errors have been detected");
+                    html.append("<p>No data errors have been detected</p>");
                 }
 
                 String subject = "VTK Data Check Notification: Server " + host;
