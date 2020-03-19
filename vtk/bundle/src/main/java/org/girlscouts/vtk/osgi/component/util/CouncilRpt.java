@@ -107,7 +107,7 @@ public class CouncilRpt extends BasicGirlScoutsService {
                         Node node = it.nextNode();
                         Node troop = node.getParent();
                         boolean isIRM = false;
-                        if(!troop.hasProperty("isIRM") || (troop.hasProperty("isIRM") && !troop.getProperty("isIRM").getBoolean())) {
+                        if(troop.hasProperty("isIRM") && troop.getProperty("isIRM").getBoolean()){
                             isIRM = true;
                         }
                         String yearPlanName = "", libPath = "", ageGroup = "";
