@@ -14,6 +14,10 @@
     <!-- ====================================================================== -->
     <groupId>org.girlscouts.aem</groupId>
     <artifactId>vtk</artifactId>
+<<<<<<< HEAD
+=======
+  <version>4.0.7</version>
+>>>>>>> update-dev-stage-ip-addresses
     <packaging>pom</packaging>
     <name>Girl Scouts Volunteer Toolkit Project</name>
     <description>Maven Multimodule project for Girl Scouts Volunteer Toolkit.</description>
