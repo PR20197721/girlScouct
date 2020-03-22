@@ -5,7 +5,7 @@ import java.util.*
 import javax.jcr.Node.*
 import org.apache.commons.lang3.*
 
-def root = "/etc";
+def root = "/etc/designs";
 def compName = "foundation/components/form/dropdown-no-edit";
 def values = [];
 
