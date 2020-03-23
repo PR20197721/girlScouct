@@ -12,11 +12,10 @@
             <option value="10">10 miles</option>
             <option value="15">15 miles</option>
             <option value="25">25 miles</option>
-            <!-- default -->
-            <option value="50" selected>50 miles</option>
+            <option value="50">50 miles</option>
             <option value="100">100 miles</option>
             <option value="250">250 miles</option>
-            <option value="500">500 miles</option>
+            <option value="500" selected>500 miles</option>
         </select>
     </section>
     <section>
