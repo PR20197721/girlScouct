@@ -65,8 +65,9 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 				UserManager userManager = resourceResolver.adaptTo(UserManager.class);
 				String workflowInitiator = item.getWorkflow().getInitiator();
 		        Authorizable authorizable = userManager.getAuthorizable(workflowInitiator);
-		        String fisrtName = PropertiesUtil.toString(authorizable.getProperty("./profile/givenName"), "");	        
-		        String workflowInitiatorName = StringUtils.isEmpty(fisrtName)?PropertiesUtil.toString(authorizable.getProperty("./profile/familyName"), ""):fisrtName;
+		        String firstName = PropertiesUtil.toString(authorizable.getProperty("./profile/givenName"), "");
+				String lastName = PropertiesUtil.toString(authorizable.getProperty("./profile/familyName"), "");
+		        String workflowInitiatorName = firstName + " " + lastName;
 				//GSWP-2077 : End
 				String srcPath = item.getWorkflowData().getPayload().toString();
 				String subject = "", message = "", templatePath = "";

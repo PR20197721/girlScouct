@@ -648,10 +648,14 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
             html.append("<p>" + DEFAULT_REPORT_INTRO + "</p>");
             String message = "", templatePath = "", srcPath = "",wfInitiatorName = null;
             Boolean notify = false, useTemplate = false, delay = false, activate = true;
-            //GSWP-2077 : Start           
+            //GSWP-2077 : Start 
+            try {
             	wfInitiatorName = dateRolloutNode.getProperty(WORKFLOW_INITIATOR_NAME).getString();
             	if(StringUtils.isNotEmpty(wfInitiatorName)) {
                 	html.append("<p>This workflow was initiated by " + wfInitiatorName + "</p>");
+                }
+            } catch (Exception e) {
+                    log.error("Girlscouts Rollout Service encountered workflow error: ", e);
                 }                        
             //GSWP-2077 : end
             Date runtime = new Date();
