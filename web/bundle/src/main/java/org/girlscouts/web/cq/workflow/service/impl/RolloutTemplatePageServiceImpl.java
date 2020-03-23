@@ -272,7 +272,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         for (String councilPath : submittedCouncils) {
             log.info("Looking up live relationships in {}", councilPath);
             Resource sourceParent = sourcePageResource.getParent();
-            Resource parentTarget = getGoodParent(sourceParent,councilPath,rr,relationManager);
+            Resource parentTarget = getGoodParent(sourceParent,councilPath,rr,relationManager, rolloutLog);
             if (parentTarget != null && !parentTarget.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
                 String relationPagePath = parentTarget.getPath();
                 PageManager pageManager = rr.adaptTo(PageManager.class);
@@ -886,31 +886,35 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         return null;
     }
 
-    private Resource getGoodParent(Resource sourceParent, String councilPath, ResourceResolver rr, LiveRelationshipManager relationManager){
+    private Resource getGoodParent(Resource sourceParent, String councilPath, ResourceResolver rr, LiveRelationshipManager relationManager, List<String> rolloutLog){
         try {
             RangeIterator relationsIterator = relationManager.getLiveRelationships(sourceParent, councilPath, null);
             while (relationsIterator.hasNext()){
                 LiveRelationship relation = (LiveRelationship) relationsIterator.next();
                 String relationPagePath = relation.getTargetPath();
-                //rolloutLog.add("Attempting to roll out a child page of: " + relationPagePath);
+                rolloutLog.add("Attempting to roll out a child page of: " + relationPagePath);
                 log.info("Attempting to roll out a child page of: {}", relationPagePath);
                 Resource parentResource = rr.resolve(relationPagePath);
                 if (parentResource != null && !parentResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
                     log.info("Rolling out to " + relationPagePath);
+                    rolloutLog.add("Rolling out to " + relationPagePath);
                     return parentResource;
                 }
             }
             Resource sourceGrandParent = sourceParent.getParent();
             if (sourceGrandParent != null) {
                 log.info("Could not find parent resource " + sourceGrandParent.getPath() + " for council " + councilPath + ", trying grandparent");
-                return getGoodParent(sourceGrandParent, councilPath, rr, relationManager);
+                rolloutLog.add("Could not find parent resource " + sourceGrandParent.getPath() + " for council " + councilPath + ", trying grandparent");
+                return getGoodParent(sourceGrandParent, councilPath, rr, relationManager,rolloutLog);
             } else {
                 log.error("Could not find parent resource " + sourceGrandParent.getPath() + " for council " + councilPath + " and no grandparent exists, rollout failed");
+                rolloutLog.add("Could not find parent resource " + sourceGrandParent.getPath() + " for council " + councilPath + " and no grandparent exists, rollout failed");
                 return null;
             }
 
         } catch(Exception e){
             log.error("Error getting parent of rollout page parent: " + e.getMessage());
+            rolloutLog.add("Error getting parent of rollout page parent: " + e.getMessage());
             return null;
         }
 
