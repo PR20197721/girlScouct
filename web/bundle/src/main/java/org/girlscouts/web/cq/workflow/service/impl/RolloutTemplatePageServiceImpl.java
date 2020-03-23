@@ -60,7 +60,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     static final String VENDOR = Constants.SERVICE_VENDOR;
     @Property(value = "Girl Scouts Roll out Service")
     static final String LABEL = "process.label";
-    private static Logger log = LoggerFactory.getLogger("org.girlscouts.rollout");
+    private static Logger log = LoggerFactory.getLogger(RolloutTemplatePageServiceImpl.class);
     @Reference
     private ResourceResolverFactory resolverFactory;
     @Reference
