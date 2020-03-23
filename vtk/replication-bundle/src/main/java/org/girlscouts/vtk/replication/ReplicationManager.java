@@ -46,6 +46,7 @@ public class ReplicationManager {
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
     private ObservationManager manager;
     private List<EventListener> listeners;
+    @SuppressWarnings("ThreadSafeField")
     private ResourceResolver rr;
 
     @Activate
@@ -105,9 +106,5 @@ public class ReplicationManager {
                 }
             }
         }
-    }
-
-    public Session getSession() {
-        return rr.adaptTo(Session.class);
     }
 }

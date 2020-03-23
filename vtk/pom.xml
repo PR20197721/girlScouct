@@ -14,7 +14,11 @@
     <!-- ====================================================================== -->
     <groupId>org.girlscouts.aem</groupId>
     <artifactId>vtk</artifactId>
+<<<<<<< Updated upstream
   <version>4.0.7</version>
+=======
+    <version>4.0.7</version>
+>>>>>>> Stashed changes
     <packaging>pom</packaging>
     <name>Girl Scouts Volunteer Toolkit Project</name>
     <description>Maven Multimodule project for Girl Scouts Volunteer Toolkit.</description>
