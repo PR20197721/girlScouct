@@ -79,6 +79,10 @@ public interface PageReplicationConstants {
 	public static final String BRANCH_PATTERN_STR = "^(/content/[^/]+)";
 	public static final Pattern BRANCH_PATTERN = Pattern.compile(BRANCH_PATTERN_STR);
     public static final int BRANCH_LEVEL = 1;
+    
+    //GSWP-2077 : Start
+    public static final String WORKFLOW_INITIATOR_NAME = "workflowInitiatorName";
+    //GSWP-2077 : end
 
 	public interface Email {
 		public static final String DEFAULT_ROLLOUT_REPORT_SUBJECT = "GSUSA Rollout Report";
