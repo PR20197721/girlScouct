@@ -97,6 +97,7 @@ public class TrashcanUtil implements TrashcanConstants {
                     while(children.hasNext()) {
                         Resource child = children.next();
                         if (child.isResourceType(DamConstants.NT_DAM_ASSET) || child.isResourceType("cq:Page") || child.isResourceType(JcrConstants.NT_FOLDER) || child.isResourceType(JcrResourceConstants.NT_SLING_FOLDER) || child.isResourceType(JcrResourceConstants.NT_SLING_ORDERED_FOLDER) || child.isResourceType(NameConstants.NT_PAGE)) {
+                            log.debug("Item "+payloadResource.getPath()+" has a child "+ child.getName());
                             throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has children");
                         }
                     }
@@ -149,6 +150,7 @@ public class TrashcanUtil implements TrashcanConstants {
         return breakInheritance;
     }
     public static String getRestoreItemPath(Resource payloadResource)  throws RepositoryException{
+        log.debug("Getting restore path for "+payloadResource.getPath());
         Resource trashedContent = payloadResource.getChild("jcr:content");
         ValueMap props = trashedContent.getValueMap();
         String restorePath = props.get(RESTORE_PATH_PROP_NAME).toString();
@@ -156,6 +158,7 @@ public class TrashcanUtil implements TrashcanConstants {
         return restorePath;
     }
     public static String getTrashItemPath(boolean isAsset, Resource payloadResource, ResourceResolver workflowResourceResolver) throws RepositoryException {
+        log.debug("Getting item in trash for  "+payloadResource.getPath());
         Session session = workflowResourceResolver.adaptTo(Session.class);
         String trashcanCouncilPath = "";
         String siteName = "";
@@ -182,6 +185,7 @@ public class TrashcanUtil implements TrashcanConstants {
     }
 
     private static Resource getAvailableResource(boolean isAsset, ResourceResolver rr, String path) {
+        log.debug("Getting available resource for  "+path);
         Resource resource = rr.resolve(path);
         if (!resource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
             int count = 1;
@@ -253,6 +257,7 @@ public class TrashcanUtil implements TrashcanConstants {
     }
 
     public static String getRestoreItemName(Resource payloadResource) throws RepositoryException {
+        log.debug("Getting restore item name for "+payloadResource.getPath());
         ResourceResolver rr = payloadResource.getResourceResolver();
         boolean isAsset = payloadResource.isResourceType(com.day.cq.dam.api.DamConstants.NT_DAM_ASSET);
         String restorePath = getRestoreItemPath(payloadResource);
@@ -261,21 +266,20 @@ public class TrashcanUtil implements TrashcanConstants {
     }
 
     public static boolean isAllowedToTrash(Resource payloadResource) throws GirlScoutsException, RepositoryException {
+        log.debug("Checking if allowed to move "+payloadResource.getPath());
         ResourceResolver rr = payloadResource.getResourceResolver();
         Session session = rr.adaptTo(Session.class);
         final AccessControlManager accessControlManager = session.getAccessControlManager();
         final Privilege moveToTrashCanPrivilege = accessControlManager.privilegeFromName(Privilege.JCR_REMOVE_NODE);
-        if(payloadResource == null || ResourceUtil.isNonExistingResource(payloadResource)) {
-            if (accessControlManager.hasPrivileges(payloadResource.getPath(), new Privilege[]{moveToTrashCanPrivilege})) {
-                return true;
-            } else {
-                throw new GirlScoutsException(new Exception(), "You do not have permission to move " + payloadResource.getPath() + " to trashcan.");
-            }
+        if (accessControlManager.hasPrivileges(payloadResource.getPath(), new Privilege[]{moveToTrashCanPrivilege})) {
+            return true;
+        } else {
+            throw new GirlScoutsException(new Exception(), "You do not have permission to move " + payloadResource.getPath() + " to trashcan.");
         }
-        return false;
     }
 
     public static boolean isAllowedToRestore(Resource payloadResource, String restorePath) throws GirlScoutsException, RepositoryException {
+        log.debug("Check if allowed to restore "+payloadResource.getPath());
         String parentPath = restorePath;
         if(parentPath == null || parentPath.trim().length() == 0){
             parentPath = getRestoreItemPath(payloadResource);
