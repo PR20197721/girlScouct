@@ -2,16 +2,13 @@ package org.girlscouts.common.util;
 
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.jcr.JcrUtil;
-import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.api.DamConstants;
 import com.day.cq.replication.ReplicationStatus;
 import com.day.cq.wcm.api.NameConstants;
-import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.commons.ReferenceSearch;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlEntry;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlList;
-import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
@@ -25,9 +22,11 @@ import org.slf4j.LoggerFactory;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.security.*;
+import javax.jcr.security.AccessControlManager;
+import javax.jcr.security.AccessControlPolicy;
+import javax.jcr.security.AccessControlPolicyIterator;
+import javax.jcr.security.Privilege;
 import java.security.Principal;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -54,6 +53,10 @@ public class TrashcanUtil implements TrashcanConstants {
         log.debug("Checking if "+payloadResource.getPath()+" is published");
         if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
             ReplicationStatus status = payloadResource.adaptTo(ReplicationStatus.class);
+            log.debug("status.isActivated()="+status.isActivated());
+            log.debug("status.isPending()="+status.isPending());
+            log.debug("status.isPublished()="+status.isPublished());
+            log.debug("status.isDelivered()="+status.isDelivered());
             if (status != null && (status.isActivated() || status.isPending() || status.isPublished())) {
                 throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " is published");
             }
