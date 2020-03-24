@@ -378,7 +378,7 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Spring Board Button"
-                                name="secondsbbutton"/>
+                                name="./secondsbbutton"/>
                         </items>
                     </columns>
                 </items>

@@ -114,9 +114,9 @@ function doUpdMeeting(newVals) {
     //var newVals = getNewMeetingSetup();
 
     var x = $.ajax({ // ajax call starts
-        url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=ChangeMeetingPositions&isMeetingCngAjax=' + newVals, // JQuery loads serverside.php
+        url: '/content/girlscouts-vtk/service/react/action/change-meeting-positions.html?order=' + newVals,
         data: '', // Send value of the clicked button
-
+        method: 'POST',
         dataType: 'html', // Choosing a JSON datatype
 
     }).done(function(html) {

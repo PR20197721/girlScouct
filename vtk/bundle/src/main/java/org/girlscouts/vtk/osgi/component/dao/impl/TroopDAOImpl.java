@@ -370,6 +370,7 @@ public class TroopDAOImpl implements TroopDAO {
         } catch (Exception em) {
             log.error("Error occurred:", em);
         }
+        troop.clearSchedule();
         return false;
     }
 

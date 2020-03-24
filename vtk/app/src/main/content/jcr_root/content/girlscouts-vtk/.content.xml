@@ -3,5 +3,6 @@
     jcr:primaryType="nt:unstructured">
     <controllers/>
     <salesforce-data/>
+    <service/>
     <en/>
 </jcr:root>

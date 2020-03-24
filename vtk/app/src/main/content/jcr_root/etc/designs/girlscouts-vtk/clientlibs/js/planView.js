@@ -513,24 +513,24 @@ var getDataIfModified;
     
     
     function _getDataIfModified(path, that, success) {
-    	var url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;
+    	var url = "/content/girlscouts-vtk/service/react/getYearPlan.html";
         $.ajax({
             url: url,
             dataType: 'json',
             success: function(data, textStatus, jqXHR){
-                var eTag = jqXHR.getResponseHeader("ETag");
+                /*var eTag = jqXHR.getResponseHeader("ETag");
                 if (eTag) {
                     eTags[url] = eTag;
-                }
+                }*/
                 if (success) {
                     success.apply(this, arguments);
                 }
-            }.bind(that),
+            }.bind(that)/*,
             beforeSend: function(request) {
                 if (eTags[url]) {
                     request.setRequestHeader('If-None-Match', eTags[url]);
                 }
-            }
+            }*/
         });
     };
     getDataIfModified = _getDataIfModified;

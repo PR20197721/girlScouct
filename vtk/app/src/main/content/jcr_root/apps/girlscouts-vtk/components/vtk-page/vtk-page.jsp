@@ -96,17 +96,42 @@
 <html <%= wcmModeIsPreview ? "class=\"preview\"" : ""%>>
 <%
     final UserUtil userUtilHead = sling.getService(UserUtil.class);
-    String referer = userUtilHead.getCouncilUrlPath((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()), request);
-    referer = referer + "en/site-search";
+    ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class.getName());
+    String councilId = null;
+    String referer = "";
+    try {
+        if (!apiConfig.getUser().isAdmin()) {
+            councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
+        } else {
+            councilId = apiConfig.getUser().getAdminCouncilId();
+        }
+        referer = mapper.getCouncilBranch(councilId);
+    } catch (Exception e) {
+        Cookie[] cookies = request.getCookies();
+        String refererCouncil = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("vtk_referer_council")) {
+                    refererCouncil = cookie.getValue();
+                }
+            }
+        }
+        if (refererCouncil != null && !refererCouncil.isEmpty() && refererCouncil.length() > 3) {
+            referer = "/content/" + refererCouncil;
+        } else {
+            referer = mapper.getCouncilBranch();
+        }
+    }
+    referer = referer + "/en/site-search.html";
     request.setAttribute("altSearchPath", referer);
 %>
 <%
     request.setAttribute("mapper", mapper);
-    ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class.getName());
+    apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class.getName());
     request.setAttribute("apiconfig", apiConfig);
     Page newCurrentPage = null;
     Design newCurrentDesign = null;
-    String councilId = null;
+    councilId = null;
     String branch = "";
     try {
         if (!apiConfig.getUser().isAdmin()) {
