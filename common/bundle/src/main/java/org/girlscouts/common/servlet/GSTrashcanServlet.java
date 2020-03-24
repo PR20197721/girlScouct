@@ -94,13 +94,13 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                             if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
                                 if ("restore".equals(trashcanRequest.getAction())) {
                                     try {
-                                        isValidToRestore(payloadResource, targetPath, userResourceResolver);
+                                        isValidToRestore(payloadResource, targetPath);
                                     } catch (GirlScoutsException e) {
                                         errors.add(e.getReason());
                                     }
                                 } else {
                                     try {
-                                        isValidToTrashcan(payloadResource, userResourceResolver);
+                                        isValidToTrashcan(payloadResource);
                                     } catch (GirlScoutsException e) {
                                         errors.add(e.getReason());
                                     }
@@ -242,7 +242,8 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         return trashItemPath;
     }
 
-    private Boolean isValidToRestore(Resource payloadResource, String restorePath, ResourceResolver userResourceResolver) throws RepositoryException, GirlScoutsException {
+    private Boolean isValidToRestore(Resource payloadResource, String restorePath) throws RepositoryException, GirlScoutsException {
+        log.debug("Checking if item "+payloadResource.getPath()+" can be restored");
         if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath)) {
             if (TrashcanUtil.restorePathExists(payloadResource, restorePath)) {
                 return true;
@@ -251,13 +252,14 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         return false;
     }
 
-    private Boolean isValidToTrashcan(Resource payloadResource, ResourceResolver userResourceResolver) throws RepositoryException, GirlScoutsException {
-        if (TrashcanUtil.isAllowedToTrash(payloadResource)) {
-            if (!TrashcanUtil.isPublished(payloadResource)) {
-                if (!TrashcanUtil.hasReferences(payloadResource)) {
-                    if (!TrashcanUtil.isLiveCopy(payloadResource)) {
+    private Boolean isValidToTrashcan(Resource payloadResource) throws RepositoryException, GirlScoutsException {
+        log.debug("Checking if item "+payloadResource.getPath()+" can be moved to trash");
+        if (TrashcanUtil.isAllowedToTrash(payloadResource)){
+            if(!TrashcanUtil.isPublished(payloadResource)){
+                if(!TrashcanUtil.hasReferences(payloadResource)){
+                    if(!TrashcanUtil.isLiveCopy(payloadResource)){
                         boolean isAsset = payloadResource.isResourceType("dam:Asset");
-                        if (isAsset || (!isAsset && !TrashcanUtil.hasChildren(payloadResource))) {
+                        if (isAsset || !TrashcanUtil.hasChildren(payloadResource)) {
                             return true;
                         }
                     }
