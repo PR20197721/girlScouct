@@ -98,23 +98,31 @@
 
             function handleTrashcanEvent() {
                 if (items.length) {
-                    var item = $(items[0]);
-                    var itemPath = item.data("foundation-collection-item-id");
-                    var restoreParam = "";
-                    if(restorePath != null && restorePath.trim().length > 0){
-                        restoreParam = "&restorePath="+encodeURIComponent(restorePath);
-                    }
-                    var message = "<p>Following item will be moved to trashcan:</p>" + itemPath;
-                    var header = "Moving to trashcan";
-                    if (itemPath.includes("/trashcan/")) {
-                        message = "<p>Following item will be restored from trashcan:</p>" + itemPath;
-                        if(restorePath != null && restorePath.trim().length>0){
-                            message = message + "<p>To:</p>" + restorePath;
+                    var message = "";
+                    var header = "";
+                    var url = Granite.HTTP.externalize(activator.data("href"));
+                    var payloadJSON = {};
+                    var itemsJSON = [];
+                    if($(items[0]).data("foundation-collection-item-id").includes("/trashcan/")){
+                        payloadJSON.action = "restore";
+                        var item = $(items[0]);
+                        var itemPath = item.data("foundation-collection-item-id");
+                        header = "Restoring from trashcan"
+                        message = "<p>Following item will be restored from trashcan:</p><ol><li>"+item.data("foundation-collection-item-id")+"</li></ol>";
+                        itemsJSON.push({source:itemPath, target:restorePath})
+                    }else{
+                        payloadJSON.action = "trashcan";
+                        header = "Moving to trashcan";
+                        message = "<p>Following items will be moved to trashcan:</p><ol>";
+                        for(var i=0; i<items.length; i++){
+                            var item = $(items[i]);
+                            var itemPath = item.data("foundation-collection-item-id");
+                            message += "<li>"+itemPath+"</li>";
+                            itemsJSON.push({source:itemPath, target:null})
                         }
-                        header = "Restoring from trashcan";
+                        message += "</ol>";
                     }
-                    itemPath = encodeURIComponent(itemPath);
-                    var url = Granite.HTTP.externalize(activator.data("href")) + itemPath+restoreParam;
+                    payloadJSON.items = itemsJSON;
                     var dialog = new Coral.Dialog().set({
                         id: "trashcanDialog",
                         header: {
@@ -131,7 +139,9 @@
                     dialog.on('click', '#acceptButton', function () {
                         $.ajax({
                             dataType: "json",
-                            url: url
+                            url: url,
+                            type: 'POST',
+                            data: JSON.stringify(payloadJSON),
                         }).success(function (data) {
                             if (data.success) {
                                 dialog.remove();
@@ -155,10 +165,9 @@
                     document.body.appendChild(dialog);
                     dialog.show();
                 }
-                return {itemPath, url, dialog};
+                return {payloadJSON, dialog};
             }
-
-            var {itemPath, url, dialog} = handleTrashcanEvent();
+            var {payloadJSON, dialog} = handleTrashcanEvent();
         }
         $(trashcanActivator).unbind("click");
         $(trashcanActivator).bind("click", trashcanEventHandler);
