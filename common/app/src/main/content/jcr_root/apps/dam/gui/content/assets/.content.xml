@@ -331,11 +331,11 @@
                         sling:resourceType="granite/ui/components/coral/foundation/collection/action"
                         icon="delete"
                         relScope="none"
-                        activeSelectionCount="single"
+                        activeSelectionCount="multiple"
                         text="Move to trashcan"
                         target=".cq-damadmin-admin-childpages"
                         variant="actionBar">
-                    <granite:data jcr:primaryType="nt:unstructured" href="/etc/servlets/trashcan.workflow?payload="/>
+                    <granite:data jcr:primaryType="nt:unstructured" href="/etc/servlets/trashcan.workflow"/>
                 </movetotrashcan>
                 <restorefromtrashcan
                         granite:rel="cq-damadmin-admin-actions-trashcan-restore-activator"
@@ -347,7 +347,7 @@
                         text="Restore from trashcan"
                         target=".cq-damadmin-admin-childpages"
                         variant="actionBar">
-                    <granite:data jcr:primaryType="nt:unstructured" href="/etc/servlets/trashcan.workflow?payload="/>
+                    <granite:data jcr:primaryType="nt:unstructured" href="/etc/servlets/trashcan.workflow"/>
                 </restorefromtrashcan>
             </selection>
         </actions>
