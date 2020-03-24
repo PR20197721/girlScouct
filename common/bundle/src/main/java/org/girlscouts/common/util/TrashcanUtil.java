@@ -155,9 +155,8 @@ public class TrashcanUtil implements TrashcanConstants {
         restorePath = restorePath.substring(0,restorePath.lastIndexOf("/"));
         return restorePath;
     }
-    public static String getTrashItemPath(boolean isAsset, Resource payloadResource) throws RepositoryException {
-        ResourceResolver rr = payloadResource.getResourceResolver();
-        Session session = rr.adaptTo(Session.class);
+    public static String getTrashItemPath(boolean isAsset, Resource payloadResource, ResourceResolver workflowResourceResolver) throws RepositoryException {
+        Session session = workflowResourceResolver.adaptTo(Session.class);
         String trashcanCouncilPath = "";
         String siteName = "";
         String itemPath = payloadResource.getPath();
@@ -170,7 +169,7 @@ public class TrashcanUtil implements TrashcanConstants {
             siteName = siteName.substring(0, siteName.indexOf("/"));
             trashcanCouncilPath = PAGE_TRASHCAN_PATH + "/" + siteName;
         }
-        Resource trashCanFolder = rr.resolve(trashcanCouncilPath);
+        Resource trashCanFolder = payloadResource.getResourceResolver().resolve(trashcanCouncilPath);
         if (trashCanFolder == null || trashCanFolder.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
             JcrUtil.createPath(trashcanCouncilPath, JcrConstants.NT_FOLDER, session);
             log.debug("Created council trashcan at "+trashcanCouncilPath);
@@ -178,7 +177,7 @@ public class TrashcanUtil implements TrashcanConstants {
         String originalCouncilPath = itemPath.substring(0, (itemPath.indexOf(siteName) + siteName.length()));
         setPermissions(trashcanCouncilPath, originalCouncilPath, session);
         String trashItemPath = trashcanCouncilPath + "/" + payloadResource.getName();
-        Resource trashItem = getAvailableResource(isAsset, rr, trashItemPath);
+        Resource trashItem = getAvailableResource(isAsset, payloadResource.getResourceResolver(), trashItemPath);
         return trashItem.getPath();
     }
 

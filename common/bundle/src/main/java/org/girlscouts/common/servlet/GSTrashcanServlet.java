@@ -128,15 +128,9 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                                 if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
                                     boolean isAsset = payloadResource.isResourceType("dam:Asset");
                                     if ("restore".equals(trashcanRequest.getAction())) {
-<<<<<<< Updated upstream
-                                        path = restoreFromTrashcan(payloadResource, targetPath);
-                                    }else{
-                                        path = moveToTrashcan(payloadResource);
-=======
                                         path = invokeTrashcanRestoreWorkflow(payloadResource, targetPath);
                                     }else{
-                                        path = invokeTrashcanWorkflow(isAsset, payloadResource);
->>>>>>> Stashed changes
+                                        path = invokeTrashcanWorkflow(isAsset, payloadResource, workflowResourceResolver);
                                     }
                                 } else {
                                     throw new GirlScoutsException(new Exception(), "Item at path " + sourcePath + " doesn't exist");
@@ -207,13 +201,8 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         return trashcanRequest;
     }
 
-<<<<<<< Updated upstream
-    private String restoreFromTrashcan(Resource payloadResource, String restorePath) throws WorkflowException, RepositoryException, GirlScoutsException {
-        if (!TrashcanUtil.isAllowedToRestore(payloadResource, restorePath)) {
-=======
     private String restoreFromTrashcan(Resource payloadResource, String restorePath, ResourceResolver userResourceResolver) throws WorkflowException, RepositoryException, GirlScoutsException {
-        if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath, userResourceResolver)) {
->>>>>>> Stashed changes
+        if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath)) {
             if (TrashcanUtil.restorePathExists(payloadResource, restorePath)) {
                 return invokeTrashcanRestoreWorkflow(payloadResource, restorePath);
             }
@@ -221,19 +210,14 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         return payloadResource.getPath();
     }
 
-<<<<<<< Updated upstream
-    private String moveToTrashcan(Resource payloadResource) throws RepositoryException, WorkflowException, GirlScoutsException {
-        if (!TrashcanUtil.isAllowedToTrash(payloadResource)) {
-=======
-    private String moveToTrashcan(Resource payloadResource, ResourceResolver userResourceResolver) throws RepositoryException, WorkflowException, GirlScoutsException {
-        if (TrashcanUtil.isAllowedToTrash(payloadResource, userResourceResolver)) {
->>>>>>> Stashed changes
+    private String moveToTrashcan(Resource payloadResource, ResourceResolver workflowResourceResolver) throws RepositoryException, WorkflowException, GirlScoutsException {
+        if (TrashcanUtil.isAllowedToTrash(payloadResource)) {
             if (!TrashcanUtil.isPublished(payloadResource)) {
                 if (!TrashcanUtil.hasReferences(payloadResource)) {
                     if (!TrashcanUtil.isLiveCopy(payloadResource)) {
                         boolean isAsset = payloadResource.isResourceType("dam:Asset");
                         if (isAsset || (!isAsset && !TrashcanUtil.hasChildren(payloadResource))) {
-                            return invokeTrashcanWorkflow(isAsset, payloadResource);
+                            return invokeTrashcanWorkflow(isAsset, payloadResource, workflowResourceResolver);
                         }
                     }
                 }
@@ -242,14 +226,14 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         return payloadResource.getPath();
     }
 
-    private String invokeTrashcanWorkflow(boolean isAsset, Resource payloadResource) throws WorkflowException, RepositoryException {
+    private String invokeTrashcanWorkflow(boolean isAsset, Resource payloadResource, ResourceResolver workflowResourceResolver) throws WorkflowException, RepositoryException {
         //Create a workflow session
         WorkflowSession wfSession = workflowService.getWorkflowSession(payloadResource.getResourceResolver().adaptTo(Session.class));
         // Get the workflow model
         WorkflowModel wfModel = wfSession.getModel("/var/workflow/models/girl-scouts-move-to-trashcan");
         // Get the workflow data
         // The first param in the newWorkflowData method is the payloadType.  Just a fancy name to let it know what type of workflow it is working with.
-        String trashItemPath = TrashcanUtil.getTrashItemPath(isAsset, payloadResource);
+        String trashItemPath = TrashcanUtil.getTrashItemPath(isAsset, payloadResource, workflowResourceResolver);
         WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH", payloadResource.getPath());
         wfData.getMetaDataMap().put(TRASH_PATH_PROP_NAME, trashItemPath);
         // Invoke the Workflow
@@ -259,7 +243,7 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
     }
 
     private Boolean isValidToRestore(Resource payloadResource, String restorePath, ResourceResolver userResourceResolver) throws RepositoryException, GirlScoutsException {
-        if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath, userResourceResolver)) {
+        if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath)) {
             if (TrashcanUtil.restorePathExists(payloadResource, restorePath)) {
                 return true;
             }
@@ -268,7 +252,7 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
     }
 
     private Boolean isValidToTrashcan(Resource payloadResource, ResourceResolver userResourceResolver) throws RepositoryException, GirlScoutsException {
-        if (TrashcanUtil.isAllowedToTrash(payloadResource, userResourceResolver)) {
+        if (TrashcanUtil.isAllowedToTrash(payloadResource)) {
             if (!TrashcanUtil.isPublished(payloadResource)) {
                 if (!TrashcanUtil.hasReferences(payloadResource)) {
                     if (!TrashcanUtil.isLiveCopy(payloadResource)) {
