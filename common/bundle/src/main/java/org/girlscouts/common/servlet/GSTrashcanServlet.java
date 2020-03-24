@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
-import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
@@ -33,12 +33,12 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@Component(service = Servlet.class, property = {Constants.SERVICE_DESCRIPTION + "=Girl Scouts Trashcan Servlet", "sling.servlet.methods=" + HttpConstants.METHOD_GET, "sling.servlet.extensions=workflow", "sling.servlet.resourceTypes=" + "girlscouts/servlets/trashcan"})
+@Component(service = Servlet.class, property = {Constants.SERVICE_DESCRIPTION + "=Girl Scouts Trashcan Servlet", "sling.servlet.methods=" + HttpConstants.METHOD_POST, "sling.servlet.extensions=workflow", "sling.servlet.resourceTypes=girlscouts/servlets/trashcan"})
 public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingServlet, TrashcanConstants {
     private static final Logger log = LoggerFactory.getLogger(GSTrashcanServlet.class);
     /**
@@ -85,6 +85,40 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                 try {
                     userResourceResolver = request.getResourceResolver();
                     workflowResourceResolver = resolverFactory.getServiceResourceResolver(this.serviceParams);
+                    List<String> errors = new ArrayList<>();
+                    for (TrashcanItem item : trashcanRequest.getItems()) {
+                        String sourcePath = item.getSource();
+                        String targetPath = item.getTarget();
+                        if (sourcePath != null && sourcePath.trim().length() > 0) {
+                            Resource payloadResource = userResourceResolver.resolve(sourcePath);
+                            if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+                                if ("restore".equals(trashcanRequest.getAction())) {
+                                    try {
+                                        isValidToRestore(payloadResource, targetPath, userResourceResolver);
+                                    } catch (GirlScoutsException e) {
+                                        errors.add(e.getReason());
+                                    }
+                                } else {
+                                    try {
+                                        isValidToTrashcan(payloadResource, userResourceResolver);
+                                    } catch (GirlScoutsException e) {
+                                        errors.add(e.getReason());
+                                    }
+                                }
+                            } else {
+                                errors.add("Item at path " + sourcePath + " doesn't exist");
+                            }
+                        }
+                    }
+                    if(errors.size()>0){
+                        StringBuffer sb = new StringBuffer();
+                        sb.append("<ol>");
+                        for(String error : errors){
+                            sb.append("<li>"+error+"</li>");
+                        }
+                        sb.append("</ol>");
+                        throw new GirlScoutsException(new Exception(), sb.toString());
+                    }
                     for (TrashcanItem item : trashcanRequest.getItems()) {
                         try {
                             String sourcePath = item.getSource();
@@ -92,26 +126,21 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                             if (sourcePath != null && sourcePath.trim().length() > 0) {
                                 Resource payloadResource = userResourceResolver.resolve(sourcePath);
                                 if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+                                    boolean isAsset = payloadResource.isResourceType("dam:Asset");
                                     if ("restore".equals(trashcanRequest.getAction())) {
+<<<<<<< Updated upstream
                                         path = restoreFromTrashcan(payloadResource, targetPath);
                                     }else{
                                         path = moveToTrashcan(payloadResource);
+=======
+                                        path = invokeTrashcanRestoreWorkflow(payloadResource, targetPath);
+                                    }else{
+                                        path = invokeTrashcanWorkflow(isAsset, payloadResource);
+>>>>>>> Stashed changes
                                     }
                                 } else {
                                     throw new GirlScoutsException(new Exception(), "Item at path " + sourcePath + " doesn't exist");
                                 }
-                            }
-
-                        } catch (GirlScoutsException e) {
-                            log.error("Error occurred:", e);
-                            try {
-                                json.addProperty("success", false);
-                                json.addProperty("errorCause", e.getReason());
-                                response.setStatus(SlingHttpServletResponse.SC_OK);
-                                response.setContentType("application/json");
-                                response.getWriter().write(new Gson().toJson(json));
-                            } catch (Exception ex) {
-                                log.error("Error occurred:", ex);
                             }
                         } catch (Exception e) {
                             log.error("Error occurred:", e);
@@ -122,17 +151,24 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                             }
                         }
                     }
+                    json.addProperty("success", true);
+                    //json.addProperty("origin_path", path);
+                    json.addProperty("destination_path", path);
+                    response.setStatus(SlingHttpServletResponse.SC_OK);
+                    response.setContentType("application/json");
+                    response.getWriter().write(new Gson().toJson(json));
+                } catch (GirlScoutsException e) {
+                    log.error("Error occurred:", e);
                     try {
-                        json.addProperty("success", true);
-                        //json.addProperty("origin_path", path);
-                        json.addProperty("destination_path", path);
+                        json.addProperty("success", false);
+                        json.addProperty("errorCause", e.getReason());
                         response.setStatus(SlingHttpServletResponse.SC_OK);
                         response.setContentType("application/json");
                         response.getWriter().write(new Gson().toJson(json));
-                    } catch (IOException e) {
-                        log.error("Error occurred:", e);
+                    } catch (Exception ex) {
+                        log.error("Error occurred:", ex);
                     }
-                } catch (LoginException e) {
+                } catch (Exception e) {
                     log.error("Error Occurred: ", e);
                 } finally {
                     if (workflowResourceResolver != null) {
@@ -162,22 +198,22 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
     private TrashcanRequest getTrashcanRequest(SlingHttpServletRequest request) {
         TrashcanRequest trashcanRequest = null;
         try {
-            String line = null;
-            StringBuffer jb = new StringBuffer();
-            BufferedReader reader = request.getReader();
-            while ((line = reader.readLine()) != null) {
-                jb.append(line);
-            }
+            List<RequestParameter> params = request.getRequestParameterList();
             Gson gson = new Gson();
-            trashcanRequest = gson.fromJson(jb.toString(), TrashcanRequest.class);
+            trashcanRequest = gson.fromJson(params.get(0).getName(), TrashcanRequest.class);
         } catch (Exception e) {
             log.error("Error Occurred:", e);
         }
         return trashcanRequest;
     }
 
+<<<<<<< Updated upstream
     private String restoreFromTrashcan(Resource payloadResource, String restorePath) throws WorkflowException, RepositoryException, GirlScoutsException {
         if (!TrashcanUtil.isAllowedToRestore(payloadResource, restorePath)) {
+=======
+    private String restoreFromTrashcan(Resource payloadResource, String restorePath, ResourceResolver userResourceResolver) throws WorkflowException, RepositoryException, GirlScoutsException {
+        if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath, userResourceResolver)) {
+>>>>>>> Stashed changes
             if (TrashcanUtil.restorePathExists(payloadResource, restorePath)) {
                 return invokeTrashcanRestoreWorkflow(payloadResource, restorePath);
             }
@@ -185,8 +221,13 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         return payloadResource.getPath();
     }
 
+<<<<<<< Updated upstream
     private String moveToTrashcan(Resource payloadResource) throws RepositoryException, WorkflowException, GirlScoutsException {
         if (!TrashcanUtil.isAllowedToTrash(payloadResource)) {
+=======
+    private String moveToTrashcan(Resource payloadResource, ResourceResolver userResourceResolver) throws RepositoryException, WorkflowException, GirlScoutsException {
+        if (TrashcanUtil.isAllowedToTrash(payloadResource, userResourceResolver)) {
+>>>>>>> Stashed changes
             if (!TrashcanUtil.isPublished(payloadResource)) {
                 if (!TrashcanUtil.hasReferences(payloadResource)) {
                     if (!TrashcanUtil.isLiveCopy(payloadResource)) {
@@ -213,7 +254,33 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         wfData.getMetaDataMap().put(TRASH_PATH_PROP_NAME, trashItemPath);
         // Invoke the Workflow
         wfSession.startWorkflow(wfModel, wfData);
+        trashItemPath = trashItemPath.substring(0,trashItemPath.lastIndexOf("/"));
         return trashItemPath;
+    }
+
+    private Boolean isValidToRestore(Resource payloadResource, String restorePath, ResourceResolver userResourceResolver) throws RepositoryException, GirlScoutsException {
+        if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath, userResourceResolver)) {
+            if (TrashcanUtil.restorePathExists(payloadResource, restorePath)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Boolean isValidToTrashcan(Resource payloadResource, ResourceResolver userResourceResolver) throws RepositoryException, GirlScoutsException {
+        if (TrashcanUtil.isAllowedToTrash(payloadResource, userResourceResolver)) {
+            if (!TrashcanUtil.isPublished(payloadResource)) {
+                if (!TrashcanUtil.hasReferences(payloadResource)) {
+                    if (!TrashcanUtil.isLiveCopy(payloadResource)) {
+                        boolean isAsset = payloadResource.isResourceType("dam:Asset");
+                        if (isAsset || (!isAsset && !TrashcanUtil.hasChildren(payloadResource))) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private String invokeTrashcanRestoreWorkflow(Resource payloadResource, String restorePath) throws WorkflowException, RepositoryException {

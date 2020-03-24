@@ -111,7 +111,7 @@
                         message = "<p>Following item will be restored from trashcan:</p><ol><li>"+item.data("foundation-collection-item-id")+"</li></ol>";
                         itemsJSON.push({source:itemPath, target:restorePath})
                     }else{
-                        payloadJSON.action = "trashcan";
+                        payloadJSON.action = "trash";
                         header = "Moving to trashcan";
                         message = "<p>Following items will be moved to trashcan:</p><ol>";
                         for(var i=0; i<items.length; i++){
