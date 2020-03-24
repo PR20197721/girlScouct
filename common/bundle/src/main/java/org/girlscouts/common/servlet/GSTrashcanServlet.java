@@ -110,11 +110,11 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                             }
                         }
                     }
-                    if (errors.size() > 0) {
+                    if(errors.size()>0){
                         StringBuffer sb = new StringBuffer();
                         sb.append("<ol>");
-                        for (String error : errors) {
-                            sb.append("<li>" + error + "</li>");
+                        for(String error : errors){
+                            sb.append("<li>"+error+"</li>");
                         }
                         sb.append("</ol>");
                         throw new GirlScoutsException(new Exception(), sb.toString());
@@ -130,7 +130,7 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                                     if ("restore".equals(trashcanRequest.getAction())) {
                                         path = invokeTrashcanRestoreWorkflow(payloadResource, targetPath);
                                     }else{
-                                        path = invokeTrashcanWorkflow(isAsset, payloadResource);
+                                        path = invokeTrashcanWorkflow(isAsset, payloadResource, workflowResourceResolver);
                                     }
                                 } else {
                                     throw new GirlScoutsException(new Exception(), "Item at path " + sourcePath + " doesn't exist");
@@ -144,7 +144,8 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                                 log.error("Error occurred:", ex);
                             }
                         }
-                    } json.addProperty("success", true);
+                    }
+                    json.addProperty("success", true);
                     //json.addProperty("origin_path", path);
                     json.addProperty("destination_path", path);
                     response.setStatus(SlingHttpServletResponse.SC_OK);
@@ -201,7 +202,7 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
     }
 
     private String restoreFromTrashcan(Resource payloadResource, String restorePath, ResourceResolver userResourceResolver) throws WorkflowException, RepositoryException, GirlScoutsException {
-        if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath, userResourceResolver)) {
+        if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath)) {
             if (TrashcanUtil.restorePathExists(payloadResource, restorePath)) {
                 return invokeTrashcanRestoreWorkflow(payloadResource, restorePath);
             }
@@ -209,14 +210,14 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         return payloadResource.getPath();
     }
 
-    private String moveToTrashcan(Resource payloadResource, ResourceResolver userResourceResolver) throws RepositoryException, WorkflowException, GirlScoutsException {
-        if (TrashcanUtil.isAllowedToTrash(payloadResource, userResourceResolver)) {
+    private String moveToTrashcan(Resource payloadResource, ResourceResolver workflowResourceResolver) throws RepositoryException, WorkflowException, GirlScoutsException {
+        if (TrashcanUtil.isAllowedToTrash(payloadResource)) {
             if (!TrashcanUtil.isPublished(payloadResource)) {
                 if (!TrashcanUtil.hasReferences(payloadResource)) {
                     if (!TrashcanUtil.isLiveCopy(payloadResource)) {
                         boolean isAsset = payloadResource.isResourceType("dam:Asset");
                         if (isAsset || (!isAsset && !TrashcanUtil.hasChildren(payloadResource))) {
-                            return invokeTrashcanWorkflow(isAsset, payloadResource);
+                            return invokeTrashcanWorkflow(isAsset, payloadResource, workflowResourceResolver);
                         }
                     }
                 }
@@ -225,24 +226,24 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         return payloadResource.getPath();
     }
 
-    private String invokeTrashcanWorkflow(boolean isAsset, Resource payloadResource) throws WorkflowException, RepositoryException {
+    private String invokeTrashcanWorkflow(boolean isAsset, Resource payloadResource, ResourceResolver workflowResourceResolver) throws WorkflowException, RepositoryException {
         //Create a workflow session
         WorkflowSession wfSession = workflowService.getWorkflowSession(payloadResource.getResourceResolver().adaptTo(Session.class));
         // Get the workflow model
         WorkflowModel wfModel = wfSession.getModel("/var/workflow/models/girl-scouts-move-to-trashcan");
         // Get the workflow data
         // The first param in the newWorkflowData method is the payloadType.  Just a fancy name to let it know what type of workflow it is working with.
-        String trashItemPath = TrashcanUtil.getTrashItemPath(isAsset, payloadResource);
+        String trashItemPath = TrashcanUtil.getTrashItemPath(isAsset, payloadResource, workflowResourceResolver);
         WorkflowData wfData = wfSession.newWorkflowData("JCR_PATH", payloadResource.getPath());
         wfData.getMetaDataMap().put(TRASH_PATH_PROP_NAME, trashItemPath);
         // Invoke the Workflow
         wfSession.startWorkflow(wfModel, wfData);
-        trashItemPath = trashItemPath.substring(0, trashItemPath.lastIndexOf("/"));
+        trashItemPath = trashItemPath.substring(0,trashItemPath.lastIndexOf("/"));
         return trashItemPath;
     }
 
     private Boolean isValidToRestore(Resource payloadResource, String restorePath, ResourceResolver userResourceResolver) throws RepositoryException, GirlScoutsException {
-        if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath, userResourceResolver)) {
+        if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath)) {
             if (TrashcanUtil.restorePathExists(payloadResource, restorePath)) {
                 return true;
             }
@@ -251,7 +252,7 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
     }
 
     private Boolean isValidToTrashcan(Resource payloadResource, ResourceResolver userResourceResolver) throws RepositoryException, GirlScoutsException {
-        if (TrashcanUtil.isAllowedToTrash(payloadResource, userResourceResolver)) {
+        if (TrashcanUtil.isAllowedToTrash(payloadResource)) {
             if (!TrashcanUtil.isPublished(payloadResource)) {
                 if (!TrashcanUtil.hasReferences(payloadResource)) {
                     if (!TrashcanUtil.isLiveCopy(payloadResource)) {
