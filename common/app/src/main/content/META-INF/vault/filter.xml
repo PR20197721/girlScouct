@@ -25,6 +25,7 @@
     <filter root="/apps/dam/gui/content/assetdetails"/>
     <filter root="/apps/dam/gui/content/commons"/>
     <filter root="/apps/dam/gui/content/nav"/>
+    <filter root="/apps/dam/gui/coral/components/admin/moveassetwizard/clientlibs/js/wizard.js"/>
     <filter root="/apps/foundation"/>
     <filter root="/apps/granite/core/components"/>
     <filter root="/apps/granite/core/content/cug-dxp-login"/>
