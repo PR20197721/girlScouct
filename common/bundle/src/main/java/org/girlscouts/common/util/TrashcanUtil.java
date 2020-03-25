@@ -179,6 +179,7 @@ public class TrashcanUtil implements TrashcanConstants {
         }
         String originalCouncilPath = itemPath.substring(0, (itemPath.indexOf(siteName) + siteName.length()));
         setPermissions(trashcanCouncilPath, originalCouncilPath, session);
+        session.save();
         String trashItemPath = trashcanCouncilPath + "/" + payloadResource.getName();
         Resource trashItem = getAvailableResource(isAsset, payloadResource.getResourceResolver(), trashItemPath);
         return trashItem.getPath();
@@ -186,6 +187,7 @@ public class TrashcanUtil implements TrashcanConstants {
 
     private static Resource getAvailableResource(boolean isAsset, ResourceResolver rr, String path) {
         log.debug("Getting available resource for  "+path);
+        rr.refresh();
         Resource resource = rr.resolve(path);
         if (!resource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
             int count = 1;
