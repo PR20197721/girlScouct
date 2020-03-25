@@ -35,4 +35,6 @@
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/default"/>
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/badge-image-schema"/>
     <filter root="/oak:index/GSTag" mode="merge"/>
+    <filter root="/conf/global/settings/workflow/models" mode="merge"/>
+    <filter root="/var/workflow/models" mode="merge"/>
 </workspaceFilter>
