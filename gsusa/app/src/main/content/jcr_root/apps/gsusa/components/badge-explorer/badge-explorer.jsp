@@ -118,7 +118,7 @@ class BadgeComparator implements Comparator<Resource>{
                                                     }
                                                     sb.append("</div>");
 													sb.append("<label class=\"btn-close\" for=\""+modalId+"\" aria-hidden=\"true\">&times;</label>");
-
+                                                    sb.append("<br/>");
 	                                                sb.append("<div class=\"header\">");
 	                                                    sb.append("<img class=\"badge-image\" alt=\""+title+"\" src=\"" + smallImageSrc + "\" />");
 	                                                    sb.append("<p class=\"title\">"+title+"</p>");
