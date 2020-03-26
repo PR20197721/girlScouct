@@ -14,6 +14,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
+import org.girlscouts.vtk.osgi.component.util.YearPlanUtil;
 import org.girlscouts.vtk.sling.servlet.react.internal.VTKReactConstants;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Activate;
@@ -40,6 +41,9 @@ public class YearPlanServlet extends SlingAllMethodsServlet implements OptingSer
 
     @Reference
     private VtkUtil vtkUtil;
+
+    @Reference
+    private YearPlanUtil yearPlanUtil;
 
     private Gson gson;
 
@@ -78,6 +82,23 @@ public class YearPlanServlet extends SlingAllMethodsServlet implements OptingSer
                         json.addProperty("yearPlan", "NYP");
                     } else {
                         Map<Date, YearPlanComponent> sched = troop.getSchedule();
+                        try {
+                            if (troop.getYearPlan() != null) {
+                                troop.getYearPlan().setMilestones(yearPlanUtil.getCouncilMilestones(user, troop));
+                            }
+                        } catch (Exception e) {
+                            log.error("Exception occured:", e);
+                        }
+                        if (troop.getYearPlan().getMilestones() == null) {
+                            troop.getYearPlan().setMilestones(new java.util.ArrayList());
+                        }else {
+                            for (int i = 0; i < troop.getYearPlan().getMilestones().size(); i++) {
+                                if (troop.getYearPlan().getMilestones().get(i).getDate() != null && troop.getYearPlan().getMilestones().get(i).getShow()) {
+                                    sched.put(troop.getYearPlan().getMilestones().get(i).getDate(), troop.getYearPlan().getMilestones().get(i));
+                                }
+                            }
+                        }
+
                         String yearPlanJson = gson.toJson(CollectionModelToEntityMapper.mapYearPlanComponents(sched));
                         if (yearPlanJson != null) {
                             yearPlanJson.replaceAll("mailto:", "");
