@@ -7,14 +7,14 @@
     <parent>
         <groupId>org.girlscouts</groupId>
         <artifactId>aem</artifactId>
-        <version>4.0.8</version>
+        <version>4.0.9-SNAPSHOT</version>
     </parent>
     <!-- ====================================================================== -->
     <!-- P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
     <groupId>org.girlscouts.aem</groupId>
     <artifactId>vtk</artifactId>
-  <version>4.0.8</version>
+  <version>4.0.9-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Girl Scouts Volunteer Toolkit Project</name>
     <description>Maven Multimodule project for Girl Scouts Volunteer Toolkit.</description>
