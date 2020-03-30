@@ -7,4 +7,3 @@ font-awesome.min.css
 social.css
 datepicker.min.css
 lazyYT.css
-slick.css
