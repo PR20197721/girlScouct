@@ -1,6 +1,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <cq:includeClientLib js="video" />
+<cq:includeClientLib categories="apps.gsusa.carousel"/>
 <%@page import="org.apache.sling.commons.json.*, 
                 java.io.*, 
                 java.util.regex.*,
@@ -11,7 +12,9 @@
 				java.util.ArrayList,
 				java.util.List" %>
 <%@page session="false" %>
+
 <%!
+
 public String extractYTId(String ytUrl) {
 	String vId = null;
 	Pattern pattern = Pattern.compile(".*(?:youtu\\.be\\/|v\\/|u\\/w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
