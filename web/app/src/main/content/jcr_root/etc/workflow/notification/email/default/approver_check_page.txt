@@ -9,7 +9,7 @@ Info: ${comment}
 <br>
 
 Approve or reject the following page authored by ${initiator.id}: <br>
-${preview.prefix}/editor.html${payload.path}.html<br><br>
+${preview.prefix}${payload.path}.html<br><br>
 
 
 The page at ${author.prefix}/editor.html${payload.path}.html will be locked <br>
