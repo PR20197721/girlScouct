@@ -26,7 +26,7 @@ import com.day.cq.replication.ReplicationQueue;
 public class GirlscourtsReplicationQueueMonitorImpl implements Runnable,GirlscourtsReplicationQueueMonitor{
 
 	private static final Logger log = LoggerFactory.getLogger(GirlscourtsReplicationQueueMonitor.class);
-	private GirlscoutsServerLoadMonitorConfiguration config;
+	private GirlscoutsReplicationQueueMonitorConfiguration config;
 	
 	 @Reference
 	    private AgentManager agentManager;
@@ -37,7 +37,7 @@ public class GirlscourtsReplicationQueueMonitorImpl implements Runnable,Girlscou
 		List<String> emails;
 		
 		@Activate
-		private void activate(GirlscoutsServerLoadMonitorConfiguration config) {
+		private void activate(GirlscoutsReplicationQueueMonitorConfiguration config) {
 			this.config = config;
 			this.emails = Arrays.asList(config.emailAddresses());
 			try {
