@@ -52,9 +52,9 @@ public class GirlscourtsReplicationQueueMonitorImpl implements Runnable,Girlscou
 	    
 	    @Override
 	    public void run() {
-	    	
+	    	//checking agents are configured or not
 	        if(agentManager.getAgents().isEmpty()) {
-	        	log.info("No agents configured");
+	        	log.info("No agents are configured in this instance");
 	        }
 
 	        for (Map.Entry<String, Agent> entry : agentManager.getAgents().entrySet()) {
@@ -63,6 +63,7 @@ public class GirlscourtsReplicationQueueMonitorImpl implements Runnable,Girlscou
 	            // only check against valid/enabled agents
 	            if(agent.isValid() && agent.isEnabled()) {
 	                ReplicationQueue replicationQueue = agent.getQueue();
+	                
 	                if(!replicationQueue.entries().isEmpty()) {
 	                    ReplicationQueue.Entry firstEntry = replicationQueue.entries().get(0);
 	                    if(firstEntry.getNumProcessed() > MAX_WAIT_TIME) {
