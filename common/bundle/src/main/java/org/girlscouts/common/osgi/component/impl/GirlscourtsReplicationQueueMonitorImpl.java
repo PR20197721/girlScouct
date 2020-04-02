@@ -31,7 +31,7 @@ public class GirlscourtsReplicationQueueMonitorImpl implements Runnable,Girlscou
 	 @Reference
 	    private AgentManager agentManager;
 
-	    private static final int MAX_REPLICATION_TRIES = 3;
+	    private static final int MAX_WAIT_TIME = 3;
 		
 	    private String host = "";
 		List<String> emails;
@@ -65,8 +65,8 @@ public class GirlscourtsReplicationQueueMonitorImpl implements Runnable,Girlscou
 	                ReplicationQueue replicationQueue = agent.getQueue();
 	                if(!replicationQueue.entries().isEmpty()) {
 	                    ReplicationQueue.Entry firstEntry = replicationQueue.entries().get(0);
-	                    if(firstEntry.getNumProcessed() > MAX_REPLICATION_TRIES) {
-	                    	log.warn("Agent [{}] number of retries: {}, expected number of retries <= {}", agent.getId(), firstEntry.getNumProcessed(), MAX_REPLICATION_TRIES);
+	                    if(firstEntry.getNumProcessed() > MAX_WAIT_TIME) {
+	                    	log.warn("Agent [{}] max wait time: {}, expected number of retries <= {}", agent.getId(), firstEntry.getNumProcessed(), MAX_WAIT_TIME);
 	                    }
 	                } else {
 	                	log.debug("Agent [{}] replication queue {} is empty.", replicationQueue.getName());
