@@ -2,15 +2,15 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:isCheckedOut="{Boolean}false"
     jcr:primaryType="cq:WorkflowModel"
-    jcr:uuid="2d7e9d4d-cccd-4746-ae49-8d6cbc036528"
+    jcr:uuid="054225e1-2ceb-4281-aa24-5ce48d3921c8"
     sling:resourceType="cq/workflow/components/model"
     description="No Description"
     title="Girl Scouts Authoring Approval Workflow">
     <metaData
-        cq:lastModified="{Long}1520353511924"
+        cq:generatingPage="/conf/global/settings/workflow/models/girl-scouts-authoring-approval-workflow/jcr:content"
+        cq:lastModified="{Long}1585915275550"
         cq:lastModifiedBy="admin"
-        jcr:primaryType="nt:unstructured"
-        tags="system,wcm"/>
+        jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
         <node0
             jcr:primaryType="cq:WorkflowNode"
@@ -20,7 +20,6 @@
         </node0>
         <node1
             jcr:primaryType="cq:WorkflowNode"
-            description="Locks the current payload"
             title="Lock Page"
             type="PROCESS">
             <metaData
@@ -30,8 +29,7 @@
         </node1>
         <node2
             jcr:primaryType="cq:WorkflowNode"
-            description="Publishes Assets on page to Preview Instance but does not Activate them."
-            title="Push Assets to Preview"
+            title="Publish Assets to Preview"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
@@ -40,7 +38,6 @@
         </node2>
         <node3
             jcr:primaryType="cq:WorkflowNode"
-            description="Publishes page to publishpreview instance for viewing."
             title="Publish Page to Preview"
             type="PROCESS">
             <metaData
@@ -51,13 +48,13 @@
         </node3>
         <node4
             jcr:primaryType="cq:WorkflowNode"
-            description="Sends an email back to the reviewers group to check page."
+            description="Sends an email based on an email template"
             title="Send Email to Reviewers"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="org.girlscouts.web.cq.workflow.CustomGroupEmailProcess"
-                PROCESS_AUTO_ADVANCE="true"
+                PROCESS_AUTO_ADVANCE="[true,true]"
                 templatePath="/etc/workflow/notification/email/default/approver_check_page.txt"/>
         </node4>
         <node5
@@ -82,12 +79,11 @@
         </node7>
         <node8
             jcr:primaryType="cq:WorkflowNode"
-            description="Publish the Assets on a page to Publish Instances and Activates them"
-            title="Publish Page"
+            title="Unlock Page"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="org.girlscouts.web.cq.workflow.AssetPublishActivateProcess"
+                PROCESS="com.adobe.granite.workflow.core.process.UnlockProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node8>
         <node9
@@ -104,8 +100,7 @@
         </node10>
         <node11
             jcr:primaryType="cq:WorkflowNode"
-            description="Activates the page on Publish1"
-            title="Double click to enter title."
+            title="Activate Page on Publisher 1"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
@@ -115,8 +110,7 @@
         </node11>
         <node12
             jcr:primaryType="cq:WorkflowNode"
-            description="Activates the page on Publish2"
-            title="Double click to enter title."
+            title="Activate Page on Publisher 2"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
@@ -131,34 +125,32 @@
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="org.girlscouts.webb.cq.workflow.CustomSendEmailProcess"
-                PROCESS_AUTO_ADVANCE="true"
+                PROCESS="org.girlscouts.web.cq.workflow.CustomSendEmailProcess"
+                PROCESS_AUTO_ADVANCE="[true,true]"
                 templatePath="/etc/workflow/notification/email/default/approval.txt"/>
         </node13>
         <node14
             jcr:primaryType="cq:WorkflowNode"
-            description="Reject page and does not publish to either publishing instances."
             title="Reject Page"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="/etc/workflow/scripts/noop.ecma"
+                PROCESS="/libs/workflow/scripts/noop.ecma"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node14>
         <node15
             jcr:primaryType="cq:WorkflowNode"
-            description="Sends a rejection email back to the individual who initiated the workflow."
-            title="Send Email to Initiator"
+            description="Sends an email based on an email template"
+            title="Send Rejection Email to Initiator"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="org.girlscouts.web.cq.workflow.CustomSendEmailProcess"
-                PROCESS_AUTO_ADVANCE="true"
+                PROCESS_AUTO_ADVANCE="[true,true]"
                 templatePath="/etc/workflow/notification/email/default/reject.txt"/>
         </node15>
         <node16
             jcr:primaryType="cq:WorkflowNode"
-            description="Unlocks the payload"
             title="Unlock Page"
             type="PROCESS">
             <metaData
@@ -174,7 +166,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="org.girlscouts.web.cq.workflow.CustomGroupEmailProcess"
-                PROCESS_AUTO_ADVANCE="true"
+                PROCESS_AUTO_ADVANCE="[true,true]"
                 templatePath="/etc/workflow/notification/email/default/completion.txt"/>
         </node17>
         <node18
@@ -185,7 +177,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="org.girlscouts.web.cq.workflow.CustomSendEmailProcess"
-                PROCESS_AUTO_ADVANCE="true"
+                PROCESS_AUTO_ADVANCE="[true,true]"
                 templatePath="/etc/workflow/notification/email/default/completion.txt"/>
         </node18>
         <node19
