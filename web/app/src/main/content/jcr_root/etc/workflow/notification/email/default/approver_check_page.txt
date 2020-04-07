@@ -4,10 +4,6 @@ Label: ${workflow.title}
 <br>
 <br>
 
-Info: ${comment}
-<br>
-<br>
-
 Approve or reject the following page authored by ${initiator.id}: <br>
 ${preview.prefix}${payload.path}.html<br><br>
 

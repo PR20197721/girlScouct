@@ -8,7 +8,7 @@
     title="Girl Scouts Authoring Approval Workflow">
     <metaData
         cq:generatingPage="/conf/global/settings/workflow/models/girl-scouts-authoring-approval-workflow/jcr:content"
-        cq:lastModified="{Long}1585915275550"
+        cq:lastModified="{Long}1586274332989"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
@@ -79,7 +79,7 @@
         </node7>
         <node8
             jcr:primaryType="cq:WorkflowNode"
-            title="Unlock Page"
+            title="Approve Page"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
