@@ -46,7 +46,7 @@ if(currentNode.hasNode("navs")){
                             }
                         }
                     }catch(Exception e){
-						log.error("Unable to create placeholder page downlink for GSUSA header-nav component. " +
+						log.debug("Unable to create placeholder page downlink for GSUSA header-nav component. " +
                                   "Due to exception: " + e.getClass().getName() + " with message: " + e.getMessage());
                     }
 					
@@ -154,7 +154,7 @@ if(currentNode.hasNode("navs")){
                                         }
                                     }
                                 }catch(Exception e){
-            						log.error("Unable to create placeholder page downlink for GSUSA header-nav component. " +
+            						log.debug("Unable to create placeholder page downlink for GSUSA header-nav component. " +
                                               "Due to exception: " + e.getClass().getName() + " with message: " + e.getMessage());
                                 }
 
