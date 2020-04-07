@@ -106,7 +106,7 @@
          nodeItr = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
          currNode = nodeItr.nextNode();
     }catch(Exception e){
-        logger.error("Error getting first page component: ",e);
+        //logger.error("Error getting first page component: ",e);
     }
 
     if(showButton){
