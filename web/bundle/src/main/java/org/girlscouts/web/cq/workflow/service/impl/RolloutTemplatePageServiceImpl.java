@@ -1,51 +1,31 @@
 package org.girlscouts.web.cq.workflow.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.jcr.*;
-import javax.jcr.query.Query;
-import javax.jcr.version.VersionManager;
-
+import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.PageManager;
+import com.day.cq.wcm.api.WCMException;
+import com.day.cq.wcm.msm.api.*;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.*;
+import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.*;
+import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.common.components.GSEmailAttachment;
+import org.girlscouts.common.constants.PageReplicationConstants;
 import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.common.util.PageReplicationUtil;
-import org.girlscouts.common.constants.PageReplicationConstants;
 import org.girlscouts.web.cq.workflow.service.RolloutTemplatePageService;
 import org.girlscouts.web.service.replication.PageReplicator;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Deactivate;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.api.resource.LoginException;
-import org.apache.sling.api.resource.PersistenceException;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.api.resource.ResourceUtil;
-import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.PageManager;
-import com.day.cq.wcm.api.WCMException;
-import com.day.cq.wcm.msm.api.LiveRelationship;
-import com.day.cq.wcm.msm.api.LiveRelationshipManager;
-import com.day.cq.wcm.msm.api.RolloutConfig;
-import com.day.cq.wcm.msm.api.RolloutConfigManager;
-import com.day.cq.wcm.msm.api.RolloutManager;
-import org.apache.sling.settings.SlingSettingsService;
-import org.apache.sling.api.resource.ResourceResolver;
+
+import javax.jcr.*;
+import javax.jcr.query.Query;
+import javax.jcr.version.VersionManager;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
  * Girl Scouts Page Activator - DL
@@ -887,6 +867,23 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     }
 
     private Resource getGoodParent(Resource sourceParent, String councilPath, ResourceResolver rr, LiveRelationshipManager relationManager, List<String> rolloutLog){
+        Page sourcePage = sourceParent.adaptTo(Page.class);
+        if(sourcePage.getDepth() == 2){
+            rolloutLog.add("Defaulting to first page under : " + councilPath);
+            log.info("Defaulting to first page under : " + councilPath);
+            //default to first page under en.html
+            Resource councilResource = rr.resolve(councilPath);
+            Page councilSite = councilResource.adaptTo(Page.class);
+            Iterator<Page> sitePages = councilSite.listChildren();
+            if(sitePages != null && sitePages.hasNext()){
+                Page enPage = sitePages.next();
+                rolloutLog.add("Will rollout page under : " + enPage.getPath());
+                log.info("Will rollout page under : " + enPage.getPath());
+                return enPage.adaptTo(Resource.class);
+            }else{
+                return null;
+            }
+        }
         try {
             RangeIterator relationsIterator = relationManager.getLiveRelationships(sourceParent, councilPath, null);
             while (relationsIterator.hasNext()){
@@ -894,11 +891,11 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                 String relationPagePath = relation.getTargetPath();
                 rolloutLog.add("Attempting to roll out a child page of: " + relationPagePath);
                 log.info("Attempting to roll out a child page of: {}", relationPagePath);
-                Resource parentResource = rr.resolve(relationPagePath);
-                if (parentResource != null && !parentResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+                Resource targetParent = rr.resolve(relationPagePath);
+                if (targetParent != null && !targetParent.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
                     log.info("Rolling out to " + relationPagePath);
                     rolloutLog.add("Rolling out to " + relationPagePath);
-                    return parentResource;
+                    return targetParent;
                 }
             }
             Resource sourceGrandParent = sourceParent.getParent();
