@@ -1,22 +1,25 @@
 package org.girlscouts.web.cq.workflow;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
 
+import javax.jcr.Node;
+import javax.jcr.Session;
+import javax.jcr.Value;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.api.resource.Resource;
+import org.apache.jackrabbit.api.security.user.Authorizable;
+import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.common.util.PageReplicationUtil;
+import org.apache.sling.commons.osgi.PropertiesUtil;
 import org.girlscouts.common.constants.PageReplicationConstants;
+import org.girlscouts.common.util.PageReplicationUtil;
 import org.girlscouts.web.cq.workflow.service.RolloutTemplatePageService;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
@@ -27,7 +30,6 @@ import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
-import javax.jcr.Value;
 
 
 @Component
@@ -45,12 +47,13 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 	private ResourceResolverFactory resourceResolverFactory;
 	
 	@Reference
-	private RolloutTemplatePageService gsRolloutService;
+	private RolloutTemplatePageService gsRolloutService;	
 
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
             throws WorkflowException {
 		log.info("Executing rollout workflow {}", metadata);
 		MetaDataMap mdm = item.getWorkflowData().getMetaDataMap();
+		
 		Set<String> councils = PageReplicationUtil.getCouncils(mdm);
 		if (councils != null && !councils.isEmpty()) {
 			log.info("councils={}", councils);
@@ -58,6 +61,14 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 				Session session = workflowSession.getSession();
 				ResourceResolver resourceResolver = resourceResolverFactory
 						.getResourceResolver(Collections.singletonMap("user.jcr.session", (Object) session));
+				//GSWP-2077 : Start
+				UserManager userManager = resourceResolver.adaptTo(UserManager.class);
+				String workflowInitiator = item.getWorkflow().getInitiator();
+		        Authorizable authorizable = userManager.getAuthorizable(workflowInitiator);
+		        String firstName = PropertiesUtil.toString(authorizable.getProperty("./profile/givenName"), "");
+				String lastName = PropertiesUtil.toString(authorizable.getProperty("./profile/familyName"), "");
+		        String workflowInitiatorName = firstName + " " + lastName;
+				//GSWP-2077 : End
 				String srcPath = item.getWorkflowData().getPayload().toString();
 				String subject = "", message = "", templatePath = "";
 				Boolean useTemplate = false, delay = false, notify = false, crawl = false, activate = false,
@@ -165,6 +176,9 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 				dateRolloutNode.setProperty(PARAM_EMAIL_SUBJECT, subject);
 				dateRolloutNode.setProperty(PARAM_EMAIL_MESSAGE, message);
 				dateRolloutNode.setProperty(PARAM_STATUS, STATUS_CREATED);
+				//GSWP-2077 : Start
+				dateRolloutNode.setProperty(WORKFLOW_INITIATOR_NAME, workflowInitiatorName);
+				//GSWP-2077 : End
 				session.save();
 				final String path = dateRolloutNode.getPath();
 				try {
@@ -184,4 +198,5 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 			}
 		}
 	}
+
 }

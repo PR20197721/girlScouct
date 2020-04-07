@@ -1,5 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
-
+<cq:includeClientLib categories="apps.gsusa.zip.council"/>
 <%
 	String source7 = (String) request.getAttribute("source7");
 %>

@@ -241,91 +241,91 @@
                             jcr:primaryType="nt:unstructured"
                             id="{Long}1"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP01"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP01"
                             uid="M1462374652285_0.7321104961384053"/>
                         <M1462374652287_0.18304508740257397
                             jcr:primaryType="nt:unstructured"
                             id="{Long}2"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP02"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP02"
                             uid="M1462374652287_0.18304508740257397"/>
                         <M1462374652283_0.17405203042109618
                             jcr:primaryType="nt:unstructured"
                             id="{Long}3"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP03"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP03"
                             uid="M1462374652283_0.17405203042109618"/>
                         <M1462374652284_0.3838485530512611
                             jcr:primaryType="nt:unstructured"
                             id="{Long}4"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP04"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP04"
                             uid="M1462374652284_0.3838485530512611"/>
                         <M1462374652289_0.5413814567816838
                             jcr:primaryType="nt:unstructured"
                             id="{Long}5"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP05"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP05"
                             uid="M1462374652289_0.5413814567816838"/>
                         <M1462374652290_0.5671627538519666
                             jcr:primaryType="nt:unstructured"
                             id="{Long}6"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP06"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP06"
                             uid="M1462374652290_0.5671627538519666"/>
                         <M1462374652287_0.07804368232808412
                             jcr:primaryType="nt:unstructured"
                             id="{Long}7"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP07"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP07"
                             uid="M1462374652287_0.07804368232808412"/>
                         <M1462374652288_0.961120718710612
                             jcr:primaryType="nt:unstructured"
                             id="{Long}8"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP08"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP08"
                             uid="M1462374652288_0.961120718710612"/>
                         <M1462374652286_0.9920142361694567
                             jcr:primaryType="nt:unstructured"
                             id="{Long}9"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP09"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP09"
                             uid="M1462374652286_0.9920142361694567"/>
                         <M1462374652285_0.7914740679408987
                             jcr:primaryType="nt:unstructured"
                             id="{Long}10"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP10"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP10"
                             uid="M1462374652285_0.7914740679408987"/>
                         <M1462374652286_0.7321649430651529
                             jcr:primaryType="nt:unstructured"
                             id="{Long}11"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP11"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP11"
                             uid="M1462374652286_0.7321649430651529"/>
                         <M1462374652290_0.5455153785724155
                             jcr:primaryType="nt:unstructured"
                             id="{Long}12"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP12"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP12"
                             uid="M1462374652290_0.5455153785724155"/>
                         <M1462374652284_0.3772869009911691
                             jcr:primaryType="nt:unstructured"
                             id="{Long}13"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP13"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP13"
                             uid="M1462374652284_0.3772869009911691"/>
                         <M1462374652288_0.4458586809120504
                             jcr:primaryType="nt:unstructured"
                             id="{Long}14"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP14"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP14"
                             uid="M1462374652288_0.4458586809120504"/>
                         <M1462374652289_0.0937196973752149
                             jcr:primaryType="nt:unstructured"
                             id="{Long}15"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP15"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP15"
                             uid="M1462374652289_0.0937196973752149"/>
                     </meetingEvents>
                 </yearPlan>
@@ -640,38 +640,38 @@
                             jcr:primaryType="nt:unstructured"
                             id="{Long}1"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15B01"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15B01"
                             uid="M1462505123606_0.5994758526570899"/>
                         <M1462505123609_0.6973676102045681
                             jcr:primaryType="nt:unstructured"
                             id="{Long}2"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15B02"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15B02"
                             uid="M1462505123609_0.6973676102045681"/>
                         <M1462505123602_0.644644307956021
                             jcr:primaryType="nt:unstructured"
                             id="{Long}3"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15WA03"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15WA03"
                             uid="M1462505123602_0.644644307956021"/>
                         <M1462505123604_0.7888254411067843
                             jcr:primaryType="nt:unstructured"
                             id="{Long}4"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15WA04"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15WA04"
                             uid="M1462505123604_0.7888254411067843"/>
                         <M1462505123613_0.49529789369434984
                             jcr:primaryType="nt:unstructured"
                             id="{Long}5"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15WA05"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15WA05"
                             uid="M1462505123613_0.49529789369434984"/>
                         <M1462505123615_0.31591465322301826
                             jcr:primaryType="nt:unstructured"
                             id="{Long}5"
                             lastAssetUpdate="{Date}2016-05-08T09:32:08.731-04:00"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15WA06"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15WA06"
                             uid="M1462505123615_0.31591465322301826">
                             <assets jcr:primaryType="nt:unstructured">
                                 <A1462714328725_0.8764716512310765
@@ -717,7 +717,7 @@
                             id="{Long}6"
                             lastAssetUpdate="{Date}2016-05-08T09:32:46.178-04:00"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15WA07"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15WA07"
                             uid="M1462505123610_0.7215319831249463">
                             <assets jcr:primaryType="nt:unstructured">
                                 <A1462714366170_0.11680654097903986
@@ -745,7 +745,7 @@
                             id="{Long}7"
                             lastAssetUpdate="{Date}2016-05-08T09:32:51.326-04:00"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15WA08"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15WA08"
                             uid="M1462505123611_0.35280595877841736">
                             <assets jcr:primaryType="nt:unstructured">
                                 <A1462714371321_0.03825711957404132
@@ -763,43 +763,43 @@
                             jcr:primaryType="nt:unstructured"
                             id="{Long}9"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15WA09"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15WA09"
                             uid="M1462505123607_0.42772816710154826"/>
                         <M1462505123605_0.44090400508731575
                             jcr:primaryType="nt:unstructured"
                             id="{Long}10"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15WA10"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15WA10"
                             uid="M1462505123605_0.44090400508731575"/>
                         <M1462505123608_0.639476528525079
                             jcr:primaryType="nt:unstructured"
                             id="{Long}11"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15B07"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15B07"
                             uid="M1462505123608_0.639476528525079"/>
                         <M1462505123616_0.25124952422558
                             jcr:primaryType="nt:unstructured"
                             id="{Long}12"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15B08"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15B08"
                             uid="M1462505123616_0.25124952422558"/>
                         <M1462505123603_0.8156136055252087
                             jcr:primaryType="nt:unstructured"
                             id="{Long}13"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15OG13"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15OG13"
                             uid="M1462505123603_0.8156136055252087"/>
                         <M1462505123612_0.8152431599284682
                             jcr:primaryType="nt:unstructured"
                             id="{Long}14"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15OG14"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15OG14"
                             uid="M1462505123612_0.8152431599284682"/>
                         <M1462505123614_0.21695974726916833
                             jcr:primaryType="nt:unstructured"
                             id="{Long}15"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15OG15"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15OG15"
                             uid="M1462505123614_0.21695974726916833"/>
                     </meetingEvents>
                 </yearPlan>
@@ -905,14 +905,14 @@
                             jcr:primaryType="nt:unstructured"
                             id="{Long}1"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B01"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B01"
                             uid="M1462505550892_0.6042574910934331"/>
                         <M1462505550894_0.75724450369784
                             jcr:primaryType="nt:unstructured"
                             id="{Long}1"
                             lastAssetUpdate="{Date}2016-05-06T12:33:04.924-04:00"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B02"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B02"
                             uid="M1462505550894_0.75724450369784">
                             <assets jcr:primaryType="nt:unstructured">
                                 <A1462552384376_0.7495935231973779
@@ -976,7 +976,7 @@
                             id="{Long}2"
                             lastAssetUpdate="{Date}2016-05-06T12:33:07.516-04:00"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B03"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B03"
                             uid="M1462505550890_0.8391172486224755">
                             <assets jcr:primaryType="nt:unstructured">
                                 <A1462552387511_0.2785677900162016
@@ -995,73 +995,73 @@
                             id="{Long}3"
                             lastAssetUpdate="{Date}2016-05-06T12:33:09.089-04:00"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B04"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B04"
                             uid="M1462505550891_0.12858857042439809"/>
                         <M1462505550896_0.8195361446382409
                             jcr:primaryType="nt:unstructured"
                             id="{Long}5"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B05"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B05"
                             uid="M1462505550896_0.8195361446382409"/>
                         <M1462505550897_0.9725484330019385
                             jcr:primaryType="nt:unstructured"
                             id="{Long}6"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B06"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B06"
                             uid="M1462505550897_0.9725484330019385"/>
                         <M1462505550895_0.10046891697191329
                             jcr:primaryType="nt:unstructured"
                             id="{Long}7"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B07"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B07"
                             uid="M1462505550895_0.10046891697191329"/>
                         <M1462505550895_0.8182197169642802
                             jcr:primaryType="nt:unstructured"
                             id="{Long}8"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B08"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B08"
                             uid="M1462505550895_0.8182197169642802"/>
                         <M1462505550893_0.02453541753668098
                             jcr:primaryType="nt:unstructured"
                             id="{Long}9"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B09"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B09"
                             uid="M1462505550893_0.02453541753668098"/>
                         <M1462505550892_0.4111666798579552
                             jcr:primaryType="nt:unstructured"
                             id="{Long}10"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B10"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B10"
                             uid="M1462505550892_0.4111666798579552"/>
                         <M1462505550894_0.5424788279257219
                             jcr:primaryType="nt:unstructured"
                             id="{Long}11"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B11"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B11"
                             uid="M1462505550894_0.5424788279257219"/>
                         <M1462505550898_0.7993172927948103
                             jcr:primaryType="nt:unstructured"
                             id="{Long}12"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B12"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B12"
                             uid="M1462505550898_0.7993172927948103"/>
                         <M1462505550890_0.3474585285443408
                             jcr:primaryType="nt:unstructured"
                             id="{Long}13"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B13"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B13"
                             uid="M1462505550890_0.3474585285443408"/>
                         <M1462505550896_0.2739744523418566
                             jcr:primaryType="nt:unstructured"
                             id="{Long}14"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B14"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B14"
                             uid="M1462505550896_0.2739744523418566"/>
                         <M1462505550897_0.19779836173758292
                             jcr:primaryType="nt:unstructured"
                             id="{Long}15"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/junior/J15B15"
+                            refId="/content/girlscouts-vtk/meetings/library/junior/J15B15"
                             uid="M1462505550897_0.19779836173758292"/>
                     </meetingEvents>
                 </yearPlan>
@@ -1380,7 +1380,7 @@
                             lastAssetUpdate="{Date}2016-05-09T11:01:01.372-04:00"
                             locationRef="/vtk2015/999/troops/701G0000000uQzTIAU/yearPlan/locations/L1462824074463"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15B01"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15B01"
                             uid="M1462803112403_0.5540747580896199">
                             <assets jcr:primaryType="nt:unstructured">
                                 <A1462806057225_0.33182725011545156
@@ -1435,7 +1435,7 @@
                             id="{Long}1"
                             locationRef="/vtk2015/999/troops/701G0000000uQzTIAU/yearPlan/locations/L1462824131600"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15B02"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15B02"
                             uid="M1462803112407_0.023999240869366445"/>
                         <M1462803112364_0.7049194154331466
                             jcr:primaryType="nt:unstructured"
@@ -1521,7 +1521,7 @@
                             lastAssetUpdate="{Date}2016-05-09T11:29:25.158-04:00"
                             locationRef="/vtk2015/999/troops/701G0000000uQzTIAU/yearPlan/locations/L1462824074463"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15OG04"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15OG04"
                             uid="M1462803112402_0.5848476998675692">
                             <assets jcr:primaryType="nt:unstructured">
                                 <A1462807765016_0.21381404185572017
@@ -1549,7 +1549,7 @@
                             cancelled="false"
                             id="{Long}4"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15OG09"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15OG09"
                             uid="M1462894649760"/>
                     </meetingEvents>
                     <schedule
@@ -1562,7 +1562,7 @@
                             date="{Date}2016-08-09T12:00:00.000-04:00"
                             lastAssetUpdate="{Date}2016-05-09T11:29:20.674-04:00"
                             ocm_classname="org.girlscouts.vtk.models.MeetingCanceled"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/brownie/B15B28"
+                            refId="/content/girlscouts-vtk/meetings/library/brownie/B15B28"
                             uid="MC1462807659855">
                             <assets jcr:primaryType="nt:unstructured"/>
                         </MC1462807659855>
@@ -1967,7 +1967,7 @@
                             lastAssetUpdate="{Date}2016-05-09T16:28:26.127-04:00"
                             locationRef="/vtk2015/999/troops/701G0000000uQzUIAU/yearPlan/locations/L1462824696609"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP01"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP01"
                             uid="M1462806062780_0.12219227217166784">
                             <assets jcr:primaryType="nt:unstructured">
                                 <A1462806150388_0.3590861997573994
@@ -2114,7 +2114,7 @@
                             lastAssetUpdate="{Date}2016-05-09T16:11:52.035-04:00"
                             locationRef="/vtk2015/999/troops/701G0000000uQzUIAU/yearPlan/locations/L1462824696609"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15DP02"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15DP02"
                             uid="M1462806062782_0.6407622913360571">
                             <assets jcr:primaryType="nt:unstructured">
                                 <A1462819801923_0.7921573478415563
@@ -2234,7 +2234,7 @@
                             lastAssetUpdate="{Date}2016-05-09T16:27:58.910-04:00"
                             locationRef="/vtk2015/999/troops/701G0000000uQzUIAU/yearPlan/locations/L1462824696609"
                             ocm_classname="org.girlscouts.vtk.models.MeetingE"
-                            refId="/content/girlscouts-vtk/meetings/myyearplan2015/daisy/D15BS03"
+                            refId="/content/girlscouts-vtk/meetings/library/daisy/D15BS03"
                             uid="M1462806062778_0.08700857529608252">
                             <assets jcr:primaryType="nt:unstructured">
                                 <A1462822958267_0.7914517424955813

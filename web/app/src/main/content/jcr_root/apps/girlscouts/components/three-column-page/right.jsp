@@ -38,4 +38,4 @@ try{
 	
 %>
 
-<cq:include path="content/right/advertisement" resourceType="girlscouts/components/advertisement" />
+<cq:include path="content/right/right-rail-banners" resourceType="girlscouts/components/right-rail-banners" />
