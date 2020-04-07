@@ -1,0 +1,107 @@
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
+    <sly data-sly-call="${clientlib.all @ categories='apps.girlscouts.components.pagecounter'}"/>
+</sly>
+<div id="pagecount" data-sly-use.pagecounter="org.girlscouts.web.components.models.PageCounter">
+	<h1>Page Counter</h1>
+	<p>This component aims to help page count for councils and GSUSA by filtering pages that count towards page count.</p>
+
+	<h4>Pages that count</h4>
+	<p>
+	* Pages that are part of National Template Pages <br>
+	* Pages that are added by councils <br>
+	</p>
+	
+	<h4>Pages that do not count</h4>
+	<p>
+	* Individual events, news <br>
+	* Forms under Forms and Documents <br>
+	* Terms and Conditions, Privacy Policy, Content Monitering Policy, Social Media Policy <br>
+	</p>
+	
+	<h4>Instructions</h4>	
+	<p>
+	This component goes through a council's pages and determines which pages count towards the total page count and which pages do not. 
+	There are three categories that a page falls into - Template Pages: pages inherited from National Templates, Added Pages: 
+	pages added by councils and Noncount Pages: pages that should not count (ex. non-active pages, forms, etc). Total page count 
+	is the sum of Template Pages and Added Pages and does not count pages from Noncount Pages. Please look over each categories to 
+	make sure pages are in the correct categories to ensure an accurate page count. If any pages are filed into wrong categories or 
+	if there are any changes that need to made, please contact us.  
+ 	<br><br>
+	Total Page Count<br>
+	Up to 100 pages 						 $ 8,000<br>
+	Between 100 - 200 pages                  $10,000<br>
+	Between 201 - 300 pages                  $12,000<br>
+	Between 301 - 400 pages                  $15,000<br>
+	Each addition 100 pages over 400  		 $ 4,000
+	</p>
+	<br><br>
+	
+	<!-- # -->
+	Total Page Count (${pagecounter.totalPageCount}) = Template Pages (${pagecounter.councilTemplatePagesSize}) + Council Pages (${pagecounter.councilAddedPagesSize})
+
+	<br><br>
+	<div><!-- # -->
+		Council Template Page Count: ${pagecounter.councilTemplatePagesSize}
+		<a id="${pagecounter.councilName}TemplatePages" class="showlist">Show List</a>
+	</div>
+	<div id="${pagecounter.councilName}TemplatePagesList" class="pagelist" data-sly-list.page="${pagecounter.councilTemplatePages}" data-sly-unwrap>
+		<br>${page}
+	</div>	
+	<br/>
+	<div> <!-- # -->
+		Council Added Page Count: ${pagecounter.councilAddedPagesSize}
+		<a id="${pagecounter.councilName}AddedPages" class="showlist">Show List</a>
+	</div>
+    <br/>
+	<div id="${pagecounter.councilName}AddedPagesList" class="pagelist" data-sly-list.page="${pagecounter.councilAddedPages}" data-sly-unwrap>
+		<br>${page}
+	</div>
+	<br/>
+	<div> <!-- # -->
+		Council Non Page Count: ${pagecounter.nonCountPagesSize}
+		<a id="${pagecounter.councilName}NoncountPages" class="showlist">Show List</a>
+	</div>
+	<div id="${pagecounter.councilName}NoncountPagesList" class="pagelist" data-sly-list.page="${pagecounter.nonCountPages}" data-sly-unwrap>
+		<br>${page}
+	</div>
+    <br/><br/><br/><br/>
+	<!-- # -->
+	<div style="height:400px; overflow:auto;">
+		<table id="pagelistTable">
+			<thead>
+				<tr>
+					<th>Council Name</th>
+					<th>Template Pages List</th>
+					<th>Count</th>
+					<th>Added Pages List</th>
+					<th>Count</th>
+					<th>Noncount Pages List</th>
+					<th>Count</th>
+				</tr>
+			</thead>
+			<tbody>
+			<!-- # -->
+				<tr style="vertical-align:top;">
+					<td>${pagecounter.councilTitle}<br>(${pagecounter.councilName})</td>
+					<td style="white-space:nowrap;" data-sly-list.page="${pagecounter.councilTemplatePages}" data-sly-unwrap>
+					    <br>${page}
+					</td>
+					<td>${pagecounter.councilTemplatePagesSize}</td>
+					<td style="white-space:nowrap;" data-sly-list.page="${pagecounter.councilAddedPages}" data-sly-unwrap>
+                        <br>${page}
+					</td>
+					<td>${pagecounter.councilAddedPagesSize}</td>
+					<td style="white-space:nowrap;" data-sly-list.page="${pagecounter.nonCountPages}" data-sly-unwrap>
+                        <br>${page}
+					</td>
+					<td>${pagecounter.nonCountPagesSize}<</td>
+				</tr>
+			<!-- # -->
+			</tbody>
+		</table>
+		
+	</div>
+	<button id="thebutton" onClick="copy();"> CLICK TO COPY TABLE </button>
+</div>
+
+
