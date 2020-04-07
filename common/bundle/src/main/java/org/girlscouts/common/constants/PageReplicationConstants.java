@@ -79,7 +79,7 @@ public interface PageReplicationConstants {
 	public static final String BRANCH_PATTERN_STR = "^(/content/[^/]+)";
 	public static final Pattern BRANCH_PATTERN = Pattern.compile(BRANCH_PATTERN_STR);
     public static final int BRANCH_LEVEL = 1;
-
+    public static final String GS_REPLICATION_QUEUE_MONITOR_SUBJECT = "Replication Queue Monitor Notification";
 	public interface Email {
 		public static final String DEFAULT_ROLLOUT_REPORT_SUBJECT = "GSUSA Rollout Report";
 		public static final String DEFAULT_ROLLOUT_REPORT_ATTACHMENT = "gs_rollout_notifications_log";
