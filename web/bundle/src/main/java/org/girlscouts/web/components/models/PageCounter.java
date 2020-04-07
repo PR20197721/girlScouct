@@ -30,17 +30,17 @@ public class PageCounter {
     @Inject
     private Resource resource;
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    private ArrayList<String> councilTemplatePages = new ArrayList<String>();
-    private ArrayList<String> councilAddedPages = new ArrayList<String>();
-    private ArrayList<String> allPages = new ArrayList<String>();
-    private ArrayList<String> nationalTemplatePages = new ArrayList<String>();
-    private ArrayList<String> countedResourceTypes = new ArrayList<String>();
-    private ArrayList<String> exceptionPages = new ArrayList<String>();
-    private ArrayList<String> exceptionDirectories = new ArrayList<String>();
-    private ArrayList<String> thankYouPages = new ArrayList<String>();
-    private ArrayList<String> defaultValues = new ArrayList<String>();
-    private ArrayList<String> overrides = new ArrayList<String>();
-    private ArrayList<String> nonCountPages = new ArrayList<String>();
+    private Set<String> councilTemplatePages = new TreeSet<>();
+    private Set<String> councilAddedPages = new TreeSet<String>();
+    private Set<String> allPages = new TreeSet<String>();
+    private Set<String> nationalTemplatePages = new TreeSet<String>();
+    private Set<String> countedResourceTypes = new TreeSet<String>();
+    private Set<String> exceptionPages = new TreeSet<String>();
+    private Set<String> exceptionDirectories = new TreeSet<String>();
+    private Set<String> thankYouPages = new TreeSet<String>();
+    private Set<String> defaultValues = new TreeSet<String>();
+    private Set<String> overrides = new TreeSet<String>();
+    private Set<String> nonCountPages = new TreeSet<String>();
     private Map<String, String> nonCountPagesMap = new HashMap<String, String>();
     private ValueMap properties;
     private String councilName;
@@ -90,7 +90,7 @@ public class PageCounter {
                 defaultValues.add(format("Site Search", sitesearchURL, "true", "false"));
                 defaultValues.add(format("Email Templates", councilPath + "/en/email-templates", "true", "false"));
                 // Get some links from homepage footer such as Terms and Conditions, Policy
-                ArrayList<String> footerLinkFilters = listToArray(FOOTER_LINK_FILTERs);
+                Set<String> footerLinkFilters = listToArray(FOOTER_LINK_FILTERs);
                 String footernavnodepath = top.getPath() + "/en/jcr:content/footer/nav";
                 Node fnode = adminResourceResolver.getResource(footernavnodepath).adaptTo(Node.class);
                 Value[] linkValues = fnode.getProperty("links").getValues();
@@ -104,11 +104,11 @@ public class PageCounter {
                     String path = values.length >= 2 ? values[1] : "";
                     // If the label or path/url contains words in footer link filters,
                     // Add to filter. Else discard
-                    for (int j = 0; j < footerLinkFilters.size(); j++) {
-                        if (label.contains(footerLinkFilters.get(j))) {
+                    for (String link:footerLinkFilters) {
+                        if (label.contains(link)) {
                             defaultValues.add(format(label, path, "true", "false"));
                             break;
-                        } else if (path.contains(footerLinkFilters.get(j).toLowerCase())) {
+                        } else if (path.contains(link.toLowerCase())) {
                             defaultValues.add(format(label, path, "true", "false"));
                             break;
                         }
@@ -120,15 +120,16 @@ public class PageCounter {
                 } else {
                     filtersNode = node.getNode("filters");
                 }
-                for (int i = 0; i < defaultValues.size(); i++) {
+                int counter = 0;
+                for (String filter: defaultValues) {
+                    counter++;
                     try {
-                        String filter = defaultValues.get(i);
                         String[] filterProperties = filter.split("\\|\\|\\|");
                         Node itemNode = null;
-                        if (!filtersNode.hasNode("item" + i)) {
-                            itemNode = filtersNode.addNode("item" + i, "nt:unstructured");
+                        if (!filtersNode.hasNode("item" + counter)) {
+                            itemNode = filtersNode.addNode("item" + counter, "nt:unstructured");
                         } else {
-                            itemNode = filtersNode.getNode("item" + i);
+                            itemNode = filtersNode.getNode("item" + counter);
                         }
                         itemNode.setProperty("label", filterProperties[0]);
                         itemNode.setProperty("path", filterProperties[1]);
@@ -150,14 +151,14 @@ public class PageCounter {
             nationalTemplatePages.add(eventcalendar);
             // Go through council directory to count pages
             recurse(adminResourceResolver, top);
-            allPages.remove(0); // removes /content/<council>
+            allPages.remove(councilPath); // removes /content/<council>
             LiveRelationshipManager lrm = adminResourceResolver.adaptTo(LiveRelationshipManager.class);
-            for (int i = 0; i < allPages.size(); i++) {
-                processPage(adminResourceResolver, allPages.get(i), lrm);
+            for (String page:allPages) {
+                processPage(adminResourceResolver, page, lrm);
             }
             // If overrides are set, add override paths
             overridePages();
-            nonCountPages = new ArrayList<>();
+            nonCountPages = new TreeSet<>();
             for (String page : nonCountPagesMap.keySet()) {
                 nonCountPages.add(linkify(page, nonCountPagesMap.get(page)));
             }
@@ -173,9 +174,9 @@ public class PageCounter {
 
     }
 
-    private ArrayList<String> listToArray(String list) {
+    private TreeSet<String> listToArray(String list) {
         String[] lists = list.split(",");
-        ArrayList<String> arrayList = new ArrayList<String>();
+        TreeSet<String> arrayList = new TreeSet<String>();
         for (String str : lists) {
             arrayList.add(str.trim());
         }
@@ -220,7 +221,7 @@ public class PageCounter {
     }
 
     private String linkify(String path) {
-        return "<a  target=\"_blank\"  href=\"" + path.trim() + ".html\">" + trimTopLevel(path, 2) + "</a>";
+        return "<a target=\"_blank\" href=\"" + path.trim() + ".html\">" + trimTopLevel(path, 2) + "</a>";
     }
 
     private String linkify(String path, String reason) {
@@ -320,21 +321,20 @@ public class PageCounter {
         String lastReplicationAction = properties.get("cq:lastReplicationAction", "");
         if (!lastReplicationAction.equals("Activate")) {
             //noncountPages.add(path + " | NonActive");
-            nonCountPagesMap.put(linkify(path), "NonActivate");
+            nonCountPagesMap.put(path, "Not Active");
             return;
         }
         // Exception Pages
         if (exceptionPages.contains(path)) {
             //noncountPages.add(path + " | ExceptionPages");
-            nonCountPagesMap.put(linkify(path), "ExceptionPages");
+            nonCountPagesMap.put(path, "Exception Page");
             return;
         }
         // Exception Directories
-        for (int i = 0; i < exceptionDirectories.size(); i++) {
-            String dir = exceptionDirectories.get(i);
+        for (String dir: exceptionDirectories) {
             if (!path.equals(dir) && path.contains(dir)) {
                 //noncountPages.add(path + " | ExceptionDirectories");
-                nonCountPagesMap.put(linkify(path), "ExceptionDirectories");
+                nonCountPagesMap.put(path, "Exception Directory");
                 return;
             }
         }
@@ -346,19 +346,19 @@ public class PageCounter {
         // Placeholder Page
         String resourceType = properties.get("sling:resourceType", "");
         if (resourceType.equals("girlscouts/components/placeholder-page")) {
-            //noncountPages.add(path + " PlaceHolder"); // not *really* a page
+            nonCountPagesMap.put(path, "PlaceHolder"); // not *really* a page
             return;
         }
         // Redirect Page
-        if (resourceType.endsWith("/redirect")) {
-            //noncountPages.add(path + " Redirect"); // not *really* a page
+        if (resourceType.endsWith("redirect")) {
+            nonCountPagesMap.put(path, "Redirect"); // not *really* a page
             return;
         }
         // Thank You Pages
-        for (int i = 0; i < thankYouPages.size(); i++) {
-            String[] val = thankYouPages.get(i).split(" ");
+        for (String tyPage: thankYouPages) {
+            String[] val = tyPage.split(" ");
             if (path.equals(val[0])) {
-                nonCountPagesMap.put(linkify(path), "ThankYou " + val[1]);
+                nonCountPagesMap.put(path, "Thank You page" );
                 return;
             }
         }
@@ -376,7 +376,7 @@ public class PageCounter {
                         return;
                     } else {
                         if (srcPath != null && srcPath.startsWith("/content/webtocase")) {
-                            nonCountPagesMap.put(linkify(path), "ExceptionPages");
+                            nonCountPagesMap.put(path, "Exception Page (web to case)");
                             return;
                         }
                     }
@@ -396,7 +396,7 @@ public class PageCounter {
         }
     }
 
-    public ArrayList<String> getCouncilTemplatePages() {
+    public Set<String> getCouncilTemplatePages() {
         return councilTemplatePages;
     }
 
@@ -404,7 +404,7 @@ public class PageCounter {
         return councilTemplatePages.size();
     }
 
-    public ArrayList<String> getCouncilAddedPages() {
+    public Set<String> getCouncilAddedPages() {
         return councilAddedPages;
     }
 
@@ -412,35 +412,35 @@ public class PageCounter {
         return councilAddedPages.size();
     }
 
-    public ArrayList<String> getAllPages() {
+    public Set<String> getAllPages() {
         return allPages;
     }
 
-    public ArrayList<String> getNationalTemplatePages() {
+    public Set<String> getNationalTemplatePages() {
         return nationalTemplatePages;
     }
 
-    public ArrayList<String> getCountedResourceTypes() {
+    public Set<String> getCountedResourceTypes() {
         return countedResourceTypes;
     }
 
-    public ArrayList<String> getExceptionPages() {
+    public Set<String> getExceptionPages() {
         return exceptionPages;
     }
 
-    public ArrayList<String> getExceptionDirectories() {
+    public Set<String> getExceptionDirectories() {
         return exceptionDirectories;
     }
 
-    public ArrayList<String> getThankYouPages() {
+    public Set<String> getThankYouPages() {
         return thankYouPages;
     }
 
-    public ArrayList<String> getDefaultValues() {
+    public Set<String> getDefaultValues() {
         return defaultValues;
     }
 
-    public ArrayList<String> getNonCountPages() {
+    public Set<String> getNonCountPages() {
         return nonCountPages;
     }
 
