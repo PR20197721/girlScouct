@@ -107,7 +107,7 @@ BoothFinder.prototype.processResult = function(result) {
                 booth.Location = "<a href=\""+fixedUrl+"\" target=\"_blank\">"+booth.Location+"</a>";
                 booth.Address1 = "";
                 booth.Address2 = "";
-                booth.detailsText = "Visit Booth";
+                booth.detailsText = "Get Cookies";
                 booth.visitBoothUrl = fixedUrl;
             }
             console.log(booth)
@@ -178,7 +178,7 @@ BoothFinder.prototype.processResult = function(result) {
         // Bind "View Details" buttons
         $('.viewmap.button').on('click', function() {
             var booth = JSON.parse($(this).attr('data'));
-            if(booth.detailsText == "Visit Booth"){
+            if(booth.detailsText == "Get Cookies"){
                 window.open(booth.visitBoothUrl);
             }else {
                 var data = $.param(booth) + '&' +
