@@ -235,7 +235,7 @@ public class GirlScoutsReplicationQueueMonitorReporter implements Runnable {
 				email.setTo(emailRecipients);
 				String body = "Maximum queue wait time on " + new Date() + "<br/>"
 						+ "<table width='100%' border='1' align='center'>" + "<tr align='center'>"
-						+ "<td><b>Replication Agent ID <b></td>" + "<td><b>Wait Time (in Minutues)<b></td>" + "</tr>";
+						+ "<td><b>Replication Agent ID <b></td>" + "<td><b>Max Wait time<b></td>" + "</tr>";
 
 				for (Map.Entry<String, Long> entry : map.entrySet()) {
 					body = body + "<tr align='center'>" + "<td>" + entry.getKey() + "</td>" + "<td>" + entry.getValue()
