@@ -109,7 +109,7 @@
             currNode = nodeItr.nextNode();
         }
     }catch(Exception e){
-        logger.error("Error getting first page component: ",e);
+        //logger.error("Error getting first page component: ",e);
     }
 
     if(showButton){
