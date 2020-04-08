@@ -66,7 +66,7 @@
         }
     }
 %><head>
-
+<cq:include path="base" resourceType="girlscouts-common/components/base" />
 <% 
 Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
 Boolean isProd = set.contains("prod");
