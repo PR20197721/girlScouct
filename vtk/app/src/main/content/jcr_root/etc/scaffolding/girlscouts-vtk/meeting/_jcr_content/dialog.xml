@@ -20,6 +20,15 @@
                         value="meeting"
                         name="./vtkDataType"
                         xtype="hidden"/>
+                <archived
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        checkboxBoolTypeHint="{Boolean}true"
+                        fieldLabel="Archived"
+                        fieldDescription="Check this box and re-publish the meeting to hide it from search in VTK"
+                        xtype="selection"
+                        type="checkbox"
+                        name="./isArchived"/>
                 <id
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Id"

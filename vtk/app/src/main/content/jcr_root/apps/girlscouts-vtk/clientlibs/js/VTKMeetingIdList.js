@@ -31,7 +31,7 @@
 	},
 	helper.updateOptions = function() {
 	    var http = CQ.shared.HTTP;
-	    var base = '/content/girlscouts-vtk/meetings/myyearplan2019/';
+	    var base = '/content/girlscouts-vtk/meetings/library/';
 		var options = new Array();
 		var levels = ['brownie', 'junior', 'daisy', 'multi-level', 'cadette','ambassador','senior'];
 	

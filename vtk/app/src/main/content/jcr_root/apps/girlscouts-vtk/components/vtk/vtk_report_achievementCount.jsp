@@ -46,7 +46,7 @@
 					}//edn for
 			}//end for		
 		}catch(Exception e){log.debug("Found error in vtk_report_achievementCount.jsp while exec SQL Achievement");}
-		sql="select id,name, level from [nt:unstructured] where isdescendantnode( '/content/girlscouts-vtk/meetings/myyearplan"+rptForYear+"/') and [ocm_classname]='org.girlscouts.vtk.ocm.MeetingNode'";
+		sql="select id,name, level from [nt:unstructured] where isdescendantnode( '/content/girlscouts-vtk/meetings/library/') and [ocm_classname]='org.girlscouts.vtk.ocm.MeetingNode' AND ([isArchived] <> CAST('true' AS BOOLEAN) OR [isArchived] IS NULL)";
 		q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
 		result = q.execute();
 
