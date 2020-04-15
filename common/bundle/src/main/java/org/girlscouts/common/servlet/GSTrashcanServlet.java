@@ -202,8 +202,8 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
     }
 
     private String restoreFromTrashcan(Resource payloadResource, String restorePath, ResourceResolver userResourceResolver) throws WorkflowException, RepositoryException, GirlScoutsException {
-        if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath)) {
-            if (TrashcanUtil.restorePathExists(payloadResource, restorePath)) {
+        if (TrashcanUtil.restorePathExists(payloadResource, restorePath)) {
+            if (TrashcanUtil.isAllowedToRestore(payloadResource, restorePath)) {
                 return invokeTrashcanRestoreWorkflow(payloadResource, restorePath);
             }
         }

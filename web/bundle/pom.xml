@@ -144,10 +144,6 @@
 			<groupId>org.apache.servicemix.bundles</groupId>
 			<scope>provided</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-atinject_1.0_spec</artifactId>
-        </dependency>
 	</dependencies>
 	<!-- ====================================================================== -->
 	<!-- B U I L D D E F I N I T I O N -->
