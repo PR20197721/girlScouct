@@ -5,6 +5,8 @@
 	java.util.List,
 	java.util.ArrayList,
 	java.util.Iterator,
+	java.util.stream.Collectors,
+	java.util.stream.Stream,
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
 	com.day.cq.commons.Doctype,
@@ -264,6 +266,8 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
     String monthYr = dtfOutMYCal.print(startDate);
     String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+monthYr;
 
+	// Image Paths
+	List<String> imagePaths = new ArrayList<>();
 %>
 
 <!-- TODO: fix the h2 color in CSS -->
@@ -290,6 +294,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 			String imgExtPath = properties.get("imagePath","");
             String imgPath = resource.getPath()+"/image";
             if(!imgExtPath.isEmpty()){
+				imagePaths.add(imgExtPath);
                 %> <img src="<%= imgExtPath %>" /> <%
             }
         	else if (resourceResolver.getResource(imgPath) != null)
@@ -297,11 +302,15 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 
                 Node imageNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
                 if(imageNode.hasProperty("fileReference")){
-                    %> <img src="<%= imageNode.getProperty("fileReference").getString() %>" /> <%
+					String imageSrc = imageNode.getProperty("fileReference").getString();
+					imagePaths.add(imageSrc);
+                    %> <img src="<%= imageSrc %>" /> <%
                 }
                 else if (imageNode.hasNodes()){
                     Image image = new Image(resource.getChild("image"));
-                    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
+					String imageSrc = gsImagePathProvider.getImagePathByLocation(image);
+					imagePaths.add(imageSrc);
+                    image.setSrc(imageSrc);
                     Node imgNode = resourceResolver.getResource(resource.getChild("image").getPath()).adaptTo(Node.class);
                     String width;
                     String height;
@@ -552,4 +561,40 @@ function showMap(address){
 	//window.open('/en/map.html?address='+address);
 	window.open('http://www.google.com/maps/search/' + address);
 }
+</script>
+
+<% 
+String host = request.getScheme() + "://" + request.getServerName(); //+ ":" + request.getServerPort() + request.getContextPath();
+
+// https://developers.google.com/search/docs/data-types/event#datatypes
+String eventDescription = details.replaceAll("\\<.*?\\>", ""); // Use replaceAll to clean out HTML elements
+String eventStartDate = dtUTF.withZone(GSDateTimeZone.UTC).print(startDate);
+String eventEndDate = endDate==null ? "" : dtUTF.withZone(GSDateTimeZone.UTC).print(endDate);
+String eventImages = imagePaths.stream().map(path -> "\"" + host + path + "\"").collect(Collectors.joining(", "));
+String eventAddress = address==null ? locationLabel : address;
+%>
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Event",
+		"name": "<%= title %>",
+		"startDate": "<%= eventStartDate %>",
+		"endDate": "<%= eventEndDate %>",
+		"eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+		"eventStatus": "https://schema.org/EventScheduled",
+		"location": {
+			"@type": "Place",
+			"name": "<%= locationLabel %>",
+			"address": "<%= eventAddress %>",
+			"additionalProperty": {
+				"@type": "PropertyValue",
+				"name": "Region",
+				"value": "<%= region %>"
+			}
+		},
+		"image": [
+			<%= eventImages %>
+		],
+		"description": "<%= eventDescription %>"
+	}
 </script>
