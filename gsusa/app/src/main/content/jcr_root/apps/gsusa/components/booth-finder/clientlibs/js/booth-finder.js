@@ -1,8 +1,7 @@
-
 $(document).ready(function() {
     var map;
     var geocoder;
-    var zip; 
+    var zip;
     var boothDetails;
     var numPerPage = $("#booth-finder-details").data("num-per-page");
     LoadGoogle();
@@ -24,7 +23,7 @@ $(document).ready(function() {
         var radius = getParameterByName('radius');
         var date = getParameterByName('date');
         var sortBy = getParameterByName('sortBy');
-        if (!radius) radius = 50;
+        if (!radius) radius = 500;
         if (!date) date = 60;
         if (!sortBy) sortBy = 'distance';
 
@@ -97,11 +96,21 @@ BoothFinder.prototype.processResult = function(result) {
             var booth = booths[boothIndex];
             // Add index field
             booth.ID = boothIndex;
+            booth.detailsText = "View Details";
             // Add zip field to booth. "View Detail" needs this info.
             booth.queryZip = this.zip;
             if (Number(booth.Distance) < nearestDistance) {
                 nearestDistance = Number(booth.Distance);
             }
+            if(booth.Address1 != null && (booth.Address1.includes("http://") || booth.Address1.includes("https://"))){
+                var fixedUrl = booth.Address1;
+                booth.Location = "<a href=\""+fixedUrl+"\" target=\"_blank\">"+booth.Location+"</a>";
+                booth.Address1 = "";
+                booth.Address2 = "";
+                booth.detailsText = "Get Cookies";
+                booth.visitBoothUrl = fixedUrl;
+            }
+            console.log(booth)
         }
 
         // Remove "more" items
@@ -115,7 +124,7 @@ BoothFinder.prototype.processResult = function(result) {
                 var radiusEmpty = getParameterByName('radius');
                 var dateEmpty = getParameterByName('date');
                 var sortByEmpty = getParameterByName('sortBy');
-                if (!radiusEmpty) radiusEmpty = 50;
+                if (!radiusEmpty) radiusEmpty = 500;
                 if (!dateEmpty) dateEmpty = 60;
                 if (!sortByEmpty) sortByEmpty = 'distance'
                 $('select[name="radius"]').val(radiusEmpty);
@@ -167,68 +176,75 @@ BoothFinder.prototype.processResult = function(result) {
 
     if (templateId == 'booths') {
         // Bind "View Details" buttons
-        $('.viewmap.button').on('click', function() {			
-            var data = $.param(JSON.parse($(this).attr('data'))) + '&' +
-                'fbTitle=' + encodeURIComponent($('#share-map-FBTitle').attr('data')) + '&' +
-                'fbDesc=' + encodeURIComponent($('#share-map-FBDesc').attr('data')) + '&' +
-                'tweet=' + encodeURIComponent($('#share-map-Tweet').attr('data')) + '&' +
-                'shareImgPath=' + encodeURIComponent($('#share-map-FBImgPath').attr('data'));
+        $('.viewmap.button').on('click', function() {
+            var booth = JSON.parse($(this).attr('data'));
+            if(booth.detailsText == "Get Cookies"){
+                window.open(booth.visitBoothUrl);
+            }else {
+                var data = $.param(booth) + '&' +
+                    'fbTitle=' + encodeURIComponent($('#share-map-FBTitle').attr('data')) + '&' +
+                    'fbDesc=' + encodeURIComponent($('#share-map-FBDesc').attr('data')) + '&' +
+                    'tweet=' + encodeURIComponent($('#share-map-Tweet').attr('data')) + '&' +
+                    'shareImgPath=' + encodeURIComponent($('#share-map-FBImgPath').attr('data'));
+                console.log(booth);
 
-            $('#modal_booth_item_map').foundation('reveal', 'open', {
-                url: '' + $("#booth-finder-details").data('res-path') + '.booth-detail.html',
-                cache: false,
-                processData: false,
-                data: data
-            });
-            $(document).on('opened.fndtn.reveal', '[data-reveal]', function() {				
-                boothDetails = JSON.parse($('#boothDetailInfo').attr('data-booth'));                
-                var functionName = 'postToFeed' + boothDetails.uniqueID;                
-                //booth-detail and share-modal script -- start
-                var scriptTag = document.createElement("script");
-                scriptTag.type = "text/javascript"
-                scriptTag.src = "//connect.facebook.net/en_US/all.js";
-                scriptTag.async = true;
-                document.getElementsByTagName("head")[0].appendChild(scriptTag);
-                scriptTag.onload = initFB;
-                scriptTag.onreadystatechange = function() {
-                    if (this.readyState == 'complete' || this.readyState == 'loaded') initFB();
-                }
-                
-                window[functionName] = function() {
+                $('#modal_booth_item_map').foundation('reveal', 'open', {
+                    url: '' + $("#booth-finder-details").data('res-path') + '.booth-detail.html',
+                    cache: false,
+                    processData: false,
+                    data: data
+                });
+                $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
+                    boothDetails = JSON.parse($('#boothDetailInfo').attr('data-booth'));
+                    var functionName = 'postToFeed' + boothDetails.uniqueID;
+                    //booth-detail and share-modal script -- start
+                    var scriptTag = document.createElement("script");
+                    scriptTag.type = "text/javascript"
+                    scriptTag.src = "//connect.facebook.net/en_US/all.js";
+                    scriptTag.async = true;
+                    document.getElementsByTagName("head")[0].appendChild(scriptTag);
+                    scriptTag.onload = initFB;
+                    scriptTag.onreadystatechange = function () {
+                        if (this.readyState == 'complete' || this.readyState == 'loaded') initFB();
+                    }
 
-                    // calling the API ...
-                    var obj = {
-                        method: 'feed',
-                        link: window.location.href,
-                        name: '' + boothDetails.facebookTitle + '',
-                        picture: location.host + '' + boothDetails.imgPath + '',
-                        caption: 'WWW.GIRLSCOUTS.ORG',
-                        description: '' + boothDetails.facebookDesc + ''
-                    };
+                    window[functionName] = function () {
 
-                    function callback(response) {}
+                        // calling the API ...
+                        var obj = {
+                            method: 'feed',
+                            link: window.location.href,
+                            name: '' + boothDetails.facebookTitle + '',
+                            picture: location.host + '' + boothDetails.imgPath + '',
+                            caption: 'WWW.GIRLSCOUTS.ORG',
+                            description: '' + boothDetails.facebookDesc + ''
+                        };
 
-                    FB.ui(obj, callback);
-                }
-
-            });
-            $('.off-canvas-wrap').addClass('noprint');
-            //GSDO-1024 :multiple-gmaps-api-call :Start
-            $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
-                //removes gmaps traces from DOM.
-                if (window.google !== undefined && google.maps !== undefined) {
-                    delete google.maps;
-                    $('script').each(function() {
-                        if (this.src.indexOf('googleapis.com/maps') >= 0 ||
-                            this.src.indexOf('maps.gstatic.com') >= 0 ||
-                            this.src.indexOf('earthbuilder.googleapis.com') >= 0) {
-                            $(this).remove();
+                        function callback(response) {
                         }
-                    });
-                }
-            })
-    		//GSDO-1024 :multiple-gmaps-api-call :End
-			
+
+                        FB.ui(obj, callback);
+                    }
+
+                });
+                $('.off-canvas-wrap').addClass('noprint');
+                //GSDO-1024 :multiple-gmaps-api-call :Start
+                $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
+                    //removes gmaps traces from DOM.
+                    if (window.google !== undefined && google.maps !== undefined) {
+                        delete google.maps;
+                        $('script').each(function () {
+                            if (this.src.indexOf('googleapis.com/maps') >= 0 ||
+                                this.src.indexOf('maps.gstatic.com') >= 0 ||
+                                this.src.indexOf('earthbuilder.googleapis.com') >= 0) {
+                                $(this).remove();
+                            }
+                        });
+                    }
+                })
+            }
+            //GSDO-1024 :multiple-gmaps-api-call :End
+
         });
 
         if (this.page == 1) {
@@ -237,7 +253,7 @@ BoothFinder.prototype.processResult = function(result) {
             var radius = getParameterByName('radius');
             var date = getParameterByName('date');
             var sortBy = getParameterByName('sortBy');
-            if (!radius) radius = 50;
+            if (!radius) radius = 500;
             if (!date) date = 60;
             if (!sortBy) sortBy = 'distance'
             $('select[name="radius"]').val(radius);
@@ -341,14 +357,14 @@ function initMap() {
     }, 1000);
 }
 
-function doIt() {    
+function doIt() {
     codeAddress(map, geocoder);
     google.maps.event.trigger(map, 'resize');
     google.maps.event.trigger(map, 'center');
 
-    // to correct gray box issue on chrome and chrome mobile      
+    // to correct gray box issue on chrome and chrome mobile
     $('#map').css('visibility', 'hidden');
-    // $('#map').css('overflow','auto');      
+    // $('#map').css('overflow','auto');
     setTimeout(function() {
         $('#map').css('position', 'absolute');
         setTimeout(function() {
@@ -367,7 +383,7 @@ function codeAddress(resultsMap, geocoder) {
         var myLatLng = {
             "lat": parseFloat(parseFloat(latitude).toFixed(6)),
             "lng": parseFloat(parseFloat(longitude).toFixed(6))
-        };        
+        };
         var marker = new google.maps.Marker({
             map: resultsMap,
             zoom: 8,
@@ -415,7 +431,7 @@ function codeAddress(resultsMap, geocoder) {
 }
 
 
-function initFB() {    
+function initFB() {
     FB.init({
         appId: "" + boothDetails.facebookId + "",
         status: true,

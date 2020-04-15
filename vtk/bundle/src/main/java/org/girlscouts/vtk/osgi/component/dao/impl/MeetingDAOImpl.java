@@ -120,45 +120,47 @@ public class MeetingDAOImpl implements MeetingDAO {
         return meetings;
     }
 
-    // get all event meetings for users plan
-    public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent) throws IllegalAccessException, IllegalStateException {
-        return createCustomMeeting(user, troop, meetingEvent, null);
+    public Meeting createOrUpdateMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException {
+        if (meetingEvent.getRefId().startsWith(troop.getPath())) {
+            meeting = updateCustomMeeting(user, troop, meetingEvent, meeting);
+        } else {
+            meeting = createCustomMeeting(user, troop, meetingEvent, meeting);
+        }
+        troop.getYearPlan().setAltered("true");
+        return meeting;
     }
 
-    public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException {
+    private Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting libMeeting) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        if (meeting == null) {
-            meeting = getMeeting(user, troop, meetingEvent.getRefId());
+        if (libMeeting == null) {
+            libMeeting = getMeeting(user, troop, meetingEvent.getRefId());
         }
-        String newPath = troop.getPath() + "/lib/meetings/" + meeting.getId() + "_" + Math.random();
-        if (meetingEvent.getRefId().contains("/lib/meetings/")) {
-            newPath = meetingEvent.getRefId();
-            girlScoutsMeetingOCMService.delete(meeting);
+        if(libMeeting.getPath().startsWith(troop.getPath()) && meetingEvent.getRefId().equals(libMeeting.getPath())){
+            libMeeting = updateCustomMeeting(user, troop, meetingEvent, libMeeting);
+        }else{
+            libMeeting.setPath(troop.getPath() + "/lib/meetings/" + libMeeting.getId());
+            libMeeting = girlScoutsMeetingOCMService.create(libMeeting);
+            meetingEvent.setRefId(libMeeting.getPath());
+            girlScoutsMeetingEOCMService.update(meetingEvent);
         }
-        meetingEvent.setRefId(newPath);
-        meeting.setPath(newPath);
-        meeting = girlScoutsMeetingOCMService.create(meeting);
-        girlScoutsMeetingEOCMService.update(meetingEvent);
-        return meeting;
+        return libMeeting;
 
     }
 
-    public Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException {
+    private Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting libMeeting) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
             throw new IllegalAccessException();
         }
-        if (meeting == null) {
-            meeting = getMeeting(user, troop, meetingEvent.getRefId());
+        if (libMeeting != null) {
+            if (meetingEvent.getRefId().startsWith(troop.getPath()) && meetingEvent.getRefId().equals(libMeeting.getPath())) {
+                libMeeting = girlScoutsMeetingOCMService.update(libMeeting);
+            }else {
+                libMeeting = createCustomMeeting(user, troop, meetingEvent, libMeeting);
+            }
         }
-        String newPath = meetingEvent.getRefId();
-        meetingEvent.setRefId(newPath);
-        meeting.setPath(newPath);
-        meeting = girlScoutsMeetingOCMService.update(meeting);
-        girlScoutsMeetingEOCMService.update(meetingEvent);
-        return meeting;
-
+        return libMeeting;
     }
 
     public Meeting addActivity(User user, Troop troop, Meeting meeting, Activity activity) throws IllegalStateException, IllegalAccessException {

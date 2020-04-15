@@ -162,7 +162,38 @@
 						        privileges="[jcr:read]"/>                            
                         </createcsvexport>
                     </items>
-                </create>                
+                </create>
+                <deletepage jcr:primaryType="nt:unstructured">
+                        <granite:rendercondition
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/renderconditions/privilege"
+                                path="/etc/renderconditions/features/content/sites/deletepage"
+                                privileges="[jcr:read]"/>
+                </deletepage>
+                <movetotrashcan
+                        granite:rel="cq-siteadmin-admin-actions-trashcan-activator"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                        icon="delete"
+                        relScope="none"
+                        activeSelectionCount="multiple"
+                        text="Move to trashcan"
+                        target=".cq-siteadmin-admin-childpages"
+                        variant="actionBar">
+                        <granite:data jcr:primaryType="nt:unstructured" href="/etc/servlets/trashcan.workflow"/>
+                </movetotrashcan>
+                <restorefromtrashcan
+                        granite:rel="cq-siteadmin-admin-actions-trashcan-restore-activator"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                        icon="reuse"
+                        relScope="none"
+                        activeSelectionCount="single"
+                        text="Restore from trashcan"
+                        target=".cq-siteadmin-admin-childpages"
+                        variant="actionBar">
+                    <granite:data jcr:primaryType="nt:unstructured" href="/etc/servlets/trashcan.workflow"/>
+                </restorefromtrashcan>
                 <viewfolderproperties jcr:primaryType="nt:unstructured">
                 		<granite:rendercondition
 				            jcr:primaryType="nt:unstructured"

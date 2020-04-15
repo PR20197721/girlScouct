@@ -20,6 +20,7 @@
     org.apache.sling.api.request.RequestPathInfo,
 	com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
+<cq:includeClientLib categories="apps.gsusa.article.carousel"/>
 <%
 String[] tags = (String[])properties.get("tag",String[].class);
 

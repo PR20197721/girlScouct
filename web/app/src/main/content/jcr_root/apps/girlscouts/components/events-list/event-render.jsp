@@ -33,6 +33,9 @@ try{
 	GSDateTimeZone dtz = null;
     if(propNode.hasProperty("timezone")){
     	timeZoneLabel = propNode.getProperty("timezone").getString();
+    	if(timeZoneLabel.equals("CST")){
+            timeZoneLabel="US/Central";
+        }
 		int openParen1 = timeZoneLabel.indexOf("(");
 		int openParen2 = timeZoneLabel.indexOf("(",openParen1+1);
 		int closeParen = timeZoneLabel.indexOf(")",openParen2);

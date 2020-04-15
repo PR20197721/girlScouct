@@ -8,7 +8,6 @@ email.js
 join.js
 utils.js
 foundation.min.js
-slick.min.js
 #all.js
 council-finder.js
 retina.js

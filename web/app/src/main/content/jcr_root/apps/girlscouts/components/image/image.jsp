@@ -64,7 +64,7 @@
 	}
 	styleImage += "line-height: 1.15rem;";
 	
-	%><div class="img-wrapper" id="<%= divId %>" style="<%= styleImage %>"><%
+	%><div class="img-wrapper img-print" id="<%= divId %>" style="<%= styleImage %>"><%
 	    Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
 	    
@@ -103,10 +103,13 @@
     NodeIterator nodeItr;
     Node currNode = currentPage.adaptTo(Node.class);
     try{
-         nodeItr = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par").getNodes();
-         currNode = nodeItr.nextNode();
+        Node parNode = currentPage.adaptTo(Node.class).getNode("jcr:content/content/middle/par");
+        if(parNode != null){
+            nodeItr= parNode.getNodes();
+            currNode = nodeItr.nextNode();
+        }
     }catch(Exception e){
-        logger.error("Error getting first page component: ",e);
+        //logger.error("Error getting first page component: ",e);
     }
 
     if(showButton){

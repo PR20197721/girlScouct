@@ -177,18 +177,6 @@ public class YearPlanUtil {
         return meetingDAO.searchA(user, troop, councilCode);
     }
 
-    public java.util.List<Asset> getGlobalResources(String resourceTags) {
-        return meetingDAO.getGlobalResources(resourceTags);
-    }
-
-    public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent) throws IllegalAccessException {
-        return meetingDAO.createCustomMeeting(user, troop, meetingEvent);
-    }
-
-    public Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException {
-        return meetingDAO.updateCustomMeeting(user, troop, meetingEvent, meeting);
-    }
-
     public void saveCouncilMilestones(User user, List<Milestone> milestones, Troop troop) throws IllegalAccessException {
         if(troop == null) {
             councilDAO.updateCouncilMilestones(user, milestones, null);
@@ -204,10 +192,6 @@ public class YearPlanUtil {
 
     public List<Asset> getAllResources(User user, Troop troop, String path) throws IllegalAccessException {
         return meetingDAO.getAllResources(user, troop, path);
-    }
-
-    public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException {
-        return meetingDAO.createCustomMeeting(user, troop, meetingEvent, meeting);
     }
 
     public void createCustActivity(User user, Troop troop, java.util.List<org.girlscouts.vtk.models.Activity> activities, String activityId) throws IllegalAccessException, VtkException {
@@ -243,30 +227,6 @@ public class YearPlanUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public int getAllResourcesCount(User user, Troop troop, String path) throws IllegalAccessException {
-        return meetingDAO.getAllResourcesCount(user, troop, path);
-    }
-
-    public int getAssetCount(User user, Troop troop, String _path) throws IllegalAccessException {
-        return meetingDAO.getAssetCount(user, troop, _path);
-    }
-
-    public int getCountLocalMeetingAidsByLevel(User user, Troop troop, String _path) throws IllegalAccessException {
-        return meetingDAO.getCountLocalMeetingAidsByLevel(user, troop, _path);
-    }
-
-    public java.util.Collection<bean_resource> getResourceData(User user, Troop troop, String _path) throws IllegalAccessException {
-        return meetingDAO.getResourceData(user, troop, _path);
-    }
-
-    public int getMeetingCount(User user, Troop troop, String path) throws IllegalAccessException {
-        return meetingDAO.getMeetingCount(user, troop, path);
-    }
-
-    public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException {
-        return meetingDAO.getVtkAssetCount(user, troop, path);
     }
 
     public void updateMilestones(User user, Troop troop, HttpServletRequest request) throws java.lang.IllegalAccessException {

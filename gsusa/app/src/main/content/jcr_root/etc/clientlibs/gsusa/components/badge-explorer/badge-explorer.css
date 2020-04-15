@@ -357,6 +357,13 @@
     text-decoration: none;
 }
 
+.badge-explorer-modal-tags {
+    margin-top: -18px;
+    color: #bababa;
+    font-size: 20px;
+    text-decoration: none;
+}
+
 /*
 *
 * Badge Grid

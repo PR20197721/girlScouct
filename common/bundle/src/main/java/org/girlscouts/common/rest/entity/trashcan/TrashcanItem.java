@@ -1,0 +1,23 @@
+package org.girlscouts.common.rest.entity.trashcan;
+
+public class TrashcanItem {
+
+    private String source;
+    private String target;
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+}

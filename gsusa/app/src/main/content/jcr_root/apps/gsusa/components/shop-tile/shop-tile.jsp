@@ -1,7 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page import="com.day.cq.wcm.foundation.Placeholder" %>
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
-
+<cq:includeClientLib categories="common.thirdparty.slick"/>
 <%
 String[] imgs = properties.get("imgs", String[].class);
 String shopNowLink = properties.get("shopLink", "#");

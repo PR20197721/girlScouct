@@ -6,12 +6,6 @@
     String date_yyyyMMdd=(String)request.getAttribute("date_yyyyMMdd");
     String text=(String)request.getAttribute("text");
     String external_url=(String)request.getAttribute("external_url");
-    String open_externally = (String request.getAttribute("open-externally","false");
-
-    String target = "";
-    if (true){
-        target="target='_blank'";
-    }
 
     int MAX_MORE_LENGTH = 1500;
     boolean CLEAN = true;
@@ -50,9 +44,9 @@
 <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
     <h2>
         <%if(!external_url.isEmpty()){ %>
-        <a href="<%=external_url%>" <%=target%> itemprop="name"><%=title%></a>
+        <a href="<%=external_url%>" target="_blank" itemprop="name"><%=title%></a>
         <%}else{ %>
-        <a href="<%=path%>.html" <%=target%> itemprop="name"><%=title%></a>
+        <a href="<%=path%>.html" itemprop="name"><%=title%></a>
         <%} %>
     </h2>
     <%
