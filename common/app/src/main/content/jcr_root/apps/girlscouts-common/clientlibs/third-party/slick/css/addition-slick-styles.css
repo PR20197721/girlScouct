@@ -1,0 +1,311 @@
+   /* panels-row container/wrapper height */
+.view-b .panels-row {
+     height: 125px;
+}
+ /* slideup panel container */
+.view-b #SUP1,
+.view-b #SUP2
+{
+	height: 125px;
+    overflow: hidden;
+    bottom: -125px;
+}
+
+/* removes right margin on arrow image inside slideup panel */
+   .view-b #SUP1 img,
+   .view-b #SUP2 img {
+     margin-right:0;
+   }
+
+   /* slideup foundation panel */
+   .view-b #SUP1.panel,
+   .view-b #SUP2.panel {
+     background-color: white;
+     margin-bottom: 0;
+     margin-top: 0;
+     position: absolute;
+   }
+
+   /* slideup panel on left side */
+   .view-b #SUP1.panel {
+     border-left: none;
+     border-right-style: dashed;
+     border-top: none;
+     width:100%
+   }
+
+   /* slideup panel on right side */
+   .view-b #SUP2.panel {
+     border-left-style: dashed;
+     border-right: none;
+     border-top: none;
+     width:100%;
+   }
+
+   /* big text inside slideup panel */
+   .view-b #SUP1 h2,
+   .view-b #SUP2 h2 {
+     color: #414141;
+     font-size: 32px;
+     font-weight: 200;
+     padding: 12px 0 25px;
+   }
+
+   /* rotate arrow image inside slideup panels */
+   .view-b .rotate-img {
+     transform: rotate(180deg);
+     -ms-transform: rotate(180deg);
+     -webkit-transform: rotate(180deg);
+   }
+
+   /* button inside "sidebar" blocks */
+   .view-b .button {
+     margin: 0;
+     min-width: 100%;
+   }
+
+   /* adjusting the default margin */
+   .view-b .slick-slider {
+     margin-bottom: 0;
+   }
+
+   /* ul formatting inside slider */
+   .view-b .meow ul {
+     margin-left: 0;
+   }
+
+   /* placement of the slider dots */
+   .view-b .meow ul.slick-dots {
+     bottom: 0;
+   }
+
+   /* previous button styling */
+   .view-b .meow .slick-prev {
+     left: 10px;
+   }
+
+   /* next button styling */
+   .view-b .meow .slick-next {
+     right: 10px;
+   }
+
+   /* slider dot formatting */
+   .view-b .meow .slick-dots li button {
+   }
+
+   /* slider dot formatting when NOT active */
+   .view-b .meow .slick-dots li button:before {
+     font-size: 15px;
+   }
+
+   /* slider dot formatting when active */
+   .view-b .meow .slick-dots li.slick-active button:before {
+     color: green;
+   }
+
+   /* small to medium (0px - 959px) */
+   @media all and (min-width: 0em) and (max-width: 59.9375em) {
+
+   } /* small to medium */
+
+   /* medium only (600px - 959px) */
+   @media all and (min-width: 37.5em) and (max-width: 59.9375em) {
+
+     /* adjusting the bottom margin */
+     .view-b .slick-slider {
+       /*margin-bottom: 17px;*/
+     }
+
+   } /* medium only */
+
+   /* small only (0px - 599px) */
+   @media all and (min-width: 0em) and (max-width: 37.4375em) {
+
+   /* placement of the slider dots */
+     .view-b .meow ul.slick-dots {
+       bottom: -10px;
+     }
+
+     /* slideup foundation panel */
+     .view-b #SUP1.panel,
+     .view-b #SUP2.panel {
+       border: none;
+       border-bottom: 1px dashed black;
+       margin-bottom: 0;
+       position: static;
+     }
+
+
+   } /* small only */
+
+   /* padding around entire row containing all elements in #heroBanner */
+   .view-c #heroBanner.row {
+     padding: 15px 15px;
+   }
+
+   /* right side block styling in desktop (and for mobile and tablet views) */
+   .view-c .row .large-6.medium-11.columns > .row > .columns {
+     border: 1px solid lightgrey;
+     margin: 0 4%;
+     padding: 10px;
+   }
+
+   /* block styling in desktop+ views */
+   .view-c .row > .large-22.medium-20.columns {
+     border: 1px solid lightgrey;
+     padding: 10px;
+   }
+
+   /* first block in "sidebar" desktop+ */
+   .view-c .row > .large-6.medium-11.columns > .row > .columns:nth-child(1) {
+     margin-bottom: 10px;
+   }
+
+   /* text inside "sidebar" blocks desktop+ */
+   .view-c .row > .large-6.medium-11.columns > .row > .columns > p {
+     color: grey;
+     font-size: 15px;
+     line-height: 1;
+     margin-bottom: 10px;
+   }
+
+   /* remove extra margin under button desktop+ */
+   .view-c .row > .large-6.medium-11.columns > .row > .columns > p:nth-of-type(2) {
+     margin: 0;
+   }
+
+   /* button inside "sidebar" blocks */
+   .view-c .button {
+     margin: 0;
+     min-width: 100%;
+   }
+
+   /* ul formatting inside slider */
+   .view-c .meow ul {
+     margin-left: 0;
+   }
+
+   /* placement of the slider dots */
+   .view-c .meow ul.slick-dots {
+     bottom: 0;
+   }
+
+  
+   /* next button styling */
+   .view-c .meow .slick-next {
+     right: 10px;
+   }
+
+   /* slider dot formatting when active */
+   .view-c .meow .slick-dots li.slick-active button:before {
+     color: green;
+   }
+
+   /* slider dot formatting when NOT active */
+   .view-c .meow .slick-dots li button:before {
+     font-size: 15px;
+   }
+   
+   /*change added for right spring board*/
+   .view-c .rightBannerHeight{
+     height:365px;
+   }
+   
+   
+   
+   /* right side block styling in desktop (and for mobile and tablet views) */
+   .view-c .row .large-7.medium-12.columns > .row > .columns {
+     border: 1px solid lightgrey; 
+     padding: 10px; 
+     height:175px;
+   }
+   
+   .call-desc{
+   		height:95px;
+   		padding-bottom:10px;
+   }
+
+	.view-c #heroBanner .spHeight {
+	padding: 0 0 0 15px;
+	height: 182.5px;
+	margin: 0 0 5px 0;
+	}
+
+  .view-c #heroBanner .columns .button-position{
+  	height:60px;
+  	}
+
+  .view-c .slick-slider{
+    margin-bottom:0px;
+  }
+  
+  .view-c #heroBanner .row .columns .call-desc p{
+  	font-size:0.9375rem;
+  	line-height:1.3;
+  }
+  
+   /* small to medium (0px - 959px) */
+   @media all and (min-width: 0em) and (max-width: 59.9375em) {
+     /* right side block styling in desktop (and for mobile and tablet views) */
+     .view-c > .row > .large-6.medium-11.columns > .row > .columns {
+       margin: 0;
+     }
+   }
+
+   
+   /*Change for the add by manu for Right Spring Board*/
+
+/*  medium (600px - 959px) */
+    @media all and (min-width: 37.5em) and (max-width: 59.9375em) {
+		.view-c #heroBanner > div:nth-child(2){
+			padding: 0;
+		}
+	
+		.view-c #heroBanner .row .columns .call-desc p{
+			font-size:1em;
+			line-height:1.3;
+		}
+		
+		.view-c .slick-slider{
+   			 margin-bottom:15px;
+ 		 }
+ 		 
+ 		 .view-c #heroBanner .spHeight {
+ 		 	margin:0;
+ 		 }
+		
+	} /* small to medium */
+    
+    /* small only (0px - 599px) */
+   @media all and (min-width: 0em) and (max-width: 37.4375em) {
+	.view-c #heroBanner .spHeight {
+		padding: 0;
+		} 
+	.view-c #heroBanner .row .columns .call-desc p{
+		font-size:1em;
+		line-height:1.6;
+		}
+	
+	.view-c .slick-slider{
+   		margin-bottom:15px;
+ 		}
+ 		 
+ 	.view-c #heroBanner div.spHeight:nth-child(3) {
+		margin: 0;
+		}
+
+ }	
+   
+ 
+    /* previous button styling */
+   .view-c .meow .slick-prev {
+     left: 10px;
+   }
+   
+   .view-c .meow .slick-prev::before { 
+   		content: "\2190";
+    	-webkit-backface-visibility: hidden;
+		/*opacity: 1.90;*/
+	}
+   
+    
