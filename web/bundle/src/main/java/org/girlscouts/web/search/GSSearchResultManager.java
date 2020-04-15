@@ -73,13 +73,13 @@ public final class GSSearchResultManager implements GSSearchResultConstants {
 		return new ArrayList<GSSearchResult>(searchResults.values());
 	}
 
-	public List<GSSearchResult> getResultsSortedByScore() {
+	public List<GSSearchResult> getResultsSortedBy(String orderByWhat) {
 		List<GSSearchResult> results = new ArrayList<GSSearchResult>(searchResults.values());
-		Collections.sort(results, new GSSearchResultComparator());
+		Collections.sort(results, new GSSearchResultComparator(orderByWhat));
 		Collections.reverse(results);
 		return results;
 	}
-
+	
 	public void filter() {
 		Set<String> keys = new HashSet<String>();
 		keys.addAll(this.searchResults.keySet());
@@ -105,13 +105,25 @@ public final class GSSearchResultManager implements GSSearchResultConstants {
 	}
 
 	private class GSSearchResultComparator implements Comparator<GSSearchResult> {
+		String orderByWhat;
+		public GSSearchResultComparator(String orderByWhat) {
+				// TODO Auto-generated constructor stub
+			this.orderByWhat = orderByWhat;
+		}
 
 		@Override
 		public int compare(GSSearchResult result1, GSSearchResult result2) {
 			int result = 0;
-			Double score1 = result1.getScore();
-			Double score2 = result2.getScore();
-			result = score1.compareTo(score2);
+			if (orderByWhat.equals("score")) {
+				Double score1 = result1.getScore();
+				Double score2 = result2.getScore();
+				result = score1.compareTo(score2);
+			}
+			if (orderByWhat.equals("title")) {
+				String title1 = result1.getTitle();
+				String title2 = result2.getTitle();
+				result = title2.compareTo(title1);
+			}
 			if (result != 0) {
 				return result;
 			} else {
@@ -126,7 +138,7 @@ public final class GSSearchResultManager implements GSSearchResultConstants {
 			}
 		}
 	}
-
+	
 	private boolean isFilterByResourceType(Node jcrContentNode) {
 		try {
 			if (jcrContentNode.hasProperty("sling:resourceType")) {
