@@ -1,7 +1,9 @@
 package org.girlscouts.vtk.osgi.service;
 
+import java.io.InputStream;
+
 public interface GirlScoutsMeetingIconService {
 
-    String getIconPathById(String id);
+    InputStream getIconByMeetingId(String id);
 
 }

@@ -80,7 +80,7 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
                                 <img src={tree} style={{'width': '60px', 'height': '60px'}} alt=""/> : null}
                         </div> : null}
                     <div className="small-24 medium-3 column small-text-center" style={{textAlign: 'center'}}>
-                        <img onClick={(e) => _onClick(e)} className={showClickRequiment} src={"/content/dam/girlscouts-vtk/local/icon/meetings/" + this.props.meetingInfo.id + ".png"} style={{
+                        <img onClick={(e) => _onClick(e)} className={showClickRequiment} src={"/content/girlscouts-vtk/service/meeting/icon." + this.props.meetingInfo.id + ".png"} style={{
                             'width': '60px',
                             'height': '60px'
                         }} alt=""/>

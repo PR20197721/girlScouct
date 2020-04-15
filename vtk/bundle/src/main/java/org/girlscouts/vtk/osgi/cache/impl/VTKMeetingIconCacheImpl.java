@@ -4,8 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.girlscouts.vtk.osgi.cache.VTKMeetingIconCache;
-import org.girlscouts.vtk.osgi.cache.VTKMeetingLibraryCache;
-import org.girlscouts.vtk.osgi.conf.VTKMeetingLibraryCacheConfig;
+import org.girlscouts.vtk.osgi.conf.VTKMeetingIconCacheConfig;
 import org.girlscouts.vtk.osgi.service.impl.BasicGirlScoutsService;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
@@ -16,8 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
-@Component(service = {VTKMeetingLibraryCache.class}, immediate = true, name = "org.girlscouts.vtk.osgi.cache.impl.VTKMeetingIconCacheImpl")
-@Designate(ocd = VTKMeetingLibraryCacheConfig.class)
+@Component(service = {VTKMeetingIconCache.class}, immediate = true, name = "org.girlscouts.vtk.osgi.cache.impl.VTKMeetingIconCacheImpl")
+@Designate(ocd = VTKMeetingIconCacheConfig.class)
 public class VTKMeetingIconCacheImpl extends BasicGirlScoutsService implements VTKMeetingIconCache {
 
     private static Logger log = LoggerFactory.getLogger(VTKMeetingIconCacheImpl.class);

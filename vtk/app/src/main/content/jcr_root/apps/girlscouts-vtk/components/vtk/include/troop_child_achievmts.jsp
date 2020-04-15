@@ -8,7 +8,7 @@
                         if (infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType() == YearPlanComponentType.MEETING) {
                     %>
                     <li><img
-                            src="/content/dam/girlscouts-vtk/local/icon/meetings/<%= ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getId()%>.png"
+                            src="/content/girlscouts-vtk/service/meeting/icon.<%= ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getId()%>.png"
                             alt="imagetitle"/></li>
                     <%
                             }
