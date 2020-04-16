@@ -612,9 +612,9 @@ String onlineLocationURL = strExists(register) ? genLink(resourceResolver, regis
 String eventDescription = details.replaceAll("\\<.*?\\>", ""); // Use replaceAll to clean out HTML elements
 String eventStartDate = dtfIn.print(startDate);
 String eventEndDate = endDate==null ? "" : dtfIn.print(endDate);
-String eventAddress = address==null ? locationLabel : address;
+String eventAddress = strExists(address) ? address : locationLabel;
 String eventAttendanceMode = onlineLocationMatch ? "https://schema.org/OnlineEventAttendanceMode" : "https://schema.org/OfflineEventAttendanceMode";
-String eventStatus = title.toLowerCase().contains("cancelled") ? "https://schema.org/EventCancelled" : "https://schema.org/EventScheduled"; // POSTPONED
+String eventStatus = title.toLowerCase().startsWith("cancelled") ? "https://schema.org/EventCancelled" : "https://schema.org/EventScheduled";
 List<String> eventImages = imagePaths.stream().map(path -> host + path).collect(Collectors.toList());
 
 Map<String, Object> json = new HashMap<>();
@@ -641,7 +641,7 @@ if (onlineLocationMatch) {
 	if (!additionalProperties.isEmpty()) location.put("additionalProperty", additionalProperties);
 }
 json.put("location", location); // Required
-if (!imagePaths.isEmpty()) json.put("image", eventImages);
+if (!eventImages.isEmpty()) json.put("image", eventImages);
 json.put("description", eventDescription);
 if (strExists(adultFee)) offers.add(createOffer("Adult Fee", adultFee));
 if (strExists(girlFee)) offers.add(createOffer("Girl Fee", girlFee));
