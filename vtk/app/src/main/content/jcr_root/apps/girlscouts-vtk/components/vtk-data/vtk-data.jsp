@@ -6,7 +6,6 @@
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@page session="false" %>
-
 <cq:includeClientLib categories="cq.foundation-main"/>
 <script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
 <script>
@@ -47,32 +46,30 @@
     }
 </script>
 <%
-if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-    %>
-    <p>
-        <form>
-            <input type="button" value="Edit" onclick="scaffoldingEditCallback();"></input>
-            <!--
-            <input type="button" value="Activate" onclick="scaffoldingActivateCallback();"></input>
-            <input type="button" value="Deactivate" onclick="scaffoldingDeactivateCallback();"></input>
-            -->
-            <input type="button" value="VTK Scaffolding Home" onclick="scaffoldingLandingCallback();"></input>
-        </form>
-    </p>
-    <%
+    if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+%>
+<p>
+<form>
+    <input type="button" value="Edit" onclick="scaffoldingEditCallback();"/>
+    <input type="button" value="Activate" onclick="scaffoldingActivateCallback();"/>
+    <input type="button" value="Deactivate" onclick="scaffoldingDeactivateCallback();"/>
+    <input type="button" value="VTK Scaffolding Home" onclick="scaffoldingLandingCallback();"/>
+</form>
+</p>
+<%
     String type = properties.get("vtkDataType", "no-supported");
     String script = type + ".jsp";
-    %>
-    <cq:include script="<%= script %>"/>
-    <%
-}
+%>
+<cq:include script="<%= script %>"/>
+<%
+    }
 %>
 <!-- Empty <p> for more spaces -->
 <p>
-    <form>
-        <input type="button" value="Edit" onclick="scaffoldingEditCallback();"></input>
-        <input type="button" value="Activate" onclick="scaffoldingActivateCallback();"></input>
-        <input type="button" value="Deactivate" onclick="scaffoldingDeactivateCallback();"></input>
-        <input type="button" value="VTK Scaffolding Home" onclick="scaffoldingLandingCallback();"></input>
-    </form>
+<form>
+    <input type="button" value="Edit" onclick="scaffoldingEditCallback();"/>
+    <input type="button" value="Activate" onclick="scaffoldingActivateCallback();"/>
+    <input type="button" value="Deactivate" onclick="scaffoldingDeactivateCallback();"/>
+    <input type="button" value="VTK Scaffolding Home" onclick="scaffoldingLandingCallback();"/>
+</form>
 </p>
