@@ -7,6 +7,11 @@
 	java.util.Iterator,
 	java.util.stream.Collectors,
 	java.util.stream.Stream,
+	java.util.Arrays,
+	java.util.regex.Matcher,
+	java.util.regex.Pattern,
+	com.google.gson.Gson,
+    com.google.gson.GsonBuilder,
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
 	com.day.cq.commons.Doctype,
@@ -563,38 +568,88 @@ function showMap(address){
 }
 </script>
 
-<% 
+<%!
+static final Pattern pricePattern = Pattern.compile("\\d+|\\d+[.]\\d\\d"); // Match 27 or 27.00 format
+
+Boolean strExists (String str) {
+	return str != null && !str.isEmpty();
+}
+
+String getPriceFromStr(String str) {
+	String price = "";
+    Matcher m = pricePattern.matcher(str);
+	if (m.find()) {
+		price = m.group(0);
+	}
+	return price;
+} 
+
+Map<String, String> createAdditionalProperty(String name, String value) {
+	Map<String, String> property = new HashMap<>();
+	property.put("@type", "PropertyValue");
+	property.put("name", name);
+	property.put("value", value);
+	return property;
+}
+
+Map<String, String> createOffer(String name, String price) {
+	Map<String, String> offer = new HashMap<>();
+	offer.put("@type", "Offer");
+	offer.put("name", name);
+	offer.put("price", getPriceFromStr(price));
+	offer.put("priceCurrency", "USD");
+	return offer;
+}
+%>
+<%
+String fullUrl = request.getRequestURL().toString();
 String host = request.getScheme() + "://" + request.getServerName(); //+ ":" + request.getServerPort() + request.getContextPath();
+List<String> onlineLocations = Arrays.asList("virtual", "webinar", "online", "facebook", "your location", "your home", "zoom");
+Boolean onlineLocationMatch = onlineLocations.stream().parallel().anyMatch(locationLabel.toLowerCase()::contains); // Look for a single partial match
+String onlineLocationURL = strExists(register) ? genLink(resourceResolver, register) : fullUrl;
 
 // https://developers.google.com/search/docs/data-types/event#datatypes
 String eventDescription = details.replaceAll("\\<.*?\\>", ""); // Use replaceAll to clean out HTML elements
-String eventStartDate = dtUTF.withZone(GSDateTimeZone.UTC).print(startDate);
-String eventEndDate = endDate==null ? "" : dtUTF.withZone(GSDateTimeZone.UTC).print(endDate);
-String eventImages = imagePaths.stream().map(path -> "\"" + host + path + "\"").collect(Collectors.joining(", "));
+String eventStartDate = dtfIn.print(startDate);
+String eventEndDate = endDate==null ? "" : dtfIn.print(endDate);
 String eventAddress = address==null ? locationLabel : address;
+String eventAttendanceMode = onlineLocationMatch ? "https://schema.org/OnlineEventAttendanceMode" : "https://schema.org/OfflineEventAttendanceMode";
+String eventStatus = title.toLowerCase().contains("cancelled") ? "https://schema.org/EventCancelled" : "https://schema.org/EventScheduled"; // POSTPONED
+List<String> eventImages = imagePaths.stream().map(path -> host + path).collect(Collectors.toList());
+
+Map<String, Object> json = new HashMap<>();
+Map<String, Object> location = new HashMap<>();
+Map<String, Object> image = new HashMap<>();
+List<Map<String, String>> offers = new ArrayList<>();
+List<Map<String, String>> additionalProperties = new ArrayList<>();
+
+json.put("@context", "https://schema.org");
+json.put("@type", "Event");
+json.put("name", title); // Required
+json.put("startDate", eventStartDate); // Required
+if (strExists(eventEndDate)) json.put("endDate", eventEndDate);
+json.put("eventAttendanceMode", eventAttendanceMode);
+json.put("eventStatus", eventStatus);
+if (onlineLocationMatch) {
+	location.put("@type", "VirtualLocation");
+	location.put("url", onlineLocationURL); // Required
+} else {
+	location.put("@type", "Place");
+	location.put("name", locationLabel); // Required
+	location.put("address", eventAddress); // Required
+	if (strExists(region)) additionalProperties.add(createAdditionalProperty("Region", region));
+	if (!additionalProperties.isEmpty()) location.put("additionalProperty", additionalProperties);
+}
+json.put("location", location); // Required
+if (!imagePaths.isEmpty()) json.put("image", eventImages);
+json.put("description", eventDescription);
+if (strExists(adultFee)) offers.add(createOffer("Adult Fee", adultFee));
+if (strExists(girlFee)) offers.add(createOffer("Girl Fee", girlFee));
+if (!offers.isEmpty()) json.put("offers", offers);
+
+Gson gson = new GsonBuilder().setPrettyPrinting().create();
+String jsonOutput = gson.toJson(json);
 %>
 <script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "Event",
-		"name": "<%= title %>",
-		"startDate": "<%= eventStartDate %>",
-		"endDate": "<%= eventEndDate %>",
-		"eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-		"eventStatus": "https://schema.org/EventScheduled",
-		"location": {
-			"@type": "Place",
-			"name": "<%= locationLabel %>",
-			"address": "<%= eventAddress %>",
-			"additionalProperty": {
-				"@type": "PropertyValue",
-				"name": "Region",
-				"value": "<%= region %>"
-			}
-		},
-		"image": [
-			<%= eventImages %>
-		],
-		"description": "<%= eventDescription %>"
-	}
+<%= jsonOutput %>
 </script>
