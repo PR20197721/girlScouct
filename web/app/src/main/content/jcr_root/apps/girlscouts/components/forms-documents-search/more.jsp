@@ -135,7 +135,12 @@ if((q!=null && q.length()>0) || (tagSet != null && tagSet.size()>0)){
 		e.printStackTrace();
 	}
 }
-List<GSSearchResult> queryResults = gsResultManager.getResultsSortedByScore();
+List<GSSearchResult> queryResults = gsResultManager.getResultsSortedBy("score");
+//GSWP-1049- Sort by title if searchtext is empty and categories are enabled
+if (q.isEmpty() && (tagSet != null && tagSet.size()>0)) {
+queryResults = gsResultManager.getResultsSortedBy("title");
+}
+
 if(offset <=queryResults.size()){
 	for(int i=offset; i<queryResults.size();i++){
 		GSSearchResult qResult=queryResults.get(i);
