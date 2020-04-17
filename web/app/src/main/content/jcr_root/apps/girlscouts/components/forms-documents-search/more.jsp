@@ -136,6 +136,7 @@ if((q!=null && q.length()>0) || (tagSet != null && tagSet.size()>0)){
 	}
 }
 List<GSSearchResult> queryResults = gsResultManager.getResultsSortedBy("score");
+//GSWP-1049- Sort by title if searchtext is empty and categories are enabled
 if (q.isEmpty() && (tagSet != null && tagSet.size()>0)) {
 queryResults = gsResultManager.getResultsSortedBy("title");
 }

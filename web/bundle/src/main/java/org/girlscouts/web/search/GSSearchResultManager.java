@@ -73,9 +73,9 @@ public final class GSSearchResultManager implements GSSearchResultConstants {
 		return new ArrayList<GSSearchResult>(searchResults.values());
 	}
 
-	public List<GSSearchResult> getResultsSortedBy(String orderByWhat) {
+	public List<GSSearchResult> getResultsSortedBy(String orderBy) {
 		List<GSSearchResult> results = new ArrayList<GSSearchResult>(searchResults.values());
-		Collections.sort(results, new GSSearchResultComparator(orderByWhat));
+		Collections.sort(results, new GSSearchResultComparator(orderBy));
 		Collections.reverse(results);
 		return results;
 	}
@@ -103,26 +103,29 @@ public final class GSSearchResultManager implements GSSearchResultConstants {
 			}
 		}
 	}
-
+	
 	private class GSSearchResultComparator implements Comparator<GSSearchResult> {
-		String orderByWhat;
-		public GSSearchResultComparator(String orderByWhat) {
+		//GSWP-1049- Sort by title if searchtext is empty and categories are enabled
+		String orderBy;
+		public GSSearchResultComparator(String orderBy) {
 				// TODO Auto-generated constructor stub
-			this.orderByWhat = orderByWhat;
+			this.orderBy = orderBy;
 		}
 
 		@Override
 		public int compare(GSSearchResult result1, GSSearchResult result2) {
 			int result = 0;
-			if (orderByWhat.equals("score")) {
-				Double score1 = result1.getScore();
-				Double score2 = result2.getScore();
-				result = score1.compareTo(score2);
-			}
-			if (orderByWhat.equals("title")) {
-				String title1 = result1.getTitle();
-				String title2 = result2.getTitle();
-				result = title2.compareTo(title1);
+			switch(orderBy) {
+				case "score":
+					Double score1 = result1.getScore();
+					Double score2 = result2.getScore();
+					result = score1.compareTo(score2);
+					break;
+				case "title":
+					String title1 = result1.getTitle();		
+					String title2 = result2.getTitle();
+					result = title2.compareTo(title1);
+					break;
 			}
 			if (result != 0) {
 				return result;
