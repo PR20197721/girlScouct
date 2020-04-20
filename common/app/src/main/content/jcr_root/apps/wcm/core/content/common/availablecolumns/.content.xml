@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured">
+    <createdBy
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Start Date"
+        columnGroup="created"
+        columnResourceType="cq/gui/components/common/admin/listview/customcell"
+        page-info-provider="created"
+        page-info-provider-property="createdBy"
+        sortable="{Boolean}true"/>
+</jcr:root>
