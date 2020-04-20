@@ -37,7 +37,7 @@ public class CreatedPageInfoProvider implements com.day.cq.wcm.api.PageInfoProvi
 		Page page = resource.adaptTo(Page.class);
 		JSONObject myProjectInfo = new JSONObject();
 		Node dataNode = page.getContentResource("data").adaptTo(Node.class);
-		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
 		try {
 			if (null != dataNode && dataNode.getName().equals("data") && dataNode.hasProperty("start")) {
 				Date sDate = dataNode.getProperty("start").getDate().getTime();
