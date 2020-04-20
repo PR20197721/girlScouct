@@ -194,7 +194,9 @@ public  String readUrlFile(String urlString) throws Exception {
 
 	//passing this to another jsp
 	request.setAttribute("source7", source7);
+	boolean slickControl = properties.get("enableSlickCtrls", true);
 %>
+<div id ="slick-control" data-slick-control = "<%=slickControl %>">
 
 <div class="hero-feature">
 	<ul class="main-slider" slick-options='<%=slickOptions.toString()%>' player-config='<%=playerConfig.toString()%>'><%
