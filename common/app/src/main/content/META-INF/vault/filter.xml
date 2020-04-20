@@ -23,7 +23,8 @@
     <filter root="/apps/dam/content/asseteditors"/>
     <filter root="/apps/dam/gui/content/assets"/>
     <filter root="/apps/dam/gui/content/assetdetails"/>
-    <filter root="/apps/dam/gui/content/commons"/>
+	<filter root="/apps/dam/gui/content/commons"/>
+	<filter root="/apps/wcm/core/content/common"/>
     <filter root="/apps/dam/gui/content/nav"/>
     <filter root="/apps/dam/gui/coral/components/admin/moveassetwizard/clientlibs/js/wizard.js"/>
     <filter root="/apps/foundation"/>
