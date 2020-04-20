@@ -46,7 +46,7 @@
 	String reqProtocol = request.getHeader("X-Forwarded-Proto");
 	if(reqProtocol == null) reqProtocol = "http";
 	
-	if("".equals(ogImage)){
+	if(ogImage == null || "".equals(ogImage.trim())){
 		String pageImagePath = currentPage.getPath() + "/jcr:content/content/hero/par/image";
 		String ragImagePath = currentPage.getPath() + "/jcr:content/image";
 	    Session session = (Session)resourceResolver.adaptTo(Session.class);
@@ -91,6 +91,7 @@
 	}
 
 %><head>
+ <cq:include path="base" resourceType="girlscouts-common/components/base" />
 	<% if (isProd) { %>
     	<script src="//assets.adobedtm.com/8fdbb9077cc907df83e5ac2a5b43422f8da0b942/satelliteLib-3d0de2c9d6782ec7986e1b3747da043a2d16bd96.js"></script>
     <% } else { %>

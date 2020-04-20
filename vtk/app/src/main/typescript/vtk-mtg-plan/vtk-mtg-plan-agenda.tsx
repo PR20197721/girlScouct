@@ -123,7 +123,7 @@ export function VtkMtgPlanAgenda(props: VtkMtgPlanAgendaProps) {
                 let _level: string = props.meetingEvents.meetingInfo.level.toLowerCase();
                 let _id: string = props.meetingEvents.meetingInfo.id;
 
-                let _url = `/content/girlscouts-vtk/meetings/myyearplan${props.user_variable.vtk_current_year}/${_level}/${_id}/activities.-1.json`;
+                let _url = `/content/girlscouts-vtk/meetings/library/${_level}/${_id}/activities.-1.json`;
 
                 try {
                     response = await COMUNICATION.getOriginalActivity({url: _url, payload: ''});

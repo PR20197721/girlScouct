@@ -108,7 +108,7 @@ public final class GSSearchResult implements GSSearchResultConstants {
 			}
 		} catch (Exception e) {
 		}
-		return title;
+		return title.trim();
 	}
 
 	public String getUrl() {

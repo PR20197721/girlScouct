@@ -7,7 +7,7 @@ if [ -z $VERSION ]; then
     VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 fi
 
-./common/deployStage.sh $VERSION  && sleep 20s
+./common/deployStage.sh $VERSION  && sleep 30s
 
 ./web/deployStage.sh $VERSION && sleep 20s
 

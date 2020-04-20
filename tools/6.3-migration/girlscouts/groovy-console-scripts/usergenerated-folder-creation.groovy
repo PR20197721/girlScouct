@@ -37,7 +37,7 @@ List<String> MISSING_FOLDERS = Arrays.asList(
         "gssem",
         "gsnc",
         "girlscoutssoaz",
-        "gsney",
+        "girlscoutsneny",
         "gslakesandpines",
         "gscwm",
         "girlscoutsp2p",

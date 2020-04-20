@@ -416,6 +416,9 @@ login
     <div id="tag"></div><%
     // make sure the redirect path is valid and prefixed with the context path
     String redirect = request.getParameter("resource");
+    if(redirect != null){
+        redirect = java.net.URLDecoder.decode(redirect, "UTF-8");
+    }
     if (redirect == null || !AuthUtil.isRedirectValid(request, redirect)) {
         redirect = "/";
     }

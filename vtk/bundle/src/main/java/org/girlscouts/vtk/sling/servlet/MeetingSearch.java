@@ -100,6 +100,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                         meetingResult.setLifeSkills(vm.get("lifeskills", "false").equals("true"));
                         meetingResult.setAidPaths(vm.get("aidPaths", new String[]{}));
                         meetingResult.setCatTags(vm.get("catTags", "").split(","));
+                        meetingResult.setArchived(vm.get("isArchived",Boolean.FALSE));
                         results.add(meetingResult);
                     } catch (Exception e) {
                         log.error("Error parsing search result: ", e);
@@ -128,7 +129,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             LinkedHashSet<MeetingResult> groupedResults = new LinkedHashSet<>();
             Map<String, Set<MeetingResult>> results2 = results.stream().collect(Collectors.groupingBy(s -> (s.getLevel()+"-"+s.getName().replaceAll("[^a-zA-Z]", "").toLowerCase()), LinkedHashMap::new, Collectors.mapping(s -> s, Collectors.toSet())));
             for (String key : results2.keySet()) {
-                SortedSet<MeetingResult> similarMeetings = new TreeSet<>(Comparator.comparing(s -> s.getName().trim().toLowerCase()));
+                SortedSet<MeetingResult> similarMeetings = new TreeSet<>(Comparator.comparing(s -> s.getId().trim().toUpperCase()));
                 similarMeetings.addAll(results2.get(key));
                 groupedResults.addAll(similarMeetings);
             }
@@ -141,19 +142,19 @@ public class MeetingSearch extends SlingAllMethodsServlet {
 
     private QueryResult getQueryResult(Session session, org.girlscouts.vtk.models.MeetingSearch search) throws RepositoryException {
         javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-        String sql = "select s.[*] from [nt:unstructured] as s where s.[ocm_classname]='org.girlscouts.vtk.ocm.MeetingNode' " + " and isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + search.getYear() + "/')  ";
+        String sql = "SELECT s.[*] FROM [nt:unstructured] AS s WHERE s.[ocm_classname]='org.girlscouts.vtk.ocm.MeetingNode' AND isdescendantnode('/content/girlscouts-vtk/meetings/library/') AND (s.[isArchived] <> CAST('true' AS BOOLEAN) OR s.[isArchived] IS NULL) ";
         if (search.getLevel() != null && search.getLevel().size() > 0) {
-            sql += " and  contains(s.[level] ,  '" + fmtMultiContainsSql(search.getLevel()) + "') ";
+            sql += " AND  CONTAINS(s.[level] ,  '" + fmtMultiContainsSql(search.getLevel()) + "') ";
         }
         if (search.getCategoryTags() != null && search.getCategoryTags().size() > 0) {
             String catTagsFmt = fmtMultiContainsSql(search.getCategoryTags()).replace("'", "''");
-            sql += " and (contains(s.[catTags] ,  '" + catTagsFmt + "') ";
-            sql += " or contains(s.[catTagsAlt] ,  '" + catTagsFmt + "') )";
+            sql += " AND (CONTAINS(s.[catTags] ,  '" + catTagsFmt + "') ";
+            sql += " OR CONTAINS(s.[catTagsAlt] ,  '" + catTagsFmt + "') )";
         }
         if (search.getMeetingPlanType() != null && !"".equals(search.getMeetingPlanType())) {
             String meetingPlanTypeFmt = search.getMeetingPlanType();
-            sql += " and (s.[meetingPlanType] = '" + meetingPlanTypeFmt + "' ";
-            sql += " or  s.[meetingPlanTypeAlt] = '" + meetingPlanTypeFmt + "' ) ";
+            sql += " AND (s.[meetingPlanType] = '" + meetingPlanTypeFmt + "' ";
+            sql += " OR  s.[meetingPlanTypeAlt] = '" + meetingPlanTypeFmt + "' ) ";
         }
         if (search.getKeywords() != null && !"".equals(search.getKeywords().trim())) {
             //String keywords = search.getKeywords().replace(" ", " OR ").replace("'", "''");
@@ -173,18 +174,31 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                 keywords = keywords.replaceAll("\\s\\s+", " ");
 
                 String[] keywordArray = keywords.split(" ");
-                keyWordQueryString += " and ((contains( s.[*], '" + keywordArray[0] + "'))";
-                if (keywordArray.length > 1) {
-                    for (int i = 1; i < keywordArray.length; i++) {
-                        keyWordQueryString += " or (contains( s.[*], '" + keywordArray[i] + "'))";
+                if(keywordArray.length > 1){
+                    int keyWordCounter = 0;
+                    for(String keyword:keywordArray){
+                        if(keyword.length() >2){
+                            if(keyWordCounter > 0){
+                                keyWordQueryString += " or ";
+                            }
+                            keyWordQueryString += " contains(s.[*], '" + keyword + "') ";
+                            keyWordCounter++;
+                        }
                     }
+                    if(keyWordCounter > 0){
+                        keyWordQueryString = " and ("+keyWordQueryString+") ";
+                        sql += keyWordQueryString;
+                    }else{
+                        sql += " AND CONTAINS(s.[*], '" + keywords + "')";
+                    }
+                }else{
+                    sql += " AND CONTAINS(s.[*], '" + keywords + "')";
                 }
-                keyWordQueryString += ")";
-                sql += keyWordQueryString;
             } else {
-                sql += " and contains(s.[*], '" + keywords + "')  ";
+                sql += " AND CONTAINS(s.[*], '" + keywords + "')";
             }
         }
+        log.debug("Executing meeting search query: "+sql);
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
         return q.execute();
     }
@@ -259,6 +273,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
         private String[] catTags;
         private String[] aidPaths;
         private Boolean healthyLiving = Boolean.FALSE;
+        private Boolean isArchived = Boolean.FALSE;
         private Boolean lifeSkills = Boolean.FALSE;
         private Boolean hasOutdoor = Boolean.FALSE;
         private Boolean hasGlobal = Boolean.FALSE;
@@ -400,33 +415,29 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             isIncluded = included;
         }
 
+        public Boolean getArchived() {
+            return isArchived;
+        }
+
+        public void setArchived(Boolean archived) {
+            isArchived = archived;
+        }
+
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             MeetingResult that = (MeetingResult) o;
-            return resultIndex == that.resultIndex &&
-                    Objects.equals(meetingType, that.meetingType) &&
-                    Objects.equals(path, that.path) &&
-                    Objects.equals(cat, that.cat) &&
-                    Objects.equals(blurb, that.blurb) &&
-                    Objects.equals(id, that.id) &&
-                    Objects.equals(req, that.req) &&
-                    Objects.equals(reqTitle, that.reqTitle) &&
-                    Objects.equals(level, that.level) &&
-                    Objects.equals(name, that.name) &&
-                    Arrays.equals(catTags, that.catTags) &&
-                    Arrays.equals(aidPaths, that.aidPaths) &&
-                    Objects.equals(healthyLiving, that.healthyLiving) &&
-                    Objects.equals(lifeSkills, that.lifeSkills) &&
-                    Objects.equals(hasOutdoor, that.hasOutdoor) &&
-                    Objects.equals(hasGlobal, that.hasGlobal) &&
-                    Objects.equals(isIncluded, that.isIncluded);
+            return resultIndex == that.resultIndex && Objects.equals(meetingType, that.meetingType) && Objects.equals(path, that.path) && Objects.equals(cat, that.cat) && Objects.equals(blurb, that.blurb) && Objects.equals(id, that.id) && Objects.equals(req, that.req) && Objects.equals(reqTitle, that.reqTitle) && Objects.equals(level, that.level) && Objects.equals(name, that.name) && Arrays.equals(catTags, that.catTags) && Arrays.equals(aidPaths, that.aidPaths) && Objects.equals(healthyLiving, that.healthyLiving) && Objects.equals(isArchived, that.isArchived) && Objects.equals(lifeSkills, that.lifeSkills) && Objects.equals(hasOutdoor, that.hasOutdoor) && Objects.equals(hasGlobal, that.hasGlobal) && Objects.equals(isIncluded, that.isIncluded);
         }
 
         @Override
         public int hashCode() {
-            int result = Objects.hash(resultIndex, meetingType, path, cat, blurb, id, req, reqTitle, level, name, healthyLiving, lifeSkills, hasOutdoor, hasGlobal, isIncluded);
+            int result = Objects.hash(resultIndex, meetingType, path, cat, blurb, id, req, reqTitle, level, name, healthyLiving, isArchived, lifeSkills, hasOutdoor, hasGlobal, isIncluded);
             result = 31 * result + Arrays.hashCode(catTags);
             result = 31 * result + Arrays.hashCode(aidPaths);
             return result;

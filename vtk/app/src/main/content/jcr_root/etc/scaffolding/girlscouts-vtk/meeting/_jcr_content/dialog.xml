@@ -20,6 +20,15 @@
                         value="meeting"
                         name="./vtkDataType"
                         xtype="hidden"/>
+                <archived
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        checkboxBoolTypeHint="{Boolean}true"
+                        fieldLabel="Archived"
+                        fieldDescription="Check this box and re-publish the meeting to hide it from search in VTK"
+                        xtype="selection"
+                        type="checkbox"
+                        name="./isArchived"/>
                 <id
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Id"
@@ -249,8 +258,8 @@
                         <catTags9
                                 jcr:primaryType="cq:Widget"
                                 allowBlank="{Boolean}true"
-                                fieldLabel="Badges for 2019-2020"
-                                name="./Badgesfor20192020"
+                                fieldLabel="Badges for 2020-2021"
+                                name="./Badgesfor20202021"
                                 xtype="selection"
                                 type="checkbox"
                                 itemId="tagsField9">
