@@ -310,7 +310,7 @@ public class Troop extends JcrNode implements Serializable {
                     String calMeeting = plan.getSchedule().getDates();
                     String[] calendarDates = calMeeting.split(",");
                     int numOfDates = calendarDates.length >= meetingEvents.size() ? meetingEvents.size() : calendarDates.length;
-                    int maxDates = 100;
+                    int maxDates = 500;
                     for (int i = 0; i < numOfDates; i++) {
                         if (i >= maxDates) {
                             break;
