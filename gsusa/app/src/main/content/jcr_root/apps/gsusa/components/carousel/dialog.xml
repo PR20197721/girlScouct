@@ -145,6 +145,13 @@
                                 value="link"/>
                         </options>
                     </radioMobile>
+                    <slick-controls
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Enable/Disable Slider Arrows"
+                        fieldLabel="Enable/Disable Slider Arrows"
+                        name="./enableSlickCtrls"
+                        type="checkbox"
+                        xtype="selection"/>
                 </items>
             </tab2>
             <tab7
