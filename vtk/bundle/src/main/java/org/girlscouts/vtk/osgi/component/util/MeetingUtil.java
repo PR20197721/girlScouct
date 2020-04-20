@@ -179,9 +179,10 @@ public class MeetingUtil {
                         java.util.Date dt = new java.util.Date(Long.parseLong((t.nextToken().replace("\n", "").replace("\r", "").trim())));
                         int maxLook = 0;
                         if (sched.containsKey(dt)) {
-                            dt = new Date(dt.getTime() + 5l);/maxLook++;
+                            dt = new Date(dt.getTime() + 5l);
+                            maxLook++;
                             if (maxLook > 500) {
-                                break;
+                               break;
                             }
                         }
                         if (meetingEs.size() > count) {
