@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var slickCtrlCheck = $('#slick-control').data('slickControl');
+    var slickCtrlCheck = $('.main-slider').data('slickControl');
 
     if (!slickCtrlCheck) {
         $(".main-slider .slick-next").hide();

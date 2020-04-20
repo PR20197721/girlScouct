@@ -196,10 +196,9 @@ public  String readUrlFile(String urlString) throws Exception {
 	request.setAttribute("source7", source7);
 	boolean slickControl = properties.get("enableSlickCtrls", true);
 %>
-<div id ="slick-control" data-slick-control = "<%=slickControl %>">
 
 <div class="hero-feature">
-	<ul class="main-slider" slick-options='<%=slickOptions.toString()%>' player-config='<%=playerConfig.toString()%>'><%
+	<ul class="main-slider" slick-options='<%=slickOptions.toString()%>' player-config='<%=playerConfig.toString()%>' data-slick-control = '<%=slickControl %>'><%
         for (int i = 0; i < numberOfImages; i++) { 
 			if (!tempHidden[i]) {
                 %><li id="tag_explore_main_<%=i%>"><%
