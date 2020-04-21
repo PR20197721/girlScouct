@@ -141,7 +141,7 @@ public class MeetingUtil {
                         date = new Date(date.getTime() + 5l);
                         heal = true;
                         maxLook++;
-                        if (maxLook > 100) {
+                        if (maxLook > 500) {
                             break;
                         }
                     }
@@ -181,8 +181,8 @@ public class MeetingUtil {
                         if (sched.containsKey(dt)) {
                             dt = new Date(dt.getTime() + 5l);
                             maxLook++;
-                            if (maxLook > 100) {
-                                break;
+                            if (maxLook > 500) {
+                               break;
                             }
                         }
                         if (meetingEs.size() > count) {
