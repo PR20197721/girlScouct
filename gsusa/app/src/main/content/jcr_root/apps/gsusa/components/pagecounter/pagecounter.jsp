@@ -76,10 +76,9 @@
 	
 	%>
 
-	<div id ="councilPath" data-council-paths= "<%=pageCounterPaths %>">
 
 <div>
-<div id="pagecount">
+	<div id="pagecount" data-council-paths= "<%=pageCounterPaths %>">
 	<h1>Page Counter</h1>
 	<p>This component aims to help page count for councils and GSUSA by filtering pages that count towards page count.</p>
 
