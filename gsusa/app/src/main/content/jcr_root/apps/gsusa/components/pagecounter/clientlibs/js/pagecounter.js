@@ -17,7 +17,7 @@ $(document).ready(function() {
 
             })
             .done(function(response) {
-                var sections = response.split("#");
+                var sections = response.split("###");
                 var listData = "<!-- " + sections[1] + sections[2] + sections[3] + sections[4] + " -->";
                 var tableData = "<!-- " + sections[6] + " -->";
                 $("tbody").append(tableData);

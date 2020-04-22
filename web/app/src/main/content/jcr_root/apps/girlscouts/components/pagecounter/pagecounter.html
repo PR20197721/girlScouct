@@ -32,10 +32,10 @@
         Each addition 100 pages over 400 $ 4,000
     </p>
     <br/><br/>
-    <!-- # -->
+    <!-- ### -->
     Total Page Count (${pagecounter.totalPageCount}) = Template Pages (${pagecounter.councilTemplatePagesSize}) + Council Pages (${pagecounter.councilAddedPagesSize})
     <br/><br/>
-    <div><!-- # -->
+    <div><!-- ### -->
         Council Template Page Count: ${pagecounter.councilTemplatePagesSize}
         <a id="${pagecounter.councilName}TemplatePages" class="showlist">Show List</a>
     </div>
@@ -44,7 +44,7 @@
     </div>
     <br/>
     <br/>
-    <div> <!-- # -->
+    <div> <!-- ### -->
         Council Added Page Count: ${pagecounter.councilAddedPagesSize}
         <a id="${pagecounter.councilName}AddedPages" class="showlist">Show List</a>
     </div>
@@ -53,7 +53,7 @@
     </div>
     <br/>
     <br/>
-    <div> <!-- # -->
+    <div> <!-- ### -->
         Council Non Page Count: ${pagecounter.nonCountPagesSize}
         <a id="${pagecounter.councilName}NoncountPages" class="showlist">Show List</a>
     </div>
@@ -62,7 +62,7 @@
     </div>
     <br/>
     <br/>
-    <!-- # -->
+    <!-- ### -->
     <div style="height:400px; overflow:auto;">
         <table id="pagelistTable">
             <thead>
@@ -77,7 +77,7 @@
             </tr>
             </thead>
             <tbody>
-            <!-- # -->
+            <!-- ### -->
             <tr style="vertical-align:top;">
                 <td>${pagecounter.councilTitle}<br/>(${pagecounter.councilName})</td>
                 <td style="white-space:nowrap;" data-sly-list.page="${pagecounter.councilTemplatePages}">
@@ -93,7 +93,7 @@
                 </td>
                 <td>${pagecounter.nonCountPagesSize}</td>
             </tr>
-            <!-- # -->
+            <!-- ### -->
             </tbody>
         </table>
     </div>
