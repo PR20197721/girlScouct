@@ -54,14 +54,18 @@ class BadgeComparator implements Comparator<Resource>{
 						Collections.sort(sortedBadgeList, new BadgeComparator());
 						for (Resource badge: sortedBadgeList){
 							try{
+
 								badgeCount++;
 								String regImageSrc = badge.getPath();
 								String smallImageSrc = badge.getPath();
 								Asset asset = badge.adaptTo(Asset.class);
 								regImageSrc = gsImagePathProvider.getImagePath(asset,"cq5dam.thumbnail.319.319");
-								smallImageSrc = gsImagePathProvider.getImagePath(asset,"cq5dam.thumbnail.120.120");								
+								smallImageSrc = gsImagePathProvider.getImagePath(asset,"cq5dam.thumbnail.120.120");
 								Resource badgeMetadata = badge.getChild("jcr:content/metadata");
 								ValueMap props = badgeMetadata.adaptTo(ValueMap.class);
+                                BadgeDTO badgeDTO = new BadgeDTO(badge,props);
+                                String rank = badgeDTO.getRank();
+                                List<String> otherTags = badgeDTO.getOtherTags();
 								StringBuilder filterClassBuilder = new StringBuilder();
 								String[] tags = props.get("cq:tags",String[].class);
 								String title = props.get("dc:title",String.class);
@@ -84,7 +88,7 @@ class BadgeComparator implements Comparator<Resource>{
 									}
 									filterClassBuilder.append("\"");
 								}
-								sb.append("<div class=\"badge-block\" "+filterClassBuilder.toString()+" id=\""+idTitle+"\" data-badge-info='" + new BadgeDTO(badge, props).toJson() + "'>");
+								sb.append("<div class=\"badge-block\" "+filterClassBuilder.toString()+" id=\""+idTitle+"\" data-badge-info='" + badgeDTO.toJson() + "'>");
 									sb.append("<div class=\"badge-content\">");
 	                                    sb.append("<div class=\"badge-body\">");
 	                                        sb.append("<label class=\"badge-image-wrapper\" for=\""+modalId+"\">");
@@ -107,7 +111,14 @@ class BadgeComparator implements Comparator<Resource>{
 											sb.append("<label class=\"modal-overlay\" for=\""+modalId+"\"></label>");
 											sb.append("<div class=\"modal-dialog\">");
 												sb.append("<div class=\"modal-body\">");
+												    sb.append("<div class='badge-explorer-modal-tags'>");
+                                                    sb.append("<div>" + rank + "</div>");
+                                                    for (String otherTag : otherTags){
+                                                        sb.append("<div>" + otherTag + "</div>");
+                                                    }
+                                                    sb.append("</div>");
 													sb.append("<label class=\"btn-close\" for=\""+modalId+"\" aria-hidden=\"true\">&times;</label>");
+                                                    sb.append("<br/>");
 	                                                sb.append("<div class=\"header\">");
 	                                                    sb.append("<img class=\"badge-image\" alt=\""+title+"\" src=\"" + smallImageSrc + "\" />");
 	                                                    sb.append("<p class=\"title\">"+title+"</p>");

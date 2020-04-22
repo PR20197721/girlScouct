@@ -25,6 +25,7 @@ import org.osgi.framework.Constants;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
@@ -645,10 +646,21 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
             html.append("<p>" + DEFAULT_ROLLOUT_REPORT_SUBJECT + "</p>");
             html.append("<p>" + DEFAULT_REPORT_GREETING + "</p>");
             html.append("<p>" + DEFAULT_REPORT_INTRO + "</p>");
+            String message = "", templatePath = "", srcPath = "",wfInitiatorName = null;
+            Boolean notify = false, useTemplate = false, delay = false, activate = true;
+            //GSWP-2077 : Start 
+            try {
+            	wfInitiatorName = dateRolloutNode.getProperty(WORKFLOW_INITIATOR_NAME).getString();
+            	if(StringUtils.isNotEmpty(wfInitiatorName)) {
+                	html.append("<p>This workflow was initiated by " + wfInitiatorName + "</p>");
+                }
+            } catch (Exception e) {
+                    log.error("Girlscouts Rollout Service encountered workflow error: ", e);
+                }                        
+            //GSWP-2077 : end
             Date runtime = new Date();
             html.append("<p>The workflow was run on " + runtime.toString() + ".</p>");
-            String message = "", templatePath = "", srcPath = "";
-            Boolean notify = false, useTemplate = false, delay = false, activate = true;
+            
             try {
                 notify = dateRolloutNode.getProperty(PARAM_NOTIFY).getBoolean();
             } catch (Exception e) {

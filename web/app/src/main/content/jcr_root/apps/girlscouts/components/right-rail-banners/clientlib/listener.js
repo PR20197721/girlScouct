@@ -2,7 +2,7 @@
     "use strict";
     $(document).on("dialog-ready", function() {
 		var $resourceType = $("coral-dialog-content").find("[name='./sling:resourceType']").val();
-        if("girlscouts/components/advertisement" == $resourceType){
+        if("girlscouts/components/right-rail-banners" == $resourceType){
         	var $multifield = $("label:contains('Ads Selection')").parent();
             $("input[type='checkbox'][name='./customized']").change(function() {
 				var $isCustomizedChecked = $("input[type='checkbox'][name='./customized']").is(':checked');
