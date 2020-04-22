@@ -3,5 +3,5 @@
     jcr:description="Allows for an editable list of events that can be searched by text"
     jcr:primaryType="cq:Component"
     jcr:title="Event Search List"
-    allowedParents="[]"
+    allowedParents="[*/parsys]"
     componentGroup="Girl Scouts"/>
