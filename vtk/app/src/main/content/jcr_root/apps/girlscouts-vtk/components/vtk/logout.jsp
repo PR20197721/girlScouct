@@ -15,8 +15,10 @@
         user = ((org.girlscouts.vtk.models.User) session.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
         troop = (Troop) session.getValue("VTK_troop");
     }
-    if (troop != null) {
-        // council lookup
+    if (user != null){
+        councilId = user.getAdminCouncilId();
+    }
+    if (troop != null && councilId == null) {
         councilId = troop.getSfCouncil();
     }
     if (councilId == null || councilId.equals("") && user != null) {

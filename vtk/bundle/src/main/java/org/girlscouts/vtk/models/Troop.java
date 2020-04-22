@@ -1,12 +1,12 @@
 package org.girlscouts.vtk.models;
 
-import org.girlscouts.vtk.osgi.component.util.VtkUtil;
+import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Troop extends JcrNode implements Serializable {
     private YearPlan yearPlan;
@@ -36,6 +36,7 @@ public class Troop extends JcrNode implements Serializable {
     private String hash;
     private Boolean isIRM = Boolean.FALSE;
     private Boolean isSUM = Boolean.FALSE;
+    private Map<Date, YearPlanComponent> schedule;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -269,5 +270,96 @@ public class Troop extends JcrNode implements Serializable {
 
     public void setSfParentId(String sfParentId) {
         this.sfParentId = sfParentId;
+    }
+
+    public void clearSchedule(){
+        this.schedule = null;
+    }
+    public Map<Date, YearPlanComponent> getSchedule(){
+        log.debug("Getting schedule for "+ this.getPath());
+        if(this.schedule != null) {
+            log.debug("Existing schedule for "+ this.getPath());
+            return this.schedule;
+        } else{
+            log.debug("Building schedule for "+ this.getPath());
+            YearPlan yearPlan = this.getYearPlan();
+            if (yearPlan != null) {
+                this.schedule = getYearPlanSchedule(yearPlan);
+                return this.schedule;
+            } else {
+                log.debug("No year plan for " + this.getPath());
+                return new TreeMap<>();
+            }
+        }
+    }
+
+    private Map<Date, YearPlanComponent> getYearPlanSchedule(YearPlan plan) {
+        Map<Date, YearPlanComponent> schedule = new TreeMap<Date, YearPlanComponent>();
+        if (plan != null) {
+            try {
+                List<Activity> activities = plan.getActivities();
+                List<MeetingE> meetingEvents = plan.getMeetingEvents();
+                if (meetingEvents != null) {
+                    try {
+                        Collections.sort(meetingEvents, new MeetingESortOrderComparator());
+                    } catch (Exception e) {
+                        log.error("Error occurred while sorting meetings for year plan " + plan.getPath() + " : ", e);
+                    }
+                }
+                if (plan.getSchedule() != null) {
+                    String calMeeting = plan.getSchedule().getDates();
+                    String[] calendarDates = calMeeting.split(",");
+                    int numOfDates = calendarDates.length >= meetingEvents.size() ? meetingEvents.size() : calendarDates.length;
+                    int maxDates = 500;
+                    for (int i = 0; i < numOfDates; i++) {
+                        if (i >= maxDates) {
+                            break;
+                        }
+                        Date meetingDate = new Date(Long.parseLong(calendarDates[i]));
+                        if (schedule.containsKey(meetingDate)) {
+                            while (schedule.containsKey(meetingDate)) {
+                                meetingDate = new Date(meetingDate.getTime() + TimeUnit.MILLISECONDS.toMillis(1));
+                            }
+                        }
+                        schedule.put(meetingDate, meetingEvents.get(i));
+                    }
+                } else { // no dates: create 1976
+                    Calendar defaultDateTime = Calendar.getInstance();
+                    defaultDateTime.setTime(new Date("1/1/1976"));
+                    if (meetingEvents != null) {
+                        for (int i = 0; i < meetingEvents.size(); i++) {
+                            schedule.put(defaultDateTime.getTime(), meetingEvents.get(i));
+                            defaultDateTime.add(Calendar.DATE, 1);
+                        }
+                    }
+                }
+                if (activities != null) {
+                    for (int i = 0; i < activities.size(); i++) {
+                        Date activityDate = activities.get(i).getDate();
+                        if (schedule.containsKey(activityDate)) { // add
+                            while (schedule.containsKey(activityDate)) {
+                                activityDate = new Date(activityDate.getTime() + TimeUnit.MILLISECONDS.toMillis(1));
+                            }
+                        }
+                        schedule.put(activityDate, activities.get(i));
+                    }
+                }
+                if (plan.getMeetingCanceled() != null) {
+                    for (int i = 0; i < plan.getMeetingCanceled().size(); i++) {
+                        Date cancelledMeetingDateTime = plan.getMeetingCanceled().get(i).getDate();
+                        if (schedule.containsKey(cancelledMeetingDateTime)) { // add 2 sec
+                            while (schedule.containsKey(cancelledMeetingDateTime)) {
+                                cancelledMeetingDateTime = new Date(cancelledMeetingDateTime.getTime() + TimeUnit.MILLISECONDS.toMillis(1));
+                            }
+                        }
+                        schedule.put(cancelledMeetingDateTime, plan.getMeetingCanceled().get(i));
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Error occurred: ", e);
+                return schedule;
+            }
+        }
+        return schedule;
     }
 }

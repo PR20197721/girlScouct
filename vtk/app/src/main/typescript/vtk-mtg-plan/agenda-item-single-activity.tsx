@@ -21,8 +21,6 @@ const DragHandle = SortableHandle(() => <div className="__touch-move"></div>);
 
 function AgendaItemSingle(props: AgendaItemSingleProps) {
     const {value, mid} = props;
-    const activity = props.value.multiactivities[0];
-
     const permissionCheck = HAS_PERMISSION_FOR()('vtk_troop_haspermision_edit_yearplan_id');
     return (
         <li className="__agenda-item __single">
@@ -40,7 +38,7 @@ function AgendaItemSingle(props: AgendaItemSingleProps) {
                 <div className="__description">
                     <div className="__title">
                         <div className="__text">
-                            <a onClick={() => props.openAgendaDetail(value.multiactivities[0].activityDescription, value.name, value.duration, props.value.multiactivities[0].outdoor, props.value.name)}>
+                            <a onClick={() => props.openAgendaDetail(props.value.multiactivities[0] != null ? props.value.multiactivities[0].activityDescription:"", value.name, value.duration, props.value.multiactivities[0] != null ? props.value.multiactivities[0].outdoor:"", props.value.name)}>
                                 {value.name}
                             </a>
                         </div>

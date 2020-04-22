@@ -23,7 +23,9 @@
     <filter root="/apps/dam/content/asseteditors"/>
     <filter root="/apps/dam/gui/content/assets"/>
     <filter root="/apps/dam/gui/content/assetdetails"/>
+    <filter root="/apps/dam/gui/content/commons"/>
     <filter root="/apps/dam/gui/content/nav"/>
+    <filter root="/apps/dam/gui/coral/components/admin/moveassetwizard/clientlibs/js/wizard.js"/>
     <filter root="/apps/foundation"/>
     <filter root="/apps/granite/core/components"/>
     <filter root="/apps/granite/core/content/cug-dxp-login"/>
@@ -34,4 +36,6 @@
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/default"/>
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/badge-image-schema"/>
     <filter root="/oak:index/GSTag" mode="merge"/>
+    <filter root="/conf/global/settings/workflow/models" mode="merge"/>
+    <filter root="/var/workflow/models" mode="merge"/>
 </workspaceFilter>

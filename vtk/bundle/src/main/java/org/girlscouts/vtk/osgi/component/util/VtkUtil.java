@@ -716,7 +716,7 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static java.util.List<Activity> getMeetingMultiActivities(java.util.List<Activity> activities) {
-        return activities.stream().filter(activity -> activity.getMultiactivities().size() > 1).collect(Collectors.toList());
+        return activities.stream().filter(activity -> (activity.getMultiactivities() != null && activity.getMultiactivities().size() > 1)).collect(Collectors.toList());
     }
 
     public static String getYearPlanStartDate(Troop troop) {

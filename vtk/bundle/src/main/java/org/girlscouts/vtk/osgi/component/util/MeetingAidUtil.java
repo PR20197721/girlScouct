@@ -39,48 +39,50 @@ public class MeetingAidUtil {
     }
 
     public List<Asset> getMeetingAids(Meeting meeting, MeetingE meetingEvent) {
-        List<Asset> meetingAids = new ArrayList<>();
         List<Asset> distinctMeetingAids = new ArrayList<>();
-        try {
-            meetingAids.addAll(getLocalAssets(meeting, AssetComponentType.AID));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        try {
-            meetingAids.addAll(getLocalAssets(meeting, AssetComponentType.RESOURCE));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        try {
-            meetingAids.addAll(searchAidsByTags(meeting));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        try {
-            meetingAids.addAll(searchResourcesByTags(meeting));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        try {
-            meetingAids.addAll(getAidsByTags(meeting));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        try {
-            meetingAids.addAll(getAddedAssets(meetingEvent));
-        } catch (Exception e) {
-            log.error("Error occurred: ", e);
-        }
-        if (meetingAids != null && meetingAids.size() > 1) {
-            for(Asset asset:meetingAids){
-                if(asset != null && asset.getRefId() != null && !"".equals(asset.getRefId().trim())){
-                    distinctMeetingAids.add(asset);
-                }
+        if(meeting != null && meetingEvent != null) {
+            List<Asset> meetingAids = new ArrayList<>();
+            try {
+                meetingAids.addAll(getLocalAssets(meeting, AssetComponentType.AID));
+            } catch (Exception e) {
+                log.error("Error occurred: ", e);
             }
             try {
-                distinctMeetingAids = meetingAids.stream().filter(distinctByKey(Asset::getRefId)).collect(Collectors.toList());
-            }catch(Exception e){
+                meetingAids.addAll(getLocalAssets(meeting, AssetComponentType.RESOURCE));
+            } catch (Exception e) {
                 log.error("Error occurred: ", e);
+            }
+            try {
+                meetingAids.addAll(searchAidsByTags(meeting));
+            } catch (Exception e) {
+                log.error("Error occurred: ", e);
+            }
+            try {
+                meetingAids.addAll(searchResourcesByTags(meeting));
+            } catch (Exception e) {
+                log.error("Error occurred: ", e);
+            }
+            try {
+                meetingAids.addAll(getAidsByTags(meeting));
+            } catch (Exception e) {
+                log.error("Error occurred: ", e);
+            }
+            try {
+                meetingAids.addAll(getAddedAssets(meetingEvent));
+            } catch (Exception e) {
+                log.error("Error occurred: ", e);
+            }
+            if (meetingAids != null && meetingAids.size() > 1) {
+                for (Asset asset : meetingAids) {
+                    if (asset != null && asset.getRefId() != null && !"".equals(asset.getRefId().trim())) {
+                        distinctMeetingAids.add(asset);
+                    }
+                }
+                try {
+                    distinctMeetingAids = meetingAids.stream().filter(distinctByKey(Asset::getRefId)).collect(Collectors.toList());
+                } catch (Exception e) {
+                    log.error("Error occurred: ", e);
+                }
             }
         }
         return distinctMeetingAids;

@@ -302,10 +302,10 @@
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of North-Central Alabama"
 						uncheckedValue="false" name="./councils" value="/content/girlscoutsnca" />
-					<gsney jcr:primaryType="nt:unstructured"
+					<girlscoutsneny jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Northeastern New York "
-						uncheckedValue="false" name="./councils" value="/content/gsney" />
+						uncheckedValue="false" name="./councils" value="/content/girlscoutsneny" />
 					<gsnorcal jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
 						checked="false" text="Girl Scouts of Northern California"

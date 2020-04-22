@@ -72,4 +72,6 @@
     <filter root="/etc/workflow/models/reverse_replication_with_delay"/>
     <filter root="/etc/workflow/notification/email/default"/>
     <filter root="/etc/workflow/scripts/girlscouts"/>
+    <filter root="/var/workflow/models/girl-scouts-authoring-approval-workflow"/>
+    <filter root="/conf/global/settings/workflow/models/girl-scouts-authoring-approval-workflow"/>
 </workspaceFilter>

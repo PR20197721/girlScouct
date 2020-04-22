@@ -36,7 +36,8 @@
         favIcon = null;
     }
 	ValueMap siteProps = resourceResolver.resolve(currentPage.getAbsoluteParent(2).getPath() + "/jcr:content").adaptTo(ValueMap.class);
-	String seoTitle = properties.get("seoTitle", "");
+	String jcrTitle = properties.get("jcr:title", "");
+	String seoTitle = properties.get("seoTitle", jcrTitle);
 	String ogTitle = properties.get("ogTitle", seoTitle);
 	String ogSiteName = properties.get("ogSiteName", "Girl Scouts of the USA");
 	String ogUrl = properties.get("ogUrl", "");
@@ -45,7 +46,7 @@
 	String reqProtocol = request.getHeader("X-Forwarded-Proto");
 	if(reqProtocol == null) reqProtocol = "http";
 	
-	if("".equals(ogImage)){
+	if(ogImage == null || "".equals(ogImage.trim())){
 		String pageImagePath = currentPage.getPath() + "/jcr:content/content/hero/par/image";
 		String ragImagePath = currentPage.getPath() + "/jcr:content/image";
 	    Session session = (Session)resourceResolver.adaptTo(Session.class);
