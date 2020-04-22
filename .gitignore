@@ -15,6 +15,12 @@ target/
 
 .settings
 
+.factorypath
+
+.vscode
+
+hs_err_*.log
+
 /web/bundle/target
 
 /web/content/target
