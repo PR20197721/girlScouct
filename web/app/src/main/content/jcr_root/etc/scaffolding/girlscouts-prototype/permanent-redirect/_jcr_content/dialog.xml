@@ -23,6 +23,7 @@
                         fieldLabel="Vanity URL"
                         fieldDescription="Enter the short Vanity URL. e.g. for http://www.girlscouts.org/camp enter /content/gsusa/camp"
                         name="./jcr:content/sling:vanityPath"
+                        vtype="vanityPathValidator"
                         xtype="textfield"/>
                     <target
                         jcr:primaryType="cq:Widget"
