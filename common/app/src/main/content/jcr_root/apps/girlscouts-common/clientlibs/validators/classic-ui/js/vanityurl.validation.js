@@ -14,7 +14,7 @@
 		],
 		ignoredExtensionsStr = ignoredExtensions.join(', '),
 		extensionPattern = new RegExp(ignoredExtensions.join('$|') + '$'),
-		externalSitePattern = new RegExp('\w+\.\w+\/'); // Matches "sitename.ext/"
+		externalSitePattern = new RegExp('\\w+\\.\\w+\\/'); // Matches "sitename.ext/"
 
 	// Set vtype for ExtJS validator
 	CQ.Ext.form.VTypes.vanityPathValidator = function(value, field) {
@@ -23,7 +23,7 @@
 			containsIgnoredExtension = extensionPattern.test(path),
 			isExternalRedirect = externalSitePattern.test(path),
 			isValidVanityPath = isLowerCase || containsIgnoredExtension || isExternalRedirect;
-		console.log("Validating...");
+		
 		return isValidVanityPath;
     };
 

@@ -17,7 +17,7 @@
         ],
         ignoredExtensionsStr = ignoredExtensions.join(', '),
         extensionPattern = new RegExp(ignoredExtensions.join('$|') + '$'),
-        externalSitePattern = new RegExp('\w+\.\w+\/'); // Matches "sitename.ext/"
+        externalSitePattern = new RegExp('\\w+\\.\\w+\\/'); // Matches "sitename.ext/"
 
     /*Validator for TextField - Any Custom logic can go inside validate function - starts */
     registry.register("foundation.validation.validator", {
