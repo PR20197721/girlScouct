@@ -8,7 +8,6 @@ $(document).ready(function() {
             return $.ajax({
                 method: 'GET',
                 url: cPaths[i].trim(),
-                timeout: 5000,
                 dataType: 'html',
                 beforeSend : function(){
                     $(".pagesList:last").after('<div class="button_loader"></div>');
