@@ -3,7 +3,9 @@
 	javax.servlet.http.HttpSession,
 	com.day.text.Text,
 	org.girlscouts.common.events.search.*,
-	java.util.Collections" %>
+	java.util.Collections,
+	org.slf4j.Logger,
+	org.slf4j.LoggerFactory" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
@@ -12,7 +14,7 @@
 <%!
 	public class DateComparator implements java.util.Comparator<String> {
 		ResourceResolver rr;
-	
+		private final Logger log = LoggerFactory.getLogger(this.getClass());
 		public DateComparator(ResourceResolver rr){
 			this.rr = rr;
 		}
@@ -114,7 +116,7 @@ if(null!=srchInfo) {
 			}
 
 			long estimatedTime = System.nanoTime() - startTime;
-			System.out.println("Estimated Sort Time: " + (estimatedTime / 1000000) + "ms");
+			log.info("Estimated Sort Time: " + (estimatedTime / 1000000) + "ms");
 			for(String result: results) {
 				register = "";
 				GSDateTime evntComparison = null;

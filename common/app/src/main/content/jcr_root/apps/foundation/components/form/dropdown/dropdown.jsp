@@ -26,7 +26,9 @@ Draws an element of a form
     com.day.cq.wcm.foundation.forms.ValidationInfo,
     java.util.Locale,
     java.util.ResourceBundle,
-    com.day.cq.i18n.I18n" %>
+    com.day.cq.i18n.I18n,
+    org.slf4j.Logger,
+	org.slf4j.LoggerFactory" %>
     
 <%
 final Locale pageLocale = currentPage.getLanguage(true);
@@ -38,9 +40,9 @@ final String id = FormsHelper.getFieldId(slingRequest, resource);
 final boolean required = FormsHelper.isRequired(resource);
 final boolean hideTitle = properties.get("hideTitle", false);
 final String title = FormsHelper.getTitle(resource, i18n.get("Selection"));
+private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 List<String> values = FormsHelper.getValuesAsList(slingRequest, resource);
-
 
 Map<String, String> displayValues = FormsHelper.getOptions(slingRequest, resource);
 if (displayValues == null) {
@@ -57,7 +59,7 @@ final String h = properties.get("height", "");
 final String width = w.length() > 0 ? "style='width:" + w + "px;'" : "";
 final String height = h.length() > 0 ? "style='height:" + h + "px;'" : "";
 final String firstOption = displayValues.entrySet().iterator().next().getKey();
-System.out.println("Dropdown Values type is + " + values.getClass().getName());
+log.info("Dropdown Values type is + " + values.getClass().getName());
 if(values.isEmpty()){
     values = new ArrayList<String>();
 	values.add(firstOption);

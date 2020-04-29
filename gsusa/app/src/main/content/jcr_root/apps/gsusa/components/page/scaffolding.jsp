@@ -19,15 +19,17 @@
         javax.jcr.Node,
         org.apache.sling.api.resource.Resource,
         com.day.cq.wcm.api.components.IncludeOptions,
-        com.day.cq.wcm.core.utils.ScaffoldingUtils" %><%
+        com.day.cq.wcm.core.utils.ScaffoldingUtils,
+        org.slf4j.Logger,
+		org.slf4j.LoggerFactory" %><%
 %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%
 %><cq:defineObjects/><%
-
+private final Logger log = LoggerFactory.getLogger(this.getClass());
     // first check if the page has a scaffold specified
             String scaffoldPath = pageProperties.get("cq:scaffolding", "/etc/scaffolding");
-	System.out.println("Scaffolding path starts out as: " + scaffoldPath);
+	log.info("Scaffolding path starts out as: " + scaffoldPath);
     if (scaffoldPath.length() == 0) {
         // search all scaffolds for the correct template
         // this should be improved and respect template + best content path
@@ -35,11 +37,11 @@
         Node root = scRoot == null ? null : scRoot.adaptTo(Node.class);
         if (root != null) {
             scaffoldPath = ScaffoldingUtils.findScaffoldByTemplate(root, pageProperties.get("cq:template", ""));
-            System.out.println("Scaffolding path found as: " + scaffoldPath);
+            log.info("Scaffolding path found as: " + scaffoldPath);
             %><%= scaffoldPath %><%
             if (scaffoldPath == null) {
                 scaffoldPath = ScaffoldingUtils.findScaffoldByPath(root, currentPage.getPath());
-                System.out.println("Scaffolding path found by path as: " + scaffoldPath);
+                log.info("Scaffolding path found by path as: " + scaffoldPath);
             }
         }
     }
@@ -47,7 +49,7 @@
         // use default
         scaffoldPath = "/etc/scaffolding";
     }
-System.out.println("Scaffolding path for this page is: " + scaffoldPath);
+log.info("Scaffolding path for this page is: " + scaffoldPath);
 Page root = resourceResolver.resolve(scaffoldPath).adaptTo(Page.class);
     scaffoldPath+="/jcr:content.html";
 Node scaffoldingRoot = root.adaptTo(Node.class);

@@ -8,11 +8,15 @@
                  com.day.cq.wcm.foundation.Search,
                  org.girlscouts.vtk.osgi.component.util.CouncilRpt,
                  org.girlscouts.web.search.DocHit,
-                 javax.jcr.Node" %>
+                 javax.jcr.Node,
+                 org.slf4j.Logger,
+				org.slf4j.LoggerFactory" %>
+				
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
 <%
+private final Logger log = LoggerFactory.getLogger(this.getClass());
     Set<String> allowedReportUsers = new HashSet<String>();
     allowedReportUsers.add("005g0000002apMT");
     allowedReportUsers.add("005G0000006oEkZ");
@@ -106,7 +110,7 @@
         java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
         javax.jcr.Session s = (slingRequest.getResourceResolver().adaptTo(Session.class));
         String sql = "select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '" + VtkUtil.getYearPlanBase(user, selectedTroop) + "" + (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil + "/")) + "%' and ocm_classname= 'org.girlscouts.vtk.ocm.TroopNode'";
-        System.err.println("SQL: " + sql);
+        log.error("SQL: " + sql);
         javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
         java.util.Map container = new java.util.TreeMap();
@@ -132,7 +136,7 @@
             else
                 container.put(sfCouncil + "|" + sfTroopAge, new Integer(counter.intValue() + 1));
         }
-        out.println("Report Generated on " + format1.format(new java.util.Date()));
+        log.info("Report Generated on " + format1.format(new java.util.Date()));
         java.util.Iterator itr = container.keySet().iterator();
         while (itr.hasNext()) {
             String key = (String) itr.next();
