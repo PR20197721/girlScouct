@@ -57,7 +57,6 @@ public class AESCipher {
     }
 
     public static synchronized SecretKey generateKey(String secretString) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        // PrintStream out = new PrintStream(System.out, true, "UTF-8");
         // out.println("generating secret key : " + secretString);
         SecretKey secret = null;
         if (secretString == null) {

@@ -40,7 +40,7 @@ public class NodeListener implements EventListener {
 
         public void onStart(Agent agent, ReplicationAction action) {
             // Do nothing
-     System.err.println("alex onStart..") ;  	
+        	log.error("alex onStart..") ;  	
         }
 
         public void onMessage(Level level, String msg) {

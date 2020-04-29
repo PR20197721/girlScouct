@@ -59,7 +59,7 @@ public class RmResourceUserPermission {
                                 if (!(group_id.contains("-authors") || group_id.contains("-reviewers"))) {
                                     continue;
                                 }
-                                System.err.println("GroupId: " + group_id);
+                                log.error("GroupId: " + group_id);
                                 Principal principal = _group.getPrincipal();
                                 String[] parts = group_id.split("-");
                                 String council_name = parts[0];
@@ -116,7 +116,7 @@ public class RmResourceUserPermission {
                         session.save();
 
                     } catch (Exception e) {
-                        System.err.println("Failed to set policy on " + l.getPath());
+                    	log.error("Failed to set policy on " + l.getPath());
                         e.printStackTrace();
                     }
 
@@ -192,7 +192,7 @@ public class RmResourceUserPermission {
 
                     } catch (javax.jcr.PathNotFoundException pnfe) {
                         //TODO explain and notify
-                        System.err.println("PATH not found ISSUE. Check if council exists... ");
+                    	log.error("PATH not found ISSUE. Check if council exists... ");
 
                     } catch (NoSuchElementException e) {
                         jacp = (JackrabbitAccessControlPolicy) this.manager.getPolicies(this.rule.contentPath)[0];

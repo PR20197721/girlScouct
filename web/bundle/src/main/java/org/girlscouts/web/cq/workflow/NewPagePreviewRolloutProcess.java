@@ -122,7 +122,7 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
 			try{
 				singleValue = (Value) mdm.get("councils");
 			}catch(Exception e1){
-				System.err.println("Rollout Could Not Run - No Councils Selected");
+				log.error("Rollout Could Not Run - No Councils Selected");
 				e1.printStackTrace();
 			}
 		} 
@@ -163,7 +163,7 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
         	useTemplate = ((Value)mdm.get("useTemplate")).getBoolean();
         	templatePath = ((Value)mdm.get("template")).getString();
         	if(useTemplate && "".equals(templatePath)){
-        		System.err.println("Rollout Error - Use Template checked but no template provided. Cancelling.");
+        		log.error("Rollout Error - Use Template checked but no template provided. Cancelling.");
         		return;
         	}
         }catch(Exception e){}
@@ -186,7 +186,7 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
         	messageLog.add("The email message is: ");
         	messageLog.add(message);
 		} catch (Exception e) {
-			System.err.println("Rollout Error - Unable to Parse Message");
+			log.error("Rollout Error - Unable to Parse Message");
 			e.printStackTrace();
 		}
 
@@ -219,7 +219,7 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
         		}
         	}
         }catch(Exception e){
-        	System.err.println("Failed to report council names");
+        	log.error("Failed to report council names");
         }
         
         messageLog.add("<b>Processing:</b><br>Source Page: " + srcPath);

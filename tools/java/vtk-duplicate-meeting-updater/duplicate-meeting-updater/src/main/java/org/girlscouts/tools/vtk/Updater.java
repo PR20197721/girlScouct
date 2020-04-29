@@ -17,12 +17,13 @@ import org.apache.jackrabbit.commons.JcrUtils;
 // server example: http://localhost:4503/crx/server/
 public class Updater 
 {
+	private static Logger log = LoggerFactory.getLogger(.class);
     public static void main(String[] args)
     {
         if (args.length < 3) {
-            System.out.println("VTK meeting updater");
-            System.out.println("Params: server username password");
-            System.out.println("Server example: http://localhost:4503/crx/server");
+            log.info("VTK meeting updater");
+            log.info("Params: server username password");
+            log.info("Server example: http://localhost:4503/crx/server");
             System.exit(-1);
         }
         String server = args[0];
@@ -133,16 +134,16 @@ public class Updater
                         try {
                             updateUserMeetings(userNode);
                         } catch (RepositoryException re) {
-                            System.err.println("ERROR: Cannot update meeting for " + userNode.getPath());
+                        	log.error("ERROR: Cannot update meeting for " + userNode.getPath());
                         }
                     }
                 } catch (RepositoryException e) {
-                    System.err.println("ERROR: loading troop: " + troopNode.getPath());
+                	log.error("ERROR: loading troop: " + troopNode.getPath());
                 }
             }
         }
-        System.out.println("All meeting count: " + Integer.toString(allCount));
-        System.out.println("Updated meeting count: " + Integer.toString(updatedCount));
+        log.info("All meeting count: " + Integer.toString(allCount));
+        log.info("Updated meeting count: " + Integer.toString(updatedCount));
     }
     
     private void updateUserMeetings(Node userNode) throws PathNotFoundException, RepositoryException {
@@ -160,14 +161,14 @@ public class Updater
                     // There might be customized meetings like B14B01_xxxxxx, so we added a $
                     meetingNode.setProperty(REF_ID_PROP, refId);
                     updatedCount++;
-                    System.out.println(meetingNode.getPath() + " : " + oldRefId + " => " + refId);
+                    log.info(meetingNode.getPath() + " : " + oldRefId + " => " + refId);
                     session.save();
                     break; // Only one mapping is possible
                 }
             }
             
             if (!session.nodeExists(refId)) {
-                System.err.println("ERROR: " + meetingNode.getPath() + " : Path not found: " + refId);
+            	log.error("ERROR: " + meetingNode.getPath() + " : Path not found: " + refId);
             }
         }
     }

@@ -82,7 +82,7 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 	private void documentsSearch(ResourceResolver resourceResolver, String path,String q, String[] tags,String formDocumentContentPath,Map<String, List<FacetsInfo>> facets) throws RepositoryException{
 
 		startTime = new Date().getTime();
-		System.out.println("Start Time: " + startTime);
+		log.info("Start Time: " + startTime);
 		
 		searchResultsInfo = new SearchResultsInfo();
         Session session = resourceResolver.adaptTo(Session.class);
@@ -123,8 +123,8 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		this.searchResultsInfo = combineSearchTagsCounts(resourceResolver,facets);
 
 		endTime = new Date().getTime();
-		System.out.println("End Time: " + endTime);
-		System.out.println("Time elapsed: " + (endTime - startTime));
+		log.info("End Time: " + endTime);
+		log.info("Time elapsed: " + (endTime - startTime));
 		
 	}
 	
@@ -147,10 +147,8 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		Map<String, DocHit> unq= new java.util.TreeMap<String,DocHit>();
 		java.util.List<Hit> hits = new java.util.ArrayList<Hit>();
 		for(Hit hit:searchTermHits)  {
-			//System.out.println("Hit" +hit.getPath());
 			DocHit docHit = new DocHit(hit);
 			if(!unq.containsKey(docHit.getURL())){
-				//System.out.println("Hit: " + docHit.getURL());
 				unq.put(docHit.getURL(), docHit);
 				hits.add(hit);
 			}

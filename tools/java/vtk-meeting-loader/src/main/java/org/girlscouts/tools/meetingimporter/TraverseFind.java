@@ -19,7 +19,7 @@ public class TraverseFind {
 
     private String err = "";
     private String activityLog = null;
-
+    private static Logger log = LoggerFactory.getLogger(TraverseFind.class);
     public String fmtStr(String txt) {
 
         txt = txt.replace("[[_", "");
@@ -149,7 +149,7 @@ public class TraverseFind {
     }
 
     public void log() {
-        System.err.println("isErr: " + isErr() + " err: " + getErr());
+    	log.error("isErr: " + isErr() + " err: " + getErr());
     }
 
     public String getErr() {
@@ -492,7 +492,6 @@ public class TraverseFind {
         while (m.find()) {
             int count = m.groupCount();
             for (int i = 0; i <= m.groupCount(); i++) {
-                //System.err.println("*** * " + m.group(i));
             }
         }
     }

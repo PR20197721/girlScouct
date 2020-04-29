@@ -220,7 +220,7 @@ public class GSTemporaryUserCreator
 			e.printStackTrace();
 		}catch (Exception e) {
 			String errorCode = System.currentTimeMillis() + "";
-			System.err.println("Temporary User Creator Error " + errorCode);
+			logger.error("Temporary User Creator Error " + errorCode);
 	        message = "Error: Something went wrong. Error code: " + errorCode;
 	        output(message, response);
 			e.printStackTrace();

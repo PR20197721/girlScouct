@@ -448,7 +448,6 @@ implements OptingServlet {
         		is.close();
 			} catch (Exception e) {
 				logger.error("Input Stream Failed");
-				System.out.println("Input Stream Failed");
 				e.printStackTrace();
 			}
     		try {

@@ -541,7 +541,7 @@ public class VtkUtil implements ConfigListener {
         java.util.StringTokenizer t = new StringTokenizer(sched, ",");
         while (t.hasMoreElements()) {
             if (meetings.size() <= count) {
-                System.err.println("CalendarUtil.schedMeetings Found extra sched date. Num of Dates > meetings.");
+            	log.error("CalendarUtil.schedMeetings Found extra sched date. Num of Dates > meetings.");
                 break;
             }
             java.util.Date date = new java.util.Date(Long.parseLong(t.nextToken()));
@@ -647,7 +647,7 @@ public class VtkUtil implements ConfigListener {
             p.parse(new ByteArrayInputStream(_html.getBytes()));
             formattedString = _html;
         } catch (Exception e) {
-            System.err.println("VtkUtil.fmtHtml: Found error parsing html. Html not well formatted." + _html);
+        	log.error("VtkUtil.fmtHtml: Found error parsing html. Html not well formatted." + _html);
             formattedString = Jsoup.parse(_html).text();
         }
         return (formattedString == null || "".equals(formattedString.trim())) ? _html : formattedString;
@@ -741,7 +741,7 @@ public class VtkUtil implements ConfigListener {
                 if (configRecord.length >= 2) {
                     councilCodes.add(configRecord[0]);
                 } else {
-                    System.err.println("Malformatted council mapping record: " + gsCouncils[i]);
+                	log.error("Malformatted council mapping record: " + gsCouncils[i]);
                 }
             }
         }
@@ -756,7 +756,7 @@ public class VtkUtil implements ConfigListener {
                 if (configRecord.length >= 2) {
                     councils.put(configRecord[0],configRecord[1]);
                 } else {
-                    System.err.println("Malformatted council mapping record: " + gsCouncils[i]);
+                	log.error("Malformatted council mapping record: " + gsCouncils[i]);
                 }
             }
         }

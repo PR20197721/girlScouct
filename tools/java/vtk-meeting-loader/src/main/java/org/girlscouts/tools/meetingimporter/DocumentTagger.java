@@ -47,6 +47,7 @@ public class DocumentTagger {
     private String documentsBranch;
     private String tagPrefix;
     private Map<String, String[]> docMap;
+    private static Logger log = LoggerFactory.getLogger(DocumentTagger.class);
 
     public DocumentTagger(String taggingFile, String eventBranch,
             String tagPrefix) {
@@ -68,7 +69,7 @@ public class DocumentTagger {
         for(int i = 2; i < sheet.getLastRowNum(); i++){
             String filename = getCellVal( evaluator, sheet, "A"+i );
             if(filename == null || filename.isEmpty()) {
-                System.err.println("Filename error: " + filename + " on line: " + i);
+                log.error("Filename error: " + filename + " on line: " + i);
                 continue;
             }
             
@@ -111,7 +112,7 @@ public class DocumentTagger {
             
             String[] meta = docMap.get(filename);
             if (meta == null) {
-                System.err.println("Cannot get metadata for file: " + filename);
+                log.error("Cannot get metadata for file: " + filename);
                 continue;
             }
             
@@ -138,10 +139,10 @@ public class DocumentTagger {
             if (!tags.isEmpty()) {
                 node.setProperty(TAG_PROP, tags.toArray(new String[tags.size()]));
             }
-            System.out.println("Metadata added to " + node.getPath());
+            log.info("Metadata added to " + node.getPath());
         }
         session.save();
-        System.out.println("Session saved.");
+        log.info("Session saved.");
     }
     
     private void removeProperty(Node node, String property) throws Exception, VersionException, LockException, ConstraintViolationException, RepositoryException {
