@@ -21,9 +21,12 @@
 	javax.jcr.Session,
 	java.util.Calendar,
 	java.util.regex.Pattern,
-	java.util.regex.Matcher" %><%
+	java.util.regex.Matcher,
+	org.slf4j.Logger,
+	org.slf4j.LoggerFactory" %><%
 %><body>
     <script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script><%
+    		private final Logger log = LoggerFactory.getLogger(this.getClass());
         String contentPath = properties.get("cq:targetPath", "");
 	    String dlgPathProperty = properties.get("dialogPath", "");
 	    String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
@@ -64,7 +67,7 @@
 	        String bulkPage = "/content/" + m.group(1) + "/en/contacts";	        
 	        
         }catch(Exception e){
-        	System.err.println("Contact bulkeditor - could not determine path");
+        	log.error("Contact bulkeditor - could not determine path");
         }
         if (contentPath.length() == 0 || templatePath.length() == 0) {
             %>Please define the target path and a template in the page properties of this scaffolding.<br></body><%

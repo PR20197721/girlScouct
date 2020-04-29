@@ -26,11 +26,14 @@
 	java.util.Calendar,
 	org.girlscouts.common.events.search.GSDateTime,
 	java.util.regex.Pattern,
-	java.util.regex.Matcher"%>
+	java.util.regex.Matcher,
+	org.slf4j.Logger,
+	org.slf4j.LoggerFactory"%>
 <%
 %><body>
 	<script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
 	<%
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
         try{
 		String contentPath = properties.get("cq:targetPath", "");
 		String dlgPathProperty = properties.get("dialogPath", "");
@@ -98,7 +101,7 @@ properties of this scaffolding.
 		        //TODO Separate start and end into dates and times. Separate tags into grade level and categories
 		        
 	        }catch(Exception e){
-	        	System.err.println("Event bulkeditor - could not determine path");
+	        	log.error("Event bulkeditor - could not determine path");
 	        }
 %>Create pages below
 <a href="/editor.html<%=contentPath%>.html"><%=contentPath%></a>

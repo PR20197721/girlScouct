@@ -17,13 +17,16 @@
 				 org.girlscouts.common.events.search.GSDateTime,
 				 org.girlscouts.common.events.search.GSDateTimeFormat,
 				 org.girlscouts.common.events.search.GSDateTimeFormatter,
-				 org.girlscouts.common.events.search.GSDateTimeZone" %>
+				 org.girlscouts.common.events.search.GSDateTimeZone,
+				 org.slf4j.Logger,
+				 org.slf4j.LoggerFactory" %>
 <%@ page session="false" %>
 <%
 %>
 <%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %>
 <%
 %><sling:defineObjects/><%
+private final Logger log = LoggerFactory.getLogger(this.getClass());
     HtmlResponse htmlResponse = null;
     try {
         Session session = resourceResolver.adaptTo(Session.class);
@@ -67,7 +70,7 @@
 		                    			}
                     				}
                     			}catch(Exception e){
-                    				System.err.println("GSBulkEditor - Failed to Create Tag");
+                    				log.error("GSBulkEditor - Failed to Create Tag");
                     			} 
                     		}
                     	}
@@ -120,7 +123,7 @@
 		                    			}
                     				}
                     			}catch(Exception e){
-                    				System.err.println("GSBulkEditor - Failed to Create Tag");
+                    				log.error("GSBulkEditor - Failed to Create Tag");
                     			} 
                     		}
                     	}

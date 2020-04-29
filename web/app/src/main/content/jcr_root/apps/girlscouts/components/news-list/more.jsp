@@ -5,11 +5,14 @@ java.util.List,
 java.util.ArrayList, 
 javax.jcr.Node,
 org.apache.sling.commons.json.JSONObject,
-org.apache.sling.api.request.RequestPathInfo" %>
+org.apache.sling.api.request.RequestPathInfo,
+org.slf4j.Logger,
+org.slf4j.LoggerFactory" %>
 <%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%!
+private final Logger log = LoggerFactory.getLogger(this.getClass());
 public String getDate(Node nNode){
     DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
 	String newsDateStr ="";
@@ -75,7 +78,7 @@ public String getText(Node nNode){
 			 	gsResultManager.add(searchProvider.searchWithOffset(query, RESULTS_PER_PAGE, offset));
 			 	long endTime = System.nanoTime();
 		 		double duration = (endTime - startTime)/1000000;
-		 		System.err.println("Execution of : "+query+" with result size: "+RESULTS_PER_PAGE+" and offset: "+offset+" took "+duration+" milliseconds");
+		 		log.error("Execution of : "+query+" with result size: "+RESULTS_PER_PAGE+" and offset: "+offset+" took "+duration+" milliseconds");
 			 	if(gsResultManager.size() == 0){
 			 		searchMore = false;
 		 			break;

@@ -1,7 +1,9 @@
 <%@ page
 	import="java.lang.Exception,
 	java.util.Optional,
-	org.girlscouts.gsusa.badges.dto.BadgeDTO"%>
+	org.girlscouts.gsusa.badges.dto.BadgeDTO,
+	org.slf4j.Logger,
+	org.slf4j.LoggerFactory"%>
 <%@ page import="java.util.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
@@ -10,7 +12,7 @@
 <%@ include file="pdf-templates/pdf-template-wrapper.jsp" %>
 <%!
 class BadgeComparator implements Comparator<Resource>{
-
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	public int compare(Resource badge1, Resource badge2){
 		try{
 			if(badge1 != null && badge2 != null){
@@ -21,7 +23,7 @@ class BadgeComparator implements Comparator<Resource>{
 				return b1Name.compareTo(b2Name);
 			}
 		}catch (Exception e){
-			System.err.println("Error occured while comparing "+badge1+" and "+badge2);
+			log.error("Error occured while comparing "+badge1+" and "+badge2);
 			e.printStackTrace();
 		}
 		return 0;
@@ -137,13 +139,13 @@ class BadgeComparator implements Comparator<Resource>{
 									sb.append("</div>");
 								sb.append("</div>");
 							}catch(Exception e){
-								System.err.println("Error occurred while rendering badge at "+badge.getPath());
+								log.error("Error occurred while rendering badge at "+badge.getPath());
 								e.printStackTrace();
 							}
 						}
 					}
 				}catch(Exception e){
-					System.err.println("Error occurred while rendering badge images at "+path);
+					log.error("Error occurred while rendering badge images at "+path);
 					e.printStackTrace();
 				}
 			}
