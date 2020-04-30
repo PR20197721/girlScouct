@@ -16,16 +16,11 @@
             // hostName = requestProto + "://" + resourceResolver.map(currentPage.getPath()).split("/")[2];
             String mappedPath = resourceResolver.map(currentPage.getPath());
             mappedPath = mappedPath.replace("http://", "").replace("https://", "");
-            Matcher matcher = pattern.matcher(mappedPath);
-            if (matcher.find()) {
-                hostName = requestProto + "://" + matcher.group();
+            hostName = requestProto + "://" + mappedPath + ".html";
                 %>
                 <base href="<%=hostName%>"/>
                 <%
-            }
         }
     } catch (Exception e) {
     }
 %>
-<!-- Anchor-scrolling -->
-<div id="currentPagePath" data-page-path="<%=currentPage.getPath()%>" data-run-mode="<%=runModeValue%>">
