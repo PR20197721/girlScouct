@@ -23,3 +23,6 @@ try {
 		</div>
 		<div id="gsModal"></div>
 	</body>
+
+<!-- GSDO-1030-Fix for Anchor Scrolling with base tag -->
+<cq:includeClientLib categories="common.components.base" />

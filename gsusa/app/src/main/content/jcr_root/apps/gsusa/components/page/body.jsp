@@ -49,3 +49,6 @@ String stickyClass = sticky ? "sticky-nav" : "";
     </script>
 </body>
 <!-- END of body -->
+
+<!-- GSDO-1030-Fix for Anchor Scrolling with base tag -->
+<cq:includeClientLib categories="common.components.base" /> 
