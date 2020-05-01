@@ -1,4 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<cq:includeClientLib categories="apps.girlscouts.vtkBanner"/>
 <%
 	String text = properties.get("text","");
     String modalTitle = properties.get("modalTitle","");

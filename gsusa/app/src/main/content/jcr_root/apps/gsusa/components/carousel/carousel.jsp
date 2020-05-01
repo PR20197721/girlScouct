@@ -194,10 +194,23 @@ public  String readUrlFile(String urlString) throws Exception {
 
 	//passing this to another jsp
 	request.setAttribute("source7", source7);
+	boolean slickControl = properties.get("enableSlickCtrls", true);
+
+    if(!slickControl){
+		slickOptions.put("arrows","false");
+         Map map = new HashMap<String, String>();
+		  map.put("arrows", "false");
+		  JSONObject jsonObject1 = new JSONObject();
+		  jsonObject1.put("breakpoint", "768");
+          jsonObject1.put("settings", map);
+		  JSONArray array = new JSONArray();
+          array.put(jsonObject1);
+		  slickOptions.put("responsive",array);
+    }
 %>
 
 <div class="hero-feature">
-	<ul class="main-slider" slick-options='<%=slickOptions.toString()%>' player-config='<%=playerConfig.toString()%>'><%
+	<ul class="main-slider" data-slick='<%=slickOptions.toString()%>' player-config='<%=playerConfig.toString()%>'><%
         for (int i = 0; i < numberOfImages; i++) { 
 			if (!tempHidden[i]) {
                 %><li id="tag_explore_main_<%=i%>"><%
