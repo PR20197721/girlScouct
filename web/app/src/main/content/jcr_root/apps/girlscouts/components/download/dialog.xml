@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
-    helpPath="en/cq/current/wcm/default_components.html#Download"
+    helpPath="https://www.adobe.com/go/aem_cmp_download_v1"
     title="Download"
     xtype="panel">
     <items jcr:primaryType="cq:WidgetCollection">
