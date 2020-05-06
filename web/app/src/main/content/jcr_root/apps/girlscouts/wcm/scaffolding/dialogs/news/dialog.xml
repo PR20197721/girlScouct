@@ -15,6 +15,7 @@
                 <date
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Date"
+                        allowBlank="{Boolean}false"
                         hideTime="{Boolean}true"
                         name="./jcr:content/date"
                         xtype="datetime"/>
