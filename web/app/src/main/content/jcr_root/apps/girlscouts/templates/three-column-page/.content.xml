@@ -12,10 +12,10 @@
             jcr:primaryType="nt:unstructured">
                 <right
                     jcr:primaryType="nt:unstructured">
-                    <advertisement
+                    <right-rail-banners
                         jcr:primaryType="nt:unstructured"
                         customized="false"
-                        sling:resourceType="girlscouts/components/advertisement"/>
+                        sling:resourceType="girlscouts/components/right-rail-banners"/>
                 </right>
             </content>
     </jcr:content>
