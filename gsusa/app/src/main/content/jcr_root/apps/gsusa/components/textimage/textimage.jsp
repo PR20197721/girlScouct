@@ -113,7 +113,7 @@
         String divId = "cq-textimage-jsp-" + resource.getPath();
         String imageHeight = image.get(image.getItemName(Image.PN_HEIGHT));
         // div around image for additional formatting
-        %><div class="image <%=imageAlignment%>" id="<%= divId %>" style="<%= styleImage %>"><%
+        %><div class="image-<%=imageAlignment%>" id="<%= divId %>" style="<%= styleImage %>"><%
         %><% image.draw(out); %><%
     	
         if (caption.length() > 0) {
