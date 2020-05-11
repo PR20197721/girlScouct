@@ -8,8 +8,8 @@
 <%
     final String MEETING_BASE = "/content/girlscouts-vtk/meetings/library";
     final String YEAR_PLAN_BASE = "/content/girlscouts-vtk/yearPlanTemplates/library";
-    final String MEETING_SCAFFOLDING = "/content/girlscouts-vtk/scaffolding/meeting.html";
-    final String YEAR_PLAN_SCAFFOLDING = "/content/girlscouts-vtk/scaffolding/year-plan.html";
+    final String MEETING_SCAFFOLDING = "/etc/scaffolding/girlscouts-vtk/meeting.html";
+    final String YEAR_PLAN_SCAFFOLDING = "/etc/scaffolding/girlscouts-vtk/year-plan.html";
     final Session session = resourceResolver.adaptTo(Session.class);
 %>
 <p>
