@@ -30,7 +30,7 @@
 	boolean nowrap = additionalCSS.contains("nowrap") ? true : false;
 	boolean nopadding = additionalCSS.contains("nopadding") ? true : false;
 	boolean inAccordion = completePath.contains("accordion") ? true : false;
-	String imageAlignment = properties.get("./imageAlignment", "");
+	String imageAlignment = properties.get("./imageAlignment", "left");
 
 	String styleImage = "";
 	String styleCaption = "";

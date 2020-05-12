@@ -29,7 +29,7 @@
 	String additionalCSS = properties.get("./additionalCss", "");
 	boolean nowrap = additionalCSS.contains("nowrap") ? true : false;
 	boolean nopadding = additionalCSS.contains("nopadding") ? true : false;
-	String imageAlignment = properties.get("./imageAlignment", "");
+	String imageAlignment = properties.get("./imageAlignment", "left");
 
 	String styleImage = "";
 	String styleCaption = "";
