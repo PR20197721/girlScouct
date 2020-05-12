@@ -1,41 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/etc/clientlibs/girlscouts-common"/>
+    <filter root="/apps/dam/gui/content/commons"/>
+    <filter root="/apps/wcm/core/content/common"/>
     <filter root="/apps/clientlibs"/>
-    <filter root="/etc/servlets" mode="merge"/>
-    <filter root="/etc/map.author"/>
-    <filter root="/etc/gs-maintenance"/>
-    <filter root="/etc/renderconditions/features"/> 
-    <filter root="/etc/workflow/launcher/config/update_asset_mod"/> 
-    <filter root="/etc/workflow/launcher/config/update_asset_create"/>
-    <filter root="/etc/workflow/launcher/config/gs_update_asset_mod"/> 
-    <filter root="/etc/workflow/launcher/config/gs_update_asset_create"/>
-    <filter root="/etc/workflow/models/dam/gs_update_asset"/>
-    <filter root="/etc/designs/default/resources" mode="merge"/>  
-    <filter root="/apps/girlscouts-common"/>
+    <filter root="/apps/cq/core"/>
     <filter root="/apps/cq/gui/components/authoring/dialog" />
     <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>
+    <filter root="/apps/cq/gui/components/common/admin/listview/startDateCell"/>
     <filter root="/apps/cq/gui/components/coral/common/admin/timeline/events/version"/>
     <filter root="/apps/cq/inbox"/>
-    <filter root="/apps/cq/core"/>
     <filter root="/apps/cq/ui/widgets/source/form/rte/plugins/LinkPlugin.js"/>
     <filter root="/apps/cq/xssprotection"/>
     <filter root="/apps/dam/content/asseteditors"/>
-    <filter root="/apps/dam/gui/content/assets"/>
     <filter root="/apps/dam/gui/content/assetdetails"/>
-    <filter root="/apps/dam/gui/content/commons"/>
+    <filter root="/apps/dam/gui/content/assets"/>
     <filter root="/apps/dam/gui/content/nav"/>
     <filter root="/apps/dam/gui/coral/components/admin/moveassetwizard/clientlibs/js/wizard.js"/>
     <filter root="/apps/foundation"/>
+    <filter root="/apps/girlscouts-common"/>
     <filter root="/apps/granite/core/components"/>
     <filter root="/apps/granite/core/content/cug-dxp-login"/>
     <filter root="/apps/granite/core/content/cug-future-login"/>
     <filter root="/apps/granite/core/content/cug-login"/>
-    <filter root="/apps/wcm"/>
     <filter root="/apps/settings/cq"/>
-    <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/default"/>
+    <filter root="/apps/wcm"/>
+    <filter root="/apps/wcm/core/content/common/availablecolumns/startDate"/>
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/badge-image-schema"/>
-    <filter root="/oak:index/GSTag" mode="merge"/>
+    <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/default"/>
     <filter root="/conf/global/settings/workflow/models" mode="merge"/>
+    <filter root="/etc/clientlibs/girlscouts-common"/>
+    <filter root="/etc/designs/default/resources" mode="merge"/>
+    <filter root="/etc/gs-maintenance"/>
+    <filter root="/etc/map.author"/>
+    <filter root="/etc/renderconditions/features"/>
+    <filter root="/etc/servlets" mode="merge"/>
+    <filter root="/etc/workflow/launcher/config/gs_update_asset_create"/>
+    <filter root="/etc/workflow/launcher/config/gs_update_asset_mod"/>
+    <filter root="/etc/workflow/launcher/config/update_asset_create"/>
+    <filter root="/etc/workflow/launcher/config/update_asset_mod"/>
+    <filter root="/etc/workflow/models/dam/gs_update_asset"/>
+    <filter root="/oak:index/GSTag" mode="merge"/>
     <filter root="/var/workflow/models" mode="merge"/>
 </workspaceFilter>
