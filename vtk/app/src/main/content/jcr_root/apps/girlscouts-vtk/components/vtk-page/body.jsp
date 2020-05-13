@@ -120,20 +120,16 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 <!-- <script src="/etc/designs/girlscouts-vtk/clientlibs/js/vtk-global.js"></script> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2646810-36"></script>
 <script>
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o), m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })
-    (window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-2646810-36', 'auto', {'name': 'vtkTracker'});
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-2646810-36');
 </script>
+<!-- END Global site tag (gtag.js) - Google Analytics -->
 <%
     boolean isProd = false;
     for (String runMode : sling.getService(SlingSettingsService.class).getRunModes()) {
