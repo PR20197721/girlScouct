@@ -12,7 +12,6 @@
 				org.slf4j.Logger,
 				org.slf4j.LoggerFactory"%>
 <%
-private final Logger log = LoggerFactory.getLogger(this.getClass());
 	String title = properties.get("title", "Related Articles");
 	String pullFromFeed = properties.get("pullFromFeed", "false");
 	String hasBorderLine = properties.get("borderLine", String.class);
