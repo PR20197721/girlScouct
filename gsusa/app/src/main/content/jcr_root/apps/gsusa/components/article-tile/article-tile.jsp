@@ -3,7 +3,6 @@
 <%@page session="false"%>
 <%@page import="javax.jcr.Node, org.apache.commons.lang3.StringEscapeUtils, javax.jcr.Value, com.day.cq.tagging.TagManager, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag, org.girlscouts.gsusa.access.ResolverAccessService,org.slf4j.Logger,org.slf4j.LoggerFactory"%>
 <%
-private final Logger log = LoggerFactory.getLogger(this.getClass());
   	String articlePath = (String)request.getAttribute("articlePath");
 	if (articlePath == null) {
 		articlePath = request.getParameter("articlePath");

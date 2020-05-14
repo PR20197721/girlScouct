@@ -6,7 +6,6 @@
 <%@include file="/apps/gsusa/components/global.jsp"%>
 
 <%
-private final Logger log = LoggerFactory.getLogger(this.getClass());
 	String id = "dynamic-tag-carousel-" + genId();
 	String num = properties.get("num", "20");
 	if(num.isEmpty()){

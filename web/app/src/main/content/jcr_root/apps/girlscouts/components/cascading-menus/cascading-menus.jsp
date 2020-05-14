@@ -11,7 +11,7 @@
 			String currPath, String currTitle, String eventDispUnder,
 			String showCurrent) throws RepositoryException {
 		levelDepth++;
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	    final Logger log = LoggerFactory.getLogger(this.getClass());
     	log.info("Root Path is " + rootPath);
     	log.info("Level Depth is" + rootDepth);
 
