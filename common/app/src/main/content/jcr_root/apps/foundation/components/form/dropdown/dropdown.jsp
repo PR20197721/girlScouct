@@ -40,7 +40,7 @@ final String id = FormsHelper.getFieldId(slingRequest, resource);
 final boolean required = FormsHelper.isRequired(resource);
 final boolean hideTitle = properties.get("hideTitle", false);
 final String title = FormsHelper.getTitle(resource, i18n.get("Selection"));
-private final Logger log = LoggerFactory.getLogger(this.getClass());
+final Logger dropdownLog = LoggerFactory.getLogger(this.getClass());
 
 List<String> values = FormsHelper.getValuesAsList(slingRequest, resource);
 
@@ -59,7 +59,7 @@ final String h = properties.get("height", "");
 final String width = w.length() > 0 ? "style='width:" + w + "px;'" : "";
 final String height = h.length() > 0 ? "style='height:" + h + "px;'" : "";
 final String firstOption = displayValues.entrySet().iterator().next().getKey();
-log.info("Dropdown Values type is + " + values.getClass().getName());
+dropdownLog.info("Dropdown Values type is + " + values.getClass().getName());
 if(values.isEmpty()){
     values = new ArrayList<String>();
 	values.add(firstOption);
