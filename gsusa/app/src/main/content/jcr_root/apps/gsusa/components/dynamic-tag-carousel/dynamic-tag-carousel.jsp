@@ -6,6 +6,7 @@
 <%@include file="/apps/gsusa/components/global.jsp"%>
 
 <%
+	final Logger dynamicTagLog = LoggerFactory.getLogger(this.getClass());
 	String id = "dynamic-tag-carousel-" + genId();
 	String num = properties.get("num", "20");
 	if(num.isEmpty()){
@@ -24,13 +25,13 @@
 	if (tags != null && tags.length != 0) {
 		StringBuilder builder = new StringBuilder();
 		for (Tag tag : tags) {
-			log.info("Tag is: " + tag.getName());
+			dynamicTagLog.info("Tag is: " + tag.getName());
 			builder.append(tag.getName()).append("|");
 		}
 		builder.deleteCharAt(builder.length() - 1);
 		defaultTag = builder.toString();
 	} else {
-		log.info("Tags are null");
+		dynamicTagLog.info("Tags are null");
 		defaultTag = "default";
 	}
 
