@@ -26,7 +26,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%
 %><cq:defineObjects/><%
-private final Logger log = LoggerFactory.getLogger(this.getClass());
+    final Logger scaffoldLog = LoggerFactory.getLogger(this.getClass());
     // first check if the page has a scaffold specified
     String scaffoldPath = pageProperties.get("cq:scaffolding", "");
     if (scaffoldPath.length() == 0) {
@@ -47,7 +47,7 @@ private final Logger log = LoggerFactory.getLogger(this.getClass());
         scaffoldPath = "/etc/scaffolding";
     }
 
-    log.info("Council scaffolding path is: " + scaffoldPath);
+    scaffoldLog.info("Council scaffolding path is: " + scaffoldPath);
 Page root = resourceResolver.resolve(scaffoldPath).adaptTo(Page.class);
     scaffoldPath+="/jcr:content.html";
 Node scaffoldingRoot = root.adaptTo(Node.class);
