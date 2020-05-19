@@ -26,7 +26,7 @@
 <%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %>
 <%
 %><sling:defineObjects/><%
-private final Logger log = LoggerFactory.getLogger(this.getClass());
+    final Logger bulkSaveLog = LoggerFactory.getLogger(this.getClass());
     HtmlResponse htmlResponse = null;
     try {
         Session session = resourceResolver.adaptTo(Session.class);
@@ -70,7 +70,7 @@ private final Logger log = LoggerFactory.getLogger(this.getClass());
 		                    			}
                     				}
                     			}catch(Exception e){
-                    				log.error("GSBulkEditor - Failed to Create Tag");
+                    				bulkSaveLog.error("GSBulkEditor - Failed to Create Tag");
                     			} 
                     		}
                     	}
@@ -123,7 +123,7 @@ private final Logger log = LoggerFactory.getLogger(this.getClass());
 		                    			}
                     				}
                     			}catch(Exception e){
-                    				log.error("GSBulkEditor - Failed to Create Tag");
+                    				bulkSaveLog.error("GSBulkEditor - Failed to Create Tag");
                     			} 
                     		}
                     	}
