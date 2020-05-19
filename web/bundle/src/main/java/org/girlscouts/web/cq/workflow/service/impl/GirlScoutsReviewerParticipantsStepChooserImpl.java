@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.jcr.Node;
+
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
@@ -27,6 +28,7 @@ public class GirlScoutsReviewerParticipantsStepChooserImpl implements Participan
 	@Reference
 	private ResourceResolverFactory resolverFactory;
 	private static final Logger log = LoggerFactory.getLogger(GirlScoutsReviewerParticipantsStepChooserImpl.class);
+	private static final String VTK_RESOURCES_PATH = "/content/vtk-resources2";
 
 	@Override
 	public String getParticipant(WorkItem workItem, WorkflowSession wfSession, MetaDataMap metaDataMap)
@@ -49,7 +51,10 @@ public class GirlScoutsReviewerParticipantsStepChooserImpl implements Participan
 				log.error("ParticipantsStepReviewerChooserImpl: resource=" + res);
 				System.err.println("ParticipantsStepReviewerChooserImpl: resource=" + res);
 				Node node = res.adaptTo(Node.class);
-				path = node.getAncestor(2).getName();
+				if (node.getPath().startsWith(VTK_RESOURCES_PATH))
+					path = node.getAncestor(3).getName();
+				else
+					path = node.getAncestor(2).getName();
 				participant = path + "-reviewers";
 				log.error("ParticipantsStepReviewerChooserImpl: participant=" + participant);
 				System.err.println("ParticipantsStepReviewerChooserImpl participant=" + participant);
