@@ -12,7 +12,7 @@ org.slf4j.LoggerFactory" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%!
-private final Logger log = LoggerFactory.getLogger(this.getClass());
+final Logger newsMoreLog = LoggerFactory.getLogger(this.getClass());
 public String getDate(Node nNode){
     DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
 	String newsDateStr ="";
@@ -78,7 +78,7 @@ public String getText(Node nNode){
 			 	gsResultManager.add(searchProvider.searchWithOffset(query, RESULTS_PER_PAGE, offset));
 			 	long endTime = System.nanoTime();
 		 		double duration = (endTime - startTime)/1000000;
-		 		log.error("Execution of : "+query+" with result size: "+RESULTS_PER_PAGE+" and offset: "+offset+" took "+duration+" milliseconds");
+		 		newsMoreLog.error("Execution of : "+query+" with result size: "+RESULTS_PER_PAGE+" and offset: "+offset+" took "+duration+" milliseconds");
 			 	if(gsResultManager.size() == 0){
 			 		searchMore = false;
 		 			break;
