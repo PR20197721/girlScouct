@@ -29,7 +29,8 @@
 	String additionalCSS = properties.get("./additionalCss", "");
 	boolean nowrap = additionalCSS.contains("nowrap") ? true : false;
 	boolean nopadding = additionalCSS.contains("nopadding") ? true : false;
-	
+	String imageAlignment = properties.get("./imageAlignment", "left");
+
 	String styleImage = "";
 	String styleCaption = "";
 	String styleComponent = ""; 
@@ -39,11 +40,11 @@
 	String pcBottom = properties.get("./pcbottom", "0");
 	String pcLeft = properties.get("./pcleft", "0");
 	String pcRight = properties.get("./pcright", "0");
-	
+
 	if (!nopadding) styleComponent += "padding: " + pcTop + "px " + pcRight + "px " + pcBottom + "px " + pcLeft + "px;";	
 	
 %><div style="<%= styleComponent %>">
-<cq:includeClientLib categories="apps.gsusa.components.textimage"/><%
+<%
 	
 	// padding for the image
 	String piTop = properties.get("./pitop", "0");
@@ -112,7 +113,7 @@
         String divId = "cq-textimage-jsp-" + resource.getPath();
         String imageHeight = image.get(image.getItemName(Image.PN_HEIGHT));
         // div around image for additional formatting
-        %><div class="image" id="<%= divId %>" style="<%= styleImage %>"><%
+        %><div class="image-<%=imageAlignment%>" id="<%= divId %>" style="<%= styleImage %>"><%
         %><% image.draw(out); %><%
     	
         if (caption.length() > 0) {

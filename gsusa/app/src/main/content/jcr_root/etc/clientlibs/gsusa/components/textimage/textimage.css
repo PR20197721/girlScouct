@@ -10,3 +10,20 @@ div.textimage.image_right div.image {
     float: right !important;
     margin: 0 0 8px 8px !important;
 }
+
+.image-right  {
+	float: right;    
+ 	margin: 0 0 0 15px;
+}
+
+.image-left{
+	float: left;    
+ 	margin: 0 15px 0 0;
+}
+
+.image-center{
+ 	display: block;
+  	margin-left: auto;
+  	margin-right: auto;
+  	width: 50%;
+}
