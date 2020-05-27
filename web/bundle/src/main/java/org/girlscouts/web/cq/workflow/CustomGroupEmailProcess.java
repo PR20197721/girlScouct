@@ -34,10 +34,12 @@ import com.day.cq.commons.Externalizer;
 import com.day.cq.mailer.MailService;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
+
 import org.apache.jackrabbit.api.security.user.Authorizable;
 import org.apache.jackrabbit.api.security.user.User;
 import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.jackrabbit.api.security.user.Group;
+
 import com.day.cq.wcm.api.Page;
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowSession;
@@ -51,7 +53,8 @@ import com.day.cq.workflow.metadata.MetaDataMap;
 @Service
 public class CustomGroupEmailProcess implements WorkflowProcess {
 	private static final String TYPE_JCR_PATH = "JCR_PATH";
-
+	private static final String VTK_RESOURCES_PATH = "/content/vtk-resources2";
+	
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
 
@@ -88,7 +91,11 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 			Page page = (Page) resolver.resolve(
 					workflowData.getPayload().toString()).adaptTo(Page.class);
 
-			String councilGroup = page.getAbsoluteParent(1).getName();
+			String councilGroup;
+			if (path.startsWith(VTK_RESOURCES_PATH))
+				councilGroup = page.getAbsoluteParent(2).getName();
+			else 
+				councilGroup = page.getAbsoluteParent(1).getName();
 			String reviewerGroup = councilGroup + "-reviewers";
 
 			try {

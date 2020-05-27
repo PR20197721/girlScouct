@@ -227,7 +227,7 @@ var SlideShowManager = (function(){
 	    },
 	    stopSlider: function () {
 	        if (this.autoplay) {
-	            this.slick.slickPause();
+	            this.slick('slickPause');
 	        }
 	        if (!this.underbar.isFocused() && !this.config.link.isActive()) {
 	            this.underbar.hide();
@@ -581,7 +581,7 @@ var SlideShowManager = (function(){
 		}
 		
 		if(reinit){
-			target[slideShowPath].slickPause();
+			target[slideShowPath].slick('slickPause');
 		}
 		
 		// Initialize Slick Slider.

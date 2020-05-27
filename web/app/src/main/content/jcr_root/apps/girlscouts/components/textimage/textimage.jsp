@@ -30,11 +30,12 @@
 	boolean nowrap = additionalCSS.contains("nowrap") ? true : false;
 	boolean nopadding = additionalCSS.contains("nopadding") ? true : false;
 	boolean inAccordion = completePath.contains("accordion") ? true : false;
-	
+	String imageAlignment = properties.get("./imageAlignment", "left");
+
 	String styleImage = "";
 	String styleCaption = "";
 	String styleComponent = ""; 
-	
+
 	// padding for the component
 	String pcTop = properties.get("./pctop", "0");
 	String pcBottom = properties.get("./pcbottom", "0");
@@ -44,7 +45,7 @@
 	if (!nopadding) styleComponent += "padding: " + pcTop + "px " + pcRight + "px " + pcBottom + "px " + pcLeft + "px;";	
 	
 %><div style="<%= styleComponent %>">
-<cq:includeClientLib categories="apps.girlscouts.components.textimage" /><%
+<%
 	
 	// padding for the image
 	String piTop = properties.get("./pitop", "0");
@@ -127,7 +128,7 @@
         String divId = "cq-textimage-jsp-" + resource.getPath();
         String imageHeight = image.get(image.getItemName(Image.PN_HEIGHT));
         // div around image for additional formatting
-        %><div class="image" id="<%= divId %>" style="<%= styleImage %>"><%
+        %><div class="image-<%=imageAlignment%>" id="<%= divId %>" style="<%= styleImage %>"><%
         %><% image.draw(out); %><%
 		
         if (caption.length() > 0) {

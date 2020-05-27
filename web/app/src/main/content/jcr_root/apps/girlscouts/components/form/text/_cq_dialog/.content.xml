@@ -3,7 +3,7 @@
     jcr:primaryType="nt:unstructured"
     sling:resourceType="cq/gui/components/authoring/dialog"
     extraClientlibs="[girlscouts.components.form.text]"
-    helpPath="en/cq/current/wcm/default_components.html#Forms Text Field">
+    helpPath="https://www.adobe.com/go/aem_cmp_form_text_v1">
     <content
         jcr:primaryType="nt:unstructured"
         sling:resourceType="granite/ui/components/foundation/container">

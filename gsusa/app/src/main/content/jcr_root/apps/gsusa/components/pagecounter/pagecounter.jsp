@@ -1,32 +1,12 @@
 <%@ page
-	import="java.text.Format,
-	java.text.ParseException,
-	java.lang.Exception,
-	java.util.Map,
-	java.util.HashMap,
-	java.util.List,
-	java.util.Arrays,
+	import="java.util.List,	
 	java.util.ArrayList,
-	java.util.Iterator,
-	java.io.ByteArrayOutputStream,
-	com.day.cq.contentsync.handler.util.RequestResponseFactory,
-	com.day.cq.wcm.api.WCMMode,
-	com.day.cq.tagging.TagManager,
-	com.day.cq.tagging.Tag,
-	com.day.cq.dam.api.Asset,
-	org.apache.sling.api.SlingHttpServletRequest,
-	org.apache.sling.api.SlingHttpServletResponse,
-	org.apache.sling.engine.SlingRequestProcessor,
-	org.girlscouts.vtk.models.User,
-	javax.servlet.http.HttpServletRequest,
-	javax.servlet.http.HttpServletResponse,
-	javax.servlet.http.HttpSession,
-	org.girlscouts.common.events.search.*
-	"%>
+	java.util.Iterator"
+   %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects />
-
+<cq:includeClientLib categories="apps.gsusa.components.pagecounter" />
 <%!
     
 	/************************** Page Counter Component ************************
@@ -45,8 +25,8 @@
 	**
 	*************************************************************************/
 	
-	RequestResponseFactory requestResponseFactory;
-	SlingRequestProcessor requestProcessor;
+
+	ArrayList<String> pageCounterPaths;
 	
 	ArrayList<Resource> councils;
 	ArrayList<String> scouncils;
@@ -54,7 +34,7 @@
 	
 	ArrayList<Resource> listCouncils (ResourceResolver resourceResolver, Resource content, String componentPath) {
 		ArrayList<Resource> list = new ArrayList<Resource>();
-		
+
 		for (Iterator<Resource> iterator = content.listChildren(); iterator.hasNext();) {
 			Resource res = iterator.next();
 			
@@ -70,90 +50,35 @@
 		return list;
 	}
 	
-	
-	String render(RequestResponseFactory requestResponseFactory, SlingRequestProcessor requestProcessor, 
-			ResourceResolver resourceResolver, Resource resource, String componentPath) {
+	ArrayList<String> getPaths(ArrayList<Resource> councils,String componentPath){
 		
-		/* The resource path to resolve. Use any selectors or extension. */
-	    String requestPath = "/content/" + resource.getName() + componentPath + ".html"; //"/en/jcr:content/content/styled-subpar/pagecounter.html";
-
-	    /* Setup request */
-	    HttpServletRequest req = requestResponseFactory.createRequest("GET", requestPath);
-	    WCMMode.DISABLED.toRequest(req);
-
-	    /* Setup response */
-	    ByteArrayOutputStream bout = new ByteArrayOutputStream();
-	    HttpServletResponse resp = requestResponseFactory.createResponse(bout);
-
-	    /* Process request through Sling */
-	    String html;
-	    try {
-	    	requestProcessor.processRequest(req, resp, resourceResolver);
-		    html = bout.toString();
-	    } catch (Exception e) {
-	    	html = e.getMessage();
-	    }
-	    
-		return html;
+		ArrayList<String> paths = new ArrayList<>();
+		
+		for(Resource resource : councils){
+			paths.add(("/content/" + resource.getName() + componentPath + ".html").toString());
+		}
+		return paths;
 	}
-	
-	String processHTMLToList(String html) {
-		String[] sections = html.split("#");
-		String result = "<!-- " + sections[1] + sections[2] + sections[3] + sections[4] + " -->";
-		return result;
-	}
-	
-	String processHTMLToTable(String html) {
-		String[] sections = html.split("#");
-		String result = "<!-- " + sections[6] + " -->";
-		return result;
-	}
-	
 %>
 
 <%
-	requestResponseFactory = sling.getService(RequestResponseFactory.class);
-	requestProcessor = sling.getService(SlingRequestProcessor.class);
+	
 
 	Resource content = resourceResolver.getResource("/content");
 	Node node = resourceResolver.getResource("/content").adaptTo(Node.class);
-	//Page template = pageManager.getPage("/content/girlscouts-template");
+	//Page template = pageManager.getPage("/content/girlscouts-template");	
 
-	
-
-	String dialogPath = properties.get("pagecountercomponentpath", "");
-	
+	String dialogPath = properties.get("pagecountercomponentpath", "");	
 	
 	councils = listCouncils(resourceResolver, content, dialogPath);	
 	
+	pageCounterPaths = getPaths(councils,dialogPath);
+	
+	%>
 
-	ArrayList<String> pagesList = new ArrayList<String>();
-	ArrayList<String> pagesTable = new ArrayList<String>();
-	ArrayList<String> errorList = new ArrayList<String>();
-	
-	for (Resource council: councils) {
-		String html = "";
-		String render;
-		Page tpage = council.adaptTo(Page.class);
-		if (tpage != null){
-            html += "<h3>" + tpage.getTitle() + " (" + council.getName() + ")</h3>";
-            render = render(requestResponseFactory, requestProcessor, resourceResolver, council, dialogPath);
-            try {
-                html += processHTMLToList(render);
-                pagesList.add(html);
-                html = processHTMLToTable(render);
-                pagesTable.add(html);
-            } catch (Exception e) {
-                errorList.add(council.getName() + ": " + render);
-            }
-        }
-	}
-	
-	
-%>
 
 <div>
-<div id="pagecount">
+	<div id="pagecount" data-council-paths= "<%=pageCounterPaths %>">
 	<h1>Page Counter</h1>
 	<p>This component aims to help page count for councils and GSUSA by filtering pages that count towards page count.</p>
 
@@ -178,15 +103,11 @@
 	added by councils that do not count. Filter that decides whether a page counts or not can be 
 	accessed by the dialog of Page Counter component located on each council's end.
 	</p>
-
-
 	<br><br>
-	Number of councils: <%= pagesList.size() %>
-	<% for (String str: pagesList) { %>
-		<%= str %>
-	<% } %>
-	
-	
+    Number of councils: <%= pageCounterPaths.size() %>
+
+    <div id="pagesList" class="pagesList"></div>
+
 	<div style="height:400px; overflow:scroll;">
 		<table id="pagelistTable">
 			<thead>
@@ -201,66 +122,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% for (String str: pagesTable) { %>
-					<%= str %> 
-				<% } %>
 			</tbody>
 		</table>		
 	</div>
 	<br>
 	<button id="thebutton" onClick="copy();"> CLICK TO COPY TABLE </button>
 	<br>
-	
-	
-	<% if (!errorList.isEmpty())  { %>
-	<% for (String str: errorList) { %>
-		<%= str %> <br>
-	<% } } %>
-	
 
 </div>
 </div>
-
-
-<script type="text/javascript">
-
-function toggle(id) {
-	var text = $("#" + id).text();
-	if (text == "Show List") {
-		$("#" + id).text("Show less");
-		$("#" + id + "List").show();
-	} else {
-		$("#" + id).text("Show List");
-		$("#" + id + "List").hide();
-	}
-}
-
-function copy() {
-	var emailLink = document.querySelector('#pagelistTable');  
-	var range = document.createRange();  
-	range.selectNode(emailLink);  
-	window.getSelection().addRange(range);
-
-	try {  
-		var successful = document.execCommand('copy');  
-		var msg = successful ? 'Copied. Please paste to excel' : 'Copy failed. Please copy manually';  
-		alert(msg);  
-	} catch(err) {  
-		alert('Oops, unable to copy');  
-	}
-	
-	window.getSelection().removeAllRanges();  
-}
-
-$(document).ready(function() {
-
-    $(".pagelist").hide();
-
-	$(".showlist").click(function() {
-		toggle(this.id);
-	});
-
-}); 
-
-
-</script>
