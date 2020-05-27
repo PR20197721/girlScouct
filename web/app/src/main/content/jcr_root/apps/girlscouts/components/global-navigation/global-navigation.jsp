@@ -81,13 +81,13 @@ if(currentNode.hasNode("links")){
         	String large = linkNode.getProperty("large").getString();
             String medium = linkNode.getProperty("medium").getString();
             String small = linkNode.getProperty("small").getString();
-
 			String clazz = "";
             if(linkNode.hasProperty("class")){
                 clazz = linkNode.getProperty("class").getString();
             }
-
-        	linksList.add(large + "|||" + url + "|||" + clazz + "|||" + medium + "|||" + small);
+			String defaultColor = linkNode.hasProperty("defaultColor")? linkNode.getProperty("defaultColor").getString() : "#C1EAD4";
+			String hoverColor = linkNode.hasProperty("hoverColor")? linkNode.getProperty("hoverColor").getString() : "#ffffff";
+        	linksList.add(large + "|||" + url + "|||" + clazz + "|||" + medium + "|||" + small + "|||" + defaultColor + "|||" + hoverColor);
     	}
 
 	}
@@ -117,6 +117,8 @@ if ((links == null || links.length == 0)) {
             String clazz = values.length >= 3 ? " "+ values[2] : "";
             String mLabel = values.length >=4 ? " "+values[3] : "";
             String sLabel = values.length >=5 ? " "+values[4] : "";
+			String defaultColor = values.length >=6 ? " "+values[5] : "";
+            String hoverColor = values.length >=7 ? " "+values[6] : "";
             Iterator <Page> slingResourceIter;
             String slingResourceType = "girlscouts/components/placeholder-page";
             contentResourceType="";
@@ -176,8 +178,8 @@ if ((links == null || links.length == 0)) {
                 }
                 if (clazz.indexOf("hide-in-nav") < 0) { // If not hidden, create list element
                     %><li data-link="<%=path%>" class="<%=hasChildren%><%=activeStatus%>">
-                        <a class="show-for-large-up menu <%=clazz%>" href="<%=path%>"><%=label%></a>
-                        <a class="show-for-medium-only menu <%=clazz%>" href="<%=path%>"><%=mLabel%></a><%
+        				<a class="show-for-large-up menu <%=clazz%>" href="<%=path%>" style="color:<%=defaultColor%>" onmouseover="this.style.color='<%=hoverColor%>'" onmouseout="this.style.color='<%=defaultColor%>'"><%=label%></a>
+                        <a class="show-for-medium-only menu <%=clazz%>" href="<%=path%>" style="color:<%=defaultColor%>" onmouseover="this.style.color='<%=hoverColor%>'" onmouseout="this.style.color='<%=defaultColor%>'"><%=mLabel%></a><%
                         try {
                             if (flyPage != null) {
                                 String flyRight = (i <= links.length/2) ? " right" : "";
