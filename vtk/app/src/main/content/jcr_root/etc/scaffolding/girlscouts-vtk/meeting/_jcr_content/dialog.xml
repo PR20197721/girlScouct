@@ -1,4 +1,5 @@
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" jcr:primaryType="cq:Dialog" xtype="tabpanel">
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          xmlns:nt="http://www.jcp.org/jcr/nt/1.0" jcr:primaryType="cq:Dialog" xtype="tabpanel">
     <items jcr:primaryType="cq:WidgetCollection">
         <tab1
                 jcr:primaryType="cq:Panel"
@@ -86,6 +87,11 @@
                         fieldLabel="Meeting Short Description"
                         allowBlank="{Boolean}false"
                         name="./meetingInfo/meeting short description/str"/>
+                <meeting_short_description_ocm
+                        jcr:primaryType="cq:Widget"
+                        name="./meetingInfo/meeting short description/ocm_classname"
+                        value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
+                        xtype="hidden"/>
                 <blurb
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Blurb"
@@ -1001,7 +1007,9 @@
                         </chars>
                     </specialCharsConfig>
                 </req>
-                <req_ocm jcr:primaryType="cq:Widget" name="./meetingInfo/req/ocm_classname" defaultValue="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" xtype="hidden"/>
+                <req_ocm jcr:primaryType="cq:Widget" name="./meetingInfo/req/ocm_classname"
+                         defaultValue="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
+                         value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" xtype="hidden"/>
                 <email_invite
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Email Invite"
@@ -1147,7 +1155,9 @@
                         </chars>
                     </specialCharsConfig>
                 </email_invite>
-                <email_invite_ocm jcr:primaryType="cq:Widget" name="./meetingInfo/email invite/ocm_classname" defaultValue="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" xtype="hidden"/>
+                <email_invite_ocm jcr:primaryType="cq:Widget" name="./meetingInfo/email invite/ocm_classname"
+                                  defaultValue="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
+                                  value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" xtype="hidden"/>
                 <email_summary
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Email Summary"

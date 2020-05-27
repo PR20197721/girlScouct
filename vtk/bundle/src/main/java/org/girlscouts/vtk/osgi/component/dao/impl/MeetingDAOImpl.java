@@ -117,7 +117,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         return meeting;
     }
 
-    private Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting libMeeting) throws IllegalAccessException {
+    public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting libMeeting) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
             throw new IllegalAccessException();
         }
@@ -136,7 +136,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
     }
 
-    private Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting libMeeting) throws IllegalAccessException {
+    public Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting libMeeting) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
             throw new IllegalAccessException();
         }

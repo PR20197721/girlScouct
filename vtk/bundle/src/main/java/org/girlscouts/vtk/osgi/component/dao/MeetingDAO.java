@@ -5,7 +5,6 @@ import org.girlscouts.vtk.models.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public interface MeetingDAO {
     java.util.List<Meeting> getAllMeetings(User user, Troop troop, String gradeLevel) throws IllegalAccessException;
@@ -13,8 +12,6 @@ public interface MeetingDAO {
     Meeting getMeeting(User user, Troop troop, String path) throws IllegalAccessException, VtkException;
 
     java.util.List<MeetingE> getAllEventMeetings_byPath(User user, Troop troop, String yearPlanPath) throws IllegalAccessException;
-
-    Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent) throws IllegalAccessException;
 
     Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException;
 
