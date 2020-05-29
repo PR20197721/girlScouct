@@ -43,7 +43,5 @@
     //if this server is a preview, we do not use google analytics for VTK demo
     if (!isPreview) {
 %>
-<cq:include script="google-analytics.jsp"/>
 <%
     } %>
-<cq:include script="footer-tracking.jsp"/>

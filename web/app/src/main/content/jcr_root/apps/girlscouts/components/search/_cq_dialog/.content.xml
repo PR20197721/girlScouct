@@ -3,7 +3,7 @@
     jcr:primaryType="nt:unstructured"
     jcr:title="Search"
     sling:resourceType="cq/gui/components/authoring/dialog"
-    helpPath="en/cq/current/wcm/default_components.html#Search">
+    helpPath="https://www.adobe.com/go/aem_cmp_search_v1">
     <content
         jcr:primaryType="nt:unstructured"
         sling:resourceType="granite/ui/components/foundation/container">

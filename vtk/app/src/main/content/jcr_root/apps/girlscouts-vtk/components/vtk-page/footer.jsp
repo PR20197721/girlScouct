@@ -33,6 +33,4 @@ String logoPath = homepage.getContentResource().getPath() + "/header";
 	</div>
 </div>
 
-<cq:include script="google-analytics.jsp" />
-<cq:include script="footer-tracking.jsp" />
 <!-- Version Animal Cracker -->

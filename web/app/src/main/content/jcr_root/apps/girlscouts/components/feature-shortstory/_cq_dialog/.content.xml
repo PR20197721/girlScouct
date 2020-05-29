@@ -3,7 +3,7 @@
     jcr:primaryType="nt:unstructured"
     sling:resourceType="cq/gui/components/authoring/dialog"
     extraClientLibs="[apps.girlscouts.components.feature-shortstory.dialog]"
-    helpPath="en/cq/current/wcm/default_components.html#Image">
+    helpPath="https://www.adobe.com/go/aem_cmp_image_v1">
     <content
         jcr:primaryType="nt:unstructured"
         sling:resourceType="granite/ui/components/foundation/container">
