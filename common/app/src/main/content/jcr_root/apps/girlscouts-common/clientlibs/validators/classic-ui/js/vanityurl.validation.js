@@ -7,12 +7,12 @@
         var path = value,
 			isLowerCase = path === path.toLowerCase(),
 			containsExtension = extensionPattern.test(path),
-			isExternalRedirect = externalSitePattern.test(path),
-			isValidVanityPath = isLowerCase || containsExtension || isExternalRedirect;
+			isUrl = externalSitePattern.test(path),
+			isValidVanityPath = (isLowerCase || containsExtension) && !isUrl;
 		return isValidVanityPath;
     };
 
 	// Set vtype message
 	CQ.Ext.form.VTypes.vanityPathValidatorText = 
-		CQ.I18n.getMessage("Vanity paths not ending in a file extension or redirecting to an external site must be completely lower case");
+		CQ.I18n.getMessage("Vanity paths can only be in the form of a relative path (e.g. /content/gsusa/camp, cannot be an external site) and must be completely lower case if not ending in a file extension (e.g. pdf)");
 }) ($, window, document);
