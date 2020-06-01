@@ -1,13 +1,40 @@
 package org.girlscouts.web.cq.workflow.service.impl;
 
-import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.PageManager;
-import com.day.cq.wcm.api.WCMException;
-import com.day.cq.wcm.msm.api.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.jcr.Node;
+import javax.jcr.PropertyIterator;
+import javax.jcr.RangeIterator;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.jcr.Value;
+import javax.jcr.Workspace;
+import javax.jcr.query.Query;
+import javax.jcr.version.VersionManager;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.*;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.LoginException;
-import org.apache.sling.api.resource.*;
+import org.apache.sling.api.resource.PersistenceException;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.common.components.GSEmailAttachment;
 import org.girlscouts.common.constants.PageReplicationConstants;
@@ -19,24 +46,7 @@ import org.osgi.framework.Constants;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.jcr.*;
-import javax.jcr.query.Query;
-import javax.jcr.version.VersionManager;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Deactivate;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.api.resource.LoginException;
-import org.apache.sling.api.resource.PersistenceException;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.api.resource.ResourceUtil;
+
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
@@ -45,8 +55,6 @@ import com.day.cq.wcm.msm.api.LiveRelationshipManager;
 import com.day.cq.wcm.msm.api.RolloutConfig;
 import com.day.cq.wcm.msm.api.RolloutConfigManager;
 import com.day.cq.wcm.msm.api.RolloutManager;
-import org.apache.sling.settings.SlingSettingsService;
-import org.apache.sling.api.resource.ResourceResolver;
 
 /*
  * Girl Scouts Page Activator - DL
@@ -107,6 +115,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                     Boolean notify = false, activate = false, delay = false, useTemplate = false, newPage = false, updateReferences = false;
                     Set<String> councils = null;
                     Set<String> notifyCouncils = new TreeSet<String>();
+                    Set<String> noLiveCopyCouncils = new TreeSet<String>();
                     List<String> rolloutLog = new ArrayList<String>();
                     try {
                         dateRolloutNode.setProperty(PARAM_STATUS, STATUS_PROCESSING);
@@ -174,7 +183,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 if (newPage) {
                                     processNewLiveRelationships(councils, srcRes, pages, rolloutLog, notifyCouncils, rr, updateReferences);
                                 } else {
-                                    processExistingLiveRelationships(councils, srcRes, pages, rolloutLog, notifyCouncils, rr, updateReferences);
+                                    processExistingLiveRelationships(councils, srcRes, pages, rolloutLog, notifyCouncils, noLiveCopyCouncils, rr, updateReferences);
                                 }
                                 if (!councils.isEmpty()) {
                                     int councilNameIndex = srcPath.indexOf("/", "/content/".length());
@@ -187,6 +196,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 }
                                 dateRolloutNode.setProperty(PARAM_PAGES, pages.toArray(new String[pages.size()]));
                                 dateRolloutNode.setProperty(PARAM_NOTIFY_COUNCILS, notifyCouncils.toArray(new String[notifyCouncils.size()]));
+                                if(!noLiveCopyCouncils.isEmpty()) {
+                                	dateRolloutNode.setProperty(PARAM_NO_LIVE_COPY_COUNCILS, noLiveCopyCouncils.toArray(new String[noLiveCopyCouncils.size()]));
+                                }
                                 session.save();
                             } else {
                                 log.error("Resource is not a page. Quit. " + srcPath);
@@ -211,6 +223,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                         } else {
                             dateRolloutNode.setProperty(PARAM_COUNCIL_NOTIFICATIONS_SENT, Boolean.FALSE);
                         }
+                        
                     } catch (Exception e) {
                         log.error("Girlscouts Rollout Service encountered error: ", e);
                     }
@@ -307,7 +320,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         submittedCouncils.removeAll(processedRelationCouncils);
     }
 
-    private void processExistingLiveRelationships(Set<String> submittedCouncils, Resource sourcePageResource, Set<String> pagesToActivate, List<String> rolloutLog, Set<String> notifyCouncils, ResourceResolver rr, Boolean updateReferences) throws RepositoryException, WCMException {
+    private void processExistingLiveRelationships(Set<String> submittedCouncils, Resource sourcePageResource, Set<String> pagesToActivate, List<String> rolloutLog, Set<String> notifyCouncils, Set<String> noLiveCopyCouncils, ResourceResolver rr, Boolean updateReferences) throws RepositoryException, WCMException {
         log.info("Processing existing live relationships.");
         Set<String> srcComponents = PageReplicationUtil.getComponents(sourcePageResource);
         Set<String> processedRelationCouncils = new HashSet<String>();
@@ -369,6 +382,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                     } else {
                         log.info("Resource {} not found.", relationPagePath);
                         log.info("Will NOT rollout to this page");
+                        noLiveCopyCouncils.add(relationPagePath);
                         rolloutLog.add("Resource " + relationPagePath + " not found.");
                         rolloutLog.add("Will NOT rollout to this page");
                     }
@@ -749,9 +763,12 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 
     private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog, Boolean isTestMode, ResourceResolver rr) {
         Set<String> notifyCouncils = new TreeSet<String>();
+        Set<String> noLiveCopyCouncils = new TreeSet<String>();
         String subject = DEFAULT_ROLLOUT_NOTIFICATION_SUBJECT;
         String message = DEFAULT_ROLLOUT_NOTIFICATION_MESSAGE, templatePath = "", srcPath = "";
         Boolean notify = false, useTemplate = false;
+        Boolean newPage = false;
+        
         try {
             log.info("Girlscouts Rollout Service : Sending Council notifications for {} rollout. isTestMode={}", dateRolloutNode.getPath(), isTestMode);
             notify = dateRolloutNode.getProperty(PARAM_NOTIFY).getBoolean();
@@ -795,9 +812,28 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                     log.error("Girlscouts Rollout Service encountered error: ", e);
                     return;
                 }
+                try {
+	                if(dateRolloutNode.hasProperty(PARAM_NO_LIVE_COPY_COUNCILS)) {
+	                	Value[] values = dateRolloutNode.getProperty(PARAM_NO_LIVE_COPY_COUNCILS).getValues();
+	                    for (Value value : values) {
+	                    	noLiveCopyCouncils.add(value.getString());
+	                    }
+	                }
+                }catch (Exception e) {
+                    log.error("Girlscouts Rollout Service encountered error: ", e);
+                    return;
+                }
+                try {
+                	if(dateRolloutNode.hasProperty(PARAM_NEW_PAGE)) {
+                		newPage = dateRolloutNode.getProperty(PARAM_NEW_PAGE).getBoolean();
+                	}
+                }catch (Exception e) {
+                    log.error("Girlscouts Rollout Service encountered error: ", e);
+                    return;
+                }
                 Resource source = rr.resolve(srcPath);
                 if (!source.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-                    if (notifyCouncils != null && !notifyCouncils.isEmpty()) {
+                    if (notifyCouncils != null && !notifyCouncils.isEmpty()) {                    	
                         for (String targetPath : notifyCouncils) {
                             if (message != null && message.trim().length() > 0) {
                                 String pathToCouncilSite = null;
@@ -840,14 +876,56 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                             }
                         }
                     }
+                    if(null != noLiveCopyCouncils && !noLiveCopyCouncils.isEmpty() && !newPage) {
+                    	subject = dateRolloutNode.getProperty(NO_LIVE_COPY_NOTIFICATION_SUB).getString();
+                    	message = dateRolloutNode.getProperty(NO_LIVE_COPY_NOTIFICATIOPN_MSG).getString();
+                    	for(String targetPath : noLiveCopyCouncils) {
+                    		if(null !=message && message.trim().length() > 0) {
+                    			String pathToCouncilSite = null;
+                                List<String> toAddresses = null;
+                                try {
+                                	pathToCouncilSite = PageReplicationUtil.getCouncilName(targetPath);
+                                    Page homepage = rr.resolve(pathToCouncilSite + "/en").adaptTo(Page.class);
+                                    toAddresses = PageReplicationUtil.getCouncilEmails(homepage.adaptTo(Node.class));
+                                    log.info("sending email to " + pathToCouncilSite.substring(9) + " emails:" + toAddresses.toString());
+                                    String body = PageReplicationUtil.generateCouncilNotification(srcPath, targetPath, message, rr, settingsService);
+                                    if(isTestMode) {
+                                    	councilNotificationLog.add("Notification is running in test mode!");
+                                    	gsEmailService.sendEmail(subject, toAddresses, body);
+                                    }else {
+                                    	 gsEmailService.sendEmail(subject, toAddresses, body);
+                                    }
+                                    try {
+                                        dateRolloutNode.setProperty(PARAM_NO_LIVE_COPY_COUNCIL_NOTIFICATIONS_SENT, Boolean.TRUE);
+                                        dateRolloutNode.getSession().save();
+                                    } catch (RepositoryException e1) {
+                                        log.error("Girlscouts Rollout Service encountered error: ", e1);
+                                    }
+                                    
+                                } catch (Exception e) {
+                                	log.error("Girlscouts Rollout Service encountered error: ", e);
+                                	 try {
+                                         dateRolloutNode.setProperty(PARAM_NO_LIVE_COPY_COUNCIL_NOTIFICATIONS_SENT, Boolean.FALSE);
+                                         dateRolloutNode.getSession().save();
+                                     } catch (RepositoryException e1) {
+                                         log.error("Girlscouts Rollout Service encountered error: ", e1);
+                                     }
+								}
+                    		}
+                    	}
+                    }
+                    
                 }
+                
             }
         } catch (Exception e) {
             log.error("Girlscouts Rollout Service encountered error: ", e);
         }
     }
 
-    private Boolean isGSRolloutConfig(Node pageNode) {
+  
+
+	private Boolean isGSRolloutConfig(Node pageNode) {
         boolean isValid = false;
         if (pageNode != null) {
             Node liveSync = getLiveSyncNode(pageNode);

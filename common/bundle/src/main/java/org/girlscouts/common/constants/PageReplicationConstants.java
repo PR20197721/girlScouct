@@ -82,7 +82,14 @@ public interface PageReplicationConstants {
     
     //GSWP-2077 : Start
     public static final String WORKFLOW_INITIATOR_NAME = "workflowInitiatorName";
-    //GSWP-2077 : end
+    //GSWP-2077 : end 
+    
+    //GSWP-2130 : Start
+    public static final String NO_LIVE_COPY_NOTIFICATION_SUB = "noLiveCopyNotificationSubject";
+    public static final String NO_LIVE_COPY_NOTIFICATIOPN_MSG = "noLiveCopyNotificationMessage";
+    public static final String PARAM_NO_LIVE_COPY_COUNCILS = "noLiveCopyCouncils";
+    public static final String PARAM_NO_LIVE_COPY_COUNCIL_NOTIFICATIONS_SENT = "no_livecopy_council_notifications_sent";
+    //GSWP-2130 : end
 
 	public interface Email {
 		public static final String DEFAULT_ROLLOUT_REPORT_SUBJECT = "GSUSA Rollout Report";
