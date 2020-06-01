@@ -33,6 +33,8 @@ if(currentNode.hasNode("navs")){
 					Boolean hideInMobile = linkNode.hasProperty("hide-in-mobile") ? linkNode.getProperty("hide-in-mobile").getBoolean() : false;
 					Boolean rootLandingPage = linkNode.hasProperty("root-landing-page") ? linkNode.getProperty("root-landing-page").getBoolean() : false;
 					Boolean newWindow = linkNode.hasProperty("new-window") ? linkNode.getProperty("new-window").getBoolean() : false;
+                    String defaultColor = linkNode.hasProperty("defaultColor")? linkNode.getProperty("defaultColor").getString() : "#C1EAD4";
+					String hoverColor = linkNode.hasProperty("hoverColor")? linkNode.getProperty("hoverColor").getString() : "#ffffff";
 					Iterator <Page> slingResourceIter;
                     String slingResourceType = "girlscouts/components/placeholder-page";
             		String contentResourceType="";
@@ -72,11 +74,11 @@ if(currentNode.hasNode("navs")){
 							<li id="tag_topnav_<%= linkifyString(largeLabel, 25)%>" class="<%=activeClass%>">
 						<%}
 						if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) { %>
-		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-large-up" href="<%= path %>" title="<%= largeLabel %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
-		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
+		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-large-up" href="<%= path %>" style="color:<%=defaultColor%>" onmouseover="this.style.color='<%=hoverColor%>'" onmouseout="this.style.color='<%=defaultColor%>'" title="<%= largeLabel %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
+		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-medium-only" href="<%= path %>" style="color:<%=defaultColor%>" onmouseover="this.style.color='<%=hoverColor%>'" onmouseout="this.style.color='<%=defaultColor%>'" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
 		                <% } else { %>
-		                   <a <%= target %> class="show-for-large-up" href="<%= path %>" title="<%= largeLabel %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
-		                   <a <%= target %> class="show-for-medium-only" href="<%= path %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
+		                   <a <%= target %> class="show-for-large-up" href="<%= path %>" style="color:<%=defaultColor%>" onmouseover="this.style.color='<%=hoverColor%>'" onmouseout="this.style.color='<%=defaultColor%>'" title="<%= largeLabel %>" tabindex="<%= headerNavTabindex %>"><%= largeLabel %></a>
+		                   <a <%= target %> class="show-for-medium-only" href="<%= path %>" style="color:<%=defaultColor%>" onmouseover="this.style.color='<%=hoverColor%>'" onmouseout="this.style.color='<%=defaultColor%>'" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
 		                <% } %>
 					  </li>
 					<%
@@ -141,6 +143,8 @@ if(currentNode.hasNode("navs")){
             					Boolean hideInMobile = linkNode.hasProperty("hide-in-mobile") ? linkNode.getProperty("hide-in-mobile").getBoolean() : false;
             					Boolean rootLandingPage = linkNode.hasProperty("root-landing-page") ? linkNode.getProperty("root-landing-page").getBoolean() : false;
             					Boolean newWindow = linkNode.hasProperty("new-window") ? linkNode.getProperty("new-window").getBoolean() : false;
+                                String defaultColor = linkNode.hasProperty("defaultColor")? linkNode.getProperty("defaultColor").getString() : "#C1EAD4";
+								String hoverColor = linkNode.hasProperty("hoverColor")? linkNode.getProperty("hoverColor").getString() : "#ffffff";
             					Iterator <Page> slingResourceIter;
                                 String slingResourceType = "girlscouts/components/placeholder-page";
                         		String contentResourceType="";
@@ -180,9 +184,9 @@ if(currentNode.hasNode("navs")){
             						<%
             						}
             						if (path.indexOf("http:") != -1 || path.indexOf("https:") != -1) { %>
-            		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-small-only" href="<%= path %>" title="<%= smallLabel %>" tabindex="<%= headerNavTabindex %>"><%= smallLabel %></a>
+            		                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-small-only" href="<%= path %>" style="color:<%=defaultColor%>" onmouseover="this.style.color='<%=hoverColor%>'" onmouseout="this.style.color='<%=defaultColor%>'" title="<%= smallLabel %>" tabindex="<%= headerNavTabindex %>"><%= smallLabel %></a>
             		                <% } else { %>
-            		                   <a <%= target %> class="show-for-small-only" href="<%= path %>" title="<%= smallLabel %>" tabindex="<%= headerNavTabindex %>"><%= smallLabel %></a>
+            		                   <a <%= target %> class="show-for-small-only" href="<%= path %>" style="color:<%=defaultColor%>" onmouseover="this.style.color='<%=hoverColor%>'" onmouseout="this.style.color='<%=defaultColor%>'" title="<%= smallLabel %>" tabindex="<%= headerNavTabindex %>"><%= smallLabel %></a>
             		                <% }
             		                %>
             					  </li>

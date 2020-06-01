@@ -62,6 +62,18 @@
                                     fieldDescription="Put CSS class here to add to link"
                                     fieldLabel="Class"
                                     name="class"/>
+                                <default-color
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                    fieldDescription="Enter color code to apply to link"
+                                    fieldLabel="Default Color"
+                                    name="defaultColor"/>
+                                <hover-color
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                    fieldDescription="Enter color code to apply to link on hover"
+                                    fieldLabel="Hover Color"
+                                    name="hoverColor"/>
                                 <hide-in-desktop
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/form/checkbox"
