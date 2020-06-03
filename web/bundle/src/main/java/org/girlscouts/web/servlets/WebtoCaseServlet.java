@@ -175,10 +175,10 @@ implements OptingServlet {
 			method = callHttpClient(url);
 			if(method.hasBeenUsed() && method.isRequestSent()){
 				status = method.getStatusCode();
-				System.out.println("http client response header: ");
+				logger.info("http client response header: ");
 				for(Header header:method.getResponseHeaders()){
 					response.setHeader(header.getName(), header.getValue());
-					System.out.println(header.getName()+" :: "+header.getValue());
+					logger.info(header.getName()+" :: "+header.getValue());
 				}
 			}else{
 				status = 500;
@@ -399,7 +399,6 @@ implements OptingServlet {
         		is.close();
 			} catch (Exception e) {
 				logger.error("Input Stream Failed");
-				System.out.println("Input Stream Failed");
 				e.printStackTrace();
 			}
     		try {
@@ -437,9 +436,9 @@ implements OptingServlet {
 		NameValuePair[] dataArray = data.toArray(new NameValuePair[data.size()]);
 		method.setRequestBody(dataArray);
 		if(debug){
-			System.out.println("http client request para: ");
+			logger.info("http client request para: ");
 			for(NameValuePair para:method.getParameters()){
-				System.out.println(para.getName()+" :: "+para.getValue());
+				logger.info(para.getName()+" :: "+para.getValue());
 			}
 		}
 		method.addRequestHeader("Content-Type","application/x-www-form-urlencoded");
@@ -453,8 +452,8 @@ implements OptingServlet {
 				logger.error("Method failed: " + method.getStatusLine());
 			}
 			if (debug) {
-				System.out.println("http client postMethod StatusLine: " + method.getStatusLine());
-				System.out.println("http client postMethod Response: " + method.getResponseBodyAsString());
+				logger.info("http client postMethod StatusLine: " + method.getStatusLine());
+				logger.info("http client postMethod Response: " + method.getResponseBodyAsString());
 			}
 
 

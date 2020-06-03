@@ -30,7 +30,8 @@ import org.girlscouts.vtk.models.Meeting;
 public class ParseXls1 {
 	
 	static String rootPath="/Users/akobovich/Documents/VTK_Imports/VTK-ASSETS";
-	
+	private static Logger log = LoggerFactory.getLogger(ParseXls1.class);
+
     public static void main(String[] args) throws Exception {
         ParseXls1 me = new ParseXls1();
 
@@ -107,7 +108,7 @@ public class ParseXls1 {
                 e.printStackTrace();
             }
             if (docxMeeting == null) {
-                System.err.println("Cannot parse meeting:" + meetingId);
+                log.error("Cannot parse meeting:" + meetingId);
             } else {
                 List<Activity> chngActivities = new java.util.ArrayList();
                 Pattern p = Pattern.compile("\\[(.*?)\\^(.*?)\\^(.*?)\\]");
@@ -115,7 +116,7 @@ public class ParseXls1 {
                 int count = 0;
                 while (m.find()) {
                     Activity activity = docxMeeting.getActivities().get(count);
-                    // System.err.println(count+ " - "+m.group(0)+" ___________"
+                    // log.error(count+ " - "+m.group(0)+" ___________"
                     // +m.group(2)+ "____    "+m.group(3) +" : :  :"+
                     // activities.get(count).getName()
                     // +" : "+activities.get(count).getActivityNumber());
@@ -195,7 +196,7 @@ public class ParseXls1 {
                 meeting.getPath().lastIndexOf("/"));
 
         /*
-         * Node node = root.getNode(path); System.err.println((node==null)
+         * Node node = root.getNode(path); log.error((node==null)
          * +" PAthL: "+ path );
          */
 
@@ -250,12 +251,12 @@ public class ParseXls1 {
     	    		renameFile( rootPath+ "/meetings/"+name, rootPath+ "/meetings/"+fixedName);
     	    	
     	    	
-    	    	System.err.println("\n"+ name + " : " + fixedName);
+    	    	log.error("\n"+ name + " : " + fixedName);
     	      //  results.put(name, fixedName);
     	    }
     	}
     	
-    	//System.err.println( results );
+    	//log.error( results );
     }
     
     private boolean renameFile(String oldFileName, String newFileName){
@@ -264,10 +265,10 @@ public class ParseXls1 {
     	java.io.File newfile =new java.io.File(newFileName);
  
 		if(oldfile.renameTo(newfile)){
-			System.out.println("Rename succesful");
+			log.info("Rename succesful");
 			
 		}else{
-			System.out.println("Rename failed");
+			log.info("Rename failed");
 			return false;
 		}
 		return true;

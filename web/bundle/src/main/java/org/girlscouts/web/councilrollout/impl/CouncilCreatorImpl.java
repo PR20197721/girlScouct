@@ -441,14 +441,14 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ", false), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ", false), acm, session).getPrivilegeList());
 			} else{
-				System.err.println("Failed to set permissions on User Group: " + councilGroup.getID());
+				LOG.error("Failed to set permissions on User Group: " + councilGroup.getID());
 			}
 			//Policies are all generated into a list and for loop binds policies to their respective nodes
 			for(JackrabbitAccessControlList l: aclList) {
 				try{
 					acm.setPolicy(l.getPath(), l);
 				}catch(Exception e){
-					System.err.println("Failed to set policy on " + l.getPath());
+					LOG.error("Failed to set policy on " + l.getPath());
 					e.printStackTrace();
 				}
 			}

@@ -2,10 +2,13 @@
 				org.girlscouts.web.councilupdate.PageActivator,
 				java.util.TreeSet,
 				java.util.ArrayList,
-				java.util.HashMap" %>
+				java.util.HashMap,
+				org.slf4j.Logger,
+				org.slf4j.LoggerFactory" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <div id="main" class="row collapse inner-wrapper">
 <%
+private final Logger log = LoggerFactory.getLogger(this.getClass());
 final WCMMode wcmMode = WCMMode.fromRequest(request);
 if(wcmMode != WCMMode.EDIT){
 	%><p>This page can only be viewed in author mode and should not be activated</p><%
@@ -117,7 +120,7 @@ if(wcmMode != WCMMode.EDIT){
 							}
 						}
 					}else{
-						System.err.println("GS Page Activator - There is no report node for the current process");
+						log.error("GS Page Activator - There is no report node for the current process");
 					}
 				}catch(Exception e){
 					e.printStackTrace();

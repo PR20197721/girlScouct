@@ -3,9 +3,12 @@ package org.girlscouts.vtk.models;
 import java.io.Serializable;
 import java.util.StringTokenizer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Cal extends JcrNode implements Serializable {
     private String dates;
-
+    private static Logger log = LoggerFactory.getLogger(Cal.class);
     public String getDates() {
         String toRet = fmtDates();
         return toRet;//fmtDates(); //dates;
@@ -52,7 +55,7 @@ public class Cal extends JcrNode implements Serializable {
                 gt:
                 for (int i = 0; i < 35; i++) {
                     if (fmtList.contains(_date)) {
-                        System.err.println("Found duplicate date in YP schedule " + _date + ".. Adding 1.");
+                        log.error("Found duplicate date in YP schedule " + _date + ".. Adding 1.");
                         _date += 1;
                         break gt;
                     }

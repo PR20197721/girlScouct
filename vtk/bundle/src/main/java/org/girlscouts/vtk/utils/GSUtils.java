@@ -3,9 +3,15 @@ package org.girlscouts.vtk.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GSUtils {
+	private static Logger log = LoggerFactory.getLogger(GSUtils.class);
+	
     public static String getDocTypeImageFromString(String str) {
         String extension = getDocExtensionFromString(str);
+        
         String docTypeImage = null;
         if (extension.equals("pdf")) {
             docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png";
@@ -31,7 +37,7 @@ public class GSUtils {
 
     public static String getDocExtensionFromString(String str) {
         if (str == null || str.trim().equals("")) {
-            System.err.println("GSUtils.getDocExtensionFromString Error: found Asset extension blank..");
+        	log.error("GSUtils.getDocExtensionFromString Error: found Asset extension blank..");
             return "";
         }
         String regexStr = "\\.([a-z]*)$";

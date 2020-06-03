@@ -218,7 +218,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 			map.put("payload.type", data.getPayloadType());
 			map.put("comment", getComment(flow, session));
 			map.put("initiator.email", getInitiatorEmail(resolver, flow));
-			System.out.println(getInitiatorEmail(resolver, flow));
+			log.info(getInitiatorEmail(resolver, flow));
 
 		} catch (Exception e) {
 

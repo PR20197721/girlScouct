@@ -129,13 +129,13 @@ public class ReplicationCheckerImpl implements ReplicationChecker {
 			// Provide custom retry handler is necessary
 			method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
 					new DefaultHttpMethodRetryHandler(3, false));
-			System.out.println("<=============Sending Request: GET "+url+"================>");
+			LOG.info("<=============Sending Request: GET "+url+"================>");
 			try {
 				// Execute the method.
 				int statusCode = client.executeMethod(method);
 				if (statusCode != HttpStatus.SC_OK) {
 					if(statusCode==HttpStatus.SC_NOT_FOUND ){
-						System.err.println("Resource NOT Found");
+						LOG.error("Resource NOT Found");
 					}else{
 						LOG.error("Method failed: " + method.getStatusLine());
 					}
@@ -143,18 +143,18 @@ public class ReplicationCheckerImpl implements ReplicationChecker {
 				}
 				else{
 					// Read the response body.
-					System.out.println(method.getResponseBodyAsString());
+					LOG.info(method.getResponseBodyAsString());
 					// Deal with the response.
 					JSONObject jsonObject = new JSONObject(method.getResponseBodyAsString());
 					return Arrays.asList(JSONObject.getNames(jsonObject));
 				}
 
 			} catch (HttpException e) {
-				System.err.println("Fatal protocol violation: " + e.getMessage());
+				LOG.error("Fatal protocol violation: " + e.getMessage());
 				e.printStackTrace();
 				throw new GirlScoutsException(e,"HttpExceptions thrown when calling httpClient");
 			} catch (IOException e) {
-				System.err.println("Fatal transport error: " + e.getMessage());
+				LOG.error("Fatal transport error: " + e.getMessage());
 				e.printStackTrace();
 				throw new GirlScoutsException(e,"IOExceptions thrown when calling httpClient");
 			} catch(JSONException e){

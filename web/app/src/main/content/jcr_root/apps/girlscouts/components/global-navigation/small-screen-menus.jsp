@@ -75,6 +75,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 <div id="right-canvas-menu"> 
  	<ul class="side-nav" style="padding:0px; background-color:#6b6b6b;"> 
 		<%
+		private final Logger log = LoggerFactory.getLogger(this.getClass());
 			GirlscoutsVtkConfigProvider configManager = sling.getService(GirlscoutsVtkConfigProvider.class);
   		String currPath = currentPage.getPath();  
   		String headerPath = (String)request.getAttribute("headerPath");
@@ -110,14 +111,14 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
                 try{
                     String[] values = links[i].split("\\|\\|\\|");
                     String label = values[0];
-                    System.out.println("Label is: " + label);
+                    log.info("Label is: " + label);
                     String path = values.length >= 2 ? values[1] : "";
                     String menuPath = values.length >= 2 ? values[1] : "";
                     path = genLink(resourceResolver, path);
                     String clazz = values.length >= 3 ? " "+ values[2] : "";
                     String mLabel = values.length >=4 ? " "+values[3] : "";
                     String sLabel = values.length >=5 ? " "+values[4] : "";
-                    System.out.println("Small Label is: " + sLabel);
+                    log.info("Small Label is: " + sLabel);
                     Set<String> navigationPath;
                     Iterator<Page> menuLevel1;
                     String navigation="";

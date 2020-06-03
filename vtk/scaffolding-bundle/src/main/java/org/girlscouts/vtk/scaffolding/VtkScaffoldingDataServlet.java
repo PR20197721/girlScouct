@@ -23,6 +23,8 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
@@ -41,7 +43,7 @@ public class VtkScaffoldingDataServlet extends SlingAllMethodsServlet {
 	private org.apache.sling.api.resource.ResourceResolverFactory resolverFactory;
 
 	private static final long serialVersionUID = -1570812480911363489L;
-	
+	private static Logger log = LoggerFactory.getLogger(VtkScaffoldingDataServlet.class);
 	
 	protected void doGet(SlingHttpServletRequest request,
             SlingHttpServletResponse response) throws ServletException,
@@ -57,7 +59,7 @@ public class VtkScaffoldingDataServlet extends SlingAllMethodsServlet {
 
 			 String year = request.getParameter("yearplan");
 			 String yearPlanPath = YEAR_PLAN_BASE + year;
-			 System.err.println(" yearPlanPath is " + yearPlanPath);
+			 log.error(" yearPlanPath is " + yearPlanPath);
 			 
 			String finalJson = DATA_ROOT;
 			 
@@ -102,7 +104,7 @@ public class VtkScaffoldingDataServlet extends SlingAllMethodsServlet {
 					
 					yearPlanData = yearPlanData.substring(0, (yearPlanData.length() -1));
 				finalJson = finalJson.replaceAll("DATA_TEMPLATE", yearPlanData);
-					System.err.println(" finalJson data "+finalJson);
+				log.error(" finalJson data "+finalJson);
 				
 			} catch (Exception e) {
 				e.printStackTrace();

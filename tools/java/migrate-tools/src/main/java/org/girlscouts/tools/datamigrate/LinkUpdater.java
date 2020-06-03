@@ -20,6 +20,8 @@ public class LinkUpdater
     private Session session;
     private int count;
     
+    private static Logger log = LoggerFactory.getLogger(LinkUpdater.class);
+    
     public LinkUpdater(String server, String username, String password) throws RepositoryException {
         this.server = server;
         this.username = username;
@@ -69,15 +71,15 @@ public class LinkUpdater
                             }
                             propNode.setProperty("links", strValues);
                             session.save();
-                            System.out.println("Property updated: " + propNode.getPath());
+                            log.info("Property updated: " + propNode.getPath());
                             count++;
                         }
                     }
                 }
             } catch (RepositoryException e) {
-                System.err.println(e.getMessage());
+            	log.error(e.getMessage());
             }
         }
-        System.out.println("# of councils with VTK link updated: " + Integer.toString(this.count));
+        log.info("# of councils with VTK link updated: " + Integer.toString(this.count));
     }
 }

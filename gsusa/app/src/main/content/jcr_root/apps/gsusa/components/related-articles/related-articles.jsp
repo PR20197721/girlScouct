@@ -8,8 +8,11 @@
     			java.util.List,
 				java.util.ArrayList,
 				com.day.cq.search.QueryBuilder,
-				com.day.cq.search.result.Hit"%>
+				com.day.cq.search.result.Hit,
+				org.slf4j.Logger,
+				org.slf4j.LoggerFactory"%>
 <%
+	final Logger relatedLog = LoggerFactory.getLogger(this.getClass());
 	String title = properties.get("title", "Related Articles");
 	String pullFromFeed = properties.get("pullFromFeed", "false");
 	String hasBorderLine = properties.get("borderLine", String.class);
@@ -36,7 +39,7 @@
 
         List<Hit> hits = getTaggedArticles(tagIds, feedLimit, resourceResolver, builder, sortByPriority);
 
-        System.out.println("Got to line 36 on related articles");
+        relatedLog.info("Got to line 36 on related articles");
         if(hits.size() > 0){
 			article1 = hits.get(0).getPath();
         }
