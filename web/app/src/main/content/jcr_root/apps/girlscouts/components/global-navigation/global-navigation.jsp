@@ -81,12 +81,10 @@ if(currentNode.hasNode("links")){
         	String large = linkNode.getProperty("large").getString();
             String medium = linkNode.getProperty("medium").getString();
             String small = linkNode.getProperty("small").getString();
-
 			String clazz = "";
             if(linkNode.hasProperty("class")){
                 clazz = linkNode.getProperty("class").getString();
             }
-
         	linksList.add(large + "|||" + url + "|||" + clazz + "|||" + medium + "|||" + small);
     	}
 
@@ -176,7 +174,7 @@ if ((links == null || links.length == 0)) {
                 }
                 if (clazz.indexOf("hide-in-nav") < 0) { // If not hidden, create list element
                     %><li data-link="<%=path%>" class="<%=hasChildren%><%=activeStatus%>">
-                        <a class="show-for-large-up menu <%=clazz%>" href="<%=path%>"><%=label%></a>
+        				<a class="show-for-large-up menu <%=clazz%>" href="<%=path%>"><%=label%></a>
                         <a class="show-for-medium-only menu <%=clazz%>" href="<%=path%>"><%=mLabel%></a><%
                         try {
                             if (flyPage != null) {
