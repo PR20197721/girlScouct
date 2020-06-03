@@ -11,19 +11,25 @@ div.textimage.image_right div.image {
     margin: 0 0 8px 8px !important;
 }
 
-.image-right  {
+/*GSWP-2149-Image Center alignment and shrink the width if the image is bigger in center alignment*/
+.image-right img {
 	float: right;    
  	margin: 0 0 0 15px;
 }
 
-.image-left{
+.image-left img{
 	float: left;    
  	margin: 0 15px 0 0;
 }
 
-.image-center{
+.image-center img{
  	display: block;
   	margin-left: auto;
   	margin-right: auto;
-  	width: 50%;
+    width: fit-content;
+    width:-moz-fit-content;
+    width:-webkit-fit-content;
+    width:-ms-fit-content;
+    max-width: 50%;
 }
+/*End-GSWP-2149-Image Center alignment and shrink the width if the image is bigger in center alignment*/
