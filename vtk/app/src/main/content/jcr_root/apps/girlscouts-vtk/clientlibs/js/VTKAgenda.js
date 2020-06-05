@@ -160,6 +160,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 	isNasaChecked: true,
     outdoorField:false,
     globalField:false,
+    computerField:false,
+    virtualField:false,
     durationConst:[5,10,15,20,25,30,35,40,45,50,55,60],
 
 	//outdoorCheckboxField: null,
@@ -257,6 +259,10 @@ setTimeout(function(){
                                 panelParent.findByType("label")[7].hide(); //global
                                 panelParent.findByType("checkbox")[1].hide();// outdoor
                                 panelParent.findByType("checkbox")[2].hide();// global
+                                panelParent.findByType("label")[8].hide(); //computer
+                                panelParent.findByType("label")[9].hide(); //virtual
+                                panelParent.findByType("checkbox")[3].hide();// computer
+                                panelParent.findByType("checkbox")[4].hide();// virtual
 
 
 
@@ -468,7 +474,37 @@ setTimeout(function(){
         });
         this.add(this.globalField);
     
+      //computer
+        this.add(new CQ.Ext.form.Label({text: "Computer"}));
+        this.computerField = new CQ.Ext.form.Checkbox({  
+        	inputValue: true,
+        	disabled: false,
+        	listeners: {
+        		check: {
+                    scope: this,
+                    	fn: function(me, val) {
+                    		
+                    	}
+        		}
+        	}
+        });
+        this.add(this.computerField);
         
+        //virtual
+        this.add(new CQ.Ext.form.Label({text: "  Virtual"}));
+        this.virtualField = new CQ.Ext.form.Checkbox({  
+        	inputValue: true,
+        	disabled: false,
+        	listeners: {
+        		check: {
+                    scope: this,
+                    	fn: function(me, val) {
+                    		
+                    	}
+        		}
+        	}
+        });
+        this.add(this.virtualField);
         
         if (true){//this.isMainAgenda) {       
 	        this.whateverButton =  new CQ.Ext.Button({
@@ -530,6 +566,18 @@ setTimeout(function(){
 		    							subAgendaItems[ii].global = item.getValue();
 		    						} else {
 		    							subAgendaItems[ii] = {'global':item.getValue()};
+		    						}
+		    					} else if (item.gsField === 'addComputer'+ii) {
+		    						if (subAgendaItems[ii] != null) {
+		    							subAgendaItems[ii].computer = item.getValue();
+		    						} else {
+		    							subAgendaItems[ii] = {'computer':item.getValue()};
+		    						}
+		    					} else if (item.gsField === 'addVirtual'+ii) {
+		    						if (subAgendaItems[ii] != null) {
+		    							subAgendaItems[ii].virtual = item.getValue();
+		    						} else {
+		    							subAgendaItems[ii] = {'virtual':item.getValue()};
 		    						}
 		    					} else if (item.gsField === 'addDescript'+ii) {
 		    						if (subAgendaItems[ii] != null) {
@@ -650,6 +698,22 @@ setTimeout(function(){
 		        				agendaCompositeField.add(hiddenGlobalField);
 		        				agendaCompositeField["hiddenGlobalField" + i] = hiddenSubtitleField;
 
+		        				var hiddenComputerField = new CQ.Ext.form.Hidden({
+	        						'gsField': 'addComputer'+i,
+		        					name: './activities/' + agendaCompositeField.nodeName+ '/multiactivities/agenda' + i + '/computer',
+		        					value: additionalAgendaItemsList[i].computerField.getValue()
+	        					});
+		        				agendaCompositeField.add(hiddenComputerField);
+                                agendaCompositeField["hiddenComputerField" + i] = hiddenSubtitleField;
+                                
+                                var hiddenVirtualField = new CQ.Ext.form.Hidden({
+	        						'gsField': 'addVirtual'+i,
+		        					name: './activities/' + agendaCompositeField.nodeName+ '/multiactivities/agenda' + i + '/virtual',
+		        					value: additionalAgendaItemsList[i].virtualField.getValue()
+	        					});
+		        				agendaCompositeField.add(hiddenVirtualField);
+		        				agendaCompositeField["hiddenVirtualField" + i] = hiddenSubtitleField;
+		        				
 		        				/*
 		        				var hiddenDurationField = new CQ.Ext.form.Hidden({
 		        					'gsField': 'addDuration'+i,
@@ -756,6 +820,8 @@ setTimeout(function(){
 	    	this.subtitleField.setValue(value.subtitle);
             this.outdoorField.setValue(value.outdoor);
             this.globalField.setValue(value.global);
+            this.computerField.setValue(value.computer);
+            this.virtualField.setValue(value.virtual);
 	    	this.durationField.setValue(value.duration);
 	    	this.descriptionField.setValue(value.description);
 	    	this.materialField.setValue(value.materials);
@@ -851,6 +917,20 @@ var hiddenDummyActivityDescriptionFieldTT = new CQ.Ext.form.Hidden({
 						value: value[value.nodeName + '/multiactivities/agenda' + j + '/global']
     				});
 		        	me.add(hiddenGlobalField);
+		        	
+		        	var hiddenComputerField = new CQ.Ext.form.Hidden({
+						'gsField': 'addComputer' + j,
+						name: './activities/' + value.nodeName + '/multiactivities/agenda' + j + '/computer',
+						value: value[value.nodeName + '/multiactivities/agenda' + j + '/computer']
+    				});
+                    me.add(hiddenComputerField);
+                    
+                    var hiddenVirtualField = new CQ.Ext.form.Hidden({
+						'gsField': 'addVirtual' + j,
+						name: './activities/' + value.nodeName + '/multiactivities/agenda' + j + '/virtual',
+						value: value[value.nodeName + '/multiactivities/agenda' + j + '/virtual']
+    				});
+		        	me.add(hiddenVirtualField);
 /*
 		        	var hiddenDurationField = new CQ.Ext.form.Hidden({
 						'gsField': 'addDuration' + j,
@@ -943,6 +1023,8 @@ var hiddenDummyActivityDescriptionFieldTT = new CQ.Ext.form.Hidden({
     		"subtitle": this.subtitleField.getValue(),
             "outdoor": this.outdoorField.getValue(),
             "global": this.globalField.getValue(),
+            "computer": this.computerField.getValue(),
+            "virtual": this.virtualField.getValue(),
     		"duration": this.durationField.getValue(),
     		"materials": this.materialField.getValue(),
     		"description": this.descriptionField.getValue()
@@ -962,6 +1044,10 @@ var hiddenDummyActivityDescriptionFieldTT = new CQ.Ext.form.Hidden({
 						agenda[this.nodeName + '/multiactivities/agenda' + j +'/outdoor'] = this.items.items[i].getValue();
 					}else if (this.items.items[i].gsField.indexOf('addGlobal') != -1) {
 						agenda[this.nodeName + '/multiactivities/agenda' + j +'/global'] = this.items.items[i].getValue();
+					}else if (this.items.items[i].gsField.indexOf('addComputer') != -1) {
+						agenda[this.nodeName + '/multiactivities/agenda' + j +'/computer'] = this.items.items[i].getValue();
+					}else if (this.items.items[i].gsField.indexOf('addVirtual') != -1) {
+						agenda[this.nodeName + '/multiactivities/agenda' + j +'/virtual'] = this.items.items[i].getValue();
 					} else if (this.items.items[i].gsField.indexOf('addDescript') != -1) {
 						agenda[this.nodeName + '/multiactivities/agenda' + j + '/description'] = this.items.items[i].getValue();
 					} else if (this.items.items[i].gsField.indexOf('addDuration') != -1) {

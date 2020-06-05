@@ -65,6 +65,10 @@ public class ActivityEntity extends BaseEntity {
     private Boolean outdoor;
     @SerializedName("global")
     private Boolean global;
+    @SerializedName("computer")
+    private Boolean computer;
+    @SerializedName("virtual")
+    private Boolean virtual;
     @SerializedName("multiactivities")
     private List<ActivityEntity> multiactivities;
     @SerializedName("subtitle")
@@ -325,8 +329,24 @@ public class ActivityEntity extends BaseEntity {
     public void setGlobal(Boolean global) {
         this.global = global;
     }
+    
+    public Boolean getComputer() {
+		return computer;
+	}
 
-    public List<ActivityEntity> getMultiactivities() {
+	public Boolean getVirtual() {
+		return virtual;
+	}
+
+	public void setComputer(Boolean computer) {
+		this.computer = computer;
+	}
+
+	public void setVirtual(Boolean virtual) {
+		this.virtual = virtual;
+	}
+
+	public List<ActivityEntity> getMultiactivities() {
         return multiactivities;
     }
 

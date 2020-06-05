@@ -94,8 +94,11 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                         meetingResult.setLevel(vm.get("level", ""));
                         meetingResult.setName(vm.get("name", ""));
                         OutdoorGlobal flags = hasOutdoorOrGlobal(meeting);
+                        ComputerVirtual virtualFlags = hasComputerOrVirtual(meeting);
                         meetingResult.setHasGlobal(flags.getHasGlobal());
                         meetingResult.setHasOutdoor(flags.getHasOutdoor());
+                        meetingResult.setHasVirtual(virtualFlags.getHasVirtual());
+                        meetingResult.setHasComputer(virtualFlags.getHasComputer());
                         meetingResult.setHealthyLiving(vm.get("healthyliving", "false").equals("true"));
                         meetingResult.setLifeSkills(vm.get("lifeskills", "false").equals("true"));
                         meetingResult.setAidPaths(vm.get("aidPaths", new String[]{}));
@@ -225,6 +228,36 @@ public class MeetingSearch extends SlingAllMethodsServlet {
         }
         return result;
     }
+    
+    private ComputerVirtual hasComputerOrVirtual(Resource meeting) {
+    	ComputerVirtual result = new ComputerVirtual();
+        try {
+            Resource activities = meeting.getChild("activities");
+            if(activities != null) {
+                Iterator<Resource> activityIterator = activities.getChildren().iterator();
+                while(activityIterator.hasNext()) {
+                    Resource activity = activityIterator.next();
+                    Resource multiactivity = activity.getChild("multiactivities");
+                    if(multiactivity != null) {
+                        Iterator<Resource> multiactivityIterator = multiactivity.getChildren().iterator();
+                        while(multiactivityIterator.hasNext()) {
+                            Resource agenda = multiactivityIterator.next();
+                            ValueMap vm  = agenda.getValueMap();
+                            if(vm.get("computer","false").equals("true")) {
+                                result.setHasComputer(Boolean.TRUE);
+                            }
+                            if(vm.get("virtual","false").equals("true")) {
+                                result.setHasVirtual(Boolean.TRUE);
+                            }
+                        }
+                    }
+                }
+            }
+        }catch(Exception e) {
+
+        }
+        return result;
+    }
     private class OutdoorGlobal{
         private Boolean hasOutdoor;
         private Boolean hasGlobal;
@@ -245,6 +278,27 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             this.hasGlobal = hasGlobal;
         }
     }
+    private class ComputerVirtual{
+        private Boolean hasComputer;
+        private Boolean hasVirtual;
+
+        public Boolean getHasComputer() {
+            return hasComputer;
+        }
+
+        public void setHasComputer(Boolean hasComputer) {
+            this.hasComputer = hasComputer;
+        }
+
+        public Boolean getHasVirtual() {
+            return hasVirtual;
+        }
+
+        public void setHasVirtual(Boolean hasVirtual) {
+            this.hasVirtual = hasVirtual;
+        }
+    }
+
     private class MeetingResult{
         private int resultIndex;
         private String meetingType;
@@ -262,6 +316,8 @@ public class MeetingSearch extends SlingAllMethodsServlet {
         private Boolean lifeSkills = Boolean.FALSE;
         private Boolean hasOutdoor = Boolean.FALSE;
         private Boolean hasGlobal = Boolean.FALSE;
+        private Boolean hasComputer = Boolean.FALSE;
+        private Boolean hasVirtual = Boolean.FALSE;
         private Boolean isIncluded = Boolean.FALSE;
 
         public int getResultIndex() {
@@ -375,8 +431,24 @@ public class MeetingSearch extends SlingAllMethodsServlet {
         public void setHasGlobal(Boolean hasGlobal) {
             this.hasGlobal = hasGlobal;
         }
+     
+        public Boolean getHasComputer() {
+			return hasComputer;
+		}
 
-        public String getReq() {
+        public void setHasComputer(Boolean hasComputer) {
+			this.hasComputer = hasComputer;
+		}
+        
+		public Boolean getHasVirtual() {
+			return hasVirtual;
+		}
+
+		public void setHasVirtual(Boolean hasVirtual) {
+			this.hasVirtual = hasVirtual;
+		}
+
+		public String getReq() {
             return req;
         }
 
@@ -421,12 +493,14 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                     Objects.equals(lifeSkills, that.lifeSkills) &&
                     Objects.equals(hasOutdoor, that.hasOutdoor) &&
                     Objects.equals(hasGlobal, that.hasGlobal) &&
+                    Objects.equals(hasComputer, that.hasComputer) &&
+                    Objects.equals(hasVirtual, that.hasVirtual) &&
                     Objects.equals(isIncluded, that.isIncluded);
         }
 
         @Override
         public int hashCode() {
-            int result = Objects.hash(resultIndex, meetingType, path, cat, blurb, id, req, reqTitle, level, name, healthyLiving, lifeSkills, hasOutdoor, hasGlobal, isIncluded);
+            int result = Objects.hash(resultIndex, meetingType, path, cat, blurb, id, req, reqTitle, level, name, healthyLiving, lifeSkills, hasOutdoor, hasGlobal, hasComputer, hasVirtual, isIncluded);
             result = 31 * result + Arrays.hashCode(catTags);
             result = 31 * result + Arrays.hashCode(aidPaths);
             return result;
