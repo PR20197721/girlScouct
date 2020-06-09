@@ -82,19 +82,19 @@ public class AssetNode extends JcrNode implements Serializable {
         isOutdoorRelated = outdoorRelated;
     }
 
-    public Boolean getGlobalRelated() {
+    public Boolean getIsGlobalRelated() {
         return isGlobalRelated;
     }
 
-    public void setGlobalRelated(Boolean globalRelated) {
+    public void setIsGlobalRelated(Boolean globalRelated) {
         isGlobalRelated = globalRelated;
     }
 
-    public Boolean getVirtualRelated() {
+    public Boolean getIsVirtualRelated() {
         return isVirtualRelated;
     }
 
-    public void setVirtualRelated(Boolean virtualRelated) {
+    public void setIsVirtualRelated(Boolean virtualRelated) {
         isVirtualRelated = virtualRelated;
     }
 }

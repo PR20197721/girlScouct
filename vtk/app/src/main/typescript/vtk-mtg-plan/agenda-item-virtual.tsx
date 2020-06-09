@@ -5,18 +5,29 @@ export interface AgendaItemVirtualProps {
 }
 
 export default function AgendaItemVirtual(props: AgendaItemVirtualProps) {
-    let hasVirtual = [];
+    let virtualAgendaItems = [];
+    let hasVirtual = false;
+    let virtualSelected = false;
 
     if (props.multiactivities) {
-        hasVirtual = props.multiactivities.filter((activity) => activity.virtual)
+        console.log(props.multiactivities.toString())
+        virtualAgendaItems = props.multiactivities.filter((activity) => (activity.virtual))
     }
-
+    if(virtualAgendaItems.length){
+        hasVirtual = true;
+        virtualAgendaItems.forEach( (agendaItem) => {
+            if(agendaItem.isSelected){
+                virtualSelected = true;
+            }
+        });
+    }
+    console.log("hasVirtual = "+hasVirtual+", virtualSelected " + virtualSelected + ", props.multiactivities != null " + (props.multiactivities) + ", props.multiactivities.length = " + props.multiactivities.length);
     return (
         <div>
-            {(hasVirtual.length && !hasVirtual[0].isSelected && (props.multiactivities != null && props.multiactivities.length > 1)) ?
-                <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/virtual_unselected.png'/> : null}
-            {(hasVirtual.length && hasVirtual[0].isSelected || (props.multiactivities != null && props.multiactivities.length == 1) && hasVirtual.length) ?
-                <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/virtual_selected.png'/> : null}
+            {(hasVirtual && !virtualSelected && (props.multiactivities != null && props.multiactivities.length > 1)) ?
+                <div className="__is-virtual"><img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/virtual_unselected.png'/></div> : null}
+            {(hasVirtual && virtualSelected || (props.multiactivities != null && props.multiactivities.length == 1 && hasVirtual)) ?
+                <div className="__is-virtual"><img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/virtual_selected.png'/></div> : null}
         </div>
     );
 }

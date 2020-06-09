@@ -5,18 +5,29 @@ export interface AgendaItemGlobalProps {
 }
 
 export default function AgendaItemGlobal(props: AgendaItemGlobalProps) {
-    let hasGlobal = [];
-
+    let globalAgendaItems = [];
+    let hasGlobal = false;
+    let globalSelected = false;
+    //console.log("multiactivities " + props.multiactivities);
     if (props.multiactivities) {
-        hasGlobal = props.multiactivities.filter((activity) => activity.global)
+        globalAgendaItems = props.multiactivities.filter((activity) => (activity.global))
+    }
+    //console.log("globalAgendaItems " +globalAgendaItems);
+    if(globalAgendaItems.length){
+        hasGlobal = true;
+        globalAgendaItems.forEach( (agendaItem) => {
+            if(agendaItem.isSelected){
+                globalSelected = true;
+            }
+        });
     }
 
     return (
         <div>
-            {(hasGlobal.length && !hasGlobal[0].isSelected && (props.multiactivities != null && props.multiactivities.length > 1)) ?
-                <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_unselected.png'/> : null}
-            {(hasGlobal.length && hasGlobal[0].isSelected || (props.multiactivities != null && props.multiactivities.length == 1) && hasGlobal.length) ?
-                <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png'/> : null}
+            {(hasGlobal && !globalSelected && (props.multiactivities != null && props.multiactivities.length > 1)) ?
+                <div className="__is-global"><img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_unselected.png'/></div> : null}
+            {(hasGlobal && globalSelected || (props.multiactivities != null && props.multiactivities.length == 1 && hasGlobal)) ?
+                <div className="__is-global"><img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png'/></div> : null}
         </div>
     );
 }

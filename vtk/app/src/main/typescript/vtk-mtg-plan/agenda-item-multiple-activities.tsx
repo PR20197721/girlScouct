@@ -82,15 +82,9 @@ export function AgendaItemMultiple(props: AgendaItemMultipleProps) {
                     onClick={() => props.dispatch(Actions.VIEW_SUB_ACTIVITIES(props.value.__index__))}
                     className={props.value.__show_sub_activities__ ? "__arrow __open __top" : "__arrow __close __top"}
                 />
-                <div className="__is-outdoor">
-                    <AgendaItemOutDoor multiactivities={props.value.multiactivities}/>
-                </div>
-                <div className="__is-global">
-                    <AgendaItemGlobal multiactivities={props.value.multiactivities}/>
-                </div>
-                <div className="__is-virtual">
-                    <AgendaItemVirtual multiactivities={props.value.multiactivities}/>
-                </div>
+                <AgendaItemOutDoor multiactivities={props.value.multiactivities}/>
+                <AgendaItemGlobal multiactivities={props.value.multiactivities}/>
+                <AgendaItemVirtual multiactivities={props.value.multiactivities}/>
                 <div className="__time_counter">{(props.schedule) ? props.value.__counter__ : props.value.__index__ + 1} </div>
                 <div className="__description">
                     <div className="__title">

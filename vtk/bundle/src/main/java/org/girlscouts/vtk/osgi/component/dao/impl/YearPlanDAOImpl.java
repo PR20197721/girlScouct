@@ -160,7 +160,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                             boolean isOutdoorAvailable = activitiyFromTemplate.getOutdoor();
                             boolean isGlobalAvailable = activitiyFromTemplate.getGlobal();
                             boolean isVirtualAvailable = activitiyFromTemplate.getVirtual();
-                            if (isOutdoorAvailable || isGlobalAvailable) {
+                            if (isOutdoorAvailable || isGlobalAvailable || isVirtualAvailable) {
                                 Activity activity = new Activity();
                                 if (isOutdoorAvailable) {
                                     activity.setOutdoor(true);
