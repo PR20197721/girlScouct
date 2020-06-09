@@ -21,6 +21,10 @@ public class AssetNode extends JcrNode implements Serializable {
     private String refId;
     @Field(jcrDefaultValue = "false")
     private Boolean isOutdoorRelated;
+    @Field(jcrDefaultValue = "false")
+    private Boolean isGlobalRelated;
+    @Field(jcrDefaultValue = "false")
+    private Boolean isVirtualRelated;
 
     public Boolean getIsCachable() {
         return isCachable;
@@ -78,4 +82,19 @@ public class AssetNode extends JcrNode implements Serializable {
         isOutdoorRelated = outdoorRelated;
     }
 
+    public Boolean getGlobalRelated() {
+        return isGlobalRelated;
+    }
+
+    public void setGlobalRelated(Boolean globalRelated) {
+        isGlobalRelated = globalRelated;
+    }
+
+    public Boolean getVirtualRelated() {
+        return isVirtualRelated;
+    }
+
+    public void setVirtualRelated(Boolean virtualRelated) {
+        isVirtualRelated = virtualRelated;
+    }
 }

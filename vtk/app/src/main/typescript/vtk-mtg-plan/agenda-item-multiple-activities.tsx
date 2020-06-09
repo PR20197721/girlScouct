@@ -5,6 +5,7 @@ import {Actions} from "./store/actions";
 import AgendaItemSelectedTime from "./agenda-item-time";
 import AgendaItemOutDoor from "./agenda-item-outdoor";
 import AgendaItemGlobal from "./agenda-item-global";
+import AgendaItemVirtual from "./agenda-item-virtual";
 import {HAS_PERMISSION_FOR} from "./permission";
 import {HELPER} from "./helper";
 
@@ -51,8 +52,7 @@ const Options = props => {
             <div style={{overflow: 'hidden'}}>
                 <div className={"__vtk_activity_name"} style={{}}>
                     <a
-                        onClick={() => props.openAgendaDetail(props.activity.activityDescription, props.activity.name, props.parent.duration, props.activity.outdoor, props.parent.name)}
-                    >
+                        onClick={() => props.openAgendaDetail(props.activity.activityDescription, props.activity.name, props.parent.duration, props.activity.outdoor, props.activity.global, props.activity.virtual, props.parent.name)}>
                         {props.activity.name}
                     </a>
                 </div>
@@ -82,11 +82,14 @@ export function AgendaItemMultiple(props: AgendaItemMultipleProps) {
                     onClick={() => props.dispatch(Actions.VIEW_SUB_ACTIVITIES(props.value.__index__))}
                     className={props.value.__show_sub_activities__ ? "__arrow __open __top" : "__arrow __close __top"}
                 />
+                <div className="__is-outdoor">
+                    <AgendaItemOutDoor multiactivities={props.value.multiactivities}/>
+                </div>
                 <div className="__is-global">
                     <AgendaItemGlobal multiactivities={props.value.multiactivities}/>
                 </div>
-                <div className="__is-outdoor">
-                    <AgendaItemOutDoor multiactivities={props.value.multiactivities}/>
+                <div className="__is-virtual">
+                    <AgendaItemVirtual multiactivities={props.value.multiactivities}/>
                 </div>
                 <div className="__time_counter">{(props.schedule) ? props.value.__counter__ : props.value.__index__ + 1} </div>
                 <div className="__description">
@@ -95,7 +98,7 @@ export function AgendaItemMultiple(props: AgendaItemMultipleProps) {
                             <div className="__text">
                                 {props.value.name}
                                 {(props.value.name) ? <span>:&nbsp;&nbsp;</span> : null}
-                                <a onClick={() => props.openAgendaDetail(selectedActivity[0].activityDescription, selectedActivity[0].name, props.value.duration, selectedActivity[0].outdoor, props.value.name)}>
+                                <a onClick={() => props.openAgendaDetail(selectedActivity[0].activityDescription, selectedActivity[0].name, props.value.duration, selectedActivity[0].outdoor, selectedActivity[0].global, selectedActivity[0].virtual, props.value.name)}>
                                     {selectedActivity[0].name}
                                 </a>
                             </div>

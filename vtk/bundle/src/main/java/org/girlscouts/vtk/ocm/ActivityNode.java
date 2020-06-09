@@ -29,6 +29,8 @@ public class ActivityNode extends YearPlanComponentNode implements Serializable 
     private Boolean outdoor;
     @Field(jcrDefaultValue = "false")
     private Boolean global;
+    @Field(jcrDefaultValue = "false")
+    private Boolean virtual;
     @Collection
     private List<ActivityNode> multiactivities;
     @Field
@@ -155,7 +157,13 @@ public class ActivityNode extends YearPlanComponentNode implements Serializable 
     public void setGlobal(Boolean global) {
         this.global = global;
     }
+    public Boolean getVirtual() {
+        return virtual;
+    }
 
+    public void setVirtual(Boolean virtual) {
+        this.virtual = virtual;
+    }
     public List<ActivityNode> getMultiactivities() {
         return multiactivities;
     }

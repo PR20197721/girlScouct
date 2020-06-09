@@ -77,6 +77,8 @@ public interface MeetingDAO {
 
     Set<String> getGlobalMeetings(User user, Troop troop) throws IllegalAccessException;
 
+    Set<String> getVirtualMeetings(User user, Troop troop) throws IllegalAccessException;
+
     List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException;
 
     boolean removeAttendance(User user, Troop troop, Attendance attendance);
