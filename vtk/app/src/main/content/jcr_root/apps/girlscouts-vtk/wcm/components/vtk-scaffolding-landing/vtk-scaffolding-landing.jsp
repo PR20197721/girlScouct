@@ -1,6 +1,4 @@
-<%@page import="java.util.List,
-                java.util.ArrayList,
-                javax.jcr.Node,
+<%@page import="javax.jcr.Node,
                 javax.jcr.NodeIterator" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@page session="false" %>
@@ -39,12 +37,13 @@
             continue;
         }
         String yearPlanName = yearPlan.getProperty("name").getString();
+        String yearPlanId = yearPlan.getProperty("id").getString();
         String editPath = yearPlan.getPath() + ".scaffolding.html";
-%>
-<p>
-    <input type="button" value="Edit" onclick="window.location.href='<%=editPath%>';"></input> <%= yearPlanName %>
-</p>
-<%
+        %>
+        <p>
+            <input type="button" value="Edit" onclick="window.location.href='<%=editPath%>';"></input> <%= yearPlanName %> (<%=yearPlanId%>)
+        </p>
+        <%
         }
     }
 %>
