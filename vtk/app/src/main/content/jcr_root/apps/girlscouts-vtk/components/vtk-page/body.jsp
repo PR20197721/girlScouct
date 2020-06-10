@@ -51,19 +51,6 @@
     <iframe src="//www.googletagmanager.com/ns.html?id=GTM-PV9D8H"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
-<script>(function (w, d, s, l, i) {
-    w[l] = w[l] || [];
-    w[l].push({
-        'gtm.start':
-            new Date().getTime(), event: 'gtm.js'
-    });
-    var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-    j.async = true;
-    j.src =
-        '//www.googletagmanager.com/gtm.js?id=' + i + dl;
-    f.parentNode.insertBefore(j, f);
-})(window, document, 'script', 'dataLayer', 'GTM-PV9D8H');</script>
 <!-- End Google Tag Manager -->
 <div class="off-canvas-wrap">
     <div class="inner-wrap">
@@ -121,15 +108,6 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 <!-- <script src="/etc/designs/girlscouts-vtk/clientlibs/js/vtk-global.js"></script> -->
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2646810-36"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-2646810-36');
-</script>
-<!-- END Global site tag (gtag.js) - Google Analytics -->
 <%
     boolean isProd = false;
     for (String runMode : sling.getService(SlingSettingsService.class).getRunModes()) {
