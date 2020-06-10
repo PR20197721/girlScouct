@@ -470,6 +470,22 @@ public class VtkUtil implements ConfigListener {
         return activity != null;
     }
 
+    public static boolean isAnyVirtualctivitiesInMeeting(Meeting meeting) {
+        if (meeting == null || meeting.getActivities() == null) {
+            return false;
+        }
+        Activity activity = meeting.getActivities().stream().filter(x -> (x.getMultiactivities() != null)).flatMap(x -> x.getMultiactivities().stream()).filter(a -> a.getVirtual() && (a.getIsSelected() != null && a.getIsSelected())).findAny().orElse(null);
+        return activity != null;
+    }
+
+    public static boolean isAnyVirtualActivitiesInMeetingAvailable(Meeting meeting) {
+        if (meeting == null || meeting.getActivities() == null) {
+            return false;
+        }
+        Activity activity = meeting.getActivities().stream().filter(x -> (x.getMultiactivities() != null)).flatMap(x -> x.getMultiactivities().stream()).filter(a -> a.getVirtual()).findAny().orElse(null);
+        return activity != null;
+    }
+
     public static String sortDates(String dates) {
         java.util.List<Date> container = new java.util.ArrayList();
         java.util.StringTokenizer t = new StringTokenizer(dates, ",");

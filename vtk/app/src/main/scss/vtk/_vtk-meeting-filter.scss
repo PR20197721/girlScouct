@@ -233,7 +233,7 @@
 
 #vtk-meeting-group-age,
 #vtk-meeting-group-type,
-#outdoor {
+#outdoor,#global,#virtual {
   input[type="radio"] {
     display: none;
     visibility: hidden;
@@ -273,7 +273,7 @@
   }
 }
 
-#outdoor {
+#outdoor,#global,#virtual {
   input[type="radio"] + label p {
     font-weight: bold;
     width: 100% !important;

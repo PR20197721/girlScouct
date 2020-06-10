@@ -6,7 +6,6 @@ import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
 import com.day.cq.tagging.Tag;
 import com.day.cq.tagging.TagManager;
-import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -14,7 +13,6 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.common.search.DocHit;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.exception.VtkException;
@@ -414,7 +412,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
-            String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path], [dc:isOutdoorRelated] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
+            String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path], [dc:isOutdoorRelated], [dc:isGlobalRelated], [dc:isVirtualRelated] from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
             Query q = qm.createQuery(sql, Query.SQL);
             log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
@@ -443,7 +441,12 @@ public class MeetingDAOImpl implements MeetingDAO {
                     try {
                         search.setIsGlobalRelated(r.getValue("dc:isGlobalRelated").getBoolean());
                     } catch (Exception e) {
-                        log.error("isOutdoorRelated: not set ");
+                        log.error("isGlobalRelated: not set ");
+                    }
+                    try {
+                        search.setIsVirtualRelated(r.getValue("dc:isVirtualRelated").getBoolean());
+                    } catch (Exception e) {
+                        log.error("isVirtualRelated: not set ");
                     }
                     try {
                         if (r.getPath().indexOf(".") != -1) {
@@ -1359,6 +1362,42 @@ public class MeetingDAOImpl implements MeetingDAO {
             }
         }
         return globalMeetings;
+    }
+
+    public Set<String> getVirtualMeetings(User user, Troop troop) throws IllegalAccessException {
+        if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
+            throw new IllegalAccessException();
+        }
+        Set<String> virtualMeetings = new java.util.HashSet();
+        ResourceResolver rr = null;
+        try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            Session session = rr.adaptTo(Session.class);
+            QueryManager qm = session.getWorkspace().getQueryManager();
+            String sql = "select * from nt:unstructured where isdescendantnode('/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "') and virtual=true and ocm_classname='org.girlscouts.vtk.ocm.ActivityNode'";
+            Query q = qm.createQuery(sql, Query.SQL);
+            log.debug("Executing JCR query: " + sql);
+            QueryResult result = q.execute();
+            for (RowIterator it = result.getRows(); it.hasNext(); ) {
+                Row r = it.nextRow();
+                String path = r.getPath();
+                String[] pathElements = path.split("/");
+                if (pathElements != null && pathElements.length > 5) {
+                    virtualMeetings.add(pathElements[6]);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        } finally {
+            try {
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
+        }
+        return virtualMeetings;
     }
 
     public List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException {

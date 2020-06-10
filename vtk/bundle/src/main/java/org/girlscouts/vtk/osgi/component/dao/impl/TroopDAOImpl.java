@@ -1,7 +1,6 @@
 package org.girlscouts.vtk.osgi.component.dao.impl;
 
 import com.day.cq.commons.jcr.JcrConstants;
-import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -614,7 +613,11 @@ public class TroopDAOImpl implements TroopDAO {
     public boolean removeMeeting(User user, Troop troop, MeetingE meeting) {
         boolean isUpdated = false;
         try {
+            String refId = meeting.getRefId();
             isUpdated = girlScoutsMeetingEOCMService.delete(meeting);
+            if(isUpdated && refId.startsWith(troop.getPath())){
+                girlScoutsRepoService.removeNode(refId);
+            }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         }

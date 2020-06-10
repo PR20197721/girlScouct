@@ -633,6 +633,9 @@ function generateMeetingHtml(data, meeting) {
     if (data[meeting].hasOutdoor === true) {
         $("[data-meetingid=" + data[meeting].id + "]").find(".title").append("<img data-tooltip='' aria-haspopup='true' class='has-tip tip-top radius meeting_library' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src='/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png' data-selector='tooltip-jyhelib9j' title=''>");
     }
+    if (data[meeting].hasVirtual === true) {
+        $("[data-meetingid=" + data[meeting].id + "]").find(".title").append("<img data-tooltip='' aria-haspopup='true' class='has-tip tip-top radius meeting_library' style='width:30px;vertical-align:bottom;cursor:auto;border:none' src='/etc/designs/girlscouts-vtk/clientlibs/css/images/virtual_selected.png' data-selector='tooltip-jyhelib9j' title=''>");
+    }
 
 }
 

@@ -159,7 +159,8 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                         for (Activity activitiyFromTemplate : activitiesFromTemplate) {
                             boolean isOutdoorAvailable = activitiyFromTemplate.getOutdoor();
                             boolean isGlobalAvailable = activitiyFromTemplate.getGlobal();
-                            if (isOutdoorAvailable || isGlobalAvailable) {
+                            boolean isVirtualAvailable = activitiyFromTemplate.getVirtual();
+                            if (isOutdoorAvailable || isGlobalAvailable || isVirtualAvailable) {
                                 Activity activity = new Activity();
                                 if (isOutdoorAvailable) {
                                     activity.setOutdoor(true);
@@ -168,6 +169,10 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                                 if (isGlobalAvailable) {
                                     activity.setGlobal(true);
                                     masterMeeting.setAnyGlobalActivityInMeetingAvailable(true);
+                                }
+                                if (isVirtualAvailable) {
+                                    activity.setVirtual(true);
+                                    masterMeeting.setAnyVirtualActivityInMeetingAvailable(true);
                                 }
                                 activities.add(activity);
                                 break;

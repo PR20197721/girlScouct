@@ -15,7 +15,7 @@ export interface VtkMtgPlanAidsProps {
 }
 
 const asset = (link, show) => {
-    let {title, description, refId, uid, docType, isOutdoorRelated} = link;
+    let {title, description, refId, uid, docType, isOutdoorRelated, isGlobalRelated, isVirtualRelated} = link;
 
     let isAvailable = '';
 
@@ -40,6 +40,18 @@ const asset = (link, show) => {
                     </div>
                     : null
                 }
+                {(isVirtualRelated)
+                    ? <div style={{display: 'table-cell', textAlign: 'center'}}>
+                        <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/virtual_selected.png' style={{'width': '60%'}}/>
+                    </div>
+                    : null
+                }
+                {(isGlobalRelated)
+                    ? <div style={{display: 'table-cell', textAlign: 'center'}}>
+                        <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/global_selected.png' style={{'width': '60%'}}/>
+                    </div>
+                    : null
+                }
             </div>
         </li>
         : <li key={uid}>
@@ -60,6 +72,18 @@ const asset = (link, show) => {
                 {(isOutdoorRelated)
                     ? <div style={{display: 'table-cell', textAlign: 'center'}}>
                         <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png' style={{'width': '60%'}}/>
+                    </div>
+                    : null
+                }
+                {(isVirtualRelated)
+                    ? <div style={{display: 'table-cell', textAlign: 'center'}}>
+                        <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/virtual_selected.png' style={{'width': '60%'}}/>
+                    </div>
+                    : null
+                }
+                {(isGlobalRelated)
+                    ? <div style={{display: 'table-cell', textAlign: 'center'}}>
+                        <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/global_selected.png' style={{'width': '60%'}}/>
                     </div>
                     : null
                 }

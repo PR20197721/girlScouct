@@ -16,6 +16,7 @@ public class Activity extends YearPlanComponent implements Serializable {
     private int duration;
     private Boolean outdoor = false;
     private Boolean global = false;
+    private Boolean virtual = false;
     private List<Activity> multiactivities;
     private String subtitle;
     private Boolean isSelected = false;
@@ -308,6 +309,13 @@ public class Activity extends YearPlanComponent implements Serializable {
 
     public void setGlobal(Boolean global) {
         this.global = global;
+    }
+    public Boolean getVirtual() {
+        return virtual;
+    }
+
+    public void setVirtual (Boolean virtual) {
+        this.virtual = virtual;
     }
 
     public int getDuration() {

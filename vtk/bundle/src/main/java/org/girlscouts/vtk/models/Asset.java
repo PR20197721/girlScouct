@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Asset extends JcrNode implements Serializable {
     private Boolean isCachable;
     private String type, description, title, docType, refId;
-    private Boolean isOutdoorRelated, isGlobalRelated;
+    private Boolean isOutdoorRelated, isGlobalRelated, isVirtualRelated;
 
     public Asset() {
         super.setUid("A" + new java.util.Date().getTime() + "_" + Math.random());
@@ -43,6 +43,14 @@ public class Asset extends JcrNode implements Serializable {
 
     public Boolean getIsGlobalRelated() {
         return isGlobalRelated == null ? false : isGlobalRelated;
+    }
+
+    public void setIsVirtualRelated(Boolean virtualRelated) {
+        isVirtualRelated = virtualRelated;
+    }
+
+    public Boolean getIsVirtualRelated() {
+        return isVirtualRelated == null ? false : isVirtualRelated;
     }
 
     public void setIsGlobalRelated(Boolean globalRelated) {

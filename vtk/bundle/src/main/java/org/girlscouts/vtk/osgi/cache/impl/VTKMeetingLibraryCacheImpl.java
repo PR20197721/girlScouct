@@ -70,7 +70,7 @@ public class VTKMeetingLibraryCacheImpl extends BasicGirlScoutsService implement
     @Override
     public boolean contains(String key) {
         if (this.isCacheEnabled && key != null) {
-            log.debug("Looking up "+key+" in cache.");
+            //log.debug("Looking up "+key+" in cache.");
             try {
                 return this.cache.getIfPresent(key) != null;
             }catch(Exception e){
@@ -107,7 +107,7 @@ public class VTKMeetingLibraryCacheImpl extends BasicGirlScoutsService implement
     @Override
     public boolean containsList(String key) {
         if (this.isCacheEnabled && key != null) {
-            log.debug("Looking up "+key+" in cache.");
+            //log.debug("Looking up "+key+" in cache.");
             try {
                 return this.listCache.getIfPresent(key) != null;
             }catch(Exception e){

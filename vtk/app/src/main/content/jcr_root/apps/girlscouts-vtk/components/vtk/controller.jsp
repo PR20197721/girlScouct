@@ -49,8 +49,8 @@
             if (request.getParameter("act") != null) {
                 aContr = ActionController.valueOf(request.getParameter("act"));
             }
-        } catch (java.lang.IllegalArgumentException iae) {
-            vtklog.error("Exception occured:", iae);
+        } catch (Exception e) {
+            vtklog.debug("No Action Controller for:"+request.getParameter("act"));
         }
         vtklog.debug("controller.jsp: aContr=" + aContr);
         if (aContr != null) {

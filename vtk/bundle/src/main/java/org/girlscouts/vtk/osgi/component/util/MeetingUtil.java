@@ -281,9 +281,13 @@ public class MeetingUtil {
                 activity.setDuration(duration);
                 activity.setActivityNumber(meeting.getActivities().size() + 1);
                 activity.setOutdoor(false);
+                activity.setGlobal(false);
+                activity.setVirtual(false);
                 activity.setName(name);
                 Activity subActivity = new Activity();
                 subActivity.setOutdoor(false);
+                subActivity.setGlobal(false);
+                subActivity.setVirtual(false);
                 //subActivity.setName(name);
                 subActivity.setActivityNumber(1);
                 subActivity.setActivityDescription(txt);
@@ -526,6 +530,7 @@ public class MeetingUtil {
                     asset.setDescription(dbAsset.getDescription());
                     asset.setIsOutdoorRelated(dbAsset.getIsOutdoorRelated());
                     asset.setIsGlobalRelated(dbAsset.getIsGlobalRelated());
+                    asset.setIsVirtualRelated(dbAsset.getIsVirtualRelated());
                 }
                 java.util.List<Asset> assets = meeting.getAssets();
                 assets = assets == null ? new java.util.ArrayList() : assets;
@@ -1121,6 +1126,10 @@ public class MeetingUtil {
 
     public Set<String> getGlobalMeetings(User user, Troop troop) throws IllegalAccessException {
         return meetingDAO.getGlobalMeetings(user, troop);
+    }
+
+    public Set<String> getVirtualMeetings(User user, Troop troop) throws IllegalAccessException {
+        return meetingDAO.getVirtualMeetings(user, troop);
     }
 
     public List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException {

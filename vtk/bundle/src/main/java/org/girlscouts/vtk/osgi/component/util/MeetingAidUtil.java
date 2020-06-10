@@ -8,14 +8,14 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ResourceUtil;
-import org.girlscouts.vtk.auth.permission.Permission;
-import org.girlscouts.vtk.models.*;
+import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.osgi.component.dao.AssetComponentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.Node;
-import javax.jcr.NodeIterator;
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.query.*;
@@ -72,14 +72,15 @@ public class MeetingAidUtil {
             } catch (Exception e) {
                 log.error("Error occurred: ", e);
             }
+            List<Asset> validMeetingAids =  new ArrayList<>();
             if (meetingAids != null && meetingAids.size() > 1) {
                 for (Asset asset : meetingAids) {
                     if (asset != null && asset.getRefId() != null && !"".equals(asset.getRefId().trim())) {
-                        distinctMeetingAids.add(asset);
+                        validMeetingAids.add(asset);
                     }
                 }
                 try {
-                    distinctMeetingAids = meetingAids.stream().filter(distinctByKey(Asset::getRefId)).collect(Collectors.toList());
+                    distinctMeetingAids = validMeetingAids.stream().filter(distinctByKey(Asset::getRefId)).collect(Collectors.toList());
                 } catch (Exception e) {
                     log.error("Error occurred: ", e);
                 }
@@ -198,6 +199,10 @@ public class MeetingAidUtil {
                             asset.setIsGlobalRelated(r.getValue("dc:isGlobalRelated").getBoolean());
                         } catch (Exception e) {
                         }
+                        try {
+                            asset.setIsVirtualRelated(r.getValue("dc:isVirtualRelated").getBoolean());
+                        } catch (Exception e) {
+                        }
                         matched.add(asset);
                     } catch (Exception e) {
                         log.error("Error Occurred: ", e);
@@ -285,7 +290,7 @@ public class MeetingAidUtil {
                 sql_tag += " or ";
             }
         }
-        sql = "select dc:description,dc:format, dc:title, dc:isOutdoorRelated, dc:isGlobalRelated from nt:unstructured where isdescendantnode( '/content/dam/girlscouts-vtk/global/aid/%')";
+        sql = "select dc:description,dc:format, dc:title, dc:isOutdoorRelated, dc:isVirtualRelated, dc:isGlobalRelated from nt:unstructured where isdescendantnode( '/content/dam/girlscouts-vtk/global/aid/%')";
         if (!sql_tag.equals("")) {
             sql += " and ( " + sql_tag + " )";
         }
@@ -303,7 +308,7 @@ public class MeetingAidUtil {
                 sql_tag += " or ";
             }
         }
-        sql = "select dc:description,dc:format, dc:title, dc:isOutdoorRelated, dc:isGlobalRelated from nt:unstructured where isdescendantnode( '/content/dam/girlscouts-vtk/global/resource/%')";
+        sql = "select dc:description,dc:format, dc:title, dc:isOutdoorRelated, dc:isGlobalRelated, dc:isVirtualRelated  from nt:unstructured where isdescendantnode( '/content/dam/girlscouts-vtk/global/resource/%')";
         if (!sql_tag.equals("")) {
             sql += " and ( " + sql_tag + " )";
         }
@@ -416,9 +421,14 @@ public class MeetingAidUtil {
                         } else {
                             asset.setIsGlobalRelated(false);
                         }
+                        if (props.hasProperty("dc:isVirtualRelated")) {
+                            asset.setIsVirtualRelated(props.getProperty("dc:isVirtualRelated").getBoolean());
+                        } else {
+                            asset.setIsVirtualRelated(false);
+                        }
                         asset.setIsCachable(true);
                         asset.setType("AID");
-                        asset.setDescription(props.getProperty("dc:description").getString());
+                        asset.setDescription(props.hasProperty("dc:description") ? props.getProperty("dc:description").getString() : "" );
                         asset.setTitle(props.getProperty("dc:title").getString());
                     }
                 }

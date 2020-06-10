@@ -45,6 +45,10 @@ public class MeetingEEntity extends BaseEntity {
     private boolean isAnyGlobalActivityInMeeting;
     @SerializedName("isAnyGlobalActivityInMeetingAvailable")
     private boolean isAnyGlobalActivityInMeetingAvailable;
+    @SerializedName("isAnyVirtualActivityInMeeting")
+    private boolean isAnyVirtualActivityInMeeting;
+    @SerializedName("isAnyVirtualActivityInMeetingAvailable")
+    private boolean isAnyVirtualActivityInMeetingAvailable;
     @SerializedName("isAllMultiActivitiesSelected")
     private boolean isAllMultiActivitiesSelected;
     @SerializedName("isDbUpdate")
@@ -194,6 +198,22 @@ public class MeetingEEntity extends BaseEntity {
 
     public void setAnyGlobalActivityInMeetingAvailable(boolean anyGlobalActivityInMeetingAvailable) {
         isAnyGlobalActivityInMeetingAvailable = anyGlobalActivityInMeetingAvailable;
+    }
+
+    public boolean isAnyVirtualActivityInMeeting() {
+        return isAnyVirtualActivityInMeeting;
+    }
+
+    public void setAnyVirtualActivityInMeeting(boolean anyVirtualActivityInMeeting) {
+        isAnyVirtualActivityInMeeting = anyVirtualActivityInMeeting;
+    }
+
+    public boolean isAnyVirtualActivityInMeetingAvailable() {
+        return isAnyVirtualActivityInMeetingAvailable;
+    }
+
+    public void setAnyVirtualActivityInMeetingAvailable(boolean anyVirtualActivityInMeetingAvailable) {
+        isAnyVirtualActivityInMeetingAvailable = anyVirtualActivityInMeetingAvailable;
     }
 
     public boolean isAllMultiActivitiesSelected() {
