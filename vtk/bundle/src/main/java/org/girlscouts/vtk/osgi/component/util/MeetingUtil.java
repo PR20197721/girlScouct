@@ -94,8 +94,12 @@ public class MeetingUtil {
                         meetingCanceled.setMeetingInfo(meetingInfo);
                     }
                 }
-
             }
+
+            // Check for empty schedule
+            yearPlanUtil.checkEmptySchedule(user, troop);
+            plan.setSchedule(troop.getYearPlan().getSchedule());
+
             return getYearPlanSched(plan);
         }
         // if no sched and activ -> activ on top

@@ -60,6 +60,17 @@ public class YearPlanUtil {
         }
     }
 
+    public void checkEmptySchedule(User user, Troop troop) throws VtkException, IllegalAccessException {
+        if (troop == null || troop.getYearPlan() == null || troop.getYearPlan().getSchedule() == null) {
+            return;
+        }
+        String dates = troop.getYearPlan().getSchedule().getDates();
+        if (dates == null || dates.isEmpty()) {
+            troop.getYearPlan().setSchedule(null);
+            troopDAO.updateTroop(user, troop); // Will call modifySchedule to remove schedule if null
+        }
+    }
+
     public List<YearPlan> getAllYearPlans(User user, String ageLevel) {
         return yearPlanDAO.getAllYearPlans(user, ageLevel);
     }

@@ -43,6 +43,7 @@ public class TroopUtil {
                     }
                 }
                 yearPlanUtil.checkCanceledActivity(user, troop);
+                yearPlanUtil.checkEmptySchedule(user, troop);
                 if (troop.getYearPlan().getCalFreq() == null) {
                     troop.getYearPlan().setCalFreq("biweekly");
                 }
