@@ -72,14 +72,15 @@ public class MeetingAidUtil {
             } catch (Exception e) {
                 log.error("Error occurred: ", e);
             }
+            List<Asset> validMeetingAids =  new ArrayList<>();
             if (meetingAids != null && meetingAids.size() > 1) {
                 for (Asset asset : meetingAids) {
                     if (asset != null && asset.getRefId() != null && !"".equals(asset.getRefId().trim())) {
-                        distinctMeetingAids.add(asset);
+                        validMeetingAids.add(asset);
                     }
                 }
                 try {
-                    distinctMeetingAids = meetingAids.stream().filter(distinctByKey(Asset::getRefId)).collect(Collectors.toList());
+                    distinctMeetingAids = validMeetingAids.stream().filter(distinctByKey(Asset::getRefId)).collect(Collectors.toList());
                 } catch (Exception e) {
                     log.error("Error occurred: ", e);
                 }
