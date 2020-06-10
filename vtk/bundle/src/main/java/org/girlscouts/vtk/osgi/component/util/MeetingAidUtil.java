@@ -428,7 +428,7 @@ public class MeetingAidUtil {
                         }
                         asset.setIsCachable(true);
                         asset.setType("AID");
-                        asset.setDescription(props.getProperty("dc:description").getString());
+                        asset.setDescription(props.hasProperty("dc:description") ? props.getProperty("dc:description").getString() : "" );
                         asset.setTitle(props.getProperty("dc:title").getString());
                     }
                 }

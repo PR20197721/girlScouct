@@ -60,7 +60,7 @@ public class SalesForceIRMContactsResponseCacheImpl extends BasicGirlScoutsServi
     @Override
     public boolean contains(String key) {
         if (this.isCacheEnabled && key != null) {
-            log.debug("Looking up "+key+" in cache.");
+            //log.debug("Looking up "+key+" in cache.");
             try {
                 return this.cache.getIfPresent(key) != null;
             }catch(Exception e){
