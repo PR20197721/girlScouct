@@ -1,0 +1,109 @@
+/* remove arrows from number input field */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#gsathome-age-form input { margin-bottom:5px; }
+#gsathome-main-form input[type="text"],
+#gsathome-main-form input[type="email"],
+#gsathome-main-form input[type="tel"]
+{
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+#gsathome-main-form #divFirstName {
+  width: 45%;
+  float: left;
+}
+
+#gsathome-main-form #divLastName {
+  width: 49%;
+  float: left;
+  padding-left: 18px;
+}
+
+#gsathome-main-form #divEmail {
+  width: 60%;
+  float: left;
+}
+
+#gsathome-main-form #labelEmail {
+  display: inline-block;
+  margin-top: 5px;
+}
+
+#gsathome-main-form #divZIPCode {
+  width: 34%;
+  float: left;
+  margin-top: 6px;
+  padding-left: 18px;
+}
+
+#gsathome-main-form #zipcode {
+  margin-bottom: 0px;
+}
+
+#gsathome-main-form #divPhone {
+  width: 45%;
+  float: left;
+  margin-top: 5px;
+}
+
+#gsathome-main-form #divIsMember {
+  font-size: 12px;
+  display: block;
+  line-height: 16px;
+  width: 95%;
+  padding-top: 5px;
+  clear: both;
+}
+
+#gsathome-main-form #divSubmit {
+  width: 49%;
+  float: left;
+  padding-left: 18px;
+  margin-top: 5px;
+}
+
+#gsathome-main-form #submit
+{
+  margin-top: 21px;
+  width: 100%;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  margin-bottom: 5px;
+}
+
+#gsathome-main-form {
+  margin-left: 20px;
+}
+
+#gsathome-main-form h3 {
+  font-weight: 600;
+}
+
+
+@media screen and (max-width: 585px) {
+  #gsathome-main-form {
+    margin-left: 20px;
+  }
+  #gsathome-main-form #submit {
+    font-size: 1.2rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+  }
+}
+
+@media screen and (min-width: 360px) and (max-width:360px) {
+}
