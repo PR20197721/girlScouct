@@ -128,7 +128,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 			if (subject != null) {
 				email.setSubject(subject);
 			}
-            email.setFrom("no-reply@girlscouts.org");
+            email.setFrom("girlscouts@amsmail.adobecqms.net");
 			if(fromAddress != null){
 				email.addReplyTo(fromAddress);
 			}
@@ -186,7 +186,7 @@ public class GSEmailServiceImpl implements GSEmailService {
 			if (subject != null) {
 				email.setSubject(subject);
 			}
-            email.setFrom("no-reply@girlscouts.org");
+            email.setFrom("girlscouts@amsmail.adobecqms.net");
             if(fromAddress != null){
                 email.addReplyTo(fromAddress);
             }

@@ -134,7 +134,7 @@ public class FinanceUtil {
             String recipient = financeConfig.getRecipient();
             HtmlEmail email = new HtmlEmail();
             emailRecipients.add(new InternetAddress(recipient));
-            email.setFrom("NOREPLY@girlscouts.org");
+            email.setFrom("girlscouts@amsmail.adobecqms.net");
             email.setTo(emailRecipients);
             email.setSubject("Troop financial Report \"" + troop.getTroopName() + "\" - " + user.getApiConfig().getUser().getFirstName() + " : " + user.getApiConfig().getUser().getLastName());
             email.attach(new ByteArrayDataSource(csvContents.getBytes(), "text/csv"), "finances.csv", "Finances Data");
