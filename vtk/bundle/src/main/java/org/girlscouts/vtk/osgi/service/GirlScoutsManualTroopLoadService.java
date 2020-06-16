@@ -1,11 +1,14 @@
 package org.girlscouts.vtk.osgi.service;
 
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 
 import java.util.List;
 
 public interface GirlScoutsManualTroopLoadService {
 
-    List<Troop> loadTroops(String userId);
+    public List<Troop> loadTroops(User user);
+
+    public boolean isActive();
 
 }

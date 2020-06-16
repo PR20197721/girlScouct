@@ -9,7 +9,8 @@ export interface VtkMtgPlanCommunicationsProps {
     user_variable: any,
     meetingEvents: Object,
     helper: Object,
-    participationCode: any
+    participationCode: any,
+    isLoadedManualy: any
 }
 
 declare var printModal;
@@ -128,12 +129,12 @@ let RecordAchivements = (props) => {
 let Selector = (props) => {
     return (props.links.id == "editsendemail")
         ? <Editsendemail {...props} />
-        : <RecordAchivements {...props} />;
+        : props.isLoadedManualy ? null : <RecordAchivements {...props} />;
 };
 
 
 function VtkMtgPlanCommunications(props: VtkMtgPlanCommunicationsProps) {
-    let {user_variable, meetingEvents, helper, participationCode}: any = props;
+    let {user_variable, meetingEvents, helper, participationCode, isLoadedManualy}: any = props;
 
     let placeholder = [
         {title: 'Edit/Sent Meeting Reminder Email', url: 'url', show: true, id: 'editsendemail'},
@@ -152,7 +153,7 @@ function VtkMtgPlanCommunications(props: VtkMtgPlanCommunicationsProps) {
                         <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
                             {placeholder.map((links) =>
                                 <li key={links.title}>
-                                    <Selector links={links} user_variable={user_variable} helper={helper} participationCode={participationCode} meetingEvents={meetingEvents}/>
+                                    <Selector links={links} user_variable={user_variable} helper={helper} participationCode={participationCode} meetingEvents={meetingEvents} isLoadedManualy={isLoadedManualy}/>
                                 </li>)
                             }
                         </ul>
@@ -170,7 +171,8 @@ let mapStatetoProps = (state) => {
         user_variable: state.user_variable,
         meetingEvents: state.meetingEvents,
         helper: state.helper,
-        participationCode: state.participationCode
+        participationCode: state.participationCode,
+        isLoadedManualy: state.isLoadedManualy
     };
 };
 

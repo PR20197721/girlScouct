@@ -37,6 +37,8 @@ public class Troop extends JcrNode implements Serializable {
     private Boolean isIRM = Boolean.FALSE;
     private Boolean isSUM = Boolean.FALSE;
     private Map<Date, YearPlanComponent> schedule;
+    private Boolean isLoadedManualy = Boolean.FALSE;
+
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -363,4 +365,12 @@ public class Troop extends JcrNode implements Serializable {
         }
         return schedule;
     }
+    public Boolean getLoadedManualy() {
+        return isLoadedManualy;
+    }
+
+    public void setLoadedManualy(Boolean loadedManualy) {
+        isLoadedManualy = loadedManualy;
+    }
+
 }

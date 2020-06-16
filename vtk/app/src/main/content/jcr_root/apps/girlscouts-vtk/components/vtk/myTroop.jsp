@@ -11,7 +11,7 @@
     String sectionClassDefinition = "";
 %>
 <%@include file="include/bodyTop.jsp" %>
-<%if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
+<%if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_VIEW_TROOP_ID) && !selectedTroop.getLoadedManualy()) { %>
     <%@include file="mytroop_react.jsp" %>
 <%} else { %>
     <%@include file='myTroopImg.jsp' %>
