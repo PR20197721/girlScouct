@@ -127,6 +127,8 @@ let RecordAchivements = (props) => {
 };
 
 let Selector = (props) => {
+    console.log("props"+props);
+    console.log("props.isLoadedManualy"+props.isLoadedManualy);
     return (props.links.id == "editsendemail")
         ? <Editsendemail {...props} />
         : props.isLoadedManualy ? null : <RecordAchivements {...props} />;
