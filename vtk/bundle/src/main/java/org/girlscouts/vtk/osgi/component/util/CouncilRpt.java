@@ -10,7 +10,6 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.vtk.auth.models.ApiConfig;
-import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.CouncilRptBean;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.osgi.service.impl.BasicGirlScoutsService;
@@ -330,7 +329,7 @@ public class CouncilRpt extends BasicGirlScoutsService {
             for (String address : this.toEmailAddresses) {
                 email.addTo(address);
             }
-            email.setFrom(this.fromEmailAddress);
+            //email.setFrom(this.fromEmailAddress);
             email.setSubject(subject + " (ENV:" + slingSettings.getRunModes() + ")");
             email.setMsg("Please find attached GS Report attached as of " + new java.util.Date());
             DataSource source = new ByteArrayDataSource(msg, "application/text");
