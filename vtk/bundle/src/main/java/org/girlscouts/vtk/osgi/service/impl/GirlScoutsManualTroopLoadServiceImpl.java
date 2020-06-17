@@ -80,7 +80,7 @@ public class GirlScoutsManualTroopLoadServiceImpl extends BasicGirlScoutsService
                         }
                         String troopPath = this.vtkBase + "/" + record.getCouncilCode() + "/troops/" + crxTroopId;
                         Troop troop = girlScoutsTroopOCMService.read(troopPath);
-                        troop.setLoadedManualy(true);
+                        troop.setIsLoadedManualy(true);
                         troop.setCouncilCode(record.getCouncilCode().toString());
                         troop.setTroopName(troop.getSfTroopName());
                         troop.setTroopId(troop.getSfTroopId());

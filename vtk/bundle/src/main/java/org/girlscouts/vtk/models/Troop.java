@@ -255,7 +255,7 @@ public class Troop extends JcrNode implements Serializable {
     }
 
     public void setIsIRM(Boolean IRM) {
-        isIRM = IRM;
+        this.isIRM = IRM;
     }
 
     public Boolean getIsSUM() {
@@ -263,7 +263,7 @@ public class Troop extends JcrNode implements Serializable {
     }
 
     public void setIsSUM(Boolean SUM) {
-        isSUM = SUM;
+        this.isSUM = SUM;
     }
 
     public String getSfParentId() {
@@ -272,6 +272,14 @@ public class Troop extends JcrNode implements Serializable {
 
     public void setSfParentId(String sfParentId) {
         this.sfParentId = sfParentId;
+    }
+
+    public Boolean getIsLoadedManualy() {
+        return isLoadedManualy;
+    }
+
+    public void setIsLoadedManualy(Boolean loadedManualy) {
+        this.isLoadedManualy = loadedManualy;
     }
 
     public void clearSchedule(){
@@ -365,12 +373,6 @@ public class Troop extends JcrNode implements Serializable {
         }
         return schedule;
     }
-    public Boolean getLoadedManualy() {
-        return isLoadedManualy;
-    }
 
-    public void setLoadedManualy(Boolean loadedManualy) {
-        isLoadedManualy = loadedManualy;
-    }
 
 }
