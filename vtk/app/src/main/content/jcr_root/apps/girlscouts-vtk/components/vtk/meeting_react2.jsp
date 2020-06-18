@@ -29,7 +29,7 @@
 <%if(selectedTroop.getIsLoadedManualy()){%>
 <div class="column small-24 large-centered large-20">
     <div class="demo-info-message">
-        <p>From July 1 - July 21 you will not be able to record attendance and achievements. This feature will return on July 21!.</p>
+        <p>From July 1 - July 21 you will not be able to record attendance and achievements. This feature will return on July 21!</p>
     </div>
 </div>
 <%}%>
