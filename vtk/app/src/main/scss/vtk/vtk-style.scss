@@ -2987,3 +2987,13 @@ section.grade-levels {
   border: 2px solid #00AE57;
   text-align: left;
 }
+.explore-info-message, .explore-info-message ul, .explore-info-message p {
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: normal;
+  line-height: 1.5;
+  padding: 10px;
+  text-align: left;
+  list-style: inside !important;
+  text-rendering: optimizeLegibility;
+}
