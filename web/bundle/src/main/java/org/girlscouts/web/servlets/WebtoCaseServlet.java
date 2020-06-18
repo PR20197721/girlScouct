@@ -3,22 +3,16 @@ package org.girlscouts.web.servlets;
 import com.day.cq.mailer.MailService;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
-import com.day.cq.wcm.foundation.forms.FormsHelper;
 import com.day.cq.wcm.foundation.forms.FormsConstants;
-
-import org.apache.commons.mail.ByteArrayDataSource;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
+import com.day.cq.wcm.foundation.forms.FormsHelper;
+import org.apache.commons.httpclient.*;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.MultiPartEmail;
-import org.apache.commons.mail.SimpleEmail;
-import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.ReferenceCardinality;
-import org.apache.felix.scr.annotations.ReferencePolicy;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.request.RequestParameter;
@@ -35,32 +29,13 @@ import org.slf4j.LoggerFactory;
 import javax.jcr.Node;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 @Component(metatype = false)
 @Service(Servlet.class)
@@ -280,7 +255,8 @@ implements OptingServlet {
                     confEmail.setSubject(confSubject);
                     final String confFromAddress = props.get(CONFIRMATION_FROM_PROPERTY, "");
                     if (confFromAddress.length() > 0) {
-                        confEmail.setFrom(confFromAddress);
+                        //confEmail.setFrom(confFromAddress);
+                        confEmail.addReplyTo(confFromAddress);
                     }
                     if (this.logger.isDebugEnabled()) {
                         this.logger.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
