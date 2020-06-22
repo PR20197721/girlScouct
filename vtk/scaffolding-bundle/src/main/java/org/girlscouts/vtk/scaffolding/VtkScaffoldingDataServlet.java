@@ -1,35 +1,20 @@
 package org.girlscouts.vtk.scaffolding;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.Set;
-
-import javax.jcr.Node;
-import javax.jcr.NodeIterator;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-
-
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-
+import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
-import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.api.resource.ModifiableValueMap;
+import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 
-import com.day.cq.commons.jcr.JcrUtil;
-import org.apache.felix.scr.annotations.sling.SlingServlet;
+import javax.servlet.ServletException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 
@@ -50,14 +35,11 @@ public class VtkScaffoldingDataServlet extends SlingAllMethodsServlet {
 		try{
 			StringBuilder builder = new StringBuilder();
 			
-			final String YEAR_PLAN_BASE = "/content/girlscouts-vtk/yearPlanTemplates/";
+			final String YEAR_PLAN_BASE = "/content/girlscouts-vtk/yearPlanTemplates/library";
 			
 			final String DATA_ROOT = "{\"yearplan\":[DATA_TEMPLATE]}";
 			final String DATA_TEMPLATE = "{\"title\":\"mytitle\", \"data\":\"mydata\"}";
-
-			 String year = request.getParameter("yearplan");
-			 String yearPlanPath = YEAR_PLAN_BASE + year;
-			 System.err.println(" yearPlanPath is " + yearPlanPath);
+			System.err.println(" yearPlanPath is " + YEAR_PLAN_BASE);
 			 
 			String finalJson = DATA_ROOT;
 			 
@@ -66,7 +48,7 @@ public class VtkScaffoldingDataServlet extends SlingAllMethodsServlet {
 				Map<String, Object> serviceParams = new HashMap<String, Object>();
 				serviceParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
 				resourceResolver = resolverFactory.getServiceResourceResolver(serviceParams);
-				Resource baseResources = resourceResolver.getResource( yearPlanPath);
+				Resource baseResources = resourceResolver.getResource( YEAR_PLAN_BASE);
 				
 				if ( baseResources == null  ){
 					return ;
