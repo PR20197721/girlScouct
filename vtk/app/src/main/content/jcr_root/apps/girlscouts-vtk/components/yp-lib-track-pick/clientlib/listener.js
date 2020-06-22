@@ -4,50 +4,51 @@
         var $dialog = $("coral-dialog-content");
         var $resourceType = $dialog.find("[name='./sling:resourceType']").val();
         if ("girlscouts-vtk/components/yp-lib-track-pick" == $resourceType) {
-            var $yearSelect = new Coral.Select().set({
-                name: "./year",
-                placeholder: "Choose a year"
+            var $levelSelect = new Coral.Select().set({
+                name: "./level",
+                placeholder: "Choose a grade level"
             });
             var $trackSelect = new Coral.Select().set({
                 name: "./track",
                 placeholder: "Choose a track"
             });
-            var $yearHidden = $dialog.find("input[name='./year']");
-            var selectedYear = parseInt($yearHidden.val());
-            var $trackHidden = $dialog.find("input[name='./track']");
+            var $levelHidden = $dialog.find("input[name='./level'][type='hidden']");
+            var selectedLevel = $levelHidden.val();
+
+            var $trackHidden = $dialog.find("input[name='./track'][type='hidden']");
             var selectedTrack = $trackHidden.val();
-            if (isNaN(selectedYear)) {
+            if (selectedLevel=="") {
                 try {
-                    selectedYear = parseInt(String(selectedTrack.match(/yearplan[^d][^d][^d][^d]/)).replace(/yearplan/, ""));
+                    selectedLevel = selectedTrack.replace(/.*yearplan[^d][^d][^d][^d]\//, "").replace(/\/yearPlan.*/, "");
                 } catch (err) {
                 }
             }
-            var currentYear = (new Date()).getFullYear();
-            var startYear = (!isNaN(selectedYear != null) && currentYear - 1 > selectedYear) ? selectedYear : currentYear - 1;
-            for (var i = startYear; i <= currentYear + 1; i++) {
-                var selected = selectedYear == i ? true : false;
-                $yearSelect.items.add({
-                    value: i,
+            var levels = ["daisy","brownie","junior","cadette","senior","ambassador","multi-level"];
+            console.log("levels="+levels);
+            for (var i = 0; i < levels.length + 1; i++) {
+                var selected = selectedLevel == levels[i] ? true : false;
+                $levelSelect.items.add({
+                    value: levels[i],
                     selected: selected,
                     content: {
-                        textContent: i
+                        textContent: levels[i]
                     }
                 });
             }
-            $yearHidden.after($("<div class='coral-Form-fieldwrapper'>").append($yearSelect));
+            $levelHidden.after($("<div class='coral-Form-fieldwrapper'>").append($levelSelect));
             $trackHidden.after($("<div class='coral-Form-fieldwrapper'>").append($trackSelect));
-            loadYearPlan($yearSelect, $trackSelect, selectedTrack);
-            $yearSelect.on("change", function () {
-                loadYearPlan($yearSelect, $trackSelect, selectedTrack)
+            loadYearPlan($levelSelect, $trackSelect, selectedTrack);
+            $levelSelect.on("change", function () {
+                loadYearPlan($levelSelect, $trackSelect, selectedTrack)
             });
         }
     });
 
-    function loadYearPlan($yearSelect, $trackSelect, selectedTrack) {
+    function loadYearPlan($levelSelect, $trackSelect, selectedTrack) {
         try {
-            if ($yearSelect.selectedItem) {
+            if ($levelSelect.selectedItem) {
                 $trackSelect.items.clear();
-                $.getJSON("/bin/vtk/v1/scaffoldingdata.json?yearplan=yearplan" + $yearSelect.selectedItem.value).done(function (data) {
+                $.getJSON("/bin/vtk/v1/scaffoldingdata.json?level=" + $levelSelect.selectedItem.value).done(function (data) {
                     $.each(data.yearplan, function (key, val) {
                         var selected = selectedTrack == val.data ? true : false;
                         try {
