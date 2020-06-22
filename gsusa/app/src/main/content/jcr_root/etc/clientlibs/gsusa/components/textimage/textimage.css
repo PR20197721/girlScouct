@@ -10,6 +10,13 @@ div.textimage.image_right div.image {
     float: right !important;
     margin: 0 0 8px 8px !important;
 }
+/*GSWP-2156 removing extra left padding*/
+div.image-left {
+    float: left;
+    margin: 0;
+}
+/*GSWP-2156 removing extra left padding*/   
+
 
 /*GSWP-2149-Image Center alignment and shrink the width if the image is bigger in center alignment*/
 .image-right img {
