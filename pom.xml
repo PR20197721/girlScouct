@@ -6,7 +6,7 @@
 	<!-- ====================================================================== -->
 	<groupId>org.girlscouts</groupId>
 	<artifactId>aem</artifactId>
-	<version>4.0.14</version>
+	<version>4.0.17</version>
 	<packaging>pom</packaging>
 	<name>Girl Scouts AEM Project, including Web, VTK, GSUSA and GSActivities</name>
 	<properties>
@@ -216,32 +216,14 @@
 			</dependency>
 			<dependency>
 				<groupId>rubygems</groupId>
-				<artifactId>rb-inotify</artifactId>
-				<version>0.9.10</version>
-				<type>gem</type>
-			</dependency>
-			<dependency>
-				<groupId>rubygems</groupId>
 				<artifactId>compass</artifactId>
 				<version>1.0.3</version>
 				<type>gem</type>
 			</dependency>
 			<dependency>
 				<groupId>rubygems</groupId>
-				<artifactId>rb-inotify</artifactId>
-				<version>0.9.10</version>
-				<type>gem</type>
-			</dependency>
-			<dependency>
-				<groupId>rubygems</groupId>
-				<artifactId>rb-inotify</artifactId>
-				<version>0.9.10</version>
-				<type>gem</type>
-			</dependency>
-			<dependency>
-				<groupId>rubygems</groupId>
 				<artifactId>sass-globbing</artifactId>
-				<version>1.1.1</version>
+				<version>1.1.5</version>
 				<type>gem</type>
 			</dependency>
 			<dependency>

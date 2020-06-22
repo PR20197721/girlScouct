@@ -3,7 +3,6 @@ package org.girlscouts.vtk.osgi.cache.impl;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.osgi.cache.SalesForceContactsResponseCache;
 import org.girlscouts.vtk.osgi.conf.SalesForceContactsResponseCacheConfig;
 import org.girlscouts.vtk.osgi.service.impl.BasicGirlScoutsService;
@@ -15,7 +14,6 @@ import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Component(service = {SalesForceContactsResponseCache.class}, immediate = true, name = "org.girlscouts.vtk.osgi.cache.impl.SalesForceContactsResponseCacheImpl")
@@ -64,7 +62,7 @@ public class SalesForceContactsResponseCacheImpl extends BasicGirlScoutsService 
     @Override
     public boolean contains(String key) {
         if (this.isCacheEnabled && key != null) {
-            log.debug("Looking up "+key+" in cache.");
+            //log.debug("Looking up "+key+" in cache.");
             try {
                 return this.cache.getIfPresent(key) != null;
             }catch(Exception e){

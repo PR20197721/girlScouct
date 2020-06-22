@@ -11,37 +11,21 @@
  */
 package org.girlscouts.web.servlets;
 
+import com.adobe.granite.workflow.WorkflowSession;
 import com.adobe.granite.workflow.exec.WorkflowData;
 import com.adobe.granite.workflow.model.WorkflowModel;
-import com.adobe.granite.workflow.*;
 import com.day.cq.mailer.MailService;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
-import com.day.cq.wcm.foundation.forms.FormsConstants;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
-import com.google.common.collect.Lists;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.mail.ByteArrayDataSource;
-import org.apache.commons.mail.Email;
 import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.MultiPartEmail;
-import org.apache.commons.mail.SimpleEmail;
-import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.ReferenceCardinality;
-import org.apache.felix.scr.annotations.ReferencePolicy;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.request.RequestParameter;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceUtil;
-import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.resource.*;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.auth.core.AuthUtil;
@@ -51,24 +35,15 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
-
-import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
-
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
-import javax.activation.FileDataSource;
+import java.util.regex.Pattern;
 
 /**
  * This mail servlet accepts POSTs to a form begin paragraph
@@ -386,7 +361,8 @@ public class GSStoreServlet
                     confEmail.setSubject(confSubject);
                     final String confFromAddress = values.get(CONFIRMATION_FROM_PROPERTY, "");
                     if (confFromAddress.length() > 0) {
-                        confEmail.setFrom(confFromAddress);
+                        //confEmail.setFrom(confFromAddress);
+                        confEmail.addReplyTo(confFromAddress);
                     }
                     if (this.logger.isDebugEnabled()) {
                         this.logger.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",

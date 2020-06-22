@@ -3,6 +3,7 @@ import {SortableHandle} from 'react-sortable-hoc';
 import AgendaItemSelectedTime from './agenda-item-time';
 import AgendaItemOutDoor from './agenda-item-outdoor';
 import AgendaItemGlobal from './agenda-item-global';
+import AgendaItemVirtual from './agenda-item-virtual';
 import {HAS_PERMISSION_FOR} from './permission';
 import {HELPER} from './helper';
 
@@ -28,17 +29,14 @@ function AgendaItemSingle(props: AgendaItemSingleProps) {
                 <DragHandle/> : null}
             <div className="__main">
                 <div style={{width: '29px', height: '22px'}}></div>
-                <div className="__is-global">
-                    <AgendaItemGlobal multiactivities={props.value.multiactivities}/>
-                </div>
-                <div className="__is-outdoor">
-                    <AgendaItemOutDoor multiactivities={props.value.multiactivities}/>
-                </div>
+                <AgendaItemOutDoor multiactivities={props.value.multiactivities}/>
+                <AgendaItemGlobal multiactivities={props.value.multiactivities}/>
+                <AgendaItemVirtual multiactivities={props.value.multiactivities}/>
                 <div className="__time_counter">{props.schedule ? props.value.__counter__ : props.value.__index__ + 1}</div>
                 <div className="__description">
                     <div className="__title">
                         <div className="__text">
-                            <a onClick={() => props.openAgendaDetail(props.value.multiactivities[0] != null ? props.value.multiactivities[0].activityDescription:"", value.name, value.duration, props.value.multiactivities[0] != null ? props.value.multiactivities[0].outdoor:"", props.value.name)}>
+                            <a onClick={() => props.openAgendaDetail(props.value.multiactivities[0] != null ? props.value.multiactivities[0].activityDescription:"", value.name, value.duration, props.value.multiactivities[0] != null ? props.value.multiactivities[0].outdoor:"", props.value.multiactivities[0] != null ? props.value.multiactivities[0].global:"",props.value.multiactivities[0] != null ? props.value.multiactivities[0].virtual:"", props.value.name)}>
                                 {value.name}
                             </a>
                         </div>

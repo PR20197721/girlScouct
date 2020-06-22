@@ -38,7 +38,8 @@ public class EventTagger {
     private String eventBranch;
     private String tagPrefix;
     private Map<String, String> tagMap;
-    
+    private static Logger log = LoggerFactory.getLogger(EventTagger.class);
+
     public EventTagger(String taggingFile, String eventBranch, String tagPrefix) {
         this.taggingFile = taggingFile;
         this.eventBranch = eventBranch;
@@ -92,7 +93,7 @@ public class EventTagger {
             String title = node.getProperty(TITLE_PROP).getString();
             String tagsToAdd = tagMap.get(title);
             if (tagsToAdd == null) {
-                System.err.println("No tag associated to title: " + title);
+            	log.error("No tag associated to title: " + title);
                 continue;
             }
             
@@ -105,10 +106,10 @@ public class EventTagger {
             }
             
             node.setProperty(TAG_PROP, tags.toArray(new String[tags.size()]));
-            System.out.println("Tag: " + tagsToAdd + " applied to " + node.getPath());
+            log.info("Tag: " + tagsToAdd + " applied to " + node.getPath());
         }
         session.save();
-        System.out.println("Session saved.");
+        log.info("Session saved.");
     }
     
     private String createOrGetCategoryTag(String category) throws RepositoryException {

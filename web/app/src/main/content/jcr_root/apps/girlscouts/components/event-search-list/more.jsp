@@ -216,7 +216,6 @@ public void setDates(JSONObject event, Node node){
             if(eventNodesList.isEmpty()){
                 QueryResult result = sql2Query.execute();
                 NodeIterator nodeIter = result.getNodes();
-                //System.out.println(">>> event query: " + sql2Query.getStatement());
                 while ( nodeIter.hasNext() ) {
                     eventNodesList.add(nodeIter.nextNode());
                 }

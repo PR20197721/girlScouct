@@ -12,7 +12,6 @@ import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
 import com.itextpdf.tool.xml.pipeline.end.ElementHandlerPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
-import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.*;
@@ -470,6 +469,22 @@ public class VtkUtil implements ConfigListener {
         return activity != null;
     }
 
+    public static boolean isAnyVirtualctivitiesInMeeting(Meeting meeting) {
+        if (meeting == null || meeting.getActivities() == null) {
+            return false;
+        }
+        Activity activity = meeting.getActivities().stream().filter(x -> (x.getMultiactivities() != null)).flatMap(x -> x.getMultiactivities().stream()).filter(a -> a.getVirtual() && (a.getIsSelected() != null && a.getIsSelected())).findAny().orElse(null);
+        return activity != null;
+    }
+
+    public static boolean isAnyVirtualActivitiesInMeetingAvailable(Meeting meeting) {
+        if (meeting == null || meeting.getActivities() == null) {
+            return false;
+        }
+        Activity activity = meeting.getActivities().stream().filter(x -> (x.getMultiactivities() != null)).flatMap(x -> x.getMultiactivities().stream()).filter(a -> a.getVirtual()).findAny().orElse(null);
+        return activity != null;
+    }
+
     public static String sortDates(String dates) {
         java.util.List<Date> container = new java.util.ArrayList();
         java.util.StringTokenizer t = new StringTokenizer(dates, ",");
@@ -541,7 +556,7 @@ public class VtkUtil implements ConfigListener {
         java.util.StringTokenizer t = new StringTokenizer(sched, ",");
         while (t.hasMoreElements()) {
             if (meetings.size() <= count) {
-                System.err.println("CalendarUtil.schedMeetings Found extra sched date. Num of Dates > meetings.");
+            	log.error("CalendarUtil.schedMeetings Found extra sched date. Num of Dates > meetings.");
                 break;
             }
             java.util.Date date = new java.util.Date(Long.parseLong(t.nextToken()));
@@ -647,7 +662,7 @@ public class VtkUtil implements ConfigListener {
             p.parse(new ByteArrayInputStream(_html.getBytes()));
             formattedString = _html;
         } catch (Exception e) {
-            System.err.println("VtkUtil.fmtHtml: Found error parsing html. Html not well formatted." + _html);
+        	log.error("VtkUtil.fmtHtml: Found error parsing html. Html not well formatted." + _html);
             formattedString = Jsoup.parse(_html).text();
         }
         return (formattedString == null || "".equals(formattedString.trim())) ? _html : formattedString;
@@ -741,7 +756,7 @@ public class VtkUtil implements ConfigListener {
                 if (configRecord.length >= 2) {
                     councilCodes.add(configRecord[0]);
                 } else {
-                    System.err.println("Malformatted council mapping record: " + gsCouncils[i]);
+                	log.error("Malformatted council mapping record: " + gsCouncils[i]);
                 }
             }
         }
@@ -756,7 +771,7 @@ public class VtkUtil implements ConfigListener {
                 if (configRecord.length >= 2) {
                     councils.put(configRecord[0],configRecord[1]);
                 } else {
-                    System.err.println("Malformatted council mapping record: " + gsCouncils[i]);
+                	log.error("Malformatted council mapping record: " + gsCouncils[i]);
                 }
             }
         }

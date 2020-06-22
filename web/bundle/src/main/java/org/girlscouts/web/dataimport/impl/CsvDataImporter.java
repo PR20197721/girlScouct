@@ -437,7 +437,7 @@ public class CsvDataImporter implements DataImporter {
                 try {
                     node.setProperty(key, (Calendar) value);
                 } catch (ClassCastException cce) {
-                    System.out.println("Unable to convert " + value
+                	log.info("Unable to convert " + value
                             + " to calendar object.");
                 }
             } else if (type.equals("string[]")) {

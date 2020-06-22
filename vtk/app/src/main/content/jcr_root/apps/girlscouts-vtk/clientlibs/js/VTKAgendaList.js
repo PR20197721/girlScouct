@@ -70,6 +70,7 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 			    	field.subtitleField.el.dom.name = path + 'subtitle';
                     field.outdoorField.el.dom.name = path + 'outdoor';
                     field.globalField.el.dom.name = path + 'global';
+                    field.virtualField.el.dom.name = path + 'virtual';
 			    	//field.durationFieldDelete.el.dom.name = path + 'duration@Delete';
 			    	field.descriptionField.el.dom.name = path + 'activityDescription';
 			    	//field.descriptionFieldDelete.el.dom.name = path + 'activityDescription@Delete'
@@ -127,6 +128,7 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 	        			"subtitle": child.subtitle,
                         "outdoor": child.outdoor,
                         "global": child.global,
+                        "virtual": child.virtual,
 	        			"duration": child.duration,
 	        			"materials": child.materials,
 	        			"description": child.activityDescription
@@ -145,6 +147,7 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 	        				curItem[childKey+'/multiactivities/'+agendaKey+'/subtitle'] = agendaObj.subtitle;
                             curItem[childKey+'/multiactivities/'+agendaKey+'/outdoor'] = agendaObj.outdoor;
                             curItem[childKey+'/multiactivities/'+agendaKey+'/global'] = agendaObj.global;
+                            curItem[childKey+'/multiactivities/'+agendaKey+'/virtual'] = agendaObj.virtual;
 	        				curItem[childKey+'/multiactivities/'+agendaKey+'/duration'] = agendaObj.duration;
 	        				curItem[childKey+'/multiactivities/'+agendaKey+'/description'] = agendaObj.activityDescription;
 	        				curItem[childKey+'/multiactivities/'+agendaKey+'/materials'] = agendaObj.materials;

@@ -44,7 +44,7 @@ public class DeactivatedRemover
         while (iter.hasNext()) {
             totalCount++;
             Node node = iter.nextNode();
-            System.out.println("checking deactivated: " + node.getPath());
+            log.info("checking deactivated: " + node.getPath());
             if (node.hasProperty(REPLICATION_PROP) &&
                     node.getProperty(REPLICATION_PROP).getString().equals(REPLICATION_VAL)) {
                 removedCount++;
@@ -62,22 +62,17 @@ public class DeactivatedRemover
     }
     
     void doRemove() throws RepositoryException {
-        System.out.println("=======================");
-        System.out.println("=======================");
-        System.out.println("TO REMOVE");
+        log.info("TO REMOVE");
         if (isDryRun) {
-            System.out.println("dry run");
+            log.info("dry run");
         }
-        System.out.println("=======================");
-        System.out.println("=======================");
         for (String nodePath : toRemove) {
-            System.out.println(nodePath);
+            log.info(nodePath);
             if (!isDryRun) {
                 session.removeItem(nodePath);
                 session.save();
             }
         }
-        System.out.println("=======================");
-        System.out.println("Total Nodes scanned: " + totalCount + " Total nodes removed: " + removedCount);
+        log.info("Total Nodes scanned: " + totalCount + " Total nodes removed: " + removedCount);
     }
 }

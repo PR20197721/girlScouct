@@ -83,7 +83,7 @@ if(backgroundPath != null && backgroundPath.trim().length() > 0){
 		<%
 		}
 	}catch(Exception e){
-		System.err.println("Error occurred while rendering background images at "+backgroundPath);
+		log.error("Error occurred while rendering background images at "+backgroundPath);
 		e.printStackTrace();
 	}
 }

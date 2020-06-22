@@ -226,16 +226,6 @@
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         return;
     }
-    RunMode runModeService = sling.getService(RunMode.class);
-    String[] apps = new String[]{"prod"};
-    String[] prodButDontTrack = new String[]{"gspreview"};
-    if (runModeService.isActive(apps) && !runModeService.isActive(prodButDontTrack)) {
-        String footerScript = "<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('" + selectedTroop.getSfTroopName() + "', '" + selectedTroop.getSfTroopId() + "', '" + user.getApiConfig().getUser().getSfUserId() + "', '" + selectedTroop.getSfCouncil() + "', '" + selectedTroop.getSfTroopAge() + "', '" + (selectedTroop.getYearPlan() == null ? "" : selectedTroop.getYearPlan().getName()) + "'); vtkTrackerPushAction('View'); showSelectedDemoTroop('" + selectedTroop.getSfTroopAge() + "');</script>";
-        request.setAttribute("footerScript", footerScript);
-    } else {
-        String footerScript = "<script>window['ga-disable-UA-2646810-36'] = true; showSelectedDemoTroop('" + selectedTroop.getSfTroopAge() + "')</script>";
-        request.setAttribute("footerScript", footerScript);
-    }
     request.setAttribute("vtk-request-user", user);
     request.setAttribute("vtk-request-troop", selectedTroop);
 } else {

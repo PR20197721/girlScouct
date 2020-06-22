@@ -254,7 +254,6 @@ public class EventsSrch
 							}catch(Exception e){
 								log.error("couldn't parse the date");
 							}
-								//System.out.println("EventDate" +eventDate  +today);
 							if(eventDate.after(today) || eventDate.equals(today)) {
 								regions.add(propNode.getProperty("region").getString());
 							}

@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.girlscouts.aem</groupId>
     <artifactId>gsusa</artifactId>
-    <version>4.0.14</version>
+    <version>4.0.17</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
@@ -17,6 +17,16 @@
   <packaging>content-package</packaging>
   <name>Girl Scouts USA App Package</name>
   <dependencies>
+      <dependency>
+          <groupId>org.jruby</groupId>
+          <artifactId>jruby</artifactId>
+          <version>9.2.9.0</version>
+      </dependency>
+      <dependency>
+          <groupId>com.sun.script.jruby</groupId>
+          <artifactId>jruby-engine</artifactId>
+          <version>1.1.7</version>
+      </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>girlscouts-gsusa-bundle</artifactId>
@@ -70,7 +80,7 @@
       <plugin>
         <groupId>de.saumya.mojo</groupId>
         <artifactId>gem-maven-plugin</artifactId>
-        <version>1.0.9</version>
+        <version>1.1.8</version>
         <executions>
           <execution>
             <id>init</id>

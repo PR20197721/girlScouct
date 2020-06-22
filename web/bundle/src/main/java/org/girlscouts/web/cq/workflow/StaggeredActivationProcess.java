@@ -16,6 +16,8 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.osgi.framework.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
@@ -42,7 +44,7 @@ public class StaggeredActivationProcess implements WorkflowProcess {
 	private final String MINUTES_OF_DELAY = "delay";
 	private final String INTERVAL = "interval";
 	private final String ACTIVATIONS = "activations";
-	
+	private static Logger log = LoggerFactory.getLogger(StaggeredActivationProcess.class);
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
 	
@@ -52,11 +54,11 @@ public class StaggeredActivationProcess implements WorkflowProcess {
 	@Override
 	public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadataMap)
 			throws WorkflowException {
-		System.out.println("Starting to execute staggered activation");
+		log.info("Starting to execute staggered activation");
 		final WorkflowData workflowData = item.getWorkflowData();
 		final String parentPath = workflowData.getPayload().toString();
 		
-		System.out.println("Parent path is: " + parentPath);
+		log.info("Parent path is: " + parentPath);
 		Session session = null;
 		Node activationNode = null;
 		String errorMessage = null;
@@ -87,14 +89,14 @@ public class StaggeredActivationProcess implements WorkflowProcess {
 					int minutes = Integer.parseInt(delay);
 					for(int i = 0; i < values.length; i++){
 						if(actionCount == actions){
-							System.out.println("Got to " + actionCount + " actions");
+							log.info("Got to " + actionCount + " actions");
 							actionCount = 0;
 							Thread.sleep(1000 * 60 * minutes);
 						}
 						Value value = values[i];
 						String path = value.getString();
 						
-						System.out.println(i + ". Replicating node at path: " + path);
+						log.info(i + ". Replicating node at path: " + path);
 						if(path != null && !path.isEmpty()){
 							replicator.replicate(session, ReplicationActionType.ACTIVATE, path);
 						}

@@ -4,6 +4,8 @@ import java.net.URLDecoder;
 import javax.jcr.query.*;
 
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jcr.Session;
 
@@ -13,7 +15,7 @@ public class GSJcrSearchProvider {
 	private static final String EXPRESSION = "SELECT [jcr:score], [jcr:path], [jcr:primaryType] FROM [%s] AS s WHERE ISDESCENDANTNODE([%s]) and CONTAINS(s.*, '%s')";
 
 	private final Session session;
-
+	private static Logger log = LoggerFactory.getLogger(GSJcrSearchProvider.class);	
 	public GSJcrSearchProvider(SlingHttpServletRequest slingRequest) {
 		this.session = slingRequest.getResourceResolver().adaptTo(Session.class);
 	}
@@ -42,7 +44,7 @@ public class GSJcrSearchProvider {
 			result = sql2Query.execute();
 			long endTime = System.nanoTime();
 			double duration = (endTime - startTime) / 1000000;
-			System.err.println("Execution of : " + query + " took " + duration + " milliseconds");
+			log.error("Execution of : " + query + " took " + duration + " milliseconds");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -144,8 +144,15 @@
        String placeholder = (isAuthoringUIModeTouch && !image.hasContent())
                ? Placeholder.getDefaultPlaceholder(slingRequest, component, "", ddClassName)
                : "";
-    %><cq:text property="text" tagClass="text" escapeXml="true" placeholder="<%= placeholder %>"/><div
-        class="clear"></div>
+		String text = properties.get("text","");
+		
+		if(text != null && !text.equals("")){%>
+			<cq:text property="text" tagClass="text" escapeXml="true" placeholder="<%= placeholder %>"/>
+			<div class="clear"></div>
+		<%}else{%>
+			<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>	
+		<%}
+    %>
 
 	<%-- fix CQ "new" bar misbehave --%>
 	<div style="clear:both"></div>

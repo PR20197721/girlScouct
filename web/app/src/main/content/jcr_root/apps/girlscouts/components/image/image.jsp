@@ -95,7 +95,12 @@
 	  	}
 		%>
 		<div class="image-caption" style="<%= styleCaption %>">
-			<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
+		<%
+			if(caption != null && !caption.equals("")){%>
+				<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
+			<%}
+		%>
+			
 		</div>
 	</div>
     <%@include file="/libs/foundation/components/image/tracking-js.jsp"%>

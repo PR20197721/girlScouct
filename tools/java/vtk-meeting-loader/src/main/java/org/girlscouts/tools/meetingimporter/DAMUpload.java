@@ -44,7 +44,8 @@ import org.apache.poi.ss.util.*;
 import org.girlscouts.vtk.models.Meeting;
 
 public class DAMUpload {
-	
+	private static Logger log = LoggerFactory.getLogger(DAMUpload.class);
+
 	public static void main(String[] args) throws Exception {
 		DAMUpload me = new DAMUpload();
 		//me.parseMeetingPlan();
@@ -294,7 +295,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	    
 	    File file = new File(path+ fileName);
 	    if (!file.exists()) {
-	        System.err.println(fileName + " NOT FOUND.");
+	    	log.error(fileName + " NOT FOUND.");
 	        return;
 	    }
 
@@ -347,7 +348,7 @@ if ((String)metaDatas.get("tags")!=null )
 	    httpclient.getConnectionManager().shutdown();
 		}catch(Exception e){e.printStackTrace();}
 		
-		System.out.println(fileName + " uploaded successfully.");
+		log.info(fileName + " uploaded successfully.");
 	}
 	
 	

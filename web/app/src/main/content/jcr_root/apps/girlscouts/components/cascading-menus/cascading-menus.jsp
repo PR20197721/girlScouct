@@ -11,8 +11,9 @@
 			String currPath, String currTitle, String eventDispUnder,
 			String showCurrent) throws RepositoryException {
 		levelDepth++;
-    	System.out.println("Root Path is " + rootPath);
-    	System.out.println("Level Depth is" + rootDepth);
+	    final Logger log = LoggerFactory.getLogger(this.getClass());
+    	log.info("Root Path is " + rootPath);
+    	log.info("Level Depth is" + rootDepth);
 
 		if (iterPage.hasNext()) {
 			if (levelDepth == 1) {
@@ -35,8 +36,8 @@
 					// This string buffer properly closes dangling li elements
 					StringBuffer remainderStrings = new StringBuffer();
 					if (!page.isHideInNav()) {
-                        System.out.println("Cascading Pace is: " + createHref(page));
-                        System.out.println("Level Depth is" + rootDepth + " Node depth is " + page.getDepth());
+                        log.info("Cascading Pace is: " + createHref(page));
+                        log.info("Level Depth is" + rootDepth + " Node depth is " + page.getDepth());
 						if (rootPath.equalsIgnoreCase(nodePath) && showCurrent.equals("false")) {
 							menuBuilder.append("<li class=\"active current\">");
 							menuBuilder.append("<div>");

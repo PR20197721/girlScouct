@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {tree} from './tree';
 import {globe} from './globe';
+import {virtual} from './virtual';
 
 interface MeetingProps {
     meetingInfo: MeetingInfo;
@@ -12,11 +13,15 @@ interface MeetingProps {
     anyOutdoorActivityInMeeting: boolean;
     anyGlobalActivityInMeetingAvailable: boolean;
     anyGlobalActivityInMeeting: boolean;
+    anyVirtualActivityInMeetingAvailable: boolean;
+    anyVirtualActivityInMeeting: boolean;
 
 }
 
 interface MeetingInfo {
     outdoor: boolean,
+    global: boolean,
+    virtual: boolean,
     id: string,
     cat: string,
     name: string,
@@ -50,7 +55,7 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
                     id: this.props.meetingInfo.id,
                     name: this.props.meetingInfo.name,
                     req: this.props.meetingInfo.req
-                }, this.props.anyOutdoorActivityInMeetingAvailable, this.props.anyOutdoorActivityInMeeting, this.props.anyGlobalActivityInMeetingAvailable, this.props.anyGlobalActivityInMeeting)
+                }, this.props.anyOutdoorActivityInMeetingAvailable, this.props.anyOutdoorActivityInMeeting, this.props.anyGlobalActivityInMeetingAvailable, this.props.anyGlobalActivityInMeeting, this.props.anyVirtualActivityInMeetingAvailable, this.props.anyVirtualActivityInMeeting)
             }
         }
 
@@ -76,6 +81,8 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
                         <div className="small-24 medium-3 column small-text-center" style={{textAlign: "center"}}>
                             {(this.props.anyGlobalActivityInMeetingAvailable) ?
                                 <img src={globe} style={{'width': '60px', 'height': '60px'}} alt=""/> : null}
+                            {(this.props.anyVirtualActivityInMeetingAvailable) ?
+                                <img src={virtual} style={{'width': '60px', 'height': '60px'}} alt=""/> : null}
                             {(this.props.anyOutdoorActivityInMeetingAvailable) ?
                                 <img src={tree} style={{'width': '60px', 'height': '60px'}} alt=""/> : null}
                         </div> : null}

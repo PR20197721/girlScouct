@@ -22,12 +22,14 @@ import org.apache.jackrabbit.commons.JcrUtils;
 // server example: http://localhost:4503/crx/server/
 public class Updater 
 {
-    public static void main(String[] args)
+	private static Logger log = LoggerFactory.getLogger(Updater.class);
+
+	public static void main(String[] args)
     {
         if (args.length < 3) {
-            System.out.println("Event Updater");
-            System.out.println("Params: server username password");
-            System.out.println("Server example: http://localhost:4503/crx/server");
+        	log.info("Event Updater");
+        	log.info("Params: server username password");
+        	log.info("Server example: http://localhost:4503/crx/server");
             System.exit(-1);
         }
         String server = args[0];
@@ -85,7 +87,7 @@ public class Updater
         for (String council : TIMEZONE_MAP.keySet()) {
             String branch = "/content/" + council + "/en";
             if (!session.nodeExists(branch)) {
-                System.err.println("Node not found: " + branch);
+            	log.error("Node not found: " + branch);
                 continue;
             }
 
@@ -95,7 +97,7 @@ public class Updater
             try {
                 session.save();
             } catch (RepositoryException re) {
-                System.err.println("Cannot update timezone for branch: " + branch);
+            	log.error("Cannot update timezone for branch: " + branch);
                 this.session.refresh(false);
             }
             
@@ -118,16 +120,16 @@ public class Updater
                         updateTimezone(dataNode, "start", timezoneStr); 
                         updateTimezone(dataNode, "end", timezoneStr); 
                         count++;
-                        System.out.println("Updated event: " + eventNode.getPath());
+                        log.info("Updated event: " + eventNode.getPath());
                     } catch (RepositoryException re) {
-                        System.err.println("Cannot update event: " + eventNode.getPath());
+                    	log.error("Cannot update event: " + eventNode.getPath());
                         re.printStackTrace();
                         this.session.refresh(false);
                     }
                 }
             }
         }
-        System.out.println("# of events updated: " + Integer.toString(this.count));
+        log.info("# of events updated: " + Integer.toString(this.count));
     }
     
     private void updateTimezone(Node node, String key, String timezoneStr) throws RepositoryException, ParseException {

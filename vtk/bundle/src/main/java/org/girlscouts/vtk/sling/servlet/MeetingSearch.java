@@ -93,9 +93,10 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                         meetingResult.setId(vm.get("id", ""));
                         meetingResult.setLevel(vm.get("level", ""));
                         meetingResult.setName(vm.get("name", ""));
-                        OutdoorGlobal flags = hasOutdoorOrGlobal(meeting);
+                        OutdoorGlobalVirtual flags = hasOutdoorOrGlobalOrVirtual(meeting);
                         meetingResult.setHasGlobal(flags.getHasGlobal());
                         meetingResult.setHasOutdoor(flags.getHasOutdoor());
+                        meetingResult.setHasVirtual(flags.getHasVirtual());
                         meetingResult.setHealthyLiving(vm.get("healthyliving", "false").equals("true"));
                         meetingResult.setLifeSkills(vm.get("lifeskills", "false").equals("true"));
                         meetingResult.setAidPaths(vm.get("aidPaths", new String[]{}));
@@ -210,8 +211,8 @@ public class MeetingSearch extends SlingAllMethodsServlet {
 
     }
 
-    private OutdoorGlobal hasOutdoorOrGlobal(Resource meeting) {
-        OutdoorGlobal result = new OutdoorGlobal();
+    private OutdoorGlobalVirtual hasOutdoorOrGlobalOrVirtual(Resource meeting) {
+        OutdoorGlobalVirtual result = new OutdoorGlobalVirtual();
         try {
             Resource activities = meeting.getChild("activities");
             if(activities != null) {
@@ -230,6 +231,9 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                             if(vm.get("global","false").equals("true")) {
                                 result.setHasGlobal(Boolean.TRUE);
                             }
+                            if(vm.get("virtual","false").equals("true")) {
+                                result.setHasVirtual(Boolean.TRUE);
+                            }
                         }
                     }
                 }
@@ -239,9 +243,10 @@ public class MeetingSearch extends SlingAllMethodsServlet {
         }
         return result;
     }
-    private class OutdoorGlobal{
-        private Boolean hasOutdoor;
-        private Boolean hasGlobal;
+    private class OutdoorGlobalVirtual {
+        private Boolean hasOutdoor = Boolean.FALSE;
+        private Boolean hasGlobal = Boolean.FALSE;
+        private Boolean hasVirtual = Boolean.FALSE;
 
         public Boolean getHasOutdoor() {
             return hasOutdoor;
@@ -257,6 +262,14 @@ public class MeetingSearch extends SlingAllMethodsServlet {
 
         public void setHasGlobal(Boolean hasGlobal) {
             this.hasGlobal = hasGlobal;
+        }
+
+        public Boolean getHasVirtual() {
+            return hasVirtual;
+        }
+
+        public void setHasVirtual(Boolean hasVirtual) {
+            this.hasVirtual = hasVirtual;
         }
     }
     private class MeetingResult{
@@ -277,6 +290,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
         private Boolean lifeSkills = Boolean.FALSE;
         private Boolean hasOutdoor = Boolean.FALSE;
         private Boolean hasGlobal = Boolean.FALSE;
+        private Boolean hasVirtual = Boolean.FALSE;
         private Boolean isIncluded = Boolean.FALSE;
 
         public int getResultIndex() {
@@ -422,6 +436,13 @@ public class MeetingSearch extends SlingAllMethodsServlet {
         public void setArchived(Boolean archived) {
             isArchived = archived;
         }
+        public Boolean getHasVirtual() {
+            return hasVirtual;
+        }
+
+        public void setHasVirtual(Boolean hasVirtual) {
+            this.hasVirtual = hasVirtual;
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -432,12 +453,29 @@ public class MeetingSearch extends SlingAllMethodsServlet {
                 return false;
             }
             MeetingResult that = (MeetingResult) o;
-            return resultIndex == that.resultIndex && Objects.equals(meetingType, that.meetingType) && Objects.equals(path, that.path) && Objects.equals(cat, that.cat) && Objects.equals(blurb, that.blurb) && Objects.equals(id, that.id) && Objects.equals(req, that.req) && Objects.equals(reqTitle, that.reqTitle) && Objects.equals(level, that.level) && Objects.equals(name, that.name) && Arrays.equals(catTags, that.catTags) && Arrays.equals(aidPaths, that.aidPaths) && Objects.equals(healthyLiving, that.healthyLiving) && Objects.equals(isArchived, that.isArchived) && Objects.equals(lifeSkills, that.lifeSkills) && Objects.equals(hasOutdoor, that.hasOutdoor) && Objects.equals(hasGlobal, that.hasGlobal) && Objects.equals(isIncluded, that.isIncluded);
+            return resultIndex == that.resultIndex &&
+                    Objects.equals(meetingType, that.meetingType) &&
+                    Objects.equals(path, that.path) &&
+                    Objects.equals(cat, that.cat) &&
+                    Objects.equals(blurb, that.blurb) &&
+                    Objects.equals(id, that.id) &&
+                    Objects.equals(req, that.req) &&
+                    Objects.equals(reqTitle, that.reqTitle) &&
+                    Objects.equals(level, that.level) &&
+                    Objects.equals(name, that.name) &&
+                    Arrays.equals(catTags, that.catTags) &&
+                    Arrays.equals(aidPaths, that.aidPaths) &&
+                    Objects.equals(healthyLiving, that.healthyLiving) &&
+                    Objects.equals(lifeSkills, that.lifeSkills) &&
+                    Objects.equals(hasOutdoor, that.hasOutdoor) &&
+                    Objects.equals(hasGlobal, that.hasGlobal) &&
+                    Objects.equals(hasVirtual, that.hasVirtual) &&
+                    Objects.equals(isIncluded, that.isIncluded);
         }
 
         @Override
         public int hashCode() {
-            int result = Objects.hash(resultIndex, meetingType, path, cat, blurb, id, req, reqTitle, level, name, healthyLiving, isArchived, lifeSkills, hasOutdoor, hasGlobal, isIncluded);
+            int result = Objects.hash(resultIndex, meetingType, path, cat, blurb, id, req, reqTitle, level, name, healthyLiving, lifeSkills, hasOutdoor, hasGlobal, hasVirtual, isIncluded);
             result = 31 * result + Arrays.hashCode(catTags);
             result = 31 * result + Arrays.hashCode(aidPaths);
             return result;

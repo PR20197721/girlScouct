@@ -944,28 +944,33 @@ function vtkCreateTracker() {
 	gtag('config', 'UA-2646810-36');
 
 }
-
+//GSVTK-2666-Changed analytics.js to gtag.js
 function vtkInitTracker(tName, tId, uId, cId, tAge, ypn) {
     //var newTracker = ga.getByName('vtkTracker');
     //vtkCreateTracker();
-    ga('vtkTracker.set', 'dimension1', tName);
-    ga('vtkTracker.set', 'dimension2', tId);
-    ga('vtkTracker.set', 'dimension3', uId);
-    ga('vtkTracker.set', 'dimension7', cId);
-    ga('vtkTracker.set', 'dimension8', tAge);
-    ga('vtkTracker.set', 'dimension9', ypn);
+    gtag('config', 'UA-2646810-36', {
+		'custom_map': {
+			'dimension1': 'dimension1',
+			'dimension2': 'dimension2',
+			'dimension3': 'dimension3',
+			'dimension7': 'dimension7',
+			'dimension8': 'dimension8',
+			'dimension9': 'dimension9'
+			}
+		});
+	gtag('event', 'page_view', {'dimension1': tName, 'dimension2': tId, 'dimension3': uId, 'dimension7': cId, 'dimension8': tAge, 'dimension9': ypn});
 }
 
 function vtkTrackerPushAction(vAction) {
     $(document).ready(function() {
-        ga('vtkTracker.send', 'pageview', {
-            dimension4: vAction
-        });
+       	gtag('event', 'page_view', { 'send_to': 'UA-2646810-36' });
+	gtag('config', 'UA-2646810-36', {
+		'custom_map': {'dimension4': 'dimension4'}
+	});
+	gtag('event', 'page_view', {'dimension4': vAction});
     });
-
-
 }
-
+//End GSVTK-2666-Changed analytics.js to gtag.js
 
 function getRelogin() {
     console.log('relogin')

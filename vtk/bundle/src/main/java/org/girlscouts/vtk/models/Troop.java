@@ -277,20 +277,21 @@ public class Troop extends JcrNode implements Serializable {
     }
     public Map<Date, YearPlanComponent> getSchedule(){
         log.debug("Getting schedule for "+ this.getPath());
-        if(this.schedule != null) {
+        /*if(this.schedule != null) {
             log.debug("Existing schedule for "+ this.getPath());
             return this.schedule;
         } else{
-            log.debug("Building schedule for "+ this.getPath());
-            YearPlan yearPlan = this.getYearPlan();
-            if (yearPlan != null) {
-                this.schedule = getYearPlanSchedule(yearPlan);
-                return this.schedule;
-            } else {
-                log.debug("No year plan for " + this.getPath());
-                return new TreeMap<>();
-            }
+        */
+        log.debug("Building schedule for "+ this.getPath());
+        YearPlan yearPlan = this.getYearPlan();
+        if (yearPlan != null) {
+            this.schedule = getYearPlanSchedule(yearPlan);
+            return this.schedule;
+        } else {
+            log.debug("No year plan for " + this.getPath());
+            return new TreeMap<>();
         }
+       // }
     }
 
     private Map<Date, YearPlanComponent> getYearPlanSchedule(YearPlan plan) {

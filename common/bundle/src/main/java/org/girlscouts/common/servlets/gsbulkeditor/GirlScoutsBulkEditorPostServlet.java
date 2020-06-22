@@ -1326,7 +1326,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
             GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyyMMddHHmm");
             String dateString = dtfOut.print(gdt);
             if(jcrPM == null){
-                System.err.println("Null PackageManager");
+            	 log.error("Null PackageManager");
             }
             JcrPackage jcrP = jcrPM.create("GirlScouts","spreadsheet-prebuild-" + packageName.toLowerCase(), dateString);
             JcrPackageDefinition jcrPD = jcrP.getDefinition();

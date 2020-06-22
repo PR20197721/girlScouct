@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MeetingE extends YearPlanComponent implements Serializable {
-    boolean isAnyOutdoorActivityInMeeting = false, isAnyOutdoorActivityInMeetingAvailable = false, isAnyGlobalActivityInMeeting = false, isAnyGlobalActivityInMeetingAvailable = false, isAllMultiActivitiesSelected = false;
+    boolean isAnyOutdoorActivityInMeeting = false, isAnyOutdoorActivityInMeetingAvailable = false, isAnyGlobalActivityInMeeting = false, isAnyGlobalActivityInMeetingAvailable = false, isAnyVirtualActivityInMeeting = false, isAnyVirtualActivityInMeetingAvailable = false, isAllMultiActivitiesSelected = false;
     private List<Asset> assets;
     private List<SentEmail> sentEmails;
     private Date lastAssetUpdate;
@@ -206,6 +206,22 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
     public void setAnyGlobalActivityInMeetingAvailable(boolean isAnyGlobalActivityInMeetingAvailable) {
         this.isAnyGlobalActivityInMeetingAvailable = isAnyGlobalActivityInMeetingAvailable;
+    }
+
+    public boolean isAnyVirtualActivityInMeeting() {
+        return isAnyVirtualActivityInMeeting;
+    }
+
+    public void setAnyVirtualActivityInMeeting(boolean anyVirtualActivityInMeeting) {
+        isAnyVirtualActivityInMeeting = anyVirtualActivityInMeeting;
+    }
+
+    public boolean isAnyVirtualActivityInMeetingAvailable() {
+        return isAnyVirtualActivityInMeetingAvailable;
+    }
+
+    public void setAnyVirtualActivityInMeetingAvailable(boolean anyVirtualActivityInMeetingAvailable) {
+        isAnyVirtualActivityInMeetingAvailable = anyVirtualActivityInMeetingAvailable;
     }
 
     @Override

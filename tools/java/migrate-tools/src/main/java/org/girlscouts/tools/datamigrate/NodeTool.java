@@ -15,7 +15,7 @@ public class NodeTool
 {
     private String nodePath;
     private Session session;
-    
+    private static Logger log = LoggerFactory.getLogger(NodeTool.class);
     public NodeTool(String server, String username, String password, String nodePath) throws RepositoryException {
         this.nodePath = nodePath;
         this.session = getSession(server, username, password);
@@ -30,14 +30,14 @@ public class NodeTool
     
     void checkout() throws RepositoryException, ParseException {
         VersionManager manager = session.getWorkspace().getVersionManager();
-        System.out.println("Trying to checkout node: " + nodePath);
+        log.info("Trying to checkout node: " + nodePath);
         manager.checkout(nodePath);
         session.save();
     }
     
     void unlock() throws RepositoryException, ParseException {
         LockManager manager = session.getWorkspace().getLockManager();
-        System.out.println("Trying to unlock node: " + nodePath);
+        log.info("Trying to unlock node: " + nodePath);
         manager.unlock(nodePath);
         session.save();
     }

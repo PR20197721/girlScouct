@@ -112,7 +112,7 @@ export function VtkMtgPlanAgenda(props: VtkMtgPlanAgendaProps) {
         props.dispatch(Actions.CHANGE_ACTIVITIES_ORDER({oldIndex, newIndex}));
 
     };
-    const openAgendaDetail = (materials, meetingName, recommendedTime, outdoor, activityPath) => {
+    const openAgendaDetail = (materials, meetingName, recommendedTime, outdoor,global,virtual, activityPath) => {
 
 
         if (props.user_variable.vtk_current_year == props.user_variable.user_current_year) {
@@ -173,7 +173,7 @@ export function VtkMtgPlanAgenda(props: VtkMtgPlanAgendaProps) {
 
                 let template =
                     `<p><b>${_recommendedTime} min</b> Recommended time</p>
-          <h3 style="text-transform:uppercase">${meetingName} ${(outdoor) ? '- Outside' : ''}</h3>
+          <h3 style="text-transform:uppercase">${meetingName} ${(outdoor) ? '- Outside ' : ''} ${(virtual) ? '- Virtual ' : ''} ${(global) ? '- Global ' : ''}</h3>
           <br />
           <div>${materials}</div>`;
 

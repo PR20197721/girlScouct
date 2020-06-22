@@ -25,9 +25,14 @@ String pLeft = properties.get("./pleft", "0");
 String pRight = properties.get("./pright", "0");
 
 String style = "padding: " + pTop + "px " + pRight + "px " + pBottom + "px " + pLeft + "px;";
+String text = properties.get("text","");
 
-%>
-<div style="<%= style %>">
-	<cq:text property="text" escapeXml="true"
-        placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
-</div>
+if(text != null && !text.equals("")){%>
+	<div style="<%= style %>">
+		<cq:text property="text" escapeXml="true"
+       		 placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
+	</div>
+<%}else{%>
+	<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>
+<%}%> 
+

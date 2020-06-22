@@ -23,8 +23,6 @@ public class Hash {
 //    public static void main(String[] args) {
 //    	try {
 //    		String randomSalt = generateRandomSaltString();
-//			System.out.println("Random Salt = " + randomSalt);
-//			System.out.println("Salted hash of foobar = " + SHA1("foobar", randomSalt));
 //		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 //			e.printStackTrace();
 //		}

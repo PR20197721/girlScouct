@@ -5,6 +5,7 @@ import org.girlscouts.vtk.models.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public interface MeetingDAO {
     java.util.List<Meeting> getAllMeetings(User user, Troop troop, String gradeLevel) throws IllegalAccessException;
@@ -71,6 +72,12 @@ public interface MeetingDAO {
     boolean rmNote(User user, Troop troop, String noteId) throws IllegalAccessException;
 
     Note getNote(User user, Troop troop, String nid) throws IllegalAccessException;
+
+    Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException;
+
+    Set<String> getGlobalMeetings(User user, Troop troop) throws IllegalAccessException;
+
+    Set<String> getVirtualMeetings(User user, Troop troop) throws IllegalAccessException;
 
     List<Meeting> getMeetings(User user, Troop troop, String level) throws IllegalAccessException;
 

@@ -39,7 +39,7 @@
 </div>
 <%
     Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
-    Boolean isPreview = set.contains("gspreview");
+    Boolean isPreview = set.contains("preview");
     //if this server is a preview, we do not use google analytics for VTK demo
     if (!isPreview) {
 %>

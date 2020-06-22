@@ -1,17 +1,18 @@
 package org.girlscouts.tools.datamigrate;
 
 public class Facade {
+	private static Logger log = LoggerFactory.getLogger(Facade.class);
     public static void main(String[] args)
     {
         if (args.length < 4) {
-            System.out.println("Girl Scouts AEM data migrate tool");
-            System.out.println("Params: server username password cmd [nodePath] [isDryRun]");
-            System.out.println("Server example: http://localhost:4502/crx/server");
-            System.out.println("Available commands:");
-            System.out.println("removedeactivated: remove deactivated nodes. (Can be dry run)");
-            System.out.println("checkout: checkout checked-in node.");
-            System.out.println("unlock: unlock the locked node.");
-            System.out.println("updatelink: update the link from my.girlscouts.org to my-stage.girlscouts.org.");
+            log.info("Girl Scouts AEM data migrate tool");
+            log.info("Params: server username password cmd [nodePath] [isDryRun]");
+            log.info("Server example: http://localhost:4502/crx/server");
+            log.info("Available commands:");
+            log.info("removedeactivated: remove deactivated nodes. (Can be dry run)");
+            log.info("checkout: checkout checked-in node.");
+            log.info("unlock: unlock the locked node.");
+            log.info("updatelink: update the link from my.girlscouts.org to my-stage.girlscouts.org.");
             System.exit(-1);
         }
         String server = args[0];
@@ -23,7 +24,7 @@ public class Facade {
 
         try {
             if (cmd.equals("removedeactivated")) {
-                System.out.println("Scanning repo for deactivated nodes ...");
+                log.info("Scanning repo for deactivated nodes ...");
                 DeactivatedRemover remover = new DeactivatedRemover(server, username, password, isDryRun);
                 remover.scan(nodePath);
                 remover.doRemove();
@@ -37,7 +38,7 @@ public class Facade {
                 LinkUpdater updater = new LinkUpdater(server, username, password);
                 updater.doUpdate();
             } else {
-                System.out.println("Command not supported.");
+                log.info("Command not supported.");
             }
         } catch (Exception e) {
             e.printStackTrace();

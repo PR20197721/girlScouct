@@ -54,8 +54,23 @@
         padding-top: 2px;
       }
     }
+    .__is-virtual {
+      width: 26px;
 
-    .__is-outdoor {
+      div {
+        display: inherit;
+        align-self: flex-start;
+        justify-content: center;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        padding-top: 2px;
+      }
+    }
+
+    .__is-outdoor,.__is-global,.__is-virtual {
       width: 30px;
 
 

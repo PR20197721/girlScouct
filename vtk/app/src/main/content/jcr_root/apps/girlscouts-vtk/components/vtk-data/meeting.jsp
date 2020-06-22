@@ -77,8 +77,9 @@
                     printProperty(additionalActivityInfo, "Name", "name", "h5");
                     printProperty(additionalActivityInfo, "Duration", "duration", "h5");
                     printProperty(additionalActivityInfo, "Description", "activityDescription", "h5");
-                    printProperty(additionalActivityInfo, "Outdoor?", "isOutdoorAvailable", "h5");
-                    printProperty(additionalActivityInfo, "Global?", "isGlobalAvailable", "h5");
+                    printProperty(additionalActivityInfo, "Outdoor?", "outdoor", "h5");
+                    printProperty(additionalActivityInfo, "Global?", "global", "h5");
+                    printProperty(additionalActivityInfo, "Virtual?", "virtual", "h5");
                     printProperty(additionalActivityInfo, "Materials", "materials", "h5");
                 }
             }catch(Exception e){
@@ -86,6 +87,5 @@
             }
         }
     }
-
 %>
 </body>

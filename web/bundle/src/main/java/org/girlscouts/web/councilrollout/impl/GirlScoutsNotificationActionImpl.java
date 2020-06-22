@@ -60,21 +60,21 @@ public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationA
 	public void execute(Resource source, Resource target, String subject, String message, LiveRelationship relation, ResourceResolver rr)
 					throws WCMException {
 		if (source == null) {
-			System.err.println("Source is null. Quit");
+			log.error("Source is null. Quit");
 			return;
 		}
 		if (target == null) {
-			System.err.println("Target is null. Quit");
+			log.error("Target is null. Quit");
 			return;
 		}
 		Node sourceNode = (Node)source.adaptTo(Node.class);
 		Node targetNode = (Node)target.adaptTo(Node.class);
 		if (sourceNode == null) {
-			System.err.println("Cannot access source node: " + source + ". Quit.");
+			log.error("Cannot access source node: " + source + ". Quit.");
 			return;
 		}
 		if (targetNode == null) {
-			System.err.println("Cannot access target node: " + target + ". Quit.");
+			log.error("Cannot access target node: " + target + ". Quit.");
 			return;
 		}
 		LiveStatus status = relation.getStatus();
@@ -97,7 +97,7 @@ public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationA
 			}
 		
 		}else{
-			System.err.println("relation status issue");
+			log.error("relation status issue");
 		}
 	}
 	
@@ -194,7 +194,7 @@ public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationA
         		is.close();
 			} catch (Exception e) {
 				log.error("Input Stream Failed");
-				System.out.println("Input Stream Failed");
+				log.info("Input Stream Failed");
 				e.printStackTrace();
 			}
     		try {

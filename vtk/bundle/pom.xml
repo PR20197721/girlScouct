@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.girlscouts.aem</groupId>
 		<artifactId>vtk</artifactId>
-		<version>4.0.14</version>
+		<version>4.0.17</version>
 	</parent>
 	<!-- ====================================================================== -->
 	<!-- P R O J E C T D E S C R I P T I O N -->
@@ -39,7 +39,7 @@
 		<dependency>
 			<groupId>org.girlscouts.aem.common</groupId>
 			<artifactId>girlscouts-common-bundle</artifactId>
-			<version>${project.version}</version>
+            <version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
