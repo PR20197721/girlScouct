@@ -18,6 +18,7 @@ import {PERMISSION_CHECK} from './permission';
 export interface VtkMtgPlanMainProps {
     meetingEvents: any;
     participationCode: any;
+    isLoadedManualy:any;
     meeting: any;
     helper: any;
 }
@@ -69,7 +70,8 @@ function mapStateToProps(state) {
         meeting: state.meeting,
         meetingEvents: state.meetingEvents,
         helper: state.helper,
-        participationCode: state.participationCode
+        participationCode: state.participationCode,
+        isLoadedManualy: state.isLoadedManualy
     };
 }
 

@@ -42,7 +42,7 @@ public class TroopHashGeneratorImpl implements TroopHashGenerator {
     }
 
     public String hash(Troop troop) {
-        return hash(troop.getTroopId());
+        return hash(troop.getPath());
     }
 
     public String getPath(String troopId) {

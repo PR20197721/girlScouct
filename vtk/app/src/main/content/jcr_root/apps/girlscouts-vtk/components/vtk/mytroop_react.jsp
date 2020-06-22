@@ -87,6 +87,13 @@
             </div>
         </div>
     <%}%>
+    <%if(selectedTroop.getIsLoadedManualy()){%>
+    <div class="column small-24 large-centered large-20">
+        <div class="demo-info-message">
+            <p>The following roster includes your registered members for the 2021 membership year. Attendance and achievements will not be available until July 21.</p>
+        </div>
+    </div>
+    <%}%>
     <%@include file='myTroopImg.jsp' %>
     <% if (!VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)) {
         for (int i = 0; i < contacts.size(); i++) {
