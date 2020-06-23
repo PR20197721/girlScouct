@@ -74,7 +74,7 @@
 	}
 %>
 
-<div class="<%= "image-" + imageAlignment %>" id="<%= "cq-image-jsp-" + resource.getPath() %>" style="<%= styleImage %>" >
+<div class="<%= "image-" + imageAlignment %>" id="<%= "cq-image-jsp-" + resource.getPath() %>" >
 <% 
 		Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
@@ -85,6 +85,9 @@
 		    image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
 		    image.addCssClass(styleClass);
 		    image.setSuffix(suffix);
+		    //GSWP-2140-When applied both styleImage (width) and image dropdown  
+		    image.addAttribute("style", styleImage);
+		 	//GSWP-2140-End-When applied both styleImage (width) and image dropdown
 		    image.loadStyleData(currentStyle);
 		    image.setSelector(".img"); // use image script
 		    image.setDoctype(Doctype.fromRequest(request));
