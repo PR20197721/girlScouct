@@ -74,7 +74,7 @@
 	}
 	styleImage += "line-height: 1.15rem;";
 	
-	%><div class="img-wrapper img-print <%= "image-" + imageAlignment %>" id="<%= divId %>" style="<%= styleImage %>"><%
+	%><div class="img-wrapper img-print <%= "image-" + imageAlignment %>" id="<%= divId %>"><%
 	    Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
 	    
@@ -83,6 +83,9 @@
 		
 		    //drop target css class = dd prefix + name of the drop target in the edit config
 		    image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
+		  	//GSWP-2140-When applied both styleImage (width) and image dropdown
+		  	image.addAttribute("style", styleImage);
+		  	//GSWP-2140-End-When applied both styleImage (width) and image dropdown
 		    image.loadStyleData(currentStyle);
 		    image.setSelector(".img"); // use image script
 		    image.setDoctype(Doctype.fromRequest(request));
