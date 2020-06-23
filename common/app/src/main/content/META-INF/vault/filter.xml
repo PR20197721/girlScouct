@@ -7,7 +7,7 @@
     <filter root="/apps/cq/gui/components/authoring/dialog" />
     <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>
     <filter root="/apps/cq/gui/components/common/admin/listview/startDateCell"/>
-    <filter root="/apps/cq/gui/components/coral/common/admin/timeline/events/version"/>
+    <filter root="/apps/cq/gui/components/coral/common/admin/timeline/events/version" mode="replace"/>
     <filter root="/apps/cq/inbox"/>
     <filter root="/apps/cq/ui/widgets/source/form/rte/plugins/LinkPlugin.js"/>
     <filter root="/apps/cq/xssprotection"/>
