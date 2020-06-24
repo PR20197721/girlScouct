@@ -21,8 +21,18 @@
 %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<cq:includeClientLib categories="common.components.image" />
 <cq:includeClientLib categories="apps.girlscouts.components.image" /><%
 	String divId = "cq-image-jsp-" + resource.getPath();
+	//GSWP-2140-case1-For new image component dragged and dropped, Left dropdown is selected by default
+	String imageAlignment = properties.get("./imageAlignment", "left");
+	String additionalCss = properties.get("./additionalCss", "");
+	//GSWP-2140-case3-For old/existing image component, where Additional CSS has left value, you should keep that, and leave Image Alignment dropdown empty
+  	if ((!additionalCss.isEmpty()) && (additionalCss.indexOf("left") >=0 || additionalCss.indexOf("center") >=0 || additionalCss.indexOf("right") >=0)) {
+      //if additional css has multiple values seperated by space
+      String[] additionalCssValues = additionalCss.split("\\s+");
+      imageAlignment = Arrays.asList(additionalCssValues).contains("left")? "left" : Arrays.asList(additionalCssValues).contains("center")? "center" : "right";
+  	}
     Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     Node pageNode = currentPage.getContentResource().adaptTo(Node.class);
     boolean showButton = false;
@@ -64,7 +74,7 @@
 	}
 	styleImage += "line-height: 1.15rem;";
 	
-	%><div class="img-wrapper img-print" id="<%= divId %>" style="<%= styleImage %>"><%
+	%><div class="img-wrapper img-print <%= "image-" + imageAlignment %>" id="<%= divId %>"><%
 	    Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
 	    
@@ -73,6 +83,9 @@
 		
 		    //drop target css class = dd prefix + name of the drop target in the edit config
 		    image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
+		  	//GSWP-2140-When applied both styleImage (width) and image dropdown
+		  	image.addAttribute("style", styleImage);
+		  	//GSWP-2140-End-When applied both styleImage (width) and image dropdown
 		    image.loadStyleData(currentStyle);
 		    image.setSelector(".img"); // use image script
 		    image.setDoctype(Doctype.fromRequest(request));
