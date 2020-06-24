@@ -5,14 +5,14 @@
         var $resourceType = $dialog.find("[name='./sling:resourceType']").val();
         if ("girlscouts-vtk/components/yp-lib-track-pick" == $resourceType) {
             var $levelSelect = new Coral.Select().set({
-                name: "./level",
+                name: "./gradeLevel",
                 placeholder: "Choose a grade level"
             });
             var $trackSelect = new Coral.Select().set({
                 name: "./track",
                 placeholder: "Choose a track"
             });
-            var $levelHidden = $dialog.find("input[name='./level'][type='hidden']");
+            var $levelHidden = $dialog.find("input[name='./gradeLevel'][type='hidden']");
             var selectedLevel = $levelHidden.val();
 
             var $trackHidden = $dialog.find("input[name='./track'][type='hidden']");
@@ -48,7 +48,7 @@
         try {
             if ($levelSelect.selectedItem) {
                 $trackSelect.items.clear();
-                $.getJSON("/bin/vtk/v1/scaffoldingdata.json?level=" + $levelSelect.selectedItem.value).done(function (data) {
+                $.getJSON("/bin/vtk/v1/scaffoldingdata.json?gradeLevel=" + $levelSelect.selectedItem.value).done(function (data) {
                     $.each(data.yearplan, function (key, val) {
                         var selected = selectedTrack == val.data ? true : false;
                         try {

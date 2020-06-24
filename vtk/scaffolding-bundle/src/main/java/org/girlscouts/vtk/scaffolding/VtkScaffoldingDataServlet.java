@@ -32,7 +32,7 @@ public class VtkScaffoldingDataServlet extends SlingAllMethodsServlet {
             final String YEAR_PLAN_BASE = "/content/girlscouts-vtk/yearPlanTemplates/library";
             final String DATA_ROOT = "{\"yearplan\":[DATA_TEMPLATE]}";
             final String DATA_TEMPLATE = "{\"title\":\"mytitle\", \"data\":\"mydata\"}";
-            String level = request.getParameter("level");
+            String level = request.getParameter("gradeLevel");
             String yearPlanPath = YEAR_PLAN_BASE + "/" + level;
             log.debug(" yearPlanPath is " + yearPlanPath);
             String finalJson = DATA_ROOT;

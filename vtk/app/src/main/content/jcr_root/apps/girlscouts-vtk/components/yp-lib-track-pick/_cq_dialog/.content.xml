@@ -25,11 +25,11 @@
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/foundation/container">
                                 <items jcr:primaryType="nt:unstructured">
-                                    <level
+                                    <gradeLevel
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
                                             disabled="true"
-                                            name="./level"/>
+                                            name="./gradeLevel"/>
                                     <track
                                             jcr:primaryType="nt:unstructured"
                                             disabled="true"
