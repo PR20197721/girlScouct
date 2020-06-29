@@ -28,6 +28,9 @@ import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.auth.core.AuthUtil;
+import org.girlscouts.web.webtolead.config.WebToLeadConfig;
+import org.girlscouts.web.webtolead.config.WebToLeadConfigImpl;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,6 +80,9 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 	private PostMethod method = null;
 	private String errormsg = "";
 	
+	@Reference
+	private WebToLeadConfigImpl webToLeadConfigImpl;
+	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
     
@@ -97,6 +103,9 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 	protected void doPost(SlingHttpServletRequest request,
 			SlingHttpServletResponse response)
 					throws ServletException, IOException {
+		
+		logger.debug(webToLeadConfigImpl.getOID());
+		data.add(new NameValuePair("oid",webToLeadConfigImpl.getOID()));
 		if (ResourceUtil.isNonExistingResource(request.getResource())) {
 			logger.error("Received fake request!");
 			response.setStatus(500);
@@ -111,6 +120,7 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 			for(RequestParameter paraValue : paras){
 				if(paraValue.isFormField()){//do not support file upload
 					data.add(new NameValuePair(paraName,paraValue.getString()));//add to encription
+					logger.debug("data::" + data);
 				}
 			}
 		}

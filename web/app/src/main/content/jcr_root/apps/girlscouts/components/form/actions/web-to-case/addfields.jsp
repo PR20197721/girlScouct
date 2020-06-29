@@ -62,7 +62,7 @@
     if(!councilCode.isEmpty() && !cwrw.isEmpty()){
 %>
 <!-- CASE SUBMISSION -->
-<input type=hidden name="orgid" value="00DG0000000leqU"> 
+ 
 <!-- TEST ID -->
 <!-- <input type=hidden name="orgid" value="00Dg0000006SfYn"> -->
 <!-- EMAIL SERVICE -->

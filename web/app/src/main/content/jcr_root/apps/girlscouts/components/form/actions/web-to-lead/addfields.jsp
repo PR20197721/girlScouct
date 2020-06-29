@@ -22,7 +22,7 @@
     if(!campaignID.isEmpty()){
 %>
 <!-- ORGANIZATION ID -->
-<input type=hidden name="oid" value="<%=organizationID%>"> 
+
 <!-- CAMPAIGN ID -->
 <input type=hidden name="<%=campaignIDFieldName1%>" value="<%=campaignID%>" />
 <input type=hidden name="<%=campaignIDFieldName2%>" value="<%=campaignID%>" />
