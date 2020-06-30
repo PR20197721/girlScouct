@@ -30,7 +30,6 @@ import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.auth.core.AuthUtil;
 import org.girlscouts.web.webtolead.config.WebToLeadConfig;
-import org.girlscouts.web.webtolead.config.WebToLeadConfigImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
