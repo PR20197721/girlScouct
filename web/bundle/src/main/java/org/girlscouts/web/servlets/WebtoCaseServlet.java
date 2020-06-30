@@ -144,7 +144,6 @@ implements OptingServlet {
 				for(RequestParameter paraValue : paras){
 					if(paraValue.isFormField()){//do not support file upload
 						data.add(new NameValuePair(paraName,paraValue.getString()));//add to encription
-						logger.debug("data values::"+ data);
 					}
 				}
 			}

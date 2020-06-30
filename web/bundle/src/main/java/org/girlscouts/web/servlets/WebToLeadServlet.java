@@ -19,6 +19,7 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -30,7 +31,6 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.auth.core.AuthUtil;
 import org.girlscouts.web.webtolead.config.WebToLeadConfig;
 import org.girlscouts.web.webtolead.config.WebToLeadConfigImpl;
-import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,7 +81,7 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 	private String errormsg = "";
 	
 	@Reference
-	private WebToLeadConfigImpl webToLeadConfigImpl;
+	private WebToLeadConfig webToLeadConfig;
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -104,8 +104,7 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 			SlingHttpServletResponse response)
 					throws ServletException, IOException {
 		
-		logger.debug(webToLeadConfigImpl.getOID());
-		data.add(new NameValuePair("oid",webToLeadConfigImpl.getOID()));
+		data.add(new NameValuePair("oid",webToLeadConfig.getOID()));
 		if (ResourceUtil.isNonExistingResource(request.getResource())) {
 			logger.error("Received fake request!");
 			response.setStatus(500);
@@ -120,7 +119,6 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 			for(RequestParameter paraValue : paras){
 				if(paraValue.isFormField()){//do not support file upload
 					data.add(new NameValuePair(paraName,paraValue.getString()));//add to encription
-					logger.debug("data::" + data);
 				}
 			}
 		}
