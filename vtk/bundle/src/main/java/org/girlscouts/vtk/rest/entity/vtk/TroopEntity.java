@@ -62,6 +62,8 @@ public class TroopEntity extends BaseEntity {
     private Boolean isIRM = Boolean.FALSE;
     @SerializedName("isSUM")
     private Boolean isSUM = Boolean.FALSE;
+    @SerializedName("isLoadedManualy")
+    private Boolean isLoadedManualy = Boolean.FALSE;
 
     public String getPath() {
         return path;
@@ -285,5 +287,13 @@ public class TroopEntity extends BaseEntity {
 
     public void setIsSUM(Boolean SUM) {
         isSUM = SUM;
+    }
+
+    public Boolean getIsLoadedManualy() {
+        return isLoadedManualy;
+    }
+
+    public void setIsLoadedManualy(Boolean loadedManualy) {
+        isLoadedManualy = loadedManualy;
     }
 }

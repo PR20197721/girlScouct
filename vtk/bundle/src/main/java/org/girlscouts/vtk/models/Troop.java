@@ -37,6 +37,8 @@ public class Troop extends JcrNode implements Serializable {
     private Boolean isIRM = Boolean.FALSE;
     private Boolean isSUM = Boolean.FALSE;
     private Map<Date, YearPlanComponent> schedule;
+    private Boolean isLoadedManualy = Boolean.FALSE;
+
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -253,7 +255,7 @@ public class Troop extends JcrNode implements Serializable {
     }
 
     public void setIsIRM(Boolean IRM) {
-        isIRM = IRM;
+        this.isIRM = IRM;
     }
 
     public Boolean getIsSUM() {
@@ -261,7 +263,7 @@ public class Troop extends JcrNode implements Serializable {
     }
 
     public void setIsSUM(Boolean SUM) {
-        isSUM = SUM;
+        this.isSUM = SUM;
     }
 
     public String getSfParentId() {
@@ -270,6 +272,14 @@ public class Troop extends JcrNode implements Serializable {
 
     public void setSfParentId(String sfParentId) {
         this.sfParentId = sfParentId;
+    }
+
+    public Boolean getIsLoadedManualy() {
+        return isLoadedManualy;
+    }
+
+    public void setIsLoadedManualy(Boolean loadedManualy) {
+        this.isLoadedManualy = loadedManualy;
     }
 
     public void clearSchedule(){
@@ -363,4 +373,6 @@ public class Troop extends JcrNode implements Serializable {
         }
         return schedule;
     }
+
+
 }
