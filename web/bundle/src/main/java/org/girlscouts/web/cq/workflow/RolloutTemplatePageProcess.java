@@ -71,6 +71,10 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 				//GSWP-2077 : End
 				String srcPath = item.getWorkflowData().getPayload().toString();
 				String subject = "", message = "", templatePath = "";
+				
+				String noLiveCopyNotificationMessage ="";
+				String noLiveCopyNotificationSubject="";
+				
 				Boolean useTemplate = false, delay = false, notify = false, crawl = false, activate = false,
 						newPage = false, updateReferenes = false;
 				try {
@@ -153,6 +157,27 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 					log.error("Rollout Workflow encountered error: ", e);
 				}
 				log.info("activate={}", activate);
+				
+				try {
+					if (mdm.get(NO_LIVE_COPY_NOTIFICATION_SUB) != null) {
+						noLiveCopyNotificationSubject = ((Value) mdm.get(NO_LIVE_COPY_NOTIFICATION_SUB)).getString();
+					}
+				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
+				}
+				log.info("noLiveCopyNotificationSubject={}", noLiveCopyNotificationSubject);
+				
+				try {
+					if (mdm.get((NO_LIVE_COPY_NOTIFICATIOPN_MSG)) != null) {
+						noLiveCopyNotificationMessage = ((Value) mdm.get(NO_LIVE_COPY_NOTIFICATIOPN_MSG)).getString();
+					}
+				} catch (Exception e) {
+					log.error("Rollout Workflow encountered error: ", e);
+				}
+				log.info("noLiveCopyNotificationMessage={}", noLiveCopyNotificationMessage);
+				
+				
+				
 				Node dateRolloutNode = PageReplicationUtil.getDateRolloutNode(session, resourceResolver, delay);
 				log.info("dateRolloutNode={}", dateRolloutNode.getPath());
 				Set<String> sortedCouncils = new TreeSet<String>();
@@ -179,6 +204,9 @@ public class RolloutTemplatePageProcess implements WorkflowProcess, PageReplicat
 				//GSWP-2077 : Start
 				dateRolloutNode.setProperty(WORKFLOW_INITIATOR_NAME, workflowInitiatorName);
 				//GSWP-2077 : End
+				
+				dateRolloutNode.setProperty(NO_LIVE_COPY_NOTIFICATION_SUB, noLiveCopyNotificationSubject);
+				dateRolloutNode.setProperty(NO_LIVE_COPY_NOTIFICATIOPN_MSG, noLiveCopyNotificationMessage);
 				session.save();
 				final String path = dateRolloutNode.getPath();
 				try {

@@ -130,6 +130,7 @@ export namespace Actions {
 
             const data = {
                 participationCode: response.data.participationCode,
+                isLoadedManualy: response.data.isLoadedManualy,
                 meeting: response.data.yearPlan,
                 meetingEvents: response.data.yearPlan.meetingEvents[0],
                 helper: response.data.yearPlan.helper,
@@ -213,6 +214,7 @@ export namespace Actions {
 
             const data = {
                 participationCode: response[0].data.participationCode,
+                isLoadedManualy: response[0].data.isLoadedManualy,
                 meeting: response[0].data.yearPlan,
                 meetingEvents: response[0].data.yearPlan.meetingEvents[0],
                 helper: response[0].data.yearPlan.helper,
