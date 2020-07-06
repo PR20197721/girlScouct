@@ -4,22 +4,11 @@ import com.day.cq.mailer.MailService;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.mail.ByteArrayDataSource;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.MultiPartEmail;
-import org.apache.commons.mail.SimpleEmail;
-import org.apache.felix.scr.annotations.Component;
+import org.apache.commons.mail.*;
 import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.ReferenceCardinality;
-import org.apache.felix.scr.annotations.ReferencePolicy;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.request.RequestParameter;
@@ -36,19 +25,11 @@ import org.slf4j.LoggerFactory;
 import javax.jcr.Node;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -310,7 +291,9 @@ implements OptingServlet {
                     }
                 }
                 if (fromAddress.trim().length() > 0) {
-                    email.setFrom(fromAddress);
+                    //email.setFrom(fromAddress);
+                    email.addReplyTo(fromAddress);
+
                 }else{
                 	logger.debug("No from email address found. Using cq Service config address.");
                 }
