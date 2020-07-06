@@ -103,7 +103,7 @@ implements OptingServlet {
 	protected void doPost(SlingHttpServletRequest request,
 			SlingHttpServletResponse response)
 					throws ServletException, IOException {
-
+		data.add(new NameValuePair("orgid","00DG0000000leqU"));
 		if (ResourceUtil.isNonExistingResource(request.getResource())) {
 			logger.debug("Received fake request!");
 			response.setStatus(500);
@@ -132,11 +132,11 @@ implements OptingServlet {
 			}
 			logger.error(errormsg);
 			status = 500;
-		}else if(request.getRequestParameter(ORGID)==null){
+		}/*else if(request.getRequestParameter(ORGID)==null){
 			errormsg = "The 'orgid' value is missing the form. \n\nPlease check if the council is in Salesforce Volenteer System";
 			logger.error(errormsg);
 			status = 500;
-		}else{
+		}*/else{
 			//				ValueMap formValues = FormsHelper.getGlobalFormValues(request); 
 			for(Iterator<String> itr=FormsHelper.getContentRequestParameterNames(request); itr.hasNext();){
 				final String paraName=itr.next();
