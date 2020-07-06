@@ -1,113 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-          xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-          jcr:primaryType="nt:unstructured"
-          sling:resourceType="cq/gui/components/authoring/dialog">
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog">
     <content
-            jcr:primaryType="nt:unstructured"
-            sling:resourceType="granite/ui/components/foundation/container">
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
         <layout
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="granite/ui/components/foundation/layouts/tabs"
-                type="nav"/>
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
         <items jcr:primaryType="nt:unstructured">
             <options
-                    jcr:primaryType="nt:unstructured"
-                    jcr:title="Options"
-                    sling:resourceType="granite/ui/components/foundation/container">
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Options"
+                sling:resourceType="granite/ui/components/foundation/container">
                 <layout
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
                 <items jcr:primaryType="nt:unstructured">
                     <columns
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="granite/ui/components/foundation/container">
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <remember
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                    text="Remember submitted data?"
-                                    name="./remember"
-                                    uncheckedValue="false"
-                                    value="true"/>
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./remember"
+                                text="Remember submitted data?"
+                                uncheckedValue="false"
+                                value="true"/>
                             <expiration
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    fieldLabel="Cookie Expiration (in days)"
-                                    name="./expiration"/>
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                defaultValue="30"
+                                fieldLabel="Cookie Expiration (in days)"
+                                name="./expiration"/>
                             <extensions
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                    composite="true"
-                                    fieldDescription="One or more file extensions or individual file links on the page"
-                                    fieldLabel="Extensions">
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                composite="true"
+                                fieldDescription="One or more file extensions or individual file links on the page"
+                                fieldLabel="Extensions">
                                 <field
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/container"
-                                        class="coral-Table--bordered"
-                                        name="./extensions">
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                                    class="coral-Table--bordered"
+                                    name="./extensions">
                                     <items jcr:primaryType="nt:unstructured">
-                                        <extension jcr:primaryType="nt:unstructured"
-                                                   sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                                   fieldLabel="Extension"
-                                                   fieldDescription="(ie .pdf) - case insensitive"
-                                                   name="extension"/>
+                                        <extension
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                            fieldDescription="(ie .pdf) - case insensitive"
+                                            fieldLabel="Extension"
+                                            name="extension"/>
                                     </items>
                                 </field>
                             </extensions>
                             <files
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                    composite="true"
-                                    fieldDescription="One or more file extensions or individual file links on the page"
-                                    fieldLabel="Files">
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                composite="true"
+                                fieldDescription="One or more file extensions or individual file links on the page"
+                                fieldLabel="Files">
                                 <field
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/container"
-                                        class="coral-Table--bordered"
-                                        name="./files">
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                                    class="coral-Table--bordered"
+                                    name="./files">
                                     <items jcr:primaryType="nt:unstructured">
-                                        <file jcr:primaryType="nt:unstructured"
-                                              sling:resourceType="girlscouts/components/form/pathfield"
-                                              fieldLabel="File"
-                                              name="file"/>
+                                        <file
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="girlscouts/components/form/pathfield"
+                                            fieldLabel="File"
+                                            name="file"/>
                                     </items>
                                 </field>
                             </files>
+                            <salesforce-campaign-id
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Salesforce Campaign ID"
+                                name="./salesforce-campaign-id"
+                                required="{Boolean}true"/>
+                            <council-name
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Council Name"
+                                name="./council-name"
+                                required="{Boolean}true"/>
                         </items>
                     </columns>
                 </items>
             </options>
             <birthday-popup
-                    jcr:primaryType="nt:unstructured"
-                    jcr:title="Birthday Pop-up"
-                    sling:resourceType="granite/ui/components/foundation/container">
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Birthday Pop-up"
+                sling:resourceType="granite/ui/components/foundation/container">
                 <layout
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
                 <items jcr:primaryType="nt:unstructured">
                     <columns
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="granite/ui/components/foundation/container">
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <show-birthday
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                    text="Show birthday pop up?"
-                                    name="./show-birthday"
-                                    uncheckedValue="false"
-                                    value="true"/>
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                defaultChecked="{Boolean}true"
+                                name="./show-birthday"
+                                text="Show birthday pop up?"
+                                uncheckedValue="false"
+                                value="true"/>
                             <age-limit
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                    fieldLabel="Age Limit"
-                                    fieldDescription="Will not ask for personal information if age is less than this number"
-                                    name="./age-limit"/>
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                defaultValue="13"
+                                fieldDescription="Will not ask for personal information if age is less than this number"
+                                fieldLabel="Age Limit"
+                                name="./age-limit"/>
                             <privacy-policy
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                    fieldLabel="Privacy Policy URL"
-                                    name="./privacy-policy"/>
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Privacy Policy URL"
+                                name="./privacy-policy"
+                                required="{Boolean}true"/>
                         </items>
                     </columns>
                 </items>

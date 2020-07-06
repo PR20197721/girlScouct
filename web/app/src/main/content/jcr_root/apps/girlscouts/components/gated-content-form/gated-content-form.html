@@ -1,69 +1,90 @@
-<div data-sly-use.form="org.girlscouts.web.components.models.GatedContentForm" data-sly-use.placeholderTemplate="core/wcm/components/commons/v1/templates.html">
-    <sly data-sly-call="${placeholderTemplate.placeholder @ isEmpty = !form.remember}"></sly>
-    <div id="gsathome-age-check-popup" style="display:none">
-        <div id="gsathome-age-check" style="text-align:center">
-            <h3 id="gsathome-age-check-title" style="margin-bottom:30px;">Please confirm your age</h3>
-            <h6 id="gsathome-age-check-subtitle" style="margin-bottom:20px;">Enter Your birthdate below</h6>
-            <div id="gsathome-age-form" style="display: inline-flex;">
-                <div class="input-col input-month" style="width: 60px;">
-                    <input id="gsathome-age-gate-month" type="number" placeholder="MM" pattern="[0-9]{2}" maxlength="2" onClick="this.select();" required="" style="width: 40px; display:inline-flex;">
-                    <label for="gsathome-age-gate-month" class="input-label">Month</label>
+<!-- Component Placeholder : start-->
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder cq-marker-start"	data-emptytext="${component.getTitle}"></div>
+<!-- Component Placeholder : end -->
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientlib.css @ categories='apps.girlscouts.components.gated-content-form'}" />
+<div data-sly-use.gatedForm ="org.girlscouts.web.components.models.GatedContentForm">	
+	<sly data-sly-test="${gatedForm.showBirthdayPopup}">
+		<sly data-sly-call="${clientlib.js @ categories='apps.girlscouts.components.gated-content-form'}"/>
+	</sly>	
+	<sly data-sly-test="${gatedForm.getAttrMap}">
+		<sly data-sly-list.key="${gatedForm.getAttrMap}">
+			<div id="${key}" data-config="${gatedForm.getAttrMap[key]}"></div>
+		</sly>
+	</sly>	
+	<sly data-sly-test="${gatedForm.getExtensionList}">
+		<div id="extensionsList" data-config="${gatedForm.getExtensionList}"></div>
+	</sly>	
+	<sly data-sly-test="${gatedForm.getFilesList}">
+		<div id="filesList" data-config="${gatedForm.getFilesList}"></div>
+	</sly>	
+</div>
+<sly data-sly-use.data ="form-fields-template.html">
+<div id="gsathome-age-check-popup">
+        <div id="gsathome-age-check">
+            <h3 id="gsathome-age-check-title">Please confirm your age</h3>
+            <h6 id="gsathome-age-check-subtitle">Enter Your birth date below</h6>
+            <div id="gsathome-age-form">
+                <div class="input-col input-month">
+                	<sly data-sly-call="${data.inputField @fieldId='gsathome-age-gate-month',fieldType='number',fieldPlaceholder='MM',fieldPattern='[0-9]{2}',maxLength='2',required='true'}"></sly>
+                    <sly data-sly-call="${data.labelField @fieldClass='input-label',forAttr='gsathome-age-gate-month',fieldVal='Month'}"></sly>
                 </div>
-                <div class="input-col input-day" style="width: 60px;">
-                    <input id="gsathome-age-gate-day" type="number" placeholder="DD" pattern="[0-9]{2}" maxlength="2" onClick="this.select();" required="" style="width: 40px; display:inline-flex;">
-                    <label for="gsathome-age-gate-day" class="input-label">Day</label>
+                <div class="input-col input-day">
+                	<sly data-sly-call="${data.inputField @fieldId='gsathome-age-gate-day',fieldType='number',fieldPlaceholder='DD',fieldPattern='[0-9]{2}',maxLength='2'}"></sly>
+                    <sly data-sly-call="${data.labelField @fieldClass='input-label',forAttr='gsathome-age-gate-day',fieldVal='Day'}"></sly>
                 </div>
-                <div class="input-col input-year" style="width: 50px;">
-                    <input id="gsathome-age-gate-year" type="number" placeholder="YYYY" pattern="[0-9]{4}" maxlength="4" onClick="this.select();" required="" style="width: 50px; display:inline-flex;">
-                    <label for="gsathome-age-gate-year" class="input-label">Year</label>
+                <div class="input-col input-year">
+                	<sly data-sly-call="${data.inputField @fieldId='gsathome-age-gate-year',fieldType='number',fieldPlaceholder='YYYY',fieldPattern='[0-9]{4}',maxLength='4'}"></sly>
+                    <sly data-sly-call="${data.labelField @fieldClass='input-label',forAttr='gsathome-age-gate-year',fieldVal='Year'}"></sly>
                 </div>
             </div>
-            <div id="gsathome-age-form-error" style="display:block;font-size:13px;color:red;">&nbsp;</div>
-            <div id="gsathome-privacy-policy" style="font-size:13px;">
-                Girl Scouts of the USA does not keep this data.<br>
-                <a href="https://www.girlscouts.org/en/help/help/privacy-policy.html" target="_blank">PRIVACY POLICY</a>
-            </div>
-            <div id="gsathome-age-form-continue" style="margin-top: 20px;">
-                <button id="gsathome-age-form-continue-button" style="padding-left: 15px;padding-right: 15px;padding-top: 5px;padding-bottom: 5px;">CONTINUE</button>
+            <div id="gsathome-age-form-error">&nbsp;</div>
+            <sly data-sly-test="${gatedForm.privacyPolicyUrl}">
+	            <div id="gsathome-privacy-policy">
+	                <sly data-sly-test="${gatedForm.councilName}">${gatedForm.councilName}</sly> does not keep this data.<br>
+	                <a href="${gatedForm.privacyPolicyUrl}" target="_blank">PRIVACY POLICY</a>
+	            </div>
+            </sly>
+            <div id="gsathome-age-form-continue">
+                <button id="gsathome-age-form-continue-button">CONTINUE</button>
             </div>
         </div>
-        <div id="gsathome-main" style="display:none">
+        <div id="gsathome-main">
             <form id="gsathome-main-form">
                 <p><b>Please enter the following for your download link:</b></p>
                 <div id="divFirstName">
-                    <label>First Name</label>
-                    <input id="first-name" name="first-name" placeholder="First Name" maxlength="30" autocomplete="name fname" required="" type="text">
+                	<sly data-sly-call="${data.labelField @fieldVal='First Name'}"></sly>
+                	<sly data-sly-call="${data.inputField @fieldId='first-name',fieldName='first-name',fieldType='text',fieldPlaceholder='First Name',maxLength='30',required='true'}"></sly>
                 </div>
                 <div id="divLastName">
-                    <label>Last Name</label>
-                    <input id="last-name" name="last-name" autocomplete="name lname" placeholder="Last Name" maxlength="30" required="" type="text">
+                	<sly data-sly-call="${data.labelField @fieldVal='Last Name'}"></sly>
+                	<sly data-sly-call="${data.inputField @fieldId='last-name',fieldName='last-name',fieldType='text',fieldPlaceholder='Last Name',maxLength='30',required='true'}"></sly>
                 </div>
                 <div id="divEmail">
-                    <label id="labelEmail">Email Address</label>
-                    <input id="email" name="email" placeholder="Email Address" maxlength="100" autocomplete="email" required="" type="email">
+                	<sly data-sly-call="${data.labelField @fieldVal='Email Address',fieldId='labelEmail'}"></sly>
+                	<sly data-sly-call="${data.inputField @fieldId='email',fieldName='email',fieldType='email',fieldPlaceholder='Email Address',maxLength='100',required='true'}"></sly>
                 </div>
                 <div id="divZIPCode">
-                    <label>Zip Code</label>
-                    <input id="zipcode" name="zipcode" placeholder="Zip Code" autocomplete="postal-code" required="" pattern="^\d{5,6}(?:[-\s]\d{4})?$" type="tel" maxlength="5">
+                	<sly data-sly-call="${data.labelField @fieldVal='Zip Code'}"></sly>
+                	<sly data-sly-call="${data.inputField @fieldId='zipcode',fieldName='zipcode',fieldType='tel',fieldPlaceholder='Zip Code',maxLength='5',fieldPattern='^\\d{5,6}(?:[-\\s]\\d{4})?$',required='true'}"></sly>
                 </div>
                 <div id="divPhone">
-                    <label>Phone (optional)</label>
-                    <input id="phone" name="phone" placeholder="(555) 555-5555" maxlength="20" autocomplete="tel" type="tel">
+                	<sly data-sly-call="${data.labelField @fieldVal='Phone (optional)'}"></sly>
+                	<sly data-sly-call="${data.inputField @fieldId='phone',fieldName='phone',fieldType='tel',fieldPlaceholder='(555) 555-5555',maxLength='20'}"></sly>
                 </div>
                 <div id="divSubmit">
                     <button id="submit">SUBMIT</button>
                 </div>
-                <div id="divIsMember">
-                    <input id="is-member" name="is-member" type="checkbox" value="Yes">
-                    <label>I am a current member</label>
+                <div id="divIsMember">                	
+                	<sly data-sly-call="${data.inputField @fieldId='is-member',fieldName='is-member',fValue='Yes',fieldType='checkbox'}"></sly>
+                    <sly data-sly-call="${data.labelField @fieldVal='I am a current member'}"></sly>
                 </div>
             </form>
         </div>
-        <div id="gsathome-download" style="display:none;text-align:center;">
-            <h3 style="margin-top:30px; margin-bottom: 30px;">Thank you!</h3>
+        <div id="gsathome-download">
+            <h3>Thank you!</h3>
             <p>Here's your link:</p>
             <p>
-                <a id="gsathome-download-link" class="button" target="_blank" onclick="$.fancybox.close();" style="padding-left: 15px;    padding-right: 15px;    padding-top: 5px;    padding-bottom: 5px;">DOWNLOAD</a>
+                <a id="gsathome-download-link" class="button" target="_blank" onclick="$.fancybox.close();">DOWNLOAD</a>
             </p></div>
     </div>
-</div>
+    </sly>
