@@ -412,6 +412,10 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 dummyIRMTroop.setRole("PA");
                 dummyIRMTroop.setGradeLevel(troop.getGradeLevel());
                 dummyIRMTroop.setIsIRM(true);
+                String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
+                troop.setCouncilPath(councilPath);
+                String troopPath = councilPath + "/troops/" + troop.getSfTroopId();
+                troop.setPath(troopPath);
                 parentTroops.add(dummyIRMTroop);
             }
         }
@@ -438,6 +442,11 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         troop.setId(sumCouncilCode + "_" + userId);
                         troop.setIsSUM(true);
                         troop.setParticipationCode(sumCouncilCode);
+                        troop.setSfCouncil(sumCouncilCode);
+                        String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
+                        troop.setCouncilPath(councilPath);
+                        String troopPath = councilPath + "/troops/" + troop.getSfTroopId();
+                        troop.setPath(troopPath);
                         troops.add(troop);
                     }
                 }
