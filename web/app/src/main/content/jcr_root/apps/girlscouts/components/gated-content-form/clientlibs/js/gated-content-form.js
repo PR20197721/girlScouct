@@ -8,6 +8,7 @@ $(document).ready(function() {
     var gatedFormPage = window.location.href;
     var gatedFormDownload = "";
     var selector = generateSelector(extensions, filesList);
+    var action = $("#gated-content-form-action").attr("action");
     $(selector).click(function() {
         var gsathomeDataFound = false;
         var gsathomeCookie = getCookie('gsathome');
@@ -21,7 +22,7 @@ $(document).ready(function() {
 
         if (gsathomeDataFound) {
             if (gsathomeData[0] != 'age12andunder') {
-                $.post('/bin/gatedcontentform', {
+                $.post(action, {
                     Email: gsathomeData[0],
                     FirstName: gsathomeData[1],
                     LastName: gsathomeData[2],
@@ -168,7 +169,7 @@ $(document).ready(function() {
         var gatedFormZIPCode = $(me).find("[name='zipcode']").val();
         var gatedFormIsMember = $(me).find("[name='is-member']:checked").val();
 
-        $.post('/bin/gatedcontentform', {
+        $.post(action, {
             Email: gatedFormEmail,
             FirstName: gatedFormFirstName,
             LastName: gatedFormLastName,

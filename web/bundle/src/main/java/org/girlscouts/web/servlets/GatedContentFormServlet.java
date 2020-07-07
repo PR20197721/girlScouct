@@ -32,8 +32,10 @@ import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 @Component(metatype = false)
 @Service(Servlet.class)
-@Properties({ @Property(name = "sling.servlet.paths", value = "/bin/gatedcontentform"),
+@Properties({ @Property(name = "sling.servlet.resourceTypes", value = "girlscouts/components/gated-content-form"),
 		@Property(name = "sling.servlet.methods", value = "POST"),
+		@Property(name = "sling.servlet.selectors", value = "gatedcontentform"),
+		@Property(name = "sling.servlet.extensions", value = "html"),
 		@Property(name = "service.description", value = "Gated Content Form Servlet"), })
 public class GatedContentFormServlet extends SlingAllMethodsServlet {
 
