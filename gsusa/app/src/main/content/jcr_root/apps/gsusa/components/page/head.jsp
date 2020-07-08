@@ -27,7 +27,7 @@
 				   org.apache.sling.settings.SlingSettingsService,
 				   org.apache.sling.api.SlingHttpServletRequest,
 				   com.day.cq.commons.Externalizer,
-				   java.util.Set"%><%
+				   java.util.Set,org.apache.sling.api.resource.ResourceResolver,java.util.Iterator"%><%
 	Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
 	Boolean isProd = set.contains("prod");
     String xs = Doctype.isXHTML(request) ? "/" : "";
@@ -49,8 +49,10 @@
 	if(ogImage == null || "".equals(ogImage.trim())){
 		String pageImagePath = currentPage.getPath() + "/jcr:content/content/hero/par/image";
 		String ragImagePath = currentPage.getPath() + "/jcr:content/image";
+		String contentMiddlePar = currentPage.getPath() + "/jcr:content/content/middle/par";
+		String contentPar = currentPage.getPath() + "/jcr:content/content/par";
 	    Session session = (Session)resourceResolver.adaptTo(Session.class);
-	    if (session.nodeExists(pageImagePath)) {	    
+	    if (session.nodeExists(pageImagePath)) {
 	    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content/content/hero/par/image.img.png");
 			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
 			ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
@@ -61,7 +63,33 @@
 		    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
 				Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
 				ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+			}else if(session.nodeExists(contentPar)){
+				ogImage = getOgImage(contentPar,resourceResolver);
+		    	if(!ogImage.equals("") && null != ogImage){
+		    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+			    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+		    	}
+			}else if(session.nodeExists(contentMiddlePar)){
+				ogImage = getOgImage(contentMiddlePar,resourceResolver);
+		    	if(!ogImage.equals("") && null != ogImage){
+		    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+			    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+		    	}
 			}
+			
+	    }else if(session.nodeExists(contentMiddlePar)){
+	    	ogImage = getOgImage(contentMiddlePar,resourceResolver);
+	    	if(!ogImage.equals("") && null != ogImage){
+	    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+		    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+	    	}
+	    	
+	    }else if(session.nodeExists(contentPar)){
+	    	ogImage = getOgImage(contentPar,resourceResolver);
+	    	if(!ogImage.equals("") && null != ogImage){
+	    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+		    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+	    	}
 	    }
 	}
 	// resolve only if this is relative path
@@ -89,6 +117,26 @@
 	if(!"".equals(properties.get("fbAppId",""))){
 		fbAppId = properties.get("fbAppId","");
 	}
+
+%>
+<%!
+
+String getOgImage(String par,ResourceResolver resourceResolver){
+	String ogImage="";		
+	Resource contentParResource = resourceResolver.getResource(par);
+	if(null != contentParResource){
+		Iterator<Resource> itr = contentParResource.listChildren();
+		while(itr.hasNext()){
+			Resource childResource = itr.next();
+			if(childResource.isResourceType("gsusa/components/image")){
+				ValueMap imageProps = resourceResolver.resolve(childResource.getPath()).adaptTo(ValueMap.class);
+				ogImage = imageProps.get("fileReference",""); 
+				break;
+			}
+		}
+	}		
+	return ogImage;
+} 
 
 %><head>
  <cq:include path="base" resourceType="girlscouts-common/components/base" />
