@@ -54,7 +54,8 @@
 	
 	String designPath = currentDesign.getPath();
 	String iconImg = properties.get("fileReference", "#");
-	String eventsLink = properties.get("urltolink", "") + ".html";
+	String eventsLink = properties.get("urltolink", "");
+	eventsLink = eventsLink.isEmpty() ? "" : eventsLink+ ".html";
 	String featureTitle = properties.get("featuretitle","UPCOMING EVENTS");
 	int daysofevents = Integer.parseInt(properties.get("daysofevents","0"));
 	//filtered by start or end date of the events. by cwu
