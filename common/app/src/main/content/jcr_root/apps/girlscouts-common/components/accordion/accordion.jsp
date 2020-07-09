@@ -5,8 +5,6 @@
 				org.apache.sling.api.resource.Resource, 
 				java.util.Iterator,
 				java.util.Date,
-				java.util.List,
-				java.util.ArrayList,
 				org.apache.commons.codec.binary.Base64,
 				java.lang.StringBuilder, 
 				javax.jcr.Session, 
@@ -21,7 +19,6 @@
 	String accordionIndex = "";
 	String accordionName = resource.getName();
 	Session session = resourceResolver.adaptTo(Session.class);
-	List<String> accordionIdList = new ArrayList<>();
 	if (accordionName.contains("_") && accordionName.length() > accordionName.indexOf('_') + 1) {
 		accordionIndex = accordionName.substring(accordionName.indexOf('_') + 1);
 	}
@@ -63,7 +60,6 @@
 					}
 					if (accordion.hasProperty("idField")) {
 						idField = accordion.getProperty("idField").getString();
-						accordionIdList.add(idField);
 					}
 					if (accordion.hasProperty("nameField")) {
 						nameField = accordion.getProperty("nameField").getString();
